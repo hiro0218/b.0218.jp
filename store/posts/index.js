@@ -5,7 +5,10 @@ export const state = () => ({
 
 export const mutations = {
   setHeaders(state, payload) {
-    state.headers = payload;
+    state.headers = {
+      total: Number(payload['x-wp-total']),
+      totalpages: Number(payload['x-wp-totalpages']),
+    };
   },
   setList(state, payload) {
     state.list = payload;
