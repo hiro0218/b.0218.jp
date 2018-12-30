@@ -6,18 +6,19 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'Post',
-  data() {
-    return {
-      post: '',
-    };
+  computed: {
+    ...mapState('post', {
+      post: state => state.data,
+    }),
   },
-  async asyncData({ $axios, params }) {
-    const post = await $axios.get(`https://demo.wp-api.org/wp-json/wp/v2/posts?slug=${params.post}`).then(res => {
-      return res.data[0];
+  async asyncData({ $axios, store, params }) {
+    await $axios.get(`https://demo.wp-api.org/wp-json/wp/v2/posts?slug=${params.post}`).then(res => {
+      store.dispatch('post/setData', res.data[0]);
     });
-    return { post };
   },
 };
 </script>
