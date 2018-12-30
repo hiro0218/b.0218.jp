@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul>
-      <li v-for="(post, index) in posts" :key="index">
+      <li v-for="(post, index) in postList" :key="index">
         <nuxt-link :to="{ path: post.slug }">{{ post.title.rendered }}</nuxt-link>
       </li>
     </ul>
@@ -9,14 +9,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
-  data() {
-    return {
-      posts: null,
-    };
-  },
-  async mounted() {
-    this.posts = (await this.$axios.get('https://demo.wp-api.org/wp-json/wp/v2/posts')).data;
+  computed: {
+    ...mapState('post', {
+      postList: state => state.list,
+    }),
   },
 };
 </script>
