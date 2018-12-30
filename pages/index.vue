@@ -13,8 +13,8 @@ export default {
   },
   async asyncData({ $axios, store, params }) {
     await $axios.get('https://demo.wp-api.org/wp-json/wp/v2/posts').then(res => {
-      store.dispatch('post/setHeaders', res.headers);
-      store.dispatch('post/setPostList', res.data);
+      store.dispatch('posts/setHeaders', res.headers);
+      store.dispatch('posts/setList', res.data);
     });
   },
 };

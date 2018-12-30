@@ -7,7 +7,7 @@ export const mutations = {
   setHeaders(state, payload) {
     state.headers = payload;
   },
-  setPostList(state, payload) {
+  setList(state, payload) {
     state.list = payload;
   },
 };
@@ -16,7 +16,7 @@ export const actions = {
   setHeaders({ commit }, data) {
     commit('setHeaders', data);
   },
-  setPostList({ commit }, data) {
-    commit('setPostList', data);
+  setList({ commit }, data) {
+    commit('setList', data);
   },
 };

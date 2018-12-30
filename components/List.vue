@@ -13,7 +13,7 @@ import { mapState } from 'vuex';
 
 export default {
   computed: {
-    ...mapState('post', {
+    ...mapState('posts', {
       postList: state => state.list,
     }),
   },
