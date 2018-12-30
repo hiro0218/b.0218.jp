@@ -16,7 +16,7 @@ export default {
     }),
   },
   async asyncData({ $axios, store, params }) {
-    await $axios.get(`https://demo.wp-api.org/wp-json/wp/v2/posts?slug=${params.post}`).then(res => {
+    await $axios.get(`posts?slug=${params.post}`).then(res => {
       store.dispatch('post/setData', res.data[0]);
     });
   },
