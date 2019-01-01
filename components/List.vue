@@ -7,6 +7,7 @@
       </li>
     </ul>
     <paginate
+      v-model="page"
       :page-count="postHeaders.totalpages"
       :prev-text="'Prev'"
       :next-text="'Next'"
@@ -20,6 +21,11 @@
 import { mapState } from 'vuex';
 
 export default {
+  data() {
+    return {
+      page: Number(this.$route.params.pageNum),
+    };
+  },
   computed: {
     ...mapState('posts', {
       postHeaders: state => state.headers,
@@ -28,9 +34,8 @@ export default {
   },
   methods: {
     async changePage(pageNum) {
-      let params = pageNum > 1 ? `?page=${pageNum}` : '';
-      await this.$axios.get(`posts${params}`).then(res => {
-        this.$store.dispatch('posts/setList', res.data);
+      this.$router.push({
+        path: `/page/${pageNum}`,
       });
     },
   },
@@ -38,4 +43,10 @@ export default {
 </script>
 
 <style>
+.disabled {
+  opacity: 0.2;
+}
+.active {
+  color: red;
+}
 </style>
