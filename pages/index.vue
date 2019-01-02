@@ -1,5 +1,6 @@
 <template>
-  <section class="container">
+  <section>
+    <h1>home</h1>
     <PostList/>
   </section>
 </template>
