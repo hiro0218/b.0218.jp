@@ -22,6 +22,13 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'PostList',
+  props: {
+    mode: {
+      type: String,
+      required: false,
+      default: 'posts',
+    },
+  },
   data() {
     return {
       page: Number(this.$route.query.page),
@@ -42,13 +49,27 @@ export default {
     this.fetchList();
   },
   methods: {
-    async fetchList(pageNumber) {
-      let number = pageNumber ? pageNumber : 1;
-      this.page = number;
-      await this.$axios.get(`posts?page=${number}`).then(res => {
-        this.$store.dispatch('posts/setHeaders', res.headers);
-        this.$store.dispatch('posts/setList', res.data);
-      });
+    async fetchList(pageNumber = 1) {
+      this.page = pageNumber;
+
+      await this.$axios
+        .get('posts', {
+          params: {
+            page: pageNumber,
+            ...this.createParams(),
+          },
+        })
+        .then(res => {
+          this.$store.dispatch('posts/setHeaders', res.headers);
+          this.$store.dispatch('posts/setList', res.data);
+        });
+    },
+    createParams() {
+      if (this.mode === 'categories') {
+        return {
+          categories: this.$route.params.id,
+        };
+      }
     },
     changePage(pageNumber) {
       this.$router.push({
