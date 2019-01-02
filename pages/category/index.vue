@@ -3,7 +3,7 @@
     <h1>category</h1>
     <ul>
       <li v-for="(category, index) in categoryList" :key="index">
-        <nuxt-link :to="'/category/' + category.id">{{ category.name }}</nuxt-link>
+        <nuxt-link :to="'/category/' + category.slug">{{ category.name }}</nuxt-link>
         {{ category.count }}
       </li>
     </ul>

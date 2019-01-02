@@ -28,6 +28,11 @@ export default {
       required: false,
       default: 'posts',
     },
+    categoryId: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
   },
   data() {
     return {
@@ -65,9 +70,9 @@ export default {
         });
     },
     createParams() {
-      if (this.mode === 'categories') {
+      if (this.mode === 'categories' && this.categoryId !== 0) {
         return {
-          categories: this.$route.params.id,
+          categories: this.categoryId,
         };
       }
     },
