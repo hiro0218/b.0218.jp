@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="postHeaders.totalpages">
     <ul>
       <li v-for="(post, index) in postList" :key="index">
         {{ post.date }}
@@ -23,7 +23,7 @@ import { mapState } from 'vuex';
 export default {
   data() {
     return {
-      page: Number(this.$route.params.pageNum),
+      page: Number(this.$route.query.page),
     };
   },
   computed: {
@@ -32,10 +32,26 @@ export default {
       postList: state => state.list,
     }),
   },
+  watch: {
+    '$route.query.page'(pageNumber) {
+      this.fetchList(pageNumber);
+    },
+  },
+  mounted() {
+    this.fetchList();
+  },
   methods: {
-    async changePage(pageNum) {
+    async fetchList(pageNumber) {
+      let number = pageNumber ? pageNumber : 1;
+      this.page = number;
+      await this.$axios.get(`posts?page=${number}`).then(res => {
+        this.$store.dispatch('posts/setHeaders', res.headers);
+        this.$store.dispatch('posts/setList', res.data);
+      });
+    },
+    changePage(pageNumber) {
       this.$router.push({
-        path: `/page/${pageNum}`,
+        query: { page: pageNumber },
       });
     },
   },
@@ -43,4 +59,7 @@ export default {
 </script>
 
 <style>
+.active {
+  font-weight: bold;
+}
 </style>
