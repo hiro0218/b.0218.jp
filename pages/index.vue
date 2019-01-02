@@ -1,15 +1,15 @@
 <template>
   <section class="container">
-    <list/>
+    <PostList/>
   </section>
 </template>
 
 <script>
-import List from '~/components/List.vue';
+import PostList from '~/components/PostList.vue';
 
 export default {
   components: {
-    List,
+    PostList,
   },
 };
 </script>

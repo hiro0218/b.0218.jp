@@ -21,6 +21,7 @@
 import { mapState } from 'vuex';
 
 export default {
+  name: 'PostList',
   data() {
     return {
       page: Number(this.$route.query.page),
