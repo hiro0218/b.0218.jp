@@ -43,10 +43,4 @@ export default {
 </script>
 
 <style>
-.disabled {
-  opacity: 0.2;
-}
-.active {
-  color: red;
-}
 </style>
