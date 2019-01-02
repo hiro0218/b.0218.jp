@@ -13,7 +13,7 @@ export default {
     List,
   },
   async asyncData({ $axios, store, params }) {
-    await $axios.get(`posts?page=${params.pageNum}`).then(res => {
+    await $axios.get(`posts?page=${params.number}`).then(res => {
       store.dispatch('posts/setList', res.data);
     });
   },
