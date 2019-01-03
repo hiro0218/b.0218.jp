@@ -3,7 +3,7 @@
     <ul>
       <li v-for="(post, index) in postList" :key="index">
         {{ post.date }}
-        <nuxt-link :to="{ path: post.slug }">{{ post.title.rendered }}</nuxt-link>
+        <nuxt-link :to="{ path: '/' + post.slug }">{{ post.title.rendered }}</nuxt-link>
       </li>
     </ul>
     <paginate
