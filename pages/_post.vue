@@ -16,9 +16,15 @@ export default {
     }),
   },
   async asyncData({ $axios, store, params }) {
-    await $axios.get(`posts?slug=${params.post}`).then(res => {
-      store.dispatch('post/setData', res.data[0]);
-    });
+    await $axios
+      .get(`posts?slug=${params.post}`, {
+        params: {
+          _embed: '',
+        },
+      })
+      .then(res => {
+        store.dispatch('post/setData', res.data[0]);
+      });
   },
 };
 </script>
