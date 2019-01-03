@@ -19,6 +19,9 @@ export const actions = {
   setHeaders({ commit }, data) {
     commit('setHeaders', data);
   },
+  resetList({ commit }) {
+    commit('setList', []);
+  },
   setList({ commit }, data) {
     commit('setList', data);
   },
