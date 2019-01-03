@@ -3,6 +3,10 @@ const pkg = require('./package');
 module.exports = {
   mode: 'spa',
 
+  env: {
+    SITE_NAME: '零弐壱蜂',
+  },
+
   /*
   ** Headers of the page
   */
