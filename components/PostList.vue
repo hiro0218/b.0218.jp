@@ -33,6 +33,11 @@ export default {
       required: false,
       default: 0,
     },
+    tagId: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
   },
   data() {
     return {
@@ -70,9 +75,9 @@ export default {
         });
     },
     createParams() {
-      if (this.mode === 'categories' && this.categoryId !== 0) {
+      if (this.mode !== 'posts') {
         return {
-          categories: this.categoryId,
+          [this.mode]: this.categoryId || this.tagId,
         };
       }
     },
