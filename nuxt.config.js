@@ -47,7 +47,7 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: 'https://demo.wp-api.org/wp-json/wp/v2/',
+    baseURL: 'https://b.0218.jp/wp-json/wp/v2/',
   },
 
   /*
