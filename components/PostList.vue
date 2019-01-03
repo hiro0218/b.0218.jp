@@ -51,11 +51,11 @@ export default {
     },
   },
   mounted() {
-    this.fetchList();
+    this.fetchList(this.$route.query.page);
   },
   methods: {
     async fetchList(pageNumber = 1) {
-      this.page = pageNumber;
+      this.page = Number(pageNumber);
 
       await this.$axios
         .get('posts', {
