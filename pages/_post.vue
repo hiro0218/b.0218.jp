@@ -2,6 +2,14 @@
   <article>
     <header>
       <h1>{{ post.title.rendered }}</h1>
+      <ul>
+        <li>
+          <time :datetime="post.date" itemprop="datePublished">{{ post.date }}</time>
+        </li>
+        <li>
+          <time :datetime="post.modified" itemprop="dateModified">{{ post.modified }}</time>
+        </li>
+      </ul>
     </header>
     <div v-html="post.content.rendered"/>
     <footer>
