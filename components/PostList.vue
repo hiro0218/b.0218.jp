@@ -87,6 +87,12 @@ export default {
       });
     },
   },
+  beforeRouteLeave(to, from, next) {
+    if (to.path !== from.path) {
+      this.$store.dispatch('posts/resetList');
+    }
+    next();
+  },
 };
 </script>
 
