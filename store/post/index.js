@@ -9,6 +9,9 @@ export const mutations = {
 };
 
 export const actions = {
+  restData({ commit }) {
+    commit('setData', {});
+  },
   setData({ commit }, data) {
     commit('setData', data);
   },
