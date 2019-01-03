@@ -1,8 +1,22 @@
 <template>
-  <section class="container">
-    <h1>{{ post.title.rendered }}</h1>
+  <article>
+    <header>
+      <h1>{{ post.title.rendered }}</h1>
+    </header>
     <div v-html="post.content.rendered"/>
-  </section>
+    <footer>
+      <ul>
+        <li v-for="(category, index) in post._embedded['wp:term'][0]" :key="index">
+          <nuxt-link :to="'/category/' + category.slug">{{ category.name }}</nuxt-link>
+        </li>
+      </ul>
+      <ul>
+        <li v-for="(post_tag, index) in post._embedded['wp:term'][1]" :key="index">
+          <nuxt-link :to="'/tag/' + post_tag.slug">{{ post_tag.name }}</nuxt-link>
+        </li>
+      </ul>
+    </footer>
+  </article>
 </template>
 
 <script>
