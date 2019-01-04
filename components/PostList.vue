@@ -51,8 +51,8 @@ export default {
     }),
   },
   watch: {
-    '$route.query.page'(pageNumber) {
-      this.fetchList(pageNumber);
+    '$route.query'(query) {
+      this.fetchList(query.page);
     },
   },
   mounted() {
@@ -66,6 +66,7 @@ export default {
         .get('posts', {
           params: {
             page: pageNumber,
+            search: this.$route.query.search,
             ...this.createParams(),
           },
         })
@@ -80,15 +81,13 @@ export default {
           [this.mode]: this.categoryId || this.tagId,
         };
       }
-      if (this.$route.query.s) {
-        return {
-          search: this.$route.query.s,
-        };
-      }
     },
     changePage(pageNumber) {
       this.$router.push({
-        query: { page: pageNumber },
+        query: {
+          page: pageNumber,
+          search: this.$route.query.search,
+        },
       });
     },
   },
