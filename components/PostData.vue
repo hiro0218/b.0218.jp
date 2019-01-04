@@ -1,0 +1,61 @@
+<template>
+  <article v-if="Object.keys(post).length !== 0">
+    <header>
+      <h1>{{ post.title.rendered }}</h1>
+      <ul>
+        <li>
+          <time :datetime="post.date" itemprop="datePublished">{{ post.date }}</time>
+        </li>
+        <li>
+          <time :datetime="post.modified" itemprop="dateModified">{{ post.modified }}</time>
+        </li>
+      </ul>
+    </header>
+    <div v-html="post.content.rendered"/>
+    <footer>
+      <ul>
+        <li v-for="(category, index) in post._embedded['wp:term'][0]" :key="index">
+          <nuxt-link :to="'/category/' + category.slug">{{ category.name }}</nuxt-link>
+        </li>
+      </ul>
+      <ul>
+        <li v-for="(post_tag, index) in post._embedded['wp:term'][1]" :key="index">
+          <nuxt-link :to="'/tag/' + post_tag.slug">{{ post_tag.name }}</nuxt-link>
+        </li>
+      </ul>
+    </footer>
+  </article>
+</template>
+
+<script>
+import { mapState } from 'vuex';
+
+export default {
+  name: 'PostData',
+  computed: {
+    ...mapState('post', {
+      post: state => state.data,
+    }),
+  },
+  async mounted() {
+    await this.$axios
+      .get(`posts?slug=${this.$route.params.post}`, {
+        params: {
+          _embed: '',
+        },
+      })
+      .then(res => {
+        this.$store.dispatch('post/setData', res.data[0]);
+      });
+  },
+  beforeRouteLeave(to, from, next) {
+    if (to.path !== from.path) {
+      this.$store.dispatch('post/restData');
+    }
+    next();
+  },
+};
+</script>
+
+<style>
+</style>
