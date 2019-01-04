@@ -33,7 +33,7 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: ['~/plugins/pagination'],
+  plugins: ['~/plugins/mixin', '~/plugins/pagination'],
 
   /*
   ** Nuxt.js modules
