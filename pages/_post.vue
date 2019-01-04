@@ -10,6 +10,12 @@ export default {
   components: {
     PostData,
   },
+  beforeRouteLeave(to, from, next) {
+    if (to.path !== from.path) {
+      this.$store.dispatch('post/restData');
+    }
+    next();
+  },
 };
 </script>
 

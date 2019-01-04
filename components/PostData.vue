@@ -48,12 +48,6 @@ export default {
         this.$store.dispatch('post/setData', res.data[0]);
       });
   },
-  beforeRouteLeave(to, from, next) {
-    if (to.path !== from.path) {
-      this.$store.dispatch('post/restData');
-    }
-    next();
-  },
 };
 </script>
 
