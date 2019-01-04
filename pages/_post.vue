@@ -2,6 +2,7 @@
   <div v-if="Object.keys(post).length !== 0">
     <PostData/>
     <PostPager/>
+    <PostRelated/>
   </div>
 </template>
 
@@ -10,12 +11,14 @@ import { mapState } from 'vuex';
 
 import PostData from '~/components/PostData.vue';
 import PostPager from '~/components/PostPager.vue';
+import PostRelated from '~/components/PostRelated.vue';
 
 export default {
   name: 'Post',
   components: {
     PostData,
     PostPager,
+    PostRelated,
   },
   computed: {
     ...mapState('post', {
