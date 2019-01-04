@@ -2,7 +2,7 @@
   <div v-if="postHeaders.totalpages">
     <ul>
       <li v-for="(post, index) in postList" :key="index">
-        <time :datetime="post.date" itemprop="datePublished">{{ post.date }}</time>
+        <time :datetime="post.date" itemprop="datePublished">{{ post.date | dateToISOString }}</time>
         <nuxt-link :to="{ path: '/' + post.slug }">{{ post.title.rendered }}</nuxt-link>
       </li>
     </ul>

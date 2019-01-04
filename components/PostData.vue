@@ -4,10 +4,10 @@
       <h1>{{ post.title.rendered }}</h1>
       <ul>
         <li>
-          <time :datetime="post.date" itemprop="datePublished">{{ post.date }}</time>
+          <time :datetime="post.date" itemprop="datePublished">{{ post.date | dateToISOString }}</time>
         </li>
-        <li>
-          <time :datetime="post.modified" itemprop="dateModified">{{ post.modified }}</time>
+        <li v-if="!isDateSameDay(post.date, post.modified)">
+          <time :datetime="post.modified" itemprop="dateModified">{{ post.modified | dateToISOString }}</time>
         </li>
       </ul>
     </header>
