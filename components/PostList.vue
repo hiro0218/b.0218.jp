@@ -80,6 +80,11 @@ export default {
           [this.mode]: this.categoryId || this.tagId,
         };
       }
+      if (this.$route.query.s) {
+        return {
+          search: this.$route.query.s,
+        };
+      }
     },
     changePage(pageNumber) {
       this.$router.push({
