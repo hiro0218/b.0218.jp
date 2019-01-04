@@ -1,13 +1,13 @@
 <template>
   <nav>
     <ul>
-      <li>
-        <router-link v-if="pager.prev" :to="pager.prev.url" :title="pager.prev.title">
+      <li v-if="pager.prev">
+        <router-link :to="pager.prev.url" :title="pager.prev.title">
           {{ pager.prev.title }}
         </router-link>
       </li>
-      <li>
-        <router-link v-if="pager.next" :to="pager.next.url" :title="pager.next.title">
+      <li v-if="pager.next">
+        <router-link :to="pager.next.url" :title="pager.next.title">
           {{ pager.next.title }}
         </router-link>
       </li>
