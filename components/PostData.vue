@@ -1,5 +1,5 @@
 <template>
-  <article v-if="Object.keys(post).length !== 0">
+  <article>
     <header>
       <h1>{{ post.title.rendered }}</h1>
       <ul>
@@ -36,17 +36,6 @@ export default {
     ...mapState('post', {
       post: state => state.data,
     }),
-  },
-  async mounted() {
-    await this.$axios
-      .get(`posts?slug=${this.$route.params.post}`, {
-        params: {
-          _embed: '',
-        },
-      })
-      .then(res => {
-        this.$store.dispatch('post/setData', res.data[0]);
-      });
   },
 };
 </script>
