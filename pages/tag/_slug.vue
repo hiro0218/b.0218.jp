@@ -31,6 +31,10 @@ export default {
         this.tag_name = res.data[0].name;
       });
   },
+  beforeRouteLeave(to, from, next) {
+    this.$store.dispatch('posts/resetList');
+    next();
+  },
 };
 </script>
 
