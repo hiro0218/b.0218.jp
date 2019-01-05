@@ -1,17 +1,17 @@
 <template>
   <section v-if="category_id > 0">
     <h1>{{ category_name }}</h1>
-    <PostList :category-id="category_id" mode="categories"/>
+    <PostsList :category-id="category_id" mode="categories"/>
   </section>
 </template>
 
 <script>
-import PostList from '~/components/PostList.vue';
+import PostsList from '~/components/PostsList.vue';
 
 export default {
-  name: 'CategoryPostList',
+  name: 'CategoryPostsList',
   components: {
-    PostList,
+    PostsList,
   },
   data() {
     return {

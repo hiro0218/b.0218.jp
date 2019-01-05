@@ -1,17 +1,17 @@
 <template>
   <section v-if="tag_id > 0">
     <h1>{{ tag_name }}</h1>
-    <PostList :tag-id="tag_id" mode="tags"/>
+    <PostsList :tag-id="tag_id" mode="tags"/>
   </section>
 </template>
 
 <script>
-import PostList from '~/components/PostList.vue';
+import PostsList from '~/components/PostsList.vue';
 
 export default {
-  name: 'TagPostList',
+  name: 'TagPostsList',
   components: {
-    PostList,
+    PostsList,
   },
   data() {
     return {

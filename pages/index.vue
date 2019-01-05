@@ -1,16 +1,16 @@
 <template>
   <section>
     <h1>home</h1>
-    <PostList/>
+    <PostsList/>
   </section>
 </template>
 
 <script>
-import PostList from '~/components/PostList.vue';
+import PostsList from '~/components/PostsList.vue';
 
 export default {
   components: {
-    PostList,
+    PostsList,
   },
   beforeRouteLeave(to, from, next) {
     this.$store.dispatch('posts/resetList');
