@@ -34,6 +34,7 @@ export default {
       if (this.searchValue && this.isKeypressed) {
         this.isKeypressed = false;
         this.$router.push({
+          path: '/',
           query: { search: this.searchValue },
         });
       }
