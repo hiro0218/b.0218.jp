@@ -1,19 +1,22 @@
 <template>
-  <div v-if="postHeaders.totalpages">
-    <ul>
-      <li v-for="(post, index) in postList" :key="index">
-        <time :datetime="post.date" itemprop="datePublished">{{ post.date | dateToISOString }}</time>
-        <nuxt-link :to="{ path: '/' + post.slug }">{{ post.title.rendered }}</nuxt-link>
-      </li>
-    </ul>
-    <paginate
-      v-model="page"
-      :page-count="postHeaders.totalpages"
-      :prev-text="'Prev'"
-      :next-text="'Next'"
-      :click-handler="changePage"
-      initial-page="1"
-    />
+  <div>
+    <div v-if="postHeaders.totalpages === 0" class="alert">No results found.</div>
+    <div v-if="postList.length !== 0">
+      <ul>
+        <li v-for="(post, index) in postList" :key="index">
+          <time :datetime="post.date" itemprop="datePublished">{{ post.date | dateToISOString }}</time>
+          <nuxt-link :to="{ path: '/' + post.slug }">{{ post.title.rendered }}</nuxt-link>
+        </li>
+      </ul>
+      <paginate
+        v-model="page"
+        :page-count="postHeaders.totalpages"
+        :prev-text="'Prev'"
+        :next-text="'Next'"
+        :click-handler="changePage"
+        initial-page="1"
+      />
+    </div>
   </div>
 </template>
 
