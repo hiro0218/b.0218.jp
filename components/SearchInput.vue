@@ -1,13 +1,11 @@
 <template>
-  <div>
-    <input
-      v-model="searchValue"
-      type="search"
-      placeholder="Search"
-      @keyup.enter="setKeypress"
-      @keydown.enter="submitSearch"
-    >
-  </div>
+  <input
+    v-model="searchValue"
+    type="search"
+    placeholder="Search"
+    @keyup.enter="setKeypress"
+    @keydown.enter="submitSearch"
+  >
 </template>
 
 <script>
