@@ -69,4 +69,9 @@ module.exports = {
       }
     },
   },
+
+  generate: {
+    fallback: true,
+    subFolders: false,
+  },
 };
