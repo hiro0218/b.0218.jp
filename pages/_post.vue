@@ -25,9 +25,9 @@ export default {
       post: state => state.data,
     }),
   },
-  async mounted() {
-    await this.$axios
-      .get(`posts?slug=${this.$route.params.post}`, {
+  async asyncData({ store, $axios, params, error }) {
+    return $axios
+      .get(`posts?slug=${params.post}`, {
         params: {
           _embed: '',
         },
@@ -35,13 +35,16 @@ export default {
       .then(async res => {
         // postsで見つからない場合はpagesを参照する
         if (res.data.length === 0) {
-          return await this.$axios
-            .get(`pages?slug=${this.$route.params.post}`, {
+          return await $axios
+            .get(`pages?slug=${params.post}`, {
               params: {
                 _embed: '',
               },
             })
             .then(res => {
+              if (res.data.length === 0) {
+                throw { statusCode: 404, message: 'Page not found' };
+              }
               return res;
             });
         }
@@ -49,7 +52,10 @@ export default {
         return res;
       })
       .then(res => {
-        this.$store.dispatch('post/setData', res.data[0]);
+        store.dispatch('post/setData', res.data[0]);
+      })
+      .catch(e => {
+        error(e);
       });
   },
   beforeRouteLeave(to, from, next) {
