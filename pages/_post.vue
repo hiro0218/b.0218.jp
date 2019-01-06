@@ -32,6 +32,22 @@ export default {
           _embed: '',
         },
       })
+      .then(async res => {
+        // postsで見つからない場合はpagesを参照する
+        if (res.data.length === 0) {
+          return await this.$axios
+            .get(`pages?slug=${this.$route.params.post}`, {
+              params: {
+                _embed: '',
+              },
+            })
+            .then(res => {
+              return res;
+            });
+        }
+
+        return res;
+      })
       .then(res => {
         this.$store.dispatch('post/setData', res.data[0]);
       });
