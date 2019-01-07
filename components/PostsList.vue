@@ -66,7 +66,7 @@ export default {
       this.page = Number(pageNumber);
 
       await this.$axios
-        .get('posts', {
+        .get('wp/v2/posts', {
           params: {
             page: pageNumber,
             search: this.$route.query.search,
