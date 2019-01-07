@@ -21,7 +21,7 @@ export default {
   },
   async mounted() {
     await this.$axios
-      .get('tags', {
+      .get('wp/v2/tags', {
         params: {
           slug: this.$route.params.slug,
         },

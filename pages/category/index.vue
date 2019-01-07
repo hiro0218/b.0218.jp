@@ -19,7 +19,7 @@ export default {
     };
   },
   async mounted() {
-    this.categoryList = (await this.$axios.get('categories', {
+    this.categoryList = (await this.$axios.get('wp/v2/categories', {
       params: {
         order: 'desc',
         orderby: 'count',

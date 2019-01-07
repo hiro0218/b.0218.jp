@@ -21,7 +21,7 @@ export default {
   },
   async mounted() {
     await this.$axios
-      .get('categories', {
+      .get('wp/v2/categories', {
         params: {
           slug: this.$route.params.slug,
         },

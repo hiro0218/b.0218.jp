@@ -19,7 +19,7 @@ export default {
     };
   },
   async mounted() {
-    this.tagList = (await this.$axios.get('tags', {
+    this.tagList = (await this.$axios.get('wp/v2/tags', {
       params: {
         order: 'desc',
         orderby: 'count',

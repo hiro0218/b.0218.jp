@@ -27,7 +27,7 @@ export default {
   },
   async asyncData({ store, $axios, params, error }) {
     return $axios
-      .get(`posts?slug=${params.post}`, {
+      .get(`wp/v2/posts?slug=${params.post}`, {
         params: {
           _embed: '',
         },
@@ -36,7 +36,7 @@ export default {
         // postsで見つからない場合はpagesを参照する
         if (res.data.length === 0) {
           return await $axios
-            .get(`pages?slug=${params.post}`, {
+            .get(`wp/v2/pages?slug=${params.post}`, {
               params: {
                 _embed: '',
               },
