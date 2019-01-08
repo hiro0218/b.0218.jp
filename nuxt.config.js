@@ -4,14 +4,14 @@ module.exports = {
   mode: 'spa',
 
   env: {
-    SITE_NAME: process.env.SITE_NAME,
+    SITE_NAME: pkg.site_name,
   },
 
   /*
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
+    title: process.env.SITE_NAME,
     htmlAttrs: {
       prefix: 'og: http://ogp.me/ns#',
     },

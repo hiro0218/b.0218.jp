@@ -4,6 +4,7 @@
   "description": "blog",
   "author": "hiro",
   "private": true,
+  "site_name": "零弐壱蜂",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
