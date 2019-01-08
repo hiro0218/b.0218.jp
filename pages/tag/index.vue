@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1>tag</h1>
+    <h1>{{ pageTitle }}</h1>
     <ul>
       <li v-for="(tag, index) in tagList" :key="index">
         <nuxt-link :to="'/tag/' + tag.slug">{{ tag.name }}</nuxt-link>
@@ -13,10 +13,18 @@
 <script>
 export default {
   name: 'TagList',
+  head() {
+    return {
+      title: this.pageTitle,
+    };
+  },
   data() {
     return {
       tagList: {},
     };
+  },
+  computed: {
+    pageTitle: () => 'Tag',
   },
   async mounted() {
     this.tagList = (await this.$axios.get('wp/v2/tags', {

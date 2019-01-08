@@ -13,6 +13,11 @@ export default {
   components: {
     PostsList,
   },
+  head() {
+    return {
+      title: this.category_name,
+    };
+  },
   data() {
     return {
       category_name: '',

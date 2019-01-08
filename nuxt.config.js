@@ -4,7 +4,7 @@ module.exports = {
   mode: 'spa',
 
   env: {
-    SITE_NAME: '零弐壱蜂',
+    SITE_NAME: process.env.SITE_NAME,
   },
 
   /*
@@ -12,6 +12,12 @@ module.exports = {
   */
   head: {
     title: pkg.name,
+    htmlAttrs: {
+      prefix: 'og: http://ogp.me/ns#',
+    },
+    titleTemplate: titleChunk => {
+      return titleChunk ? `${titleChunk} - ${process.env.SITE_NAME}` : process.env.SITE_NAME;
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -41,6 +47,8 @@ module.exports = {
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
+    // Doc: https://github.com/nuxt-community/dotenv-module#usage
+    '@nuxtjs/dotenv',
   ],
   /*
   ** Axios module configuration

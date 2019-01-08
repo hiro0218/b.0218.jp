@@ -13,6 +13,11 @@ export default {
   components: {
     PostsList,
   },
+  head() {
+    return {
+      title: this.tag_name,
+    };
+  },
   data() {
     return {
       tag_name: '',

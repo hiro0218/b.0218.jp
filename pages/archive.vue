@@ -20,6 +20,11 @@
 <script>
 export default {
   name: 'Archive',
+  head() {
+    return {
+      title: this.pageTitle,
+    };
+  },
   data() {
     return {
       list: null,

@@ -861,6 +861,12 @@
   dependencies:
     consola "^2.3.0"
 
+"@nuxtjs/dotenv@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/dotenv/-/dotenv-1.3.0.tgz#fcfd8fa9da767ce1a79c11104ab998d610e23731"
+  dependencies:
+    dotenv "^6.0.0"
+
 "@nuxtjs/opencollective@^0.2.0":
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@nuxtjs/opencollective/-/opencollective-0.2.1.tgz#ddf3e6a22990997322bc2b82e2455a7fbffc518d"
@@ -1230,7 +1236,6 @@ async-limiter@~1.0.0:
 async@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
-  integrity sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo=
 
 async@^2.3.0:
   version "2.6.1"
@@ -1768,7 +1773,6 @@ color@^3.0.0:
 colors@1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.0.3.tgz#0433f44d809680fdeb60ed260f1b0c262e82a40b"
-  integrity sha1-BDP0TYCWgP3rYO0mDxsMJi6CpAs=
 
 colors@~1.1.2:
   version "1.1.2"
@@ -1928,7 +1932,6 @@ core-util-is@~1.0.0:
 corser@~2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/corser/-/corser-2.0.1.tgz#8eda252ecaab5840dcd975ceb90d9370c819ff87"
-  integrity sha1-jtolLsqrWEDc2XXOuQ2TcMgZ/4c=
 
 cosmiconfig@^4.0.0:
   version "4.0.0"
@@ -2401,6 +2404,10 @@ dot-prop@^4.1.0, dot-prop@^4.1.1:
   dependencies:
     is-obj "^1.0.0"
 
+dotenv@^6.0.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.2.0.tgz#941c0410535d942c8becf28d3f357dbd9d476064"
+
 duplexer3@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
@@ -2421,7 +2428,6 @@ duplexify@^3.4.2, duplexify@^3.6.0:
 ecstatic@^3.0.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/ecstatic/-/ecstatic-3.3.0.tgz#91cd417d152abf85b37b1ab3ebf3bd25cdc64e80"
-  integrity sha512-EblWYTd+wPIAMQ0U4oYJZ7QBypT9ZUIwpqli0bKDjeIIQnXDBK2dXtZ9yzRCOlkW1HkO8gn7/FxLK1yPIW17pw==
   dependencies:
     he "^1.1.1"
     mime "^1.6.0"
@@ -3260,7 +3266,6 @@ http-proxy@^1.17.0, http-proxy@^1.8.1:
 http-server@^0.11.1:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/http-server/-/http-server-0.11.1.tgz#2302a56a6ffef7f9abea0147d838a5e9b6b6a79b"
-  integrity sha512-6JeGDGoujJLmhjiRGlt8yK8Z9Kl0vnl/dQoQZlc4oeqaUoAKQg94NILLfrY3oWzSyFaQCVNTcKE5PZ3cH8VP9w==
   dependencies:
     colors "1.0.3"
     corser "~2.0.0"
@@ -3960,7 +3965,6 @@ mime@1.4.1:
 mime@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.6.0.tgz#32cd9e5c64553bd58d19a568af452acff04981b1"
-  integrity sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==
 
 mime@^2.0.3, mime@^2.3.1:
   version "2.4.0"
@@ -4003,7 +4007,6 @@ minimist@^1.1.0, minimist@^1.2.0:
 minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
-  integrity sha1-3j+YVD2/lggr5IrRoMfNqDYwHc8=
 
 minipass@^2.2.1, minipass@^2.3.4:
   version "2.3.5"
@@ -4347,12 +4350,10 @@ opener@^1.5.1:
 opener@~1.4.0:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/opener/-/opener-1.4.3.tgz#5c6da2c5d7e5831e8ffa3964950f8d6674ac90b8"
-  integrity sha1-XG2ixdflgx6P+jlklQ+NZnSskLg=
 
 optimist@0.6.x:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/optimist/-/optimist-0.6.1.tgz#da3ea74686fa21a19a111c326e90eb15a0196686"
-  integrity sha1-2j6nRob6IaGaERwybpDrFaAZZoY=
   dependencies:
     minimist "~0.0.1"
     wordwrap "~0.0.2"
@@ -4577,7 +4578,6 @@ pluralize@^7.0.0:
 portfinder@^1.0.13:
   version "1.0.20"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.20.tgz#bea68632e54b2e13ab7b0c4775e9b41bf270e44a"
-  integrity sha512-Yxe4mTyDzTd59PZJY4ojZR8F+E5e97iq2ZOHPz3HDgSvYC5siNad2tLooQ5y5QHyQhc3xVqvyk/eNA3wuoa7Sw==
   dependencies:
     async "^1.5.2"
     debug "^2.2.0"
@@ -5283,7 +5283,6 @@ qs@6.5.2:
 qs@~2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/qs/-/qs-2.3.3.tgz#e9e85adbe75da0bbe4c8e0476a086290f863b404"
-  integrity sha1-6eha2+ddoLvkyOBHaghikPhjtAQ=
 
 querystring-es3@^0.2.0:
   version "0.2.1"
@@ -6196,7 +6195,6 @@ union-value@^1.0.0:
 union@~0.4.3:
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/union/-/union-0.4.6.tgz#198fbdaeba254e788b0efcb630bc11f24a2959e0"
-  integrity sha1-GY+9rrolTniLDvy2MLwR8kopWeA=
   dependencies:
     qs "~2.3.3"
 
@@ -6285,7 +6283,6 @@ urix@^0.1.0:
 url-join@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/url-join/-/url-join-2.0.5.tgz#5af22f18c052a000a48d7b82c5e9c2e2feeda728"
-  integrity sha1-WvIvGMBSoACkjXuCxenC4v7tpyg=
 
 url-loader@^1.1.2:
   version "1.1.2"
@@ -6577,7 +6574,6 @@ widest-line@^2.0.0:
 wordwrap@~0.0.2:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107"
-  integrity sha1-o9XabNXAvAAI03I0u68b7WMFkQc=
 
 wordwrap@~1.0.0:
   version "1.0.0"

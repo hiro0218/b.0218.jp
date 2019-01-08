@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1>home</h1>
+    <h1>{{ pageTitle }}</h1>
     <PostsList/>
   </section>
 </template>
@@ -11,6 +11,14 @@ import PostsList from '~/components/PostsList.vue';
 export default {
   components: {
     PostsList,
+  },
+  head() {
+    return {
+      title: this.pageTitle,
+    };
+  },
+  computed: {
+    pageTitle: () => 'Home',
   },
   beforeRouteLeave(to, from, next) {
     this.$store.dispatch('posts/resetList');

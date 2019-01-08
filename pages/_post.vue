@@ -20,6 +20,11 @@ export default {
     PostPager,
     PostRelated,
   },
+  head() {
+    return {
+      title: this.post.title.rendered,
+    };
+  },
   computed: {
     ...mapState('post', {
       post: state => state.data,
