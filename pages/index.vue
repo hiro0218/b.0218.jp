@@ -14,7 +14,8 @@ export default {
   },
   head() {
     return {
-      title: this.pageTitle,
+      title: process.env.SITE_NAME,
+      titleTemplate: null,
     };
   },
   computed: {
