@@ -1,7 +1,7 @@
 <template>
   <header>
     <nuxt-link to="/">{{ siteName }}</nuxt-link>
-    <SearchInput/>
+    <SearchInput />
   </header>
 </template>
 

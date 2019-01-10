@@ -7,14 +7,11 @@
           <time :datetime="post.date" itemprop="datePublished">{{ post.date | dateToISOString }}</time>
         </li>
         <li v-if="!isDateSameDay(post.date, post.modified)">
-          <time
-            :datetime="post.modified"
-            itemprop="dateModified"
-          >{{ post.modified | dateToISOString }}</time>
+          <time :datetime="post.modified" itemprop="dateModified">{{ post.modified | dateToISOString }}</time>
         </li>
       </ul>
     </header>
-    <div v-html="post.content.rendered"/>
+    <div v-html="post.content.rendered" />
     <footer>
       <ul v-if="post.hasOwnProperty('_embedded')">
         <li v-for="(category, index) in post._embedded['wp:term'][0]" :key="index">

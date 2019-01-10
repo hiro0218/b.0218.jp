@@ -1,8 +1,8 @@
 <template>
   <div>
-    <TheHeader/>
-    <nuxt/>
-    <TheFooter/>
+    <TheHeader />
+    <nuxt />
+    <TheFooter />
   </div>
 </template>
 

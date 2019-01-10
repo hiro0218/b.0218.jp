@@ -2,14 +2,10 @@
   <nav>
     <ul>
       <li v-if="pager.prev">
-        <router-link :to="pager.prev.url" :title="pager.prev.title">
-          {{ pager.prev.title }}
-        </router-link>
+        <router-link :to="pager.prev.url" :title="pager.prev.title"> {{ pager.prev.title }} </router-link>
       </li>
       <li v-if="pager.next">
-        <router-link :to="pager.next.url" :title="pager.next.title">
-          {{ pager.next.title }}
-        </router-link>
+        <router-link :to="pager.next.url" :title="pager.next.title"> {{ pager.next.title }} </router-link>
       </li>
     </ul>
   </nav>

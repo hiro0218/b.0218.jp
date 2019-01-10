@@ -1,7 +1,7 @@
 <template>
   <section>
     <h1>{{ pageTitle }}</h1>
-    <PostsList/>
+    <PostsList />
   </section>
 </template>
 

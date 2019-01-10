@@ -2,9 +2,7 @@
   <nav>
     <ul v-if="related">
       <li v-for="(post, index) in related" :key="index">
-        <router-link :to="post.uri">
-          {{ post.title }}
-        </router-link>
+        <router-link :to="post.uri"> {{ post.title }} </router-link>
       </li>
     </ul>
   </nav>
