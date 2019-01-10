@@ -2796,6 +2796,11 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+fast-copy@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/fast-copy/-/fast-copy-1.2.3.tgz#2539188451558fd43eadbf4409ff52567f46d2ee"
+  integrity sha512-ws7blvcPYbGyl/C8Pc2v7cdJerlimT6+FqHW9vp3JvwZ4NfG/fV/cm+Hyglw6hLMFb3Zx3JnM3oEsJPNrcL6Xw==
+
 fast-deep-equal@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-2.0.1.tgz#7b05218ddf9667bf7f370bf7fdb2cb15fdd0aa49"
