@@ -22,6 +22,7 @@ export default {
   },
   head() {
     return {
+      __dangerouslyDisableSanitizers: ['script'],
       title: this.post.title.rendered,
       meta: [
         { charset: 'utf-8' },
@@ -34,6 +35,12 @@ export default {
         { hid: 'og:image', property: 'og:image', content: this.post.thumbnail },
       ],
       links: [{ rel: 'canonical', href: `${process.env.SITE_URL}${this.post.slug}` }],
+      script: [
+        {
+          type: 'application/ld+json',
+          innerHTML: this.getBreadcrumbStructured(),
+        },
+      ],
     };
   },
   computed: {
@@ -73,6 +80,47 @@ export default {
       .catch(e => {
         error(e);
       });
+  },
+  methods: {
+    getBreadcrumbStructured() {
+      let itemCount = 1;
+      let itemListElement = [
+        {
+          '@type': 'ListItem',
+          position: itemCount,
+          item: { '@id': process.env.SITE_URL, name: process.env.SITE_NAME },
+        },
+      ];
+
+      if (this.post.hasOwnProperty('_embedded')) {
+        Array.from(this.post._embedded['wp:term'][0], category => {
+          itemListElement.push({
+            '@type': 'ListItem',
+            position: ++itemCount,
+            item: {
+              '@id': `${process.env.SITE_URL}category/${category.slug}`,
+              name: category.name,
+            },
+          });
+        });
+      }
+
+      itemListElement.push({
+        '@type': 'ListItem',
+        position: ++itemCount,
+        item: { '@id': this.post.link, name: this.post.title.rendered },
+      });
+
+      let structure = Object.assign(
+        {
+          '@context': 'http://schema.org',
+          '@type': 'BreadcrumbList',
+        },
+        { itemListElement: itemListElement },
+      );
+
+      return JSON.stringify(structure);
+    },
   },
   beforeRouteLeave(to, from, next) {
     if (to.path !== from.path) {
