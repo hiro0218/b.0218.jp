@@ -38,6 +38,10 @@ export default {
       script: [
         {
           type: 'application/ld+json',
+          innerHTML: this.getBlogPostingStructured(),
+        },
+        {
+          type: 'application/ld+json',
           innerHTML: this.getBreadcrumbStructured(),
         },
       ],
@@ -82,6 +86,37 @@ export default {
       });
   },
   methods: {
+    getBlogPostingStructured() {
+      return JSON.stringify({
+        '@context': 'http://schema.org',
+        '@type': 'BlogPosting',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': `${process.env.SITE_URL}${this.post.slug}`,
+        },
+        headline: this.post.title.rendered,
+        datePublished: this.post.date,
+        dateModified: this.post.modified,
+        author: { '@type': 'Person', name: process.env.AUTHOR },
+        description: this.post.excerpt.rendered,
+        image: {
+          '@type': 'ImageObject',
+          url: this.post.thumbnail,
+          width: 696,
+          height: 696,
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: process.env.SITE_NAME,
+          logo: {
+            '@type': 'ImageObject',
+            url: 'https://b.0218.jp/hiro0218.png',
+            width: '400px',
+            height: '400px',
+          },
+        },
+      });
+    },
     getBreadcrumbStructured() {
       let itemCount = 1;
       let itemListElement = [
