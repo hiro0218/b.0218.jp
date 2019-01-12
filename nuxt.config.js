@@ -4,6 +4,7 @@ module.exports = {
   mode: 'spa',
 
   env: {
+    AUTHOR: pkg.author,
     SITE_NAME: pkg.site_name,
     SITE_URL: pkg.site_url,
   },
