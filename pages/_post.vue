@@ -128,16 +128,18 @@ export default {
       ];
 
       if (this.post.hasOwnProperty('_embedded')) {
-        Array.from(this.post._embedded['wp:term'][0], category => {
-          itemListElement.push({
-            '@type': 'ListItem',
-            position: ++itemCount,
-            item: {
-              '@id': `${process.env.SITE_URL}category/${category.slug}`,
-              name: category.name,
-            },
+        if (this.post._embedded['wp:term'].length !== 0) {
+          Array.from(this.post._embedded['wp:term'][0], category => {
+            itemListElement.push({
+              '@type': 'ListItem',
+              position: ++itemCount,
+              item: {
+                '@id': `${process.env.SITE_URL}category/${category.slug}`,
+                name: category.name,
+              },
+            });
           });
-        });
+        }
       }
 
       itemListElement.push({
