@@ -52,7 +52,12 @@ export default {
       post: state => state.data,
     }),
   },
-  async asyncData({ store, $axios, params, error }) {
+  async asyncData({ store, $axios, params, error, payload }) {
+    // when nuxt generate
+    if (process.static && params.post.indexOf('.html') === -1) {
+      params.post += '.html';
+    }
+
     return $axios
       .get(`wp/v2/posts?slug=${params.post}`, {
         params: {

@@ -1,12 +1,10 @@
-const pkg = require('./package');
+import { constant, route } from './settings';
 
 module.exports = {
-  mode: 'spa',
-
   env: {
-    AUTHOR: pkg.author,
-    SITE_NAME: pkg.site_name,
-    SITE_URL: pkg.site_url,
+    AUTHOR: constant.AUTHOR,
+    SITE_NAME: constant.SITE_NAME,
+    SITE_URL: constant.SITE_URL,
   },
 
   /*
@@ -23,13 +21,13 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.site_description },
-      { hid: 'og:site_name', property: 'og:site_name', content: pkg.site_name },
+      { hid: 'description', name: 'description', content: constant.SITE_DESCRIPTION },
+      { hid: 'og:site_name', property: 'og:site_name', content: constant.SITE_NAME },
       { hid: 'og:locale', property: 'og:locale', content: 'ja_JP' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
-      { hid: 'og:url', property: 'og:url', content: pkg.site_url },
-      { hid: 'og:title', property: 'og:title', content: pkg.site_name },
-      { hid: 'og:description', property: 'og:description', content: pkg.site_description },
+      { hid: 'og:url', property: 'og:url', content: constant.SITE_URL },
+      { hid: 'og:title', property: 'og:title', content: constant.SITE_NAME },
+      { hid: 'og:description', property: 'og:description', content: constant.SITE_DESCRIPTION },
       { hid: 'og:image', property: 'og:image', content: '' },
       { name: 'twitter:site', content: '@hiro0218' },
       { name: 'twitter:creator', content: '@hiro0218' },
@@ -51,7 +49,7 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/mixin', '~/plugins/pagination'],
+  plugins: ['~/plugins/mixin', { src: '~/plugins/pagination', ssr: false }],
 
   /*
    ** Nuxt.js modules
@@ -67,7 +65,7 @@ module.exports = {
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: 'https://b.0218.jp/wp-json/',
+    baseURL: constant.ENDPOINT,
   },
 
   /*
@@ -93,5 +91,9 @@ module.exports = {
   generate: {
     fallback: true,
     subFolders: false,
+    interval: 1000,
+    routes() {
+      return route.getData();
+    },
   },
 };

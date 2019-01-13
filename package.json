@@ -4,9 +4,6 @@
   "description": "blog",
   "author": "hiro",
   "private": true,
-  "site_name": "零弐壱蜂",
-  "site_description": "様々な情報をストックするサイバーメモ帳",
-  "site_url": "https://b.0218.jp/",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
