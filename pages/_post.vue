@@ -1,9 +1,9 @@
 <template>
-  <div v-if="Object.keys(post).length !== 0">
+  <section v-if="Object.keys(post).length !== 0">
     <PostData/>
     <PostPager/>
     <PostRelated/>
-  </div>
+  </section>
 </template>
 
 <script>
