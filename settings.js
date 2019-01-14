@@ -11,12 +11,12 @@ export const constant = {
 export const route = {
   paramns: {
     _fields: 'id,slug',
-    per_page: 1,
+    per_page: 100,
   },
   getData() {
     return axios
       .all([
-        axios.get(`${constant.ENDPOINT}wp/v2/posts`, { params: Object.assign(this.paramns, { per_page: 1 }) }),
+        axios.get(`${constant.ENDPOINT}wp/v2/posts`, { params: Object.assign(this.paramns, { per_page: 1000 }) }),
         axios.get(`${constant.ENDPOINT}wp/v2/tags`, { params: this.paramns }),
         axios.get(`${constant.ENDPOINT}wp/v2/categories`, { params: this.paramns }),
       ])
