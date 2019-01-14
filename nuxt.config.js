@@ -28,7 +28,7 @@ module.exports = {
       { hid: 'og:url', property: 'og:url', content: constant.SITE_URL },
       { hid: 'og:title', property: 'og:title', content: constant.SITE_NAME },
       { hid: 'og:description', property: 'og:description', content: constant.SITE_DESCRIPTION },
-      { hid: 'og:image', property: 'og:image', content: '' },
+      { hid: 'og:image', property: 'og:image', content: 'https://b.0218.jp/hiro0218.png' },
       { name: 'twitter:site', content: '@hiro0218' },
       { name: 'twitter:creator', content: '@hiro0218' },
       { name: 'twitter:card', content: 'summary' },
