@@ -44,7 +44,7 @@ module.exports = {
   /*
    ** Global CSS
    */
-  css: ['normalize.css'],
+  css: ['normalize.css', '~/assets/style/main.scss'],
 
   /*
    ** Plugins to load before mounting the App
