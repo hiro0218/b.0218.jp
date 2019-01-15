@@ -1,7 +1,7 @@
 <template>
   <main>
     <TheHeader/>
-    <nuxt class="contents"/>
+    <nuxt class="o-container contents"/>
     <TheFooter/>
   </main>
 </template>
