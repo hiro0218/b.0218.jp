@@ -1,5 +1,14 @@
+// Settings
+@import 'Settings/variables';
+
 // Generics
+@import 'Generic/font';
 @import 'Generic/reset';
+
+// Elements
+@import 'Elements/global';
+@import 'Elements/typography';
+@import 'Elements/code';
 
 // Objects
 @import 'Objects/layout';
