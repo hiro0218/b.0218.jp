@@ -1,4 +1,5 @@
 // Settings
+@import 'Settings/colors';
 @import 'Settings/variables';
 
 // Generics
@@ -12,3 +13,6 @@
 
 // Objects
 @import 'Objects/layout';
+
+// Components
+@import 'Components/alert';

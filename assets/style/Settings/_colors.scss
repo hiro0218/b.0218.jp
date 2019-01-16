@@ -1,0 +1,41 @@
+@import '~open-color/open-color.scss';
+
+$plain-color: $oc-gray-6 !default;
+$primary-color: $oc-blue-4 !default;
+$success-color: $oc-lime-6 !default;
+$danger-color: $oc-red-6 !default;
+$warning-color: $oc-yellow-6 !default;
+$info-color: $oc-blue-9 !default;
+
+$theme-colors: () !default;
+$theme-colors: map-merge(
+  (
+    'plain': $plain-color,
+    'primary': $primary-color,
+    'success': $success-color,
+    'danger': $danger-color,
+    'warning': $warning-color,
+    'info': $info-color,
+  ),
+  $theme-colors
+);
+
+$plain-bg: $oc-gray-1 !default;
+$primary-bg: $oc-blue-1 !default;
+$success-bg: $oc-lime-1 !default;
+$danger-bg: $oc-red-1 !default;
+$warning-bg: $oc-yellow-1 !default;
+$info-bg: $oc-blue-1 !default;
+
+$theme-bg: () !default;
+$theme-bg: map-merge(
+  (
+    'plain': $plain-bg,
+    'primary': $primary-bg,
+    'success': $success-bg,
+    'danger': $danger-bg,
+    'warning': $warning-bg,
+    'info': $info-bg,
+  ),
+  $theme-bg
+);
