@@ -12,6 +12,21 @@ $h4-font-size: 1.15rem !default;
 $h5-font-size: 1rem !default;
 $h6-font-size: 1rem !default;
 
+// Size
+
+$size: (
+  xs: 0.75,
+  sm: 0.875,
+  md: 1,
+  lg: 1.25,
+) !default;
+
+//
+// Parts
+// --------------------
+
+$header-height: 4rem;
+
 //
 // Components
 // --------------------
