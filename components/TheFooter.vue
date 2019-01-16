@@ -1,5 +1,5 @@
 <template>
-  <footer>
+  <footer class="o-container">
     <div class="copyright">
       <small
       >©

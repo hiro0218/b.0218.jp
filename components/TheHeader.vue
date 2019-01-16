@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header class="o-container">
     <nuxt-link to="/">{{ siteName }}</nuxt-link>
     <SearchInput />
   </header>
