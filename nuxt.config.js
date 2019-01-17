@@ -97,6 +97,14 @@ module.exports = {
       require('postcss-preset-env')({
         stage: 3,
       }),
+      require('cssnano')({
+        preset: [
+          'default',
+          {
+            autoprefixer: false,
+          },
+        ],
+      }),
     ],
   },
 
