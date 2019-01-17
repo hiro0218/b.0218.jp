@@ -21,6 +21,13 @@ $size: (
   lg: 1.25,
 ) !default;
 
+// Terminal size
+
+$tablet: 769px;
+$desktop: 960px;
+$widescreen: $desktop; // 1152px;
+$fullhd: $desktop; // 1344px;
+
 //
 // Parts
 // --------------------
