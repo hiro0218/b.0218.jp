@@ -4,4 +4,8 @@
   padding-left: 5vw;
   margin-right: auto;
   margin-left: auto;
+
+  @include from($desktop) {
+    max-width: $desktop;
+  }
 }
