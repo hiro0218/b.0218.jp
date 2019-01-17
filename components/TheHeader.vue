@@ -1,7 +1,9 @@
 <template>
-  <header class="o-container header-navigation">
-    <nuxt-link to="/">{{ siteName }}</nuxt-link>
-    <SearchInput/>
+  <header class="header-navigation">
+    <div class="o-container header-container">
+      <nuxt-link to="/">{{ siteName }}</nuxt-link>
+      <SearchInput/>
+    </div>
   </header>
 </template>
 
@@ -60,9 +62,6 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   height: $header-height;
   border-bottom: 1px solid $oc-gray-3;
   background: #fff;
@@ -74,5 +73,14 @@ export default {
     box-shadow: none;
     transform: translateY(-$header-height);
   }
+}
+.header-container {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+a {
+  color: $oc-gray-8;
 }
 </style>
