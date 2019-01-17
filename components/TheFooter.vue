@@ -1,22 +1,27 @@
 <template>
-  <footer class="o-container">
-    <nav class="menu">
-      <ul class="menu-list">
-        <li class="menu-item">
-          <nuxt-link to="/archive">archive</nuxt-link>
-        </li>
-        <li class="menu-item">
-          <nuxt-link to="/category">category</nuxt-link>
-        </li>
-        <li class="menu-item">
-          <nuxt-link to="/tag">tag</nuxt-link>
-        </li>
-      </ul>
-    </nav>
-    <div class="copyright">
-      <small>©
-        <nuxt-link to="/">{{ siteName }}</nuxt-link>
-      </small>
+  <footer>
+    <div class="o-container">
+      <nav class="menu">
+        <ul class="menu-list">
+          <li class="menu-item">
+            <nuxt-link to="/about">about</nuxt-link>
+          </li>
+          <li class="menu-item">
+            <nuxt-link to="/archive">archive</nuxt-link>
+          </li>
+          <li class="menu-item">
+            <nuxt-link to="/category">category</nuxt-link>
+          </li>
+          <li class="menu-item">
+            <nuxt-link to="/tag">tag</nuxt-link>
+          </li>
+        </ul>
+      </nav>
+      <div class="copyright">
+        <small>©
+          <nuxt-link to="/">{{ siteName }}</nuxt-link>
+        </small>
+      </div>
     </div>
   </footer>
 </template>
@@ -37,6 +42,7 @@ footer {
   background: $oc-gray-8;
   color: $oc-gray-1;
   font-size: map-get($size, sm) * 1rem;
+  text-align: center;
 }
 .copyright {
   small {
