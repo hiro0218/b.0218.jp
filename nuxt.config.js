@@ -87,6 +87,17 @@ module.exports = {
         });
       }
     },
+
+    postcss: [
+      require('autoprefixer')({
+        grid: true,
+        cascade: false,
+      }),
+      require('postcss-flexbugs-fixes')(),
+      require('postcss-preset-env')({
+        stage: 3,
+      }),
+    ],
   },
 
   generate: {
