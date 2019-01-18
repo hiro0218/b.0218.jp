@@ -11,9 +11,9 @@
       <paginate
         v-model="page"
         :page-count="postsHeaders.totalpages"
-        :prev-text="'Prev'"
-        :next-text="'Next'"
         :click-handler="changePage"
+        prev-text
+        next-text
         initial-page="1"
         container-class="pagination-container"
         page-class="pagination-item"
@@ -119,7 +119,7 @@ export default {
       a {
         background: $oc-gray-2;
         &:hover {
-          background: $oc-gray-2;
+          background-color: $oc-gray-2;
         }
       }
     }
@@ -134,7 +134,7 @@ export default {
       font-size: map-get($size, sm) * 1rem;
 
       &:hover {
-        background: $oc-gray-1;
+        background-color: $oc-gray-1;
         opacity: 1;
       }
     }
@@ -146,6 +146,13 @@ export default {
 
   .pagination-separate {
     pointer-events: none;
+  }
+
+  .pagination-prev a {
+    background: url('~assets/image/arrow_left.svg') center / 1rem 1rem no-repeat;
+  }
+  .pagination-next a {
+    background: url('~assets/image/arrow_right.svg') center / 1rem 1rem no-repeat;
   }
 }
 </style>
