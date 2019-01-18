@@ -15,6 +15,11 @@
         :next-text="'Next'"
         :click-handler="changePage"
         initial-page="1"
+        container-class="pagination-container"
+        page-class="pagination-item"
+        prev-class="pagination-item pagination-prev"
+        next-class="pagination-item pagination-next"
+        break-view-class="pagination-separate"
       />
     </div>
   </div>
@@ -97,8 +102,50 @@ export default {
 };
 </script>
 
-<style>
-.active {
-  font-weight: bold;
+<style lang="scss">
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 1rem 0;
+  padding: 0;
+  list-style: none;
+
+  .pagination-item {
+    &:focus {
+      outline: none;
+    }
+
+    &.active {
+      a {
+        background: $oc-gray-2;
+        &:hover {
+          background: $oc-gray-2;
+        }
+      }
+    }
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 2.5rem;
+      min-width: 2.5rem;
+      border-radius: 50%;
+      font-size: map-get($size, sm) * 1rem;
+
+      &:hover {
+        background: $oc-gray-1;
+        opacity: 1;
+      }
+    }
+  }
+
+  .pagination-item + .pagination-item {
+    margin-left: 1rem;
+  }
+
+  .pagination-separate {
+    pointer-events: none;
+  }
 }
 </style>

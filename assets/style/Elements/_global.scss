@@ -12,7 +12,7 @@ body {
 
 a {
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  transition: background 0.2s ease, opacity 0.2s ease;
   &:hover {
     opacity: 0.6;
   }
