@@ -81,6 +81,9 @@ export default {
   justify-content: space-between;
 }
 a {
+  display: flex;
+  height: 100%;
+  align-items: center;
   color: $oc-gray-8;
 }
 </style>
