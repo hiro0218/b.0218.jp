@@ -4,6 +4,7 @@
       <h1>{{ post.title.rendered }}</h1>
       <ul>
         <li>
+          <svgTime/>
           <time :datetime="post.date" itemprop="datePublished">{{ post.date | dateToISOString }}</time>
         </li>
         <li v-if="!isDateSameDay(post.date, post.modified)">
@@ -32,9 +33,13 @@
 
 <script>
 import { mapState } from 'vuex';
+import svgTime from '~/assets/image/time.svg?inline';
 
 export default {
   name: 'PostData',
+  components: {
+    svgTime,
+  },
   computed: {
     ...mapState('post', {
       post: state => state.data,
