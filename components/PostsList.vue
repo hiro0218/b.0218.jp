@@ -1,13 +1,30 @@
 <template>
   <div>
-    <div v-if="postsHeaders.totalpages === 0" class="alert">No results found.</div>
-    <div v-if="postsList.length !== 0">
-      <ul>
-        <li v-for="(post, index) in postsList" :key="index">
-          <time :datetime="post.date" itemprop="datePublished">{{ post.date | dateToISOString }}</time>
-          <nuxt-link :to="{ path: '/' + post.slug }">{{ post.title.rendered }}</nuxt-link>
-        </li>
-      </ul>
+    <svgArrowLeft/>
+    <div v-if="postsHeaders.totalpages === 0" class="c-alert is-warning">No results found.</div>
+    <template v-if="postsList.length !== 0">
+      <div class="post-list">
+        <template v-for="(post, index) in postsList">
+          <nuxt-link :to="{ path: '/' + post.slug }" :key="index" class="post-item">
+            <div class="post-image">
+              <img :src="post.thumbnail">
+            </div>
+            <div class="post-body">
+              <div class="post-title">{{ post.title.rendered }}</div>
+              <div class="post-excerpt">{{ post.excerpt.rendered }}</div>
+              <ul class="c-meta-list">
+                <li class="meta-item">
+                  <svgTime/>
+                  <time
+                    :datetime="post.date"
+                    itemprop="datePublished"
+                  >{{ post.date | dateToISOString }}</time>
+                </li>
+              </ul>
+            </div>
+          </nuxt-link>
+        </template>
+      </div>
       <paginate
         v-model="page"
         :page-count="postsHeaders.totalpages"
@@ -21,15 +38,19 @@
         next-class="pagination-item pagination-next"
         break-view-class="pagination-separate"
       />
-    </div>
+    </template>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import svgTime from '~/assets/image/time.svg?inline';
 
 export default {
   name: 'PostsList',
+  components: {
+    svgTime,
+  },
   props: {
     mode: {
       type: String,
@@ -103,6 +124,55 @@ export default {
 </script>
 
 <style lang="scss">
+// postlist
+.post-list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0 0 2rem 0;
+  padding: 0;
+}
+
+.post-item {
+  display: flex;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 0.15rem;
+  color: $oc-gray-8;
+
+  &:hover {
+    background: $oc-gray-1;
+    opacity: 1;
+  }
+}
+
+.post-image {
+  margin-right: 1rem;
+  img {
+    width: 5rem;
+    height: 5rem;
+    object-fit: contain;
+  }
+}
+
+.post-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .post-title {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .post-excerpt {
+    margin-bottom: 1rem;
+    color: $oc-gray-6;
+    font-size: map-get($size, sm) * 1rem;
+  }
+}
+
 // pagination
 .pagination-container {
   display: flex;
