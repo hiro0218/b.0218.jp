@@ -1,7 +1,7 @@
 <template>
   <section v-if="tag_id > 0">
     <div class="c-title">
-      <h1 class="title-main">{{ tag_name }}</h1>
+      <h1 class="title-main">tag: {{ tag_name }}</h1>
     </div>
     <PostsList :tag-id="tag_id" mode="tags"/>
   </section>

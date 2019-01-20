@@ -2,9 +2,7 @@
   <section>
     <div class="c-title">
       <h1 class="title-main">{{ pageTitle }}</h1>
-      <template v-if="$route.query.search">
-        <b>{{ $route.query.search }}</b>の検索結果
-      </template>
+      <div v-if="$route.query.search" class="title-sub">search: {{ $route.query.search }}</div>
     </div>
     <PostsList/>
   </section>
