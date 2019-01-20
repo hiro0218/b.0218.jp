@@ -1,7 +1,9 @@
 <template>
   <section v-if="tag_id > 0">
-    <h1>{{ tag_name }}</h1>
-    <PostsList :tag-id="tag_id" mode="tags" />
+    <div class="c-title">
+      <h1 class="title-main">{{ tag_name }}</h1>
+    </div>
+    <PostsList :tag-id="tag_id" mode="tags"/>
   </section>
 </template>
 

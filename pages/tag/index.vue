@@ -1,6 +1,8 @@
 <template>
   <section>
-    <h1>{{ pageTitle }}</h1>
+    <div class="c-title">
+      <h1 class="title-main">{{ pageTitle }}</h1>
+    </div>
     <ul>
       <li v-for="(tag, index) in tagList" :key="index">
         <nuxt-link :to="'/tag/' + tag.slug">{{ tag.name }}</nuxt-link>

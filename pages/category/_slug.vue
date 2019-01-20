@@ -1,7 +1,9 @@
 <template>
   <section v-if="category_id > 0">
-    <h1>{{ category_name }}</h1>
-    <PostsList :category-id="category_id" mode="categories" />
+    <div class="c-title">
+      <h1 class="title-main">{{ category_name }}</h1>
+    </div>
+    <PostsList :category-id="category_id" mode="categories"/>
   </section>
 </template>
 

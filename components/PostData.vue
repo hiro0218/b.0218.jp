@@ -1,13 +1,14 @@
 <template>
-  <article>
-    <header>
-      <h1>{{ post.title.rendered }}</h1>
-      <ul>
-        <li>
+  <article class="post">
+    <header class="c-title">
+      <h1 class="title-main">{{ post.title.rendered }}</h1>
+      <ul class="meta-list">
+        <li class="meta-item">
           <svgTime/>
           <time :datetime="post.date" itemprop="datePublished">{{ post.date | dateToISOString }}</time>
         </li>
-        <li v-if="!isDateSameDay(post.date, post.modified)">
+        <li v-if="!isDateSameDay(post.date, post.modified)" class="meta-item">
+          <svgArrowRight/>
           <time
             :datetime="post.modified"
             itemprop="dateModified"
@@ -34,11 +35,13 @@
 <script>
 import { mapState } from 'vuex';
 import svgTime from '~/assets/image/time.svg?inline';
+import svgArrowRight from '~/assets/image/arrow_right.svg?inline';
 
 export default {
   name: 'PostData',
   components: {
     svgTime,
+    svgArrowRight,
   },
   computed: {
     ...mapState('post', {
@@ -49,6 +52,11 @@ export default {
 </script>
 
 <style lang="scss">
+.post {
+  .c-title {
+    margin-bottom: 2rem;
+  }
+}
 .post-content {
   hr {
     height: 2rem;
