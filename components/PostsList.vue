@@ -103,10 +103,11 @@ export default {
 </script>
 
 <style lang="scss">
+// pagination
 .pagination-container {
   display: flex;
   justify-content: center;
-  margin: 0 0 1rem 0;
+  margin: 0 0 2rem 0;
   padding: 0;
   list-style: none;
 
@@ -145,6 +146,12 @@ export default {
   }
 
   .pagination-separate {
+    pointer-events: none;
+  }
+
+  .pagination-prev.disabled,
+  .pagination-next.disabled {
+    opacity: 0.3;
     pointer-events: none;
   }
 
