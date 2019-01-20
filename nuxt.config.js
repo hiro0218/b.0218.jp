@@ -97,6 +97,15 @@ module.exports = {
           {
             resourceQuery: /inline/,
             loader: 'vue-svg-loader',
+            options: {
+              svgo: {
+                plugins: [
+                  {
+                    removeViewBox: false,
+                  },
+                ],
+              },
+            },
           },
           {
             loader: 'file-loader',
