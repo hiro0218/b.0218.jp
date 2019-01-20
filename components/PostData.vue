@@ -2,7 +2,7 @@
   <article class="post">
     <header class="c-title">
       <h1 class="title-main">{{ post.title.rendered }}</h1>
-      <ul class="meta-list">
+      <ul class="c-meta-list">
         <li class="meta-item">
           <svgTime/>
           <time :datetime="post.date" itemprop="datePublished">{{ post.date | dateToISOString }}</time>
@@ -55,6 +55,9 @@ export default {
 .post {
   .c-title {
     margin-bottom: 2rem;
+  }
+  .c-meta-list {
+    justify-content: center;
   }
 }
 .post-content {

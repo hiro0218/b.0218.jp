@@ -1,0 +1,20 @@
+.c-meta-list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  list-style: none;
+  color: $oc-gray-6;
+  font-size: map-get($size, sm) * 1rem;
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+  }
+
+  svg {
+    height: 1em;
+    width: 1em;
+    fill: $oc-gray-6;
+  }
+}

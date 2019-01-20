@@ -3,39 +3,18 @@
   text-align: center;
 
   > .title-main {
-    font-size: $h2-font-size;
+    font-size: $h3-font-size;
     font-weight: normal;
+    line-height: 1.5;
     letter-spacing: 0.05em;
     overflow-wrap: break-word;
   }
 
   > .title-sub {
-    font-size: $h3-font-size;
+    font-size: $h4-font-size;
     margin-top: 0.5rem;
     font-weight: normal;
     line-height: 1;
     letter-spacing: 0.075em;
-  }
-
-  > .meta-list {
-    display: flex;
-    margin: 0;
-    padding: 0;
-    justify-content: center;
-    align-items: center;
-    list-style: none;
-    color: $oc-gray-6;
-    font-size: map-get($size, sm) * 1rem;
-
-    .meta-item {
-      display: flex;
-      align-items: center;
-    }
-
-    svg {
-      height: 1em;
-      width: 1em;
-      fill: $oc-gray-6;
-    }
   }
 }
