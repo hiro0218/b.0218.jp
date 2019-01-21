@@ -51,12 +51,17 @@ export default {
   outline: none;
   background: $oc-gray-1;
   font-size: 1rem;
+  transition: background 0.1s ease;
   -webkit-appearance: none;
   -moz-appearance: none;
   &:placeholder-shown,
   &::-webkit-input-placeholder {
     color: $oc-gray-6;
     font-size: map-get($size, sm) * 1rem;
+  }
+  &:focus {
+    border-color: $oc-gray-1;
+    background: transparent;
   }
 }
 </style>
