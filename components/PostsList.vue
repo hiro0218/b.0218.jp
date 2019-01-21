@@ -191,6 +191,10 @@ export default {
     color: $oc-gray-6;
     font-size: map-get($size, sm) * 1rem;
   }
+
+  .c-meta-list {
+    justify-content: flex-end;
+  }
 }
 
 // pagination
