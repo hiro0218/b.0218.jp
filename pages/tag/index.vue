@@ -3,10 +3,9 @@
     <div class="c-title">
       <h1 class="title-main">{{ pageTitle }}</h1>
     </div>
-    <ul>
-      <li v-for="(tag, index) in tagList" :key="index">
+    <ul class="tag-list">
+      <li v-for="(tag, index) in tagList" :key="index" class="tag-item">
         <nuxt-link :to="'/tag/' + tag.slug">{{ tag.name }}</nuxt-link>
-        {{ tag.count }}
       </li>
     </ul>
   </section>
@@ -26,7 +25,7 @@ export default {
     };
   },
   computed: {
-    pageTitle: () => 'Tag',
+    pageTitle: () => 'Tag List',
   },
   async mounted() {
     this.tagList = (await this.$axios.get('wp/v2/tags', {
@@ -40,5 +39,37 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 2rem 0.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+.tag-item {
+  margin-left: 0.25rem;
+  margin-bottom: 0.5rem;
+  flex: 1 1 auto;
+  align-items: center;
+  align-self: flex-start;
+  white-space: nowrap;
+  text-align: center;
+
+  a {
+    display: block;
+    padding: 0.5em 1em;
+    border-radius: 0.15rem;
+    line-height: 1.5;
+    background-color: $oc-gray-1;
+    color: $oc-gray-8;
+    font-size: map-get($size, sm) * 1rem;
+
+    &:hover {
+      background-color: $oc-gray-2;
+      opacity: 1;
+    }
+  }
+}
 </style>
