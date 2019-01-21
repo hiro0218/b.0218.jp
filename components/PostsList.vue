@@ -1,13 +1,13 @@
 <template>
   <div>
-    <svgArrowLeft/>
     <div v-if="postsHeaders.totalpages === 0" class="c-alert is-warning">No results found.</div>
     <template v-if="postsList.length !== 0">
       <div class="post-list">
         <template v-for="(post, index) in postsList">
           <nuxt-link :to="{ path: '/' + post.slug }" :key="index" class="post-item">
             <div class="post-image">
-              <img :src="post.thumbnail">
+              <img v-if="post.thumbnail" :src="post.thumbnail">
+              <svgPhoto v-else class="no-image"/>
             </div>
             <div class="post-body">
               <div class="post-title">{{ post.title.rendered }}</div>
@@ -45,11 +45,13 @@
 <script>
 import { mapState } from 'vuex';
 import svgTime from '~/assets/image/time.svg?inline';
+import svgPhoto from '~/assets/image/photo.svg?inline';
 
 export default {
   name: 'PostsList',
   components: {
     svgTime,
+    svgPhoto,
   },
   props: {
     mode: {
@@ -147,11 +149,24 @@ export default {
 }
 
 .post-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-right: 1rem;
+  width: 5rem;
+  height: 5rem;
+  background-color: $oc-gray-2;
+  border-radius: 0.15rem;
+
   img {
     width: 5rem;
     height: 5rem;
     object-fit: contain;
+  }
+  .no-image {
+    fill: $oc-gray-6;
+    width: 2rem;
+    height: 2rem;
   }
 }
 
@@ -182,10 +197,6 @@ export default {
   list-style: none;
 
   .pagination-item {
-    &:focus {
-      outline: none;
-    }
-
     &.active {
       a {
         background: $oc-gray-2;
@@ -207,6 +218,9 @@ export default {
       &:hover {
         background-color: $oc-gray-1;
         opacity: 1;
+      }
+      &:focus {
+        outline: none;
       }
     }
   }
