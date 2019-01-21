@@ -120,6 +120,11 @@ export default {
           search: this.$route.query.search,
         },
       });
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
     },
   },
 };
