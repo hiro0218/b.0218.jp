@@ -1,5 +1,5 @@
 <template>
-  <nav class="post-pager">
+  <nav v-if="Object.keys(pager).length !== 0" class="post-pager">
     <ul class="pager-list">
       <li v-if="pager.prev" class="pager-item prev">
         <router-link :to="pager.prev.url" :title="pager.prev.title">{{ pager.prev.title }}</router-link>
