@@ -1,6 +1,6 @@
 <template>
   <nav v-if="Object.keys(pager).length !== 0" class="post-pager">
-    <ul class="pager-list">
+    <ul class="u-list-unstyled pager-list">
       <li v-if="pager.prev" class="pager-item prev">
         <router-link :to="pager.prev.url" :title="pager.prev.title">{{ pager.prev.title }}</router-link>
       </li>
@@ -29,8 +29,6 @@ export default {
   display: flex;
   justify-content: space-between;
   margin: 2rem 0;
-  padding: 0;
-  list-style: none;
   font-size: map-get($size, sm) * 1rem;
 }
 

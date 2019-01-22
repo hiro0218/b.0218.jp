@@ -3,7 +3,7 @@
     <div class="c-title">
       <h1 class="title-main">{{ pageTitle }}</h1>
     </div>
-    <ul class="tag-list">
+    <ul class="u-list-unstyled tag-list">
       <li v-for="(tag, index) in tagList" :key="index" class="tag-item">
         <nuxt-link :to="'/tag/' + tag.slug">{{ tag.name }}</nuxt-link>
       </li>
@@ -44,8 +44,6 @@ export default {
   display: flex;
   flex-wrap: wrap;
   margin: 0 0 2rem 0.25rem;
-  padding: 0;
-  list-style: none;
 }
 
 .tag-item {

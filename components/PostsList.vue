@@ -2,7 +2,7 @@
   <div>
     <div v-if="postsHeaders.totalpages === 0" class="c-alert is-warning">No results found.</div>
     <template v-if="postsList.length !== 0">
-      <div class="post-list">
+      <div class="u-list-unstyled post-list">
         <template v-for="(post, index) in postsList">
           <nuxt-link :to="{ path: '/' + post.slug }" :key="index" class="post-item">
             <div class="post-image">
@@ -32,7 +32,7 @@
         prev-text
         next-text
         initial-page="1"
-        container-class="pagination-container"
+        container-class="u-list-unstyled pagination-container"
         page-class="pagination-item"
         prev-class="pagination-item pagination-prev"
         next-class="pagination-item pagination-next"
@@ -135,9 +135,7 @@ export default {
 .post-list {
   display: flex;
   flex-direction: column;
-  list-style: none;
   margin: 0 0 2rem 0;
-  padding: 0;
 }
 
 .post-item {
@@ -202,8 +200,6 @@ export default {
   display: flex;
   justify-content: center;
   margin: 0 0 2rem 0;
-  padding: 0;
-  list-style: none;
 
   .pagination-item {
     &.active {

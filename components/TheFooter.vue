@@ -2,7 +2,7 @@
   <footer>
     <div class="o-container">
       <nav class="menu">
-        <ul class="menu-list">
+        <ul class="u-list-unstyled menu-list">
           <li class="menu-item">
             <nuxt-link to="/about">about</nuxt-link>
           </li>
@@ -57,9 +57,6 @@ footer {
 }
 .menu-list {
   display: inline-flex;
-  margin: 0;
-  padding: 0;
-  list-style: none;
 }
 .menu-item {
   & + & {
