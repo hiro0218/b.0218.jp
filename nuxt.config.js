@@ -59,7 +59,14 @@ module.exports = {
     '@nuxtjs/axios',
     // Doc: https://github.com/nuxt-community/dotenv-module#usage
     '@nuxtjs/dotenv',
-    ['nuxt-sass-resources-loader', ['~/assets/style/Settings/_colors.scss', '~/assets/style/Settings/_variables.scss']],
+    [
+      'nuxt-sass-resources-loader',
+      [
+        '~/assets/style/Settings/_colors.scss',
+        '~/assets/style/Settings/_variables.scss',
+        '~/assets/style/Tools/_mixins.scss',
+      ],
+    ],
   ],
   /*
    ** Axios module configuration

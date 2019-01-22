@@ -1,21 +1,43 @@
 <template>
   <nav v-if="Object.keys(pager).length !== 0" class="post-pager">
-    <ul class="u-list-unstyled pager-list">
-      <li v-if="pager.prev" class="pager-item prev">
-        <router-link :to="pager.prev.url" :title="pager.prev.title">{{ pager.prev.title }}</router-link>
-      </li>
-      <li v-if="pager.next" class="pager-item next">
-        <router-link :to="pager.next.url" :title="pager.next.title">{{ pager.next.title }}</router-link>
-      </li>
-    </ul>
+    <div class="pager-list">
+      <router-link
+        v-if="pager.prev"
+        :to="pager.prev.url"
+        :title="pager.prev.title"
+        class="pager-item prev"
+      >
+        <div class="pager-icon">
+          <svgArrowBack/>
+        </div>
+        <div class="pager-title">{{ pager.prev.title }}</div>
+      </router-link>
+      <router-link
+        v-if="pager.next"
+        :to="pager.next.url"
+        :title="pager.next.title"
+        class="pager-item next"
+      >
+        <div class="pager-icon">
+          <svgArrowForward/>
+        </div>
+        <div class="pager-title">{{ pager.next.title }}</div>
+      </router-link>
+    </div>
   </nav>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import svgArrowBack from '~/assets/image/arrow_back.svg?inline';
+import svgArrowForward from '~/assets/image/arrow_forward.svg?inline';
 
 export default {
   name: 'PostPager',
+  components: {
+    svgArrowBack,
+    svgArrowForward,
+  },
   computed: {
     ...mapState('post', {
       pager: state => state.data.attach.pager,
@@ -27,51 +49,70 @@ export default {
 <style lang="scss">
 .pager-list {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   margin: 2rem 0;
   font-size: map-get($size, sm) * 1rem;
 }
 
 .pager-item {
+  display: grid;
+  grid-column-gap: 0.5rem;
   width: 50%;
+  padding: 1rem;
+  border-radius: 0.15rem;
+  color: $oc-gray-8;
   line-height: 1.8;
   word-break: break-all;
+
+  &:hover {
+    background: $oc-gray-1;
+    opacity: 1;
+  }
 
   &:only-child {
     flex-grow: 1;
   }
 
-  &.prev,
-  &.next {
-    a::before {
-      display: block;
-      margin-bottom: 0.25rem;
-      font-weight: bold;
-      color: $oc-gray-6;
-    }
+  @include mobile {
+    width: 100%;
   }
 
   &.prev {
+    grid-template-columns: 1.5rem 1fr;
     text-align: left;
-    a::before {
+    .pager-icon {
+      grid-row-start: 1;
+      grid-column-start: 1;
+    }
+    .pager-title::before {
       content: 'Prev';
     }
   }
   &.next {
+    grid-template-columns: 1fr 1.5rem;
     text-align: right;
-    a::before {
+    .pager-icon {
+      grid-row-start: 1;
+      grid-column-start: 2;
+    }
+    .pager-title::before {
       content: 'Next';
     }
   }
 
-  a {
-    display: block;
-    height: 100%;
-    padding: 1rem;
+  .pager-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pager-title {
     color: $oc-gray-8;
-    &:hover {
-      background: $oc-gray-1;
-      opacity: 1;
+    &::before {
+      display: block;
+      font-weight: bold;
+      color: $oc-gray-6;
     }
   }
 }
