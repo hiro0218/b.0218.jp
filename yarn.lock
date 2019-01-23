@@ -4445,6 +4445,10 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   dependencies:
     minimist "0.0.8"
 
+mokuji.js@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/mokuji.js/-/mokuji.js-2.0.0.tgz#14f0403ad5a144e90a4a869db3f1337806da0e67"
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -6658,7 +6662,6 @@ supports-color@^6.1.0:
 svg-to-vue@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/svg-to-vue/-/svg-to-vue-0.3.0.tgz#03f69bac4824bf5e32069ceca15779cd74100b24"
-  integrity sha512-eb53eev1yBVIlhJzs9NoLtZUkLLlWPd9oieCq8i949ZWSajfONNgUk6giWJd+oEf+WBIMW7Oql5vKbF0DhIdEw==
   dependencies:
     svgo "^1.1.1"
     vue-template-compiler "^2.5.17"
@@ -7188,7 +7191,6 @@ vue-style-loader@^4.1.0:
 vue-svg-loader@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/vue-svg-loader/-/vue-svg-loader-0.11.0.tgz#1c1b6cbd6ef852ae1b26a2de7f63faa95a6b80c1"
-  integrity sha512-ZW8eHPgOPJLS7pkTfdnO7SO5FrqYchVPK1y5WENANDrSCDUfAamoBzAKAPNqBicrINFsFelMQfHU0BNxjC64Ew==
   dependencies:
     loader-utils "^1.1.0"
     svg-to-vue "^0.3.0"

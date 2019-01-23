@@ -34,6 +34,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import Mokuji from 'mokuji.js';
 import svgTime from '~/assets/image/time.svg?inline';
 import svgArrowRight from '~/assets/image/arrow_right.svg?inline';
 
@@ -43,10 +44,58 @@ export default {
     svgTime,
     svgArrowRight,
   },
+  data() {
+    return {
+      elMokuji: {
+        title: null,
+        content: null,
+      },
+    };
+  },
   computed: {
     ...mapState('post', {
       post: state => state.data,
     }),
+  },
+  mounted() {
+    this.initMokuji();
+  },
+  destroyed() {
+    this.toggleMokuji(false);
+  },
+  methods: {
+    initMokuji() {
+      this.elMokuji.title = document.querySelector('.mokuji-title');
+      this.elMokuji.content = document.querySelector('.mokuji-content');
+      this.appendMokuji();
+      this.toggleMokuji();
+    },
+    appendMokuji() {
+      if (!this.elMokuji.content) return;
+
+      const mokujiData = new Mokuji(document.querySelector('.post-content'), {
+        anchorType: true,
+        anchorLink: true,
+        anchorLinkSymbol: '#',
+        anchorLinkBefore: false,
+        anchorLinkClassName: 'anchor',
+      });
+
+      this.elMokuji.content.appendChild(mokujiData);
+    },
+    toggleMokuji(init = true) {
+      if (!this.elMokuji.title) return;
+
+      if (init) {
+        this.elMokuji.title.addEventListener('click', () => this.toggleMokujiContent());
+      } else {
+        this.elMokuji.title.removeEventListener('click', () => this.toggleMokujiContent());
+      }
+    },
+    toggleMokujiContent() {
+      this.elMokuji.title.classList.toggle('open');
+      this.elMokuji.content.classList.toggle('open');
+    },
   },
 };
 </script>
@@ -60,7 +109,64 @@ export default {
     justify-content: center;
   }
 }
+
 .post-content {
+  // mokuji
+  .mokuji-container {
+    margin: 2rem 0;
+  }
+  .mokuji-title {
+    display: flex;
+    align-items: center;
+    font-size: $h3-font-size;
+    cursor: pointer;
+    &::after {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      content: '';
+      background: url('~assets/image/arrow_up.svg') center / 1em 1em no-repeat;
+    }
+    &.open::after {
+      background-image: url('~assets/image/arrow_down.svg');
+    }
+  }
+  .mokuji-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+
+    &.open {
+      max-height: 100vh;
+    }
+
+    ol {
+      margin-bottom: 0;
+      padding-left: 0;
+      list-style: none;
+      list-style-position: inside;
+      counter-reset: number;
+
+      li {
+        list-style: none;
+        &::before {
+          content: counters(number, '-') '. ';
+          counter-increment: number;
+        }
+      }
+
+      ol {
+        margin-bottom: 0.5rem;
+        padding-left: 1rem;
+        list-style: none;
+      }
+    }
+
+    > ol > li > a {
+      font-weight: bold;
+    }
+  }
+
   hr {
     height: 2rem;
     margin: 2rem 0;
