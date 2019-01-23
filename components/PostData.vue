@@ -139,9 +139,6 @@ export default {
   .c-title {
     margin-bottom: 2rem;
   }
-  .c-meta-list {
-    justify-content: center;
-  }
 }
 
 .post-content {
