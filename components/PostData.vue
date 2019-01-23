@@ -113,6 +113,30 @@ export default {
 }
 
 .post-content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    position: relative;
+  }
+
+  .anchor {
+    position: absolute;
+    right: calc(100% + 0.25em);
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    border: 0;
+    color: $oc-gray-4;
+    user-select: none;
+    @include until($desktop) {
+      position: static;
+      margin-left: 0.25em;
+    }
+  }
+
   // mokuji
   .mokuji-container {
     margin: 2rem 0;
@@ -136,7 +160,7 @@ export default {
   .mokuji-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease;
+    transition: max-height 0.3s ease-in-out;
 
     &.open {
       max-height: 200vh;
