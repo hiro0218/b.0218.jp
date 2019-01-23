@@ -140,6 +140,8 @@ export default {
   // mokuji
   .mokuji-container {
     margin: 2rem 0;
+    padding: 1rem 1.5rem;
+    border-left: 0.2rem solid $oc-gray-3;
   }
   .mokuji-title {
     display: inline-flex;
