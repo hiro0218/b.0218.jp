@@ -118,7 +118,7 @@ export default {
     margin: 2rem 0;
   }
   .mokuji-title {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     font-size: $h3-font-size;
     cursor: pointer;
@@ -139,7 +139,7 @@ export default {
     transition: max-height 0.3s ease;
 
     &.open {
-      max-height: 100vh;
+      max-height: 200vh;
     }
 
     ol {
