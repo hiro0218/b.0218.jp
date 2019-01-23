@@ -34,7 +34,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import Mokuji from 'mokuji.js';
 import svgTime from '~/assets/image/time.svg?inline';
 import svgArrowRight from '~/assets/image/arrow_right.svg?inline';
 
@@ -58,13 +57,16 @@ export default {
     }),
   },
   mounted() {
-    this.initMokuji();
+    this.$nextTick(() => {
+      this.initMokuji();
+    });
   },
   destroyed() {
     this.toggleMokuji(false);
   },
   methods: {
     initMokuji() {
+      if (!process.client) return;
       this.elMokuji.title = document.querySelector('.mokuji-title');
       this.elMokuji.content = document.querySelector('.mokuji-content');
       this.appendMokuji();
@@ -73,7 +75,7 @@ export default {
     appendMokuji() {
       if (!this.elMokuji.content) return;
 
-      const mokujiData = new Mokuji(document.querySelector('.post-content'), {
+      const mokujiData = new this.$mokuji(document.querySelector('.post-content'), {
         anchorType: true,
         anchorLink: true,
         anchorLinkSymbol: '#',

@@ -49,7 +49,7 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/mixin', { src: '~/plugins/pagination', ssr: false }],
+  plugins: ['~/plugins/mixin', { src: '~/plugins/pagination', ssr: false }, { src: '~/plugins/mokuji', ssr: false }],
 
   /*
    ** Nuxt.js modules
