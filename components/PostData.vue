@@ -45,6 +45,7 @@ export default {
   },
   data() {
     return {
+      elPostContent: null,
       elMokuji: {
         title: null,
         content: null,
@@ -58,6 +59,8 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
+      this.elPostContent = document.querySelector('.post-content');
+      this.addExternalLinkIcon();
       this.initMokuji();
     });
   },
@@ -75,7 +78,7 @@ export default {
     appendMokuji() {
       if (!this.elMokuji.content) return;
 
-      const mokujiData = new this.$mokuji(document.querySelector('.post-content'), {
+      const mokujiData = new this.$mokuji(this.elPostContent, {
         anchorType: true,
         anchorLink: true,
         anchorLinkSymbol: '#',
@@ -98,6 +101,35 @@ export default {
       this.elMokuji.title.classList.toggle('open');
       this.elMokuji.content.classList.toggle('open');
     },
+    addExternalLinkIcon() {
+      const links = this.elPostContent.querySelectorAll('a');
+      if (links.length === 0) return;
+      Array.from(links, element => {
+        var href = element.getAttribute('href');
+        // exclude javascript and anchor
+        if (href.substring(0, 10).toLowerCase() === 'javascript' || href.substring(0, 1) === '#') {
+          return;
+        }
+
+        // check hostname
+        if (element.hostname === location.hostname) {
+          return;
+        }
+
+        // set target and rel
+        element.setAttribute('target', '_blank');
+        element.setAttribute('rel', 'nofollow');
+        element.setAttribute('rel', 'noopener');
+
+        // set icon when childNode is text
+        if (element.hasChildNodes()) {
+          if (element.childNodes[0].nodeType === 3) {
+            // add icon class
+            element.classList.add('is-external_link');
+          }
+        }
+      });
+    },
   },
 };
 </script>
@@ -113,6 +145,16 @@ export default {
 }
 
 .post-content {
+  .is-external_link {
+    &::after {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      content: '';
+      background: url('~assets/image/open_in_new.svg') center / 1em 1em no-repeat;
+    }
+  }
+
   h1,
   h2,
   h3,
