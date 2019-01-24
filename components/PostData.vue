@@ -61,6 +61,7 @@ export default {
     this.$nextTick(() => {
       this.elPostContent = document.querySelector('.post-content');
       this.addExternalLinkIcon();
+      this.initHighlight();
       this.initMokuji();
     });
   },
@@ -128,6 +129,11 @@ export default {
             element.classList.add('is-external_link');
           }
         }
+      });
+    },
+    initHighlight() {
+      Array.from(this.$el.querySelectorAll('pre code'), elm => {
+        this.$hljs.highlightBlock(elm);
       });
     },
   },
