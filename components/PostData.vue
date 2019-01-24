@@ -145,9 +145,14 @@ export default {
   .c-title {
     margin-bottom: 2rem;
   }
+  .c-alert {
+    margin-bottom: 1rem;
+  }
 }
 
 .post-content {
+  margin-bottom: 2rem;
+
   .is-external_link {
     &::after {
       display: inline-block;
@@ -165,6 +170,12 @@ export default {
   h5,
   h6 {
     position: relative;
+  }
+
+  h1,
+  h2,
+  h3 {
+    margin-top: 2rem;
   }
 
   .anchor {
