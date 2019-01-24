@@ -8,8 +8,12 @@
   font-size: map-get($size, sm) * 1rem;
 
   .meta-item {
-    display: flex;
+    display: inline-flex;
     align-items: center;
+  }
+
+  a {
+    color: $oc-gray-6;
   }
 
   svg {
