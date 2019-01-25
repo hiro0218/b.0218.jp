@@ -85,5 +85,8 @@ a {
   height: 100%;
   align-items: center;
   color: $oc-gray-8;
+  &:hover {
+    opacity: 0.6;
+  }
 }
 </style>

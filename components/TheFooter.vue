@@ -43,6 +43,9 @@ footer {
   color: $oc-gray-1;
   font-size: map-get($size, sm) * 1rem;
   text-align: center;
+  a:hover {
+    opacity: 0.6;
+  }
 }
 .copyright {
   small {

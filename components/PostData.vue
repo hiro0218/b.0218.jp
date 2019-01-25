@@ -127,13 +127,19 @@ export default {
 .post-content {
   margin-bottom: 2rem;
 
-  .is-external_link {
-    &::after {
-      display: inline-block;
-      width: 1em;
-      height: 1em;
-      content: '';
-      background: url('~assets/image/open_in_new.svg') center / 1em 1em no-repeat;
+  a {
+    &:hover {
+      opacity: 0.6;
+    }
+
+    &.is-external_link {
+      &::after {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        content: '';
+        background: url('~assets/image/open_in_new.svg') center / 1em 1em no-repeat;
+      }
     }
   }
 
@@ -196,6 +202,10 @@ export default {
 
     &.open {
       max-height: 200vh;
+    }
+
+    a {
+      color: $base-color;
     }
 
     ol {

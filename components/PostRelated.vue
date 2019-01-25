@@ -54,6 +54,9 @@ export default {
   a {
     display: block;
     width: 15rem;
+    &:hover {
+      opacity: 0.6;
+    }
   }
 }
 

@@ -143,11 +143,14 @@ export default {
   margin-bottom: 1rem;
   padding: 1rem;
   border-radius: 0.15rem;
-  color: $oc-gray-8;
+  color: $base-color;
 
   &:hover {
     background: $oc-gray-1;
-    opacity: 1;
+  }
+
+  &:visited {
+    color: $base-color;
   }
 }
 
@@ -218,11 +221,11 @@ export default {
       min-height: 2.5rem;
       min-width: 2.5rem;
       border-radius: 50%;
+      color: $base-color;
       font-size: map-get($size, sm) * 1rem;
 
       &:hover {
         background-color: $oc-gray-1;
-        opacity: 1;
       }
       &:focus {
         outline: none;

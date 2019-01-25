@@ -66,7 +66,6 @@ export default {
 
     &:hover {
       background-color: $oc-gray-2;
-      opacity: 1;
     }
   }
 }
