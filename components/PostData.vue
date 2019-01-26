@@ -225,7 +225,7 @@ export default {
       }
 
       ol {
-        margin-bottom: 0.5rem;
+        margin: 0.5rem 0;
         padding-left: 1rem;
         list-style: none;
       }
