@@ -182,7 +182,8 @@ export default {
   .mokuji-title {
     display: inline-flex;
     align-items: center;
-    font-size: $h3-font-size;
+    font-size: 1rem;
+    font-weight: bold;
     cursor: pointer;
     &::after {
       display: inline-block;
