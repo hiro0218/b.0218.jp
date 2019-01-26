@@ -14,11 +14,17 @@
 
   a {
     color: $oc-gray-6;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   svg {
     height: 1em;
     width: 1em;
     fill: $oc-gray-6;
+    &:first-child {
+      margin-right: 0.25em;
+    }
   }
 }
