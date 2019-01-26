@@ -15,14 +15,16 @@
     </ul>
     <ul v-if="post.hasOwnProperty('_embedded')" class="c-meta-list">
       <li v-for="(category, index) in post._embedded['wp:term'][0]" :key="index" class="meta-item">
-        <svgFolder/>
+        <svgFolder v-if="index === 0"/>
         <nuxt-link :to="'/category/' + category.slug">{{ category.name }}</nuxt-link>
+        <span v-if="index !== post._embedded['wp:term'][0].length -1">,&nbsp;</span>
       </li>
     </ul>
     <ul v-if="post.hasOwnProperty('_embedded')" class="c-meta-list">
       <li v-for="(post_tag, index) in post._embedded['wp:term'][1]" :key="index" class="meta-item">
-        <svgTag/>
+        <svgTag v-if="index === 0"/>
         <nuxt-link :to="'/tag/' + post_tag.slug">{{ post_tag.name }}</nuxt-link>
+        <span v-if="index !== post._embedded['wp:term'][1].length -1">,&nbsp;</span>
       </li>
     </ul>
   </aside>
