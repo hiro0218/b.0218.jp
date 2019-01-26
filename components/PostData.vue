@@ -158,6 +158,12 @@ export default {
     margin-top: 2rem;
   }
 
+  h4,
+  h5,
+  h6 {
+    margin-top: 1.5rem;
+  }
+
   .anchor {
     position: absolute;
     right: calc(100% + 0.25em);
