@@ -1,0 +1,29 @@
+.c-term-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 2rem 0.25rem;
+
+  .term-item {
+    margin-left: 0.25rem;
+    margin-bottom: 0.5rem;
+    flex: 1 1 auto;
+    align-items: center;
+    align-self: flex-start;
+    white-space: nowrap;
+    text-align: center;
+
+    a {
+      display: block;
+      padding: 0.5em 1em;
+      border-radius: 0.15rem;
+      line-height: 1.5;
+      background-color: $oc-gray-1;
+      color: $oc-gray-8;
+      font-size: map-get($size, sm) * 1rem;
+
+      &:hover {
+        background-color: $oc-gray-2;
+      }
+    }
+  }
+}
