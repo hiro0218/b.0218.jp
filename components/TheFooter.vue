@@ -9,12 +9,6 @@
           <li class="menu-item">
             <nuxt-link to="/archive">archive</nuxt-link>
           </li>
-          <li class="menu-item">
-            <nuxt-link to="/category">category</nuxt-link>
-          </li>
-          <li class="menu-item">
-            <nuxt-link to="/tag">tag</nuxt-link>
-          </li>
         </ul>
       </nav>
       <div class="copyright">
