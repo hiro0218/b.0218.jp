@@ -14,6 +14,11 @@ import PostMeta from '~/components/PostMeta.vue';
 
 export default {
   name: 'PostData',
+  head() {
+    return {
+      style: [{ cssText: this.post.attach.custom.style, type: 'text/css' }],
+    };
+  },
   components: {
     PostMeta,
   },
@@ -34,6 +39,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.elPostContent = document.querySelector('.post-content');
+      this.initCustomScript();
       this.addExternalLinkIcon();
       this.initHighlight();
       this.initMokuji();
@@ -43,6 +49,15 @@ export default {
     this.toggleMokuji(false);
   },
   methods: {
+    initCustomScript() {
+      if (this.post.attach.custom.script) {
+        try {
+          eval(this.post.attach.custom.script);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    },
     initMokuji() {
       if (!process.client) return;
       this.elMokuji.title = document.querySelector('.mokuji-title');
