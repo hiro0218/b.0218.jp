@@ -165,6 +165,20 @@ export default {
   h5,
   h6 {
     position: relative;
+    .anchor {
+      position: absolute;
+      right: calc(100% + 0.25em);
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      border: 0;
+      color: $oc-gray-4;
+      user-select: none;
+      @include until($desktop) {
+        position: static;
+        margin-left: 0.25em;
+      }
+    }
   }
 
   h1,
@@ -177,21 +191,6 @@ export default {
   h5,
   h6 {
     margin-top: 1.5rem;
-  }
-
-  .anchor {
-    position: absolute;
-    right: calc(100% + 0.25em);
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    border: 0;
-    color: $oc-gray-4;
-    user-select: none;
-    @include until($desktop) {
-      position: static;
-      margin-left: 0.25em;
-    }
   }
 
   // mokuji
