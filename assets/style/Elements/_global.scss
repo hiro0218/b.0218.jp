@@ -5,7 +5,7 @@ body {
   font-family: $font-family-sans-serif;
   font-size: 1rem;
   line-height: 1.5;
-  text-align: left;
+  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

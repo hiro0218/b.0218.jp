@@ -242,6 +242,18 @@ export default {
     }
   }
 
+  // sandbox
+  .sandbox {
+    position: relative;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    border: 2px solid $oc-gray-1;
+    background: #fff;
+    & + pre {
+      margin-top: -(2rem + 0.15rem) !important;
+    }
+  }
+
   hr {
     height: 2rem;
     margin: 2rem 0;
