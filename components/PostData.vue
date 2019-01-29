@@ -3,6 +3,7 @@
     <header class="c-title">
       <h1 class="title-main">{{ post.title.rendered }}</h1>
       <PostMeta/>
+      <PostShare/>
     </header>
     <div class="post-content" v-html="post.content.rendered"/>
   </article>
@@ -11,6 +12,7 @@
 <script>
 import { mapState } from 'vuex';
 import PostMeta from '~/components/PostMeta.vue';
+import PostShare from '~/components/PostShare.vue';
 
 export default {
   name: 'PostData',
@@ -21,6 +23,7 @@ export default {
   },
   components: {
     PostMeta,
+    PostShare,
   },
   data() {
     return {
@@ -132,6 +135,7 @@ export default {
 <style lang="scss">
 .post {
   .c-title {
+    position: relative;
     margin-bottom: 2rem;
   }
   .c-alert {

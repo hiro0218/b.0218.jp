@@ -1,5 +1,5 @@
 <template>
-  <aside>
+  <aside class="post-meta">
     <ul class="c-meta-list">
       <li class="meta-item">
         <svgTime/>
@@ -51,3 +51,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.post-meta {
+  // @include desktop {
+  width: calc(100% - 10rem);
+  // }
+}
+</style>
