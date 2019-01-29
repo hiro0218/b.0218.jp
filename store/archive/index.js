@@ -8,6 +8,12 @@ export const mutations = {
   },
 };
 
+export const getters = {
+  dataSize: state => {
+    return Object.keys(state.data).length;
+  },
+};
+
 export const actions = {
   setData({ commit }, data) {
     commit('setData', data);

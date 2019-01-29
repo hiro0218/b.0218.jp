@@ -34,6 +34,7 @@ export default {
     }),
   },
   async asyncData({ store, $axios, params, error }) {
+    if (store.getters['archive/dataSize'] !== 0) return;
     return await $axios
       .get('0218/v1/archive')
       .then(async res => {
