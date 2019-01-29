@@ -1,5 +1,5 @@
 <template>
-  <nav v-if="related.length !== 0" class=" post-related">
+  <nav v-if="related.length !== 0" class="post-related">
     <div class="c-title">
       <h2 class="title-main">Related Posts</h2>
     </div>
@@ -35,9 +35,13 @@ export default {
 </script>
 
 <style lang="scss">
+.post-related {
+  margin: 2rem 0;
+}
+
 .related-list {
   display: flex;
-  margin: 2rem 0;
+  margin: 1rem 0;
   white-space: nowrap;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
