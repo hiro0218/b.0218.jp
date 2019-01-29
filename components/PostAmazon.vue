@@ -46,6 +46,11 @@ export default {
   border-radius: 0.15rem;
   color: $oc-gray-8;
 
+  @include mobile {
+    flex-direction: column;
+    height: auto;
+  }
+
   &:hover {
     opacity: 0.6;
   }
@@ -56,6 +61,11 @@ export default {
   width: 15rem;
   height: 100%;
   background-color: $oc-gray-1;
+
+  @include mobile {
+    width: 100%;
+    height: 12rem;
+  }
 
   img {
     margin: auto;
