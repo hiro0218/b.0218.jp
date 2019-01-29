@@ -50,10 +50,10 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    '~/plugins/mixin',
-    { src: '~/plugins/pagination', ssr: false },
-    { src: '~/plugins/mokuji', ssr: false },
-    { src: '~/plugins/highlight', ssr: false },
+    '~/plugins/mixin.js',
+    '~/plugins/pagination.client.js',
+    '~/plugins/mokuji.client.js',
+    '~/plugins/highlight.client.js',
   ],
 
   /*
@@ -64,15 +64,17 @@ module.exports = {
     '@nuxtjs/axios',
     // Doc: https://github.com/nuxt-community/dotenv-module#usage
     '@nuxtjs/dotenv',
-    [
-      'nuxt-sass-resources-loader',
-      [
-        '~/assets/style/Settings/_colors.scss',
-        '~/assets/style/Settings/_variables.scss',
-        '~/assets/style/Tools/_mixins.scss',
-      ],
-    ],
+    '@nuxtjs/style-resources',
   ],
+
+  styleResources: {
+    sass: [
+      '~/assets/style/Settings/_colors.scss',
+      '~/assets/style/Settings/_variables.scss',
+      '~/assets/style/Tools/_mixins.scss',
+    ],
+  },
+
   /*
    ** Axios module configuration
    */
