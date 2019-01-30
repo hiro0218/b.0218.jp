@@ -197,6 +197,13 @@ export default {
     margin-top: 1.5rem;
   }
 
+  ul,
+  ol {
+    li {
+      margin-bottom: 0.625rem;
+    }
+  }
+
   // mokuji
   .mokuji-container {
     margin: 2rem 0;
