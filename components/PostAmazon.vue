@@ -88,7 +88,7 @@ export default {
   }
   .url {
     color: $oc-gray-6;
-    font-size: map-get($size, sm) * 1rem;
+    font-size: $font-size-sm;
   }
 }
 </style>

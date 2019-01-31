@@ -190,7 +190,7 @@ export default {
   .post-excerpt {
     margin-bottom: 1rem;
     color: $oc-gray-6;
-    font-size: map-get($size, sm) * 1rem;
+    font-size: $font-size-sm;
   }
 
   .c-meta-list {
@@ -222,7 +222,7 @@ export default {
       min-width: 2.5rem;
       border-radius: 50%;
       color: $base-color;
-      font-size: map-get($size, sm) * 1rem;
+      font-size: $font-size-sm;
 
       &:hover {
         background-color: $oc-gray-1;

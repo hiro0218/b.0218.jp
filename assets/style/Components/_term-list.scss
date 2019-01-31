@@ -19,7 +19,7 @@
       line-height: 1.5;
       background-color: $oc-gray-1;
       color: $oc-gray-8;
-      font-size: map-get($size, sm) * 1rem;
+      font-size: $font-size-sm;
 
       &:hover {
         background-color: $oc-gray-2;

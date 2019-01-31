@@ -35,7 +35,7 @@ footer {
   padding-top: 3rem;
   background: $oc-gray-8;
   color: $oc-gray-1;
-  font-size: map-get($size, sm) * 1rem;
+  font-size: $font-size-sm;
   text-align: center;
   a:hover {
     opacity: 0.6;

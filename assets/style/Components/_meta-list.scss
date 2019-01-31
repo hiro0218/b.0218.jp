@@ -5,7 +5,7 @@
   align-items: center;
   list-style: none;
   color: $oc-gray-6;
-  font-size: map-get($size, sm) * 1rem;
+  font-size: $font-size-sm;
 
   .meta-item {
     display: inline-flex;

@@ -87,7 +87,7 @@ export default {
 }
 
 .related-title {
-  font-size: map-get($size, sm) * 1rem;
+  font-size: $font-size-sm;
   color: $oc-gray-8;
   white-space: normal;
 }

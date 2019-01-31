@@ -57,7 +57,7 @@ export default {
   &:placeholder-shown,
   &::-webkit-input-placeholder {
     color: $oc-gray-6;
-    font-size: map-get($size, sm) * 1rem;
+    font-size: $font-size-sm;
   }
   &:focus {
     border-color: $oc-gray-1;

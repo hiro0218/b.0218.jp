@@ -44,7 +44,7 @@ blockquote {
   margin-left: 0.8rem;
   padding: 1.6rem;
   border-left: 0.25rem solid $oc-gray-3;
-  font-size: map-get($size, sm) * 1rem;
+  font-size: $font-size-sm;
   color: $oc-gray-6;
   p:last-child {
     margin-bottom: 0;

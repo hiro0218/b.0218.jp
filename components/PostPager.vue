@@ -52,7 +52,7 @@ export default {
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 2rem 0;
-  font-size: map-get($size, sm) * 1rem;
+  font-size: $font-size-sm;
 }
 
 .pager-item {
