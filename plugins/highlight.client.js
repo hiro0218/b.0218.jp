@@ -14,6 +14,7 @@ import json from 'highlight.js/lib/languages/json';
 import markdown from 'highlight.js/lib/languages/markdown';
 import php from 'highlight.js/lib/languages/php';
 import scss from 'highlight.js/lib/languages/scss';
+import shell from 'highlight.js/lib/languages/shell';
 import sql from 'highlight.js/lib/languages/sql';
 import xml from 'highlight.js/lib/languages/xml';
 
@@ -28,6 +29,7 @@ hljs.registerLanguage('json', json);
 hljs.registerLanguage('markdown', markdown);
 hljs.registerLanguage('php', php);
 hljs.registerLanguage('scss', scss);
+hljs.registerLanguage('shell', shell);
 hljs.registerLanguage('sql', sql);
 hljs.registerLanguage('xml', xml);
 
