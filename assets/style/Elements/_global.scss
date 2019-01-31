@@ -1,0 +1,33 @@
+body {
+  margin: 0;
+  padding-top: $header-height;
+  color: $base-color;
+  font-family: $font-family-sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: $oc-blue-4;
+  text-decoration: none;
+  transition: background 0.2s ease, opacity 0.2s ease;
+  &:visited {
+    color: $oc-violet-4;
+  }
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}

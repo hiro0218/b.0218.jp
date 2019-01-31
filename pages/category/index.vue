@@ -1,10 +1,11 @@
 <template>
-  <section>
-    <h1>{{ pageTitle }}</h1>
-    <ul>
-      <li v-for="(category, index) in categoryList" :key="index">
+  <section class="category-list">
+    <div class="c-title">
+      <h1 class="title-main">{{ pageTitle }}</h1>
+    </div>
+    <ul class="u-list-unstyled c-term-list">
+      <li v-for="(category, index) in categoryList" :key="index" class="term-item">
         <nuxt-link :to="'/category/' + category.slug">{{ category.name }}</nuxt-link>
-        {{ category.count }}
       </li>
     </ul>
   </section>
@@ -39,4 +40,7 @@ export default {
 </script>
 
 <style>
+.category-list {
+  margin-bottom: 2rem;
+}
 </style>

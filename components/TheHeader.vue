@@ -1,7 +1,9 @@
 <template>
-  <header>
-    <nuxt-link to="/">{{ siteName }}</nuxt-link>
-    <SearchInput />
+  <header class="header-navigation">
+    <div class="o-container header-container">
+      <nuxt-link to="/">{{ siteName }}</nuxt-link>
+      <SearchInput/>
+    </div>
   </header>
 </template>
 
@@ -13,11 +15,80 @@ export default {
   components: {
     SearchInput,
   },
+  data() {
+    return {
+      eleHeader: null,
+      headerHeight: 0,
+      classes: {
+        unpinned: 'unpin',
+      },
+      lastKnownScrollY: 0,
+      ticking: false,
+    };
+  },
   computed: {
     siteName: () => process.env.SITE_NAME,
+  },
+  mounted: function() {
+    this.eleHeader = document.querySelector('.header-navigation');
+    this.headerHeight = this.eleHeader.offsetHeight;
+    document.addEventListener('scroll', this.handleScroll, !document.documentMode ? { passive: false } : false);
+  },
+  methods: {
+    onScroll() {
+      this.ticking = false;
+      let currentScrollY = window.pageYOffset;
+      if (this.lastKnownScrollY === currentScrollY || currentScrollY < this.headerHeight) return;
+
+      if (currentScrollY < this.lastKnownScrollY) {
+        this.eleHeader.classList.remove(this.classes.unpinned);
+      } else {
+        this.eleHeader.classList.add(this.classes.unpinned);
+      }
+
+      this.lastKnownScrollY = currentScrollY;
+    },
+    handleScroll() {
+      if (!this.ticking) {
+        requestAnimationFrame(this.onScroll);
+      }
+      this.ticking = true;
+    },
   },
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.header-navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: $header-height;
+  border-bottom: 1px solid $oc-gray-3;
+  background: #fff;
+  will-change: transform;
+  transition: transform 0.25s ease;
+  z-index: 10;
+
+  &.unpin {
+    box-shadow: none;
+    transform: translateY(-$header-height);
+  }
+}
+.header-container {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+a {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  color: $oc-gray-8;
+  &:hover {
+    opacity: 0.6;
+  }
+}
 </style>

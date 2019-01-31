@@ -1,10 +1,11 @@
 <template>
-  <section>
-    <h1>{{ pageTitle }}</h1>
-    <ul>
-      <li v-for="(tag, index) in tagList" :key="index">
+  <section class="tag-list">
+    <div class="c-title">
+      <h1 class="title-main">{{ pageTitle }}</h1>
+    </div>
+    <ul class="u-list-unstyled c-term-list">
+      <li v-for="(tag, index) in tagList" :key="index" class="term-item">
         <nuxt-link :to="'/tag/' + tag.slug">{{ tag.name }}</nuxt-link>
-        {{ tag.count }}
       </li>
     </ul>
   </section>
@@ -24,7 +25,7 @@ export default {
     };
   },
   computed: {
-    pageTitle: () => 'Tag',
+    pageTitle: () => 'Tag List',
   },
   async mounted() {
     this.tagList = (await this.$axios.get('wp/v2/tags', {
@@ -39,4 +40,7 @@ export default {
 </script>
 
 <style>
+.tag-list {
+  margin-bottom: 2rem;
+}
 </style>

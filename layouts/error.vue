@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <section>
     <h1>{{ error.statusCode }}</h1>
     <p>{{ error.message }}</p>
-  </div>
+  </section>
 </template>
 
 <script>

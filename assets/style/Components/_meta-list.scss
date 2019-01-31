@@ -1,0 +1,30 @@
+.c-meta-list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  list-style: none;
+  color: $oc-gray-6;
+  font-size: $font-size-sm;
+
+  .meta-item {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  a {
+    color: $oc-gray-6;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  svg {
+    height: 1em;
+    width: 1em;
+    fill: $oc-gray-6;
+    &:first-child {
+      margin-right: 0.25em;
+    }
+  }
+}

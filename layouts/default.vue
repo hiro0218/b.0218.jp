@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <TheHeader />
-    <nuxt />
-    <TheFooter />
-  </div>
+  <main>
+    <TheHeader/>
+    <nuxt class="o-container contents"/>
+    <TheFooter/>
+  </main>
 </template>
 
 <script>
@@ -17,3 +17,16 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+main {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.contents {
+  flex: 1 0 auto;
+}
+</style>

@@ -1,0 +1,38 @@
+table {
+  margin: 2rem 0;
+  border: $table-border-width solid $table-border-color;
+  background: #fff;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 1rem;
+  border: $table-border-width solid $table-border-color;
+  border-top: $table-border-width solid $table-border-color;
+  vertical-align: top;
+}
+
+thead {
+  th {
+    border-bottom: ($table-border-width * 2) solid $table-border-color;
+    background: $table-head-bg-color;
+    vertical-align: bottom;
+  }
+  th,
+  td {
+    border-bottom-width: (2 * $table-border-width);
+  }
+}
+
+tbody {
+  tr {
+    transition: background 0.3s ease;
+    &:hover {
+      background: $table-hover-color;
+    }
+  }
+  & + & {
+    border-top: ($table-border-width * 2) solid $table-border-color;
+  }
+}

@@ -1,7 +1,12 @@
 <template>
   <section>
-    <h1>{{ pageTitle }}</h1>
-    <PostsList />
+    <div class="c-title">
+      <h1 class="title-main">
+        <template v-if="$route.query.search">search: {{ $route.query.search }}</template>
+        <template v-else>{{ pageTitle }}</template>
+      </h1>
+    </div>
+    <PostsList/>
   </section>
 </template>
 

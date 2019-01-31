@@ -1,0 +1,36 @@
+pre,
+code {
+  font-family: $font-family-monospace;
+}
+
+code {
+  overflow-wrap: break-word;
+
+  a > & {
+    color: inherit;
+  }
+}
+
+pre {
+  display: block;
+  border-radius: 0.15rem;
+  overflow: auto;
+  overflow-wrap: break-word;
+  font-size: $font-size-sm;
+  -webkit-overflow-scrolling: touch;
+
+  code {
+    font-size: inherit;
+    color: inherit;
+    word-break: normal;
+  }
+}
+
+:not(pre) > code {
+  margin: 0;
+  padding: 0.2em 0.4em;
+  border-radius: 0.15rem;
+  background: $oc-gray-1;
+  color: $oc-gray-7;
+  font-size: $font-size-sm;
+}

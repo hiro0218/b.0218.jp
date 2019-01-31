@@ -1,0 +1,25 @@
+.c-alert {
+  padding: $alert-padding-y $alert-padding-x;
+  border: 1px solid transparent;
+  border-radius: $alert-border-radius;
+  background-color: #f5f5f5;
+
+  & + .c-alert {
+    margin-top: 1rem;
+  }
+
+  @each $key, $color in $theme-colors {
+    &.is-#{$key} {
+      background-color: map-get($theme-bg, $key);
+      color: $color;
+      a {
+        color: darken($color, 15%);
+      }
+    }
+
+    &.#{$key}.is-outline {
+      border-color: $color;
+      background-color: transparent;
+    }
+  }
+}

@@ -28,7 +28,7 @@ module.exports = {
       { hid: 'og:url', property: 'og:url', content: constant.SITE_URL },
       { hid: 'og:title', property: 'og:title', content: constant.SITE_NAME },
       { hid: 'og:description', property: 'og:description', content: constant.SITE_DESCRIPTION },
-      { hid: 'og:image', property: 'og:image', content: '' },
+      { hid: 'og:image', property: 'og:image', content: 'https://b.0218.jp/hiro0218.png' },
       { name: 'twitter:site', content: '@hiro0218' },
       { name: 'twitter:creator', content: '@hiro0218' },
       { name: 'twitter:card', content: 'summary' },
@@ -39,17 +39,22 @@ module.exports = {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: '~/components/Loading.vue',
 
   /*
    ** Global CSS
    */
-  css: ['normalize.css'],
+  css: ['normalize.css', '~/assets/style/main.scss'],
 
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/mixin', { src: '~/plugins/pagination', ssr: false }],
+  plugins: [
+    '~/plugins/mixin.js',
+    '~/plugins/pagination.client.js',
+    '~/plugins/mokuji.client.js',
+    '~/plugins/highlight.client.js',
+  ],
 
   /*
    ** Nuxt.js modules
@@ -59,7 +64,17 @@ module.exports = {
     '@nuxtjs/axios',
     // Doc: https://github.com/nuxt-community/dotenv-module#usage
     '@nuxtjs/dotenv',
+    '@nuxtjs/style-resources',
   ],
+
+  styleResources: {
+    sass: [
+      '~/assets/style/Settings/_colors.scss',
+      '~/assets/style/Settings/_variables.scss',
+      '~/assets/style/Tools/_mixins.scss',
+    ],
+  },
+
   /*
    ** Axios module configuration
    */
@@ -85,7 +100,55 @@ module.exports = {
           exclude: /(node_modules)/,
         });
       }
+
+      const svgRule = config.module.rules.find(rule => rule.test.test('.svg'));
+
+      svgRule.test = /\.(png|jpe?g|gif|webp)$/;
+
+      config.module.rules.push({
+        test: /\.svg$/,
+        oneOf: [
+          {
+            resourceQuery: /inline/,
+            loader: 'vue-svg-loader',
+            options: {
+              svgo: {
+                plugins: [
+                  {
+                    removeViewBox: false,
+                  },
+                ],
+              },
+            },
+          },
+          {
+            loader: 'file-loader',
+            query: {
+              name: 'assets/[name].[hash:8].[ext]',
+            },
+          },
+        ],
+      });
     },
+
+    postcss: [
+      require('autoprefixer')({
+        grid: true,
+        cascade: false,
+      }),
+      require('postcss-flexbugs-fixes')(),
+      require('postcss-preset-env')({
+        stage: 3,
+      }),
+      require('cssnano')({
+        preset: [
+          'default',
+          {
+            autoprefixer: false,
+          },
+        ],
+      }),
+    ],
   },
 
   generate: {
