@@ -1,5 +1,5 @@
 <template>
-  <aside v-if="post_amazon !== null" class="post-amazon">
+  <aside v-if="post_amazon" class="post-amazon">
     <div class="c-title">
       <h2 class="title-main">Related Product</h2>
     </div>
