@@ -155,8 +155,14 @@ module.exports = {
     fallback: true,
     subFolders: false,
     interval: 1000,
-    routes() {
-      return route.getData();
+    async routes() {
+      return await route.getData().then(data => {
+        return data.map(post => {
+          return {
+            route: post.slug.replace('.html', ''),
+          };
+        });
+      });
     },
   },
 };

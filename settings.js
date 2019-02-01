@@ -9,39 +9,14 @@ export const constant = {
 };
 
 export const route = {
-  paramns: {
-    _fields: 'id,slug',
-    per_page: 100,
-  },
-  getData() {
-    return axios
-      .all([
-        axios.get(`${constant.ENDPOINT}wp/v2/posts`, { params: Object.assign(this.paramns, { per_page: 1000 }) }),
-        axios.get(`${constant.ENDPOINT}wp/v2/tags`, { params: this.paramns }),
-        axios.get(`${constant.ENDPOINT}wp/v2/categories`, { params: this.paramns }),
-      ])
-      .then(
-        axios.spread(function(posts, tags, categories) {
-          let post_route = [...posts.data].map(post => {
-            return {
-              route: post.slug.replace('.html', ''),
-            };
-          });
-
-          let tag_route = [...tags.data].map(tags => {
-            return {
-              route: `/tag/${tags.slug}`,
-            };
-          });
-
-          let category_route = [...categories.data].map(categories => {
-            return {
-              route: `/category/${categories.slug}`,
-            };
-          });
-
-          return [...post_route, ...tag_route, ...category_route];
-        }),
-      );
+  async getData() {
+    return await axios
+      .get(`${constant.ENDPOINT}wp/v2/posts`, {
+        params: {
+          _fields: 'id,slug',
+          per_page: 2,
+        },
+      })
+      .then(res => res.data);
   },
 };
