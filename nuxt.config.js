@@ -34,6 +34,7 @@ module.exports = {
       { name: 'twitter:creator', content: '@hiro0218' },
       { name: 'twitter:card', content: 'summary' },
     ],
+    script: [{ src: 'https://polyfill.io/v3/polyfill.min.js?flags=gated&features=default%2CIntersectionObserver' }],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 

@@ -4,10 +4,10 @@
       <h2 class="title-main">Related Posts</h2>
     </div>
     <ul class="u-list-unstyled related-list">
-      <li v-for="(post, index) in related" :key="index" class="related-item">
+      <li v-for="post in related" :key="post.id" class="related-item">
         <router-link :to="post.url">
           <div class="related-image">
-            <img v-if="post.image != ''" :src="post.image">
+            <img v-if="post.image != ''" :data-src="post.image">
             <svgPhoto v-else class="no-image"/>
           </div>
           <div class="related-title">{{ post.title }}</div>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import lozad from 'lozad';
 import { mapState } from 'vuex';
 import svgPhoto from '~/assets/image/photo.svg?inline';
 
@@ -30,6 +31,14 @@ export default {
     ...mapState('post', {
       related: state => state.data.attach.related,
     }),
+  },
+  mounted() {
+    this.$nextTick(() => {
+      const images = this.$el.querySelectorAll('[data-src]');
+      if (images.length === 0) return;
+      const observer = lozad(images);
+      observer.observe();
+    });
   },
 };
 </script>
