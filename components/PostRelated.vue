@@ -33,6 +33,7 @@ export default {
     }),
   },
   mounted() {
+    if (this.related.length === 0) return;
     this.$nextTick(() => {
       const images = this.$el.querySelectorAll('[data-src]');
       if (images.length === 0) return;
