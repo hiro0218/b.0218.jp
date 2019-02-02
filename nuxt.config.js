@@ -1,4 +1,5 @@
 import { constant, route } from './settings';
+const routeData = async () => await route.getData();
 
 module.exports = {
   env: {
@@ -65,6 +66,7 @@ module.exports = {
     // Doc: https://github.com/nuxt-community/dotenv-module#usage
     '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
+    '@nuxtjs/sitemap',
   ],
 
   styleResources: {
@@ -73,6 +75,19 @@ module.exports = {
       '~/assets/style/Settings/_variables.scss',
       '~/assets/style/Tools/_mixins.scss',
     ],
+  },
+
+  sitemap: {
+    path: '/sitemap.xml',
+    hostname: constant.SITE_URL,
+    generate: true,
+    async routes() {
+      return await routeData().then(data => {
+        return data.map(post => {
+          return post.slug;
+        });
+      });
+    },
   },
 
   /*
@@ -155,8 +170,14 @@ module.exports = {
     fallback: true,
     subFolders: false,
     interval: 1000,
-    routes() {
-      return route.getData();
+    async routes() {
+      return await routeData().then(data => {
+        return data.map(post => {
+          return {
+            route: post.slug.replace('.html', ''),
+          };
+        });
+      });
     },
   },
 };
