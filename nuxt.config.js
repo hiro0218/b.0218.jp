@@ -45,6 +45,8 @@ module.exports = {
       { rel: 'dns-prefetch', href: '//cdn.polyfill.io' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ],
+    script: [{ src: 'https://polyfill.io/v3/polyfill.min.js?flags=gated&features=default%2CIntersectionObserver' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
   /*

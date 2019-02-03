@@ -3,10 +3,10 @@
     <div v-if="postsHeaders.totalpages === 0" class="c-alert is-warning">No results found.</div>
     <template v-if="postsList.length !== 0">
       <div class="u-list-unstyled post-list">
-        <template v-for="(post, index) in postsList">
-          <nuxt-link :to="{ path: '/' + post.slug }" :key="index" class="post-item">
+        <template v-for="post in postsList">
+          <nuxt-link :to="{ path: '/' + post.slug }" :key="post.id" class="post-item">
             <div class="post-image">
-              <img v-if="post.thumbnail" :src="post.thumbnail">
+              <img v-if="post.thumbnail" :data-src="post.thumbnail">
               <svgPhoto v-else class="no-image"/>
             </div>
             <div class="post-body">
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import lozad from 'lozad';
 import { mapState } from 'vuex';
 import svgTime from '~/assets/image/time.svg?inline';
 import svgPhoto from '~/assets/image/photo.svg?inline';
@@ -104,6 +105,12 @@ export default {
         .then(res => {
           this.$store.dispatch('posts/setHeaders', res.headers);
           this.$store.dispatch('posts/setList', res.data);
+          this.$nextTick(() => {
+            const images = this.$el.querySelectorAll('[data-src]');
+            if (images.length === 0) return;
+            const observer = lozad(images);
+            observer.observe();
+          });
         });
     },
     createParams() {
