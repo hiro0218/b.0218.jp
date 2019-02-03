@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/google-analytics": "^2.0.2",
     "@nuxtjs/sitemap": "^0.2.0",
     "cross-env": "^5.2.0",
     "date-fns": "^1.30.1",
