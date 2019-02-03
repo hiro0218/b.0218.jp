@@ -79,6 +79,12 @@ module.exports = {
     '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
     '@nuxtjs/sitemap',
+    [
+      '@nuxtjs/google-analytics',
+      {
+        id: 'UA-50805440-1',
+      },
+    ],
   ],
 
   styleResources: {
