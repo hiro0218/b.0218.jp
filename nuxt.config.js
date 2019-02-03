@@ -33,7 +33,19 @@ module.exports = {
       { name: 'twitter:site', content: '@hiro0218' },
       { name: 'twitter:creator', content: '@hiro0218' },
       { name: 'twitter:card', content: 'summary' },
+      { 'http-equiv': 'x-dns-prefetch-control', content: 'on' },
     ],
+    link: [
+      { rel: 'dns-prefetch', href: '//user-images.githubusercontent.com' },
+      { rel: 'dns-prefetch', href: '//i.imgur.com' },
+      { rel: 'dns-prefetch', href: '//images-fe.ssl-images-amazon.com' },
+      { rel: 'dns-prefetch', href: '//www.googletagservices.com' },
+      { rel: 'dns-prefetch', href: '//www.google-analytics.com' },
+      { rel: 'dns-prefetch', href: '//adservice.google.com' },
+      { rel: 'dns-prefetch', href: '//cdn.polyfill.io' },
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+    ],
+    script: [{ src: 'https://polyfill.io/v3/polyfill.min.js?flags=gated&features=default%2CIntersectionObserver' }],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
@@ -135,6 +147,12 @@ module.exports = {
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
     baseURL: constant.ENDPOINT,
+  },
+
+  router: {
+    scrollBehavior: function(to, from, savedPosition) {
+      return { x: 0, y: 0 };
+    },
   },
 
   /*

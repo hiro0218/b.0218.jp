@@ -21,12 +21,12 @@ export default {
 <style lang="scss" scoped>
 main {
   display: flex;
-  min-height: 100vh;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .contents {
   flex: 1 0 auto;
+  min-height: 100vh;
 }
 </style>
