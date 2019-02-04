@@ -45,6 +45,7 @@ module.exports = {
       { rel: 'dns-prefetch', href: '//adservice.google.com' },
       { rel: 'dns-prefetch', href: '//cdn.polyfill.io' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { itemprop: 'author', href: 'https://b.0218.jp/about/' },
     ],
     script: [{ src: 'https://polyfill.io/v3/polyfill.min.js?flags=gated&features=default%2CIntersectionObserver' }],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
