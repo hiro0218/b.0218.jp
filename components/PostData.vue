@@ -5,7 +5,9 @@
       <PostMeta/>
       <PostShare/>
     </header>
+    <PostAds/>
     <div class="post-content" v-html="post.content.rendered"/>
+    <PostAds/>
   </article>
 </template>
 
@@ -13,6 +15,7 @@
 import { mapState } from 'vuex';
 import PostMeta from '~/components/PostMeta.vue';
 import PostShare from '~/components/PostShare.vue';
+import PostAds from '~/components/PostAds.vue';
 
 export default {
   name: 'PostData',
@@ -24,6 +27,7 @@ export default {
   components: {
     PostMeta,
     PostShare,
+    PostAds,
   },
   data() {
     return {

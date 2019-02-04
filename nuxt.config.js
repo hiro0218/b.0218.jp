@@ -80,6 +80,18 @@ module.exports = {
     '@nuxtjs/style-resources',
     '@nuxtjs/sitemap',
     '@nuxtjs/pwa',
+    [
+      '@nuxtjs/google-analytics',
+      {
+        id: 'UA-50805440-1',
+      },
+    ],
+    [
+      '@nuxtjs/google-adsense',
+      {
+        id: 'ca-pub-7651142413133023',
+      },
+    ],
   ],
 
   styleResources: {
