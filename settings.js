@@ -5,7 +5,7 @@ export const constant = {
   SITE_NAME: '零弐壱蜂',
   SITE_DESCRIPTION: '様々な情報をストックするサイバーメモ帳',
   SITE_URL: 'https://b.0218.jp/',
-  ENDPOINT: 'https://b.0218.jp/wp-json/',
+  ENDPOINT: 'https://content.b.0218.jp/wp-json/',
 };
 
 export const route = {
