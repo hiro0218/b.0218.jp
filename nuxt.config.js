@@ -79,6 +79,7 @@ module.exports = {
     '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
     '@nuxtjs/sitemap',
+    '@nuxtjs/pwa',
     [
       '@nuxtjs/google-analytics',
       {
@@ -112,6 +113,44 @@ module.exports = {
         });
       });
     },
+  },
+
+  workbox: {
+    dev: true,
+    runtimeCaching: [
+      {
+        urlPattern: /\/wp-json\/.+/,
+        handler: 'networkFirst',
+        options: {
+          cacheName: 'api',
+          expiration: {
+            maxAgeSeconds: 60 * 60 * 24,
+          },
+        },
+      },
+      {
+        urlPattern: /^(https?):\/\/.*\/.*\.(jpg|png|svg)/,
+        handler: 'cacheFirst',
+        options: {
+          cacheName: 'images',
+          expiration: {
+            maxAgeSeconds: 60 * 60 * 24 * 7,
+          },
+        },
+      },
+    ],
+  },
+
+  manifest: {
+    name: constant.SITE_NAME,
+    short_name: constant.SITE_NAME,
+    title: constant.SITE_NAME,
+    'og:title': constant.SITE_NAME,
+    description: constant.SITE_DESCRIPTION,
+    'og:description': constant.SITE_DESCRIPTION,
+    lang: 'ja',
+    theme_color: '#ffffff',
+    background_color: '#ffffff',
   },
 
   /*
