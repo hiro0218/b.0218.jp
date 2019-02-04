@@ -33,6 +33,7 @@ module.exports = {
       { name: 'twitter:site', content: '@hiro0218' },
       { name: 'twitter:creator', content: '@hiro0218' },
       { name: 'twitter:card', content: 'summary' },
+      { property: 'fb:app_id', content: '1042526022490602' },
       { 'http-equiv': 'x-dns-prefetch-control', content: 'on' },
     ],
     link: [
