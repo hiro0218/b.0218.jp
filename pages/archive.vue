@@ -77,5 +77,12 @@ export default {
     color: $oc-gray-6;
     letter-spacing: normal;
   }
+
+  @include mobile {
+    flex-direction: column;
+    time {
+      flex: 0;
+    }
+  }
 }
 </style>
