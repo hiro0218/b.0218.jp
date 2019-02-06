@@ -11,9 +11,9 @@
 import { mapState } from 'vuex';
 
 import PostData from '~/components/PostData.vue';
-import PostAmazon from '~/components/PostAmazon.vue';
-import PostPager from '~/components/PostPager.vue';
-import PostRelated from '~/components/PostRelated.vue';
+const PostAmazon = () => import('~/components/PostAmazon.vue');
+const PostPager = () => import('~/components/PostPager.vue');
+const PostRelated = () => import('~/components/PostRelated.vue');
 
 export default {
   name: 'Post',
@@ -70,6 +70,9 @@ export default {
       .then(async res => {
         // postsで見つからない場合はpagesを参照する
         if (res.data.length === 0) {
+          if (params.post.indexOf('.html') !== -1) {
+            params.post = params.post.replace('.html', '');
+          }
           return await $axios
             .get(`wp/v2/pages?slug=${params.post}`, {
               params: {

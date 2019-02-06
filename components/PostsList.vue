@@ -153,7 +153,7 @@ export default {
   color: $base-color;
 
   &:hover {
-    background: $oc-gray-1;
+    background: $oc-gray-0;
   }
 
   &:visited {
