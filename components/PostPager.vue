@@ -66,7 +66,7 @@ export default {
   word-break: break-all;
 
   &:hover {
-    background: $oc-gray-1;
+    background: $oc-gray-0;
   }
 
   &:only-child {
