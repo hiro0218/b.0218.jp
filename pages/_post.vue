@@ -11,9 +11,9 @@
 import { mapState } from 'vuex';
 
 import PostData from '~/components/PostData.vue';
-import PostAmazon from '~/components/PostAmazon.vue';
-import PostPager from '~/components/PostPager.vue';
-import PostRelated from '~/components/PostRelated.vue';
+const PostAmazon = () => import('~/components/PostAmazon.vue');
+const PostPager = () => import('~/components/PostPager.vue');
+const PostRelated = () => import('~/components/PostRelated.vue');
 
 export default {
   name: 'Post',

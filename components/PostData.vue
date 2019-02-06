@@ -14,8 +14,8 @@
 <script>
 import { mapState } from 'vuex';
 import PostMeta from '~/components/PostMeta.vue';
-import PostShare from '~/components/PostShare.vue';
-import PostAds from '~/components/PostAds.vue';
+const PostShare = () => import('~/components/PostShare.vue');
+const PostAds = () => import('~/components/PostAds.vue');
 
 export default {
   name: 'PostData',
