@@ -21,11 +21,15 @@ export default {
 
 <style lang="scss">
 .post-ads {
-  margin: auto;
+  margin: 1rem auto;
   max-width: 336px;
   min-height: 280px;
   @include mobile {
     min-height: 100px;
   }
+}
+
+.google-auto-placed {
+  margin: 1rem auto;
 }
 </style>

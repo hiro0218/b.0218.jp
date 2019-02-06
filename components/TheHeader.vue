@@ -18,7 +18,6 @@ export default {
   data() {
     return {
       eleHeader: null,
-      headerHeight: 0,
       classes: {
         unpinned: 'unpin',
       },
@@ -31,14 +30,13 @@ export default {
   },
   mounted: function() {
     this.eleHeader = document.querySelector('.header-navigation');
-    this.headerHeight = this.eleHeader.offsetHeight;
     document.addEventListener('scroll', this.handleScroll, !document.documentMode ? { passive: false } : false);
   },
   methods: {
     onScroll() {
       this.ticking = false;
       let currentScrollY = window.pageYOffset;
-      if (this.lastKnownScrollY === currentScrollY || currentScrollY < this.headerHeight) return;
+      if (this.lastKnownScrollY === currentScrollY || currentScrollY < 0) return;
 
       if (currentScrollY < this.lastKnownScrollY) {
         this.eleHeader.classList.remove(this.classes.unpinned);

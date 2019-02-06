@@ -33,6 +33,7 @@ module.exports = {
       { name: 'twitter:site', content: '@hiro0218' },
       { name: 'twitter:creator', content: '@hiro0218' },
       { name: 'twitter:card', content: 'summary' },
+      { property: 'fb:app_id', content: '1042526022490602' },
       { 'http-equiv': 'x-dns-prefetch-control', content: 'on' },
     ],
     link: [
@@ -44,6 +45,7 @@ module.exports = {
       { rel: 'dns-prefetch', href: '//adservice.google.com' },
       { rel: 'dns-prefetch', href: '//cdn.polyfill.io' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { itemprop: 'author', href: 'https://b.0218.jp/about/' },
     ],
     script: [{ src: 'https://polyfill.io/v3/polyfill.min.js?flags=gated&features=default%2CIntersectionObserver' }],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],

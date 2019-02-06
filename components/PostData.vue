@@ -48,6 +48,7 @@ export default {
       this.elPostContent = document.querySelector('.post-content');
       this.initCustomScript();
       this.addExternalLinkIcon();
+      this.addTableContainer();
       this.initHighlight();
       this.initMokuji();
     });
@@ -126,6 +127,19 @@ export default {
           }
         }
       });
+    },
+    addTableContainer() {
+      const tables = this.elPostContent.querySelectorAll('table');
+      if (tables.length === 0) return;
+
+      let div = document.createElement('div');
+      div.classList.add('table-container', 'u-scroll-x');
+
+      for (let i = 0; i < tables.length; i += 1) {
+        let wrapper = div.cloneNode(false);
+        tables[i].parentNode.insertBefore(wrapper, tables[i]);
+        wrapper.appendChild(tables[i]);
+      }
     },
     initHighlight() {
       Array.from(this.$el.querySelectorAll('pre code'), elm => {
