@@ -67,6 +67,12 @@ export default {
   position: absolute;
   right: 0;
   bottom: 0;
+  @include mobile {
+    position: static;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0.5rem 0;
+  }
   // @include mobile {
   //   position: fixed;
   //   bottom: 1rem;
