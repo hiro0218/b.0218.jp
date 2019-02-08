@@ -54,8 +54,8 @@ export default {
 
 <style lang="scss">
 .post-meta {
-  // @include desktop {
-  width: calc(100% - 10rem);
-  // }
+  @include desktop {
+    width: calc(100% - 10rem);
+  }
 }
 </style>

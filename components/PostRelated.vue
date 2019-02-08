@@ -3,7 +3,7 @@
     <div class="c-title">
       <h2 class="title-main">Related Posts</h2>
     </div>
-    <ul class="u-list-unstyled related-list">
+    <ul class="u-list-unstyled u-scroll-x related-list">
       <li v-for="post in related" :key="post.id" class="related-item">
         <router-link :to="post.url">
           <div class="related-image">
@@ -53,8 +53,6 @@ export default {
   display: flex;
   margin: 1rem 0;
   white-space: nowrap;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .related-item {

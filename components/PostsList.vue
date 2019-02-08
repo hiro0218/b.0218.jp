@@ -208,6 +208,7 @@ export default {
 // pagination
 .pagination-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   margin: 0 0 2rem 0;
 
@@ -215,6 +216,7 @@ export default {
     &.active {
       a {
         background: $oc-gray-2;
+        cursor: default;
         &:hover {
           background-color: $oc-gray-2;
         }
@@ -242,10 +244,16 @@ export default {
 
   .pagination-item + .pagination-item {
     margin-left: 1rem;
+    @include mobile {
+      margin-left: 0.25rem;
+    }
   }
 
   .pagination-separate {
     pointer-events: none;
+    @include mobile {
+      display: none;
+    }
   }
 
   .pagination-prev.disabled,
