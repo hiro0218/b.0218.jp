@@ -35,7 +35,7 @@ export default {
         { hid: 'og:url', property: 'og:url', content: `${process.env.SITE_URL}${this.post.slug}` },
         { hid: 'og:title', property: 'og:title', content: this.post.title.rendered },
         { hid: 'og:description', property: 'og:description', content: this.post.excerpt.rendered },
-        { hid: 'og:image', property: 'og:image', content: this.post.thumbnail },
+        { hid: 'og:image', property: 'og:image', content: this.post.thumbnail || process.env.AUTHOR_ICON },
       ],
       links: [{ rel: 'canonical', href: `${process.env.SITE_URL}${this.post.slug}` }],
       script: [
