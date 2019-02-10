@@ -77,9 +77,7 @@ module.exports = {
    */
   modules: [
     '~/modules/hook/generate',
-    // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
-    // Doc: https://github.com/nuxt-community/dotenv-module#usage
     '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
     '@nuxtjs/sitemap',
