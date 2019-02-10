@@ -23,7 +23,7 @@ export default {
 .post-ads {
   margin: 1rem auto;
   max-width: 336px;
-  min-height: 280px;
+  height: 280px;
   @include mobile {
     min-height: 100px;
   }
