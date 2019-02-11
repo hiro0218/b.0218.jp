@@ -46,10 +46,10 @@ module.exports = {
       { rel: 'dns-prefetch', href: '//adservice.google.com' },
       { rel: 'dns-prefetch', href: '//cdn.polyfill.io' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'alternate', type: 'application/rss+xml', href: 'https://content.b.0218.jp/feed/' },
       { itemprop: 'author', href: 'https://b.0218.jp/about/' },
     ],
     script: [{ src: 'https://polyfill.io/v3/polyfill.min.js?flags=gated&features=default%2CIntersectionObserver' }],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
   /*
@@ -76,10 +76,7 @@ module.exports = {
    ** Nuxt.js modules
    */
   modules: [
-    '~/modules/hook/generate',
-    // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
-    // Doc: https://github.com/nuxt-community/dotenv-module#usage
     '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
     '@nuxtjs/sitemap',
