@@ -34,8 +34,11 @@ export default {
         { hid: 'og:title', property: 'og:title', content: this.post.title.rendered },
         { hid: 'og:description', property: 'og:description', content: this.post.excerpt.rendered },
         { hid: 'og:image', property: 'og:image', content: this.post.thumbnail || process.env.AUTHOR_ICON },
+        { hid: 'og:updated_time', property: 'og:updated_time', content: this.post.modified },
+        { hid: 'article:published_time', property: 'article:published_time', content: this.post.date },
+        { hid: 'article:modified_time', property: 'article:modified_time', content: this.post.modified },
       ],
-      links: [{ rel: 'canonical', href: `${process.env.SITE_URL}${this.post.slug}` }],
+      link: [{ rel: 'canonical', href: `${process.env.SITE_URL}${this.post.slug}` }],
       script: [
         {
           type: 'application/ld+json',
