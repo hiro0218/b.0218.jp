@@ -28,8 +28,6 @@ export default {
       __dangerouslyDisableSanitizers: ['script'],
       title: this.post.title.rendered,
       meta: [
-        { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { hid: 'description', name: 'description', content: this.post.excerpt.rendered },
         { hid: 'og:type', property: 'og:type', content: 'article' },
         { hid: 'og:url', property: 'og:url', content: `${process.env.SITE_URL}${this.post.slug}` },
