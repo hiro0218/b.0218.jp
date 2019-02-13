@@ -4,6 +4,7 @@
     type="search"
     placeholder="Search"
     class="search-input"
+    aria-label="Search box"
     @keyup.enter="setKeypress"
     @keydown.enter="submitSearch"
   >
