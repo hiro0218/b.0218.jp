@@ -2,6 +2,7 @@
   <section v-if="category_id > 0">
     <div class="c-title">
       <h1 class="title-main">category: {{ category_name }}</h1>
+      <div class="title-sub">{{ category_description }}</div>
     </div>
     <PostsList :category-id="category_id" mode="categories"/>
   </section>
@@ -34,6 +35,8 @@ export default {
         },
       })
       .then(res => {
+        console.log(res.data[0]);
+        this.category_description = res.data[0].description;
         this.category_id = res.data[0].id;
         this.category_name = res.data[0].name;
       });
