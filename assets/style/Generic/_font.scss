@@ -4,7 +4,7 @@
   font-weight: normal;
   font-display: swap;
   src: local('Noto Sans CJK JP DemiLight'), local('NotoSansCJKjp-DemiLight'),
-    url('~assets/fonts/NotoSansCJKjp-DemiLight.woff2') format('woff2');
+    url('/fonts/NotoSansCJKjp-DemiLight.woff2') format('woff2');
 }
 
 @font-face {
@@ -12,5 +12,5 @@
   font-weight: bold;
   font-display: swap;
   src: local('Noto Sans CJK JP Bold'), local('NotoSansCJKjp-Bold'),
-    url('~assets/fonts/NotoSansCJKjp-Bold.woff2') format('woff2');
+    url('/fonts/NotoSansCJKjp-Bold.woff2') format('woff2');
 }
