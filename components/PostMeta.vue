@@ -38,6 +38,7 @@ import svgTag from '~/assets/image/tag.svg?inline';
 import svgArrowRight from '~/assets/image/arrow_right.svg?inline';
 
 export default {
+  name: 'PostMeta',
   components: {
     svgTime,
     svgArrowRight,
