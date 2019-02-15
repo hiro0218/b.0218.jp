@@ -231,6 +231,23 @@ module.exports = {
       });
     },
 
+    babel: {
+      presets: [
+        [
+          '@babel/preset-env',
+          {
+            modules: false,
+            useBuiltIns: 'usage',
+          },
+        ],
+      ],
+      plugins: [
+        ['@babel/plugin-transform-runtime'],
+        ['@babel/plugin-proposal-object-rest-spread'],
+        ['@babel/plugin-syntax-dynamic-import'],
+      ],
+    },
+
     postcss: [
       require('autoprefixer')({
         grid: true,

@@ -284,6 +284,13 @@
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-syntax-object-rest-spread" "^7.2.0"
 
+"@babel/plugin-proposal-object-rest-spread@^7.3.2":
+  version "7.3.2"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-object-rest-spread/-/plugin-proposal-object-rest-spread-7.3.2.tgz#6d1859882d4d778578e41f82cc5d7bf3d5daf6c1"
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0"
+    "@babel/plugin-syntax-object-rest-spread" "^7.2.0"
+
 "@babel/plugin-proposal-optional-catch-binding@^7.2.0":
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-optional-catch-binding/-/plugin-proposal-optional-catch-binding-7.2.0.tgz#135d81edb68a081e55e56ec48541ece8065c38f5"
@@ -1142,14 +1149,12 @@
 "@nuxtjs/google-analytics@^2.0.3":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@nuxtjs/google-analytics/-/google-analytics-2.0.3.tgz#a012dc8522fe9ff65a58e9f4006a9ff11f2ba600"
-  integrity sha512-wL9IgLTmXRoUw+opzh8rKOYusWbqlpvu2BWck++uda4959VyeZoG0PE5Ukg0Tnu0H1effH+e2af5li/6bfT69w==
   dependencies:
     vue-analytics "^5.16.2"
 
 "@nuxtjs/icon@3.0.0-beta.6":
   version "3.0.0-beta.6"
   resolved "https://registry.yarnpkg.com/@nuxtjs/icon/-/icon-3.0.0-beta.6.tgz#612f67ffe97c185b1813e1c7146ef51394c7ad43"
-  integrity sha512-lUIZg70nzAx1qFtrU7ybnRsVWMmJVj82nipGDBkm1d4Y+1qDFG+qkKmxGC+uroB3Z8zA9YTXb9zZqSfDb7KfnQ==
   dependencies:
     "@nuxtjs/pwa-utils" "3.0.0-beta.6"
     fs-extra "^7.0.1"
@@ -1159,7 +1164,6 @@
 "@nuxtjs/manifest@3.0.0-beta.6":
   version "3.0.0-beta.6"
   resolved "https://registry.yarnpkg.com/@nuxtjs/manifest/-/manifest-3.0.0-beta.6.tgz#8a6dc38e3ad80b2f7c4b66a9b4f90058c345fa22"
-  integrity sha512-I6obbdgLaudpb+impgwd8Se68HG47NIvE5ocreOnqdfbPFiVKWMiRMZ5rf5u5qXRNmmvVCbVnz7CgoDI2EqDlQ==
   dependencies:
     "@nuxtjs/pwa-utils" "3.0.0-beta.6"
     hash-sum "^1.0.2"
@@ -1167,7 +1171,6 @@
 "@nuxtjs/meta@3.0.0-beta.6":
   version "3.0.0-beta.6"
   resolved "https://registry.yarnpkg.com/@nuxtjs/meta/-/meta-3.0.0-beta.6.tgz#1e76c7320690f96e76fba666be8210e7f8f285b5"
-  integrity sha512-7baFtSGRa10i6X3tdXXzX4YiBpKreKXdvD1AJwaC6dmgt5ddbErj0ITTBBvXShUiTR7WneeusGcQa9rbYpY7zg==
   dependencies:
     "@nuxtjs/pwa-utils" "3.0.0-beta.6"
 
@@ -1181,12 +1184,10 @@
 "@nuxtjs/pwa-utils@3.0.0-beta.6":
   version "3.0.0-beta.6"
   resolved "https://registry.yarnpkg.com/@nuxtjs/pwa-utils/-/pwa-utils-3.0.0-beta.6.tgz#6dd0ad51d47425cac42d07e989d22a1893e170c9"
-  integrity sha512-0Fc/Va1U37/iVqVGFvv33X9obDLK0KqCb+YXLtbElst1s1qI9HgvgimHoQKr6ZMtL2VztEciTvE91ZV2lq3uOw==
 
 "@nuxtjs/pwa@^3.0.0-beta.6":
   version "3.0.0-beta.6"
   resolved "https://registry.yarnpkg.com/@nuxtjs/pwa/-/pwa-3.0.0-beta.6.tgz#ace5c5cc56847b21c9555c57a2ea490fc06d63a2"
-  integrity sha512-HU23pnverZ5yUNEgZj24a33fmYCC+n9FmMc8N7rSyLUd5w0womZKLwsufeOUua81LnS2irbCzGerpQaDMeg5Sw==
   dependencies:
     "@nuxtjs/icon" "3.0.0-beta.6"
     "@nuxtjs/manifest" "3.0.0-beta.6"
@@ -1208,7 +1209,6 @@
 "@nuxtjs/style-resources@^0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@nuxtjs/style-resources/-/style-resources-0.1.2.tgz#6d90637611d3a445158224c34e42ec5769e13aaa"
-  integrity sha512-hF4kxO3ETHnJlscBOHM/UKasMwrdlODb+y6mv9mnsyn1Ujvp7kMqOmUmhKcemDexXEzpc5eniIOOq+Nul8JAKA==
   dependencies:
     consola "^2.4.0"
     glob-all "^3.1.0"
@@ -1217,7 +1217,6 @@
 "@nuxtjs/workbox@3.0.0-beta.6":
   version "3.0.0-beta.6"
   resolved "https://registry.yarnpkg.com/@nuxtjs/workbox/-/workbox-3.0.0-beta.6.tgz#96f55e7638be17894619e953736d5201ab962b17"
-  integrity sha512-jAuVUKqRyCsyXqXjhROfp8qoGGszh1uDMwwnIBl9YdDZTvPvS/WMuTJDpZR9qYlBJ08GEmI3g+j1aKib4wzCLQ==
   dependencies:
     "@nuxtjs/pwa-utils" "3.0.0-beta.6"
 
@@ -2153,7 +2152,6 @@ chokidar@^2.0.2, chokidar@^2.0.4:
 chokidar@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.0.tgz#5fcb70d0b28ebe0867eb0f09d5f6a08f29a1efa0"
-  integrity sha512-5t6G2SH8eO6lCvYOoUpaRnF5Qfd//gd7qJAkwRUw9qlGVkiQ13uwQngqbWWaurOsaAm9+kUGbITADxt6H0XFNQ==
   dependencies:
     anymatch "^2.0.0"
     async-each "^1.0.1"
@@ -2422,7 +2420,6 @@ consola@^2.0.0-1, consola@^2.3.0, consola@^2.3.2:
 consola@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/consola/-/consola-2.4.0.tgz#d13c711cd0648a600ca68b399b739cf8f5058097"
-  integrity sha512-fy9j1unXm/bXgk6dPMnwktTJqkAPgm/s28k+wZ/O7XeVgGXDPRXu/hcE12I68iqjk63W6No1J6TQlHQQOMIVhA==
   dependencies:
     chalk "^2.4.2"
     dayjs "^1.8.3"
@@ -2819,7 +2816,6 @@ dayjs@^1.7.7:
 dayjs@^1.8.3:
   version "1.8.5"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.5.tgz#0b066770f89a20022218544989f3d23e5e8db29a"
-  integrity sha512-jo5sEFdsT43RqXxoqQVEuD7XL6iSIRxcjTgheJdlV0EHKObKP3pb9JcJEv/KStVMy25ABNQrFnplKcCit05vOA==
 
 de-indent@^1.0.2:
   version "1.0.2"
@@ -3181,7 +3177,6 @@ eslint-config-prettier@^3.1.0:
 eslint-loader@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/eslint-loader/-/eslint-loader-2.1.2.tgz#453542a1230d6ffac90e4e7cb9cadba9d851be68"
-  integrity sha512-rA9XiXEOilLYPOIInvVH5S/hYfyTPyxag6DZhoQOduM+3TkghAEQ3VcFO8VnX4J4qg/UIBzp72aOf/xvYmpmsg==
   dependencies:
     loader-fs-cache "^1.0.0"
     loader-utils "^1.0.2"
@@ -3690,7 +3685,6 @@ from2@^2.1.0:
 fs-extra@^7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-7.0.1.tgz#4f189c44aa123b895f722804f55ea23eadc348e9"
-  integrity sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==
   dependencies:
     graceful-fs "^4.1.2"
     jsonfile "^4.0.0"
@@ -4989,7 +4983,6 @@ lowercase-keys@^1.0.0:
 lozad@^1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/lozad/-/lozad-1.9.0.tgz#75e71ea9e379c744c2ad7ecc37a5858a25674595"
-  integrity sha512-JHLl59h3ESVfZEDyCeSlB3afZAIUZ6oA98hU3F6GZPRrPFWSuf6Z6zjMko+NEWpWfI7gGOMhE0d3txloLL2QiQ==
 
 lru-cache@^4.0.0, lru-cache@^4.0.1, lru-cache@^4.1.2:
   version "4.1.5"
@@ -5413,7 +5406,6 @@ node-sass@^4.11.0:
 nodemon@^1.18.10:
   version "1.18.10"
   resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-1.18.10.tgz#3ba63f64eb4c283cf3e4f75f30817e9d4f393afe"
-  integrity sha512-we51yBb1TfEvZamFchRgcfLbVYgg0xlGbyXmOtbBzDwxwgewYS/YbZ5tnlnsH51+AoSTTsT3A2E/FloUbtH8cQ==
   dependencies:
     chokidar "^2.1.0"
     debug "^3.1.0"
@@ -8067,7 +8059,6 @@ vm-browserify@0.0.4:
 vue-analytics@^5.16.2:
   version "5.16.2"
   resolved "https://registry.yarnpkg.com/vue-analytics/-/vue-analytics-5.16.2.tgz#37724aeec71bb830b1cf2d52a969cf190ef120c1"
-  integrity sha512-5JKGnVF33VHlXFREzht9z3Z11N4IA8vXNnpvYeAf72rEUyAuuU9Q9kX34bULW2CxMrahr8m06IB8+91GX0Ruag==
 
 vue-eslint-parser@^2.0.3:
   version "2.0.3"
