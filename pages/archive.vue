@@ -8,8 +8,10 @@
         <h2>{{ year }}</h2>
         <ul class="u-list-unstyled archive-list">
           <li v-for="post in posts" :key="post.id" class="archive-item">
-            <time :datetime="post.date">{{ post.date | dateToISOString }}</time>
-            <nuxt-link :to="post.link">{{ post.title }}</nuxt-link>
+            <nuxt-link :to="post.link">
+              <time :datetime="post.date">{{ post.date | dateToISOString }}</time>
+              <span>{{ post.title }}</span>
+            </nuxt-link>
           </li>
         </ul>
       </section>
@@ -65,7 +67,7 @@ export default {
 .archive-list {
   margin-bottom: 2rem;
 }
-.archive-item {
+.archive-item a {
   display: flex;
   padding: 0 1rem;
   margin-bottom: 0.5rem;
