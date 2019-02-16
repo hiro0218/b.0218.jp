@@ -248,24 +248,26 @@ module.exports = {
       ],
     },
 
-    postcss: [
-      require('autoprefixer')({
-        grid: true,
-        cascade: false,
-      }),
-      require('postcss-flexbugs-fixes')(),
-      require('postcss-preset-env')({
+    postcss: {
+      preset: {
         stage: 3,
-      }),
-      require('cssnano')({
-        preset: [
-          'default',
-          {
-            autoprefixer: false,
-          },
-        ],
-      }),
-    ],
+        autoprefixer: {
+          grid: true,
+          cascade: false,
+        },
+      },
+      plugins: {
+        'postcss-flexbugs-fixes': {},
+        cssnano: {
+          preset: [
+            'default',
+            {
+              autoprefixer: false,
+            },
+          ],
+        },
+      },
+    },
   },
 
   generate: {
