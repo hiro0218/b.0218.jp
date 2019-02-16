@@ -38,6 +38,7 @@ module.exports = {
       { 'http-equiv': 'x-dns-prefetch-control', content: 'on' },
     ],
     link: [
+      { rel: 'dns-prefetch', href: '//content.b.0218.jp' },
       { rel: 'dns-prefetch', href: '//user-images.githubusercontent.com' },
       { rel: 'dns-prefetch', href: '//i.imgur.com' },
       { rel: 'dns-prefetch', href: '//images-fe.ssl-images-amazon.com' },
