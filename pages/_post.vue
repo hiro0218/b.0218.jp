@@ -56,7 +56,7 @@ export default {
       post: state => state.data,
     }),
   },
-  async asyncData({ store, $axios, params, error, payload }) {
+  async fetch({ store, $axios, params, error, payload }) {
     // when nuxt generate
     if (process.static && params.post.indexOf('.html') === -1) {
       params.post += '.html';
