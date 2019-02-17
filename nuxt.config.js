@@ -138,9 +138,9 @@ module.exports = {
       {
         urlPattern: /\/wp-json\/.+/,
         handler: 'networkFirst',
-        options: {
+        strategyOptions: {
           cacheName: 'api',
-          expiration: {
+          cacheExpiration: {
             maxAgeSeconds: 60 * 60 * 24,
           },
         },
@@ -148,9 +148,9 @@ module.exports = {
       {
         urlPattern: /^(https?):\/\/.*\/.*\.(jpg|png|svg)/,
         handler: 'cacheFirst',
-        options: {
+        strategyOptions: {
           cacheName: 'images',
-          expiration: {
+          cacheExpiration: {
             maxAgeSeconds: 60 * 60 * 24 * 7,
           },
         },
