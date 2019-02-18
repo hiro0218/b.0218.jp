@@ -1,0 +1,11 @@
+/*.js
+  Cache-Control: public, max-age=604800
+  Expires: 604800
+
+/*.css
+  Cache-Control: public, max-age=604800
+  Expires: 604800
+
+/*.woff2
+  Cache-Control: public, max-age=31536000
+  Expires: 86400

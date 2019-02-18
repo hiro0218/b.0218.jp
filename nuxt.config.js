@@ -38,6 +38,7 @@ module.exports = {
       { 'http-equiv': 'x-dns-prefetch-control', content: 'on' },
     ],
     link: [
+      { rel: 'dns-prefetch', href: '//content.b.0218.jp' },
       { rel: 'dns-prefetch', href: '//user-images.githubusercontent.com' },
       { rel: 'dns-prefetch', href: '//i.imgur.com' },
       { rel: 'dns-prefetch', href: '//images-fe.ssl-images-amazon.com' },
@@ -137,9 +138,9 @@ module.exports = {
       {
         urlPattern: /\/wp-json\/.+/,
         handler: 'networkFirst',
-        options: {
+        strategyOptions: {
           cacheName: 'api',
-          expiration: {
+          cacheExpiration: {
             maxAgeSeconds: 60 * 60 * 24,
           },
         },
@@ -147,9 +148,9 @@ module.exports = {
       {
         urlPattern: /^(https?):\/\/.*\/.*\.(jpg|png|svg)/,
         handler: 'cacheFirst',
-        options: {
+        strategyOptions: {
           cacheName: 'images',
-          expiration: {
+          cacheExpiration: {
             maxAgeSeconds: 60 * 60 * 24 * 7,
           },
         },
@@ -248,24 +249,26 @@ module.exports = {
       ],
     },
 
-    postcss: [
-      require('autoprefixer')({
-        grid: true,
-        cascade: false,
-      }),
-      require('postcss-flexbugs-fixes')(),
-      require('postcss-preset-env')({
+    postcss: {
+      preset: {
         stage: 3,
-      }),
-      require('cssnano')({
-        preset: [
-          'default',
-          {
-            autoprefixer: false,
-          },
-        ],
-      }),
-    ],
+        autoprefixer: {
+          grid: true,
+          cascade: false,
+        },
+      },
+      plugins: {
+        'postcss-flexbugs-fixes': {},
+        cssnano: {
+          preset: [
+            'default',
+            {
+              autoprefixer: false,
+            },
+          ],
+        },
+      },
+    },
   },
 
   generate: {
