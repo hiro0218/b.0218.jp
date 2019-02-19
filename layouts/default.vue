@@ -1,7 +1,9 @@
 <template>
-  <main>
+  <main class="main-container">
     <TheHeader/>
-    <nuxt class="o-container contents"/>
+    <div class="o-container contents-container">
+      <nuxt/>
+    </div>
     <TheFooter/>
   </main>
 </template>
@@ -18,14 +20,14 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-main {
+<style>
+.main-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.contents {
+.contents-container {
   flex: 1 0 auto;
   min-height: 100vh;
 }
