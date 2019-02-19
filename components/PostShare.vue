@@ -5,6 +5,7 @@
       class="sns-item"
       title="Share Twitter"
       target="_blank"
+      rel="noopener"
     >
       <svgTwitter/>
     </a>
@@ -13,6 +14,7 @@
       class="sns-item"
       title="Share Facebook"
       target="_blank"
+      rel="noopener"
     >
       <svgFacebook/>
     </a>
@@ -21,6 +23,7 @@
       class="sns-item"
       title="Share HatenaBookmark"
       target="_blank"
+      rel="noopener"
     >
       <svgHatena/>
     </a>
@@ -29,6 +32,7 @@
       class="sns-item"
       title="Share LINE"
       target="_blank"
+      rel="noopener"
     >
       <svgLine/>
     </a>
