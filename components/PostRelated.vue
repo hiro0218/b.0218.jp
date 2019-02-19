@@ -7,7 +7,7 @@
       <li v-for="post in related" :key="post.id" class="related-item">
         <router-link :to="post.url">
           <div class="related-image">
-            <img v-if="post.image != ''" :data-src="post.image">
+            <img v-if="post.image != ''" :data-src="post.image" :alt="post.title">
             <svgPhoto v-else class="no-image"/>
           </div>
           <div class="related-title">{{ post.title }}</div>
