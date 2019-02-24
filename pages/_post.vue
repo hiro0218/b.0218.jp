@@ -68,28 +68,6 @@ export default {
           _embed: '',
         },
       })
-      .then(async res => {
-        // postsで見つからない場合はpagesを参照する
-        if (res.data.length === 0) {
-          if (params.post.indexOf('.html') !== -1) {
-            params.post = params.post.replace('.html', '');
-          }
-          return await $axios
-            .get(`wp/v2/pages?slug=${params.post}`, {
-              params: {
-                _embed: '',
-              },
-            })
-            .then(res => {
-              if (res.data.length === 0) {
-                throw { statusCode: 404, message: 'Page not found' };
-              }
-              return res;
-            });
-        }
-
-        return res;
-      })
       .then(res => {
         store.dispatch('post/setData', res.data[0]);
       })
