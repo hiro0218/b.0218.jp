@@ -1,5 +1,5 @@
 /*
-  Link: </*.woff2>; rel="preload"; as="font"; crossorigin
+  Link: </fonts/*.woff2>; rel="preload"; as="font"; crossorigin
 
 /*.js
   Cache-Control: public, max-age=604800
