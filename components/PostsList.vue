@@ -81,6 +81,14 @@ export default {
       postsHeaders: state => state.headers,
       postsList: state => state.list,
     }),
+    archiveParams: function() {
+      if (this.mode !== 'posts') {
+        return {
+          [this.mode]: this.categoryId || this.tagId,
+        };
+      }
+      return {};
+    },
   },
   watch: {
     '$route.query'(query) {
@@ -92,14 +100,13 @@ export default {
   },
   methods: {
     async fetchList(pageNumber = 1) {
-      let archiveParams = this.createParams();
       this.page = Number(pageNumber);
 
       this.$store
         .dispatch('posts/fetch', {
           page: pageNumber,
           search: this.$route.query.search,
-          archiveParams,
+          archiveParams: this.archiveParams,
         })
         .then(() => {
           this.$nextTick(() => {
@@ -109,14 +116,6 @@ export default {
             observer.observe();
           });
         });
-    },
-    createParams() {
-      if (this.mode !== 'posts') {
-        return {
-          [this.mode]: this.categoryId || this.tagId,
-        };
-      }
-      return {};
     },
     changePage(pageNumber) {
       this.$router.push({
