@@ -93,6 +93,7 @@ module.exports = {
         id: 'ca-pub-7651142413133023',
       },
     ],
+    '@nuxtjs/markdownit',
   ],
 
   styleResources: {
@@ -161,6 +162,11 @@ module.exports = {
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
     baseURL: constant.ENDPOINT,
+  },
+
+  markdownit: {
+    linkify: true,
+    breaks: true,
   },
 
   router: {
