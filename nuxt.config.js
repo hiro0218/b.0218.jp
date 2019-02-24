@@ -49,20 +49,6 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'alternate', type: 'application/rss+xml', href: 'https://content.b.0218.jp/feed/' },
       { itemprop: 'author', href: 'https://b.0218.jp/about/' },
-      {
-        rel: 'preload',
-        as: 'font',
-        crossorigin: 'crossorigin',
-        type: 'font/woff2',
-        href: '/fonts/NotoSansCJKjp-DemiLight.woff2',
-      },
-      {
-        rel: 'preload',
-        as: 'font',
-        crossorigin: 'crossorigin',
-        type: 'font/woff2',
-        href: '/fonts/NotoSansCJKjp-Bold.woff2',
-      },
     ],
   },
 
