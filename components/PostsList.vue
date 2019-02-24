@@ -167,6 +167,7 @@ export default {
   height: 5rem;
   background-color: $oc-gray-2;
   border-radius: 0.15rem;
+  overflow: hidden;
 
   img {
     width: 5rem;
@@ -189,16 +190,20 @@ export default {
   .post-title {
     margin-bottom: 0.5rem;
     font-size: 1rem;
+    font-weight: bold;
   }
 
   .post-excerpt {
     margin-bottom: 1rem;
-    color: $oc-gray-6;
+    color: $oc-gray-7;
     font-size: $font-size-sm;
+    letter-spacing: 0.02em;
+    line-height: 1.8;
   }
 
   .c-meta-list {
     justify-content: flex-end;
+    font-size: $font-size-xs;
   }
 }
 
