@@ -92,19 +92,16 @@ export default {
   },
   methods: {
     async fetchList(pageNumber = 1) {
+      let archiveParams = this.createParams();
       this.page = Number(pageNumber);
 
-      await this.$axios
-        .get('wp/v2/posts', {
-          params: {
-            page: pageNumber,
-            search: this.$route.query.search,
-            ...this.createParams(),
-          },
+      this.$store
+        .dispatch('posts/fetch', {
+          page: pageNumber,
+          search: this.$route.query.search,
+          archiveParams,
         })
-        .then(res => {
-          this.$store.dispatch('posts/setHeaders', res.headers);
-          this.$store.dispatch('posts/setList', res.data);
+        .then(() => {
           this.$nextTick(() => {
             const images = this.$el.querySelectorAll('[data-src]');
             if (images.length === 0) return;
@@ -119,6 +116,7 @@ export default {
           [this.mode]: this.categoryId || this.tagId,
         };
       }
+      return {};
     },
     changePage(pageNumber) {
       this.$router.push({
