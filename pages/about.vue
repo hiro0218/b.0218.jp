@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import about from '~/assets/page/about.md';
+import aboutData from '~/assets/page/about.md';
 
 export default {
   name: 'About',
@@ -19,9 +19,7 @@ export default {
   },
   computed: {
     pageTitle: () => 'about',
-    about() {
-      return about;
-    },
+    about: () => aboutData,
   },
 };
 </script>
