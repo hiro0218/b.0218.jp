@@ -35,7 +35,6 @@ export default {
         },
       })
       .then(res => {
-        console.log(res.data[0]);
         this.category_description = res.data[0].description;
         this.category_id = res.data[0].id;
         this.category_name = res.data[0].name;

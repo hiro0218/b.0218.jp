@@ -81,6 +81,14 @@ export default {
       postsHeaders: state => state.headers,
       postsList: state => state.list,
     }),
+    archiveParams: function() {
+      if (this.mode !== 'posts') {
+        return {
+          [this.mode]: this.categoryId || this.tagId,
+        };
+      }
+      return {};
+    },
   },
   watch: {
     '$route.query'(query) {
@@ -94,17 +102,13 @@ export default {
     async fetchList(pageNumber = 1) {
       this.page = Number(pageNumber);
 
-      await this.$axios
-        .get('wp/v2/posts', {
-          params: {
-            page: pageNumber,
-            search: this.$route.query.search,
-            ...this.createParams(),
-          },
+      this.$store
+        .dispatch('posts/fetch', {
+          page: pageNumber,
+          search: this.$route.query.search,
+          archiveParams: this.archiveParams,
         })
-        .then(res => {
-          this.$store.dispatch('posts/setHeaders', res.headers);
-          this.$store.dispatch('posts/setList', res.data);
+        .then(() => {
           this.$nextTick(() => {
             const images = this.$el.querySelectorAll('[data-src]');
             if (images.length === 0) return;
@@ -112,13 +116,6 @@ export default {
             observer.observe();
           });
         });
-    },
-    createParams() {
-      if (this.mode !== 'posts') {
-        return {
-          [this.mode]: this.categoryId || this.tagId,
-        };
-      }
     },
     changePage(pageNumber) {
       this.$router.push({
@@ -170,6 +167,7 @@ export default {
   height: 5rem;
   background-color: $oc-gray-2;
   border-radius: 0.15rem;
+  overflow: hidden;
 
   img {
     width: 5rem;
@@ -192,16 +190,20 @@ export default {
   .post-title {
     margin-bottom: 0.5rem;
     font-size: 1rem;
+    font-weight: bold;
   }
 
   .post-excerpt {
     margin-bottom: 1rem;
-    color: $oc-gray-6;
+    color: $oc-gray-7;
     font-size: $font-size-sm;
+    letter-spacing: 0.02em;
+    line-height: 1.8;
   }
 
   .c-meta-list {
     justify-content: flex-end;
+    font-size: $font-size-xs;
   }
 }
 
