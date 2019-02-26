@@ -28,8 +28,5 @@ export default {
 <style lang="scss">
 .error-container {
   text-align: center;
-  .title-main {
-    font-size: 2rem;
-  }
 }
 </style>
