@@ -1,5 +1,6 @@
 /*
-  Link: </fonts/*.woff2>; rel="preload"; as="font"; crossorigin
+  Link: </fonts/NotoSansCJKjp-Bold.woff2>; rel="preload"; as="font"; crossorigin
+  Link: </fonts/NotoSansCJKjp-DemiLight.woff2>; rel="preload"; as="font"; crossorigin
 
 /*.js
   Cache-Control: public, max-age=604800
