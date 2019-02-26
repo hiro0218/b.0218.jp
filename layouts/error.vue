@@ -9,7 +9,12 @@
 
 <script>
 export default {
-  props: ['error'], // eslint-disable-line
+  props: {
+    error: {
+      type: Object,
+      default: () => {},
+    },
+  },
 };
 </script>
 
