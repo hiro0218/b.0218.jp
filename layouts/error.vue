@@ -6,7 +6,7 @@
           お探しのページは見つかりませんでした
         </template>
         <template v-else>
-          予期せぬエラー 予期せぬエラーが発生しました
+          予期せぬエラーが発生しました
         </template>
       </h1>
       <div class="title-sub">{{ error.message }}</div>
