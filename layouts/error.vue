@@ -1,7 +1,9 @@
 <template>
-  <section>
-    <h1>{{ error.statusCode }}</h1>
-    <p>{{ error.message }}</p>
+  <section class="error-container">
+    <header class="c-title">
+      <h1 class="title-main">{{ error.statusCode }}</h1>
+      <div class="title-sub">{{ error.message }}</div>
+    </header>
   </section>
 </template>
 
@@ -10,3 +12,12 @@ export default {
   props: ['error'], // eslint-disable-line
 };
 </script>
+
+<style lang="scss">
+.error-container {
+  text-align: center;
+  .title-main {
+    font-size: 2rem;
+  }
+}
+</style>
