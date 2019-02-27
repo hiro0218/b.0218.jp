@@ -25,6 +25,18 @@ img {
   height: auto;
 }
 
+figure {
+  img {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.5rem;
+  }
+  figcaption {
+    color: $oc-gray-6;
+    text-align: center;
+  }
+}
+
 hr {
   margin-top: 1rem;
   margin-bottom: 1rem;
