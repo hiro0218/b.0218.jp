@@ -20,7 +20,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .main-container {
   display: flex;
   flex-direction: column;
@@ -29,6 +29,6 @@ export default {
 
 .contents-container {
   flex: 1 0 auto;
-  min-height: 100vh;
+  min-height: calc(100vh - #{$header-height});
 }
 </style>
