@@ -56,6 +56,9 @@ export default {
       post: state => state.data,
     }),
   },
+  validate({ params }) {
+    return params.post && /\d+.html/.test(params.post);
+  },
   async fetch({ store, $axios, params, error, payload }) {
     // when nuxt generate
     if (process.static && params.post.indexOf('.html') === -1) {
