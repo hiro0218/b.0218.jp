@@ -96,7 +96,7 @@ export default {
     },
   },
   mounted() {
-    this.fetchList(this.$route.query.page);
+    this.loadImages();
   },
   methods: {
     async fetchList(pageNumber = 1) {
@@ -109,12 +109,7 @@ export default {
           archiveParams: this.archiveParams,
         })
         .then(() => {
-          this.$nextTick(() => {
-            const images = this.$el.querySelectorAll('[data-src]');
-            if (images.length === 0) return;
-            const observer = lozad(images);
-            observer.observe();
-          });
+          this.loadImages();
         });
     },
     changePage(pageNumber) {
@@ -128,6 +123,14 @@ export default {
         top: 0,
         left: 0,
         behavior: 'smooth',
+      });
+    },
+    loadImages() {
+      this.$nextTick(() => {
+        const images = this.$el.querySelectorAll('[data-src]');
+        if (images.length === 0) return;
+        const observer = lozad(images);
+        observer.observe();
       });
     },
   },

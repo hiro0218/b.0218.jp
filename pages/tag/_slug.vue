@@ -1,9 +1,12 @@
 <template>
-  <section v-if="tag_id > 0">
-    <div class="c-title">
-      <h1 class="title-main">tag: {{ tag_name }}</h1>
-    </div>
-    <PostsList :tag-id="tag_id" mode="tags"/>
+  <section v-if="id > 0">
+    <no-ssr>
+      <div class="c-title">
+        <h1 class="title-main">tag: {{ name }}</h1>
+        <div class="title-sub">{{ description }}</div>
+      </div>
+      <PostsList :tag-id="id" mode="tags"/>
+    </no-ssr>
   </section>
 </template>
 
@@ -17,26 +20,46 @@ export default {
   },
   head() {
     return {
-      title: this.tag_name,
+      title: this.name,
     };
   },
-  data() {
-    return {
-      tag_name: '',
-      tag_id: 0,
-    };
-  },
-  async mounted() {
-    await this.$axios
+  async asyncData({ store, $axios, params, query, error }) {
+    let id = 0;
+    let name = '';
+    let description = '';
+
+    await $axios
       .get('wp/v2/tags', {
         params: {
-          slug: this.$route.params.slug,
+          slug: params.slug,
         },
       })
       .then(res => {
-        this.tag_id = res.data[0].id;
-        this.tag_name = res.data[0].name;
+        if (res.data.length === 0) {
+          error({ statusCode: 404, message: 'Page not found' });
+          return;
+        }
+
+        description = res.data[0].description;
+        id = res.data[0].id;
+        name = res.data[0].name;
+
+        return store.dispatch('posts/fetch', {
+          page: query.page,
+          archiveParams: {
+            tags: id,
+          },
+        });
+      })
+      .catch(e => {
+        error(e);
       });
+
+    return {
+      description,
+      id,
+      name,
+    };
   },
   beforeRouteLeave(to, from, next) {
     this.$store.dispatch('posts/resetList');
