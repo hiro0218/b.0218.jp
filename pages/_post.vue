@@ -57,6 +57,7 @@ export default {
     }),
   },
   validate({ params }) {
+    if (process.static) return true;
     return params.post && /\d+.html/.test(params.post);
   },
   async fetch({ store, $axios, params, error, payload }) {
