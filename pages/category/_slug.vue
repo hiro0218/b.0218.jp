@@ -1,10 +1,12 @@
 <template>
-  <section v-if="category_id > 0">
-    <div class="c-title">
-      <h1 class="title-main">category: {{ category_name }}</h1>
-      <div class="title-sub">{{ category_description }}</div>
-    </div>
-    <PostsList :category-id="category_id" mode="categories"/>
+  <section v-if="id > 0">
+    <no-ssr>
+      <div class="c-title">
+        <h1 class="title-main">category: {{ name }}</h1>
+        <div class="title-sub">{{ description }}</div>
+      </div>
+      <PostsList :category-id="id" mode="categories"/>
+    </no-ssr>
   </section>
 </template>
 
@@ -18,27 +20,46 @@ export default {
   },
   head() {
     return {
-      title: this.category_name,
+      title: this.name,
     };
   },
-  data() {
-    return {
-      category_name: '',
-      category_id: 0,
-    };
-  },
-  async mounted() {
-    await this.$axios
+  async asyncData({ store, $axios, params, query, error }) {
+    let id = 0;
+    let name = '';
+    let description = '';
+
+    await $axios
       .get('wp/v2/categories', {
         params: {
-          slug: this.$route.params.slug,
+          slug: params.slug,
         },
       })
       .then(res => {
-        this.category_description = res.data[0].description;
-        this.category_id = res.data[0].id;
-        this.category_name = res.data[0].name;
+        if (res.data.length === 0) {
+          error({ statusCode: 404, message: 'Page not found' });
+          return;
+        }
+
+        description = res.data[0].description;
+        id = res.data[0].id;
+        name = res.data[0].name;
+
+        return store.dispatch('posts/fetch', {
+          page: query.page,
+          archiveParams: {
+            categories: id,
+          },
+        });
+      })
+      .catch(e => {
+        error(e);
       });
+
+    return {
+      description,
+      id,
+      name,
+    };
   },
   beforeRouteLeave(to, from, next) {
     this.$store.dispatch('posts/resetList');

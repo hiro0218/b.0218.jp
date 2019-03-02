@@ -1,12 +1,14 @@
 <template>
   <section>
-    <div class="c-title">
-      <h1 class="title-main">
-        <template v-if="$route.query.search">search: {{ $route.query.search }}</template>
-        <template v-else>{{ pageTitle }}</template>
-      </h1>
-    </div>
-    <PostsList/>
+    <no-ssr>
+      <div class="c-title">
+        <h1 class="title-main">
+          <template v-if="$route.query.search">search: {{ $route.query.search }}</template>
+          <template v-else>{{ pageTitle }}</template>
+        </h1>
+      </div>
+      <PostsList/>
+    </no-ssr>
   </section>
 </template>
 
@@ -22,6 +24,9 @@ export default {
       title: process.env.SITE_NAME,
       titleTemplate: null,
     };
+  },
+  async fetch({ store, params, query }) {
+    return store.dispatch('posts/fetch', query);
   },
   computed: {
     pageTitle: () => 'Home',
