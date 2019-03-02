@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import lozad from 'lozad';
 import { mapState } from 'vuex';
+import lazyload from '~/assets/script/lazyload.js';
 import svgTime from '~/assets/image/time.svg?inline';
 import svgPhoto from '~/assets/image/photo.svg?inline';
 
@@ -128,9 +128,7 @@ export default {
     loadImages() {
       this.$nextTick(() => {
         const images = this.$el.querySelectorAll('[data-src]');
-        if (images.length === 0) return;
-        const observer = lozad(images);
-        observer.observe();
+        lazyload(images);
       });
     },
   },
