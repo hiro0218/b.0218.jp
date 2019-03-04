@@ -171,7 +171,11 @@ module.exports = {
 
   router: {
     scrollBehavior: function(to, from, savedPosition) {
-      return { x: 0, y: 0 };
+      if (to.hash) {
+        return { selector: to.hash.replace(/\./g, '\\\\\\.') };
+      } else {
+        return { x: 0, y: 0 };
+      }
     },
   },
 
