@@ -118,7 +118,7 @@ module.exports = {
   },
 
   workbox: {
-    offline: false,
+    offline: true,
     skipWaiting: true,
     runtimeCaching: [
       {
