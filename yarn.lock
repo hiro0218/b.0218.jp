@@ -1195,14 +1195,15 @@
     webpack-node-externals "^1.7.2"
     webpackbar "^3.1.5"
 
-"@nuxtjs/axios@^5.3.6":
-  version "5.3.6"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/axios/-/axios-5.3.6.tgz#1bad5af6e30977809cddd5248dd3b41271d1dc14"
+"@nuxtjs/axios@^5.4.1":
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/axios/-/axios-5.4.1.tgz#8dbc841e939c082271f7053edc1180bf5a441ee3"
+  integrity sha512-SvN6Ixs9d2AHdaB8PF4ZXr9azg4r3ynaomtr71+wMox3EEFfZHBQmAFz6lOY/CqbLRlJqYVDPKPvfIcSnngktw==
   dependencies:
-    "@nuxtjs/proxy" "^1.3.0"
+    "@nuxtjs/proxy" "^1.3.3"
     axios "^0.18.0"
-    axios-retry "^3.1.1"
-    consola "^1.4.4"
+    axios-retry "^3.1.2"
+    consola "^2.5.6"
 
 "@nuxtjs/dotenv@^1.3.0":
   version "1.3.0"
@@ -1220,20 +1221,22 @@
   dependencies:
     vue-analytics "^5.16.2"
 
-"@nuxtjs/icon@3.0.0-beta.8":
-  version "3.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/icon/-/icon-3.0.0-beta.8.tgz#182da020fac0b2ce5f248b6acc7538b8464b390c"
+"@nuxtjs/icon@3.0.0-beta.12":
+  version "3.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/icon/-/icon-3.0.0-beta.12.tgz#d7b48ae646ced69b4b678123f7fb237f8035e9a4"
+  integrity sha512-f7nwKg+jPlyi8JyXwGNflZK2LYOwK1FkjySTGtE14eBk02MalTBD0fqv5KCcJjtCaeaNiiraJSOJ2qGhVsOIcQ==
   dependencies:
-    "@nuxtjs/pwa-utils" "3.0.0-beta.8"
+    "@nuxtjs/pwa-utils" "3.0.0-beta.12"
     fs-extra "^7.0.1"
     hash-sum "^1.0.2"
     jimp "^0.6.0"
 
-"@nuxtjs/manifest@3.0.0-beta.8":
-  version "3.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/manifest/-/manifest-3.0.0-beta.8.tgz#9a4af8070f9be178503f61cb690bd5e3bb0282f3"
+"@nuxtjs/manifest@3.0.0-beta.12":
+  version "3.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/manifest/-/manifest-3.0.0-beta.12.tgz#d3218494edcc35d825a20a2f0b4602c95c70007e"
+  integrity sha512-qQw0f7cUwZ9GvBPmwWKdDwX1/oscmD/5Of8cn1y8ogNacFGBO7vSYmwS78lCjBom9MCw9myt53SxhdQ8QLigRA==
   dependencies:
-    "@nuxtjs/pwa-utils" "3.0.0-beta.8"
+    "@nuxtjs/pwa-utils" "3.0.0-beta.12"
     hash-sum "^1.0.2"
 
 "@nuxtjs/markdownit-loader@^1.1.1":
@@ -1251,32 +1254,35 @@
     "@nuxtjs/markdownit-loader" "^1.1.1"
     raw-loader "^1.0.0"
 
-"@nuxtjs/meta@3.0.0-beta.8":
-  version "3.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/meta/-/meta-3.0.0-beta.8.tgz#f5d8a4772bd70a5bc247e1da387141964b7545ef"
+"@nuxtjs/meta@3.0.0-beta.12":
+  version "3.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/meta/-/meta-3.0.0-beta.12.tgz#990a960958d54131d7616669c85a33e80e7bb2a0"
+  integrity sha512-mCHjAzL6feQ1dAr7LjxWBmCjNtSFPHIi2Ym4k0MLD97e5cTUC6zTICizQG5pTxTim6lmSXPtzsHFSURgglVVdg==
   dependencies:
-    "@nuxtjs/pwa-utils" "3.0.0-beta.8"
+    "@nuxtjs/pwa-utils" "3.0.0-beta.12"
 
-"@nuxtjs/proxy@^1.3.0":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/proxy/-/proxy-1.3.1.tgz#7d76179aff321491f126d6560434579a4dc7a89a"
+"@nuxtjs/proxy@^1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/proxy/-/proxy-1.3.3.tgz#3de3d9f073e8e57167168100940be2a824a220e0"
   dependencies:
-    consola "^1.4.4"
-    http-proxy-middleware "^0.19.0"
+    consola "^2.5.6"
+    http-proxy-middleware "^0.19.1"
 
-"@nuxtjs/pwa-utils@3.0.0-beta.8":
-  version "3.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/pwa-utils/-/pwa-utils-3.0.0-beta.8.tgz#b56eccce53bc0c92dfeec55296cda0cdd9aa887b"
+"@nuxtjs/pwa-utils@3.0.0-beta.12":
+  version "3.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/pwa-utils/-/pwa-utils-3.0.0-beta.12.tgz#8a60387794e91b6a00b2b91e759c70b8991ab954"
+  integrity sha512-5el8TX6kps2YBMqfcKTePikDFjUaRIRTvG+WxD5HzGRwShAAbbXphuanasr9VjtxXfkCVIG0v4mqrZ2Wv91fUA==
 
-"@nuxtjs/pwa@^3.0.0-beta.8":
-  version "3.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/pwa/-/pwa-3.0.0-beta.8.tgz#78f0770b4e366072010c30b8f53cdfa0e93d0654"
+"@nuxtjs/pwa@^3.0.0-beta.12":
+  version "3.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/pwa/-/pwa-3.0.0-beta.12.tgz#2ea55137f896687bc265e26d6dedbfd125e130c0"
+  integrity sha512-ex37k5A0nWRK6CiL1J6VzZEk4THjWuQopCv097Aif6ylKS5OytvJUOZDAgLLuTTm+D4zp9F411TYtqA4mJ4bUw==
   dependencies:
-    "@nuxtjs/icon" "3.0.0-beta.8"
-    "@nuxtjs/manifest" "3.0.0-beta.8"
-    "@nuxtjs/meta" "3.0.0-beta.8"
-    "@nuxtjs/pwa-utils" "3.0.0-beta.8"
-    "@nuxtjs/workbox" "3.0.0-beta.8"
+    "@nuxtjs/icon" "3.0.0-beta.12"
+    "@nuxtjs/manifest" "3.0.0-beta.12"
+    "@nuxtjs/meta" "3.0.0-beta.12"
+    "@nuxtjs/pwa-utils" "3.0.0-beta.12"
+    "@nuxtjs/workbox" "3.0.0-beta.12"
 
 "@nuxtjs/sitemap@^0.2.0":
   version "0.2.0"
@@ -1297,11 +1303,13 @@
     glob-all "^3.1.0"
     sass-resources-loader "^2.0.0"
 
-"@nuxtjs/workbox@3.0.0-beta.8":
-  version "3.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/workbox/-/workbox-3.0.0-beta.8.tgz#695dea70bcf46c805826e6bbe7b80d538222799a"
+"@nuxtjs/workbox@3.0.0-beta.12":
+  version "3.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/workbox/-/workbox-3.0.0-beta.12.tgz#004d9e2070f1242246f77ec920f2112b8c5c2ddc"
+  integrity sha512-HDI4VRT8x3T14SMCbeATS2ugOfb5AYF0EyX8BJO4lYlIYM3HA5D2EwOlxeKeTruUJBckrh1w+Jp1bgepBv45nQ==
   dependencies:
-    "@nuxtjs/pwa-utils" "3.0.0-beta.8"
+    "@nuxtjs/pwa-utils" "3.0.0-beta.12"
+    workbox-window "4.0.0"
 
 "@nuxtjs/youch@^4.2.3":
   version "4.2.3"
@@ -1802,7 +1810,7 @@ aws4@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.8.0.tgz#f0e003d9ca9e7f59c7a508945d7b2ef9a04a542f"
 
-axios-retry@^3.1.1:
+axios-retry@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/axios-retry/-/axios-retry-3.1.2.tgz#4f4dcbefb0b434e22b72bd5e28a027d77b8a3458"
   dependencies:
@@ -2489,15 +2497,6 @@ connect@^3.6.6:
     parseurl "~1.3.2"
     utils-merge "1.0.1"
 
-consola@^1.4.4:
-  version "1.4.5"
-  resolved "https://registry.yarnpkg.com/consola/-/consola-1.4.5.tgz#09732d07cb50af07332e54e0f42fafb92b962c4a"
-  dependencies:
-    chalk "^2.3.2"
-    figures "^2.0.0"
-    lodash "^4.17.5"
-    std-env "^1.1.0"
-
 consola@^2.0.0-1, consola@^2.3.0, consola@^2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/consola/-/consola-2.3.2.tgz#ec75dd9847fa963dc41e21bc2737ac8c962677bb"
@@ -2517,6 +2516,10 @@ consola@^2.4.0:
     figures "^2.0.0"
     std-env "^2.2.1"
     string-width "^3.0.0"
+
+consola@^2.5.6:
+  version "2.5.6"
+  resolved "https://registry.yarnpkg.com/consola/-/consola-2.5.6.tgz#5ce14dbaf6f5b589c8a258ef80ed97b752fa57d5"
 
 console-browserify@^1.1.0:
   version "1.1.0"
@@ -4221,7 +4224,7 @@ http-errors@1.6.3, http-errors@~1.6.2, http-errors@~1.6.3:
     setprototypeof "1.1.0"
     statuses ">= 1.4.0 < 2"
 
-http-proxy-middleware@^0.19.0:
+http-proxy-middleware@^0.19.1:
   version "0.19.1"
   resolved "https://registry.yarnpkg.com/http-proxy-middleware/-/http-proxy-middleware-0.19.1.tgz#183c7dc4aa1479150306498c210cdaf96080a43a"
   dependencies:
@@ -4481,7 +4484,7 @@ is-callable@^1.1.3, is-callable@^1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/is-callable/-/is-callable-1.1.4.tgz#1e1adf219e1eeb684d691f9d6a05ff0d30a24d75"
 
-is-ci@^1.0.10, is-ci@^1.1.0:
+is-ci@^1.0.10:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/is-ci/-/is-ci-1.2.1.tgz#e3779c8ee17fccf428488f6e281187f2e632841c"
   dependencies:
@@ -7797,12 +7800,6 @@ statuses@~1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.4.0.tgz#bb73d446da2796106efcc1b601a253d6c46bd087"
 
-std-env@^1.1.0:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/std-env/-/std-env-1.3.1.tgz#4e1758412439e9ece1d437b1b098551911aa44ee"
-  dependencies:
-    is-ci "^1.1.0"
-
 std-env@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/std-env/-/std-env-2.2.1.tgz#2ffa0fdc9e2263e0004c1211966e960948a40f6b"
@@ -8727,6 +8724,18 @@ wordwrap@~0.0.2:
 wordwrap@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
+
+workbox-core@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/workbox-core/-/workbox-core-4.0.0.tgz#3b4aa11c9d739361ed8916b7611abc3b6fefed8b"
+  integrity sha512-FRoOUuJBl7COTwvGO5FC9k0VyYGv/LkjVqgVwKk9MXQn/Xi+bvGDcqSVF7qfT+sJ6Ffcr/V+dVMpoZAE/X5e+g==
+
+workbox-window@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/workbox-window/-/workbox-window-4.0.0.tgz#a4d6404c96cc65d4882f79331d4e812c10f912a6"
+  integrity sha512-gdLzP/L0vu5Gi3pdUYtVNmg0yE7OriEuYZBoLt8AYoILXh6cta9WsWHKQ0/pXfmEmZywr4Dfu0qkLLvc9VlZGQ==
+  dependencies:
+    workbox-core "^4.0.0"
 
 worker-farm@^1.5.2:
   version "1.6.0"
