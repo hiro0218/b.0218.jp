@@ -1,18 +1,26 @@
 <template>
-  <input
-    v-model="searchValue"
-    type="search"
-    placeholder="Search"
-    class="search-input"
-    aria-label="Search box"
-    @keyup.enter="setKeypress"
-    @keydown.enter="submitSearch"
-  >
+  <div class="search-container">
+    <svgSearch/>
+    <input
+      v-model="searchValue"
+      type="search"
+      placeholder="Search"
+      class="search-input"
+      aria-label="Search box"
+      @keyup.enter="setKeypress"
+      @keydown.enter="submitSearch"
+    >
+  </div>
 </template>
 
 <script>
+import svgSearch from '~/assets/image/search.svg?inline';
+
 export default {
   name: 'SearchInput',
+  components: {
+    svgSearch,
+  },
   data() {
     return {
       searchValue: this.$route.query.search,
@@ -44,20 +52,36 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  svg {
+    position: absolute;
+    left: 0.5rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: $oc-gray-7;
+  }
+}
+
 .search-input {
   width: 12rem;
-  padding: 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 2rem;
   border: 1px solid transparent;
   border-radius: 0.15rem;
   outline: none;
   background: $oc-gray-1;
-  font-size: 1rem;
+  font-size: $font-size-sm;
+  line-height: 1;
   transition: background 0.1s ease;
   -webkit-appearance: none;
   -moz-appearance: none;
+
   &:placeholder-shown,
   &::-webkit-input-placeholder {
-    color: $oc-gray-6;
+    color: $oc-gray-7;
     font-size: $font-size-sm;
   }
   &:focus {
