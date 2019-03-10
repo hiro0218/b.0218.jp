@@ -254,9 +254,6 @@ export default {
 
   .pagination-separate {
     pointer-events: none;
-    @include mobile {
-      display: none;
-    }
   }
 
   .pagination-prev.disabled,
