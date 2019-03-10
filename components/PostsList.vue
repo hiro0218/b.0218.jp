@@ -6,7 +6,7 @@
         <template v-for="post in postsList">
           <nuxt-link :to="{ path: '/' + post.slug }" :key="post.id" class="post-item">
             <div class="post-image">
-              <img v-if="post.thumbnail" :data-src="post.thumbnail" :alt="post.title.rendered">
+              <img v-if="post.thumbnail" :data-src="post.thumbnail" :alt="post.title.rendered" src="~assets/image/space.gif">
               <svgPhoto v-else class="no-image"/>
             </div>
             <div class="post-body">
