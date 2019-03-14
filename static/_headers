@@ -3,13 +3,18 @@
   Link: </fonts/NotoSansCJKjp-DemiLight.woff2>; rel="preload"; as="font"; crossorigin
 
 /*.js
-  Cache-Control: public, max-age=604800
-  Expires: 604800
+  Cache-Control: public, max-age=31536000
+  Expires: 31536000
 
 /*.css
-  Cache-Control: public, max-age=604800
-  Expires: 604800
+  Cache-Control: public, max-age=31536000
+  Expires: 31536000
 
 /*.woff2
   Cache-Control: public, max-age=31536000
-  Expires: 86400
+  Expires: 31536000
+
+/*.ico
+  Cache-Control: public, max-age=31536000
+  Expires: 31536000
+  Content-Encoding: gzip, deflate, br
