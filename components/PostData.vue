@@ -3,10 +3,10 @@
     <header class="c-title">
       <h1 class="title-main">{{ post.title.rendered }}</h1>
       <PostMeta/>
-      <PostShare/>
     </header>
     <PostAds/>
     <div class="post-content" v-html="post.content.rendered"/>
+    <PostShare/>
     <PostAds/>
   </article>
 </template>
@@ -152,8 +152,7 @@ export default {
 
 <style lang="scss">
 .post {
-  .c-title {
-    position: relative;
+  > .c-title {
     margin-bottom: 2rem;
   }
   .c-alert {

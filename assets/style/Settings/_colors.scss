@@ -51,3 +51,11 @@ $theme-bg: map-merge(
   ),
   $theme-bg
 );
+
+// social
+$social-color: (
+  'twitter': #1da1f2,
+  'facebook': #4267b2,
+  'hatenabookmark': #00a4de,
+  'line': #00b900,
+);
