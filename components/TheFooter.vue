@@ -34,7 +34,7 @@ footer {
   padding-bottom: 3rem;
   padding-top: 3rem;
   background: $base-color;
-  color: $oc-gray-1;
+  color: map-get($light-color, 3);
   font-size: $font-size-sm;
   text-align: center;
   a:hover {
@@ -60,7 +60,7 @@ footer {
     margin-left: map-get($size, sm) * 1rem;
   }
   a {
-    color: $oc-gray-2;
+    color: map-get($light-color, 2);
   }
 }
 </style>

@@ -75,7 +75,7 @@ export default {
   align-items: center;
   height: 8rem;
   margin-bottom: 1rem;
-  background: $oc-gray-1;
+  background: map-get($light-color, 3);
   overflow: hidden;
 
   img {
@@ -85,7 +85,7 @@ export default {
   }
 
   .no-image {
-    fill: $oc-gray-6;
+    fill: $tertiary-color;
     width: 4rem;
     height: 4rem;
     margin: auto;

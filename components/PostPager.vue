@@ -66,7 +66,7 @@ export default {
   word-break: break-all;
 
   &:hover {
-    background: $oc-gray-0;
+    background: map-get($light-color, 4);
   }
 
   &:only-child {
@@ -114,7 +114,7 @@ export default {
     &::before {
       display: block;
       font-weight: bold;
-      color: $oc-gray-6;
+      color: $tertiary-color;
     }
   }
 }

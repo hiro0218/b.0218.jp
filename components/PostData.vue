@@ -194,7 +194,7 @@ export default {
       bottom: 0;
       margin: auto;
       border: 0;
-      color: $oc-gray-4;
+      color: map-get($light-color, 1);
       user-select: none;
       @include until($desktop) {
         position: static;
@@ -226,7 +226,7 @@ export default {
   .mokuji-container {
     margin: 2rem 0;
     padding: 1rem 1.5rem;
-    border-left: 0.2rem solid $oc-gray-3;
+    border-left: 0.2rem solid map-get($light-color, 1);
   }
   .mokuji-title {
     display: inline-flex;
@@ -290,7 +290,7 @@ export default {
     position: relative;
     margin-bottom: 2rem;
     padding: 2rem;
-    border: 2px solid $oc-gray-1;
+    border: 2px solid map-get($light-color, 3);
     background: #fff;
     & + pre {
       margin-top: -(2rem + 0.15rem) !important;
@@ -301,7 +301,7 @@ export default {
     height: 2rem;
     margin: 2rem 0;
     border: 0;
-    color: $oc-gray-6;
+    color: $tertiary-color;
     text-align: center;
 
     &::before {

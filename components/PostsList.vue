@@ -151,7 +151,7 @@ export default {
   color: $base-color;
 
   &:hover {
-    background: $oc-gray-0;
+    background: map-get($light-color, 4);
   }
 
   &:visited {
@@ -166,7 +166,7 @@ export default {
   margin-right: 1rem;
   width: 5rem;
   height: 5rem;
-  background-color: $oc-gray-2;
+  background-color: map-get($light-color, 2);
   border-radius: 0.15rem;
   overflow: hidden;
 
@@ -176,7 +176,7 @@ export default {
     object-fit: contain;
   }
   .no-image {
-    fill: $oc-gray-6;
+    fill: $tertiary-color;
     width: 2rem;
     height: 2rem;
   }
@@ -196,7 +196,7 @@ export default {
 
   .post-excerpt {
     margin-bottom: 1rem;
-    color: $oc-gray-7;
+    color: $secondary-color;
     font-size: $font-size-sm;
     letter-spacing: 0.02em;
     line-height: 1.8;
@@ -218,10 +218,10 @@ export default {
   .pagination-item {
     &.active {
       a {
-        background: $oc-gray-2;
+        background: map-get($light-color, 2);
         cursor: default;
         &:hover {
-          background-color: $oc-gray-2;
+          background-color: map-get($light-color, 2);
         }
       }
     }
@@ -237,7 +237,7 @@ export default {
       font-size: $font-size-sm;
 
       &:hover {
-        background-color: $oc-gray-1;
+        background-color: map-get($light-color, 3);
       }
       &:focus {
         outline: none;

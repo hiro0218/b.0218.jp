@@ -1,7 +1,17 @@
 @import '~open-color/open-color.scss';
 
-$base-color: $oc-gray-8;
+// base
+$base-color: $oc-gray-9;
+$secondary-color: $oc-gray-8;
+$tertiary-color: $oc-gray-7;
+$light-color: (
+  1: lighten($base-color, 73.75%),
+  2: lighten($base-color, 75%),
+  3: lighten($base-color, 81.25%),
+  4: lighten($base-color, 82.5%),
+);
 
+// color
 $plain-color: $oc-gray-5 !default;
 $primary-color: $oc-blue-4 !default;
 $success-color: $oc-lime-4 !default;

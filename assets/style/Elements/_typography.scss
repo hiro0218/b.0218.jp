@@ -43,9 +43,9 @@ blockquote {
   margin-bottom: 2rem;
   margin-left: 0.8rem;
   padding: 1.6rem;
-  border-left: 0.25rem solid $oc-gray-3;
+  border-left: 0.25rem solid map-get($light-color, 1);
   font-size: $font-size-sm;
-  color: $oc-gray-7;
+  color: $secondary-color;
   p:last-child {
     margin-bottom: 0;
   }

@@ -42,7 +42,7 @@ export default {
   display: flex;
   align-items: center;
   height: 8rem;
-  border: 1px solid $oc-gray-1;
+  border: 1px solid map-get($light-color, 3);
   border-radius: 0.15rem;
   color: $base-color;
 
@@ -60,7 +60,7 @@ export default {
   display: flex;
   width: 15rem;
   height: 100%;
-  background-color: $oc-gray-1;
+  background-color: map-get($light-color, 3);
 
   @include mobile {
     width: 100%;
@@ -87,7 +87,7 @@ export default {
     margin-bottom: 0.25rem;
   }
   .url {
-    color: $oc-gray-6;
+    color: $tertiary-color;
     font-size: $font-size-sm;
   }
 }

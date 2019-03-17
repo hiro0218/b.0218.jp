@@ -62,7 +62,7 @@ export default {
     left: 0.5rem;
     width: 1.25rem;
     height: 1.25rem;
-    fill: $oc-gray-7;
+    fill: $secondary-color;
   }
 }
 
@@ -72,7 +72,7 @@ export default {
   border: 1px solid transparent;
   border-radius: 0.15rem;
   outline: none;
-  background: $oc-gray-1;
+  background: map-get($light-color, 3);
   font-size: $font-size-sm;
   line-height: 1;
   transition: background 0.1s ease;
@@ -81,11 +81,11 @@ export default {
 
   &:placeholder-shown,
   &::-webkit-input-placeholder {
-    color: $oc-gray-7;
+    color: $secondary-color;
     font-size: $font-size-sm;
   }
   &:focus {
-    border-color: $oc-gray-1;
+    border-color: map-get($light-color, 3);
     background: transparent;
   }
 }
