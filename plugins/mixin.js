@@ -6,8 +6,8 @@ import ja from 'date-fns/locale/ja';
 
 Vue.mixin({
   filters: {
-    dateToISOString: date => {
-      return format(parse(date), 'YYYY/MM/DD HH:mm', {
+    dateToISOString: (date, strFormat = 'YYYY/MM/DD') => {
+      return format(parse(date), strFormat, {
         locale: ja,
       });
     },
