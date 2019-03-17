@@ -139,12 +139,13 @@ export default {
 // postlist
 .post-list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   margin: 0 0 2rem 0;
 }
 
 .post-item {
   display: flex;
+  width: 50%;
   margin-bottom: 1rem;
   padding: 1rem;
   border-radius: 0.15rem;
