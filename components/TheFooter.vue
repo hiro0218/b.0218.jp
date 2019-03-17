@@ -33,12 +33,12 @@ export default {
 footer {
   padding-bottom: 3rem;
   padding-top: 3rem;
-  background: $base-color;
+  background: $secondary-color;
   color: map-get($light-color, 3);
   font-size: $font-size-sm;
   text-align: center;
   a:hover {
-    opacity: 0.6;
+    text-decoration: underline;
   }
 }
 .copyright {
