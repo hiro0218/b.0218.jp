@@ -151,8 +151,12 @@ export default {
   border-radius: 0.15rem;
   color: $base-color;
 
+  @include mobile {
+    width: 100%;
+  }
+
   &:hover {
-    background: map-get($light-color, 4);
+    opacity: 0.6;
   }
 
   &:visited {
@@ -196,6 +200,7 @@ export default {
   }
 
   .post-excerpt {
+    flex: 1;
     margin-bottom: 1rem;
     color: $secondary-color;
     font-size: $font-size-sm;
