@@ -94,7 +94,7 @@ export default {
 
 .related-title {
   font-size: $font-size-sm;
-  color: $oc-gray-8;
+  color: $base-color;
   white-space: normal;
 }
 </style>

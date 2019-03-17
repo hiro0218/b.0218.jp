@@ -33,7 +33,7 @@ export default {
 footer {
   padding-bottom: 3rem;
   padding-top: 3rem;
-  background: $oc-gray-8;
+  background: $base-color;
   color: $oc-gray-1;
   font-size: $font-size-sm;
   text-align: center;

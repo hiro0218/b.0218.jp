@@ -44,7 +44,7 @@ export default {
   height: 8rem;
   border: 1px solid $oc-gray-1;
   border-radius: 0.15rem;
-  color: $oc-gray-8;
+  color: $base-color;
 
   @include mobile {
     flex-direction: column;

@@ -84,7 +84,7 @@ a {
   display: flex;
   height: 100%;
   align-items: center;
-  color: $oc-gray-8;
+  color: $base-color;
   &:hover {
     opacity: 0.6;
   }

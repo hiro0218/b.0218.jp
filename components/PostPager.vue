@@ -61,7 +61,7 @@ export default {
   width: 50%;
   padding: 1rem;
   border-radius: 0.15rem;
-  color: $oc-gray-8;
+  color: $base-color;
   line-height: 1.8;
   word-break: break-all;
 
@@ -105,12 +105,12 @@ export default {
     align-items: center;
     justify-content: center;
     svg {
-      fill: $oc-gray-8;
+      fill: $base-color;
     }
   }
 
   .pager-title {
-    color: $oc-gray-8;
+    color: $base-color;
     &::before {
       display: block;
       font-weight: bold;
