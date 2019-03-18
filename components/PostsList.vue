@@ -197,6 +197,7 @@ export default {
     margin-bottom: 0.5rem;
     font-size: 1rem;
     font-weight: bold;
+    line-height: 1.8;
   }
 
   .post-excerpt {
