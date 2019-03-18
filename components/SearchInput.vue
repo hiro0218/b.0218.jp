@@ -87,6 +87,9 @@ export default {
   &:focus {
     border-color: map-get($light-color, 3);
     background: transparent;
+    &::placeholder {
+      color: transparent;
+    }
   }
 }
 </style>
