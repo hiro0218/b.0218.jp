@@ -1,7 +1,7 @@
 <template>
   <header class="header-navigation">
     <div class="o-container header-container">
-      <nuxt-link to="/">{{ siteName }}</nuxt-link>
+      <nuxt-link :title="siteName" to="/" class="logo"><svgLogo/></nuxt-link>
       <SearchInput/>
     </div>
   </header>
@@ -9,11 +9,13 @@
 
 <script>
 import SearchInput from '~/components/SearchInput.vue';
+import svgLogo from '~/assets/image/logo.svg?inline';
 
 export default {
   name: 'TheHeader',
   components: {
     SearchInput,
+    svgLogo,
   },
   data() {
     return {
@@ -87,6 +89,11 @@ a {
   color: $base-color;
   &:hover {
     opacity: 0.6;
+  }
+  svg {
+    width: 5rem;
+    height: 100%;
+    fill: $secondary-color;
   }
 }
 </style>
