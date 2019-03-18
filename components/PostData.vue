@@ -152,8 +152,16 @@ export default {
 
 <style lang="scss">
 .post {
+  max-width: $tablet;
+  margin-right: auto;
+  margin-left: auto;
+
   > .c-title {
-    margin-bottom: 2rem;
+    margin-bottom: 4rem;
+    .title-main {
+      margin-bottom: 0.5em;
+      font-size: 2rem;
+    }
   }
   .c-alert {
     margin-bottom: 1rem;
@@ -205,13 +213,13 @@ export default {
   h1,
   h2,
   h3 {
-    margin-top: 2rem;
+    margin-top: 3em;
   }
 
   h4,
   h5,
   h6 {
-    margin-top: 1.5rem;
+    margin-top: 2.5em;
   }
 
   ul,
