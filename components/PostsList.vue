@@ -224,10 +224,12 @@ export default {
   .pagination-item {
     &.active {
       a {
-        background: map-get($light-color, 2);
+        background: $tertiary-color;
+        color: #fff;
         cursor: default;
         &:hover {
-          background-color: map-get($light-color, 2);
+          background: $base-color;
+          color: #fff;
         }
       }
     }
@@ -243,7 +245,7 @@ export default {
       font-size: $font-size-sm;
 
       &:hover {
-        background-color: map-get($light-color, 3);
+        background-color: map-get($light-color, 2);
       }
       &:focus {
         outline: none;
