@@ -233,14 +233,21 @@ export default {
   .mokuji-container {
     margin: 2rem 0;
     padding: 1rem 1.5rem;
-    border-left: 0.2rem solid map-get($light-color, 1);
+    border-radius: 0.15rem;
+    background: map-get($light-color, 4);
+    color: $secondary-color;
+    font-size: $font-size-sm;
   }
+
   .mokuji-title {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    font-size: 1rem;
+    justify-content: center;
+    font-size: $font-size-lg;
     font-weight: bold;
+    line-height: 1;
     cursor: pointer;
+
     &::after {
       display: inline-block;
       width: 1em;
@@ -262,7 +269,7 @@ export default {
     }
 
     a {
-      color: $base-color;
+      color: inherit;
     }
 
     ol {
@@ -282,7 +289,7 @@ export default {
 
       ol {
         margin: 0.5rem 0;
-        padding-left: 1rem;
+        padding-left: 1.25em;
         list-style: none;
       }
     }
