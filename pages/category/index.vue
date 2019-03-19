@@ -39,7 +39,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.c-title {
+  text-align: center;
+}
+
 .category-list {
   margin-bottom: 2rem;
 }
