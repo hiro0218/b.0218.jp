@@ -192,6 +192,7 @@ export default {
   flex: 1;
   flex-direction: column;
   justify-content: space-between;
+  font-size: $font-size-sm;
 
   .post-title {
     margin-bottom: 0.5rem;
@@ -204,14 +205,13 @@ export default {
     flex: 1;
     margin-bottom: 1rem;
     color: $secondary-color;
-    font-size: $font-size-sm;
     letter-spacing: 0.02em;
     line-height: 1.8;
   }
 
   .c-meta-list {
     justify-content: flex-end;
-    font-size: $font-size-xs;
+    line-height: 1;
   }
 }
 
