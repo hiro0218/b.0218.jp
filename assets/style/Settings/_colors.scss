@@ -5,6 +5,7 @@ $base-color: $oc-gray-9;
 $secondary-color: lighten($base-color, 8%);
 $tertiary-color: lighten($base-color, 16%);
 $light-color: (
+  0: lighten($base-color, 68%),
   1: lighten($base-color, 73.75%),
   2: lighten($base-color, 75%),
   3: lighten($base-color, 81.25%),
