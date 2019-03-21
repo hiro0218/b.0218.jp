@@ -39,15 +39,40 @@ p {
 }
 
 blockquote {
-  width: 100%;
-  margin-bottom: 2rem;
-  margin-left: 0.8rem;
-  padding: 1.6rem;
-  border-left: 0.25rem solid map-get($light-color, 1);
-  font-size: $font-size-sm;
+  position: relative;
+  margin: 2rem 0;
+  padding: 3rem;
+  background: map-get($light-color, 4);
   color: $secondary-color;
-  p:last-child {
-    margin-bottom: 0;
+  font-size: $font-size-sm;
+
+  &::before,
+  &::after {
+    position: absolute;
+    display: block;
+    font-size: 2.5rem;
+    width: 3rem;
+    height: 3rem;
+    color: map-get($light-color, 0);
+    font-weight: bold;
+    text-align: center;
+  }
+
+  &::before {
+    content: "“";
+    top: 0;
+    left: 0;
+  }
+  &::after {
+    content: "”";
+    right: 0;
+    bottom: 0;
+  }
+
+  p {
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 
