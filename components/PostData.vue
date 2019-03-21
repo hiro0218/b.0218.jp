@@ -172,11 +172,14 @@ export default {
   margin-bottom: 2rem;
 
   a {
+    text-decoration: underline;
     &:hover {
       opacity: 0.6;
     }
 
     &.is-external_link {
+      display: inline-flex;
+      align-items: center;
       &::after {
         display: inline-block;
         width: 1em;
@@ -202,6 +205,7 @@ export default {
       margin: auto;
       border: 0;
       color: map-get($light-color, 1);
+      text-decoration: none;
       user-select: none;
       @include until($desktop) {
         position: static;

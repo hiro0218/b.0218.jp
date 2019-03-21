@@ -11,11 +11,11 @@ body {
 }
 
 a {
-  color: $oc-blue-4;
+  color: $base-color;
   text-decoration: none;
   transition: background 0.2s ease, opacity 0.2s ease;
   &:visited {
-    color: $oc-violet-4;
+    color: $secondary-color;
   }
 }
 
