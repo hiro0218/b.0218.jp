@@ -152,10 +152,6 @@ export default {
 
 <style lang="scss">
 .post {
-  max-width: $tablet;
-  margin-right: auto;
-  margin-left: auto;
-
   > .c-title {
     margin-bottom: 4rem;
     .title-main {
