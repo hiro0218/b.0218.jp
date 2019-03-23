@@ -47,11 +47,14 @@ export default {
 </script>
 
 <style lang="scss">
+.post-pager {
+  margin: 2rem 0;
+}
+
 .pager-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 2rem 0;
   font-size: $font-size-sm;
 }
 
@@ -66,7 +69,7 @@ export default {
   word-break: break-all;
 
   &:hover {
-    background: map-get($light-color, 4);
+    opacity: 0.6;
   }
 
   &:only-child {
