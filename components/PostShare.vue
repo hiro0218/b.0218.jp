@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="post-share">
     <div class="c-title">
       <h2 class="title-main">Share</h2>
     </div>
@@ -71,8 +71,19 @@ export default {
 </script>
 
 <style lang="scss">
+.post-share {
+  margin: 2rem 0;
+  text-align: center;
+  .c-title {
+    .title-main {
+      font-size: $font-size-lg;
+    }
+  }
+}
+
 .sns-list {
   display: flex;
+  justify-content: center;
 }
 
 .sns-item {
