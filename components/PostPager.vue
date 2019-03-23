@@ -62,7 +62,7 @@ export default {
   display: grid;
   grid-column-gap: 0.5rem;
   width: 50%;
-  padding: 1rem;
+  padding: 1rem 0;
   border-radius: 0.15rem;
   color: $base-color;
   line-height: 1.8;
