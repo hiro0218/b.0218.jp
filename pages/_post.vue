@@ -153,12 +153,12 @@ export default {
       return JSON.stringify(structure);
     },
   },
-  beforeRouteLeave(to, from, next) {
-    if (to.path !== from.path) {
-      this.$store.dispatch('post/restData');
-    }
-    next();
-  },
+  // beforeRouteLeave(to, from, next) {
+  //   if (to.path !== from.path) {
+  //     this.$store.dispatch('post/restData');
+  //   }
+  //   next();
+  // },
 };
 </script>
 

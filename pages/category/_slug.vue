@@ -61,9 +61,9 @@ export default {
       name,
     };
   },
-  beforeRouteLeave(to, from, next) {
-    this.$store.dispatch('posts/resetList');
-    next();
-  },
+  // beforeRouteLeave(to, from, next) {
+  //   this.$store.dispatch('posts/resetList');
+  //   next();
+  // },
 };
 </script>

@@ -31,9 +31,9 @@ export default {
   computed: {
     pageTitle: () => 'Home',
   },
-  beforeRouteLeave(to, from, next) {
-    this.$store.dispatch('posts/resetList');
-    next();
-  },
+  // beforeRouteLeave(to, from, next) {
+  //   this.$store.dispatch('posts/resetList');
+  //   next();
+  // },
 };
 </script>
