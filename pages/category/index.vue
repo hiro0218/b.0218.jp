@@ -1,6 +1,6 @@
 <template>
   <section class="category-list">
-    <div class="c-title">
+    <div class="c-title is-center">
       <h1 class="title-main">{{ pageTitle }}</h1>
     </div>
     <ul class="u-list-unstyled c-term-list">
@@ -40,10 +40,6 @@ export default {
 </script>
 
 <style scoped>
-.c-title {
-  text-align: center;
-}
-
 .category-list {
   margin-bottom: 2rem;
 }

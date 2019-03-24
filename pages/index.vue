@@ -1,7 +1,7 @@
 <template>
   <section>
     <no-ssr>
-      <div class="c-title">
+      <div class="c-title is-center">
         <h1 class="title-main">
           <template v-if="$route.query.search">search: {{ $route.query.search }}</template>
           <template v-else>{{ pageTitle }}</template>
@@ -37,9 +37,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.c-title {
-  text-align: center;
-}
-</style>

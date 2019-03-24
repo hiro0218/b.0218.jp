@@ -1,6 +1,6 @@
 <template>
   <nav v-if="related.length !== 0" class="post-related">
-    <div class="c-title">
+    <div class="c-title is-center is-normal">
       <h2 class="title-main">Related Posts</h2>
     </div>
     <ul class="u-list-unstyled u-scroll-x related-list">

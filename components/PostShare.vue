@@ -1,6 +1,6 @@
 <template>
   <div class="post-share">
-    <div class="c-title">
+    <div class="c-title is-center">
       <h2 class="title-main">Share</h2>
     </div>
     <div class="sns-list">

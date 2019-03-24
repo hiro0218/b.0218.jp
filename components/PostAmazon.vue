@@ -1,6 +1,6 @@
 <template>
   <aside v-if="post_amazon" class="post-amazon">
-    <div class="c-title">
+    <div class="c-title is-center is-normal">
       <h2 class="title-main">Related Product</h2>
     </div>
     <a :href="post_amazon.DetailPageURL" class="product-container" target="_blank">
