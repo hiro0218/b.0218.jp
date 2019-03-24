@@ -171,7 +171,7 @@ export default {
   margin-right: 1rem;
   width: 5rem;
   height: 5rem;
-  background-color: map-get($light-color, 2);
+  background-color: map-get($light-color, 3);
   border-radius: 0.15rem;
   overflow: hidden;
 
