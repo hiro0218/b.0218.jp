@@ -246,6 +246,7 @@ export default {
     font-size: $font-size-lg;
     font-weight: bold;
     line-height: 1;
+    user-select: none;
     cursor: pointer;
 
     &::after {
