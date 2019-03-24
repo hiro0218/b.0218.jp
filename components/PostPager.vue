@@ -61,7 +61,7 @@ export default {
 .pager-item {
   display: grid;
   grid-column-gap: 0.5rem;
-  width: 50%;
+  width: 48%;
   padding: 1rem 0;
   border-radius: 0.15rem;
   color: $base-color;
