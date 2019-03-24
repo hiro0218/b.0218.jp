@@ -1,5 +1,5 @@
 <template>
-  <section v-if="Object.keys(post).length !== 0">
+  <section v-if="Object.keys(post).length !== 0" class="post">
     <PostData/>
     <PostPager/>
     <PostAmazon/>
@@ -162,5 +162,10 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.post {
+  max-width: $tablet;
+  margin-right: auto;
+  margin-left: auto;
+}
 </style>

@@ -52,11 +52,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.post-meta {
-  @include desktop {
-    width: calc(100% - 10rem);
-  }
-}
-</style>

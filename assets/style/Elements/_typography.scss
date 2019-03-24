@@ -5,7 +5,7 @@ h4,
 h5,
 h6 {
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 1em;
   font-family: inherit;
   line-height: 1.2;
   color: inherit;
@@ -32,22 +32,47 @@ h6 {
 
 p {
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5em;
   line-height: 2;
   letter-spacing: 0.05em;
   word-break: break-all;
 }
 
 blockquote {
-  width: 100%;
-  margin-bottom: 2rem;
-  margin-left: 0.8rem;
-  padding: 1.6rem;
-  border-left: 0.25rem solid $oc-gray-3;
+  position: relative;
+  margin: 2rem 0;
+  padding: 3rem;
+  background: map-get($light-color, 4);
+  color: $secondary-color;
   font-size: $font-size-sm;
-  color: $oc-gray-7;
-  p:last-child {
-    margin-bottom: 0;
+
+  &::before,
+  &::after {
+    position: absolute;
+    display: block;
+    font-size: 2.5rem;
+    width: 3rem;
+    height: 3rem;
+    color: map-get($light-color, 0);
+    font-weight: bold;
+    text-align: center;
+  }
+
+  &::before {
+    content: "“";
+    top: 0;
+    left: 0;
+  }
+  &::after {
+    content: "”";
+    right: 0;
+    bottom: 0;
+  }
+
+  p {
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 

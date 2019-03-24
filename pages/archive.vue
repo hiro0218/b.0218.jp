@@ -76,7 +76,7 @@ export default {
 
   time {
     flex: 0 0 10rem;
-    color: $oc-gray-6;
+    color: $tertiary-color;
     letter-spacing: normal;
   }
 

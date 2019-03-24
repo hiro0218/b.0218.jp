@@ -4,7 +4,7 @@
   padding: 0;
   align-items: center;
   list-style: none;
-  color: $oc-gray-6;
+  color: $tertiary-color;
   font-size: $font-size-sm;
 
   .meta-item {
@@ -13,7 +13,7 @@
   }
 
   a {
-    color: $oc-gray-6;
+    color: $tertiary-color;
     &:hover {
       text-decoration: underline;
     }
@@ -22,7 +22,7 @@
   svg {
     height: 1em;
     width: 1em;
-    fill: $oc-gray-6;
+    fill: $tertiary-color;
     &:first-child {
       margin-right: 0.25em;
     }

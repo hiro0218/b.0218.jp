@@ -30,7 +30,7 @@ pre {
   margin: 0;
   padding: 0.2em 0.4em;
   border-radius: 0.15rem;
-  background: $oc-gray-1;
-  color: $oc-gray-7;
+  background: map-get($light-color, 3);
+  color: $secondary-color;
   font-size: $font-size-sm;
 }

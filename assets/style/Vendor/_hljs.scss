@@ -1,5 +1,5 @@
 code.hljs {
   padding: 1.5rem;
-  background: $oc-gray-1;
+  background: map-get($light-color, 3);
   line-height: 1.48;
 }

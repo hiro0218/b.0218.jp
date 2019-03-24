@@ -1,7 +1,7 @@
 <template>
   <section v-if="id > 0">
     <no-ssr>
-      <div class="c-title">
+      <div class="c-title is-center">
         <h1 class="title-main">tag: {{ name }}</h1>
         <div class="title-sub">{{ description }}</div>
       </div>
@@ -67,6 +67,3 @@ export default {
   },
 };
 </script>
-
-<style>
-</style>

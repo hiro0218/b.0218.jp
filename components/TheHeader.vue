@@ -1,7 +1,7 @@
 <template>
   <header class="header-navigation">
     <div class="o-container header-container">
-      <nuxt-link to="/">{{ siteName }}</nuxt-link>
+      <nuxt-link :title="siteName" to="/" class="logo"><svgLogo/></nuxt-link>
       <SearchInput/>
     </div>
   </header>
@@ -9,11 +9,13 @@
 
 <script>
 import SearchInput from '~/components/SearchInput.vue';
+import svgLogo from '~/assets/image/logo.svg?inline';
 
 export default {
   name: 'TheHeader',
   components: {
     SearchInput,
+    svgLogo,
   },
   data() {
     return {
@@ -63,7 +65,7 @@ export default {
   left: 0;
   right: 0;
   height: $header-height;
-  border-bottom: 1px solid $oc-gray-3;
+  border-bottom: 1px solid map-get($light-color, 1);
   background: #fff;
   will-change: transform;
   transition: transform 0.25s ease;
@@ -84,9 +86,14 @@ a {
   display: flex;
   height: 100%;
   align-items: center;
-  color: $oc-gray-8;
+  color: $base-color;
   &:hover {
     opacity: 0.6;
+  }
+  svg {
+    width: 5rem;
+    height: 100%;
+    fill: $secondary-color;
   }
 }
 </style>

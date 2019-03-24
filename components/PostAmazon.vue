@@ -1,6 +1,6 @@
 <template>
   <aside v-if="post_amazon" class="post-amazon">
-    <div class="c-title">
+    <div class="c-title is-center is-normal">
       <h2 class="title-main">Related Product</h2>
     </div>
     <a :href="post_amazon.DetailPageURL" class="product-container" target="_blank">
@@ -42,9 +42,9 @@ export default {
   display: flex;
   align-items: center;
   height: 8rem;
-  border: 1px solid $oc-gray-1;
+  border: 1px solid map-get($light-color, 3);
   border-radius: 0.15rem;
-  color: $oc-gray-8;
+  color: $base-color;
 
   @include mobile {
     flex-direction: column;
@@ -60,7 +60,7 @@ export default {
   display: flex;
   width: 15rem;
   height: 100%;
-  background-color: $oc-gray-1;
+  background-color: map-get($light-color, 3);
 
   @include mobile {
     width: 100%;
@@ -87,7 +87,7 @@ export default {
     margin-bottom: 0.25rem;
   }
   .url {
-    color: $oc-gray-6;
+    color: $tertiary-color;
     font-size: $font-size-sm;
   }
 }

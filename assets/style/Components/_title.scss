@@ -1,6 +1,16 @@
 .c-title {
   margin: 1.5rem 0;
 
+  &.is-center {
+    text-align: center;
+  }
+
+  &.is-normal {
+    > .title-main {
+      font-size: $font-size-lg;
+    }
+  }
+
   > .title-main {
     font-size: $h2-font-size;
     line-height: 1.5;
