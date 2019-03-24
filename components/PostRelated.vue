@@ -54,7 +54,6 @@ export default {
 }
 
 .related-item {
-  width: 15rem;
   text-align: center;
 
   & + & {
@@ -62,8 +61,8 @@ export default {
   }
 
   a {
+    width: calc(#{$tablet} / 3);
     display: block;
-    width: 15rem;
     &:hover {
       opacity: 0.6;
     }
