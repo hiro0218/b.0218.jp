@@ -139,19 +139,24 @@ export default {
 // postlist
 .post-list {
   display: flex;
-  flex-direction: column;
-  margin: 0 0 2rem 0;
+  flex-wrap: wrap;
+  margin: 0 0 3rem 0;
 }
 
 .post-item {
   display: flex;
+  width: 50%;
   margin-bottom: 1rem;
   padding: 1rem;
   border-radius: 0.15rem;
   color: $base-color;
 
+  @include mobile {
+    width: 100%;
+  }
+
   &:hover {
-    background: $oc-gray-0;
+    opacity: 0.6;
   }
 
   &:visited {
@@ -166,7 +171,7 @@ export default {
   margin-right: 1rem;
   width: 5rem;
   height: 5rem;
-  background-color: $oc-gray-2;
+  background-color: map-get($light-color, 3);
   border-radius: 0.15rem;
   overflow: hidden;
 
@@ -176,7 +181,7 @@ export default {
     object-fit: contain;
   }
   .no-image {
-    fill: $oc-gray-6;
+    fill: $tertiary-color;
     width: 2rem;
     height: 2rem;
   }
@@ -187,24 +192,26 @@ export default {
   flex: 1;
   flex-direction: column;
   justify-content: space-between;
+  font-size: $font-size-sm;
 
   .post-title {
     margin-bottom: 0.5rem;
     font-size: 1rem;
     font-weight: bold;
+    line-height: 1.8;
   }
 
   .post-excerpt {
+    flex: 1;
     margin-bottom: 1rem;
-    color: $oc-gray-7;
-    font-size: $font-size-sm;
+    color: $secondary-color;
     letter-spacing: 0.02em;
     line-height: 1.8;
   }
 
   .c-meta-list {
     justify-content: flex-end;
-    font-size: $font-size-xs;
+    line-height: 1;
   }
 }
 
@@ -218,10 +225,12 @@ export default {
   .pagination-item {
     &.active {
       a {
-        background: $oc-gray-2;
+        background: $tertiary-color;
+        color: #fff;
         cursor: default;
         &:hover {
-          background-color: $oc-gray-2;
+          background: $tertiary-color;
+          color: #fff;
         }
       }
     }
@@ -237,7 +246,7 @@ export default {
       font-size: $font-size-sm;
 
       &:hover {
-        background-color: $oc-gray-1;
+        background-color: map-get($light-color, 2);
       }
       &:focus {
         outline: none;

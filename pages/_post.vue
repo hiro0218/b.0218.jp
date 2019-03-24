@@ -1,5 +1,5 @@
 <template>
-  <section v-if="Object.keys(post).length !== 0">
+  <section v-if="Object.keys(post).length !== 0" class="post">
     <PostData/>
     <PostPager/>
     <PostAmazon/>
@@ -153,14 +153,19 @@ export default {
       return JSON.stringify(structure);
     },
   },
-  beforeRouteLeave(to, from, next) {
-    if (to.path !== from.path) {
-      this.$store.dispatch('post/restData');
-    }
-    next();
-  },
+  // beforeRouteLeave(to, from, next) {
+  //   if (to.path !== from.path) {
+  //     this.$store.dispatch('post/restData');
+  //   }
+  //   next();
+  // },
 };
 </script>
 
-<style>
+<style lang="scss">
+.post {
+  max-width: $tablet;
+  margin-right: auto;
+  margin-left: auto;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <nav v-if="related.length !== 0" class="post-related">
-    <div class="c-title">
+    <div class="c-title is-center is-normal">
       <h2 class="title-main">Related Posts</h2>
     </div>
     <ul class="u-list-unstyled u-scroll-x related-list">
@@ -54,7 +54,6 @@ export default {
 }
 
 .related-item {
-  width: 15rem;
   text-align: center;
 
   & + & {
@@ -62,8 +61,8 @@ export default {
   }
 
   a {
+    width: calc(#{$tablet} / 3);
     display: block;
-    width: 15rem;
     &:hover {
       opacity: 0.6;
     }
@@ -75,7 +74,7 @@ export default {
   align-items: center;
   height: 8rem;
   margin-bottom: 1rem;
-  background: $oc-gray-1;
+  background: map-get($light-color, 3);
   overflow: hidden;
 
   img {
@@ -85,7 +84,7 @@ export default {
   }
 
   .no-image {
-    fill: $oc-gray-6;
+    fill: $tertiary-color;
     width: 4rem;
     height: 4rem;
     margin: auto;
@@ -94,7 +93,7 @@ export default {
 
 .related-title {
   font-size: $font-size-sm;
-  color: $oc-gray-8;
+  color: $base-color;
   white-space: normal;
 }
 </style>

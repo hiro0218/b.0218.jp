@@ -47,26 +47,29 @@ export default {
 </script>
 
 <style lang="scss">
+.post-pager {
+  margin: 2rem 0;
+}
+
 .pager-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 2rem 0;
   font-size: $font-size-sm;
 }
 
 .pager-item {
   display: grid;
   grid-column-gap: 0.5rem;
-  width: 50%;
-  padding: 1rem;
+  width: 48%;
+  padding: 1rem 0;
   border-radius: 0.15rem;
-  color: $oc-gray-8;
+  color: $base-color;
   line-height: 1.8;
   word-break: break-all;
 
   &:hover {
-    background: $oc-gray-0;
+    opacity: 0.6;
   }
 
   &:only-child {
@@ -105,16 +108,16 @@ export default {
     align-items: center;
     justify-content: center;
     svg {
-      fill: $oc-gray-8;
+      fill: $base-color;
     }
   }
 
   .pager-title {
-    color: $oc-gray-8;
+    color: $base-color;
     &::before {
       display: block;
       font-weight: bold;
-      color: $oc-gray-6;
+      color: $tertiary-color;
     }
   }
 }

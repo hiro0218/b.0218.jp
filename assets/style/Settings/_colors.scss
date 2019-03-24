@@ -1,7 +1,18 @@
 @import '~open-color/open-color.scss';
 
-$base-color: $oc-gray-8;
+// base
+$base-color: $oc-gray-9;
+$secondary-color: lighten($base-color, 8%);
+$tertiary-color: lighten($base-color, 16%);
+$light-color: (
+  0: lighten($base-color, 68%),
+  1: lighten($base-color, 73.75%),
+  2: lighten($base-color, 75%),
+  3: lighten($base-color, 81.25%),
+  4: lighten($base-color, 82.5%),
+);
 
+// color
 $plain-color: $oc-gray-5 !default;
 $primary-color: $oc-blue-4 !default;
 $success-color: $oc-lime-4 !default;
@@ -40,4 +51,12 @@ $theme-bg: map-merge(
     'info': $info-bg,
   ),
   $theme-bg
+);
+
+// social
+$social-color: (
+  'twitter': #1da1f2,
+  'facebook': #4267b2,
+  'hatenabookmark': #00a4de,
+  'line': #00b900,
 );

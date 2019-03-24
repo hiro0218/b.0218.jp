@@ -1,7 +1,7 @@
 <template>
   <section>
     <no-ssr>
-      <div class="c-title">
+      <div class="c-title is-center">
         <h1 class="title-main">
           <template v-if="$route.query.search">search: {{ $route.query.search }}</template>
           <template v-else>{{ pageTitle }}</template>
@@ -31,12 +31,9 @@ export default {
   computed: {
     pageTitle: () => 'Home',
   },
-  beforeRouteLeave(to, from, next) {
-    this.$store.dispatch('posts/resetList');
-    next();
-  },
+  // beforeRouteLeave(to, from, next) {
+  //   this.$store.dispatch('posts/resetList');
+  //   next();
+  // },
 };
 </script>
-
-<style>
-</style>

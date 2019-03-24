@@ -1,7 +1,7 @@
 <template>
   <section v-if="id > 0">
     <no-ssr>
-      <div class="c-title">
+      <div class="c-title is-center">
         <h1 class="title-main">tag: {{ name }}</h1>
         <div class="title-sub">{{ description }}</div>
       </div>
@@ -61,12 +61,9 @@ export default {
       name,
     };
   },
-  beforeRouteLeave(to, from, next) {
-    this.$store.dispatch('posts/resetList');
-    next();
-  },
+  // beforeRouteLeave(to, from, next) {
+  //   this.$store.dispatch('posts/resetList');
+  //   next();
+  // },
 };
 </script>
-
-<style>
-</style>

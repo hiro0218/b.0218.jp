@@ -52,7 +52,7 @@ export default {
 
   .c-title {
     .title-sub {
-      color: $oc-gray-6;
+      color: $tertiary-color;
     }
   }
 
@@ -68,7 +68,7 @@ export default {
     white-space: nowrap;
     padding: 0.75em 2em;
     border-radius: 0.15rem;
-    border: 1px solid $oc-gray-3;
+    border: 1px solid map-get($light-color, 1);
     color: $base-color;
     font-size: $font-size-xs;
     &:hover {

@@ -17,12 +17,12 @@
       padding: 0.5em 1em;
       border-radius: 0.15rem;
       line-height: 1.5;
-      background-color: $oc-gray-1;
-      color: $oc-gray-8;
+      background-color: map-get($light-color, 3);
+      color: $base-color;
       font-size: $font-size-sm;
 
       &:hover {
-        background-color: $oc-gray-2;
+        background-color: map-get($light-color, 2);
       }
     }
   }

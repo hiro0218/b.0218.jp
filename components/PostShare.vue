@@ -1,41 +1,46 @@
 <template>
-  <div class="sns-list">
-    <a
-      :href="'https://twitter.com/intent/tweet?url='+ post_link + '&text='+ encodeURIComponent(post_title)"
-      class="sns-item"
-      title="Share Twitter"
-      target="_blank"
-      rel="noopener"
-    >
-      <svgTwitter/>
-    </a>
-    <a
-      :href="'https://www.facebook.com/sharer/sharer.php?u=' + post_link"
-      class="sns-item"
-      title="Share Facebook"
-      target="_blank"
-      rel="noopener"
-    >
-      <svgFacebook/>
-    </a>
-    <a
-      :href="'http://b.hatena.ne.jp/add?url=' + post_link"
-      class="sns-item"
-      title="Share HatenaBookmark"
-      target="_blank"
-      rel="noopener"
-    >
-      <svgHatena/>
-    </a>
-    <a
-      :href="'https://lineit.line.me/share/ui?url=' + post_link"
-      class="sns-item"
-      title="Share LINE"
-      target="_blank"
-      rel="noopener"
-    >
-      <svgLine/>
-    </a>
+  <div class="post-share">
+    <div class="c-title is-center">
+      <h2 class="title-main">Share</h2>
+    </div>
+    <div class="sns-list">
+      <a
+        :href="'https://twitter.com/intent/tweet?url='+ post_link + '&text='+ encodeURIComponent(post_title)"
+        class="sns-item is-twitter"
+        title="Share Twitter"
+        target="_blank"
+        rel="noopener"
+      >
+        <svgTwitter/>
+      </a>
+      <a
+        :href="'https://www.facebook.com/sharer/sharer.php?u=' + post_link"
+        class="sns-item is-facebook"
+        title="Share Facebook"
+        target="_blank"
+        rel="noopener"
+      >
+        <svgFacebook/>
+      </a>
+      <a
+        :href="'http://b.hatena.ne.jp/add?url=' + post_link"
+        class="sns-item is-hatenabookmark"
+        title="Share HatenaBookmark"
+        target="_blank"
+        rel="noopener"
+      >
+        <svgHatena/>
+      </a>
+      <a
+        :href="'https://lineit.line.me/share/ui?url=' + post_link"
+        class="sns-item is-line"
+        title="Share LINE"
+        target="_blank"
+        rel="noopener"
+      >
+        <svgLine/>
+      </a>
+    </div>
   </div>
 </template>
 
@@ -66,51 +71,55 @@ export default {
 </script>
 
 <style lang="scss">
-.sns-list {
-  display: inline-flex;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  @include mobile {
-    position: static;
-    display: flex;
-    justify-content: flex-end;
-    margin: 0.5rem 0;
+.post-share {
+  margin: 2rem 0;
+  text-align: center;
+  .c-title {
+    .title-main {
+      font-size: $font-size-lg;
+    }
   }
-  // @include mobile {
-  //   position: fixed;
-  //   bottom: 1rem;
-  //   padding-right: 5vw;
-  //   padding-left: 5vw;
-  //   z-index: 10;
-  // }
 }
+
+.sns-list {
+  display: flex;
+  justify-content: center;
+}
+
 .sns-item {
   width: 2rem;
   height: 2rem;
+  fill: $tertiary-color;
+  transition: fill 0.2s ease;
 
-  &:hover {
-    opacity: 0.6;
+  &.is-twitter {
+    &:hover {
+      fill: map-get($social-color, 'twitter');
+    }
   }
+  &.is-facebook {
+    &:hover {
+      fill: map-get($social-color, 'facebook');
+    }
+  }
+  &.is-hatenabookmark {
+    &:hover {
+      fill: map-get($social-color, 'hatenabookmark');
+    }
+  }
+  &.is-line {
+    &:hover {
+      fill: map-get($social-color, 'line');
+    }
+  }
+
   & + & {
-    margin-left: 0.5rem;
+    margin-left: 1rem;
   }
+
   svg {
     width: inherit;
     height: inherit;
   }
-
-  // @include mobile {
-  //   width: 2.5rem;
-  //   height: 2.5rem;
-
-  //   & + & {
-  //     margin-left: 1rem;
-  //   }
-  //   svg {
-  //     width: inherit;
-  //     height: inherit;
-  //   }
-  // }
 }
 </style>

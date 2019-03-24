@@ -3,10 +3,10 @@
     <header class="c-title">
       <h1 class="title-main">{{ post.title.rendered }}</h1>
       <PostMeta/>
-      <PostShare/>
     </header>
     <PostAds/>
     <div class="post-content" v-html="post.content.rendered"/>
+    <PostShare/>
     <PostAds/>
   </article>
 </template>
@@ -152,9 +152,15 @@ export default {
 
 <style lang="scss">
 .post {
-  .c-title {
-    position: relative;
-    margin-bottom: 2rem;
+  > .c-title {
+    margin-bottom: 4rem;
+    .title-main {
+      margin-bottom: 0.5em;
+      font-size: 2rem;
+      @include mobile {
+        font-size: $h2-font-size;
+      }
+    }
   }
   .c-alert {
     margin-bottom: 1rem;
@@ -165,11 +171,14 @@ export default {
   margin-bottom: 2rem;
 
   a {
+    text-decoration: underline;
     &:hover {
       opacity: 0.6;
     }
 
     &.is-external_link {
+      display: inline-flex;
+      align-items: center;
       &::after {
         display: inline-block;
         width: 1em;
@@ -194,7 +203,8 @@ export default {
       bottom: 0;
       margin: auto;
       border: 0;
-      color: $oc-gray-4;
+      color: map-get($light-color, 1);
+      text-decoration: none;
       user-select: none;
       @include until($desktop) {
         position: static;
@@ -206,13 +216,13 @@ export default {
   h1,
   h2,
   h3 {
-    margin-top: 2rem;
+    margin-top: 3em;
   }
 
   h4,
   h5,
   h6 {
-    margin-top: 1.5rem;
+    margin-top: 2.5em;
   }
 
   ul,
@@ -226,14 +236,22 @@ export default {
   .mokuji-container {
     margin: 2rem 0;
     padding: 1rem 1.5rem;
-    border-left: 0.2rem solid $oc-gray-3;
+    border-radius: 0.15rem;
+    background: map-get($light-color, 4);
+    color: $secondary-color;
+    font-size: $font-size-sm;
   }
+
   .mokuji-title {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    font-size: 1rem;
+    justify-content: center;
+    font-size: $font-size-lg;
     font-weight: bold;
+    line-height: 1;
+    user-select: none;
     cursor: pointer;
+
     &::after {
       display: inline-block;
       width: 1em;
@@ -255,7 +273,7 @@ export default {
     }
 
     a {
-      color: $base-color;
+      color: inherit;
     }
 
     ol {
@@ -275,7 +293,7 @@ export default {
 
       ol {
         margin: 0.5rem 0;
-        padding-left: 1rem;
+        padding-left: 1.25em;
         list-style: none;
       }
     }
@@ -290,7 +308,7 @@ export default {
     position: relative;
     margin-bottom: 2rem;
     padding: 2rem;
-    border: 2px solid $oc-gray-1;
+    border: 2px solid map-get($light-color, 3);
     background: #fff;
     & + pre {
       margin-top: -(2rem + 0.15rem) !important;
@@ -301,7 +319,7 @@ export default {
     height: 2rem;
     margin: 2rem 0;
     border: 0;
-    color: $oc-gray-6;
+    color: $tertiary-color;
     text-align: center;
 
     &::before {

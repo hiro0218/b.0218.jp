@@ -1,11 +1,11 @@
 <template>
-  <main class="main-container">
+  <div class="layout-container">
     <TheHeader/>
-    <div class="o-container contents-container">
+    <main class="o-container main-container">
       <nuxt/>
-    </div>
+    </main>
     <TheFooter/>
-  </main>
+  </div>
 </template>
 
 <script>
@@ -21,14 +21,15 @@ export default {
 </script>
 
 <style lang="scss">
-.main-container {
+.layout-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.contents-container {
+.main-container {
   flex: 1 0 auto;
   min-height: calc(100vh - #{$header-height});
+  margin-bottom: 4rem;
 }
 </style>
