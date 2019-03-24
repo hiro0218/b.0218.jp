@@ -140,7 +140,7 @@ export default {
 .post-list {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 0 2rem 0;
+  margin: 0 0 3rem 0;
 }
 
 .post-item {
@@ -229,7 +229,7 @@ export default {
         color: #fff;
         cursor: default;
         &:hover {
-          background: $base-color;
+          background: $tertiary-color;
           color: #fff;
         }
       }
