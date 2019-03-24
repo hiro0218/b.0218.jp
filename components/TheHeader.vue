@@ -94,6 +94,9 @@ a {
     width: 5rem;
     height: 100%;
     fill: $secondary-color;
+    @include mobile {
+      width: 4rem;
+    }
   }
 }
 </style>

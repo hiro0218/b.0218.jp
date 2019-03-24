@@ -157,6 +157,9 @@ export default {
     .title-main {
       margin-bottom: 0.5em;
       font-size: 2rem;
+      @include mobile {
+        font-size: $h2-font-size;
+      }
     }
   }
   .c-alert {
