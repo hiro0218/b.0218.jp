@@ -13,6 +13,11 @@
 <script>
 export default {
   name: 'LayoutArticle',
+  mounted() {
+    this.$nextTick(() => {
+      this.$emit('mounted', true);
+    });
+  },
 };
 </script>
 
