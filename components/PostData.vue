@@ -1,21 +1,21 @@
 <template>
-  <article class="post">
-    <header class="c-title">
-      <h1 class="title-main">{{ post.title.rendered }}</h1>
-      <PostMeta/>
-    </header>
+  <LayoutArticle @mounted="init">
+    <template v-slot:postTitle>{{ post.title.rendered }}</template>
+    <template v-slot:postMeta><PostMeta/></template>
     <PostAds/>
     <div class="post-content" v-html="post.content.rendered"/>
     <PostShare/>
     <PostAds/>
-  </article>
+  </LayoutArticle>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+const LayoutArticle = () => import('~/components/LayoutArticle.vue');
 import PostMeta from '~/components/PostMeta.vue';
 const PostShare = () => import('~/components/PostShare.vue');
 const PostAds = () => import('~/components/PostAds.vue');
+import externalLink from '~/assets/script/externalLink.js';
 
 export default {
   name: 'PostData',
@@ -25,6 +25,7 @@ export default {
     };
   },
   components: {
+    LayoutArticle,
     PostMeta,
     PostShare,
     PostAds,
@@ -43,20 +44,20 @@ export default {
       post: state => state.data,
     }),
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.elPostContent = document.querySelector('.post-content');
-      this.initCustomScript();
-      this.addExternalLinkIcon();
-      this.addTableContainer();
-      this.initHighlight();
-      this.initMokuji();
-    });
-  },
   destroyed() {
     this.toggleMokuji(false);
   },
   methods: {
+    init() {
+      this.$nextTick(() => {
+        this.elPostContent = this.$el.querySelector('.post-content');
+        externalLink(this.elPostContent);
+        this.initCustomScript();
+        this.addTableContainer();
+        this.initHighlight();
+        this.initMokuji();
+      });
+    },
     initCustomScript() {
       if (this.post.attach.custom.script) {
         try {
