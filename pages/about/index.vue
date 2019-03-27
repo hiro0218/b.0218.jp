@@ -1,12 +1,12 @@
 <template>
   <LayoutArticle :class-name="'about'">
     <template v-slot:postTitle>{{ pageTitle }}</template>
-    <nav>
+    <div class="post-content">
       <ul>
         <li><nuxt-link to="about/me">運営者について</nuxt-link></li>
         <li><nuxt-link to="about/site">サイトについて</nuxt-link></li>
       </ul>
-    </nav>
+    </div>
   </LayoutArticle>
 </template>
 
