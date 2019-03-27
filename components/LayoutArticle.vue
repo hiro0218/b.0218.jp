@@ -1,5 +1,5 @@
 <template>
-  <article class="post">
+  <article :class="className" class="post">
     <header class="c-title">
       <h1 class="title-main">
         <slot name="postTitle"/>
@@ -13,6 +13,13 @@
 <script>
 export default {
   name: 'LayoutArticle',
+  props: {
+    className: {
+      type: String,
+      required: false,
+      default: '',
+    },
+  },
   mounted() {
     this.$nextTick(() => {
       this.$emit('mounted', true);

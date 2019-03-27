@@ -1,5 +1,5 @@
 <template>
-  <LayoutArticle>
+  <LayoutArticle :class-name="'about'">
     <template v-slot:postTitle>{{ pageTitle }}</template>
     <div class="post-content" v-html="aboutData"/>
   </LayoutArticle>

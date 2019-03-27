@@ -1,5 +1,5 @@
 <template>
-  <LayoutArticle @mounted="init">
+  <LayoutArticle :class-name="'about'">
     <template v-slot:postTitle>{{ pageTitle }}</template>
     <nav>
       <ul>
