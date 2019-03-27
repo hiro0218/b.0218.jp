@@ -1,18 +1,17 @@
 <template>
-  <article class="post">
-    <header class="c-title">
-      <h1 class="title-main">{{ post.title.rendered }}</h1>
-      <PostMeta/>
-    </header>
+  <LayoutArticle>
+    <template v-slot:postTitle>{{ post.title.rendered }}</template>
+    <template v-slot:postMeta><PostMeta/></template>
     <PostAds/>
     <div class="post-content" v-html="post.content.rendered"/>
     <PostShare/>
     <PostAds/>
-  </article>
+  </LayoutArticle>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+const LayoutArticle = () => import('~/components/LayoutArticle.vue');
 import PostMeta from '~/components/PostMeta.vue';
 const PostShare = () => import('~/components/PostShare.vue');
 const PostAds = () => import('~/components/PostAds.vue');
@@ -25,6 +24,7 @@ export default {
     };
   },
   components: {
+    LayoutArticle,
     PostMeta,
     PostShare,
     PostAds,
