@@ -4,17 +4,14 @@
       <h1 class="title-main">{{ pageTitle }}</h1>
     </header>
     <div class="post-content">
-      <nav>
-        <ul>
-          <li><nuxt-link to="about/me">運営者について</nuxt-link></li>
-          <li><nuxt-link to="about/site">サイトについて</nuxt-link></li>
-        </ul>
-      </nav>
+      <section v-html="aboutData"/>
     </div>
   </article>
 </template>
 
 <script>
+import aboutMeData from '~/assets/page/about/me.md';
+
 export default {
   name: 'About',
   head() {
@@ -23,10 +20,8 @@ export default {
     };
   },
   computed: {
-    pageTitle: () => 'about',
+    pageTitle: () => '運営者について',
+    aboutData: () => aboutMeData,
   },
 };
 </script>
-
-<style scoped>
-</style>
