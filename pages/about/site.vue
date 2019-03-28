@@ -27,8 +27,8 @@ export default {
   methods: {
     init() {
       this.$nextTick(() => {
-        this.elPostContent = this.$el.querySelector('.post-content');
-        externalLink(this.elPostContent);
+        let elPostContent = this.$el.querySelector('.post-content');
+        externalLink(elPostContent);
       });
     },
   },
