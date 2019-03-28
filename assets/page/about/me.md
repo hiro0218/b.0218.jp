@@ -16,4 +16,7 @@
 
 ## お問い合わせ
 
-[こちら](https://goo.gl/forms/9l1uAOVef8Wp3IFC2)
+お問い合わせ事項がございましたら、下記フォームにてご連絡ください。
+
+[お問い合わせフォーム](https://goo.gl/forms/9l1uAOVef8Wp3IFC2)
+
