@@ -155,13 +155,6 @@ export default {
 .post {
   > .c-title {
     margin-bottom: 4rem;
-    .title-main {
-      margin-bottom: 0.5em;
-      font-size: 2rem;
-      @include mobile {
-        font-size: $h2-font-size;
-      }
-    }
   }
   .c-alert {
     margin-bottom: 1rem;
@@ -170,68 +163,6 @@ export default {
 
 .post-content {
   margin-bottom: 2rem;
-
-  a {
-    text-decoration: underline;
-    &:hover {
-      opacity: 0.6;
-    }
-
-    &.is-external_link {
-      display: inline-flex;
-      align-items: center;
-      &::after {
-        display: inline-block;
-        width: 1em;
-        height: 1em;
-        content: '';
-        background: url('~assets/image/open_in_new.svg') center / 1em 1em no-repeat;
-      }
-    }
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    position: relative;
-    .anchor {
-      position: absolute;
-      right: calc(100% + 0.25em);
-      top: 0;
-      bottom: 0;
-      margin: auto;
-      border: 0;
-      color: map-get($light-color, 1);
-      text-decoration: none;
-      user-select: none;
-      @include until($desktop) {
-        position: static;
-        margin-left: 0.25em;
-      }
-    }
-  }
-
-  h1,
-  h2,
-  h3 {
-    margin-top: 3em;
-  }
-
-  h4,
-  h5,
-  h6 {
-    margin-top: 2.5em;
-  }
-
-  ul,
-  ol {
-    li {
-      margin-bottom: 0.625rem;
-    }
-  }
 
   // mokuji
   .mokuji-container {
