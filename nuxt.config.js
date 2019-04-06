@@ -2,6 +2,8 @@ import { constant, route } from './settings';
 const routeData = async () => await route.getData();
 
 module.exports = {
+  modern: 'client',
+
   env: {
     AUTHOR: constant.AUTHOR,
     AUTHOR_ICON: constant.AUTHOR_ICON,
