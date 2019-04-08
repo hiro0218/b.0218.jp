@@ -236,11 +236,8 @@ module.exports = {
         [
           '@babel/preset-env',
           {
+            modules: false,
             useBuiltIns: 'usage',
-            corejs: '2.0.0',
-            targets: {
-              ie: '11',
-            },
           },
         ],
       ],
