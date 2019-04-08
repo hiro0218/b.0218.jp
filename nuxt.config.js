@@ -207,6 +207,8 @@ module.exports = {
 
       config.module.rules.push({
         test: /\.svg$/,
+        use: 'babel-loader',
+        exclude: /(node_modules)/,
         oneOf: [
           {
             resourceQuery: /inline/,
@@ -234,9 +236,10 @@ module.exports = {
     babel: {
       presets: [
         [
-          '@babel/preset-env',
+          '@nuxt/babel-preset-app',
           {
             useBuiltIns: 'usage',
+            corejs: '2',
             targets: {
               ie: '11',
             },
