@@ -15,7 +15,7 @@ export const route = {
       .get(`${constant.ENDPOINT}wp/v2/posts`, {
         params: {
           _fields: 'id,slug',
-          per_page: 1000,
+          per_page: 1,
         },
       })
       .then(res => res.data);
