@@ -16,9 +16,9 @@
 <script>
 import { mapState } from 'vuex';
 const LayoutArticle = () => import('~/components/LayoutArticle.vue');
-import PostMeta from '~/components/PostMeta.vue';
-const PostShare = () => import('~/components/PostShare.vue');
-const PostAds = () => import('~/components/PostAds.vue');
+import PostMeta from '~/components/post/PostMeta.vue';
+const PostShare = () => import('~/components/post/PostShare.vue');
+const PostAds = () => import('~/components/post/PostAds.vue');
 import externalLink from '~/assets/script/externalLink.js';
 
 export default {
