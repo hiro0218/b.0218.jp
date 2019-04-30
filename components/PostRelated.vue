@@ -1,16 +1,20 @@
 <template>
   <nav v-if="related.length !== 0" class="post-related">
     <div class="c-title is-center is-normal">
-      <h2 class="title-main">Related Posts</h2>
+      <h2 class="title-main">
+        Related Posts
+      </h2>
     </div>
     <ul class="u-list-unstyled u-scroll-x related-list">
       <li v-for="post in related" :key="post.id" class="related-item">
         <router-link :to="post.url">
           <div class="related-image">
-            <img v-if="post.image != ''" :data-src="post.image" :alt="post.title">
-            <svgPhoto v-else class="no-image"/>
+            <img v-if="post.image != ''" :data-src="post.image" :alt="post.title" />
+            <svgPhoto v-else class="no-image" />
           </div>
-          <div class="related-title">{{ post.title }}</div>
+          <div class="related-title">
+            {{ post.title }}
+          </div>
         </router-link>
       </li>
     </ul>

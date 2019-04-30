@@ -1,9 +1,9 @@
 <template>
   <div v-if="Object.keys(post).length !== 0">
-    <PostData/>
-    <PostPager/>
-    <PostAmazon/>
-    <PostRelated/>
+    <PostData />
+    <PostPager />
+    <PostAmazon />
+    <PostRelated />
   </div>
 </template>
 

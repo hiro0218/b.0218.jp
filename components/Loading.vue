@@ -1,6 +1,6 @@
 <template>
-  <div v-if="loading" :class="{ 'fadeOut': !loading }" class="loading-container">
-    <div class="loading"/>
+  <div v-if="loading" :class="{ fadeOut: !loading }" class="loading-container">
+    <div class="loading" />
   </div>
 </template>
 

@@ -9,7 +9,9 @@
           お探しのページは見つかりませんでした
         </template>
       </h1>
-      <div class="title-sub">{{ error.message }}</div>
+      <div class="title-sub">
+        {{ error.message }}
+      </div>
     </header>
     <section class="error-message">
       <p v-if="error.statusCode >= 500">
@@ -20,7 +22,9 @@
       </p>
     </section>
     <footer>
-      <nuxt-link to="/" class="button">トップページに戻る</nuxt-link>
+      <nuxt-link to="/" class="button">
+        トップページに戻る
+      </nuxt-link>
     </footer>
   </section>
 </template>

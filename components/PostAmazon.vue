@@ -5,7 +5,7 @@
     </div>
     <a :href="post_amazon.DetailPageURL" class="product-container" target="_blank">
       <div class="product-image">
-        <img :src="post_amazon.LargeImage">
+        <img :src="post_amazon.LargeImage" />
       </div>
       <div class="product-info">
         <span class="title">{{ post_amazon.Title }}</span>

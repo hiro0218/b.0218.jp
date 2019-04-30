@@ -1,11 +1,15 @@
 <template>
   <section class="category-list">
     <div class="c-title is-center">
-      <h1 class="title-main">{{ pageTitle }}</h1>
+      <h1 class="title-main">
+        {{ pageTitle }}
+      </h1>
     </div>
     <ul class="u-list-unstyled c-term-list">
       <li v-for="(category, index) in categoryList" :key="index" class="term-item">
-        <nuxt-link :to="'/category/' + category.slug">{{ category.name }}</nuxt-link>
+        <nuxt-link :to="'/category/' + category.slug">
+          {{ category.name }}
+        </nuxt-link>
       </li>
     </ul>
   </section>

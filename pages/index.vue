@@ -3,11 +3,15 @@
     <no-ssr>
       <div class="c-title is-center">
         <h1 class="title-main">
-          <template v-if="$route.query.search">search: {{ $route.query.search }}</template>
-          <template v-else>{{ pageTitle }}</template>
+          <template v-if="$route.query.search">
+            search: {{ $route.query.search }}
+          </template>
+          <template v-else>
+            {{ pageTitle }}
+          </template>
         </h1>
       </div>
-      <PostsList/>
+      <PostsList />
     </no-ssr>
   </section>
 </template>
@@ -25,11 +29,11 @@ export default {
       titleTemplate: null,
     };
   },
-  async fetch({ store, params, query }) {
-    return store.dispatch('posts/fetch', query);
-  },
   computed: {
     pageTitle: () => 'Home',
+  },
+  async fetch({ store, params, query }) {
+    return store.dispatch('posts/fetch', query);
   },
   // beforeRouteLeave(to, from, next) {
   //   this.$store.dispatch('posts/resetList');

@@ -1,11 +1,15 @@
 <template>
   <LayoutArticle @mounted="init">
-    <template v-slot:postTitle>{{ post.title.rendered }}</template>
-    <template v-slot:postMeta><PostMeta/></template>
-    <PostAds/>
-    <div class="post-content" v-html="post.content.rendered"/>
-    <PostShare/>
-    <PostAds/>
+    <template v-slot:postTitle>
+      {{ post.title.rendered }}
+    </template>
+    <template v-slot:postMeta>
+      <PostMeta />
+    </template>
+    <PostAds />
+    <div class="post-content" v-html="post.content.rendered" />
+    <PostShare />
+    <PostAds />
   </LayoutArticle>
 </template>
 

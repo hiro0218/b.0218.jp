@@ -1,6 +1,6 @@
 <template>
   <div class="post-ads">
-    <adsbygoogle :ad-slot="adsense.slot" :ad-layout="adsense.layout" :ad-format="adsense.format"/>
+    <adsbygoogle :ad-slot="adsense.slot" :ad-layout="adsense.layout" :ad-format="adsense.format" />
   </div>
 </template>
 

@@ -1,7 +1,9 @@
 <template>
   <article class="archive">
     <header class="c-title">
-      <h1 class="title-main">{{ pageTitle }}</h1>
+      <h1 class="title-main">
+        {{ pageTitle }}
+      </h1>
     </header>
     <div class="archive-list-container">
       <section v-for="(posts, year) in archiveList" :key="year">

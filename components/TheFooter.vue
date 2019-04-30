@@ -4,15 +4,20 @@
       <nav class="menu">
         <ul class="u-list-unstyled menu-list">
           <li class="menu-item">
-            <nuxt-link to="/about">about</nuxt-link>
+            <nuxt-link to="/about">
+              about
+            </nuxt-link>
           </li>
           <li class="menu-item">
-            <nuxt-link to="/archive">archive</nuxt-link>
+            <nuxt-link to="/archive">
+              archive
+            </nuxt-link>
           </li>
         </ul>
       </nav>
       <div class="copyright">
-        <small>©
+        <small>
+          ©
           <nuxt-link to="/">{{ siteName }}</nuxt-link>
         </small>
       </div>

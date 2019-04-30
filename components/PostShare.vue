@@ -1,17 +1,19 @@
 <template>
   <div class="post-share">
     <div class="c-title is-center">
-      <h2 class="title-main">Share</h2>
+      <h2 class="title-main">
+        Share
+      </h2>
     </div>
     <div class="sns-list">
       <a
-        :href="'https://twitter.com/intent/tweet?url='+ post_link + '&text='+ encodeURIComponent(post_title)"
+        :href="'https://twitter.com/intent/tweet?url=' + post_link + '&text=' + encodeURIComponent(post_title)"
         class="sns-item is-twitter"
         title="Share Twitter"
         target="_blank"
         rel="noopener"
       >
-        <svgTwitter/>
+        <svgTwitter />
       </a>
       <a
         :href="'https://www.facebook.com/sharer/sharer.php?u=' + post_link"
@@ -20,7 +22,7 @@
         target="_blank"
         rel="noopener"
       >
-        <svgFacebook/>
+        <svgFacebook />
       </a>
       <a
         :href="'http://b.hatena.ne.jp/add?url=' + post_link"
@@ -29,7 +31,7 @@
         target="_blank"
         rel="noopener"
       >
-        <svgHatena/>
+        <svgHatena />
       </a>
       <a
         :href="'https://lineit.line.me/share/ui?url=' + post_link"
@@ -38,7 +40,7 @@
         target="_blank"
         rel="noopener"
       >
-        <svgLine/>
+        <svgLine />
       </a>
     </div>
   </div>

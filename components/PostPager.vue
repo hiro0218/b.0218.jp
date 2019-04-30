@@ -1,27 +1,21 @@
 <template>
   <nav v-if="Object.keys(pager).length !== 0" class="post-pager">
     <div class="pager-list">
-      <router-link
-        v-if="pager.prev"
-        :to="pager.prev.url"
-        :title="pager.prev.title"
-        class="pager-item prev"
-      >
+      <router-link v-if="pager.prev" :to="pager.prev.url" :title="pager.prev.title" class="pager-item prev">
         <div class="pager-icon">
-          <svgArrowBack/>
+          <svgArrowBack />
         </div>
-        <div class="pager-title">{{ pager.prev.title }}</div>
+        <div class="pager-title">
+          {{ pager.prev.title }}
+        </div>
       </router-link>
-      <router-link
-        v-if="pager.next"
-        :to="pager.next.url"
-        :title="pager.next.title"
-        class="pager-item next"
-      >
+      <router-link v-if="pager.next" :to="pager.next.url" :title="pager.next.title" class="pager-item next">
         <div class="pager-icon">
-          <svgArrowForward/>
+          <svgArrowForward />
         </div>
-        <div class="pager-title">{{ pager.next.title }}</div>
+        <div class="pager-title">
+          {{ pager.next.title }}
+        </div>
       </router-link>
     </div>
   </nav>
