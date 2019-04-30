@@ -3,9 +3,11 @@
     <no-ssr>
       <div class="c-title is-center">
         <h1 class="title-main">tag: {{ name }}</h1>
-        <div class="title-sub">{{ description }}</div>
+        <div class="title-sub">
+          {{ description }}
+        </div>
       </div>
-      <PostsList :tag-id="id" mode="tags"/>
+      <PostsList :tag-id="id" mode="tags" />
     </no-ssr>
   </section>
 </template>

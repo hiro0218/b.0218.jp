@@ -1,6 +1,6 @@
 <template>
   <div class="search-container">
-    <svgSearch/>
+    <svgSearch />
     <input
       v-model="searchValue"
       type="search"
@@ -9,7 +9,7 @@
       aria-label="Search box"
       @keyup.enter="setKeypress"
       @keydown.enter="submitSearch"
-    >
+    />
   </div>
 </template>
 

@@ -2,11 +2,11 @@
   <article :class="className" class="post">
     <header class="c-title">
       <h1 class="title-main">
-        <slot name="postTitle"/>
+        <slot name="postTitle" />
       </h1>
-      <slot name="postMeta"/>
+      <slot name="postMeta" />
     </header>
-    <slot/>
+    <slot />
   </article>
 </template>
 

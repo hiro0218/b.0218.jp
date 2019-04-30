@@ -1,10 +1,10 @@
 <template>
   <div class="layout-container">
-    <TheHeader/>
+    <TheHeader />
     <main class="o-container main-container">
-      <nuxt/>
+      <nuxt />
     </main>
-    <TheFooter/>
+    <TheFooter />
   </div>
 </template>
 

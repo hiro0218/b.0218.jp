@@ -37,5 +37,12 @@ module.exports = {
     'consistent-return': 0,
     'global-require': 0,
     'vue/max-attributes-per-line': 'off',
+    'vue/no-v-html': 0,
+    "vue/html-self-closing": ["error", {
+      "html": {
+        "void": "always",
+      }
+    }],
+    'vue/singleline-html-element-content-newline': 0,
   }
 }

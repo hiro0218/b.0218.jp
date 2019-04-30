@@ -1,9 +1,9 @@
 <template>
   <div v-if="Object.keys(post).length !== 0">
-    <PostData/>
-    <PostPager/>
-    <PostAmazon/>
-    <PostRelated/>
+    <PostData />
+    <PostPager />
+    <PostAmazon />
+    <PostRelated />
   </div>
 </template>
 
@@ -11,9 +11,9 @@
 import { mapState } from 'vuex';
 
 import PostData from '~/components/PostData.vue';
-const PostAmazon = () => import('~/components/PostAmazon.vue');
-const PostPager = () => import('~/components/PostPager.vue');
-const PostRelated = () => import('~/components/PostRelated.vue');
+const PostAmazon = () => import('~/components/post/PostAmazon.vue');
+const PostPager = () => import('~/components/post/PostPager.vue');
+const PostRelated = () => import('~/components/post/PostRelated.vue');
 
 export default {
   name: 'Post',

@@ -1,24 +1,35 @@
 <template>
   <div>
-    <div v-if="postsHeaders.totalpages === 0" class="c-alert is-warning">No results found.</div>
+    <div v-if="postsHeaders.totalpages === 0" class="c-alert is-warning">
+      No results found.
+    </div>
+    <keep-alive>
+      <PostsCategoryList />
+    </keep-alive>
     <template v-if="postsList.length !== 0">
       <div class="u-list-unstyled post-list">
         <template v-for="post in postsList">
-          <nuxt-link :to="{ path: '/' + post.slug }" :key="post.id" class="post-item">
+          <nuxt-link :key="post.id" :to="{ path: '/' + post.slug }" class="post-item">
             <div class="post-image">
-              <img v-if="post.thumbnail" :data-src="post.thumbnail" :alt="post.title.rendered" src="~assets/image/space.gif">
-              <svgPhoto v-else class="no-image"/>
+              <img
+                v-if="post.thumbnail"
+                :data-src="post.thumbnail"
+                :alt="post.title.rendered"
+                src="~assets/image/space.gif"
+              />
+              <svgPhoto v-else class="no-image" />
             </div>
             <div class="post-body">
-              <div class="post-title">{{ post.title.rendered }}</div>
-              <div class="post-excerpt">{{ post.excerpt.rendered }}</div>
+              <div class="post-title">
+                {{ post.title.rendered }}
+              </div>
+              <div class="post-excerpt">
+                {{ post.excerpt.rendered }}
+              </div>
               <ul class="c-meta-list">
                 <li class="meta-item">
-                  <svgTime/>
-                  <time
-                    :datetime="post.date"
-                    itemprop="datePublished"
-                  >{{ post.date | dateToISOString }}</time>
+                  <svgTime />
+                  <time :datetime="post.date" itemprop="datePublished">{{ post.date | dateToISOString }}</time>
                 </li>
               </ul>
             </div>
@@ -44,6 +55,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import PostsCategoryList from '~/components/PostsCategoryList.vue';
 import lazyload from '~/assets/script/lazyload.js';
 import svgTime from '~/assets/image/time.svg?inline';
 import svgPhoto from '~/assets/image/photo.svg?inline';
@@ -51,6 +63,7 @@ import svgPhoto from '~/assets/image/photo.svg?inline';
 export default {
   name: 'PostsList',
   components: {
+    PostsCategoryList,
     svgTime,
     svgPhoto,
   },
@@ -94,6 +107,9 @@ export default {
     '$route.query'(query) {
       this.fetchList(query.page);
     },
+  },
+  created() {
+    this.$store.dispatch('posts/fetchCategoryList');
   },
   mounted() {
     this.loadImages();

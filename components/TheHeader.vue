@@ -1,8 +1,10 @@
 <template>
   <header class="header-navigation">
     <div class="o-container header-container">
-      <nuxt-link :title="siteName" to="/" class="logo"><svgLogo/></nuxt-link>
-      <SearchInput/>
+      <nuxt-link :title="siteName" to="/" class="logo">
+        <svgLogo />
+      </nuxt-link>
+      <SearchInput />
     </div>
   </header>
 </template>

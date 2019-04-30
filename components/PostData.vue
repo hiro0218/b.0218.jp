@@ -1,20 +1,24 @@
 <template>
   <LayoutArticle @mounted="init">
-    <template v-slot:postTitle>{{ post.title.rendered }}</template>
-    <template v-slot:postMeta><PostMeta/></template>
-    <PostAds/>
-    <div class="post-content" v-html="post.content.rendered"/>
-    <PostShare/>
-    <PostAds/>
+    <template v-slot:postTitle>
+      {{ post.title.rendered }}
+    </template>
+    <template v-slot:postMeta>
+      <PostMeta />
+    </template>
+    <PostAds />
+    <div class="post-content" v-html="post.content.rendered" />
+    <PostShare />
+    <PostAds />
   </LayoutArticle>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 const LayoutArticle = () => import('~/components/LayoutArticle.vue');
-import PostMeta from '~/components/PostMeta.vue';
-const PostShare = () => import('~/components/PostShare.vue');
-const PostAds = () => import('~/components/PostAds.vue');
+import PostMeta from '~/components/post/PostMeta.vue';
+const PostShare = () => import('~/components/post/PostShare.vue');
+const PostAds = () => import('~/components/post/PostAds.vue');
 import externalLink from '~/assets/script/externalLink.js';
 
 export default {
@@ -151,7 +155,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .post {
   > .c-title {
     margin-bottom: 4rem;
@@ -161,7 +165,7 @@ export default {
   }
 }
 
-.post-content {
+.post-content /deep/ {
   margin-bottom: 2rem;
 
   // mokuji
