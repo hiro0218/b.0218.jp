@@ -3,6 +3,9 @@
     <div v-if="postsHeaders.totalpages === 0" class="c-alert is-warning">
       No results found.
     </div>
+    <keep-alive>
+      <PostsCategoryList />
+    </keep-alive>
     <template v-if="postsList.length !== 0">
       <div class="u-list-unstyled post-list">
         <template v-for="post in postsList">
@@ -52,6 +55,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import PostsCategoryList from '~/components/PostsCategoryList.vue';
 import lazyload from '~/assets/script/lazyload.js';
 import svgTime from '~/assets/image/time.svg?inline';
 import svgPhoto from '~/assets/image/photo.svg?inline';
@@ -59,6 +63,7 @@ import svgPhoto from '~/assets/image/photo.svg?inline';
 export default {
   name: 'PostsList',
   components: {
+    PostsCategoryList,
     svgTime,
     svgPhoto,
   },
@@ -102,6 +107,9 @@ export default {
     '$route.query'(query) {
       this.fetchList(query.page);
     },
+  },
+  created() {
+    this.$store.dispatch('posts/fetchCategoryList');
   },
   mounted() {
     this.loadImages();

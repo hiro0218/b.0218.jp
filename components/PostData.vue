@@ -155,7 +155,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .post {
   > .c-title {
     margin-bottom: 4rem;
@@ -165,7 +165,7 @@ export default {
   }
 }
 
-.post-content {
+.post-content /deep/ {
   margin-bottom: 2rem;
 
   // mokuji
