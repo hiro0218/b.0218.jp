@@ -14,11 +14,11 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.4.1",
     "@nuxtjs/google-adsense": "^1.1.3",
     "@nuxtjs/google-analytics": "^2.2.0",
     "@nuxtjs/pwa": "^3.0.0-beta.14",
     "@nuxtjs/sitemap": "^0.2.2",
+    "axios": "^0.18.0",
     "cross-env": "^5.2.0",
     "date-fns": "^1.30.1",
     "fast-copy": "^2.0.3",

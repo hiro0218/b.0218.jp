@@ -79,7 +79,6 @@ module.exports = {
    ** Nuxt.js modules
    */
   modules: [
-    '@nuxtjs/axios',
     '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
     '@nuxtjs/sitemap',
@@ -157,14 +156,6 @@ module.exports = {
     lang: 'ja',
     theme_color: '#ffffff',
     background_color: '#ffffff',
-  },
-
-  /*
-   ** Axios module configuration
-   */
-  axios: {
-    // See https://github.com/nuxt-community/axios-module#options
-    baseURL: constant.ENDPOINT,
   },
 
   markdownit: {
