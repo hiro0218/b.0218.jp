@@ -30,8 +30,8 @@ export const actions = {
     commit('setList', data);
   },
   async fetch({ dispatch }, { page, search, archiveParams }) {
-    await this.$axios
-      .get('wp/v2/posts', {
+    await this.$api
+      .getPosts({
         params: {
           page,
           search,
@@ -44,8 +44,8 @@ export const actions = {
       });
   },
   async fetchCategoryList({ commit }) {
-    await this.$axios
-      .get('wp/v2/categories', {
+    await this.$api
+      .getCategories({
         params: {
           order: 'desc',
           orderby: 'count',

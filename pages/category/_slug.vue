@@ -28,13 +28,13 @@ export default {
   validate({ params }) {
     return params.slug;
   },
-  async asyncData({ store, $axios, params, query, error }) {
+  async asyncData({ store, app, params, query, error }) {
     let id = 0;
     let name = '';
     let description = '';
 
-    await $axios
-      .get('wp/v2/categories', {
+    await app.$api
+      .getCategories({
         params: {
           slug: params.slug,
         },
