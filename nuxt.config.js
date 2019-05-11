@@ -68,6 +68,7 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '~/plugins/api.js',
     '~/plugins/mixin.js',
     '~/plugins/pagination.client.js',
     '~/plugins/mokuji.client.js',
