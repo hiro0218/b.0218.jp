@@ -25,6 +25,9 @@ export default {
       title: this.name,
     };
   },
+  validate({ params }) {
+    return params.slug;
+  },
   async asyncData({ store, app, params, query, error }) {
     let id = 0;
     let name = '';
