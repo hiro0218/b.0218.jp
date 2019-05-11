@@ -30,8 +30,8 @@ export const actions = {
     commit('setList', data);
   },
   async fetch({ dispatch }, { page, search, archiveParams }) {
-    await this.$axios
-      .get('wp/v2/posts', {
+    await this.$api
+      .getPosts({
         params: {
           page,
           search,
