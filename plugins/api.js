@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { constant } from '~/settings';
+import constant from '~/constant';
 
 export default (ctx, inject) => {
   // setting

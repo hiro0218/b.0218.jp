@@ -1,4 +1,5 @@
-import { constant, route } from './settings';
+import { route } from './settings';
+import constant from './constant';
 const routeData = async () => await route.getData();
 
 module.exports = {
