@@ -44,8 +44,8 @@ export const actions = {
       });
   },
   async fetchCategoryList({ commit }) {
-    await this.$axios
-      .get('wp/v2/categories', {
+    await this.$api
+      .getCategories({
         params: {
           order: 'desc',
           orderby: 'count',
