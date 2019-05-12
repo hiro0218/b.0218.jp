@@ -26,7 +26,23 @@ export default (ctx, inject) => {
       return client.get('wp/v2/tags', params);
     },
     getArchive() {
-      return client.get('0218/v1/archive');
+      if (process.env.NODE_ENV === 'development') {
+        return client.get('0218/v1/archive');
+      }
+
+      return axios.get('/api/archive.json');
+    },
+    getCategoryList() {
+      if (process.env.NODE_ENV === 'development') {
+        return this.getCategories({
+          params: {
+            order: 'desc',
+            orderby: 'count',
+          },
+        });
+      }
+
+      return axios.get('/api/categories.json');
     },
   };
 

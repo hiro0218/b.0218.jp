@@ -44,15 +44,8 @@ export const actions = {
       });
   },
   async fetchCategoryList({ commit }) {
-    await this.$api
-      .getCategories({
-        params: {
-          order: 'desc',
-          orderby: 'count',
-        },
-      })
-      .then(res => {
-        commit('posts/setCategoryList', res.data, { root: true });
-      });
+    await this.$api.getCategoryList().then(res => {
+      commit('posts/setCategoryList', res.data, { root: true });
+    });
   },
 };
