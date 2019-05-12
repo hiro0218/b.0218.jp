@@ -169,7 +169,7 @@ export default {
   color: $base-color;
 
   @include mobile {
-    width: 100%;
+    flex-basis: 100%;
   }
 
   &:hover {
