@@ -1,4 +1,5 @@
 import axios from 'axios';
+import constant from '~/constant';
 
 export const route = {
   async getData() {
