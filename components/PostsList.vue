@@ -161,7 +161,8 @@ export default {
 
 .post-item {
   display: flex;
-  width: 50%;
+  flex-basis: 50%;
+  flex-grow: 1;
   margin-bottom: 1rem;
   padding: 1rem;
   border-radius: 0.15rem;
