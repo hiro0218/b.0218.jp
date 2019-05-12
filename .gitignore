@@ -68,7 +68,6 @@ typings/
 # nuxt.js build output
 .nuxt
 static/sitemap.xml
-static/api
 
 # Nuxt generate
 dist
