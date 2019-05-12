@@ -4,7 +4,7 @@ const consola = require('consola');
 
 // constant
 const ENDPOINT = 'https://content.b.0218.jp/wp-json/';
-const DIST_DIRECTRY = './dist/api/';
+const DIST_DIRECTRY = './static/api/';
 
 // axios setting
 const axios = require('axios');
