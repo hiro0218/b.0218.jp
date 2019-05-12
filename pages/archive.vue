@@ -37,10 +37,10 @@ export default {
       archiveList: state => state.data,
     }),
   },
-  async fetch({ store, $axios, params, error }) {
+  async fetch({ store, app, params, error }) {
     if (store.getters['archive/dataSize'] !== 0) return;
-    return await $axios
-      .get('0218/v1/archive')
+    return await app.$api
+      .getArchive()
       .then(async res => {
         store.dispatch('archive/setData', res.data);
       })

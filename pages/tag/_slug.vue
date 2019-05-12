@@ -25,13 +25,16 @@ export default {
       title: this.name,
     };
   },
-  async asyncData({ store, $axios, params, query, error }) {
+  validate({ params }) {
+    return params.slug;
+  },
+  async asyncData({ store, app, params, query, error }) {
     let id = 0;
     let name = '';
     let description = '';
 
-    await $axios
-      .get('wp/v2/tags', {
+    await app.$api
+      .getTags({
         params: {
           slug: params.slug,
         },

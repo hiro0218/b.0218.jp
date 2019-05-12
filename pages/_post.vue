@@ -60,18 +60,14 @@ export default {
     if (process.static && process.server) return true;
     return params.post && /\d+.html/.test(params.post);
   },
-  async fetch({ store, $axios, params, error, payload }) {
+  async fetch({ store, app, params, error, payload }) {
     // when nuxt generate
     if (process.static && params.post.indexOf('.html') === -1) {
       params.post += '.html';
     }
 
-    return $axios
-      .get(`wp/v2/posts?slug=${params.post}`, {
-        params: {
-          _embed: '',
-        },
-      })
+    return app.$api
+      .getPost(params)
       .then(res => {
         store.dispatch('post/setData', res.data[0]);
       })

@@ -1,4 +1,5 @@
-import { constant, route } from './settings';
+import { route } from './settings';
+import constant from './constant';
 const routeData = async () => await route.getData();
 
 module.exports = {
@@ -68,6 +69,7 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '~/plugins/api.js',
     '~/plugins/mixin.js',
     '~/plugins/pagination.client.js',
     '~/plugins/mokuji.client.js',
@@ -78,7 +80,6 @@ module.exports = {
    ** Nuxt.js modules
    */
   modules: [
-    '@nuxtjs/axios',
     '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
     '@nuxtjs/sitemap',
@@ -156,14 +157,6 @@ module.exports = {
     lang: 'ja',
     theme_color: '#ffffff',
     background_color: '#ffffff',
-  },
-
-  /*
-   ** Axios module configuration
-   */
-  axios: {
-    // See https://github.com/nuxt-community/axios-module#options
-    baseURL: constant.ENDPOINT,
   },
 
   markdownit: {
