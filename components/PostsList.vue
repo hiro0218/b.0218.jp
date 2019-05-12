@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div v-if="postsHeaders.totalpages === 0" class="c-alert is-warning">
-      No results found.
-    </div>
     <keep-alive>
       <PostsCategoryList />
     </keep-alive>
+    <div v-if="postsHeaders.totalpages === 0" class="c-alert is-danger">
+      No results found.
+    </div>
     <template v-if="postsList.length !== 0">
       <div class="u-list-unstyled post-list">
         <template v-for="post in postsList">
