@@ -1,16 +1,17 @@
 <template>
   <section>
+    <div class="c-title is-center">
+      <h1 class="title-main">
+        <template v-if="$route.query.search">
+          search: {{ $route.query.search }}
+        </template>
+        <template v-else>
+          {{ pageTitle }}
+        </template>
+      </h1>
+    </div>
+    <PostsCategoryList />
     <no-ssr>
-      <div class="c-title is-center">
-        <h1 class="title-main">
-          <template v-if="$route.query.search">
-            search: {{ $route.query.search }}
-          </template>
-          <template v-else>
-            {{ pageTitle }}
-          </template>
-        </h1>
-      </div>
       <PostsList />
     </no-ssr>
   </section>
@@ -18,10 +19,12 @@
 
 <script>
 import PostsList from '~/components/PostsList.vue';
+import PostsCategoryList from '~/components/PostsCategoryList.vue';
 
 export default {
   components: {
     PostsList,
+    PostsCategoryList,
   },
   head() {
     return {

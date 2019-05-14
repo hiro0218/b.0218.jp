@@ -1,8 +1,5 @@
 <template>
   <div>
-    <keep-alive>
-      <PostsCategoryList />
-    </keep-alive>
     <div v-if="postsHeaders.totalpages === 0" class="c-alert is-danger">
       No results found.
     </div>
@@ -55,7 +52,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import PostsCategoryList from '~/components/PostsCategoryList.vue';
 import lazyload from '~/assets/script/lazyload.js';
 import svgTime from '~/assets/image/time.svg?inline';
 import svgPhoto from '~/assets/image/photo.svg?inline';
@@ -63,7 +59,6 @@ import svgPhoto from '~/assets/image/photo.svg?inline';
 export default {
   name: 'PostsList',
   components: {
-    PostsCategoryList,
     svgTime,
     svgPhoto,
   },

@@ -1,12 +1,13 @@
 <template>
   <section v-if="id > 0">
-    <no-ssr>
-      <div class="c-title is-center">
-        <h1 class="title-main">category: {{ name }}</h1>
-        <div class="title-sub">
-          {{ description }}
-        </div>
+    <div class="c-title is-center">
+      <h1 class="title-main">category: {{ name }}</h1>
+      <div class="title-sub">
+        {{ description }}
       </div>
+    </div>
+    <PostsCategoryList />
+    <no-ssr>
       <PostsList :category-id="id" mode="categories" />
     </no-ssr>
   </section>
@@ -14,11 +15,13 @@
 
 <script>
 import PostsList from '~/components/PostsList.vue';
+import PostsCategoryList from '~/components/PostsCategoryList.vue';
 
 export default {
   name: 'CategoryPostsList',
   components: {
     PostsList,
+    PostsCategoryList,
   },
   head() {
     return {
@@ -65,6 +68,9 @@ export default {
       id,
       name,
     };
+  },
+  async fetch({ store, params, query }) {
+    store.dispatch('posts/fetchCategoryList');
   },
   // beforeRouteLeave(to, from, next) {
   //   this.$store.dispatch('posts/resetList');
