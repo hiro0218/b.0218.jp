@@ -9,8 +9,8 @@
           {{ pageTitle }}
         </template>
       </template>
-      <PostsCategoryList />
       <no-ssr>
+        <PostsCategoryList />
         <PostsList />
       </no-ssr>
     </LayoutPostsList>
