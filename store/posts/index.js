@@ -19,6 +19,12 @@ export const mutations = {
   },
 };
 
+export const getters = {
+  categoryListSize: state => {
+    return state.categoryList.length;
+  },
+};
+
 export const actions = {
   setHeaders({ commit }, data) {
     commit('setHeaders', data);
@@ -43,7 +49,9 @@ export const actions = {
         dispatch('posts/setList', res.data, { root: true });
       });
   },
-  async fetchCategoryList({ commit }) {
+  async fetchCategoryList({ commit, getters }) {
+    if (getters.categoryListSize !== 0) return;
+
     await this.$api.getCategoryList().then(res => {
       commit('posts/setCategoryList', res.data, { root: true });
     });
