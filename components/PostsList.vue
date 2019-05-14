@@ -108,9 +108,6 @@ export default {
       this.fetchList(query.page);
     },
   },
-  created() {
-    this.$store.dispatch('posts/fetchCategoryList');
-  },
   mounted() {
     this.loadImages();
   },

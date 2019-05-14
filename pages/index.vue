@@ -33,6 +33,7 @@ export default {
     pageTitle: () => 'Home',
   },
   async fetch({ store, params, query }) {
+    store.dispatch('posts/fetchCategoryList');
     return store.dispatch('posts/fetch', query);
   },
   // beforeRouteLeave(to, from, next) {
