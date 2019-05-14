@@ -1,25 +1,29 @@
 <template>
   <section v-if="id > 0">
-    <div class="c-title is-center">
-      <h1 class="title-main">tag: {{ name }}</h1>
-      <div class="title-sub">
+    <LayoutPostsList>
+      <template v-slot:postsListTitle>
+        tag: {{ name }}
+      </template>
+      <template v-slot:postsListTitleSub>
         {{ description }}
-      </div>
-    </div>
-    <PostsCategoryList />
-    <no-ssr>
-      <PostsList :tag-id="id" mode="tags" />
-    </no-ssr>
+      </template>
+      <PostsCategoryList />
+      <no-ssr>
+        <PostsList :tag-id="id" mode="tags" />
+      </no-ssr>
+    </LayoutPostsList>
   </section>
 </template>
 
 <script>
+import LayoutPostsList from '~/components/LayoutPostsList.vue';
 import PostsList from '~/components/PostsList.vue';
 import PostsCategoryList from '~/components/PostsCategoryList.vue';
 
 export default {
   name: 'TagPostsList',
   components: {
+    LayoutPostsList,
     PostsList,
     PostsCategoryList,
   },

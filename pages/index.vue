@@ -1,28 +1,30 @@
 <template>
   <section>
-    <div class="c-title is-center">
-      <h1 class="title-main">
+    <LayoutPostsList>
+      <template v-slot:postsListTitle>
         <template v-if="$route.query.search">
           search: {{ $route.query.search }}
         </template>
         <template v-else>
           {{ pageTitle }}
         </template>
-      </h1>
-    </div>
-    <PostsCategoryList />
-    <no-ssr>
-      <PostsList />
-    </no-ssr>
+      </template>
+      <PostsCategoryList />
+      <no-ssr>
+        <PostsList />
+      </no-ssr>
+    </LayoutPostsList>
   </section>
 </template>
 
 <script>
+import LayoutPostsList from '~/components/LayoutPostsList.vue';
 import PostsList from '~/components/PostsList.vue';
 import PostsCategoryList from '~/components/PostsCategoryList.vue';
 
 export default {
   components: {
+    LayoutPostsList,
     PostsList,
     PostsCategoryList,
   },
