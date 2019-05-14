@@ -7,8 +7,8 @@
       <template v-slot:postsListTitleSub>
         {{ description }}
       </template>
-      <PostsCategoryList />
       <no-ssr>
+        <PostsCategoryList />
         <PostsList :tag-id="id" mode="tags" />
       </no-ssr>
     </LayoutPostsList>
