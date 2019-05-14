@@ -3,8 +3,8 @@
     <li class="category-item">
       <nuxt-link to="/" exact :class="{ 'nuxt-link-active': this.$route.path == '/' }">すべて</nuxt-link>
     </li>
-    <template v-for="item in categoryList">
-      <li :key="item.id" class="category-item">
+    <template v-for="(item, index) in categoryList">
+      <li v-if="index <= 10" :key="item.id" class="category-item">
         <nuxt-link :to="'/category/' + item.slug">{{ item.name }}</nuxt-link>
       </li>
     </template>

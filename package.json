@@ -27,7 +27,7 @@
     "lozad": "^1.9.0",
     "mokuji.js": "^2.0.0",
     "normalize.css": "^8.0.1",
-    "nuxt": "^2.6.3",
+    "nuxt": "^2.7.0",
     "open-color": "^1.6.3",
     "vuejs-paginate": "^2.1.0"
   },

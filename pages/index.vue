@@ -1,27 +1,32 @@
 <template>
   <section>
-    <no-ssr>
-      <div class="c-title is-center">
-        <h1 class="title-main">
-          <template v-if="$route.query.search">
-            search: {{ $route.query.search }}
-          </template>
-          <template v-else>
-            {{ pageTitle }}
-          </template>
-        </h1>
-      </div>
-      <PostsList />
-    </no-ssr>
+    <LayoutPostsList>
+      <template v-slot:postsListTitle>
+        <template v-if="$route.query.search">
+          search: {{ $route.query.search }}
+        </template>
+        <template v-else>
+          {{ pageTitle }}
+        </template>
+      </template>
+      <PostsCategoryList />
+      <no-ssr>
+        <PostsList />
+      </no-ssr>
+    </LayoutPostsList>
   </section>
 </template>
 
 <script>
+import LayoutPostsList from '~/components/LayoutPostsList.vue';
 import PostsList from '~/components/PostsList.vue';
+import PostsCategoryList from '~/components/PostsCategoryList.vue';
 
 export default {
   components: {
+    LayoutPostsList,
     PostsList,
+    PostsCategoryList,
   },
   head() {
     return {
@@ -33,6 +38,7 @@ export default {
     pageTitle: () => 'Home',
   },
   async fetch({ store, params, query }) {
+    store.dispatch('posts/fetchCategoryList');
     return store.dispatch('posts/fetch', query);
   },
   // beforeRouteLeave(to, from, next) {

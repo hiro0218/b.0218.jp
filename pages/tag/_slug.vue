@@ -1,24 +1,31 @@
 <template>
   <section v-if="id > 0">
-    <no-ssr>
-      <div class="c-title is-center">
-        <h1 class="title-main">tag: {{ name }}</h1>
-        <div class="title-sub">
-          {{ description }}
-        </div>
-      </div>
-      <PostsList :tag-id="id" mode="tags" />
-    </no-ssr>
+    <LayoutPostsList>
+      <template v-slot:postsListTitle>
+        tag: {{ name }}
+      </template>
+      <template v-slot:postsListTitleSub>
+        {{ description }}
+      </template>
+      <PostsCategoryList />
+      <no-ssr>
+        <PostsList :tag-id="id" mode="tags" />
+      </no-ssr>
+    </LayoutPostsList>
   </section>
 </template>
 
 <script>
+import LayoutPostsList from '~/components/LayoutPostsList.vue';
 import PostsList from '~/components/PostsList.vue';
+import PostsCategoryList from '~/components/PostsCategoryList.vue';
 
 export default {
   name: 'TagPostsList',
   components: {
+    LayoutPostsList,
     PostsList,
+    PostsCategoryList,
   },
   head() {
     return {
@@ -65,6 +72,9 @@ export default {
       id,
       name,
     };
+  },
+  async fetch({ store, params, query }) {
+    store.dispatch('posts/fetchCategoryList');
   },
   // beforeRouteLeave(to, from, next) {
   //   this.$store.dispatch('posts/resetList');

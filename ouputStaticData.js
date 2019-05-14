@@ -35,6 +35,7 @@ async function outputArchive() {
 async function outputCategoryList() {
   const res = await client.get('wp/v2/categories', {
     params: {
+      _fields: 'id,count,name,slug',
       order: 'desc',
       orderby: 'count',
     },
