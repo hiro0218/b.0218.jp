@@ -19,6 +19,14 @@ export default (ctx, inject) => {
         },
       });
     },
+    getTerms(type, params) {
+      if (type === 'categories') {
+        return this.getCategories(params);
+      }
+      if (type === 'tags') {
+        return this.getTags(params);
+      }
+    },
     getCategories(params) {
       return client.get('wp/v2/categories', params);
     },
