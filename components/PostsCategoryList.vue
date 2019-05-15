@@ -5,7 +5,7 @@
     </li>
     <template v-for="(item, index) in categoryList">
       <li v-if="index <= 10" :key="item.id" class="category-item">
-        <nuxt-link :to="'/category/' + item.slug">{{ item.name }}</nuxt-link>
+        <nuxt-link :to="'/categories/' + item.slug">{{ item.name }}</nuxt-link>
       </li>
     </template>
   </ul>
