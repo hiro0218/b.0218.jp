@@ -36,7 +36,7 @@ export const actions = {
     commit('setList', data);
   },
   async fetch({ dispatch }, { page, search, archiveParams }) {
-    await this.$api
+    return await this.$api
       .getPosts({
         params: {
           page,
@@ -45,15 +45,15 @@ export const actions = {
         },
       })
       .then(res => {
-        dispatch('posts/setHeaders', res.headers, { root: true });
-        dispatch('posts/setList', res.data, { root: true });
+        dispatch('setHeaders', res.headers);
+        dispatch('setList', res.data);
       });
   },
   async fetchCategoryList({ commit, getters }) {
     if (getters.categoryListSize !== 0) return;
 
-    await this.$api.getCategoryList().then(res => {
-      commit('posts/setCategoryList', res.data, { root: true });
+    return await this.$api.getCategoryList().then(res => {
+      commit('setCategoryList', res.data);
     });
   },
 };
