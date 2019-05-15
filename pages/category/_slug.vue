@@ -7,9 +7,9 @@
       <template v-slot:postsListTitleSub>
         {{ description }}
       </template>
+      <PostsCategoryList />
       <no-ssr>
-        <PostsCategoryList />
-        <PostsList :category-id="id" mode="categories" />
+        <PostsList :term-id="id" mode="categories" />
       </no-ssr>
     </LayoutPostsList>
   </section>

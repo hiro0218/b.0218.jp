@@ -68,12 +68,7 @@ export default {
       required: false,
       default: 'posts',
     },
-    categoryId: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
-    tagId: {
+    termId: {
       type: Number,
       required: false,
       default: 0,
@@ -92,7 +87,7 @@ export default {
     archiveParams: function() {
       if (this.mode !== 'posts') {
         return {
-          [this.mode]: this.categoryId || this.tagId,
+          [this.mode]: this.termId,
         };
       }
       return {};
