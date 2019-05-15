@@ -40,6 +40,7 @@ export default {
     let name = '';
     let description = '';
 
+    await store.dispatch('posts/fetchCategoryList');
     await app.$api
       .getCategories({
         params: {
@@ -72,9 +73,6 @@ export default {
       id,
       name,
     };
-  },
-  async fetch({ store, params, query }) {
-    store.dispatch('posts/fetchCategoryList');
   },
   // beforeRouteLeave(to, from, next) {
   //   this.$store.dispatch('posts/resetList');
