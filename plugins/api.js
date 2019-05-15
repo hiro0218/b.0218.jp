@@ -26,8 +26,7 @@ export default (ctx, inject) => {
       return client.get('wp/v2/tags', params);
     },
     getArchive() {
-      // nuxt generate
-      if (process.static && process.server) {
+      if (process.env.NODE_ENV === 'development') {
         return client.get('0218/v1/archive');
       }
 
