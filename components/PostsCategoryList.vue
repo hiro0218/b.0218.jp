@@ -1,5 +1,5 @@
 <template>
-  <ul class="u-list-unstyled u-scroll-x category-list">
+  <ul v-if="categoryList.length !== 0" class="u-list-unstyled u-scroll-x category-list">
     <li class="category-item">
       <nuxt-link to="/" exact :class="{ 'nuxt-link-active': this.$route.path == '/' }">すべて</nuxt-link>
     </li>
