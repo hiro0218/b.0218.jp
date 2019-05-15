@@ -5214,9 +5214,9 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   dependencies:
     minimist "0.0.8"
 
-mokuji.js@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/mokuji.js/-/mokuji.js-2.0.0.tgz#14f0403ad5a144e90a4a869db3f1337806da0e67"
+mokuji.js@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/mokuji.js/-/mokuji.js-2.0.1.tgz#4a45553c98c436c6288eb95d1c8948660b91309d"
 
 move-concurrently@^1.0.1:
   version "1.0.1"
