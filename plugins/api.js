@@ -26,14 +26,14 @@ export default (ctx, inject) => {
       return client.get('wp/v2/tags', params);
     },
     getArchive() {
-      if (process.static) {
+      if (process.server || process.static) {
         return client.get('0218/v1/archive');
       }
 
       return axios.get('/api/archive.json');
     },
     getCategoryList() {
-      if (process.static) {
+      if (process.server || process.static) {
         return this.getCategories({
           params: {
             order: 'desc',
