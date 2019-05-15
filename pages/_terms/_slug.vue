@@ -2,14 +2,14 @@
   <section v-if="id > 0">
     <LayoutPostsList>
       <template v-slot:postsListTitle>
-        category: {{ name }}
+        {{ $route.params.terms }}: {{ name }}
       </template>
       <template v-slot:postsListTitleSub>
         {{ description }}
       </template>
       <PostsCategoryList />
       <no-ssr>
-        <PostsList :term-id="id" mode="categories" />
+        <PostsList :term-id="id" :mode="$route.params.terms" />
       </no-ssr>
     </LayoutPostsList>
   </section>
@@ -21,7 +21,7 @@ import PostsList from '~/components/PostsList.vue';
 import PostsCategoryList from '~/components/PostsCategoryList.vue';
 
 export default {
-  name: 'CategoryPostsList',
+  name: 'TermsPostsList',
   components: {
     LayoutPostsList,
     PostsList,
@@ -33,7 +33,7 @@ export default {
     };
   },
   validate({ params }) {
-    return params.slug;
+    return (params.terms === 'categories' || params.terms === 'tags') && params.slug;
   },
   async asyncData({ store, app, params, query, error }) {
     let id = 0;
@@ -42,7 +42,7 @@ export default {
 
     await store.dispatch('posts/fetchCategoryList');
     await app.$api
-      .getCategories({
+      .getTerms(params.terms, {
         params: {
           slug: params.slug,
         },
@@ -60,7 +60,7 @@ export default {
         return store.dispatch('posts/fetch', {
           page: query.page,
           archiveParams: {
-            categories: id,
+            [params.terms]: id,
           },
         });
       })
