@@ -38,7 +38,6 @@ export default {
     return {
       elPostContent: null,
       elMokuji: {
-        title: null,
         content: null,
       },
     };
@@ -47,9 +46,6 @@ export default {
     ...mapState('post', {
       post: state => state.data,
     }),
-  },
-  destroyed() {
-    this.toggleMokuji(false);
   },
   methods: {
     init() {
@@ -73,10 +69,17 @@ export default {
     },
     initMokuji() {
       if (!process.client) return;
-      this.elMokuji.title = document.querySelector('.mokuji-title');
-      this.elMokuji.content = document.querySelector('.mokuji-content');
+      const container = document.querySelector('.mokuji-container');
+      const details = document.createElement('details');
+      const summary = document.createElement('summary');
+      summary.textContent = 'INDEX';
+      details.appendChild(summary);
+
+      this.elMokuji.content = container.querySelector('.mokuji-content');
+      details.appendChild(this.elMokuji.content);
+
       this.appendMokuji();
-      this.toggleMokuji();
+      container.appendChild(details);
     },
     appendMokuji() {
       if (!this.elMokuji.content) return;
@@ -90,19 +93,6 @@ export default {
       });
 
       this.elMokuji.content.appendChild(mokujiData);
-    },
-    toggleMokuji(init = true) {
-      if (!this.elMokuji.title) return;
-
-      if (init) {
-        this.elMokuji.title.addEventListener('click', () => this.toggleMokujiContent());
-      } else {
-        this.elMokuji.title.removeEventListener('click', () => this.toggleMokujiContent());
-      }
-    },
-    toggleMokujiContent() {
-      this.elMokuji.title.classList.toggle('open');
-      this.elMokuji.content.classList.toggle('open');
     },
     addExternalLinkIcon() {
       const links = this.elPostContent.querySelectorAll('a');
@@ -176,38 +166,12 @@ export default {
     background: map-get($light-color, 4);
     color: $secondary-color;
     font-size: $font-size-sm;
-  }
-
-  .mokuji-title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: $font-size-lg;
-    font-weight: bold;
-    line-height: 1;
-    user-select: none;
-    cursor: pointer;
-
-    &::after {
-      display: inline-block;
-      width: 1em;
-      height: 1em;
-      content: '';
-      background: url('~assets/image/arrow_up.svg') center / 1em 1em no-repeat;
-    }
-    &.open::after {
-      background-image: url('~assets/image/arrow_down.svg');
+    summary {
+      cursor: pointer;
     }
   }
+
   .mokuji-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-in-out;
-
-    &.open {
-      max-height: 200vh;
-    }
-
     a {
       color: inherit;
     }
