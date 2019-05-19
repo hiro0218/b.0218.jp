@@ -112,11 +112,7 @@ module.exports = {
     hostname: constant.SITE_URL,
     generate: true,
     async routes() {
-      return await routeData().then(data => {
-        return data.map(post => {
-          return post.slug;
-        });
-      });
+      return await routeData();
     },
   },
 
@@ -271,13 +267,7 @@ module.exports = {
     subFolders: false,
     interval: 1000,
     async routes() {
-      return await routeData().then(data => {
-        return data.map(post => {
-          return {
-            route: post.slug.replace('.html', ''),
-          };
-        });
-      });
+      return await routeData();
     },
   },
 };
