@@ -3,6 +3,7 @@
 @import 'Settings/variables';
 
 // Tools
+@import 'Tools/animation';
 @import 'Tools/mixins';
 
 // Generics
@@ -15,6 +16,7 @@
 @import 'Elements/code';
 @import 'Elements/list';
 @import 'Elements/table';
+@import 'Elements/details';
 
 // Objects
 @import 'Objects/layout';

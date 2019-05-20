@@ -161,13 +161,12 @@ export default {
   // mokuji
   .mokuji-container {
     margin: 2rem 0;
-    padding: 1rem 1.5rem;
     border-radius: 0.15rem;
     background: map-get($light-color, 4);
     color: $secondary-color;
     font-size: $font-size-sm;
-    summary {
-      cursor: pointer;
+    details {
+      padding: 1rem 1.5rem;
     }
   }
 
