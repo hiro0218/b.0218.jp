@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import isSameDay from 'date-fns/is_same_day';
 
 Vue.mixin({
   filters: {
@@ -24,6 +23,8 @@ Vue.mixin({
     },
   },
   methods: {
-    isDateSameDay: (date1, date2) => isSameDay(date1, date2),
+    isDateSameDay: (date1, date2) => {
+      return new Date(date1).toDateString() === new Date(date2).toDateString();
+    },
   },
 });
