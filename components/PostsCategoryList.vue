@@ -26,8 +26,8 @@ export default {
 
 <style lang="scss" scoped>
 .category-list {
-  margin: 3rem auto;
-  padding: 0 1rem;
+  margin: 2rem auto;
+  padding: 0 1rem 1rem;
   display: flex;
   justify-content: flex-start;
   align-items: center;
