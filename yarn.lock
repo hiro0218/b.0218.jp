@@ -2737,7 +2737,7 @@ data-store@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/data-store/-/data-store-3.1.0.tgz#9464f2c8ac8cad5cd0ebb6992eaf354d7ea8c35c"
 
-date-fns@^1.27.2, date-fns@^1.30.1:
+date-fns@^1.27.2:
   version "1.30.1"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
 
