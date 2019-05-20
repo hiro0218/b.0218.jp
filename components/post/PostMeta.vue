@@ -3,11 +3,11 @@
     <ul class="c-meta-list">
       <li class="meta-item">
         <svgTime />
-        <time :datetime="post.date" itemprop="datePublished">{{ post.date | dateToISOString }}</time>
+        <time :datetime="post.date" itemprop="datePublished">{{ post.date | formatDateString }}</time>
       </li>
       <li v-if="!isDateSameDay(post.date, post.modified)" class="meta-item">
         <svgArrowRight />
-        <time :datetime="post.modified" itemprop="dateModified">{{ post.modified | dateToISOString }}</time>
+        <time :datetime="post.modified" itemprop="dateModified">{{ post.modified | formatDateString }}</time>
       </li>
     </ul>
     <ul v-if="post.hasOwnProperty('_embedded')" class="c-meta-list">

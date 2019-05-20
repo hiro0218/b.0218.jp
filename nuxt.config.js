@@ -103,6 +103,7 @@ module.exports = {
     sass: [
       '~/assets/style/Settings/_colors.scss',
       '~/assets/style/Settings/_variables.scss',
+      '~/assets/style/Tools/_animation.scss',
       '~/assets/style/Tools/_mixins.scss',
     ],
   },

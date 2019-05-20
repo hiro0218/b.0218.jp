@@ -26,7 +26,7 @@
               <ul class="c-meta-list">
                 <li class="meta-item">
                   <svgTime />
-                  <time :datetime="post.date" itemprop="datePublished">{{ post.date | dateToISOString }}</time>
+                  <time :datetime="post.date" itemprop="datePublished">{{ post.date | formatDateString }}</time>
                 </li>
               </ul>
             </div>

@@ -1,0 +1,9 @@
+details {
+  &[open] summary ~ * {
+    animation: fadeIn .8s both;
+  }
+
+  summary {
+    cursor: pointer;
+  }
+}

@@ -11,7 +11,7 @@
         <ul class="u-list-unstyled archive-list">
           <li v-for="post in posts" :key="post.id" class="archive-item">
             <nuxt-link :to="post.link">
-              <time :datetime="post.date">{{ post.date | dateToISOString }}</time>
+              <time :datetime="post.date">{{ post.date | formatDateString }}</time>
               <span>{{ post.title }}</span>
             </nuxt-link>
           </li>
