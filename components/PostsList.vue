@@ -7,29 +7,11 @@
       <div class="u-list-unstyled post-list">
         <template v-for="post in postsList">
           <nuxt-link :key="post.id" :to="{ path: '/' + post.slug }" class="post-item">
-            <div class="post-image">
-              <img
-                v-if="post.thumbnail"
-                :data-src="post.thumbnail"
-                :alt="post.title.rendered"
-                src="~assets/image/space.gif"
-              />
-              <svgPhoto v-else class="no-image" />
-            </div>
-            <div class="post-body">
-              <div class="post-title">
-                {{ post.title.rendered }}
-              </div>
-              <div class="post-excerpt">
-                {{ post.excerpt.rendered }}
-              </div>
-              <ul class="c-meta-list">
-                <li class="meta-item">
-                  <svgTime />
-                  <time :datetime="post.date" itemprop="datePublished">{{ post.date | formatDateString }}</time>
-                </li>
-              </ul>
-            </div>
+            <LayoutCard :title="post.title.rendered" :description="post.excerpt.rendered" :thumbnail="post.thumbnail">
+              <template v-slot:card-footer>
+                <time :datetime="post.date" itemprop="datePublished">{{ post.date | formatDateString }}</time>
+              </template>
+            </LayoutCard>
           </nuxt-link>
         </template>
       </div>
@@ -52,15 +34,12 @@
 
 <script>
 import { mapState } from 'vuex';
-import lazyload from '~/assets/script/lazyload.js';
-import svgTime from '~/assets/image/time.svg?inline';
-import svgPhoto from '~/assets/image/photo.svg?inline';
+import LayoutCard from '~/components/LayoutCard.vue';
 
 export default {
   name: 'PostsList',
   components: {
-    svgTime,
-    svgPhoto,
+    LayoutCard,
   },
   props: {
     mode: {
@@ -98,9 +77,6 @@ export default {
       this.fetchList(query.page);
     },
   },
-  mounted() {
-    this.loadImages();
-  },
   methods: {
     async fetchList(pageNumber = 1) {
       this.page = Number(pageNumber);
@@ -126,12 +102,6 @@ export default {
         top: 0,
         left: 0,
         behavior: 'smooth',
-      });
-    },
-    loadImages() {
-      this.$nextTick(() => {
-        const images = this.$el.querySelectorAll('[data-src]');
-        lazyload(images);
       });
     },
   },
@@ -165,57 +135,6 @@ export default {
 
   &:visited {
     color: $base-color;
-  }
-}
-
-.post-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 1rem;
-  width: 5rem;
-  height: 5rem;
-  background-color: map-get($light-color, 3);
-  border-radius: 0.15rem;
-  overflow: hidden;
-
-  img {
-    width: 5rem;
-    height: 5rem;
-    object-fit: contain;
-  }
-  .no-image {
-    fill: $tertiary-color;
-    width: 2rem;
-    height: 2rem;
-  }
-}
-
-.post-body {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: space-between;
-  font-size: $font-size-sm;
-
-  .post-title {
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-    font-weight: bold;
-    line-height: 1.8;
-  }
-
-  .post-excerpt {
-    flex: 1;
-    margin-bottom: 1rem;
-    color: $secondary-color;
-    letter-spacing: 0.02em;
-    line-height: 1.8;
-  }
-
-  .c-meta-list {
-    justify-content: flex-end;
-    line-height: 1;
   }
 }
 
