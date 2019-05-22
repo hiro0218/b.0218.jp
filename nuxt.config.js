@@ -161,15 +161,7 @@ module.exports = {
     breaks: true,
   },
 
-  router: {
-    scrollBehavior: function(to, from, savedPosition) {
-      if (to.hash) {
-        return { selector: to.hash.replace(/\./g, '\\\\\\.') };
-      } else {
-        return { x: 0, y: 0 };
-      }
-    },
-  },
+  router: {},
 
   /*
    ** Build configuration
