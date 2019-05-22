@@ -9,7 +9,6 @@
     <PostAds />
     <div class="post-content" v-html="post.content.rendered" />
     <PostShare />
-    <PostAds />
   </LayoutArticle>
 </template>
 
