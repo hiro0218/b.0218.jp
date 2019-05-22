@@ -9,16 +9,15 @@
     <PostAds />
     <div class="post-content" v-html="post.content.rendered" />
     <PostShare />
-    <PostAds />
   </LayoutArticle>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-const LayoutArticle = () => import('~/components/LayoutArticle.vue');
+import LayoutArticle from '~/components/LayoutArticle.vue';
 import PostMeta from '~/components/post/PostMeta.vue';
-const PostShare = () => import('~/components/post/PostShare.vue');
-const PostAds = () => import('~/components/post/PostAds.vue');
+import PostShare from '~/components/post/PostShare.vue';
+import PostAds from '~/components/post/PostAds.vue';
 import externalLink from '~/assets/script/externalLink.js';
 
 export default {

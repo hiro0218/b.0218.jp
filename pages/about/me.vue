@@ -10,7 +10,7 @@
 <script>
 const LayoutArticle = () => import('~/components/LayoutArticle.vue');
 import externalLink from '~/assets/script/externalLink.js';
-import aboutMeData from '~/assets/page/about/me.md';
+import aboutMeData from '~/assets/markdown/about/me.md';
 
 export default {
   name: 'AboutMe',

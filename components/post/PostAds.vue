@@ -1,5 +1,5 @@
 <template>
-  <div class="post-ads">
+  <div class="c-adsense post-ads">
     <adsbygoogle :ad-slot="adsense.slot" :ad-layout="adsense.layout" :ad-format="adsense.format" />
   </div>
 </template>
@@ -18,18 +18,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.post-ads {
-  margin: 1rem auto;
-  max-width: 336px;
-  height: 280px;
-  @include mobile {
-    min-height: 100px;
-  }
-}
-
-.google-auto-placed {
-  margin: 1rem auto;
-}
-</style>

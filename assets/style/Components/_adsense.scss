@@ -1,0 +1,13 @@
+.c-adsense {
+  margin: 1rem auto;
+  max-width: 336px;
+  height: 280px;
+  @include mobile {
+    min-height: 100px;
+  }
+}
+
+// google adsense utility
+.google-auto-placed {
+  margin: 1rem auto;
+}
