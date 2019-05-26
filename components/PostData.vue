@@ -92,6 +92,20 @@ export default {
       });
 
       this.elMokuji.content.appendChild(mokujiData);
+
+      // workaround: scroll
+      Array.from(mokujiData.querySelectorAll('a'), anchor => {
+        // inside mokuji
+        this.handleAnchorScroll(anchor, anchor.hash);
+
+        // inside post-content
+        let hash = anchor.hash.replace(/\./g, '\\.');
+        let heading = document.querySelector(`${hash} > a`);
+        this.handleAnchorScroll(heading, anchor.hash);
+      });
+
+      // loaded
+      this.scrollTo(this.$route.hash);
     },
     addExternalLinkIcon() {
       const links = this.elPostContent.querySelectorAll('a');
@@ -139,6 +153,27 @@ export default {
       Array.from(this.$el.querySelectorAll('pre code'), elm => {
         this.$hljs.highlightBlock(elm);
       });
+    },
+    handleAnchorScroll(element, hash) {
+      if (!element) return;
+
+      element.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.scrollTo(element.hash);
+        this.$router.push({ hash: element.hash });
+      });
+    },
+    scrollTo(hash) {
+      if (!hash) return;
+
+      let escaped_hash = hash.replace(/\./g, '\\.');
+      let target = document.querySelector(escaped_hash);
+      if (window && target) {
+        setTimeout(() => {
+          window.scrollTo({ left: 0, top: target.offsetTop, behavior: 'smooth' });
+        }, 0);
+      }
     },
   },
 };
