@@ -81,15 +81,11 @@ export default {
     async fetchList(pageNumber = 1) {
       this.page = Number(pageNumber);
 
-      this.$store
-        .dispatch('posts/fetch', {
-          page: pageNumber,
-          search: this.$route.query.search,
-          archiveParams: this.archiveParams,
-        })
-        .then(() => {
-          this.loadImages();
-        });
+      this.$store.dispatch('posts/fetch', {
+        page: pageNumber,
+        search: this.$route.query.search,
+        archiveParams: this.archiveParams,
+      });
     },
     changePage(pageNumber) {
       this.$router.push({
