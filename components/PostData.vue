@@ -67,7 +67,8 @@ export default {
       }
     },
     initMokuji() {
-      if (!process.client) return;
+      if (!process.client && !window.CSS) return;
+
       const container = document.querySelector('.mokuji-container');
       const details = document.createElement('details');
       const summary = document.createElement('summary');
@@ -96,12 +97,16 @@ export default {
       // workaround: scroll
       Array.from(mokujiData.querySelectorAll('a'), anchor => {
         // inside mokuji
-        this.handleAnchorScroll(anchor, anchor.hash);
+        this.handleAnchorScroll(anchor);
 
         // inside post-content
-        let hash = anchor.hash.replace(/\./g, '\\.');
-        let heading = document.querySelector(`${hash} > a`);
-        this.handleAnchorScroll(heading, anchor.hash);
+        try {
+          let escaped_hash = this.escapedSelector(anchor.hash);
+          let heading = this.$el.querySelector(`${escaped_hash} > a`);
+          this.handleAnchorScroll(heading);
+        } catch (e) {
+          console.error(e);
+        }
       });
 
       // loaded
@@ -154,7 +159,7 @@ export default {
         this.$hljs.highlightBlock(elm);
       });
     },
-    handleAnchorScroll(element, hash) {
+    handleAnchorScroll(element) {
       if (!element) return;
 
       element.addEventListener('click', e => {
@@ -167,13 +172,21 @@ export default {
     scrollTo(hash) {
       if (!hash) return;
 
-      let escaped_hash = hash.replace(/\./g, '\\.');
-      let target = document.querySelector(escaped_hash);
-      if (window && target) {
-        setTimeout(() => {
-          window.scrollTo({ left: 0, top: target.offsetTop, behavior: 'smooth' });
-        }, 0);
+      try {
+        let escaped_hash = this.escapedSelector(hash);
+        let target = this.$el.querySelector(escaped_hash);
+        if (target) {
+          setTimeout(() => {
+            window.scrollTo({ left: 0, top: target.offsetTop, behavior: 'smooth' });
+          }, 0);
+        }
+      } catch (e) {
+        console.error(e);
       }
+    },
+    escapedSelector(selector) {
+      let hash = selector.slice(1);
+      return '#' + CSS.escape(hash);
     },
   },
 };
