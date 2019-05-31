@@ -2,7 +2,7 @@ import { route } from './settings';
 import constant from './constant';
 const routeData = async () => await route.getData();
 
-module.exports = {
+export default {
   modern: 'client',
 
   env: {
