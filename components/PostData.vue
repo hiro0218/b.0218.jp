@@ -70,6 +70,7 @@ export default {
       if (!process.client && !window.CSS) return;
 
       const container = document.querySelector('.mokuji-container');
+      if (!container) return;
       const details = document.createElement('details');
       const summary = document.createElement('summary');
       summary.textContent = 'INDEX';
