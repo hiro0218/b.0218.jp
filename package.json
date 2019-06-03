@@ -27,7 +27,7 @@
     "mokuji.js": "^2.0.1",
     "normalize.css": "^8.0.1",
     "nuxt": "^2.8.0",
-    "open-color": "^1.6.3",
+    "open-color": "^1.7.0",
     "vuejs-paginate": "^2.1.0"
   },
   "devDependencies": {
