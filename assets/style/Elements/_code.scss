@@ -32,5 +32,5 @@ pre {
   border-radius: 0.15rem;
   background: map-get($light-color, 4);
   color: $secondary-color;
-  font-size: $font-size-sm;
+  font-size: strip-unit($font-size-sm) * 1em;
 }
