@@ -1,10 +1,5 @@
 <template>
   <div class="post-share">
-    <div class="c-title is-center">
-      <h2 class="title-main">
-        Share
-      </h2>
-    </div>
     <div class="sns-list">
       <a
         :href="'https://twitter.com/intent/tweet?url=' + post_link + '&text=' + encodeURIComponent(post_title)"
@@ -74,13 +69,8 @@ export default {
 
 <style lang="scss">
 .post-share {
-  margin: 2rem 0;
+  margin: 3rem 0;
   text-align: center;
-  .c-title {
-    .title-main {
-      font-size: $font-size-lg;
-    }
-  }
 }
 
 .sns-list {
