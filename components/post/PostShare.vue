@@ -92,27 +92,22 @@ export default {
   width: 2rem;
   height: 2rem;
   fill: $tertiary-color;
-  transition: fill 0.2s ease;
 
   &.is-twitter {
-    &:hover {
-      fill: map-get($social-color, 'twitter');
-    }
+    fill: map-get($social-color, 'twitter');
   }
   &.is-facebook {
-    &:hover {
-      fill: map-get($social-color, 'facebook');
-    }
+    fill: map-get($social-color, 'facebook');
   }
   &.is-hatenabookmark {
-    &:hover {
-      fill: map-get($social-color, 'hatenabookmark');
-    }
+    fill: map-get($social-color, 'hatenabookmark');
   }
   &.is-line {
-    &:hover {
-      fill: map-get($social-color, 'line');
-    }
+    fill: map-get($social-color, 'line');
+  }
+
+  &:hover {
+    opacity: 0.6;
   }
 
   & + & {
