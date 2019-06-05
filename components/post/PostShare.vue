@@ -1,10 +1,5 @@
 <template>
   <div class="post-share">
-    <div class="c-title is-center">
-      <h2 class="title-main">
-        Share
-      </h2>
-    </div>
     <div class="sns-list">
       <a
         :href="'https://twitter.com/intent/tweet?url=' + post_link + '&text=' + encodeURIComponent(post_title)"
@@ -74,13 +69,8 @@ export default {
 
 <style lang="scss">
 .post-share {
-  margin: 2rem 0;
+  margin: 3rem 0;
   text-align: center;
-  .c-title {
-    .title-main {
-      font-size: $font-size-lg;
-    }
-  }
 }
 
 .sns-list {
@@ -92,27 +82,22 @@ export default {
   width: 2rem;
   height: 2rem;
   fill: $tertiary-color;
-  transition: fill 0.2s ease;
 
   &.is-twitter {
-    &:hover {
-      fill: map-get($social-color, 'twitter');
-    }
+    fill: map-get($social-color, 'twitter');
   }
   &.is-facebook {
-    &:hover {
-      fill: map-get($social-color, 'facebook');
-    }
+    fill: map-get($social-color, 'facebook');
   }
   &.is-hatenabookmark {
-    &:hover {
-      fill: map-get($social-color, 'hatenabookmark');
-    }
+    fill: map-get($social-color, 'hatenabookmark');
   }
   &.is-line {
-    &:hover {
-      fill: map-get($social-color, 'line');
-    }
+    fill: map-get($social-color, 'line');
+  }
+
+  &:hover {
+    opacity: 0.6;
   }
 
   & + & {
