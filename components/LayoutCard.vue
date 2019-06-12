@@ -106,6 +106,7 @@ export default {
     color: $secondary-color;
     letter-spacing: 0.02em;
     line-height: 1.8;
+    word-break: break-all;
   }
 }
 
