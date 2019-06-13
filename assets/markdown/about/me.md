@@ -1,7 +1,6 @@
 インターネット上では「hiro」という名前で活動しています。
 
 - GitHub: https://github.com/hiro0218
-- Twitter: https://twitter.com/hiro0218
 
 ## 経歴
 
