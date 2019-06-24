@@ -210,9 +210,28 @@ export default {
   .mokuji-container {
     margin: 2rem 0;
     border-radius: 0.15rem;
-    background: map-get($light-color, 4);
+    background: map-get($light-color, 3);
     color: $secondary-color;
     font-size: $font-size-sm;
+
+    @include desktop {
+      position: fixed;
+      top: $header-height;
+      right: 5vw;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+      z-index: 1;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      details[open] .mokuji-content {
+        overflow: scroll;
+        max-height: calc(80vh - #{$header-height});
+      }
+    }
+
     details {
       padding: 1rem 1.5rem;
     }
