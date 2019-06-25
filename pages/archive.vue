@@ -7,13 +7,11 @@
     </header>
     <div class="archive-list-container">
       <section v-for="(posts, year) in archiveList" :key="year">
-        <h2>{{ year }}</h2>
+        <h2 class="archive-year">{{ year }}</h2>
         <ul class="u-list-unstyled archive-list">
           <li v-for="post in posts" :key="post.id" class="archive-item">
-            <nuxt-link :to="post.link">
-              <time :datetime="post.date">{{ post.date | formatDateString }}</time>
-              <span>{{ post.title }}</span>
-            </nuxt-link>
+            <time :datetime="post.date" class="post-date">{{ post.date | formatDateString }}</time>
+            <nuxt-link :to="post.link">{{ post.title }}</nuxt-link>
           </li>
         </ul>
       </section>
@@ -53,40 +51,42 @@ export default {
 
 <style lang="scss">
 .archive {
-  h2 {
-    font-size: $h3-font-size;
-  }
-  a {
-    &:hover {
-      opacity: 0.6;
+  .c-title {
+    margin: 3.5rem 0 5rem;
+    .title-main {
+      font-size: 4rem;
     }
   }
+
+  .archive-year {
+    font-size: 2.5rem;
+  }
+
+  a:hover {
+    opacity: 0.6;
+  }
 }
+
 .archive-list-container {
   display: flex;
   flex-direction: column-reverse;
 }
+
 .archive-list {
-  margin-bottom: 2rem;
-}
-.archive-item a {
-  display: flex;
   padding: 0 1rem;
-  margin-bottom: 0.5rem;
-  line-height: 1.8;
-  word-break: break-all;
+  margin-bottom: 4rem;
+}
 
-  time {
+.archive-item {
+  display: flex;
+  margin-bottom: 1rem;
+  line-height: 2;
+
+  .post-date {
     flex: 0 0 10rem;
-    color: $tertiary-color;
-    letter-spacing: normal;
-  }
-
-  @include mobile {
-    flex-direction: column;
-    time {
-      flex: 0;
-    }
+    color: $secondary-color;
+    font-size: $font-size-lg;
+    font-weight: bold;
   }
 }
 </style>
