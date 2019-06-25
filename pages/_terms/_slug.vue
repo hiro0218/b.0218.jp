@@ -4,7 +4,7 @@
       <template v-slot:postsListTitle>
         {{ $route.params.terms }}: {{ name }}
       </template>
-      <template v-slot:postsListTitleSub>
+      <template v-if="description" v-slot:postsListTitleSub>
         {{ description }}
       </template>
       <PostsCategoryList />
