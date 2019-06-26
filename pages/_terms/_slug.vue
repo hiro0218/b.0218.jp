@@ -1,12 +1,12 @@
 <template>
-  <section v-if="id > 0">
+  <section v-if="id > 0" class="term">
+    <header class="c-title is-term">
+      <h1 class="title-main">{{ name }}</h1>
+      <div class="title-sub">
+        {{ $route.params.terms }}
+      </div>
+    </header>
     <LayoutPostsList>
-      <template v-slot:postsListTitle>
-        {{ $route.params.terms }}: {{ name }}
-      </template>
-      <template v-if="description" v-slot:postsListTitleSub>
-        {{ description }}
-      </template>
       <PostsCategoryList />
       <no-ssr>
         <PostsList :term-id="id" :mode="$route.params.terms" />

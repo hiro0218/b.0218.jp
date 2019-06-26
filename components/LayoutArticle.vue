@@ -1,13 +1,7 @@
 <template>
-  <article :class="className" class="post">
-    <header class="c-title">
-      <h1 class="title-main">
-        <slot name="postTitle" />
-      </h1>
-      <slot name="postMeta" />
-    </header>
+  <div :class="className" class="post">
     <slot />
-  </article>
+  </div>
 </template>
 
 <script>
@@ -30,16 +24,6 @@ export default {
 
 <style lang="scss" scoped>
 .post {
-  > .c-title {
-    .title-main {
-      margin-bottom: 0.5em;
-      font-size: 2rem;
-      @include mobile {
-        font-size: $h2-font-size;
-      }
-    }
-  }
-
   /deep/ .post-content {
     a {
       text-decoration: underline;

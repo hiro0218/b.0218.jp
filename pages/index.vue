@@ -1,14 +1,19 @@
 <template>
   <section>
-    <LayoutPostsList>
-      <template v-slot:postsListTitle>
+    <header class="c-title is-home">
+      <h1 class="title-main">
         <template v-if="$route.query.search">
-          search: {{ $route.query.search }}
+          {{ $route.query.search }}
         </template>
         <template v-else>
           {{ pageTitle }}
         </template>
-      </template>
+      </h1>
+      <div v-if="$route.query.search" class="title-sub">
+        search results
+      </div>
+    </header>
+    <LayoutPostsList>
       <no-ssr>
         <PostsCategoryList />
         <PostsList />

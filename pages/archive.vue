@@ -1,6 +1,6 @@
 <template>
   <article class="archive">
-    <header class="c-title">
+    <header class="c-title is-page">
       <h1 class="title-main">
         {{ pageTitle }}
       </h1>
@@ -51,15 +51,8 @@ export default {
 
 <style lang="scss">
 .archive {
-  .c-title {
-    margin: 3.5rem 0 5rem;
-    .title-main {
-      font-size: 4rem;
-    }
-  }
-
   .archive-year {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
 
   a:hover {

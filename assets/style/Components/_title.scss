@@ -1,6 +1,26 @@
 .c-title {
   margin: 1.5rem 0;
 
+  &.is-page {
+    margin: 3.5rem 0 5rem;
+    > .title-main {
+      margin-bottom: 0;
+      font-size: 3rem;
+    }
+  }
+  &.is-home,
+  &.is-term {
+    margin: 2rem 0;
+    > .title-main {
+      margin-bottom: 0;
+      font-size: 2rem;
+    }
+    > .title-sub {
+      font-size: 1.25rem;
+      color: $tertiary-color;
+    }
+  }
+
   &.is-center {
     text-align: center;
   }
