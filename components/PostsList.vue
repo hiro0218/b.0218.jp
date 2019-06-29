@@ -109,15 +109,15 @@ export default {
 .post-list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   margin: 0 0 3rem 0;
 }
 
 .post-item {
   display: flex;
-  flex-basis: 50%;
-  flex-grow: 1;
+  flex-basis: calc(50% - 1rem);
   margin-bottom: 1rem;
-  padding: 1rem;
+  padding: 1rem 0;
   border-radius: 0.15rem;
   color: $base-color;
 
