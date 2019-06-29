@@ -9,27 +9,28 @@
           {{ pageTitle }}
         </template>
       </h1>
-      <div v-if="$route.query.search" class="title-sub">
-        search results
+      <div class="title-sub">
+        <template v-if="$route.query.search">
+          search results
+        </template>
+        <template v-else>
+          {{ siteDescription }}
+        </template>
       </div>
     </header>
-    <LayoutPostsList>
-      <no-ssr>
-        <PostsCategoryList />
-        <PostsList />
-      </no-ssr>
-    </LayoutPostsList>
+    <no-ssr>
+      <PostsCategoryList />
+      <PostsList />
+    </no-ssr>
   </section>
 </template>
 
 <script>
-import LayoutPostsList from '~/components/LayoutPostsList.vue';
 import PostsList from '~/components/PostsList.vue';
 import PostsCategoryList from '~/components/PostsCategoryList.vue';
 
 export default {
   components: {
-    LayoutPostsList,
     PostsList,
     PostsCategoryList,
   },
@@ -41,6 +42,7 @@ export default {
   },
   computed: {
     pageTitle: () => 'Home',
+    siteDescription: () => process.env.SITE_DESCRIPTION,
   },
   async fetch({ store, params, query }) {
     await store.dispatch('posts/fetchCategoryList');

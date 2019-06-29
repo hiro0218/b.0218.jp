@@ -6,24 +6,20 @@
         {{ $route.params.terms }}
       </div>
     </header>
-    <LayoutPostsList>
-      <PostsCategoryList />
-      <no-ssr>
-        <PostsList :term-id="id" :mode="$route.params.terms" />
-      </no-ssr>
-    </LayoutPostsList>
+    <PostsCategoryList />
+    <no-ssr>
+      <PostsList :term-id="id" :mode="$route.params.terms" />
+    </no-ssr>
   </section>
 </template>
 
 <script>
-import LayoutPostsList from '~/components/LayoutPostsList.vue';
 import PostsList from '~/components/PostsList.vue';
 import PostsCategoryList from '~/components/PostsCategoryList.vue';
 
 export default {
   name: 'TermsPostsList',
   components: {
-    LayoutPostsList,
     PostsList,
     PostsCategoryList,
   },
