@@ -51,10 +51,6 @@ export default {
 
 <style lang="scss">
 .archive {
-  .archive-year {
-    font-size: 2rem;
-  }
-
   a:hover {
     opacity: 0.6;
   }
@@ -63,6 +59,7 @@ export default {
 .archive-list-container {
   display: flex;
   flex-direction: column-reverse;
+  padding-top: 2rem;
 }
 
 .archive-list {
@@ -78,7 +75,6 @@ export default {
   .post-date {
     flex: 0 0 10rem;
     color: $secondary-color;
-    font-size: $font-size-lg;
     font-weight: bold;
   }
 }

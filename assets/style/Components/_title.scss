@@ -2,10 +2,9 @@
   margin: 1.5rem 0;
 
   &.is-page {
-    margin: 3.5rem 0 5rem;
+    margin: 3.5rem 0 3.5rem;
     > .title-main {
       margin-bottom: 0;
-      font-size: 3rem;
     }
   }
   &.is-home,
@@ -13,10 +12,8 @@
     margin: 2rem 0;
     > .title-main {
       margin-bottom: 0;
-      font-size: 2rem;
     }
     > .title-sub {
-      font-size: 1.25rem;
       color: $tertiary-color;
     }
   }
@@ -32,14 +29,12 @@
   }
 
   > .title-main {
-    font-size: $h2-font-size;
     line-height: 1.5;
     letter-spacing: 0.05em;
     overflow-wrap: break-word;
   }
 
   > .title-sub {
-    font-size: $font-size-sm;
     margin-top: 0.5rem;
     font-weight: normal;
     line-height: 1.5;

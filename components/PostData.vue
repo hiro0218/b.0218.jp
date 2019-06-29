@@ -199,9 +199,6 @@ export default {
 .post {
   .c-title {
     margin: 2rem 0;
-    .title-main {
-      font-size: 2rem;
-    }
   }
   .c-alert {
     margin-bottom: 1rem;
