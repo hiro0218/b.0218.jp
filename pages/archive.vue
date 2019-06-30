@@ -1,6 +1,6 @@
 <template>
   <article class="archive">
-    <header class="c-title">
+    <header class="c-title is-page">
       <h1 class="title-main">
         {{ pageTitle }}
       </h1>
@@ -51,17 +51,6 @@ export default {
 
 <style lang="scss">
 .archive {
-  .c-title {
-    margin: 3.5rem 0 5rem;
-    .title-main {
-      font-size: 4rem;
-    }
-  }
-
-  .archive-year {
-    font-size: 2.5rem;
-  }
-
   a:hover {
     opacity: 0.6;
   }
@@ -70,6 +59,7 @@ export default {
 .archive-list-container {
   display: flex;
   flex-direction: column-reverse;
+  padding-top: 2rem;
 }
 
 .archive-list {
@@ -85,7 +75,6 @@ export default {
   .post-date {
     flex: 0 0 10rem;
     color: $secondary-color;
-    font-size: $font-size-lg;
     font-weight: bold;
   }
 }

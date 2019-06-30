@@ -1,25 +1,34 @@
 .c-title {
   margin: 1.5rem 0;
 
+  &.is-page {
+    margin: 3.5rem 0 3.5rem;
+    > .title-main {
+      margin-bottom: 0;
+    }
+  }
+  &.is-home,
+  &.is-term {
+    margin: 2rem 0;
+    > .title-main {
+      margin-bottom: 0;
+    }
+    > .title-sub {
+      color: $tertiary-color;
+    }
+  }
+
   &.is-center {
     text-align: center;
   }
 
-  &.is-normal {
-    > .title-main {
-      font-size: $font-size-lg;
-    }
-  }
-
   > .title-main {
-    font-size: $h2-font-size;
     line-height: 1.5;
     letter-spacing: 0.05em;
     overflow-wrap: break-word;
   }
 
   > .title-sub {
-    font-size: $font-size-sm;
     margin-top: 0.5rem;
     font-weight: normal;
     line-height: 1.5;

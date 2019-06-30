@@ -6,10 +6,7 @@ export default {
   modern: 'client',
 
   env: {
-    AUTHOR: constant.AUTHOR,
-    AUTHOR_ICON: constant.AUTHOR_ICON,
-    SITE_NAME: constant.SITE_NAME,
-    SITE_URL: constant.SITE_URL,
+    ...constant,
   },
 
   /*

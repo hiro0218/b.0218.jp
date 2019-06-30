@@ -38,7 +38,7 @@ export default {
 footer {
   padding-bottom: 3rem;
   padding-top: 3rem;
-  background: $secondary-color;
+  background: $base-color;
   color: map-get($light-color, 3);
   font-size: $font-size-sm;
   text-align: center;

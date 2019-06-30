@@ -1,29 +1,25 @@
 <template>
-  <section v-if="id > 0">
-    <LayoutPostsList>
-      <template v-slot:postsListTitle>
-        {{ $route.params.terms }}: {{ name }}
-      </template>
-      <template v-if="description" v-slot:postsListTitleSub>
-        {{ description }}
-      </template>
-      <PostsCategoryList />
-      <no-ssr>
-        <PostsList :term-id="id" :mode="$route.params.terms" />
-      </no-ssr>
-    </LayoutPostsList>
+  <section v-if="id > 0" class="term">
+    <header class="c-title is-term">
+      <h1 class="title-main">{{ name }}</h1>
+      <div class="title-sub">
+        {{ $route.params.terms }}
+      </div>
+    </header>
+    <PostsCategoryList />
+    <no-ssr>
+      <PostsList :term-id="id" :mode="$route.params.terms" />
+    </no-ssr>
   </section>
 </template>
 
 <script>
-import LayoutPostsList from '~/components/LayoutPostsList.vue';
 import PostsList from '~/components/PostsList.vue';
 import PostsCategoryList from '~/components/PostsCategoryList.vue';
 
 export default {
   name: 'TermsPostsList',
   components: {
-    LayoutPostsList,
     PostsList,
     PostsCategoryList,
   },
