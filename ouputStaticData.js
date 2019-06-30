@@ -38,6 +38,7 @@ async function outputCategoryList() {
       _fields: 'id,count,name,slug',
       order: 'desc',
       orderby: 'count',
+      exclude: 16, // conan
     },
   });
   writeJsonFile('categories.json', res.data);
