@@ -144,11 +144,11 @@ export default {
   .pagination-item {
     &.active {
       a {
-        background: $tertiary-color;
+        background: $base-color;
         color: #fff;
         cursor: default;
         &:hover {
-          background: $tertiary-color;
+          background: $base-color;
           color: #fff;
         }
       }
