@@ -104,7 +104,7 @@ export default {
     flex: 1;
     margin-bottom: 1rem;
     color: $secondary-color;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.025em;
     line-height: 1.8;
     word-break: break-all;
   }
@@ -112,7 +112,9 @@ export default {
 
 .card-footer {
   flex-basis: 100%;
-  font-size: $font-size-xs;
+  color: $tertiary-color;
+  font-size: $font-size-sm;
+  letter-spacing: 0.025em;
   text-align: right;
 }
 </style>
