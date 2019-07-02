@@ -1,15 +1,15 @@
 @import '~open-color/open-color.scss';
 
 // base
-$base-color: $oc-gray-9;
-$secondary-color: lighten($base-color, 8%);
-$tertiary-color: lighten($base-color, 16%);
+$base-color: $oc-gray-8;
+$secondary-color: $oc-gray-7;
+$tertiary-color: $oc-gray-6;
 $light-color: (
-  0: lighten($base-color, 68%),
-  1: lighten($base-color, 73.75%),
-  2: lighten($base-color, 75%),
-  3: lighten($base-color, 81.25%),
-  4: lighten($base-color, 82.5%),
+  0: $oc-gray-4,
+  1: $oc-gray-3,
+  2: $oc-gray-2,
+  3: $oc-gray-1,
+  4: $oc-gray-0,
 );
 
 // color
