@@ -218,8 +218,8 @@ export default {
 
     @include desktop {
       position: fixed;
-      top: $header-height;
       right: 5vw;
+      bottom: 0;
       opacity: 0.8;
       transition: opacity 0.3s;
       z-index: 1;
