@@ -1,6 +1,9 @@
 <template>
   <footer>
     <div class="o-container">
+      <div class="button-scrollTop" @click="scrollTop">
+        <svgUpward />
+      </div>
       <nav class="menu">
         <ul class="u-list-unstyled menu-list">
           <li class="menu-item">
@@ -26,10 +29,20 @@
 </template>
 
 <script>
+import svgUpward from '~/assets/image/arrow_upward.svg?inline';
+
 export default {
   name: 'TheFooter',
+  components: {
+    svgUpward,
+  },
   computed: {
     siteName: () => process.env.SITE_NAME,
+  },
+  methods: {
+    scrollTop: function() {
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
+    },
   },
 };
 </script>
@@ -46,6 +59,21 @@ footer {
     text-decoration: underline;
   }
 }
+
+.button-scrollTop {
+  margin-bottom: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  svg {
+    fill: map-get($light-color, 2);
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
 .copyright {
   small {
     font-size: 1em;
