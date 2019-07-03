@@ -1,35 +1,42 @@
 <template>
-  <section v-if="id > 0">
-    <LayoutPostsList>
-      <template v-slot:postsListTitle>
-        {{ $route.params.terms }}: {{ name }}
-      </template>
-      <template v-slot:postsListTitleSub>
-        {{ description }}
-      </template>
-      <PostsCategoryList />
-      <no-ssr>
-        <PostsList :term-id="id" :mode="$route.params.terms" />
-      </no-ssr>
-    </LayoutPostsList>
+  <section v-if="id > 0" class="term">
+    <header class="c-title is-term">
+      <h1 class="title-main">{{ name }}</h1>
+      <div class="title-sub">
+        {{ $route.params.terms }}
+      </div>
+    </header>
+    <PostsCategoryList />
+    <no-ssr>
+      <PostsList :term-id="id" :mode="$route.params.terms" />
+    </no-ssr>
   </section>
 </template>
 
 <script>
-import LayoutPostsList from '~/components/LayoutPostsList.vue';
 import PostsList from '~/components/PostsList.vue';
 import PostsCategoryList from '~/components/PostsCategoryList.vue';
 
 export default {
   name: 'TermsPostsList',
   components: {
-    LayoutPostsList,
     PostsList,
     PostsCategoryList,
   },
   head() {
     return {
       title: this.name,
+      meta: [
+        { hid: 'description', name: 'description', content: this.description },
+        { hid: 'og:type', property: 'og:type', content: 'website' },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `${process.env.SITE_URL}${this.$route.params.terms}/${this.$route.params.slug}`,
+        },
+        { hid: 'og:title', property: 'og:title', content: this.name },
+        { hid: 'og:description', property: 'og:description', content: this.description },
+      ],
     };
   },
   validate({ params }) {

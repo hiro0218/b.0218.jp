@@ -4,7 +4,7 @@ body {
   color: $base-color;
   font-family: $font-family-sans-serif;
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.75;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -45,6 +45,6 @@ hr {
 }
 
 ::selection {
-  color: #fff;
-  background: rgba($secondary-color, 0.8);
+  color: $secondary-color;
+  background: rgba(map-get($light-color, 0), 0.8);
 }

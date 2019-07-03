@@ -95,7 +95,8 @@ a {
   svg {
     width: 5rem;
     height: 100%;
-    fill: $secondary-color;
+    fill: $base-color;
+    transition: width 0.2s;
     @include mobile {
       width: 4rem;
     }

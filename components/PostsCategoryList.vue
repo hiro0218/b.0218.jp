@@ -1,14 +1,14 @@
 <template>
-  <ul v-if="categoryList.length !== 0" class="u-list-unstyled u-scroll-x category-list">
-    <li class="category-item">
-      <nuxt-link to="/" exact :class="{ 'nuxt-link-active': this.$route.path == '/' }">すべて</nuxt-link>
-    </li>
+  <div v-if="categoryList.length !== 0" class="u-scroll-x category-list">
+    <div class="category-item">
+      <nuxt-link to="/" exact :class="{ 'nuxt-link-active': this.$route.path == '/' }">All</nuxt-link>
+    </div>
     <template v-for="(item, index) in categoryList">
-      <li v-if="index <= 10" :key="item.id" class="category-item">
+      <div v-if="index <= 5" :key="item.id" class="category-item">
         <nuxt-link :to="'/categories/' + item.slug">{{ item.name }}</nuxt-link>
-      </li>
+      </div>
     </template>
-  </ul>
+  </div>
 </template>
 
 <script>
@@ -26,25 +26,37 @@ export default {
 
 <style lang="scss" scoped>
 .category-list {
-  margin: 2rem auto;
-  padding: 0 1rem 1rem;
+  margin: 3rem auto;
   display: flex;
-  justify-content: flex-start;
   align-items: center;
-  white-space: nowrap;
   font-size: $font-size-sm;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
 }
 
 .category-item {
-  &:hover {
-    opacity: 0.6;
-  }
+  text-align: center;
+
   & + .category-item {
     margin-left: 1rem;
   }
-}
 
-.nuxt-link-active {
-  font-weight: bold;
+  a {
+    display: block;
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+    opacity: 0.4;
+    transition: opacity 0.3s, border 0.8s;
+
+    &:hover {
+      border-bottom-color: $base-color;
+      opacity: 1;
+    }
+
+    &.nuxt-link-active {
+      border-bottom-color: $base-color;
+      opacity: 1;
+    }
+  }
 }
 </style>

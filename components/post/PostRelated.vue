@@ -1,9 +1,7 @@
 <template>
   <nav v-if="related.length !== 0" class="post-related">
-    <div class="c-title is-center is-normal">
-      <h2 class="title-main">
-        Related Posts
-      </h2>
+    <div class="c-title is-center">
+      <h2 class="title-main">関連記事</h2>
     </div>
     <ul class="u-list-unstyled u-scroll-x related-list">
       <li v-for="post in related" :key="post.id" class="related-item">

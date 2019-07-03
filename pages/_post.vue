@@ -157,11 +157,3 @@ export default {
   // },
 };
 </script>
-
-<style lang="scss" scoped>
-div {
-  max-width: $tablet;
-  margin-right: auto;
-  margin-left: auto;
-}
-</style>

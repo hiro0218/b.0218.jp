@@ -1,15 +1,17 @@
 <template>
-  <LayoutArticle @mounted="init">
-    <template v-slot:postTitle>
-      {{ post.title.rendered }}
-    </template>
-    <template v-slot:postMeta>
+  <article class="post">
+    <header class="c-title">
+      <h1 class="title-main">
+        {{ post.title.rendered }}
+      </h1>
       <PostMeta />
-    </template>
-    <PostAds />
-    <div class="post-content" v-html="post.content.rendered" />
-    <PostShare />
-  </LayoutArticle>
+    </header>
+    <LayoutArticle @mounted="init">
+      <PostAds />
+      <div class="post-content" v-html="post.content.rendered" />
+      <PostShare />
+    </LayoutArticle>
+  </article>
 </template>
 
 <script>
@@ -195,8 +197,8 @@ export default {
 
 <style lang="scss" scoped>
 .post {
-  > .c-title {
-    margin-bottom: 4rem;
+  .c-title {
+    margin: 2rem 0;
   }
   .c-alert {
     margin-bottom: 1rem;
@@ -210,9 +212,28 @@ export default {
   .mokuji-container {
     margin: 2rem 0;
     border-radius: 0.15rem;
-    background: map-get($light-color, 4);
+    background: map-get($light-color, 3);
     color: $secondary-color;
     font-size: $font-size-sm;
+
+    @include desktop {
+      position: fixed;
+      right: 5vw;
+      bottom: 0;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+      z-index: 1;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      details[open] .mokuji-content {
+        overflow: scroll;
+        max-height: calc(80vh - #{$header-height});
+      }
+    }
+
     details {
       padding: 1rem 1.5rem;
     }

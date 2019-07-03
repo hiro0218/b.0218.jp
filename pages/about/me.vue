@@ -1,10 +1,14 @@
 <template>
-  <LayoutArticle :class-name="'about'" @mounted="init">
-    <template v-slot:postTitle>
-      {{ pageTitle }}
-    </template>
-    <div class="post-content" v-html="aboutData" />
-  </LayoutArticle>
+  <article class="about">
+    <header class="c-title is-page">
+      <h1 class="title-main">
+        {{ pageTitle }}
+      </h1>
+    </header>
+    <LayoutArticle :class-name="'about'" @mounted="init">
+      <div class="post-content" v-html="aboutData" />
+    </LayoutArticle>
+  </article>
 </template>
 
 <script>
