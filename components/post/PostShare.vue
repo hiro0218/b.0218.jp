@@ -85,19 +85,19 @@ export default {
 .sns-item {
   width: 2rem;
   height: 2rem;
-  fill: $tertiary-color;
+  border-radius: 50%;
 
   &.is-twitter {
-    fill: map-get($social-color, 'twitter');
+    background: map-get($social-color, 'twitter');
   }
   &.is-facebook {
-    fill: map-get($social-color, 'facebook');
+    background: map-get($social-color, 'facebook');
   }
   &.is-hatenabookmark {
-    fill: map-get($social-color, 'hatenabookmark');
+    background: map-get($social-color, 'hatenabookmark');
   }
   &.is-line {
-    fill: map-get($social-color, 'line');
+    background: map-get($social-color, 'line');
   }
 
   &:hover {
