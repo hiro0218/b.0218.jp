@@ -8,8 +8,13 @@
 export default {
   name: 'Loading',
   data: () => ({
-    loading: false,
+    loading: true,
   }),
+  mounted() {
+    this.$nextTick(() => {
+      this.loading = false;
+    });
+  },
   methods: {
     start() {
       this.loading = true;
