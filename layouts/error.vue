@@ -66,15 +66,15 @@ export default {
 
   .button {
     display: inline-flex;
-    justify-content: center;
     align-items: center;
     align-self: flex-start;
-    white-space: nowrap;
+    justify-content: center;
     padding: 0.75em 2em;
-    border-radius: 0.15rem;
     border: 1px solid map-get($light-color, 1);
+    border-radius: 0.15rem;
     color: $base-color;
     font-size: $font-size-xs;
+    white-space: nowrap;
     &:hover {
       opacity: 0.6;
     }

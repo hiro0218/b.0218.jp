@@ -35,10 +35,10 @@ export default {
         display: inline-flex;
         align-items: center;
         &::after {
+          content: '';
           display: inline-block;
           width: 1em;
           height: 1em;
-          content: '';
           background: url('~assets/image/open_in_new.svg') center / 1em 1em no-repeat;
         }
       }
@@ -53,8 +53,8 @@ export default {
       position: relative;
       .anchor {
         position: absolute;
-        right: calc(100% + 0.25em);
         top: 0;
+        right: calc(100% + 0.25em);
         bottom: 0;
         margin: auto;
         border: 0;

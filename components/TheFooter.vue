@@ -49,8 +49,8 @@ export default {
 
 <style lang="scss" scoped>
 footer {
-  padding-bottom: 3rem;
   padding-top: 3rem;
+  padding-bottom: 3rem;
   background: $base-color;
   color: map-get($light-color, 3);
   font-size: $font-size-sm;
@@ -61,16 +61,16 @@ footer {
 }
 
 .button-scrollTop {
-  margin-bottom: 1.5rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 1.5rem;
   cursor: pointer;
 
   svg {
-    fill: map-get($light-color, 2);
     width: 2rem;
     height: 2rem;
+    fill: map-get($light-color, 2);
   }
 }
 

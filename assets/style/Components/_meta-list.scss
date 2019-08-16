@@ -1,10 +1,10 @@
 .c-meta-list {
   display: flex;
+  align-items: center;
   margin: 0;
   padding: 0;
-  align-items: center;
-  list-style: none;
   color: $tertiary-color;
+  list-style: none;
 
   .meta-item {
     display: inline-flex;
@@ -19,8 +19,8 @@
   }
 
   svg {
-    height: 1em;
     width: 1em;
+    height: 1em;
     fill: $tertiary-color;
     &:first-child {
       margin-right: 0.25em;

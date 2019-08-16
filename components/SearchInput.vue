@@ -53,8 +53,8 @@ export default {
 
 <style lang="scss" scoped>
 .search-container {
-  position: relative;
   display: flex;
+  position: relative;
   align-items: center;
 
   svg {
@@ -69,13 +69,13 @@ export default {
 .search-input {
   width: 12rem;
   padding: 0.5rem 0.5rem 0.5rem 2rem;
+  transition: background 0.1s ease;
   border: 1px solid transparent;
   border-radius: 0.15rem;
   outline: none;
   background: map-get($light-color, 3);
   font-size: $font-size-sm;
   line-height: 1;
-  transition: background 0.1s ease;
   -webkit-appearance: none;
   -moz-appearance: none;
 
