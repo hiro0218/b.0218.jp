@@ -13,15 +13,15 @@ code {
 
 pre {
   display: block;
-  border-radius: 0.15rem;
   overflow: auto;
-  overflow-wrap: break-word;
+  border-radius: 0.15rem;
   font-size: $font-size-sm;
+  overflow-wrap: break-word;
   -webkit-overflow-scrolling: touch;
 
   code {
-    font-size: inherit;
     color: inherit;
+    font-size: inherit;
     word-break: normal;
   }
 }
