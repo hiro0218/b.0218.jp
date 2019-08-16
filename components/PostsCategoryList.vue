@@ -26,9 +26,9 @@ export default {
 
 <style lang="scss" scoped>
 .category-list {
-  margin: 3rem auto;
   display: flex;
   align-items: center;
+  margin: 3rem auto;
   font-size: $font-size-sm;
   letter-spacing: 0.1em;
   white-space: nowrap;
@@ -44,9 +44,9 @@ export default {
   a {
     display: block;
     padding: 0.5rem 0;
+    transition: opacity 0.3s, border 0.8s;
     border-bottom: 2px solid transparent;
     opacity: 0.4;
-    transition: opacity 0.3s, border 0.8s;
 
     &:hover {
       border-bottom-color: $base-color;

@@ -218,19 +218,19 @@ export default {
 
     @include desktop {
       position: fixed;
+      z-index: 1;
       right: 5vw;
       bottom: 0;
-      opacity: 0.8;
       transition: opacity 0.3s;
-      z-index: 1;
+      opacity: 0.8;
 
       &:hover {
         opacity: 1;
       }
 
       details[open] .mokuji-content {
-        overflow: scroll;
         max-height: calc(80vh - #{$header-height});
+        overflow: scroll;
       }
     }
 
@@ -247,7 +247,6 @@ export default {
     ol {
       margin-bottom: 0;
       padding-left: 0;
-      list-style: none;
       list-style-position: inside;
       counter-reset: number;
 

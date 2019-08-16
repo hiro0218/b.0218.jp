@@ -78,8 +78,8 @@ export default {
     grid-template-columns: 1.5rem 1fr;
     text-align: left;
     .pager-icon {
-      grid-row-start: 1;
       grid-column-start: 1;
+      grid-row-start: 1;
     }
     .pager-title::before {
       content: 'Prev';
@@ -89,8 +89,8 @@ export default {
     grid-template-columns: 1fr 1.5rem;
     text-align: right;
     .pager-icon {
-      grid-row-start: 1;
       grid-column-start: 2;
+      grid-row-start: 1;
     }
     .pager-title::before {
       content: 'Next';
@@ -110,8 +110,8 @@ export default {
     color: $base-color;
     &::before {
       display: block;
-      font-weight: bold;
       color: $tertiary-color;
+      font-weight: bold;
     }
   }
 }
