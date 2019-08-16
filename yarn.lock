@@ -924,6 +924,11 @@
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
 
+"@hiro0218/prettier-config@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@hiro0218/prettier-config/-/prettier-config-1.0.2.tgz#5e6901f2910a81ace0470bebef6d4af7800df17c"
+  integrity sha512-qKT6pTxbjkLxJrawtKrOv8tOTewNgCXH4uziGnGr6gRBfPjEfx9KlIgoo3eD1Ih6o7df0CjTuTYOirWUQHT6Rg==
+
 "@hiro0218/stylelint-config@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@hiro0218/stylelint-config/-/stylelint-config-1.0.0.tgz#c756530a4ef3ab2d83e0eb50de6ff996765c47ae"

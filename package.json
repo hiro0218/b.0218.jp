@@ -37,6 +37,7 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/runtime": "^7.5.5",
     "@babel/runtime-corejs2": "^7.5.5",
+    "@hiro0218/prettier-config": "^1.0.2",
     "@hiro0218/stylelint-config": "^1.0.0",
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/markdownit": "^1.2.6",
