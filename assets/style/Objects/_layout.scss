@@ -1,9 +1,9 @@
 .o-container {
   width: 100%;
-  padding-right: 5vw;
-  padding-left: 5vw;
   margin-right: auto;
   margin-left: auto;
+  padding-right: 5vw;
+  padding-left: 5vw;
 
   @include from($desktop) {
     max-width: $desktop;

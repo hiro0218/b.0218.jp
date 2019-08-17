@@ -63,8 +63,8 @@ export default {
   }
 
   a {
-    width: calc(#{$tablet} / 3);
     display: block;
+    width: calc(#{$tablet} / 3);
     &:hover {
       opacity: 0.6;
     }
@@ -76,8 +76,8 @@ export default {
   align-items: center;
   height: 8rem;
   margin-bottom: 1rem;
-  background: map-get($light-color, 3);
   overflow: hidden;
+  background: map-get($light-color, 3);
 
   img {
     max-width: 80%;
@@ -86,16 +86,16 @@ export default {
   }
 
   .no-image {
-    fill: $tertiary-color;
     width: 4rem;
     height: 4rem;
     margin: auto;
+    fill: $tertiary-color;
   }
 }
 
 .related-title {
-  font-size: $font-size-sm;
   color: $base-color;
+  font-size: $font-size-sm;
   white-space: normal;
 }
 </style>

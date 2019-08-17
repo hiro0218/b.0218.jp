@@ -38,6 +38,7 @@ export default {
       { 'http-equiv': 'x-dns-prefetch-control', content: 'on' },
     ],
     link: [
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
       { rel: 'dns-prefetch', href: '//content.b.0218.jp' },
       { rel: 'dns-prefetch', href: '//user-images.githubusercontent.com' },
       { rel: 'dns-prefetch', href: '//i.imgur.com' },
@@ -94,6 +95,7 @@ export default {
       },
     ],
     '@nuxtjs/markdownit',
+    'nuxt-webfontloader',
   ],
 
   styleResources: {
@@ -156,6 +158,12 @@ export default {
   markdownit: {
     linkify: true,
     breaks: true,
+  },
+
+  webfontloader: {
+    google: {
+      families: ['Noto+Sans+JP:400,900&display=swap'],
+    },
   },
 
   router: {},

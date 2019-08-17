@@ -63,31 +63,31 @@ export default {
 <style lang="scss" scoped>
 .header-navigation {
   position: fixed;
+  z-index: 10;
   top: 0;
-  left: 0;
   right: 0;
+  left: 0;
   height: $header-height;
+  transition: transform 0.25s ease;
   border-bottom: 1px solid map-get($light-color, 1);
   background: #fff;
   will-change: transform;
-  transition: transform 0.25s ease;
-  z-index: 10;
 
   &.unpin {
-    box-shadow: none;
     transform: translateY(-$header-height);
+    box-shadow: none;
   }
 }
 .header-container {
   display: flex;
-  height: 100%;
   align-items: center;
   justify-content: space-between;
+  height: 100%;
 }
 a {
   display: flex;
-  height: 100%;
   align-items: center;
+  height: 100%;
   color: $base-color;
   &:hover {
     opacity: 0.6;
@@ -95,8 +95,8 @@ a {
   svg {
     width: 5rem;
     height: 100%;
-    fill: $base-color;
     transition: width 0.2s;
+    fill: $base-color;
     @include mobile {
       width: 4rem;
     }

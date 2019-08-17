@@ -54,15 +54,15 @@ export default {
 
 .card-image {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 1rem;
-  background-color: map-get($light-color, 3);
-  border-radius: 0.15rem;
-  overflow: hidden;
   flex-basis: 5rem;
+  align-items: center;
+  justify-content: center;
   width: 5rem;
   height: 5rem;
+  margin-right: 1rem;
+  overflow: hidden;
+  border-radius: 0.15rem;
+  background-color: map-get($light-color, 3);
 
   img {
     width: 5rem;
@@ -70,9 +70,9 @@ export default {
     object-fit: contain;
   }
   .no-image {
-    fill: $tertiary-color;
     width: 2rem;
     height: 2rem;
+    fill: $tertiary-color;
   }
 
   @include mobile {

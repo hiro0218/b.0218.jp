@@ -1,8 +1,8 @@
 table {
   margin: 2rem 0;
+  border-collapse: collapse;
   border: $table-border-width solid $table-border-color;
   background: #fff;
-  border-collapse: collapse;
 }
 
 th,

@@ -156,10 +156,10 @@ export default {
 
     a {
       display: flex;
-      justify-content: center;
       align-items: center;
-      min-height: 2.5rem;
+      justify-content: center;
       min-width: 2.5rem;
+      min-height: 2.5rem;
       border-radius: 50%;
       color: $base-color;
       font-size: $font-size-sm;

@@ -3,7 +3,8 @@
   font-family: 'Noto Sans Japanese';
   font-weight: normal;
   font-display: swap;
-  src: local('Noto Sans CJK JP DemiLight'), local('NotoSansCJKjp-DemiLight'),
+  src: local('Noto Sans CJK JP DemiLight'),
+    local('NotoSansCJKjp-DemiLight'),
     url('/fonts/NotoSansCJKjp-DemiLight.woff2') format('woff2');
 }
 
@@ -11,6 +12,7 @@
   font-family: 'Noto Sans Japanese';
   font-weight: bold;
   font-display: swap;
-  src: local('Noto Sans CJK JP Black'), local('NotoSansCJKjp-Black'),
+  src: local('Noto Sans CJK JP Black'),
+    local('NotoSansCJKjp-Black'),
     url('/fonts/NotoSansCJKjp-Black.woff2') format('woff2');
 }

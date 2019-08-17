@@ -68,10 +68,10 @@ export default {
   }
 
   img {
-    margin: auto;
     max-width: 80%;
-    max-height: 80%;
     height: auto;
+    max-height: 80%;
+    margin: auto;
   }
 }
 

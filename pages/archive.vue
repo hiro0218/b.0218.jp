@@ -63,8 +63,8 @@ export default {
 }
 
 .archive-list {
-  padding: 0 1rem;
   margin-bottom: 4rem;
+  padding: 0 1rem;
 }
 
 .archive-item {
