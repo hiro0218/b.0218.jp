@@ -41,7 +41,10 @@ export default {
   },
   methods: {
     scrollTop: function() {
-      document.body.scrollTop = document.documentElement.scrollTop = 0;
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
     },
   },
 };
