@@ -27,7 +27,7 @@
 
 <script>
 import PostsList from '~/components/list/PostsList.vue';
-import PostsCategoryList from '~/components/PostsCategoryList.vue';
+import PostsCategoryList from '~/components/list/PostsCategoryList.vue';
 
 export default {
   components: {
