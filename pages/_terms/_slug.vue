@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import PostsList from '~/components/PostsList.vue';
+import PostsList from '~/components/list/PostsList.vue';
 import PostsCategoryList from '~/components/PostsCategoryList.vue';
 
 export default {
