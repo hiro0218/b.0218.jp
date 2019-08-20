@@ -1,6 +1,8 @@
 import axios from 'axios';
 import constant from '~/constant';
 
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+
 export default (ctx, inject) => {
   // setting
   const client = axios.create({
@@ -34,23 +36,18 @@ export default (ctx, inject) => {
       return client.get('wp/v2/tags', params);
     },
     getArchive() {
-      if (process.server || process.static) {
-        return client.get('0218/v1/archive');
-      }
-
-      return axios.get('/api/archive.json');
+      return axios({
+        method: 'GET',
+        baseURL: IS_PRODUCTION ? constant.SITE_URL : constant.DEV_SITE_URL,
+        url: '/api/archive.json',
+      });
     },
     getCategoryList() {
-      if (process.server || process.static) {
-        return this.getCategories({
-          params: {
-            order: 'desc',
-            orderby: 'count',
-          },
-        });
-      }
-
-      return axios.get('/api/categories.json');
+      return axios({
+        method: 'GET',
+        baseURL: IS_PRODUCTION ? constant.SITE_URL : constant.DEV_SITE_URL,
+        url: '/api/categories.json',
+      });
     },
   };
 
