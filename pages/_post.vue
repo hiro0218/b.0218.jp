@@ -9,7 +9,7 @@
 <script>
 import { mapState } from 'vuex';
 
-import PostData from '~/components/PostData.vue';
+import PostData from '~/components/post/PostData.vue';
 const PostPager = () => import('~/components/post/PostPager.vue');
 const PostRelated = () => import('~/components/post/PostRelated.vue');
 
