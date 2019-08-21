@@ -18,8 +18,8 @@
         </template>
       </div>
     </header>
+    <PostsCategoryList />
     <no-ssr>
-      <PostsCategoryList />
       <PostsList />
     </no-ssr>
   </section>
