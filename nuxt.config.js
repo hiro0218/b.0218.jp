@@ -99,7 +99,7 @@ export default {
   ],
 
   styleResources: {
-    sass: [
+    scss: [
       '~/assets/style/Settings/_colors.scss',
       '~/assets/style/Settings/_variables.scss',
       '~/assets/style/Tools/_animation.scss',
