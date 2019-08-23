@@ -166,8 +166,6 @@ export default {
     },
   },
 
-  router: {},
-
   /*
    ** Build configuration
    */
