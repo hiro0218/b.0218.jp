@@ -56,7 +56,7 @@ export default {
   /*
    ** Customize the progress-bar color
    */
-  loading: '~/components/Loading.vue',
+  loading: '~/components/common/TheLoading.vue',
 
   /*
    ** Global CSS
@@ -99,7 +99,7 @@ export default {
   ],
 
   styleResources: {
-    sass: [
+    scss: [
       '~/assets/style/Settings/_colors.scss',
       '~/assets/style/Settings/_variables.scss',
       '~/assets/style/Tools/_animation.scss',
@@ -165,8 +165,6 @@ export default {
       families: ['Noto+Sans+JP:400,900&display=swap'],
     },
   },
-
-  router: {},
 
   /*
    ** Build configuration

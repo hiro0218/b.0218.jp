@@ -18,16 +18,16 @@
         </template>
       </div>
     </header>
+    <PostsCategoryList />
     <no-ssr>
-      <PostsCategoryList />
       <PostsList />
     </no-ssr>
   </section>
 </template>
 
 <script>
-import PostsList from '~/components/PostsList.vue';
-import PostsCategoryList from '~/components/PostsCategoryList.vue';
+import PostsList from '~/components/list/PostsList.vue';
+import PostsCategoryList from '~/components/list/PostsCategoryList.vue';
 
 export default {
   components: {

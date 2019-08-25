@@ -13,7 +13,6 @@ const dummyData = {
   excerpt: {
     rendered: '',
   },
-  amazon_product: null,
   thumbnail: '',
   attach: {
     related: [],

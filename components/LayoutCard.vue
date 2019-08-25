@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-image">
-      <img v-if="thumbnail" :src="thumbnail" :alt="title" />
+      <img v-if="thumbnail" :src="thumbnail" :alt="title" loading="lazy" />
       <svgPhoto v-else class="no-image" />
     </div>
     <div class="card-body">
