@@ -7,9 +7,9 @@
       </div>
     </header>
     <PostsCategoryList />
-    <no-ssr>
+    <client-only>
       <PostsList :term-id="id" :mode="$route.params.terms" />
-    </no-ssr>
+    </client-only>
   </section>
 </template>
 

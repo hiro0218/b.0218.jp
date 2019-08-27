@@ -1,8 +1,8 @@
 <template>
   <div class="c-adsense post-ads">
-    <no-ssr>
+    <client-only>
       <adsbygoogle :ad-slot="adsense.slot" :ad-layout="adsense.layout" :ad-format="adsense.format" />
-    </no-ssr>
+    </client-only>
   </div>
 </template>
 
