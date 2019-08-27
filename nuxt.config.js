@@ -222,7 +222,7 @@ export default {
           '@babel/preset-env',
           {
             useBuiltIns: 'usage',
-            corejs: '2.0.0',
+            corejs: 3,
             targets: {
               ie: '11',
             },
