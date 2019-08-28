@@ -95,8 +95,8 @@ export default {
       },
     ],
     '@nuxtjs/markdownit',
+    '@nuxtjs/svg',
     'nuxt-webfontloader',
-    'nuxt-svg-loader',
   ],
 
   styleResources: {
