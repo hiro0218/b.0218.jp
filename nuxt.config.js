@@ -30,7 +30,7 @@ export default {
       { hid: 'og:url', property: 'og:url', content: constant.SITE_URL },
       { hid: 'og:title', property: 'og:title', content: constant.SITE_NAME },
       { hid: 'og:description', property: 'og:description', content: constant.SITE_DESCRIPTION },
-      { hid: 'og:image', property: 'og:image', content: process.env.AUTHOR_ICON },
+      { hid: 'og:image', property: 'og:image', content: constant.AUTHOR_ICON },
       { name: 'twitter:site', content: '@hiro0218' },
       { name: 'twitter:creator', content: '@hiro0218' },
       { name: 'twitter:card', content: 'summary' },
@@ -96,6 +96,7 @@ export default {
     ],
     '@nuxtjs/markdownit',
     'nuxt-webfontloader',
+    'nuxt-svg-loader',
   ],
 
   styleResources: {
@@ -185,35 +186,6 @@ export default {
           exclude: /(node_modules)/,
         });
       }
-
-      const svgRule = config.module.rules.find(rule => rule.test.test('.svg'));
-
-      svgRule.test = /\.(png|jpe?g|gif|webp)$/;
-
-      config.module.rules.push({
-        test: /\.svg$/,
-        oneOf: [
-          {
-            resourceQuery: /inline/,
-            loader: 'vue-svg-loader',
-            options: {
-              svgo: {
-                plugins: [
-                  {
-                    removeViewBox: false,
-                  },
-                ],
-              },
-            },
-          },
-          {
-            loader: 'file-loader',
-            query: {
-              name: 'assets/[name].[hash:8].[ext]',
-            },
-          },
-        ],
-      });
     },
 
     babel: {
@@ -222,7 +194,7 @@ export default {
           '@babel/preset-env',
           {
             useBuiltIns: 'usage',
-            corejs: '2.0.0',
+            corejs: 3,
             targets: {
               ie: '11',
             },

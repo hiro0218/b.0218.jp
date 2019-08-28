@@ -19,9 +19,9 @@
       </div>
     </header>
     <PostsCategoryList />
-    <no-ssr>
+    <client-only>
       <PostsList />
-    </no-ssr>
+    </client-only>
   </section>
 </template>
 
