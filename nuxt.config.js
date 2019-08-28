@@ -68,6 +68,7 @@ export default {
    */
   plugins: [
     '~/plugins/api.js',
+    '~/plugins/fontawesome.js',
     '~/plugins/mixin.js',
     '~/plugins/pagination.client.js',
     '~/plugins/mokuji.client.js',
