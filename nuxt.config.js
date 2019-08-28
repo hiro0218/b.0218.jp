@@ -96,6 +96,7 @@ export default {
       },
     ],
     '@nuxtjs/markdownit',
+    '@nuxtjs/svg',
     'nuxt-webfontloader',
   ],
 
@@ -186,35 +187,6 @@ export default {
           exclude: /(node_modules)/,
         });
       }
-
-      const svgRule = config.module.rules.find(rule => rule.test.test('.svg'));
-
-      svgRule.test = /\.(png|jpe?g|gif|webp)$/;
-
-      config.module.rules.push({
-        test: /\.svg$/,
-        oneOf: [
-          {
-            resourceQuery: /inline/,
-            loader: 'vue-svg-loader',
-            options: {
-              svgo: {
-                plugins: [
-                  {
-                    removeViewBox: false,
-                  },
-                ],
-              },
-            },
-          },
-          {
-            loader: 'file-loader',
-            query: {
-              name: 'assets/[name].[hash:8].[ext]',
-            },
-          },
-        ],
-      });
     },
 
     babel: {

@@ -29,7 +29,7 @@
     "lozad": "^1.9.0",
     "mokuji.js": "^2.0.1",
     "normalize.css": "^8.0.1",
-    "nuxt": "^2.9.1",
+    "nuxt": "^2.9.2",
     "open-color": "^1.7.0",
     "vuejs-paginate": "^2.1.0"
   },
@@ -43,6 +43,7 @@
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/markdownit": "^1.2.6",
     "@nuxtjs/style-resources": "^1.0.0",
+    "@nuxtjs/svg": "^0.1.6",
     "babel-eslint": "^10.0.2",
     "consola": "^2.10.1",
     "core-js": "^3.2.1",
@@ -61,8 +62,7 @@
     "nuxt-webfontloader": "^1.1.0",
     "postcss-flexbugs-fixes": "^4.1.0",
     "prettier": "1.18.2",
-    "sass-loader": "^7.3.1",
-    "vue-svg-loader": "0.12.0"
+    "sass-loader": "^7.3.1"
   },
   "lint-staged": {
     "**/*.{js,vue}": [
