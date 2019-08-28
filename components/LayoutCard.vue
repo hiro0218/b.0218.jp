@@ -67,7 +67,7 @@ export default {
   .no-image {
     width: 2rem;
     height: 2rem;
-    fill: $tertiary-color;
+    color: $tertiary-color;
   }
 
   @include mobile {

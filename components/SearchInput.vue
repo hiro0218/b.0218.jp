@@ -57,7 +57,7 @@ export default {
     left: 0.5rem;
     width: 1rem;
     height: 1rem;
-    fill: $secondary-color;
+    color: $secondary-color;
   }
 }
 

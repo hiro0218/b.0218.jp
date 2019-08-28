@@ -96,7 +96,8 @@ export default {
     align-items: center;
     justify-content: center;
     svg {
-      fill: $base-color;
+      width: 1.25rem;
+      height: 1.25rem;
     }
   }
 

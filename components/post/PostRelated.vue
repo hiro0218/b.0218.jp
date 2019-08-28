@@ -85,7 +85,7 @@ export default {
     width: 4rem;
     height: 4rem;
     margin: auto;
-    fill: $tertiary-color;
+    color: $tertiary-color;
   }
 }
 
