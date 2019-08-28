@@ -8,7 +8,7 @@
         <router-link :to="post.url">
           <div class="related-image">
             <img v-if="post.image != ''" :data-src="post.image" :alt="post.title" />
-            <svgPhoto v-else class="no-image" />
+            <font-awesome-icon v-else class="no-image" icon="image" />
           </div>
           <div class="related-title">
             {{ post.title }}
@@ -22,13 +22,9 @@
 <script>
 import { mapState } from 'vuex';
 import lazyload from '~/assets/script/lazyload.js';
-import svgPhoto from '~/assets/image/photo.svg?inline';
 
 export default {
   name: 'PostRelated',
-  components: {
-    svgPhoto,
-  },
   computed: {
     ...mapState('post', {
       related: state => state.data.attach.related,

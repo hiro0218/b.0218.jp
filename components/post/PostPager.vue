@@ -3,7 +3,7 @@
     <div class="pager-list">
       <router-link v-if="pager.prev" :to="pager.prev.url" :title="pager.prev.title" class="pager-item prev">
         <div class="pager-icon">
-          <svgArrowBack />
+          <font-awesome-icon icon="arrow-left" />
         </div>
         <div class="pager-title">
           {{ pager.prev.title }}
@@ -11,7 +11,7 @@
       </router-link>
       <router-link v-if="pager.next" :to="pager.next.url" :title="pager.next.title" class="pager-item next">
         <div class="pager-icon">
-          <svgArrowForward />
+          <font-awesome-icon icon="arrow-right" />
         </div>
         <div class="pager-title">
           {{ pager.next.title }}
@@ -23,15 +23,9 @@
 
 <script>
 import { mapState } from 'vuex';
-import svgArrowBack from '~/assets/image/arrow_back.svg?inline';
-import svgArrowForward from '~/assets/image/arrow_forward.svg?inline';
 
 export default {
   name: 'PostPager',
-  components: {
-    svgArrowBack,
-    svgArrowForward,
-  },
   computed: {
     ...mapState('post', {
       pager: state => state.data.attach.pager,

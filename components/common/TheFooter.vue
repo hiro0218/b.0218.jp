@@ -2,7 +2,7 @@
   <footer>
     <div class="o-container">
       <div class="button-scrollTop" @click="scrollTop">
-        <svgUpward />
+        <font-awesome-icon icon="arrow-up" />
       </div>
       <nav class="menu">
         <ul class="u-list-unstyled menu-list">
@@ -29,13 +29,8 @@
 </template>
 
 <script>
-import svgUpward from '~/assets/image/arrow_upward.svg?inline';
-
 export default {
   name: 'TheFooter',
-  components: {
-    svgUpward,
-  },
   computed: {
     siteName: () => process.env.SITE_NAME,
   },
@@ -71,8 +66,8 @@ footer {
   cursor: pointer;
 
   svg {
-    width: 2rem;
-    height: 2rem;
+    width: 1.5rem;
+    height: 1.5rem;
     fill: map-get($light-color, 2);
   }
 }
