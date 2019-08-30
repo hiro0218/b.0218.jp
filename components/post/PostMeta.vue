@@ -6,7 +6,7 @@
         <time :datetime="post.date" itemprop="datePublished">{{ post.date | formatDateString }}</time>
       </li>
       <li v-if="!isDateSameDay(post.date, post.modified)" class="meta-item">
-        <font-awesome-icon icon="chevron-right" />
+        <font-awesome-icon icon="angle-right" />
         <time :datetime="post.modified" itemprop="dateModified">{{ post.modified | formatDateString }}</time>
       </li>
     </ul>
