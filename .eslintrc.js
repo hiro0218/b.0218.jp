@@ -44,5 +44,6 @@ module.exports = {
       }
     }],
     'vue/singleline-html-element-content-newline': 0,
+    'vue/html-closing-bracket-newline': 'off',
   }
 }
