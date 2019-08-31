@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-image">
       <img v-if="thumbnail" :src="thumbnail" :alt="title" loading="lazy" />
-      <svgPhoto v-else class="no-image" />
+      <font-awesome-icon v-else class="no-image" icon="image" />
     </div>
     <div class="card-body">
       <div class="card-title">
@@ -19,13 +19,8 @@
 </template>
 
 <script>
-import svgPhoto from '~/assets/image/photo.svg?inline';
-
 export default {
   name: 'LayoutCard',
-  components: {
-    svgPhoto,
-  },
   props: {
     title: {
       type: String,
@@ -72,7 +67,7 @@ export default {
   .no-image {
     width: 2rem;
     height: 2rem;
-    fill: $tertiary-color;
+    color: $tertiary-color;
   }
 
   @include mobile {

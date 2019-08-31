@@ -1,6 +1,6 @@
 <template>
   <div class="search-container">
-    <svgSearch />
+    <font-awesome-icon icon="search" />
     <input
       v-model="searchValue"
       type="search"
@@ -14,13 +14,8 @@
 </template>
 
 <script>
-import svgSearch from '~/assets/image/search.svg?inline';
-
 export default {
   name: 'SearchInput',
-  components: {
-    svgSearch,
-  },
   data() {
     return {
       searchValue: this.$route.query.search,
@@ -60,9 +55,9 @@ export default {
   svg {
     position: absolute;
     left: 0.5rem;
-    width: 1.25rem;
-    height: 1.25rem;
-    fill: $secondary-color;
+    width: 1rem;
+    height: 1rem;
+    color: $secondary-color;
   }
 }
 
