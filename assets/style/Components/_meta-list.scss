@@ -1,15 +1,13 @@
 .c-meta-list {
   display: flex;
   align-items: center;
-  margin: 0;
+  margin: 0 0 0.5rem 0;
   padding: 0;
   color: $tertiary-color;
+  line-height: 1;
   list-style: none;
 
-  .meta-item {
-    display: inline-flex;
-    align-items: center;
-  }
+  // .meta-item {}
 
   a {
     color: $tertiary-color;
@@ -24,5 +22,9 @@
     &:first-child {
       margin-right: 0.25em;
     }
+  }
+
+  .meta-item + svg {
+    margin: 0 0.25rem;
   }
 }
