@@ -5,12 +5,7 @@ export const route = {
   async getData() {
     return await axios
       .all([
-        axios.get(`${constant.ENDPOINT}wp/v2/posts`, {
-          params: {
-            _fields: 'id,slug',
-            per_page: 1000,
-          },
-        }),
+        axios.get(`${constant.ENDPOINT}0218/v1/sitemap`),
         axios.get(`${constant.ENDPOINT}wp/v2/tags`, {
           params: {
             _fields: 'id,slug',
