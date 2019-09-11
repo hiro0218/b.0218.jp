@@ -11,7 +11,6 @@ export const route = {
             per_page: 1000,
           },
         }),
-
         axios.get(`${constant.ENDPOINT}wp/v2/tags`, {
           params: {
             _fields: 'id,slug',
