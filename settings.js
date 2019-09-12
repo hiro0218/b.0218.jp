@@ -3,59 +3,43 @@ import constant from './constant';
 
 export const route = {
   async getData() {
-    const posts = await axios
-      .get(`${constant.ENDPOINT}wp/v2/posts`, {
-        params: {
-          _fields: 'id,slug',
-          per_page: 1000,
-        },
-      })
-      .then(res => {
-        let routes = [];
+    return await axios
+      .all([
+        axios.get(`${constant.ENDPOINT}0218/v1/sitemap`),
+        axios.get(`${constant.ENDPOINT}wp/v2/tags`, {
+          params: {
+            _fields: 'id,slug',
+            order: 'desc',
+            orderby: 'count',
+          },
+        }),
+        axios.get(`${constant.ENDPOINT}wp/v2/categories`, {
+          params: {
+            _fields: 'id,slug',
+            order: 'desc',
+            orderby: 'count',
+          },
+        }),
+      ])
+      .then(
+        axios.spread(function(posts, tags, cats) {
+          let routes = [];
 
-        res.data.map(post => {
-          routes.push(post.slug.replace('.html', ''));
-        });
+          posts.data.map(post => {
+            const slug = post.slug.replace('.html', '');
+            routes.push(slug);
+          });
 
-        return routes;
-      });
+          tags.data.map(post => {
+            routes.push(`tags/${post.slug}`);
+          });
 
-    const categories = await axios
-      .get(`${constant.ENDPOINT}wp/v2/categories`, {
-        params: {
-          _fields: 'id,slug',
-          order: 'desc',
-          orderby: 'count',
-        },
-      })
-      .then(res => {
-        let routes = [];
+          cats.data.map(post => {
+            routes.push(`categories/${post.slug}`);
+          });
 
-        res.data.map(post => {
-          routes.push(`categories/${post.slug}`);
-        });
-
-        return routes;
-      });
-
-    const tags = await axios
-      .get(`${constant.ENDPOINT}wp/v2/tags`, {
-        params: {
-          _fields: 'id,slug',
-          order: 'desc',
-          orderby: 'count',
-        },
-      })
-      .then(res => {
-        let routes = [];
-
-        res.data.map(post => {
-          routes.push(`tags/${post.slug}`);
-        });
-
-        return routes;
-      });
-
-    return posts.concat(categories, tags);
+          return routes;
+        }),
+      );
   },
 };

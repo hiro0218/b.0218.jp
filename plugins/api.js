@@ -39,7 +39,7 @@ export default (ctx, inject) => {
       return axios({
         method: 'GET',
         baseURL: IS_PRODUCTION ? constant.SITE_URL : constant.DEV_SITE_URL,
-        url: '/api/archive.json',
+        url: '/api/sitemap.json',
       });
     },
     getCategoryList() {

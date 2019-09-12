@@ -5,17 +5,14 @@
         {{ pageTitle }}
       </h1>
     </header>
-    <div class="archive-list-container">
-      <section v-for="(posts, year) in archiveList" :key="year">
-        <h2 class="archive-year">{{ year }}</h2>
-        <ul class="u-list-unstyled archive-list">
-          <li v-for="post in posts" :key="post.id" class="archive-item">
-            <time :datetime="post.date" class="post-date">{{ post.date | formatDateString }}</time>
-            <nuxt-link :to="post.link">{{ post.title }}</nuxt-link>
-          </li>
-        </ul>
-      </section>
-    </div>
+    <section class="archive-list-container">
+      <ul class="u-list-unstyled archive-list">
+        <li v-for="(post, key) in archiveList" :key="key" class="archive-item">
+          <time :datetime="post.published_at" class="post-date">{{ post.published_at | formatDateString }}</time>
+          <nuxt-link :to="post.slug">{{ post.title }}</nuxt-link>
+        </li>
+      </ul>
+    </section>
   </article>
 </template>
 
@@ -27,6 +24,7 @@ export default {
   head() {
     return {
       title: this.pageTitle,
+      test: 0,
     };
   },
   computed: {
@@ -51,19 +49,20 @@ export default {
 
 <style lang="scss">
 .archive {
-  a:hover {
-    opacity: 0.6;
+  a {
+    text-decoration: underline;
+    &:hover {
+      opacity: 0.6;
+    }
   }
 }
 
 .archive-list-container {
   display: flex;
-  flex-direction: column-reverse;
-  padding-top: 2rem;
+  margin-bottom: 4rem;
 }
 
 .archive-list {
-  margin-bottom: 4rem;
   padding: 0 1rem;
 }
 

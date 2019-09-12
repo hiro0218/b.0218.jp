@@ -115,16 +115,16 @@ export default {
       ];
 
       if (this.post.hasOwnProperty('_embedded')) {
-        if (this.post._embedded['wp:term'].length !== 0) {
-          Array.from(this.post._embedded['wp:term'][0], category => {
-            itemListElement.push({
-              '@type': 'ListItem',
-              position: ++itemCount,
-              item: {
-                '@id': `${process.env.SITE_URL}category/${category.slug}`,
-                name: category.name,
-              },
-            });
+        const wp_term = this.post._embedded['wp:term'][0];
+        for (let i = 0; i < wp_term.length; i++) {
+          const category = wp_term[i];
+          itemListElement.push({
+            '@type': 'ListItem',
+            position: ++itemCount,
+            item: {
+              '@id': `${process.env.SITE_URL}category/${category.slug}`,
+              name: category.name,
+            },
           });
         }
       }

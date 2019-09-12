@@ -98,51 +98,25 @@ export default {
       this.elMokuji.content.appendChild(mokujiData);
 
       // workaround: scroll
-      Array.from(mokujiData.querySelectorAll('a'), anchor => {
+      const anchorMokuji = mokujiData.querySelectorAll('a');
+      for (let i = 0; i < anchorMokuji.length; i++) {
+        const anchor = anchorMokuji[i];
+
         // inside mokuji
         this.handleAnchorScroll(anchor);
 
         // inside post-content
         try {
-          let escaped_hash = this.escapedSelector(anchor.hash);
-          let heading = this.$el.querySelector(`${escaped_hash} > a`);
+          const escaped_hash = this.escapedSelector(anchor.hash);
+          const heading = this.$el.querySelector(`${escaped_hash} > a`);
           this.handleAnchorScroll(heading);
         } catch (e) {
           console.error(e);
         }
-      });
+      }
 
       // loaded
       this.scrollTo(this.$route.hash);
-    },
-    addExternalLinkIcon() {
-      const links = this.elPostContent.querySelectorAll('a');
-      if (links.length === 0) return;
-      Array.from(links, element => {
-        var href = element.getAttribute('href');
-        // exclude javascript and anchor
-        if (href.substring(0, 10).toLowerCase() === 'javascript' || href.substring(0, 1) === '#') {
-          return;
-        }
-
-        // check hostname
-        if (element.hostname === location.hostname) {
-          return;
-        }
-
-        // set target and rel
-        element.setAttribute('target', '_blank');
-        element.setAttribute('rel', 'nofollow');
-        element.setAttribute('rel', 'noopener');
-
-        // set icon when childNode is text
-        if (element.hasChildNodes()) {
-          if (element.childNodes[0].nodeType === 3) {
-            // add icon class
-            element.classList.add('is-external_link');
-          }
-        }
-      });
     },
     addTableContainer() {
       const tables = this.elPostContent.querySelectorAll('table');
@@ -158,9 +132,11 @@ export default {
       }
     },
     initHighlight() {
-      Array.from(this.$el.querySelectorAll('pre code'), elm => {
-        this.$hljs.highlightBlock(elm);
-      });
+      const elementCode = this.$el.querySelectorAll('pre code');
+      for (let i = 0; i < elementCode.length; i++) {
+        const element = elementCode[i];
+        this.$hljs.highlightBlock(element);
+      }
     },
     handleAnchorScroll(element) {
       if (!element) return;
