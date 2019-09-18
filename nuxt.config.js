@@ -1,6 +1,5 @@
 import { route } from './settings';
 import constant from './constant';
-const routeData = async () => await route.getData();
 
 export default {
   modern: 'client',
@@ -114,7 +113,8 @@ export default {
     hostname: constant.SITE_URL,
     generate: true,
     async routes() {
-      return await routeData();
+      const isSitemap = true;
+      return await route.getData(isSitemap);
     },
   },
 
@@ -236,7 +236,7 @@ export default {
     subFolders: false,
     interval: 1000,
     async routes() {
-      return await routeData();
+      return await route.getData();
     },
   },
 };
