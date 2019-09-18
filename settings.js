@@ -2,7 +2,7 @@ import axios from 'axios';
 import constant from './constant';
 
 export const route = {
-  async getData() {
+  async getData(sitemap = false) {
     return await axios
       .all([
         axios.get(`${constant.ENDPOINT}0218/v1/sitemap`),
@@ -26,7 +26,7 @@ export const route = {
           let routes = [];
 
           posts.data.map(post => {
-            const slug = post.slug.replace('.html', '');
+            const slug = sitemap ? post.slug : post.slug.replace('.html', '');
             routes.push(slug);
           });
 
