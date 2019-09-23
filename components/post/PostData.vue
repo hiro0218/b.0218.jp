@@ -192,24 +192,6 @@ export default {
     color: $secondary-color;
     font-size: $font-size-sm;
 
-    @include desktop {
-      position: fixed;
-      z-index: 1;
-      right: 5vw;
-      bottom: 0;
-      transition: opacity 0.3s;
-      opacity: 0.8;
-
-      &:hover {
-        opacity: 1;
-      }
-
-      details[open] .mokuji-content {
-        max-height: calc(80vh - #{$header-height});
-        overflow: scroll;
-      }
-    }
-
     details {
       padding: 1rem 1.5rem;
     }

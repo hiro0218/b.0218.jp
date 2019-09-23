@@ -15,8 +15,8 @@
     "pregenerate": "yarn output:api"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.22",
-    "@fortawesome/free-solid-svg-icons": "^5.10.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.24",
+    "@fortawesome/free-solid-svg-icons": "^5.11.1",
     "@fortawesome/vue-fontawesome": "^0.1.7",
     "@nuxtjs/google-adsense": "^1.1.3",
     "@nuxtjs/google-analytics": "^2.2.0",
@@ -36,8 +36,8 @@
   "devDependencies": {
     "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/runtime-corejs3": "^7.5.5",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/runtime-corejs3": "^7.6.0",
     "@hiro0218/prettier-config": "^1.0.2",
     "@hiro0218/stylelint-config": "^1.0.0",
     "@nuxtjs/dotenv": "^1.4.0",
@@ -62,7 +62,7 @@
     "nuxt-webfontloader": "^1.1.0",
     "postcss-flexbugs-fixes": "^4.1.0",
     "prettier": "1.18.2",
-    "sass-loader": "^7.3.1"
+    "sass-loader": "^8.0.0"
   },
   "lint-staged": {
     "**/*.{js,vue}": [
