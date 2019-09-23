@@ -36,8 +36,8 @@
   "devDependencies": {
     "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/runtime-corejs3": "^7.5.5",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/runtime-corejs3": "^7.6.0",
     "@hiro0218/prettier-config": "^1.0.2",
     "@hiro0218/stylelint-config": "^1.0.0",
     "@nuxtjs/dotenv": "^1.4.0",
