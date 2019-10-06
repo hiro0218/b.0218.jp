@@ -1,8 +1,8 @@
 <template>
-  <header class="header-navigation">
-    <div class="o-container header-container">
-      <nuxt-link :title="siteName" to="/" class="logo">
-        <svgLogo />
+  <header class="pj-header">
+    <div class="o-container pj-header__container">
+      <nuxt-link :title="siteName" to="/" class="pj-header__logo">
+        <svgLogo class="pj-header__logo__icon" />
       </nuxt-link>
       <SearchInput />
     </div>
@@ -60,8 +60,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.header-navigation {
+<style lang="scss">
+.pj-header {
   position: fixed;
   z-index: 10;
   top: 0;
@@ -78,28 +78,32 @@ export default {
     box-shadow: none;
   }
 }
-.header-container {
+
+.pj-header__container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 100%;
 }
-a {
+
+.pj-header__logo {
   display: flex;
   align-items: center;
   height: 100%;
   color: $base-color;
+
   &:hover {
     opacity: 0.6;
   }
-  svg {
-    width: 5rem;
-    height: 100%;
-    transition: width 0.2s;
-    fill: $base-color;
-    @include mobile {
-      width: 4rem;
-    }
+}
+
+.pj-header__logo__icon {
+  width: 5rem;
+  height: 100%;
+  transition: width 0.2s;
+  fill: $base-color;
+  @include mobile {
+    width: 4rem;
   }
 }
 </style>
