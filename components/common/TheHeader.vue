@@ -23,7 +23,7 @@ export default {
     return {
       eleHeader: null,
       classes: {
-        unpinned: 'unpin',
+        unpinned: 'is-unpin',
       },
       lastKnownScrollY: 0,
       ticking: false,
@@ -73,7 +73,7 @@ export default {
   background: #fff;
   will-change: transform;
 
-  &.unpin {
+  &.is-unpin {
     transform: translateY(-$header-height);
     box-shadow: none;
   }
