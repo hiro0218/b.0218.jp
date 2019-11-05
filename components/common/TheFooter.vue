@@ -60,6 +60,10 @@ export default {
   &:hover {
     text-decoration: underline;
   }
+
+  &:visited {
+    color: inherit;
+  }
 }
 
 // scroll top button
