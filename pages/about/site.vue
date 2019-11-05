@@ -1,7 +1,7 @@
 <template>
   <article class="about">
-    <header class="c-title is-page">
-      <h1 class="title-main">
+    <header class="c-heading--large">
+      <h1 class="c-heading__title">
         {{ pageTitle }}
       </h1>
     </header>
