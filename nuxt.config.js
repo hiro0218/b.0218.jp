@@ -37,6 +37,7 @@ export default {
       { 'http-equiv': 'x-dns-prefetch-control', content: 'on' },
     ],
     link: [
+      { rel: 'https://api.w.org/', href: constant.ENDPOINT },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
       { rel: 'dns-prefetch', href: '//content.b.0218.jp' },
       { rel: 'dns-prefetch', href: '//user-images.githubusercontent.com' },
