@@ -1,27 +1,27 @@
 <template>
-  <footer>
+  <footer class="pj-footer">
     <div class="o-container">
-      <div class="button-scrollTop" @click="scrollTop">
+      <button class="pj-footer__scroll-button" @click="scrollTop">
         <font-awesome-icon icon="arrow-up" />
-      </div>
-      <nav class="menu">
-        <ul class="u-list-unstyled menu-list">
-          <li class="menu-item">
-            <nuxt-link to="/about">
+      </button>
+      <nav class="pj-footer__menu">
+        <ul class="u-list-unstyled pj-footer__menu-list">
+          <li class="pj-footer__menu-item">
+            <nuxt-link to="/about" class="pj-footer__link">
               about
             </nuxt-link>
           </li>
-          <li class="menu-item">
-            <nuxt-link to="/archive">
+          <li class="pj-footer__menu-item">
+            <nuxt-link to="/archive" class="pj-footer__link">
               archive
             </nuxt-link>
           </li>
         </ul>
       </nav>
-      <div class="copyright">
-        <small>
+      <div class="pj-footer__copyright">
+        <small class="pj-footer__copyright__text">
           ©
-          <nuxt-link to="/">{{ siteName }}</nuxt-link>
+          <nuxt-link to="/" class="pj-footer__link">{{ siteName }}</nuxt-link>
         </small>
       </div>
     </div>
@@ -45,53 +45,64 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-footer {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+<style lang="scss">
+.pj-footer {
+  padding: 3rem 0;
   background: $base-color;
   color: map-get($light-color, 3);
   font-size: $font-size-sm;
   text-align: center;
-  a:hover {
+}
+
+.pj-footer__link {
+  color: map-get($light-color, 2);
+
+  &:hover {
     text-decoration: underline;
+  }
+
+  &:visited {
+    color: inherit;
   }
 }
 
-.button-scrollTop {
+// scroll top button
+.pj-footer__scroll-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 1.5rem;
+  border: none;
+  background: none;
+  color: inherit;
   cursor: pointer;
+  appearance: none;
 
   svg {
     width: 1.5rem;
     height: 1.5rem;
-    fill: map-get($light-color, 2);
   }
 }
 
-.copyright {
-  small {
-    font-size: 1em;
-  }
-  a {
-    color: inherit;
-  }
-}
-.menu {
+// menu
+.pj-footer__menu {
   margin-bottom: 1rem;
 }
-.menu-list {
+
+.pj-footer__menu-list {
   display: inline-flex;
 }
-.menu-item {
+
+.pj-footer__menu-item {
   & + & {
     margin-left: map-get($size, sm) * 1rem;
   }
-  a {
-    color: map-get($light-color, 2);
+}
+
+// copyright
+.pj-footer__copyright {
+  &__text {
+    font-size: 1em;
   }
 }
 </style>

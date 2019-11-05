@@ -1,11 +1,11 @@
 <template>
-  <div class="search-container">
-    <font-awesome-icon icon="search" />
+  <div class="c-search">
+    <font-awesome-icon icon="search" class="c-search__icon" />
     <input
       v-model="searchValue"
       type="search"
       placeholder="Search"
-      class="search-input"
+      class="c-search__input"
       aria-label="Search box"
       @keyup.enter="setKeypress"
       @keydown.enter="submitSearch"
@@ -46,22 +46,22 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.search-container {
+<style lang="scss">
+.c-search {
   display: flex;
   position: relative;
   align-items: center;
-
-  svg {
-    position: absolute;
-    left: 0.5rem;
-    width: 1rem;
-    height: 1rem;
-    color: $secondary-color;
-  }
 }
 
-.search-input {
+.c-search__icon {
+  position: absolute;
+  left: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+  color: $secondary-color;
+}
+
+.c-search__input {
   width: 12rem;
   padding: 0.5rem 0.5rem 0.5rem 2rem;
   transition: background 0.1s ease;
@@ -74,8 +74,8 @@ export default {
   -webkit-appearance: none;
   -moz-appearance: none;
 
-  &:placeholder-shown,
-  &::-webkit-input-placeholder {
+  &::-webkit-input-placeholder,
+  &:placeholder-shown {
     color: $secondary-color;
     font-size: $font-size-sm;
   }
