@@ -1,5 +1,5 @@
 <template>
-  <header class="pj-header">
+  <header class="pj-header js-header">
     <div class="o-container pj-header__container">
       <nuxt-link :title="siteName" to="/" class="pj-header__logo">
         <svgLogo class="pj-header__logo__icon" />
@@ -33,7 +33,7 @@ export default {
     siteName: () => process.env.SITE_NAME,
   },
   mounted: function() {
-    this.eleHeader = document.querySelector('.header-navigation');
+    this.eleHeader = document.querySelector('.js-header');
     document.addEventListener('scroll', this.handleScroll, !document.documentMode ? { passive: false } : false);
   },
   methods: {
