@@ -46,7 +46,7 @@
     "@nuxtjs/svg": "^0.1.6",
     "babel-eslint": "^10.0.3",
     "consola": "^2.10.1",
-    "core-js": "^3.2.1",
+    "core-js": "^3.4.0",
     "cssnano": "^4.1.10",
     "eslint": "^6.2.2",
     "eslint-config-prettier": "^6.1.0",
