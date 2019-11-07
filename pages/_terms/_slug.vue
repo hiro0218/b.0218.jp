@@ -1,8 +1,8 @@
 <template>
   <section v-if="id > 0" class="term">
-    <header class="c-title is-term">
-      <h1 class="title-main">{{ name }}</h1>
-      <div class="title-sub">
+    <header class="c-heading">
+      <h1 class="c-heading__title">{{ name }}</h1>
+      <div class="c-heading__description">
         {{ $route.params.terms }}
       </div>
     </header>

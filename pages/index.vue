@@ -1,7 +1,7 @@
 <template>
   <section>
-    <header class="c-title is-home">
-      <h1 class="title-main">
+    <header class="c-heading">
+      <h1 class="c-heading__title">
         <template v-if="$route.query.search">
           {{ $route.query.search }}
         </template>
@@ -9,7 +9,7 @@
           {{ pageTitle }}
         </template>
       </h1>
-      <div class="title-sub">
+      <div class="c-heading__description">
         <template v-if="$route.query.search">
           search results
         </template>

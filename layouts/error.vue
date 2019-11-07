@@ -1,7 +1,7 @@
 <template>
   <section class="error-container">
-    <header class="c-title">
-      <h1 class="title-main">
+    <header class="c-heading">
+      <h1 class="c-heading__title">
         <template v-if="error.statusCode >= 500">
           予期せぬエラーが発生しました
         </template>
@@ -9,7 +9,7 @@
           お探しのページは見つかりませんでした
         </template>
       </h1>
-      <div class="title-sub">
+      <div class="c-heading__description">
         {{ error.message }}
       </div>
     </header>
@@ -53,12 +53,6 @@ export default {
   justify-content: center;
   height: 100%;
   text-align: center;
-
-  .c-title {
-    .title-sub {
-      color: $tertiary-color;
-    }
-  }
 
   .error-message {
     margin-bottom: 2rem;

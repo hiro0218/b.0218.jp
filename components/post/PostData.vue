@@ -1,9 +1,11 @@
 <template>
   <article class="post">
-    <header class="c-title">
-      <h1 class="title-main">
-        {{ post.title.rendered }}
-      </h1>
+    <header>
+      <div class="c-heading">
+        <h1 class="c-heading__title">
+          {{ post.title.rendered }}
+        </h1>
+      </div>
       <PostMeta />
     </header>
     <LayoutArticle @mounted="init">
@@ -173,7 +175,7 @@ export default {
 
 <style lang="scss" scoped>
 .post {
-  .c-title {
+  .c-heading {
     margin: 2rem 0;
   }
   .c-alert {
