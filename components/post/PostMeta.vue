@@ -16,8 +16,9 @@
       <font-awesome-icon icon="folder" />
       <template v-for="(category, index) in post._embedded['wp:term'][0]">
         <div :key="index" class="meta-item">
-          <nuxt-link :to="'/categories/' + category.slug">{{ category.name }}</nuxt-link
-          ><span v-if="index !== post._embedded['wp:term'][0].length - 1">,&nbsp;</span>
+          <!-- prettier-ignore -->
+          <nuxt-link :to="'/categories/' + category.slug">{{ category.name }}</nuxt-link>
+          <span v-if="index !== post._embedded['wp:term'][0].length - 1">,&nbsp;</span>
         </div>
       </template>
     </div>
@@ -25,8 +26,8 @@
       <font-awesome-icon icon="tag" />
       <template v-for="(post_tag, index) in post._embedded['wp:term'][1]">
         <div :key="index" class="meta-item">
-          <nuxt-link :to="'/tags/' + post_tag.slug">{{ post_tag.name }}</nuxt-link
-          ><span v-if="index !== post._embedded['wp:term'][1].length - 1">,&nbsp;</span>
+          <nuxt-link :to="'/tags/' + post_tag.slug">{{ post_tag.name }}</nuxt-link>
+          <span v-if="index !== post._embedded['wp:term'][1].length - 1">,&nbsp;</span>
         </div>
       </template>
     </div>

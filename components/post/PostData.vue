@@ -26,11 +26,6 @@ import externalLink from '~/assets/script/externalLink.js';
 
 export default {
   name: 'PostData',
-  head() {
-    return {
-      style: [{ cssText: this.post.attach.custom.style, type: 'text/css' }],
-    };
-  },
   components: {
     LayoutArticle,
     PostMeta,
@@ -169,6 +164,11 @@ export default {
       let hash = selector.slice(1);
       return '#' + CSS.escape(hash);
     },
+  },
+  head() {
+    return {
+      style: [{ cssText: this.post.attach.custom.style, type: 'text/css' }],
+    };
   },
 };
 </script>

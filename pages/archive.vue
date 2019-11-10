@@ -21,18 +21,6 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'Archive',
-  head() {
-    return {
-      title: this.pageTitle,
-      test: 0,
-    };
-  },
-  computed: {
-    pageTitle: () => 'Archive',
-    ...mapState('archive', {
-      archiveList: state => state.data,
-    }),
-  },
   async fetch({ store, app, params, error }) {
     if (store.getters['archive/dataSize'] !== 0) return;
     return await app.$api
@@ -43,6 +31,18 @@ export default {
       .catch(e => {
         error({ statusCode: 404, message: 'Page not found' });
       });
+  },
+  computed: {
+    pageTitle: () => 'Archive',
+    ...mapState('archive', {
+      archiveList: state => state.data,
+    }),
+  },
+  head() {
+    return {
+      title: this.pageTitle,
+      test: 0,
+    };
   },
 };
 </script>

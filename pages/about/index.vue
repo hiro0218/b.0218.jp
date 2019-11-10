@@ -29,16 +29,16 @@ const LayoutArticle = () => import('~/components/LayoutArticle.vue');
 
 export default {
   name: 'About',
-  head() {
-    return {
-      title: this.pageTitle,
-    };
-  },
   components: {
     LayoutArticle,
   },
   computed: {
     pageTitle: () => 'about',
+  },
+  head() {
+    return {
+      title: this.pageTitle,
+    };
   },
 };
 </script>

@@ -20,39 +20,6 @@ export default {
     PostPager,
     PostRelated,
   },
-  head() {
-    return {
-      __dangerouslyDisableSanitizers: ['script'],
-      title: this.post.title.rendered,
-      meta: [
-        { hid: 'description', name: 'description', content: this.post.excerpt.rendered },
-        { hid: 'og:type', property: 'og:type', content: 'article' },
-        { hid: 'og:url', property: 'og:url', content: `${process.env.SITE_URL}${this.post.slug}` },
-        { hid: 'og:title', property: 'og:title', content: this.post.title.rendered },
-        { hid: 'og:description', property: 'og:description', content: this.post.excerpt.rendered },
-        { hid: 'og:image', property: 'og:image', content: this.post.thumbnail || process.env.AUTHOR_ICON },
-        { hid: 'og:updated_time', property: 'og:updated_time', content: this.post.modified },
-        { hid: 'article:published_time', property: 'article:published_time', content: this.post.date },
-        { hid: 'article:modified_time', property: 'article:modified_time', content: this.post.modified },
-      ],
-      link: [{ rel: 'canonical', href: `${process.env.SITE_URL}${this.post.slug}` }],
-      script: [
-        {
-          type: 'application/ld+json',
-          innerHTML: this.getBlogPostingStructured(),
-        },
-        {
-          type: 'application/ld+json',
-          innerHTML: this.getBreadcrumbStructured(),
-        },
-      ],
-    };
-  },
-  computed: {
-    ...mapState('post', {
-      post: state => state.data,
-    }),
-  },
   validate({ params }) {
     if (process.static && process.server) return true;
     return params.post && /\d+.html/.test(params.post);
@@ -71,6 +38,11 @@ export default {
       .catch(e => {
         error(e);
       });
+  },
+  computed: {
+    ...mapState('post', {
+      post: state => state.data,
+    }),
   },
   methods: {
     getBlogPostingStructured() {
@@ -145,6 +117,34 @@ export default {
 
       return JSON.stringify(structure);
     },
+  },
+  head() {
+    return {
+      __dangerouslyDisableSanitizers: ['script'],
+      title: this.post.title.rendered,
+      meta: [
+        { hid: 'description', name: 'description', content: this.post.excerpt.rendered },
+        { hid: 'og:type', property: 'og:type', content: 'article' },
+        { hid: 'og:url', property: 'og:url', content: `${process.env.SITE_URL}${this.post.slug}` },
+        { hid: 'og:title', property: 'og:title', content: this.post.title.rendered },
+        { hid: 'og:description', property: 'og:description', content: this.post.excerpt.rendered },
+        { hid: 'og:image', property: 'og:image', content: this.post.thumbnail || process.env.AUTHOR_ICON },
+        { hid: 'og:updated_time', property: 'og:updated_time', content: this.post.modified },
+        { hid: 'article:published_time', property: 'article:published_time', content: this.post.date },
+        { hid: 'article:modified_time', property: 'article:modified_time', content: this.post.modified },
+      ],
+      link: [{ rel: 'canonical', href: `${process.env.SITE_URL}${this.post.slug}` }],
+      script: [
+        {
+          type: 'application/ld+json',
+          innerHTML: this.getBlogPostingStructured(),
+        },
+        {
+          type: 'application/ld+json',
+          innerHTML: this.getBreadcrumbStructured(),
+        },
+      ],
+    };
   },
   // beforeRouteLeave(to, from, next) {
   //   if (to.path !== from.path) {

@@ -34,19 +34,19 @@ export default {
     PostsList,
     PostsCategoryList,
   },
-  head() {
-    return {
-      title: process.env.SITE_NAME,
-      titleTemplate: null,
-    };
+  async fetch({ store, params, query }) {
+    await store.dispatch('posts/fetchCategoryList');
+    return await store.dispatch('posts/fetch', query);
   },
   computed: {
     pageTitle: () => 'Home',
     siteDescription: () => process.env.SITE_DESCRIPTION,
   },
-  async fetch({ store, params, query }) {
-    await store.dispatch('posts/fetchCategoryList');
-    return await store.dispatch('posts/fetch', query);
+  head() {
+    return {
+      title: process.env.SITE_NAME,
+      titleTemplate: null,
+    };
   },
   // beforeRouteLeave(to, from, next) {
   //   this.$store.dispatch('posts/resetList');
