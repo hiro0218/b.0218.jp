@@ -3,3 +3,8 @@ https://b0218jp.netlify.com/* https://b.0218.jp/:splat 301!
 
 # Redirects
 /feed.xml    /feed   200!
+
+#  [名探偵コナン] アニメオリジナルストーリー 一覧
+/20140510210709.html   https://detective-conan-database.0218.jp/anime/#original_anime 301!
+#  [名探偵コナン] アニメ原作ストーリー 一覧
+/20161224000149.html   https://detective-conan-database.0218.jp/anime/#original_comic 301!
