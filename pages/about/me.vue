@@ -18,11 +18,6 @@ import aboutMeData from '~/assets/markdown/about/me.md';
 
 export default {
   name: 'AboutMe',
-  head() {
-    return {
-      title: this.pageTitle,
-    };
-  },
   components: {
     LayoutArticle,
   },
@@ -37,6 +32,11 @@ export default {
         externalLink(elPostContent);
       });
     },
+  },
+  head() {
+    return {
+      title: this.pageTitle,
+    };
   },
 };
 </script>

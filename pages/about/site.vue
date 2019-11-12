@@ -18,11 +18,6 @@ import aboutSiteData from '~/assets/markdown/about/site.md';
 
 export default {
   name: 'AboutSite',
-  head() {
-    return {
-      title: this.pageTitle,
-    };
-  },
   components: {
     LayoutArticle,
   },
@@ -37,6 +32,11 @@ export default {
         externalLink(elPostContent);
       });
     },
+  },
+  head() {
+    return {
+      title: this.pageTitle,
+    };
   },
 };
 </script>

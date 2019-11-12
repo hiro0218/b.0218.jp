@@ -84,12 +84,6 @@ export default {
     '@nuxtjs/sitemap',
     '@nuxtjs/pwa',
     [
-      '@nuxtjs/google-analytics',
-      {
-        id: 'UA-50805440-1',
-      },
-    ],
-    [
       '@nuxtjs/google-adsense',
       {
         id: 'ca-pub-7651142413133023',
@@ -99,6 +93,12 @@ export default {
     '@nuxtjs/svg',
     'nuxt-webfontloader',
   ],
+
+  buildModules: ['@nuxtjs/google-analytics'],
+
+  googleAnalytics: {
+    id: 'UA-50805440-1',
+  },
 
   styleResources: {
     scss: [
