@@ -50,20 +50,10 @@ export default {
       this.$nextTick(() => {
         this.elPostContent = this.$el.querySelector('.post-content');
         externalLink(this.elPostContent);
-        this.initCustomScript();
         this.addTableContainer();
         this.initHighlight();
         this.initMokuji();
       });
-    },
-    initCustomScript() {
-      if (this.post.attach.custom.script) {
-        try {
-          eval(this.post.attach.custom.script);
-        } catch (e) {
-          console.log(e);
-        }
-      }
     },
     initMokuji() {
       if (!process.client && !window.CSS) return;
