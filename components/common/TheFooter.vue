@@ -1,7 +1,7 @@
 <template>
   <footer class="pj-footer">
     <div class="o-container">
-      <button class="pj-footer__scroll-button" @click="scrollTop">
+      <button aria-label="scrollButton" class="pj-footer__scroll-button" @click="scrollTop">
         <font-awesome-icon icon="arrow-up" />
       </button>
       <nav class="pj-footer__menu">
