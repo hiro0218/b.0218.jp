@@ -101,12 +101,7 @@ export default {
   },
 
   styleResources: {
-    scss: [
-      '~/assets/style/Settings/_colors.scss',
-      '~/assets/style/Settings/_variables.scss',
-      '~/assets/style/Tools/_animation.scss',
-      '~/assets/style/Tools/_mixins.scss',
-    ],
+    scss: ['~/assets/style/Settings/_index.scss', '~/assets/style/Tools/_index.scss'],
   },
 
   sitemap: {
