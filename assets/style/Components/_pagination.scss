@@ -1,0 +1,63 @@
+// pagination
+.pagination-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 0 2rem 0;
+
+  .pagination-item {
+    &.active {
+      a {
+        background: $base-color;
+        color: #fff;
+        cursor: default;
+        &:hover {
+          background: $base-color;
+          color: #fff;
+        }
+      }
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.5rem;
+      min-height: 2.5rem;
+      border-radius: 50%;
+      color: $base-color;
+      font-size: $font-size-sm;
+
+      &:hover {
+        background-color: map-get($light-color, 2);
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .pagination-item + .pagination-item {
+    margin-left: 1rem;
+    @include mobile {
+      margin-left: 0.25rem;
+    }
+  }
+
+  .pagination-separate {
+    pointer-events: none;
+  }
+
+  .pagination-prev.disabled,
+  .pagination-next.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  .pagination-prev a {
+    background: url('~assets/image/arrow_left.svg') center / 1rem 1rem no-repeat;
+  }
+  .pagination-next a {
+    background: url('~assets/image/arrow_right.svg') center / 1rem 1rem no-repeat;
+  }
+}
