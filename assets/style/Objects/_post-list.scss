@@ -1,0 +1,18 @@
+.o-post-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 0 3rem 0;
+
+  &__item {
+    display: flex;
+    flex-basis: calc(50% - 1rem);
+    margin-bottom: 1rem;
+    padding: 1rem 0;
+    color: $base-color;
+
+    @include mobile {
+      flex-basis: 100%;
+    }
+  }
+}

@@ -17,6 +17,9 @@ a {
   &:visited {
     color: $secondary-color;
   }
+  &:hover {
+    opacity: 0.6;
+  }
 }
 
 img {
