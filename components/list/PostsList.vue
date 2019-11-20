@@ -22,11 +22,14 @@
         prev-text
         next-text
         initial-page="1"
-        container-class="u-list-unstyled pagination-container"
-        page-class="pagination-item"
-        prev-class="pagination-item pagination-prev"
-        next-class="pagination-item pagination-next"
-        break-view-class="pagination-separate"
+        no-li-surround="true"
+        container-class="c-pagination u-list-unstyled"
+        page-link-class="c-pagination__link"
+        prev-link-class="c-pagination__link--prev"
+        next-link-class="c-pagination__link--next"
+        active-class="c-pagination__link--active"
+        disabled-class="c-pagination__disabled"
+        break-view-class="c-pagination__separate"
       />
     </template>
   </div>

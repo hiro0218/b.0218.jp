@@ -1,63 +1,69 @@
-// pagination
-.pagination-container {
+.c-pagination {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   margin: 0 0 2rem 0;
 
-  .pagination-item {
-    &.active {
-      a {
-        background: $base-color;
-        color: #fff;
-        cursor: default;
-        &:hover {
-          background: $base-color;
-          color: #fff;
-        }
+  &__link {
+    $element: #{&};
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+    border-radius: 50%;
+    color: $base-color;
+    font-size: $font-size-sm;
+
+    &:hover {
+      background-color: map-get($light-color, 2);
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:not(:first-child) {
+      margin-left: 1rem;
+
+      @include mobile {
+        margin-left: 0.25rem;
       }
     }
 
-    a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 2.5rem;
-      min-height: 2.5rem;
-      border-radius: 50%;
-      color: $base-color;
-      font-size: $font-size-sm;
+    &--active {
+      @extend #{$element};
+
+      background: $base-color;
+      color: #fff;
+      cursor: default;
 
       &:hover {
-        background-color: map-get($light-color, 2);
+        background: $base-color;
+        color: #fff;
       }
-      &:focus {
-        outline: none;
-      }
+    }
+
+    &--prev {
+      @extend #{$element};
+
+      background: url('~assets/image/arrow_left.svg') center / 1rem 1rem no-repeat;
+    }
+
+    &--next {
+      @extend #{$element};
+
+      background: url('~assets/image/arrow_right.svg') center / 1rem 1rem no-repeat;
     }
   }
 
-  .pagination-item + .pagination-item {
-    margin-left: 1rem;
-    @include mobile {
-      margin-left: 0.25rem;
-    }
-  }
-
-  .pagination-separate {
+  &__separate {
     pointer-events: none;
   }
 
-  .pagination-prev.disabled,
-  .pagination-next.disabled {
-    opacity: 0.3;
+  &__disabled {
+    opacity: 0.8;
     pointer-events: none;
-  }
-
-  .pagination-prev a {
-    background: url('~assets/image/arrow_left.svg') center / 1rem 1rem no-repeat;
-  }
-  .pagination-next a {
-    background: url('~assets/image/arrow_right.svg') center / 1rem 1rem no-repeat;
   }
 }
