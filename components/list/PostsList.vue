@@ -24,7 +24,7 @@
         prev-text
         next-text
         initial-page="1"
-        no-li-surround="true"
+        :no-li-surround="true"
         container-class="c-pagination u-list-unstyled"
         page-link-class="c-pagination__link"
         prev-link-class="c-pagination__link--prev"
