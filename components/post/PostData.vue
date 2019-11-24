@@ -183,10 +183,6 @@ export default {
     background: map-get($light-color, 3);
     color: $secondary-color;
     font-size: $font-size-sm;
-
-    details {
-      padding: 1rem 1.5rem;
-    }
   }
 
   .mokuji-content {

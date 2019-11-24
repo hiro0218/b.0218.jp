@@ -1,10 +1,12 @@
 details {
-  &[open] summary ~ * {
-    animation: fadeIn .8s both;
-  }
+  padding: 1rem 1.5rem;
+}
 
-  summary {
-    cursor: pointer;
-    user-select: none;
+summary {
+  cursor: pointer;
+  user-select: none;
+
+  &:focus {
+    outline: 0;
   }
 }
