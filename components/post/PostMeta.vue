@@ -1,37 +1,33 @@
 <template>
-  <aside class="post-meta">
-    <div class="c-meta-list">
-      <font-awesome-icon icon="clock" />
-      <div class="meta-item">
+  <div class="post-meta">
+    <div class="c-post-meta">
+      <font-awesome-icon icon="clock" class="c-post-meta__icon" />
+      <div class="c-post-meta__item--date">
         <time :datetime="post.date" itemprop="datePublished">{{ post.date | formatDateString }}</time>
       </div>
-      <template v-if="!isDateSameDay(post.date, post.modified)">
-        <font-awesome-icon icon="angle-right" />
-        <div class="meta-item">
-          <time :datetime="post.modified" itemprop="dateModified">{{ post.modified | formatDateString }}</time>
-        </div>
-      </template>
+      <div v-if="!isDateSameDay(post.date, post.modified)" class="c-post-meta__item--date">
+        <time :datetime="post.modified" itemprop="dateModified">{{ post.modified | formatDateString }}</time>
+      </div>
     </div>
-    <div v-if="post.hasOwnProperty('_embedded') && post._embedded['wp:term'][0].length" class="c-meta-list">
-      <font-awesome-icon icon="folder" />
+    <div v-if="post.hasOwnProperty('_embedded') && post._embedded['wp:term'][0].length" class="c-post-meta">
+      <font-awesome-icon icon="folder" class="c-post-meta__icon" />
       <template v-for="(category, index) in post._embedded['wp:term'][0]">
-        <div :key="index" class="meta-item">
+        <div :key="index" class="c-post-meta__item">
           <!-- prettier-ignore -->
-          <nuxt-link :to="'/categories/' + category.slug">{{ category.name }}</nuxt-link>
+          <nuxt-link :to="'/categories/' + category.slug" class="c-post-meta__link">{{ category.name }}</nuxt-link>
           <span v-if="index !== post._embedded['wp:term'][0].length - 1">,&nbsp;</span>
         </div>
       </template>
     </div>
-    <div v-if="post.hasOwnProperty('_embedded') && post._embedded['wp:term'][1].length" class="c-meta-list">
-      <font-awesome-icon icon="tag" />
+    <div v-if="post.hasOwnProperty('_embedded') && post._embedded['wp:term'][1].length" class="c-post-meta">
+      <font-awesome-icon icon="tag" class="c-post-meta__icon" />
       <template v-for="(post_tag, index) in post._embedded['wp:term'][1]">
-        <div :key="index" class="meta-item">
-          <nuxt-link :to="'/tags/' + post_tag.slug">{{ post_tag.name }}</nuxt-link>
-          <span v-if="index !== post._embedded['wp:term'][1].length - 1">,&nbsp;</span>
+        <div :key="index" class="c-post-meta__item--separator">
+          <nuxt-link :to="'/tags/' + post_tag.slug" class="c-post-meta__link">{{ post_tag.name }}</nuxt-link>
         </div>
       </template>
     </div>
-  </aside>
+  </div>
 </template>
 
 <script>

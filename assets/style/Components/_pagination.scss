@@ -1,0 +1,69 @@
+.c-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 0 2rem 0;
+
+  &__link {
+    $element: #{&};
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+    border-radius: 50%;
+    color: $base-color;
+    font-size: $font-size-sm;
+
+    &:hover {
+      background-color: map-get($light-color, 2);
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:not(:first-child) {
+      margin-left: 1rem;
+
+      @include mobile {
+        margin-left: 0.25rem;
+      }
+    }
+
+    &--active {
+      @extend #{$element};
+
+      background: $base-color;
+      color: #fff;
+      cursor: default;
+
+      &:hover {
+        background: $base-color;
+        color: #fff;
+      }
+    }
+
+    &--prev {
+      @extend #{$element};
+
+      background: url('~assets/image/arrow_left.svg') center / 1rem 1rem no-repeat;
+    }
+
+    &--next {
+      @extend #{$element};
+
+      background: url('~assets/image/arrow_right.svg') center / 1rem 1rem no-repeat;
+    }
+  }
+
+  &__separate {
+    pointer-events: none;
+  }
+
+  &__disabled {
+    opacity: 0.8;
+    pointer-events: none;
+  }
+}

@@ -1,0 +1,64 @@
+.c-post-meta {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  color: $secondary-color;
+
+  &:not(:last-child) {
+    margin-bottom: 0.25rem;
+  }
+
+  &__item {
+
+    &--date {
+      color: $tertiary-color;
+      text-decoration: line-through;
+
+      &:only-of-type {
+        color: $secondary-color;
+        text-decoration: none;
+      }
+
+      & + & {
+        margin-left: 0.5em;
+        color: $secondary-color;
+        text-decoration: none;
+      }
+    }
+
+    &--separator {
+      &:not(:last-child) {
+        &::after {
+          content: ',';
+          display: inline-block;
+          margin-right: 0.25em;
+        }
+      }
+    }
+  }
+
+  &__link {
+
+    &:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+  }
+
+  &__icon {
+    width: 0.9em;
+    height: 0.9em;
+
+    &:first-child {
+      margin-right: 0.25em;
+    }
+  }
+
+  // &__date {
+
+  // }
+
+  // &__term {
+
+  // }
+}

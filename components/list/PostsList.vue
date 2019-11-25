@@ -4,15 +4,17 @@
       No results found.
     </div>
     <template v-if="postsList.length !== 0">
-      <div class="u-list-unstyled post-list">
+      <div class="o-post-list">
         <template v-for="post in postsList">
-          <nuxt-link :key="post.id" :to="{ path: '/' + post.slug }" class="post-item">
-            <LayoutCard :title="post.title.rendered" :description="post.excerpt.rendered" :thumbnail="post.thumbnail">
-              <template v-slot:card-footer>
-                <time :datetime="post.date" itemprop="datePublished">{{ post.date | formatDateString }}</time>
-              </template>
-            </LayoutCard>
-          </nuxt-link>
+          <div :key="post.id" class="o-post-list__item">
+            <nuxt-link :to="{ path: '/' + post.slug }">
+              <LayoutCard :title="post.title.rendered" :description="post.excerpt.rendered" :thumbnail="post.thumbnail">
+                <template v-slot:card-footer>
+                  <time :datetime="post.date" itemprop="datePublished">{{ post.date | formatDateString }}</time>
+                </template>
+              </LayoutCard>
+            </nuxt-link>
+          </div>
         </template>
       </div>
       <paginate
@@ -22,11 +24,14 @@
         prev-text
         next-text
         initial-page="1"
-        container-class="u-list-unstyled pagination-container"
-        page-class="pagination-item"
-        prev-class="pagination-item pagination-prev"
-        next-class="pagination-item pagination-next"
-        break-view-class="pagination-separate"
+        :no-li-surround="true"
+        container-class="c-pagination u-list-unstyled"
+        page-link-class="c-pagination__link"
+        prev-link-class="c-pagination__link--prev"
+        next-link-class="c-pagination__link--next"
+        active-class="c-pagination__link--active"
+        disabled-class="c-pagination__disabled"
+        break-view-class="c-pagination__separate"
       />
     </template>
   </div>
@@ -103,98 +108,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-// postlist
-.post-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 0 0 3rem 0;
-}
-
-.post-item {
-  display: flex;
-  flex-basis: calc(50% - 1rem);
-  margin-bottom: 1rem;
-  padding: 1rem 0;
-  border-radius: 0.15rem;
-  color: $base-color;
-
-  @include mobile {
-    flex-basis: 100%;
-  }
-
-  &:hover {
-    opacity: 0.6;
-  }
-
-  &:visited {
-    color: $base-color;
-  }
-}
-
-// pagination
-.pagination-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 0 0 2rem 0;
-
-  .pagination-item {
-    &.active {
-      a {
-        background: $base-color;
-        color: #fff;
-        cursor: default;
-        &:hover {
-          background: $base-color;
-          color: #fff;
-        }
-      }
-    }
-
-    a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 2.5rem;
-      min-height: 2.5rem;
-      border-radius: 50%;
-      color: $base-color;
-      font-size: $font-size-sm;
-
-      &:hover {
-        background-color: map-get($light-color, 2);
-      }
-      &:focus {
-        outline: none;
-      }
-    }
-  }
-
-  .pagination-item + .pagination-item {
-    margin-left: 1rem;
-    @include mobile {
-      margin-left: 0.25rem;
-    }
-  }
-
-  .pagination-separate {
-    pointer-events: none;
-  }
-
-  .pagination-prev.disabled,
-  .pagination-next.disabled {
-    opacity: 0.3;
-    pointer-events: none;
-  }
-
-  .pagination-prev a {
-    background: url('~assets/image/arrow_left.svg') center / 1rem 1rem no-repeat;
-  }
-  .pagination-next a {
-    background: url('~assets/image/arrow_right.svg') center / 1rem 1rem no-repeat;
-  }
-}
-</style>

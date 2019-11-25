@@ -1,11 +1,8 @@
 // Settings
-@import 'Settings/colors';
-@import 'Settings/variables';
+@import 'Settings';
 
 // Tools
-@import 'Tools/animation';
-@import 'Tools/functions';
-@import 'Tools/mixins';
+@import 'Tools';
 
 // Generics
 // @import 'Generic/font';
@@ -20,7 +17,7 @@
 @import 'Elements/details';
 
 // Objects
-@import 'Objects/layout';
+@import 'Objects/index';
 
 // Components
 @import 'Components/index';
