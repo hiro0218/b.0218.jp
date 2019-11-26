@@ -10,7 +10,7 @@
     </header>
     <LayoutArticle @mounted="init">
       <PostAds />
-      <div class="post-content" v-html="post.content.rendered" />
+      <div class="post__content js-post-content" v-html="post.content.rendered" />
       <PostShare />
     </LayoutArticle>
   </article>
@@ -48,7 +48,7 @@ export default {
   methods: {
     init() {
       this.$nextTick(() => {
-        this.elPostContent = this.$el.querySelector('.post-content');
+        this.elPostContent = this.$el.querySelector('.js-post-content');
         externalLink(this.elPostContent);
         this.addTableContainer();
         this.initHighlight();
