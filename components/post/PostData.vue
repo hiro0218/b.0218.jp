@@ -8,17 +8,14 @@
       </div>
       <PostMeta />
     </header>
-    <LayoutArticle @mounted="init">
-      <PostAds />
-      <div class="post-content" v-html="post.content.rendered" />
-      <PostShare />
-    </LayoutArticle>
+    <PostAds />
+    <div class="post__content js-post-content" v-html="post.content.rendered" />
+    <PostShare />
   </article>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import LayoutArticle from '~/components/LayoutArticle.vue';
 import PostMeta from '~/components/post/PostMeta.vue';
 import PostShare from '~/components/post/PostShare.vue';
 import PostAds from '~/components/post/PostAds.vue';
@@ -27,7 +24,6 @@ import externalLink from '~/assets/script/externalLink.js';
 export default {
   name: 'PostData',
   components: {
-    LayoutArticle,
     PostMeta,
     PostShare,
     PostAds,
@@ -45,10 +41,13 @@ export default {
       post: state => state.data,
     }),
   },
+  mounted() {
+    this.init();
+  },
   methods: {
     init() {
       this.$nextTick(() => {
-        this.elPostContent = this.$el.querySelector('.post-content');
+        this.elPostContent = this.$el.querySelector('.js-post-content');
         externalLink(this.elPostContent);
         this.addTableContainer();
         this.initHighlight();
@@ -173,9 +172,7 @@ export default {
   }
 }
 
-.post-content /deep/ {
-  margin-bottom: 2rem;
-
+.post__content /deep/ {
   // mokuji
   .mokuji-container {
     margin: 2rem 0;
@@ -225,19 +222,6 @@ export default {
     background: #fff;
     & + pre {
       margin-top: -(2rem + 0.15rem) !important;
-    }
-  }
-
-  hr {
-    height: 2rem;
-    margin: 2rem 0;
-    border: 0;
-    color: $tertiary-color;
-    text-align: center;
-
-    &::before {
-      content: '***';
-      font-size: 1.5rem;
     }
   }
 }

@@ -3516,10 +3516,10 @@ core-js@^2.4.0, core-js@^2.6.5:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.10.tgz#8a5b8391f8cc7013da703411ce5b585706300d7f"
   integrity sha512-I39t74+4t+zau64EN1fE5v2W31Adtc/REhzWN+gWRRXg6WH5qAsZm62DHpQ1+Yhe4047T55jvzz7MUqF/dBBlA==
 
-core-js@^3.4.2:
-  version "3.4.2"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.4.2.tgz#ee2b1a60b50388d8ddcda8cdb44a92c7a9ea76df"
-  integrity sha512-bUTfqFWtNKWp73oNIfRkqwYZJeNT3lstzZcAkhhiuvDraRSgOH1/+F9ZklbpR4zpdKuo4cpXN8tKP7s61yjX+g==
+core-js@^3.4.4:
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.4.4.tgz#e3d422f8a51adc4cae2bfa04cef26a5ccc046d29"
+  integrity sha512-vKea1DrcLA80Hrfc7AQgfoGvEaByfR5mH08t+zuWOWY94TFBmabdEL56mUbcijvadG9RxsXR2gUUFrfj4/iTcA==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -7427,10 +7427,10 @@ mkdirp@0.5.1, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkd
   dependencies:
     minimist "0.0.8"
 
-mokuji.js@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/mokuji.js/-/mokuji.js-2.0.1.tgz#4a45553c98c436c6288eb95d1c8948660b91309d"
-  integrity sha512-/98/zG8ph5gtTXyy/qnwbJ5MCFasXq9scDVjUGP1aCZE3yU5WEYugQUK4tr7koL2shosueR9ZDhRuZOZGpzr7w==
+mokuji.js@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/mokuji.js/-/mokuji.js-2.0.2.tgz#5f5532687cada80dc1161bd0bd59f73fa99102f7"
+  integrity sha512-1DAnvYy4XPY/DB4G86Qy+S0DnXgYF+4acZD05xNWUDaADdqcznds4K8DdDNn3iJ8ixRiW70w3AfE+yIBGgL7SA==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
