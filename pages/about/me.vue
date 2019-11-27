@@ -5,25 +5,22 @@
         {{ pageTitle }}
       </h1>
     </header>
-    <LayoutArticle :class-name="'about'" @mounted="init">
-      <div class="post-content" v-html="aboutData" />
-    </LayoutArticle>
+    <div class="post__content" v-html="aboutData" />
   </article>
 </template>
 
 <script>
-const LayoutArticle = () => import('~/components/LayoutArticle.vue');
 import externalLink from '~/assets/script/externalLink.js';
 import aboutMeData from '~/assets/markdown/about/me.md';
 
 export default {
   name: 'AboutMe',
-  components: {
-    LayoutArticle,
-  },
   computed: {
     pageTitle: () => '運営者について',
     aboutData: () => aboutMeData,
+  },
+  mounted() {
+    this.init();
   },
   methods: {
     init() {

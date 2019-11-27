@@ -5,30 +5,27 @@
         {{ pageTitle }}
       </h1>
     </header>
-    <LayoutArticle :class-name="'about'" @mounted="init">
-      <div class="post-content" v-html="aboutData" />
-    </LayoutArticle>
+    <div class="post__content js-post-content" v-html="aboutData" />
   </article>
 </template>
 
 <script>
-const LayoutArticle = () => import('~/components/LayoutArticle.vue');
 import externalLink from '~/assets/script/externalLink.js';
 import aboutSiteData from '~/assets/markdown/about/site.md';
 
 export default {
   name: 'AboutSite',
-  components: {
-    LayoutArticle,
-  },
   computed: {
     pageTitle: () => 'サイトについて',
     aboutData: () => aboutSiteData,
   },
+  mounted() {
+    this.init();
+  },
   methods: {
     init() {
       this.$nextTick(() => {
-        let elPostContent = this.$el.querySelector('.post-content');
+        let elPostContent = this.$el.querySelector('.js-post-content');
         externalLink(elPostContent);
       });
     },
