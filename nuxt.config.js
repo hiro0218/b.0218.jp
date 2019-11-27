@@ -50,6 +50,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'alternate', type: 'application/rss+xml', href: 'https://content.b.0218.jp/feed/' },
       { itemprop: 'author', href: 'https://b.0218.jp/about/' },
+      { rel: 'search', type: 'application/opensearchdescription+xml', href: '/opensearch.xml' },
     ],
   },
 
