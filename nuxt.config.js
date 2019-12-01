@@ -216,6 +216,9 @@ export default {
       },
       plugins: {
         'postcss-flexbugs-fixes': {},
+        'postcss-sort-media-queries': {
+          sort: 'mobile-first',
+        },
         cssnano: {
           preset: [
             'default',
