@@ -1,15 +1,15 @@
-<template>
+<template functional>
   <div class="c-card">
     <div class="c-card-image">
-      <img v-if="thumbnail" class="c-card-image__item" :src="thumbnail" :alt="title" loading="lazy" />
+      <img v-if="props.thumbnail" class="c-card-image__item" :src="props.thumbnail" :alt="title" loading="lazy" />
       <font-awesome-icon v-else class="c-card-image__no-item" icon="image" />
     </div>
     <div class="c-card-body">
       <div class="c-card-body__title">
-        {{ title }}
+        {{ props.title }}
       </div>
       <div class="c-card-body__description">
-        {{ description }}
+        {{ props.description }}
       </div>
     </div>
     <footer class="c-card-footer">
