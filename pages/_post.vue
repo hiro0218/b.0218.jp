@@ -1,22 +1,49 @@
 <template>
-  <div v-if="Object.keys(post).length !== 0">
-    <PostData />
-    <PostPager :pager="pager" />
-    <PostRelated />
+  <div v-if="Object.keys(post).length !== 0" class="post">
+    <article class="post__article">
+      <header>
+        <div class="c-heading">
+          <h1 class="c-heading__title">
+            {{ post.title.rendered }}
+          </h1>
+        </div>
+        <PostMeta
+          :date="post.date"
+          :modified="post.modified"
+          :post-category="post._embedded['wp:term'][0]"
+          :post-tag="post._embedded['wp:term'][1]"
+        />
+      </header>
+      <PostAds />
+      <PostData :post="post" />
+      <PostShare />
+    </article>
+    <div class="post__pager">
+      <PostPager :pager="pager" />
+    </div>
+    <div class="post__related">
+      <PostRelated />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 
+import PostMeta from '~/components/post/PostMeta.vue';
 import PostData from '~/components/post/PostData.vue';
+import PostAds from '~/components/post/PostAds.vue';
+import PostShare from '~/components/post/PostShare.vue';
 import PostPager from '~/components/post/PostPager.vue';
 const PostRelated = () => import('~/components/post/PostRelated.vue');
 
 export default {
   name: 'Post',
   components: {
+    PostMeta,
     PostData,
+    PostAds,
+    PostShare,
     PostPager,
     PostRelated,
   },
@@ -159,3 +186,14 @@ export default {
   // },
 };
 </script>
+
+<style lang="scss" scoped>
+.post {
+  .c-heading {
+    margin: 2rem 0;
+  }
+  .c-alert {
+    margin-bottom: 1rem;
+  }
+}
+</style>
