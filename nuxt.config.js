@@ -184,6 +184,14 @@ export default {
           exclude: /(node_modules)/,
         });
       }
+
+      // fix for _vm._ssrNode is not a function for functional component
+      // @see https://github.com/nuxt/nuxt.js/issues/2565
+      config.module.rules.forEach(rule => {
+        if (rule.test.toString() === '/\\.vue$/') {
+          rule.options.optimizeSSR = false;
+        }
+      });
     },
 
     babel: {
