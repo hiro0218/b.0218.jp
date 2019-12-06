@@ -218,7 +218,7 @@ export default {
       preset: {
         stage: 3,
         autoprefixer: {
-          grid: true,
+          grid: 'autoplace',
           cascade: false,
         },
       },
