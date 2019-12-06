@@ -6,7 +6,7 @@
         {{ $route.params.terms }}
       </div>
     </header>
-    <PostsCategoryList />
+    <PostsCategoryList :list="categoryList" />
     <client-only>
       <PostsList :term-id="id" :mode="$route.params.terms" />
     </client-only>
@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import PostsList from '~/components/list/PostsList.vue';
 import PostsCategoryList from '~/components/list/PostsCategoryList.vue';
 
@@ -61,6 +63,11 @@ export default {
       id,
       name,
     };
+  },
+  computed: {
+    ...mapState('posts', {
+      categoryList: state => state.categoryList,
+    }),
   },
   head() {
     return {
