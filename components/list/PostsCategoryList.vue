@@ -25,12 +25,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-a {
-  &.nuxt-link-active {
-    border-bottom-color: $base-color;
-    opacity: 1;
-  }
-}
-</style>
