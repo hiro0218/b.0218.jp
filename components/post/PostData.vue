@@ -6,7 +6,12 @@
           {{ post.title.rendered }}
         </h1>
       </div>
-      <PostMeta />
+      <PostMeta
+        :date="post.date"
+        :modified="post.modified"
+        :post-category="post._embedded['wp:term'][0]"
+        :post-tag="post._embedded['wp:term'][1]"
+      />
     </header>
     <PostAds />
     <div class="post__content js-post-content" v-html="post.content.rendered" />
