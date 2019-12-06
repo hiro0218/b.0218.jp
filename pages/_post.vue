@@ -1,7 +1,7 @@
 <template>
   <div v-if="Object.keys(post).length !== 0">
     <PostData />
-    <PostPager />
+    <PostPager :pager="pager" />
     <PostRelated />
   </div>
 </template>
@@ -10,7 +10,7 @@
 import { mapState } from 'vuex';
 
 import PostData from '~/components/post/PostData.vue';
-const PostPager = () => import('~/components/post/PostPager.vue');
+import PostPager from '~/components/post/PostPager.vue';
 const PostRelated = () => import('~/components/post/PostRelated.vue');
 
 export default {
@@ -42,6 +42,11 @@ export default {
   computed: {
     ...mapState('post', {
       post: state => state.data,
+      pager: state => {
+        const pager = state.data.attach.pager;
+        if (!pager) return {};
+        return pager;
+      },
     }),
   },
   methods: {
