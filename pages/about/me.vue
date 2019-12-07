@@ -5,7 +5,7 @@
         {{ pageTitle }}
       </h1>
     </header>
-    <div class="post__content" v-html="aboutData" />
+    <div class="post__content js-post-content" v-html="aboutData" />
   </article>
 </template>
 
@@ -25,7 +25,7 @@ export default {
   methods: {
     init() {
       this.$nextTick(() => {
-        let elPostContent = this.$el.querySelector('.post-content');
+        let elPostContent = document.querySelector('.js-post-content');
         externalLink(elPostContent);
       });
     },
