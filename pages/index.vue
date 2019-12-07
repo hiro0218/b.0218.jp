@@ -18,7 +18,7 @@
         </template>
       </div>
     </header>
-    <PostsCategoryList />
+    <PostsCategoryList :list="categoryList" />
     <client-only>
       <PostsList />
     </client-only>
@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import PostsList from '~/components/list/PostsList.vue';
 import PostsCategoryList from '~/components/list/PostsCategoryList.vue';
 
@@ -41,6 +43,9 @@ export default {
   computed: {
     pageTitle: () => 'Home',
     siteDescription: () => process.env.SITE_DESCRIPTION,
+    ...mapState('posts', {
+      categoryList: state => state.categoryList,
+    }),
   },
   head() {
     return {
