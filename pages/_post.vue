@@ -1,19 +1,14 @@
 <template>
   <div v-if="Object.keys(post).length !== 0" class="post">
     <article class="post__article">
-      <header>
-        <div class="c-heading">
-          <h1 class="c-heading__title">
-            {{ post.title.rendered }}
-          </h1>
-        </div>
+      <LayoutHeader :title="post.title.rendered">
         <PostMeta
           :date="post.date"
           :modified="post.modified"
           :post-category="post._embedded['wp:term'][0]"
           :post-tag="post._embedded['wp:term'][1]"
         />
-      </header>
+      </LayoutHeader>
       <PostAds />
       <PostData :post="post" />
     </article>
@@ -32,6 +27,7 @@
 <script>
 import { mapState } from 'vuex';
 
+import LayoutHeader from '~/components/LayoutHeader.vue';
 import PostMeta from '~/components/post/PostMeta.vue';
 import PostData from '~/components/post/PostData.vue';
 import PostAds from '~/components/post/PostAds.vue';
@@ -42,6 +38,7 @@ const PostRelated = () => import('~/components/post/PostRelated.vue');
 export default {
   name: 'Post',
   components: {
+    LayoutHeader,
     PostMeta,
     PostData,
     PostAds,
