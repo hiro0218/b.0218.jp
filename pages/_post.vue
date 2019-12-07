@@ -16,8 +16,10 @@
       </header>
       <PostAds />
       <PostData :post="post" />
-      <PostShare />
     </article>
+    <div class="post__share">
+      <PostShare />
+    </div>
     <div class="post__pager">
       <PostPager :pager="pager" />
     </div>
@@ -194,6 +196,16 @@ export default {
   }
   .c-alert {
     margin-bottom: 1rem;
+  }
+}
+
+.post__share {
+  margin: 3rem 0;
+  text-align: center;
+
+  @include mobile {
+    position: sticky;
+    bottom: 1rem;
   }
 }
 </style>
