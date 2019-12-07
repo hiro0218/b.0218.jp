@@ -6,7 +6,7 @@
         {{ $route.params.terms }}
       </div>
     </header>
-    <PostsCategoryList :list="categoryList" />
+    <PostsCategoryList :current-path="$route.path" :list="categoryList" />
     <client-only>
       <PostsList :term-id="id" :mode="$route.params.terms" />
     </client-only>

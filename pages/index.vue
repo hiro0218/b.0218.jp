@@ -18,7 +18,7 @@
         </template>
       </div>
     </header>
-    <PostsCategoryList :list="categoryList" />
+    <PostsCategoryList :current-path="$route.path" :list="categoryList" />
     <client-only>
       <PostsList />
     </client-only>
