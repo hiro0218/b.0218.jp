@@ -1,10 +1,10 @@
 <template>
   <article class="about">
-    <header class="c-heading--large">
-      <h1 class="c-heading__title">
+    <LayoutHeader :is-large="true">
+      <template v-slot:header-title>
         {{ pageTitle }}
-      </h1>
-    </header>
+      </template>
+    </LayoutHeader>
     <div class="post__content">
       <ul>
         <li>
@@ -23,8 +23,13 @@
 </template>
 
 <script>
+import LayoutHeader from '~/components/LayoutHeader.vue';
+
 export default {
   name: 'About',
+  components: {
+    LayoutHeader,
+  },
   computed: {
     pageTitle: () => 'about',
   },

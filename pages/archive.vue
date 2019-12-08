@@ -1,10 +1,10 @@
 <template>
   <article class="archive">
-    <header class="c-heading">
-      <h1 class="c-heading__title">
+    <LayoutHeader>
+      <template v-slot:header-title>
         {{ pageTitle }}
-      </h1>
-    </header>
+      </template>
+    </LayoutHeader>
     <section class="archive-list-container">
       <ul class="u-list-unstyled archive-list">
         <li v-for="(post, key) in archiveList" :key="key" class="archive-item">
@@ -19,8 +19,13 @@
 <script>
 import { mapState } from 'vuex';
 
+import LayoutHeader from '~/components/LayoutHeader.vue';
+
 export default {
   name: 'Archive',
+  components: {
+    LayoutHeader,
+  },
   async fetch({ store, app, params, error }) {
     if (store.getters['archive/dataSize'] !== 0) return;
     return await app.$api
