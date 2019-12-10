@@ -1,32 +1,18 @@
 <template>
-  <article class="post">
-    <header>
-      <div class="c-heading">
-        <h1 class="c-heading__title">
-          {{ post.title.rendered }}
-        </h1>
-      </div>
-      <PostMeta />
-    </header>
-    <PostAds />
-    <div class="post__content js-post-content" v-html="post.content.rendered" />
-    <PostShare />
-  </article>
+  <div class="post__content js-post-content" v-html="post.content.rendered" />
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import PostMeta from '~/components/post/PostMeta.vue';
-import PostShare from '~/components/post/PostShare.vue';
-import PostAds from '~/components/post/PostAds.vue';
 import externalLink from '~/assets/script/externalLink.js';
 
 export default {
   name: 'PostData',
-  components: {
-    PostMeta,
-    PostShare,
-    PostAds,
+  props: {
+    post: {
+      type: Object,
+      required: false,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -36,18 +22,13 @@ export default {
       },
     };
   },
-  computed: {
-    ...mapState('post', {
-      post: state => state.data,
-    }),
-  },
   mounted() {
     this.init();
   },
   methods: {
     init() {
       this.$nextTick(() => {
-        this.elPostContent = this.$el.querySelector('.js-post-content');
+        this.elPostContent = document.querySelector('.js-post-content');
         externalLink(this.elPostContent);
         this.addTableContainer();
         this.initHighlight();
@@ -163,15 +144,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.post {
-  .c-heading {
-    margin: 2rem 0;
-  }
-  .c-alert {
-    margin-bottom: 1rem;
-  }
-}
-
 .post__content /deep/ {
   // mokuji
   .mokuji-container {

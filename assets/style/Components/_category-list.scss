@@ -25,5 +25,10 @@
       border-bottom-color: $base-color;
       opacity: 1;
     }
+
+    &.nuxt-link-active {
+      border-bottom-color: $base-color;
+      opacity: 1;
+    }
   }
 }

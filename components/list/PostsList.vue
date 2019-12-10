@@ -31,7 +31,7 @@
         next-link-class="c-pagination__link--next"
         active-class="c-pagination__link--active"
         disabled-class="c-pagination__disabled"
-        break-view-class="c-pagination__separate"
+        break-view-link-class="c-pagination__separate"
       />
     </template>
   </div>

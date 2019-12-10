@@ -31,6 +31,7 @@
       @extend #{$element};
 
       grid-template-columns: 1.5rem 1fr;
+      grid-template-rows: 1fr;
       text-align: left;
     }
 
@@ -38,6 +39,7 @@
       @extend #{$element};
 
       grid-template-columns: 1fr 1.5rem;
+      grid-template-rows: 1fr;
       text-align: right;
     }
   }

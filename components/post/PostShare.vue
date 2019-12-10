@@ -1,43 +1,41 @@
 <template>
-  <div class="post-share">
-    <div class="sns-list">
-      <a
-        :href="'https://twitter.com/intent/tweet?url=' + post_link + '&text=' + encodeURIComponent(post_title)"
-        class="sns-item is-twitter"
-        title="Share Twitter"
-        target="_blank"
-        rel="noopener"
-      >
-        <svgTwitter />
-      </a>
-      <a
-        :href="'https://www.facebook.com/sharer/sharer.php?u=' + post_link"
-        class="sns-item is-facebook"
-        title="Share Facebook"
-        target="_blank"
-        rel="noopener"
-      >
-        <svgFacebook />
-      </a>
-      <a
-        :href="'http://b.hatena.ne.jp/add?url=' + post_link"
-        class="sns-item is-hatenabookmark"
-        title="Share HatenaBookmark"
-        target="_blank"
-        rel="noopener"
-      >
-        <svgHatena />
-      </a>
-      <a
-        :href="'https://lineit.line.me/share/ui?url=' + post_link"
-        class="sns-item is-line"
-        title="Share LINE"
-        target="_blank"
-        rel="noopener"
-      >
-        <svgLine />
-      </a>
-    </div>
+  <div class="sns-list">
+    <a
+      :href="'https://twitter.com/intent/tweet?url=' + post_link + '&text=' + encodeURIComponent(post_title)"
+      class="sns-item is-twitter"
+      title="Share Twitter"
+      target="_blank"
+      rel="noopener"
+    >
+      <svgTwitter />
+    </a>
+    <a
+      :href="'https://www.facebook.com/sharer/sharer.php?u=' + post_link"
+      class="sns-item is-facebook"
+      title="Share Facebook"
+      target="_blank"
+      rel="noopener"
+    >
+      <svgFacebook />
+    </a>
+    <a
+      :href="'http://b.hatena.ne.jp/add?url=' + post_link"
+      class="sns-item is-hatenabookmark"
+      title="Share HatenaBookmark"
+      target="_blank"
+      rel="noopener"
+    >
+      <svgHatena />
+    </a>
+    <a
+      :href="'https://lineit.line.me/share/ui?url=' + post_link"
+      class="sns-item is-line"
+      title="Share LINE"
+      target="_blank"
+      rel="noopener"
+    >
+      <svgLine />
+    </a>
   </div>
 </template>
 
@@ -68,15 +66,6 @@ export default {
 </script>
 
 <style lang="scss">
-.post-share {
-  margin: 3rem 0;
-  text-align: center;
-  @include mobile {
-    position: sticky;
-    bottom: 1rem;
-  }
-}
-
 .sns-list {
   display: flex;
   justify-content: center;

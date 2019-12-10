@@ -17,6 +17,7 @@
     font-size: $font-size-sm;
 
     &:hover {
+      opacity: 1;
       background-color: map-get($light-color, 2);
     }
 
@@ -63,7 +64,7 @@
   }
 
   &__disabled {
-    opacity: 0.8;
+    opacity: 0.2;
     pointer-events: none;
   }
 }

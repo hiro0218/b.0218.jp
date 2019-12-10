@@ -1,18 +1,18 @@
 <template>
   <section class="error-container">
-    <header class="c-heading">
-      <h1 class="c-heading__title">
+    <LayoutHeader>
+      <template v-slot:header-title>
         <template v-if="error.statusCode >= 500">
           予期せぬエラーが発生しました
         </template>
         <template v-else>
           お探しのページは見つかりませんでした
         </template>
-      </h1>
-      <div class="c-heading__description">
+      </template>
+      <template v-slot:header-description>
         {{ error.message }}
-      </div>
-    </header>
+      </template>
+    </LayoutHeader>
     <section class="error-message">
       <p v-if="error.statusCode >= 500">
         技術的な問題が発生しているため、このページを表示できません。
@@ -30,7 +30,12 @@
 </template>
 
 <script>
+import LayoutHeader from '~/components/LayoutHeader.vue';
+
 export default {
+  components: {
+    LayoutHeader,
+  },
   props: {
     error: {
       type: Object,

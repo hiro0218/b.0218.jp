@@ -1,22 +1,51 @@
 <template>
-  <div v-if="Object.keys(post).length !== 0">
-    <PostData />
-    <PostPager />
-    <PostRelated />
+  <div v-if="Object.keys(post).length !== 0" class="post">
+    <article class="post__article">
+      <LayoutHeader>
+        <template v-slot:header-title>
+          {{ post.title.rendered }}
+        </template>
+        <PostMeta
+          :date="post.date"
+          :modified="post.modified"
+          :post-category="post._embedded['wp:term'][0]"
+          :post-tag="post._embedded['wp:term'][1]"
+        />
+      </LayoutHeader>
+      <PostAds />
+      <PostData :post="post" />
+    </article>
+    <div class="post__share">
+      <PostShare />
+    </div>
+    <div class="post__pager">
+      <PostPager :pager="pager" />
+    </div>
+    <div class="post__related">
+      <PostRelated />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 
+import LayoutHeader from '~/components/LayoutHeader.vue';
+import PostMeta from '~/components/post/PostMeta.vue';
 import PostData from '~/components/post/PostData.vue';
-const PostPager = () => import('~/components/post/PostPager.vue');
+import PostAds from '~/components/post/PostAds.vue';
+import PostShare from '~/components/post/PostShare.vue';
+import PostPager from '~/components/post/PostPager.vue';
 const PostRelated = () => import('~/components/post/PostRelated.vue');
 
 export default {
   name: 'Post',
   components: {
+    LayoutHeader,
+    PostMeta,
     PostData,
+    PostAds,
+    PostShare,
     PostPager,
     PostRelated,
   },
@@ -42,6 +71,11 @@ export default {
   computed: {
     ...mapState('post', {
       post: state => state.data,
+      pager: state => {
+        const pager = state.data.attach.pager;
+        if (!pager) return {};
+        return pager;
+      },
     }),
   },
   methods: {
@@ -154,3 +188,24 @@ export default {
   // },
 };
 </script>
+
+<style lang="scss" scoped>
+.post {
+  .c-heading {
+    margin: 2rem 0;
+  }
+  .c-alert {
+    margin-bottom: 1rem;
+  }
+}
+
+.post__share {
+  margin: 3rem 0;
+  text-align: center;
+
+  @include mobile {
+    position: sticky;
+    bottom: 1rem;
+  }
+}
+</style>

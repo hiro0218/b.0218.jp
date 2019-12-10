@@ -40,11 +40,6 @@ export default {
       { rel: 'https://api.w.org/', href: constant.ENDPOINT },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
       { rel: 'dns-prefetch', href: '//content.b.0218.jp' },
-      { rel: 'dns-prefetch', href: '//user-images.githubusercontent.com' },
-      { rel: 'dns-prefetch', href: '//i.imgur.com' },
-      { rel: 'dns-prefetch', href: '//images-fe.ssl-images-amazon.com' },
-      { rel: 'dns-prefetch', href: '//www.googletagservices.com' },
-      { rel: 'dns-prefetch', href: '//www.google-analytics.com' },
       { rel: 'dns-prefetch', href: '//adservice.google.com' },
       { rel: 'dns-prefetch', href: '//cdn.polyfill.io' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -184,6 +179,14 @@ export default {
           exclude: /(node_modules)/,
         });
       }
+
+      // fix for _vm._ssrNode is not a function for functional component
+      // @see https://github.com/nuxt/nuxt.js/issues/2565
+      config.module.rules.forEach(rule => {
+        if (rule.test.toString() === '/\\.vue$/') {
+          rule.options.optimizeSSR = false;
+        }
+      });
     },
 
     babel: {
@@ -210,12 +213,15 @@ export default {
       preset: {
         stage: 3,
         autoprefixer: {
-          grid: true,
+          grid: 'autoplace',
           cascade: false,
         },
       },
       plugins: {
         'postcss-flexbugs-fixes': {},
+        'postcss-sort-media-queries': {
+          sort: 'mobile-first',
+        },
         cssnano: {
           preset: [
             'default',

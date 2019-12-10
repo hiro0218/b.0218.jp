@@ -1,12 +1,14 @@
 <template>
   <section v-if="id > 0" class="term">
-    <header class="c-heading">
-      <h1 class="c-heading__title">{{ name }}</h1>
-      <div class="c-heading__description">
+    <LayoutHeader>
+      <template v-slot:header-title>
+        {{ name }}
+      </template>
+      <template v-slot:header-description>
         {{ $route.params.terms }}
-      </div>
-    </header>
-    <PostsCategoryList />
+      </template>
+    </LayoutHeader>
+    <PostsCategoryList :current-path="$route.path" :list="categoryList" />
     <client-only>
       <PostsList :term-id="id" :mode="$route.params.terms" />
     </client-only>
@@ -14,12 +16,16 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
+import LayoutHeader from '~/components/LayoutHeader.vue';
 import PostsList from '~/components/list/PostsList.vue';
 import PostsCategoryList from '~/components/list/PostsCategoryList.vue';
 
 export default {
   name: 'TermsPostsList',
   components: {
+    LayoutHeader,
     PostsList,
     PostsCategoryList,
   },
@@ -61,6 +67,11 @@ export default {
       id,
       name,
     };
+  },
+  computed: {
+    ...mapState('posts', {
+      categoryList: state => state.categoryList,
+    }),
   },
   head() {
     return {
