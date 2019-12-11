@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-post-list">
     <div v-if="postsHeaders.totalpages === 0" class="c-alert is-danger">
       No results found.
     </div>
@@ -17,22 +17,24 @@
           </div>
         </template>
       </div>
-      <paginate
-        v-model="page"
-        :page-count="postsHeaders.totalpages"
-        :click-handler="changePage"
-        prev-text
-        next-text
-        initial-page="1"
-        :no-li-surround="true"
-        container-class="c-pagination u-list-unstyled"
-        page-link-class="c-pagination__link"
-        prev-link-class="c-pagination__link--prev"
-        next-link-class="c-pagination__link--next"
-        active-class="c-pagination__link--active"
-        disabled-class="c-pagination__disabled"
-        break-view-link-class="c-pagination__separate"
-      />
+      <div class="p-post-list-pagination">
+        <paginate
+          v-model="page"
+          :page-count="postsHeaders.totalpages"
+          :click-handler="changePage"
+          prev-text
+          next-text
+          initial-page="1"
+          :no-li-surround="true"
+          container-class="c-pagination u-list-unstyled"
+          page-link-class="c-pagination__link"
+          prev-link-class="c-pagination__link--prev"
+          next-link-class="c-pagination__link--next"
+          active-class="c-pagination__link--active"
+          disabled-class="c-pagination__disabled"
+          break-view-link-class="c-pagination__separate"
+        />
+      </div>
     </template>
   </div>
 </template>
@@ -108,3 +110,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.p-post-list-pagination {
+  margin-top: 2rem;
+}
+</style>
