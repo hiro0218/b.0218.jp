@@ -1,16 +1,9 @@
 .o-post-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-gap: 1.5rem;
+  grid-template-columns: repeat(2, 1fr);
 
-  &__item {
-    display: flex;
-    flex-basis: calc(50% - 1rem);
-    margin-bottom: 1.5rem;
-    color: $base-color;
-
-    @include mobile {
-      flex-basis: 100%;
-    }
+  @include mobile {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
