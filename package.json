@@ -25,7 +25,7 @@
     "axios": "^0.19.0",
     "cross-env": "^6.0.3",
     "fast-copy": "^2.0.4",
-    "highlight.js": "^9.16.2",
+    "highlight.js": "^9.17.0",
     "lozad": "^1.9.0",
     "mokuji.js": "^2.0.2",
     "normalize.css": "^8.0.1",
