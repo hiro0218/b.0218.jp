@@ -7142,11 +7142,6 @@ lowercase-keys@^1.0.0:
   resolved "https://registry.yarnpkg.com/lowercase-keys/-/lowercase-keys-1.0.1.tgz#6f9e30b47084d971a7c820ff15a6c5167b74c26f"
   integrity sha512-G2Lj61tXDnVFFOi8VZds+SoQjtQC3dgokKdDG2mTm1tx4m50NUHBOZSBwQQHyy0V12A0JTG4icfZQH+xPyh8VA==
 
-lozad@^1.9.0:
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/lozad/-/lozad-1.14.0.tgz#91d51d57e53187e95c5b7f4029d7a28a0e940e10"
-  integrity sha512-uMGxpXBW15JDGVly3p121Y4jlb/OwmXpnMQR5vnb4GxMeK45NGcmlMrRr47fmLxtSdnGRFm0YdJaVXuudPKDaA==
-
 lru-cache@^4.0.0, lru-cache@^4.0.1, lru-cache@^4.1.2:
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-4.1.5.tgz#8bbe50ea85bed59bc9e33dcab8235ee9bcf443cd"
@@ -9456,10 +9451,10 @@ postcss-selector-parser@^6.0.0, postcss-selector-parser@^6.0.2:
     indexes-of "^1.0.1"
     uniq "^1.0.1"
 
-postcss-sort-media-queries@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/postcss-sort-media-queries/-/postcss-sort-media-queries-1.0.9.tgz#7b422aa4290353e8c6d6a732b957f2890b5a5de2"
-  integrity sha512-CFIFENCB149uO6Fr4m8BuTQ/wZy3ectRXI2y8OF6GgJ7bCd5ly96biLrb6BhUzgU5V2lnHDvjDnMsrQW3uMh4A==
+postcss-sort-media-queries@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/postcss-sort-media-queries/-/postcss-sort-media-queries-1.0.13.tgz#4bad261304f661839ff00e4bc8dd89adbbc4ec5f"
+  integrity sha512-4g2Qzb42YFgdmG5GmL0WjZ16fMVgIRl7jIiUn1a1cXtZgEAd9g08QRNS6MN8DSLHThc0uxhBtIBWpLxlBN7Utw==
   dependencies:
     postcss "^7.0.23"
     sort-css-media-queries "1.5.0"
