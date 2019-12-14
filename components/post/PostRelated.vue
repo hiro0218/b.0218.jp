@@ -6,7 +6,11 @@
     <div class="o-post-list">
       <template v-for="post in related">
         <router-link :key="post.id" :to="post.url" class="o-post-list__item">
-          <LayoutCard :title="post.title" :thumbnail="post.image" />
+          <LayoutCard :title="post.title" :thumbnail="post.image">
+            <template v-slot:card-footer>
+              <time :datetime="post.date">{{ post.date | formatDateString }}</time>
+            </template>
+          </LayoutCard>
         </router-link>
       </template>
     </div>
