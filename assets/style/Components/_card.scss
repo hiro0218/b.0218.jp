@@ -2,7 +2,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height:100%;
+  height: 100%;
+
+  @include mobile {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 
   &-image {
     display: flex;
@@ -14,6 +19,13 @@
     border-radius: 0.15rem;
     background-color: map-get($light-color, 3);
 
+    @include mobile {
+      width: 8rem;
+      height: 8rem;
+      margin-right: 1rem;
+      margin-bottom: 0;
+    }
+
     &__item {
       height: 5rem;
       object-fit: contain;
@@ -23,6 +35,11 @@
       width: 4rem;
       height: 4rem;
       color: $tertiary-color;
+
+      @include mobile {
+        width: 3rem;
+        height: 3rem;
+      }
     }
   }
 
@@ -40,6 +57,7 @@
     }
 
     &__description {
+      flex-grow: 1;
       margin-bottom: 0.5rem;
       color: $tertiary-color;
       letter-spacing: 0.025em;
@@ -53,5 +71,9 @@
     font-size: $font-size-sm;
     letter-spacing: 0.025em;
     text-align: right;
+
+    @include mobile {
+      width: 100%;
+    }
   }
 }
