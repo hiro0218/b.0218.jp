@@ -18,7 +18,7 @@
     <div class="post__share">
       <PostShare />
     </div>
-    <div class="post__pager">
+    <div v-if="Object.keys(pager).length !== 0" class="post__pager">
       <PostPager :pager="pager" />
     </div>
     <div v-if="related.length !== 0" class="post__related">
