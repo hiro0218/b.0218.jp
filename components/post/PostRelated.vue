@@ -1,5 +1,5 @@
 <template>
-  <section v-if="related.length !== 0" class="post-related">
+  <section class="post-related">
     <header class="post-related-header">
       <h2 class="post-related-header__title">関連記事</h2>
     </header>
@@ -18,8 +18,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 import LayoutCard from '~/components/LayoutCard.vue';
 
 export default {
@@ -27,10 +25,12 @@ export default {
   components: {
     LayoutCard,
   },
-  computed: {
-    ...mapState('post', {
-      related: state => state.data.attach.related,
-    }),
+  props: {
+    related: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
   },
 };
 </script>
