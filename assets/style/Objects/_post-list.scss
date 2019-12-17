@@ -1,18 +1,22 @@
 .o-post-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 0 0 3rem 0;
+  @include desktop {
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+  }
 
-  &__item {
-    display: flex;
-    flex-basis: calc(50% - 1rem);
-    margin-bottom: 1rem;
-    padding: 1rem 0;
-    color: $base-color;
+  @include touch {
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto;
+  }
 
-    @include mobile {
-      flex-basis: 100%;
-    }
+  @include mobile {
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto;
   }
 }

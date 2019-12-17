@@ -8,7 +8,7 @@
       <div class="c-card-body__title">
         {{ props.title }}
       </div>
-      <div class="c-card-body__description">
+      <div v-if="props.description" class="c-card-body__description">
         {{ props.description }}
       </div>
     </div>

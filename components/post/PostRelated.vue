@@ -1,101 +1,43 @@
 <template>
-  <nav v-if="related.length !== 0" class="post-related">
-    <div class="c-heading">
-      <h2 class="c-heading__title">関連記事</h2>
-    </div>
-    <ul class="u-list-unstyled u-scroll-x related-list">
-      <li v-for="post in related" :key="post.id" class="related-item">
-        <router-link :to="post.url">
-          <div class="related-image">
-            <img v-if="post.image != ''" :data-src="post.image" :alt="post.title" />
-            <font-awesome-icon v-else class="no-image" icon="image" />
-          </div>
-          <div class="related-title">
-            {{ post.title }}
-          </div>
+  <section class="post-related">
+    <header class="post-related-header">
+      <h2 class="post-related-header__title">関連記事</h2>
+    </header>
+    <div class="o-post-list">
+      <template v-for="post in related">
+        <router-link :key="post.id" :to="post.url" class="o-post-list__item">
+          <LayoutCard :title="post.title" :thumbnail="post.image">
+            <template v-slot:card-footer>
+              <time :datetime="post.date">{{ post.date | formatDateString }}</time>
+            </template>
+          </LayoutCard>
         </router-link>
-      </li>
-    </ul>
-  </nav>
+      </template>
+    </div>
+  </section>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import lazyload from '~/assets/script/lazyload.js';
+import LayoutCard from '~/components/LayoutCard.vue';
 
 export default {
   name: 'PostRelated',
-  computed: {
-    ...mapState('post', {
-      related: state => state.data.attach.related,
-    }),
+  components: {
+    LayoutCard,
   },
-  mounted() {
-    if (this.related.length === 0) return;
-    this.$nextTick(() => {
-      const images = this.$el.querySelectorAll('[data-src]');
-      lazyload(images);
-    });
+  props: {
+    related: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
   },
 };
 </script>
 
-<style lang="scss">
-.post-related {
-  margin: 2rem 0;
-
-  .c-heading {
-    text-align: center;
-  }
-}
-
-.related-list {
-  display: flex;
-  margin: 1rem 0;
-  white-space: nowrap;
-}
-
-.related-item {
+<style lang="scss" scoped>
+.post-related-header {
+  margin-bottom: 3rem;
   text-align: center;
-
-  & + & {
-    margin-left: 2rem;
-  }
-
-  a {
-    display: block;
-    width: calc(#{$tablet} / 3);
-    &:hover {
-      opacity: 0.6;
-    }
-  }
-}
-
-.related-image {
-  display: flex;
-  align-items: center;
-  height: 8rem;
-  margin-bottom: 1rem;
-  overflow: hidden;
-  background: map-get($light-color, 3);
-
-  img {
-    max-width: 80%;
-    max-height: 80%;
-    margin: auto;
-  }
-
-  .no-image {
-    width: 4rem;
-    height: 4rem;
-    margin: auto;
-    color: $tertiary-color;
-  }
-}
-
-.related-title {
-  color: $base-color;
-  font-size: $font-size-sm;
-  white-space: normal;
 }
 </style>

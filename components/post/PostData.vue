@@ -38,22 +38,17 @@ export default {
     initMokuji() {
       if (!process.client && !window.CSS) return;
 
-      const container = document.querySelector('.mokuji-container');
+      const container = document.querySelector('.js-mokuji');
       if (!container) return;
+
+      // details/summary要素を作成
       const details = document.createElement('details');
       const summary = document.createElement('summary');
       summary.textContent = 'INDEX';
       details.appendChild(summary);
+      details.classList.add('mokuji-content');
 
-      this.elMokuji.content = container.querySelector('.mokuji-content');
-      details.appendChild(this.elMokuji.content);
-
-      this.appendMokuji();
-      container.appendChild(details);
-    },
-    appendMokuji() {
-      if (!this.elMokuji.content) return;
-
+      // 目次一覧を作成
       const mokujiData = new this.$mokuji(this.elPostContent, {
         anchorType: true,
         anchorLink: true,
@@ -62,10 +57,16 @@ export default {
         anchorLinkClassName: 'anchor',
       });
 
-      this.elMokuji.content.appendChild(mokujiData);
+      // アンカーへの効果を付与
+      this.addMokujiAnchorScrollEffects(mokujiData);
 
+      // 要素を追加
+      details.appendChild(mokujiData);
+      container.appendChild(details);
+    },
+    addMokujiAnchorScrollEffects(element) {
       // workaround: scroll
-      const anchorMokuji = mokujiData.querySelectorAll('a');
+      const anchorMokuji = element.querySelectorAll('a');
       for (let i = 0; i < anchorMokuji.length; i++) {
         const anchor = anchorMokuji[i];
 

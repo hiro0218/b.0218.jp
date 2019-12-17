@@ -18,11 +18,11 @@
     <div class="post__share">
       <PostShare />
     </div>
-    <div class="post__pager">
+    <div v-if="Object.keys(pager).length !== 0" class="post__pager">
       <PostPager :pager="pager" />
     </div>
-    <div class="post__related">
-      <PostRelated />
+    <div v-if="related.length !== 0" class="post__related">
+      <PostRelated :related="related" />
     </div>
   </div>
 </template>
@@ -76,6 +76,7 @@ export default {
         if (!pager) return {};
         return pager;
       },
+      related: state => state.data.attach.related,
     }),
   },
   methods: {
@@ -207,5 +208,9 @@ export default {
     position: sticky;
     bottom: 1rem;
   }
+}
+
+.post__related {
+  margin: 4rem 0 2rem;
 }
 </style>
