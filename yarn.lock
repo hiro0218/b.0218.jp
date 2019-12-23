@@ -8964,10 +8964,10 @@ postcss-selector-parser@^6.0.0, postcss-selector-parser@^6.0.2:
     indexes-of "^1.0.1"
     uniq "^1.0.1"
 
-postcss-sort-media-queries@^1.0.13:
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/postcss-sort-media-queries/-/postcss-sort-media-queries-1.0.13.tgz#4bad261304f661839ff00e4bc8dd89adbbc4ec5f"
-  integrity sha512-4g2Qzb42YFgdmG5GmL0WjZ16fMVgIRl7jIiUn1a1cXtZgEAd9g08QRNS6MN8DSLHThc0uxhBtIBWpLxlBN7Utw==
+postcss-sort-media-queries@^1.0.15:
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/postcss-sort-media-queries/-/postcss-sort-media-queries-1.0.15.tgz#67e134fec59a7db3e1a15ce6318e428d68b07f68"
+  integrity sha512-ZgIcWXeZ5VcfiZM2m4RGdAx/T/YABanGsD88SXUmFYYlNODT8W8OqhmcrGL2oiI5yFWpot0CqyZL0hdJ4ht6Hw==
   dependencies:
     postcss "^7.0.23"
     sort-css-media-queries "1.5.0"
