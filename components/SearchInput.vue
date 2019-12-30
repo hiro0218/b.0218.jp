@@ -58,7 +58,7 @@ export default {
   left: 0.5rem;
   width: 1rem;
   height: 1rem;
-  color: $secondary-color;
+  color: $color-text--light;
 }
 
 .c-search__input {
@@ -76,7 +76,7 @@ export default {
 
   &::-webkit-input-placeholder,
   &:placeholder-shown {
-    color: $secondary-color;
+    color: $color-text--light;
     font-size: $font-size-sm;
   }
   &:focus {

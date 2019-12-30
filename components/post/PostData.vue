@@ -150,8 +150,8 @@ export default {
   .mokuji-container {
     margin: 2rem 0;
     border-radius: 0.15rem;
-    background: map-get($light-color, 3);
-    color: $secondary-color;
+    background: $bg-color--light;
+    color: $color-text--light;
     font-size: $font-size-sm;
   }
 

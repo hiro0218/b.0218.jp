@@ -13,12 +13,12 @@
     min-width: 2.5rem;
     min-height: 2.5rem;
     border-radius: 50%;
-    color: $base-color;
+    color: $color-text;
     font-size: $font-size-sm;
 
     &:hover {
       opacity: 1;
-      background-color: map-get($light-color, 2);
+      background-color: $bg-color;
     }
 
     &:focus {
@@ -36,12 +36,12 @@
     &--active {
       @extend #{$element};
 
-      background: $base-color;
+      background: $color-text;
       color: #fff;
       cursor: default;
 
       &:hover {
-        background: $base-color;
+        background: $color-text;
         color: #fff;
       }
     }

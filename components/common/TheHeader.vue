@@ -90,7 +90,7 @@ export default {
   display: flex;
   align-items: center;
   height: 100%;
-  color: $base-color;
+  color: $color-text;
 
   &:hover {
     opacity: 0.6;
@@ -101,7 +101,8 @@ export default {
   width: 5rem;
   height: 100%;
   transition: width 0.2s;
-  fill: $base-color;
+  fill: $color-text;
+
   @include mobile {
     width: 4rem;
   }

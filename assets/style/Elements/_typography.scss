@@ -42,8 +42,8 @@ blockquote {
   position: relative;
   margin: 2rem 0;
   padding: 3rem;
-  background: map-get($light-color, 4);
-  color: $secondary-color;
+  background: $bg-color--lighter;
+  color: $color-text--light;
   font-size: $font-size-sm;
 
   &::before,

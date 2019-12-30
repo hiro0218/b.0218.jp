@@ -20,14 +20,15 @@
     transition: opacity 0.3s, border 0.8s;
     border-bottom: 2px solid transparent;
     opacity: 0.4;
+    color: $color-text;
 
     &:hover {
-      border-bottom-color: $base-color;
+      border-bottom-color: $color-text;
       opacity: 1;
     }
 
     &.nuxt-link-active {
-      border-bottom-color: $base-color;
+      border-bottom-color: $color-text;
       opacity: 1;
     }
   }
