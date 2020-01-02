@@ -28,7 +28,7 @@
     "highlight.js": "^9.17.0",
     "mokuji.js": "^2.0.2",
     "normalize.css": "^8.0.1",
-    "nuxt": "^2.11.0",
+    "nuxt": "^2.10.2",
     "open-color": "^1.7.0",
     "vuejs-paginate": "^2.1.0"
   },
