@@ -68,7 +68,7 @@ export default {
   border: 1px solid transparent;
   border-radius: 0.15rem;
   outline: none;
-  background: map-get($light-color, 3);
+  background: $bg-color--light;
   font-size: $font-size-sm;
   line-height: 1;
   -webkit-appearance: none;
@@ -80,7 +80,7 @@ export default {
     font-size: $font-size-sm;
   }
   &:focus {
-    border-color: map-get($light-color, 3);
+    border-color: $bg-color--light;
     background: transparent;
     &::placeholder {
       color: transparent;
