@@ -42,9 +42,9 @@ $header-height: 4rem;
 
 // table
 $table-border-width: 1px;
-$table-head-bg-color: map-get($light-color, 3);
-$table-border-color: map-get($light-color, 2);
-$table-hover-color: map-get($light-color, 4);
+$table-head-bg-color: $bg-color;
+$table-border-color: $bg-color--dark;
+$table-hover-color: $bg-color-hover;
 
 //
 // Components

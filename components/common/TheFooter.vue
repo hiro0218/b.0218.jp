@@ -48,21 +48,18 @@ export default {
 <style lang="scss">
 .pj-footer {
   padding: 3rem 0;
-  background: $base-color;
-  color: map-get($light-color, 3);
+  background: $color-text;
+  color: $bg-color;
   font-size: $font-size-sm;
   text-align: center;
 }
 
 .pj-footer__link {
-  color: map-get($light-color, 2);
+  color: inherit;
 
   &:hover {
+    opacity: 1;
     text-decoration: underline;
-  }
-
-  &:visited {
-    color: inherit;
   }
 }
 

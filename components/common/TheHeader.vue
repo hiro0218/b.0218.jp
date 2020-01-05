@@ -69,7 +69,7 @@ export default {
   left: 0;
   height: $header-height;
   transition: transform 0.25s ease;
-  border-bottom: 1px solid map-get($light-color, 1);
+  border-bottom: 1px solid $border-color;
   background: #fff;
   will-change: transform;
 
@@ -90,7 +90,7 @@ export default {
   display: flex;
   align-items: center;
   height: 100%;
-  color: $base-color;
+  color: $color-text;
 
   &:hover {
     opacity: 0.6;
@@ -101,7 +101,8 @@ export default {
   width: 5rem;
   height: 100%;
   transition: width 0.2s;
-  fill: $base-color;
+  fill: $color-text;
+
   @include mobile {
     width: 4rem;
   }

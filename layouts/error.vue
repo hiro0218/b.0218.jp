@@ -69,9 +69,9 @@ export default {
     align-self: flex-start;
     justify-content: center;
     padding: 0.75em 2em;
-    border: 1px solid map-get($light-color, 1);
+    border: 1px solid $border-color;
     border-radius: 0.15rem;
-    color: $base-color;
+    color: $color-text;
     font-size: $font-size-xs;
     white-space: nowrap;
     &:hover {

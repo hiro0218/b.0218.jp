@@ -35,7 +35,7 @@
         bottom: 0;
         margin: auto;
         border: 0;
-        color: map-get($light-color, 1);
+        color: $bg-color--dark;
         text-decoration: none;
         user-select: none;
         @include until($desktop) {
@@ -69,7 +69,7 @@
     height: 2rem;
     margin: 2rem 0;
     border: 0;
-    color: $tertiary-color;
+    color: $color-text--lighter;
     text-align: center;
 
     &::before {

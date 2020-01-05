@@ -17,7 +17,7 @@
     margin-bottom: 0.5rem;
     overflow: hidden;
     border-radius: 0.15rem;
-    background-color: map-get($light-color, 3);
+    background-color: $bg-color--light;
 
     @include mobile {
       width: 8rem;
@@ -34,7 +34,7 @@
     &__no-item {
       width: 4rem;
       height: 4rem;
-      color: $tertiary-color;
+      color: $color-text--lighter;
 
       @include mobile {
         width: 3rem;
@@ -51,6 +51,7 @@
 
     &__title {
       margin-bottom: 0.5rem;
+      color: $color-text-heading;
       font-size: 1rem;
       font-weight: bold;
       line-height: 1.8;
@@ -59,7 +60,7 @@
     &__description {
       flex-grow: 1;
       margin-bottom: 0.5rem;
-      color: $tertiary-color;
+      color: $color-text-description;
       letter-spacing: 0.025em;
       line-height: 1.8;
       word-break: break-all;
@@ -67,7 +68,7 @@
   }
 
   &-footer {
-    color: $tertiary-color;
+    color: $color-text--lighter;
     font-size: $font-size-sm;
     letter-spacing: 0.025em;
     text-align: right;

@@ -78,7 +78,7 @@ export default {
 
   .post-date {
     flex: 0 0 10rem;
-    color: $secondary-color;
+    color: $color-text--light;
     font-weight: bold;
   }
 }
