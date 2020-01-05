@@ -1,14 +1,6 @@
 @import '~open-color/open-color.scss';
 
 // base
-$light-color: (
-  0: $oc-gray-4,
-  1: $oc-gray-3,
-  2: $oc-gray-2,
-  3: $oc-gray-1,
-  4: $oc-gray-0,
-);
-
 $color-primary: $oc-gray-8;
 $color-secondary: $oc-gray-7;
 
@@ -27,7 +19,8 @@ $bg-color--darker: $oc-gray-4;
 $bg-color--light: $oc-gray-1;
 $bg-color--lighter: $oc-gray-0;
 $bg-color-hover: $oc-gray-1;
-$bg-color-code: $oc-gray-2;
+
+$border-color: $oc-gray-3;
 
 // color
 $plain-color: $oc-gray-5 !default;

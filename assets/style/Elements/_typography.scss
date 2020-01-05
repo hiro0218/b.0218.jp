@@ -52,7 +52,7 @@ blockquote {
     position: absolute;
     width: 3rem;
     height: 3rem;
-    color: map-get($light-color, 0);
+    color: $bg-color--darker;
     font-size: 2.5rem;
     font-weight: bold;
     text-align: center;

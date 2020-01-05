@@ -69,7 +69,7 @@ export default {
   left: 0;
   height: $header-height;
   transition: transform 0.25s ease;
-  border-bottom: 1px solid map-get($light-color, 1);
+  border-bottom: 1px solid $border-color;
   background: #fff;
   will-change: transform;
 
