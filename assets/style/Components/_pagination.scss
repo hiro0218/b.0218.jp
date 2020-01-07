@@ -33,9 +33,7 @@
       }
     }
 
-    &--active {
-      @extend #{$element};
-
+    &.is-active {
       background: $color-text;
       color: #fff;
       cursor: default;
@@ -44,6 +42,16 @@
         background: $color-text;
         color: #fff;
       }
+    }
+
+    &.is-disabled {
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    &.is-separate {
+      opacity: 1;
+      pointer-events: none;
     }
 
     &--prev {
@@ -57,14 +65,5 @@
 
       background: url('~assets/image/arrow_right.svg') center / 1rem 1rem no-repeat;
     }
-  }
-
-  &__separate {
-    pointer-events: none;
-  }
-
-  &__disabled {
-    opacity: 0.2;
-    pointer-events: none;
   }
 }
