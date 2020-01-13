@@ -10,14 +10,16 @@
 
     display: grid;
     grid-column-gap: 0.5rem;
-    width: calc(50% - 0.5rem);
-    padding: 1rem 0;
+    width: 50%;
+    padding: 0.75em 0.5em;
+    border-radius: 0.15rem;
     color: $color-text;
     line-height: 1.8;
     word-break: break-all;
 
     &:hover {
-      opacity: 0.6;
+      opacity: 1;
+      background: $bg-color;
     }
 
     &:only-child {
