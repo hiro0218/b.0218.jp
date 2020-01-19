@@ -1,22 +1,28 @@
 .o-post-list {
   @include desktop {
     display: grid;
-    grid-gap: 2rem;
+    grid-gap: 0.5rem;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto auto;
   }
 
   @include touch {
     display: grid;
-    grid-gap: 2rem;
+    grid-gap: 0.5rem;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto auto;
   }
 
   @include mobile {
     display: grid;
-    grid-gap: 2rem;
+    grid-gap: 0.5rem;
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: auto;
+  }
+
+  &__item {
+    &:hover {
+      opacity: 1;
+    }
   }
 }

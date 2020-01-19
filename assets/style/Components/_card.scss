@@ -3,10 +3,17 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  padding: 1rem;
+  transition: background 0.2s ease;
 
   @include mobile {
     flex-direction: row;
     flex-wrap: wrap;
+  }
+
+  &:hover {
+    opacity: 1;
+    background: $bg-color--lighter;
   }
 
   &-image {
@@ -17,7 +24,7 @@
     margin-bottom: 0.5rem;
     overflow: hidden;
     border-radius: 0.15rem;
-    background-color: $bg-color--light;
+    background-color: $bg-color;
 
     @include mobile {
       width: 8rem;
@@ -34,7 +41,7 @@
     &__no-item {
       width: 4rem;
       height: 4rem;
-      color: $color-text--lighter;
+      color: $color-text--light;
 
       @include mobile {
         width: 3rem;
