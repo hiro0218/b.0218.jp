@@ -55,7 +55,7 @@
     "lint-staged": "^9.4.3",
     "node-sass": "^4.13.0",
     "nodemon": "^2.0.1",
-    "nuxt-generate-cluster": "^2.6.0",
+    "nuxt-generate-cluster": "^2.7.0",
     "nuxt-webfontloader": "^1.1.0",
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-sort-media-queries": "^1.0.15",
