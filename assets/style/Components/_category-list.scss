@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   margin: 3rem auto;
-  font-size: $font-size-sm;
+  font-size: $font-size-xs;
   letter-spacing: 0.1em;
   white-space: nowrap;
 
@@ -10,25 +10,26 @@
     text-align: center;
 
     &:not(:first-child) {
-      margin-left: 1rem;
+      margin-left: 0.5rem;
     }
   }
 
   &__link {
     display: block;
-    padding: 0.5rem 0;
-    transition: opacity 0.3s, border 0.8s;
-    border-bottom: 2px solid transparent;
-    opacity: 0.4;
+    padding: 0.5em 0.8em;
+    border-radius: 0.15rem;
+    color: $color-text;
 
     &:hover {
-      border-bottom-color: $base-color;
       opacity: 1;
+      background-color: $bg-color--light;
     }
 
     &.nuxt-link-active {
-      border-bottom-color: $base-color;
       opacity: 1;
+      background: $color-text;
+      color: $bg-color;
+      cursor: default;
     }
   }
 }

@@ -13,12 +13,12 @@
     min-width: 2.5rem;
     min-height: 2.5rem;
     border-radius: 50%;
-    color: $base-color;
+    color: $color-text;
     font-size: $font-size-sm;
 
     &:hover {
       opacity: 1;
-      background-color: map-get($light-color, 2);
+      background-color: $bg-color;
     }
 
     &:focus {
@@ -33,17 +33,25 @@
       }
     }
 
-    &--active {
-      @extend #{$element};
-
-      background: $base-color;
+    &.is-active {
+      background: $color-text;
       color: #fff;
       cursor: default;
 
       &:hover {
-        background: $base-color;
+        background: $color-text;
         color: #fff;
       }
+    }
+
+    &.is-disabled {
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    &.is-separate {
+      opacity: 1;
+      pointer-events: none;
     }
 
     &--prev {
@@ -57,14 +65,5 @@
 
       background: url('~assets/image/arrow_right.svg') center / 1rem 1rem no-repeat;
     }
-  }
-
-  &__separate {
-    pointer-events: none;
-  }
-
-  &__disabled {
-    opacity: 0.2;
-    pointer-events: none;
   }
 }

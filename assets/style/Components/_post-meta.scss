@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   padding: 0;
-  color: $secondary-color;
+  color: $color-text--light;
 
   &:not(:last-child) {
     margin-bottom: 0.25rem;
@@ -11,17 +11,17 @@
   &__item {
 
     &--date {
-      color: $tertiary-color;
+      color: $color-text--lighter;
       text-decoration: line-through;
 
       &:only-of-type {
-        color: $secondary-color;
+        color: $color-text--light;
         text-decoration: none;
       }
 
       & + & {
         margin-left: 0.5em;
-        color: $secondary-color;
+        color: $color-text--light;
         text-decoration: none;
       }
     }
@@ -38,6 +38,7 @@
   }
 
   &__link {
+    color: $color-text--light;
 
     &:hover {
       opacity: 1;

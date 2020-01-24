@@ -28,9 +28,9 @@
           page-link-class="c-pagination__link"
           prev-link-class="c-pagination__link--prev"
           next-link-class="c-pagination__link--next"
-          active-class="c-pagination__link--active"
-          disabled-class="c-pagination__disabled"
-          break-view-link-class="c-pagination__separate"
+          active-class="is-active"
+          disabled-class="is-disabled"
+          break-view-link-class="is-separate"
         />
       </div>
     </template>

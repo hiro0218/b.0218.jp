@@ -1,16 +1,26 @@
 @import '~open-color/open-color.scss';
 
 // base
-$base-color: $oc-gray-8;
-$secondary-color: $oc-gray-7;
-$tertiary-color: $oc-gray-6;
-$light-color: (
-  0: $oc-gray-4,
-  1: $oc-gray-3,
-  2: $oc-gray-2,
-  3: $oc-gray-1,
-  4: $oc-gray-0,
-);
+$color-primary: $oc-gray-8;
+$color-secondary: $oc-gray-7;
+
+$color-text: $oc-gray-8;
+$color-text--dark: $oc-gray-9;
+$color-text--darker: $oc-gray-9;
+$color-text--light: $oc-gray-7;
+$color-text--lighter: $oc-gray-6;
+$color-text-heading: $oc-gray-8;
+$color-text-description: $oc-gray-6;
+$color-text-link: $oc-red-9;
+
+$bg-color: $oc-gray-2;
+$bg-color--dark: $oc-gray-3;
+$bg-color--darker: $oc-gray-4;
+$bg-color--light: $oc-gray-1;
+$bg-color--lighter: $oc-gray-0;
+$bg-color-hover: $oc-gray-1;
+
+$border-color: $oc-gray-3;
 
 // color
 $plain-color: $oc-gray-5 !default;
