@@ -1,7 +1,13 @@
 self.addEventListener('message', event => {
-  importScripts('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js');
+  importScripts('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js');
 
-  const result = self.hljs.highlightAuto(event.data);
+  self.hljs.configure({
+    tabReplace: '  ',
+    classPrefix: '',
+  });
 
-  postMessage(result.value);
+  const { text, languageSubset } = JSON.parse(event.data);
+  const { value } = self.hljs.highlightAuto(text, languageSubset);
+
+  postMessage(value);
 });

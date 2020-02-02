@@ -106,13 +106,21 @@ export default {
       for (let i = 0; i < elementCode.length; i++) {
         const worker = new Highlightjs();
         const element = elementCode[i];
+        const className = element.className;
 
         // 送信
-        worker.postMessage(element.textContent);
+        worker.postMessage(
+          JSON.stringify({
+            languageSubset: [className],
+            text: element.textContent,
+          }),
+        );
         // 受信
         worker.onmessage = event => {
-          element.classList.add('hljs');
-          element.innerHTML = event.data;
+          requestAnimationFrame(() => {
+            element.classList.add('hljs');
+            element.innerHTML = event.data;
+          });
         };
       }
     },
