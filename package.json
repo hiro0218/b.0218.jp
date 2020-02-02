@@ -60,7 +60,8 @@
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-sort-media-queries": "^1.0.15",
     "prettier": "1.19.1",
-    "sass-loader": "^8.0.0"
+    "sass-loader": "^8.0.0",
+    "worker-loader": "^2.0.0"
   },
   "lint-staged": {
     "**/*.{js,vue}": [

@@ -187,6 +187,14 @@ export default {
           rule.options.optimizeSSR = false;
         }
       });
+
+      config.module.rules.unshift({
+        test: /\.worker\.js$/,
+        loader: 'worker-loader',
+      });
+
+      // Overcome webpack referencing `window` in chunks
+      config.output.globalObject = `(typeof self !== 'undefined' ? self : this)`;
     },
 
     babel: {
