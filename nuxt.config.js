@@ -68,7 +68,6 @@ export default {
     '~/plugins/mixin.js',
     '~/plugins/pagination.client.js',
     '~/plugins/mokuji.client.js',
-    '~/plugins/highlight.client.js',
   ],
 
   /*
@@ -187,6 +186,14 @@ export default {
           rule.options.optimizeSSR = false;
         }
       });
+
+      config.module.rules.unshift({
+        test: /\.worker\.js$/,
+        loader: 'worker-loader',
+      });
+
+      // Overcome webpack referencing `window` in chunks
+      config.output.globalObject = `(typeof self !== 'undefined' ? self : this)`;
     },
 
     babel: {
