@@ -106,7 +106,7 @@ export default {
       for (let i = 0; i < elementCode.length; i++) {
         const worker = new Highlightjs();
         const element = elementCode[i];
-        const className = element.className;
+        const className = element.className.replace('language-', '');
 
         // 送信
         worker.postMessage(
@@ -118,6 +118,9 @@ export default {
         // 受信
         worker.onmessage = event => {
           requestAnimationFrame(() => {
+            if (className) {
+              element.dataset.language = className;
+            }
             element.classList.add('hljs');
             element.innerHTML = event.data;
           });

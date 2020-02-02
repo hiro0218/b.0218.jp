@@ -10,6 +10,24 @@
   color: #383a42;
   line-height: 1.48;
 
+  &[data-language] {
+    position: relative;
+    padding-top: 2.5rem;
+
+    &::before {
+      content: attr(data-language);
+      display: block;
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      padding: 0.25rem 1rem;
+      background: $bg-color;
+      color: $color-text;
+      font-size: $font-size-xs;
+    }
+  }
+
   .comment,
   .quote {
     color: #a0a1a7;
