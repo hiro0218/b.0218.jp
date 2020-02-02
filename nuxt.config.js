@@ -68,7 +68,6 @@ export default {
     '~/plugins/mixin.js',
     '~/plugins/pagination.client.js',
     '~/plugins/mokuji.client.js',
-    '~/plugins/highlight.client.js',
   ],
 
   /*
