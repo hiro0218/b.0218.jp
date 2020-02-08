@@ -8980,12 +8980,12 @@ postcss-env-function@^2.0.2:
     postcss "^7.0.2"
     postcss-values-parser "^2.0.0"
 
-postcss-flexbugs-fixes@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/postcss-flexbugs-fixes/-/postcss-flexbugs-fixes-4.1.0.tgz#e094a9df1783e2200b7b19f875dcad3b3aff8b20"
-  integrity sha512-jr1LHxQvStNNAHlgco6PzY308zvLklh7SJVYuWUwyUQncofaAlD2l+P/gxKHOdqWKe7xJSkVLFF/2Tp+JqMSZA==
+postcss-flexbugs-fixes@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/postcss-flexbugs-fixes/-/postcss-flexbugs-fixes-4.2.0.tgz#662b3dcb6354638b9213a55eed8913bcdc8d004a"
+  integrity sha512-QRE0n3hpkxxS/OGvzOa+PDuy4mh/Jg4o9ui22/ko5iGYOG3M5dfJabjnAZjTdh2G9F85c7Hv8hWcEDEKW/xceQ==
   dependencies:
-    postcss "^7.0.0"
+    postcss "^7.0.26"
 
 postcss-focus-visible@^4.0.0:
   version "4.0.0"
@@ -9495,10 +9495,10 @@ postcss-selector-parser@^6.0.0, postcss-selector-parser@^6.0.2:
     indexes-of "^1.0.1"
     uniq "^1.0.1"
 
-postcss-sort-media-queries@^1.1.18:
-  version "1.1.18"
-  resolved "https://registry.yarnpkg.com/postcss-sort-media-queries/-/postcss-sort-media-queries-1.1.18.tgz#6140e8f4cd9cba70228e080fc19cd53cc08b3527"
-  integrity sha512-0skX8655w8hv2lPlB9C+mBLHM7wUHJegmJHXmBVElojrmuY2kFGXDf1L2v+3xaGqNjFXSa/0CudZ4CJm6JwhZA==
+postcss-sort-media-queries@^1.1.20:
+  version "1.1.20"
+  resolved "https://registry.yarnpkg.com/postcss-sort-media-queries/-/postcss-sort-media-queries-1.1.20.tgz#2b51f78956947b093779334f0b861e2915e7c061"
+  integrity sha512-t/zoQm7Nr2xSUATC1aG/bzLFUwnLc5fE8Zd9Yv3flFJX/CnLLYP+K+OhanbfDcfQ6GS9SIPO4/D/Gd509Ba3pw==
   dependencies:
     postcss "^7.0.26"
     sort-css-media-queries "1.5.0"
