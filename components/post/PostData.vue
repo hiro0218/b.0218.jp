@@ -165,8 +165,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.post__content /deep/ {
+<style lang="scss">
+.post__content {
   // mokuji
   .mokuji-container {
     margin: 2rem 0;
