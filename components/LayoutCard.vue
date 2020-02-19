@@ -12,9 +12,6 @@
         {{ props.description }}
       </div>
     </div>
-    <footer class="c-card-footer">
-      <slot name="card-footer" />
-    </footer>
   </div>
 </template>
 
