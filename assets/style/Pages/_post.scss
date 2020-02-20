@@ -1,13 +1,18 @@
+%base_anchor_style {
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 .post {
+
   &__content {
     margin-bottom: 2rem;
 
     a {
-      text-decoration: underline;
-
-      &:hover {
-        text-decoration: none;
-      }
+      @extend %base_anchor_style;
 
       &.is-external_link {
         display: inline-flex;
@@ -63,6 +68,12 @@
       li {
         margin-bottom: 0.625rem;
       }
+    }
+  }
+
+  &__related {
+    a {
+      @extend %base_anchor_style;
     }
   }
 
