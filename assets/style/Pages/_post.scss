@@ -1,21 +1,27 @@
+%base_anchor_style {
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 .post {
+
   &__content {
     margin-bottom: 2rem;
 
     a {
-      text-decoration: underline;
-      &:hover {
-        opacity: 0.6;
-      }
+      @extend %base_anchor_style;
 
       &.is-external_link {
-        display: inline-flex;
-        align-items: center;
+
         &::after {
           content: '';
           display: inline-block;
           width: 1em;
           height: 1em;
+          margin: 0 0.25em;
           background: url('~assets/image/open_in_new.svg') center / 1em 1em no-repeat;
         }
       }
@@ -62,6 +68,12 @@
       li {
         margin-bottom: 0.625rem;
       }
+    }
+  }
+
+  &__related {
+    a {
+      @extend %base_anchor_style;
     }
   }
 

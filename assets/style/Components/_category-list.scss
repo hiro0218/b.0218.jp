@@ -21,12 +21,10 @@
     color: $color-text;
 
     &:hover {
-      opacity: 1;
       background-color: $bg-color--light;
     }
 
     &.nuxt-link-active {
-      opacity: 1;
       background: $color-text;
       color: $bg-color;
       cursor: default;

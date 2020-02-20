@@ -113,7 +113,7 @@ export default {
     },
     getBreadcrumbStructured() {
       let itemCount = 1;
-      let itemListElement = [
+      const itemListElement = [
         {
           '@type': 'ListItem',
           position: itemCount,
@@ -142,7 +142,7 @@ export default {
         item: { '@id': this.post.link, name: this.post.title.rendered },
       });
 
-      let structure = Object.assign(
+      const structure = Object.assign(
         {
           '@context': 'http://schema.org',
           '@type': 'BreadcrumbList',

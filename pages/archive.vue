@@ -57,7 +57,7 @@ export default {
   a {
     text-decoration: underline;
     &:hover {
-      opacity: 0.6;
+      text-decoration: none;
     }
   }
 }

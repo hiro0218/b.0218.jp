@@ -39,7 +39,7 @@ export default {
   methods: {
     onScroll() {
       this.ticking = false;
-      let currentScrollY = window.pageYOffset;
+      const currentScrollY = window.pageYOffset;
       if (this.lastKnownScrollY === currentScrollY || currentScrollY < 0) return;
 
       if (currentScrollY < this.lastKnownScrollY) {

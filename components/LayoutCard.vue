@@ -1,8 +1,10 @@
 <template functional>
   <div class="c-card">
     <div class="c-card-image">
-      <img v-if="props.thumbnail" class="c-card-image__item" :src="props.thumbnail" :alt="title" loading="lazy" />
-      <font-awesome-icon v-else class="c-card-image__no-item" icon="image" />
+      <div class="c-card-image__container">
+        <img v-if="props.thumbnail" class="c-card-image__item" :src="props.thumbnail" :alt="title" loading="lazy" />
+        <font-awesome-icon v-else class="c-card-image__no-item" icon="image" />
+      </div>
     </div>
     <div class="c-card-body">
       <div class="c-card-body__title">
@@ -12,9 +14,6 @@
         {{ props.description }}
       </div>
     </div>
-    <footer class="c-card-footer">
-      <slot name="card-footer" />
-    </footer>
   </div>
 </template>
 

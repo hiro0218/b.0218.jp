@@ -58,7 +58,6 @@ export default {
   color: inherit;
 
   &:hover {
-    opacity: 1;
     text-decoration: underline;
   }
 }

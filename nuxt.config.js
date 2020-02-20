@@ -1,3 +1,6 @@
+const Sass = require('sass');
+const Fiber = require('fibers');
+
 import { route } from './settings';
 import constant from './constant';
 
@@ -164,6 +167,15 @@ export default {
    */
   build: {
     parallel: true,
+
+    loaders: {
+      scss: {
+        implementation: Sass,
+        sassOptions: {
+          fiber: Fiber,
+        },
+      },
+    },
 
     /*
      ** You can extend webpack config here
