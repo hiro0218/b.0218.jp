@@ -1423,10 +1423,10 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/vue-fontawesome/-/vue-fontawesome-0.1.9.tgz#d3af6d4e50f337327de90447fe35fa1e117a2fbe"
   integrity sha512-h/emhmZz+DfB2zOGLWawNwXq82UYhn9waTfUjLLmeaIqtnIyNt6kYlpQT/vzJjLZRDRvY2IEJAh1di5qKpKVpA==
 
-"@hiro0218/eslint-config@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@hiro0218/eslint-config/-/eslint-config-1.1.0.tgz#feba7040b0f9aa26e70aec12a511338919d5063c"
-  integrity sha512-GdlSj6vlaCf4II7esVs7nSHEKBLcI1iiUgCR8BenZPA9IKUHiw99EjIus79xKtsypZgTr6U0GBhxKKcZnbl4aw==
+"@hiro0218/eslint-config@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@hiro0218/eslint-config/-/eslint-config-1.2.0.tgz#a3c0e3eb9fdb72ecdd4617bd4e6e0c64ae326810"
+  integrity sha512-jWhxiauZcoDnv0g1J6B/UtL6B7p2lUvzsbDa60nGUWKvpOcaefTdAvz2W4VlpldPNch03xiDPCWN/f0rIOfF+Q==
   dependencies:
     babel-eslint "^10.0.3"
     eslint-config-prettier "^6.7.0"
