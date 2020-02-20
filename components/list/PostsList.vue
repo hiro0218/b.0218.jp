@@ -4,17 +4,12 @@
       No results found.
     </div>
     <template v-if="postsList.length !== 0">
-      <div class="o-post-list">
-        <template v-for="post in postsList">
-          <nuxt-link :key="post.id" class="o-post-list__item" :to="{ path: '/' + post.slug }">
-            <LayoutCard :title="post.title.rendered" :description="post.excerpt.rendered" :thumbnail="post.thumbnail">
-              <template v-slot:card-footer>
-                <time :datetime="post.date" itemprop="datePublished">{{ post.date | formatDateString }}</time>
-              </template>
-            </LayoutCard>
-          </nuxt-link>
-        </template>
-      </div>
+      <template v-for="post in postsList">
+        <nuxt-link :key="post.id" :to="{ path: '/' + post.slug }" class="p-post-list__item">
+          <LayoutCard :title="post.title.rendered" :description="post.excerpt.rendered" :thumbnail="post.thumbnail" />
+        </nuxt-link>
+      </template>
+
       <div class="p-post-list-pagination">
         <paginate
           v-model="page"
@@ -110,6 +105,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.p-post-list__item {
+  display: block;
+
+  &:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .p-post-list-pagination {
   margin-top: 2rem;
 }
