@@ -111,10 +111,6 @@ export default {
   &:not(:last-child) {
     margin-bottom: 0.5rem;
   }
-
-  &:hover {
-    opacity: 1;
-  }
 }
 
 .p-post-list-pagination {

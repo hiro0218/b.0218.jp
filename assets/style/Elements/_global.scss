@@ -14,10 +14,6 @@ a {
   transition: background 0.2s ease, opacity 0.2s ease;
   color: $color-text-link;
   text-decoration: none;
-
-  &:hover {
-    opacity: 0.6;
-  }
 }
 
 img {

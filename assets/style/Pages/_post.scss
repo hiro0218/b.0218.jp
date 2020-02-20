@@ -4,8 +4,9 @@
 
     a {
       text-decoration: underline;
+
       &:hover {
-        opacity: 0.6;
+        text-decoration: none;
       }
 
       &.is-external_link {
