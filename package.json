@@ -57,7 +57,7 @@
     "nuxt-generate-cluster": "^2.7.0",
     "nuxt-webfontloader": "^1.1.0",
     "postcss-flexbugs-fixes": "^4.2.0",
-    "postcss-sort-media-queries": "^1.1.20",
+    "postcss-sort-media-queries": "^1.31.21",
     "prettier": "1.19.1",
     "sass": "^1.25.0",
     "sass-loader": "^8.0.2",
