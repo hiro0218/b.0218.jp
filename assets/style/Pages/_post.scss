@@ -15,13 +15,13 @@
       @extend %base_anchor_style;
 
       &.is-external_link {
-        display: inline-flex;
-        align-items: center;
+
         &::after {
           content: '';
           display: inline-block;
           width: 1em;
           height: 1em;
+          margin: 0 0.25em;
           background: url('~assets/image/open_in_new.svg') center / 1em 1em no-repeat;
         }
       }
