@@ -23,7 +23,7 @@ export const route = {
       ])
       .then(
         axios.spread(function(posts, tags, cats) {
-          let routes = [];
+          const routes = [];
 
           posts.data.map(post => {
             const slug = sitemap ? post.slug : post.slug.replace('.html', '');

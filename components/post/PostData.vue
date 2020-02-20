@@ -91,11 +91,11 @@ export default {
       const tables = this.elPostContent.querySelectorAll('table');
       if (tables.length === 0) return;
 
-      let div = document.createElement('div');
+      const div = document.createElement('div');
       div.classList.add('table-container', 'u-scroll-x');
 
       for (let i = 0; i < tables.length; i += 1) {
-        let wrapper = div.cloneNode(false);
+        const wrapper = div.cloneNode(false);
         tables[i].parentNode.insertBefore(wrapper, tables[i]);
         wrapper.appendChild(tables[i]);
       }
@@ -141,8 +141,8 @@ export default {
       if (!hash) return;
 
       try {
-        let escaped_hash = this.escapedSelector(hash);
-        let target = this.$el.querySelector(escaped_hash);
+        const escaped_hash = this.escapedSelector(hash);
+        const target = this.$el.querySelector(escaped_hash);
         if (target) {
           setTimeout(() => {
             window.scrollTo({ left: 0, top: target.offsetTop, behavior: 'smooth' });
@@ -153,7 +153,7 @@ export default {
       }
     },
     escapedSelector(selector) {
-      let hash = selector.slice(1);
+      const hash = selector.slice(1);
       return '#' + CSS.escape(hash);
     },
   },
