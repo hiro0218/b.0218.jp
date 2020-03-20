@@ -51,8 +51,8 @@
     "eslint-loader": "^3.0.2",
     "fibers": "^4.0.2",
     "http-server": "^0.11.1",
-    "husky": "^3.1.0",
-    "lint-staged": "^9.4.3",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
     "nodemon": "^2.0.2",
     "nuxt-generate-cluster": "^2.7.0",
     "nuxt-webfontloader": "^1.1.0",
@@ -66,8 +66,7 @@
   "lint-staged": {
     "**/*.{js,vue}": [
       "eslint --fix",
-      "eslint",
-      "git add"
+      "eslint"
     ]
   },
   "husky": {
