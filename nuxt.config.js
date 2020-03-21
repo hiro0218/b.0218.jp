@@ -99,7 +99,7 @@ export default {
   },
 
   styleResources: {
-    scss: ['~/assets/style/Settings/_index.scss', '~/assets/style/Tools/_index.scss'],
+    scss: ['~/assets/style/Settings/index.scss', '~/assets/style/Tools/index.scss'],
   },
 
   sitemap: {
