@@ -5,8 +5,27 @@
     </div>
     <template v-if="postsList.length !== 0">
       <template v-for="post in postsList">
-        <nuxt-link :key="post.id" :to="{ path: '/' + post.slug }" class="p-post-list__item">
-          <LayoutCard :title="post.title.rendered" :description="post.excerpt.rendered" :thumbnail="post.thumbnail" />
+        <nuxt-link :key="post.id" :to="{ path: '/' + post.slug }" class="c-card">
+          <div class="c-card-image">
+            <div class="c-card-image__container">
+              <img
+                v-if="post.thumbnail"
+                class="c-card-image__item"
+                :src="post.thumbnail"
+                :alt="post.title.rendered"
+                loading="lazy"
+              />
+              <font-awesome-icon v-else class="c-card-image__no-item" icon="image" />
+            </div>
+          </div>
+          <div class="c-card-body">
+            <div class="c-card-body__title">
+              {{ post.title.rendered }}
+            </div>
+            <div v-if="post.excerpt.rendered" class="c-card-body__description">
+              {{ post.excerpt.rendered }}
+            </div>
+          </div>
         </nuxt-link>
       </template>
 
@@ -34,13 +53,9 @@
 
 <script>
 import { mapState } from 'vuex';
-import LayoutCard from '~/components/LayoutCard.vue';
 
 export default {
   name: 'PostsList',
-  components: {
-    LayoutCard,
-  },
   props: {
     mode: {
       type: String,
@@ -105,9 +120,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.p-post-list__item {
-  display: block;
-
+.c-card {
   &:not(:last-child) {
     margin-bottom: 0.5rem;
   }
