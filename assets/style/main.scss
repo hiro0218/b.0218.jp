@@ -5,28 +5,22 @@
 @import 'Tools';
 
 // Generics
-// @import 'Generic/font';
-@import 'Generic/reset';
+@import 'Generic';
 
 // Elements
-@import 'Elements/global';
-@import 'Elements/typography';
-@import 'Elements/code';
-@import 'Elements/list';
-@import 'Elements/table';
-@import 'Elements/details';
+@import 'Elements';
 
 // Objects
-@import 'Objects/index';
+@import 'Objects';
 
 // Components
-@import 'Components/index';
+@import 'Components';
 
 // Vendor
-@import 'Vendor/hljs';
+@import 'Vendor';
 
 // Pages
-@import 'Pages/index';
+@import 'Pages';
 
 // Trumps
-@import 'Trumps/utility';
+@import 'Trumps';

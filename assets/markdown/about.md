@@ -1,3 +1,6 @@
+<section>
+
+# サイトについて
 [零弐壱蜂](https://b.0218.jp/)は、仕事や日常または趣味などから得た知見を備忘録として書き溜めているブログです。  
 ブログの更新頻度は「気が向いた時」です。
 
@@ -13,7 +16,7 @@
 
 収集している情報については、それぞれ以下を参照してください。
 
-- Google AdSense: [ポリシーと規約](https://www.google.com/intl/ja/policies/privacy/ads/)
+- Google AdSense: [ポリシーと規約](https://policies.google.com/technologies/ads?hl=ja)
 - Amazonアソシエイト: [Amazon アソシエイト・プログラム プライバシー情報](https://rcm-jp.amazon.co.jp/e/cm/privacy-policy.html?o=9)
 
 収益はドメインとVPSの費用に当てられています。
@@ -22,3 +25,25 @@
 訪問者の情報の追跡は行っておりません。
 
 Google Analytics / Google AdSenseがアクセス情報をCookieを通じて使用することがありますが、情報は匿名であり個人が特定されることはありません。
+</section>
+
+<section>
+
+# 運営者について
+
+インターネット上では「hiro」という名前で活動しています。
+
+- GitHub: https://github.com/hiro0218
+
+## 経歴
+
+経歴の詳細は、Wantedlyに記載しておりますのでお問い合わせください。
+
+## お問い合わせ
+
+お問い合わせ事項がございましたら、下記フォームにてご連絡ください。
+※お返事できない場合もございますのでご了承ください
+
+[お問い合わせフォーム](https://goo.gl/forms/9l1uAOVef8Wp3IFC2)
+
+</section>

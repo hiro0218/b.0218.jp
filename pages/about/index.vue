@@ -5,25 +5,14 @@
         {{ pageTitle }}
       </template>
     </LayoutHeader>
-    <div class="post__content">
-      <ul>
-        <li>
-          <nuxt-link to="about/me">
-            運営者について
-          </nuxt-link>
-        </li>
-        <li>
-          <nuxt-link to="about/site">
-            サイトについて
-          </nuxt-link>
-        </li>
-      </ul>
-    </div>
+    <div class="post__content js-post-content" v-html="aboutData" />
   </article>
 </template>
 
 <script>
 import LayoutHeader from '~/components/LayoutHeader.vue';
+import externalLink from '~/assets/script/externalLink.js';
+import aboutData from '~/assets/markdown/about.md';
 
 export default {
   name: 'About',
@@ -32,6 +21,13 @@ export default {
   },
   computed: {
     pageTitle: () => 'about',
+    aboutData: () => aboutData,
+  },
+  mounted() {
+    this.$nextTick(() => {
+      const elPostContent = document.querySelector('.js-post-content');
+      externalLink(elPostContent);
+    });
   },
   head() {
     return {
