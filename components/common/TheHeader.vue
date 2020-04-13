@@ -63,7 +63,7 @@ export default {
 <style lang="scss">
 .pj-header {
   position: fixed;
-  z-index: 10;
+  z-index: $zIndex-header;
   top: 0;
   right: 0;
   left: 0;

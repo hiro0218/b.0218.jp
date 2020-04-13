@@ -1,22 +1,33 @@
 .c-loading {
   position: fixed;
-  z-index: 15;
+  z-index: $zIndex-loading * -1;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background: rgba(255, 255, 255, 0.5);
+  width: 100vw;
+  height: 100vh;
+  transition: opacity 0.2s ease-in-out;
+  opacity: 0;
+  background: rgba(255, 255, 255, 0.8);
 
-  &__icon {
-    position: fixed;
-    z-index: 20;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 4rem;
-    height: 4rem;
-    margin: auto;
-    background: url('~assets/image/loading-spin.svg') center / cover no-repeat;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5em;
+    height: 5em;
+    margin-top: -2.5em;
+    margin-left: -2.5em;
+    animation: spinner 1.5s linear infinite;
+    border: 0.4em solid $bg-color;
+    border-radius: 50%;
+    border-top-color: $color-primary;
+  }
+
+  &.is-active {
+    z-index: $zIndex-loading;
+    opacity: 1;
   }
 }
