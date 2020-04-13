@@ -44,8 +44,3 @@ hr {
   border: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
-
-::selection {
-  background: rgba($bg-color, 0.5);
-  color: $color-text--light;
-}
