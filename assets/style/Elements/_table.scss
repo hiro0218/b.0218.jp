@@ -3,6 +3,11 @@ table {
   border-collapse: collapse;
   border: $table-border-width solid $table-border-color;
   background: #fff;
+
+  @include mobile {
+    min-width: 100%;
+    table-layout: fixed;
+  }
 }
 
 th,
@@ -11,6 +16,10 @@ td {
   border: $table-border-width solid $table-border-color;
   border-top: $table-border-width solid $table-border-color;
   vertical-align: top;
+
+  @include mobile {
+    white-space: nowrap;
+  }
 }
 
 thead {
@@ -18,6 +27,7 @@ thead {
     border-bottom: ($table-border-width * 2) solid $table-border-color;
     background: $table-head-bg-color;
     vertical-align: bottom;
+    white-space: nowrap;
   }
   th,
   td {
