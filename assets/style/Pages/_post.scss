@@ -1,18 +1,10 @@
-%base_anchor_style {
-  text-decoration: underline;
-
-  &:hover {
-    text-decoration: none;
-  }
-}
-
 .post {
 
   &__content {
     margin-bottom: 2rem;
 
     a {
-      @extend %base_anchor_style;
+      text-decoration: underline;
 
       &.is-external_link {
 
@@ -73,7 +65,7 @@
 
   &__related {
     a {
-      @extend %base_anchor_style;
+      text-decoration: underline;
     }
   }
 
