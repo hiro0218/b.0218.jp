@@ -21,9 +21,6 @@
     <div v-if="Object.keys(pager).length !== 0" class="post__pager">
       <PostPager :pager="pager" />
     </div>
-    <div v-if="related.length !== 0" class="post__related">
-      <PostRelated :related="related" />
-    </div>
   </div>
 </template>
 
@@ -36,7 +33,6 @@ import PostData from '~/components/post/PostData.vue';
 import PostAds from '~/components/post/PostAds.vue';
 import PostShare from '~/components/post/PostShare.vue';
 import PostPager from '~/components/post/PostPager.vue';
-const PostRelated = () => import('~/components/post/PostRelated.vue');
 
 export default {
   name: 'Post',
@@ -47,7 +43,6 @@ export default {
     PostAds,
     PostShare,
     PostPager,
-    PostRelated,
   },
   validate({ params }) {
     if (process.static && process.server) return true;
@@ -76,7 +71,6 @@ export default {
         if (!pager) return {};
         return pager;
       },
-      related: state => state.data.attach.related,
     }),
   },
   methods: {
