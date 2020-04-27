@@ -34,6 +34,12 @@ $desktop: 960px;
 $widescreen: $desktop; // 1152px;
 $fullhd: $desktop; // 1344px;
 
+// z-index
+
+$zIndex-header: 10;
+$zIndex-loading: $zIndex-header + 1;
+
+
 //
 // Parts
 // --------------------
@@ -44,7 +50,7 @@ $header-height: 4rem;
 $table-border-width: 1px;
 $table-head-bg-color: $bg-color;
 $table-border-color: $bg-color--dark;
-$table-hover-color: $bg-color-hover;
+$table-hover-color: $oc-gray-0;
 
 //
 // Components

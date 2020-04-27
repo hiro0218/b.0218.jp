@@ -1,7 +1,5 @@
 <template>
-  <div v-show="loading" :class="{ fadeOut: !loading }" class="c-loading">
-    <div class="c-loading__icon" />
-  </div>
+  <div v-show="loading" class="c-loading is-active" />
 </template>
 
 <script>
