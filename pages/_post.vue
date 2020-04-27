@@ -16,7 +16,7 @@
       </client-only>
     </div>
     <div class="post__pager">
-      <!-- <PostPager :pager="pager" /> -->
+      <PostPager :next="post.next" :prev="post.prev" />
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ import PostMeta from '~/components/post/PostMeta.vue';
 import PostData from '~/components/post/PostData.vue';
 import PostAds from '~/components/post/PostAds.vue';
 import PostShare from '~/components/post/PostShare.vue';
-// import PostPager from '~/components/post/PostPager.vue';
+import PostPager from '~/components/post/PostPager.vue';
 
 import posts from '~/_source/posts.json';
 
@@ -39,7 +39,7 @@ export default {
     PostData,
     PostAds,
     PostShare,
-    // PostPager,
+    PostPager,
   },
   validate({ params }) {
     if (process.static && process.server) return true;
@@ -67,6 +67,8 @@ export default {
         excerpt: post.excerpt,
         categories: post.categories,
         tags: post.tags,
+        next: post.next,
+        prev: post.prev,
       },
     };
   },
