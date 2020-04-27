@@ -191,6 +191,14 @@ export default {
         });
       }
 
+      config.module.rules.push({
+        test: /\.(html)$/,
+        loader: 'html-loader',
+        options: {
+          attributes: false,
+        },
+      });
+
       // fix for _vm._ssrNode is not a function for functional component
       // @see https://github.com/nuxt/nuxt.js/issues/2565
       config.module.rules.forEach(rule => {
