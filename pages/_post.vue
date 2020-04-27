@@ -3,36 +3,33 @@
     <article class="post__article">
       <LayoutHeader>
         <template v-slot:header-title>
-          {{ post.title.rendered }}
+          {{ post.title }}
         </template>
-        <PostMeta
-          :date="post.date"
-          :modified="post.modified"
-          :post-category="post._embedded['wp:term'][0]"
-          :post-tag="post._embedded['wp:term'][1]"
-        />
+        <PostMeta :date="post.date" :updated="post.updated" :post-category="post.categories" :post-tag="post.tags" />
       </LayoutHeader>
       <PostAds />
-      <PostData :post="post" />
+      <PostData :content="post.content" />
     </article>
     <div class="post__share">
-      <PostShare />
+      <client-only>
+        <PostShare />
+      </client-only>
     </div>
-    <div v-if="Object.keys(pager).length !== 0" class="post__pager">
-      <PostPager :pager="pager" />
+    <div class="post__pager">
+      <!-- <PostPager :pager="pager" /> -->
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 import LayoutHeader from '~/components/LayoutHeader.vue';
 import PostMeta from '~/components/post/PostMeta.vue';
 import PostData from '~/components/post/PostData.vue';
 import PostAds from '~/components/post/PostAds.vue';
 import PostShare from '~/components/post/PostShare.vue';
-import PostPager from '~/components/post/PostPager.vue';
+// import PostPager from '~/components/post/PostPager.vue';
+
+import posts from '~/_source/posts.json';
 
 export default {
   name: 'Post',
@@ -42,36 +39,36 @@ export default {
     PostData,
     PostAds,
     PostShare,
-    PostPager,
+    // PostPager,
   },
   validate({ params }) {
     if (process.static && process.server) return true;
     return params.post && /\d+.html/.test(params.post);
   },
-  async fetch({ store, app, params, error, payload }) {
+  async asyncData({ store, app, params, error, payload }) {
     // when nuxt generate
     if (process.static && params.post.indexOf('.html') === -1) {
       params.post += '.html';
     }
 
-    return app.$api
-      .getPost(params)
-      .then(res => {
-        store.dispatch('post/setData', res.data[0]);
-      })
-      .catch(e => {
-        error(e);
-      });
-  },
-  computed: {
-    ...mapState('post', {
-      post: state => state.data,
-      pager: state => {
-        const pager = state.data.attach.pager;
-        if (!pager) return {};
-        return pager;
+    // パラメータからヘッダー情報を取得
+    const post = posts.find(post => post.path === params.post);
+    // パラメータから記事内容を取得
+    const content = await import(`~/_source/${post.path}`).then(text => text.default);
+
+    return {
+      post: {
+        date: post.date,
+        updated: post.updated,
+        slug: post.path,
+        link: post.permalink,
+        title: post.title,
+        content: content,
+        excerpt: post.excerpt,
+        categories: post.categories,
+        tags: post.tags,
       },
-    }),
+    };
   },
   methods: {
     getBlogPostingStructured() {
@@ -82,14 +79,14 @@ export default {
           '@type': 'WebPage',
           '@id': `${process.env.SITE_URL}${this.post.slug}`,
         },
-        headline: this.post.title.rendered,
+        headline: this.post.title,
         datePublished: this.post.date,
-        dateModified: this.post.modified,
+        dateModified: this.post.updated,
         author: { '@type': 'Person', name: process.env.AUTHOR },
-        description: this.post.excerpt.rendered,
+        description: this.post.excerpt,
         image: {
           '@type': 'ImageObject',
-          url: this.post.thumbnail,
+          // url: this.post.thumbnail, TODO
           width: 696,
           height: 696,
         },
@@ -115,25 +112,22 @@ export default {
         },
       ];
 
-      if (this.post.hasOwnProperty('_embedded')) {
-        const wp_term = this.post._embedded['wp:term'][0];
-        for (let i = 0; i < wp_term.length; i++) {
-          const category = wp_term[i];
-          itemListElement.push({
-            '@type': 'ListItem',
-            position: ++itemCount,
-            item: {
-              '@id': `${process.env.SITE_URL}category/${category.slug}`,
-              name: category.name,
-            },
-          });
-        }
+      for (let i = 0; i < this.post.categories.length; i++) {
+        const category = this.post.categories[i];
+        itemListElement.push({
+          '@type': 'ListItem',
+          position: ++itemCount,
+          item: {
+            '@id': `${process.env.SITE_URL}/${category.path}`,
+            name: category.name,
+          },
+        });
       }
 
       itemListElement.push({
         '@type': 'ListItem',
         position: ++itemCount,
-        item: { '@id': this.post.link, name: this.post.title.rendered },
+        item: { '@id': this.post.link, name: this.post.title },
       });
 
       const structure = Object.assign(
@@ -150,17 +144,17 @@ export default {
   head() {
     return {
       __dangerouslyDisableSanitizers: ['script'],
-      title: this.post.title.rendered,
+      title: this.post.title,
       meta: [
-        { hid: 'description', name: 'description', content: this.post.excerpt.rendered },
+        { hid: 'description', name: 'description', content: this.post.excerpt },
         { hid: 'og:type', property: 'og:type', content: 'article' },
         { hid: 'og:url', property: 'og:url', content: `${process.env.SITE_URL}${this.post.slug}` },
-        { hid: 'og:title', property: 'og:title', content: this.post.title.rendered },
-        { hid: 'og:description', property: 'og:description', content: this.post.excerpt.rendered },
+        { hid: 'og:title', property: 'og:title', content: this.post.title },
+        { hid: 'og:description', property: 'og:description', content: this.post.excerpt },
         { hid: 'og:image', property: 'og:image', content: this.post.thumbnail || process.env.AUTHOR_ICON },
         { hid: 'og:updated_time', property: 'og:updated_time', content: this.post.modified },
         { hid: 'article:published_time', property: 'article:published_time', content: this.post.date },
-        { hid: 'article:modified_time', property: 'article:modified_time', content: this.post.modified },
+        { hid: 'article:modified_time', property: 'article:modified_time', content: this.post.updated },
       ],
       link: [{ rel: 'canonical', href: `${process.env.SITE_URL}${this.post.slug}` }],
       script: [

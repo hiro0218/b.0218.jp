@@ -1,5 +1,5 @@
 <template>
-  <div class="post__content js-post-content" v-html="post.content.rendered" />
+  <div class="post__content js-post-content" v-html="content" />
 </template>
 
 <script>
@@ -9,10 +9,10 @@ import Highlightjs from '~/assets/script/highlightjs.worker.js';
 export default {
   name: 'PostData',
   props: {
-    post: {
-      type: Object,
+    content: {
+      type: String,
       required: false,
-      default: () => {},
+      default: '',
     },
   },
   data() {
@@ -157,11 +157,11 @@ export default {
       return '#' + CSS.escape(hash);
     },
   },
-  head() {
-    return {
-      style: [{ cssText: this.post.attach.custom.style, type: 'text/css' }],
-    };
-  },
+  // head() {
+  //   return {
+  //     style: [{ cssText: this.post.attach.custom.style, type: 'text/css' }],
+  //   };
+  // },
 };
 </script>
 

@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import svgLine from '~/assets/image/sns_line.svg?inline';
 import svgHatena from '~/assets/image/sns_hatenabookmark.svg?inline';
 import svgTwitter from '~/assets/image/sns_twitter.svg?inline';
@@ -55,12 +54,8 @@ export default {
     svgFacebook,
   },
   computed: {
-    ...mapState('post', {
-      post_title: state => state.data.title.rendered,
-      post_link: state => {
-        return `${process.env.SITE_URL}${state.data.slug}`;
-      },
-    }),
+    post_title: () => document.title,
+    post_link: () => location.href,
   },
 };
 </script>

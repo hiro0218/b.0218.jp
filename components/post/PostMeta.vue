@@ -6,17 +6,17 @@
         <time :datetime="props.date" itemprop="datePublished">{{ props.date | formatDateString }}</time>
       </div>
       <div
-        v-if="!(new Date(props.date).toDateString() === new Date(props.modified).toDateString())"
+        v-if="!(new Date(props.date).toDateString() === new Date(props.updated).toDateString())"
         class="c-post-meta__item--date"
       >
-        <time :datetime="props.modified" itemprop="dateModified">{{ props.modified | formatDateString }}</time>
+        <time :datetime="props.updated" itemprop="dateModified">{{ props.updated | formatDateString }}</time>
       </div>
     </div>
     <div v-if="props.postCategory.length !== 0" class="c-post-meta">
       <font-awesome-icon icon="folder" class="c-post-meta__icon" />
       <template v-for="(category, index) in props.postCategory">
         <div :key="index" class="c-post-meta__item--separator">
-          <nuxt-link :to="'/categories/' + category.slug" class="c-post-meta__link">{{ category.name }}</nuxt-link>
+          <nuxt-link :to="'/' + category.path" class="c-post-meta__link">{{ category.name }}</nuxt-link>
         </div>
       </template>
     </div>
@@ -24,7 +24,7 @@
       <font-awesome-icon icon="tag" class="c-post-meta__icon" />
       <template v-for="(tag, index) in props.postTag">
         <div :key="index" class="c-post-meta__item--separator">
-          <nuxt-link :to="'/tags/' + tag.slug" class="c-post-meta__link">{{ tag.name }}</nuxt-link>
+          <nuxt-link :to="'/' + tag.path" class="c-post-meta__link">{{ tag.name }}</nuxt-link>
         </div>
       </template>
     </div>
@@ -40,7 +40,7 @@ export default {
       required: false,
       default: '',
     },
-    modified: {
+    updated: {
       type: String,
       required: false,
       default: '',
