@@ -8,8 +8,8 @@
     <section class="archive-list-container">
       <ul class="u-list-unstyled archive-list">
         <li v-for="(post, key) in archiveList" :key="key" class="archive-item">
-          <time :datetime="post.published_at" class="post-date">{{ post.published_at | formatDateString }}</time>
-          <nuxt-link :to="post.slug">{{ post.title }}</nuxt-link>
+          <time :datetime="post.date" class="post-date">{{ post.date | formatDateString }}</time>
+          <nuxt-link :to="post.path">{{ post.title }}</nuxt-link>
         </li>
       </ul>
     </section>
@@ -17,36 +17,26 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 import LayoutHeader from '~/components/LayoutHeader.vue';
+import archives from '~/_source/archives.json';
 
 export default {
   name: 'Archive',
   components: {
     LayoutHeader,
   },
-  async fetch({ store, app, params, error }) {
-    if (store.getters['archive/dataSize'] !== 0) return;
-    return await app.$api
-      .getArchive()
-      .then(async res => {
-        store.dispatch('archive/setData', res.data);
-      })
-      .catch(e => {
-        error({ statusCode: 404, message: 'Page not found' });
-      });
-  },
   computed: {
     pageTitle: () => 'Archive',
-    ...mapState('archive', {
-      archiveList: state => state.data,
-    }),
+    archiveList: () => {
+      return archives.sort(function(a, b) {
+        // 日付順にソート
+        return a.date < b.date ? 1 : -1;
+      });
+    },
   },
   head() {
     return {
       title: this.pageTitle,
-      test: 0,
     };
   },
 };
