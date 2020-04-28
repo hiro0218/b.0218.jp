@@ -27,11 +27,6 @@ const writeJsonFile = (filename, data) => {
   });
 };
 
-async function outputArchive() {
-  const res = await client.get('0218/v1/archive');
-  writeJsonFile('archive.json', res.data);
-}
-
 async function outputCategoryList() {
   const res = await client.get('wp/v2/categories', {
     params: {
@@ -46,5 +41,4 @@ async function outputCategoryList() {
 
 // do
 prepareDistDirectory();
-outputArchive();
 outputCategoryList();
