@@ -49,11 +49,4 @@ export const actions = {
         dispatch('setList', res.data);
       });
   },
-  async fetchCategoryList({ commit, getters }) {
-    if (getters.categoryListSize !== 0) return;
-
-    return await this.$api.getCategoryList().then(res => {
-      commit('setCategoryList', res.data);
-    });
-  },
 };

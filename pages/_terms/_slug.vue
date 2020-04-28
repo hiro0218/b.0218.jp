@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 import LayoutHeader from '~/components/LayoutHeader.vue';
 import PostsList from '~/components/list/PostsList.vue';
 import PostsCategoryList from '~/components/list/PostsCategoryList.vue';
+
+import categories from '~/_source/categories.json';
 
 export default {
   name: 'TermsPostsList',
@@ -34,7 +34,6 @@ export default {
     let name = '';
     let description = '';
 
-    await store.dispatch('posts/fetchCategoryList');
     await app.$api
       .getTerms(params.terms, {
         params: {
@@ -69,9 +68,11 @@ export default {
     };
   },
   computed: {
-    ...mapState('posts', {
-      categoryList: state => state.categoryList,
-    }),
+    categoryList: () => {
+      return categories.sort(function(a, b) {
+        return a.count < b.count ? 1 : -1;
+      });
+    },
   },
   head() {
     return {

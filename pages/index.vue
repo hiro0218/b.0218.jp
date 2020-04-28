@@ -26,11 +26,11 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 import LayoutHeader from '~/components/LayoutHeader.vue';
 import PostsList from '~/components/list/PostsList.vue';
 import PostsCategoryList from '~/components/list/PostsCategoryList.vue';
+
+import categories from '~/_source/categories.json';
 
 export default {
   components: {
@@ -39,15 +39,16 @@ export default {
     PostsCategoryList,
   },
   async fetch({ store, params, query }) {
-    await store.dispatch('posts/fetchCategoryList');
     return await store.dispatch('posts/fetch', query);
   },
   computed: {
     pageTitle: () => 'Home',
     siteDescription: () => process.env.SITE_DESCRIPTION,
-    ...mapState('posts', {
-      categoryList: state => state.categoryList,
-    }),
+    categoryList: () => {
+      return categories.sort(function(a, b) {
+        return a.count < b.count ? 1 : -1;
+      });
+    },
   },
   head() {
     return {
