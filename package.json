@@ -9,7 +9,6 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt-generate -w 4 -b",
-    "start-static": "yarn generate && http-server ./dist",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
@@ -47,7 +46,6 @@
     "eslint": "^6.8.0",
     "eslint-loader": "^3.0.3",
     "fibers": "^5.0.0",
-    "http-server": "^0.11.1",
     "husky": "^4.2.5",
     "lint-staged": "^10.1.3",
     "nodemon": "^2.0.3",
