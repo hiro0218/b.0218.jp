@@ -35,13 +35,6 @@ export default (ctx, inject) => {
     getTags(params) {
       return client.get('wp/v2/tags', params);
     },
-    getArchive() {
-      return axios({
-        method: 'GET',
-        baseURL: IS_PRODUCTION ? constant.SITE_URL : constant.DEV_SITE_URL,
-        url: '/api/sitemap.json',
-      });
-    },
     getCategoryList() {
       return axios({
         method: 'GET',

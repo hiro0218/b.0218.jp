@@ -27,11 +27,6 @@ const writeJsonFile = (filename, data) => {
   });
 };
 
-async function outputSitemap() {
-  const res = await client.get('0218/v1/sitemap');
-  writeJsonFile('sitemap.json', res.data);
-}
-
 async function outputArchive() {
   const res = await client.get('0218/v1/archive');
   writeJsonFile('archive.json', res.data);
@@ -51,6 +46,5 @@ async function outputCategoryList() {
 
 // do
 prepareDistDirectory();
-outputSitemap();
 outputArchive();
 outputCategoryList();
