@@ -193,10 +193,7 @@ export default {
 
       config.module.rules.push({
         test: /\.(html)$/,
-        loader: 'html-loader',
-        options: {
-          attributes: false,
-        },
+        loader: 'raw-loader',
       });
 
       // fix for _vm._ssrNode is not a function for functional component
