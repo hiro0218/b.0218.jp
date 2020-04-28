@@ -68,11 +68,7 @@ export default {
     };
   },
   computed: {
-    categoryList: () => {
-      return categories.sort(function(a, b) {
-        return a.count < b.count ? 1 : -1;
-      });
-    },
+    categoryList: () => categories,
   },
   head() {
     return {

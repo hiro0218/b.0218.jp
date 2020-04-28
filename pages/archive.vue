@@ -27,12 +27,7 @@ export default {
   },
   computed: {
     pageTitle: () => 'Archive',
-    archiveList: () => {
-      return archives.sort(function(a, b) {
-        // 日付順にソート
-        return a.date < b.date ? 1 : -1;
-      });
-    },
+    archiveList: () => archives,
   },
   head() {
     return {

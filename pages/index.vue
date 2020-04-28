@@ -44,11 +44,7 @@ export default {
   computed: {
     pageTitle: () => 'Home',
     siteDescription: () => process.env.SITE_DESCRIPTION,
-    categoryList: () => {
-      return categories.sort(function(a, b) {
-        return a.count < b.count ? 1 : -1;
-      });
-    },
+    categoryList: () => categories,
   },
   head() {
     return {
