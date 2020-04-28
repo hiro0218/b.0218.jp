@@ -51,13 +51,15 @@ export default {
       params.post += '.html';
     }
 
+    let data = {};
     // パラメータからヘッダー情報を取得
     const post = posts.find(post => post.path === params.post);
-    // パラメータから記事内容を取得
-    const content = await import(`~/_source/${post.path}`).then(text => text.default);
 
-    return {
-      post: {
+    if (post) {
+      // パラメータから記事内容を取得
+      const content = await import(`~/_source/${post.path}`).then(text => text.default);
+
+      data = {
         date: post.date,
         updated: post.updated,
         slug: post.path,
@@ -69,7 +71,11 @@ export default {
         tags: post.tags,
         next: post.next,
         prev: post.prev,
-      },
+      };
+    }
+
+    return {
+      post: data,
     };
   },
   methods: {
@@ -114,16 +120,18 @@ export default {
         },
       ];
 
-      for (let i = 0; i < this.post.categories.length; i++) {
-        const category = this.post.categories[i];
-        itemListElement.push({
-          '@type': 'ListItem',
-          position: ++itemCount,
-          item: {
-            '@id': `${process.env.SITE_URL}/${category.path}`,
-            name: category.name,
-          },
-        });
+      if (this.post.categories) {
+        for (let i = 0; i < this.post.categories.length; i++) {
+          const category = this.post.categories[i];
+          itemListElement.push({
+            '@type': 'ListItem',
+            position: ++itemCount,
+            item: {
+              '@id': `${process.env.SITE_URL}/${category.path}`,
+              name: category.name,
+            },
+          });
+        }
       }
 
       itemListElement.push({
