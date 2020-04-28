@@ -4,19 +4,19 @@
       <nuxt-link :title="siteName" to="/" class="pj-header__logo">
         <svgLogo class="pj-header__logo__icon" />
       </nuxt-link>
-      <SearchInput />
+      <!-- <SearchInput /> -->
     </div>
   </header>
 </template>
 
 <script>
-import SearchInput from '~/components/SearchInput.vue';
+// import SearchInput from '~/components/SearchInput.vue';
 import svgLogo from '~/assets/image/logo.svg?inline';
 
 export default {
   name: 'TheHeader',
   components: {
-    SearchInput,
+    // SearchInput,
     svgLogo,
   },
   data() {
