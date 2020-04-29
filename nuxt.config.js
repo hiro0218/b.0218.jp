@@ -40,9 +40,7 @@ export default {
       { 'http-equiv': 'x-dns-prefetch-control', content: 'on' },
     ],
     link: [
-      { rel: 'https://api.w.org/', href: constant.ENDPOINT },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
-      { rel: 'dns-prefetch', href: '//content.b.0218.jp' },
       { rel: 'dns-prefetch', href: '//adservice.google.com' },
       { rel: 'dns-prefetch', href: '//cdn.polyfill.io' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -65,13 +63,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    '~/plugins/api.js',
-    '~/plugins/fontawesome.js',
-    '~/plugins/mixin.js',
-    '~/plugins/pagination.client.js',
-    '~/plugins/mokuji.client.js',
-  ],
+  plugins: ['~/plugins/fontawesome.js', '~/plugins/mixin.js', '~/plugins/mokuji.client.js'],
 
   /*
    ** Nuxt.js modules

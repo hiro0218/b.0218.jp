@@ -21,12 +21,10 @@
     "@nuxtjs/sitemap": "^0.2.2",
     "axios": "^0.19.2",
     "cross-env": "^6.0.3",
-    "fast-copy": "^2.0.5",
     "mokuji.js": "^2.0.2",
     "normalize.css": "^8.0.1",
     "nuxt": "^2.12.2",
-    "open-color": "^1.7.0",
-    "vuejs-paginate": "^2.1.0"
+    "open-color": "^1.7.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-object-rest-spread": "^7.9.5",

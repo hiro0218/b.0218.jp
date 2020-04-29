@@ -1,17 +1,15 @@
 <template>
-  <section v-if="id > 0" class="term">
+  <section class="term">
     <LayoutHeader>
       <template v-slot:header-title>
-        {{ name }}
+        {{ $route.params.slug }}
       </template>
       <template v-slot:header-description>
         {{ $route.params.terms }}
       </template>
     </LayoutHeader>
-    <PostsCategoryList :current-path="$route.path" :list="categoryList" />
-    <client-only>
-      <PostsList :term-id="id" :mode="$route.params.terms" />
-    </client-only>
+    <PostsCategoryList v-if="!isTagsPage" :current-path="$route.path" :list="categoryList" />
+    <PostsList :posts="isTagsPage ? tagsPosts : categoryPosts" />
   </section>
 </template>
 
@@ -20,6 +18,8 @@ import LayoutHeader from '~/components/LayoutHeader.vue';
 import PostsList from '~/components/list/PostsList.vue';
 import PostsCategoryList from '~/components/list/PostsCategoryList.vue';
 
+import categories_posts from '~/_source/categories_posts.json';
+import tags_posts from '~/_source/tags_posts.json';
 import categories from '~/_source/categories.json';
 
 export default {
@@ -29,45 +29,24 @@ export default {
     PostsList,
     PostsCategoryList,
   },
-  async asyncData({ store, app, params, query, error }) {
-    let id = 0;
-    let name = '';
-    let description = '';
-
-    await app.$api
-      .getTerms(params.terms, {
-        params: {
-          slug: params.slug,
-        },
-      })
-      .then(res => {
-        if (res.data.length === 0) {
-          error({ statusCode: 404, message: 'Page not found' });
-          return;
-        }
-
-        description = res.data[0].description;
-        id = res.data[0].id;
-        name = res.data[0].name;
-
-        return store.dispatch('posts/fetch', {
-          page: query.page,
-          archiveParams: {
-            [params.terms]: id,
-          },
-        });
-      })
-      .catch(e => {
-        error(e);
+  computed: {
+    isTagsPage: function() {
+      return this.$route.params.terms === 'tags';
+    },
+    categoryPosts: function() {
+      const category_posts = categories_posts.filter((post, i) => {
+        return post.slug === this.$route.params.slug;
       });
 
-    return {
-      description,
-      id,
-      name,
-    };
-  },
-  computed: {
+      return category_posts ? category_posts[0].posts : [];
+    },
+    tagsPosts: function() {
+      const tag_posts = tags_posts.filter((post, i) => {
+        return post.slug === this.$route.params.slug;
+      });
+
+      return tag_posts ? tag_posts[0].posts : [];
+    },
     categoryList: () => categories,
   },
   head() {
@@ -89,9 +68,5 @@ export default {
   validate({ params }) {
     return (params.terms === 'categories' || params.terms === 'tags') && params.slug;
   },
-  // beforeRouteLeave(to, from, next) {
-  //   this.$store.dispatch('posts/resetList');
-  //   next();
-  // },
 };
 </script>
