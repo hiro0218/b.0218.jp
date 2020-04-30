@@ -71,7 +71,6 @@ export default {
   modules: [
     '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
-    '@nuxtjs/sitemap',
     '@nuxtjs/pwa',
     [
       '@nuxtjs/google-adsense',
@@ -92,16 +91,6 @@ export default {
 
   styleResources: {
     scss: ['~/assets/style/Settings/index.scss', '~/assets/style/Tools/index.scss'],
-  },
-
-  sitemap: {
-    path: '/sitemap.xml',
-    hostname: constant.SITE_URL,
-    generate: true,
-    async routes() {
-      const isSitemap = true;
-      return await route.getData(isSitemap);
-    },
   },
 
   workbox: {
@@ -184,7 +173,7 @@ export default {
       }
 
       config.module.rules.push({
-        test: /\.(html)$/,
+        test: /\.(html|xml|xsl)$/,
         loader: 'raw-loader',
       });
 

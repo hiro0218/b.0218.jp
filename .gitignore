@@ -67,7 +67,6 @@ typings/
 
 # nuxt.js build output
 .nuxt
-static/sitemap.xml
 static/atom.xml
 static/rss.xml
 static/feed.json
