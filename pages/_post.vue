@@ -80,6 +80,22 @@ export default {
       post: data,
     };
   },
+  computed: {
+    descriptionText: function() {
+      let content = this.post.content;
+
+      // strip line break
+      content = content.replace(/(?:\r\n|\r|\n)/g, '');
+
+      // strip tag
+      content = content.replace(/<\/?[^>]+(>|$)/g, ' ');
+
+      // character extraction
+      content = content.substring(0, 140);
+
+      return content;
+    },
+  },
   methods: {
     getBlogPostingStructured() {
       return JSON.stringify({
@@ -93,7 +109,7 @@ export default {
         datePublished: this.post.date,
         dateModified: this.post.updated,
         author: { '@type': 'Person', name: process.env.AUTHOR },
-        description: this.post.excerpt,
+        description: this.descriptionText,
         image: {
           '@type': 'ImageObject',
           // url: this.post.thumbnail, TODO
@@ -158,11 +174,11 @@ export default {
       __dangerouslyDisableSanitizers: ['script'],
       title: this.post.title,
       meta: [
-        { hid: 'description', name: 'description', content: this.post.excerpt },
+        { hid: 'description', name: 'description', content: this.descriptionText },
         { hid: 'og:type', property: 'og:type', content: 'article' },
         { hid: 'og:url', property: 'og:url', content: `${process.env.SITE_URL}${this.post.slug}` },
         { hid: 'og:title', property: 'og:title', content: this.post.title },
-        { hid: 'og:description', property: 'og:description', content: this.post.excerpt },
+        { hid: 'og:description', property: 'og:description', content: this.descriptionText },
         { hid: 'og:image', property: 'og:image', content: this.post.thumbnail || process.env.AUTHOR_ICON },
         { hid: 'og:updated_time', property: 'og:updated_time', content: this.post.modified },
         { hid: 'article:published_time', property: 'article:published_time', content: this.post.date },
