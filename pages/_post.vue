@@ -54,8 +54,10 @@ export default {
     let data = {};
     // パラメータからヘッダー情報を取得
     const post = posts.find(post => post.path === params.post);
+    // 拡張子
+    const allowExt = post.path ? post.path.match(/(.*)(?:\.([^.]+$))/)[2] === 'html' : false;
 
-    if (post) {
+    if (post && allowExt) {
       // パラメータから記事内容を取得
       const content = await import(`~/_source/${post.path}`).then(text => text.default);
 
