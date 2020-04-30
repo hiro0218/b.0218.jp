@@ -180,7 +180,7 @@ export default {
         { hid: 'og:title', property: 'og:title', content: this.post.title },
         { hid: 'og:description', property: 'og:description', content: this.descriptionText },
         { hid: 'og:image', property: 'og:image', content: this.post.thumbnail || process.env.AUTHOR_ICON },
-        { hid: 'og:updated_time', property: 'og:updated_time', content: this.post.modified },
+        { hid: 'og:updated_time', property: 'og:updated_time', content: this.post.updated },
         { hid: 'article:published_time', property: 'article:published_time', content: this.post.date },
         { hid: 'article:modified_time', property: 'article:modified_time', content: this.post.updated },
       ],
