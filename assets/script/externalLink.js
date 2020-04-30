@@ -1,6 +1,6 @@
 export default element => {
   const links = element.querySelectorAll('a');
-  console.log(links);
+
   if (links.length === 0) return;
 
   for (let i = 0; i < links.length; i++) {
