@@ -4,19 +4,24 @@
       <nuxt-link :title="siteName" to="/" class="pj-header__logo">
         <svgLogo class="pj-header__logo__icon" />
       </nuxt-link>
-      <!-- <SearchInput /> -->
+      <a
+        href="https://www.google.com/search?q=site:b.0218.jp"
+        target="_blank"
+        title="site:b.0218.jp - Google 検索"
+        class="c-search"
+      >
+        <font-awesome-icon icon="search" class="c-search__icon" />
+      </a>
     </div>
   </header>
 </template>
 
 <script>
-// import SearchInput from '~/components/SearchInput.vue';
 import svgLogo from '~/assets/image/logo.svg?inline';
 
 export default {
   name: 'TheHeader',
   components: {
-    // SearchInput,
     svgLogo,
   },
   data() {
@@ -102,9 +107,19 @@ export default {
   height: 100%;
   transition: width 0.2s;
   fill: $color-text;
+}
 
-  @include mobile {
-    width: 4rem;
-  }
+.c-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 100%;
+}
+
+.c-search__icon {
+  width: 1rem;
+  height: 1rem;
+  color: $color-text--light;
 }
 </style>
