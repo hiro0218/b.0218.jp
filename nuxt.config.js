@@ -44,9 +44,11 @@ export default {
       { rel: 'dns-prefetch', href: '//adservice.google.com' },
       { rel: 'dns-prefetch', href: '//cdn.polyfill.io' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'alternate', type: 'application/rss+xml', href: 'https://content.b.0218.jp/feed/' },
-      { itemprop: 'author', href: 'https://b.0218.jp/about/' },
+      { rel: 'alternate', type: 'application/rss+xml', href: 'https://b.0218.jp/rss.xml' },
+      { rel: 'alternate', type: 'application/atom+xml', href: 'https://b.0218.jp/atom.xml' },
+      { rel: 'alternate', type: 'application/json', href: 'https://b.0218.jp/feed.json' },
       { rel: 'search', type: 'application/opensearchdescription+xml', href: '/opensearch.xml' },
+      { itemprop: 'author', href: 'https://b.0218.jp/about/' },
     ],
   },
 
