@@ -1,7 +1,7 @@
 const Sass = require('sass');
 const Fiber = require('fibers');
 
-import { route } from './settings';
+const getRoutes = require('./routes.js');
 import constant from './constant';
 
 export default {
@@ -243,8 +243,8 @@ export default {
     fallback: true,
     subFolders: false,
     interval: 1000,
-    async routes() {
-      return await route.getData();
+    routes() {
+      return getRoutes();
     },
   },
 };
