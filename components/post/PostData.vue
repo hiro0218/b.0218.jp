@@ -167,6 +167,8 @@ export default {
 
 <style lang="scss">
 .post__content {
+  margin: 2rem 0;
+
   // mokuji
   .mokuji-container {
     margin: 2rem 0;
