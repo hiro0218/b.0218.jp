@@ -1,4 +1,4 @@
 [submodule "_source"]
 	path = _source
 	url = https://github.com/hiro0218/blog.git
-	branch = public
+	branch = gh-pages

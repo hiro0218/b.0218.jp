@@ -175,7 +175,7 @@ export default {
       }
 
       config.module.rules.push({
-        test: /\.(html|xml|xsl)$/,
+        test: /\.(html|xml|xsl|txt)$/,
         loader: 'raw-loader',
       });
 
