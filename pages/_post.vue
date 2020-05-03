@@ -69,6 +69,7 @@ export default {
         title: post.title,
         content: content,
         excerpt: post.excerpt,
+        thumbnail: post.thumbnail,
         categories: post.categories,
         tags: post.tags,
         next: post.next,
@@ -112,7 +113,7 @@ export default {
         description: this.descriptionText,
         image: {
           '@type': 'ImageObject',
-          // url: this.post.thumbnail, TODO
+          url: this.post.thumbnail,
           width: 696,
           height: 696,
         },
@@ -197,12 +198,6 @@ export default {
       ],
     };
   },
-  // beforeRouteLeave(to, from, next) {
-  //   if (to.path !== from.path) {
-  //     this.$store.dispatch('post/restData');
-  //   }
-  //   next();
-  // },
 };
 </script>
 
