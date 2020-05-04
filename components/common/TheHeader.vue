@@ -1,9 +1,7 @@
 <template>
   <header class="pj-header js-header">
     <div class="o-container pj-header__container">
-      <nuxt-link :title="siteName" to="/" class="pj-header__logo">
-        <svgLogo class="pj-header__logo__icon" />
-      </nuxt-link>
+      <nuxt-link :title="siteName" to="/" class="pj-header__logo" v-html="svgLogo" />
       <a
         href="https://www.google.com/search?q=site:b.0218.jp"
         target="_blank"
@@ -17,15 +15,13 @@
 </template>
 
 <script>
-import svgLogo from '~/assets/image/logo.svg?inline';
+import svgLogo from '~/assets/image/logo.svg?raw';
 
 export default {
   name: 'TheHeader',
-  components: {
-    svgLogo,
-  },
   data() {
     return {
+      svgLogo,
       eleHeader: null,
       classes: {
         unpinned: 'is-unpin',
@@ -100,13 +96,13 @@ export default {
   &:hover {
     opacity: 0.6;
   }
-}
 
-.pj-header__logo__icon {
-  width: 5rem;
-  height: 100%;
-  transition: width 0.2s;
-  fill: $color-text;
+  svg {
+    width: 5rem;
+    height: 100%;
+    transition: width 0.2s;
+    fill: $color-text;
+  }
 }
 
 .c-search {
