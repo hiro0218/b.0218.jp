@@ -7,6 +7,10 @@ import constant from './constant';
 export default {
   modern: 'client',
 
+  env: {
+    ...constant,
+  },
+
   /*
    ** Headers of the page
    */
