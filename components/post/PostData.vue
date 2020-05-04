@@ -39,8 +39,11 @@ export default {
     initMokuji() {
       if (!process.client && !window.CSS) return;
 
-      const container = document.querySelector('.js-mokuji');
-      if (!container) return;
+      const separate = document.querySelector('.js-separate');
+      if (!separate) return;
+
+      const container = document.createElement('div');
+      container.classList.add('mokuji-container');
 
       // details/summary要素を作成
       const details = document.createElement('details');
@@ -64,6 +67,7 @@ export default {
       // 要素を追加
       details.appendChild(mokujiData);
       container.appendChild(details);
+      separate.appendChild(container);
     },
     addMokujiAnchorScrollEffects(element) {
       // workaround: scroll
