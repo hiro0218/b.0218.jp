@@ -7,10 +7,6 @@ import constant from './constant';
 export default {
   modern: 'client',
 
-  env: {
-    ...constant,
-  },
-
   /*
    ** Headers of the page
    */
@@ -71,7 +67,6 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
-    '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
     '@nuxtjs/pwa',
     [
