@@ -7,9 +7,7 @@
       target="_blank"
       rel="noopener"
       v-html="svgTwitter"
-    >
-      <svgTwitter />
-    </a>
+    />
     <a
       :href="'https://www.facebook.com/sharer/sharer.php?u=' + post_link"
       class="sns-item is-facebook"
