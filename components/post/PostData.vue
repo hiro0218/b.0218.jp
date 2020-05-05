@@ -39,8 +39,11 @@ export default {
     initMokuji() {
       if (!process.client && !window.CSS) return;
 
-      const separate = document.querySelector('.js-separate');
-      if (!separate) return;
+      // js-separateを取得できない場合はコンテンツを挿入先とする
+      let separate = document.querySelector('.js-separate');
+      if (!separate) {
+        separate = document.querySelector('.js-post-content');
+      }
 
       const container = document.createElement('div');
       container.classList.add('mokuji-container');
@@ -67,7 +70,7 @@ export default {
       // 要素を追加
       details.appendChild(mokujiData);
       container.appendChild(details);
-      separate.appendChild(container);
+      separate.insertBefore(container, separate.firstChild);
     },
     addMokujiAnchorScrollEffects(element) {
       // workaround: scroll
