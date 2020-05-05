@@ -99,16 +99,6 @@ export default {
     skipWaiting: true,
     runtimeCaching: [
       {
-        urlPattern: /\/wp-json\/.+/,
-        handler: 'networkFirst',
-        strategyOptions: {
-          cacheName: 'api',
-          cacheExpiration: {
-            maxAgeSeconds: 60 * 60 * 24,
-          },
-        },
-      },
-      {
         urlPattern: /^(https?):\/\/.*\/.*\.(jpg|png|svg)/,
         handler: 'cacheFirst',
         strategyOptions: {
