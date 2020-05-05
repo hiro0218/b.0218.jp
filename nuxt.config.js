@@ -150,6 +150,20 @@ export default {
   build: {
     parallel: true,
 
+    extractCSS: true,
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          styles: {
+            name: 'styles',
+            test: /\.(css|vue)$/,
+            chunks: 'all',
+            enforce: true,
+          },
+        },
+      },
+    },
+
     loaders: {
       scss: {
         implementation: Sass,
