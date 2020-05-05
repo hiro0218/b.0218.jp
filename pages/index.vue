@@ -2,52 +2,37 @@
   <section>
     <LayoutHeader>
       <template v-slot:header-title>
-        <template v-if="$route.query.search">
-          {{ $route.query.search }}
-        </template>
-        <template v-else>
-          {{ pageTitle }}
-        </template>
+        {{ pageTitle }}
       </template>
       <template v-slot:header-description>
-        <template v-if="$route.query.search">
-          search results
-        </template>
-        <template v-else>
-          {{ siteDescription }}
-        </template>
+        {{ siteDescription }}
       </template>
     </LayoutHeader>
     <PostsCategoryList :current-path="$route.path" :list="categoryList" />
-    <client-only>
-      <PostsList />
-    </client-only>
+    <PostsList :posts="posts" />
   </section>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 import LayoutHeader from '~/components/LayoutHeader.vue';
 import PostsList from '~/components/list/PostsList.vue';
 import PostsCategoryList from '~/components/list/PostsCategoryList.vue';
 
+import posts from '~/_source/posts.json';
+import categories from '~/_source/categories.json';
+
 export default {
+  name: 'Top',
   components: {
     LayoutHeader,
     PostsList,
     PostsCategoryList,
   },
-  async fetch({ store, params, query }) {
-    await store.dispatch('posts/fetchCategoryList');
-    return await store.dispatch('posts/fetch', query);
-  },
   computed: {
-    pageTitle: () => 'Home',
+    pageTitle: () => '最新の記事',
     siteDescription: () => process.env.SITE_DESCRIPTION,
-    ...mapState('posts', {
-      categoryList: state => state.categoryList,
-    }),
+    posts: () => posts.filter((post, i) => i < 5),
+    categoryList: () => categories,
   },
   head() {
     return {
@@ -55,9 +40,5 @@ export default {
       titleTemplate: null,
     };
   },
-  // beforeRouteLeave(to, from, next) {
-  //   this.$store.dispatch('posts/resetList');
-  //   next();
-  // },
 };
 </script>

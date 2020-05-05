@@ -1,26 +1,27 @@
 <template>
   <header class="pj-header js-header">
     <div class="o-container pj-header__container">
-      <nuxt-link :title="siteName" to="/" class="pj-header__logo">
-        <svgLogo class="pj-header__logo__icon" />
-      </nuxt-link>
-      <SearchInput />
+      <nuxt-link :title="siteName" to="/" class="pj-header__logo" v-html="svgLogo" />
+      <a
+        href="https://www.google.com/search?q=site:b.0218.jp"
+        target="_blank"
+        title="site:b.0218.jp - Google 検索"
+        class="c-search"
+      >
+        <font-awesome-icon icon="search" class="c-search__icon" />
+      </a>
     </div>
   </header>
 </template>
 
 <script>
-import SearchInput from '~/components/SearchInput.vue';
-import svgLogo from '~/assets/image/logo.svg?inline';
+import svgLogo from '~/assets/image/logo.svg?raw';
 
 export default {
   name: 'TheHeader',
-  components: {
-    SearchInput,
-    svgLogo,
-  },
   data() {
     return {
+      svgLogo,
       eleHeader: null,
       classes: {
         unpinned: 'is-unpin',
@@ -95,16 +96,26 @@ export default {
   &:hover {
     opacity: 0.6;
   }
+
+  svg {
+    width: 5rem;
+    height: 100%;
+    transition: width 0.2s;
+    fill: $color-text;
+  }
 }
 
-.pj-header__logo__icon {
-  width: 5rem;
+.c-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
   height: 100%;
-  transition: width 0.2s;
-  fill: $color-text;
+}
 
-  @include mobile {
-    width: 4rem;
-  }
+.c-search__icon {
+  width: 1rem;
+  height: 1rem;
+  color: $color-text--light;
 }
 </style>

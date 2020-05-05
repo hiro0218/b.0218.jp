@@ -1,5 +1,5 @@
 <template>
-  <div class="post__content js-post-content" v-html="post.content.rendered" />
+  <div class="post__content js-post-content" v-html="content" />
 </template>
 
 <script>
@@ -9,10 +9,10 @@ import Highlightjs from '~/assets/script/highlightjs.worker.js';
 export default {
   name: 'PostData',
   props: {
-    post: {
-      type: Object,
+    content: {
+      type: String,
       required: false,
-      default: () => {},
+      default: '',
     },
   },
   data() {
@@ -39,8 +39,14 @@ export default {
     initMokuji() {
       if (!process.client && !window.CSS) return;
 
-      const container = document.querySelector('.js-mokuji');
-      if (!container) return;
+      // js-separateを取得できない場合はコンテンツを挿入先とする
+      let separate = document.querySelector('.js-separate');
+      if (!separate) {
+        separate = document.querySelector('.js-post-content');
+      }
+
+      const container = document.createElement('div');
+      container.classList.add('mokuji-container');
 
       // details/summary要素を作成
       const details = document.createElement('details');
@@ -64,6 +70,7 @@ export default {
       // 要素を追加
       details.appendChild(mokujiData);
       container.appendChild(details);
+      separate.insertBefore(container, separate.firstChild);
     },
     addMokujiAnchorScrollEffects(element) {
       // workaround: scroll
@@ -157,16 +164,18 @@ export default {
       return '#' + CSS.escape(hash);
     },
   },
-  head() {
-    return {
-      style: [{ cssText: this.post.attach.custom.style, type: 'text/css' }],
-    };
-  },
+  // head() {
+  //   return {
+  //     style: [{ cssText: this.post.attach.custom.style, type: 'text/css' }],
+  //   };
+  // },
 };
 </script>
 
 <style lang="scss">
 .post__content {
+  margin: 2rem 0;
+
   // mokuji
   .mokuji-container {
     margin: 2rem 0;

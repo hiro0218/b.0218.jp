@@ -1,7 +1,7 @@
 const Sass = require('sass');
 const Fiber = require('fibers');
 
-import { route } from './settings';
+const getRoutes = require('./routes.js');
 import constant from './constant';
 
 export default {
@@ -40,15 +40,15 @@ export default {
       { 'http-equiv': 'x-dns-prefetch-control', content: 'on' },
     ],
     link: [
-      { rel: 'https://api.w.org/', href: constant.ENDPOINT },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
-      { rel: 'dns-prefetch', href: '//content.b.0218.jp' },
       { rel: 'dns-prefetch', href: '//adservice.google.com' },
       { rel: 'dns-prefetch', href: '//cdn.polyfill.io' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'alternate', type: 'application/rss+xml', href: 'https://content.b.0218.jp/feed/' },
-      { itemprop: 'author', href: 'https://b.0218.jp/about/' },
+      { rel: 'alternate', type: 'application/rss+xml', href: 'https://b.0218.jp/rss.xml' },
+      { rel: 'alternate', type: 'application/atom+xml', href: 'https://b.0218.jp/atom.xml' },
+      { rel: 'alternate', type: 'application/json', href: 'https://b.0218.jp/feed.json' },
       { rel: 'search', type: 'application/opensearchdescription+xml', href: '/opensearch.xml' },
+      { itemprop: 'author', href: 'https://b.0218.jp/about/' },
     ],
   },
 
@@ -65,21 +65,13 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    '~/plugins/api.js',
-    '~/plugins/fontawesome.js',
-    '~/plugins/mixin.js',
-    '~/plugins/pagination.client.js',
-    '~/plugins/mokuji.client.js',
-  ],
+  plugins: ['~/plugins/fontawesome.js', '~/plugins/mixin.js', '~/plugins/mokuji.client.js'],
 
   /*
    ** Nuxt.js modules
    */
   modules: [
-    '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
-    '@nuxtjs/sitemap',
     '@nuxtjs/pwa',
     [
       '@nuxtjs/google-adsense',
@@ -102,30 +94,10 @@ export default {
     scss: ['~/assets/style/Settings/index.scss', '~/assets/style/Tools/index.scss'],
   },
 
-  sitemap: {
-    path: '/sitemap.xml',
-    hostname: constant.SITE_URL,
-    generate: true,
-    async routes() {
-      const isSitemap = true;
-      return await route.getData(isSitemap);
-    },
-  },
-
   workbox: {
     offline: true,
     skipWaiting: true,
     runtimeCaching: [
-      {
-        urlPattern: /\/wp-json\/.+/,
-        handler: 'networkFirst',
-        strategyOptions: {
-          cacheName: 'api',
-          cacheExpiration: {
-            maxAgeSeconds: 60 * 60 * 24,
-          },
-        },
-      },
       {
         urlPattern: /^(https?):\/\/.*\/.*\.(jpg|png|svg)/,
         handler: 'cacheFirst',
@@ -168,6 +140,20 @@ export default {
   build: {
     parallel: true,
 
+    extractCSS: true,
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          styles: {
+            name: 'styles',
+            test: /\.(css|vue)$/,
+            chunks: 'all',
+            enforce: true,
+          },
+        },
+      },
+    },
+
     loaders: {
       scss: {
         implementation: Sass,
@@ -190,6 +176,11 @@ export default {
           exclude: /(node_modules)/,
         });
       }
+
+      config.module.rules.push({
+        test: /\.(html|xml|xsl|txt)$/,
+        loader: 'raw-loader',
+      });
 
       // fix for _vm._ssrNode is not a function for functional component
       // @see https://github.com/nuxt/nuxt.js/issues/2565
@@ -257,8 +248,8 @@ export default {
     fallback: true,
     subFolders: false,
     interval: 1000,
-    async routes() {
-      return await route.getData();
+    routes() {
+      return getRoutes();
     },
   },
 };
