@@ -164,11 +164,6 @@ export default {
       return '#' + CSS.escape(hash);
     },
   },
-  // head() {
-  //   return {
-  //     style: [{ cssText: this.post.attach.custom.style, type: 'text/css' }],
-  //   };
-  // },
 };
 </script>
 
