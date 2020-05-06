@@ -29,42 +29,34 @@ export default {
     PostsList,
     PostsCategoryList,
   },
-  computed: {
-    isTagsPage: function() {
-      return this.$route.params.terms === 'tags';
-    },
-    categoryPosts: function() {
-      if (this.isTagsPage) {
-        return [];
-      }
+  async asyncData({ route, app, params, error, payload }) {
+    const isTagsPage = params.terms === 'tags';
 
-      const category_posts = categories_posts.filter((post, i) => {
-        return post.slug === this.$route.params.slug;
-      });
+    // categoryPosts
+    const category_posts = categories_posts.filter(post => {
+      return post.slug === params.slug;
+    });
 
-      return category_posts.length !== 0 ? category_posts[0].posts : [];
-    },
-    tagsPosts: function() {
-      if (!this.isTagsPage) {
-        return [];
-      }
+    const categoryPosts = category_posts.length !== 0 ? category_posts[0].posts : [];
 
-      const tag_posts = tags_posts.filter((post, i) => {
-        return post.slug === this.$route.params.slug;
-      });
+    // tagsPosts
+    const tag_posts = tags_posts.filter(post => {
+      return post.slug === params.slug;
+    });
 
-      return tag_posts.length !== 0 ? tag_posts[0].posts : [];
-    },
-    categoryList: () => categories,
-    isErrorRedirect: function() {
-      // タグ・カテゴリページで記事がない
-      return (this.isTagsPage && this.tagsPosts.length === 0) || (!this.isTagsPage && this.categoryPosts.length === 0);
-    },
-  },
-  mounted() {
-    if (this.isErrorRedirect) {
-      this.$nuxt.error({ statusCode: 404, message: 'Page not found' });
+    const tagsPosts = tag_posts.length !== 0 ? tag_posts[0].posts : [];
+
+    // 404
+    if ((isTagsPage && tagsPosts.length === 0) || (!isTagsPage && categoryPosts.length === 0)) {
+      error({ statusCode: 404, message: 'Page not found' });
     }
+
+    return {
+      isTagsPage: isTagsPage,
+      categoryList: categories,
+      categoryPosts: categoryPosts,
+      tagsPosts: tagsPosts,
+    };
   },
   head() {
     return {
