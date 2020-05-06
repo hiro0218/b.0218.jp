@@ -34,20 +34,37 @@ export default {
       return this.$route.params.terms === 'tags';
     },
     categoryPosts: function() {
+      if (this.isTagsPage) {
+        return [];
+      }
+
       const category_posts = categories_posts.filter((post, i) => {
         return post.slug === this.$route.params.slug;
       });
 
-      return category_posts ? category_posts[0].posts : [];
+      return category_posts.length !== 0 ? category_posts[0].posts : [];
     },
     tagsPosts: function() {
+      if (!this.isTagsPage) {
+        return [];
+      }
+
       const tag_posts = tags_posts.filter((post, i) => {
         return post.slug === this.$route.params.slug;
       });
 
-      return tag_posts ? tag_posts[0].posts : [];
+      return tag_posts.length !== 0 ? tag_posts[0].posts : [];
     },
     categoryList: () => categories,
+    isErrorRedirect: function() {
+      // タグ・カテゴリページで記事がない
+      return (this.isTagsPage && this.tagsPosts.length === 0) || (!this.isTagsPage && this.categoryPosts.length === 0);
+    },
+  },
+  mounted() {
+    if (this.isErrorRedirect) {
+      this.$nuxt.error({ statusCode: 404, message: 'Page not found' });
+    }
   },
   head() {
     return {
