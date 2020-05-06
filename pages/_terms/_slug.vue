@@ -29,25 +29,34 @@ export default {
     PostsList,
     PostsCategoryList,
   },
-  computed: {
-    isTagsPage: function() {
-      return this.$route.params.terms === 'tags';
-    },
-    categoryPosts: function() {
-      const category_posts = categories_posts.filter((post, i) => {
-        return post.slug === this.$route.params.slug;
-      });
+  async asyncData({ route, app, params, error, payload }) {
+    const isTagsPage = params.terms === 'tags';
 
-      return category_posts ? category_posts[0].posts : [];
-    },
-    tagsPosts: function() {
-      const tag_posts = tags_posts.filter((post, i) => {
-        return post.slug === this.$route.params.slug;
-      });
+    // categoryPosts
+    const category_posts = categories_posts.filter(post => {
+      return post.slug === params.slug;
+    });
 
-      return tag_posts ? tag_posts[0].posts : [];
-    },
-    categoryList: () => categories,
+    const categoryPosts = category_posts.length !== 0 ? category_posts[0].posts : [];
+
+    // tagsPosts
+    const tag_posts = tags_posts.filter(post => {
+      return post.slug === params.slug;
+    });
+
+    const tagsPosts = tag_posts.length !== 0 ? tag_posts[0].posts : [];
+
+    // 404
+    if ((isTagsPage && tagsPosts.length === 0) || (!isTagsPage && categoryPosts.length === 0)) {
+      error({ statusCode: 404, message: 'Page not found' });
+    }
+
+    return {
+      isTagsPage: isTagsPage,
+      categoryList: categories,
+      categoryPosts: categoryPosts,
+      tagsPosts: tagsPosts,
+    };
   },
   head() {
     return {

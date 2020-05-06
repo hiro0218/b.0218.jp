@@ -51,35 +51,37 @@ export default {
       params.post += '.html';
     }
 
-    let data = {};
     // パラメータからヘッダー情報を取得
     const post = posts.find(post => post.path === params.post);
-    // 拡張子
-    const allowExt = post.path ? post.path.match(/(.*)(?:\.([^.]+$))/)[2] === 'html' : false;
 
-    if (post && allowExt) {
-      // パラメータから記事内容を取得
-      const content = await import(`~/_source/${post.path}`).then(text => text.default);
+    if (post) {
+      // 拡張子
+      const allowExt = post.path ? post.path.match(/(.*)(?:\.([^.]+$))/)[2] === 'html' : false;
 
-      data = {
-        date: post.date,
-        updated: post.updated,
-        slug: post.path,
-        link: post.permalink,
-        title: post.title,
-        content: content,
-        excerpt: post.excerpt,
-        thumbnail: post.thumbnail,
-        categories: post.categories,
-        tags: post.tags,
-        next: post.next,
-        prev: post.prev,
-      };
+      if (allowExt) {
+        // パラメータから記事内容を取得
+        const content = await import(`~/_source/${post.path}`).then(text => text.default);
+
+        return {
+          post: {
+            date: post.date,
+            updated: post.updated,
+            slug: post.path,
+            link: post.permalink,
+            title: post.title,
+            content: content,
+            excerpt: post.excerpt,
+            thumbnail: post.thumbnail,
+            categories: post.categories,
+            tags: post.tags,
+            next: post.next,
+            prev: post.prev,
+          },
+        };
+      }
     }
 
-    return {
-      post: data,
-    };
+    error({ statusCode: 404, message: 'Page not found' });
   },
   computed: {
     descriptionText: function() {

@@ -37,11 +37,6 @@ export default {
       default: () => [],
     },
   },
-  data() {
-    return {
-      page: Number(this.$route.query.page),
-    };
-  },
 };
 </script>
 
@@ -50,9 +45,5 @@ export default {
   &:not(:last-child) {
     margin-bottom: 0.5rem;
   }
-}
-
-.p-post-list-pagination {
-  margin-top: 2rem;
 }
 </style>
