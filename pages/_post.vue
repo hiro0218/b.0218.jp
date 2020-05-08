@@ -52,7 +52,7 @@ export default {
     }
 
     // パラメータからヘッダー情報を取得
-    const post = posts.find(post => post.path === params.post);
+    const post = posts.find((post) => post.path === params.post);
 
     if (post) {
       // 拡張子
@@ -60,7 +60,7 @@ export default {
 
       if (allowExt) {
         // パラメータから記事内容を取得
-        const content = await import(`~/_source/${post.path}`).then(text => text.default);
+        const content = await import(`~/_source/${post.path}`).then((text) => text.default);
 
         return {
           post: {
@@ -84,7 +84,7 @@ export default {
     error({ statusCode: 404, message: 'Page not found' });
   },
   computed: {
-    descriptionText: function() {
+    descriptionText: function () {
       let content = this.post.content;
 
       // strip line break

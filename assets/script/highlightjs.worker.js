@@ -1,4 +1,4 @@
-self.addEventListener('message', event => {
+self.addEventListener('message', (event) => {
   importScripts('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.2/highlight.min.js');
 
   self.hljs.configure({

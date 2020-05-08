@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 Vue.mixin({
   filters: {
-    formatDateString: strDate => {
+    formatDateString: (strDate) => {
       let date = '';
 
       // convert: string -> date

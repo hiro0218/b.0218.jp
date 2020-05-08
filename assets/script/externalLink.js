@@ -1,4 +1,4 @@
-export default element => {
+export default (element) => {
   const links = element.querySelectorAll('a');
 
   if (links.length === 0) return;

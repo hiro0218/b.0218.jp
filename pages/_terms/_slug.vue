@@ -33,14 +33,14 @@ export default {
     const isTagsPage = params.terms === 'tags';
 
     // categoryPosts
-    const category_posts = categories_posts.filter(post => {
+    const category_posts = categories_posts.filter((post) => {
       return post.slug === params.slug;
     });
 
     const categoryPosts = category_posts.length !== 0 ? category_posts[0].posts : [];
 
     // tagsPosts
-    const tag_posts = tags_posts.filter(post => {
+    const tag_posts = tags_posts.filter((post) => {
       return post.slug === params.slug;
     });
 

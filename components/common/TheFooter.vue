@@ -35,7 +35,7 @@ export default {
     siteName: () => process.env.SITE_NAME,
   },
   methods: {
-    scrollTop: function() {
+    scrollTop: function () {
       window.scrollTo({
         top: 0,
         behavior: 'smooth',

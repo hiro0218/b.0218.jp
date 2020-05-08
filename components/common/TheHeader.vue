@@ -33,7 +33,7 @@ export default {
   computed: {
     siteName: () => process.env.SITE_NAME,
   },
-  mounted: function() {
+  mounted: function () {
     this.eleHeader = document.querySelector('.js-header');
     document.addEventListener('scroll', this.handleScroll, !document.documentMode ? { passive: false } : false);
   },

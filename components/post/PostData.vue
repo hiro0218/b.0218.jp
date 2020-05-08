@@ -123,7 +123,7 @@ export default {
           }),
         );
         // 受信
-        worker.onmessage = event => {
+        worker.onmessage = (event) => {
           requestAnimationFrame(() => {
             if (className) {
               element.dataset.language = className;
@@ -137,7 +137,7 @@ export default {
     handleAnchorScroll(element) {
       if (!element) return;
 
-      element.addEventListener('click', e => {
+      element.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
         this.scrollTo(element.hash);
