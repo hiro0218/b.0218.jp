@@ -42,7 +42,7 @@ export default {
       // js-separateを取得できない場合はコンテンツを挿入先とする
       let separate = document.querySelector('.js-separate');
       if (!separate) {
-        separate = document.querySelector('.js-post-content');
+        separate = this.elPostContent;
       }
 
       const container = document.createElement('div');
