@@ -4,6 +4,7 @@
 
 <script>
 import externalLink from '~/assets/script/externalLink.js';
+import wrapTable from '~/assets/script/wrapTable.js';
 import Highlightjs from '~/assets/script/highlightjs.worker.js';
 
 export default {
@@ -31,7 +32,7 @@ export default {
       this.$nextTick(() => {
         this.elPostContent = document.querySelector('.js-post-content');
         externalLink(this.elPostContent);
-        this.addTableContainer();
+        wrapTable(this.elPostContent);
         this.initHighlight();
         this.initMokuji();
       });
@@ -93,19 +94,6 @@ export default {
 
       // loaded
       this.scrollTo(this.$route.hash);
-    },
-    addTableContainer() {
-      const tables = this.elPostContent.querySelectorAll('table');
-      if (tables.length === 0) return;
-
-      const div = document.createElement('div');
-      div.classList.add('table-container', 'u-scroll-x');
-
-      for (let i = 0; i < tables.length; i += 1) {
-        const wrapper = div.cloneNode(false);
-        tables[i].parentNode.insertBefore(wrapper, tables[i]);
-        wrapper.appendChild(tables[i]);
-      }
     },
     initHighlight() {
       const elementCode = this.$el.querySelectorAll('pre code');
