@@ -140,7 +140,7 @@ export default {
   build: {
     parallel: true,
 
-    extractCSS: true,
+    extractCSS: process.env.NODE_ENV === 'production',
     optimization: {
       splitChunks: {
         cacheGroups: {
