@@ -30,7 +30,7 @@ export default {
       });
     },
     initMokuji(elPostContent) {
-      if (!process.client && !window.CSS) return;
+      if (!process.client) return;
 
       // js-separateを取得できない場合はコンテンツを挿入先とする
       let separate = document.querySelector('.js-separate');
@@ -57,64 +57,10 @@ export default {
         anchorLinkClassName: 'anchor',
       });
 
-      // アンカーへの効果を付与
-      this.addMokujiAnchorScrollEffects(mokujiData);
-
       // 要素を追加
       details.appendChild(mokujiData);
       container.appendChild(details);
       separate.insertBefore(container, separate.firstChild);
-    },
-    addMokujiAnchorScrollEffects(element) {
-      // workaround: scroll
-      const anchorMokuji = element.querySelectorAll('a');
-      for (let i = 0; i < anchorMokuji.length; i++) {
-        const anchor = anchorMokuji[i];
-
-        // inside mokuji
-        this.handleAnchorScroll(anchor);
-
-        // inside post-content
-        try {
-          const escaped_hash = this.escapedSelector(anchor.hash);
-          const heading = this.$el.querySelector(`${escaped_hash} > a`);
-          this.handleAnchorScroll(heading);
-        } catch (e) {
-          console.error(e);
-        }
-      }
-
-      // loaded
-      this.scrollTo(this.$route.hash);
-    },
-    handleAnchorScroll(element) {
-      if (!element) return;
-
-      element.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        this.scrollTo(element.hash);
-        this.$router.push({ hash: element.hash });
-      });
-    },
-    scrollTo(hash) {
-      if (!hash) return;
-
-      try {
-        const escaped_hash = this.escapedSelector(hash);
-        const target = this.$el.querySelector(escaped_hash);
-        if (target) {
-          setTimeout(() => {
-            window.scrollTo({ left: 0, top: target.offsetTop, behavior: 'smooth' });
-          }, 0);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    },
-    escapedSelector(selector) {
-      const hash = selector.slice(1);
-      return '#' + CSS.escape(hash);
     },
   },
 };
