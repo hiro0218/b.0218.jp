@@ -4,8 +4,8 @@
 
 <script>
 import externalLink from '~/assets/script/externalLink.js';
+import highlight from '~/assets/script/highlight.js';
 import wrapTable from '~/assets/script/wrapTable.js';
-import Highlightjs from '~/assets/script/highlightjs.worker.js';
 
 export default {
   name: 'PostData',
@@ -33,7 +33,7 @@ export default {
         this.elPostContent = document.querySelector('.js-post-content');
         externalLink(this.elPostContent);
         wrapTable(this.elPostContent);
-        this.initHighlight();
+        highlight(this.elPostContent);
         this.initMokuji();
       });
     },
@@ -94,33 +94,6 @@ export default {
 
       // loaded
       this.scrollTo(this.$route.hash);
-    },
-    initHighlight() {
-      const elementCode = this.$el.querySelectorAll('pre code');
-
-      for (let i = 0; i < elementCode.length; i++) {
-        const worker = new Highlightjs();
-        const element = elementCode[i];
-        const className = element.className.replace('language-', '');
-
-        // 送信
-        worker.postMessage(
-          JSON.stringify({
-            languageSubset: [className],
-            text: element.textContent,
-          }),
-        );
-        // 受信
-        worker.onmessage = (event) => {
-          requestAnimationFrame(() => {
-            if (className) {
-              element.dataset.language = className;
-            }
-            element.classList.add('hljs');
-            element.innerHTML = event.data;
-          });
-        };
-      }
     },
     handleAnchorScroll(element) {
       if (!element) return;
