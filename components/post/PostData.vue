@@ -16,34 +16,26 @@ export default {
       default: '',
     },
   },
-  data() {
-    return {
-      elPostContent: null,
-      elMokuji: {
-        content: null,
-      },
-    };
-  },
   mounted() {
     this.init();
   },
   methods: {
     init() {
       this.$nextTick(() => {
-        this.elPostContent = document.querySelector('.js-post-content');
-        externalLink(this.elPostContent);
-        wrapTable(this.elPostContent);
-        highlight(this.elPostContent);
-        this.initMokuji();
+        const elPostContent = document.querySelector('.js-post-content');
+        externalLink(elPostContent);
+        wrapTable(elPostContent);
+        highlight(elPostContent);
+        this.initMokuji(elPostContent);
       });
     },
-    initMokuji() {
+    initMokuji(elPostContent) {
       if (!process.client && !window.CSS) return;
 
       // js-separateを取得できない場合はコンテンツを挿入先とする
       let separate = document.querySelector('.js-separate');
       if (!separate) {
-        separate = this.elPostContent;
+        separate = elPostContent;
       }
 
       const container = document.createElement('div');
@@ -57,7 +49,7 @@ export default {
       details.classList.add('mokuji-content');
 
       // 目次一覧を作成
-      const mokujiData = new this.$mokuji(this.elPostContent, {
+      const mokujiData = new this.$mokuji(elPostContent, {
         anchorType: true,
         anchorLink: true,
         anchorLinkSymbol: '#',
