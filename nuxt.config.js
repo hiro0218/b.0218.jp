@@ -77,7 +77,6 @@ export default {
         id: 'ca-pub-7651142413133023',
       },
     ],
-    '@nuxtjs/markdownit',
     '@nuxtjs/svg',
     'nuxt-webfontloader',
   ],
@@ -119,11 +118,6 @@ export default {
     lang: 'ja',
     theme_color: '#ffffff',
     background_color: '#ffffff',
-  },
-
-  markdownit: {
-    linkify: true,
-    breaks: true,
   },
 
   webfontloader: {

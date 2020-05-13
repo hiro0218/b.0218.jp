@@ -5,14 +5,15 @@
         {{ pageTitle }}
       </template>
     </LayoutHeader>
-    <div class="post__content js-post-content" v-html="aboutData" />
+    <div class="about__content js-post-content" v-html="aboutData" />
   </article>
 </template>
 
 <script>
 import LayoutHeader from '~/components/LayoutHeader.vue';
 import externalLink from '~/assets/script/externalLink.js';
-import aboutData from '~/assets/markdown/about.md';
+
+import aboutData from '~/_source/about.html';
 
 export default {
   name: 'About',
