@@ -212,14 +212,4 @@ export default {
     margin-bottom: 1rem;
   }
 }
-
-.post__share {
-  margin: 3rem 0;
-  text-align: center;
-
-  @include mobile {
-    position: sticky;
-    bottom: 1rem;
-  }
-}
 </style>
