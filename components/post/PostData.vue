@@ -67,21 +67,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.post__content {
-  margin: 2rem 0;
-
-  // sandbox
-  .sandbox {
-    position: relative;
-    margin-bottom: 2rem;
-    padding: 2rem;
-    border: 2px solid $bg-color--lighter;
-    background: #fff;
-    & + pre {
-      margin-top: -(2rem + 0.15rem) !important;
-    }
-  }
-}
-</style>
