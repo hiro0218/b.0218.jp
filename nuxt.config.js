@@ -23,8 +23,6 @@ export default {
       return titleChunk ? `${titleChunk} - ${process.env.SITE_NAME}` : process.env.SITE_NAME;
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: constant.SITE_DESCRIPTION },
       { hid: 'og:site_name', property: 'og:site_name', content: constant.SITE_NAME },
       { hid: 'og:locale', property: 'og:locale', content: 'ja_JP' },
