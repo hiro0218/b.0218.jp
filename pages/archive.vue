@@ -36,35 +36,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.archive {
-  a {
-    text-decoration: underline;
-    &:hover {
-      text-decoration: none;
-    }
-  }
-}
-
-.archive-list-container {
-  display: flex;
-  margin-bottom: 4rem;
-}
-
-.archive-list {
-  padding: 0 1rem;
-}
-
-.archive-item {
-  display: flex;
-  margin-bottom: 1rem;
-  line-height: 2;
-
-  .post-date {
-    flex: 0 0 10rem;
-    color: $color-text--light;
-    font-weight: bold;
-  }
-}
-</style>
