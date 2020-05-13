@@ -222,8 +222,4 @@ export default {
     bottom: 1rem;
   }
 }
-
-.post__related {
-  margin: 4rem 0 2rem;
-}
 </style>
