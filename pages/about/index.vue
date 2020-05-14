@@ -1,11 +1,14 @@
 <template>
-  <article class="about">
-    <LayoutHeader :is-large="true">
+  <article class="post">
+    <LayoutHeader>
       <template v-slot:header-title>
         {{ pageTitle }}
       </template>
+      <template v-slot:header-description>
+        {{ pageDescription }}
+      </template>
     </LayoutHeader>
-    <div class="about__content js-post-content" v-html="aboutData" />
+    <div class="post__content js-post-content" v-html="aboutData" />
   </article>
 </template>
 
@@ -21,7 +24,8 @@ export default {
     LayoutHeader,
   },
   computed: {
-    pageTitle: () => 'about',
+    pageTitle: () => 'About',
+    pageDescription: () => 'サイトと運営者の情報',
     aboutData: () => aboutData,
   },
   mounted() {
@@ -33,6 +37,7 @@ export default {
   head() {
     return {
       title: this.pageTitle,
+      description: this.pageDescription,
     };
   },
 };
