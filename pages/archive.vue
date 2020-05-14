@@ -4,12 +4,15 @@
       <template v-slot:header-title>
         {{ pageTitle }}
       </template>
+      <template v-slot:header-description>
+        {{ pageDescription }}
+      </template>
     </LayoutHeader>
-    <section class="archive-list-container">
-      <ul class="u-list-unstyled archive-list">
+    <section>
+      <ul class="archive-list">
         <li v-for="(post, key) in archiveList" :key="key" class="archive-item">
-          <time :datetime="post.date" class="post-date">{{ post.date | formatDateString }}</time>
-          <nuxt-link :to="post.path">{{ post.title }}</nuxt-link>
+          <time :datetime="post.date" class="archive-item__date">{{ post.date | formatDateString }}</time>
+          <a :href="post.path" class="archive-item__link">{{ post.title }}</a>
         </li>
       </ul>
     </section>
@@ -27,11 +30,13 @@ export default {
   },
   computed: {
     pageTitle: () => 'Archive',
+    pageDescription: () => 'これまでに公開した記事の一覧です。',
     archiveList: () => archives,
   },
   head() {
     return {
       title: this.pageTitle,
+      description: this.pageDescription,
     };
   },
 };

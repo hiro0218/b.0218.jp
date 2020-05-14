@@ -1,29 +1,26 @@
-.archive {
-  a {
-    text-decoration: underline;
-    &:hover {
-      text-decoration: none;
-    }
-  }
-}
-
-.archive-list-container {
-  display: flex;
-  margin-bottom: 4rem;
-}
-
 .archive-list {
-  padding: 0 1rem;
+  margin: 0;
+  padding-left: 0;
 }
 
 .archive-item {
-  display: flex;
-  margin-bottom: 1rem;
-  line-height: 2;
+  padding: 0;
+  list-style: none;
 
-  .post-date {
-    flex: 0 0 10rem;
+  &:not(:last-child) {
+    margin-bottom: 1.5rem;
+  }
+
+  &__date {
+    display: block;
     color: $color-text--light;
-    font-weight: bold;
+  }
+
+  &__link {
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
 }
