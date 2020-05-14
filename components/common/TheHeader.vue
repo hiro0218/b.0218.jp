@@ -5,6 +5,7 @@
       <a
         href="https://www.google.com/search?q=site:b.0218.jp"
         target="_blank"
+        rel="noopener"
         title="site:b.0218.jp - Google 検索"
         class="c-search"
       >
