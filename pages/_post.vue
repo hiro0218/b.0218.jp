@@ -205,9 +205,6 @@ export default {
 
 <style lang="scss" scoped>
 .post {
-  .c-heading {
-    margin: 2rem 0;
-  }
   .c-alert {
     margin-bottom: 1rem;
   }
