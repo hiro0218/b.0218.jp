@@ -36,7 +36,7 @@ export default {
   head() {
     return {
       title: this.pageTitle,
-      description: this.pageDescription,
+      meta: [{ hid: 'description', name: 'description', content: this.pageDescription }],
     };
   },
 };
