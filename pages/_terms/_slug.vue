@@ -8,7 +8,7 @@
         {{ $route.params.terms }}
       </template>
     </LayoutHeader>
-    <PostsCategoryList v-if="!isTagsPage" :current-path="$route.path" :list="categoryList" />
+    <PostsCategoryList v-if="!isTagsPage" :current-path="$route.path" :list="$source.categories" />
     <PostsList :posts="isTagsPage ? tagsPosts : categoryPosts" />
   </section>
 </template>
@@ -17,10 +17,6 @@
 import LayoutHeader from '~/components/LayoutHeader.vue';
 import PostsList from '~/components/list/PostsList.vue';
 import PostsCategoryList from '~/components/list/PostsCategoryList.vue';
-
-import categories_posts from '~/_source/categories_posts.json';
-import tags_posts from '~/_source/tags_posts.json';
-import categories from '~/_source/categories.json';
 
 export default {
   name: 'TermsPostsList',
@@ -33,14 +29,14 @@ export default {
     const isTagsPage = params.terms === 'tags';
 
     // categoryPosts
-    const category_posts = categories_posts.filter((post) => {
+    const category_posts = app.$source.categories_posts.filter((post) => {
       return post.slug === params.slug;
     });
 
     const categoryPosts = category_posts.length !== 0 ? category_posts[0].posts : [];
 
     // tagsPosts
-    const tag_posts = tags_posts.filter((post) => {
+    const tag_posts = app.$source.tags_posts.filter((post) => {
       return post.slug === params.slug;
     });
 
@@ -53,7 +49,6 @@ export default {
 
     return {
       isTagsPage: isTagsPage,
-      categoryList: categories,
       categoryPosts: categoryPosts,
       tagsPosts: tagsPosts,
     };

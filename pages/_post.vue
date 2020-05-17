@@ -29,8 +29,6 @@ import PostAds from '~/components/post/PostAds.vue';
 import PostShare from '~/components/post/PostShare.vue';
 import PostPager from '~/components/post/PostPager.vue';
 
-import posts from '~/_source/posts.json';
-
 export default {
   name: 'Post',
   components: {
@@ -52,7 +50,7 @@ export default {
     }
 
     // パラメータからヘッダー情報を取得
-    const post = posts.find((post) => post.path === params.post);
+    const post = app.$source.posts.find((post) => post.path === params.post);
 
     if (post) {
       // 拡張子

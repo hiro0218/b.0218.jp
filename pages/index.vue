@@ -8,7 +8,7 @@
         {{ siteDescription }}
       </template>
     </LayoutHeader>
-    <PostsCategoryList :current-path="$route.path" :list="categoryList" />
+    <PostsCategoryList :current-path="$route.path" :list="$source.categories" />
     <PostsList :posts="posts" />
   </section>
 </template>
@@ -17,9 +17,6 @@
 import LayoutHeader from '~/components/LayoutHeader.vue';
 import PostsList from '~/components/list/PostsList.vue';
 import PostsCategoryList from '~/components/list/PostsCategoryList.vue';
-
-import posts from '~/_source/posts.json';
-import categories from '~/_source/categories.json';
 
 export default {
   name: 'Top',
@@ -31,8 +28,9 @@ export default {
   computed: {
     pageTitle: () => '最新の記事',
     siteDescription: () => process.env.SITE_DESCRIPTION,
-    posts: () => posts.filter((post, i) => i < 5),
-    categoryList: () => categories,
+    posts: function () {
+      return this.$source.posts.filter((post, i) => i < 5);
+    },
   },
   head() {
     return {

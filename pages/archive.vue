@@ -10,7 +10,7 @@
     </LayoutHeader>
     <section>
       <ul class="archive-list">
-        <li v-for="(post, key) in archiveList" :key="key" class="archive-item">
+        <li v-for="(post, key) in $source.archives" :key="key" class="archive-item">
           <time :datetime="post.date" class="archive-item__date">{{ post.date | formatDateString }}</time>
           <a :href="post.path" class="archive-item__link">{{ post.title }}</a>
         </li>
@@ -21,7 +21,6 @@
 
 <script>
 import LayoutHeader from '~/components/LayoutHeader.vue';
-import archives from '~/_source/archives.json';
 
 export default {
   name: 'Archive',
@@ -31,7 +30,6 @@ export default {
   computed: {
     pageTitle: () => 'Archive',
     pageDescription: () => 'これまでに公開した記事の一覧です。',
-    archiveList: () => archives,
   },
   head() {
     return {

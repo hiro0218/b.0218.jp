@@ -69,7 +69,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/fontawesome.js', '~/plugins/mixin.js', '~/plugins/mokuji.client.js'],
+  plugins: ['~/plugins/fontawesome.js', '~/plugins/mixin.js', '~/plugins/mokuji.client.js', '~/plugins/source.js'],
 
   /*
    ** Nuxt.js modules
