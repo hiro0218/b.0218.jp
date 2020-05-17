@@ -44,7 +44,7 @@
     "fs-extra": "^9.0.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.2",
-    "nodemon": "^2.0.3",
+    "nodemon": "^2.0.4",
     "nuxt-generate-cluster": "^2.7.0",
     "nuxt-webfontloader": "^1.1.0",
     "postcss-flexbugs-fixes": "^4.2.1",
