@@ -20,13 +20,8 @@
 </template>
 
 <script>
-import LayoutHeader from '~/components/LayoutHeader.vue';
-
 export default {
   name: 'Archive',
-  components: {
-    LayoutHeader,
-  },
   computed: {
     pageTitle: () => 'Archive',
     pageDescription: () => 'これまでに公開した記事の一覧です。',

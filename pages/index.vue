@@ -14,17 +14,8 @@
 </template>
 
 <script>
-import LayoutHeader from '~/components/LayoutHeader.vue';
-import PostsList from '~/components/list/PostsList.vue';
-import PostsCategoryList from '~/components/list/PostsCategoryList.vue';
-
 export default {
   name: 'Top',
-  components: {
-    LayoutHeader,
-    PostsList,
-    PostsCategoryList,
-  },
   computed: {
     pageTitle: () => '最新の記事',
     siteDescription: () => process.env.SITE_DESCRIPTION,

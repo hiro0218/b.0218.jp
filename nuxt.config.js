@@ -87,7 +87,11 @@ export default {
     'nuxt-webfontloader',
   ],
 
-  buildModules: ['@nuxtjs/google-analytics'],
+  buildModules: [
+    '@nuxtjs/google-analytics',
+    // TODO: Remove when upgrading to nuxt 2.13+
+    '@nuxt/components',
+  ],
 
   googleAnalytics: {
     id: 'UA-50805440-1',

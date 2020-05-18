@@ -14,17 +14,8 @@
 </template>
 
 <script>
-import LayoutHeader from '~/components/LayoutHeader.vue';
-import PostsList from '~/components/list/PostsList.vue';
-import PostsCategoryList from '~/components/list/PostsCategoryList.vue';
-
 export default {
   name: 'TermsPostsList',
-  components: {
-    LayoutHeader,
-    PostsList,
-    PostsCategoryList,
-  },
   async asyncData({ route, app, params, error, payload }) {
     const isTagsPage = params.terms === 'tags';
 

@@ -22,23 +22,8 @@
 </template>
 
 <script>
-import LayoutHeader from '~/components/LayoutHeader.vue';
-import PostMeta from '~/components/post/PostMeta.vue';
-import PostData from '~/components/post/PostData.vue';
-import PostAds from '~/components/post/PostAds.vue';
-import PostShare from '~/components/post/PostShare.vue';
-import PostPager from '~/components/post/PostPager.vue';
-
 export default {
   name: 'Post',
-  components: {
-    LayoutHeader,
-    PostMeta,
-    PostData,
-    PostAds,
-    PostShare,
-    PostPager,
-  },
   validate({ params }) {
     if (process.static && process.server) return true;
     return params.post && /\d+.html/.test(params.post);

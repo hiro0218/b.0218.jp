@@ -13,16 +13,12 @@
 </template>
 
 <script>
-import LayoutHeader from '~/components/LayoutHeader.vue';
 import externalLink from '~/assets/script/externalLink.js';
 
 import aboutData from '~/_source/about.html';
 
 export default {
   name: 'About',
-  components: {
-    LayoutHeader,
-  },
   computed: {
     pageTitle: () => 'About',
     pageDescription: () => 'サイトと運営者の情報',
