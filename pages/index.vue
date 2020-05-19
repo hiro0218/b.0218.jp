@@ -20,6 +20,7 @@ export default {
     pageTitle: () => '最新の記事',
     siteDescription: () => process.env.SITE_DESCRIPTION,
     posts: function () {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       return this.$source.posts.filter((post, i) => i < 5);
     },
   },

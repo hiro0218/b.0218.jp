@@ -1,8 +1,8 @@
+import constant from './constant';
 const Sass = require('sass');
 const Fiber = require('fibers');
 
 const getRoutes = require('./routes.js');
-import constant from './constant';
 
 export default {
   modern: 'client',
@@ -19,7 +19,7 @@ export default {
     htmlAttrs: {
       prefix: 'og: http://ogp.me/ns#',
     },
-    titleTemplate: (titleChunk) => {
+    titleTemplate: (titleChunk: String) => {
       return titleChunk ? `${titleChunk} - ${process.env.SITE_NAME}` : process.env.SITE_NAME;
     },
     meta: [
@@ -91,6 +91,7 @@ export default {
     '@nuxtjs/google-analytics',
     // TODO: Remove when upgrading to nuxt 2.13+
     '@nuxt/components',
+    '@nuxt/typescript-build',
   ],
 
   googleAnalytics: {
@@ -136,6 +137,11 @@ export default {
     },
   },
 
+  typescript: {
+    typeCheck: true,
+    ignoreNotFoundWarnings: true,
+  },
+
   /*
    ** Build configuration
    */
@@ -168,7 +174,7 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {
+    extend(config: any, ctx: any) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
@@ -186,7 +192,7 @@ export default {
 
       // fix for _vm._ssrNode is not a function for functional component
       // @see https://github.com/nuxt/nuxt.js/issues/2565
-      config.module.rules.forEach((rule) => {
+      config.module.rules.forEach((rule: any) => {
         if (rule.test.toString() === '/\\.vue$/') {
           rule.options.optimizeSSR = false;
         }

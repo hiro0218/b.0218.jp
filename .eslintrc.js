@@ -1,4 +1,4 @@
 module.exports = {
   root: true,
-  extends: "@hiro0218/eslint-config"
-}
+  extends: ['@nuxtjs/eslint-config-typescript', '@hiro0218/eslint-config'],
+};

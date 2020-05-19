@@ -5,11 +5,11 @@
   "author": "hiro",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt-generate -w 4 -b",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "dev": "nuxt-ts",
+    "build": "nuxt-ts build",
+    "start": "nuxt-ts start",
+    "generate": "nuxt-ts generate",
+    "lint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore .",
     "pregenerate": "node ./output.js"
   },
   "dependencies": {
@@ -34,6 +34,9 @@
     "@hiro0218/prettier-config": "^1.0.2",
     "@hiro0218/stylelint-config": "^1.1.0",
     "@nuxt/components": "^0.2.3",
+    "@nuxt/typescript-build": "^1.0.0",
+    "@nuxt/typescript-runtime": "^0.4.7",
+    "@nuxtjs/eslint-config-typescript": "^2.0.0",
     "@nuxtjs/style-resources": "^1.0.0",
     "@nuxtjs/svg": "^0.1.11",
     "babel-eslint": "^10.1.0",
@@ -57,7 +60,7 @@
     "worker-loader": "^2.0.0"
   },
   "lint-staged": {
-    "**/*.{js,vue}": [
+    "**/*.{ts,js,vue}": [
       "eslint --fix",
       "eslint"
     ]
