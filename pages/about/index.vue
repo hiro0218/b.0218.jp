@@ -15,7 +15,7 @@
 <script type="ts">
 import { defineComponent, computed, onMounted } from '@vue/composition-api';
 
-import externalLink from '~/assets/script/externalLink.js';
+import externalLink from '~/assets/script/externalLink.ts';
 
 import aboutData from '~/_source/about.html';
 
