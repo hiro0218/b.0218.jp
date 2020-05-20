@@ -1,7 +1,7 @@
 <template>
   <div class="sns-list">
     <a
-      :href="'https://twitter.com/intent/tweet?url=' + post_link + '&text=' + encodeURIComponent(post_title)"
+      :href="'https://twitter.com/intent/tweet?url=' + postLink + '&text=' + encodeURIComponent(postTitle)"
       class="sns-item is-twitter"
       title="Share Twitter"
       target="_blank"
@@ -9,7 +9,7 @@
       v-html="svgTwitter"
     />
     <a
-      :href="'https://www.facebook.com/sharer/sharer.php?u=' + post_link"
+      :href="'https://www.facebook.com/sharer/sharer.php?u=' + postLink"
       class="sns-item is-facebook"
       title="Share Facebook"
       target="_blank"
@@ -17,7 +17,7 @@
       v-html="svgFacebook"
     />
     <a
-      :href="'http://b.hatena.ne.jp/add?url=' + post_link"
+      :href="'http://b.hatena.ne.jp/add?url=' + postLink"
       class="sns-item is-hatenabookmark"
       title="Share HatenaBookmark"
       target="_blank"
@@ -25,7 +25,7 @@
       v-html="svgHatena"
     />
     <a
-      :href="'https://lineit.line.me/share/ui?url=' + post_link"
+      :href="'https://lineit.line.me/share/ui?url=' + postLink"
       class="sns-item is-line"
       title="Share LINE"
       target="_blank"
@@ -35,27 +35,30 @@
   </div>
 </template>
 
-<script>
+<script type="ts">
+import { defineComponent, computed } from '@vue/composition-api';
+
 import svgLine from '~/assets/image/sns_line.svg?raw';
 import svgHatena from '~/assets/image/sns_hatenabookmark.svg?raw';
 import svgTwitter from '~/assets/image/sns_twitter.svg?raw';
 import svgFacebook from '~/assets/image/sns_facebook.svg?raw';
 
-export default {
+export default defineComponent({
   name: 'PostShare',
-  data() {
+  setup() {
+    const postTitle = computed(() => document.title);
+    const postLink = computed(() => location.href);
+
     return {
+      postTitle,
+      postLink,
       svgLine,
       svgHatena,
       svgTwitter,
       svgFacebook,
     };
   },
-  computed: {
-    post_title: () => document.title,
-    post_link: () => location.href,
-  },
-};
+});
 </script>
 
 <style lang="scss">
