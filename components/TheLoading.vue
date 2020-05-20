@@ -2,24 +2,33 @@
   <div v-show="loading" class="c-loading is-active" />
 </template>
 
-<script>
-export default {
+<script type="ts">
+import { defineComponent, ref, onMounted } from '@vue/composition-api';
+
+export default defineComponent({
   name: 'Loading',
-  data: () => ({
-    loading: true,
-  }),
-  mounted() {
-    this.$nextTick(() => {
-      this.loading = false;
+  setup(_, { root }) {
+    const loading = ref(true);
+
+    onMounted(() => {
+      root.$nextTick(() => {
+        loading.value = false;
+      });
     });
+
+    function start() {
+      loading.value = true;
+    }
+
+    function finish() {
+      loading.value = false;
+    }
+
+    return {
+      loading,
+      start,
+      finish,
+    }
   },
-  methods: {
-    start() {
-      this.loading = true;
-    },
-    finish() {
-      this.loading = false;
-    },
-  },
-};
+});
 </script>

@@ -19,12 +19,19 @@
   </article>
 </template>
 
-<script>
-export default {
+<script type="ts">
+import { defineComponent, computed } from '@vue/composition-api';
+
+export default defineComponent({
   name: 'Archive',
-  computed: {
-    pageTitle: () => 'Archive',
-    pageDescription: () => 'これまでに公開した記事の一覧です。',
+  setup() {
+    const pageTitle = computed(() => 'Archive');
+    const pageDescription = computed(() => 'これまでに公開した記事の一覧です。');
+
+    return {
+      pageTitle,
+      pageDescription,
+    };
   },
   head() {
     return {
@@ -32,5 +39,5 @@ export default {
       meta: [{ hid: 'description', name: 'description', content: this.pageDescription }],
     };
   },
-};
+});
 </script>
