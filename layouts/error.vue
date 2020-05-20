@@ -2,24 +2,14 @@
   <section class="error-container">
     <LayoutHeader>
       <template v-slot:header-title>
-        <template v-if="error.statusCode >= 500">
-          予期せぬエラーが発生しました
-        </template>
-        <template v-else>
-          お探しのページは見つかりませんでした
-        </template>
+        {{ pageTitle }}
       </template>
       <template v-slot:header-description>
         {{ error.message }}
       </template>
     </LayoutHeader>
     <section class="error-message">
-      <p v-if="error.statusCode >= 500">
-        技術的な問題が発生しているため、このページを表示できません。
-      </p>
-      <p v-else>
-        このページは削除されたかURLが変更されています。
-      </p>
+      {{ pageMessage }}
     </section>
     <footer>
       <nuxt-link to="/" class="button">
@@ -29,20 +19,35 @@
   </section>
 </template>
 
-<script>
-export default {
+<script type="ts">
+import { defineComponent, computed } from '@vue/composition-api';
+
+export default defineComponent({
   props: {
     error: {
       type: Object,
       default: () => {},
     },
   },
+  setup({ error }) {
+    const pageTitle = computed(() => {
+      return error.statusCode >= 500 ? '予期せぬエラーが発生しました' : 'お探しのページは見つかりませんでした';
+    });
+    const pageMessage = computed(() => {
+      return error.statusCode >= 500 ? '技術的な問題が発生しているため、このページを表示できません。' : 'このページは削除されたかURLが変更されています。';
+    });
+
+    return {
+      pageTitle,
+      pageMessage,
+    }
+  },
   head() {
     return {
       meta: [{ hid: 'robots', name: 'robots', content: 'noindex' }],
     };
   },
-};
+});
 </script>
 
 <style lang="scss">
