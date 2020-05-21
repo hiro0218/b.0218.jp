@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 Vue.mixin({
   filters: {
-    formatDateString: (strDate) => {
+    formatDateString: (strDate: string) => {
       let date = '';
 
       // convert: string -> date
@@ -20,11 +20,6 @@ Vue.mixin({
       }
 
       return date;
-    },
-  },
-  methods: {
-    isDateSameDay: (date1, date2) => {
-      return new Date(date1).toDateString() === new Date(date2).toDateString();
     },
   },
 });

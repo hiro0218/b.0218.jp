@@ -13,15 +13,24 @@
   </section>
 </template>
 
-<script>
-export default {
+<script type="ts">
+import { defineComponent, computed } from '@vue/composition-api';
+
+export default defineComponent({
   name: 'Top',
-  computed: {
-    pageTitle: () => '最新の記事',
-    siteDescription: () => process.env.SITE_DESCRIPTION,
-    posts: function () {
-      return this.$source.posts.filter((post, i) => i < 5);
-    },
+  setup(_, { root }) {
+    const pageTitle = computed(() => '最新の記事');
+    const siteDescription = computed(() => process.env.SITE_DESCRIPTION);
+    const posts = computed(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      return root.$source.posts.filter((post, i) => i < 5);
+    });
+
+    return {
+      pageTitle,
+      siteDescription,
+      posts,
+    };
   },
   head() {
     return {
@@ -29,5 +38,5 @@ export default {
       titleTemplate: null,
     };
   },
-};
+});
 </script>

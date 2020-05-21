@@ -3,9 +3,9 @@
 </template>
 
 <script>
-import externalLink from '~/assets/script/externalLink.js';
+import externalLink from '~/assets/script/externalLink.ts';
 import highlight from '~/assets/script/highlight.js';
-import wrapTable from '~/assets/script/wrapTable.js';
+import wrapTable from '~/assets/script/wrapTable.ts';
 
 export default {
   name: 'PostData',

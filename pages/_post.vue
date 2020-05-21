@@ -28,9 +28,9 @@ export default {
     if (process.static && process.server) return true;
     return params.post && /\d+.html/.test(params.post);
   },
-  async asyncData({ store, app, params, error, payload }) {
+  async asyncData({ app, params, error }) {
     // when nuxt generate
-    if (process.static && params.post.indexOf('.html') === -1) {
+    if (process.static && !params.post.includes('.html')) {
       params.post += '.html';
     }
 

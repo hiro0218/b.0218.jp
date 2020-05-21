@@ -8,27 +8,36 @@
         {{ pageDescription }}
       </template>
     </LayoutHeader>
-    <div class="post__content js-post-content" v-html="aboutData" />
+    <div class="post__content js-post-content" v-html="aboutHTML" />
   </article>
 </template>
 
-<script>
-import externalLink from '~/assets/script/externalLink.js';
+<script type="ts">
+import { defineComponent, computed, onMounted } from '@vue/composition-api';
+
+import externalLink from '~/assets/script/externalLink.ts';
 
 import aboutData from '~/_source/about.html';
 
-export default {
+export default defineComponent({
   name: 'About',
-  computed: {
-    pageTitle: () => 'About',
-    pageDescription: () => 'サイトと運営者の情報',
-    aboutData: () => aboutData,
-  },
-  mounted() {
-    this.$nextTick(() => {
-      const elPostContent = document.querySelector('.js-post-content');
-      externalLink(elPostContent);
+  setup(_, { root }) {
+    const pageTitle = computed(() => 'About');
+    const pageDescription = computed(() => 'サイトと運営者の情報');
+    const aboutHTML = computed(() => aboutData);
+
+    onMounted(() => {
+      root.$nextTick(() => {
+        const elPostContent = document.querySelector('.js-post-content');
+        externalLink(elPostContent);
+      });
     });
+
+    return {
+      pageTitle,
+      pageDescription,
+      aboutHTML,
+    };
   },
   head() {
     return {
@@ -36,5 +45,5 @@ export default {
       meta: [{ hid: 'description', name: 'description', content: this.pageDescription }],
     };
   },
-};
+});
 </script>

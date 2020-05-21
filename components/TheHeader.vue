@@ -15,51 +15,58 @@
   </header>
 </template>
 
-<script>
+<script type="ts">
+import { defineComponent, computed, onMounted } from '@vue/composition-api';
+
 import svgLogo from '~/assets/image/logo.svg?raw';
 
-export default {
+export default defineComponent({
   name: 'TheHeader',
-  data() {
+  setup() {
+    const siteName = computed(() => process.env.SITE_NAME);
+    let ticking = false;
+    let lastKnownScrollY = 0;
+
+    onMounted(() => {
+      const elHeader = document.querySelector('.js-header');
+      const headerheight = elHeader.offsetHeight;
+
+      document.addEventListener('scroll', () => {
+        handleScroll(elHeader, headerheight);
+      }, !document.documentMode ? { passive: false } : false);
+    });
+
+    function handleScroll(elHeader, headerheight) {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          ticking = false;
+          const currentScrollY = window.pageYOffset;
+
+          // ヘッダーの高さを超えた場合
+          if (currentScrollY >= headerheight) {
+            if (currentScrollY <= lastKnownScrollY) {
+              elHeader.classList.remove('is-unpin');
+            } else {
+              elHeader.classList.add('is-unpin');
+            }
+          } else {
+            elHeader.classList.remove('is-unpin');
+          }
+
+          // 今回のスクロール位置を残す
+          lastKnownScrollY = currentScrollY;
+        });
+      }
+
+      ticking = true;
+    }
+
     return {
       svgLogo,
-      eleHeader: null,
-      classes: {
-        unpinned: 'is-unpin',
-      },
-      lastKnownScrollY: 0,
-      ticking: false,
+      siteName,
     };
   },
-  computed: {
-    siteName: () => process.env.SITE_NAME,
-  },
-  mounted: function () {
-    this.eleHeader = document.querySelector('.js-header');
-    document.addEventListener('scroll', this.handleScroll, !document.documentMode ? { passive: false } : false);
-  },
-  methods: {
-    onScroll() {
-      this.ticking = false;
-      const currentScrollY = window.pageYOffset;
-      if (this.lastKnownScrollY === currentScrollY || currentScrollY < 0) return;
-
-      if (currentScrollY < this.lastKnownScrollY) {
-        this.eleHeader.classList.remove(this.classes.unpinned);
-      } else {
-        this.eleHeader.classList.add(this.classes.unpinned);
-      }
-
-      this.lastKnownScrollY = currentScrollY;
-    },
-    handleScroll() {
-      if (!this.ticking) {
-        requestAnimationFrame(this.onScroll);
-      }
-      this.ticking = true;
-    },
-  },
-};
+});
 </script>
 
 <style lang="scss">

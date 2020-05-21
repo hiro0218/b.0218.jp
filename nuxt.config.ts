@@ -1,14 +1,16 @@
+import { Configuration } from '@nuxt/types';
+
+import CONSTANT from './constant';
 const Sass = require('sass');
 const Fiber = require('fibers');
 
 const getRoutes = require('./routes.js');
-import constant from './constant';
 
-export default {
+const config: Configuration = {
   modern: 'client',
 
   env: {
-    ...constant,
+    ...CONSTANT,
   },
 
   /*
@@ -19,23 +21,20 @@ export default {
     htmlAttrs: {
       prefix: 'og: http://ogp.me/ns#',
     },
-    titleTemplate: (titleChunk) => {
-      return titleChunk ? `${titleChunk} - ${process.env.SITE_NAME}` : process.env.SITE_NAME;
-    },
+    titleTemplate: `%s - ${process.env.SITE_NAME}`,
     meta: [
-      { hid: 'description', name: 'description', content: constant.SITE_DESCRIPTION },
-      { hid: 'og:site_name', property: 'og:site_name', content: constant.SITE_NAME },
+      { hid: 'description', name: 'description', content: CONSTANT.SITE_DESCRIPTION },
+      { hid: 'og:site_name', property: 'og:site_name', content: CONSTANT.SITE_NAME },
       { hid: 'og:locale', property: 'og:locale', content: 'ja_JP' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
-      { hid: 'og:url', property: 'og:url', content: constant.SITE_URL },
-      { hid: 'og:title', property: 'og:title', content: constant.SITE_NAME },
-      { hid: 'og:description', property: 'og:description', content: constant.SITE_DESCRIPTION },
-      { hid: 'og:image', property: 'og:image', content: constant.AUTHOR_ICON },
+      { hid: 'og:url', property: 'og:url', content: CONSTANT.SITE_URL },
+      { hid: 'og:title', property: 'og:title', content: CONSTANT.SITE_NAME },
+      { hid: 'og:description', property: 'og:description', content: CONSTANT.SITE_DESCRIPTION },
+      { hid: 'og:image', property: 'og:image', content: CONSTANT.AUTHOR_ICON },
       { name: 'twitter:site', content: '@hiro0218' },
       { name: 'twitter:creator', content: '@hiro0218' },
       { name: 'twitter:card', content: 'summary' },
       { property: 'fb:app_id', content: '1042526022490602' },
-      { 'http-equiv': 'x-dns-prefetch-control', content: 'on' },
     ],
     link: [
       { rel: 'dns-prefetch', href: '//adservice.google.com' },
@@ -52,7 +51,6 @@ export default {
       { rel: 'alternate', type: 'application/atom+xml', href: 'https://b.0218.jp/atom.xml' },
       { rel: 'alternate', type: 'application/json', href: 'https://b.0218.jp/feed.json' },
       { rel: 'search', type: 'application/opensearchdescription+xml', href: '/opensearch.xml' },
-      { itemprop: 'author', href: 'https://b.0218.jp/about/' },
     ],
   },
 
@@ -69,7 +67,13 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/fontawesome.js', '~/plugins/mixin.js', '~/plugins/mokuji.client.js', '~/plugins/source.js'],
+  plugins: [
+    '~/plugins/composition-api',
+    '~/plugins/fontawesome.js',
+    '~/plugins/mixin.ts',
+    '~/plugins/mokuji.client.js',
+    '~/plugins/source.js',
+  ],
 
   /*
    ** Nuxt.js modules
@@ -91,6 +95,7 @@ export default {
     '@nuxtjs/google-analytics',
     // TODO: Remove when upgrading to nuxt 2.13+
     '@nuxt/components',
+    '@nuxt/typescript-build',
   ],
 
   googleAnalytics: {
@@ -119,12 +124,12 @@ export default {
   },
 
   manifest: {
-    name: constant.SITE_NAME,
-    short_name: constant.SITE_NAME,
-    title: constant.SITE_NAME,
-    'og:title': constant.SITE_NAME,
-    description: constant.SITE_DESCRIPTION,
-    'og:description': constant.SITE_DESCRIPTION,
+    name: CONSTANT.SITE_NAME,
+    short_name: CONSTANT.SITE_NAME,
+    title: CONSTANT.SITE_NAME,
+    'og:title': CONSTANT.SITE_NAME,
+    description: CONSTANT.SITE_DESCRIPTION,
+    'og:description': CONSTANT.SITE_DESCRIPTION,
     lang: 'ja',
     theme_color: '#ffffff',
     background_color: '#ffffff',
@@ -134,6 +139,11 @@ export default {
     google: {
       families: ['Noto+Sans+JP:400,900&display=swap'],
     },
+  },
+
+  typescript: {
+    typeCheck: true,
+    ignoreNotFoundWarnings: true,
   },
 
   /*
@@ -168,7 +178,7 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {
+    extend(config: any, ctx: any) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
@@ -186,7 +196,7 @@ export default {
 
       // fix for _vm._ssrNode is not a function for functional component
       // @see https://github.com/nuxt/nuxt.js/issues/2565
-      config.module.rules.forEach((rule) => {
+      config.module.rules.forEach((rule: any) => {
         if (rule.test.toString() === '/\\.vue$/') {
           rule.options.optimizeSSR = false;
         }
@@ -255,3 +265,5 @@ export default {
     },
   },
 };
+
+export default config;

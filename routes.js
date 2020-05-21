@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
 const SRC_DIR = './_source';
 
-module.exports = getRoutes = () => {
+module.exports = function () {
   const routes = [];
 
   // 記事一覧

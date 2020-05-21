@@ -16,10 +16,11 @@
 <script>
 export default {
   name: 'TermsPostsList',
-  async asyncData({ route, app, params, error, payload }) {
+  asyncData({ app, params, error }) {
     const isTagsPage = params.terms === 'tags';
 
     // categoryPosts
+    // eslint-disable-next-line camelcase
     const category_posts = app.$source.categories_posts.filter((post) => {
       return post.slug === params.slug;
     });
@@ -27,6 +28,7 @@ export default {
     const categoryPosts = category_posts.length !== 0 ? category_posts[0].posts : [];
 
     // tagsPosts
+    // eslint-disable-next-line camelcase
     const tag_posts = app.$source.tags_posts.filter((post) => {
       return post.slug === params.slug;
     });

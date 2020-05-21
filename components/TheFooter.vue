@@ -28,21 +28,27 @@
   </footer>
 </template>
 
-<script>
-export default {
+<script type="ts">
+import { defineComponent, computed } from '@vue/composition-api';
+
+export default defineComponent({
   name: 'TheFooter',
-  computed: {
-    siteName: () => process.env.SITE_NAME,
-  },
-  methods: {
-    scrollTop: function () {
+  setup() {
+    const siteName = computed(() => process.env.SITE_NAME);
+
+    function scrollTop() {
       window.scrollTo({
         top: 0,
         behavior: 'smooth',
       });
-    },
+    }
+
+    return {
+      siteName,
+      scrollTop,
+    };
   },
-};
+});
 </script>
 
 <style lang="scss">
