@@ -72,7 +72,7 @@ export default {
   plugins: [
     '~/plugins/composition-api',
     '~/plugins/fontawesome.js',
-    '~/plugins/mixin.js',
+    '~/plugins/mixin.ts',
     '~/plugins/mokuji.client.js',
     '~/plugins/source.js',
   ],
