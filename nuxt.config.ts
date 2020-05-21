@@ -21,9 +21,7 @@ const config: Configuration = {
     htmlAttrs: {
       prefix: 'og: http://ogp.me/ns#',
     },
-    titleTemplate: (titleChunk: String) => {
-      return titleChunk ? `${titleChunk} - ${process.env.SITE_NAME}` : process.env.SITE_NAME;
-    },
+    titleTemplate: `%s - ${process.env.SITE_NAME}`,
     meta: [
       { hid: 'description', name: 'description', content: CONSTANT.SITE_DESCRIPTION },
       { hid: 'og:site_name', property: 'og:site_name', content: CONSTANT.SITE_NAME },
