@@ -1,6 +1,6 @@
 import { Configuration } from '@nuxt/types';
 
-import constant from './constant';
+import CONSTANT from './constant';
 const Sass = require('sass');
 const Fiber = require('fibers');
 
@@ -10,7 +10,7 @@ const config: Configuration = {
   modern: 'client',
 
   env: {
-    ...constant,
+    ...CONSTANT,
   },
 
   /*
@@ -25,14 +25,14 @@ const config: Configuration = {
       return titleChunk ? `${titleChunk} - ${process.env.SITE_NAME}` : process.env.SITE_NAME;
     },
     meta: [
-      { hid: 'description', name: 'description', content: constant.SITE_DESCRIPTION },
-      { hid: 'og:site_name', property: 'og:site_name', content: constant.SITE_NAME },
+      { hid: 'description', name: 'description', content: CONSTANT.SITE_DESCRIPTION },
+      { hid: 'og:site_name', property: 'og:site_name', content: CONSTANT.SITE_NAME },
       { hid: 'og:locale', property: 'og:locale', content: 'ja_JP' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
-      { hid: 'og:url', property: 'og:url', content: constant.SITE_URL },
-      { hid: 'og:title', property: 'og:title', content: constant.SITE_NAME },
-      { hid: 'og:description', property: 'og:description', content: constant.SITE_DESCRIPTION },
-      { hid: 'og:image', property: 'og:image', content: constant.AUTHOR_ICON },
+      { hid: 'og:url', property: 'og:url', content: CONSTANT.SITE_URL },
+      { hid: 'og:title', property: 'og:title', content: CONSTANT.SITE_NAME },
+      { hid: 'og:description', property: 'og:description', content: CONSTANT.SITE_DESCRIPTION },
+      { hid: 'og:image', property: 'og:image', content: CONSTANT.AUTHOR_ICON },
       { name: 'twitter:site', content: '@hiro0218' },
       { name: 'twitter:creator', content: '@hiro0218' },
       { name: 'twitter:card', content: 'summary' },
@@ -126,12 +126,12 @@ const config: Configuration = {
   },
 
   manifest: {
-    name: constant.SITE_NAME,
-    short_name: constant.SITE_NAME,
-    title: constant.SITE_NAME,
-    'og:title': constant.SITE_NAME,
-    description: constant.SITE_DESCRIPTION,
-    'og:description': constant.SITE_DESCRIPTION,
+    name: CONSTANT.SITE_NAME,
+    short_name: CONSTANT.SITE_NAME,
+    title: CONSTANT.SITE_NAME,
+    'og:title': CONSTANT.SITE_NAME,
+    description: CONSTANT.SITE_DESCRIPTION,
+    'og:description': CONSTANT.SITE_DESCRIPTION,
     lang: 'ja',
     theme_color: '#ffffff',
     background_color: '#ffffff',
