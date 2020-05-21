@@ -30,9 +30,6 @@
   "files": [
     "vue-shim.d.ts"
   ],
-  "include": [
-    "./**/*"
-  ],
   "exclude": [
     "node_modules"
   ]
