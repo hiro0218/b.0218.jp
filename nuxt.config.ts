@@ -1,10 +1,12 @@
+import { Configuration } from '@nuxt/types';
+
 import constant from './constant';
 const Sass = require('sass');
 const Fiber = require('fibers');
 
 const getRoutes = require('./routes.js');
 
-export default {
+const config: Configuration = {
   modern: 'client',
 
   env: {
@@ -35,7 +37,6 @@ export default {
       { name: 'twitter:creator', content: '@hiro0218' },
       { name: 'twitter:card', content: 'summary' },
       { property: 'fb:app_id', content: '1042526022490602' },
-      { 'http-equiv': 'x-dns-prefetch-control', content: 'on' },
     ],
     link: [
       { rel: 'dns-prefetch', href: '//adservice.google.com' },
@@ -52,7 +53,6 @@ export default {
       { rel: 'alternate', type: 'application/atom+xml', href: 'https://b.0218.jp/atom.xml' },
       { rel: 'alternate', type: 'application/json', href: 'https://b.0218.jp/feed.json' },
       { rel: 'search', type: 'application/opensearchdescription+xml', href: '/opensearch.xml' },
-      { itemprop: 'author', href: 'https://b.0218.jp/about/' },
     ],
   },
 
@@ -267,3 +267,5 @@ export default {
     },
   },
 };
+
+export default config;
