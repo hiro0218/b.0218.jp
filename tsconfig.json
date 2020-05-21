@@ -34,6 +34,6 @@
     "./**/*"
   ],
   "exclude": [
-    "node_modules", ".nuxt", "dist"
+    "node_modules"
   ]
 }
