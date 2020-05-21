@@ -37,6 +37,18 @@ const config: Configuration = {
       { property: 'fb:app_id', content: '1042526022490602' },
     ],
     link: [
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
+      {
+        rel: 'preload',
+        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;900&display=swap',
+        as: 'style',
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;900&display=swap',
+        media: 'print',
+        onload: 'this.media="all"',
+      },
       { rel: 'dns-prefetch', href: '//adservice.google.com' },
       { rel: 'dns-prefetch', href: '//cdn.polyfill.io' },
       { rel: 'dns-prefetch', href: '//cdn.jsdelivr.net' },
@@ -88,7 +100,6 @@ const config: Configuration = {
       },
     ],
     '@nuxtjs/svg',
-    'nuxt-webfontloader',
   ],
 
   buildModules: [
@@ -133,12 +144,6 @@ const config: Configuration = {
     lang: 'ja',
     theme_color: '#ffffff',
     background_color: '#ffffff',
-  },
-
-  webfontloader: {
-    google: {
-      families: ['Noto+Sans+JP:400,900&display=swap'],
-    },
   },
 
   typescript: {
