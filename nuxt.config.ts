@@ -21,7 +21,7 @@ const config: Configuration = {
     htmlAttrs: {
       prefix: 'og: http://ogp.me/ns#',
     },
-    titleTemplate: `%s - ${process.env.SITE_NAME}`,
+    titleTemplate: `%s - ${CONSTANT.SITE_NAME}`,
     meta: [
       { hid: 'description', name: 'description', content: CONSTANT.SITE_DESCRIPTION },
       { hid: 'og:site_name', property: 'og:site_name', content: CONSTANT.SITE_NAME },
