@@ -1,5 +1,5 @@
 <template functional>
-  <header>
+  <header class="o-heading-block">
     <div class="c-heading">
       <h1 class="c-heading__title">
         <slot name="header-title" />
