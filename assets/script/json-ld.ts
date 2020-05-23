@@ -1,4 +1,4 @@
-import CONSTANT from '../../constant';
+import CONSTANT from '~/constant';
 
 interface Post {
   date: string;
