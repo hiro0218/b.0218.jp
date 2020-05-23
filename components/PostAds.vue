@@ -7,7 +7,9 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from '@vue/composition-api';
+
+export default defineComponent({
   name: 'PostAds',
   data() {
     return {
@@ -18,5 +20,5 @@ export default {
       },
     };
   },
-};
+});
 </script>

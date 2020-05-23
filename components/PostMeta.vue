@@ -32,7 +32,9 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from '@vue/composition-api';
+
+export default defineComponent({
   name: 'PostMeta',
   props: {
     date: {
@@ -56,5 +58,5 @@ export default {
       default: () => [],
     },
   },
-};
+});
 </script>
