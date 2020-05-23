@@ -1,5 +1,5 @@
 <template>
-  <section class="error-container">
+  <section class="error">
     <LayoutHeader>
       <template v-slot:header-title>
         {{ pageTitle }}
@@ -8,14 +8,9 @@
         {{ error.message }}
       </template>
     </LayoutHeader>
-    <section class="error-message">
+    <section class="error__message">
       {{ pageMessage }}
     </section>
-    <footer>
-      <nuxt-link to="/" class="button">
-        トップページに戻る
-      </nuxt-link>
-    </footer>
   </section>
 </template>
 
@@ -49,34 +44,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss">
-.error-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  text-align: center;
-
-  .error-message {
-    margin-bottom: 2rem;
-  }
-
-  .button {
-    display: inline-flex;
-    align-items: center;
-    align-self: flex-start;
-    justify-content: center;
-    padding: 0.75em 2em;
-    border: 1px solid $border-color;
-    border-radius: 0.15rem;
-    color: $color-text;
-    font-size: $font-size-xs;
-    white-space: nowrap;
-    &:hover {
-      opacity: 0.6;
-    }
-  }
-}
-</style>
