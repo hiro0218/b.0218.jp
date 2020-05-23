@@ -83,7 +83,7 @@ const config: Configuration = {
     '~/plugins/composition-api',
     '~/plugins/fontawesome.js',
     '~/plugins/mixin.ts',
-    '~/plugins/mokuji.client.js',
+    '~/plugins/mokuji.client.ts',
     '~/plugins/source.js',
   ],
 

@@ -48,7 +48,7 @@ export default {
       details.setAttribute('open', 'true');
 
       // 目次一覧を作成
-      const mokujiList = new this.$mokuji(elPostContent, {
+      const mokujiList = new this.$Mokuji(elPostContent, {
         anchorType: true,
         anchorLink: true,
         anchorLinkSymbol: '#',
