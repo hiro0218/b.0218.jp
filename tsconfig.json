@@ -30,7 +30,8 @@
     ]
   },
   "files": [
-    "vue-shim.d.ts"
+    "types/svg-shim.d.ts",
+    "types/vue-shim.d.ts"
   ],
   "exclude": [
     "node_modules",
