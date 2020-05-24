@@ -15,12 +15,13 @@
 
 <script type="ts">
 import { defineComponent, computed } from '@vue/composition-api';
+import CONSTANT from '~/constant.ts';
 
 export default defineComponent({
   name: 'Top',
   setup(_, { root }) {
     const pageTitle = computed(() => '最新の記事');
-    const siteDescription = computed(() => process.env.SITE_DESCRIPTION);
+    const siteDescription = computed(() => CONSTANT.SITE_DESCRIPTION);
     const posts = computed(() => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       return root.$source.posts.filter((post, i) => i < 5);
@@ -34,7 +35,7 @@ export default defineComponent({
   },
   head() {
     return {
-      title: process.env.SITE_NAME,
+      title: CONSTANT.SITE_NAME,
       titleTemplate: null,
     };
   },
