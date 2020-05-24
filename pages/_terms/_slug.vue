@@ -9,7 +9,7 @@
       </template>
     </LayoutHeader>
     <PostsCategoryList v-if="!isTagsPage" :current-path="$route.path" :list="$source.categories" />
-    <PostsList :posts="isTagsPage ? tagsPosts : categoryPosts" />
+    <PostsList :posts="isTagsPage ? tagsPosts : categoriesPosts" />
   </section>
 </template>
 
@@ -20,20 +20,18 @@ export default {
     const isTagsPage = params.terms === 'tags';
 
     // categoryPosts
-    // eslint-disable-next-line camelcase
-    const category_posts = app.$source.categories_posts.filter((post) => {
+    const categoryPosts = app.$source.categoriesPosts.filter((post) => {
       return post.slug === params.slug;
     });
 
-    const categoryPosts = category_posts.length !== 0 ? category_posts[0].posts : [];
+    const categoriesPosts = categoryPosts.length !== 0 ? categoryPosts[0].posts : [];
 
     // tagsPosts
-    // eslint-disable-next-line camelcase
-    const tag_posts = app.$source.tags_posts.filter((post) => {
+    const tagPosts = app.$source.tagsPosts.filter((post) => {
       return post.slug === params.slug;
     });
 
-    const tagsPosts = tag_posts.length !== 0 ? tag_posts[0].posts : [];
+    const tagsPosts = tagPosts.length !== 0 ? tagPosts[0].posts : [];
 
     // 404
     if ((isTagsPage && tagsPosts.length === 0) || (!isTagsPage && categoryPosts.length === 0)) {
@@ -41,9 +39,9 @@ export default {
     }
 
     return {
-      isTagsPage: isTagsPage,
-      categoryPosts: categoryPosts,
-      tagsPosts: tagsPosts,
+      isTagsPage,
+      categoriesPosts,
+      tagsPosts,
     };
   },
   head() {
