@@ -84,7 +84,7 @@ const config: Configuration = {
     '~/plugins/fontawesome.js',
     '~/plugins/mixin.ts',
     '~/plugins/mokuji.client.ts',
-    '~/plugins/source.js',
+    '~/plugins/source.ts',
   ],
 
   /*
