@@ -1,28 +1,25 @@
-<template functional>
+<template>
   <div class="post-meta">
     <div class="c-post-meta">
       <font-awesome-icon icon="clock" class="c-post-meta__icon" />
       <div class="c-post-meta__item--date">
-        <time :datetime="props.date" itemprop="datePublished">{{ props.date | formatDateString }}</time>
+        <time :datetime="date" itemprop="datePublished">{{ stringPublishDate }}</time>
       </div>
-      <div
-        v-if="!(new Date(props.date).toDateString() === new Date(props.updated).toDateString())"
-        class="c-post-meta__item--date"
-      >
-        <time :datetime="props.updated" itemprop="dateModified">{{ props.updated | formatDateString }}</time>
+      <div v-if="!isModified" class="c-post-meta__item--date">
+        <time :datetime="updated" itemprop="dateModified">{{ stringModifiyDate }}</time>
       </div>
     </div>
-    <div v-if="props.postCategory.length !== 0" class="c-post-meta">
+    <div v-if="postCategory.length !== 0" class="c-post-meta">
       <font-awesome-icon icon="folder" class="c-post-meta__icon" />
-      <template v-for="(category, index) in props.postCategory">
+      <template v-for="(category, index) in postCategory">
         <div :key="index" class="c-post-meta__item--separator">
           <nuxt-link :to="'/' + category.path" class="c-post-meta__link">{{ category.name }}</nuxt-link>
         </div>
       </template>
     </div>
-    <div v-if="props.postTag.length !== 0" class="c-post-meta">
+    <div v-if="postTag.length !== 0" class="c-post-meta">
       <font-awesome-icon icon="tag" class="c-post-meta__icon" />
-      <template v-for="(tag, index) in props.postTag">
+      <template v-for="(tag, index) in postTag">
         <div :key="index" class="c-post-meta__item--separator">
           <nuxt-link :to="'/' + tag.path" class="c-post-meta__link">{{ tag.name }}</nuxt-link>
         </div>
@@ -32,7 +29,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, computed } from '@vue/composition-api';
+import { convertDateToSimpleFormat, isSameDate } from '~/assets/script/utils/date.ts';
 
 export default defineComponent({
   name: 'PostMeta',
@@ -57,6 +55,23 @@ export default defineComponent({
       required: false,
       default: () => [],
     },
+  },
+  setup({ date, updated }) {
+    const stringPublishDate = computed(() => {
+      return convertDateToSimpleFormat(date);
+    });
+    const stringModifiyDate = computed(() => {
+      return convertDateToSimpleFormat(updated);
+    });
+    const isModified = computed(() => {
+      return isSameDate(date, updated);
+    });
+
+    return {
+      stringPublishDate,
+      stringModifiyDate,
+      isModified,
+    };
   },
 });
 </script>
