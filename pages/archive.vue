@@ -11,7 +11,7 @@
     <section>
       <ul class="archive-list">
         <li v-for="(post, key) in $source.archives" :key="key" class="archive-item">
-          <time :datetime="post.date" class="archive-item__date">{{ post.date | formatDateString }}</time>
+          <time :datetime="post.date" class="archive-item__date">{{ convertDateToSimpleFormat(post.date) }}</time>
           <a :href="post.path" class="archive-item__link">{{ post.title }}</a>
         </li>
       </ul>
@@ -21,6 +21,7 @@
 
 <script type="ts">
 import { defineComponent, computed } from '@vue/composition-api';
+import { convertDateToSimpleFormat } from '~/assets/script/utils/date.ts';
 
 export default defineComponent({
   name: 'Archive',
@@ -31,6 +32,7 @@ export default defineComponent({
     return {
       pageTitle,
       pageDescription,
+      convertDateToSimpleFormat,
     };
   },
   head() {
