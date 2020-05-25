@@ -1,0 +1,26 @@
+.archive-list {
+  margin: 0;
+  padding-left: 0;
+}
+
+.archive-item {
+  padding: 0;
+  list-style: none;
+
+  &:not(:last-child) {
+    margin-bottom: 1.5rem;
+  }
+
+  &__date {
+    display: block;
+    color: $color-text--light;
+  }
+
+  &__link {
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}

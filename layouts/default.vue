@@ -8,16 +8,8 @@
   </div>
 </template>
 
-<script>
-import TheHeader from '~/components/common/TheHeader.vue';
-import TheFooter from '~/components/common/TheFooter.vue';
-
-export default {
-  components: {
-    TheHeader,
-    TheFooter,
-  },
-};
+<script lang="ts">
+export default {};
 </script>
 
 <style lang="scss">

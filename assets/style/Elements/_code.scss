@@ -19,10 +19,13 @@ pre {
   overflow-wrap: break-word;
   -webkit-overflow-scrolling: touch;
 
-  code {
-    color: inherit;
+  > code {
+    display: block;
+    padding: 1.5rem;
+    background: $bg-color--lighter;
+    color: #383a42;
     font-size: inherit;
-    word-break: normal;
+    line-height: 1.8;
   }
 }
 

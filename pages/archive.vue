@@ -4,67 +4,40 @@
       <template v-slot:header-title>
         {{ pageTitle }}
       </template>
+      <template v-slot:header-description>
+        {{ pageDescription }}
+      </template>
     </LayoutHeader>
-    <section class="archive-list-container">
-      <ul class="u-list-unstyled archive-list">
-        <li v-for="(post, key) in archiveList" :key="key" class="archive-item">
-          <time :datetime="post.date" class="post-date">{{ post.date | formatDateString }}</time>
-          <nuxt-link :to="post.path">{{ post.title }}</nuxt-link>
+    <section>
+      <ul class="archive-list">
+        <li v-for="(post, key) in $source.archives" :key="key" class="archive-item">
+          <time :datetime="post.date" class="archive-item__date">{{ post.date | formatDateString }}</time>
+          <a :href="post.path" class="archive-item__link">{{ post.title }}</a>
         </li>
       </ul>
     </section>
   </article>
 </template>
 
-<script>
-import LayoutHeader from '~/components/LayoutHeader.vue';
-import archives from '~/_source/archives.json';
+<script type="ts">
+import { defineComponent, computed } from '@vue/composition-api';
 
-export default {
+export default defineComponent({
   name: 'Archive',
-  components: {
-    LayoutHeader,
-  },
-  computed: {
-    pageTitle: () => 'Archive',
-    archiveList: () => archives,
+  setup() {
+    const pageTitle = computed(() => 'Archive');
+    const pageDescription = computed(() => 'これまでに公開した記事の一覧です。');
+
+    return {
+      pageTitle,
+      pageDescription,
+    };
   },
   head() {
     return {
       title: this.pageTitle,
+      meta: [{ hid: 'description', name: 'description', content: this.pageDescription }],
     };
   },
-};
+});
 </script>
-
-<style lang="scss">
-.archive {
-  a {
-    text-decoration: underline;
-    &:hover {
-      text-decoration: none;
-    }
-  }
-}
-
-.archive-list-container {
-  display: flex;
-  margin-bottom: 4rem;
-}
-
-.archive-list {
-  padding: 0 1rem;
-}
-
-.archive-item {
-  display: flex;
-  margin-bottom: 1rem;
-  line-height: 2;
-
-  .post-date {
-    flex: 0 0 10rem;
-    color: $color-text--light;
-    font-weight: bold;
-  }
-}
-</style>

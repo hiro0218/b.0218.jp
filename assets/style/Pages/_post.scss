@@ -1,7 +1,7 @@
 .post {
 
   &__content {
-    margin-bottom: 2rem;
+    margin: 2rem 0 2rem;
 
     a {
       text-decoration: underline;
@@ -61,12 +61,31 @@
         margin-bottom: 0.625rem;
       }
     }
+
+    .sandbox {
+      position: relative;
+      margin-bottom: 2rem;
+      padding: 2rem;
+      border: 2px solid $bg-color--lighter;
+      background: #fff;
+      & + pre {
+        margin-top: -(2rem + 0.15rem) !important;
+      }
+    }
   }
 
-  &__related {
-    a {
-      text-decoration: underline;
+  &__share {
+    margin: 3rem 0;
+    text-align: center;
+
+    @include mobile {
+      position: sticky;
+      bottom: 1rem;
     }
+  }
+
+  &__pager {
+    margin: 2rem 0;
   }
 
   hr {
@@ -78,6 +97,7 @@
 
     &::before {
       content: '***';
+      height: 100%;
       font-size: 1.5rem;
     }
   }

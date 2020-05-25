@@ -3,12 +3,7 @@
 // Original One Light Syntax theme from https://github.com/atom/one-light-syntax
 
 .hljs {
-  display: block;
-  padding: 1.5rem;
   overflow-x: auto;
-  background: $bg-color--lighter;
-  color: #383a42;
-  line-height: 1.8;
 
   &[data-language] {
     position: relative;

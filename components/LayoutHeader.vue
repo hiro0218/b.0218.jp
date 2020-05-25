@@ -1,6 +1,6 @@
 <template functional>
-  <header>
-    <div :class="!props.isLarge ? 'c-heading' : 'c-heading--large'">
+  <header class="o-heading-block">
+    <div class="c-heading">
       <h1 class="c-heading__title">
         <slot name="header-title" />
       </h1>
@@ -12,15 +12,10 @@
   </header>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
+
+export default defineComponent({
   name: 'LayoutHeader',
-  props: {
-    isLarge: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-};
+});
 </script>

@@ -1,0 +1,56 @@
+.pj-footer {
+  padding: 3rem 0;
+  background: $color-text;
+  color: $bg-color;
+  font-size: $font-size-sm;
+  text-align: center;
+}
+
+.pj-footer__link {
+  color: inherit;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// scroll top button
+.pj-footer__scroll-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  appearance: none;
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+// menu
+.pj-footer-menu {
+  margin-bottom: 1rem;
+
+  &__list {
+    display: inline-flex;
+  }
+
+  &__item {
+    & + & {
+      margin-left: map-get($size, sm) * 1rem;
+    }
+  }
+}
+
+
+// copyright
+.pj-footer-copyright {
+  &__text {
+    font-size: 1em;
+  }
+}
