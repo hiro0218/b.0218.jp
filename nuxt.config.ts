@@ -9,15 +9,11 @@ const getRoutes = require('./routes.js');
 const config: Configuration = {
   modern: 'client',
 
-  env: {
-    ...CONSTANT,
-  },
-
   /*
    ** Headers of the page
    */
   head: {
-    title: process.env.SITE_NAME,
+    title: CONSTANT.SITE_NAME,
     htmlAttrs: {
       prefix: 'og: http://ogp.me/ns#',
     },

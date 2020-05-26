@@ -17,13 +17,13 @@
 
 <script type="ts">
 import { defineComponent, computed, onMounted } from '@vue/composition-api';
-
+import CONSTANT from '~/constant';
 import svgLogo from '~/assets/image/logo.svg?raw';
 
 export default defineComponent({
   name: 'TheHeader',
   setup() {
-    const siteName = computed(() => process.env.SITE_NAME);
+    const siteName = computed(() => CONSTANT.SITE_NAME);
     let ticking = false;
     let lastKnownScrollY = 0;
 
