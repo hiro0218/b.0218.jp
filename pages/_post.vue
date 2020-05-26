@@ -12,7 +12,7 @@
     </article>
     <div class="post__share">
       <client-only>
-        <PostShare />
+        <PostShare :post-title="post.title" />
       </client-only>
     </div>
     <div class="post__pager">
@@ -99,11 +99,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.post {
-  .c-alert {
-    margin-bottom: 1rem;
-  }
-}
-</style>
