@@ -39,6 +39,7 @@ export default defineComponent({
   },
   head() {
     return {
+      titleTemplate: null,
       meta: [{ hid: 'robots', name: 'robots', content: 'noindex' }],
     };
   },
