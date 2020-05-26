@@ -1,18 +1,11 @@
-// Noto Sans Japanese
 @font-face {
-  font-family: 'Noto Sans Japanese';
+  font-family: 'YuGoMedium';
   font-weight: normal;
-  font-display: swap;
-  src: local('Noto Sans CJK JP DemiLight'),
-    local('NotoSansCJKjp-DemiLight'),
-    url('/fonts/NotoSansCJKjp-DemiLight.woff2') format('woff2');
+  src: local('YuGothic-Medium'), local('Yu Gothic Medium');
 }
 
 @font-face {
-  font-family: 'Noto Sans Japanese';
+  font-family: 'YuGoMedium';
   font-weight: bold;
-  font-display: swap;
-  src: local('Noto Sans CJK JP Black'),
-    local('NotoSansCJKjp-Black'),
-    url('/fonts/NotoSansCJKjp-Black.woff2') format('woff2');
+  src: local('YuGothic-Bold'), local('Yu Gothic');
 }

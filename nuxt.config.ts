@@ -40,12 +40,12 @@ const config: Configuration = {
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
       {
         rel: 'preload',
-        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;900&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@900&display=swap',
         as: 'style',
       },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;900&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@900&display=swap',
         media: 'print',
         onload: 'this.media="all"',
       },
