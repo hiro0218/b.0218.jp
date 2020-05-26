@@ -55,6 +55,9 @@ export default {
         anchorLinkBefore: false,
         anchorLinkClassName: 'anchor',
       });
+
+      // 目次要素が存在しない場合
+      if (Object.keys(mokujiList).length === 0) return;
       mokujiList.classList.add('c-mokuji__list');
 
       window.requestAnimationFrame(() => {

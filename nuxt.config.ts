@@ -9,15 +9,11 @@ const getRoutes = require('./routes.js');
 const config: Configuration = {
   modern: 'client',
 
-  env: {
-    ...CONSTANT,
-  },
-
   /*
    ** Headers of the page
    */
   head: {
-    title: process.env.SITE_NAME,
+    title: CONSTANT.SITE_NAME,
     htmlAttrs: {
       prefix: 'og: http://ogp.me/ns#',
     },
@@ -40,12 +36,12 @@ const config: Configuration = {
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
       {
         rel: 'preload',
-        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;900&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@900&display=swap',
         as: 'style',
       },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;900&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@900&display=swap',
         media: 'print',
         onload: 'this.media="all"',
       },

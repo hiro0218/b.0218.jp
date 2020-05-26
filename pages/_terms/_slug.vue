@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import CONSTANT from '~/constant';
+
 export default {
   name: 'TermsPostsList',
   asyncData({ app, params, error }) {
@@ -52,7 +54,7 @@ export default {
         {
           hid: 'og:url',
           property: 'og:url',
-          content: `${process.env.SITE_URL}${this.$route.params.terms}/${this.$route.params.slug}`,
+          content: `${CONSTANT.SITE_URL}${this.$route.params.terms}/${this.$route.params.slug}`,
         },
         { hid: 'og:title', property: 'og:title', content: this.$route.params.slug },
       ],

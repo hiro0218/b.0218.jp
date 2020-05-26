@@ -10,10 +10,11 @@ $size: (
 
 // Fonts
 
-$font-family-sans-serif: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Yu Gothic', YuGothic,
-  'Hiragino Kaku Gothic ProN', Meiryo, Roboto, 'Helvetica Neue', Arial, Noto Sans, sans-serif, 'Apple Color Emoji',
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', YuGoMedium, YuGothic, 'Noto Sans JP', 'Yu Gothic',
+  'Hiragino Kaku Gothic ProN', Meiryo, sans-serif, 'Apple Color Emoji',
   'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !default;
 $font-family-monospace: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace !default;
+$font-family-webfont: 'Noto Sans JP', $font-family-sans-serif;
 
 $h1-font-size: 1rem * 6/3; // 2rem
 $h2-font-size: 1rem * 6/4; // 1.5rem

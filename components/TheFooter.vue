@@ -30,11 +30,12 @@
 
 <script type="ts">
 import { defineComponent, computed } from '@vue/composition-api';
+import CONSTANT from '~/constant';
 
 export default defineComponent({
   name: 'TheFooter',
   setup() {
-    const siteName = computed(() => process.env.SITE_NAME);
+    const siteName = computed(() => CONSTANT.SITE_NAME);
 
     function scrollTop() {
       window.scrollTo({

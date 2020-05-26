@@ -1,5 +1,5 @@
 <template>
-  <div class="p-post-list">
+  <div class="post-list">
     <template v-for="(post, key) in posts">
       <nuxt-link :key="key" :to="{ path: '/' + post.path }" class="c-card">
         <div class="c-card-image">
@@ -39,11 +39,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.c-card {
-  &:not(:last-child) {
-    margin-bottom: 0.5rem;
-  }
-}
-</style>
