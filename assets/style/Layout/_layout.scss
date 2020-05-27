@@ -1,0 +1,5 @@
+.l-main {
+  flex: 1 0 auto;
+  min-height: calc(100vh - #{$header-height});
+  margin-bottom: 4rem;
+}
