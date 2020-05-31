@@ -6,16 +6,8 @@
     a {
       text-decoration: underline;
 
-      &.is-external_link {
+      &.is-external {
 
-        &::after {
-          content: '';
-          display: inline-block;
-          width: 1em;
-          height: 1em;
-          margin: 0 0.25em;
-          background: url('~assets/image/open_in_new.svg') center / 1em 1em no-repeat;
-        }
       }
     }
 
