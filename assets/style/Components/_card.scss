@@ -30,9 +30,13 @@
     }
 
     &__no-item {
-      width: 2rem;
-      height: 2rem;
-      color: $color-text--light;
+      display: flex;
+
+      svg {
+        width: 2rem;
+        height: 2rem;
+        fill: $color-text--light;
+      }
     }
   }
 

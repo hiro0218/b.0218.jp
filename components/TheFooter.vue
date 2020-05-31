@@ -2,7 +2,7 @@
   <footer class="pj-footer">
     <div class="o-container">
       <button aria-label="scrollButton" class="pj-footer__scroll-button" @click="scrollTop">
-        <font-awesome-icon icon="arrow-up" />
+        <div v-html="$icon['arrow-up'].toSVG()" />
       </button>
       <nav class="pj-footer-menu">
         <ul class="u-list-unstyled pj-footer-menu__list">

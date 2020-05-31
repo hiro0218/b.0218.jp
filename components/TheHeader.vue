@@ -9,7 +9,7 @@
         title="site:b.0218.jp - Google 検索"
         class="pj-header-search"
       >
-        <font-awesome-icon icon="search" class="pj-header-search__icon" />
+        <div class="pj-header-search__icon" v-html="$icon.search.toSVG()" />
       </a>
     </div>
   </header>
