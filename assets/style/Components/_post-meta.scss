@@ -11,6 +11,7 @@
   &__item {
 
     &--date {
+      display: flex;
       color: $color-text--lighter;
       text-decoration: line-through;
 
@@ -46,8 +47,8 @@
   }
 
   &__icon {
-    width: 0.9em;
-    height: 0.9em;
+    display: flex;
+    align-items: center;
 
     &:first-child {
       margin-right: 0.25em;

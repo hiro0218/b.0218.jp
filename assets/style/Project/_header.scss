@@ -49,9 +49,13 @@
   height: 100%;
 
   &__icon {
-    width: 1rem;
-    height: 1rem;
-    color: $color-text--light;
+    display: flex;
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      fill: $color-text--light;
+    }
   }
 }
 

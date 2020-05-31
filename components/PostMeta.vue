@@ -1,8 +1,8 @@
 <template>
   <div class="post-meta">
     <div class="c-post-meta">
-      <font-awesome-icon icon="clock" class="c-post-meta__icon" />
       <div class="c-post-meta__item--date">
+        <div class="c-post-meta__icon" v-html="$icon.clock.toSVG()" />
         <time :datetime="date" itemprop="datePublished">{{ stringPublishDate }}</time>
       </div>
       <div v-if="!isModified" class="c-post-meta__item--date">
@@ -10,7 +10,7 @@
       </div>
     </div>
     <div v-if="postCategory.length !== 0" class="c-post-meta">
-      <font-awesome-icon icon="folder" class="c-post-meta__icon" />
+      <div class="c-post-meta__icon" v-html="$icon.archive.toSVG()" />
       <template v-for="(category, index) in postCategory">
         <div :key="index" class="c-post-meta__item--separator">
           <nuxt-link :to="'/' + category.path" class="c-post-meta__link">{{ category.name }}</nuxt-link>
@@ -18,7 +18,7 @@
       </template>
     </div>
     <div v-if="postTag.length !== 0" class="c-post-meta">
-      <font-awesome-icon icon="tag" class="c-post-meta__icon" />
+      <div class="c-post-meta__icon" v-html="$icon.tag.toSVG()" />
       <template v-for="(tag, index) in postTag">
         <div :key="index" class="c-post-meta__item--separator">
           <nuxt-link :to="'/' + tag.path" class="c-post-meta__link">{{ tag.name }}</nuxt-link>
