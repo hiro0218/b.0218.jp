@@ -147,20 +147,6 @@ const config: Configuration = {
   build: {
     parallel: true,
 
-    extractCSS: process.env.NODE_ENV === 'production',
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          styles: {
-            name: 'styles',
-            test: /\.(css|vue)$/,
-            chunks: 'all',
-            enforce: true,
-          },
-        },
-      },
-    },
-
     loaders: {
       scss: {
         implementation: Sass,
