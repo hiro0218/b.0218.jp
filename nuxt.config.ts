@@ -80,7 +80,7 @@ const config: Configuration = {
   /*
    ** Nuxt.js modules
    */
-  modules: ['@nuxtjs/style-resources', '@nuxtjs/pwa', '@nuxtjs/svg'],
+  modules: ['@nuxtjs/pwa', '@nuxtjs/svg'],
 
   buildModules: [
     '@nuxtjs/google-analytics',
@@ -91,10 +91,6 @@ const config: Configuration = {
 
   googleAnalytics: {
     id: 'UA-50805440-1',
-  },
-
-  styleResources: {
-    scss: ['~/assets/style/Settings/index.scss', '~/assets/style/Tools/index.scss'],
   },
 
   workbox: {

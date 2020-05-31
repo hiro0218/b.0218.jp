@@ -33,7 +33,6 @@
     "@nuxt/typescript-build": "^1.0.1",
     "@nuxt/typescript-runtime": "^0.4.8",
     "@nuxtjs/eslint-config-typescript": "^2.0.0",
-    "@nuxtjs/style-resources": "^1.0.0",
     "@nuxtjs/svg": "^0.1.11",
     "@vue/composition-api": "^0.5.0",
     "babel-eslint": "^10.1.0",
