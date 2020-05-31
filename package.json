@@ -13,7 +13,6 @@
     "pregenerate": "node ./output.js"
   },
   "dependencies": {
-    "@nuxtjs/google-adsense": "^1.1.3",
     "@nuxtjs/google-analytics": "^2.3.0",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
     "@primer/octicons-v2": "^0.0.0-53e900d",

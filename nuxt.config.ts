@@ -80,17 +80,7 @@ const config: Configuration = {
   /*
    ** Nuxt.js modules
    */
-  modules: [
-    '@nuxtjs/style-resources',
-    '@nuxtjs/pwa',
-    [
-      '@nuxtjs/google-adsense',
-      {
-        id: 'ca-pub-7651142413133023',
-      },
-    ],
-    '@nuxtjs/svg',
-  ],
+  modules: ['@nuxtjs/style-resources', '@nuxtjs/pwa', '@nuxtjs/svg'],
 
   buildModules: [
     '@nuxtjs/google-analytics',
