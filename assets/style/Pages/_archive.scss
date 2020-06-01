@@ -1,26 +1,44 @@
 .archive-list {
-  margin: 0;
-  padding-left: 0;
+  display: flex;
+  margin-bottom: 2rem;
 }
 
-.archive-item {
-  padding: 0;
-  list-style: none;
+.archive-year {
+  margin-right: 3rem;
+
+  &__title {
+    margin: 0;
+    font-size: 1.5em;
+  }
+}
+
+.archive-post {
+  flex-grow: 1;
 
   &:not(:last-child) {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  &__list {
+    &:not(:last-child) {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  &__title {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: $color-text-heading;
   }
 
   &__date {
     display: block;
-    color: $color-text--light;
+    line-height: 1;
+    color: $color-text--lighter;
   }
 
   &__link {
-    text-decoration: underline;
-
-    &:hover {
-      text-decoration: none;
-    }
+    display: block;
+    text-decoration: none;
   }
 }
