@@ -18,27 +18,34 @@
   &:not(:last-child) {
     margin-bottom: 2rem;
   }
+}
 
-  &__list {
-    &:not(:last-child) {
-      margin-bottom: 1.5rem;
-    }
+.archive-post-list {
+  &:not(:last-child) {
+    margin-bottom: 1.5rem;
   }
+}
+
+.archive-post-item {
+  display: block;
+  text-decoration: none;
 
   &__title {
     margin-bottom: 0.5rem;
-    font-size: 1rem;
     color: $color-text-heading;
+    font-size: 1rem;
   }
 
   &__date {
     display: block;
-    line-height: 1;
     color: $color-text--lighter;
+    line-height: 1;
   }
 
-  &__link {
-    display: block;
-    text-decoration: none;
+  &:hover & {
+    &__title {
+      text-decoration: underline;
+      text-underline-position: under;
+    }
   }
 }
