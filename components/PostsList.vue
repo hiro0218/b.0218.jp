@@ -11,7 +11,7 @@
               :alt="post.title"
               loading="lazy"
             />
-            <duv v-else class="c-card-image__no-item" v-html="$icon.image.toSVG()" />
+            <div v-else class="c-card-image__no-item" v-html="$icon.image.toSVG()" />
           </div>
         </div>
         <div class="c-card-body">
