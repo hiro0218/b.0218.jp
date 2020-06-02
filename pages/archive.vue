@@ -40,7 +40,7 @@ const formatArchive = (archives) => {
 
     // 日付を取得する
     const date = new Date(post.date);
-    const year = date.getFullYear();
+    const year = date.getFullYear() + ' ';
 
     // 配列で初期化
     if (!Array.isArray(formatArchives[year])) {
