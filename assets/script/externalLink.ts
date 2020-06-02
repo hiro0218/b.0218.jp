@@ -1,7 +1,8 @@
+import octicons from '@primer/octicons-v2';
+
 export default (element: HTMLElement) => {
   const links = element.querySelectorAll('a');
-
-  if (links.length === 0) return;
+  const icon: string = octicons['link-external'].toSVG();
 
   for (let i = 0; i < links.length; i++) {
     const element = links[i];
@@ -29,7 +30,8 @@ export default (element: HTMLElement) => {
     if (element.hasChildNodes()) {
       if (element.childNodes[0].nodeType === 3) {
         // add icon class
-        element.classList.add('is-external_link');
+        element.classList.add('is-external');
+        element.insertAdjacentHTML('beforeend', icon);
       }
     }
   }

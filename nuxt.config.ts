@@ -80,17 +80,7 @@ const config: Configuration = {
   /*
    ** Nuxt.js modules
    */
-  modules: [
-    '@nuxtjs/style-resources',
-    '@nuxtjs/pwa',
-    [
-      '@nuxtjs/google-adsense',
-      {
-        id: 'ca-pub-7651142413133023',
-      },
-    ],
-    '@nuxtjs/svg',
-  ],
+  modules: ['@nuxtjs/pwa', '@nuxtjs/svg'],
 
   buildModules: [
     '@nuxtjs/google-analytics',
@@ -101,10 +91,6 @@ const config: Configuration = {
 
   googleAnalytics: {
     id: 'UA-50805440-1',
-  },
-
-  styleResources: {
-    scss: ['~/assets/style/Settings/index.scss', '~/assets/style/Tools/index.scss'],
   },
 
   workbox: {
@@ -146,20 +132,6 @@ const config: Configuration = {
    */
   build: {
     parallel: true,
-
-    extractCSS: process.env.NODE_ENV === 'production',
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          styles: {
-            name: 'styles',
-            test: /\.(css|vue)$/,
-            chunks: 'all',
-            enforce: true,
-          },
-        },
-      },
-    },
 
     loaders: {
       scss: {
