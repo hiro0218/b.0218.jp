@@ -32,25 +32,25 @@
 import { defineComponent, computed } from '@vue/composition-api';
 import { convertDateToSimpleFormat } from '~/assets/script/utils/date.ts';
 
-const formatArchive = (srcArchives) => {
-  const archives = {};
+const formatArchive = (archives) => {
+  const formatArchives = {};
 
-  for (let i = 0; i < srcArchives.length; i++) {
-    const post = srcArchives[i];
+  for (let i = 0; i < archives.length; i++) {
+    const post = archives[i];
 
     // 日付を取得する
     const date = new Date(post.date);
     const year = date.getFullYear();
 
     // 配列で初期化
-    if (!Array.isArray(archives[year])) {
-      archives[year] = [];
+    if (!Array.isArray(formatArchives[year])) {
+      formatArchives[year] = [];
     }
 
-    archives[year].push(post);
+    formatArchives[year].push(post);
   }
 
-  return archives;
+  return formatArchives;
 };
 
 export default defineComponent({
