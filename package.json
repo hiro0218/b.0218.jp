@@ -10,7 +10,7 @@
     "start": "http-server ./dist",
     "generate": "nuxt-ts generate",
     "lint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore .",
-    "pregenerate": "node ./output.js"
+    "pregenerate": "git submodule update --remote && node ./output.js"
   },
   "dependencies": {
     "@nuxtjs/google-analytics": "^2.3.0",
