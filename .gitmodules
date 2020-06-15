@@ -2,4 +2,4 @@
 	path = _source
 	url = https://github.com/hiro0218/blog.git
 	branch = gh-pages
-        ignore = dirty
+	ignore = dirty
