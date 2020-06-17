@@ -179,23 +179,17 @@ const config: Configuration = {
     },
 
     babel: {
-      presets: [
-        [
-          '@babel/preset-env',
-          {
-            useBuiltIns: 'usage',
-            corejs: 3,
-            targets: {
-              ie: '11',
+      presets({ isServer }) {
+        return [
+          [
+            require.resolve('@nuxt/babel-preset-app'),
+            {
+              buildTarget: isServer ? 'server' : 'client',
+              corejs: { version: 3 },
             },
-          },
-        ],
-      ],
-      plugins: [
-        ['@babel/plugin-transform-runtime'],
-        ['@babel/plugin-proposal-object-rest-spread'],
-        ['@babel/plugin-syntax-dynamic-import'],
-      ],
+          ],
+        ];
+      },
     },
 
     postcss: {
