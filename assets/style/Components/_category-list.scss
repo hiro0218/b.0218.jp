@@ -10,24 +10,41 @@
     text-align: center;
 
     &:not(:first-child) {
-      margin-left: 0.5rem;
+      margin-left: 1rem;
     }
   }
 
   &__link {
     display: block;
-    padding: 0.5em 0.8em;
-    border-radius: 0.15rem;
+    position: relative;
+    padding: 0.5em;
     color: $color-text;
 
+    &::before {
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      transition: width 0.2s cubic-bezier(1, 0, 0, 1);
+      background: $color-text;
+    }
+
     &:hover {
-      background-color: $bg-color--light;
+
+      &::before {
+        width: 100%;
+      }
     }
 
     &.nuxt-link-active {
-      background: $color-text;
-      color: $bg-color;
       cursor: default;
+
+      &::before {
+        width: 100%;
+      }
     }
   }
 }
