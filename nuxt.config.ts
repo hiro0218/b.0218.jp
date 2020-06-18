@@ -65,7 +65,7 @@ const config: Configuration = {
   /*
    ** Customize the progress-bar color
    */
-  loading: '~/components/TheLoading.vue',
+  loading: '~/components/TheLoading.tsx',
 
   /*
    ** Global CSS

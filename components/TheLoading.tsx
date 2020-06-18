@@ -1,8 +1,3 @@
-<template>
-  <div v-show="loading" class="c-loading is-active" />
-</template>
-
-<script type="ts">
 import { defineComponent, ref, onMounted } from '@vue/composition-api';
 
 export default defineComponent({
@@ -28,7 +23,9 @@ export default defineComponent({
       loading,
       start,
       finish,
-    }
+    };
+  },
+  render() {
+    return <div v-show={this.loading} class="c-loading is-active" />;
   },
 });
-</script>
