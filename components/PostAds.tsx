@@ -1,19 +1,3 @@
-<template>
-  <div class="c-adsense post-ads">
-    <client-only>
-      <ins
-        class="adsbygoogle"
-        style="display: block; text-align: center;"
-        :data-ad-layout="layout"
-        :data-ad-format="format"
-        :data-ad-client="client"
-        :data-ad-slot="slot"
-      />
-    </client-only>
-  </div>
-</template>
-
-<script lang="ts">
 import { defineComponent, computed } from '@vue/composition-api';
 import CONSTANT from '~/constant';
 
@@ -33,5 +17,20 @@ export default defineComponent({
       slot,
     };
   },
+  render() {
+    return (
+      <div class="c-adsense post-ads">
+        <client-only>
+          <ins
+            class="adsbygoogle"
+            style="display: block; text-align: center;"
+            data-ad-layout={this.layout}
+            data-ad-format={this.format}
+            data-ad-client={this.client}
+            data-ad-slot={this.slot}
+          />
+        </client-only>
+      </div>
+    );
+  },
 });
-</script>

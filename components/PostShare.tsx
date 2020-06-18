@@ -24,7 +24,7 @@ export default defineComponent({
       svgFacebook,
     };
   },
-  render () {
+  render() {
     return (
       <div class="c-sns-list">
         <a
