@@ -8,7 +8,7 @@
         {{ $route.params.terms }}
       </template>
     </LayoutHeader>
-    <PostsCategoryList v-if="!isTagsPage" :current-path="$route.path" :list="$source.categories" />
+    <PostsCategoryList v-if="!isTagsPage" :list="$source.categories" />
     <PostsList :posts="isTagsPage ? tagsPosts : categoriesPosts" />
   </section>
 </template>
