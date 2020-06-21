@@ -1,5 +1,11 @@
 .post {
 
+  &__article {
+    .c-heading {
+      margin-bottom: 1rem;
+    }
+  }
+
   &__content {
     margin: 2rem 0 2rem;
 
