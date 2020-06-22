@@ -89,6 +89,9 @@ const config: Configuration = {
     '@nuxt/typescript-build',
   ],
 
+  // @nuxt/components
+  components: [{ path: '~/components' }],
+
   googleAnalytics: {
     id: 'UA-50805440-1',
   },
