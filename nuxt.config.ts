@@ -45,7 +45,6 @@ const config: Configuration = {
         media: 'print',
         onload: 'this.media="all"',
       },
-      { rel: 'dns-prefetch', href: '//adservice.google.com' },
       { rel: 'dns-prefetch', href: '//cdn.polyfill.io' },
       { rel: 'dns-prefetch', href: '//cdn.jsdelivr.net' },
       { rel: 'dns-prefetch', href: '//fonts.googleapis.com' },
