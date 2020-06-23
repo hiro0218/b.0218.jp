@@ -1,8 +1,4 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+@import '~minireset.css/minireset.sass';
 
 html {
   font-family: sans-serif;

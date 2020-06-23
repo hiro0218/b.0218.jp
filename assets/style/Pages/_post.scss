@@ -49,11 +49,69 @@
       margin-top: 2.5em;
     }
 
+    ul {
+      list-style: disc;
+    }
+
+    ol {
+      list-style: decimal;
+    }
+
     ul,
     ol {
       li {
         margin-bottom: 0.625rem;
       }
+    }
+
+    > p {
+      margin-top: 0;
+      margin-bottom: 1.5em;
+      letter-spacing: 0.05em;
+      line-height: 2;
+      word-break: break-all;
+    }
+
+    blockquote {
+      position: relative;
+      margin: 2rem 0;
+      padding: 3rem;
+      background: $bg-color--lighter;
+      color: $color-text--light;
+      font-size: $font-size-sm;
+
+      &::before,
+      &::after {
+        display: block;
+        position: absolute;
+        width: 3rem;
+        height: 3rem;
+        color: $bg-color--darker;
+        font-size: 2.5rem;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      &::before {
+        content: '“';
+        top: 0;
+        left: 0;
+      }
+      &::after {
+        content: '”';
+        right: 0;
+        bottom: 0;
+      }
+
+      p {
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    pre {
+      margin-bottom: 1rem;
     }
 
     .sandbox {
