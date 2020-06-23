@@ -30,7 +30,7 @@
         color: $bg-color--dark;
         text-decoration: none;
         user-select: none;
-        @include until($desktop) {
+        @include mobile {
           position: static;
           margin-left: 0.25em;
         }

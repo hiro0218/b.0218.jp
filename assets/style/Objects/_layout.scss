@@ -5,7 +5,7 @@
   padding-right: 5vw;
   padding-left: 5vw;
 
-  @include from($desktop) {
+  @include desktop {
     max-width: $desktop;
   }
 }
