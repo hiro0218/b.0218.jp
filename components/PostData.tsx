@@ -1,8 +1,3 @@
-<template>
-  <div class="post__content js-post-content" v-html="content" />
-</template>
-
-<script>
 import externalLink from '~/assets/script/externalLink.ts';
 import highlight from '~/assets/script/highlight.js';
 import wrapTable from '~/assets/script/wrapTable.ts';
@@ -15,6 +10,9 @@ export default {
       required: false,
       default: '',
     },
+  },
+  render() {
+    return <div class="post__content js-post-content" domPropsInnerHTML={this.content} />;
   },
   mounted() {
     this.init();
@@ -69,4 +67,3 @@ export default {
     },
   },
 };
-</script>

@@ -53,5 +53,9 @@
     &:first-child {
       margin-right: 0.25em;
     }
+
+    svg {
+      fill: currentColor;
+    }
   }
 }

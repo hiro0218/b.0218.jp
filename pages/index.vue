@@ -8,7 +8,7 @@
         {{ siteDescription }}
       </template>
     </LayoutHeader>
-    <PostsCategoryList :current-path="$route.path" :list="$source.categories" />
+    <PostsCategoryList :list="$source.categories" />
     <PostsList :posts="posts" />
   </section>
 </template>

@@ -1,21 +1,3 @@
-<template>
-  <header class="pj-header js-header">
-    <div class="o-container pj-header-container">
-      <nuxt-link :title="siteName" to="/" class="pj-header__logo" v-html="svgLogo" />
-      <a
-        href="https://www.google.com/search?q=site:b.0218.jp"
-        target="_blank"
-        rel="noopener"
-        title="site:b.0218.jp - Google 検索"
-        class="pj-header-search"
-      >
-        <div class="pj-header-search__icon" v-html="$icon.search.toSVG()" />
-      </a>
-    </div>
-  </header>
-</template>
-
-<script type="ts">
 import { defineComponent, computed, onMounted } from '@vue/composition-api';
 import CONSTANT from '~/constant';
 import svgLogo from '~/assets/image/logo.svg?raw';
@@ -31,9 +13,13 @@ export default defineComponent({
       const elHeader = document.querySelector('.js-header');
       const headerheight = elHeader.offsetHeight;
 
-      document.addEventListener('scroll', () => {
-        handleScroll(elHeader, headerheight);
-      }, !document.documentMode ? { passive: false } : false);
+      document.addEventListener(
+        'scroll',
+        () => {
+          handleScroll(elHeader, headerheight);
+        },
+        !document.documentMode ? { passive: false } : false,
+      );
     });
 
     function handleScroll(elHeader, headerheight) {
@@ -66,5 +52,22 @@ export default defineComponent({
       siteName,
     };
   },
+  render() {
+    return (
+      <header class="pj-header js-header">
+        <div class="o-container pj-header-container">
+          <nuxt-link title={this.siteName} to="/" class="pj-header__logo" domPropsInnerHTML={svgLogo} />
+          <a
+            href="https://www.google.com/search?q=site:b.0218.jp"
+            target="_blank"
+            rel="noopener"
+            title="site:b.0218.jp - Google 検索"
+            class="pj-header-search"
+          >
+            <div class="pj-header-search__icon" domPropsInnerHTML={this.$icon.search.toSVG()} />
+          </a>
+        </div>
+      </header>
+    );
+  },
 });
-</script>

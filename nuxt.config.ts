@@ -45,7 +45,6 @@ const config: Configuration = {
         media: 'print',
         onload: 'this.media="all"',
       },
-      { rel: 'dns-prefetch', href: '//adservice.google.com' },
       { rel: 'dns-prefetch', href: '//cdn.polyfill.io' },
       { rel: 'dns-prefetch', href: '//cdn.jsdelivr.net' },
       { rel: 'dns-prefetch', href: '//fonts.googleapis.com' },
@@ -65,12 +64,12 @@ const config: Configuration = {
   /*
    ** Customize the progress-bar color
    */
-  loading: '~/components/TheLoading.vue',
+  loading: '~/components/TheLoading.tsx',
 
   /*
    ** Global CSS
    */
-  css: ['normalize.css', '~/assets/style/main.scss'],
+  css: ['~/assets/style/main.scss'],
 
   /*
    ** Plugins to load before mounting the App
@@ -88,6 +87,9 @@ const config: Configuration = {
     '@nuxt/components',
     '@nuxt/typescript-build',
   ],
+
+  // @nuxt/components
+  components: [{ path: '~/components' }],
 
   googleAnalytics: {
     id: 'UA-50805440-1',
@@ -179,23 +181,17 @@ const config: Configuration = {
     },
 
     babel: {
-      presets: [
-        [
-          '@babel/preset-env',
-          {
-            useBuiltIns: 'usage',
-            corejs: 3,
-            targets: {
-              ie: '11',
+      presets({ isServer }) {
+        return [
+          [
+            require.resolve('@nuxt/babel-preset-app'),
+            {
+              buildTarget: isServer ? 'server' : 'client',
+              corejs: { version: 3 },
             },
-          },
-        ],
-      ],
-      plugins: [
-        ['@babel/plugin-transform-runtime'],
-        ['@babel/plugin-proposal-object-rest-spread'],
-        ['@babel/plugin-syntax-dynamic-import'],
-      ],
+          ],
+        ];
+      },
     },
 
     postcss: {
