@@ -5,9 +5,11 @@
   font-size: $font-size-xs;
   letter-spacing: 0.1em;
   white-space: nowrap;
+  scroll-snap-type: x;
 
   &__item {
     text-align: center;
+    scroll-snap-align: start;
 
     &:not(:first-child) {
       margin-left: 1rem;
