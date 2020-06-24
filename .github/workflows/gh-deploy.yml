@@ -13,9 +13,6 @@ jobs:
       with:
         submodules: true
 
-    - name: Update Submodules
-      run: git submodule update --remote
-
     - name: Setup Node
       uses: actions/setup-node@v1
       with:
