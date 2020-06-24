@@ -23,7 +23,7 @@ export default defineComponent({
       <footer class="pj-footer">
         <div class="o-container">
           <button aria-label="scrollButton" class="pj-footer__scroll-button" onClick={() => this.scrollTop()}>
-            <div domPropsInnerHTML={this.$icon['arrow-up'].toSVG()} />
+            <div domPropsInnerHTML={this.$icon['arrow-up']} />
           </button>
           <nav class="pj-footer-menu">
             <ul class="u-list-unstyled pj-footer-menu__list">

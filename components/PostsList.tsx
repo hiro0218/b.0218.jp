@@ -14,7 +14,7 @@ export default {
           <router-link to={'/' + post.path} class="c-card">
             <div class="c-card-image">
               <div class="c-card-image__container">
-                <div class="c-card-image__no-item" domPropsInnerHTML={this.$icon.image.toSVG()} />
+                <div class="c-card-image__no-item" domPropsInnerHTML={this.$icon.image} />
               </div>
             </div>
             <div class="c-card-body">
