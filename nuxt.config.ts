@@ -168,11 +168,6 @@ const config: Configuration = {
         }
       });
 
-      config.module.rules.unshift({
-        test: /\.worker\.js$/,
-        loader: 'worker-loader',
-      });
-
       // Overcome webpack referencing `window` in chunks
       config.output.globalObject = `(typeof self !== 'undefined' ? self : this)`;
     },
