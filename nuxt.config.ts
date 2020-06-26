@@ -78,7 +78,7 @@ const config: Configuration = {
    */
   plugins: [
     '~/plugins/composition-api',
-    '~/plugins/highlighjs',
+    '~/plugins/highlightJs',
     '~/plugins/icon',
     '~/plugins/mokuji.client.ts',
     '~/plugins/source.ts',
