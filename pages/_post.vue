@@ -22,6 +22,9 @@
 </template>
 
 <script>
+import cheerio from 'cheerio';
+import hljs from 'highlight.js';
+
 import CONSTANT from '~/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '~/assets/script/json-ld';
 
@@ -48,6 +51,20 @@ export default {
         // パラメータから記事内容を取得
         const content = await import(`~/_source/${post.path}`).then((text) => text.default);
 
+        // highligh.js
+        const $ = cheerio.load(content);
+        $('pre code').each((_, element) => {
+          const className = element.className.replace('language-', '');
+          const result = hljs.highlightAuto(element.textContent, [className]);
+
+          if (className) {
+            element.dataset.language = className;
+          }
+
+          element.classList.add('hljs');
+          element.innerHTML = result.value;
+        });
+
         return {
           post: {
             date: post.date,
@@ -55,7 +72,7 @@ export default {
             slug: post.path,
             link: post.permalink,
             title: post.title,
-            content: content,
+            content: $.html(),
             excerpt: post.excerpt,
             thumbnail: post.thumbnail,
             categories: post.categories,
