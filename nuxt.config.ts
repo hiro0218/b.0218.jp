@@ -9,6 +9,8 @@ const getRoutes = require('./routes.js');
 const config: Configuration = {
   modern: 'client',
 
+  target: 'static',
+
   /*
    ** Headers of the page
    */
@@ -81,12 +83,7 @@ const config: Configuration = {
    */
   modules: ['@nuxtjs/pwa', '@nuxtjs/svg'],
 
-  buildModules: [
-    '@nuxtjs/google-analytics',
-    // TODO: Remove when upgrading to nuxt 2.13+
-    '@nuxt/components',
-    '@nuxt/typescript-build',
-  ],
+  buildModules: ['@nuxtjs/google-analytics', '@nuxt/typescript-build'],
 
   // @nuxt/components
   components: [{ path: '~/components' }],
