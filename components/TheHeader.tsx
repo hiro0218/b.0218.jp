@@ -64,7 +64,7 @@ export default defineComponent({
             title="site:b.0218.jp - Google 検索"
             class="pj-header-search"
           >
-            <div class="pj-header-search__icon" domPropsInnerHTML={this.$icon.search.toSVG()} />
+            <div class="pj-header-search__icon" domPropsInnerHTML={this.$icon.search} />
           </a>
         </div>
       </header>

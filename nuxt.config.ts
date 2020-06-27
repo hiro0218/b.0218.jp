@@ -9,6 +9,8 @@ const getRoutes = require('./routes.js');
 const config: Configuration = {
   modern: 'client',
 
+  target: 'static',
+
   /*
    ** Headers of the page
    */
@@ -74,19 +76,20 @@ const config: Configuration = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/composition-api', '~/plugins/icon', '~/plugins/mokuji.client.ts', '~/plugins/source.ts'],
+  plugins: [
+    '~/plugins/composition-api',
+    '~/plugins/highlightJs',
+    '~/plugins/icon',
+    '~/plugins/mokuji.client.ts',
+    '~/plugins/source.ts',
+  ],
 
   /*
    ** Nuxt.js modules
    */
   modules: ['@nuxtjs/pwa', '@nuxtjs/svg'],
 
-  buildModules: [
-    '@nuxtjs/google-analytics',
-    // TODO: Remove when upgrading to nuxt 2.13+
-    '@nuxt/components',
-    '@nuxt/typescript-build',
-  ],
+  buildModules: ['@nuxtjs/google-analytics', '@nuxt/typescript-build'],
 
   // @nuxt/components
   components: [{ path: '~/components' }],
@@ -169,11 +172,6 @@ const config: Configuration = {
         if (rule.test.toString() === '/\\.vue$/') {
           rule.options.optimizeSSR = false;
         }
-      });
-
-      config.module.rules.unshift({
-        test: /\.worker\.js$/,
-        loader: 'worker-loader',
       });
 
       // Overcome webpack referencing `window` in chunks

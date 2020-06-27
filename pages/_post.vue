@@ -48,6 +48,9 @@ export default {
         // パラメータから記事内容を取得
         const content = await import(`~/_source/${post.path}`).then((text) => text.default);
 
+        // highlight.js
+        const postContent = app.$highlightJs(content);
+
         return {
           post: {
             date: post.date,
@@ -55,7 +58,7 @@ export default {
             slug: post.path,
             link: post.permalink,
             title: post.title,
-            content: content,
+            content: postContent,
             excerpt: post.excerpt,
             thumbnail: post.thumbnail,
             categories: post.categories,

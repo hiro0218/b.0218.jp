@@ -1,5 +1,4 @@
 import externalLink from '~/assets/script/externalLink.ts';
-import highlight from '~/assets/script/highlight.js';
 import wrapTable from '~/assets/script/wrapTable.ts';
 
 export default {
@@ -23,7 +22,6 @@ export default {
         const elPostContent = document.querySelector('.js-post-content');
         externalLink(elPostContent);
         wrapTable(elPostContent);
-        highlight(elPostContent);
         this.initMokuji(elPostContent);
       });
     },
