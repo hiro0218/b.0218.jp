@@ -28,14 +28,14 @@ export default defineComponent({
           <nav class="pj-footer-menu">
             <ul class="u-list-unstyled pj-footer-menu__list">
               <li class="pj-footer-menu__item">
-                <router-link to="/about" class="pj-footer__link">
+                <a href="/about" class="pj-footer__link">
                   about
-                </router-link>
+                </a>
               </li>
               <li class="pj-footer-menu__item">
-                <router-link to="/archive" class="pj-footer__link">
+                <a href="/archive" class="pj-footer__link">
                   archive
-                </router-link>
+                </a>
               </li>
             </ul>
           </nav>
@@ -43,9 +43,9 @@ export default defineComponent({
           <div class="pj-footer-copyright">
             <small class="pj-footer-copyright__text">
               ©
-              <router-link to="/" class="pj-footer__link">
+              <a href="/" class="pj-footer__link">
                 {this.siteName}
-              </router-link>
+              </a>
             </small>
           </div>
         </div>
