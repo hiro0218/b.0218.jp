@@ -31,7 +31,7 @@
     "@nuxt/typescript-runtime": "^1.0.0",
     "@nuxtjs/eslint-config-typescript": "^2.0.0",
     "@nuxtjs/svg": "^0.1.11",
-    "@types/cheerio": "^0.22.18",
+    "@types/cheerio": "^0.22.20",
     "@vue/composition-api": "^0.6.7",
     "babel-eslint": "^10.1.0",
     "cheerio": "^1.0.0-rc.3",
