@@ -51,8 +51,8 @@
     "postcss-sort-media-queries": "^1.31.21",
     "prettier": "2.0.5",
     "raw-loader": "^4.0.1",
-    "sass": "^1.26.9",
-    "sass-loader": "^8.0.2"
+    "sass": "^1.26.10",
+    "sass-loader": "^9.0.2"
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,vue}": [
