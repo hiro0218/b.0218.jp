@@ -17,7 +17,7 @@
     "@nuxtjs/pwa": "^3.0.0-beta.20",
     "@primer/octicons-v2": "^0.0.0-53e900d",
     "minireset.css": "^0.0.6",
-    "mokuji.js": "^2.0.2",
+    "mokuji.js": "^3.0.0",
     "nuxt": "^2.13.3",
     "open-color": "^1.7.0"
   },

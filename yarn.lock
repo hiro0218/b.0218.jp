@@ -7744,10 +7744,10 @@ mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@^0.5.3, mkdirp@^0.5.4, mkdirp@~0.5.0, mkdir
   dependencies:
     minimist "^1.2.5"
 
-mokuji.js@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/mokuji.js/-/mokuji.js-2.0.2.tgz#5f5532687cada80dc1161bd0bd59f73fa99102f7"
-  integrity sha512-1DAnvYy4XPY/DB4G86Qy+S0DnXgYF+4acZD05xNWUDaADdqcznds4K8DdDNn3iJ8ixRiW70w3AfE+yIBGgL7SA==
+mokuji.js@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/mokuji.js/-/mokuji.js-3.0.0.tgz#e5970f89962f1e0b05dacd094ceff4fabe649669"
+  integrity sha512-sHhQyyuet58Edyv02lFKo640OqgcAmvvoVSnK+IxuCD/R/yhXewa6l0k41xSPQ5B/jZDmgzkYrDpopLcBMLcWQ==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
