@@ -34,15 +34,6 @@ export default {
         separate = elPostContent;
       }
 
-      const container = document.createElement('div');
-      container.classList.add('c-mokuji');
-
-      // details/summary要素を作成
-      const details = document.createElement('details');
-      const summary = document.createElement('summary');
-      details.appendChild(summary);
-      details.setAttribute('open', 'true');
-
       // 目次一覧を作成
       const mokujiList = new this.$Mokuji(elPostContent, {
         anchorType: true,
@@ -53,8 +44,17 @@ export default {
       });
 
       // 目次要素が存在しない場合
-      if (Object.keys(mokujiList).length === 0) return;
+      if (mokujiList.childNodes.length === 0) return;
       mokujiList.classList.add('c-mokuji__list');
+
+      const container = document.createElement('div');
+      container.classList.add('c-mokuji');
+
+      // details/summary要素を作成
+      const details = document.createElement('details');
+      const summary = document.createElement('summary');
+      details.appendChild(summary);
+      details.setAttribute('open', 'true');
 
       window.requestAnimationFrame(() => {
         // 要素を追加
