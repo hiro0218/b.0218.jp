@@ -65,9 +65,9 @@ export default defineComponent({
             <div class="c-post-meta__icon" domPropsInnerHTML={this.$icon.archive}></div>
             {this.postCategory.map((category) => (
               <div class="c-post-meta__item--separator">
-                <router-link to={'/' + category.path} class="c-post-meta__link">
+                <a href={'/' + category.path} class="c-post-meta__link">
                   {category.name}
-                </router-link>
+                </a>
               </div>
             ))}
           </div>
@@ -78,9 +78,9 @@ export default defineComponent({
             <div class="c-post-meta__icon" domPropsInnerHTML={this.$icon.tag}></div>
             {this.postTag.map((tag) => (
               <div class="c-post-meta__item--separator">
-                <router-link to={'/' + tag.path} class="c-post-meta__link">
+                <a href={'/' + tag.path} class="c-post-meta__link">
                   {tag.name}
-                </router-link>
+                </a>
               </div>
             ))}
           </div>
