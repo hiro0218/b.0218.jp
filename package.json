@@ -22,7 +22,7 @@
     "open-color": "^1.7.0"
   },
   "devDependencies": {
-    "@babel/runtime-corejs3": "^7.10.4",
+    "@babel/runtime-corejs3": "^7.10.5",
     "@hiro0218/eslint-config": "^1.3.0",
     "@hiro0218/prettier-config": "^1.0.2",
     "@hiro0218/stylelint-config": "^1.2.0",
