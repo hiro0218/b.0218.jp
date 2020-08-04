@@ -91,8 +91,7 @@ const config: Configuration = {
 
   buildModules: ['@nuxtjs/google-analytics', '@nuxt/typescript-build'],
 
-  // @nuxt/components
-  components: [{ path: '~/components' }],
+  components: true,
 
   googleAnalytics: {
     id: 'UA-50805440-1',
