@@ -7,8 +7,6 @@ const Fiber = require('fibers');
 const getRoutes = require('./routes.js');
 
 const config: Configuration = {
-  modern: 'client',
-
   target: 'static',
 
   /*
