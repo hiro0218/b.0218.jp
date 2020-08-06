@@ -7,8 +7,6 @@ const Fiber = require('fibers');
 const getRoutes = require('./routes.js');
 
 const config: Configuration = {
-  modern: 'client',
-
   target: 'static',
 
   /*
@@ -91,8 +89,7 @@ const config: Configuration = {
 
   buildModules: ['@nuxtjs/google-analytics', '@nuxt/typescript-build'],
 
-  // @nuxt/components
-  components: [{ path: '~/components' }],
+  components: true,
 
   googleAnalytics: {
     id: 'UA-50805440-1',
