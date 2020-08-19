@@ -14,11 +14,11 @@
   },
   "dependencies": {
     "@nuxtjs/google-analytics": "^2.4.0",
-    "@nuxtjs/pwa": "^3.0.0-beta.20",
+    "@nuxtjs/pwa": "^3.0.1",
     "@primer/octicons-v2": "^0.0.0-53e900d",
     "minireset.css": "^0.0.6",
     "mokuji.js": "^3.0.0",
-    "nuxt": "^2.14.1",
+    "nuxt": "^2.14.3",
     "open-color": "^1.7.0"
   },
   "devDependencies": {
@@ -36,7 +36,7 @@
     "cheerio": "^1.0.0-rc.3",
     "core-js": "^3.6.5",
     "cssnano": "^4.1.10",
-    "eslint": "^7.6.0",
+    "eslint": "^7.7.0",
     "eslint-loader": "^4.0.2",
     "fibers": "^5.0.0",
     "fs-extra": "^9.0.1",
