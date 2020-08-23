@@ -2,9 +2,10 @@ import cheerio from 'cheerio';
 import hljs from 'highlight.js';
 
 export default (_, inject) => {
-  inject('highlightJs', (content: string) => {
+  inject('filteredPost', (content: string) => {
     const $ = cheerio.load(content);
 
+    // highlight.js
     $('pre code').each((_, element) => {
       const elementClass = $(element).attr('class');
       const className = elementClass ? elementClass.replace('language-', '') : '';
@@ -16,6 +17,11 @@ export default (_, inject) => {
 
       $(element).addClass('hljs');
       $(element).html(result.value);
+    });
+
+    // wrap table
+    $('table').each((_, element) => {
+      $(element).wrap($('<div class="table-container u-scroll-x"></div>'));
     });
 
     return $.html();

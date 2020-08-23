@@ -1,5 +1,4 @@
 import externalLink from '~/assets/script/externalLink.ts';
-import wrapTable from '~/assets/script/wrapTable.ts';
 
 export default {
   name: 'PostData',
@@ -21,7 +20,6 @@ export default {
       this.$nextTick(() => {
         const elPostContent = document.querySelector('.js-post-content');
         externalLink(elPostContent);
-        wrapTable(elPostContent);
         this.initMokuji(elPostContent);
       });
     },

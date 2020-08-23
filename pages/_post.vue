@@ -49,7 +49,7 @@ export default {
         const content = await import(`~/_source/${post.path}`).then((text) => text.default);
 
         // highlight.js
-        const postContent = app.$highlightJs(content);
+        const postContent = app.$filteredPost(content);
 
         return {
           post: {
