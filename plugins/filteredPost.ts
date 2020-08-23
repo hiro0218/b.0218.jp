@@ -19,6 +19,11 @@ export default (_, inject) => {
       $(element).html(result.value);
     });
 
+    // wrap table
+    $('table').each((_, element) => {
+      $(element).wrap($('<div class="table-container u-scroll-x"></div>'));
+    });
+
     return $.html();
   });
 };
