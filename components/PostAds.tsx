@@ -20,16 +20,14 @@ export default defineComponent({
   render() {
     return (
       <div class="c-adsense post-ads">
-        <client-only>
-          <ins
-            class="adsbygoogle"
-            style="display: block; text-align: center;"
-            data-ad-layout={this.layout}
-            data-ad-format={this.format}
-            data-ad-client={this.client}
-            data-ad-slot={this.slot}
-          />
-        </client-only>
+        <ins
+          class="adsbygoogle"
+          style="display: block; text-align: center;"
+          data-ad-layout={this.layout}
+          data-ad-format={this.format}
+          data-ad-client={this.client}
+          data-ad-slot={this.slot}
+        />
       </div>
     );
   },
