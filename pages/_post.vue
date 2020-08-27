@@ -73,10 +73,6 @@ export default {
     error({ statusCode: 404, message: 'Page not found' });
   },
   head() {
-    const ogImageUrl =
-      `https://hiro0218.github.io/blog/images/ogp/${this.post.slug.replace('.html', '')}.png` || CONSTANT.AUTHOR_ICON;
-    const hasOgImage = ogImageUrl !== CONSTANT.AUTHOR_ICON;
-
     return {
       __dangerouslyDisableSanitizers: ['script'],
       title: this.post.title,
@@ -89,9 +85,11 @@ export default {
         {
           hid: 'og:image',
           property: 'og:image',
-          content: ogImageUrl,
+          content:
+            `https://hiro0218.github.io/blog/images/ogp/${this.post.slug.replace('.html', '')}.png` ||
+            CONSTANT.AUTHOR_ICON,
         },
-        { name: 'twitter:card', content: hasOgImage ? 'summary_large_image' : 'summary' },
+        { name: 'twitter:card', content: 'summary_large_image' },
         { hid: 'og:updated_time', property: 'og:updated_time', content: this.post.updated },
         { hid: 'article:published_time', property: 'article:published_time', content: this.post.date },
         { hid: 'article:modified_time', property: 'article:modified_time', content: this.post.updated },
