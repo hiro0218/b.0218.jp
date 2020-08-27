@@ -20,6 +20,8 @@
     h5,
     h6 {
       position: relative;
+      scroll-margin-top: 1em;
+
       .anchor {
         position: absolute;
         top: 0;
@@ -37,16 +39,15 @@
       }
     }
 
-    h1,
-    h2,
-    h3 {
-      margin-top: 3em;
-    }
-
+    h3,
     h4,
     h5,
     h6 {
-      margin-top: 2.5em;
+      margin: 2.5em auto 1em;
+    }
+
+    h2 {
+      margin: 3em auto 1.5em;
     }
 
     ul {
