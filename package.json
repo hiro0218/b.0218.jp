@@ -18,7 +18,7 @@
     "@primer/octicons-v2": "^0.0.0-53e900d",
     "minireset.css": "^0.0.6",
     "mokuji.js": "^3.0.0",
-    "nuxt": "^2.14.3",
+    "nuxt": "^2.14.4",
     "open-color": "^1.7.0"
   },
   "devDependencies": {
@@ -30,7 +30,7 @@
     "@nuxt/typescript-build": "^2.0.2",
     "@nuxt/typescript-runtime": "^1.0.0",
     "@nuxtjs/eslint-config-typescript": "^3.0.0",
-    "@nuxtjs/svg": "^0.1.11",
+    "@nuxtjs/svg": "^0.1.12",
     "@types/cheerio": "^0.22.21",
     "@vue/composition-api": "^0.6.7",
     "babel-eslint": "^10.1.0",
