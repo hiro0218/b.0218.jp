@@ -187,6 +187,7 @@ const config: Configuration = {
           ],
         ];
       },
+      plugins: ['@babel/plugin-proposal-optional-chaining'],
     },
 
     postcss: {
