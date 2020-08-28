@@ -51,35 +51,32 @@ export default {
 
     // パラメータからヘッダー情報を取得
     const post = app.$source.posts.find((post) => post.path === params.post);
+    // 拡張子
+    const allowExtension = post?.path ? post.path.match(/(.*)(?:\.([^.]+$))/)[2] === 'html' : false;
 
-    if (post) {
-      // 拡張子
-      const allowExt = post.path ? post.path.match(/(.*)(?:\.([^.]+$))/)[2] === 'html' : false;
+    if (allowExtension) {
+      // パラメータから記事内容を取得
+      const content = await import(`~/_source/${post.path}`).then((text) => text.default);
 
-      if (allowExt) {
-        // パラメータから記事内容を取得
-        const content = await import(`~/_source/${post.path}`).then((text) => text.default);
+      // 記事の装飾
+      const postContent = app.$filteredPost(content);
 
-        // highlight.js
-        const postContent = app.$filteredPost(content);
-
-        return {
-          post: {
-            date: post.date,
-            updated: post.updated,
-            slug: post.path,
-            link: post.permalink,
-            title: post.title,
-            content: postContent,
-            excerpt: post.excerpt,
-            thumbnail: post.thumbnail,
-            categories: post.categories,
-            tags: post.tags,
-            next: post.next,
-            prev: post.prev,
-          },
-        };
-      }
+      return {
+        post: {
+          date: post.date,
+          updated: post.updated,
+          slug: post.path,
+          link: post.permalink,
+          title: post.title,
+          content: postContent,
+          excerpt: post.excerpt,
+          thumbnail: post.thumbnail,
+          categories: post.categories,
+          tags: post.tags,
+          next: post.next,
+          prev: post.prev,
+        },
+      };
     }
 
     error({ statusCode: 404, message: 'Page not found' });
