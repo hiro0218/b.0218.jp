@@ -40,7 +40,7 @@ export default {
       return params.post && /\d+.html/.test(params.post);
     }
   },
-  async asyncData({ app, params, error }) {
+  asyncData({ app, params, error }) {
     // nuxt generate & nuxt dev
     if (process.static && process.server) {
       // generate時はhtmlが含まれていないため付与する
@@ -51,16 +51,8 @@ export default {
 
     // パラメータからヘッダー情報を取得
     const post = app.$source.posts.find((post) => post.path === params.post);
-    // 拡張子
-    const allowExtension = post?.path ? post.path.match(/(.*)(?:\.([^.]+$))/)[2] === 'html' : false;
 
-    if (allowExtension) {
-      // パラメータから記事内容を取得
-      const content = await import(`~/_source/${post.path}`).then((text) => text.default);
-
-      // 記事の装飾
-      const postContent = app.$filteredPost(content);
-
+    if (post) {
       return {
         post: {
           date: post.date,
@@ -68,7 +60,7 @@ export default {
           slug: post.path,
           link: post.permalink,
           title: post.title,
-          content: postContent,
+          content: app.$filteredPost(post.content),
           excerpt: post.excerpt,
           thumbnail: post.thumbnail,
           categories: post.categories,
@@ -77,9 +69,9 @@ export default {
           prev: post.prev,
         },
       };
+    } else {
+      error({ statusCode: 404, message: 'Page not found' });
     }
-
-    error({ statusCode: 404, message: 'Page not found' });
   },
   head() {
     return {
