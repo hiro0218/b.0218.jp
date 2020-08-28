@@ -25,52 +25,53 @@
 import CONSTANT from '~/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '~/assets/script/json-ld';
 
+const getOgImagePath = (slug) => {
+  const filename = slug.replace('.html', '');
+  return slug ? `https://hiro0218.github.io/blog/images/ogp/${filename}.png` : CONSTANT.AUTHOR_ICON;
+};
+
 export default {
   name: 'Post',
   validate({ params }) {
-    if (process.static && process.server) return true;
-    return params.post && /\d+.html/.test(params.post);
+    // nuxt generate & nuxt dev
+    if (process.static && process.server) {
+      return true;
+    } else {
+      return params.post && /\d+.html/.test(params.post);
+    }
   },
-  async asyncData({ app, params, error }) {
-    // when nuxt generate
-    if (process.static && !params.post.includes('.html')) {
-      params.post += '.html';
+  asyncData({ app, params, error }) {
+    // nuxt generate & nuxt dev
+    if (process.static && process.server) {
+      // generate時はhtmlが含まれていないため付与する
+      if (!params.post.includes('.html')) {
+        params.post += '.html';
+      }
     }
 
     // パラメータからヘッダー情報を取得
     const post = app.$source.posts.find((post) => post.path === params.post);
 
     if (post) {
-      // 拡張子
-      const allowExt = post.path ? post.path.match(/(.*)(?:\.([^.]+$))/)[2] === 'html' : false;
-
-      if (allowExt) {
-        // パラメータから記事内容を取得
-        const content = await import(`~/_source/${post.path}`).then((text) => text.default);
-
-        // highlight.js
-        const postContent = app.$filteredPost(content);
-
-        return {
-          post: {
-            date: post.date,
-            updated: post.updated,
-            slug: post.path,
-            link: post.permalink,
-            title: post.title,
-            content: postContent,
-            excerpt: post.excerpt,
-            thumbnail: post.thumbnail,
-            categories: post.categories,
-            tags: post.tags,
-            next: post.next,
-            prev: post.prev,
-          },
-        };
-      }
+      return {
+        post: {
+          date: post.date,
+          updated: post.updated,
+          slug: post.path,
+          link: post.permalink,
+          title: post.title,
+          content: app.$filteredPost(post.content),
+          excerpt: post.excerpt,
+          thumbnail: post.thumbnail,
+          categories: post.categories,
+          tags: post.tags,
+          next: post.next,
+          prev: post.prev,
+        },
+      };
+    } else {
+      error({ statusCode: 404, message: 'Page not found' });
     }
-
-    error({ statusCode: 404, message: 'Page not found' });
   },
   head() {
     return {
@@ -85,9 +86,7 @@ export default {
         {
           hid: 'og:image',
           property: 'og:image',
-          content:
-            `https://hiro0218.github.io/blog/images/ogp/${this.post.slug.replace('.html', '')}.png` ||
-            CONSTANT.AUTHOR_ICON,
+          content: getOgImagePath(this.post.slug),
         },
         { name: 'twitter:card', content: 'summary_large_image' },
         { hid: 'og:updated_time', property: 'og:updated_time', content: this.post.updated },
