@@ -25,6 +25,11 @@
 import CONSTANT from '~/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '~/assets/script/json-ld';
 
+const getOgImagePath = (slug) => {
+  const filename = slug.replace('.html', '');
+  return slug ? `https://hiro0218.github.io/blog/images/ogp/${filename}.png` : CONSTANT.AUTHOR_ICON;
+};
+
 export default {
   name: 'Post',
   validate({ params }) {
@@ -85,9 +90,7 @@ export default {
         {
           hid: 'og:image',
           property: 'og:image',
-          content:
-            `https://hiro0218.github.io/blog/images/ogp/${this.post.slug.replace('.html', '')}.png` ||
-            CONSTANT.AUTHOR_ICON,
+          content: getOgImagePath(this.post.slug),
         },
         { name: 'twitter:card', content: 'summary_large_image' },
         { hid: 'og:updated_time', property: 'og:updated_time', content: this.post.updated },
