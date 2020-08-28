@@ -33,13 +33,20 @@ const getOgImagePath = (slug) => {
 export default {
   name: 'Post',
   validate({ params }) {
-    if (process.static && process.server) return true;
-    return params.post && /\d+.html/.test(params.post);
+    // nuxt generate & nuxt dev
+    if (process.static && process.server) {
+      return true;
+    } else {
+      return params.post && /\d+.html/.test(params.post);
+    }
   },
   async asyncData({ app, params, error }) {
-    // when nuxt generate
-    if (process.static && !params.post.includes('.html')) {
-      params.post += '.html';
+    // nuxt generate & nuxt dev
+    if (process.static && process.server) {
+      // generate時はhtmlが含まれていないため付与する
+      if (!params.post.includes('.html')) {
+        params.post += '.html';
+      }
     }
 
     // パラメータからヘッダー情報を取得
