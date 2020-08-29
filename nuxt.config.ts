@@ -7,7 +7,7 @@ const Fiber = require('fibers');
 const getRoutes = require('./routes.js');
 
 const config: Configuration = {
-  target: 'static',
+  target: 'server',
 
   /*
    ** Headers of the page
