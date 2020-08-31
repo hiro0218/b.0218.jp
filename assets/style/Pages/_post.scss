@@ -58,13 +58,6 @@
       list-style: decimal;
     }
 
-    ul,
-    ol {
-      li {
-        margin-bottom: 0.625rem;
-      }
-    }
-
     > p {
       margin-top: 0;
       margin-bottom: 1.5em;
@@ -130,11 +123,6 @@
   &__share {
     margin: 3rem 0;
     text-align: center;
-
-    @include mobile {
-      position: sticky;
-      bottom: 1rem;
-    }
   }
 
   &__pager {
@@ -143,6 +131,10 @@
 
   .c-alert {
     margin-bottom: 1rem;
+  }
+
+  .table-container {
+    margin: 2rem 0;
   }
 
   hr {

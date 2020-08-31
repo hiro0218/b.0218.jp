@@ -8,35 +8,32 @@
         {{ pageDescription }}
       </template>
     </LayoutHeader>
-    <div class="post__content js-post-content" v-html="aboutHTML" />
+    <div class="post__content js-post-content" v-html="page.content" />
   </article>
 </template>
 
 <script type="ts">
-import { defineComponent, computed, onMounted } from '@vue/composition-api';
-
-import externalLink from '~/assets/script/externalLink.ts';
-
-import aboutData from '~/_source/about.html';
+import { defineComponent, computed } from '@vue/composition-api';
 
 export default defineComponent({
   name: 'About',
-  setup(_, { root }) {
+  asyncData({ app }) {
+    const page = app.$source.pages.find((page) => page.slug === 'about');
+
+    return {
+      page: {
+        ...page,
+        content: app.$filteredPost(page.content),
+      },
+    };
+  },
+  setup(_) {
     const pageTitle = computed(() => 'About');
     const pageDescription = computed(() => 'サイトと運営者の情報');
-    const aboutHTML = computed(() => aboutData);
-
-    onMounted(() => {
-      root.$nextTick(() => {
-        const elPostContent = document.querySelector('.js-post-content');
-        externalLink(elPostContent);
-      });
-    });
 
     return {
       pageTitle,
       pageDescription,
-      aboutHTML,
     };
   },
   head() {

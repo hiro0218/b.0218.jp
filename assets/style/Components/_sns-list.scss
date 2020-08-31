@@ -3,11 +3,11 @@
   justify-content: center;
 
   &__item {
-    $element: #{&};
-
-    width: 2rem;
-    height: 2rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.25em;
     border-radius: 50%;
+    background: $color-text;
 
     &:hover {
       opacity: 0.6;
@@ -15,35 +15,6 @@
 
     & + & {
       margin-left: 1rem;
-    }
-
-    &--twitter {
-      @extend #{$element};
-
-      background: map-get($social-color, 'twitter');
-    }
-
-    &--facebook {
-      @extend #{$element};
-
-      background: map-get($social-color, 'facebook');
-    }
-
-    &--hatenabookmark {
-      @extend #{$element};
-
-      background: map-get($social-color, 'hatenabookmark');
-    }
-
-    &--line {
-      @extend #{$element};
-
-      background: map-get($social-color, 'line');
-    }
-
-    svg {
-      width: inherit;
-      height: inherit;
     }
   }
 }
