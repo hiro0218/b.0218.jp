@@ -30,7 +30,7 @@ export default defineComponent({
         <a
           href={'https://twitter.com/intent/tweet?url=' + this.postLink + '&text=' + encodeURIComponent(this.postTitle)}
           domPropsInnerHTML={svgTwitter}
-          class="c-sns-list__item--twitter"
+          class="c-sns-list__item"
           title="Share Twitter"
           target="_blank"
           rel="noopener"
@@ -38,7 +38,7 @@ export default defineComponent({
         <a
           href={'https://www.facebook.com/sharer/sharer.php?u=' + this.postLink}
           domPropsInnerHTML={svgFacebook}
-          class="c-sns-list__item--facebook"
+          class="c-sns-list__item"
           title="Share Facebook"
           target="_blank"
           rel="noopener"
@@ -46,7 +46,7 @@ export default defineComponent({
         <a
           href={'http://b.hatena.ne.jp/add?url=' + this.postLink}
           domPropsInnerHTML={svgHatena}
-          class="c-sns-list__item--hatenabookmark"
+          class="c-sns-list__item"
           title="Share HatenaBookmark"
           target="_blank"
           rel="noopener"
@@ -54,7 +54,7 @@ export default defineComponent({
         <a
           href={'https://lineit.line.me/share/ui?url=' + this.postLink}
           domPropsInnerHTML={svgLine}
-          class="c-sns-list__item--line"
+          class="c-sns-list__item"
           title="Share LINE"
           target="_blank"
           rel="noopener"
