@@ -46,7 +46,6 @@ export default defineComponent({
       <div class="post-meta">
         <div class="c-post-meta">
           <div class="c-post-meta__item--date">
-            <div class="c-post-meta__icon" domPropsInnerHTML={this.$icon.clock} />
             <time datetime={this.date} itemprop="datePublished">
               {this.stringPublishDate}
             </time>
@@ -62,10 +61,9 @@ export default defineComponent({
 
         {this.postCategory.length !== 0 && (
           <div class="c-post-meta">
-            <div class="c-post-meta__icon" domPropsInnerHTML={this.$icon.archive}></div>
             {this.postCategory.map((category) => (
               <div class="c-post-meta__item--separator">
-                <a href={'/' + category.path} class="c-post-meta__link">
+                <a href={'/' + category.path} class="c-post-meta__link--category">
                   {category.name}
                 </a>
               </div>
@@ -75,10 +73,9 @@ export default defineComponent({
 
         {this.postTag.length !== 0 && (
           <div class="c-post-meta">
-            <div class="c-post-meta__icon" domPropsInnerHTML={this.$icon.tag}></div>
             {this.postTag.map((tag) => (
               <div class="c-post-meta__item--separator">
-                <a href={'/' + tag.path} class="c-post-meta__link">
+                <a href={'/' + tag.path} class="c-post-meta__link--tag">
                   {tag.name}
                 </a>
               </div>

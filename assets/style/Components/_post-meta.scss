@@ -12,6 +12,7 @@
 
     &--date {
       display: flex;
+      margin-bottom: 0.5rem;
       color: $color-text--lighter;
       text-decoration: line-through;
 
@@ -29,33 +30,33 @@
 
     &--separator {
       &:not(:last-child) {
-        &::after {
-          content: ',';
-          display: inline-block;
-          margin-right: 0.25em;
-        }
+        margin-right: 0.25em;
       }
     }
   }
 
   &__link {
-    color: $color-text--light;
+    $element: #{&};
 
-    &:hover {
-      text-decoration: underline;
-    }
-  }
+    padding: 0.25em 0.5em;
+    border-radius: 2px;
 
-  &__icon {
-    display: flex;
-    align-items: center;
-
-    &:first-child {
-      margin-right: 0.25em;
+    @include desktop {
+      font-size: $font-size-sm;
     }
 
-    svg {
-      fill: currentColor;
+    &--category {
+      @extend #{$element};
+
+      background: $color-text--dark;
+      color: $bg-color;
+    }
+
+    &--tag {
+      @extend #{$element};
+
+      border: 1px solid $color-text--lighter;
+      color: $color-text--light;
     }
   }
 }
