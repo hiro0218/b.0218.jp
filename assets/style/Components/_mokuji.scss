@@ -24,6 +24,7 @@
     counter-reset: number;
 
     li {
+      margin-bottom: 0.625rem;
       list-style: none;
 
       &::before {
