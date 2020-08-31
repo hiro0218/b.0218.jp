@@ -1,5 +1,3 @@
-import externalLink from '~/assets/script/externalLink.ts';
-
 export default {
   name: 'PostData',
   props: {
@@ -19,7 +17,6 @@ export default {
     init() {
       this.$nextTick(() => {
         const elPostContent = document.querySelector('.js-post-content');
-        externalLink(elPostContent);
         this.initMokuji(elPostContent);
       });
     },
