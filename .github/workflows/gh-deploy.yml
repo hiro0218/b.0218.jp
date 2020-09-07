@@ -12,9 +12,10 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-      with:
-        submodules: true # Checkout private submodules(themes or something else).
+    - uses: actions/checkout@v2
+
+    - name: Update Submodules
+      run: git submodule update --remote
 
     - name: Setup Node
       uses: actions/setup-node@v1
