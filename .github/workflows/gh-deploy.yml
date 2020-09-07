@@ -12,7 +12,10 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        submodules: true # Checkout private submodules(themes or something else).
 
     - name: Update Submodules
       run: git submodule update --remote
