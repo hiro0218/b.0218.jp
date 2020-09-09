@@ -14,25 +14,6 @@
   }
 }
 
-// scroll top button
-.pj-footer__scroll-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-  border: none;
-  background: none;
-  color: inherit;
-  cursor: pointer;
-  appearance: none;
-
-  svg {
-    width: 2rem;
-    height: 2rem;
-    fill: $bg-color;
-  }
-}
-
 // menu
 .pj-footer-menu {
   margin-bottom: 1rem;

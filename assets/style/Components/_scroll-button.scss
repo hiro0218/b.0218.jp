@@ -1,0 +1,23 @@
+.c-scroll-button {
+  display: inline-flex;
+  position: fixed;
+  right: 2vw;
+  bottom: 2vw;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  background: $color-text;
+  color: inherit;
+  cursor: pointer;
+  appearance: none;
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: $bg-color;
+  }
+}
