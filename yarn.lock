@@ -1775,13 +1775,6 @@
     mustache "^2.3.0"
     stack-trace "0.0.10"
 
-"@primer/octicons-v2@^0.0.0-53e900d":
-  version "0.0.0-53e900d"
-  resolved "https://registry.yarnpkg.com/@primer/octicons-v2/-/octicons-v2-0.0.0-53e900d.tgz#6fb26263048ab0428702fbdce82961ed1aceed89"
-  integrity sha512-jjsIKGBuYe7apU7gjzHX4RHq9u9P6ZB+TE57QzV6O6p4T7XWqj9+fN3DS8y5lKxvTXbh7CujntMYwTjcH2FbnQ==
-  dependencies:
-    object-assign "^4.1.1"
-
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"

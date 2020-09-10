@@ -74,13 +74,7 @@ const config: Configuration = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    '~/plugins/composition-api',
-    '~/plugins/filteredPost',
-    '~/plugins/icon',
-    '~/plugins/mokuji.client.ts',
-    '~/plugins/source.ts',
-  ],
+  plugins: ['~/plugins/composition-api', '~/plugins/filteredPost', '~/plugins/mokuji.client.ts', '~/plugins/source.ts'],
 
   /*
    ** Nuxt.js modules
