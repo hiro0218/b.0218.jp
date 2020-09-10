@@ -1,4 +1,6 @@
 .c-pager {
+  $block: #{&};
+
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -9,13 +11,15 @@
 
     width: calc(50% - 0.5rem);
     padding: 1rem;
-    border-radius: 0.15rem;
     color: $color-text;
     line-height: 1.8;
     word-break: break-all;
 
     &:hover {
-      background: $bg-color--lighter;
+      #{$block}__title {
+        text-decoration: underline;
+        text-underline-position: under;
+      }
     }
 
     &:only-child {
@@ -26,10 +30,20 @@
       width: 100%;
     }
 
+    &::before {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: $color-text--lighter;
+    }
+
     &--prev {
       @extend #{$element};
 
       text-align: left;
+
+      &::before {
+        content: 'Prev';
+      }
     }
 
     &--next {
@@ -40,36 +54,15 @@
       @include mobile {
         margin-top: 1rem;
       }
-    }
-  }
-
-  &__title {
-    $element: #{&};
-
-    color: $color-text;
-
-    &::before {
-      display: block;
-      margin-bottom: 0.5rem;
-      color: $color-text--lighter;
-      font-size: $font-size-sm;
-    }
-
-    &--prev {
-      @extend #{$element};
-
-      &::before {
-        content: 'Prev';
-      }
-    }
-
-    &--next {
-      @extend #{$element};
 
       &::before {
         content: 'Next';
       }
     }
+  }
+
+  &__title {
+    color: $color-text;
   }
 
 }
