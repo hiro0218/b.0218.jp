@@ -43,8 +43,8 @@
     "fs-extra": "^9.0.1",
     "highlight.js": "^10.2.0",
     "http-server": "^0.12.3",
-    "husky": "^4.2.5",
-    "lint-staged": "^10.2.13",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.3.0",
     "nodemon": "^2.0.4",
     "nuxt-generate-cluster": "^2.7.0",
     "postcss-flexbugs-fixes": "^4.2.1",
@@ -52,7 +52,7 @@
     "prettier": "2.1.1",
     "raw-loader": "^4.0.1",
     "sass": "^1.26.10",
-    "sass-loader": "^10.0.1"
+    "sass-loader": "^10.0.2"
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,vue}": [

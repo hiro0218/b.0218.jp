@@ -73,6 +73,14 @@ export default {
       error({ statusCode: 404, message: 'Page not found' });
     }
   },
+  beforeCreate() {
+    // workaround
+    // *.htmlとなっていない場合に.htmlを付与する
+    const param = this.$route.params.post;
+    if (!param.includes('.html')) {
+      this.$router.replace({ params: { post: `${param}.html` } });
+    }
+  },
   head() {
     return {
       __dangerouslyDisableSanitizers: ['script'],
