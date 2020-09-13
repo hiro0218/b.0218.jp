@@ -2,7 +2,7 @@
   <section class="term">
     <LayoutHeader>
       <template v-slot:header-title>
-        {{ $route.params.slug }}
+        {{ termName }}
       </template>
       <template v-slot:header-description>
         {{ $route.params.terms }}
@@ -40,8 +40,11 @@ export default {
       error({ statusCode: 404, message: 'Page not found' });
     }
 
+    const termName = isTagsPage ? tagPosts[0].name : categoryPosts[0].name;
+
     return {
       isTagsPage,
+      termName,
       categoriesPosts,
       tagsPosts,
     };
