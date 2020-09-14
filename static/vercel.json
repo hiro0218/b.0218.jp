@@ -1,0 +1,20 @@
+{
+  "headers": [
+    {
+      "source": "/sw.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    }
+  ],
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/20190421213018.html",
+      "destination": "https://detective-conan-database.0218.jp/movie/quiz/23"
+    }
+  ]
+}
