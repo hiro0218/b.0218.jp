@@ -1,7 +1,4 @@
 {
-  "github": {
-    "silent": true
-  },
   "headers": [
     {
       "source": "/sw.js",
