@@ -96,6 +96,7 @@ export const getBreadcrumbStructured = (post: Post): string => {
     {
       '@context': 'http://schema.org',
       '@type': 'BreadcrumbList',
+      name: 'パンくずリスト',
     },
     { itemListElement: itemListElement },
   );
