@@ -5,6 +5,29 @@ $desktop: 960px;
 
 
 :root {
+  /* color */
+  --color-primary: var(--oc-gray-8);
+  --color-secondary: var(--oc-gray-7);
+
+  --color-text: var(--oc-gray-8);
+  --color-text--dark: var(--oc-gray-9);
+  --color-text--darker: var(--oc-gray-9);
+  --color-text--light: var(--oc-gray-7);
+  --color-text--lighter: var(--oc-gray-6);
+  --color-text-heading: var(--oc-gray-8);
+  --color-text-description: var(--oc-gray-6);
+  --color-text-link: var(--oc-blue-9);
+
+  --bg-color: var(--oc-gray-2);
+  --bg-color--dark: var(--oc-gray-3);
+  --bg-color--darker: var(--oc-gray-4);
+  --bg-color--light: var(--oc-gray-1);
+  --bg-color--lighter: var(--oc-gray-0);
+  --bg-color-hover: var(--oc-gray-1);
+
+  --border-color: var(--oc-gray-3);
+
+
   /* font */
   --font-family-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', YuGoMedium, YuGothic, 'Yu Gothic', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-family-monospace: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
@@ -27,9 +50,9 @@ $desktop: 960px;
 
   /* table */
   --table-border-width: 1px;
-  --table-head-bg-color: $bg-color;
-  --table-border-color: $bg-color--dark;
-  --table-hover-color: $oc-gray-0;
+  --table-head-bg-color: var(--bg-color);
+  --table-border-color: var(--bg-color--dark);
+  --table-hover-color: var(--oc-gray-0);
 
   /* z-index */
   --zIndex-header: 10;

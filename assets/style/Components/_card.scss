@@ -4,7 +4,7 @@
   height: 100%;
   padding: 1rem 0;
   transition: background 0.2s ease;
-  color: $color-text-heading;
+  color: var(--color-text-heading);
 
   &-image {
     display: flex;
@@ -21,7 +21,7 @@
       width: 5rem;
       height: 5rem;
       border-radius: 0.15rem;
-      background: $bg-color--light;
+      background: var(--bg-color--light);
     }
 
     &__item {
@@ -35,7 +35,7 @@
       svg {
         width: 2rem;
         height: 2rem;
-        color: $color-text--light;
+        color: var(--color-text--light);
       }
     }
   }
@@ -49,13 +49,13 @@
 
     &__title {
       margin-bottom: 0.5rem;
-      color: $color-text-heading;
+      color: var(--color-text-heading);
       font-size: 1rem;
       line-height: 1.8;
     }
 
     &__description {
-      color: $color-text-description;
+      color: var(--color-text-description);
       letter-spacing: 0.025em;
       line-height: 1.8;
       word-break: break-all;

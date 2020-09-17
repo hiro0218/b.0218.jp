@@ -22,7 +22,7 @@ pre {
   > code {
     display: block;
     padding: 1.5rem;
-    background: $bg-color--lighter;
+    background: var(--bg-color--lighter);
     color: #383a42;
     font-size: inherit;
     line-height: 1.8;
@@ -33,7 +33,7 @@ pre {
   margin: 0;
   padding: 0.2em 0.4em;
   border-radius: 0.15rem;
-  background: $bg-color--lighter;
-  color: $color-text--light;
+  background: var(--bg-color--lighter);
+  color: var(--color-text--light);
   font-size: var(--font-size-sm);
 }

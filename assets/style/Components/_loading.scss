@@ -21,9 +21,9 @@
     margin-top: -2.5em;
     margin-left: -2.5em;
     animation: spinner 1.5s linear infinite;
-    border: 0.4em solid $bg-color;
+    border: 0.4em solid var(--bg-color);
     border-radius: 50%;
-    border-top-color: $color-primary;
+    border-top-color: var(--color-primary);
   }
 
   &.is-active {

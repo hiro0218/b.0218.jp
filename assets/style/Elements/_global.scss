@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding-top: var(--header-height);
-  color: $color-text;
+  color: var(--color-text);
   font-family: var(--font-family-sans-serif);
   font-size: 1rem;
   -webkit-font-smoothing: antialiased;
@@ -12,7 +12,7 @@ body {
 
 a {
   transition: background 0.2s ease, opacity 0.2s ease;
-  color: $color-text-link;
+  color: var(--color-text-link);
   text-decoration: none;
 
   &:focus {
@@ -35,7 +35,7 @@ figure {
     margin-left: auto;
   }
   figcaption {
-    color: $color-text--lighter;
+    color: var(--color-text--lighter);
     text-align: center;
   }
 }

@@ -7,7 +7,7 @@
     height: 2.5rem;
     padding: 0.25em;
     border-radius: 50%;
-    background: $color-text;
+    background: var(--color-text);
 
     &:hover {
       opacity: 0.6;

@@ -29,7 +29,7 @@
         bottom: 0;
         margin: auto;
         border: 0;
-        color: $bg-color--dark;
+        color: var(--bg-color--dark);
         text-decoration: none;
         user-select: none;
         @include mobile {
@@ -70,8 +70,8 @@
       position: relative;
       margin: 2rem 0;
       padding: 3rem;
-      background: $bg-color--lighter;
-      color: $color-text--light;
+      background: var(--bg-color--lighter);
+      color: var(--color-text--light);
       font-size: var(--font-size-sm);
 
       &::before,
@@ -80,7 +80,7 @@
         position: absolute;
         width: 3rem;
         height: 3rem;
-        color: $bg-color--darker;
+        color: var(--bg-color--darker);
         font-size: 2.5rem;
         font-weight: bold;
         text-align: center;
@@ -112,7 +112,7 @@
       position: relative;
       margin-bottom: 2rem;
       padding: 2rem;
-      border: 2px solid $bg-color--lighter;
+      border: 2px solid var(--bg-color--lighter);
       background: #fff;
       & + pre {
         margin-top: -(2rem + 0.15rem) !important;
@@ -141,7 +141,7 @@
     height: 2rem;
     margin: 2rem 0;
     border: 0;
-    color: $color-text--lighter;
+    color: var(--color-text--lighter);
     text-align: center;
 
     &::before {
