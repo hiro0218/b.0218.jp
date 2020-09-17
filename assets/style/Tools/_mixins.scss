@@ -1,4 +1,5 @@
 // Responsive
+$desktop: 960px;
 
 @mixin mobile {
   @media screen and (max-width: $desktop - 1px) {
