@@ -6,27 +6,27 @@ h5,
 h6 {
   margin-bottom: 1em;
   color: inherit;
-  font-family: $font-family-webfont;
+  font-family: var(--font-family-webfont);
   line-height: 1.2;
 }
 
 h1 {
-  font-size: $h1-font-size;
+  font-size: var(--h1-font-size);
 }
 h2 {
-  font-size: $h2-font-size;
+  font-size: var(--h2-font-size);
 }
 h3 {
-  font-size: $h3-font-size;
+  font-size: var(--h3-font-size);
 }
 h4 {
-  font-size: $h4-font-size;
+  font-size: var(--h4-font-size);
 }
 h5 {
-  font-size: $h5-font-size;
+  font-size: var(--h5-font-size);
 }
 h6 {
-  font-size: $h6-font-size;
+  font-size: var(--h6-font-size);
 }
 
 mark {
@@ -35,5 +35,5 @@ mark {
 
 b,
 strong {
-  font-family: $font-family-webfont;
+  font-family: var(--font-family-webfont);
 }

@@ -4,7 +4,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  font-size: $font-size-sm;
+  font-size: var(--font-size-sm);
 
   &__item {
     $element: #{&};

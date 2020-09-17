@@ -1,6 +1,6 @@
 .c-loading {
   position: fixed;
-  z-index: $zIndex-loading * -1;
+  z-index: calc(var(--zIndex-loading) * -1);
   top: 0;
   right: 0;
   bottom: 0;
@@ -27,7 +27,7 @@
   }
 
   &.is-active {
-    z-index: $zIndex-loading;
+    z-index: var(--zIndex-loading);
     opacity: 1;
   }
 }

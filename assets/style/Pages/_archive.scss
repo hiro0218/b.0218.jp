@@ -48,7 +48,7 @@
   &__date {
     display: block;
     color: $color-text--lighter;
-    font-size: $font-size-sm;
+    font-size: var(--font-size-sm);
     line-height: 1;
   }
 

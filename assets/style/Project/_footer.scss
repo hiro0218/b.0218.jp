@@ -2,7 +2,7 @@
   padding: 3rem 0;
   background: $color-text;
   color: $bg-color;
-  font-size: $font-size-sm;
+  font-size: var(--font-size-sm);
   text-align: center;
 }
 
@@ -24,7 +24,7 @@
 
   &__item {
     & + & {
-      margin-left: map-get($size, sm) * 1rem;
+      margin-left: 1em;
     }
   }
 }

@@ -45,7 +45,7 @@
     flex: 1;
     flex-direction: column;
     margin: 0 1rem 0 0.5rem;
-    font-size: $font-size-sm;
+    font-size: var(--font-size-sm);
 
     &__title {
       margin-bottom: 0.5rem;

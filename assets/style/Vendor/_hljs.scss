@@ -19,7 +19,7 @@
       padding: 0.25rem 1rem;
       background: $bg-color;
       color: $color-text;
-      font-size: $font-size-xs;
+      font-size: var(--font-size-xs);
     }
   }
 

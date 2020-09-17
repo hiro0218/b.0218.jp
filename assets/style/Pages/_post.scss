@@ -72,7 +72,7 @@
       padding: 3rem;
       background: $bg-color--lighter;
       color: $color-text--light;
-      font-size: $font-size-sm;
+      font-size: var(--font-size-sm);
 
       &::before,
       &::after {

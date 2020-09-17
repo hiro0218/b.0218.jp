@@ -42,7 +42,7 @@
     border-radius: 2px;
 
     @include desktop {
-      font-size: $font-size-sm;
+      font-size: var(--font-size-sm);
     }
 
     &--category {
