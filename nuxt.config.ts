@@ -69,7 +69,7 @@ const config: Configuration = {
   /*
    ** Global CSS
    */
-  css: ['open-color/open-color.css', '~/assets/style/main.css', '~/assets/style/main.scss'],
+  css: ['~/assets/style/main.css', '~/assets/style/main.scss'],
 
   /*
    ** Plugins to load before mounting the App

@@ -1,3 +1,5 @@
+@import 'open-color/open-color.css';
+
 :root {
   /* color */
   --color-primary: var(--oc-gray-8);
