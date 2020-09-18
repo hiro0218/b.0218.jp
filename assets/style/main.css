@@ -1,1 +1,21 @@
 @import './Settings/_variables.css';
+
+@import './Tools/_animation.css';
+
+@import './Generic/index.css';
+
+/* Elements */
+
+@import './Layout/index.css';
+
+/* Objects */
+
+/* Components */
+
+/* Vendor */
+
+/* Project */
+
+/* Pages */
+
+@import './Trumps/index.css';

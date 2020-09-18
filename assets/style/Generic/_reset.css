@@ -1,4 +1,4 @@
-@import '~minireset.css/minireset.sass';
+@import 'minireset.css';
 
 html {
   font-family: sans-serif;
