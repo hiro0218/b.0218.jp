@@ -191,6 +191,9 @@ const config: Configuration = {
           grid: 'autoplace',
           cascade: false,
         },
+        features: {
+          'nesting-rules': true,
+        },
       },
       plugins: {
         'postcss-flexbugs-fixes': {},
