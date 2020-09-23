@@ -1,7 +1,7 @@
 .post {
 
   &__article {
-    .c-heading {
+    & .c-heading {
       margin-bottom: 1rem;
     }
   }
@@ -9,20 +9,20 @@
   &__content {
     margin: 2rem 0 2rem;
 
-    a {
+    & a {
       text-decoration: underline;
     }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
+    & h1,
+    & h2,
+    & h3,
+    & h4,
+    & h5,
+    & h6 {
       position: relative;
       scroll-margin-top: 1em;
 
-      .anchor {
+      & .anchor {
         position: absolute;
         top: 0;
         right: calc(100% + 0.25em);
@@ -32,33 +32,34 @@
         color: var(--bg-color--dark);
         text-decoration: none;
         user-select: none;
-        @include mobile {
+
+        @mixin mobile {
           position: static;
           margin-left: 0.25em;
         }
       }
     }
 
-    h3,
-    h4,
-    h5,
-    h6 {
+    & h3,
+    & h4,
+    & h5,
+    & h6 {
       margin: 2.5em auto 1em;
     }
 
-    h2 {
+    & h2 {
       margin: 3em auto 1.5em;
     }
 
-    ul {
+    & ul {
       list-style: disc;
     }
 
-    ol {
+    & ol {
       list-style: decimal;
     }
 
-    > p {
+    & > p {
       margin-top: 0;
       margin-bottom: 1.5em;
       letter-spacing: 0.05em;
@@ -66,7 +67,7 @@
       word-break: break-all;
     }
 
-    blockquote {
+    & blockquote {
       position: relative;
       margin: 2rem 0;
       padding: 3rem;
@@ -97,18 +98,18 @@
         bottom: 0;
       }
 
-      p {
+      & p {
         &:last-child {
           margin-bottom: 0;
         }
       }
     }
 
-    pre {
+    & pre {
       margin-bottom: 1rem;
     }
 
-    .sandbox {
+    & .sandbox {
       position: relative;
       margin-bottom: 2rem;
       padding: 2rem;
@@ -129,15 +130,15 @@
     margin: 2rem 0;
   }
 
-  .c-alert {
+  & .c-alert {
     margin-bottom: 1rem;
   }
 
-  .table-container {
+  & .table-container {
     margin: 2rem 0;
   }
 
-  hr {
+  & hr {
     height: 2rem;
     margin: 2rem 0;
     border: 0;

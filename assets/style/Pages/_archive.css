@@ -1,17 +1,17 @@
 .archive-list {
   margin-bottom: 2rem;
 
-  @include desktop {
+  @mixin desktop {
     display: flex;
   }
 }
 
 .archive-year {
-  @include desktop {
+  @mixin desktop {
     margin-right: 3rem;
   }
 
-  @include mobile {
+  @mixin mobile {
     margin-bottom: 1rem;
   }
 
@@ -39,23 +39,24 @@
   display: block;
   text-decoration: none;
 
-  &__title {
-    margin-bottom: 0.5rem;
-    color: var(--color-text-heading);
-    font-size: 1rem;
-  }
-
-  &__date {
-    display: block;
-    color: var(--color-text--lighter);
-    font-size: var(--font-size-sm);
-    line-height: 1;
-  }
-
-  &:hover & {
-    &__title {
+  &:hover {
+    .archive-post-item__title {
       text-decoration: underline;
       text-underline-position: under;
     }
   }
 }
+
+.archive-post-item__title {
+  margin-bottom: 0.5rem;
+  color: var(--color-text-heading);
+  font-size: 1rem;
+}
+
+.archive-post-item__date {
+  display: block;
+  color: var(--color-text--lighter);
+  font-size: var(--font-size-sm);
+  line-height: 1;
+}
+

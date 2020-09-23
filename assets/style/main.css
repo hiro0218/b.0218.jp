@@ -16,6 +16,6 @@
 
 @import './Project/index.css';
 
-/* Pages */
+@import './Pages/index.css';
 
 @import './Trumps/index.css';
