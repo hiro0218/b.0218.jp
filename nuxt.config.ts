@@ -1,8 +1,6 @@
 import { Configuration } from '@nuxt/types';
 
 import CONSTANT from './constant';
-const Sass = require('sass');
-const Fiber = require('fibers');
 
 const getRoutes = require('./routes.js');
 
@@ -128,15 +126,6 @@ const config: Configuration = {
    */
   build: {
     parallel: true,
-
-    loaders: {
-      scss: {
-        implementation: Sass,
-        sassOptions: {
-          fiber: Fiber,
-        },
-      },
-    },
 
     /*
      ** You can extend webpack config here
