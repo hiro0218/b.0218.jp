@@ -23,6 +23,8 @@
 
   --border-color: var(--oc-gray-3);
 
+  /* size */
+  --desktop-width: 960px;
 
   /* font */
   --font-family-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', YuGoMedium, YuGothic, 'Yu Gothic', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
