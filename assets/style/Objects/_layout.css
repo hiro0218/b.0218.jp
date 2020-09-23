@@ -5,7 +5,7 @@
   padding-right: 5vw;
   padding-left: 5vw;
 
-  @include desktop {
-    max-width: $desktop;
+  @mixin desktop {
+    max-width: var(--desktop-width);
   }
 }
