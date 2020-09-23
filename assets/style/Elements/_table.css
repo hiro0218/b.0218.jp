@@ -3,7 +3,7 @@ table {
   border: var(--table-border-width) solid var(--table-border-color);
   background: #fff;
 
-  @include mobile {
+  @mixin mobile {
     min-width: 100%;
     table-layout: fixed;
   }
@@ -16,32 +16,32 @@ td {
   border-top: var(--table-border-width) solid var(--table-border-color);
   vertical-align: top;
 
-  @include mobile {
+  @mixin mobile {
     white-space: nowrap;
   }
 }
 
 thead {
-  th {
+  & th {
     border-bottom: calc(var(--table-border-width) * 2) solid var(--table-border-color);
     background: var(--table-head-bg-color);
     vertical-align: bottom;
     white-space: nowrap;
   }
-  th,
-  td {
+  & th,
+  & td {
     border-bottom-width: calc(2 * var(--table-border-width));
   }
 }
 
 tbody {
-  tr {
+  & tr {
     transition: background 0.3s ease;
     &:hover {
       background: var(--table-hover-color);
     }
   }
-  & + & {
+  & + tbody {
     border-top: calc(var(--table-border-width) * 2) solid var(--table-border-color);
   }
 }

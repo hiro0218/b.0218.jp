@@ -19,7 +19,7 @@ pre {
   overflow-wrap: break-word;
   -webkit-overflow-scrolling: touch;
 
-  > code {
+  & > code {
     display: block;
     padding: 1.5rem;
     background: var(--bg-color--lighter);

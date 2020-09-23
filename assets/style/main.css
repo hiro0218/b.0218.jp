@@ -4,7 +4,7 @@
 
 @import './Generic/index.css';
 
-/* Elements */
+@import './Elements/index.css';
 
 @import './Layout/index.css';
 

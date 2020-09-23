@@ -29,12 +29,12 @@ img {
 figure {
   margin-bottom: 2rem;
 
-  img {
+  & img {
     margin-right: auto;
     margin-bottom: 0.5rem;
     margin-left: auto;
   }
-  figcaption {
+  & figcaption {
     color: var(--color-text--lighter);
     text-align: center;
   }
