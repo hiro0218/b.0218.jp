@@ -10,7 +10,7 @@
 
 @import './Objects/index.css';
 
-/* Components */
+@import './Components/index.css';
 
 @import './Vendor/index.css';
 

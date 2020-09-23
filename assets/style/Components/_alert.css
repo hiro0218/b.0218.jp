@@ -5,7 +5,7 @@
   background-color: var(--bg-color);
   color: var(--color-text);
 
-  a {
+  & a {
     color: var(--color-text--dark);
   }
 

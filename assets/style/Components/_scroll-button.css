@@ -15,7 +15,7 @@
   cursor: pointer;
   appearance: none;
 
-  svg {
+  & svg {
     width: 1.5rem;
     height: 1.5rem;
     color: var(--bg-color);
