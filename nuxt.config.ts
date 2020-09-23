@@ -198,6 +198,7 @@ const config: Configuration = {
       plugins: {
         'postcss-mixins': {},
         'postcss-nested': {},
+        'postcss-extend': {},
         'postcss-flexbugs-fixes': {},
         'postcss-sort-media-queries': {
           sort: 'mobile-first',
