@@ -196,6 +196,8 @@ const config: Configuration = {
         },
       },
       plugins: {
+        'postcss-mixins': {},
+        'postcss-nested': {},
         'postcss-flexbugs-fixes': {},
         'postcss-sort-media-queries': {
           sort: 'mobile-first',

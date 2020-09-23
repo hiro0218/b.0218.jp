@@ -1,6 +1,6 @@
 @import './Settings/_variables.css';
 
-@import './Tools/_animation.css';
+@import './Tools/index.css';
 
 @import './Generic/index.css';
 
