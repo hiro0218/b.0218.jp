@@ -1,0 +1,15 @@
+.c-alert {
+  padding: .75rem 1.25rem;
+  border: 1px solid var(--bg-color--dark);
+  border-radius: 0.15rem;
+  background-color: var(--bg-color);
+  color: var(--color-text);
+
+  & a {
+    color: var(--color-text--dark);
+  }
+
+  & + .c-alert {
+    margin-top: 1rem;
+  }
+}

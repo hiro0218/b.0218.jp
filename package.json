@@ -39,7 +39,6 @@
     "eslint": "^7.9.0",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-prettier": "^3.1.4",
-    "fibers": "^5.0.0",
     "fs-extra": "^9.0.1",
     "highlight.js": "^10.2.0",
     "http-server": "^0.12.3",
@@ -47,12 +46,13 @@
     "lint-staged": "^10.3.0",
     "nodemon": "^2.0.4",
     "nuxt-generate-cluster": "^2.7.0",
+    "postcss-extend": "^1.0.5",
     "postcss-flexbugs-fixes": "^4.2.1",
+    "postcss-mixins": "6.2.3",
+    "postcss-nested": "4.2.3",
     "postcss-sort-media-queries": "^1.31.21",
     "prettier": "2.1.1",
-    "raw-loader": "^4.0.1",
-    "sass": "^1.26.10",
-    "sass-loader": "^10.0.2"
+    "raw-loader": "^4.0.1"
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,vue}": [

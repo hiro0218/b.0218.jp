@@ -1,0 +1,35 @@
+.pj-footer {
+  padding: 3rem 0;
+  background: var(--color-text);
+  color: var(--bg-color);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.pj-footer__link {
+  color: inherit;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+
+.pj-footer-menu {
+  margin-bottom: 1rem;
+}
+
+.pj-footer-menu__list {
+  display: inline-flex;
+}
+
+.pj-footer-menu__item {
+  & + .pj-footer-menu__item {
+    margin-left: 1em;
+  }
+}
+
+
+.pj-footer-copyright__text {
+  font-size: 1em;
+}

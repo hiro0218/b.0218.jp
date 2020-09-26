@@ -1,0 +1,62 @@
+.archive-list {
+  margin-bottom: 2rem;
+
+  @mixin desktop {
+    display: flex;
+  }
+}
+
+.archive-year {
+  @mixin desktop {
+    margin-right: 3rem;
+  }
+
+  @mixin mobile {
+    margin-bottom: 1rem;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.5em;
+  }
+}
+
+.archive-post {
+  flex-grow: 1;
+
+  &:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+}
+
+.archive-post-list {
+  &:not(:last-child) {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.archive-post-item {
+  display: block;
+  text-decoration: none;
+
+  &:hover {
+    .archive-post-item__title {
+      text-decoration: underline;
+      text-underline-position: under;
+    }
+  }
+}
+
+.archive-post-item__title {
+  margin-bottom: 0.5rem;
+  color: var(--color-text-heading);
+  font-size: 1rem;
+}
+
+.archive-post-item__date {
+  display: block;
+  color: var(--color-text--lighter);
+  font-size: var(--font-size-sm);
+  line-height: 1;
+}
+

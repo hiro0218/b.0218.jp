@@ -1,0 +1,20 @@
+.c-sns-list {
+  display: flex;
+  justify-content: center;
+}
+
+.c-sns-list__item {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.25em;
+  border-radius: 50%;
+  background: var(--color-text);
+
+  &:hover {
+    opacity: 0.6;
+  }
+
+  & + .c-sns-list__item {
+    margin-left: 1rem;
+  }
+}
