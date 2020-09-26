@@ -12,7 +12,7 @@
   --color-text--lighter: var(--oc-gray-6);
   --color-text-heading: var(--oc-gray-8);
   --color-text-description: var(--oc-gray-6);
-  --color-text-link: var(--oc-blue-9);
+  --color-text-link: var(--oc-gray-9);
 
   --bg-color: var(--oc-gray-2);
   --bg-color--dark: var(--oc-gray-3);
@@ -22,6 +22,7 @@
   --bg-color-hover: var(--oc-gray-1);
 
   --border-color: var(--oc-gray-3);
+  --mark-bg-color: var(--oc-gray-1);
 
   /* size */
   --desktop-width: 960px;
