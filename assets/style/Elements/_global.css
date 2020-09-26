@@ -1,3 +1,7 @@
+::selection {
+  background: var(--bg-color);
+}
+
 body {
   margin: 0;
   padding-top: var(--header-height);
