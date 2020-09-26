@@ -31,9 +31,9 @@ pre {
 
 :not(pre) > code {
   margin: 0;
-  padding: 0.2em 0.4em;
+  padding: 0.25rem 0.5rem;
   border-radius: 0.15rem;
-  background: var(--bg-color--lighter);
+  background: var(--bg-color--light);
   color: var(--color-text--light);
   font-size: var(--font-size-sm);
 }
