@@ -62,7 +62,7 @@ const config: Configuration = {
   /*
    ** Customize the progress-bar color
    */
-  loading: '~/components/TheLoading.tsx',
+  loading: false,
 
   /*
    ** Global CSS

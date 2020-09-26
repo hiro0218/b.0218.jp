@@ -68,5 +68,4 @@
 
   /* z-index */
   --zIndex-header: 10;
-  --zIndex-loading: calc(var(--zIndex-header) + 1);
 }
