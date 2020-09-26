@@ -181,6 +181,7 @@ const config: Configuration = {
           cascade: false,
         },
         features: {
+          'custom-properties': false, // for modern
           'nesting-rules': true,
         },
       },
