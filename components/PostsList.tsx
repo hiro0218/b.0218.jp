@@ -11,7 +11,7 @@ export default {
     return (
       <div class="post-list">
         {this.posts.map((post) => (
-          <a href={'/' + post.path} class="c-card">
+          <router-link to={'/' + post.path} class="c-card">
             <div class="c-card-image">
               <div class="c-card-image__container">
                 <div class="c-card-image__no-item">
@@ -29,7 +29,7 @@ export default {
               <div class="c-card-body__title">{post.title}</div>
               {post.excerpt && <div class="c-card-body__description">{post.excerpt}</div>}
             </div>
-          </a>
+          </router-link>
         ))}
       </div>
     );
