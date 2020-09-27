@@ -1,0 +1,17 @@
+.c-heading {
+
+  &__title {
+    margin-bottom: 0;
+    color: var(--color-text-heading);
+    line-height: 1.6;
+    overflow-wrap: break-word;
+  }
+
+  &__description {
+    margin-top: 0.5rem;
+    color: var(--color-text-description);
+    font-weight: normal;
+    letter-spacing: 0.075em;
+    line-height: 1.5;
+  }
+}

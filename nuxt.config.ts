@@ -1,8 +1,6 @@
 import { Configuration } from '@nuxt/types';
 
 import CONSTANT from './constant';
-const Sass = require('sass');
-const Fiber = require('fibers');
 
 const getRoutes = require('./routes.js');
 
@@ -64,12 +62,12 @@ const config: Configuration = {
   /*
    ** Customize the progress-bar color
    */
-  loading: '~/components/TheLoading.tsx',
+  loading: false,
 
   /*
    ** Global CSS
    */
-  css: ['~/assets/style/main.scss'],
+  css: ['~/assets/style/main.css'],
 
   /*
    ** Plugins to load before mounting the App
@@ -129,15 +127,6 @@ const config: Configuration = {
   build: {
     parallel: true,
 
-    loaders: {
-      scss: {
-        implementation: Sass,
-        sassOptions: {
-          fiber: Fiber,
-        },
-      },
-    },
-
     /*
      ** You can extend webpack config here
      */
@@ -191,8 +180,15 @@ const config: Configuration = {
           grid: 'autoplace',
           cascade: false,
         },
+        features: {
+          'custom-properties': false, // for modern
+          'nesting-rules': true,
+        },
       },
       plugins: {
+        'postcss-mixins': {},
+        'postcss-nested': {},
+        'postcss-extend': {},
         'postcss-flexbugs-fixes': {},
         'postcss-sort-media-queries': {
           sort: 'mobile-first',
