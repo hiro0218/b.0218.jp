@@ -1,10 +1,10 @@
-import { Configuration } from '@nuxt/types';
+import { NuxtConfig } from '@nuxt/types';
 
 import CONSTANT from './constant';
 
 const getRoutes = require('./routes.js');
 
-const config: Configuration = {
+const config: NuxtConfig = {
   target: 'server',
 
   /*
