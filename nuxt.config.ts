@@ -140,22 +140,6 @@ const config: Configuration = {
           exclude: /(node_modules)/,
         });
       }
-
-      config.module.rules.push({
-        test: /\.(html|xml|xsl|txt)$/,
-        loader: 'raw-loader',
-      });
-
-      // fix for _vm._ssrNode is not a function for functional component
-      // @see https://github.com/nuxt/nuxt.js/issues/2565
-      config.module.rules.forEach((rule: any) => {
-        if (rule.test.toString() === '/\\.vue$/') {
-          rule.options.optimizeSSR = false;
-        }
-      });
-
-      // Overcome webpack referencing `window` in chunks
-      config.output.globalObject = `(typeof self !== 'undefined' ? self : this)`;
     },
 
     babel: {

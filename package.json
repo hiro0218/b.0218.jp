@@ -51,8 +51,7 @@
     "postcss-mixins": "6.2.3",
     "postcss-nested": "4.2.3",
     "postcss-sort-media-queries": "^1.31.21",
-    "prettier": "2.1.2",
-    "raw-loader": "^4.0.1"
+    "prettier": "2.1.2"
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,vue}": [
