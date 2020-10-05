@@ -1,10 +1,10 @@
-import { Configuration } from '@nuxt/types';
+import { NuxtConfig } from '@nuxt/types';
 
 import CONSTANT from './constant';
 
 const getRoutes = require('./routes.js');
 
-const config: Configuration = {
+const config: NuxtConfig = {
   target: 'server',
 
   /*
@@ -46,9 +46,10 @@ const config: Configuration = {
       { rel: 'dns-prefetch', href: '//cdn.polyfill.io' },
       { rel: 'dns-prefetch', href: '//cdn.jsdelivr.net' },
       { rel: 'dns-prefetch', href: '//fonts.googleapis.com' },
+      { rel: 'dns-prefetch', href: '//partner.googlesyndication.com' },
       { rel: 'dns-prefetch', href: '//pagead2.googlesyndication.com' },
       { rel: 'dns-prefetch', href: '//www.googletagservices.com' },
-      { rel: 'dns-prefetch', href: '//googleads.g.doubleclick.net' },
+      { rel: 'dns-prefetch', href: '//www.google-analytics.com' },
       { rel: 'dns-prefetch', href: '//adservice.google.com' },
       { rel: 'dns-prefetch', href: '//adservice.google.co.jp' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -140,22 +141,6 @@ const config: Configuration = {
           exclude: /(node_modules)/,
         });
       }
-
-      config.module.rules.push({
-        test: /\.(html|xml|xsl|txt)$/,
-        loader: 'raw-loader',
-      });
-
-      // fix for _vm._ssrNode is not a function for functional component
-      // @see https://github.com/nuxt/nuxt.js/issues/2565
-      config.module.rules.forEach((rule: any) => {
-        if (rule.test.toString() === '/\\.vue$/') {
-          rule.options.optimizeSSR = false;
-        }
-      });
-
-      // Overcome webpack referencing `window` in chunks
-      config.output.globalObject = `(typeof self !== 'undefined' ? self : this)`;
     },
 
     babel: {
