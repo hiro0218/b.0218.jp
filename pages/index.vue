@@ -23,8 +23,7 @@ export default defineComponent({
     const pageTitle = computed(() => '最新の記事');
     const siteDescription = computed(() => CONSTANT.SITE_DESCRIPTION);
     const posts = computed(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      return root.$source.posts.filter((post, i) => i < 5);
+      return root.$source.posts.filter((_, i) => i < 5);
     });
 
     return {
