@@ -8,7 +8,7 @@
         {{ siteDescription }}
       </template>
     </LayoutHeader>
-    <PostsCategoryList :list="$source.categories" />
+    <PickupCategory :list="$source.categories" />
     <PostsList :posts="posts" />
   </section>
 </template>

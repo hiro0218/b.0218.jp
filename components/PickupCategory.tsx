@@ -1,7 +1,7 @@
 import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
-  name: 'PostsCategoryList',
+  name: 'PickupCategory',
   props: {
     list: {
       type: Array,
@@ -11,10 +11,10 @@ export default defineComponent({
   },
   render() {
     return (
-      <div class="u-scroll-x c-category-list">
-        <router-link to="/" exact class="c-category-list__link">
-          <div class="c-category-list__item">
-            <div class="c-category-list__logo">
+      <div class="u-scroll-x c-pickup-category">
+        <router-link to="/" exact class="c-pickup-category__link">
+          <div class="c-pickup-category__item">
+            <div class="c-pickup-category__logo">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
                   stroke-linecap="round"
@@ -24,18 +24,18 @@ export default defineComponent({
                 />
               </svg>
             </div>
-            <div class="c-category-list__name">HOME</div>
+            <div class="c-pickup-category__name">HOME</div>
           </div>
         </router-link>
         {this.list
           .filter((item) => item.pickup === true)
           .map((item) => (
-            <router-link to={'/' + item.path} class="c-category-list__link">
-              <div key={item.id} class="c-category-list__item">
-                <div class="c-category-list__logo">
+            <router-link to={'/' + item.path} class="c-pickup-category__link">
+              <div key={item.id} class="c-pickup-category__item">
+                <div class="c-pickup-category__logo">
                   <img src={item.logo} loading="lazy" />
                 </div>
-                <div class="c-category-list__name">{item.name}</div>
+                <div class="c-pickup-category__name">{item.name}</div>
               </div>
             </router-link>
           ))}

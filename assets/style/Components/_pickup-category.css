@@ -1,4 +1,4 @@
-.c-category-list {
+.c-pickup-category {
   display: flex;
   align-items: center;
   height: 6rem;
@@ -21,7 +21,7 @@
     scroll-snap-align: start;
 
     &:hover {
-      .c-category-list__name {
+      .c-pickup-category__name {
         overflow: visible;
       }
     }
