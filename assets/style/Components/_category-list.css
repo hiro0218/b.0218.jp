@@ -1,52 +1,61 @@
 .c-category-list {
   display: flex;
   align-items: center;
-  margin: 3rem auto;
+  height: 6rem;
+  margin: 1rem auto 2rem;
   font-size: var(--font-size-xs);
-  letter-spacing: 0.1em;
   white-space: nowrap;
   scroll-snap-type: x;
 
   &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 5.5rem;
+    height: 5.5rem;
+    padding: 0.5rem;
+    border: 0.25em solid transparent;
+    border-radius: 0.5rem;
+    background: var(--bg-color--light);
     text-align: center;
     scroll-snap-align: start;
 
-    &:not(:first-child) {
-      margin-left: 1rem;
+    &:hover {
+      .c-category-list__name {
+        overflow: visible;
+      }
+    }
+
+    .nuxt-link-active & {
+      border: 0.25em solid var(--bg-color--dark);
     }
   }
 
   &__link {
-    display: block;
-    position: relative;
-    padding: 0.5em;
-    color: var(--color-text);
-
-    &::before {
-      content: '';
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      transition: width 0.2s cubic-bezier(1, 0, 0, 1);
-      background: var(--color-text);
+    & + & {
+      margin-left: 1rem;
     }
+  }
 
-    &:hover {
+  &__logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    color: var(--color-text--light);
 
-      &::before {
-        width: 100%;
-      }
+    & img,
+    & svg {
+      width: 50%;
     }
+  }
 
-    &.nuxt-link-active {
-      cursor: default;
-
-      &::before {
-        width: 100%;
-      }
-    }
+  &__name {
+    width: 100%;
+    overflow: hidden;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
