@@ -10,6 +10,9 @@
     </LayoutHeader>
     <PickupCategory :list="$source.categories" />
     <PostsList :posts="posts" />
+    <div class="pg-home-list-more">
+      <nuxt-link to="/archive" class="pg-home-list-more__button">もっと見る</nuxt-link>
+    </div>
   </section>
 </template>
 
