@@ -171,6 +171,7 @@ const config: NuxtConfig = {
         },
       },
       plugins: {
+        'postcss-calc': {},
         'postcss-mixins': {},
         'postcss-nested': {},
         'postcss-extend': {},

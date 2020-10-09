@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@nuxtjs/google-analytics": "^2.4.0",
-    "@nuxtjs/pwa": "^3.0.2",
+    "@nuxtjs/pwa": "^3.1.2",
     "minireset.css": "^0.0.6",
     "mokuji.js": "^3.0.0",
     "nuxt": "^2.14.6",
@@ -46,6 +46,7 @@
     "lint-staged": "^10.4.0",
     "nodemon": "^2.0.4",
     "nuxt-generate-cluster": "^2.7.0",
+    "postcss-calc": "^7.0.5",
     "postcss-extend": "^1.0.5",
     "postcss-flexbugs-fixes": "^4.2.1",
     "postcss-mixins": "6.2.3",

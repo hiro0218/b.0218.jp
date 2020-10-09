@@ -1,0 +1,25 @@
+.pg-home-list-more {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.pg-home-list-more__button {
+  display: block;
+  width: 10rem;
+  margin: auto;
+  padding: 0.75em 1em;
+  border-radius: 0.25em;
+  background: var(--bg-color--light);
+  color: var(--color-text--light);
+  font-size: var(--font-size-sm);
+
+  &:hover {
+    background: var(--bg-color);
+    color: var(--color-text);
+  }
+
+  @mixin mobile {
+    width: 100%;
+    font-size: var(--font-size-md);
+  }
+}
