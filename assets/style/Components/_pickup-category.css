@@ -14,6 +14,7 @@
     width: 5.5rem;
     height: 5.5rem;
     padding: 0.5rem;
+    transition: background .3s;
     border: 0.25em solid transparent;
     border-radius: 0.5rem;
     background: var(--bg-color--light);
@@ -21,6 +22,8 @@
     scroll-snap-align: start;
 
     &:hover {
+      background: var(--bg-color);
+
       .c-pickup-category__name {
         overflow: visible;
       }
@@ -28,6 +31,10 @@
 
     .nuxt-link-active & {
       border: 0.25em solid var(--bg-color--dark);
+
+      &:hover {
+        background: var(--bg-color--light);
+      }
     }
   }
 
