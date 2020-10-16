@@ -7,9 +7,9 @@
   justify-content: center;
   width: 3rem;
   height: 3rem;
+  transition: background 0.4s, color 0.4s;
   border: none;
   border-radius: 50%;
-  background: none;
   background: var(--color-text);
   color: inherit;
   cursor: pointer;
@@ -19,5 +19,14 @@
     width: 1.5rem;
     height: 1.5rem;
     color: var(--bg-color);
+  }
+
+  &:hover,
+  &:focus {
+    background: var(--bg-color--darker);
+
+    & svg {
+      color: var(--color-text);
+    }
   }
 }
