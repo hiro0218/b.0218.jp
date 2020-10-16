@@ -7,11 +7,20 @@
   width: 2.5rem;
   height: 2.5rem;
   padding: 0.25em;
+  transition: background 0.4s, color 0.4s;
   border-radius: 50%;
   background: var(--color-text);
 
+  & svg {
+    color: #fff;
+  }
+
   &:hover {
-    opacity: 0.6;
+    background: var(--bg-color--darker);
+
+    & svg {
+      color: var(--color-text);
+    }
   }
 
   & + .c-sns-list__item {
