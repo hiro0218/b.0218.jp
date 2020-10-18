@@ -39,7 +39,7 @@ export default defineComponent({
 
           <div class="pj-footer-copyright">
             <small class="pj-footer-copyright__text">
-              ©
+              ©&nbsp;
               <router-link to="/" class="pj-footer__link">
                 {this.siteName}
               </router-link>
