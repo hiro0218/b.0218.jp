@@ -36,8 +36,8 @@
 }
 
 .c-post-meta__link {
-  padding: 0.25em 0.5em;
-  border-radius: 2px;
+  padding: 0.4em 0.75em;
+  border-radius: 0.15rem;
 
   @mixin desktop {
     font-size: var(--font-size-sm);
@@ -46,14 +46,22 @@
   &--category {
     @extend .c-post-meta__link;
 
-    background: var(--color-text--dark);
+    background: var(--color-text--light);
     color: var(--bg-color);
+
+    &:hover {
+      background: var(--color-text);
+    }
   }
 
   &--tag {
     @extend .c-post-meta__link;
 
-    border: 1px solid var(--color-text--lighter);
+    background: var(--bg-color);
     color: var(--color-text--light);
+
+    &:hover {
+      background: var(--bg-color--dark);
+    }
   }
 }
