@@ -155,7 +155,6 @@ const config: NuxtConfig = {
           ],
         ];
       },
-      plugins: ['@babel/plugin-proposal-optional-chaining'],
     },
 
     postcss: {

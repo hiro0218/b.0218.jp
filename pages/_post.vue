@@ -85,6 +85,7 @@ export default {
     return {
       __dangerouslyDisableSanitizers: ['script'],
       title: this.post.title,
+      titleTemplate: null,
       meta: [
         { hid: 'description', name: 'description', content: this.post.excerpt },
         { hid: 'og:type', property: 'og:type', content: 'article' },
