@@ -5,7 +5,7 @@
   color: var(--color-text--light);
 
   &:not(:last-child) {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
   }
 }
 
