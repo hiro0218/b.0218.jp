@@ -1,6 +1,10 @@
 .c-sns-list {
   display: flex;
   justify-content: center;
+
+  & > *:not(:first-child) {
+    margin-left: 1rem;
+  }
 }
 
 .c-sns-list__item {
@@ -22,8 +26,17 @@
       color: var(--color-text);
     }
   }
+}
 
-  & + .c-sns-list__item {
-    margin-left: 1rem;
+.c-sns-list__item--copy {
+  @extend .c-sns-list__item;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & svg {
+    width: 1.5rem;
+    height: 1.5rem;
   }
 }
