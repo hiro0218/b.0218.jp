@@ -1,6 +1,7 @@
-import { defineComponent, computed, onMounted } from '@vue/composition-api';
+import { defineComponent, ref, computed, onMounted } from '@vue/composition-api';
 import CONSTANT from '~/constant';
 import svgLogo from '~/assets/image/logo.svg?raw';
+import Search from './Search';
 
 export default defineComponent({
   name: 'TheHeader',
@@ -47,9 +48,18 @@ export default defineComponent({
       ticking = true;
     }
 
+    const showSearch = ref(false);
+
+    function toggleModal () {
+      document.body.classList.toggle('u-body-no-scroll', !showSearch.value);
+      showSearch.value = !showSearch.value;
+    }
+
     return {
       svgLogo,
       siteName,
+      showSearch,
+      toggleModal,
     };
   },
   render() {
@@ -57,12 +67,10 @@ export default defineComponent({
       <header class="pj-header js-header">
         <div class="o-container pj-header-container">
           <nuxt-link title={this.siteName} to="/" class="pj-header__logo" domPropsInnerHTML={svgLogo} />
-          <a
-            href="https://www.google.com/search?q=site:b.0218.jp"
-            target="_blank"
-            rel="noopener"
-            title="site:b.0218.jp - Google 検索"
+          <button
+            type="button"
             class="pj-header-search"
+            onClick={this.toggleModal}
           >
             <div class="pj-header-search__icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -73,8 +81,9 @@ export default defineComponent({
                 />
               </svg>
             </div>
-          </a>
+          </button>
         </div>
+        <Search isOpen={this.showSearch} onDone={this.toggleModal} />
       </header>
     );
   },

@@ -13,3 +13,7 @@
 .u-nowrap {
   white-space: nowrap;
 }
+
+.u-body-no-scroll {
+  overflow: hidden !important;
+}

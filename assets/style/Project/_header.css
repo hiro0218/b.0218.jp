@@ -46,7 +46,17 @@
   align-items: center;
   justify-content: center;
   width: 3rem;
-  height: 100%;
+  height: 3rem;
+  transition: background 0.2s ease;
+  border: none;
+  border-radius: 100%;
+  background: none;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background: var(--bg-color);
+  }
 }
 
 .pj-header-search__icon {
