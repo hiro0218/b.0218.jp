@@ -88,23 +88,6 @@ const config: NuxtConfig = {
     id: 'UA-50805440-1',
   },
 
-  workbox: {
-    offline: true,
-    skipWaiting: true,
-    runtimeCaching: [
-      {
-        urlPattern: /^(https?):\/\/.*\/.*\.(jpg|png|svg)/,
-        handler: 'cacheFirst',
-        strategyOptions: {
-          cacheName: 'images',
-          cacheExpiration: {
-            maxAgeSeconds: 60 * 60 * 24 * 7,
-          },
-        },
-      },
-    ],
-  },
-
   manifest: {
     name: CONSTANT.SITE_NAME,
     short_name: CONSTANT.SITE_NAME,
