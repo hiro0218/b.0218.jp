@@ -14,6 +14,7 @@ const config: NuxtConfig = {
     title: CONSTANT.SITE_NAME,
     htmlAttrs: {
       prefix: 'og: http://ogp.me/ns#',
+      lang: 'ja',
     },
     titleTemplate: `%s - ${CONSTANT.SITE_NAME}`,
     meta: [
