@@ -7,6 +7,10 @@ const getRoutes = require('./routes.js');
 const config: NuxtConfig = {
   target: 'server',
 
+  server: {
+    port: 1218,
+  },
+
   /*
    ** Headers of the page
    */
