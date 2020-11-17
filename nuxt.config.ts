@@ -7,6 +7,10 @@ const getRoutes = require('./routes.js');
 const config: NuxtConfig = {
   target: 'server',
 
+  server: {
+    port: 1218,
+  },
+
   /*
    ** Headers of the page
    */
@@ -14,6 +18,7 @@ const config: NuxtConfig = {
     title: CONSTANT.SITE_NAME,
     htmlAttrs: {
       prefix: 'og: http://ogp.me/ns#',
+      lang: 'ja',
     },
     titleTemplate: `%s - ${CONSTANT.SITE_NAME}`,
     meta: [
@@ -86,23 +91,6 @@ const config: NuxtConfig = {
 
   googleAnalytics: {
     id: 'UA-50805440-1',
-  },
-
-  workbox: {
-    offline: true,
-    skipWaiting: true,
-    runtimeCaching: [
-      {
-        urlPattern: /^(https?):\/\/.*\/.*\.(jpg|png|svg)/,
-        handler: 'cacheFirst',
-        strategyOptions: {
-          cacheName: 'images',
-          cacheExpiration: {
-            maxAgeSeconds: 60 * 60 * 24 * 7,
-          },
-        },
-      },
-    ],
   },
 
   manifest: {

@@ -33,7 +33,7 @@ export default defineComponent({
             <router-link to={'/' + item.path} class="c-pickup-category__link">
               <div key={item.id} class="c-pickup-category__item">
                 <div class="c-pickup-category__logo">
-                  <img src={item.logo} loading="lazy" />
+                  <img src={item.logo} alt={item.name} loading="lazy" />
                 </div>
                 <div class="c-pickup-category__name">{item.name}</div>
               </div>
