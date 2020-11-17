@@ -16,11 +16,11 @@ export default defineComponent({
   setup() {
     const postLink = computed(() => location.href);
 
-    function copyToUrl(e) {
+    function copyToUrl(e: Event) {
       e.preventDefault();
 
       const input = document.createElement('input');
-      input.value = location.href;
+      input.value = location.href.split('#')[0];
       document.body.appendChild(input);
       input.select();
       document.execCommand('copy');
