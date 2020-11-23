@@ -25,11 +25,6 @@
     .nuxt-link-active & {
       background: var(--color-text);
       color: var(--bg-color);
-
-      /* &:hover {
-        color: var(--bg-color);
-        background: var(--bg-color--light);
-      } */
     }
   }
 
