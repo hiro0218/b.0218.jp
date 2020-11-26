@@ -4,7 +4,7 @@ type ArchivePost = {
   title: string;
   data: string;
   path: string;
-}
+};
 
 export default defineComponent({
   name: 'Search',
@@ -31,8 +31,8 @@ export default defineComponent({
       emit('done');
     }
 
-    function onKeyup(e: KeyboardEvent) {
-      const value = (e.target as HTMLInputElement).value.trim();
+    function onKeyup(e) {
+      const value = e.target.value.trim();
 
       // Enterを押した場合
       if (!e.isComposing && e.key === 'Enter') {
@@ -50,7 +50,10 @@ export default defineComponent({
 
         data.suggest = archives.value.filter((post: ArchivePost) => {
           // AND検索のため入力値をスペースで区切って、それぞれの条件に一致するか
-          return value.toLowerCase().split(' ').every(el => post.title.toLowerCase().includes(el));
+          return value
+            .toLowerCase()
+            .split(' ')
+            .every((el) => post.title.toLowerCase().includes(el));
         });
         data.keyword = value;
       }
@@ -77,29 +80,39 @@ export default defineComponent({
                 />
               </svg>
             </label>
-            <input type="search" class="c-search__input" placeholder="記事のタイトルから検索する" id="search-input" autocomplete="off" value={this.data.keyword} onKeyup={(e) => this.onKeyup(e)} />
+            <input
+              type="search"
+              class="c-search__input"
+              placeholder="記事のタイトルから検索する"
+              id="search-input"
+              autocomplete="off"
+              value={this.data.keyword}
+              onKeyup={(e) => this.onKeyup(e)}
+            />
           </div>
           {this.data.suggest.length > 0 && (
-          <div class="c-search-body">
-            <ul class="c-search-list">
-              {Array.from(this.data.suggest).map((post: ArchivePost) => {
-                return (
-                  <li class="c-search-list__item">
-                    <router-link to={'/' + post.path} class="c-search-list__link">{post.title}</router-link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+            <div class="c-search-body">
+              <ul class="c-search-list">
+                {Array.from(this.data.suggest).map((post: ArchivePost) => {
+                  return (
+                    <li class="c-search-list__item">
+                      <router-link to={'/' + post.path} class="c-search-list__link">
+                        {post.title}
+                      </router-link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           )}
           <div class="c-search-footer">
             <div class="c-search-footer__search-result">
-              {this.data.suggest.length > 0 && (
-                <span>Result: {this.data.suggest.length} posts</span>
-              )}
+              {this.data.suggest.length > 0 && <span>Result: {this.data.suggest.length} posts</span>}
             </div>
             <div class="c-search-footer__search-external">
-              <a href="https://www.google.com/search?q=site:b.0218.jp" target="_blank" rel="noopener">Google 検索</a>
+              <a href="https://www.google.com/search?q=site:b.0218.jp" target="_blank" rel="noopener">
+                Google 検索
+              </a>
             </div>
           </div>
         </div>
