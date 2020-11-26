@@ -14,14 +14,14 @@
           <h2 class="archive-year__title">{{ yaer }}</h2>
         </div>
         <div class="archive-post">
-          <div v-for="(post, index) in archive" :key="index" class="archive-post-list">
-            <a :href="post.path" class="archive-post-item">
+          <template v-for="(post, index) in archive">
+            <a :key="index" :href="post.path" class="archive-post-item">
               <div class="archive-post-item__title">{{ post.title }}</div>
               <time :datetime="post.date" class="archive-post-item__date">{{
                 convertDateToSimpleFormat(post.date)
               }}</time>
             </a>
-          </div>
+          </template>
         </div>
       </div>
     </section>

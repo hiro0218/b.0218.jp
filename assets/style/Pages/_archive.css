@@ -31,21 +31,19 @@
   }
 }
 
-.archive-post-list {
-  &:not(:last-child) {
-    margin-bottom: 1.5rem;
-  }
-}
-
 .archive-post-item {
   display: block;
-  text-decoration: none;
+  padding: 1rem;
+  transition: background 0.2s ease;
+  border-radius: 0.25rem;
 
-  &:hover {
-    .archive-post-item__title {
-      text-decoration: underline;
-      text-underline-position: under;
-    }
+  &:hover,
+  &:focus {
+    background: var(--bg-color--lighter);
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 0.5rem;
   }
 }
 
