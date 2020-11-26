@@ -9,6 +9,7 @@
 .archive-year {
   @mixin desktop {
     margin-right: 3rem;
+    padding-top: 1rem;
   }
 
   @mixin mobile {
