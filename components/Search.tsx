@@ -96,7 +96,7 @@ export default defineComponent({
                 {Array.from(this.data.suggest).map((post: ArchivePost) => {
                   return (
                     <li class="c-search-list__item">
-                      <router-link to={'/' + post.path} class="c-search-list__link">
+                      <router-link to={'/' + post.path} class="c-search-list__link" nativeOn={{ click: this.onClose }}>
                         {post.title}
                       </router-link>
                     </li>

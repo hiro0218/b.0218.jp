@@ -17,7 +17,7 @@
   }
 
   .is-open-search & {
-    animation: fadeIn .6s;
+    animation: fadeIn .2s;
   }
 
   &__input {
