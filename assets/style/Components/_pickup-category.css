@@ -1,59 +1,36 @@
 .c-pickup-category {
   display: flex;
   align-items: center;
-  height: 6rem;
   margin: 1rem auto 2rem;
   font-size: var(--font-size-xs);
-  white-space: nowrap;
   scroll-snap-type: x;
+  scrollbar-width: thin;
 
   &__item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 5.5rem;
-    height: 5.5rem;
-    padding: 0.5rem;
+    max-width: 12rem;
+    padding: 0.5rem 1.5rem;
     transition: background .3s;
-    border: 0.25em solid transparent;
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     background: var(--bg-color--light);
     text-align: center;
     scroll-snap-align: start;
 
     &:hover {
       background: var(--bg-color);
-
-      .c-pickup-category__name {
-        overflow: visible;
-      }
     }
 
     .nuxt-link-active & {
-      border: 0.25em solid var(--bg-color--dark);
-
-      &:hover {
-        background: var(--bg-color--light);
-      }
+      background: var(--color-text);
+      color: var(--bg-color);
     }
   }
 
   &__link {
     & + & {
       margin-left: 1rem;
-    }
-  }
-
-  &__logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: auto;
-    color: var(--color-text--light);
-
-    & img,
-    & svg {
-      width: 50%;
     }
   }
 
