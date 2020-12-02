@@ -87,7 +87,7 @@ export default defineComponent({
               id="search-input"
               autocomplete="off"
               value={this.data.keyword}
-              onKeyup={(e) => this.onKeyup(e)}
+              onKeyup={(e: KeyboardEvent) => this.onKeyup(e)}
             />
           </div>
           {this.data.suggest.length > 0 && (
