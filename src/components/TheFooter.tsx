@@ -1,5 +1,6 @@
 import { defineComponent, computed } from '@vue/composition-api';
 import CONSTANT from '~/constant';
+// @ts-ignore
 import svgLogo from '~/assets/image/logo.svg?raw';
 
 export default defineComponent({

@@ -1,8 +1,12 @@
 import { defineComponent, computed } from '@vue/composition-api';
 
+// @ts-ignore
 import svgLine from '~/assets/image/sns_line.svg?raw';
+// @ts-ignore
 import svgHatena from '~/assets/image/sns_hatenabookmark.svg?raw';
+// @ts-ignore
 import svgTwitter from '~/assets/image/sns_twitter.svg?raw';
+// @ts-ignore
 import svgFacebook from '~/assets/image/sns_facebook.svg?raw';
 
 export default defineComponent({
@@ -73,7 +77,12 @@ export default defineComponent({
           target="_blank"
           rel="noopener"
         />
-        <a href="javascript:void(0)" onClick={(e) => this.copyToUrl(e)} class="c-sns-list__item--copy" title="Copy URL">
+        <a
+          href="javascript:void(0)"
+          onClick={(e: Event) => this.copyToUrl(e)}
+          class="c-sns-list__item--copy"
+          title="Copy URL"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
             <path
               fill-rule="evenodd"

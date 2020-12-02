@@ -61,7 +61,7 @@ export default defineComponent({
 
         {this.postCategory.length !== 0 && (
           <div class="c-post-meta">
-            {this.postCategory.map((category) => (
+            {this.postCategory.map((category: any) => (
               <div class="c-post-meta__item--separator">
                 <nuxt-link to={'/' + category.path} class="c-post-meta__link--category">
                   {category.name}
@@ -73,7 +73,7 @@ export default defineComponent({
 
         {this.postTag.length !== 0 && (
           <div class="c-post-meta">
-            {this.postTag.map((tag) => (
+            {this.postTag.map((tag: any) => (
               <div class="c-post-meta__item--separator">
                 <nuxt-link to={'/' + tag.path} class="c-post-meta__link--tag">
                   {tag.name}

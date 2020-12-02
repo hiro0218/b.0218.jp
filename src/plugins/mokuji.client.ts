@@ -1,6 +1,9 @@
+import { Plugin } from '@nuxt/types';
+// @ts-ignore
 import Mokuji from 'mokuji.js';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default (context, inject) => {
+const mokuji: Plugin = (_, inject) => {
   inject('Mokuji', Mokuji);
 };
+
+export default mokuji;

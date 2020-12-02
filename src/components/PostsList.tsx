@@ -10,7 +10,7 @@ export default {
   render() {
     return (
       <div class="post-list">
-        {this.posts.map((post) => (
+        {this.posts.map((post: any) => (
           <router-link to={'/' + post.path} class="c-card">
             <div class="c-card-body">
               <div class="c-card-body__title">{post.title}</div>

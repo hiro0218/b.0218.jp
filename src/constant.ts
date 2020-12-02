@@ -1,4 +1,8 @@
-const CONSTANT: { [key: string]: any } = {
+export type ConstantProps = {
+  [key: string]: any;
+};
+
+const CONSTANT: ConstantProps = {
   AUTHOR: 'hiro',
   AUTHOR_ICON: 'https://b.0218.jp/hiro0218.png',
   SITE_NAME: '零弐壱蜂',

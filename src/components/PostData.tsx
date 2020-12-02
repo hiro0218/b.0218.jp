@@ -11,26 +11,29 @@ export default {
     return <div class="post__content js-post-content" domPropsInnerHTML={this.content} />;
   },
   mounted() {
+    // @ts-ignore
     this.init();
   },
   methods: {
-    init() {
+    init(): void {
+      // @ts-ignore
       this.$nextTick(() => {
-        const elPostContent = document.querySelector('.js-post-content');
+        const elPostContent = document.querySelector('.js-post-content') as HTMLElement;
         this.initMokuji(elPostContent);
       });
     },
-    initMokuji(elPostContent) {
+    initMokuji(elPostContent: HTMLElement) {
       if (!process.client) return;
 
       // js-separateを取得できない場合はコンテンツを挿入先とする
-      let separate = document.querySelector('.js-separate');
+      let separate = document.querySelector('.js-separate') as HTMLElement;
       if (!separate) {
         separate = elPostContent;
       }
 
       // 目次一覧を作成
-      const mokujiList = new this.$Mokuji(elPostContent, {
+      // @ts-ignore
+      const mokujiList = new this.$mokuji(elPostContent, {
         anchorType: true,
         anchorLink: true,
         anchorLinkSymbol: '#',

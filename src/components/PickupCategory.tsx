@@ -18,8 +18,8 @@ export default defineComponent({
           </div>
         </router-link>
         {this.list
-          .filter((item) => item.pickup === true)
-          .map((item) => (
+          .filter((item: any) => item.pickup === true)
+          .map((item: any) => (
             <router-link to={'/' + item.path} class="c-pickup-category__link">
               <div key={item.id} class="c-pickup-category__item">
                 <div class="c-pickup-category__name">{item.name}</div>
