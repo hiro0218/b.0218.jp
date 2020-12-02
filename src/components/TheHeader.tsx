@@ -1,6 +1,7 @@
 import { defineComponent, ref, computed, onMounted } from '@vue/composition-api';
 import Search from './Search';
 import CONSTANT from '~/constant';
+// @ts-ignore
 import svgLogo from '~/assets/image/logo.svg?raw';
 
 export default defineComponent({
@@ -11,7 +12,7 @@ export default defineComponent({
     let lastKnownScrollY = 0;
 
     onMounted(() => {
-      const elHeader = document.querySelector('.js-header');
+      const elHeader = document.querySelector('.js-header') as HTMLElement;
       const headerheight = elHeader.offsetHeight;
 
       document.addEventListener(
@@ -19,11 +20,11 @@ export default defineComponent({
         () => {
           handleScroll(elHeader, headerheight);
         },
-        !document.documentMode ? { passive: false } : false,
+        { passive: false },
       );
     });
 
-    function handleScroll(elHeader, headerheight) {
+    function handleScroll(elHeader: HTMLElement, headerheight: number) {
       if (!ticking) {
         requestAnimationFrame(() => {
           ticking = false;

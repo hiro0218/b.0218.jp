@@ -15,13 +15,15 @@
     "strict": true,
     "noEmit": true,
     "experimentalDecorators": true,
+    "jsx": "preserve",
+    "jsxFactory": "h",
     "baseUrl": ".",
     "paths": {
       "~/*": [
-        "./*"
+        "./src/*"
       ],
       "@/*": [
-        "./*"
+        "./src/*"
       ]
     },
     "types": [
@@ -30,9 +32,8 @@
       "@nuxt/types"
     ]
   },
-  "files": [
-    "types/svg-shim.d.ts",
-    "types/vue-shim.d.ts"
+  "include": [
+    "src"
   ],
   "exclude": [
     "node_modules",

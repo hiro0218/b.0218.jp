@@ -1,4 +1,6 @@
-export default {
+import { defineComponent, onMounted } from '@vue/composition-api';
+
+export default defineComponent({
   name: 'PostData',
   props: {
     content: {
@@ -7,20 +9,8 @@ export default {
       default: '',
     },
   },
-  render() {
-    return <div class="post__content js-post-content" domPropsInnerHTML={this.content} />;
-  },
-  mounted() {
-    this.init();
-  },
-  methods: {
-    init() {
-      this.$nextTick(() => {
-        const elPostContent = document.querySelector('.js-post-content');
-        this.initMokuji(elPostContent);
-      });
-    },
-    initMokuji(elPostContent) {
+  setup(_, { root }) {
+    function initMokuji(elPostContent: HTMLElement) {
       if (!process.client) return;
 
       // js-separateを取得できない場合はコンテンツを挿入先とする
@@ -30,7 +20,8 @@ export default {
       }
 
       // 目次一覧を作成
-      const mokujiList = new this.$Mokuji(elPostContent, {
+      // @ts-ignore
+      const mokujiList = new root.$Mokuji(elPostContent, {
         anchorType: true,
         anchorLink: true,
         anchorLinkSymbol: '#',
@@ -55,8 +46,22 @@ export default {
         // 要素を追加
         details.appendChild(mokujiList);
         container.appendChild(details);
+        // @ts-ignore
         separate.insertBefore(container, separate.firstChild);
       });
-    },
+    }
+
+    onMounted(() => {
+      root.$nextTick(() => {
+        const elPostContent = document.querySelector('.js-post-content');
+        // @ts-ignore
+        initMokuji(elPostContent);
+      });
+    });
+
+    return {};
   },
-};
+  render() {
+    return <div class="post__content js-post-content" domPropsInnerHTML={this.content} />;
+  },
+});

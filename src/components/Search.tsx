@@ -31,8 +31,8 @@ export default defineComponent({
       emit('done');
     }
 
-    function onKeyup(e) {
-      const value = e.target.value.trim();
+    function onKeyup(e: KeyboardEvent) {
+      const value = (e.target as HTMLInputElement).value.trim();
 
       // Enterを押した場合
       if (!e.isComposing && e.key === 'Enter') {
@@ -53,7 +53,7 @@ export default defineComponent({
           return value
             .toLowerCase()
             .split(' ')
-            .every((el) => post.title.toLowerCase().includes(el));
+            .every((el: string) => post.title.toLowerCase().includes(el));
         });
         data.keyword = value;
       }
@@ -87,7 +87,7 @@ export default defineComponent({
               id="search-input"
               autocomplete="off"
               value={this.data.keyword}
-              onKeyup={(e) => this.onKeyup(e)}
+              onKeyup={(e: KeyboardEvent) => this.onKeyup(e)}
             />
           </div>
           {this.data.suggest.length > 0 && (

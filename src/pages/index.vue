@@ -18,7 +18,7 @@
 
 <script type="ts">
 import { defineComponent, computed } from '@vue/composition-api';
-import CONSTANT from '~/constant.ts';
+import CONSTANT from '~/constant';
 
 export default defineComponent({
   name: 'Top',
