@@ -1,11 +1,13 @@
 import { NuxtConfig } from '@nuxt/types';
 
-import CONSTANT from './constant';
+import CONSTANT from './src/constant';
 
 const getRoutes = require('./routes.js');
 
 const config: NuxtConfig = {
   target: 'server',
+
+  srcDir: 'src',
 
   server: {
     port: 1218,

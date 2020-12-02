@@ -67,14 +67,14 @@ typings/
 
 # nuxt.js build output
 .nuxt
-static/atom.xml
-static/rss.xml
-static/feed.json
-static/sitemap.xml
-static/sitemap.xsl
-static/post-sitemap.xml
-static/tag-sitemap.xml
-static/category-sitemap.xml
+src/static/atom.xml
+src/static/rss.xml
+src/static/feed.json
+src/static/sitemap.xml
+src/static/sitemap.xsl
+src/static/post-sitemap.xml
+src/static/tag-sitemap.xml
+src/static/category-sitemap.xml
 
 # Nuxt generate
 dist

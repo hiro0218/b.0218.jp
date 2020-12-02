@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const DEST_DIR = './static';
+const DEST_DIR = './src/static';
 const SRC_DIR = './_source';
 
 const copyFile = (filename) => {
