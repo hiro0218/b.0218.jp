@@ -1,5 +1,5 @@
 import { defineComponent, computed } from '@vue/composition-api';
-import { convertDateToSimpleFormat, isSameDate } from '~/assets/script/utils/date.ts';
+import { convertDateToSimpleFormat, isSameDate } from '~/utils/date.ts';
 
 export default defineComponent({
   name: 'PostMeta',

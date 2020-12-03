@@ -23,7 +23,7 @@
 
 <script>
 import CONSTANT from '~/constant';
-import { getBlogPostingStructured, getBreadcrumbStructured } from '~/assets/script/json-ld';
+import { getBlogPostingStructured, getBreadcrumbStructured } from '~/utils/json-ld';
 
 const getOgImagePath = (slug) => {
   const filename = slug.replace('.html', '');
