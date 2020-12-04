@@ -12,7 +12,12 @@ export default defineComponent({
     let lastKnownScrollY = 0;
 
     onMounted(() => {
-      const elHeader = document.querySelector('.js-header') as HTMLElement;
+      const elHeader = document.querySelector('.js-header');
+
+      if (!(elHeader instanceof HTMLElement)) {
+        return;
+      }
+
       const headerheight = elHeader.offsetHeight;
 
       document.addEventListener(

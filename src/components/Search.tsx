@@ -32,7 +32,13 @@ export default defineComponent({
     }
 
     function onKeyup(e: KeyboardEvent) {
-      const value = (e.target as HTMLInputElement).value.trim();
+      const { target } = e;
+
+      if (!(target instanceof HTMLInputElement)) {
+        return;
+      }
+
+      const value = target.value.trim();
 
       // Enterを押した場合
       if (!e.isComposing && e.key === 'Enter') {
