@@ -1,19 +1,16 @@
-import { defineComponent, useMeta, computed } from '@nuxtjs/composition-api';
-import CONSTANT from '../constant';
+import { defineComponent, useMeta } from '@nuxtjs/composition-api';
 
 import LayoutHeader from '../components/LayoutHeader';
 import PickupCategory from '../components/PickupCategory';
 import PostsList from '../components/PostsList';
 
+import CONSTANT from '~/constant';
+
 export default defineComponent({
   name: 'Top',
   setup(_, { root }) {
-    const pageTitle = computed(() => '最新の記事');
-    const siteDescription = computed(() => CONSTANT.SITE_DESCRIPTION);
-    const posts = computed(() => {
-      // @ts-ignore
-      return root.context.$source.posts.filter((_, i: number) => i < 5);
-    });
+    // @ts-ignore
+    const posts = root.context.$source.posts.filter((_, i: number) => i < 5);
     // @ts-ignore
     const categories = root.context.$source.categories;
 
@@ -23,8 +20,6 @@ export default defineComponent({
     });
 
     return {
-      pageTitle,
-      siteDescription,
       posts,
       categories,
     };
@@ -35,7 +30,7 @@ export default defineComponent({
   render() {
     return (
       <section>
-        <LayoutHeader title={this.pageTitle} description={this.siteDescription} />
+        <LayoutHeader title="最新の記事" description={CONSTANT.SITE_DESCRIPTION} />
         <PickupCategory list={this.categories} />
         <PostsList posts={this.posts} />
         <div class="pg-home-list-more">
