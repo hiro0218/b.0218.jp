@@ -1,13 +1,6 @@
 <template>
   <section class="error">
-    <LayoutHeader>
-      <template v-slot:header-title>
-        {{ pageTitle }}
-      </template>
-      <template v-slot:header-description>
-        {{ error.message }}
-      </template>
-    </LayoutHeader>
+    <LayoutHeader :title="pageTitle" :description="error.message" />
     <section class="error__message">
       {{ pageMessage }}
     </section>

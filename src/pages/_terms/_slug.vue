@@ -1,13 +1,6 @@
 <template>
   <section class="term">
-    <LayoutHeader>
-      <template v-slot:header-title>
-        {{ termName }}
-      </template>
-      <template v-slot:header-description>
-        {{ $route.params.terms }}
-      </template>
-    </LayoutHeader>
+    <LayoutHeader :title="termName" :description="$route.params.terms" />
     <PickupCategory v-if="!isTagsPage" :list="$source.categories" />
     <PostsList :posts="isTagsPage ? tagsPosts : categoriesPosts" />
   </section>

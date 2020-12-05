@@ -1,10 +1,7 @@
 <template>
   <div v-if="Object.keys(post).length !== 0" class="post">
     <article class="post__article">
-      <LayoutHeader>
-        <template v-slot:header-title>
-          {{ post.title }}
-        </template>
+      <LayoutHeader :title="post.title">
         <PostMeta :date="post.date" :updated="post.updated" :post-category="post.categories" :post-tag="post.tags" />
       </LayoutHeader>
       <PostAds />

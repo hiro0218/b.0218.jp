@@ -1,13 +1,6 @@
 <template>
   <section>
-    <LayoutHeader>
-      <template v-slot:header-title>
-        {{ pageTitle }}
-      </template>
-      <template v-slot:header-description>
-        {{ siteDescription }}
-      </template>
-    </LayoutHeader>
+    <LayoutHeader :title="pageTitle" :description="siteDescription" />
     <PickupCategory :list="$source.categories" />
     <PostsList :posts="posts" />
     <div class="pg-home-list-more">

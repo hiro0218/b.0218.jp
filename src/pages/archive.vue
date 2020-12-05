@@ -1,13 +1,6 @@
 <template>
   <article class="archive">
-    <LayoutHeader>
-      <template v-slot:header-title>
-        {{ pageTitle }}
-      </template>
-      <template v-slot:header-description>
-        {{ pageDescription }}
-      </template>
-    </LayoutHeader>
+    <LayoutHeader :title="pageTitle" :description="pageDescription" />
     <section>
       <div v-for="(archive, yaer) in archives" :key="yaer" class="archive-list">
         <div class="archive-year">

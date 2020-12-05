@@ -1,13 +1,6 @@
 <template>
   <article class="post">
-    <LayoutHeader>
-      <template v-slot:header-title>
-        {{ pageTitle }}
-      </template>
-      <template v-slot:header-description>
-        {{ pageDescription }}
-      </template>
-    </LayoutHeader>
+    <LayoutHeader :title="pageTitle" :description="pageDescription" />
     <div class="post__content js-post-content" v-html="page.content" />
   </article>
 </template>
