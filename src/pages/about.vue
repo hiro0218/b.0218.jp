@@ -15,7 +15,6 @@ export default defineComponent({
 
     return {
       page: {
-        ...page,
         content: app.$filteredPost(page.content),
       },
     };
