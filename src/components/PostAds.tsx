@@ -1,4 +1,4 @@
-import { defineComponent, computed } from '@vue/composition-api';
+import { defineComponent, computed } from '@nuxtjs/composition-api';
 import CONSTANT from '~/constant';
 
 export default defineComponent({

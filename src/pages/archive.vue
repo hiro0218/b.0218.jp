@@ -29,7 +29,7 @@
 </template>
 
 <script type="ts">
-import { defineComponent, computed } from '@vue/composition-api';
+import { defineComponent, computed } from '@nuxtjs/composition-api';
 import { convertDateToSimpleFormat } from '~/utils/date.ts';
 
 const formatArchive = (archives) => {

@@ -80,14 +80,14 @@ const config: NuxtConfig = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/composition-api', '~/plugins/filteredPost', '~/plugins/mokuji.client.ts', '~/plugins/source.ts'],
+  plugins: ['~/plugins/filteredPost', '~/plugins/mokuji.client.ts', '~/plugins/source.ts'],
 
   /*
    ** Nuxt.js modules
    */
   modules: ['@nuxtjs/pwa', '@nuxtjs/svg'],
 
-  buildModules: ['@nuxtjs/google-analytics', '@nuxt/typescript-build'],
+  buildModules: ['@nuxtjs/google-analytics', '@nuxt/typescript-build', '@nuxtjs/composition-api'],
 
   components: true,
 

@@ -1,4 +1,4 @@
-import { defineComponent, onMounted } from '@vue/composition-api';
+import { defineComponent, onMounted } from '@nuxtjs/composition-api';
 
 export default defineComponent({
   name: 'PostData',

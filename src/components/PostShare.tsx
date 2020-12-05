@@ -1,4 +1,4 @@
-import { defineComponent, computed } from '@vue/composition-api';
+import { defineComponent, computed } from '@nuxtjs/composition-api';
 
 // @ts-ignore
 import svgLine from '~/assets/image/sns_line.svg?raw';

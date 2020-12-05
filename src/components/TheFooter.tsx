@@ -1,4 +1,4 @@
-import { defineComponent, computed } from '@vue/composition-api';
+import { defineComponent, computed } from '@nuxtjs/composition-api';
 import CONSTANT from '~/constant';
 // @ts-ignore
 import svgLogo from '~/assets/image/logo.svg?raw';
@@ -8,17 +8,8 @@ export default defineComponent({
   setup() {
     const siteName = computed(() => CONSTANT.SITE_NAME);
 
-    function scrollTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
-    }
-
     return {
       siteName,
-      svgLogo,
-      scrollTop,
     };
   },
   render() {
