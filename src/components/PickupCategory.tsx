@@ -2,12 +2,13 @@ import { defineComponent } from '@nuxtjs/composition-api';
 
 export default defineComponent({
   name: 'PickupCategory',
-  props: {
-    list: {
-      type: Array,
-      required: false,
-      default: () => [],
-    },
+  setup(_, { root }) {
+    // @ts-ignore
+    const categories = root.context.$source.categories;
+
+    return {
+      categories,
+    };
   },
   render() {
     return (
@@ -17,7 +18,7 @@ export default defineComponent({
             <div class="c-pickup-category__name">HOME</div>
           </div>
         </router-link>
-        {this.list
+        {this.categories
           .filter((item: any) => item.pickup === true)
           .map((item: any) => (
             <router-link to={'/' + item.path} class="c-pickup-category__link">

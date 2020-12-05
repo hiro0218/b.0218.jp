@@ -11,8 +11,6 @@ export default defineComponent({
   setup(_, { root }) {
     // @ts-ignore
     const posts = root.context.$source.posts.filter((_, i: number) => i < 5);
-    // @ts-ignore
-    const categories = root.context.$source.categories;
 
     useMeta({
       title: CONSTANT.SITE_NAME,
@@ -21,7 +19,6 @@ export default defineComponent({
 
     return {
       posts,
-      categories,
     };
   },
   head() {
@@ -31,7 +28,7 @@ export default defineComponent({
     return (
       <section>
         <LayoutHeader title="最新の記事" description={CONSTANT.SITE_DESCRIPTION} />
-        <PickupCategory list={this.categories} />
+        <PickupCategory />
         <PostsList posts={this.posts} />
         <div class="pg-home-list-more">
           <nuxt-link to="/archive" class="pg-home-list-more__button">

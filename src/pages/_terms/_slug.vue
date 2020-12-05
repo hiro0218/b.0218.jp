@@ -1,7 +1,7 @@
 <template>
   <section class="term">
     <LayoutHeader :title="termName" :description="$route.params.terms" />
-    <PickupCategory v-if="!isTagsPage" :list="categories" />
+    <PickupCategory v-if="!isTagsPage" />
     <PostsList :posts="isTagsPage ? tagsPosts : categoriesPosts" />
   </section>
 </template>
@@ -13,9 +13,6 @@ export default {
   name: 'TermsPostsList',
   asyncData({ app, params, error }) {
     const isTagsPage = params.terms === 'tags';
-
-    // categories
-    const categories = app.context.$source.categories;
 
     // categoryPosts
     const categoryPosts = app.context.$source.categoriesPosts.filter((post) => {
@@ -43,7 +40,6 @@ export default {
       termName,
       categoriesPosts,
       tagsPosts,
-      categories,
     };
   },
   head() {
