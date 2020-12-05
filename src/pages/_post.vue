@@ -47,7 +47,7 @@ export default {
     }
 
     // パラメータからヘッダー情報を取得
-    const post = app.$source.posts.find((post) => post.path === params.post);
+    const post = app.context.$source.posts.find((post) => post.path === params.post);
 
     if (post) {
       return {

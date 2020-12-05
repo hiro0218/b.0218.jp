@@ -51,7 +51,7 @@ export default defineComponent({
   setup(_, { root }) {
     const pageTitle = computed(() => 'Archive');
     const pageDescription = computed(() => 'これまでに公開した記事の一覧です。');
-    const archives = computed(() => formatArchive(root.$source.archives));
+    const archives = computed(() => formatArchive(root.context.$source.archives));
 
     return {
       pageTitle,

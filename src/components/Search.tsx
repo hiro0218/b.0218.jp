@@ -22,7 +22,7 @@ export default defineComponent({
 
     const archives = computed(() => {
       // @ts-ignore
-      return root.context.app.$source.archives;
+      return root.context.$source.archives;
     });
 
     function onClose() {

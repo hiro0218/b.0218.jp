@@ -11,7 +11,7 @@ import { defineComponent, computed } from '@nuxtjs/composition-api';
 export default defineComponent({
   name: 'About',
   asyncData({ app }) {
-    const page = app.$source.pages.find((page) => page.slug === 'about');
+    const page = app.context.$source.pages.find((page) => page.slug === 'about');
 
     return {
       page: {

@@ -6,8 +6,15 @@ import categories from '../../_source/categories.json';
 import categoriesPosts from '../../_source/categories_posts.json';
 import tagsPosts from '../../_source/tags_posts.json';
 
-const source: Plugin = (_, inject) => {
-  const source = {
+// declare module '@nuxt/types' {
+//   interface Context {
+//     $source: {}
+//   }
+// }
+
+const source: Plugin = (context) => {
+  // @ts-ignore
+  context.$source = {
     pages,
     posts,
     archives,
@@ -15,8 +22,6 @@ const source: Plugin = (_, inject) => {
     categoriesPosts,
     tagsPosts,
   };
-
-  inject('source', source);
 };
 
 export default source;

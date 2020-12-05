@@ -12,8 +12,10 @@ export default defineComponent({
     const siteDescription = computed(() => CONSTANT.SITE_DESCRIPTION);
     const posts = computed(() => {
       // @ts-ignore
-      return root.$source.posts.filter((_, i: number) => i < 5);
+      return root.context.$source.posts.filter((_, i: number) => i < 5);
     });
+    // @ts-ignore
+    const categories = root.context.$source.categories;
 
     useMeta({
       title: CONSTANT.SITE_NAME,
@@ -24,6 +26,7 @@ export default defineComponent({
       pageTitle,
       siteDescription,
       posts,
+      categories,
     };
   },
   head() {
@@ -33,7 +36,7 @@ export default defineComponent({
     return (
       <section>
         <LayoutHeader title={this.pageTitle} description={this.siteDescription} />
-        <PickupCategory list={this.$source.categories} />
+        <PickupCategory list={this.categories} />
         <PostsList posts={this.posts} />
         <div class="pg-home-list-more">
           <nuxt-link to="/archive" class="pg-home-list-more__button">
