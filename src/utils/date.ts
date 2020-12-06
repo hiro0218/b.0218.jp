@@ -4,22 +4,7 @@
  * @param dateString
  */
 export const convertDateToSimpleFormat = (dateString: string): string => {
-  let date = '';
-
-  // convert: string -> date
-  try {
-    if (typeof dateString === 'string') {
-      date = new Date(dateString).toISOString();
-    }
-  } catch (e) {
-    console.log(e);
-  }
-
-  if (date) {
-    date = date.split('T')[0].replace(/-/g, '/');
-  }
-
-  return date;
+  return dateString.split('T')[0].replace(/-/g, '/');
 };
 
 /**
