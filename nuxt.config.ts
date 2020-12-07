@@ -80,7 +80,7 @@ const config: NuxtConfig = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/filteredPost', '~/plugins/mokuji.client.ts', '~/plugins/source.ts'],
+  plugins: ['~/plugins/filteredPost', '~/plugins/json-ld', '~/plugins/mokuji.client.ts', '~/plugins/source.ts'],
 
   /*
    ** Nuxt.js modules

@@ -78,6 +78,9 @@ export default {
       this.$router.replace({ params: { post: `${param}.html` } });
     }
   },
+  jsonld() {
+    return [getBlogPostingStructured(this.post), getBreadcrumbStructured(this.post)];
+  },
   head() {
     return {
       __dangerouslyDisableSanitizers: ['script'],
@@ -101,14 +104,6 @@ export default {
       ],
       link: [{ rel: 'canonical', href: `${CONSTANT.SITE_URL}${this.post.slug}` }],
       script: [
-        {
-          type: 'application/ld+json',
-          innerHTML: getBlogPostingStructured(this.post),
-        },
-        {
-          type: 'application/ld+json',
-          innerHTML: getBreadcrumbStructured(this.post),
-        },
         {
           src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
           async: true,

@@ -30,8 +30,8 @@ const getDescriptionText = (postContent: string): string => {
   return content;
 };
 
-export const getBlogPostingStructured = (post: Post): string => {
-  return JSON.stringify({
+export const getBlogPostingStructured = (post: Post) => {
+  return {
     '@context': 'http://schema.org',
     '@type': 'BlogPosting',
     mainEntityOfPage: {
@@ -59,10 +59,10 @@ export const getBlogPostingStructured = (post: Post): string => {
         height: '400px',
       },
     },
-  });
+  };
 };
 
-export const getBreadcrumbStructured = (post: Post): string => {
+export const getBreadcrumbStructured = (post: Post) => {
   let itemCount = 1;
   const itemListElement = [
     {
@@ -101,5 +101,5 @@ export const getBreadcrumbStructured = (post: Post): string => {
     { itemListElement: itemListElement },
   );
 
-  return JSON.stringify(structure);
+  return structure;
 };
