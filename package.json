@@ -9,7 +9,7 @@
     "build": "nuxt-ts build",
     "start": "http-server ./dist",
     "generate": "nuxt-ts generate",
-    "lint": "eslint --ext .ts,.tsx,.js,.vue --ignore-path .gitignore ./src",
+    "lint": "eslint --ext .ts,.tsx,.js,.vue ./src",
     "pregenerate": "git submodule update --remote && node ./output.js"
   },
   "dependencies": {

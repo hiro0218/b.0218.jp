@@ -1,4 +1,4 @@
-/types/*.d.ts
+*.d.ts
 .nuxt/
 dist/
 public/
