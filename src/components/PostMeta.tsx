@@ -1,4 +1,4 @@
-import { defineComponent, computed } from '@nuxtjs/composition-api';
+import { defineComponent } from '@nuxtjs/composition-api';
 import { convertDateToSimpleFormat, isSameDate } from '~/utils/date.ts';
 
 export default defineComponent({
@@ -24,36 +24,19 @@ export default defineComponent({
       default: () => [],
     },
   },
-  setup({ date, updated }) {
-    const stringPublishDate = computed(() => {
-      return convertDateToSimpleFormat(date);
-    });
-    const stringModifiyDate = computed(() => {
-      return convertDateToSimpleFormat(updated);
-    });
-    const isModified = computed(() => {
-      return isSameDate(date, updated);
-    });
-
-    return {
-      stringPublishDate,
-      stringModifiyDate,
-      isModified,
-    };
-  },
   render() {
     return (
       <div class="post-meta">
         <div class="c-post-meta">
           <div class="c-post-meta__item--date">
             <time datetime={this.date} itemprop="datePublished">
-              {this.stringPublishDate}
+              {convertDateToSimpleFormat(this.date)}
             </time>
           </div>
-          {!this.isModified && (
+          {!isSameDate(this.date, this.updated) && (
             <div class="c-post-meta__item--date">
               <time datetime={this.updated} itemprop="dateModified">
-                {this.stringModifiyDate}
+                {convertDateToSimpleFormat(this.updated)}
               </time>
             </div>
           )}
