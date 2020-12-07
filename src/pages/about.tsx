@@ -31,7 +31,7 @@ export default defineComponent({
   render() {
     return (
       <article class="post">
-        <LayoutHeader title={pageTitle} description={pageDescription} />
+        <LayoutHeader heading={pageTitle} description={pageDescription} />
         <div class="post__content js-post-content" domPropsInnerHTML={this.content} />
       </article>
     );

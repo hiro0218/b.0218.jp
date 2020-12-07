@@ -58,7 +58,7 @@ export default defineComponent({
   render() {
     return (
       <article class="archive">
-        <LayoutHeader title={pageTitle} description={pageDescription} />
+        <LayoutHeader heading={pageTitle} description={pageDescription} />
         <section>
           {Object.keys(this.archives).map((key: any) => (
             <div class="archive-list">

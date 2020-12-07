@@ -1,6 +1,6 @@
 <template>
   <section class="error">
-    <LayoutHeader :title="pageTitle" :description="error.message" />
+    <LayoutHeader :heading="pageTitle" :description="error.message" />
     <section class="error__message">
       {{ pageMessage }}
     </section>

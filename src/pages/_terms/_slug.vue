@@ -1,6 +1,6 @@
 <template>
   <section class="term">
-    <LayoutHeader :title="termName" :description="$route.params.terms" />
+    <LayoutHeader :heading="termName" :description="$route.params.terms" />
     <PickupCategory v-if="!isTagsPage" />
     <PostsList :posts="isTagsPage ? tagsPosts : categoriesPosts" />
   </section>

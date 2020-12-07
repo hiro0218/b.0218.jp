@@ -27,7 +27,7 @@ export default defineComponent({
   render() {
     return (
       <section>
-        <LayoutHeader title="最新の記事" description={CONSTANT.SITE_DESCRIPTION} />
+        <LayoutHeader heading="最新の記事" description={CONSTANT.SITE_DESCRIPTION} />
         <PickupCategory />
         <PostsList posts={this.posts} />
         <div class="pg-home-list-more">
