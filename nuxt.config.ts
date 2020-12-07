@@ -5,7 +5,7 @@ import CONSTANT from './src/constant';
 const getRoutes = require('./routes.js');
 
 const config: NuxtConfig = {
-  target: 'server',
+  target: 'static',
 
   srcDir: 'src',
 
