@@ -1,0 +1,136 @@
+import { defineComponent, useContext, useMeta } from '@nuxtjs/composition-api';
+
+import { Post } from '~/types/source';
+import CONSTANT from '~/constant';
+import { getBlogPostingStructured, getBreadcrumbStructured } from '~/utils/json-ld';
+
+import LayoutHeader from '~/components/LayoutHeader';
+import PostMeta from '~/components/PostMeta';
+import PostAds from '~/components/PostAds';
+import PostData from '~/components/PostData';
+import PostShare from '~/components/PostShare';
+import PostPager from '~/components/PostPager';
+
+interface PropsPostData extends Post {
+  path: string;
+  permalink: string;
+}
+
+const getOgImagePath = (slug: string): string => {
+  const filename = slug.replace('.html', '');
+  return slug ? `https://hiro0218.github.io/blog/images/ogp/${filename}.png` : CONSTANT.AUTHOR_ICON;
+};
+
+export default defineComponent({
+  name: 'Post',
+  setup(_, { root }) {
+    const { params } = useContext();
+
+    // nuxt generate & nuxt dev
+    if (process.static && process.server) {
+      // generate時はhtmlが含まれていないため付与する
+      if (!params.value.post.includes('.html')) {
+        params.value.post += '.html';
+      }
+    }
+
+    // パラメータからヘッダー情報を取得
+    // @ts-ignore
+    const postData: PropsPostData = root.context.$source.posts.find((post: { path: string }) => {
+      return post.path === params.value.post;
+    });
+
+    if (!postData) {
+      throw new Error('Page not found');
+    }
+
+    const post: Post = {
+      date: postData.date,
+      updated: postData.updated,
+      slug: postData.path,
+      link: postData.permalink,
+      title: postData.title,
+      // @ts-ignore
+      content: root.context.$filteredPost(postData.content),
+      excerpt: postData.excerpt,
+      thumbnail: postData.thumbnail,
+      categories: postData.categories,
+      tags: postData.tags,
+      next: postData.next,
+      prev: postData.prev,
+    };
+
+    useMeta({
+      title: post.title,
+      titleTemplate: undefined,
+      meta: [
+        { hid: 'description', name: 'description', content: post.excerpt },
+        { hid: 'og:type', property: 'og:type', content: 'article' },
+        { hid: 'og:url', property: 'og:url', content: `${CONSTANT.SITE_URL}${post.slug}` },
+        { hid: 'og:title', property: 'og:title', content: post.title },
+        { hid: 'og:description', property: 'og:description', content: post.excerpt },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: getOgImagePath(post.slug),
+        },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { hid: 'og:updated_time', property: 'og:updated_time', content: post.updated },
+        { hid: 'article:published_time', property: 'article:published_time', content: post.date },
+        { hid: 'article:modified_time', property: 'article:modified_time', content: post.updated },
+      ],
+      link: [{ rel: 'canonical', href: `${CONSTANT.SITE_URL}${post.slug}` }],
+      __dangerouslyDisableSanitizers: ['script'],
+      script: [
+        {
+          type: 'application/ld+json',
+          innerHTML: JSON.stringify(getBlogPostingStructured(post)),
+        },
+        {
+          type: 'application/ld+json',
+          innerHTML: JSON.stringify(getBreadcrumbStructured(post)),
+        },
+        {
+          src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
+          async: true,
+        },
+        {
+          innerHTML: '(adsbygoogle = window.adsbygoogle || []).push({});',
+        },
+      ],
+    });
+
+    return {
+      post,
+    };
+  },
+  head() {
+    return {};
+  },
+  render() {
+    return (
+      <div class="post">
+        <article class="post__article">
+          <LayoutHeader heading={this.post.title}>
+            <PostMeta
+              date={this.post.date}
+              updated={this.post.updated}
+              postCategory={this.post.categories}
+              postTag={this.post.tags}
+            />
+          </LayoutHeader>
+          <PostAds />
+          <PostData content={this.post.content} />
+        </article>
+        <div class="post__share">
+          <client-only>
+            <PostShare postTitle={this.post.title} />
+          </client-only>
+        </div>
+        <div class="post__pager">
+          <PostPager next={this.post.next} prev={this.post.prev} />
+        </div>
+      </div>
+    );
+  },
+});
