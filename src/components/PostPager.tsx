@@ -1,15 +1,16 @@
 import { defineComponent } from '@nuxtjs/composition-api';
+import { NextPrevPost } from '~/types/source';
 
 export default defineComponent({
   name: 'PostPager',
   props: {
     next: {
-      type: Object,
+      type: Object as () => NextPrevPost,
       required: false,
       default: () => {},
     },
     prev: {
-      type: Object,
+      type: Object as () => NextPrevPost,
       required: false,
       default: () => {},
     },

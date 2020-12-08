@@ -1,4 +1,5 @@
 import { defineComponent } from '@nuxtjs/composition-api';
+import { TermsPostList } from '~/types/source';
 import { convertDateToSimpleFormat, isSameDate } from '~/utils/date.ts';
 
 export default defineComponent({
@@ -14,12 +15,12 @@ export default defineComponent({
       default: '',
     },
     postCategory: {
-      type: Array,
+      type: Array as () => Array<TermsPostList>,
       required: false,
       default: () => [],
     },
     postTag: {
-      type: Array,
+      type: Array as () => Array<TermsPostList>,
       required: false,
       default: () => [],
     },
@@ -44,7 +45,7 @@ export default defineComponent({
 
         {this.postCategory.length !== 0 && (
           <div class="c-post-meta">
-            {this.postCategory.map((category: any) => (
+            {this.postCategory.map((category: TermsPostList) => (
               <div class="c-post-meta__item--separator">
                 <nuxt-link to={'/' + category.path} class="c-post-meta__link--category">
                   {category.name}
@@ -56,7 +57,7 @@ export default defineComponent({
 
         {this.postTag.length !== 0 && (
           <div class="c-post-meta">
-            {this.postTag.map((tag: any) => (
+            {this.postTag.map((tag: TermsPostList) => (
               <div class="c-post-meta__item--separator">
                 <nuxt-link to={'/' + tag.path} class="c-post-meta__link--tag">
                   {tag.name}

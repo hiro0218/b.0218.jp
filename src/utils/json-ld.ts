@@ -1,19 +1,5 @@
+import { Post } from '~/types/source';
 import CONSTANT from '~/constant';
-
-interface Post {
-  date: string;
-  updated: string;
-  slug: string;
-  link: string;
-  title: string;
-  content: string;
-  excerpt: string;
-  thumbnail: string;
-  categories: [];
-  tags: [];
-  next: {};
-  prev: {};
-}
 
 const getDescriptionText = (postContent: string): string => {
   let content = postContent;
@@ -74,7 +60,7 @@ export const getBreadcrumbStructured = (post: Post) => {
 
   if (post.categories) {
     for (let i = 0; i < post.categories.length; i++) {
-      const category: { [key: string]: string } = post.categories[i];
+      const category = post.categories[i];
       itemListElement.push({
         '@type': 'ListItem',
         position: ++itemCount,
