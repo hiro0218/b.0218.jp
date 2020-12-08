@@ -1,11 +1,11 @@
 import { defineComponent } from '@nuxtjs/composition-api';
-import { Post } from '~/types/source';
+import { Post, TermsPostLits } from '~/types/source';
 
 export default defineComponent({
   name: 'PostsList',
   props: {
     posts: {
-      type: Array as () => Array<Post>,
+      type: Array as () => Array<Post | TermsPostLits>,
       required: false,
       default: () => [],
     },
@@ -13,7 +13,7 @@ export default defineComponent({
   render() {
     return (
       <div class="post-list">
-        {this.posts.map((post: Post) => (
+        {this.posts.map((post) => (
           <router-link to={'/' + post.path} class="c-card">
             <div class="c-card-body">
               <div class="c-card-body__title">{post.title}</div>

@@ -1,23 +1,11 @@
 import { defineComponent, useContext, useMeta } from '@nuxtjs/composition-api';
+
+import { Terms } from '~/types/source';
 import CONSTANT from '~/constant';
 
 import LayoutHeader from '~/components/LayoutHeader';
 import PickupCategory from '~/components/PickupCategory';
 import PostsList from '~/components/PostsList';
-
-interface TermsPosts {
-  title: string;
-  path: string;
-  excerpt: string;
-  date: string;
-}
-
-interface TermsPostList {
-  name: string;
-  slug: string;
-  count: number;
-  posts: Array<TermsPosts>;
-}
 
 export default defineComponent({
   name: 'TermsPostsList',
@@ -32,10 +20,13 @@ export default defineComponent({
     }
 
     const { termName, termContent } = (() => {
-      // @ts-ignore
-      const termSource = isTagsPage ? root.context.$source.tagsPosts : root.context.$source.categoriesPosts;
+      const termSource: Array<Terms> = isTagsPage
+        ? // @ts-ignore
+          root.context.$source.tagsPosts
+        : // @ts-ignore
+          root.context.$source.categoriesPosts;
 
-      const posts: Array<TermsPostList> = termSource.filter((post: TermsPostList) => {
+      const posts = termSource.filter((post) => {
         return post.slug === slug;
       });
 

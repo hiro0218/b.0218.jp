@@ -1,16 +1,19 @@
 // Terms
+export interface TermsPostLits {
+  title: string;
+  path: string;
+  excerpt: string;
+  date: string;
+}
+
 export interface Terms {
   name: string;
   slug: string;
   count: number;
-  posts: Array<{
-    title: string;
-    path: string;
-    excerpt: string;
-    date: string;
-  }>;
+  posts: Array<TermsPostLits>;
 }
 
+// Post
 export interface TermsPostList {
   name: string;
   slug: string;
@@ -22,12 +25,11 @@ export interface NextPrevPost {
   path: string;
 }
 
-// Post
 export interface Post {
   date: string;
   updated: string;
   slug: string;
-  path: string; // TODO
+  path?: string; // TODO
   link: string;
   title: string;
   content: string;

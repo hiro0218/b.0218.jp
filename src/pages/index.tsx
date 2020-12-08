@@ -5,12 +5,13 @@ import PickupCategory from '../components/PickupCategory';
 import PostsList from '../components/PostsList';
 
 import CONSTANT from '~/constant';
+import { Post } from '~/types/source';
 
 export default defineComponent({
   name: 'Top',
   setup(_, { root }) {
     // @ts-ignore
-    const posts = root.context.$source.posts.filter((_, i: number) => i < 5);
+    const posts: Array<Post> = root.context.$source.posts.filter((_, i: number) => i < 5);
 
     useMeta({
       title: CONSTANT.SITE_NAME,
