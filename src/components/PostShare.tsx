@@ -1,9 +1,9 @@
-import { defineComponent, computed } from '@nuxtjs/composition-api';
+import { computed, defineComponent } from '@nuxtjs/composition-api';
 
-import svgLine from '~/assets/image/sns_line.svg?raw';
-import svgHatena from '~/assets/image/sns_hatenabookmark.svg?raw';
-import svgTwitter from '~/assets/image/sns_twitter.svg?raw';
 import svgFacebook from '~/assets/image/sns_facebook.svg?raw';
+import svgHatena from '~/assets/image/sns_hatenabookmark.svg?raw';
+import svgLine from '~/assets/image/sns_line.svg?raw';
+import svgTwitter from '~/assets/image/sns_twitter.svg?raw';
 
 export default defineComponent({
   name: 'PostShare',

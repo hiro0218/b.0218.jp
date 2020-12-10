@@ -1,11 +1,10 @@
 import { defineComponent, useContext, useMeta } from '@nuxtjs/composition-api';
 
-import { Terms } from '~/types/source';
-import CONSTANT from '~/constant';
-
 import LayoutHeader from '~/components/LayoutHeader';
 import PickupCategory from '~/components/PickupCategory';
 import PostsList from '~/components/PostsList';
+import CONSTANT from '~/constant';
+import { Terms } from '~/types/source';
 
 export default defineComponent({
   name: 'TermsPostsList',

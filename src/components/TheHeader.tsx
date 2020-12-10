@@ -1,8 +1,8 @@
-import { defineComponent, ref, onMounted } from '@nuxtjs/composition-api';
-import Search from './Search';
-import CONSTANT from '~/constant';
+import { defineComponent, onMounted, ref } from '@nuxtjs/composition-api';
 
 import svgLogo from '~/assets/image/logo.svg?raw';
+import Search from '~/components/Search';
+import CONSTANT from '~/constant';
 
 export default defineComponent({
   name: 'TheHeader',

@@ -1,4 +1,5 @@
 import { defineComponent } from '@nuxtjs/composition-api';
+
 import { NextPrevPost } from '~/types/source';
 
 export default defineComponent({

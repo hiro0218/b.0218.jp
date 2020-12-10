@@ -1,6 +1,6 @@
 import { defineComponent, useMeta } from '@nuxtjs/composition-api';
 
-import LayoutHeader from '../components/LayoutHeader';
+import LayoutHeader from '~/components/LayoutHeader';
 import { convertDateToSimpleFormat } from '~/utils/date';
 
 const pageTitle = 'Archive';

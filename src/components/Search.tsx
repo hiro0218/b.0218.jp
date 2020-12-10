@@ -1,4 +1,4 @@
-import { defineComponent, reactive, computed } from '@nuxtjs/composition-api';
+import { computed, defineComponent, reactive } from '@nuxtjs/composition-api';
 
 type ArchivePost = {
   title: string;

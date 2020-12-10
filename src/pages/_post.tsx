@@ -1,15 +1,14 @@
 import { defineComponent, useContext, useMeta } from '@nuxtjs/composition-api';
 
-import { Post } from '~/types/source';
-import CONSTANT from '~/constant';
-import { getBlogPostingStructured, getBreadcrumbStructured } from '~/utils/json-ld';
-
 import LayoutHeader from '~/components/LayoutHeader';
-import PostMeta from '~/components/PostMeta';
 import PostAds from '~/components/PostAds';
 import PostData from '~/components/PostData';
-import PostShare from '~/components/PostShare';
+import PostMeta from '~/components/PostMeta';
 import PostPager from '~/components/PostPager';
+import PostShare from '~/components/PostShare';
+import CONSTANT from '~/constant';
+import { Post } from '~/types/source';
+import { getBlogPostingStructured, getBreadcrumbStructured } from '~/utils/json-ld';
 
 interface PropsPostData extends Post {
   path: string;

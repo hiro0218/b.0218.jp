@@ -1,4 +1,5 @@
 import { defineComponent } from '@nuxtjs/composition-api';
+
 import { TermsPostList } from '~/types/source';
 import { convertDateToSimpleFormat, isSameDate } from '~/utils/date.ts';
 

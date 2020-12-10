@@ -1,4 +1,5 @@
 import { defineComponent } from '@nuxtjs/composition-api';
+
 import CONSTANT from '~/constant';
 
 export default defineComponent({

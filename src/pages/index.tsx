@@ -1,9 +1,8 @@
 import { defineComponent, useMeta } from '@nuxtjs/composition-api';
 
-import LayoutHeader from '../components/LayoutHeader';
-import PickupCategory from '../components/PickupCategory';
-import PostsList from '../components/PostsList';
-
+import LayoutHeader from '~/components/LayoutHeader';
+import PickupCategory from '~/components/PickupCategory';
+import PostsList from '~/components/PostsList';
 import CONSTANT from '~/constant';
 import { Post } from '~/types/source';
 

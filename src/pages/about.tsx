@@ -1,6 +1,6 @@
-import { defineComponent, useMeta, useAsync } from '@nuxtjs/composition-api';
+import { defineComponent, useAsync, useMeta } from '@nuxtjs/composition-api';
 
-import LayoutHeader from '../components/LayoutHeader';
+import LayoutHeader from '~/components/LayoutHeader';
 
 const pageTitle = 'About';
 const pageDescription = 'サイトと運営者の情報';
