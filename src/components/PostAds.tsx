@@ -1,21 +1,10 @@
-import { defineComponent, computed } from '@nuxtjs/composition-api';
+import { defineComponent } from '@nuxtjs/composition-api';
 import CONSTANT from '~/constant';
 
 export default defineComponent({
   name: 'PostAds',
   setup() {
-    const { ADSENSE } = CONSTANT;
-    const layout = computed(() => ADSENSE.LAYOUT);
-    const format = computed(() => ADSENSE.FORMAT);
-    const client = computed(() => ADSENSE.CLIENT);
-    const slot = computed(() => ADSENSE.SLOT);
-
-    return {
-      layout,
-      format,
-      client,
-      slot,
-    };
+    return {};
   },
   render() {
     return (
@@ -23,10 +12,10 @@ export default defineComponent({
         <ins
           class="adsbygoogle"
           style="display: block; text-align: center;"
-          data-ad-layout={this.layout}
-          data-ad-format={this.format}
-          data-ad-client={this.client}
-          data-ad-slot={this.slot}
+          data-ad-layout={CONSTANT.ADSENSE.LAYOUT}
+          data-ad-format={CONSTANT.ADSENSE.FORMAT}
+          data-ad-client={CONSTANT.ADSENSE.CLIENT}
+          data-ad-slot={CONSTANT.ADSENSE.SLOT}
         />
       </div>
     );

@@ -1,4 +1,4 @@
-import { defineComponent, computed } from '@nuxtjs/composition-api';
+import { defineComponent } from '@nuxtjs/composition-api';
 import CONSTANT from '~/constant';
 // @ts-ignore
 import svgLogo from '~/assets/image/logo.svg?raw';
@@ -6,18 +6,14 @@ import svgLogo from '~/assets/image/logo.svg?raw';
 export default defineComponent({
   name: 'TheFooter',
   setup() {
-    const siteName = computed(() => CONSTANT.SITE_NAME);
-
-    return {
-      siteName,
-    };
+    return {};
   },
   render() {
     return (
       <footer class="pj-footer">
         <div class="o-container">
           <div class="pj-footer__logo">
-            <router-link to="/" title={this.siteName} domPropsInnerHTML={svgLogo} />
+            <router-link to="/" title={CONSTANT.SITE_NAME} domPropsInnerHTML={svgLogo} />
           </div>
           <nav class="pj-footer-menu">
             <ul class="u-list-unstyled pj-footer-menu__list">

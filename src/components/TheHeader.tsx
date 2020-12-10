@@ -1,4 +1,4 @@
-import { defineComponent, ref, computed, onMounted } from '@nuxtjs/composition-api';
+import { defineComponent, ref, onMounted } from '@nuxtjs/composition-api';
 import Search from './Search';
 import CONSTANT from '~/constant';
 // @ts-ignore
@@ -7,7 +7,6 @@ import svgLogo from '~/assets/image/logo.svg?raw';
 export default defineComponent({
   name: 'TheHeader',
   setup() {
-    const siteName = computed(() => CONSTANT.SITE_NAME);
     let ticking = false;
     let lastKnownScrollY = 0;
 
@@ -62,7 +61,6 @@ export default defineComponent({
     }
 
     return {
-      siteName,
       showSearch,
       toggleModal,
     };
