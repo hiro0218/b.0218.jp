@@ -17,6 +17,7 @@
     flex: 1;
     flex-direction: column;
     margin: 0 1rem 0 1rem;
+    overflow: hidden;
     font-size: var(--font-size-sm);
 
     &__title {
@@ -27,10 +28,13 @@
     }
 
     &__description {
+      overflow: hidden;
       color: var(--color-text-description);
       letter-spacing: 0.025em;
       line-height: 1.8;
+      text-overflow: ellipsis;
       word-break: break-all;
+      white-space: nowrap;
     }
   }
 
