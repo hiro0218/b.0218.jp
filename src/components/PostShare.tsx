@@ -1,12 +1,8 @@
 import { defineComponent, computed } from '@nuxtjs/composition-api';
 
-// @ts-ignore
 import svgLine from '~/assets/image/sns_line.svg?raw';
-// @ts-ignore
 import svgHatena from '~/assets/image/sns_hatenabookmark.svg?raw';
-// @ts-ignore
 import svgTwitter from '~/assets/image/sns_twitter.svg?raw';
-// @ts-ignore
 import svgFacebook from '~/assets/image/sns_facebook.svg?raw';
 
 export default defineComponent({

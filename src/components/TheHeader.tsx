@@ -1,7 +1,7 @@
 import { defineComponent, ref, onMounted } from '@nuxtjs/composition-api';
 import Search from './Search';
 import CONSTANT from '~/constant';
-// @ts-ignore
+
 import svgLogo from '~/assets/image/logo.svg?raw';
 
 export default defineComponent({
