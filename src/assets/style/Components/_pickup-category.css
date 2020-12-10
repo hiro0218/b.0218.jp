@@ -37,7 +37,6 @@
   &__name {
     width: 100%;
     overflow: hidden;
-    font-weight: bold;
     letter-spacing: 0.05em;
     text-overflow: ellipsis;
     white-space: nowrap;
