@@ -1,4 +1,4 @@
-import { defineComponent, useMeta, computed } from '@nuxtjs/composition-api';
+import { defineComponent, useMeta } from '@nuxtjs/composition-api';
 
 import LayoutHeader from '../components/LayoutHeader';
 import { convertDateToSimpleFormat } from '~/utils/date';
@@ -16,7 +16,7 @@ type StringKeyObject = {
   [key: string]: any;
 };
 
-const formatArchive = (archives: Array<PropsArchive>) => {
+const divideByYearArchive = (archives: Array<PropsArchive>) => {
   const formatArchives: StringKeyObject = {};
 
   for (let i = 0; i < archives.length; i++) {
@@ -46,10 +46,12 @@ export default defineComponent({
     });
 
     // @ts-ignore
-    const archives = computed(() => formatArchive(root.context.$source.archives));
+    const archives: Array<PropsArchive> = root.context.$source.archives;
+    const archivesDivideByYear = divideByYearArchive(archives);
 
     return {
-      archives,
+      count: archives.length,
+      archivesDivideByYear,
     };
   },
   head() {
@@ -58,15 +60,15 @@ export default defineComponent({
   render() {
     return (
       <article class="archive">
-        <LayoutHeader heading={pageTitle} description={pageDescription} />
+        <LayoutHeader heading={pageTitle} description={`${pageDescription} (${this.count}件)`} />
         <section>
-          {Object.keys(this.archives).map((key: any) => (
+          {Object.keys(this.archivesDivideByYear).map((key: any) => (
             <div class="archive-list">
               <div class="archive-year">
                 <h2 class="archive-year__title">{key}</h2>
               </div>
               <div class="archive-post">
-                {this.archives[key].map((post: PropsArchive) => (
+                {this.archivesDivideByYear[key].map((post: PropsArchive) => (
                   <router-link to={post.path} class="archive-post-item">
                     <div class="archive-post-item__title">{post.title}</div>
                     <time datetime={post.date} class="archive-post-item__date">
