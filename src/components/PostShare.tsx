@@ -35,10 +35,6 @@ export default defineComponent({
 
     return {
       postLink,
-      svgLine,
-      svgHatena,
-      svgTwitter,
-      svgFacebook,
       copyToUrl,
     };
   },
