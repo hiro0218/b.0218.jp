@@ -1,5 +1,6 @@
 import { defineComponent } from '@nuxtjs/composition-api';
 import { Post, TermsPostLits } from '~/types/source';
+import { convertDateToSimpleFormat } from '~/utils/date';
 
 export default defineComponent({
   name: 'PostsList',
@@ -17,7 +18,10 @@ export default defineComponent({
           <router-link to={'/' + post.path} class="c-card">
             <div class="c-card-body">
               <div class="c-card-body__title">{post.title}</div>
-              {post.excerpt && <div class="c-card-body__description">{post.excerpt}</div>}
+              <div class="c-card-body__description">
+                {post.date && convertDateToSimpleFormat(post.date)}
+                {post.excerpt && ': ' + post.excerpt}
+              </div>
             </div>
           </router-link>
         ))}
