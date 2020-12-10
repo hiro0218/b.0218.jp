@@ -38,6 +38,7 @@
   --mark-bg-color: var(--oc-gray-1);
 
   /* size */
+  --max-width: 640px;
   --desktop-width: 960px;
 
   /* font */
