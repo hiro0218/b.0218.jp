@@ -3,6 +3,7 @@
   &__title {
     margin-bottom: 0;
     color: var(--color-text-heading);
+    font-weight: bold;
     line-height: 1.6;
     overflow-wrap: break-word;
   }

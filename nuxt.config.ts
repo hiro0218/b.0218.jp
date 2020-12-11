@@ -40,20 +40,6 @@ const config: NuxtConfig = {
       { property: 'fb:app_id', content: '1042526022490602' },
     ],
     link: [
-      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
-      {
-        rel: 'preload',
-        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@900&display=swap',
-        as: 'style',
-      },
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@900&display=swap',
-        media: 'print',
-        onload: 'this.media="all"',
-      },
-      { rel: 'dns-prefetch', href: '//cdn.jsdelivr.net' },
-      { rel: 'dns-prefetch', href: '//fonts.googleapis.com' },
       { rel: 'dns-prefetch', href: '//partner.googlesyndication.com' },
       { rel: 'dns-prefetch', href: '//pagead2.googlesyndication.com' },
       { rel: 'dns-prefetch', href: '//www.googletagservices.com' },

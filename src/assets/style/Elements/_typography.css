@@ -6,7 +6,6 @@ h5,
 h6 {
   margin-bottom: 1em;
   color: inherit;
-  font-family: var(--font-family-webfont);
   line-height: 1.2;
 }
 
@@ -31,9 +30,4 @@ h6 {
 
 mark {
   background-color: var(--mark-bg-color);
-}
-
-b,
-strong {
-  font-family: var(--font-family-webfont);
 }
