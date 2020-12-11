@@ -9,6 +9,7 @@ export interface TermsPostLits {
 export interface Terms {
   name: string;
   slug: string;
+  path?: string;
   count: number;
   posts: Array<TermsPostLits>;
 }
