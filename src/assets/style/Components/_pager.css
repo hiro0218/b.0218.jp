@@ -12,15 +12,14 @@
 .c-pager__item {
   width: calc(50% - 0.5rem);
   padding: 1rem;
+  border-radius: 0.25em;
   color: var(--color-text);
   line-height: 1.8;
   word-break: break-all;
 
-  &:hover {
-    .c-pager__title {
-      text-decoration: underline;
-      text-underline-position: under;
-    }
+  &:hover,
+  &:focus {
+    background: var(--bg-color--lighter);
   }
 
   &:only-child {
