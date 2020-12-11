@@ -24,6 +24,8 @@ const config: NuxtConfig = {
     },
     titleTemplate: `%s - ${CONSTANT.SITE_NAME}`,
     meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', hid: 'viewport', content: 'width=device-width' },
       { hid: 'description', name: 'description', content: CONSTANT.SITE_DESCRIPTION },
       { hid: 'og:site_name', property: 'og:site_name', content: CONSTANT.SITE_NAME },
       { hid: 'og:locale', property: 'og:locale', content: 'ja_JP' },
@@ -50,7 +52,6 @@ const config: NuxtConfig = {
         media: 'print',
         onload: 'this.media="all"',
       },
-      { rel: 'dns-prefetch', href: '//cdn.polyfill.io' },
       { rel: 'dns-prefetch', href: '//cdn.jsdelivr.net' },
       { rel: 'dns-prefetch', href: '//fonts.googleapis.com' },
       { rel: 'dns-prefetch', href: '//partner.googlesyndication.com' },
