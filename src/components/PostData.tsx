@@ -21,7 +21,7 @@ export default defineComponent({
 
       // 目次一覧を作成
       // @ts-ignore
-      const mokujiList = new root.$Mokuji(elPostContent, {
+      const mokujiList = new root.context.$Mokuji(elPostContent, {
         anchorType: true,
         anchorLink: true,
         anchorLinkSymbol: '#',

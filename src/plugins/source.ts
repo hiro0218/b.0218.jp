@@ -7,14 +7,7 @@ import pages from '~/_source/pages.json';
 import posts from '~/_source/posts.json';
 import tagsPosts from '~/_source/tags_posts.json';
 
-// declare module '@nuxt/types' {
-//   interface Context {
-//     $source: {}
-//   }
-// }
-
 const source: Plugin = (context) => {
-  // @ts-ignore
   context.$source = {
     pages,
     posts,

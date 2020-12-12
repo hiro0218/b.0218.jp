@@ -2,8 +2,8 @@ import { Plugin } from '@nuxt/types';
 import cheerio from 'cheerio';
 import hljs from 'highlight.js';
 
-const filteredPost: Plugin = (_, inject) => {
-  inject('filteredPost', (content: string) => {
+const filteredPost: Plugin = (context) => {
+  context.$filteredPost = (content: string) => {
     const $ = cheerio.load(content);
 
     // highlight.js
@@ -30,7 +30,7 @@ const filteredPost: Plugin = (_, inject) => {
     });
 
     return $.html();
-  });
+  };
 };
 
 export default filteredPost;
