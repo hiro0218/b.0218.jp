@@ -44,6 +44,7 @@ export default defineComponent({
           title="Share Twitter"
           target="_blank"
           rel="noopener"
+          aria-label="Twitter"
         />
         <a
           href={'https://www.facebook.com/sharer/sharer.php?u=' + this.postLink}
@@ -52,6 +53,7 @@ export default defineComponent({
           title="Share Facebook"
           target="_blank"
           rel="noopener"
+          aria-label="Facebook"
         />
         <a
           href={'http://b.hatena.ne.jp/add?url=' + this.postLink}
@@ -60,6 +62,7 @@ export default defineComponent({
           title="Share HatenaBookmark"
           target="_blank"
           rel="noopener"
+          aria-label="Hatena Bookmark"
         />
         <a
           href={'https://lineit.line.me/share/ui?url=' + this.postLink}
@@ -68,12 +71,14 @@ export default defineComponent({
           title="Share LINE"
           target="_blank"
           rel="noopener"
+          aria-label="LINE"
         />
         <a
           href="javascript:void(0)"
           onClick={(e: Event) => this.copyToUrl(e)}
           class="c-sns-list__item--copy"
           title="Copy URL"
+          aria-label="Copy URL"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
             <path
