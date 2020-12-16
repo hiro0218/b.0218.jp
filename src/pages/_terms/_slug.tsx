@@ -1,7 +1,6 @@
 import { defineComponent, useContext, useMeta } from '@nuxtjs/composition-api';
 
 import LayoutHeader from '~/components/LayoutHeader';
-import PickupCategory from '~/components/PickupCategory';
 import PostsList from '~/components/PostsList';
 import CONSTANT from '~/constant';
 import { Terms } from '~/types/source';
@@ -67,7 +66,6 @@ export default defineComponent({
     return (
       <section class="term">
         <LayoutHeader heading={this.termName} description={this.terms} />
-        {!this.isTagsPage && <PickupCategory />}
         <PostsList posts={this.termContent} />
       </section>
     );

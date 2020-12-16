@@ -20,7 +20,7 @@ export default defineComponent({
             <div class="c-card-body">
               <div class="c-card-body__title">{post.title}</div>
               <div class="c-card-body__description">
-                {post.date && convertDateToSimpleFormat(post.date)}
+                {post.date && <time datetime={post.date}>{convertDateToSimpleFormat(post.date)}</time>}
                 {post.excerpt && ': ' + post.excerpt}
               </div>
             </div>
