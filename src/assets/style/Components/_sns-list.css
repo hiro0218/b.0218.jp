@@ -13,18 +13,14 @@
   padding: 0.25em;
   transition: background 0.4s, color 0.4s;
   border-radius: 50%;
-  background: var(--color-text);
+  background: var(--color-text--light);
 
   & svg {
     color: #fff;
   }
 
   &:hover {
-    background: var(--bg-color--darker);
-
-    & svg {
-      color: var(--color-text);
-    }
+    background: var(--color-text);
   }
 }
 
