@@ -5,10 +5,12 @@ declare module '@nuxt/types' {
     $source: {
       pages: any,
       posts: any,
+      recentPosts: any,
       archives: any,
       categories: any,
       categoriesPosts: any,
       tagsPosts: any,
+      updatedPosts: any,
     };
     $filteredPost(content: string): string;
     $Mokuji: any;
