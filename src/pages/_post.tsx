@@ -94,9 +94,13 @@ export default defineComponent({
         {
           src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
           async: true,
+          // @ts-ignore
+          skip: root.context.isDev,
         },
         {
           innerHTML: '(adsbygoogle = window.adsbygoogle || []).push({});',
+          // @ts-ignore
+          skip: root.context.isDev,
         },
       ],
     });
