@@ -14,7 +14,9 @@ export default defineComponent({
 
     // validate
     if (!(terms === 'categories' || terms === 'tags')) {
-      throw new Error('Page not found');
+      // @ts-ignore
+      root.error({ statusCode: 404, message: 'Page not found' });
+      return;
     }
 
     const { termName, termContent } = (() => {
@@ -36,7 +38,9 @@ export default defineComponent({
 
     // 404
     if (termContent.length === 0) {
-      throw new Error('Page not found');
+      // @ts-ignore
+      root.error({ statusCode: 404, message: 'Page not found' });
+      return;
     }
 
     useMeta({
@@ -64,10 +68,14 @@ export default defineComponent({
   },
   render() {
     return (
-      <section class="term">
-        <LayoutHeader heading={this.termName} description={this.terms} />
-        <PostsList posts={this.termContent} />
-      </section>
+      <div>
+        {this.termContent && (
+          <section class="term">
+            <LayoutHeader heading={this.termName} description={this.terms} />
+            <PostsList posts={this.termContent} />
+          </section>
+        )}
+      </div>
     );
   },
 });

@@ -39,8 +39,10 @@ export default defineComponent({
       return post.path === params.value.post;
     });
 
-    if (!postData) {
-      throw new Error('Page not found');
+    if (!postData || Object.keys(postData).length === 0) {
+      // @ts-ignore
+      root.error({ statusCode: 404, message: 'Page not found' });
+      return;
     }
 
     const post: Post = {
@@ -109,26 +111,30 @@ export default defineComponent({
   render() {
     return (
       <div class="post">
-        <article class="post__article">
-          <LayoutHeader heading={this.post.title}>
-            <PostMeta
-              date={this.post.date}
-              updated={this.post.updated}
-              postCategory={this.post.categories}
-              postTag={this.post.tags}
-            />
-          </LayoutHeader>
-          <PostAds />
-          <PostData content={this.post.content} />
-        </article>
-        <div class="post__share">
-          <client-only>
-            <PostShare postTitle={this.post.title} />
-          </client-only>
-        </div>
-        <div class="post__pager">
-          <PostPager next={this.post.next} prev={this.post.prev} />
-        </div>
+        {this.post && (
+          <div>
+            <article class="post__article">
+              <LayoutHeader heading={this.post.title}>
+                <PostMeta
+                  date={this.post.date}
+                  updated={this.post.updated}
+                  postCategory={this.post.categories}
+                  postTag={this.post.tags}
+                />
+              </LayoutHeader>
+              <PostAds />
+              <PostData content={this.post.content} />
+            </article>
+            <div class="post__share">
+              <client-only>
+                <PostShare postTitle={this.post.title} />
+              </client-only>
+            </div>
+            <div class="post__pager">
+              <PostPager next={this.post.next} prev={this.post.prev} />
+            </div>
+          </div>
+        )}
       </div>
     );
   },
