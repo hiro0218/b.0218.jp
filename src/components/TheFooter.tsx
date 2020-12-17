@@ -15,7 +15,7 @@ export default defineComponent({
           <div class="pj-footer__logo">
             <router-link to="/" title={CONSTANT.SITE_NAME} domPropsInnerHTML={svgLogo} />
           </div>
-          <nav class="pj-footer-menu">
+          <div class="pj-footer-menu">
             <ul class="u-list-unstyled pj-footer-menu__list">
               <li class="pj-footer-menu__item">
                 <router-link to="/about" class="pj-footer__link">
@@ -33,7 +33,7 @@ export default defineComponent({
                 </a>
               </li>
             </ul>
-          </nav>
+          </div>
 
           <div class="pj-footer-copyright">
             <small class="pj-footer-copyright__text">©&nbsp;hiro</small>
