@@ -22,7 +22,7 @@ export const getBlogPostingStructured = (post: Post) => {
     '@type': 'BlogPosting',
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${CONSTANT.SITE_URL}${post.slug}`,
+      '@id': `${CONSTANT.SITE_URL}${post.path}`,
     },
     headline: post.title,
     datePublished: post.date,
@@ -75,7 +75,7 @@ export const getBreadcrumbStructured = (post: Post) => {
   itemListElement.push({
     '@type': 'ListItem',
     position: ++itemCount,
-    item: { '@id': post.link, name: post.title },
+    item: { '@id': post.permalink, name: post.title },
   });
 
   const structure = Object.assign(

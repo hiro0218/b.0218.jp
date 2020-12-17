@@ -29,9 +29,8 @@ export interface NextPrevPost {
 export interface Post {
   date: string;
   updated: string;
-  slug: string;
-  path?: string; // TODO
-  link: string;
+  path: string;
+  permalink: string;
   title: string;
   content: string;
   excerpt: string;

@@ -10,12 +10,9 @@ import CONSTANT from '~/constant';
 import { Post } from '~/types/source';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '~/utils/json-ld';
 
-interface PropsPostData extends Post {
-  path: string;
-  permalink: string;
-}
-
 const getOgImagePath = (slug: string): string => {
+  if (!slug) return '';
+
   const filename = slug.replace('.html', '');
   return slug ? `https://hiro0218.github.io/blog/images/ogp/${filename}.png` : CONSTANT.AUTHOR_ICON;
 };
@@ -35,7 +32,7 @@ export default defineComponent({
 
     // パラメータからヘッダー情報を取得
     // @ts-ignore
-    const postData: PropsPostData = root.context.$source.posts.find((post: { path: string }) => {
+    const postData: Post = root.context.$source.posts.find((post: { path: string }) => {
       return post.path === params.value.post;
     });
 
@@ -46,19 +43,9 @@ export default defineComponent({
     }
 
     const post: Post = {
-      date: postData.date,
-      updated: postData.updated,
-      slug: postData.path,
-      link: postData.permalink,
-      title: postData.title,
+      ...postData,
       // @ts-ignore
       content: root.context.$filteredPost(postData.content),
-      excerpt: postData.excerpt,
-      thumbnail: postData.thumbnail,
-      categories: postData.categories,
-      tags: postData.tags,
-      next: postData.next,
-      prev: postData.prev,
     };
 
     useMeta({
@@ -67,20 +54,20 @@ export default defineComponent({
       meta: [
         { hid: 'description', name: 'description', content: post.excerpt },
         { hid: 'og:type', property: 'og:type', content: 'article' },
-        { hid: 'og:url', property: 'og:url', content: `${CONSTANT.SITE_URL}${post.slug}` },
+        { hid: 'og:url', property: 'og:url', content: `${CONSTANT.SITE_URL}${post.path}` },
         { hid: 'og:title', property: 'og:title', content: post.title },
         { hid: 'og:description', property: 'og:description', content: post.excerpt },
         {
           hid: 'og:image',
           property: 'og:image',
-          content: getOgImagePath(post.slug),
+          content: getOgImagePath(post.path),
         },
         { name: 'twitter:card', content: 'summary_large_image' },
         { hid: 'og:updated_time', property: 'og:updated_time', content: post.updated },
         { hid: 'article:published_time', property: 'article:published_time', content: post.date },
         { hid: 'article:modified_time', property: 'article:modified_time', content: post.updated },
       ],
-      link: [{ rel: 'canonical', href: `${CONSTANT.SITE_URL}${post.slug}` }],
+      link: [{ rel: 'canonical', href: `${CONSTANT.SITE_URL}${post.path}` }],
       __dangerouslyDisableSanitizers: ['script'],
       script: [
         {
