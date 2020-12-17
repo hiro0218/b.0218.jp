@@ -19,7 +19,7 @@
     "@nuxtjs/pwa": "^3.3.2",
     "minireset.css": "^0.0.6",
     "mokuji.js": "^3.0.0",
-    "nuxt": "^2.14.11",
+    "nuxt": "^2.14.12",
     "open-color": "^1.7.0"
   },
   "devDependencies": {
@@ -27,7 +27,7 @@
     "@hiro0218/eslint-config": "^1.3.0",
     "@hiro0218/prettier-config": "^1.0.2",
     "@hiro0218/stylelint-config": "^1.2.0",
-    "@nuxt/types": "^2.14.11",
+    "@nuxt/types": "^2.14.12",
     "@nuxt/typescript-build": "^2.0.3",
     "@nuxtjs/eslint-config-typescript": "^5.0.0",
     "@nuxtjs/svg": "^0.1.12",
