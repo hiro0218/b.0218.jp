@@ -1,7 +1,7 @@
 .pj-footer {
   padding: 3rem 0;
-  background: var(--color-text);
-  color: var(--bg-color);
+  background: var(--bg-color);
+  color: var(--color-text--light);
   font-size: var(--font-size-sm);
   line-height: 1;
   text-align: center;
@@ -21,7 +21,7 @@
   & svg {
     width: 5rem;
     height: 100%;
-    fill: var(--bg-color);
+    fill: currentColor;
   }
 }
 
