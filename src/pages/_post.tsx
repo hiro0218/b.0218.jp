@@ -6,21 +6,15 @@ import PostData from '~/components/PostData';
 import PostMeta from '~/components/PostMeta';
 import PostPager from '~/components/PostPager';
 import PostShare from '~/components/PostShare';
-import CONSTANT from '~/constant';
 import { Post } from '~/types/source';
-import { getBlogPostingStructured, getBreadcrumbStructured } from '~/utils/json-ld';
-
-const getOgImagePath = (slug: string): string => {
-  if (!slug) return '';
-
-  const filename = slug.replace('.html', '');
-  return slug ? `https://hiro0218.github.io/blog/images/ogp/${filename}.png` : CONSTANT.AUTHOR_ICON;
-};
+import { postMeta } from '~/utils/post';
 
 export default defineComponent({
   name: 'Post',
   setup(_, { root }) {
     const { params } = useContext();
+    // @ts-ignore
+    const { $source, $filteredPost, isDev } = root.context;
 
     // nuxt generate & nuxt dev
     if (process.static && process.server) {
@@ -31,11 +25,11 @@ export default defineComponent({
     }
 
     // パラメータからヘッダー情報を取得
-    // @ts-ignore
-    const postData: Post = root.context.$source.posts.find((post: { path: string }) => {
+    const postData: Post = $source.posts.find((post: { path: string }) => {
       return post.path === params.value.post;
     });
 
+    // **.html の結果が見つからない
     if (!postData || Object.keys(postData).length === 0) {
       // @ts-ignore
       root.error({ statusCode: 404, message: 'Page not found' });
@@ -45,52 +39,11 @@ export default defineComponent({
     const post: Post = {
       ...postData,
       // @ts-ignore
-      content: root.context.$filteredPost(postData.content),
+      content: $filteredPost(postData.content),
     };
 
-    useMeta({
-      title: post.title,
-      titleTemplate: undefined,
-      meta: [
-        { hid: 'description', name: 'description', content: post.excerpt },
-        { hid: 'og:type', property: 'og:type', content: 'article' },
-        { hid: 'og:url', property: 'og:url', content: `${CONSTANT.SITE_URL}${post.path}` },
-        { hid: 'og:title', property: 'og:title', content: post.title },
-        { hid: 'og:description', property: 'og:description', content: post.excerpt },
-        {
-          hid: 'og:image',
-          property: 'og:image',
-          content: getOgImagePath(post.path),
-        },
-        { name: 'twitter:card', content: 'summary_large_image' },
-        { hid: 'og:updated_time', property: 'og:updated_time', content: post.updated },
-        { hid: 'article:published_time', property: 'article:published_time', content: post.date },
-        { hid: 'article:modified_time', property: 'article:modified_time', content: post.updated },
-      ],
-      link: [{ rel: 'canonical', href: `${CONSTANT.SITE_URL}${post.path}` }],
-      __dangerouslyDisableSanitizers: ['script'],
-      script: [
-        {
-          type: 'application/ld+json',
-          innerHTML: JSON.stringify(getBlogPostingStructured(post)),
-        },
-        {
-          type: 'application/ld+json',
-          innerHTML: JSON.stringify(getBreadcrumbStructured(post)),
-        },
-        {
-          src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
-          async: true,
-          // @ts-ignore
-          skip: root.context.isDev,
-        },
-        {
-          innerHTML: '(adsbygoogle = window.adsbygoogle || []).push({});',
-          // @ts-ignore
-          skip: root.context.isDev,
-        },
-      ],
-    });
+    // metaを追加
+    useMeta(postMeta(post, isDev));
 
     return {
       post,
