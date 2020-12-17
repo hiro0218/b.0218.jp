@@ -46,6 +46,7 @@ const config: NuxtConfig = {
       { rel: 'dns-prefetch', href: '//www.google-analytics.com' },
       { rel: 'dns-prefetch', href: '//adservice.google.com' },
       { rel: 'dns-prefetch', href: '//adservice.google.co.jp' },
+      { rel: 'dns-prefetch', href: '//platform.twitter.com' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'alternate', type: 'application/rss+xml', href: 'https://b.0218.jp/rss.xml' },
       { rel: 'alternate', type: 'application/atom+xml', href: 'https://b.0218.jp/atom.xml' },

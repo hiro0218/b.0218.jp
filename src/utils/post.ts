@@ -9,6 +9,10 @@ const getOgImagePath = (slug: string): string => {
   return slug ? `https://hiro0218.github.io/blog/images/ogp/${filename}.png` : CONSTANT.AUTHOR_ICON;
 };
 
+const isEmbededTweet = (content: string): boolean => {
+  return content.includes('blockquote class="twitter-tweet"');
+};
+
 export const postMeta = (post: Post, isDev: boolean) => {
   return {
     title: post.title,
@@ -49,6 +53,12 @@ export const postMeta = (post: Post, isDev: boolean) => {
       {
         innerHTML: '(adsbygoogle = window.adsbygoogle || []).push({});',
         skip: isDev,
+      },
+      // Twitter
+      {
+        src: 'https://platform.twitter.com/widgets.js',
+        async: true,
+        skip: !isEmbededTweet(post.content),
       },
     ],
   };
