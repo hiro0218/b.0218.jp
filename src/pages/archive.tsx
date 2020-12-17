@@ -69,7 +69,7 @@ export default defineComponent({
               </div>
               <div class="archive-post">
                 {this.archivesDivideByYear[key].map((post: PropsArchive) => (
-                  <router-link to={post.path} class="archive-post-item">
+                  <router-link to={post.path} no-prefetch class="archive-post-item">
                     <div class="archive-post-item__title">{post.title}</div>
                     <time datetime={post.date} class="archive-post-item__date">
                       {convertDateToSimpleFormat(post.date)}

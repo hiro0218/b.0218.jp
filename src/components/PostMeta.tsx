@@ -48,7 +48,7 @@ export default defineComponent({
           <div class="c-post-meta">
             {this.postCategory.map((category) => (
               <div class="c-post-meta__item--separator">
-                <nuxt-link to={'/' + category.path} class="c-post-meta__link--category">
+                <nuxt-link to={'/' + category.path} no-prefetch class="c-post-meta__link--category">
                   {category.name}
                 </nuxt-link>
               </div>
@@ -60,7 +60,7 @@ export default defineComponent({
           <div class="c-post-meta">
             {this.postTag.map((tag) => (
               <div class="c-post-meta__item--separator">
-                <nuxt-link to={'/' + tag.path} class="c-post-meta__link--tag">
+                <nuxt-link to={'/' + tag.path} no-prefetch class="c-post-meta__link--tag">
                   {tag.name}
                 </nuxt-link>
               </div>

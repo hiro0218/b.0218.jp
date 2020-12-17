@@ -16,7 +16,7 @@ export default defineComponent({
     return (
       <div class="post-list">
         {this.posts.map((post) => (
-          <router-link to={'/' + post.path} class="c-card">
+          <router-link to={'/' + post.path} no-prefetch class="c-card">
             <div class="c-card-body">
               <div class="c-card-body__title">{post.title}</div>
               <div class="c-card-body__description">
