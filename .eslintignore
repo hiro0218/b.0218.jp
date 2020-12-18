@@ -1,6 +1,6 @@
-/types/*.d.ts
+*.d.ts
 .nuxt/
 dist/
 public/
 node_modules/
-static/
+src/static/

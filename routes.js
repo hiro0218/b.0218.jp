@@ -1,5 +1,5 @@
 const fs = require('fs-extra');
-const SRC_DIR = './_source';
+const SRC_DIR = './src/_source';
 
 module.exports = function () {
   const routes = [];

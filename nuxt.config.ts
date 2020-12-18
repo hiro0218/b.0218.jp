@@ -1,11 +1,13 @@
 import { NuxtConfig } from '@nuxt/types';
 
-import CONSTANT from './constant';
+import CONSTANT from './src/constant';
 
 const getRoutes = require('./routes.js');
 
 const config: NuxtConfig = {
-  target: 'server',
+  target: 'static',
+
+  srcDir: 'src',
 
   server: {
     port: 1218,
@@ -22,6 +24,8 @@ const config: NuxtConfig = {
     },
     titleTemplate: `%s - ${CONSTANT.SITE_NAME}`,
     meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', hid: 'viewport', content: 'width=device-width' },
       { hid: 'description', name: 'description', content: CONSTANT.SITE_DESCRIPTION },
       { hid: 'og:site_name', property: 'og:site_name', content: CONSTANT.SITE_NAME },
       { hid: 'og:locale', property: 'og:locale', content: 'ja_JP' },
@@ -36,27 +40,13 @@ const config: NuxtConfig = {
       { property: 'fb:app_id', content: '1042526022490602' },
     ],
     link: [
-      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
-      {
-        rel: 'preload',
-        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@900&display=swap',
-        as: 'style',
-      },
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@900&display=swap',
-        media: 'print',
-        onload: 'this.media="all"',
-      },
-      { rel: 'dns-prefetch', href: '//cdn.polyfill.io' },
-      { rel: 'dns-prefetch', href: '//cdn.jsdelivr.net' },
-      { rel: 'dns-prefetch', href: '//fonts.googleapis.com' },
       { rel: 'dns-prefetch', href: '//partner.googlesyndication.com' },
       { rel: 'dns-prefetch', href: '//pagead2.googlesyndication.com' },
       { rel: 'dns-prefetch', href: '//www.googletagservices.com' },
       { rel: 'dns-prefetch', href: '//www.google-analytics.com' },
       { rel: 'dns-prefetch', href: '//adservice.google.com' },
       { rel: 'dns-prefetch', href: '//adservice.google.co.jp' },
+      { rel: 'dns-prefetch', href: '//platform.twitter.com' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'alternate', type: 'application/rss+xml', href: 'https://b.0218.jp/rss.xml' },
       { rel: 'alternate', type: 'application/atom+xml', href: 'https://b.0218.jp/atom.xml' },
@@ -78,14 +68,18 @@ const config: NuxtConfig = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/composition-api', '~/plugins/filteredPost', '~/plugins/mokuji.client.ts', '~/plugins/source.ts'],
+  plugins: [
+    { src: '~/plugins/filteredPost' },
+    { src: '~/plugins/mokuji.ts', mode: 'client' },
+    { src: '~/plugins/source.ts' },
+  ],
 
   /*
    ** Nuxt.js modules
    */
   modules: ['@nuxtjs/pwa', '@nuxtjs/svg'],
 
-  buildModules: ['@nuxtjs/google-analytics', '@nuxt/typescript-build'],
+  buildModules: ['@nuxtjs/google-analytics', '@nuxt/typescript-build', '@nuxtjs/composition-api'],
 
   components: true,
 
@@ -106,7 +100,11 @@ const config: NuxtConfig = {
   },
 
   typescript: {
-    typeCheck: true,
+    typeCheck: {
+      eslint: {
+        files: './src/**/*.{ts,tsx,js,vue}',
+      },
+    },
     ignoreNotFoundWarnings: true,
   },
 
@@ -115,21 +113,6 @@ const config: NuxtConfig = {
    */
   build: {
     parallel: true,
-
-    /*
-     ** You can extend webpack config here
-     */
-    extend(config: any, ctx: any) {
-      // Run ESLint on save
-      if (ctx.isDev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/,
-        });
-      }
-    },
 
     babel: {
       presets({ isServer }) {

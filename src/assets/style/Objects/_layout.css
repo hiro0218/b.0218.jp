@@ -1,0 +1,12 @@
+.o-container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 5vw;
+  padding-left: 5vw;
+
+  @mixin desktop {
+    max-width: var(--desktop-width);
+  }
+}
