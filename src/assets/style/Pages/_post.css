@@ -137,6 +137,7 @@
 
   & .c-alert {
     margin-bottom: 1rem;
+    font-size: var(--font-size-sm);
   }
 
   & .table-container {
