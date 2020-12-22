@@ -28,7 +28,7 @@ export const postMeta = (post: Post, isDev: boolean) => {
         property: 'og:image',
         content: getOgImagePath(post.path),
       },
-      { name: 'twitter:card', content: 'summary_large_image' },
+      { hid: 'twitter:card', name: 'twitter:card', content: 'summary_large_image' },
       { hid: 'og:updated_time', property: 'og:updated_time', content: post.updated },
       { hid: 'article:published_time', property: 'article:published_time', content: post.date },
       { hid: 'article:modified_time', property: 'article:modified_time', content: post.updated },
