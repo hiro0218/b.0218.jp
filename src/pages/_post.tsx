@@ -2,7 +2,7 @@ import { defineComponent, useContext, useMeta } from '@nuxtjs/composition-api';
 
 import LayoutHeader from '~/components/LayoutHeader';
 import PostAds from '~/components/PostAds';
-import PostData from '~/components/PostData';
+import PostContent from '~/components/PostContent';
 import PostMeta from '~/components/PostMeta';
 import PostPager from '~/components/PostPager';
 import PostShare from '~/components/PostShare';
@@ -67,7 +67,7 @@ export default defineComponent({
                 />
               </LayoutHeader>
               <PostAds />
-              <PostData content={this.post.content} />
+              <PostContent content={this.post.content} />
             </article>
             <div class="post__share">
               <client-only>

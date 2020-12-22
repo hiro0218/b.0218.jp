@@ -41,15 +41,18 @@
       }
     }
 
-    & h3,
-    & h4,
-    & h5,
-    & h6 {
+    & h2 {
+      margin: 3em auto 1.5em;
+    }
+
+    & h3 {
       margin: 2.5em auto 1em;
     }
 
-    & h2 {
-      margin: 3em auto 1.5em;
+    & h4,
+    & h5,
+    & h6 {
+      margin: 2em auto 1em;
     }
 
     & ul {
@@ -110,6 +113,10 @@
       margin-bottom: 1rem;
     }
 
+    & iframe {
+      margin: 1rem auto;
+    }
+
     & .sandbox {
       position: relative;
       margin-bottom: 2rem;
@@ -133,6 +140,7 @@
 
   & .c-alert {
     margin-bottom: 1rem;
+    font-size: var(--font-size-sm);
   }
 
   & .table-container {
