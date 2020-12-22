@@ -110,6 +110,10 @@
       margin-bottom: 1rem;
     }
 
+    & iframe {
+      margin: 1rem auto;
+    }
+
     & .sandbox {
       position: relative;
       margin-bottom: 2rem;
