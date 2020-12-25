@@ -7,6 +7,8 @@ const getRoutes = require('./routes.js');
 const config: NuxtConfig = {
   target: 'static',
 
+  modern: 'client',
+
   srcDir: 'src',
 
   server: {
