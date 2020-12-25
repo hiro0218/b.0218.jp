@@ -124,6 +124,7 @@ const config: NuxtConfig = {
           ],
         ];
       },
+      cacheDirectory: true,
     },
 
     postcss: {
