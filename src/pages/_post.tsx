@@ -9,12 +9,14 @@ import PostShare from '~/components/PostShare';
 import { Post } from '~/types/source';
 import { postMeta } from '~/utils/post';
 
+const posts: Array<Post> = require('~/_source/posts.json');
+
 export default defineComponent({
   name: 'Post',
   setup(_, { root }) {
     const { params } = useContext();
     // @ts-ignore
-    const { $source, $filteredPost, isDev } = root.context;
+    const { $filteredPost, isDev } = root.context;
 
     // nuxt generate & nuxt dev
     if (process.static && process.server) {
@@ -25,7 +27,7 @@ export default defineComponent({
     }
 
     // パラメータからヘッダー情報を取得
-    const postData: Post = $source.posts.find((post: { path: string }) => {
+    const postData = posts.find((post: { path: string }) => {
       return post.path === params.value.post;
     });
 

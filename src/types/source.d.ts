@@ -1,3 +1,23 @@
+// Archive
+export interface Archives {
+  title: string;
+  date: string;
+  updated?: string;
+  path: string;
+  excerpt?: string;
+}
+
+// Pages
+export interface Pages {
+  title: string;
+  path: string;
+  slug: string;
+  date: string;
+  updated: string;
+  content: string;
+  excerpt: string;
+}
+
 // Terms
 export interface TermsPostLits {
   title: string;
