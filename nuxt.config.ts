@@ -15,6 +15,8 @@ const config: NuxtConfig = {
     port: 1218,
   },
 
+  quiet: true,
+
   /*
    ** Headers of the page
    */
@@ -103,7 +105,7 @@ const config: NuxtConfig = {
         files: './src/**/*.{ts,tsx,js,vue}',
       },
     },
-    ignoreNotFoundWarnings: true,
+    // ignoreNotFoundWarnings: true,
   },
 
   /*
