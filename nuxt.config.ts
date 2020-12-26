@@ -81,7 +81,7 @@ const config: NuxtConfig = {
 
   buildModules: ['@nuxtjs/google-analytics', '@nuxt/typescript-build', '@nuxtjs/composition-api'],
 
-  components: true,
+  components: false,
 
   googleAnalytics: {
     id: 'UA-50805440-1',
