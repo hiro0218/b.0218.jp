@@ -165,7 +165,6 @@ const config: NuxtConfig = {
   generate: {
     fallback: true,
     subFolders: false,
-    interval: 1000,
     routes() {
       return getRoutes();
     },
