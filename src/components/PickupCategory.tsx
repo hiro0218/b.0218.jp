@@ -1,13 +1,11 @@
 import { defineComponent } from '@nuxtjs/composition-api';
 
 import { Terms } from '~/types/source';
+const categories: Array<Terms> = require('~/_source/categories.json');
 
 export default defineComponent({
   name: 'PickupCategory',
-  setup(_, { root }) {
-    // @ts-ignore
-    const categories: Array<Terms> = root.context.$source.categories;
-
+  setup(_) {
     return {
       categories,
     };

@@ -3,16 +3,14 @@ import { defineComponent, useMeta } from '@nuxtjs/composition-api';
 import LayoutHeader from '~/components/LayoutHeader';
 import PostsList from '~/components/PostsList';
 import CONSTANT from '~/constant';
-import { Post } from '~/types/source';
+import { Archives } from '~/types/source';
+
+const recentPosts: Array<Archives> = require('~/_source/recent_posts.json');
+const updatedPosts: Array<Archives> = require('~/_source/updates_posts.json');
 
 export default defineComponent({
   name: 'Top',
-  setup(_, { root }) {
-    // @ts-ignore
-    const recentPosts: Array<Post> = root.context.$source.recentPosts;
-    // @ts-ignore
-    const updatedPosts: Array<Post> = root.context.$source.updatedPosts;
-
+  setup(_) {
     useMeta({
       title: CONSTANT.SITE_NAME,
       titleTemplate: undefined,

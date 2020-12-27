@@ -7,11 +7,15 @@ const getRoutes = require('./routes.js');
 const config: NuxtConfig = {
   target: 'static',
 
+  modern: 'client',
+
   srcDir: 'src',
 
   server: {
     port: 1218,
   },
+
+  quiet: true,
 
   /*
    ** Headers of the page
@@ -68,11 +72,7 @@ const config: NuxtConfig = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    { src: '~/plugins/filteredPost' },
-    { src: '~/plugins/mokuji.ts', mode: 'client' },
-    { src: '~/plugins/source.ts' },
-  ],
+  plugins: [{ src: '~/plugins/filteredPost' }, { src: '~/plugins/mokuji.ts', mode: 'client' }],
 
   /*
    ** Nuxt.js modules
@@ -81,7 +81,7 @@ const config: NuxtConfig = {
 
   buildModules: ['@nuxtjs/google-analytics', '@nuxt/typescript-build', '@nuxtjs/composition-api'],
 
-  components: true,
+  components: false,
 
   googleAnalytics: {
     id: 'UA-50805440-1',
@@ -105,7 +105,7 @@ const config: NuxtConfig = {
         files: './src/**/*.{ts,tsx,js,vue}',
       },
     },
-    ignoreNotFoundWarnings: true,
+    // ignoreNotFoundWarnings: true,
   },
 
   /*
@@ -126,6 +126,7 @@ const config: NuxtConfig = {
           ],
         ];
       },
+      cacheDirectory: true,
     },
 
     postcss: {
@@ -164,7 +165,6 @@ const config: NuxtConfig = {
   generate: {
     fallback: true,
     subFolders: false,
-    interval: 1000,
     routes() {
       return getRoutes();
     },
