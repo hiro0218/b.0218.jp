@@ -1,13 +1,13 @@
 import { defineComponent } from '@nuxtjs/composition-api';
 
-import { Post, TermsPostLits } from '~/types/source';
+import { Archives, TermsPostLits } from '~/types/source';
 import { convertDateToSimpleFormat } from '~/utils/date';
 
 export default defineComponent({
   name: 'PostsList',
   props: {
     posts: {
-      type: Array as () => Array<Post | TermsPostLits>,
+      type: Array as () => Array<Archives | TermsPostLits>,
       required: false,
       default: () => [],
     },

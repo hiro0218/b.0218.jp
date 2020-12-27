@@ -5,6 +5,9 @@ import PostsList from '~/components/PostsList';
 import CONSTANT from '~/constant';
 import { Terms } from '~/types/source';
 
+const categoriesPosts: Array<Terms> = require('~/_source/categories_posts.json');
+const tagsPosts: Array<Terms> = require('~/_source/tags_posts.json');
+
 export default defineComponent({
   name: 'TermsPostsList',
   setup(_, { root }) {
@@ -20,11 +23,7 @@ export default defineComponent({
     }
 
     const { termName, termContent } = (() => {
-      const termSource: Array<Terms> = isTagsPage
-        ? // @ts-ignore
-          root.context.$source.tagsPosts
-        : // @ts-ignore
-          root.context.$source.categoriesPosts;
+      const termSource: Array<Terms> = isTagsPage ? tagsPosts : categoriesPosts;
 
       const posts = termSource.filter((post) => {
         return post.slug === slug;

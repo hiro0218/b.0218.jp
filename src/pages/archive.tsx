@@ -1,6 +1,7 @@
 import { defineComponent, useMeta } from '@nuxtjs/composition-api';
 
 import LayoutHeader from '~/components/LayoutHeader';
+import { Archives } from '~/types/source';
 import { convertDateToSimpleFormat } from '~/utils/date';
 
 const pageTitle = 'Archive';
@@ -15,6 +16,8 @@ type PropsArchive = {
 type StringKeyObject = {
   [key: string]: any;
 };
+
+const archives: Array<Archives> = require('~/_source/archives.json');
 
 const divideByYearArchive = (archives: Array<PropsArchive>) => {
   const formatArchives: StringKeyObject = {};
@@ -39,14 +42,12 @@ const divideByYearArchive = (archives: Array<PropsArchive>) => {
 
 export default defineComponent({
   name: 'Archive',
-  setup(_, { root }) {
+  setup(_) {
     useMeta({
       title: pageTitle,
       meta: [{ hid: 'description', name: 'description', content: pageDescription }],
     });
 
-    // @ts-ignore
-    const archives: Array<PropsArchive> = root.context.$source.archives;
     const archivesDivideByYear = divideByYearArchive(archives);
 
     return {

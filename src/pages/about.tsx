@@ -1,6 +1,9 @@
 import { defineComponent, useAsync, useMeta } from '@nuxtjs/composition-api';
 
 import LayoutHeader from '~/components/LayoutHeader';
+import { Pages } from '~/types/source';
+
+const pages: Array<Pages> = require('~/_source/pages.json');
 
 const pageTitle = 'About';
 const pageDescription = 'サイトと運営者の情報';
@@ -14,8 +17,7 @@ export default defineComponent({
     });
 
     const content = useAsync(() => {
-      // @ts-ignore
-      const page = root.context.$source.pages.find((page: any) => page.slug === 'about');
+      const page = pages.find((page: any) => page.slug === 'about');
 
       // @ts-ignore
       return root.context.$filteredPost(page.content);
