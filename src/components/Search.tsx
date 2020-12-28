@@ -23,9 +23,13 @@ export default defineComponent({
       suggest: [],
     });
 
-    function onClose() {
+    const resetData = () => {
       data.keyword = '';
       data.suggest = [];
+    };
+
+    function onClose() {
+      resetData();
       emit('done');
     }
 
@@ -47,8 +51,7 @@ export default defineComponent({
 
         // 入力値が空
         if (!value) {
-          data.keyword = '';
-          data.suggest = [];
+          resetData();
           return;
         }
 
