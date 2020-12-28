@@ -12,7 +12,7 @@
     user-select: none;
 
     &::after {
-      content: 'INDEX';
+      content: '目次';
     }
   }
 
