@@ -68,7 +68,6 @@ export default defineComponent({
 
     return {
       data,
-      archives,
       onClose,
       onKeyup,
     };
@@ -100,7 +99,7 @@ export default defineComponent({
           {this.data.suggest.length > 0 && (
             <div class="c-search-body">
               <ul class="c-search-list">
-                {Array.from(this.data.suggest).map((post: Archives) => {
+                {this.data.suggest.map((post: Archives) => {
                   return (
                     <li class="c-search-list__item">
                       <router-link to={'/' + post.path} class="c-search-list__link" nativeOn={{ click: this.onClose }}>
