@@ -1,9 +1,12 @@
-import { computed, defineComponent, reactive } from '@nuxtjs/composition-api';
+import { defineComponent, reactive } from '@nuxtjs/composition-api';
 
-type ArchivePost = {
-  title: string;
-  data: string;
-  path: string;
+import { Archives } from '~/types/source';
+
+const archives: Array<Archives> = require('~/_source/archives.json');
+
+type StringKeyObject = {
+  keyword: string;
+  suggest: Array<Archives>;
 };
 
 export default defineComponent({
@@ -14,20 +17,19 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(_, { emit, root }) {
-    const data = reactive({
+  setup(_, { emit }) {
+    const data = reactive<StringKeyObject>({
       keyword: '',
       suggest: [],
     });
 
-    const archives = computed(() => {
-      // @ts-ignore
-      return root.context.$source.archives;
-    });
-
-    function onClose() {
+    const resetData = () => {
       data.keyword = '';
       data.suggest = [];
+    };
+
+    function onClose() {
+      resetData();
       emit('done');
     }
 
@@ -49,12 +51,11 @@ export default defineComponent({
 
         // 入力値が空
         if (!value) {
-          data.keyword = '';
-          data.suggest = [];
+          resetData();
           return;
         }
 
-        data.suggest = archives.value.filter((post: ArchivePost) => {
+        data.suggest = archives.filter((post: Archives) => {
           // AND検索のため入力値をスペースで区切って、それぞれの条件に一致するか
           return value
             .toLowerCase()
@@ -67,7 +68,6 @@ export default defineComponent({
 
     return {
       data,
-      archives,
       onClose,
       onKeyup,
     };
@@ -99,7 +99,7 @@ export default defineComponent({
           {this.data.suggest.length > 0 && (
             <div class="c-search-body">
               <ul class="c-search-list">
-                {Array.from(this.data.suggest).map((post: ArchivePost) => {
+                {this.data.suggest.map((post: Archives) => {
                   return (
                     <li class="c-search-list__item">
                       <router-link to={'/' + post.path} class="c-search-list__link" nativeOn={{ click: this.onClose }}>
