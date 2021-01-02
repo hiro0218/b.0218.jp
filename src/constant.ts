@@ -1,17 +1,15 @@
-interface PropAdsense {
-  LAYOUT: string;
-  FORMAT: string;
-  CLIENT: string;
-  SLOT: string;
-}
-
 interface PropConstant {
   AUTHOR: string;
   AUTHOR_ICON: string;
   SITE_NAME: string;
   SITE_DESCRIPTION: string;
   SITE_URL: string;
-  ADSENSE: PropAdsense;
+  ADSENSE: {
+    LAYOUT: string;
+    FORMAT: string;
+    CLIENT: string;
+    SLOT: string;
+  };
 }
 
 const CONSTANT: PropConstant = {
