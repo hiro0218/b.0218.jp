@@ -1,6 +1,6 @@
 import { NuxtConfig } from '@nuxt/types';
 
-import { getRoutes } from './routes.js';
+import { getRoutes } from './routes';
 import CONSTANT from './src/constant';
 
 const config: NuxtConfig = {
