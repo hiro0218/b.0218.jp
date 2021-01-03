@@ -1,8 +1,7 @@
 import { NuxtConfig } from '@nuxt/types';
 
+import { getRoutes } from './routes.js';
 import CONSTANT from './src/constant';
-
-const getRoutes = require('./routes.js');
 
 const config: NuxtConfig = {
   target: 'static',
