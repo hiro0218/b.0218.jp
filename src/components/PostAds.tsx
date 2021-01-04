@@ -1,6 +1,6 @@
 import { defineComponent } from '@nuxtjs/composition-api';
 
-import CONSTANT from '~/constant';
+import CONSTANT from '~~/constant';
 
 export default defineComponent({
   name: 'PostAds',

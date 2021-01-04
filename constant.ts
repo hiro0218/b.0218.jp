@@ -4,6 +4,9 @@ interface PropConstant {
   SITE_NAME: string;
   SITE_DESCRIPTION: string;
   SITE_URL: string;
+  PATH: {
+    [key: string]: string;
+  };
   ADSENSE: {
     LAYOUT: string;
     FORMAT: string;
@@ -18,6 +21,10 @@ const CONSTANT: PropConstant = {
   SITE_NAME: '零弐壱蜂',
   SITE_DESCRIPTION: '様々な情報をストックするサイバーメモ帳',
   SITE_URL: 'https://b.0218.jp/',
+  PATH: {
+    DATA_SRC: './src/_source',
+    STATIC_SRC: './src/static',
+  },
   ADSENSE: {
     LAYOUT: 'in-article',
     FORMAT: 'fluid',

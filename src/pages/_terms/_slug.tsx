@@ -2,8 +2,8 @@ import { defineComponent, useContext, useMeta } from '@nuxtjs/composition-api';
 
 import LayoutHeader from '~/components/LayoutHeader';
 import PostsList from '~/components/PostsList';
-import CONSTANT from '~/constant';
 import { Terms } from '~/types/source';
+import CONSTANT from '~~/constant';
 
 const categoriesPosts: Array<Terms> = require('~/_source/categories_posts.json');
 const tagsPosts: Array<Terms> = require('~/_source/tags_posts.json');

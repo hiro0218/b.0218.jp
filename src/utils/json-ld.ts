@@ -1,5 +1,5 @@
-import CONSTANT from '~/constant';
 import { Post } from '~/types/source';
+import CONSTANT from '~~/constant';
 
 const getDescriptionText = (postContent: string): string => {
   let content = postContent;

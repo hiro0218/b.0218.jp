@@ -1,6 +1,6 @@
-import CONSTANT from '~/constant';
 import { Post } from '~/types/source';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '~/utils/json-ld';
+import CONSTANT from '~~/constant';
 
 const getOgImagePath = (slug: string): string => {
   if (!slug) return '';

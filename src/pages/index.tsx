@@ -2,8 +2,8 @@ import { defineComponent, useMeta } from '@nuxtjs/composition-api';
 
 import LayoutHeader from '~/components/LayoutHeader';
 import PostsList from '~/components/PostsList';
-import CONSTANT from '~/constant';
 import { Archives } from '~/types/source';
+import CONSTANT from '~~/constant';
 
 const recentPosts: Array<Archives> = require('~/_source/recent_posts.json');
 const updatedPosts: Array<Archives> = require('~/_source/updates_posts.json');

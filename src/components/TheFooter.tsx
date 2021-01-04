@@ -1,7 +1,7 @@
 import { defineComponent } from '@nuxtjs/composition-api';
 
 import svgLogo from '~/assets/image/logo.svg?raw';
-import CONSTANT from '~/constant';
+import CONSTANT from '~~/constant';
 
 export default defineComponent({
   name: 'TheFooter',
