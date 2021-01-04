@@ -1,12 +1,12 @@
 import { Post } from '~/types/source';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '~/utils/json-ld';
-import CONSTANT from '~~/constant';
+import { AUTHOR, SITE } from '~~/constant';
 
 const getOgImagePath = (slug: string): string => {
   if (!slug) return '';
 
   const filename = slug.replace('.html', '');
-  return slug ? `https://hiro0218.github.io/blog/images/ogp/${filename}.png` : CONSTANT.AUTHOR_ICON;
+  return slug ? `https://hiro0218.github.io/blog/images/ogp/${filename}.png` : AUTHOR.ICON;
 };
 
 const isEmbededTweet = (content: string): boolean => {
@@ -20,7 +20,7 @@ export const postMeta = (post: Post, isDev: boolean) => {
     meta: [
       { hid: 'description', name: 'description', content: post.excerpt },
       { hid: 'og:type', property: 'og:type', content: 'article' },
-      { hid: 'og:url', property: 'og:url', content: `${CONSTANT.SITE_URL}${post.path}` },
+      { hid: 'og:url', property: 'og:url', content: `${SITE.URL}${post.path}` },
       { hid: 'og:title', property: 'og:title', content: post.title },
       { hid: 'og:description', property: 'og:description', content: post.excerpt },
       {
@@ -33,7 +33,7 @@ export const postMeta = (post: Post, isDev: boolean) => {
       { hid: 'article:published_time', property: 'article:published_time', content: post.date },
       { hid: 'article:modified_time', property: 'article:modified_time', content: post.updated },
     ],
-    link: [{ rel: 'canonical', href: `${CONSTANT.SITE_URL}${post.path}` }],
+    link: [{ rel: 'canonical', href: `${SITE.URL}${post.path}` }],
     __dangerouslyDisableSanitizers: ['script'],
     script: [
       {

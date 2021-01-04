@@ -1,5 +1,5 @@
 import { Post } from '~/types/source';
-import CONSTANT from '~~/constant';
+import { AUTHOR, SITE } from '~~/constant';
 
 const getDescriptionText = (postContent: string): string => {
   let content = postContent;
@@ -22,12 +22,12 @@ export const getBlogPostingStructured = (post: Post) => {
     '@type': 'BlogPosting',
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${CONSTANT.SITE_URL}${post.path}`,
+      '@id': `${SITE.URL}${post.path}`,
     },
     headline: post.title,
     datePublished: post.date,
     dateModified: post.updated,
-    author: { '@type': 'Person', name: CONSTANT.AUTHOR },
+    author: { '@type': 'Person', name: AUTHOR.NAME },
     description: getDescriptionText(post.content),
     image: {
       '@type': 'ImageObject',
@@ -37,7 +37,7 @@ export const getBlogPostingStructured = (post: Post) => {
     },
     publisher: {
       '@type': 'Organization',
-      name: CONSTANT.SITE_NAME,
+      name: SITE.NAME,
       logo: {
         '@type': 'ImageObject',
         url: 'https://b.0218.jp/hiro0218.png',
@@ -54,7 +54,7 @@ export const getBreadcrumbStructured = (post: Post) => {
     {
       '@type': 'ListItem',
       position: itemCount,
-      item: { '@id': CONSTANT.SITE_URL, name: CONSTANT.SITE_NAME },
+      item: { '@id': SITE.URL, name: SITE.NAME },
     },
   ];
 
@@ -65,7 +65,7 @@ export const getBreadcrumbStructured = (post: Post) => {
         '@type': 'ListItem',
         position: ++itemCount,
         item: {
-          '@id': `${CONSTANT.SITE_URL}/${category.path}`,
+          '@id': `${SITE.URL}/${category.path}`,
           name: category.name,
         },
       });

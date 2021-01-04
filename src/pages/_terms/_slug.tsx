@@ -3,7 +3,7 @@ import { defineComponent, useContext, useMeta } from '@nuxtjs/composition-api';
 import LayoutHeader from '~/components/LayoutHeader';
 import PostsList from '~/components/PostsList';
 import { Terms } from '~/types/source';
-import CONSTANT from '~~/constant';
+import { SITE } from '~~/constant';
 
 const categoriesPosts: Array<Terms> = require('~/_source/categories_posts.json');
 const tagsPosts: Array<Terms> = require('~/_source/tags_posts.json');
@@ -49,7 +49,7 @@ export default defineComponent({
         {
           hid: 'og:url',
           property: 'og:url',
-          content: `${CONSTANT.SITE_URL}${terms}/${slug}`,
+          content: `${SITE.URL}${terms}/${slug}`,
         },
         { hid: 'og:title', property: 'og:title', content: termName || slug },
       ],

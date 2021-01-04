@@ -1,6 +1,6 @@
 import { NuxtConfig } from '@nuxt/types';
 
-import CONSTANT from './constant';
+import { AUTHOR, SITE } from './constant';
 import { getRoutes } from './routes';
 
 const config: NuxtConfig = {
@@ -20,25 +20,25 @@ const config: NuxtConfig = {
    ** Headers of the page
    */
   head: {
-    title: CONSTANT.SITE_NAME,
+    title: SITE.NAME,
     htmlAttrs: {
       prefix: 'og: http://ogp.me/ns#',
       lang: 'ja',
     },
-    titleTemplate: `%s - ${CONSTANT.SITE_NAME}`,
+    titleTemplate: `%s - ${SITE.NAME}`,
     meta: [
       { charset: 'utf-8' },
-      { hid: 'description', name: 'description', content: CONSTANT.SITE_DESCRIPTION },
+      { hid: 'description', name: 'description', content: SITE.DESCRIPTION },
       { hid: 'og:type', property: 'og:type', content: 'website' },
-      { hid: 'og:url', property: 'og:url', content: CONSTANT.SITE_URL },
-      { hid: 'og:title', property: 'og:title', content: CONSTANT.SITE_NAME },
-      { hid: 'og:description', property: 'og:description', content: CONSTANT.SITE_DESCRIPTION },
-      { hid: 'og:image', property: 'og:image', content: CONSTANT.AUTHOR_ICON },
+      { hid: 'og:url', property: 'og:url', content: SITE.URL },
+      { hid: 'og:title', property: 'og:title', content: SITE.NAME },
+      { hid: 'og:description', property: 'og:description', content: SITE.DESCRIPTION },
+      { hid: 'og:image', property: 'og:image', content: AUTHOR.ICON },
       { hid: 'twitter:card', name: 'twitter:card', content: 'summary' },
       { name: 'viewport', content: 'width=device-width' },
       { name: 'twitter:site', content: '@hiro0218' },
       { name: 'twitter:creator', content: '@hiro0218' },
-      { property: 'og:site_name', content: CONSTANT.SITE_NAME },
+      { property: 'og:site_name', content: SITE.NAME },
       { property: 'og:locale', content: 'ja_JP' },
       { property: 'fb:app_id', content: '1042526022490602' },
     ],
@@ -87,12 +87,12 @@ const config: NuxtConfig = {
   },
 
   manifest: {
-    name: CONSTANT.SITE_NAME,
-    short_name: CONSTANT.SITE_NAME,
-    title: CONSTANT.SITE_NAME,
-    'og:title': CONSTANT.SITE_NAME,
-    description: CONSTANT.SITE_DESCRIPTION,
-    'og:description': CONSTANT.SITE_DESCRIPTION,
+    name: SITE.NAME,
+    short_name: SITE.NAME,
+    title: SITE.NAME,
+    'og:title': SITE.NAME,
+    description: SITE.DESCRIPTION,
+    'og:description': SITE.DESCRIPTION,
     lang: 'ja',
     theme_color: '#ffffff',
     background_color: '#ffffff',
