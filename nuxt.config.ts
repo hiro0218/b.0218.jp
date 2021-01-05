@@ -41,6 +41,7 @@ const config: NuxtConfig = {
       { property: 'og:site_name', content: SITE.NAME },
       { property: 'og:locale', content: 'ja_JP' },
       { property: 'fb:app_id', content: '1042526022490602' },
+      { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [
       { rel: 'dns-prefetch', href: '//partner.googlesyndication.com' },
