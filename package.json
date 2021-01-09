@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.0.0",
-    "@nuxtjs/composition-api": "^0.17.0",
+    "@nuxtjs/composition-api": "^0.18.0",
     "@nuxtjs/google-analytics": "^2.4.0",
     "@nuxtjs/pwa": "^3.3.3",
     "minireset.css": "^0.0.6",
