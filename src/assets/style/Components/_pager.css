@@ -41,6 +41,10 @@
 
     text-align: left;
 
+    @mixin mobile {
+      text-align: center;
+    }
+
     &::before {
       content: 'Prev';
     }
@@ -53,6 +57,7 @@
 
     @mixin mobile {
       margin-top: 1rem;
+      text-align: center;
     }
 
     &::before {
