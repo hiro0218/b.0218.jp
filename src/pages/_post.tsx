@@ -1,4 +1,5 @@
 import { defineComponent, useContext, useMeta } from '@nuxtjs/composition-api';
+import { Fragment } from 'vue-fragment';
 
 import LayoutHeader from '~/components/LayoutHeader';
 import PostAds from '~/components/PostAds';
@@ -58,7 +59,7 @@ export default defineComponent({
     return (
       <div class="post">
         {this.post && (
-          <div>
+          <Fragment>
             <article class="post__article">
               <LayoutHeader heading={this.post.title}>
                 <PostMeta
@@ -79,7 +80,7 @@ export default defineComponent({
             <div class="post__pager">
               <PostPager next={this.post.next} prev={this.post.prev} />
             </div>
-          </div>
+          </Fragment>
         )}
       </div>
     );

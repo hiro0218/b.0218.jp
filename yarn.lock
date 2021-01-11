@@ -11118,6 +11118,16 @@ vue-eslint-parser@^7.1.1:
     esquery "^1.0.1"
     lodash "^4.17.15"
 
+vue-fragment-ts@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/vue-fragment-ts/-/vue-fragment-ts-1.5.3.tgz#8527e1de6766acff6b0e5b8f132a64129ad2d0c6"
+  integrity sha512-i9RLveEOEkNUsGky6zGhu67n3WXvvkGhUBlPhZLIKeOP3op75XvBEKTrdrhpXRE2xQZQ+r5Fh3TvPSqMM6LcEQ==
+
+vue-fragment@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/vue-fragment/-/vue-fragment-1.5.1.tgz#44c070d55ed1e9a6c698ef57a5c83f64bb06feeb"
+  integrity sha512-ig6eES6TcMBbANW71ylB+AJgRN+Zksb3f50AxjGpAk6hMzqmeuD80qeh4LJP0jVw2dMBMjgRUfIkrvxygoRgtQ==
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"

@@ -1,4 +1,5 @@
 import { defineComponent, useContext, useMeta } from '@nuxtjs/composition-api';
+import { Fragment } from 'vue-fragment';
 
 import LayoutHeader from '~/components/LayoutHeader';
 import PostsList from '~/components/PostsList';
@@ -67,14 +68,14 @@ export default defineComponent({
   },
   render() {
     return (
-      <div>
+      <Fragment>
         {this.termContent && (
           <section class="term">
             <LayoutHeader heading={this.termName} description={this.terms} />
             <PostsList posts={this.termContent} />
           </section>
         )}
-      </div>
+      </Fragment>
     );
   },
 });
