@@ -36,11 +36,11 @@ img {
 }
 
 figure {
-  margin-bottom: 2rem;
+  margin: var(--margin-base) 0;
 
   & img {
     margin-right: auto;
-    margin-bottom: 0.5rem;
+    margin-bottom: calc(var(--margin-base) * 0.5);
     margin-left: auto;
   }
   & figcaption {

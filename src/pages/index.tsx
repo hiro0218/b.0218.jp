@@ -27,11 +27,11 @@ export default defineComponent({
   render() {
     return (
       <div>
-        <section>
+        <section class="p-home-recent">
           <LayoutHeader heading="Recent Articles" description="最新の記事" />
           <PostsList posts={this.recentPosts} />
         </section>
-        <section>
+        <section class="p-home-updated">
           <LayoutHeader heading="Updated Articles" description="更新された記事" />
           <PostsList posts={this.updatedPosts} />
         </section>

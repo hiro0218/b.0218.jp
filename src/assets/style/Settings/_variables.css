@@ -58,8 +58,11 @@
   --h5-font-size: calc(1rem * 6 / 7); /* 0.85714rem */
   --h6-font-size: calc(1rem * 6 / 8); /* 0.75rem */
 
+  /* margin */
+  --margin-base: 1.5rem;
+
   /* header */
-  --header-height: 4rem;
+  --header-height: calc(var(--margin-base) * 3);
 
   /* table */
   --table-border-width: 1px;
