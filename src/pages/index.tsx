@@ -2,8 +2,8 @@ import { defineComponent, useMeta } from '@nuxtjs/composition-api';
 
 import LayoutHeader from '~/components/LayoutHeader';
 import PostsList from '~/components/PostsList';
-import CONSTANT from '~/constant';
 import { Archives } from '~/types/source';
+import { SITE } from '~~/constant';
 
 const recentPosts: Array<Archives> = require('~/_source/recent_posts.json');
 const updatedPosts: Array<Archives> = require('~/_source/updates_posts.json');
@@ -12,7 +12,7 @@ export default defineComponent({
   name: 'Top',
   setup(_) {
     useMeta({
-      title: CONSTANT.SITE_NAME,
+      title: SITE.NAME,
       titleTemplate: undefined,
     });
 
@@ -27,11 +27,11 @@ export default defineComponent({
   render() {
     return (
       <div>
-        <section>
+        <section class="p-home-recent">
           <LayoutHeader heading="Recent Articles" description="最新の記事" />
           <PostsList posts={this.recentPosts} />
         </section>
-        <section>
+        <section class="p-home-updated">
           <LayoutHeader heading="Updated Articles" description="更新された記事" />
           <PostsList posts={this.updatedPosts} />
         </section>

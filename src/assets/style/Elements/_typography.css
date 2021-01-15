@@ -4,9 +4,8 @@ h3,
 h4,
 h5,
 h6 {
-  margin-bottom: 1em;
   color: var(--oc-gray-9);
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 h1 {

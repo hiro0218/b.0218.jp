@@ -2,7 +2,7 @@ import { defineComponent, onMounted, ref } from '@nuxtjs/composition-api';
 
 import svgLogo from '~/assets/image/logo.svg?raw';
 import Search from '~/components/Search';
-import CONSTANT from '~/constant';
+import { SITE } from '~~/constant';
 
 export default defineComponent({
   name: 'TheHeader',
@@ -69,7 +69,7 @@ export default defineComponent({
     return (
       <header class="pj-header js-header">
         <div class="o-container pj-header-container">
-          <nuxt-link title={CONSTANT.SITE_NAME} to="/" class="pj-header__logo" domPropsInnerHTML={svgLogo} />
+          <nuxt-link title={SITE.NAME} to="/" class="pj-header__logo" domPropsInnerHTML={svgLogo} />
           <button type="button" class="pj-header-search" aria-label="Search" onClick={this.toggleModal}>
             <div class="pj-header-search__icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

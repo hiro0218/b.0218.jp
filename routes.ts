@@ -1,7 +1,7 @@
-const fs = require('fs-extra');
+import fs from 'fs-extra';
 const SRC_DIR = './src/_source';
 
-module.exports = function () {
+export const getRoutes = () => {
   const routes = [];
 
   // 記事一覧

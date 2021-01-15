@@ -1,7 +1,7 @@
 import { defineComponent } from '@nuxtjs/composition-api';
 
 import svgLogo from '~/assets/image/logo.svg?raw';
-import CONSTANT from '~/constant';
+import { SITE } from '~~/constant';
 
 export default defineComponent({
   name: 'TheFooter',
@@ -13,7 +13,7 @@ export default defineComponent({
       <footer class="pj-footer">
         <div class="o-container">
           <div class="pj-footer__logo">
-            <router-link to="/" title={CONSTANT.SITE_NAME} domPropsInnerHTML={svgLogo} />
+            <router-link to="/" title={SITE.NAME} domPropsInnerHTML={svgLogo} />
           </div>
           <div class="pj-footer-menu">
             <ul class="u-list-unstyled pj-footer-menu__list">
