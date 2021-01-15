@@ -2,6 +2,10 @@
   background: var(--bg-color);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   padding-top: var(--header-height);
@@ -11,7 +15,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.75;
-  scroll-behavior: smooth;
 }
 
 a {
@@ -33,11 +36,11 @@ img {
 }
 
 figure {
-  margin-bottom: 2rem;
+  margin: var(--margin-base) 0;
 
   & img {
     margin-right: auto;
-    margin-bottom: 0.5rem;
+    margin-bottom: calc(var(--margin-base) * 0.5);
     margin-left: auto;
   }
   & figcaption {

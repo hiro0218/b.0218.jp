@@ -7,7 +7,7 @@
   }
 
   &__content {
-    margin: 2rem 0 2rem;
+    margin: calc(var(--margin-base) * 3) auto;
 
     & a {
       text-decoration-line: underline;
@@ -42,17 +42,17 @@
     }
 
     & h2 {
-      margin: 3em auto 1.5em;
+      margin: calc(var(--margin-base) * 2.5) auto  calc(var(--margin-base) * 1.5);
     }
 
     & h3 {
-      margin: 2.5em auto 1em;
+      margin: calc(var(--margin-base) * 2) auto calc(var(--margin-base) * 1);
     }
 
     & h4,
     & h5,
     & h6 {
-      margin: 2em auto 1em;
+      margin: calc(var(--margin-base) * 1.5) auto calc(var(--margin-base) * 0.5);
     }
 
     & ul {
@@ -64,8 +64,7 @@
     }
 
     & > p {
-      margin-top: 0;
-      margin-bottom: 1.5em;
+      margin: var(--margin-base) 0 var(--margin-base);
       letter-spacing: 0.05em;
       line-height: 2;
       word-break: break-all;
@@ -73,7 +72,7 @@
 
     & blockquote {
       position: relative;
-      margin: 2rem 0;
+      margin: var(--margin-base) 0 var(--margin-base);
       padding: 3rem;
       background: var(--bg-color--lighter);
       color: var(--color-text--light);
@@ -110,11 +109,11 @@
     }
 
     & pre {
-      margin-bottom: 1rem;
+      margin: var(--margin-base) 0;
     }
 
     & iframe {
-      margin: 1rem auto;
+      margin: var(--margin-base) auto;
     }
 
     & .sandbox {
@@ -130,34 +129,33 @@
   }
 
   &__share {
-    margin: 3rem 0;
+    margin: calc(var(--margin-base) * 2) 0;
     text-align: center;
   }
 
   &__pager {
-    margin: 2rem 0;
+    margin: calc(var(--margin-base) * 2) 0;
   }
 
   & .c-alert {
-    margin-bottom: 1rem;
+    margin-bottom: calc(var(--margin-base) * 1);
     font-size: var(--font-size-sm);
   }
 
   & .table-container {
-    margin: 2rem 0;
+    margin: calc(var(--margin-base) * 2) 0;
   }
 
   & hr {
-    height: 2rem;
-    margin: 2rem 0;
+    margin: calc(var(--margin-base) * 1.5) 0;
     border: 0;
-    color: var(--color-text--lighter);
+    color: var(--color-text);
+    line-height: 1;
     text-align: center;
 
     &::before {
-      content: '***';
-      height: 100%;
-      font-size: 1.5rem;
+      content: '◇ ◆ ◇';
+      font-size: 1em;
     }
   }
 }
