@@ -6,8 +6,6 @@ import { getRoutes } from './routes';
 const config: NuxtConfig = {
   target: 'static',
 
-  modern: 'client',
-
   srcDir: 'src',
 
   server: {
