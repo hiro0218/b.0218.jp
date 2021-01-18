@@ -13,8 +13,8 @@
     "pregenerate": "git submodule update --remote && ts-node ./output.ts"
   },
   "dependencies": {
-    "@nuxt/typescript-runtime": "^2.0.0",
-    "@nuxtjs/composition-api": "^0.18.0",
+    "@nuxt/typescript-runtime": "^2.0.1",
+    "@nuxtjs/composition-api": "^0.18.1",
     "@nuxtjs/google-analytics": "^2.4.0",
     "@nuxtjs/pwa": "^3.3.4",
     "minireset.css": "^0.0.6",
@@ -28,7 +28,7 @@
     "@hiro0218/prettier-config": "^1.0.2",
     "@hiro0218/stylelint-config": "^1.2.0",
     "@nuxt/types": "^2.14.12",
-    "@nuxt/typescript-build": "^2.0.3",
+    "@nuxt/typescript-build": "^2.0.4",
     "@nuxtjs/eslint-config-typescript": "^5.0.0",
     "@nuxtjs/svg": "^0.1.12",
     "@types/cheerio": "^0.22.23",
