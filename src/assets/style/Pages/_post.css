@@ -12,6 +12,10 @@
     & a {
       text-decoration-line: underline;
       word-break: break-all;
+
+      &:hover {
+        text-decoration-color: var(--color-text);
+      }
     }
 
     & h1,
