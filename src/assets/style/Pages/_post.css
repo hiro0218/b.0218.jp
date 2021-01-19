@@ -12,6 +12,10 @@
     & a {
       text-decoration-line: underline;
       word-break: break-all;
+
+      &:hover {
+        text-decoration-color: var(--color-text);
+      }
     }
 
     & h1,
@@ -24,19 +28,29 @@
       scroll-margin-top: 1em;
 
       & .anchor {
+        display: inline-flex;
         position: absolute;
         top: 0;
         right: calc(100% + 0.25em);
         bottom: 0;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
         margin: auto;
         border: 0;
-        color: var(--bg-color--dark);
+        border-radius: 50%;
+        color: var(--bg-color--darker);
         text-decoration: none;
         user-select: none;
 
         @mixin mobile {
           position: static;
           margin-left: 0.25em;
+        }
+
+        &:hover {
+          background-color: var(--bg-color--lighter);
         }
       }
     }

@@ -10,7 +10,7 @@ const pageDescription = 'サイトと運営者の情報';
 
 export default defineComponent({
   name: 'About',
-  setup(_, { root }) {
+  setup() {
     useMeta({
       title: pageTitle,
       meta: [{ hid: 'description', name: 'description', content: pageDescription }],
@@ -20,7 +20,7 @@ export default defineComponent({
       const page = pages.find((page: any) => page.slug === 'about');
 
       // @ts-ignore
-      return root.context.$filteredPost(page.content);
+      return page.content;
     });
 
     return {
