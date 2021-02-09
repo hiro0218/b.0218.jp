@@ -1,8 +1,6 @@
 import { computed, defineComponent } from '@nuxtjs/composition-api';
 
-import svgFacebook from '~/assets/image/sns_facebook.svg?raw';
 import svgHatena from '~/assets/image/sns_hatenabookmark.svg?raw';
-import svgLine from '~/assets/image/sns_line.svg?raw';
 import svgTwitter from '~/assets/image/sns_twitter.svg?raw';
 
 export default defineComponent({
@@ -47,15 +45,6 @@ export default defineComponent({
           aria-label="Twitter"
         />
         <a
-          href={'https://www.facebook.com/sharer/sharer.php?u=' + this.postLink}
-          domPropsInnerHTML={svgFacebook}
-          class="c-sns-list__item"
-          title="Share Facebook"
-          target="_blank"
-          rel="noopener"
-          aria-label="Facebook"
-        />
-        <a
           href={'http://b.hatena.ne.jp/add?url=' + this.postLink}
           domPropsInnerHTML={svgHatena}
           class="c-sns-list__item"
@@ -63,15 +52,6 @@ export default defineComponent({
           target="_blank"
           rel="noopener"
           aria-label="Hatena Bookmark"
-        />
-        <a
-          href={'https://lineit.line.me/share/ui?url=' + this.postLink}
-          domPropsInnerHTML={svgLine}
-          class="c-sns-list__item"
-          title="Share LINE"
-          target="_blank"
-          rel="noopener"
-          aria-label="LINE"
         />
         <a
           href="javascript:void(0)"
