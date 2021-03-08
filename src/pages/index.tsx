@@ -1,4 +1,5 @@
 import { defineComponent, useMeta } from '@nuxtjs/composition-api';
+import { Fragment } from 'vue-fragment';
 
 import LayoutHeader from '~/components/LayoutHeader';
 import PostsList from '~/components/PostsList';
@@ -26,7 +27,7 @@ export default defineComponent({
   },
   render() {
     return (
-      <div>
+      <Fragment>
         <section class="p-home-recent">
           <LayoutHeader heading="Recent Articles" description="最新の記事" />
           <PostsList posts={this.recentPosts} />
@@ -35,7 +36,7 @@ export default defineComponent({
           <LayoutHeader heading="Updated Articles" description="更新された記事" />
           <PostsList posts={this.updatedPosts} />
         </section>
-      </div>
+      </Fragment>
     );
   },
 });
