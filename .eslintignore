@@ -1,6 +1,0 @@
-*.d.ts
-.nuxt/
-dist/
-public/
-node_modules/
-src/static/

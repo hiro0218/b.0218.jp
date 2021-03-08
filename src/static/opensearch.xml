@@ -1,7 +1,0 @@
-<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
-  <ShortName>b.0218.jp</ShortName>
-  <Description>Search pages in b.0218.jp</Description>
-  <InputEncoding>UTF-8</InputEncoding>
-  <Image width="16" height="16" type="image/x-icon">https://b.0218.jp/favicon.ico</Image>
-  <Url type="text/html" method="get" template="https://www.google.com/search?q=site:b.0218.jp%20{searchTerms}"/>
-</OpenSearchDescription>
