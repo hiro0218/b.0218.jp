@@ -10,7 +10,7 @@ const Archive = ({ archives }) => {
   return (
     <>
       <Head>
-        <title>Archive - {SITE.NAME}</title>
+        <title key="title">Archive - {SITE.NAME}</title>
       </Head>
 
       <Layout>

@@ -19,7 +19,7 @@ const Post = ({ post }) => {
   return (
     <>
       <Head>
-        <title>
+        <title key="title">
           {post.title} - {SITE.NAME}
         </title>
         <meta key="description" name="description" content={post.excerpt} />

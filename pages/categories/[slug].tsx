@@ -10,7 +10,7 @@ const Categories = ({ title, posts }) => {
   return (
     <>
       <Head>
-        <title>
+        <title key="title">
           {title} - {SITE.NAME}
         </title>
       </Head>

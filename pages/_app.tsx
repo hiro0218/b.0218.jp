@@ -8,6 +8,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
+        <title key="title">{SITE.NAME}</title>
         <meta name="viewport" content="width=device-width" />
         <meta key="description" name="description" content={SITE.DESCRIPTION} />
         <meta key="og:type" property="og:type" content="website" />

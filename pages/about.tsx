@@ -9,7 +9,7 @@ const About = ({ page }) => {
   return (
     <>
       <Head>
-        <title>サイトについて - {SITE.NAME}</title>
+        <title key="title">サイトについて - {SITE.NAME}</title>
       </Head>
 
       <Layout>

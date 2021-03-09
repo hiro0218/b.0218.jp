@@ -9,7 +9,7 @@ const Tags = ({ title, posts }) => {
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title key="title">{title}</title>
       </Head>
 
       <Layout>
