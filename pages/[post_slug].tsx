@@ -3,12 +3,15 @@ import path from "path";
 import Head from "next/head";
 import Link from "next/link";
 import Layout from "../components/layout";
+import { SITE } from "../constant";
 
 const Post = ({ post }) => {
   return (
     <>
       <Head>
-        <title>{post.title}</title>
+        <title>
+          {post.title} - {SITE.NAME}
+        </title>
       </Head>
 
       <Layout>

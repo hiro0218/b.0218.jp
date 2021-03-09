@@ -2,12 +2,13 @@ import fs from "fs-extra";
 import path from "path";
 import Head from "next/head";
 import Layout from "../components/layout";
+import { SITE } from "../constant";
 
 const About = ({ page }) => {
   return (
     <>
       <Head>
-        <title>サイトについて</title>
+        <title>サイトについて - {SITE.NAME}</title>
       </Head>
 
       <Layout>

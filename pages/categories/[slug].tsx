@@ -3,12 +3,15 @@ import path from "path";
 import Head from "next/head";
 import Link from "next/link";
 import Layout from "../../components/layout";
+import { SITE } from "../../constant";
 
 const Categories = ({ title, posts }) => {
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>
+          {title} - {SITE.NAME}
+        </title>
       </Head>
 
       <Layout>
