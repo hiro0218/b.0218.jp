@@ -1,5 +1,5 @@
-[submodule "src/_source"]
-	path = src/_source
+[submodule "_source"]
+	path = _source
 	url = https://github.com/hiro0218/blog.git
 	branch = gh-pages
 	ignore = dirty
