@@ -1,19 +1,26 @@
 import fs from "fs-extra";
 import path from "path";
+import Head from "next/head";
 import Link from "next/link";
 import Layout from "../../components/layout";
 
-const Tags = ({ posts }) => {
+const Tags = ({ title, posts }) => {
   return (
-    <Layout>
-      <ul>
-        {posts.map((post, index: number) => (
-          <li key={index}>
-            <Link href={"/" + post.path}>{post.title}</Link>
-          </li>
-        ))}
-      </ul>
-    </Layout>
+    <>
+      <Head>
+        <title>{title}</title>
+      </Head>
+
+      <Layout>
+        <ul>
+          {posts.map((post, index: number) => (
+            <li key={index}>
+              <Link href={"/" + post.path}>{post.title}</Link>
+            </li>
+          ))}
+        </ul>
+      </Layout>
+    </>
   );
 };
 
@@ -38,6 +45,7 @@ export const getStaticProps = async (context) => {
 
   return {
     props: {
+      title: postData[0].name,
       posts: postData[0].posts,
     },
   };
