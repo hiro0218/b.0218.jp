@@ -1,0 +1,23 @@
+{
+  "name": "b.0218.jp",
+  "version": "3.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "minireset.css": "0.0.7",
+    "next": "^10.0.8",
+    "react": "17.0.1",
+    "react-dom": "17.0.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.8",
+    "@types/node": "^14.14.32",
+    "@types/react": "^17.0.3",
+    "fs-extra": "^9.1.0",
+    "typescript": "^4.2.3"
+  }
+}
