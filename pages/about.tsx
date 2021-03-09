@@ -1,3 +1,4 @@
+import { GetStaticProps } from "next";
 import fs from "fs-extra";
 import path from "path";
 import Head from "next/head";
@@ -25,7 +26,7 @@ const About = ({ page }) => {
 
 export default About;
 
-export const getStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const dataPath = path.join(process.cwd(), "_source/pages.json");
   const pages = fs.readJsonSync(dataPath);
   const postData = pages.find((page: any) => page.slug === "about");

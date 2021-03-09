@@ -1,3 +1,4 @@
+import { GetStaticProps } from "next";
 import fs from "fs-extra";
 import path from "path";
 import Head from "next/head";
@@ -36,7 +37,7 @@ export default function Home({ recentPosts, updatesPosts }) {
   );
 }
 
-export const getStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const recentPostsPath = path.join(process.cwd(), "_source/recent_posts.json");
   const updatesPostsPath = path.join(
     process.cwd(),

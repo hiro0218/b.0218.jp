@@ -1,3 +1,4 @@
+import { GetStaticProps, GetStaticPaths } from "next";
 import fs from "fs-extra";
 import path from "path";
 import Head from "next/head";
@@ -26,7 +27,7 @@ const Tags = ({ title, posts }) => {
 
 export default Tags;
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   const dataPath = path.join(process.cwd(), "_source/tags.json");
   const posts = fs.readJsonSync(dataPath);
   const paths = posts.map((post) => `/${post.path}`);
@@ -34,7 +35,7 @@ export const getStaticPaths = async () => {
   return { paths, fallback: false };
 };
 
-export const getStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const dataPath = path.join(process.cwd(), "_source/tags_posts.json");
   const posts = fs.readJsonSync(dataPath);
   const slug = context.params.slug;
