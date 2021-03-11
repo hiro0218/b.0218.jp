@@ -1,7 +1,8 @@
-import { GetStaticProps } from 'next';
 import fs from 'fs-extra';
-import path from 'path';
+import { GetStaticProps } from 'next';
 import Link from 'next/link';
+import path from 'path';
+
 import Layout from '../components/layout';
 
 const Home = ({ recentPosts, updatesPosts }) => {

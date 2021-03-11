@@ -1,8 +1,9 @@
+import 'minireset.css';
+
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { AUTHOR, SITE } from '../constant';
 
-import 'minireset.css';
+import { AUTHOR, SITE } from '../constant';
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (

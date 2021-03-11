@@ -1,10 +1,11 @@
-import { GetStaticProps, GetStaticPaths } from 'next';
 import fs from 'fs-extra';
-import path from 'path';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import path from 'path';
+
 import Layout from '../components/layout';
-import { SITE, AUTHOR } from '../constant';
+import { AUTHOR, SITE } from '../constant';
 
 const getOgImagePath = (slug: string): string => {
   if (!slug) return '';
