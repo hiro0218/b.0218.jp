@@ -1,10 +1,10 @@
-import type { AppProps } from "next/app";
-import Head from "next/head";
-import { AUTHOR, SITE } from "../constant";
+import type { AppProps } from 'next/app';
+import Head from 'next/head';
+import { AUTHOR, SITE } from '../constant';
 
-import "minireset.css";
+import 'minireset.css';
 
-function MyApp({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
@@ -14,21 +14,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta key="og:type" property="og:type" content="website" />
         <meta key="og:url" property="og:url" content={SITE.URL} />
         <meta key="og:title" property="og:title" content={SITE.NAME} />
-        <meta
-          key="og:description"
-          property="og:description"
-          content={SITE.DESCRIPTION}
-        />
+        <meta key="og:description" property="og:description" content={SITE.DESCRIPTION} />
         <meta key="og:image" property="og:image" content={AUTHOR.ICON} />
         <meta property="og:site_name" content={SITE.NAME} />
         <meta property="og:locale" content="ja_JP" />
         <meta property="fb:app_id" content="1042526022490602" />
-        <meta
-          key="og:site_name"
-          name="og:site_name"
-          property="og:site_name"
-          content={SITE.NAME}
-        />
+        <meta key="og:site_name" name="og:site_name" property="og:site_name" content={SITE.NAME} />
         <meta key="twitter:card" name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@hiro0218" />
         <meta name="twitter:creator" content="@hiro0218" />
@@ -38,6 +29,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Component {...pageProps} />
     </>
   );
-}
+};
 
-export default MyApp;
+export default App;

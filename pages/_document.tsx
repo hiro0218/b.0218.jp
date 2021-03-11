@@ -1,6 +1,6 @@
-import Document, { Html, Head, Main, NextScript } from "next/document";
-import TheHeader from "../components/TheHeader";
-import TheFooter from "../components/TheFooter";
+import Document, { Html, Head, Main, NextScript } from 'next/document';
+import TheHeader from '../components/TheHeader';
+import TheFooter from '../components/TheFooter';
 class SampleDocument extends Document {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx);
@@ -20,26 +20,10 @@ class SampleDocument extends Document {
           <link rel="dns-prefetch" href="//adservice.google.co.jp" />
           <link rel="dns-prefetch" href="//platform.twitter.com" />
           <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-          <link
-            rel="alternate"
-            type="application/rss+xml"
-            href="https://b.0218.jp/rss.xml"
-          />
-          <link
-            rel="alternate"
-            type="application/atom+xml"
-            href="https://b.0218.jp/atom.xml"
-          />
-          <link
-            rel="alternate"
-            type="application/json"
-            href="https://b.0218.jp/feed.json"
-          />
-          <link
-            rel="search"
-            type="application/opensearchdescription+xml"
-            href="/opensearch.xml"
-          />
+          <link rel="alternate" type="application/rss+xml" href="https://b.0218.jp/rss.xml" />
+          <link rel="alternate" type="application/atom+xml" href="https://b.0218.jp/atom.xml" />
+          <link rel="alternate" type="application/json" href="https://b.0218.jp/feed.json" />
+          <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" />
         </Head>
         <body>
           <TheHeader />

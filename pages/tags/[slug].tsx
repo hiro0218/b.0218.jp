@@ -1,9 +1,9 @@
-import { GetStaticProps, GetStaticPaths } from "next";
-import fs from "fs-extra";
-import path from "path";
-import Head from "next/head";
-import Link from "next/link";
-import Layout from "../../components/layout";
+import { GetStaticProps, GetStaticPaths } from 'next';
+import fs from 'fs-extra';
+import path from 'path';
+import Head from 'next/head';
+import Link from 'next/link';
+import Layout from '../../components/layout';
 
 const Tags = ({ title, posts }) => {
   return (
@@ -16,7 +16,7 @@ const Tags = ({ title, posts }) => {
         <ul>
           {posts.map((post, index: number) => (
             <li key={index}>
-              <Link href={"/" + post.path}>{post.title}</Link>
+              <Link href={'/' + post.path}>{post.title}</Link>
             </li>
           ))}
         </ul>
@@ -28,7 +28,7 @@ const Tags = ({ title, posts }) => {
 export default Tags;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const dataPath = path.join(process.cwd(), "_source/tags.json");
+  const dataPath = path.join(process.cwd(), '_source/tags.json');
   const posts = fs.readJsonSync(dataPath);
   const paths = posts.map((post) => `/${post.path}`);
 
@@ -36,7 +36,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const dataPath = path.join(process.cwd(), "_source/tags_posts.json");
+  const dataPath = path.join(process.cwd(), '_source/tags_posts.json');
   const posts = fs.readJsonSync(dataPath);
   const slug = context.params.slug;
 

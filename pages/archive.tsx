@@ -1,10 +1,10 @@
-import { GetStaticProps } from "next";
-import fs from "fs-extra";
-import path from "path";
-import Head from "next/head";
-import Link from "next/link";
-import { SITE } from "../constant";
-import Layout from "../components/layout";
+import { GetStaticProps } from 'next';
+import fs from 'fs-extra';
+import path from 'path';
+import Head from 'next/head';
+import Link from 'next/link';
+import { SITE } from '../constant';
+import Layout from '../components/layout';
 
 const Archive = ({ archives }) => {
   return (
@@ -18,7 +18,7 @@ const Archive = ({ archives }) => {
         <ul>
           {archives.map((archive, index: number) => (
             <li key={index}>
-              <Link href={"/" + archive.path}>{archive.title}</Link>
+              <Link href={'/' + archive.path}>{archive.title}</Link>
             </li>
           ))}
         </ul>
@@ -30,7 +30,7 @@ const Archive = ({ archives }) => {
 export default Archive;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const dataPath = path.join(process.cwd(), "_source/archives.json");
+  const dataPath = path.join(process.cwd(), '_source/archives.json');
   const posts = fs.readJsonSync(dataPath);
 
   return {

@@ -1,6 +1,7 @@
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
-const TheHeader = () => {
+const TheHeader: React.FC = () => {
   return (
     <header>
       <Link href="/">Home</Link>

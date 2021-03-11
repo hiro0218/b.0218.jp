@@ -1,10 +1,10 @@
-import { GetStaticProps, GetStaticPaths } from "next";
-import fs from "fs-extra";
-import path from "path";
-import Head from "next/head";
-import Link from "next/link";
-import Layout from "../../components/layout";
-import { SITE } from "../../constant";
+import { GetStaticProps, GetStaticPaths } from 'next';
+import fs from 'fs-extra';
+import path from 'path';
+import Head from 'next/head';
+import Link from 'next/link';
+import Layout from '../../components/layout';
+import { SITE } from '../../constant';
 
 const Categories = ({ title, posts }) => {
   return (
@@ -19,7 +19,7 @@ const Categories = ({ title, posts }) => {
         <ul>
           {posts.map((post, index: number) => (
             <li key={index}>
-              <Link href={"/" + post.path}>{post.title}</Link>
+              <Link href={'/' + post.path}>{post.title}</Link>
             </li>
           ))}
         </ul>
@@ -31,7 +31,7 @@ const Categories = ({ title, posts }) => {
 export default Categories;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const dataPath = path.join(process.cwd(), "_source/categories.json");
+  const dataPath = path.join(process.cwd(), '_source/categories.json');
   const posts = fs.readJsonSync(dataPath);
   const paths = posts.map((post) => `/${post.path}`);
 
@@ -39,7 +39,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const dataPath = path.join(process.cwd(), "_source/categories_posts.json");
+  const dataPath = path.join(process.cwd(), '_source/categories_posts.json');
   const posts = fs.readJsonSync(dataPath);
   const slug = context.params.slug;
 

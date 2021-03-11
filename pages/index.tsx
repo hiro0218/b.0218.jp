@@ -1,8 +1,8 @@
-import { GetStaticProps } from "next";
-import fs from "fs-extra";
-import path from "path";
-import Link from "next/link";
-import Layout from "../components/layout";
+import { GetStaticProps } from 'next';
+import fs from 'fs-extra';
+import path from 'path';
+import Link from 'next/link';
+import Layout from '../components/layout';
 
 const Home = ({ recentPosts, updatesPosts }) => {
   return (
@@ -12,7 +12,7 @@ const Home = ({ recentPosts, updatesPosts }) => {
         <ul>
           {recentPosts.map((post, index: number) => (
             <li key={index}>
-              <Link href={"/" + post.path}>{post.title}</Link>
+              <Link href={'/' + post.path}>{post.title}</Link>
             </li>
           ))}
         </ul>
@@ -21,7 +21,7 @@ const Home = ({ recentPosts, updatesPosts }) => {
         <ul>
           {updatesPosts.map((post, index: number) => (
             <li key={index}>
-              <Link href={"/" + post.path}>{post.title}</Link>
+              <Link href={'/' + post.path}>{post.title}</Link>
             </li>
           ))}
         </ul>
@@ -32,12 +32,9 @@ const Home = ({ recentPosts, updatesPosts }) => {
 
 export default Home;
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const recentPostsPath = path.join(process.cwd(), "_source/recent_posts.json");
-  const updatesPostsPath = path.join(
-    process.cwd(),
-    "_source/updates_posts.json"
-  );
+export const getStaticProps: GetStaticProps = async () => {
+  const recentPostsPath = path.join(process.cwd(), '_source/recent_posts.json');
+  const updatesPostsPath = path.join(process.cwd(), '_source/updates_posts.json');
   const recentPosts = fs.readJsonSync(recentPostsPath);
   const updatesPosts = fs.readJsonSync(updatesPostsPath);
 
