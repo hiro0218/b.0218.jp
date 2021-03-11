@@ -4,7 +4,7 @@ import path from "path";
 import Link from "next/link";
 import Layout from "../components/layout";
 
-export default function Home({ recentPosts, updatesPosts }) {
+const Home = ({ recentPosts, updatesPosts }) => {
   return (
     <>
       <Layout>
@@ -28,7 +28,9 @@ export default function Home({ recentPosts, updatesPosts }) {
       </Layout>
     </>
   );
-}
+};
+
+export default Home;
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const recentPostsPath = path.join(process.cwd(), "_source/recent_posts.json");
