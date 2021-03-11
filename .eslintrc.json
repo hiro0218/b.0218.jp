@@ -24,6 +24,7 @@
     }
   },
   "plugins": [
+    "simple-import-sort",
     "react-hooks",
     "react",
     "@typescript-eslint",
@@ -38,6 +39,7 @@
     "prettier"
   ],
   "rules": {
+    "simple-import-sort/imports": "warn",
     "react/prop-types": "off",
     "prettier/prettier": "error",
     "react/react-in-jsx-scope": "off",
