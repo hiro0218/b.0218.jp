@@ -7,6 +7,7 @@ import path from 'path';
 import Layout from '../components/layout';
 import { AUTHOR, SITE } from '../constant';
 import { Archives, Post as PostType } from '../types/source';
+import { getBlogPostingStructured, getBreadcrumbStructured } from '../utils/json-ld';
 
 interface Props {
   post: PostType;
@@ -37,6 +38,15 @@ const Post = ({ post }: Props) => {
         <meta key="og:image" property="og:image" content={getOgImagePath(post.path)} />
         <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
         <link rel="canonical" href={SITE.URL + post.path} />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(getBlogPostingStructured(post)) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(getBreadcrumbStructured(post)) }}
+        />
       </Head>
 
       <Layout>
