@@ -50,33 +50,52 @@ const Post = ({ post }: Props) => {
       </Head>
 
       <Layout>
-        <h1>{post.title}</h1>
+        <article>
+          <h1>{post.title}</h1>
 
-        {post.categories.length !== 0 && (
-          <ul>
-            {post.categories.map((category, index) => (
-              <li key={index}>
-                <Link href={'/' + category.path}>{category.name}</Link>
-              </li>
-            ))}
-          </ul>
-        )}
+          {post.categories.length !== 0 && (
+            <ul>
+              {post.categories.map((category, index) => (
+                <li key={index}>
+                  <Link href={'/' + category.path}>{category.name}</Link>
+                </li>
+              ))}
+            </ul>
+          )}
 
-        {post.tags.length !== 0 && (
-          <ul>
-            {post.tags.map((tag, index) => (
-              <li key={index}>
-                <Link href={'/' + tag.path}>{tag.name}</Link>
-              </li>
-            ))}
-          </ul>
-        )}
+          {post.tags.length !== 0 && (
+            <ul>
+              {post.tags.map((tag, index) => (
+                <li key={index}>
+                  <Link href={'/' + tag.path}>{tag.name}</Link>
+                </li>
+              ))}
+            </ul>
+          )}
 
-        <div
-          dangerouslySetInnerHTML={{
-            __html: `${post.content}`,
-          }}
-        />
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `${post.content}`,
+            }}
+          />
+        </article>
+
+        <div>
+          <nav>
+            <ul>
+              {Object.keys(post.prev).length !== 0 && (
+                <li>
+                  <Link href={post.prev.path}>{post.prev.title}</Link>
+                </li>
+              )}
+              {Object.keys(post.next).length !== 0 && (
+                <li>
+                  <Link href={post.next.path}>{post.next.title}</Link>
+                </li>
+              )}
+            </ul>
+          </nav>
+        </div>
       </Layout>
     </>
   );
