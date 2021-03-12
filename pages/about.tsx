@@ -5,8 +5,13 @@ import path from 'path';
 
 import Layout from '../components/layout';
 import { SITE } from '../constant';
+import { Pages } from '../types/source';
 
-const About = ({ page }) => {
+interface Props {
+  page: Pages;
+}
+
+const About = ({ page }: Props) => {
   return (
     <>
       <Head>
@@ -29,7 +34,7 @@ export default About;
 
 export const getStaticProps: GetStaticProps = async () => {
   const dataPath = path.join(process.cwd(), '_source/pages.json');
-  const pages = fs.readJsonSync(dataPath);
+  const pages: Array<Pages> = fs.readJsonSync(dataPath);
   const postData = pages.find((page) => page.slug === 'about');
 
   return {

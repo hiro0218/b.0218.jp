@@ -4,8 +4,14 @@ import Link from 'next/link';
 import path from 'path';
 
 import Layout from '../components/layout';
+import { TermsPostLits } from '../types/source';
 
-const Home = ({ recentPosts, updatesPosts }) => {
+interface Props {
+  recentPosts: Array<TermsPostLits>;
+  updatesPosts: Array<TermsPostLits>;
+}
+
+const Home = ({ recentPosts, updatesPosts }: Props) => {
   return (
     <>
       <Layout>
@@ -36,8 +42,8 @@ export default Home;
 export const getStaticProps: GetStaticProps = async () => {
   const recentPostsPath = path.join(process.cwd(), '_source/recent_posts.json');
   const updatesPostsPath = path.join(process.cwd(), '_source/updates_posts.json');
-  const recentPosts = fs.readJsonSync(recentPostsPath);
-  const updatesPosts = fs.readJsonSync(updatesPostsPath);
+  const recentPosts: Array<TermsPostLits> = fs.readJsonSync(recentPostsPath);
+  const updatesPosts: Array<TermsPostLits> = fs.readJsonSync(updatesPostsPath);
 
   return {
     props: {

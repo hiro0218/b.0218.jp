@@ -6,8 +6,13 @@ import path from 'path';
 
 import Layout from '../../components/layout';
 import { SITE } from '../../constant';
+import { Terms, TermsPostLits } from '../../types/source';
+interface Props {
+  title: string;
+  posts: Array<TermsPostLits>;
+}
 
-const Categories = ({ title, posts }) => {
+const Categories = ({ title, posts }: Props) => {
   return (
     <>
       <Head>
@@ -33,7 +38,7 @@ export default Categories;
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const dataPath = path.join(process.cwd(), '_source/categories.json');
-  const posts = fs.readJsonSync(dataPath);
+  const posts: Array<Terms> = fs.readJsonSync(dataPath);
   const paths = posts.map((post) => `/${post.path}`);
 
   return { paths, fallback: false };
@@ -41,10 +46,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const dataPath = path.join(process.cwd(), '_source/categories_posts.json');
-  const posts = fs.readJsonSync(dataPath);
+  const posts: Array<Terms> = fs.readJsonSync(dataPath);
   const slug = context.params.slug;
 
-  const postData = posts.filter((post) => {
+  const postData = posts.filter((post: Terms) => {
     return post.slug === slug;
   });
 

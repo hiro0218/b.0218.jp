@@ -6,6 +6,11 @@ import path from 'path';
 
 import Layout from '../components/layout';
 import { AUTHOR, SITE } from '../constant';
+import { Archives, Post as PostType } from '../types/source';
+
+interface Props {
+  post: PostType;
+}
 
 const getOgImagePath = (slug: string): string => {
   if (!slug) return '';
@@ -14,7 +19,7 @@ const getOgImagePath = (slug: string): string => {
   return slug ? `https://hiro0218.github.io/blog/images/ogp/${filename}.png` : AUTHOR.ICON;
 };
 
-const Post = ({ post }) => {
+const Post = ({ post }: Props) => {
   return (
     <>
       <Head>
@@ -71,7 +76,7 @@ export default Post;
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const dataPath = path.join(process.cwd(), '_source/archives.json');
-  const posts = fs.readJsonSync(dataPath);
+  const posts: Array<Archives> = fs.readJsonSync(dataPath);
   const paths = posts.map((post) => `/${post.path}`);
 
   return { paths, fallback: false };
@@ -79,10 +84,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const dataPath = path.join(process.cwd(), '_source/posts.json');
-  const posts = fs.readJsonSync(dataPath);
+  const posts: Array<PostType> = fs.readJsonSync(dataPath);
   const slug = context.params.post_slug;
 
-  const postData = posts.find((post: { path: string }) => {
+  const postData: PostType = posts.find((post) => {
     return post.path === slug;
   });
 

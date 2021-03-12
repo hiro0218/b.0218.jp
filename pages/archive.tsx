@@ -6,8 +6,13 @@ import path from 'path';
 
 import Layout from '../components/layout';
 import { SITE } from '../constant';
+import { Archives } from '../types/source';
 
-const Archive = ({ archives }) => {
+interface Props {
+  archives: Array<Archives>;
+}
+
+const Archive = ({ archives }: Props) => {
   return (
     <>
       <Head>
@@ -32,7 +37,7 @@ export default Archive;
 
 export const getStaticProps: GetStaticProps = async () => {
   const dataPath = path.join(process.cwd(), '_source/archives.json');
-  const posts = fs.readJsonSync(dataPath);
+  const posts: Array<Archives> = fs.readJsonSync(dataPath);
 
   return {
     props: {

@@ -5,8 +5,14 @@ import Link from 'next/link';
 import path from 'path';
 
 import Layout from '../../components/layout';
+import { Terms, TermsPostLits } from '../../types/source';
 
-const Tags = ({ title, posts }) => {
+interface Props {
+  title: string;
+  posts: Array<TermsPostLits>;
+}
+
+const Tags = ({ title, posts }: Props) => {
   return (
     <>
       <Head>
@@ -30,7 +36,7 @@ export default Tags;
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const dataPath = path.join(process.cwd(), '_source/tags.json');
-  const posts = fs.readJsonSync(dataPath);
+  const posts: Array<Terms> = fs.readJsonSync(dataPath);
   const paths = posts.map((post) => `/${post.path}`);
 
   return { paths, fallback: false };
@@ -38,7 +44,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const dataPath = path.join(process.cwd(), '_source/tags_posts.json');
-  const posts = fs.readJsonSync(dataPath);
+  const posts: Array<Terms> = fs.readJsonSync(dataPath);
   const slug = context.params.slug;
 
   const postData = posts.filter((post) => {
