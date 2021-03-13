@@ -106,7 +106,9 @@ export default Post;
 export const getStaticPaths: GetStaticPaths = async () => {
   const dataPath = path.join(process.cwd(), '_source/archives.json');
   const posts: Array<Archives> = fs.readJsonSync(dataPath);
-  const paths = posts.map((post) => `/${post.path}`);
+  const paths = posts.map((post) => ({
+    params: { slug: `${post.path}` },
+  }));
 
   return { paths, fallback: false };
 };

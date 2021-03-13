@@ -37,7 +37,9 @@ export default Tags;
 export const getStaticPaths: GetStaticPaths = async () => {
   const dataPath = path.join(process.cwd(), '_source/tags.json');
   const posts: Array<Terms> = fs.readJsonSync(dataPath);
-  const paths = posts.map((post) => `/${post.path}`);
+  const paths = posts.map((post) => ({
+    params: { slug: post.slug },
+  }));
 
   return { paths, fallback: false };
 };
