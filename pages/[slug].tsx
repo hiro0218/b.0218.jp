@@ -114,7 +114,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async (context) => {
   const dataPath = path.join(process.cwd(), '_source/posts.json');
   const posts: Array<PostType> = fs.readJsonSync(dataPath);
-  const slug = context.params.post_slug;
+  const slug = context.params.slug;
 
   const postData: PostType = posts.find((post) => {
     return post.path === slug;
