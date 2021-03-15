@@ -107,7 +107,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const dataPath = path.join(process.cwd(), '_source/archives.json');
   const posts: Array<Archives> = fs.readJsonSync(dataPath);
   const paths = posts.map((post) => ({
-    params: { slug: `${post.path}` },
+    // next build: 拡張子が含まれていると出力できない
+    params: { slug: post.path.replace('.html', '') },
   }));
 
   return { paths, fallback: false };
@@ -116,10 +117,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async (context) => {
   const dataPath = path.join(process.cwd(), '_source/posts.json');
   const posts: Array<PostType> = fs.readJsonSync(dataPath);
-  const slug = context.params.slug;
+
+  // next build: 拡張子が含まれていると出力できない
+  // 拡張子がないとデータが取得できないため .html を付与する
+  if (!context.params.slug.includes('.html')) {
+    context.params.slug += '.html';
+  }
 
   const postData: PostType = posts.find((post) => {
-    return post.path === slug;
+    return post.path === context.params.slug;
   });
 
   return {
