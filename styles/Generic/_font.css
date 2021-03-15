@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'YuGoMedium';
+  font-weight: normal;
+  src: local('YuGothic-Medium'), local('Yu Gothic Medium');
+}
+
+@font-face {
+  font-family: 'YuGoMedium';
+  font-weight: bold;
+  src: local('YuGothic-Bold'), local('Yu Gothic');
+}

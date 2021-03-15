@@ -1,0 +1,13 @@
+/* stylelint-disable-next-line scss/at-rule-no-unknown */
+@define-mixin mobile {
+  @media screen and (max-width: calc(960px - 1px)) {
+    @mixin-content;
+  }
+}
+
+/* stylelint-disable-next-line scss/at-rule-no-unknown */
+@define-mixin desktop {
+  @media screen and (min-width: 960px) {
+    @mixin-content;
+  }
+}
