@@ -1,9 +1,11 @@
-import Link from 'next/link';
+import Logo from '@/images/logo.svg';
 
-const TheHeader: React.FC = () => {
+const TheHeader = () => {
   return (
     <header>
-      <Link href="/">Home</Link>
+      <a href="/">
+        <Logo />
+      </a>
     </header>
   );
 };

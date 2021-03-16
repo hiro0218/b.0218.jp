@@ -27,6 +27,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "fs-extra": "^9.1.0",
+    "next-react-svg": "^1.1.2",
     "postcss": "^8.2.8",
     "postcss-calc": "^8.0.0",
     "postcss-custom-media": "^8.0.0",
