@@ -4,8 +4,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import path from 'path';
 
-import Layout from '../../components/layout';
-import { Terms, TermsPostLits } from '../../types/source';
+import Layout from '@/components/layout';
+import { Terms, TermsPostLits } from '@/types/source';
 
 interface Props {
   title: string;

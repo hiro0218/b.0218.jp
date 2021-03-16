@@ -4,10 +4,10 @@ import Head from 'next/head';
 import Link from 'next/link';
 import path from 'path';
 
-import Layout from '../components/layout';
-import { AUTHOR, SITE } from '../constant';
-import { Archives, Post as PostType } from '../types/source';
-import { getBlogPostingStructured, getBreadcrumbStructured } from '../utils/json-ld';
+import Layout from '@/components/layout';
+import { AUTHOR, SITE } from '@/constant';
+import { Archives, Post as PostType } from '@/types/source';
+import { getBlogPostingStructured, getBreadcrumbStructured } from '@/utils/json-ld';
 
 interface Props {
   post: PostType;

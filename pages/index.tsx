@@ -3,8 +3,8 @@ import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import path from 'path';
 
-import Layout from '../components/layout';
-import { TermsPostLits } from '../types/source';
+import Layout from '@/components/layout';
+import { TermsPostLits } from '@/types/source';
 
 interface Props {
   recentPosts: Array<TermsPostLits>;

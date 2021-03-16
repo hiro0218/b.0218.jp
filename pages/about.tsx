@@ -3,9 +3,9 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import path from 'path';
 
-import Layout from '../components/layout';
-import { SITE } from '../constant';
-import { Pages } from '../types/source';
+import Layout from '@/components/layout';
+import { SITE } from '@/constant';
+import { Pages } from '@/types/source';
 
 interface Props {
   page: Pages;
