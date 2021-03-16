@@ -16,7 +16,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.75;
 
-  @mixin mobile {
+  @media (--mobile-viewport) {
     font-size: 0.85rem;
   }
 }

@@ -1,0 +1,2 @@
+@custom-media --mobile-viewport (max-width: calc(960px - 1px));
+@custom-media --desktop-viewport (min-width: 960px);

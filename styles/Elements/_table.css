@@ -3,7 +3,7 @@ table {
   border: var(--table-border-width) solid var(--table-border-color);
   background: #fff;
 
-  @mixin mobile {
+  @media (--mobile-viewport) {
     min-width: 100%;
     table-layout: fixed;
   }
@@ -16,7 +16,7 @@ td {
   border-top: var(--table-border-width) solid var(--table-border-color);
   vertical-align: top;
 
-  @mixin mobile {
+  @media (--mobile-viewport) {
     white-space: nowrap;
   }
 }
