@@ -32,5 +32,6 @@ module.exports = {
     'declaration-block-semicolon-space-after': 'always-single-line',
     'no-extra-semicolons': true,
     'no-missing-end-of-source-newline': true,
+    'at-rule-no-unknown': [true, { ignoreAtRules: ['extend'] }],
   },
 };
