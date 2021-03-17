@@ -148,7 +148,7 @@
   }
 }
 
-.p-post-pager {
+.p-post__pager {
   max-width: var(--desktop-width);
   margin: 0 auto;
 }

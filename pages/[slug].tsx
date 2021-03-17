@@ -5,6 +5,7 @@ import Link from 'next/link';
 import path from 'path';
 
 import Layout from '@/components/layout';
+import Pager from '@/components/Pager';
 import { AUTHOR, SITE } from '@/constant';
 import { Archives, Post as PostType } from '@/types/source';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '@/utils/json-ld';
@@ -81,21 +82,8 @@ const Post = ({ post }: Props) => {
           />
         </article>
 
-        <div className="p-post-pager">
-          <nav>
-            <ul>
-              {Object.keys(post.prev).length !== 0 && (
-                <li>
-                  <Link href={post.prev.path}>{post.prev.title}</Link>
-                </li>
-              )}
-              {Object.keys(post.next).length !== 0 && (
-                <li>
-                  <Link href={post.next.path}>{post.next.title}</Link>
-                </li>
-              )}
-            </ul>
-          </nav>
+        <div className="p-post__pager">
+          <Pager next={post.next} prev={post.prev} />
         </div>
       </Layout>
     </>
