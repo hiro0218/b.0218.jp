@@ -50,7 +50,7 @@ const Post = ({ post }: Props) => {
       </Head>
 
       <Layout>
-        <article>
+        <article className="p-post">
           <h1>{post.title}</h1>
 
           {post.categories.length !== 0 && (
@@ -74,13 +74,14 @@ const Post = ({ post }: Props) => {
           )}
 
           <div
+            className="p-post__content"
             dangerouslySetInnerHTML={{
               __html: `${post.content}`,
             }}
           />
         </article>
 
-        <div>
+        <div className="p-post-pager">
           <nav>
             <ul>
               {Object.keys(post.prev).length !== 0 && (

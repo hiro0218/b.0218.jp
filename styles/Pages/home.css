@@ -1,0 +1,4 @@
+.p-home {
+  max-width: var(--desktop-width);
+  margin: 0 auto;
+}

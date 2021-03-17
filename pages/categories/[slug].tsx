@@ -22,13 +22,15 @@ const Categories = ({ title, posts }: Props) => {
       </Head>
 
       <Layout>
-        <ul>
-          {posts.map((post, index: number) => (
-            <li key={index}>
-              <Link href={'/' + post.path}>{post.title}</Link>
-            </li>
-          ))}
-        </ul>
+        <section className="p-term">
+          <ul>
+            {posts.map((post, index: number) => (
+              <li key={index}>
+                <Link href={'/' + post.path}>{post.title}</Link>
+              </li>
+            ))}
+          </ul>
+        </section>
       </Layout>
     </>
   );

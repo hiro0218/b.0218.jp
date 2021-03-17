@@ -20,14 +20,16 @@ const Archive = ({ archives }: Props) => {
       </Head>
 
       <Layout>
-        <h1>Archive page</h1>
-        <ul>
-          {archives.map((archive, index: number) => (
-            <li key={index}>
-              <Link href={'/' + archive.path}>{archive.title}</Link>
-            </li>
-          ))}
-        </ul>
+        <article className="p-archive">
+          <h1>Archive page</h1>
+          <ul>
+            {archives.map((archive, index: number) => (
+              <li key={index}>
+                <Link href={'/' + archive.path}>{archive.title}</Link>
+              </li>
+            ))}
+          </ul>
+        </article>
       </Layout>
     </>
   );
