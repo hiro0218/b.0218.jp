@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import path from 'path';
 
-import Layout from '@/components/Layout';
+import PageContainer from '@/components/layout/PageContainer';
 import styleHoverCard from '@/styles/Components/hover-card.module.css';
 import { Terms, TermsPostLits } from '@/types/source';
 
@@ -20,7 +20,7 @@ const Tags = ({ title, posts }: Props) => {
         <title key="title">{title}</title>
       </Head>
 
-      <Layout>
+      <PageContainer>
         <section className="p-term">
           <section className="p-term-section">
             <header className="l-section-header">
@@ -41,7 +41,7 @@ const Tags = ({ title, posts }: Props) => {
             </ul>
           </section>
         </section>
-      </Layout>
+      </PageContainer>
     </>
   );
 };

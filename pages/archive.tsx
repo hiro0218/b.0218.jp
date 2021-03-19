@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import path from 'path';
 
-import Layout from '@/components/Layout';
+import PageContainer from '@/components/layout/PageContainer';
 import { SITE } from '@/constant';
 import styleHoverCard from '@/styles/Components/hover-card.module.css';
 import { Archives } from '@/types/source';
@@ -20,7 +20,7 @@ const Archive = ({ archives }: Props) => {
         <title key="title">Archive - {SITE.NAME}</title>
       </Head>
 
-      <Layout>
+      <PageContainer>
         <article className="p-archive">
           <header className="l-section-header">
             <h1 className="c-heading">Archive</h1>
@@ -39,7 +39,7 @@ const Archive = ({ archives }: Props) => {
             ))}
           </ul>
         </article>
-      </Layout>
+      </PageContainer>
     </>
   );
 };

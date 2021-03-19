@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import path from 'path';
 
-import Layout from '@/components/Layout';
+import PageContainer from '@/components/layout/PageContainer';
 import { SITE } from '@/constant';
 import { Pages } from '@/types/source';
 
@@ -18,7 +18,7 @@ const About = ({ page }: Props) => {
         <title key="title">サイトについて - {SITE.NAME}</title>
       </Head>
 
-      <Layout>
+      <PageContainer>
         <article className="p-post">
           <header className="l-section-header">
             <h1 className="c-heading">{page.title}</h1>
@@ -31,7 +31,7 @@ const About = ({ page }: Props) => {
             }}
           />
         </article>
-      </Layout>
+      </PageContainer>
     </>
   );
 };

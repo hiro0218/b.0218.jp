@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import path from 'path';
 
-import Layout from '@/components/Layout';
+import PageContainer from '@/components/layout/PageContainer';
 import { SITE } from '@/constant';
 import styleHoverCard from '@/styles/Components/hover-card.module.css';
 import { Terms, TermsPostLits } from '@/types/source';
@@ -23,7 +23,7 @@ const Categories = ({ title, posts }: Props) => {
         </title>
       </Head>
 
-      <Layout>
+      <PageContainer>
         <section className="p-term">
           <section className="p-term-section">
             <header className="l-section-header">
@@ -44,7 +44,7 @@ const Categories = ({ title, posts }: Props) => {
             </ul>
           </section>
         </section>
-      </Layout>
+      </PageContainer>
     </>
   );
 };

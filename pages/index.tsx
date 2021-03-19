@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import path from 'path';
 
-import Layout from '@/components/Layout';
+import PageContainer from '@/components/layout/PageContainer';
 import styleHoverCard from '@/styles/Components/hover-card.module.css';
 import { TermsPostLits } from '@/types/source';
 
@@ -15,7 +15,7 @@ interface Props {
 const Home = ({ recentPosts, updatesPosts }: Props) => {
   return (
     <>
-      <Layout>
+      <PageContainer>
         <section className="p-home">
           <section className="p-home-section">
             <header className="l-section-header">
@@ -53,7 +53,7 @@ const Home = ({ recentPosts, updatesPosts }: Props) => {
             </ul>
           </section>
         </section>
-      </Layout>
+      </PageContainer>
     </>
   );
 };

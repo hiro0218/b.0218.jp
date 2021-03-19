@@ -1,4 +1,4 @@
-const Layout = ({ children }) => {
+const PageContainer = ({ children }) => {
   return (
     <div className="l-container" style={{ minHeight: '100vh' }}>
       {children}
@@ -6,4 +6,4 @@ const Layout = ({ children }) => {
   );
 };
 
-export default Layout;
+export default PageContainer;

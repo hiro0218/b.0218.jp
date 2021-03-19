@@ -3,7 +3,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import path from 'path';
 
-import Layout from '@/components/Layout';
+import PageContainer from '@/components/layout/PageContainer';
 import Pager from '@/components/Pager';
 import PostDate from '@/components/PostDate';
 import PostTerm from '@/components/PostTerm';
@@ -51,7 +51,7 @@ const Post = ({ post }: Props) => {
         />
       </Head>
 
-      <Layout>
+      <PageContainer>
         <article className="p-post">
           <header className="l-section-header">
             <h1 className="c-heading">{post.title}</h1>
@@ -70,7 +70,7 @@ const Post = ({ post }: Props) => {
         <div className="p-post__pager">
           <Pager next={post.next} prev={post.prev} />
         </div>
-      </Layout>
+      </PageContainer>
     </>
   );
 };
