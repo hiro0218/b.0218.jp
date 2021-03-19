@@ -18,10 +18,10 @@ const Home = ({ recentPosts, updatesPosts }: Props) => {
       <Layout>
         <section className="p-home">
           <section className="p-home-section">
-            <header>
+            <header className="l-section-header">
               <h2 className="c-heading">Recent Articles</h2>
             </header>
-            <ul>
+            <ul className="p-home-section__contents">
               {recentPosts.map((post, index: number) => (
                 <li key={index}>
                   <Link href={'/' + post.path}>
@@ -36,10 +36,10 @@ const Home = ({ recentPosts, updatesPosts }: Props) => {
           </section>
 
           <section className="p-home-section">
-            <header>
+            <header className="l-section-header">
               <h2 className="c-heading">Updated Articles</h2>
             </header>
-            <ul>
+            <ul className="p-home-section__contents">
               {updatesPosts.map((post, index: number) => (
                 <li key={index}>
                   <Link href={'/' + post.path}>

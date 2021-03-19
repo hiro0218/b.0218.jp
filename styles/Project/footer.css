@@ -1,4 +1,5 @@
 .pj-footer {
+  margin-top: calc(var(--margin-base) * 4);
   padding: 3rem 0;
   background: var(--bg-color);
   color: var(--color-text--light);

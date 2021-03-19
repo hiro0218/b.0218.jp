@@ -20,7 +20,7 @@ const About = ({ page }: Props) => {
 
       <Layout>
         <article className="p-post">
-          <header>
+          <header className="l-section-header">
             <h1 className="c-heading">{page.title}</h1>
           </header>
 

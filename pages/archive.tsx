@@ -22,7 +22,7 @@ const Archive = ({ archives }: Props) => {
 
       <Layout>
         <article className="p-archive">
-          <header>
+          <header className="l-section-header">
             <h1 className="c-heading">Archive</h1>
           </header>
 

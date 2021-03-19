@@ -1,10 +1,9 @@
 .p-post {
-  max-width: var(--desktop-width);
-  margin: 0 auto;
+
 }
 
 .p-post__content {
-  margin: calc(var(--margin-base) * 3) auto;
+  margin: calc(var(--margin-base) * 3) auto 0;
 
   a {
     text-decoration-line: underline;
@@ -149,6 +148,5 @@
 }
 
 .p-post__pager {
-  max-width: var(--desktop-width);
-  margin: 0 auto;
+  margin-top: calc(var(--margin-base) * 2);
 }

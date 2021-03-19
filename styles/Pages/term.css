@@ -1,4 +1,11 @@
 .p-term {
-  max-width: var(--desktop-width);
-  margin: 0 auto;
+
+}
+
+.p-term-section {
+  margin-top: var(--margin-base);
+
+  &__contents {
+    margin-top: calc(var(--margin-base) / 2);
+  }
 }

@@ -53,7 +53,7 @@ const Post = ({ post }: Props) => {
 
       <Layout>
         <article className="p-post">
-          <header>
+          <header className="l-section-header">
             <h1 className="c-heading">{post.title}</h1>
             <PostDate date={post.date} updated={post.updated} />
             <PostTerm categories={post.categories} tags={post.tags} />

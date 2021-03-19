@@ -25,22 +25,24 @@ const Categories = ({ title, posts }: Props) => {
 
       <Layout>
         <section className="p-term">
-          <header>
-            <h1 className="c-heading">{title}</h1>
-          </header>
+          <section className="p-term-section">
+            <header className="l-section-header">
+              <h1 className="c-heading">{title}</h1>
+            </header>
 
-          <ul>
-            {posts.map((post, index: number) => (
-              <li key={index}>
-                <Link href={'/' + post.path}>
-                  <a className={styleHoverCard['hover-card']}>
-                    <h3 className={styleHoverCard['hover-card__title']}>{post.title}</h3>
-                    <div className={styleHoverCard['hover-card__text']}>{post.excerpt}</div>
-                  </a>
-                </Link>
-              </li>
-            ))}
-          </ul>
+            <ul className="p-term-section__contents">
+              {posts.map((post, index: number) => (
+                <li key={index}>
+                  <Link href={'/' + post.path}>
+                    <a className={styleHoverCard['hover-card']}>
+                      <h3 className={styleHoverCard['hover-card__title']}>{post.title}</h3>
+                      <div className={styleHoverCard['hover-card__text']}>{post.excerpt}</div>
+                    </a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
         </section>
       </Layout>
     </>
