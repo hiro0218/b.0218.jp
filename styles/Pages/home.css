@@ -2,3 +2,10 @@
   max-width: var(--desktop-width);
   margin: 0 auto;
 }
+
+.p-home-section {
+
+  &:not(:first-child) {
+    margin-top: var(--margin-base);
+  }
+}
