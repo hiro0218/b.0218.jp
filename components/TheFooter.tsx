@@ -5,7 +5,7 @@ import Logo from '@/images/logo.svg';
 const TheFooter = () => {
   return (
     <footer className="pj-footer">
-      <div className="o-container">
+      <div className="l-container">
         <div className="pj-footer__logo">
           <Logo />
         </div>

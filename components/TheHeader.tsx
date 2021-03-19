@@ -5,7 +5,7 @@ import Logo from '@/images/logo.svg';
 const TheHeader = () => {
   return (
     <header className="pj-header">
-      <div className="pj-header-container">
+      <div className="l-container pj-header-container">
         <Link href="/">
           <a className="pj-header__logo">
             <Logo />

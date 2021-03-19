@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import path from 'path';
 
-import Layout from '@/components/layout';
+import Layout from '@/components/Layout';
 import styleHoverCard from '@/styles/Components/hover-card.module.css';
 import { Terms, TermsPostLits } from '@/types/source';
 

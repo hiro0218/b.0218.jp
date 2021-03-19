@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import path from 'path';
 
-import Layout from '@/components/layout';
+import Layout from '@/components/Layout';
 import styleHoverCard from '@/styles/Components/hover-card.module.css';
 import { TermsPostLits } from '@/types/source';
 

@@ -1,0 +1,12 @@
+.l-container {
+  margin: 0 auto;
+
+  @media (--desktop-viewport) {
+    max-width: var(--desktop-width);
+  }
+
+  @media (--mobile-viewport) {
+    max-width: var(--max-width);
+    padding: 0 5vw;
+  }
+}

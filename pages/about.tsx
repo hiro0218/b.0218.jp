@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import path from 'path';
 
-import Layout from '@/components/layout';
+import Layout from '@/components/Layout';
 import { SITE } from '@/constant';
 import { Pages } from '@/types/source';
 

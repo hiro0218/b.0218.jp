@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import path from 'path';
 
-import Layout from '@/components/layout';
+import Layout from '@/components/Layout';
 import { SITE } from '@/constant';
 import styleHoverCard from '@/styles/Components/hover-card.module.css';
 import { Archives } from '@/types/source';

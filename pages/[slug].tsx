@@ -3,7 +3,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import path from 'path';
 
-import Layout from '@/components/layout';
+import Layout from '@/components/Layout';
 import Pager from '@/components/Pager';
 import PostDate from '@/components/PostDate';
 import PostTerm from '@/components/PostTerm';
