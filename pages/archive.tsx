@@ -6,6 +6,7 @@ import path from 'path';
 
 import Layout from '@/components/layout';
 import { SITE } from '@/constant';
+import styleHoverCard from '@/styles/Components/hover-card.module.css';
 import { Archives } from '@/types/source';
 
 interface Props {
@@ -28,7 +29,12 @@ const Archive = ({ archives }: Props) => {
           <ul>
             {archives.map((archive, index: number) => (
               <li key={index}>
-                <Link href={'/' + archive.path}>{archive.title}</Link>
+                <Link href={'/' + archive.path}>
+                  <a className={styleHoverCard['hover-card']}>
+                    <h2 className={styleHoverCard['hover-card__title']}>{archive.title}</h2>
+                    <div className={styleHoverCard['hover-card__text']}>{archive.excerpt}</div>
+                  </a>
+                </Link>
               </li>
             ))}
           </ul>

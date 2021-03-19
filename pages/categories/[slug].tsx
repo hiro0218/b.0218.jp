@@ -6,7 +6,9 @@ import path from 'path';
 
 import Layout from '@/components/layout';
 import { SITE } from '@/constant';
+import styleHoverCard from '@/styles/Components/hover-card.module.css';
 import { Terms, TermsPostLits } from '@/types/source';
+
 interface Props {
   title: string;
   posts: Array<TermsPostLits>;
@@ -30,7 +32,12 @@ const Categories = ({ title, posts }: Props) => {
           <ul>
             {posts.map((post, index: number) => (
               <li key={index}>
-                <Link href={'/' + post.path}>{post.title}</Link>
+                <Link href={'/' + post.path}>
+                  <a className={styleHoverCard['hover-card']}>
+                    <h3 className={styleHoverCard['hover-card__title']}>{post.title}</h3>
+                    <div className={styleHoverCard['hover-card__text']}>{post.excerpt}</div>
+                  </a>
+                </Link>
               </li>
             ))}
           </ul>
