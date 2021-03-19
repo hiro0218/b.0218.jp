@@ -1,0 +1,6 @@
+.c-heading {
+  color: var(--color-text-heading);
+  font-weight: 700;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+}

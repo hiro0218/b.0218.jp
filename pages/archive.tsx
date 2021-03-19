@@ -21,7 +21,10 @@ const Archive = ({ archives }: Props) => {
 
       <Layout>
         <article className="p-archive">
-          <h1>Archive page</h1>
+          <header>
+            <h1 className="c-heading">Archive</h1>
+          </header>
+
           <ul>
             {archives.map((archive, index: number) => (
               <li key={index}>

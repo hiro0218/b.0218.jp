@@ -16,23 +16,31 @@ const Home = ({ recentPosts, updatesPosts }: Props) => {
     <>
       <Layout>
         <section className="p-home">
-          <h2>Recent Articles</h2>
-          <ul>
-            {recentPosts.map((post, index: number) => (
-              <li key={index}>
-                <Link href={'/' + post.path}>{post.title}</Link>
-              </li>
-            ))}
-          </ul>
-          <hr />
-          <h2>Updated Articles</h2>
-          <ul>
-            {updatesPosts.map((post, index: number) => (
-              <li key={index}>
-                <Link href={'/' + post.path}>{post.title}</Link>
-              </li>
-            ))}
-          </ul>
+          <section>
+            <header>
+              <h2 className="c-heading">Recent Articles</h2>
+            </header>
+            <ul>
+              {recentPosts.map((post, index: number) => (
+                <li key={index}>
+                  <Link href={'/' + post.path}>{post.title}</Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section>
+            <header>
+              <h2 className="c-heading">Updated Articles</h2>
+            </header>
+            <ul>
+              {updatesPosts.map((post, index: number) => (
+                <li key={index}>
+                  <Link href={'/' + post.path}>{post.title}</Link>
+                </li>
+              ))}
+            </ul>
+          </section>
         </section>
       </Layout>
     </>

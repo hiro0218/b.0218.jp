@@ -1,11 +1,12 @@
 import fs from 'fs-extra';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import path from 'path';
 
 import Layout from '@/components/layout';
 import Pager from '@/components/Pager';
+import PostDate from '@/components/PostDate';
+import PostTerm from '@/components/PostTerm';
 import { AUTHOR, SITE } from '@/constant';
 import { Archives, Post as PostType } from '@/types/source';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '@/utils/json-ld';
@@ -52,27 +53,11 @@ const Post = ({ post }: Props) => {
 
       <Layout>
         <article className="p-post">
-          <h1>{post.title}</h1>
-
-          {post.categories.length !== 0 && (
-            <ul>
-              {post.categories.map((category, index) => (
-                <li key={index}>
-                  <Link href={'/' + category.path}>{category.name}</Link>
-                </li>
-              ))}
-            </ul>
-          )}
-
-          {post.tags.length !== 0 && (
-            <ul>
-              {post.tags.map((tag, index) => (
-                <li key={index}>
-                  <Link href={'/' + tag.path}>{tag.name}</Link>
-                </li>
-              ))}
-            </ul>
-          )}
+          <header>
+            <h1 className="c-heading">{post.title}</h1>
+            <PostDate date={post.date} updated={post.updated} />
+            <PostTerm categories={post.categories} tags={post.tags} />
+          </header>
 
           <div
             className="p-post__content"

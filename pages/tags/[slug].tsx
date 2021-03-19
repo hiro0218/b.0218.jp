@@ -21,6 +21,10 @@ const Tags = ({ title, posts }: Props) => {
 
       <Layout>
         <section className="p-term">
+          <header>
+            <h1 className="c-heading">{title}</h1>
+          </header>
+
           <ul>
             {posts.map((post, index: number) => (
               <li key={index}>
