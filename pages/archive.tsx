@@ -8,12 +8,36 @@ import PageContainer from '@/components/layout/PageContainer';
 import { SITE } from '@/constant';
 import styleHoverCard from '@/styles/Components/hover-card.module.css';
 import { Archives } from '@/types/source';
+import { convertDateToSimpleFormat } from '@/utils/date';
 
 interface Props {
   archives: Array<Archives>;
 }
 
+const divideByYearArchive = (archives: Array<Archives>) => {
+  const formatArchives = {};
+
+  for (let i = 0; i < archives.length; i++) {
+    const post = archives[i];
+
+    // 日付を取得する
+    const date = new Date(post.date);
+    const year = date.getFullYear().toString() + ' ';
+
+    // 配列で初期化
+    if (!Array.isArray(formatArchives[year])) {
+      formatArchives[year] = [];
+    }
+
+    formatArchives[year].push(post);
+  }
+
+  return formatArchives;
+};
+
 const Archive = ({ archives }: Props) => {
+  const posts = divideByYearArchive(archives);
+
   return (
     <>
       <Head>
@@ -26,18 +50,34 @@ const Archive = ({ archives }: Props) => {
             <h1 className="c-heading">Archive</h1>
           </header>
 
-          <ul>
-            {archives.map((archive, index: number) => (
-              <li key={index}>
-                <Link href={'/' + archive.path}>
-                  <a className={styleHoverCard['hover-card']}>
-                    <h2 className={styleHoverCard['hover-card__title']}>{archive.title}</h2>
-                    <div className={styleHoverCard['hover-card__text']}>{archive.excerpt}</div>
-                  </a>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <section className="p-archive__contents">
+            {Object.keys(posts).map((key: string) => {
+              return (
+                <div key={key} className="archive-list">
+                  <div className="archive-year">
+                    <h2 className="archive-year__title">{key}</h2>
+                  </div>
+                  <ul className="archive-post">
+                    {posts[key].map((post: Archives, index: number) => {
+                      return (
+                        <li key={index}>
+                          <Link href={'/' + post.path}>
+                            <a className={styleHoverCard['hover-card']}>
+                              <h2 className={styleHoverCard['hover-card__title']}>{post.title}</h2>
+                              <div className={styleHoverCard['hover-card__text']}>
+                                <time dateTime={post.date}>{convertDateToSimpleFormat(post.date)}: </time>
+                                {post.excerpt}
+                              </div>
+                            </a>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              );
+            })}
+          </section>
         </article>
       </PageContainer>
     </>

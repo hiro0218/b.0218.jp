@@ -1,22 +1,25 @@
 .p-archive {
 
+  &__contents {
+    margin-top: calc(var(--margin-base) / 2);
+  }
 }
 
 .archive-list {
   margin-bottom: 2rem;
 
-  @mixin desktop {
+  @media (--desktop-viewport) {
     display: flex;
   }
 }
 
 .archive-year {
-  @mixin desktop {
+  @media (--desktop-viewport) {
     margin-right: 3rem;
     padding-top: 1rem;
   }
 
-  @mixin mobile {
+  @media (--mobile-viewport) {
     margin-bottom: 1rem;
   }
 
@@ -30,6 +33,7 @@
 
 .archive-post {
   flex-grow: 1;
+  min-width: 0;
 
   &:not(:last-child) {
     margin-bottom: 2rem;
