@@ -6,6 +6,7 @@ import path from 'path';
 import PageContainer from '@/components/layout/PageContainer';
 import Pager from '@/components/Pager';
 import PostDate from '@/components/PostDate';
+import PostShare from '@/components/PostShare';
 import PostTerm from '@/components/PostTerm';
 import { AUTHOR, SITE } from '@/constant';
 import { Archives, Post as PostType } from '@/types/source';
@@ -66,6 +67,10 @@ const Post = ({ post }: Props) => {
             }}
           />
         </article>
+
+        <div className="p-post__share">
+          <PostShare title={post.title} url={SITE.URL + post.path} />
+        </div>
 
         <div className="p-post__pager">
           <Pager next={post.next} prev={post.prev} />

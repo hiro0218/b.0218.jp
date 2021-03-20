@@ -147,6 +147,10 @@
   }
 }
 
+.p-post__share {
+  margin-top: calc(var(--margin-base) * 1.5);
+}
+
 .p-post__pager {
   margin-top: calc(var(--margin-base) * 2);
 }
