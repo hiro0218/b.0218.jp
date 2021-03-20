@@ -8,7 +8,7 @@ const TheHeader = () => {
       <div className="l-container pj-header-container">
         <Link href="/">
           <a className="pj-header__logo">
-            <Logo />
+            <Logo width="5rem" />
           </a>
         </Link>
       </div>
