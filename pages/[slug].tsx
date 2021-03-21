@@ -2,6 +2,7 @@ import fs from 'fs-extra';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import path from 'path';
+import React, { useEffect } from 'react';
 
 import PageContainer from '@/components/layout/PageContainer';
 import Pager from '@/components/Pager';
@@ -11,6 +12,7 @@ import PostTerm from '@/components/PostTerm';
 import { AUTHOR, SITE } from '@/constant';
 import { Archives, Post as PostType } from '@/types/source';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '@/utils/json-ld';
+import { mokuji } from '@/utils/mokuji';
 
 interface Props {
   post: PostType;
@@ -24,6 +26,11 @@ const getOgImagePath = (slug: string): string => {
 };
 
 const Post = ({ post }: Props) => {
+  useEffect(() => {
+    const postContent = document.querySelector('.js-post-content');
+    mokuji(postContent);
+  });
+
   return (
     <>
       <Head>
@@ -61,7 +68,7 @@ const Post = ({ post }: Props) => {
           </header>
 
           <div
-            className="p-post__content"
+            className="p-post__content js-post-content"
             dangerouslySetInnerHTML={{
               __html: `${post.content}`,
             }}
