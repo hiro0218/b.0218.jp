@@ -11,6 +11,7 @@ import PostShare from '@/components/PostShare';
 import PostTerm from '@/components/PostTerm';
 import { AUTHOR, SITE } from '@/constant';
 import { Archives, Post as PostType } from '@/types/source';
+import filteredPost from '@/utils/filteredPost';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '@/utils/json-ld';
 import { mokuji } from '@/utils/mokuji';
 
@@ -113,6 +114,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const postData: PostType = posts.find((post) => {
     return post.path === context.params.slug;
   });
+
+  // SSG時に処理する
+  postData.content = filteredPost(postData.content);
 
   return {
     props: {
