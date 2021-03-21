@@ -10,12 +10,6 @@ import Mokuji from 'mokuji.js';
 //   </details>
 // </div>
 export const mokuji = (content: Element): void => {
-  const separate = document.querySelector('.js-separate');
-  const container = separate ? separate : content;
-  container.insertAdjacentHTML(
-    'afterbegin',
-    '<div class="c-mokuji js-mokuji"><details><summary></summary></details></div>',
-  );
   const details = content.querySelector('.js-mokuji details');
 
   if (details) {

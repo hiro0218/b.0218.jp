@@ -27,6 +27,10 @@ const filteredPost = (content: string) => {
     $(element).wrap($('<div class="p-post-table-container"></div>'));
   });
 
+  // 目次用のラッパー(details/summary)を挿入する
+  const $mokujiContainer = $('.js-separate').length !== 0 ? $('.js-separate') : $.root();
+  $mokujiContainer.prepend('<div class="c-mokuji js-mokuji"><details><summary></summary></details></div>');
+
   return $.html();
 };
 
