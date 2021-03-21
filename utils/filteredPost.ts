@@ -22,6 +22,11 @@ const filteredPost = (content: string) => {
     }
   });
 
+  // wrap table
+  $('table').each((_, element) => {
+    $(element).wrap($('<div class="p-post-table-container"></div>'));
+  });
+
   return $.html();
 };
 

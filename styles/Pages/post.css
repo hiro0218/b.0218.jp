@@ -147,6 +147,13 @@
   }
 }
 
+.p-post-table-container {
+  margin: calc(var(--margin-base) * 2) 0;
+  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .p-post__share {
   margin-top: calc(var(--margin-base) * 1.5);
 }
