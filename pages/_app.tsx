@@ -3,6 +3,8 @@ import '../styles/index.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
+import TheFooter from '@/components/TheFooter';
+import TheHeader from '@/components/TheHeader';
 import { AUTHOR, SITE } from '@/constant';
 
 const App = ({ Component, pageProps }: AppProps) => {
@@ -27,7 +29,10 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta name="format-detection" content="telephone=no" />
         <meta name="author" content={AUTHOR.NAME} />
       </Head>
+
+      <TheHeader />
       <Component {...pageProps} />
+      <TheFooter />
     </>
   );
 };
