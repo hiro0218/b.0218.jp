@@ -40,7 +40,7 @@ const initUnpinHeader = () => {
     () => {
       handleScroll(elHeader, headerHeight);
     },
-    { passive: false },
+    { passive: true },
   );
 };
 
