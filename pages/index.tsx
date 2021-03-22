@@ -6,6 +6,7 @@ import path from 'path';
 import PageContainer from '@/components/layout/PageContainer';
 import styleHoverCard from '@/styles/Components/hover-card.module.css';
 import { TermsPostLits } from '@/types/source';
+import { convertDateToSimpleFormat } from '@/utils/date';
 
 interface Props {
   recentPosts: Array<TermsPostLits>;
@@ -27,7 +28,10 @@ const Home = ({ recentPosts, updatesPosts }: Props) => {
                   <Link href={'/' + post.path}>
                     <a className={styleHoverCard['hover-card']}>
                       <h3 className={styleHoverCard['hover-card__title']}>{post.title}</h3>
-                      <div className={styleHoverCard['hover-card__text']}>{post.excerpt}</div>
+                      <div className={styleHoverCard['hover-card__text']}>
+                        <time dateTime={post.date}>{convertDateToSimpleFormat(post.date)}: </time>
+                        {post.excerpt}
+                      </div>
                     </a>
                   </Link>
                 </li>
@@ -45,7 +49,10 @@ const Home = ({ recentPosts, updatesPosts }: Props) => {
                   <Link href={'/' + post.path}>
                     <a className={styleHoverCard['hover-card']}>
                       <h3 className={styleHoverCard['hover-card__title']}>{post.title}</h3>
-                      <div className={styleHoverCard['hover-card__text']}>{post.excerpt}</div>
+                      <div className={styleHoverCard['hover-card__text']}>
+                        <time dateTime={post.date}>{convertDateToSimpleFormat(post.date)}: </time>
+                        {post.excerpt}
+                      </div>
                     </a>
                   </Link>
                 </li>
