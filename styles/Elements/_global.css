@@ -2,10 +2,6 @@
   background-color: rgba(0,0,0,0.1);
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   padding-top: var(--header-height);
   color: var(--color-text);
