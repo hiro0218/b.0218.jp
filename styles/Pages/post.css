@@ -52,11 +52,11 @@
   }
 
   h2 {
-    margin: calc(var(--margin-base) * 2.5) auto  calc(var(--margin-base) * 1.5);
+    margin: calc(var(--margin-base) * 2) auto  calc(var(--margin-base) * 1);
   }
 
   h3 {
-    margin: calc(var(--margin-base) * 2) auto calc(var(--margin-base) * 1);
+    margin: calc(var(--margin-base) * 1.75) auto calc(var(--margin-base) * 0.75);
   }
 
   h4,
