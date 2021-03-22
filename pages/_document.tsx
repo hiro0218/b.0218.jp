@@ -1,7 +1,5 @@
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 
-import TheFooter from '@/components/TheFooter';
-import TheHeader from '@/components/TheHeader';
 class SampleDocument extends Document {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx);
@@ -27,9 +25,7 @@ class SampleDocument extends Document {
           <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" />
         </Head>
         <body>
-          <TheHeader />
           <Main />
-          <TheFooter />
           <NextScript />
         </body>
       </Html>
