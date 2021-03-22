@@ -7,7 +7,11 @@ const TheFooter = () => {
     <footer className="pj-footer">
       <div className="l-container">
         <div className="pj-footer__logo">
-          <Logo />
+          <Link href="/">
+            <a>
+              <Logo />
+            </a>
+          </Link>
         </div>
         <div className="pj-footer-menu">
           <ul className="u-list-unstyled pj-footer-menu__list">
