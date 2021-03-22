@@ -15,6 +15,16 @@ import filteredPost from '@/utils/filteredPost';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '@/utils/json-ld';
 import { mokuji } from '@/utils/mokuji';
 
+declare global {
+  interface Window {
+    twttr?: {
+      widgets: {
+        load: (el: HTMLElement) => void;
+      };
+    };
+  }
+}
+
 interface Props {
   post: PostType;
 }
@@ -28,8 +38,9 @@ const getOgImagePath = (slug: string): string => {
 
 const Post = ({ post }: Props) => {
   useEffect(() => {
-    const postContent = document.querySelector('.js-post-content');
+    const postContent = document.querySelector<HTMLDivElement>('.js-post-content');
     mokuji(postContent);
+    if (window.twttr) window.twttr.widgets.load(postContent);
   });
 
   return (
@@ -49,7 +60,6 @@ const Post = ({ post }: Props) => {
         <meta key="og:image" property="og:image" content={getOgImagePath(post.path)} />
         <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
         <link rel="canonical" href={SITE.URL + post.path} />
-
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(getBlogPostingStructured(post)) }}
@@ -58,6 +68,7 @@ const Post = ({ post }: Props) => {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(getBreadcrumbStructured(post)) }}
         />
+        <script async src="https://platform.twitter.com/widgets.js"></script>
       </Head>
 
       <PageContainer>
