@@ -1,5 +1,7 @@
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 
+import { existsGaId, GA_TRACKING_ID } from '@/lib/gtag';
+
 class SampleDocument extends Document {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx);
@@ -23,6 +25,24 @@ class SampleDocument extends Document {
           <link rel="alternate" type="application/atom+xml" href="https://b.0218.jp/atom.xml" />
           <link rel="alternate" type="application/json" href="https://b.0218.jp/feed.json" />
           <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" />
+
+          {existsGaId && (
+            <>
+              <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
+              <script
+                dangerouslySetInnerHTML={{
+                  __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${GA_TRACKING_ID}', {
+                      page_path: window.location.pathname,
+                    });
+                  `,
+                }}
+              />
+            </>
+          )}
         </Head>
         <body>
           <Main />

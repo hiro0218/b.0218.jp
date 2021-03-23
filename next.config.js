@@ -4,6 +4,10 @@ const path = require('path');
 module.exports = withReactSvg({
   include: path.resolve(__dirname, 'images'),
 
+  env: {
+    NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'UA-50805440-1',
+  },
+
   async rewrites() {
     return [
       {

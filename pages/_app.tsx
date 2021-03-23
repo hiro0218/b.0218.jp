@@ -6,8 +6,11 @@ import Head from 'next/head';
 import TheFooter from '@/components/TheFooter';
 import TheHeader from '@/components/TheHeader';
 import { AUTHOR, SITE } from '@/constant';
+import usePageView from '@/hooks/usePageView';
 
 const App = ({ Component, pageProps }: AppProps) => {
+  usePageView();
+
   return (
     <>
       <Head>
