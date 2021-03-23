@@ -15,16 +15,6 @@ import filteredPost from '@/utils/filteredPost';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '@/utils/json-ld';
 import { mokuji } from '@/utils/mokuji';
 
-declare global {
-  interface Window {
-    twttr?: {
-      widgets: {
-        load: (el: HTMLElement) => void;
-      };
-    };
-  }
-}
-
 interface Props {
   post: PostType;
 }
