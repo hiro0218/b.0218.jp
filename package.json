@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint {components,pages,utils}/** --ext .ts,.tsx",
-    "prepare": "husky install"
+    "lint": "eslint {components,pages,utils}/** --ext .ts,.tsx"
   },
   "dependencies": {
     "highlight.js": "^10.7.1",
