@@ -68,7 +68,7 @@ const Post = ({ post }: Props) => {
             <PostDate date={post.date} updated={post.updated} />
             <PostTerm categories={post.categories} tags={post.tags} />
           </header>
-          {process.env.NEXT_PUBLIC_GA_ID}
+
           <div
             className="p-post__content js-post-content"
             dangerouslySetInnerHTML={{
