@@ -1,0 +1,9 @@
+.c-adsense {
+  max-width: 336px;
+  height: 280px;
+  margin: 2rem auto;
+
+  @media (--mobile-viewport) {
+    min-height: 100px;
+  }
+}

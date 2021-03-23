@@ -4,6 +4,7 @@ import Head from 'next/head';
 import path from 'path';
 import React, { useEffect } from 'react';
 
+import Adsense, { GOOGLE_ADSENSE } from '@/components/Adsense';
 import PageContainer from '@/components/layout/PageContainer';
 import Pager from '@/components/Pager';
 import PostDate from '@/components/PostDate';
@@ -58,6 +59,11 @@ const Post = ({ post }: Props) => {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(getBreadcrumbStructured(post)) }}
         />
+        <script
+          data-ad-client={GOOGLE_ADSENSE.CLIENT}
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+        ></script>
         <script async src="https://platform.twitter.com/widgets.js"></script>
       </Head>
 
@@ -68,6 +74,8 @@ const Post = ({ post }: Props) => {
             <PostDate date={post.date} updated={post.updated} />
             <PostTerm categories={post.categories} tags={post.tags} />
           </header>
+
+          <Adsense />
 
           <div
             className="p-post__content js-post-content"
