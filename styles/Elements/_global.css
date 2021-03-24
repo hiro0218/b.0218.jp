@@ -13,6 +13,10 @@ body {
   @media (--mobile-viewport) {
     font-size: 0.95rem;
   }
+
+  &.is-no-scroll {
+    overflow: hidden!important;
+  }
 }
 
 a {
