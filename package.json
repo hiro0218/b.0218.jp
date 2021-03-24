@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint {components,pages,utils}/** --ext .ts,.tsx"
+    "lint": "eslint {components,hooks,lib,pages,utils}/** --ext .ts,.tsx",
+    "pregenerate": "git submodule update --remote && node ./output.js"
   },
   "dependencies": {
     "highlight.js": "^10.7.1",
