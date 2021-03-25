@@ -57,12 +57,7 @@ const Search = ({ isOpen = false, toggleHandler }: Props) => {
   };
 
   return (
-    <div
-      className={isOpen ? 'is-open-search' : ''}
-      style={{
-        display: isOpen ? 'block' : 'none',
-      }}
-    >
+    <div className={isOpen ? 'is-open-search' : ''}>
       <div className={style['c-search']}>
         <div className={style['c-search-header']}>
           <label className={style['c-search-header__icon']} htmlFor="search-input">

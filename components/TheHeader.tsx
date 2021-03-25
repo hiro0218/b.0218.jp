@@ -79,7 +79,7 @@ const TheHeader = () => {
           </button>
         </div>
       </header>
-      <Search isOpen={isOpen} toggleHandler={toggleModal} />
+      {isOpen && <Search isOpen={isOpen} toggleHandler={toggleModal} />}
     </>
   );
 };
