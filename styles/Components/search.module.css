@@ -1,23 +1,36 @@
+@keyframes SearchFadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 .c-search {
   display: block;
   position: fixed;
-  z-index: var(--zIndex-search);
+  z-index: calc(var(--zIndex-search) * -1);
   top: 10vh;
   right: 0;
   left: 0;
   width: 50vw;
   margin: auto;
   overflow: hidden;
-  border-radius: 3px;
+  border-radius: 4px;
+  opacity: 0;
   background: #fff;
-  box-shadow: rgba(15, 15, 15, 0.05) 0 0 0 1px, rgba(15, 15, 15, 0.1) 0 5px 10px, rgba(15, 15, 15, 0.2) 0 15px 40px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
 
   @media (--mobile-viewport) {
     width: 80vw;
   }
 
-  .is-open-search & {
-    animation: fadeIn .2s;
+  &.is-open {
+    z-index: var(--zIndex-search);
+    animation: SearchFadeIn 0.1s;
+    animation-fill-mode: both;
   }
 
   &__input {
@@ -46,7 +59,8 @@
   max-height: 50vh;
   margin: 0;
   padding: 0;
-  overflow: scroll;
+  overflow-x: none;
+  overflow-y: auto;
 
   @media (--mobile-viewport) {
     max-height: 60vh;
@@ -78,10 +92,6 @@
   }
 }
 
-.c-search-body {
-  border-top: 1px solid var(--bg-color--darker);
-}
-
 .c-search-footer {
   display: flex;
   justify-content: space-between;
@@ -105,13 +115,16 @@
 
 .c-search-overlay {
   position: fixed;
-  z-index: var(--zIndex-search-overlay);
+  z-index: calc(var(--zIndex-search-overlay) * -1);
   top: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.6);
+  opacity: 0;
+  background: rgba(0,0,0,0.4);
 
-  .is-open-search & {
-    animation: fadeIn .2s;
+  &.is-open {
+    z-index: var(--zIndex-search-overlay);
+    animation: SearchFadeIn 0.2s;
+    animation-fill-mode: both;
   }
 }

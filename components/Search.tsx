@@ -17,8 +17,7 @@ const Search = ({ isOpen = false, toggleHandler }: Props) => {
   });
 
   useEffect(() => {
-    const input = document.getElementById('search-input');
-    input.focus();
+    document.getElementById('search-input')?.focus();
   }, []);
 
   const onKeyup = (e) => {
@@ -62,8 +61,8 @@ const Search = ({ isOpen = false, toggleHandler }: Props) => {
   };
 
   return (
-    <div className={isOpen ? 'is-open-search' : ''}>
-      <div className={style['c-search']}>
+    <>
+      <div className={`${style['c-search']} ${isOpen ? style['is-open'] : ''}`}>
         <div className={style['c-search-header']}>
           <label className={style['c-search-header__icon']} htmlFor="search-input">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -84,33 +83,31 @@ const Search = ({ isOpen = false, toggleHandler }: Props) => {
           />
         </div>
         {data.suggest.length > 0 && (
-          <div className={style['c-search-body']}>
-            <ul className={style['c-search-list']}>
+          <>
+            <div className={style['c-search-list']}>
               {data.suggest.map((post, index) => {
                 return (
-                  <li key={index} className={style['c-search-list__item']}>
-                    <Link href={'/' + post.path}>
-                      <a className={style['c-search-list__link']}>{post.title}</a>
-                    </Link>
-                  </li>
+                  <Link key={index} href={'/' + post.path}>
+                    <a className={style['c-search-list__link']}>{post.title}</a>
+                  </Link>
                 );
               })}
-            </ul>
-          </div>
+            </div>
+            <div className={style['c-search-footer']}>
+              <div className={style['c-search-footer__search-result']}>
+                {data.suggest.length > 0 && <span>Result: {data.suggest.length} posts</span>}
+              </div>
+              <div className={style['c-search-footer__search-external']}>
+                <a href="https://www.google.com/search?q=site:b.0218.jp" target="_blank" rel="noopener noreferrer">
+                  Google 検索
+                </a>
+              </div>
+            </div>
+          </>
         )}
-        <div className={style['c-search-footer']}>
-          <div className={style['c-search-footer__search-result']}>
-            {data.suggest.length > 0 && <span>Result: {data.suggest.length} posts</span>}
-          </div>
-          <div className={style['c-search-footer__search-external']}>
-            <a href="https://www.google.com/search?q=site:b.0218.jp" target="_blank" rel="noopener noreferrer">
-              Google 検索
-            </a>
-          </div>
-        </div>
       </div>
-      <div className={style['c-search-overlay']} onClick={toggleHandler}></div>
-    </div>
+      <div className={`${style['c-search-overlay']} ${isOpen ? style['is-open'] : ''}`} onClick={toggleHandler}></div>
+    </>
   );
 };
 
