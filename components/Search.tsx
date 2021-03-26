@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import archives from '@/_source/archives.json';
 import style from '@/styles/Components/search.module.css';
@@ -15,6 +15,11 @@ const Search = ({ isOpen = false, toggleHandler }: Props) => {
     keyword: '',
     suggest: [],
   });
+
+  useEffect(() => {
+    const input = document.getElementById('search-input');
+    input.focus();
+  }, []);
 
   const onKeyup = (e) => {
     const { target } = e;
