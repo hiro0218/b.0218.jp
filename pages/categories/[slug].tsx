@@ -8,6 +8,7 @@ import PageContainer from '@/components/layout/PageContainer';
 import { SITE } from '@/constant';
 import styleHoverCard from '@/styles/Components/hover-card.module.css';
 import { Terms, TermsPostLits } from '@/types/source';
+import { convertDateToSimpleFormat } from '@/utils/date';
 
 interface Props {
   title: string;
@@ -36,7 +37,10 @@ const Categories = ({ title, posts }: Props) => {
                   <Link href={'/' + post.path}>
                     <a className={styleHoverCard['hover-card']}>
                       <h3 className={styleHoverCard['hover-card__title']}>{post.title}</h3>
-                      <div className={styleHoverCard['hover-card__text']}>{post.excerpt}</div>
+                      <div className={styleHoverCard['hover-card__text']}>
+                        <time dateTime={post.date}>{convertDateToSimpleFormat(post.date)}: </time>
+                        {post.excerpt}
+                      </div>
                     </a>
                   </Link>
                 </li>
