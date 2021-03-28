@@ -6,9 +6,8 @@
   left: 0;
   height: var(--header-height);
   transition: transform 0.25s ease;
-  border-bottom: 1px solid var(--border-color);
-  background: #fff;
   will-change: transform;
+  pointer-events: none;
 
   &.is-unpin {
     transform: translateY(calc(var(--header-height) * -1));
@@ -22,6 +21,7 @@
   justify-content: space-between;
   height: 100%;
   margin: 0 auto;
+  padding: 0 5vw;
 }
 
 .pj-header__logo {
@@ -29,6 +29,7 @@
   align-items: center;
   height: 100%;
   color: var(--color-text);
+  pointer-events: auto;
 
   & svg {
     width: 5rem;
@@ -49,6 +50,7 @@
   border-radius: 100%;
   background: none;
   cursor: pointer;
+  pointer-events: auto;
 
   &:hover,
   &:focus {

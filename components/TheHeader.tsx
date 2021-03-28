@@ -60,7 +60,7 @@ const TheHeader = () => {
   return (
     <>
       <header className="pj-header js-header">
-        <div className="l-container pj-header-container">
+        <div className="pj-header-container">
           <Link href="/">
             <a className="pj-header__logo">
               <Logo width="5rem" />
