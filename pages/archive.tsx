@@ -1,14 +1,12 @@
 import fs from 'fs-extra';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import path from 'path';
 
+import HoverCard from '@/components/HoverCard';
 import PageContainer from '@/components/layout/PageContainer';
 import { SITE } from '@/constant';
-import styleHoverCard from '@/styles/Components/hover-card.module.css';
 import { Archives } from '@/types/source';
-import { convertDateToSimpleFormat } from '@/utils/date';
 
 interface Props {
   archives: Array<Archives>;
@@ -61,15 +59,12 @@ const Archive = ({ archives }: Props) => {
                     {posts[key].map((post: Archives, index: number) => {
                       return (
                         <li key={index}>
-                          <Link href={'/' + post.path}>
-                            <a className={styleHoverCard['hover-card']}>
-                              <h2 className={styleHoverCard['hover-card__title']}>{post.title}</h2>
-                              <div className={styleHoverCard['hover-card__text']}>
-                                <time dateTime={post.date}>{convertDateToSimpleFormat(post.date)}: </time>
-                                {post.excerpt}
-                              </div>
-                            </a>
-                          </Link>
+                          <HoverCard
+                            link={'/' + post.path}
+                            title={post.title}
+                            date={post.date}
+                            excerpt={post.excerpt}
+                          />
                         </li>
                       );
                     })}
