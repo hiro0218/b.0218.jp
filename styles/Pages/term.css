@@ -3,9 +3,8 @@
 }
 
 .p-term-section {
-  margin-top: var(--margin-base);
 
   &__contents {
-    margin-top: calc(var(--margin-base) / 2);
+    margin-top: calc(var(--margin-base));
   }
 }

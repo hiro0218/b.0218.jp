@@ -71,8 +71,10 @@ const Post = ({ post }: Props) => {
         <article className="p-post">
           <header className="l-section-header">
             <h1 className="c-heading">{post.title}</h1>
-            <PostDate date={post.date} updated={post.updated} />
-            <PostTerm categories={post.categories} tags={post.tags} />
+            <div className="p-post-meta">
+              <PostDate date={post.date} updated={post.updated} />
+              <PostTerm categories={post.categories} tags={post.tags} />
+            </div>
           </header>
 
           <Adsense />

@@ -17,6 +17,9 @@ const Home = ({ recentPosts, updatesPosts }: Props) => {
   return (
     <>
       <PageContainer>
+        <header className="l-section-header">
+          <h1 className="c-heading">Home</h1>
+        </header>
         <section className="p-home">
           <section className="p-home-section">
             <header className="l-section-header">

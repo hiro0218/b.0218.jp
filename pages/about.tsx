@@ -21,7 +21,7 @@ const About = ({ page }: Props) => {
       <PageContainer>
         <article className="p-post">
           <header className="l-section-header">
-            <h1 className="c-heading">{page.title}</h1>
+            <h1 className="c-heading">About</h1>
           </header>
 
           <div

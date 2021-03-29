@@ -2,6 +2,10 @@
 
 }
 
+.p-post-meta {
+  margin-top: calc(var(--margin-base) * 1);
+}
+
 .p-post__content {
   margin: calc(var(--margin-base) * 3) auto 0;
 
@@ -22,6 +26,7 @@
   & h6 {
     position: relative;
     scroll-margin-top: 1em;
+    font-weight: bold;
 
     & .anchor {
       display: inline-flex;
