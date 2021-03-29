@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
-import archives from '@/_source/archives.json';
 import style from '@/styles/Components/search.module.css';
 import { Archives } from '@/types/source';
 
@@ -15,9 +14,18 @@ const Search = ({ isOpen = false, toggleHandler }: Props) => {
     keyword: '',
     suggest: [],
   });
+  const [archives, setArchives] = useState({} as Archives);
 
   useEffect(() => {
     document.getElementById('search-input')?.focus();
+
+    (async () => {
+      return await fetch('/archives.json')
+        .then((response) => response.json())
+        .then((archives: Archives) => {
+          setArchives(archives);
+        });
+    })();
   }, []);
 
   const onKeyup = (e) => {
