@@ -10,6 +10,9 @@ const copyFile = (filename) => {
 };
 
 try {
+  // data
+  copyFile('archives.json');
+
   // feed
   copyFile('atom.xml');
   copyFile('rss.xml');
