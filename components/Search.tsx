@@ -14,7 +14,7 @@ const Search = ({ isOpen = false, toggleHandler }: Props) => {
     keyword: '',
     suggest: [],
   });
-  const [archives, setArchives] = useState({} as Archives);
+  const [archives, setArchives] = useState([] as Array<Archives>);
 
   useEffect(() => {
     document.getElementById('search-input')?.focus();
@@ -22,7 +22,7 @@ const Search = ({ isOpen = false, toggleHandler }: Props) => {
     (async () => {
       return await fetch('/archives.json')
         .then((response) => response.json())
-        .then((archives: Archives) => {
+        .then((archives: Array<Archives>) => {
           setArchives(archives);
         });
     })();
