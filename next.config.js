@@ -8,6 +8,10 @@ module.exports = withReactSvg({
     NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'UA-50805440-1',
   },
 
+  future: {
+    webpack5: true,
+  },
+
   async rewrites() {
     return [
       {
