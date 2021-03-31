@@ -25,11 +25,6 @@ const TheFooter = () => {
                 <a className="pj-footer__link">archive</a>
               </Link>
             </li>
-            <li className="pj-footer-menu__item">
-              <a href="/rss.xml" className="pj-footer__link" target="_blank">
-                feed
-              </a>
-            </li>
           </ul>
         </div>
 
