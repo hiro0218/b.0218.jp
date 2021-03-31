@@ -1,0 +1,8 @@
+.l-menu-list {
+
+  &__item {
+    &:not(:first-child) {
+      margin-top: calc(var(--margin-base) * 0.25);
+    }
+  }
+}

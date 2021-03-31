@@ -26,9 +26,9 @@ const Tags = ({ title, posts }: Props) => {
               <h1 className="c-heading">{title}</h1>
             </header>
 
-            <ul className="p-term-section__contents">
+            <ul className="l-menu-list p-term-section__contents">
               {posts.map((post, index: number) => (
-                <li key={index}>
+                <li key={index} className="l-menu-list__item">
                   <HoverCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
                 </li>
               ))}

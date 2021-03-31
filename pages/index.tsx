@@ -23,9 +23,9 @@ const Home = ({ recentPosts, updatesPosts }: Props) => {
             <header className="l-section-header">
               <h2 className="c-heading">Recent Articles</h2>
             </header>
-            <ul className="p-home-section__contents">
+            <ul className="l-menu-list p-home-section__contents">
               {recentPosts.map((post, index: number) => (
-                <li key={index}>
+                <li key={index} className="l-menu-list__item">
                   <HoverCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
                 </li>
               ))}
@@ -36,9 +36,9 @@ const Home = ({ recentPosts, updatesPosts }: Props) => {
             <header className="l-section-header">
               <h2 className="c-heading">Updated Articles</h2>
             </header>
-            <ul className="p-home-section__contents">
+            <ul className="l-menu-list p-home-section__contents">
               {updatesPosts.map((post, index: number) => (
-                <li key={index}>
+                <li key={index} className="l-menu-list__item">
                   <HoverCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
                 </li>
               ))}

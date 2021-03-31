@@ -55,10 +55,10 @@ const Archive = ({ archives }: Props) => {
                   <div className="archive-year">
                     <h2 className="archive-year__title">{key}</h2>
                   </div>
-                  <ul className="archive-post">
+                  <ul className="l-menu-list archive-post">
                     {posts[key].map((post: Archives, index: number) => {
                       return (
-                        <li key={index}>
+                        <li key={index} className="l-menu-list__item">
                           <HoverCard
                             link={'/' + post.path}
                             title={post.title}
