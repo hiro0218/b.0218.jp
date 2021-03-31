@@ -14,10 +14,19 @@ const HoverCard = ({ link, title, date, excerpt }: Props) => {
   return (
     <Link href={link}>
       <a className={style['hover-card']}>
-        <h3 className={style['hover-card__title']}>{title}</h3>
-        <div className={style['hover-card__text']}>
-          <time dateTime={date}>{convertDateToSimpleFormat(date)}: </time>
-          {excerpt}
+        <div className={style['hover-card-main']}>
+          <h3 className={style['hover-card__title']}>{title}</h3>
+          <div className={style['hover-card__text']}>
+            <time dateTime={date}>{convertDateToSimpleFormat(date)}: </time>
+            {excerpt}
+          </div>
+        </div>
+        <div className={style['hover-card-icon']}>
+          <div className={style['hover-card-icon__arrow']}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
         </div>
       </a>
     </Link>
