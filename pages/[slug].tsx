@@ -81,6 +81,7 @@ const Post = ({ post }: Props) => {
 
           <div
             className="p-post__content js-post-content"
+            itemProp="articleBody"
             dangerouslySetInnerHTML={{
               __html: `${post.content}`,
             }}
