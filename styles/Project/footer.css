@@ -1,11 +1,17 @@
 .pj-footer {
   margin-top: calc(var(--margin-base) * 4);
   padding: 3rem 0;
-  background: var(--bg-color);
+  background: var(--bg-color--lighter);
   color: var(--color-text--light);
   font-size: var(--font-size-sm);
   line-height: 1;
   text-align: center;
+}
+
+.pj-footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .pj-footer__link {
@@ -16,18 +22,8 @@
   }
 }
 
-.pj-footer__logo {
-  margin-bottom: 1.5rem;
-
-  & svg {
-    width: 5rem;
-    height: 100%;
-    fill: var(--color-text--light);
-  }
-}
-
 .pj-footer-menu {
-  margin-bottom: 2rem;
+
 }
 
 .pj-footer-menu__list {

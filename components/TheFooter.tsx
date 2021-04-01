@@ -1,20 +1,16 @@
 import Link from 'next/link';
 
-import Logo from '@/images/logo.svg';
-
 const TheFooter = () => {
   return (
     <footer className="pj-footer">
-      <div className="l-container">
-        <div className="pj-footer__logo">
-          <Link href="/">
-            <a>
-              <Logo />
-            </a>
-          </Link>
-        </div>
+      <div className="l-container pj-footer-container">
         <div className="pj-footer-menu">
-          <ul className="u-list-unstyled pj-footer-menu__list">
+          <ul className="pj-footer-menu__list">
+            <li className="pj-footer-menu__item">
+              <Link href="/">
+                <a className="pj-footer__link">home</a>
+              </Link>
+            </li>
             <li className="pj-footer-menu__item">
               <Link href="/about">
                 <a className="pj-footer__link">about</a>
