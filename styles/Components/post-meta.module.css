@@ -33,7 +33,7 @@
 
 .c-post-meta__link {
   display: block;
-  padding: 0.4em 0.75em;
+  padding: 0.25rem 0.5rem;
   border-radius: 0.15rem;
 
   @media (--desktop-viewport) {
