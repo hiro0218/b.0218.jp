@@ -18,7 +18,7 @@ const Categories = ({ title, posts }: Props) => {
     <>
       <Head>
         <title key="title">
-          {title} - {SITE.NAME}
+          category: {title} - {SITE.NAME}
         </title>
       </Head>
 

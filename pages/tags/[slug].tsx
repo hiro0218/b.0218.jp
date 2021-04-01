@@ -5,6 +5,7 @@ import path from 'path';
 
 import HoverCard from '@/components/HoverCard';
 import PageContainer from '@/components/layout/PageContainer';
+import { SITE } from '@/constant';
 import { Terms, TermsPostLits } from '@/types/source';
 
 interface Props {
@@ -16,7 +17,9 @@ const Tags = ({ title, posts }: Props) => {
   return (
     <>
       <Head>
-        <title key="title">{title}</title>
+        <title key="title">
+          tag: {title}- {SITE.NAME}
+        </title>
       </Head>
 
       <PageContainer>
@@ -28,7 +31,7 @@ const Tags = ({ title, posts }: Props) => {
             </header>
 
             <ul className="l-menu-list p-term-section__contents">
-              {posts.map((post, index: number) => (
+              {posts.map((post, index) => (
                 <li key={index} className="l-menu-list__item">
                   <HoverCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
                 </li>
