@@ -37,9 +37,7 @@ const Post = ({ post }: Props) => {
   return (
     <>
       <Head>
-        <title key="title">
-          {post.title} - {SITE.NAME}
-        </title>
+        <title key="title">{post.title}</title>
         <meta key="description" name="description" content={post.excerpt} />
         <meta key="og:url" property="og:url" content={SITE.URL + post.path} />
         <meta key="og:title" property="og:title" content={post.title} />
