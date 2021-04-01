@@ -27,6 +27,7 @@ const Categories = ({ title, posts }: Props) => {
           <section className="p-term-section">
             <header className="l-section-header">
               <h1 className="c-heading">{title}</h1>
+              <span className="c-heading-sub">category</span>
             </header>
 
             <ul className="l-menu-list p-term-section__contents">
