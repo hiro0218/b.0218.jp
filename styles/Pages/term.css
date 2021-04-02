@@ -1,0 +1,10 @@
+.p-term {
+
+}
+
+.p-term-section {
+
+  &__contents {
+    margin-top: calc(var(--margin-base));
+  }
+}

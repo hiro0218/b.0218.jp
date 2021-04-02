@@ -1,0 +1,15 @@
+.p-home {
+
+}
+
+.p-home-section {
+  margin-top: calc(var(--margin-base) * 1);
+
+  &:not(:first-child) {
+    margin-top: calc(var(--margin-base) * 2);
+  }
+
+  &__contents {
+    margin-top: calc(var(--margin-base));
+  }
+}

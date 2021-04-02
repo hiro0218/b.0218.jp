@@ -64,17 +64,18 @@ typings/
 
 # next.js build output
 .next
+public/archives.json
+public/atom.xml
+public/rss.xml
+public/feed.json
+public/sitemap.xml
+public/sitemap.xsl
+public/post-sitemap.xml
+public/tag-sitemap.xml
+public/category-sitemap.xml
 
 # nuxt.js build output
 .nuxt
-src/static/atom.xml
-src/static/rss.xml
-src/static/feed.json
-src/static/sitemap.xml
-src/static/sitemap.xsl
-src/static/post-sitemap.xml
-src/static/tag-sitemap.xml
-src/static/category-sitemap.xml
 
 # Nuxt generate
 dist

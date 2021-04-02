@@ -1,46 +1,39 @@
 {
   "compilerOptions": {
-    "target": "es2019",
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
-    "lib": [
-      "esnext",
-      "esnext.asynciterable",
-      "dom"
-    ],
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowJs": true,
-    "sourceMap": true,
-    "strict": true,
-    "noEmit": true,
-    "experimentalDecorators": true,
+    "isolatedModules": true,
     "jsx": "preserve",
-    "jsxFactory": "h",
     "baseUrl": ".",
     "paths": {
-      "~~/*": [
-        "./*"
-      ],
-      "~/*": [
-        "./src/*"
-      ],
       "@/*": [
-        "./src/*"
+        "./*"
       ]
-    },
-    "types": [
-      "@types/cheerio",
-      "@types/node",
-      "@nuxt/types"
-    ]
+    }
   },
+  "typeRoots": [
+    "node_modules/@types",
+    "./types"
+  ],
   "include": [
-    "src"
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
   ],
   "exclude": [
-    "node_modules",
-    ".nuxt",
-    "dist"
+    "node_modules"
   ]
 }
