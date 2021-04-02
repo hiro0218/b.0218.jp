@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React, { FC, useEffect } from 'react';
 
 import style from '@/styles/Components/adsense.module.css';
@@ -10,13 +11,15 @@ export const GOOGLE_ADSENSE = {
 } as const;
 
 const Adsense: FC = () => {
+  const { asPath } = useRouter();
+
   useEffect(() => {
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [asPath]);
 
   return (
     <div className={style['c-adsense']}>
