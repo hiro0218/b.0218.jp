@@ -22,7 +22,7 @@ const Adsense: FC = () => {
   }, [asPath]);
 
   return (
-    <div className={style['c-adsense']}>
+    <div key={asPath} className={style['c-adsense']}>
       <ins
         className="adsbygoogle"
         style={{ display: 'block', textAlign: 'center' }}
