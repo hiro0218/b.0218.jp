@@ -14,6 +14,8 @@ interface Window {
     },
   );
 
+  adsbygoogle?: { [key: string]: unknown }[];
+
   twttr?: {
     widgets: {
       load: (el: HTMLElement) => void;

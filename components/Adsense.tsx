@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import style from '@/styles/Components/adsense.module.css';
 
@@ -10,6 +10,14 @@ export const GOOGLE_ADSENSE = {
 } as const;
 
 const Adsense: FC = () => {
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+
   return (
     <div className={style['c-adsense']}>
       <ins
