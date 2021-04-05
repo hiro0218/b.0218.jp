@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 import Search from '@/components/Search';
+import { SITE } from '@/constant';
 import Logo from '@/images/logo.svg';
 
 const initUnpinHeader = () => {
@@ -64,11 +65,18 @@ const TheHeader = () => {
           <Link href="/">
             <a className="pj-header__logo">
               <Logo width="5rem" />
+              <span className="sr-only">{SITE.NAME}</span>
             </a>
           </Link>
           <button type="button" className="pj-header-search" aria-label="Search" onClick={toggleModal}>
             <div className="pj-header-search__icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                width="1.25rem"
+                height="1.25rem"
+              >
                 <path
                   fillRule="evenodd"
                   d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
