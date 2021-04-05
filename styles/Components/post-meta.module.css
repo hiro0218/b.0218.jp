@@ -35,10 +35,7 @@
   display: block;
   padding: 0.25rem 0.5rem;
   border-radius: 0.15rem;
-
-  @media (--desktop-viewport) {
-    font-size: var(--font-size-sm);
-  }
+  font-size: var(--font-size-xs);
 }
 
 .c-post-meta__link--category {
