@@ -4,7 +4,7 @@ export const existsGaId = GA_TRACKING_ID !== '';
 
 // PV測定
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
-export const pageview = (path) => {
+export const pageview = (path: string): void => {
   window.gtag('config', GA_TRACKING_ID, {
     page_path: path,
   });
@@ -12,7 +12,7 @@ export const pageview = (path) => {
 
 // 発火
 // https://developers.google.com/analytics/devguides/collection/gtagjs/events
-export const event = ({ action, category, label, value = '' }) => {
+export const event = ({ action, category, label, value = '' }): void => {
   if (!existsGaId) {
     return;
   }
