@@ -1,17 +1,25 @@
 import fs from 'fs-extra';
 import { GetStaticProps } from 'next';
 import path from 'path';
+import Parser from 'rss-parser';
 
 import HoverCard from '@/components/HoverCard';
 import PageContainer from '@/components/layout/PageContainer';
 import { TermsPostLits } from '@/types/source';
 
+interface Zenn {
+  title: string;
+  link: string;
+  isoDate: string;
+}
+
 interface Props {
   recentPosts: Array<TermsPostLits>;
   updatesPosts: Array<TermsPostLits>;
+  zennPosts: Array<Zenn>;
 }
 
-const Home = ({ recentPosts, updatesPosts }: Props) => {
+const Home = ({ recentPosts, updatesPosts, zennPosts }: Props) => {
   return (
     <>
       <PageContainer>
@@ -44,6 +52,23 @@ const Home = ({ recentPosts, updatesPosts }: Props) => {
               ))}
             </ul>
           </section>
+
+          <section className="p-home-section">
+            <header className="l-section-header">
+              <h2 className="c-heading">Zenn Articles</h2>
+            </header>
+            <ul className="l-menu-list p-home-section__contents">
+              {zennPosts.map((post, index) => {
+                return (
+                  index < 5 && (
+                    <li key={index} className="l-menu-list__item">
+                      <HoverCard link={post.link} title={post.title} date={post.isoDate} target={true} />
+                    </li>
+                  )
+                );
+              })}
+            </ul>
+          </section>
         </section>
       </PageContainer>
     </>
@@ -58,10 +83,16 @@ export const getStaticProps: GetStaticProps = async () => {
   const recentPosts: Array<TermsPostLits> = fs.readJsonSync(recentPostsPath);
   const updatesPosts: Array<TermsPostLits> = fs.readJsonSync(updatesPostsPath);
 
+  // 外部サービス
+  const parser = new Parser();
+  const feedZenn = await parser.parseURL('https://zenn.dev/hiro/feed');
+  const zennPosts = feedZenn.items;
+
   return {
     props: {
       recentPosts,
       updatesPosts,
+      zennPosts,
     },
   };
 };
