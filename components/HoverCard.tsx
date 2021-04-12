@@ -7,13 +7,14 @@ interface Props {
   link: string;
   title: string;
   date: string;
-  excerpt: string;
+  excerpt?: string;
+  target?: boolean;
 }
 
-const HoverCard = ({ link, title, date, excerpt }: Props) => {
+const HoverCard = ({ link, title, date, excerpt, target = false }: Props) => {
   return (
     <Link href={link}>
-      <a className={style['hover-card']}>
+      <a className={style['hover-card']} {...(target && { target: '_blank' })}>
         <div className={style['hover-card-main']}>
           <h3 className={style['hover-card__title']}>{title}</h3>
           <div className={style['hover-card__text']}>
