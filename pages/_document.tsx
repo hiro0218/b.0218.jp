@@ -13,7 +13,6 @@ class SampleDocument extends Document {
     return (
       <Html prefix="og: http://ogp.me/ns#" lang="ja">
         <Head>
-          <meta name="theme-color" content="#ffffff" />
           <meta httpEquiv="x-dns-prefetch-control" content="on" />
           <link rel="dns-prefetch" href="//www.google-analytics.com" />
           <link rel="dns-prefetch" href="//www.googletagservices.com" />
