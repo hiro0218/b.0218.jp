@@ -18,8 +18,10 @@ const HoverCard = ({ link, title, date, excerpt, target = false }: Props) => {
         <div className={style['hover-card-main']}>
           <h3 className={style['hover-card__title']}>{title}</h3>
           <div className={style['hover-card__text']}>
-            <time dateTime={date}>{convertDateToSimpleFormat(date)}: </time>
-            {excerpt}
+            <time dateTime={date} className={style['hover-card__date']}>
+              {convertDateToSimpleFormat(date)}
+            </time>
+            {excerpt && <span className={style['hover-card__excerpt']}>{excerpt}</span>}
           </div>
         </div>
         <div className={style['hover-card-icon']}>

@@ -38,6 +38,15 @@
   white-space: nowrap;
 }
 
+.hover-card__date {
+
+  &:not(:only-child) {
+    &::after {
+      content: ': ';
+    }
+  }
+}
+
 .hover-card-icon {
   display: flex;
   align-items: center;
