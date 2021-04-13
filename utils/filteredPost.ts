@@ -1,7 +1,7 @@
 import cheerio from 'cheerio';
 import hljs from 'highlight.js';
 
-const filteredPost = (content: string) => {
+const filteredPost = (content: string): string => {
   const $ = cheerio.load(content);
 
   // hljs
