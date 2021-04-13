@@ -20,6 +20,7 @@ const Categories = ({ title, posts }: Props) => {
         <title key="title">
           category: {title} - {SITE.NAME}
         </title>
+        <meta name="robots" content="noindex" />
       </Head>
 
       <PageContainer>

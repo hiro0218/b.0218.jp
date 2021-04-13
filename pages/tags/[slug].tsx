@@ -20,6 +20,7 @@ const Tags = ({ title, posts }: Props) => {
         <title key="title">
           tag: {title}- {SITE.NAME}
         </title>
+        <meta name="robots" content="noindex" />
       </Head>
 
       <PageContainer>
