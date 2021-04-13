@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint {components,hooks,lib,pages,utils}/** --ext .ts,.tsx",
-    "prebuild": "git submodule update --remote && node ./output.js"
+    "prebuild": "git submodule update --remote && node ./output.js",
+    "prepare": "husky install"
   },
   "dependencies": {
     "highlight.js": "^10.7.2",
@@ -31,7 +32,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "fs-extra": "^9.1.0",
-    "husky": "^4.3.8",
+    "husky": "^6.0.0",
     "lint-staged": "^10.5.4",
     "next-react-svg": "^1.1.2",
     "postcss": "^8.2.10",
@@ -55,15 +56,11 @@
     "not dead",
     "not IE 11"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "**/*.{ts,tsx,js}": [
       "eslint --fix",
-      "eslint"
+      "eslint",
+      "tsc --noEmit --skipLibCheck"
     ],
     "styles/**/*.{css}": [
       "stylelint --fix",
