@@ -48,10 +48,6 @@
   @extend .c-pager__item;
 
   text-align: left;
-
-  @media (--mobile-viewport) {
-    text-align: center;
-  }
 }
 
 .c-pager__item--next {
@@ -61,7 +57,6 @@
 
   @media (--mobile-viewport) {
     margin-top: 1rem;
-    text-align: center;
   }
 }
 
