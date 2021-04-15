@@ -6,6 +6,10 @@
   font-size: var(--font-size-sm);
   line-height: 1;
   text-align: center;
+
+  @media (--mobile-viewport) {
+    font-size: var(--font-size-md);
+  }
 }
 
 .pj-footer-container {
