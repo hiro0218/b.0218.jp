@@ -15,9 +15,6 @@
   --oc-gray-9: #212529;
 
   /* color */
-  --color-primary: var(--oc-gray-8);
-  --color-secondary: var(--oc-gray-7);
-
   --color-text: var(--oc-gray-8);
   --color-text--dark: var(--oc-gray-9);
   --color-text--darker: var(--oc-gray-9);
@@ -32,9 +29,7 @@
   --bg-color--darker: var(--oc-gray-4);
   --bg-color--light: var(--oc-gray-1);
   --bg-color--lighter: var(--oc-gray-0);
-  --bg-color-hover: var(--oc-gray-1);
 
-  --border-color: var(--oc-gray-3);
   --mark-bg-color: var(--oc-gray-1);
 
   /* size */
