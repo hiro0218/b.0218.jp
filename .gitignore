@@ -71,8 +71,7 @@ public/feed.json
 public/sitemap.xml
 public/sitemap.xsl
 public/post-sitemap.xml
-public/tag-sitemap.xml
-public/category-sitemap.xml
+public/page-sitemap.xml
 
 # nuxt.js build output
 .nuxt
