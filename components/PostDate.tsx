@@ -7,16 +7,18 @@ import { convertDateToSimpleFormat, isSameDate } from '@/utils/date';
 type Props = Pick<Post, 'date' | 'updated'>;
 
 const PostDate: FC<Props> = ({ date, updated }) => {
+  const existsModified = !isSameDate(date, updated);
+
   return (
     <>
       <div className={style['c-post-meta']}>
-        <div className={style['c-post-meta__item--date']}>
+        <div className={!existsModified ? style['c-post-meta__date'] : style['c-post-meta__date--strike']}>
           <time dateTime={date} itemProp="datePublished">
             {convertDateToSimpleFormat(date)}
           </time>
         </div>
-        {!isSameDate(date, updated) && (
-          <div className={style['c-post-meta__item--date']}>
+        {existsModified && (
+          <div className={style['c-post-meta__date']}>
             <time dateTime={updated} itemProp="dateModified">
               {convertDateToSimpleFormat(updated)}
             </time>
