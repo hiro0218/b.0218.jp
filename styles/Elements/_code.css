@@ -33,7 +33,7 @@ pre {
   margin: 0;
   padding: 0.25rem 0.5rem;
   border-radius: 0.15rem;
-  background: var(--bg-color--light);
+  background: var(--bg-color--lighter);
   color: var(--color-text--light);
   font-size: var(--font-size-sm);
 }

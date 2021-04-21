@@ -43,7 +43,7 @@
   @extend .c-post-meta__link;
 
   background: var(--color-text--light);
-  color: var(--bg-color);
+  color: var(--bg-color--lighter);
 
   &:hover {
     background: var(--color-text);
@@ -53,10 +53,10 @@
 .c-post-meta__link--tag {
   @extend .c-post-meta__link;
 
-  background: var(--bg-color);
+  background: var(--bg-color--light);
   color: var(--color-text--light);
 
   &:hover {
-    background: var(--bg-color--dark);
+    background: var(--bg-color);
   }
 }
