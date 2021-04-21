@@ -1,18 +1,17 @@
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Search from '@/components/Search';
 import { SITE } from '@/constant';
 import Logo from '@/images/logo.svg';
 
-const initUnpinHeader = () => {
-  const elHeader = document.querySelector<HTMLDivElement>('.js-header');
+const initUnpinHeader = (elHeader: HTMLElement) => {
   const headerHeight = elHeader.offsetHeight;
   const headerUnpinClassName = 'is-unpin';
   let ticking = false;
   let lastKnownScrollY = 0;
 
-  const handleScroll = (elHeader: HTMLDivElement, headerHeight: number) => {
+  const handleScroll = (elHeader: HTMLElement, headerHeight: number) => {
     if (!ticking) {
       requestAnimationFrame(() => {
         ticking = false;
@@ -48,6 +47,7 @@ const initUnpinHeader = () => {
 
 const TheHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const refHeader = useRef<HTMLElement>(null);
 
   const toggleModal = () => {
     document.body.classList.toggle('is-no-scroll', !isOpen);
@@ -55,12 +55,12 @@ const TheHeader = () => {
   };
 
   useEffect(() => {
-    initUnpinHeader();
+    initUnpinHeader(refHeader.current);
   });
 
   return (
     <>
-      <header className="pj-header js-header">
+      <header ref={refHeader} className="pj-header">
         <div className="pj-header-container">
           <Link href="/">
             <a className="pj-header__logo">
