@@ -62,7 +62,7 @@ const Post = ({ post }: Props) => {
 
       <PageContainer>
         <article className="p-post">
-          <header className="l-section-header">
+          <header>
             <h1 className="c-heading">{post.title}</h1>
             <div className="p-post-meta">
               <PostDate date={post.date} updated={post.updated} />

@@ -9,6 +9,10 @@
 .p-post__content {
   margin: calc(var(--margin-base) * 3) auto 0;
 
+  & > *:first-child {
+    margin: 0;
+  }
+
   a {
     text-decoration-line: underline;
     word-break: break-all;
@@ -87,6 +91,12 @@
     margin: 1rem 0;
     padding-left: 2rem;
     letter-spacing: 0.05em;
+
+    ul,
+    ol {
+      margin: 0.25rem 0 1rem;
+      padding-left: 1.5rem;
+    }
   }
 
   & > p {

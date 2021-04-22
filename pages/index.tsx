@@ -24,12 +24,12 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
   return (
     <>
       <PageContainer>
-        <header className="l-section-header">
+        <header>
           <h1 className="c-heading">Home</h1>
         </header>
         <section className="p-home">
           <section className="p-home-section">
-            <header className="l-section-header">
+            <header>
               <h2 className="c-heading">Recent Articles</h2>
             </header>
             <ul className="l-menu-list p-home-section__contents">
@@ -42,7 +42,7 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
           </section>
 
           <section className="p-home-section">
-            <header className="l-section-header">
+            <header>
               <h2 className="c-heading">Updated Articles</h2>
             </header>
             <ul className="l-menu-list p-home-section__contents">
@@ -55,7 +55,7 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
           </section>
 
           <section className="p-home-section">
-            <header className="l-section-header">
+            <header>
               <h2 className="c-heading">Qiita: Recent Articles</h2>
             </header>
             <ul className="l-menu-list p-home-section__contents">
@@ -72,7 +72,7 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
           </section>
 
           <section className="p-home-section">
-            <header className="l-section-header">
+            <header>
               <h2 className="c-heading">Zenn: Recent Articles</h2>
             </header>
             <ul className="l-menu-list p-home-section__contents">

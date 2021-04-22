@@ -44,7 +44,7 @@ const Archive = ({ archives }: Props) => {
 
       <PageContainer>
         <article className="p-archive">
-          <header className="l-section-header">
+          <header>
             <h1 className="c-heading">Archive</h1>
           </header>
 
