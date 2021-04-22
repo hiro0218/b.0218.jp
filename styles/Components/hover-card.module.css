@@ -28,7 +28,7 @@
 }
 
 .hover-card__text {
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
   overflow: hidden;
   color: var(--color-text-description);
   letter-spacing: 0.025em;

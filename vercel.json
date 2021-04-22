@@ -1,0 +1,5 @@
+{
+  "redirects": [
+    { "source": "/feed", "destination": "/feed.json" }
+  ]
+}

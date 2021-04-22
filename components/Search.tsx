@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import style from '@/styles/Components/search.module.css';
 import { Archives } from '@/types/source';
@@ -10,6 +10,8 @@ interface Props {
 }
 
 const Search = ({ isOpen = false, toggleHandler }: Props) => {
+  const refInput = useRef(null);
+
   const [data, setData] = useState({
     keyword: '',
     suggest: [],
@@ -17,7 +19,7 @@ const Search = ({ isOpen = false, toggleHandler }: Props) => {
   const [archives, setArchives] = useState([] as Array<Archives>);
 
   useEffect(() => {
-    document.getElementById('search-input')?.focus();
+    refInput.current.focus();
 
     (async () => {
       return await fetch('/archives.json')
@@ -70,7 +72,7 @@ const Search = ({ isOpen = false, toggleHandler }: Props) => {
 
   return (
     <>
-      <div className={`${style['c-search']} ${isOpen ? style['is-open'] : ''}`}>
+      <div role="dialog" className={`${style['c-search']} ${isOpen ? style['is-open'] : ''}`}>
         <div className={style['c-search-header']}>
           <label className={style['c-search-header__icon']} htmlFor="search-input">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -87,6 +89,7 @@ const Search = ({ isOpen = false, toggleHandler }: Props) => {
             placeholder="記事のタイトルから検索する"
             id="search-input"
             autoComplete="off"
+            ref={refInput}
             onKeyUp={(e) => onKeyup(e)}
           />
         </div>

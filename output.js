@@ -22,8 +22,7 @@ try {
   copyFile('sitemap.xml');
   copyFile('sitemap.xsl');
   copyFile('post-sitemap.xml');
-  copyFile('tag-sitemap.xml');
-  copyFile('category-sitemap.xml');
+  copyFile('page-sitemap.xml');
 } catch (error) {
   console.log(error);
 }

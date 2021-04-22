@@ -26,7 +26,7 @@ const Tags = ({ title, posts }: Props) => {
       <PageContainer>
         <section className="p-term">
           <section className="p-term-section">
-            <header className="l-section-header">
+            <header>
               <h1 className="c-heading">{title}</h1>
               <span className="c-heading-sub">tag</span>
             </header>

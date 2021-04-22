@@ -19,7 +19,7 @@
       top: 0;
       left: 0;
       padding: 0.25rem 1rem;
-      background: var(--bg-color);
+      background: var(--bg-color--light);
       color: var(--color-text);
       font-size: var(--font-size-xs);
     }
