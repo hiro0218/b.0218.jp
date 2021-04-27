@@ -4,6 +4,7 @@ import Head from 'next/head';
 import path from 'path';
 
 import HoverCard from '@/components/HoverCard';
+import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
 import { SITE } from '@/constant';
 import { Archives } from '@/types/source';
@@ -55,20 +56,20 @@ const Archive = ({ archives }: Props) => {
                   <div className="archive-year">
                     <h2 className="archive-year__title">{key}</h2>
                   </div>
-                  <ul className="l-menu-list archive-post">
+                  <MenuList className="archive-post">
                     {posts[key].map((post: Archives, index: number) => {
                       return (
-                        <li key={index} className="l-menu-list__item">
+                        <MenuListItem key={index}>
                           <HoverCard
                             link={'/' + post.path}
                             title={post.title}
                             date={post.date}
                             excerpt={post.excerpt}
                           />
-                        </li>
+                        </MenuListItem>
                       );
                     })}
-                  </ul>
+                  </MenuList>
                 </div>
               );
             })}
