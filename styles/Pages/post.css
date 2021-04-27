@@ -10,7 +10,7 @@
   margin: calc(var(--margin-base) * 3) auto 0;
 
   & > *:first-child {
-    margin: 0;
+    margin-top: 0;
   }
 
   a {
