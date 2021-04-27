@@ -24,6 +24,13 @@
   padding: 0 5vw;
 }
 
+.pj-header__avatar {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.5rem;
+  border-radius: 100%;
+}
+
 .pj-header__logo {
   display: flex;
   align-items: center;

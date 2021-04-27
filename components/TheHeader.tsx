@@ -64,6 +64,7 @@ const TheHeader = () => {
         <div className="pj-header-container">
           <Link href="/">
             <a className="pj-header__logo">
+              <img src="/hiro0218.png" className="pj-header__avatar" />
               <Logo width="5rem" />
               <span className="sr-only">{SITE.NAME}</span>
             </a>
