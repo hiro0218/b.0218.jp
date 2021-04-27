@@ -12,12 +12,6 @@ const copyFile = (filename) => {
 try {
   // data
   copyFile('archives.json');
-
-  // sitemap
-  copyFile('sitemap.xml');
-  copyFile('sitemap.xsl');
-  copyFile('post-sitemap.xml');
-  copyFile('page-sitemap.xml');
 } catch (error) {
   console.log(error);
 }
