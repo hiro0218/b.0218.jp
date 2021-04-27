@@ -65,9 +65,6 @@ typings/
 # next.js build output
 .next
 public/archives.json
-public/atom.xml
-public/rss.xml
-public/feed.json
 public/sitemap.xml
 public/sitemap.xsl
 public/post-sitemap.xml

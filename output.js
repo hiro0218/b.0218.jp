@@ -13,11 +13,6 @@ try {
   // data
   copyFile('archives.json');
 
-  // feed
-  copyFile('atom.xml');
-  copyFile('rss.xml');
-  copyFile('feed.json');
-
   // sitemap
   copyFile('sitemap.xml');
   copyFile('sitemap.xsl');
