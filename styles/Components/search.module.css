@@ -38,7 +38,7 @@
     height: 100%;
     padding: 0;
     border: none;
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-md);
 
     &::placeholder {
       color: var(--color-text--lighter);

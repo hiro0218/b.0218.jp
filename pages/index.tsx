@@ -4,6 +4,7 @@ import path from 'path';
 import Parser from 'rss-parser';
 
 import HoverCard from '@/components/HoverCard';
+import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
 import { TermsPostLits } from '@/types/source';
 
@@ -32,60 +33,58 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
             <header>
               <h2 className="c-heading">Recent Articles</h2>
             </header>
-            <ul className="l-menu-list p-home-section__contents">
-              {recentPosts.map((post, index: number) => (
-                <li key={index} className="l-menu-list__item">
+            <MenuList className="p-home-section__contents">
+              {recentPosts.map((post, index) => (
+                <MenuListItem key={index}>
                   <HoverCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
-                </li>
+                </MenuListItem>
               ))}
-            </ul>
+            </MenuList>
           </section>
 
           <section className="p-home-section">
             <header>
               <h2 className="c-heading">Updated Articles</h2>
             </header>
-            <ul className="l-menu-list p-home-section__contents">
-              {updatesPosts.map((post, index: number) => (
-                <li key={index} className="l-menu-list__item">
+            <MenuList className="p-home-section__contents">
+              {updatesPosts.map((post, index) => (
+                <MenuListItem key={index}>
                   <HoverCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
-                </li>
+                </MenuListItem>
               ))}
-            </ul>
+            </MenuList>
           </section>
 
           <section className="p-home-section">
             <header>
               <h2 className="c-heading">Qiita: Recent Articles</h2>
             </header>
-            <ul className="l-menu-list p-home-section__contents">
-              {qiitaPosts.map((post, index) => {
-                return (
+            <MenuList className="p-home-section__contents">
+              {qiitaPosts.map(
+                (post, index) =>
                   index < 5 && (
-                    <li key={index} className="l-menu-list__item">
+                    <MenuListItem key={index}>
                       <HoverCard link={post.link} title={post.title} date={post.isoDate} target={true} />
-                    </li>
-                  )
-                );
-              })}
-            </ul>
+                    </MenuListItem>
+                  ),
+              )}
+            </MenuList>
           </section>
 
           <section className="p-home-section">
             <header>
               <h2 className="c-heading">Zenn: Recent Articles</h2>
             </header>
-            <ul className="l-menu-list p-home-section__contents">
-              {zennPosts.map((post, index) => {
-                return (
+            <MenuList className="p-home-section__contents">
+              {zennPosts.map(
+                (post, index) =>
                   index < 5 && (
-                    <li key={index} className="l-menu-list__item">
+                    <MenuListItem key={index}>
                       <HoverCard link={post.link} title={post.title} date={post.isoDate} target={true} />
-                    </li>
-                  )
-                );
-              })}
-            </ul>
+                    </MenuListItem>
+                  ),
+              )}
+            </MenuList>
           </section>
         </section>
       </PageContainer>

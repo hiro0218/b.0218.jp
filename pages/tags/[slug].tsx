@@ -4,6 +4,7 @@ import Head from 'next/head';
 import path from 'path';
 
 import HoverCard from '@/components/HoverCard';
+import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
 import { SITE } from '@/constant';
 import { Terms, TermsPostLits } from '@/types/source';
@@ -31,13 +32,13 @@ const Tags = ({ title, posts }: Props) => {
               <span className="c-heading-sub">tag</span>
             </header>
 
-            <ul className="l-menu-list p-term-section__contents">
+            <MenuList className="p-term-section__contents">
               {posts.map((post, index) => (
-                <li key={index} className="l-menu-list__item">
+                <MenuListItem key={index}>
                   <HoverCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
-                </li>
+                </MenuListItem>
               ))}
-            </ul>
+            </MenuList>
           </section>
         </section>
       </PageContainer>

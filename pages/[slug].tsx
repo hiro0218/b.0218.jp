@@ -1,6 +1,7 @@
 import fs from 'fs-extra';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import path from 'path';
 import React, { useEffect } from 'react';
 
@@ -28,11 +29,13 @@ const getOgImagePath = (slug: string): string => {
 };
 
 const Post = ({ post }: Props) => {
+  const { asPath } = useRouter();
+
   useEffect(() => {
     const postContent = document.querySelector<HTMLDivElement>('.js-post-content');
     mokuji(postContent);
     if (window.twttr) window.twttr.widgets.load(postContent);
-  });
+  }, [asPath]);
 
   return (
     <>

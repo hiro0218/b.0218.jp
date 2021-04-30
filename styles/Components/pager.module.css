@@ -25,6 +25,7 @@
   display: flex;
   width: 50%;
   padding: 1rem;
+  transition: background 0.2s ease, box-shadow 0.4s ease;
   border-radius: 0.25em;
   color: var(--color-text);
   line-height: 1.8;
@@ -37,6 +38,7 @@
   &:hover,
   &:focus {
     background: var(--bg-color--lighter);
+    box-shadow: 0 0 0 0.25rem var(--bg-color--lighter);
   }
 
   &:only-child {

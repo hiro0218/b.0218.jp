@@ -2,7 +2,7 @@
   display: flex;
   height: 100%;
   padding: 1rem 1.25rem;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, box-shadow 0.4s ease;
   border-radius: 0.25rem;
   color: var(--color-text-heading);
   font-size: var(--font-size-sm);
@@ -10,6 +10,7 @@
   &:hover,
   &:focus {
     background: var(--bg-color--lighter);
+    box-shadow: 0 0 0 0.25rem var(--bg-color--lighter);
   }
 }
 
@@ -56,7 +57,7 @@
 .hover-card-icon__arrow {
   display: flex;
   align-items: center;
-  color: var(--color-text--lighter);
+  color: var(--bg-color--dark);
 
   svg {
     width: 1rem;
