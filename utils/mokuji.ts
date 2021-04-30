@@ -10,15 +10,20 @@ import Mokuji from 'mokuji.js';
 //   </details>
 // </div>
 export const mokuji = (content: Element): void => {
-  const details = content.querySelector('.js-mokuji details');
+  const mokuji: HTMLDivElement = content.querySelector('.js-mokuji');
+  const details = mokuji.querySelector('details');
 
   if (details) {
     // 目次一覧を作成
     const mokujiList = getMokujiList(content);
 
-    window.requestAnimationFrame(() => {
-      details.appendChild(mokujiList);
-    });
+    if (mokujiList.childNodes.length !== 0) {
+      window.requestAnimationFrame(() => {
+        details.appendChild(mokujiList);
+      });
+    } else {
+      mokuji.style.display = 'none';
+    }
   }
 };
 
