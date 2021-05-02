@@ -33,7 +33,7 @@
   --desktop-width: 960px;
 
   /* font */
-  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans JP', YuGoMedium, YuGothic, 'Yu Gothic', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-family-sans-serif: 'Noto Sans JP', YuGoMedium, YuGothic, 'Yu Gothic', 'Hiragino Kaku Gothic ProN', Meiryo, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-family-monospace: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
   /* --font-family-webfont: 'Noto Sans JP', var(--font-family-sans-serif); */
 
