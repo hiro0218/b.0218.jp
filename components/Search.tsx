@@ -117,7 +117,11 @@ const Search = ({ isOpen = false, toggleHandler }: Props) => {
           </>
         )}
       </div>
-      <div className={`${style['c-search-overlay']} ${isOpen ? style['is-open'] : ''}`} onClick={toggleHandler}></div>
+      <div
+        className={`${style['c-search-overlay']} ${isOpen ? style['is-open'] : ''}`}
+        onClick={toggleHandler}
+        aria-hidden="true"
+      ></div>
     </>
   );
 };
