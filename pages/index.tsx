@@ -3,9 +3,9 @@ import { GetStaticProps } from 'next';
 import path from 'path';
 import Parser from 'rss-parser';
 
-import HoverCard from '@/components/HoverCard';
 import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
+import LinkCard from '@/components/LinkCard';
 import { TermsPostLits } from '@/types/source';
 
 interface Feed {
@@ -36,7 +36,7 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
             <MenuList className="p-home-section__contents">
               {recentPosts.map((post, index) => (
                 <MenuListItem key={index}>
-                  <HoverCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
+                  <LinkCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
                 </MenuListItem>
               ))}
             </MenuList>
@@ -49,7 +49,7 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
             <MenuList className="p-home-section__contents">
               {updatesPosts.map((post, index) => (
                 <MenuListItem key={index}>
-                  <HoverCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
+                  <LinkCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
                 </MenuListItem>
               ))}
             </MenuList>
@@ -64,7 +64,7 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
                 (post, index) =>
                   index < 5 && (
                     <MenuListItem key={index}>
-                      <HoverCard link={post.link} title={post.title} date={post.isoDate} target={true} />
+                      <LinkCard link={post.link} title={post.title} date={post.isoDate} target={true} />
                     </MenuListItem>
                   ),
               )}
@@ -80,7 +80,7 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
                 (post, index) =>
                   index < 5 && (
                     <MenuListItem key={index}>
-                      <HoverCard link={post.link} title={post.title} date={post.isoDate} target={true} />
+                      <LinkCard link={post.link} title={post.title} date={post.isoDate} target={true} />
                     </MenuListItem>
                   ),
               )}

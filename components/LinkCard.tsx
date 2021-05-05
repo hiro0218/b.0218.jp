@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import style from '@/styles/Components/hover-card.module.css';
+import style from '@/styles/Components/link-card.module.css';
 import { convertDateToSimpleFormat } from '@/utils/date';
 
 interface Props {
@@ -11,21 +11,21 @@ interface Props {
   target?: boolean;
 }
 
-const HoverCard = ({ link, title, date, excerpt, target = false }: Props) => {
+const LinkCard = ({ link, title, date, excerpt, target = false }: Props) => {
   return (
     <Link href={link}>
-      <a className={style['hover-card']} {...(target && { target: '_blank' })}>
-        <div className={style['hover-card-main']}>
-          <h3 className={style['hover-card__title']}>{title}</h3>
-          <div className={style['hover-card__text']}>
-            <time dateTime={date} className={style['hover-card__date']}>
+      <a className={style['link-card']} {...(target && { target: '_blank' })}>
+        <div className={style['link-card-main']}>
+          <h3 className={style['link-card__title']}>{title}</h3>
+          <div className={style['link-card__text']}>
+            <time dateTime={date} className={style['link-card__date']}>
               {convertDateToSimpleFormat(date)}
             </time>
-            {excerpt && <span className={style['hover-card__excerpt']}>{excerpt}</span>}
+            {excerpt && <span className={style['link-card__excerpt']}>{excerpt}</span>}
           </div>
         </div>
-        <div className={style['hover-card-icon']}>
-          <div className={style['hover-card-icon__arrow']}>
+        <div className={style['link-card-icon']}>
+          <div className={style['link-card-icon__arrow']}>
             {target ? (
               /* external */
               <svg
@@ -64,4 +64,4 @@ const HoverCard = ({ link, title, date, excerpt, target = false }: Props) => {
   );
 };
 
-export default HoverCard;
+export default LinkCard;
