@@ -1,28 +1,32 @@
 :root {
+  --background: #fff;
+  --foreground: #000;
+
   --gray-0: #f8f8f8;
-  --gray-1: #dfdfdf;
-  --gray-2: #c6c6c6;
-  --gray-3: #aeaeae;
+  --gray-1: #ececec;
+  --gray-2: #d3d3d3;
+  --gray-3: #c6c6c6;
   --gray-4: #959595;
-  --gray-5: #7c7c7c;
-  --gray-6: #636363;
-  --gray-7: #4a4a4a;
-  --gray-8: #323232;
-  --gray-9: #191919;
+  --gray-5: #888;
+  --gray-6: #4a4a4a;
+  --gray-7: #3e3e3e;
+  --gray-8: #191919;
+  --gray-9: #0c0c0c;
 
   /* color */
-  --color-text: var(--gray-8);
-  --color-text--dark: var(--gray-9);
   --color-text--darker: var(--gray-9);
-  --color-text--light: var(--gray-7);
-  --color-text--lighter: var(--gray-6);
+  --color-text--dark: var(--gray-8);
+  --color-text: var(--gray-7);
+  --color-text--light: var(--gray-6);
+  --color-text--lighter: var(--gray-5);
+
   --color-text-heading: var(--gray-8);
-  --color-text-description: var(--gray-6);
+  --color-text-description: var(--gray-5);
   --color-text-link: var(--gray-9);
 
-  --bg-color: var(--gray-2);
-  --bg-color--dark: var(--gray-3);
   --bg-color--darker: var(--gray-4);
+  --bg-color--dark: var(--gray-3);
+  --bg-color: var(--gray-2);
   --bg-color--light: var(--gray-1);
   --bg-color--lighter: var(--gray-0);
 
