@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import path from 'path';
 
+import Heading from '@/components/Heading';
 import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
 import LinkCard from '@/components/LinkCard';
@@ -46,7 +47,7 @@ const Archive = ({ archives }: Props) => {
       <PageContainer>
         <article className="p-archive">
           <header>
-            <h1 className="c-heading">Archive</h1>
+            <Heading text={'Archive'} />
           </header>
 
           <section className="p-archive__contents">

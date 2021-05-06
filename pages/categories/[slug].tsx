@@ -3,6 +3,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import path from 'path';
 
+import Heading from '@/components/Heading';
 import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
 import LinkCard from '@/components/LinkCard';
@@ -28,8 +29,7 @@ const Categories = ({ title, posts }: Props) => {
         <section className="p-term">
           <section className="p-term-section">
             <header>
-              <h1 className="c-heading">{title}</h1>
-              <span className="c-heading-sub">category</span>
+              <Heading text={title} descriptionText={'category'} />
             </header>
 
             <MenuList className="p-term-section__contents">

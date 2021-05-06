@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import path from 'path';
 
+import Heading from '@/components/Heading';
 import PageContainer from '@/components/layout/PageContainer';
 import { SITE } from '@/constant';
 import { Pages } from '@/types/source';
@@ -21,7 +22,7 @@ const About = ({ page }: Props) => {
       <PageContainer>
         <article className="p-post">
           <header>
-            <h1 className="c-heading">About</h1>
+            <Heading text={'About'} />
           </header>
 
           <div

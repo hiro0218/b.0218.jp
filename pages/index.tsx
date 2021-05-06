@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import path from 'path';
 import Parser from 'rss-parser';
 
+import Heading from '@/components/Heading';
 import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
 import LinkCard from '@/components/LinkCard';
@@ -26,12 +27,12 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
     <>
       <PageContainer>
         <header>
-          <h1 className="c-heading">Home</h1>
+          <Heading text={'Home'} />
         </header>
         <section className="p-home">
           <section className="p-home-section">
             <header>
-              <h2 className="c-heading">Recent Articles</h2>
+              <Heading tagName={'h2'} text={'Recent Articles'} isWeightNormal={true} />
             </header>
             <MenuList className="p-home-section__contents">
               {recentPosts.map((post, index) => (
@@ -44,7 +45,7 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
 
           <section className="p-home-section">
             <header>
-              <h2 className="c-heading">Updated Articles</h2>
+              <Heading tagName={'h2'} text={'Updated Articles'} isWeightNormal={true} />
             </header>
             <MenuList className="p-home-section__contents">
               {updatesPosts.map((post, index) => (
@@ -57,7 +58,7 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
 
           <section className="p-home-section">
             <header>
-              <h2 className="c-heading">Qiita: Recent Articles</h2>
+              <Heading tagName={'h2'} text={'Qiita: Recent Articles'} isWeightNormal={true} />
             </header>
             <MenuList className="p-home-section__contents">
               {qiitaPosts.map(
@@ -73,7 +74,7 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
 
           <section className="p-home-section">
             <header>
-              <h2 className="c-heading">Zenn: Recent Articles</h2>
+              <Heading tagName={'h2'} text={'Zenn: Recent Articles'} isWeightNormal={true} />
             </header>
             <MenuList className="p-home-section__contents">
               {zennPosts.map(
