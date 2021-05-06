@@ -3,9 +3,10 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import path from 'path';
 
-import HoverCard from '@/components/HoverCard';
+import Heading from '@/components/Heading';
 import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
+import LinkCard from '@/components/LinkCard';
 import { SITE } from '@/constant';
 import { Archives } from '@/types/source';
 
@@ -46,7 +47,7 @@ const Archive = ({ archives }: Props) => {
       <PageContainer>
         <article className="p-archive">
           <header>
-            <h1 className="c-heading">Archive</h1>
+            <Heading text={'Archive'} />
           </header>
 
           <section className="p-archive__contents">
@@ -60,12 +61,7 @@ const Archive = ({ archives }: Props) => {
                     {posts[key].map((post: Archives, index: number) => {
                       return (
                         <MenuListItem key={index}>
-                          <HoverCard
-                            link={'/' + post.path}
-                            title={post.title}
-                            date={post.date}
-                            excerpt={post.excerpt}
-                          />
+                          <LinkCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
                         </MenuListItem>
                       );
                     })}

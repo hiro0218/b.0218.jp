@@ -1,9 +1,5 @@
 const PageContainer = ({ children }) => {
-  return (
-    <div className="l-container" style={{ minHeight: '100vh' }}>
-      {children}
-    </div>
-  );
+  return <div className="l-page-container">{children}</div>;
 };
 
 export default PageContainer;

@@ -6,6 +6,7 @@ import path from 'path';
 import React, { useEffect } from 'react';
 
 import Adsense from '@/components/Adsense';
+import Heading from '@/components/Heading';
 import PageContainer from '@/components/layout/PageContainer';
 import Pager from '@/components/Pager';
 import PostDate from '@/components/PostDate';
@@ -66,7 +67,8 @@ const Post = ({ post }: Props) => {
       <PageContainer>
         <article className="p-post">
           <header>
-            <h1 className="c-heading">{post.title}</h1>
+            <Heading text={post.title} />
+
             <div className="p-post-meta">
               <PostDate date={post.date} updated={post.updated} />
               <PostTerm categories={post.categories} tags={post.tags} />

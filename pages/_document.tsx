@@ -19,7 +19,7 @@ class SampleDocument extends Document {
           <link rel="dns-prefetch" href="//www.googletagmanager.com" />
           <link rel="dns-prefetch" href="//platform.twitter.com" />
           <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-          <link rel="alternate" type="application/rss+xml" title="Blog Title" href="https://b.0218.jp/feed" />
+          <link rel="alternate" type="application/rss+xml" href="https://b.0218.jp/feed" />
           <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" />
           <script
             data-ad-client={GOOGLE_ADSENSE.CLIENT}

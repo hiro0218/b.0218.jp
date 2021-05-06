@@ -6,7 +6,7 @@
 }
 
 .c-heading-sub {
-  color: var(--color-text--light);
+  color: var(--color-text--lighter);
   font-weight: normal;
   line-height: 1.4;
   overflow-wrap: break-word;

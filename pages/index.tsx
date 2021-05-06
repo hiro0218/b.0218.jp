@@ -3,9 +3,10 @@ import { GetStaticProps } from 'next';
 import path from 'path';
 import Parser from 'rss-parser';
 
-import HoverCard from '@/components/HoverCard';
+import Heading from '@/components/Heading';
 import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
+import LinkCard from '@/components/LinkCard';
 import { TermsPostLits } from '@/types/source';
 
 interface Feed {
@@ -26,17 +27,17 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
     <>
       <PageContainer>
         <header>
-          <h1 className="c-heading">Home</h1>
+          <Heading text={'Home'} />
         </header>
         <section className="p-home">
           <section className="p-home-section">
             <header>
-              <h2 className="c-heading">Recent Articles</h2>
+              <Heading tagName={'h2'} text={'Recent Articles'} isWeightNormal={true} />
             </header>
             <MenuList className="p-home-section__contents">
               {recentPosts.map((post, index) => (
                 <MenuListItem key={index}>
-                  <HoverCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
+                  <LinkCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
                 </MenuListItem>
               ))}
             </MenuList>
@@ -44,12 +45,12 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
 
           <section className="p-home-section">
             <header>
-              <h2 className="c-heading">Updated Articles</h2>
+              <Heading tagName={'h2'} text={'Updated Articles'} isWeightNormal={true} />
             </header>
             <MenuList className="p-home-section__contents">
               {updatesPosts.map((post, index) => (
                 <MenuListItem key={index}>
-                  <HoverCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
+                  <LinkCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
                 </MenuListItem>
               ))}
             </MenuList>
@@ -57,14 +58,14 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
 
           <section className="p-home-section">
             <header>
-              <h2 className="c-heading">Qiita: Recent Articles</h2>
+              <Heading tagName={'h2'} text={'Qiita: Recent Articles'} isWeightNormal={true} />
             </header>
             <MenuList className="p-home-section__contents">
               {qiitaPosts.map(
                 (post, index) =>
                   index < 5 && (
                     <MenuListItem key={index}>
-                      <HoverCard link={post.link} title={post.title} date={post.isoDate} target={true} />
+                      <LinkCard link={post.link} title={post.title} date={post.isoDate} target={true} />
                     </MenuListItem>
                   ),
               )}
@@ -73,14 +74,14 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
 
           <section className="p-home-section">
             <header>
-              <h2 className="c-heading">Zenn: Recent Articles</h2>
+              <Heading tagName={'h2'} text={'Zenn: Recent Articles'} isWeightNormal={true} />
             </header>
             <MenuList className="p-home-section__contents">
               {zennPosts.map(
                 (post, index) =>
                   index < 5 && (
                     <MenuListItem key={index}>
-                      <HoverCard link={post.link} title={post.title} date={post.isoDate} target={true} />
+                      <LinkCard link={post.link} title={post.title} date={post.isoDate} target={true} />
                     </MenuListItem>
                   ),
               )}

@@ -3,9 +3,10 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import path from 'path';
 
-import HoverCard from '@/components/HoverCard';
+import Heading from '@/components/Heading';
 import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
+import LinkCard from '@/components/LinkCard';
 import { SITE } from '@/constant';
 import { Terms, TermsPostLits } from '@/types/source';
 
@@ -28,14 +29,13 @@ const Categories = ({ title, posts }: Props) => {
         <section className="p-term">
           <section className="p-term-section">
             <header>
-              <h1 className="c-heading">{title}</h1>
-              <span className="c-heading-sub">category</span>
+              <Heading text={title} descriptionText={'category'} />
             </header>
 
             <MenuList className="p-term-section__contents">
               {posts.map((post, index) => (
                 <MenuListItem key={index}>
-                  <HoverCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
+                  <LinkCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
                 </MenuListItem>
               ))}
             </MenuList>

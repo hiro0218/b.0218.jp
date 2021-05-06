@@ -1,5 +1,6 @@
-.l-container {
-  margin: 0 auto;
+.l-page-container {
+  min-height: calc(100vh - var(--header-height));
+  margin: var(--margin-base) auto 0;
 
   @media (--desktop-viewport) {
     max-width: var(--desktop-width);

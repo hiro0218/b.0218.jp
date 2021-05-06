@@ -3,7 +3,7 @@ import Link from 'next/link';
 const TheFooter = () => {
   return (
     <footer className="pj-footer">
-      <div className="l-container pj-footer-container">
+      <div className="pj-footer-container">
         <div className="pj-footer-menu">
           <ul className="pj-footer-menu__list">
             <li className="pj-footer-menu__item">

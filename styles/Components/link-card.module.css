@@ -1,4 +1,4 @@
-.hover-card {
+.link-card {
   display: flex;
   height: 100%;
   padding: 1rem 1.25rem;
@@ -14,7 +14,7 @@
   }
 }
 
-.hover-card-main {
+.link-card-main {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -22,13 +22,13 @@
   overflow: hidden;
 }
 
-.hover-card__title {
+.link-card__title {
   color: var(--color-text-heading);
   font-size: 1rem;
   line-height: 1.8;
 }
 
-.hover-card__text {
+.link-card__text {
   margin-top: 0.25rem;
   overflow: hidden;
   color: var(--color-text-description);
@@ -39,7 +39,7 @@
   white-space: nowrap;
 }
 
-.hover-card__date {
+.link-card__date {
 
   &:not(:only-child) {
     &::after {
@@ -48,13 +48,13 @@
   }
 }
 
-.hover-card-icon {
+.link-card-icon {
   display: flex;
   align-items: center;
   padding-left: 1rem;
 }
 
-.hover-card-icon__arrow {
+.link-card-icon__arrow {
   display: flex;
   align-items: center;
   color: var(--bg-color--dark);
