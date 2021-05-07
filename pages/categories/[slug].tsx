@@ -52,7 +52,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const dataPath = path.join(process.cwd(), '_source/categories.json');
   const posts: Array<Terms> = fs.readJsonSync(dataPath);
   const paths = posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.name },
   }));
 
   return { paths, fallback: false };
@@ -64,7 +64,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const slug = context.params.slug;
 
   const postData = posts.filter((post: Terms) => {
-    return post.slug === slug;
+    return post.name === slug;
   });
 
   return {
