@@ -28,8 +28,6 @@ export interface TermsPostLits {
 
 export interface Terms {
   name: string;
-  slug: string;
-  path?: string;
   count: number;
   posts: Array<TermsPostLits>;
 }
@@ -37,8 +35,6 @@ export interface Terms {
 // Post
 export interface TermsPostList {
   name: string;
-  slug: string;
-  path: string;
 }
 
 export interface NextPrevPost {
