@@ -46,13 +46,12 @@ export interface Post {
   date: string;
   updated: string;
   path: string;
-  permalink: string;
   title: string;
   content: string;
   excerpt: string;
   thumbnail: string;
-  categories: Array<TermsPostList>;
-  tags: Array<TermsPostList>;
+  categories: Array<string>;
+  tags: Array<string>;
   next: NextPrevPost;
   prev: NextPrevPost;
 }

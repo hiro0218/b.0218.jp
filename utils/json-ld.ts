@@ -65,8 +65,8 @@ export const getBreadcrumbStructured = (post: Post) => {
         '@type': 'ListItem',
         position: ++itemCount,
         item: {
-          '@id': `${SITE.URL}/categories/${category.name}`,
-          name: category.name,
+          '@id': `${SITE.URL}/categories/${category}`,
+          name: category,
         },
       });
     }
@@ -75,7 +75,7 @@ export const getBreadcrumbStructured = (post: Post) => {
   itemListElement.push({
     '@type': 'ListItem',
     position: ++itemCount,
-    item: { '@id': post.permalink, name: post.title },
+    item: { '@id': `${SITE.URL}${post.path}`, name: post.title },
   });
 
   const structure = Object.assign(
