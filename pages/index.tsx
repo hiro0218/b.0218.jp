@@ -7,7 +7,7 @@ import Heading from '@/components/Heading';
 import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
 import LinkCard from '@/components/LinkCard';
-import { TermsPostLits } from '@/types/source';
+import { Post as PropsPost } from '@/types/source';
 
 interface Feed {
   title: string;
@@ -16,8 +16,8 @@ interface Feed {
 }
 
 interface Props {
-  recentPosts: Array<TermsPostLits>;
-  updatesPosts: Array<TermsPostLits>;
+  recentPosts: Array<PropsPost>;
+  updatesPosts: Array<PropsPost>;
   zennPosts: Array<Feed>;
   qiitaPosts: Array<Feed>;
 }
@@ -37,7 +37,7 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
             <MenuList className="p-home-section__contents">
               {recentPosts.map((post, index) => (
                 <MenuListItem key={index}>
-                  <LinkCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
+                  <LinkCard link={`/${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
                 </MenuListItem>
               ))}
             </MenuList>
@@ -50,7 +50,7 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
             <MenuList className="p-home-section__contents">
               {updatesPosts.map((post, index) => (
                 <MenuListItem key={index}>
-                  <LinkCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
+                  <LinkCard link={`/${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
                 </MenuListItem>
               ))}
             </MenuList>
@@ -96,10 +96,8 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const recentPostsPath = path.join(process.cwd(), '_source/recent_posts.json');
-  const updatesPostsPath = path.join(process.cwd(), '_source/updates_posts.json');
-  const recentPosts: Array<TermsPostLits> = fs.readJsonSync(recentPostsPath);
-  const updatesPosts: Array<TermsPostLits> = fs.readJsonSync(updatesPostsPath);
+  const postsPath = path.join(process.cwd(), 'dist/posts.json');
+  const posts: Array<PropsPost> = fs.readJsonSync(postsPath);
 
   // 外部サービス
   const parser = new Parser();
@@ -110,8 +108,13 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      recentPosts,
-      updatesPosts,
+      recentPosts: posts.filter((_, i) => i < 5),
+      updatesPosts: posts
+        .sort((a, b) => {
+          return a.updated < b.updated ? 1 : -1;
+        })
+        .filter((value) => value.date < value.updated)
+        .filter((_, i) => i < 5),
       zennPosts,
       qiitaPosts,
     },

@@ -46,6 +46,7 @@ export interface NextPrevPost {
 export interface Post {
   date: string;
   updated: string;
+  slug?: string;
   path: string;
   title: string;
   content: string;
