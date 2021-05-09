@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint {components,hooks,lib,pages,utils}/** --ext .ts,.tsx",
-    "prebuild": "git submodule update --remote && node ./output.js && node ./prepare/article.js",
+    "prebuild": "git submodule update --remote && node ./prepare/article.js",
     "prepare": "husky install"
   },
   "dependencies": {

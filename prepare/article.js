@@ -11,6 +11,7 @@ const rehypeHighlight = require('rehype-highlight');
 const remarkBreaks = require('remark-breaks');
 const remarkUnwrapImages = require('remark-unwrap-images');
 const remarkExternalLinks = require('remark-external-links');
+const { copyFile } = require('fs/promises');
 
 const path = {
   src: `${process.cwd()}/_article`,
@@ -164,5 +165,10 @@ function buildTerms() {
   fs.writeJSONSync(`${path.dist}/categories.json`, categoriesMap);
 }
 
+function copyPostJson() {
+  fs.copyFileSync(`${path.dist}/posts.json`, `public/posts.json`);
+}
+
 buildPost();
 buildTerms();
+copyPostJson();

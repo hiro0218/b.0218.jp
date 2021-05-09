@@ -64,7 +64,7 @@ typings/
 
 # next.js build output
 .next
-public/archives.json
+public/posts.json
 
 # nuxt.js build output
 .nuxt
