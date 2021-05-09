@@ -101,11 +101,10 @@ const Post = ({ post }: Props) => {
 export default Post;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const dataPath = path.join(process.cwd(), '_source/archives.json');
-  const posts: Array<Archives> = fs.readJsonSync(dataPath);
+  const dataPath = path.join(process.cwd(), 'dist/posts.json');
+  const posts: Array<PostType> = fs.readJsonSync(dataPath);
   const paths = posts.map((post) => ({
-    // next build: 拡張子が含まれていると出力できない
-    params: { slug: post.path.replace('.html', '') },
+    params: { slug: post.slug },
   }));
 
   return { paths, fallback: false };
