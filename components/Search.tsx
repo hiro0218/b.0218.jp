@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 
 import style from '@/styles/Components/search.module.css';
-import { Archives } from '@/types/source';
+import { Post } from '@/types/source';
 
 interface Props {
   isOpen: boolean;
@@ -16,15 +16,15 @@ const Search = ({ isOpen = false, toggleHandler }: Props) => {
     keyword: '',
     suggest: [],
   });
-  const [archives, setArchives] = useState([] as Array<Archives>);
+  const [archives, setArchives] = useState([] as Array<Post>);
 
   useEffect(() => {
     refInput.current.focus();
 
     (async () => {
-      return await fetch('/archives.json')
+      return await fetch('/posts.json')
         .then((response) => response.json())
-        .then((archives: Array<Archives>) => {
+        .then((archives: Array<Post>) => {
           setArchives(archives);
         });
     })();
@@ -55,7 +55,7 @@ const Search = ({ isOpen = false, toggleHandler }: Props) => {
         return;
       }
 
-      const suggest = archives.filter((post: Archives) => {
+      const suggest = archives.filter((post: Post) => {
         // AND検索のため入力値をスペースで区切って、それぞれの条件に一致するか
         return value
           .toLowerCase()
@@ -98,7 +98,7 @@ const Search = ({ isOpen = false, toggleHandler }: Props) => {
             <div className={style['c-search-list']}>
               {data.suggest.map((post, index) => {
                 return (
-                  <Link key={index} href={'/' + post.path}>
+                  <Link key={index} href={`/${post.slug}.html`}>
                     <a className={style['c-search-list__link']}>{post.title}</a>
                   </Link>
                 );
