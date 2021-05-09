@@ -13,7 +13,7 @@ import PostDate from '@/components/PostDate';
 import PostShare from '@/components/PostShare';
 import PostTerm from '@/components/PostTerm';
 import { AUTHOR, SITE } from '@/constant';
-import { Archives, Post as PostType } from '@/types/source';
+import { Post as PostType } from '@/types/source';
 import filteredPost from '@/utils/filteredPost';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '@/utils/json-ld';
 import { mokuji } from '@/utils/mokuji';
