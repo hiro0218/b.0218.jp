@@ -39,18 +39,16 @@ export interface TermsPostList {
 
 export interface NextPrevPost {
   title: string;
-  path: string;
+  slug: string;
 }
 
 export interface Post {
   date: string;
   updated: string;
-  slug?: string;
-  path: string;
+  slug: string;
   title: string;
   content: string;
   excerpt: string;
-  thumbnail: string;
   categories: Array<string>;
   tags: Array<string>;
   next: NextPrevPost;

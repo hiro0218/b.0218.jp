@@ -12,7 +12,7 @@ import Pager from '@/components/Pager';
 import PostDate from '@/components/PostDate';
 import PostShare from '@/components/PostShare';
 import PostTerm from '@/components/PostTerm';
-import { AUTHOR, SITE } from '@/constant';
+import { SITE } from '@/constant';
 import { Post as PostType } from '@/types/source';
 import filteredPost from '@/utils/filteredPost';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '@/utils/json-ld';
@@ -23,14 +23,12 @@ interface Props {
 }
 
 const getOgImagePath = (slug: string): string => {
-  if (!slug) return '';
-
-  const filename = slug.replace('.html', '');
-  return slug ? `https://hiro0218.github.io/blog/images/ogp/${filename}.png` : AUTHOR.ICON;
+  return `https://hiro0218.github.io/blog/images/ogp/${slug}.png`;
 };
 
 const Post = ({ post }: Props) => {
   const { asPath } = useRouter();
+  const permalink = `${SITE.URL}${post.slug}.html`;
 
   useEffect(() => {
     const postContent = document.querySelector<HTMLDivElement>('.js-post-content');
@@ -43,16 +41,16 @@ const Post = ({ post }: Props) => {
       <Head>
         <title key="title">{post.title}</title>
         <meta key="description" name="description" content={post.excerpt} />
-        <meta key="og:url" property="og:url" content={SITE.URL + post.path} />
+        <meta key="og:url" property="og:url" content={permalink} />
         <meta key="og:title" property="og:title" content={post.title} />
         <meta key="og:type" property="og:type" content="article" />
         <meta key="og:description" property="og:description" content={post.excerpt} />
         <meta key="og:updated_time" property="og:updated_time" content={post.updated} />
         <meta key="article:published_time" property="article:published_time" content={post.date} />
         <meta key="article:modified_time" property="article:modified_time" content={post.updated} />
-        <meta key="og:image" property="og:image" content={getOgImagePath(post.path)} />
+        <meta key="og:image" property="og:image" content={getOgImagePath(post.slug)} />
         <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href={SITE.URL + post.path} />
+        <link rel="canonical" href={permalink} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(getBlogPostingStructured(post)) }}
@@ -87,7 +85,7 @@ const Post = ({ post }: Props) => {
         </article>
 
         <div className="p-post__share">
-          <PostShare title={post.title} url={SITE.URL + post.path} />
+          <PostShare title={post.title} url={permalink} />
         </div>
 
         <div className="p-post__pager">
@@ -111,7 +109,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const dataPath = path.join(process.cwd(), '_source/posts.json');
+  const dataPath = path.join(process.cwd(), 'dist/posts.json');
   const posts: Array<PostType> = fs.readJsonSync(dataPath);
 
   // next build: 拡張子が含まれていると出力できない
@@ -121,7 +119,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
 
   const postData: PostType = posts.find((post) => {
-    return post.path === context.params.slug;
+    const slug = context.params.slug as string;
+    return post.slug === slug.replace('.html', '');
   });
 
   // SSG時に処理する

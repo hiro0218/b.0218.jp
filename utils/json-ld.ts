@@ -1,6 +1,10 @@
 import { AUTHOR, SITE } from '../constant';
 import { Post } from '../types/source';
 
+const getOgImagePath = (slug: string): string => {
+  return `https://hiro0218.github.io/blog/images/ogp/${slug}.png`;
+};
+
 const getDescriptionText = (postContent: string): string => {
   let content = postContent;
 
@@ -22,19 +26,14 @@ export const getBlogPostingStructured = (post: Post) => {
     '@type': 'BlogPosting',
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${SITE.URL}${post.path}`,
+      '@id': `${SITE.URL}${post.slug}.html`,
     },
     headline: post.title,
     datePublished: post.date,
     dateModified: post.updated,
     author: { '@type': 'Person', name: AUTHOR.NAME },
     description: getDescriptionText(post.content),
-    image: {
-      '@type': 'ImageObject',
-      url: post.thumbnail,
-      width: 696,
-      height: 696,
-    },
+    image: [getOgImagePath(post.slug)],
     publisher: {
       '@type': 'Organization',
       name: SITE.NAME,
@@ -75,7 +74,7 @@ export const getBreadcrumbStructured = (post: Post) => {
   itemListElement.push({
     '@type': 'ListItem',
     position: ++itemCount,
-    item: { '@id': `${SITE.URL}${post.path}`, name: post.title },
+    item: { '@id': `${SITE.URL}${post.slug}.html`, name: post.title },
   });
 
   const structure = Object.assign(
