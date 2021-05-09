@@ -21,9 +21,10 @@ export interface Pages {
 // Terms
 export interface TermsPostLits {
   title: string;
-  path: string;
-  excerpt: string;
+  path?: string;
+  slug: string;
   date: string;
+  excerpt: string;
 }
 
 export interface Terms {
