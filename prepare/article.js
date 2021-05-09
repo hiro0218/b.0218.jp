@@ -18,6 +18,15 @@ const path = {
 };
 
 /**
+ * <!--more--> を置き換える
+ * @param {string} content
+ * @returns {string}
+ */
+function replaceMoreComment(content) {
+  return content.replace('<!--more-->', '\r\n<div class="more js-separate"></div>\r\n');
+}
+
+/**
  * h2の内容をを取得して中身を取り出す
  * @param {string} content
  * @returns {string}
@@ -80,7 +89,7 @@ function buildPost() {
       slug: file.replace('.md', ''),
       date,
       updated,
-      content: content,
+      content: replaceMoreComment(content),
       excerpt: getHeadings(content),
       categories,
       tags,
