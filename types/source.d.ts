@@ -10,12 +10,10 @@ export interface Archives {
 // Pages
 export interface Pages {
   title: string;
-  path: string;
   slug: string;
   date: string;
   updated: string;
   content: string;
-  excerpt: string;
 }
 
 // Terms
