@@ -1,5 +1,4 @@
 const fs = require('fs-extra');
-// const puppeteer = require('puppeteer');
 const { Cluster } = require('puppeteer-cluster');
 
 const path = {
@@ -38,8 +37,7 @@ const html = `
       width: 100%;
       color: #212529;
       font-size: 5vw;
-      line-height: 1.75;
-      letter-spacing: 0.0125em;
+      line-height: 1.7;
       text-align: left;
     }
 
@@ -66,8 +64,8 @@ const html = `
   const length = posts.length;
 
   const cluster = await Cluster.launch({
-    concurrency: Cluster.CONCURRENCY_CONTEXT,
-    maxConcurrency: 4,
+    concurrency: Cluster.CONCURRENCY_PAGE,
+    maxConcurrency: 10,
     puppeteerOptions: {
       defaultViewport: {
         width: 1200,
