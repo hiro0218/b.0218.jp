@@ -123,6 +123,7 @@ function buildPost() {
 
   fs.ensureDirSync(`${path.dist}`);
   fs.writeJSONSync(`${path.dist}/posts.json`, posts);
+  console.log('Write dist/posts.json');
 }
 
 function buildTerms() {
@@ -161,7 +162,9 @@ function buildTerms() {
   });
 
   fs.writeJSONSync(`${path.dist}/tags.json`, tagsMap);
+  console.log('Write dist/tags.json');
   fs.writeJSONSync(`${path.dist}/categories.json`, categoriesMap);
+  console.log('Write dist/categories.json');
 }
 
 function buildPage() {
@@ -189,10 +192,12 @@ function buildPage() {
   }
 
   fs.writeJSONSync(`${path.dist}/pages.json`, pages);
+  console.log('Write dist/pages.json');
 }
 
 function copyPostJson() {
   fs.copyFileSync(`${path.dist}/posts.json`, `public/posts.json`);
+  console.log('Copy public/posts.json');
 }
 
 buildPost();
