@@ -1,8 +1,3 @@
-[submodule "_source"]
-	path = _source
-	url = https://github.com/hiro0218/blog.git
-	branch = gh-pages
-	ignore = dirty
 [submodule "_article"]
 	path = _article
 	url = https://github.com/hiro0218/article.git
