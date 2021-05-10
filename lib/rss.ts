@@ -1,7 +1,7 @@
 import RSS from 'rss';
 
-import posts from '@/_source/posts.json';
 import { SITE } from '@/constant';
+import posts from '@/dist/posts.json';
 
 export async function generateFeedXml() {
   const feed = new RSS({
@@ -18,7 +18,7 @@ export async function generateFeedXml() {
         title: post.title,
         description: post.excerpt,
         date: new Date(post.date),
-        url: `${SITE.URL}${post.path}`,
+        url: `${SITE.URL}${post.slug}.html`,
       });
     }
   });
