@@ -64,7 +64,7 @@ export const getBreadcrumbStructured = (post: Post) => {
         '@type': 'ListItem',
         position: ++itemCount,
         item: {
-          '@id': `${SITE.URL}/categories/${category}`,
+          '@id': `${SITE.URL}categories/${category}`,
           name: category,
         },
       });
