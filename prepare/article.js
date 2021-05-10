@@ -164,10 +164,38 @@ function buildTerms() {
   fs.writeJSONSync(`${path.dist}/categories.json`, categoriesMap);
 }
 
+function buildPage() {
+  // md ファイル一覧を取得
+  const files = fs.readdirSync(`${path.src}`).filter((file) => file.endsWith('.md'));
+  const NUMBER_OF_FILES = files.length;
+  const pages = [];
+
+  // 記事一覧
+  for (let i = 0; i < NUMBER_OF_FILES; i++) {
+    const file = files[i];
+
+    // front matter を取得
+    const page = matter.read(`${path.src}/${file}`);
+    const { title, date, updated } = page.data;
+    const content = markdown2html(page.content);
+
+    pages.push({
+      title,
+      slug: file.replace('.md', ''),
+      date,
+      updated,
+      content,
+    });
+  }
+
+  fs.writeJSONSync(`${path.dist}/pages.json`, pages);
+}
+
 function copyPostJson() {
   fs.copyFileSync(`${path.dist}/posts.json`, `public/posts.json`);
 }
 
 buildPost();
 buildTerms();
+buildPage();
 copyPostJson();
