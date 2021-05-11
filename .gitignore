@@ -65,7 +65,7 @@ typings/
 # next.js build output
 .next
 public/posts.json
-public/images/ogp
+public/images
 
 # nuxt.js build output
 .nuxt

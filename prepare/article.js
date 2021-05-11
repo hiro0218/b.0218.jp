@@ -195,12 +195,14 @@ function buildPage() {
   console.log('Write dist/pages.json');
 }
 
-function copyPostJson() {
+function copyFiles() {
   fs.copyFileSync(`${path.dist}/posts.json`, `public/posts.json`);
-  console.log('Copy public/posts.json');
+  console.log('Copy dist/posts.json');
+  fs.copySync(`${process.cwd()}/_article/images`, `public/images`);
+  console.log('Copy _article/images');
 }
 
 buildPost();
 buildTerms();
 buildPage();
-copyPostJson();
+copyFiles();
