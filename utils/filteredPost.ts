@@ -1,8 +1,12 @@
 import cheerio from 'cheerio';
-import hljs from 'highlight.js';
 
 const filteredPost = (content: string): string => {
   const $ = cheerio.load(content);
+
+  // image
+  $('img').each((_, element) => {
+    $(element).attr('loading', 'lazy');
+  });
 
   // hljs
   $('pre code').each((_, element) => {
@@ -10,15 +14,11 @@ const filteredPost = (content: string): string => {
     const elementClass = $element.attr('class');
 
     if (elementClass) {
-      const className = elementClass ? elementClass.replace('language-', '') : '';
-      const result = hljs.highlightAuto($element.text(), [className]);
+      const className = elementClass ? elementClass.replace('language-', '').replace('hljs ', '') : '';
 
       if (className) {
         $element.attr('data-language', className);
       }
-
-      $element.addClass('hljs');
-      $element.html(result.value);
     }
   });
 

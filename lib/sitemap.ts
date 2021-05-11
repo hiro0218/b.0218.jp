@@ -1,5 +1,5 @@
-import posts from '@/_source/posts.json';
 import { SITE } from '@/constant';
+import posts from '@/dist/posts.json';
 
 export async function generateSitemapXml() {
   let xml = '';
@@ -15,7 +15,7 @@ export async function generateSitemapXml() {
 
   posts?.forEach((post) => {
     xml += `<url>`;
-    xml += ` <loc>${SITE.URL}${post.path}</loc>`;
+    xml += ` <loc>${SITE.URL}${post.slug}.html</loc>`;
     xml += ` <lastmod>${post.date}</lastmod>`;
     xml += ` <changefreq>weekly</changefreq>`;
     xml += ` <priority>0.6</priority>`;

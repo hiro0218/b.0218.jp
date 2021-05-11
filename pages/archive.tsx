@@ -8,13 +8,13 @@ import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
 import LinkCard from '@/components/LinkCard';
 import { SITE } from '@/constant';
-import { Archives } from '@/types/source';
+import { Post as PropPost } from '@/types/source';
 
 interface Props {
-  archives: Array<Archives>;
+  archives: Array<PropPost>;
 }
 
-const divideByYearArchive = (archives: Array<Archives>) => {
+const divideByYearArchive = (archives: Array<PropPost>) => {
   const formatArchives = {};
 
   for (let i = 0; i < archives.length; i++) {
@@ -58,10 +58,15 @@ const Archive = ({ archives }: Props) => {
                     <h2 className="archive-year__title">{key}</h2>
                   </div>
                   <MenuList className="archive-post">
-                    {posts[key].map((post: Archives, index: number) => {
+                    {posts[key].map((post: PropPost, index: number) => {
                       return (
                         <MenuListItem key={index}>
-                          <LinkCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
+                          <LinkCard
+                            link={`/${post.slug}.html`}
+                            title={post.title}
+                            date={post.date}
+                            excerpt={post.excerpt}
+                          />
                         </MenuListItem>
                       );
                     })}
@@ -79,8 +84,8 @@ const Archive = ({ archives }: Props) => {
 export default Archive;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const dataPath = path.join(process.cwd(), '_source/archives.json');
-  const posts: Array<Archives> = fs.readJsonSync(dataPath);
+  const dataPath = path.join(process.cwd(), 'dist/posts.json');
+  const posts: Array<PropPost> = fs.readJsonSync(dataPath);
 
   return {
     props: {
