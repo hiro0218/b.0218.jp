@@ -3,6 +3,11 @@ import cheerio from 'cheerio';
 const filteredPost = (content: string): string => {
   const $ = cheerio.load(content);
 
+  // image
+  $('img').each((_, element) => {
+    $(element).attr('loading', 'lazy');
+  });
+
   // hljs
   $('pre code').each((_, element) => {
     const $element = $(element);
