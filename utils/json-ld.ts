@@ -1,10 +1,6 @@
 import { AUTHOR, SITE } from '../constant';
 import { Post } from '../types/source';
 
-const getOgImagePath = (slug: string): string => {
-  return `https://hiro0218.github.io/blog/images/ogp/${slug}.png`;
-};
-
 const getDescriptionText = (postContent: string): string => {
   let content = postContent;
 
@@ -33,7 +29,7 @@ export const getBlogPostingStructured = (post: Post) => {
     dateModified: post.updated,
     author: { '@type': 'Person', name: AUTHOR.NAME },
     description: getDescriptionText(post.content),
-    image: [getOgImagePath(post.slug)],
+    image: [`${SITE.URL}/images/ogp/${post.slug}.png`],
     publisher: {
       '@type': 'Organization',
       name: SITE.NAME,

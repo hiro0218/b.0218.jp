@@ -22,10 +22,6 @@ interface Props {
   post: PostType;
 }
 
-const getOgImagePath = (slug: string): string => {
-  return `https://hiro0218.github.io/blog/images/ogp/${slug}.png`;
-};
-
 const Post = ({ post }: Props) => {
   const { asPath } = useRouter();
   const permalink = `${SITE.URL}${post.slug}.html`;
@@ -48,7 +44,7 @@ const Post = ({ post }: Props) => {
         <meta key="og:updated_time" property="og:updated_time" content={post.updated} />
         <meta key="article:published_time" property="article:published_time" content={post.date} />
         <meta key="article:modified_time" property="article:modified_time" content={post.updated} />
-        <meta key="og:image" property="og:image" content={getOgImagePath(post.slug)} />
+        <meta key="og:image" property="og:image" content={`${SITE.URL}/images/ogp/${post.slug}.png`} />
         <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
         <link rel="canonical" href={permalink} />
         <script
