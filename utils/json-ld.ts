@@ -29,7 +29,7 @@ export const getBlogPostingStructured = (post: Post) => {
     dateModified: post.updated,
     author: { '@type': 'Person', name: AUTHOR.NAME },
     description: getDescriptionText(post.content),
-    image: [`${SITE.URL}/images/ogp/${post.slug}.png`],
+    image: [`${SITE.URL}images/ogp/${post.slug}.png`],
     publisher: {
       '@type': 'Organization',
       name: SITE.NAME,

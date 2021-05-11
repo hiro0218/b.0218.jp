@@ -44,7 +44,7 @@ const Post = ({ post }: Props) => {
         <meta key="og:updated_time" property="og:updated_time" content={post.updated} />
         <meta key="article:published_time" property="article:published_time" content={post.date} />
         <meta key="article:modified_time" property="article:modified_time" content={post.updated} />
-        <meta key="og:image" property="og:image" content={`${SITE.URL}/images/ogp/${post.slug}.png`} />
+        <meta key="og:image" property="og:image" content={`${SITE.URL}images/ogp/${post.slug}.png`} />
         <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
         <link rel="canonical" href={permalink} />
         <script
