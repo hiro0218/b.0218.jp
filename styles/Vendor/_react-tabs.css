@@ -1,0 +1,21 @@
+.react-tabs__tab-list {
+  display: flex;
+}
+
+.react-tabs__tab {
+  display: flex;
+  align-items: center;
+  transition: background 0.2s ease, box-shadow 0.4s ease;
+  border-radius: 0.25rem;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+
+  &:not(:first-child) {
+    margin-left: 1rem;
+  }
+}
+
+.react-tabs__tab--selected {
+
+}
+

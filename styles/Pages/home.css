@@ -1,5 +1,5 @@
 .p-home {
-
+  margin-top: calc(var(--margin-base) * 1);
 }
 
 .p-home-section {

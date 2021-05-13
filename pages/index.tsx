@@ -1,6 +1,7 @@
 import fs from 'fs-extra';
 import { GetStaticProps } from 'next';
 import path from 'path';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Parser from 'rss-parser';
 
 import Heading from '@/components/Heading';
@@ -30,63 +31,81 @@ const Home = ({ recentPosts, updatesPosts, zennPosts, qiitaPosts }: Props) => {
           <Heading text={'Home'} />
         </header>
         <section className="p-home">
-          <section className="p-home-section">
-            <header>
-              <Heading tagName={'h2'} text={'Recent Articles'} isWeightNormal={true} />
-            </header>
-            <MenuList className="p-home-section__contents">
-              {recentPosts.map((post, index) => (
-                <MenuListItem key={index}>
-                  <LinkCard link={`/${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
-                </MenuListItem>
-              ))}
-            </MenuList>
-          </section>
+          <Tabs>
+            <TabList>
+              <Tab>Recent Articles</Tab>
+              <Tab>Updated Articles</Tab>
+              <Tab>Qiita</Tab>
+              <Tab>Zenn</Tab>
+            </TabList>
 
-          <section className="p-home-section">
-            <header>
-              <Heading tagName={'h2'} text={'Updated Articles'} isWeightNormal={true} />
-            </header>
-            <MenuList className="p-home-section__contents">
-              {updatesPosts.map((post, index) => (
-                <MenuListItem key={index}>
-                  <LinkCard link={`/${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
-                </MenuListItem>
-              ))}
-            </MenuList>
-          </section>
-
-          <section className="p-home-section">
-            <header>
-              <Heading tagName={'h2'} text={'Qiita: Recent Articles'} isWeightNormal={true} />
-            </header>
-            <MenuList className="p-home-section__contents">
-              {qiitaPosts.map(
-                (post, index) =>
-                  index < 5 && (
+            <section className="p-home-section">
+              <TabPanel>
+                <header>
+                  <Heading tagName={'h2'} text={'Recent Articles'} isWeightNormal={true} />
+                </header>
+                <MenuList className="p-home-section__contents">
+                  {recentPosts.map((post, index) => (
                     <MenuListItem key={index}>
-                      <LinkCard link={post.link} title={post.title} date={post.isoDate} target={true} />
+                      <LinkCard
+                        link={`/${post.slug}.html`}
+                        title={post.title}
+                        date={post.date}
+                        excerpt={post.excerpt}
+                      />
                     </MenuListItem>
-                  ),
-              )}
-            </MenuList>
-          </section>
-
-          <section className="p-home-section">
-            <header>
-              <Heading tagName={'h2'} text={'Zenn: Recent Articles'} isWeightNormal={true} />
-            </header>
-            <MenuList className="p-home-section__contents">
-              {zennPosts.map(
-                (post, index) =>
-                  index < 5 && (
+                  ))}
+                </MenuList>
+              </TabPanel>
+              <TabPanel>
+                <header>
+                  <Heading tagName={'h2'} text={'Updated Articles'} isWeightNormal={true} />
+                </header>
+                <MenuList className="p-home-section__contents">
+                  {updatesPosts.map((post, index) => (
                     <MenuListItem key={index}>
-                      <LinkCard link={post.link} title={post.title} date={post.isoDate} target={true} />
+                      <LinkCard
+                        link={`/${post.slug}.html`}
+                        title={post.title}
+                        date={post.date}
+                        excerpt={post.excerpt}
+                      />
                     </MenuListItem>
-                  ),
-              )}
-            </MenuList>
-          </section>
+                  ))}
+                </MenuList>
+              </TabPanel>
+              <TabPanel>
+                <header>
+                  <Heading tagName={'h2'} text={'Qiita: Recent Articles'} isWeightNormal={true} />
+                </header>
+                <MenuList className="p-home-section__contents">
+                  {qiitaPosts.map(
+                    (post, index) =>
+                      index < 5 && (
+                        <MenuListItem key={index}>
+                          <LinkCard link={post.link} title={post.title} date={post.isoDate} target={true} />
+                        </MenuListItem>
+                      ),
+                  )}
+                </MenuList>
+              </TabPanel>
+              <TabPanel>
+                <header>
+                  <Heading tagName={'h2'} text={'Zenn: Recent Articles'} isWeightNormal={true} />
+                </header>
+                <MenuList className="p-home-section__contents">
+                  {zennPosts.map(
+                    (post, index) =>
+                      index < 5 && (
+                        <MenuListItem key={index}>
+                          <LinkCard link={post.link} title={post.title} date={post.isoDate} target={true} />
+                        </MenuListItem>
+                      ),
+                  )}
+                </MenuList>
+              </TabPanel>
+            </section>
+          </Tabs>
         </section>
       </PageContainer>
     </>
