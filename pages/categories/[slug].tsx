@@ -8,7 +8,7 @@ import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
 import LinkCard from '@/components/LinkCard';
 import { SITE } from '@/constant';
-import { Terms, TermsPostLits } from '@/types/source';
+import { TermsPostLits } from '@/types/source';
 
 interface Props {
   title: string;
@@ -35,7 +35,7 @@ const Categories = ({ title, posts }: Props) => {
             <MenuList className="p-term-section__contents">
               {posts.map((post, index) => (
                 <MenuListItem key={index}>
-                  <LinkCard link={'/' + post.path} title={post.title} date={post.date} excerpt={post.excerpt} />
+                  <LinkCard link={`/${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
                 </MenuListItem>
               ))}
             </MenuList>
@@ -49,28 +49,24 @@ const Categories = ({ title, posts }: Props) => {
 export default Categories;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const dataPath = path.join(process.cwd(), '_source/categories.json');
-  const posts: Array<Terms> = fs.readJsonSync(dataPath);
-  const paths = posts.map((post) => ({
-    params: { slug: post.name },
+  const dataPath = path.join(process.cwd(), 'dist/categories.json');
+  const posts = fs.readJsonSync(dataPath);
+  const paths = Object.keys(posts).map((slug) => ({
+    params: { slug },
   }));
 
   return { paths, fallback: false };
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const dataPath = path.join(process.cwd(), '_source/categories_posts.json');
-  const posts: Array<Terms> = fs.readJsonSync(dataPath);
-  const slug = context.params.slug;
-
-  const postData = posts.filter((post: Terms) => {
-    return post.name === slug;
-  });
+  const dataPath = path.join(process.cwd(), 'dist/categories.json');
+  const posts = fs.readJsonSync(dataPath);
+  const slug = context.params.slug as string;
 
   return {
     props: {
-      title: postData[0].name,
-      posts: postData[0].posts,
+      title: slug,
+      posts: posts[slug],
     },
   };
 };

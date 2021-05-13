@@ -13,7 +13,7 @@ const Pager: FC<Props> = ({ next, prev }) => {
   return (
     <nav className={style['c-pager']}>
       {Object.keys(prev).length !== 0 && (
-        <Link href={prev.path}>
+        <Link href={`${prev.slug}.html`}>
           <a className={style['c-pager__item--prev']}>
             <div className={style['c-pager-icon--prev']}>
               <div className={style['c-pager-icon__arrow']}>
@@ -30,7 +30,7 @@ const Pager: FC<Props> = ({ next, prev }) => {
         </Link>
       )}
       {Object.keys(next).length !== 0 && (
-        <Link href={next.path}>
+        <Link href={`${next.slug}.html`}>
           <a className={style['c-pager__item--next']}>
             <div className={style['c-pager-main']}>
               <div className={style['c-pager__label']}>Next</div>

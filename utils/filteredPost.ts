@@ -1,8 +1,12 @@
 import cheerio from 'cheerio';
-import hljs from 'highlight.js';
 
 const filteredPost = (content: string): string => {
   const $ = cheerio.load(content);
+
+  // image
+  $('img').each((_, element) => {
+    $(element).attr('loading', 'lazy');
+  });
 
   // hljs
   $('pre code').each((_, element) => {
@@ -10,15 +14,11 @@ const filteredPost = (content: string): string => {
     const elementClass = $element.attr('class');
 
     if (elementClass) {
-      const className = elementClass ? elementClass.replace('language-', '') : '';
-      const result = hljs.highlightAuto($element.text(), [className]);
+      const className = elementClass ? elementClass.replace('language-', '').replace('hljs ', '') : '';
 
       if (className) {
         $element.attr('data-language', className);
       }
-
-      $element.addClass('hljs');
-      $element.html(result.value);
     }
   });
 
@@ -28,8 +28,12 @@ const filteredPost = (content: string): string => {
   });
 
   // 目次用のラッパー(details/summary)を挿入する
-  const $mokujiContainer = $('.js-separate').length !== 0 ? $('.js-separate') : $.root();
-  $mokujiContainer.prepend('<div class="c-mokuji js-mokuji"><details><summary></summary></details></div>');
+  const mokujiWrapper = '<div class="c-mokuji js-mokuji"><details><summary></summary></details></div>';
+  if ($('.js-separate').length !== 0) {
+    $('.js-separate').prepend(mokujiWrapper);
+  } else {
+    $.root().prepend(mokujiWrapper);
+  }
 
   return $.html();
 };

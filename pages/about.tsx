@@ -40,7 +40,7 @@ const About = ({ page }: Props) => {
 export default About;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const dataPath = path.join(process.cwd(), '_source/pages.json');
+  const dataPath = path.join(process.cwd(), 'dist/pages.json');
   const pages: Array<Pages> = fs.readJsonSync(dataPath);
   const postData = pages.find((page) => page.slug === 'about');
 
