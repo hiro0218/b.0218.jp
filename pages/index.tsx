@@ -57,16 +57,22 @@ export default Home;
 export const getStaticProps: GetStaticProps = async () => {
   const postsPath = path.join(process.cwd(), 'dist/posts.json');
   const posts: Array<PropsPost> = fs.readJsonSync(postsPath);
+  const recentPosts = posts.filter((_, i) => i < 5);
+  const updatesPosts = posts
+    .sort((a, b) => {
+      return a.updated < b.updated ? 1 : -1;
+    })
+    .filter((post) => post.date < post.updated)
+    .filter((post) => {
+      // recentPosts に含まれているものは除外する
+      return !recentPosts.filter((recentPost) => post.slug === recentPost.slug).length;
+    })
+    .filter((_, i) => i < 5);
 
   return {
     props: {
-      recentPosts: posts.filter((_, i) => i < 5),
-      updatesPosts: posts
-        .sort((a, b) => {
-          return a.updated < b.updated ? 1 : -1;
-        })
-        .filter((value) => value.date < value.updated)
-        .filter((_, i) => i < 5),
+      recentPosts,
+      updatesPosts,
     },
   };
 };
