@@ -1,16 +1,15 @@
-const fs = require('fs-extra');
-const cheerio = require('cheerio');
-const matter = require('gray-matter');
-
-const unified = require('unified');
-const remarkParse = require('remark-parse');
-const remarkRehype = require('remark-rehype');
-const remarkGfm = require('remark-gfm');
-const rehypeStringify = require('rehype-stringify');
-const rehypeHighlight = require('rehype-highlight');
-const remarkBreaks = require('remark-breaks');
-const remarkUnwrapImages = require('remark-unwrap-images');
-const remarkExternalLinks = require('remark-external-links');
+import cheerio from 'cheerio';
+import fs from 'fs-extra';
+import matter from 'gray-matter';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeStringify from 'rehype-stringify';
+import remarkBreaks from 'remark-breaks';
+import remarkExternalLinks from 'remark-external-links';
+import remarkGfm from 'remark-gfm';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import remarkUnwrapImages from 'remark-unwrap-images';
+import unified from 'unified';
 
 const path = {
   src: `${process.cwd()}/_article`,

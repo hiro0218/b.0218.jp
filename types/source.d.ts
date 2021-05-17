@@ -1,12 +1,3 @@
-// Archive
-export interface Archives {
-  title: string;
-  date: string;
-  updated?: string;
-  path: string;
-  excerpt?: string;
-}
-
 // Pages
 export interface Pages {
   title: string;
@@ -22,12 +13,6 @@ export interface TermsPostLits {
   slug: string;
   date: string;
   excerpt: string;
-}
-
-export interface Terms {
-  name: string;
-  count: number;
-  posts: Array<TermsPostLits>;
 }
 
 // Post
