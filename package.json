@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint {components,hooks,lib,pages,utils}/** --ext .ts,.tsx",
-    "prebuild": "git submodule update --remote && node ./prepare/article.js",
-    "postbuild": "node ./prepare/ogp.js",
+    "prebuild": "git submodule update --remote && node --require esbuild-register ./prepare/article.ts",
+    "postbuild": "node --require esbuild-register ./prepare/ogp.ts",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -27,6 +27,7 @@
     "@typescript-eslint/eslint-plugin": "^4.23.0",
     "@typescript-eslint/parser": "^4.23.0",
     "cheerio": "^1.0.0-rc.9",
+    "esbuild-register": "^2.5.0",
     "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",

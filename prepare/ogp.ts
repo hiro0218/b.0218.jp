@@ -1,5 +1,5 @@
-const fs = require('fs-extra');
-const { Cluster } = require('puppeteer-cluster');
+import fs from 'fs-extra';
+import { Cluster } from 'puppeteer-cluster';
 
 const path = {
   src: `${process.cwd()}/dist/posts.json`,
