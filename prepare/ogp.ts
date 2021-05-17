@@ -100,7 +100,10 @@ const html = `
         waitUntil: 'networkidle0',
       })
       .then(() => {
-        console.log('OGP Image Generated:', `${post.slug}.png`, `(${index + 1}/${length})`);
+        const count = index + 1;
+        if (count === 1 || count % 10 === 0 || count === length) {
+          console.log('OGP Image Generated:', `${post.slug}.png`, `(${count}/${length})`);
+        }
       });
     const content = await page.$('body');
     await content.screenshot({ path: `${path.dist}/${post.slug}.png` });
