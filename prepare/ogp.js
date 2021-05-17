@@ -9,8 +9,9 @@ const path = {
 const html = `
 <html lang="ja">
 <head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mojik@0.5.0/mojik.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@900&display=swap');
+    @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@900&display=swap");
 
     *,
     *::before,
@@ -23,9 +24,9 @@ const html = `
       align-items: center;
       justify-content: flex-start;
       flex-direction: column;
-      padding: 2vw 8vw;
-      height: 100vh;
-      background: #fff;
+      width: 1200px;
+      height: 630px;
+      text-align: left;
       font-family: "Noto Sans JP", sans-serif;
       font-feature-settings: "palt";
       word-wrap: break-word;
@@ -33,27 +34,36 @@ const html = `
     }
 
     .title {
-      margin: 1em auto 0;
+      margin: 1.5em auto 0;
+      padding: 0 140px;
       width: 100%;
       color: #212529;
-      font-size: 5vw;
-      line-height: 1.7;
-      text-align: left;
+      font-size: 48px;
+      line-height: 1.75;
+      letter-spacing: 0.0025em;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
     }
 
     .url {
-      margin-top: auto;
-      width: 100%;
+      margin: auto 0 1em;
       color: #868e96;
-      font-family: sans-serif;
-      font-size: 2vw;
-      text-align: left;
+      font-size: 24px;
+      width: 100%;
+      padding: 0 80px;
     }
   </style>
 </head>
 <body>
   <h1 class="title">{{title}}</h1>
   <div class="url">b.0218.jp</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mojik@0.5.0/mojik.min.js"></script>
+  <script>
+    Mojik.compose(".title");
+  </script>
 </body>
 </html>
 `;
