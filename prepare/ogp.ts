@@ -26,19 +26,21 @@ const html = `
       flex-direction: column;
       width: 1200px;
       height: 630px;
+      padding: 80px 140px 20px;
       text-align: left;
       font-family: "Noto Sans JP", sans-serif;
       font-feature-settings: "palt";
       word-wrap: break-word;
       overflow-wrap: break-word;
+
+      border: 1px solid #333;
     }
 
     .title {
-      margin: 1.5em auto 0;
-      padding: 0 140px;
+      margin: 0 auto;
       width: 100%;
       color: #212529;
-      font-size: 48px;
+      font-size: 56px;
       line-height: 1.75;
       letter-spacing: 0.0025em;
       display: -webkit-box;
@@ -48,11 +50,11 @@ const html = `
     }
 
     .url {
-      margin: auto 0 1em;
+      margin: auto 0 0;
       color: #868e96;
-      font-size: 24px;
+      font-size: 28px;
       width: 100%;
-      padding: 0 80px;
+      text-align: center;
     }
   </style>
 </head>
