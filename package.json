@@ -22,10 +22,10 @@
   "devDependencies": {
     "@types/fs-extra": "^9.0.11",
     "@types/node": "^15.3.0",
-    "@types/react": "^17.0.5",
+    "@types/react": "^17.0.6",
     "@types/rss": "^0.0.28",
-    "@typescript-eslint/eslint-plugin": "^4.23.0",
-    "@typescript-eslint/parser": "^4.23.0",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
     "cheerio": "^1.0.0-rc.9",
     "esbuild-register": "^2.5.0",
     "eslint": "^7.26.0",
