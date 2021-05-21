@@ -7,17 +7,17 @@ const TheFooter = () => {
         <div className="pj-footer-menu">
           <ul className="pj-footer-menu__list">
             <li className="pj-footer-menu__item">
-              <Link href="/">
+              <Link href="/" prefetch={false}>
                 <a className="pj-footer__link">home</a>
               </Link>
             </li>
             <li className="pj-footer-menu__item">
-              <Link href="/about">
+              <Link href="/about" prefetch={false}>
                 <a className="pj-footer__link">about</a>
               </Link>
             </li>
             <li className="pj-footer-menu__item">
-              <Link href="/archive">
+              <Link href="/archive" prefetch={false}>
                 <a className="pj-footer__link">archive</a>
               </Link>
             </li>

@@ -13,7 +13,7 @@ const PostTerm: FC<Props> = ({ categories, tags }) => {
         <div className={style['c-post-meta']}>
           {categories.map((category, index) => (
             <div key={index} className={style['c-post-meta__item--separator']}>
-              <Link href={'/categories/' + category}>
+              <Link href={'/categories/' + category} prefetch={false}>
                 <a className={style['c-post-meta__link--category']}>{category}</a>
               </Link>
             </div>
@@ -25,7 +25,7 @@ const PostTerm: FC<Props> = ({ categories, tags }) => {
         <div className={style['c-post-meta']}>
           {tags.map((tag, index) => (
             <div key={index} className={style['c-post-meta__item--separator']}>
-              <Link href={'/tags/' + tag}>
+              <Link href={'/tags/' + tag} prefetch={false}>
                 <a className={style['c-post-meta__link--tag']}>{tag}</a>
               </Link>
             </div>
