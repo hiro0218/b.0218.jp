@@ -1,7 +1,7 @@
 .p-archive {
 
   &__contents {
-    margin-top: calc(var(--margin-base) * 2);
+    margin-top: calc(var(--margin-base) * 1);
   }
 }
 
