@@ -135,7 +135,7 @@ function buildTerms() {
       excerpt,
     };
 
-    categories.forEach((category) => {
+    categories?.forEach((category) => {
       const mappedCategories = categoriesMap[category];
 
       if (mappedCategories) {
@@ -145,7 +145,7 @@ function buildTerms() {
       }
     });
 
-    tags.forEach((tag) => {
+    tags?.forEach((tag) => {
       const mappedTags = tagsMap[tag];
 
       if (mappedTags) {
