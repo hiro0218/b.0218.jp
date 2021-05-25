@@ -15,9 +15,7 @@ type Props = (
 const Heading = ({ tagName: Tag = 'h1', text, isWeightNormal = false, descriptionText }: Props) => {
   return (
     <>
-      <Tag className="c-heading" style={{ ...(isWeightNormal && { fontWeight: 'normal' }) }}>
-        {text}
-      </Tag>
+      <Tag className={!isWeightNormal ? 'c-heading' : 'c-heading--normal'}>{text}</Tag>
       {descriptionText && <div className="c-heading-sub">{descriptionText}</div>}
     </>
   );
