@@ -26,7 +26,12 @@ const PostTerm: FC<Props> = ({ categories, tags }) => {
           {tags.map((tag, index) => (
             <div key={index} className={style['c-post-meta__item--separator']}>
               <Link href={'/tags/' + tag} prefetch={false}>
-                <a className={style['c-post-meta__link--tag']}>{tag}</a>
+                <a className={style['c-post-meta__link--tag']}>
+                  <span className={style['c-post-meta__tag-prefix']} aria-hidden="true">
+                    #
+                  </span>
+                  {tag}
+                </a>
               </Link>
             </div>
           ))}
