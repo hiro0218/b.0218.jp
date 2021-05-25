@@ -9,9 +9,9 @@ type Props = Pick<Post, 'categories' | 'tags'>;
 const PostTerm: FC<Props> = ({ categories, tags }) => {
   return (
     <>
-      {categories.length !== 0 && (
+      {categories?.length !== 0 && (
         <div className={style['c-post-meta']}>
-          {categories.map((category, index) => (
+          {categories?.map((category, index) => (
             <div key={index} className={style['c-post-meta__item--separator']}>
               <Link href={'/categories/' + category} prefetch={false}>
                 <a className={style['c-post-meta__link--category']}>{category}</a>
@@ -21,9 +21,9 @@ const PostTerm: FC<Props> = ({ categories, tags }) => {
         </div>
       )}
 
-      {tags.length !== 0 && (
+      {tags?.length !== 0 && (
         <div className={style['c-post-meta']}>
-          {tags.map((tag, index) => (
+          {tags?.map((tag, index) => (
             <div key={index} className={style['c-post-meta__item--separator']}>
               <Link href={'/tags/' + tag} prefetch={false}>
                 <a className={style['c-post-meta__link--tag']}>
