@@ -3,7 +3,6 @@ module.exports = {
     'postcss-calc': {},
     'postcss-nested': {},
     'postcss-extend': {},
-    'postcss-flexbugs-fixes': {},
     'postcss-custom-media': {
       importFrom: './styles/Settings/_custom-media.css',
     },

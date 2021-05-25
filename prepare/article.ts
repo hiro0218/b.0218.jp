@@ -11,26 +11,24 @@ import remarkRehype from 'remark-rehype';
 import remarkUnwrapImages from 'remark-unwrap-images';
 import unified from 'unified';
 
+import { NextPrevPost, Post as PropPost } from '../types/source';
+
 const path = {
   src: `${process.cwd()}/_article`,
   dist: `${process.cwd()}/dist`,
-};
+} as const;
 
 /**
  * <!--more--> を置き換える
- * @param {string} content
- * @returns {string}
  */
-function replaceMoreComment(content) {
+function replaceMoreComment(content: string) {
   return content.replace('<!--more-->', '\r\n<div class="more js-separate"></div>\r\n');
 }
 
 /**
  * h2の内容をを取得して中身を取り出す
- * @param {string} content
- * @returns {string}
  */
-function getHeadings(content) {
+function getHeadings(content: string) {
   const $ = cheerio.load(content);
   const $h2 = $('h2');
   const headings = [];
@@ -47,10 +45,8 @@ function getHeadings(content) {
 
 /**
  * markdownをhtml形式に変換
- * @param {string} markdown
- * @returns {string}
  */
-function markdown2html(markdown) {
+function markdown2html(markdown: string) {
   const result = unified()
     .use(remarkParse)
     .use(remarkGfm)
@@ -72,7 +68,7 @@ function buildPost() {
   // md ファイル一覧を取得
   const files = fs.readdirSync(`${path.src}/_posts`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
-  const posts = [];
+  const posts: Array<Partial<PropPost>> = [];
 
   // 記事一覧
   for (let i = 0; i < NUMBER_OF_FILES; i++) {
@@ -80,7 +76,7 @@ function buildPost() {
 
     // front matter を取得
     const post = matter.read(`${path.src}/_posts/${file}`);
-    const { title, date, updated, categories, tags } = post.data;
+    const { title, date, updated, categories, tags }: Partial<PropPost> = post.data;
     const content = markdown2html(post.content);
 
     posts.push({
@@ -105,14 +101,14 @@ function buildPost() {
       const { title, slug } = posts[i - 1];
 
       return { title, slug };
-    })();
+    })() as NextPrevPost;
     post.next = (() => {
       if (i >= NUMBER_OF_FILES - 1) return {};
 
       const { title, slug } = posts[i + 1];
 
       return { title, slug };
-    })();
+    })() as NextPrevPost;
   }
 
   // sort: 日付順
@@ -126,7 +122,7 @@ function buildPost() {
 }
 
 function buildTerms() {
-  const posts = fs.readJSONSync(`${path.dist}/posts.json`);
+  const posts: Array<PropPost> = fs.readJSONSync(`${path.dist}/posts.json`);
   const tagsMap = {};
   const categoriesMap = {};
 
@@ -139,7 +135,7 @@ function buildTerms() {
       excerpt,
     };
 
-    categories.forEach((category) => {
+    categories?.forEach((category) => {
       const mappedCategories = categoriesMap[category];
 
       if (mappedCategories) {
@@ -149,7 +145,7 @@ function buildTerms() {
       }
     });
 
-    tags.forEach((tag) => {
+    tags?.forEach((tag) => {
       const mappedTags = tagsMap[tag];
 
       if (mappedTags) {
@@ -170,7 +166,7 @@ function buildPage() {
   // md ファイル一覧を取得
   const files = fs.readdirSync(`${path.src}`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
-  const pages = [];
+  const pages: Array<Partial<PropPost>> = [];
 
   // 記事一覧
   for (let i = 0; i < NUMBER_OF_FILES; i++) {
@@ -178,7 +174,7 @@ function buildPage() {
 
     // front matter を取得
     const page = matter.read(`${path.src}/${file}`);
-    const { title, date, updated } = page.data;
+    const { title, date, updated }: Partial<PropPost> = page.data;
     const content = markdown2html(page.content);
 
     pages.push({

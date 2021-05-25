@@ -104,7 +104,7 @@ const html = `
       .then(() => {
         const count = index + 1;
         if (count === 1 || count % 10 === 0 || count === length) {
-          console.log('OGP Image Generated:', `${post.slug}.png`, `(${count}/${length})`);
+          console.log('Generating OGP Images', `(${count}/${length})`);
         }
       });
     const content = await page.$('body');

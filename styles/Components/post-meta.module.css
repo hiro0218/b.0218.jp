@@ -63,3 +63,7 @@
     background: var(--bg-color);
   }
 }
+
+.c-post-meta__tag-prefix {
+  color: var(--color-text--lighter);
+}

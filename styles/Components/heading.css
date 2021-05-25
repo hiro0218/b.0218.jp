@@ -1,8 +1,15 @@
 .c-heading {
   color: var(--color-text);
-  font-weight: bold;
+  font-weight: 900;
   line-height: 1.6;
   overflow-wrap: break-word;
+}
+
+.c-heading--normal {
+  @extend .c-heading;
+
+  color: var(--color-text--light);
+  font-weight: 500;
 }
 
 .c-heading-sub {

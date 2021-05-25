@@ -27,9 +27,13 @@ const Categories = ({ title, posts }: Props) => {
 
       <PageContainer>
         <section className="p-term">
+          <header>
+            <Heading text={'Category'} />
+          </header>
+
           <section className="p-term-section">
             <header>
-              <Heading text={title} descriptionText={'category'} />
+              <Heading tagName={'h2'} text={title} isWeightNormal={true} />
             </header>
 
             <MenuList className="p-term-section__contents">
