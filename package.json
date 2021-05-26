@@ -51,6 +51,7 @@
     "puppeteer": "^5.2.1",
     "puppeteer-cluster": "^0.22.0",
     "rehype-highlight": "^4.1.0",
+    "rehype-plugin-image-native-lazy-loading": "^1.2.0",
     "rehype-stringify": "^8.0.0",
     "remark-breaks": "^2.0.2",
     "remark-external-links": "^8.0.0",

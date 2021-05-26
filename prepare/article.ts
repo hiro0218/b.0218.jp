@@ -2,6 +2,7 @@ import cheerio from 'cheerio';
 import fs from 'fs-extra';
 import matter from 'gray-matter';
 import rehypeHighlight from 'rehype-highlight';
+import rehypeLazyLoad from 'rehype-plugin-image-native-lazy-loading';
 import rehypeStringify from 'rehype-stringify';
 import remarkBreaks from 'remark-breaks';
 import remarkExternalLinks from 'remark-external-links';
@@ -54,6 +55,7 @@ function markdown2html(markdown: string) {
     .use(remarkBreaks)
     .use(remarkExternalLinks, { rel: ['nofollow', 'noopener'] })
     .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeLazyLoad)
     .use(rehypeHighlight, {
       subset: false,
       ignoreMissing: true,
