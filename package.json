@@ -20,6 +20,7 @@
     "rss": "^1.2.2"
   },
   "devDependencies": {
+    "@svgr/webpack": "^5.5.0",
     "@types/fs-extra": "^9.0.11",
     "@types/node": "^15.6.1",
     "@types/react": "^17.0.7",
@@ -39,7 +40,6 @@
     "gray-matter": "^4.0.3",
     "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
-    "next-react-svg": "^1.1.2",
     "postcss": "^8.3.0",
     "postcss-calc": "^8.0.0",
     "postcss-custom-media": "^8.0.0",

@@ -1,9 +1,6 @@
-const withReactSvg = require('next-react-svg');
 const path = require('path');
 
-module.exports = withReactSvg({
-  include: path.resolve(__dirname, 'images'),
-
+module.exports = {
   env: {
     NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'UA-50805440-1',
   },
@@ -20,4 +17,24 @@ module.exports = withReactSvg({
       },
     ];
   },
-});
+
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            svgoConfig: {
+              plugins: {
+                removeViewBox: false,
+              },
+            },
+          },
+        },
+      ],
+    });
+
+    return config;
+  },
+};

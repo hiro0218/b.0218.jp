@@ -1,6 +1,5 @@
 /// <reference types="next" />
 /// <reference types="next/types/global" />
-/// <reference types="next-react-svg" />
 
 interface Window {
   gtag(type: 'config', googleAnalyticsId: string, { page_path: string });
