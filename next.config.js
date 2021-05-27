@@ -1,5 +1,3 @@
-const path = require('path');
-
 module.exports = {
   env: {
     NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'UA-50805440-1',
@@ -8,6 +6,8 @@ module.exports = {
   future: {
     webpack5: true,
   },
+
+  reactStrictMode: true,
 
   async rewrites() {
     return [
