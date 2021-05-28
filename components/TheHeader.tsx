@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 
 import Search from '@/components/Search';
 import { SITE } from '@/constant';
@@ -45,7 +45,7 @@ const initUnpinHeader = (elHeader: HTMLElement) => {
   );
 };
 
-const TheHeader = () => {
+const TheHeader: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const refHeader = useRef<HTMLElement>(null);
 

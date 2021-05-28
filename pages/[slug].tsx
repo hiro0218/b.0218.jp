@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -23,7 +23,7 @@ interface Props {
   post: PostType;
 }
 
-const Post = ({ post }: Props) => {
+const Post: NextPage<Props> = ({ post }) => {
   const { asPath } = useRouter();
   const permalink = `${SITE.URL}${post.slug}.html`;
 

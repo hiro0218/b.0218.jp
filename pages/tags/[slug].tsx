@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import path from 'path';
 
@@ -15,7 +15,7 @@ interface Props {
   posts: Array<TermsPostLits>;
 }
 
-const Tags = ({ title, posts }: Props) => {
+const Tags: NextPage<Props> = ({ title, posts }) => {
   return (
     <>
       <Head>

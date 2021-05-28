@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 type Props = (
   | JSX.IntrinsicElements['h1']
   | JSX.IntrinsicElements['h2']
@@ -12,7 +14,7 @@ type Props = (
   descriptionText?: string;
 };
 
-const Heading = ({ tagName: Tag = 'h1', text, isWeightNormal = false, descriptionText }: Props) => {
+const Heading: FC<Props> = ({ tagName: Tag = 'h1', text, isWeightNormal = false, descriptionText }) => {
   return (
     <>
       <Tag className={!isWeightNormal ? 'c-heading' : 'c-heading--normal'}>{text}</Tag>

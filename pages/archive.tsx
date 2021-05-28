@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import { GetStaticProps } from 'next';
+import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import path from 'path';
 
@@ -35,7 +35,7 @@ const divideByYearArchive = (archives: Array<PropPost>) => {
   return formatArchives;
 };
 
-const Archive = ({ archives }: Props) => {
+const Archive: NextPage<Props> = ({ archives }) => {
   const posts = divideByYearArchive(archives);
 
   return (

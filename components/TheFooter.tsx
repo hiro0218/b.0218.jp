@@ -1,6 +1,7 @@
 import Link from 'next/link';
+import { FC } from 'react';
 
-const TheFooter = () => {
+const TheFooter: FC = () => {
   return (
     <footer className="pj-footer">
       <div className="pj-footer-container">
