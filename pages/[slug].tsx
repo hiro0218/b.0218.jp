@@ -1,5 +1,6 @@
 import fs from 'fs-extra';
 import { GetStaticPaths, GetStaticProps } from 'next';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import path from 'path';
@@ -8,9 +9,9 @@ import React, { useEffect } from 'react';
 import Adsense from '@/components/Adsense';
 import Heading from '@/components/Heading';
 import PageContainer from '@/components/layout/PageContainer';
-import Pager from '@/components/Pager';
+const Pager = dynamic(() => import('@/components/Pager'));
 import PostDate from '@/components/PostDate';
-import PostShare from '@/components/PostShare';
+const PostShare = dynamic(() => import('@/components/PostShare'));
 import PostTerm from '@/components/PostTerm';
 import { SITE } from '@/constant';
 import { Post as PostType } from '@/types/source';
