@@ -9,7 +9,7 @@ import React, { useEffect } from 'react';
 import Adsense from '@/components/Adsense';
 import Heading from '@/components/Heading';
 import PageContainer from '@/components/layout/PageContainer';
-const Pager = dynamic(() => import('@/components/Pager'));
+const PostPager = dynamic(() => import('@/components/PostPager'));
 import PostDate from '@/components/PostDate';
 const PostShare = dynamic(() => import('@/components/PostShare'));
 import PostTerm from '@/components/PostTerm';
@@ -86,7 +86,7 @@ const Post = ({ post }: Props) => {
         </div>
 
         <div className="p-post__pager">
-          <Pager next={post.next} prev={post.prev} />
+          <PostPager next={post.next} prev={post.prev} />
         </div>
       </PageContainer>
     </>
