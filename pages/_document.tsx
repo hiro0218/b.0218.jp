@@ -1,7 +1,7 @@
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 
 import { GOOGLE_ADSENSE } from '@/components/Adsense';
-import { existsGaId, GA_TRACKING_ID } from '@/lib/gtag';
+import { GA_TRACKING_ID } from '@/lib/gtag';
 
 class SampleDocument extends Document {
   static async getInitialProps(ctx) {
@@ -26,12 +26,10 @@ class SampleDocument extends Document {
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
           ></script>
-          {existsGaId && (
-            <>
-              <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
-              <script
-                dangerouslySetInnerHTML={{
-                  __html: `
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
                     window.dataLayer = window.dataLayer || [];
                     function gtag(){dataLayer.push(arguments);}
                     gtag('js', new Date());
@@ -39,10 +37,8 @@ class SampleDocument extends Document {
                       page_path: window.location.pathname,
                     });
                   `,
-                }}
-              />
-            </>
-          )}
+            }}
+          />
         </Head>
         <body>
           <Main />
