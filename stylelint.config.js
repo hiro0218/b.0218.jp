@@ -1,3 +1,4 @@
+/** @type {import('stylelint').Configuration} */
 module.exports = {
   extends: ['stylelint-config-recommended', 'stylelint-config-property-sort-order-smacss'],
   plugins: ['stylelint-declaration-block-no-ignored-properties'],
