@@ -3,22 +3,13 @@ import cheerio from 'cheerio';
 const filteredPost = (content: string): string => {
   const $ = cheerio.load(content);
 
-  // image
-  $('img').each((_, element) => {
-    $(element).attr('loading', 'lazy');
-  });
-
   // hljs
-  $('pre code').each((_, element) => {
+  $('.hljs').each((_, element) => {
     const $element = $(element);
-    const elementClass = $element.attr('class');
+    const className = $element.attr('class').replace('hljs', '').replace('language-', '').trim();
 
-    if (elementClass) {
-      const className = elementClass ? elementClass.replace('language-', '').replace('hljs ', '') : '';
-
-      if (className) {
-        $element.attr('data-language', className);
-      }
+    if (className) {
+      $element.attr('data-language', className);
     }
   });
 

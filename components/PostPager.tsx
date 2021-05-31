@@ -9,7 +9,7 @@ type Props = {
   prev: NextPrevPost;
 };
 
-const Pager: FC<Props> = ({ next, prev }) => {
+const PostPager: FC<Props> = ({ next, prev }) => {
   return (
     <nav className={style['c-pager']}>
       {Object.keys(prev).length !== 0 && (
@@ -50,4 +50,4 @@ const Pager: FC<Props> = ({ next, prev }) => {
   );
 };
 
-export default Pager;
+export default PostPager;

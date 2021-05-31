@@ -1,16 +1,17 @@
 import fs from 'fs-extra';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import path from 'path';
 import React, { useEffect } from 'react';
 
-import Adsense from '@/components/Adsense';
+import Adsense, { GOOGLE_ADSENSE } from '@/components/Adsense';
 import Heading from '@/components/Heading';
 import PageContainer from '@/components/layout/PageContainer';
-import Pager from '@/components/Pager';
+const PostPager = dynamic(() => import('@/components/PostPager'));
 import PostDate from '@/components/PostDate';
-import PostShare from '@/components/PostShare';
+const PostShare = dynamic(() => import('@/components/PostShare'));
 import PostTerm from '@/components/PostTerm';
 import { SITE } from '@/constant';
 import { Post as PostType } from '@/types/source';
@@ -22,7 +23,7 @@ interface Props {
   post: PostType;
 }
 
-const Post = ({ post }: Props) => {
+const Post: NextPage<Props> = ({ post }) => {
   const { asPath } = useRouter();
   const permalink = `${SITE.URL}${post.slug}.html`;
 
@@ -55,7 +56,14 @@ const Post = ({ post }: Props) => {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(getBreadcrumbStructured(post)) }}
         />
-        <script async src="https://platform.twitter.com/widgets.js"></script>
+        <script
+          data-ad-client={GOOGLE_ADSENSE.CLIENT}
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+        ></script>
+        {post.content.includes('twitter-tweet') && (
+          <script async src="https://platform.twitter.com/widgets.js"></script>
+        )}
       </Head>
 
       <PageContainer>
@@ -85,7 +93,7 @@ const Post = ({ post }: Props) => {
         </div>
 
         <div className="p-post__pager">
-          <Pager next={post.next} prev={post.prev} />
+          <PostPager next={post.next} prev={post.prev} />
         </div>
       </PageContainer>
     </>

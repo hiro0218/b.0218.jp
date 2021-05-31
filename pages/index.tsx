@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import { GetStaticProps } from 'next';
+import { GetStaticProps, NextPage } from 'next';
 import path from 'path';
 
 import Heading from '@/components/Heading';
@@ -13,7 +13,7 @@ interface Props {
   updatesPosts: Array<PropsPost>;
 }
 
-const Home = ({ recentPosts, updatesPosts }: Props) => {
+const Home: NextPage<Props> = ({ recentPosts, updatesPosts }) => {
   return (
     <>
       <PageContainer>

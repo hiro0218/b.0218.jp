@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FC } from 'react';
 
 import style from '@/styles/Components/link-card.module.css';
 import { convertDateToSimpleFormat } from '@/utils/date';
@@ -11,7 +12,7 @@ interface Props {
   target?: boolean;
 }
 
-const LinkCard = ({ link, title, date, excerpt, target = false }: Props) => {
+const LinkCard: FC<Props> = ({ link, title, date, excerpt, target = false }) => {
   return (
     <Link href={link}>
       <a className={style['link-card']} {...(target && { target: '_blank' })}>

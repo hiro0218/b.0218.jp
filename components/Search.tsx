@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 
 import style from '@/styles/Components/search.module.css';
 import { Post } from '@/types/source';
@@ -9,7 +9,7 @@ interface Props {
   toggleHandler: () => void;
 }
 
-const Search = ({ isOpen = false, toggleHandler }: Props) => {
+const Search: FC<Props> = ({ isOpen = false, toggleHandler }) => {
   const refInput = useRef(null);
 
   const [data, setData] = useState({
