@@ -4,6 +4,10 @@ module.exports = {
     NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'UA-50805440-1',
   },
 
+  experimental: {
+    modern: true,
+  },
+
   future: {
     strictPostcssConfiguration: true,
     webpack5: true,
