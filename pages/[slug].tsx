@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import path from 'path';
 import React, { useEffect } from 'react';
 
-import Adsense from '@/components/Adsense';
+import Adsense, { GOOGLE_ADSENSE } from '@/components/Adsense';
 import Heading from '@/components/Heading';
 import PageContainer from '@/components/layout/PageContainer';
 const PostPager = dynamic(() => import('@/components/PostPager'));
@@ -56,6 +56,11 @@ const Post: NextPage<Props> = ({ post }) => {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(getBreadcrumbStructured(post)) }}
         />
+        <script
+          data-ad-client={GOOGLE_ADSENSE.CLIENT}
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+        ></script>
         {post.content.includes('twitter-tweet') && (
           <script async src="https://platform.twitter.com/widgets.js"></script>
         )}
