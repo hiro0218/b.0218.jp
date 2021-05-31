@@ -1,9 +1,11 @@
+/** @type {import('next/dist/next-server/server/config-shared').NextConfig} */
 module.exports = {
   env: {
     NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'UA-50805440-1',
   },
 
   future: {
+    strictPostcssConfiguration: true,
     webpack5: true,
   },
 
