@@ -43,6 +43,7 @@
 
 .pj-footer-menu__list {
   display: inline-flex;
+  list-style: none;
 }
 
 .pj-footer-menu__item {
