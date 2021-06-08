@@ -26,8 +26,8 @@ const html = `
       flex-direction: column;
       width: 1200px;
       height: 630px;
-      padding: 80px 140px 20px;
-      text-align: left;
+      padding: 20px 140px;
+      text-align: center;
       font-family: "Noto Sans JP", sans-serif;
       font-feature-settings: "palt";
       word-wrap: break-word;
@@ -36,12 +36,19 @@ const html = `
       border: 1px solid #333;
     }
 
+    .title-container {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+    }
+
     .title {
       margin: 0 auto;
       width: 100%;
       color: #212529;
       font-size: 56px;
-      line-height: 1.75;
+      line-height: 1.8;
       letter-spacing: 0.0025em;
       display: -webkit-box;
       -webkit-box-orient: vertical;
@@ -59,7 +66,9 @@ const html = `
   </style>
 </head>
 <body>
-  <h1 class="title">{{title}}</h1>
+  <div class="title-container">
+    <h1 class="title">{{title}}</h1>
+  </div>
   <div class="url">b.0218.jp</div>
 
   <script src="https://cdn.jsdelivr.net/npm/mojik@0.5.0/mojik.min.js"></script>
