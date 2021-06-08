@@ -34,7 +34,9 @@ const App = ({ Component, pageProps }: AppProps) => {
       </Head>
 
       <TheHeader />
-      <Component {...pageProps} />
+      <main>
+        <Component {...pageProps} />
+      </main>
       <TheFooter />
     </>
   );
