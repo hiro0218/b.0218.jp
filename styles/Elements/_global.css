@@ -2,11 +2,6 @@
   background-color: rgba(0,0,0,0.1);
 }
 
-html {
-  -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-
 body {
   padding-top: var(--header-height);
   color: var(--color-text);
@@ -34,11 +29,6 @@ a {
   &:focus {
     outline: 1px dotted currentColor;
   }
-}
-
-img {
-  height: auto;
-  border-style: none;
 }
 
 figure {

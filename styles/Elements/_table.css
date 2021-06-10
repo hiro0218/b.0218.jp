@@ -1,5 +1,4 @@
 table {
-  border-collapse: collapse;
   border: var(--table-border-width) solid var(--table-border-color);
   background: #fff;
 
@@ -11,7 +10,7 @@ table {
 
 th,
 td {
-  padding: 1rem;
+  padding: 0.75rem;
   border: var(--table-border-width) solid var(--table-border-color);
   border-top: var(--table-border-width) solid var(--table-border-color);
   vertical-align: top;
