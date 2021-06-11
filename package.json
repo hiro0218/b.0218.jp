@@ -58,6 +58,7 @@
     "remark-parse": "^9.0.0",
     "remark-rehype": "^8.1.0",
     "remark-unwrap-images": "^2.0.0",
+    "shokika.css": "^1.0.1",
     "stylelint": "^13.13.1",
     "stylelint-config-property-sort-order-smacss": "^7.1.0",
     "stylelint-config-recommended": "^5.0.0",
