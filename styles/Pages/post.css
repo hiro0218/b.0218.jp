@@ -155,14 +155,15 @@
   }
 
   & hr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: calc(var(--margin-base) * 1.5) 0;
     border: 0;
-    color: var(--color-text);
-    line-height: 1;
-    text-align: center;
 
     &::before {
       content: '◇ ◆ ◇';
+      color: var(--color-text);
       font-size: 1em;
     }
   }
