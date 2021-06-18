@@ -24,7 +24,7 @@
     "@types/node": "^15.12.2",
     "@types/react": "^17.0.9",
     "@types/rss": "^0.0.28",
-    "@typescript-eslint/eslint-plugin": "^4.26.1",
+    "@typescript-eslint/eslint-plugin": "^4.27.0",
     "@typescript-eslint/parser": "^4.26.1",
     "cheerio": "^1.0.0-rc.9",
     "esbuild-register": "^2.6.0",
