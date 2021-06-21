@@ -2,11 +2,6 @@
   background-color: rgba(0,0,0,0.1);
 }
 
-html {
-  -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-
 body {
   padding-top: var(--header-height);
   color: var(--color-text);
@@ -36,11 +31,6 @@ a {
   }
 }
 
-img {
-  height: auto;
-  border-style: none;
-}
-
 figure {
   margin: var(--margin-base) 0;
 
@@ -55,9 +45,10 @@ figure {
   }
 }
 
-hr {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  border: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+ul {
+  list-style: disc;
+}
+
+ol {
+  list-style: decimal;
 }
