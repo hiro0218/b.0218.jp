@@ -26,6 +26,8 @@ module.exports = {
   },
   plugins: ['jsx-a11y', 'simple-import-sort', 'react-hooks', 'react', '@typescript-eslint', 'prettier'],
   extends: [
+    'next',
+    'next/core-web-vitals',
     'plugin:jsx-a11y/recommended',
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
@@ -41,6 +43,7 @@ module.exports = {
     'prettier/prettier': 'error',
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@next/next/no-img-element': 'off',
   },
   overrides: [
     {
