@@ -108,7 +108,7 @@ const html = `
   await cluster.task(async ({ page, data: { post, index } }) => {
     await page
       .setContent(html.replace('{{title}}', post.title.replace(/</g, '&lt;').replace(/>/g, '&gt;')), {
-        waitUntil: 'networkidle0',
+        waitUntil: 'domcontentloaded',
       })
       .then(() => {
         const count = index + 1;
@@ -116,8 +116,15 @@ const html = `
           console.log('Generating OGP Images', `(${count}/${length})`);
         }
       });
+    await page.evaluate(async () => {
+      await Promise.all([document.fonts.ready]);
+    });
+
     const content = await page.$('body');
-    await content.screenshot({ path: `${path.dist}/${post.slug}.png` });
+    await content.screenshot({
+      fullPage: false,
+      path: `${path.dist}/${post.slug}.png`,
+    });
     await page.close();
   });
 
