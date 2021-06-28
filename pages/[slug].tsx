@@ -9,7 +9,7 @@ import React, { useEffect } from 'react';
 import Adsense, { GOOGLE_ADSENSE } from '@/components/Adsense';
 import PageContainer from '@/components/layout/PageContainer';
 const PostPager = dynamic(() => import('@/components/PostPager'));
-const PostShare = dynamic(() => import('@/components/PostShare'));
+const PostShare = dynamic(() => import('@/components/post/share'));
 import PostHeader from '@/components/post/header';
 import { SITE } from '@/constant';
 import { Post as PostType } from '@/types/source';

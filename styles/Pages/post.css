@@ -177,7 +177,7 @@
 }
 
 .p-post__share {
-  margin-top: calc(var(--margin-base) * 1.5);
+  margin-top: calc(var(--margin-base) * 3);
 }
 
 .p-post__pager {
