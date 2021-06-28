@@ -12,7 +12,7 @@ import PageContainer from '@/components/layout/PageContainer';
 const PostPager = dynamic(() => import('@/components/PostPager'));
 import PostDate from '@/components/PostDate';
 const PostShare = dynamic(() => import('@/components/PostShare'));
-import PostTerm from '@/components/PostTerm';
+import PostTerm from '@/components/post/term';
 import { SITE } from '@/constant';
 import { Post as PostType } from '@/types/source';
 import filteredPost from '@/utils/filteredPost';
