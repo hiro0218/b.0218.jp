@@ -1,26 +1,25 @@
 import Link from 'next/link';
 import React, { FC } from 'react';
 
-import style from '@/styles/Components/post-meta.module.css';
 import { Post } from '@/types/source';
 
 type Props = Pick<Post, 'categories'>;
 
 const PostCategory: FC<Props> = ({ categories }) => {
+  if (categories.length === 0) return <></>;
+
   return (
-    <>
-      {categories?.length !== 0 && (
-        <div className={style['c-post-meta']}>
-          {categories?.map((category, index) => (
-            <div key={index} className={style['c-post-meta__item--separator']}>
-              <Link href={'/categories/' + category} prefetch={false}>
-                <a className={style['c-post-meta__link--category']}>{category}</a>
-              </Link>
-            </div>
-          ))}
+    <div className={'c-post-meta-category'}>
+      {categories?.map((category, index) => (
+        <div key={index} className={'c-post-meta__item'}>
+          <Link href={'/categories/' + category} prefetch={false}>
+            <a className={'c-post-meta__link--category'} title={'category'}>
+              {category}
+            </a>
+          </Link>
         </div>
-      )}
-    </>
+      ))}
+    </div>
   );
 };
 
