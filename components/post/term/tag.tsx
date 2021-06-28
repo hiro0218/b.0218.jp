@@ -6,7 +6,7 @@ import { Post } from '@/types/source';
 type Props = Pick<Post, 'tags'>;
 
 const PostTag: FC<Props> = ({ tags }) => {
-  if (tags.length === 0) return <></>;
+  if (tags?.length === 0) return <></>;
 
   return (
     <div className={'c-post-meta-tag'}>

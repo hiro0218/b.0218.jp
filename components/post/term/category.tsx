@@ -6,7 +6,7 @@ import { Post } from '@/types/source';
 type Props = Pick<Post, 'categories'>;
 
 const PostCategory: FC<Props> = ({ categories }) => {
-  if (categories.length === 0) return <></>;
+  if (categories?.length === 0) return <></>;
 
   return (
     <div className={'c-post-meta-category'}>
