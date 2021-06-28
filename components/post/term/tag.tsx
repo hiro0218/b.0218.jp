@@ -13,7 +13,7 @@ const PostTag: FC<Props> = ({ tags }) => {
       {tags?.map((tag, index) => (
         <div key={index} className={'c-post-meta__item'}>
           <Link href={'/tags/' + tag} prefetch={false}>
-            <a className={'c-post-meta__link--tag'} title={'tag'}>
+            <a className={'c-post-meta__link--tag'} title={'tag: ' + tag}>
               {tag}
             </a>
           </Link>
