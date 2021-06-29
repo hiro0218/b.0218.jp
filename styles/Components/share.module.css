@@ -8,8 +8,8 @@
 }
 
 .c-share__item {
-  width:  3rem;
-  height: 3rem;
+  width:  3.5em;
+  height: 3.5em;
   padding: 0.25em;
   transition: background 0.4s;
   border-radius: 50%;
@@ -21,18 +21,5 @@
   &:focus,
   &:hover {
     background: var(--bg-color--lighter);
-  }
-}
-
-.c-share__item--copy {
-  @extend .c-share__item;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  & svg {
-    width: 1.5rem;
-    height: 1.5rem;
   }
 }

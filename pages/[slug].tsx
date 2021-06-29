@@ -7,12 +7,10 @@ import path from 'path';
 import React, { useEffect } from 'react';
 
 import Adsense, { GOOGLE_ADSENSE } from '@/components/Adsense';
-import Heading from '@/components/Heading';
 import PageContainer from '@/components/layout/PageContainer';
 const PostPager = dynamic(() => import('@/components/PostPager'));
-import PostDate from '@/components/PostDate';
-const PostShare = dynamic(() => import('@/components/PostShare'));
-import PostTerm from '@/components/PostTerm';
+const PostShare = dynamic(() => import('@/components/post/share'));
+import PostHeader from '@/components/post/header';
 import { SITE } from '@/constant';
 import { Post as PostType } from '@/types/source';
 import filteredPost from '@/utils/filteredPost';
@@ -69,12 +67,7 @@ const Post: NextPage<Props> = ({ post }) => {
       <PageContainer>
         <article className="p-post">
           <header>
-            <Heading text={post.title} />
-
-            <div className="p-post-meta">
-              <PostDate date={post.date} updated={post.updated} />
-              <PostTerm categories={post.categories} tags={post.tags} />
-            </div>
+            <PostHeader post={post} />
           </header>
 
           <Adsense />

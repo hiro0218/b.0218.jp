@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 
-import style from '@/styles/Components/post-meta.module.css';
 import { Post } from '@/types/source';
 import { convertDateToSimpleFormat, isSameDate } from '@/utils/date';
 
@@ -11,15 +10,15 @@ const PostDate: FC<Props> = ({ date, updated }) => {
 
   return (
     <>
-      <div className={style['c-post-meta']}>
-        <div className={!existsModified ? style['c-post-meta__date'] : style['c-post-meta__date--strike']}>
-          <time dateTime={date} itemProp="datePublished">
+      <div className={'c-post-meta-date'}>
+        <div className={!existsModified ? 'c-post-meta__date' : 'c-post-meta__date--strike'}>
+          <time dateTime={date} itemProp="datePublished" title={'投稿日時: ' + date}>
             {convertDateToSimpleFormat(date)}
           </time>
         </div>
         {existsModified && (
-          <div className={style['c-post-meta__date']}>
-            <time dateTime={updated} itemProp="dateModified">
+          <div className={'c-post-meta__date'}>
+            <time dateTime={updated} itemProp="dateModified" title={'更新日時: ' + updated}>
               {convertDateToSimpleFormat(updated)}
             </time>
           </div>
