@@ -39,7 +39,6 @@
   @extend .c-post-meta__date;
 
   opacity: 0.8;
-  font-size: var(--font-size-sm);
   text-decoration: line-through;
 }
 
