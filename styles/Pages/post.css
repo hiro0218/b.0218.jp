@@ -151,6 +151,7 @@
   }
 
   & iframe {
+    aspect-ratio: 16 / 9;
     margin: var(--margin-base) auto;
   }
 
