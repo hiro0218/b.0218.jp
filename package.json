@@ -20,8 +20,8 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^5.5.0",
-    "@types/css-font-loading-module": "^0.0.5",
-    "@types/fs-extra": "^9.0.11",
+    "@types/css-font-loading-module": "^0.0.6",
+    "@types/fs-extra": "^9.0.12",
     "@types/node": "^16.0.0",
     "@types/react": "^17.0.13",
     "@types/rss": "^0.0.28",
