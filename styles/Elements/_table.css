@@ -1,17 +1,15 @@
 table {
-  border: var(--table-border-width) solid var(--table-border-color);
+  width: 100%;
   background: #fff;
 
   @media (--mobile-viewport) {
-    min-width: 100%;
     table-layout: fixed;
   }
 }
 
 th,
 td {
-  padding: 0.75rem;
-  border: var(--table-border-width) solid var(--table-border-color);
+  padding: 0.5rem 1rem;
   border-top: var(--table-border-width) solid var(--table-border-color);
   vertical-align: top;
 
@@ -22,14 +20,10 @@ td {
 
 thead {
   & th {
-    border-bottom: calc(var(--table-border-width) * 2) solid var(--table-border-color);
-    background: var(--table-head-bg-color);
+    border-bottom: calc(var(--table-border-width) * 3) solid var(--table-border-color);
+    text-align: left;
     vertical-align: bottom;
     white-space: nowrap;
-  }
-  & th,
-  & td {
-    border-bottom-width: calc(2 * var(--table-border-width));
   }
 }
 
