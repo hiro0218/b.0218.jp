@@ -105,35 +105,10 @@
   }
 
   blockquote {
-    position: relative;
     margin: var(--margin-base) 0 var(--margin-base);
-    padding: 3rem;
-    background: var(--bg-color--lighter);
+    padding: 1em 1.5em 1em;
+    border-left: 2px solid var(--bg-color--light);
     color: var(--color-text--light);
-    font-size: var(--font-size-sm);
-
-    &::before,
-    &::after {
-      display: block;
-      position: absolute;
-      width: 3rem;
-      height: 3rem;
-      color: var(--bg-color--darker);
-      font-size: 2.5rem;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    &::before {
-      content: '“';
-      top: 0;
-      left: 0;
-    }
-    &::after {
-      content: '”';
-      right: 0;
-      bottom: 0;
-    }
 
     & p {
       &:last-child {

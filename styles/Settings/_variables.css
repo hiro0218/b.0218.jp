@@ -61,7 +61,6 @@
 
   /* table */
   --table-border-width: 1px;
-  --table-head-bg-color: var(--bg-color--lighter);
   --table-border-color: var(--bg-color--light);
   --table-hover-color: var(--gray-0);
 
