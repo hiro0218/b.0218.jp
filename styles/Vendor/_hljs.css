@@ -8,7 +8,7 @@
   &[data-language] {
 
     &::before {
-      content: attr(data-language);
+      content: '// ' attr(data-language);
       display: block;
       position: sticky;
       left: 0;
