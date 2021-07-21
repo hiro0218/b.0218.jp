@@ -1,7 +1,3 @@
-.p-post-meta {
-  margin-top: calc(var(--margin-base) * 1);
-}
-
 .p-post__content {
   margin: calc(var(--margin-base) * 3) auto 0;
 
