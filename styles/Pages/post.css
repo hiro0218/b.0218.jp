@@ -71,8 +71,8 @@
     margin: calc(var(--margin-base) * 1.5) auto calc(var(--margin-base) * 0.5);
   }
 
-  ul,
-  ol {
+  > ul,
+  > ol {
     margin: 1rem 0;
     padding-left: 2rem;
     letter-spacing: 0.05em;
@@ -97,7 +97,7 @@
     }
   }
 
-  & > p {
+  > p {
     margin: var(--margin-base) 0 var(--margin-base);
     letter-spacing: 0.05em;
     line-height: 2;
