@@ -1,4 +1,4 @@
-import Mokuji from 'mokuji.js';
+import { Mokuji } from 'mokuji.js';
 
 // <div class="c-mokuji">
 //   <details>
