@@ -40,7 +40,7 @@
     "fs-extra": "^10.0.0",
     "gray-matter": "^4.0.3",
     "husky": "^7.0.1",
-    "lint-staged": "^11.0.1",
+    "lint-staged": "^11.1.1",
     "postcss": "^8.3.6",
     "postcss-calc": "^8.0.0",
     "postcss-custom-media": "^8.0.0",
