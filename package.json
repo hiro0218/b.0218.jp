@@ -16,6 +16,7 @@
     "next": "^11.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-modal": "^3.14.3",
     "rss": "^1.2.2"
   },
   "devDependencies": {
@@ -24,6 +25,7 @@
     "@types/fs-extra": "^9.0.12",
     "@types/node": "^16.4.1",
     "@types/react": "^17.0.15",
+    "@types/react-modal": "^3.12.1",
     "@types/rss": "^0.0.29",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.4",

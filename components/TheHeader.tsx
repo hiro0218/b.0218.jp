@@ -1,9 +1,25 @@
 import Link from 'next/link';
 import React, { FC, useEffect, useRef, useState } from 'react';
+import ReactModal from 'react-modal';
 
 import Search from '@/components/Search';
 import { SITE } from '@/constant';
 import Logo from '@/images/logo.svg';
+
+ReactModal.setAppElement('#__next');
+const customStyles = {
+  overlay: {
+    zIndex: 'var(--zIndex-search-overlay)' as string,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  content: {
+    position: 'static',
+    padding: 0,
+    border: 'none',
+    borderRadius: 'none',
+    background: 'none',
+  },
+} as ReactModal.Styles;
 
 const initUnpinHeader = (elHeader: HTMLElement) => {
   const headerHeight = elHeader.offsetHeight;
@@ -46,13 +62,17 @@ const initUnpinHeader = (elHeader: HTMLElement) => {
 };
 
 const TheHeader: FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const refHeader = useRef<HTMLElement>(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const toggleModal = () => {
-    document.body.classList.toggle('is-no-scroll', !isOpen);
-    setIsOpen(!isOpen);
-  };
+  function openModal() {
+    setModalIsOpen(true);
+  }
+
+  function closeModal() {
+    setModalIsOpen(false);
+  }
+
+  const refHeader = useRef<HTMLElement>(null);
 
   useEffect(() => {
     initUnpinHeader(refHeader.current);
@@ -69,7 +89,7 @@ const TheHeader: FC = () => {
               <span className="sr-only">{SITE.NAME}</span>
             </a>
           </Link>
-          <button type="button" className="pj-header-search" aria-label="Search" onClick={toggleModal}>
+          <button type="button" className="pj-header-search" aria-label="Search" onClick={openModal}>
             <div className="pj-header-search__icon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +108,16 @@ const TheHeader: FC = () => {
           </button>
         </div>
       </header>
-      {isOpen && <Search isOpen={isOpen} toggleHandler={toggleModal} />}
+
+      <ReactModal
+        isOpen={modalIsOpen}
+        preventScroll={true}
+        onRequestClose={closeModal}
+        shouldCloseOnOverlayClick={true}
+        style={customStyles}
+      >
+        <Search />
+      </ReactModal>
     </>
   );
 };
