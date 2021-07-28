@@ -1,5 +1,6 @@
 import fs from 'fs-extra';
 import { GetStaticProps, NextPage } from 'next';
+import Head from 'next/head';
 import path from 'path';
 
 import Heading from '@/components/Heading';
@@ -16,6 +17,9 @@ interface Props {
 const Home: NextPage<Props> = ({ recentPosts, updatesPosts }) => {
   return (
     <>
+      <Head>
+        <meta name="thumbnail" content="https://b.0218.jp/hiro0218.png" />
+      </Head>
       <PageContainer>
         <header>
           <Heading text={'Home'} />

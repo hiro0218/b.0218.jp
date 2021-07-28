@@ -4,12 +4,7 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import style from '@/styles/Components/search.module.css';
 import { Post } from '@/types/source';
 
-interface Props {
-  isOpen: boolean;
-  toggleHandler: () => void;
-}
-
-const Search: FC<Props> = ({ isOpen = false, toggleHandler }) => {
+const Search: FC = () => {
   const refInput = useRef(null);
 
   const [data, setData] = useState({
@@ -24,8 +19,8 @@ const Search: FC<Props> = ({ isOpen = false, toggleHandler }) => {
     (async () => {
       return await fetch('/posts.json')
         .then((response) => response.json())
-        .then((archives: Array<Post>) => {
-          setArchives(archives);
+        .then((json: Array<Post>) => {
+          setArchives(json);
         });
     })();
   }, []);
@@ -72,7 +67,7 @@ const Search: FC<Props> = ({ isOpen = false, toggleHandler }) => {
 
   return (
     <>
-      <div role="dialog" className={`${style['c-search']} ${isOpen ? style['is-open'] : ''}`}>
+      <div className={`${style['c-search']}`}>
         <div className={style['c-search-header']}>
           <label className={style['c-search-header__icon']} htmlFor="search-input">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -117,11 +112,6 @@ const Search: FC<Props> = ({ isOpen = false, toggleHandler }) => {
           </>
         )}
       </div>
-      <div
-        className={`${style['c-search-overlay']} ${isOpen ? style['is-open'] : ''}`}
-        onClick={toggleHandler}
-        aria-hidden="true"
-      ></div>
     </>
   );
 };
