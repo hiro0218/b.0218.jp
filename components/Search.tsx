@@ -19,8 +19,8 @@ const Search: FC = () => {
     (async () => {
       return await fetch('/posts.json')
         .then((response) => response.json())
-        .then((archives: Array<Post>) => {
-          setArchives(archives);
+        .then((json: Array<Post>) => {
+          setArchives(json);
         });
     })();
   }, []);
