@@ -12,6 +12,11 @@ export const convertDateToSimpleFormat = (dateString: string): string => {
  * @param date
  * @param updated
  */
-export const isSameDate = (date: string, updated: string): boolean => {
+export const isSameDate = (date: string, updated: string | null): boolean => {
+  // 日付が入っていない場合は同日
+  if (!updated) {
+    return true;
+  }
+
   return new Date(date).toDateString() === new Date(updated).toDateString();
 };
