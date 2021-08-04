@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { FC } from 'react';
+import { HiOutlineChevronRight } from 'react-icons/hi';
 
 import style from '@/styles/Components/link-card.module.css';
 import { convertDateToSimpleFormat } from '@/utils/date';
@@ -47,16 +48,7 @@ const LinkCard: FC<Props> = ({ link, title, date, excerpt, target = false }) => 
               </svg>
             ) : (
               /* arrow */
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                width="1rem"
-                height="1rem"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+              <HiOutlineChevronRight />
             )}
           </div>
         </div>

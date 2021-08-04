@@ -8,11 +8,15 @@
 }
 
 .c-share__item {
-  width:  3.5em;
-  height: 3.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
   padding: 0.25em;
   transition: background 0.4s;
   border-radius: 50%;
+  font-size: 1.75rem;
 
   & svg {
     color: var(--color-text--light);

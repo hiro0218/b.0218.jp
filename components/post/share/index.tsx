@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
+import { FaTwitter } from 'react-icons/fa';
 
-import TwitterLogo from '@/images/sns_twitter.svg';
 import styleShare from '@/styles/Components/share.module.css';
-
 interface Props {
   title: string;
   url: string;
@@ -19,7 +18,7 @@ const PostShare: FC<Props> = ({ title, url }) => {
         rel="noopener noreferrer"
         aria-label="Twitter"
       >
-        <TwitterLogo />
+        <FaTwitter />
       </a>
     </div>
   );
