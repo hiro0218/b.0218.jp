@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 import ReactModal from 'react-modal';
 
@@ -65,13 +65,13 @@ const initUnpinHeader = (elHeader: HTMLElement) => {
 const TheHeader: FC = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  function openModal() {
+  const openModal = useCallback(() => {
     setModalIsOpen(true);
-  }
+  }, []);
 
-  function closeModal() {
+  const closeModal = useCallback(() => {
     setModalIsOpen(false);
-  }
+  }, []);
 
   const refHeader = useRef<HTMLElement>(null);
 
