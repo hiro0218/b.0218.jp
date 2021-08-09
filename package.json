@@ -57,7 +57,7 @@
     "rehype-highlight": "^4.1.0",
     "rehype-plugin-image-native-lazy-loading": "^1.2.0",
     "rehype-stringify": "^8.0.0",
-    "remark-breaks": "^2.0.2",
+    "remark-breaks": "^3.0.0",
     "remark-external-links": "^8.0.0",
     "remark-gfm": "^1.0.0",
     "remark-parse": "^9.0.0",
