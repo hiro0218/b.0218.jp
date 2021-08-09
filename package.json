@@ -62,7 +62,7 @@
     "remark-gfm": "^1.0.0",
     "remark-parse": "^9.0.0",
     "remark-rehype": "^8.1.0",
-    "remark-unwrap-images": "^2.1.0",
+    "remark-unwrap-images": "^3.0.0",
     "shokika.css": "^1.4.0",
     "stylelint": "^13.13.1",
     "stylelint-config-property-sort-order-smacss": "^7.1.0",
