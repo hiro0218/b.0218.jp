@@ -67,47 +67,45 @@ const Search: FC = () => {
   };
 
   return (
-    <>
-      <div className={`${style['c-search']}`}>
-        <div className={style['c-search-header']}>
-          <label className={style['c-search-header__icon']} htmlFor="search-input">
-            <HiSearch />
-          </label>
-          <input
-            type="search"
-            className={style['c-search__input']}
-            placeholder="記事のタイトルから検索する"
-            id="search-input"
-            autoComplete="off"
-            ref={refInput}
-            onKeyUp={(e) => onKeyup(e)}
-          />
-        </div>
-        {data.suggest.length > 0 && (
-          <>
-            <div className={style['c-search-list']}>
-              {data.suggest.map((post, index) => {
-                return (
-                  <Link key={index} href={`/${post.slug}.html`}>
-                    <a className={style['c-search-list__link']}>{post.title}</a>
-                  </Link>
-                );
-              })}
-            </div>
-            <div className={style['c-search-footer']}>
-              <div className={style['c-search-footer__search-result']}>
-                {data.suggest.length > 0 && <span>Result: {data.suggest.length} posts</span>}
-              </div>
-              <div className={style['c-search-footer__search-external']}>
-                <a href="https://www.google.com/search?q=site:b.0218.jp" target="_blank" rel="noopener noreferrer">
-                  Google 検索
-                </a>
-              </div>
-            </div>
-          </>
-        )}
+    <div className={`${style['c-search']}`}>
+      <div className={style['c-search-header']}>
+        <label className={style['c-search-header__icon']} htmlFor="search-input">
+          <HiSearch />
+        </label>
+        <input
+          type="search"
+          className={style['c-search__input']}
+          placeholder="記事のタイトルから検索する"
+          id="search-input"
+          autoComplete="off"
+          ref={refInput}
+          onKeyUp={(e) => onKeyup(e)}
+        />
       </div>
-    </>
+      {data.suggest.length > 0 && (
+        <>
+          <div className={style['c-search-list']}>
+            {data.suggest.map((post, index) => {
+              return (
+                <Link key={index} href={`/${post.slug}.html`}>
+                  <a className={style['c-search-list__link']}>{post.title}</a>
+                </Link>
+              );
+            })}
+          </div>
+          <div className={style['c-search-footer']}>
+            <div className={style['c-search-footer__search-result']}>
+              {data.suggest.length > 0 && <span>Result: {data.suggest.length} posts</span>}
+            </div>
+            <div className={style['c-search-footer__search-external']}>
+              <a href="https://www.google.com/search?q=site:b.0218.jp" target="_blank" rel="noopener noreferrer">
+                Google 検索
+              </a>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 
