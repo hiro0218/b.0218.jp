@@ -2,7 +2,6 @@ import cheerio from 'cheerio';
 import fs from 'fs-extra';
 import matter from 'gray-matter';
 import rehypeHighlight from 'rehype-highlight';
-import rehypeLazyLoad from 'rehype-plugin-image-native-lazy-loading';
 import rehypeStringify from 'rehype-stringify';
 import remarkBreaks from 'remark-breaks';
 import remarkExternalLinks from 'remark-external-links';
@@ -10,7 +9,7 @@ import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import remarkUnwrapImages from 'remark-unwrap-images';
-import unified from 'unified';
+import { unified } from 'unified';
 
 import { NextPrevPost, Post as PropPost } from '../types/source';
 
@@ -55,7 +54,6 @@ function markdown2html(markdown: string) {
     .use(remarkBreaks)
     .use(remarkExternalLinks, { rel: ['nofollow', 'noopener'] })
     .use(remarkRehype, { allowDangerousHtml: true })
-    .use(rehypeLazyLoad)
     .use(rehypeHighlight, {
       subset: false,
       ignoreMissing: true,
