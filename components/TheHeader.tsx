@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { HiSearch } from 'react-icons/hi';
 import ReactModal from 'react-modal';
 
 import Search from '@/components/Search';
@@ -64,13 +65,13 @@ const initUnpinHeader = (elHeader: HTMLElement) => {
 const TheHeader: FC = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  function openModal() {
+  const openModal = useCallback(() => {
     setModalIsOpen(true);
-  }
+  }, []);
 
-  function closeModal() {
+  const closeModal = useCallback(() => {
     setModalIsOpen(false);
-  }
+  }, []);
 
   const refHeader = useRef<HTMLElement>(null);
 
@@ -91,19 +92,7 @@ const TheHeader: FC = () => {
           </Link>
           <button type="button" className="pj-header-search" aria-label="Search" onClick={openModal}>
             <div className="pj-header-search__icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                width="1.25rem"
-                height="1.25rem"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <HiSearch />
             </div>
           </button>
         </div>

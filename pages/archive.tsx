@@ -14,20 +14,28 @@ interface Props {
   archives: Array<PropPost>;
 }
 
+const initArchiveYearList = (archives: Array<PropPost>) => {
+  const list = {};
+
+  [
+    ...new Set(
+      archives.map(({ date }) => {
+        return date.slice(0, 4) + ' ';
+      }),
+    ),
+  ].map((year) => (list[year] = []));
+
+  return list;
+};
+
 const divideByYearArchive = (archives: Array<PropPost>) => {
-  const formatArchives = {};
+  const formatArchives = initArchiveYearList(archives);
 
   for (let i = 0; i < archives.length; i++) {
     const post = archives[i];
 
     // 日付を取得する
-    const date = new Date(post.date);
-    const year = date.getFullYear().toString() + ' ';
-
-    // 配列で初期化
-    if (!Array.isArray(formatArchives[year])) {
-      formatArchives[year] = [];
-    }
+    const year = post.date.slice(0, 4) + ' ';
 
     formatArchives[year].push(post);
   }

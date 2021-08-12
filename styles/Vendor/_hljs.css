@@ -1,6 +1,6 @@
 @import '~highlight.js/styles/a11y-light.css';
 
-.hljs {
+pre code.hljs {
   padding: 1.5rem;
   overflow-x: auto;
   background: var(--bg-color--lighter);

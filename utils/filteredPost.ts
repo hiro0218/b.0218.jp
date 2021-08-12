@@ -13,6 +13,11 @@ const filteredPost = (content: string): string => {
     }
   });
 
+  // image
+  $('img').each((_, element) => {
+    $(element).attr('loading', 'lazy');
+  });
+
   // wrap table
   $('table').each((_, element) => {
     $(element).wrap($('<div class="p-post-table-container"></div>'));
