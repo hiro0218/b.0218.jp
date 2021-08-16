@@ -31,7 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
     "cheerio": "^1.0.0-rc.10",
-    "esbuild-register": "^2.6.0",
+    "esbuild-register": "^3.0.0",
     "eslint": "^7.32.0",
     "eslint-config-next": "^11.1.0",
     "eslint-config-prettier": "^8.3.0",
