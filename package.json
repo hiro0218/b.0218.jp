@@ -24,7 +24,7 @@
     "@svgr/webpack": "^5.5.0",
     "@types/css-font-loading-module": "^0.0.6",
     "@types/fs-extra": "^9.0.12",
-    "@types/node": "^16.6.0",
+    "@types/node": "^16.6.1",
     "@types/react": "^17.0.18",
     "@types/react-modal": "^3.12.1",
     "@types/rss": "^0.0.29",
