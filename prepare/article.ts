@@ -28,19 +28,13 @@ function replaceMoreComment(content: string) {
 /**
  * h2の内容をを取得して中身を取り出す
  */
-function getHeadings(content: string) {
-  const $ = cheerio.load(content);
-  const $h2 = $('h2');
-  const headings = [];
-
-  $h2.each(function (i) {
-    // 5つだけ抽出
-    if (i < 5) {
-      headings[i] = $(this).text();
-    }
-  });
-
-  return headings.join(' / ');
+function getHeadingText($: typeof cheerio, tagName = 'h2') {
+  return $(tagName)
+    .map(function (i) {
+      return i < 5 && $(this).text();
+    })
+    .toArray()
+    .join(' / ');
 }
 
 /**
@@ -79,13 +73,16 @@ function buildPost() {
     const { title, date, updated, categories, tags }: Partial<PropPost> = post.data;
     const content = markdown2html(post.content);
 
+    // cheerio
+    const $ = cheerio.load(content);
+
     posts.push({
       title,
       slug: file.replace('.md', ''),
       date,
       updated,
       content: replaceMoreComment(content),
-      excerpt: getHeadings(content),
+      excerpt: getHeadingText($),
       categories,
       tags,
     });
