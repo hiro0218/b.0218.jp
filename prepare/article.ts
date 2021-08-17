@@ -12,7 +12,7 @@ import remarkUnwrapImages from 'remark-unwrap-images';
 import { unified } from 'unified';
 
 import { NextPrevPost, Post as PropPost } from '../types/source';
-import filteredPost from '../utils/filteredPost';
+import { filteredPost, getHeadingText } from '../utils/filteredPost';
 
 const path = {
   src: `${process.cwd()}/_article`,
@@ -24,18 +24,6 @@ const path = {
  */
 function replaceMoreComment(content: string) {
   return content.replace('<!--more-->', '\r\n<div class="more js-separate"></div>\r\n');
-}
-
-/**
- * h2の内容をを取得して中身を取り出す
- */
-function getHeadingText($: typeof cheerio, tagName = 'h2') {
-  return $(tagName)
-    .map(function (i) {
-      return i < 5 && $(this).text();
-    })
-    .toArray()
-    .join(' / ');
 }
 
 /**
@@ -72,7 +60,7 @@ function buildPost() {
     // front matter を取得
     const post = matter.read(`${path.src}/_posts/${file}`);
     const { title, date, updated, categories, tags }: Partial<PropPost> = post.data;
-    const content = markdown2html(post.content);
+    const content = replaceMoreComment(markdown2html(post.content));
 
     // cheerio
     const $ = cheerio.load(content, null, false);
@@ -82,7 +70,7 @@ function buildPost() {
       slug: file.replace('.md', ''),
       date,
       updated,
-      content: filteredPost(replaceMoreComment(content)),
+      content: filteredPost($),
       excerpt: getHeadingText($),
       categories,
       tags,

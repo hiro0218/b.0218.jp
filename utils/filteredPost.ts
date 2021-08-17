@@ -1,8 +1,6 @@
 import cheerio from 'cheerio';
 
-const filteredPost = (content: string): string => {
-  const $ = cheerio.load(content);
-
+export const filteredPost = ($: typeof cheerio): string => {
   // hljs
   $('.hljs').each((_, element) => {
     const $element = $(element);
@@ -34,4 +32,14 @@ const filteredPost = (content: string): string => {
   return $.html();
 };
 
-export default filteredPost;
+/**
+ * h2の内容をを取得して中身を取り出す
+ */
+export const getHeadingText = ($: typeof cheerio, tagName = 'h2') => {
+  return $(tagName)
+    .map(function (i) {
+      return i < 5 && $(this).text();
+    })
+    .toArray()
+    .join(' / ');
+};
