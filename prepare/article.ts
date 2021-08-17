@@ -75,7 +75,7 @@ function buildPost() {
     const content = markdown2html(post.content);
 
     // cheerio
-    const $ = cheerio.load(content);
+    const $ = cheerio.load(content, null, false);
 
     posts.push({
       title,
