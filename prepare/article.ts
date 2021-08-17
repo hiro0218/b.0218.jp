@@ -12,6 +12,7 @@ import remarkUnwrapImages from 'remark-unwrap-images';
 import { unified } from 'unified';
 
 import { NextPrevPost, Post as PropPost } from '../types/source';
+import filteredPost from '../utils/filteredPost';
 
 const path = {
   src: `${process.cwd()}/_article`,
@@ -81,7 +82,7 @@ function buildPost() {
       slug: file.replace('.md', ''),
       date,
       updated,
-      content: replaceMoreComment(content),
+      content: filteredPost(replaceMoreComment(content)),
       excerpt: getHeadingText($),
       categories,
       tags,

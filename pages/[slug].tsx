@@ -13,7 +13,6 @@ const PostShare = dynamic(() => import('@/components/post/share'));
 import PostHeader from '@/components/post/header';
 import { SITE } from '@/constant';
 import { Post as PostType } from '@/types/source';
-import filteredPost from '@/utils/filteredPost';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '@/utils/json-ld';
 import { mokuji } from '@/utils/mokuji';
 
@@ -119,9 +118,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const slug = context.params.slug as string;
     return post.slug === slug.replace('.html', '');
   });
-
-  // SSG時に処理する
-  postData.content = filteredPost(postData.content);
 
   return {
     props: {
