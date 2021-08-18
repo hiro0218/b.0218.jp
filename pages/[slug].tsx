@@ -54,9 +54,9 @@ const Post: NextPage<Props> = ({ post }) => {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(getBreadcrumbStructured(post)) }}
         />
         <script
-          data-ad-client={GOOGLE_ADSENSE.CLIENT}
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GOOGLE_ADSENSE.CLIENT}`}
+          crossOrigin="anonymous"
         ></script>
         {post.content.includes('twitter-tweet') && (
           <script async src="https://platform.twitter.com/widgets.js"></script>
