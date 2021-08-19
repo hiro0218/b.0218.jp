@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -16,9 +16,10 @@ import { Post as PostType } from '@/types/source';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '@/utils/json-ld';
 import { mokuji } from '@/utils/mokuji';
 
-interface Props {
+type PostProps = {
   post: PostType;
-}
+};
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const Post: NextPage<Props> = ({ post }) => {
   const { asPath } = useRouter();
@@ -104,7 +105,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
   const dataPath = path.join(process.cwd(), 'dist/posts.json');
   const posts: Array<PostType> = fs.readJsonSync(dataPath);
 
