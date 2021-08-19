@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import path from 'path';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import Adsense, { GOOGLE_ADSENSE } from '@/components/Adsense';
 import PageContainer from '@/components/layout/PageContainer';

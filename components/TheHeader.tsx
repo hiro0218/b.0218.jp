@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 import ReactModal from 'react-modal';
 

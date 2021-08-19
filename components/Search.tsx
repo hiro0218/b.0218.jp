@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
 import style from '@/styles/Components/search.module.css';

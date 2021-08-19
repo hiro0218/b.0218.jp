@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import Heading from '@/components/Heading';
 import PostDate from '@/components/post/date';

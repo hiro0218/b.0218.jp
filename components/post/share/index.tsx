@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { FaTwitter } from 'react-icons/fa';
 
 import styleShare from '@/styles/Components/share.module.css';

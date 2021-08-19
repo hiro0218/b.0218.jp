@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { HiOutlineArrowLeft, HiOutlineArrowRight } from 'react-icons/hi';
 
 import style from '@/styles/Components/pager.module.css';
