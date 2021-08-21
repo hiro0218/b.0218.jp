@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { FC } from 'react';
 import { HiOutlineChevronRight } from 'react-icons/hi';
 
-import style from '@/styles/Components/link-card.module.css';
 import { convertDateToSimpleFormat } from '@/utils/date';
 
 interface Props {
@@ -16,18 +15,18 @@ interface Props {
 const LinkCard: FC<Props> = ({ link, title, date, excerpt, target = false }) => {
   return (
     <Link href={link}>
-      <a className={style['link-card']} {...(target && { target: '_blank' })}>
-        <div className={style['link-card-main']}>
-          <h3 className={style['link-card__title']}>{title}</h3>
-          <div className={style['link-card__text']}>
-            <time dateTime={date} className={style['link-card__date']}>
+      <a className="link-card" {...(target && { target: '_blank' })}>
+        <div className="link-card-main">
+          <h3 className="link-card__title">{title}</h3>
+          <div className="link-card__text">
+            <time dateTime={date} className="link-card__date">
               {convertDateToSimpleFormat(date)}
             </time>
-            {excerpt && <span className={style['link-card__excerpt']}>{excerpt}</span>}
+            {excerpt && <span className="link-card__excerpt">{excerpt}</span>}
           </div>
         </div>
-        <div className={style['link-card-icon']}>
-          <div className={style['link-card-icon__arrow']}>
+        <div className="link-card-icon">
+          <div className="link-card-icon__arrow">
             {target ? (
               /* external */
               <svg

@@ -1,8 +1,6 @@
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 
-import style from '@/styles/Components/adsense.module.css';
-
 export const GOOGLE_ADSENSE = {
   LAYOUT: 'in-article',
   FORMAT: 'fluid',
@@ -22,7 +20,7 @@ const Adsense: FC = () => {
   }, [asPath]);
 
   return (
-    <div key={asPath} className={style['c-adsense']}>
+    <div key={asPath} className="c-adsense">
       <ins
         className="adsbygoogle"
         style={{ display: 'block', textAlign: 'center' }}

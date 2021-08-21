@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { FC, useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
-import style from '@/styles/Components/search.module.css';
 import { Post } from '@/types/source';
 
 const Search: FC = () => {
@@ -67,14 +66,14 @@ const Search: FC = () => {
   };
 
   return (
-    <div className={`${style['c-search']}`}>
-      <div className={style['c-search-header']}>
-        <label className={style['c-search-header__icon']} htmlFor="search-input">
+    <div className="c-search">
+      <div className="c-search-header">
+        <label className="c-search-header__icon" htmlFor="search-input">
           <HiSearch />
         </label>
         <input
           type="search"
-          className={style['c-search__input']}
+          className="c-search__input"
           placeholder="記事のタイトルから検索する"
           id="search-input"
           autoComplete="off"
@@ -84,20 +83,20 @@ const Search: FC = () => {
       </div>
       {data.suggest.length > 0 && (
         <>
-          <div className={style['c-search-list']}>
+          <div className="c-search-list">
             {data.suggest.map((post, index) => {
               return (
                 <Link key={index} href={`/${post.slug}.html`}>
-                  <a className={style['c-search-list__link']}>{post.title}</a>
+                  <a className="c-search-list__link">{post.title}</a>
                 </Link>
               );
             })}
           </div>
-          <div className={style['c-search-footer']}>
-            <div className={style['c-search-footer__search-result']}>
+          <div className="c-search-footer">
+            <div className="c-search-footer__search-result">
               {data.suggest.length > 0 && <span>Result: {data.suggest.length} posts</span>}
             </div>
-            <div className={style['c-search-footer__search-external']}>
+            <div className="c-search-footer__search-external">
               <a href="https://www.google.com/search?q=site:b.0218.jp" target="_blank" rel="noopener noreferrer">
                 Google 検索
               </a>
