@@ -82,7 +82,7 @@
       "eslint",
       "bash -c 'tsc --noEmit --skipLibCheck'"
     ],
-    "styles/**/*.{css}": [
+    "styles/**/*.css": [
       "stylelint --fix",
       "stylelint"
     ]
