@@ -1,13 +1,12 @@
-import fs from 'fs-extra';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import path from 'path';
 import { useEffect } from 'react';
 
 import Adsense, { GOOGLE_ADSENSE } from '@/components/Adsense';
 import PageContainer from '@/components/layout/PageContainer';
+import { getPostsJson } from '@/lib/posts';
 const PostPager = dynamic(() => import('@/components/PostPager'));
 const PostShare = dynamic(() => import('@/components/post/share'));
 import PostHeader from '@/components/post/header';
@@ -96,8 +95,7 @@ const Post: NextPage<Props> = ({ post }) => {
 export default Post;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const dataPath = path.join(process.cwd(), 'dist/posts.json');
-  const posts: Array<PostType> = fs.readJsonSync(dataPath);
+  const posts = getPostsJson();
   const paths = posts.map((post) => ({
     params: { slug: post.slug },
   }));
@@ -106,8 +104,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
-  const dataPath = path.join(process.cwd(), 'dist/posts.json');
-  const posts: Array<PostType> = fs.readJsonSync(dataPath);
+  const posts = getPostsJson();
 
   // next build: 拡張子が含まれていると出力できない
   // 拡張子がないとデータが取得できないため .html を付与する
@@ -115,14 +112,15 @@ export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
     context.params.slug += '.html';
   }
 
-  const postData: PostType = posts.find((post) => {
-    const slug = context.params.slug as string;
+  const slug = context.params.slug as string;
+
+  const post = posts.find((post) => {
     return post.slug === slug.replace('.html', '');
   });
 
   return {
     props: {
-      post: postData,
+      post,
     },
   };
 };

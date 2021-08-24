@@ -1,12 +1,11 @@
-import fs from 'fs-extra';
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
-import path from 'path';
 
 import Heading from '@/components/Heading';
 import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
 import LinkCard from '@/components/LinkCard';
+import { getPostsJson } from '@/lib/posts';
 import { Post as PropsPost } from '@/types/source';
 
 interface Props {
@@ -59,8 +58,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts }) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const postsPath = path.join(process.cwd(), 'dist/posts.json');
-  const posts: Array<PropsPost> = fs.readJsonSync(postsPath);
+  const posts = getPostsJson();
   const recentPosts = posts.filter((_, i) => i < 5);
   const updatesPosts = posts
     .sort((a, b) => {

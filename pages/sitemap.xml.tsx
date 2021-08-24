@@ -1,9 +1,10 @@
 import { GetServerSidePropsContext } from 'next';
 
 import { SITE } from '@/constant';
-import posts from '@/dist/posts.json';
+import { getPostsJson } from '@/lib/posts';
+import { Post } from '@/types/source';
 
-async function generateSitemapXml() {
+async function generateSitemapXml(posts: Array<Post>) {
   let xml = '';
 
   xml += `<?xml version="1.0" encoding="UTF-8"?>`;
@@ -30,7 +31,8 @@ async function generateSitemapXml() {
 }
 
 export const getServerSideProps = async ({ res }: GetServerSidePropsContext) => {
-  const xml = await generateSitemapXml();
+  const posts = getPostsJson();
+  const xml = await generateSitemapXml(posts);
 
   res.statusCode = 200;
   res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate');

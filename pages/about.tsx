@@ -1,11 +1,10 @@
-import fs from 'fs-extra';
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
-import path from 'path';
 
 import Heading from '@/components/Heading';
 import PageContainer from '@/components/layout/PageContainer';
 import { SITE } from '@/constant';
+import { getPagesJson } from '@/lib/posts';
 import { Pages } from '@/types/source';
 
 interface Props {
@@ -40,13 +39,12 @@ const About: NextPage<Props> = ({ page }) => {
 export default About;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const dataPath = path.join(process.cwd(), 'dist/pages.json');
-  const pages: Array<Pages> = fs.readJsonSync(dataPath);
-  const postData = pages.find((page) => page.slug === 'about');
+  const pages = getPagesJson();
+  const page = pages.find((page) => page.slug === 'about');
 
   return {
     props: {
-      page: postData,
+      page,
     },
   };
 };

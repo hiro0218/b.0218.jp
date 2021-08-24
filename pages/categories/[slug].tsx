@@ -1,8 +1,7 @@
-import fs from 'fs-extra';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
-import path from 'path';
 
 import TermsBody from '@/components/terms/body';
+import { getTermJson } from '@/lib/posts';
 import { TermsPostLits } from '@/types/source';
 
 type TermProps = {
@@ -18,8 +17,7 @@ const Categories: NextPage<Props> = ({ title, posts }) => {
 export default Categories;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const dataPath = path.join(process.cwd(), 'dist/categories.json');
-  const posts = fs.readJsonSync(dataPath);
+  const posts = getTermJson('categories');
   const paths = Object.keys(posts).map((slug) => ({
     params: { slug },
   }));
@@ -28,8 +26,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps<TermProps> = async (context) => {
-  const dataPath = path.join(process.cwd(), 'dist/categories.json');
-  const posts = fs.readJsonSync(dataPath);
+  const posts = getTermJson('categories');
   const slug = context.params.slug as string;
 
   return {

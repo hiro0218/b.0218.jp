@@ -1,13 +1,12 @@
-import fs from 'fs-extra';
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
-import path from 'path';
 
 import Heading from '@/components/Heading';
 import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
 import LinkCard from '@/components/LinkCard';
 import { SITE } from '@/constant';
+import { getPostsJson } from '@/lib/posts';
 import { Post as PropPost } from '@/types/source';
 
 interface Props {
@@ -92,12 +91,11 @@ const Archive: NextPage<Props> = ({ archives }) => {
 export default Archive;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const dataPath = path.join(process.cwd(), 'dist/posts.json');
-  const posts: Array<PropPost> = fs.readJsonSync(dataPath);
+  const archives = getPostsJson();
 
   return {
     props: {
-      archives: posts,
+      archives,
     },
   };
 };

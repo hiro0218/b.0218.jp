@@ -2,9 +2,10 @@ import { GetServerSidePropsContext } from 'next';
 import RSS from 'rss';
 
 import { SITE } from '@/constant';
-import posts from '@/dist/posts.json';
+import { getPostsJson } from '@/lib/posts';
+import { Post } from '@/types/source';
 
-async function generateFeedXml() {
+async function generateFeedXml(posts: Array<Post>) {
   const feed = new RSS({
     title: `${SITE.NAME}`,
     description: `${SITE.DESCRIPTION}`,
@@ -29,7 +30,8 @@ async function generateFeedXml() {
 }
 
 export const getServerSideProps = async ({ res }: GetServerSidePropsContext) => {
-  const xml = await generateFeedXml();
+  const posts = getPostsJson();
+  const xml = await generateFeedXml(posts);
 
   res.statusCode = 200;
   res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate'); // 24時間キャッシュする
