@@ -1,6 +1,32 @@
 import { GetServerSidePropsContext } from 'next';
+import RSS from 'rss';
 
-import { generateFeedXml } from '@/lib/rss';
+import { SITE } from '@/constant';
+import posts from '@/dist/posts.json';
+
+async function generateFeedXml() {
+  const feed = new RSS({
+    title: `${SITE.NAME}`,
+    description: `${SITE.DESCRIPTION}`,
+    site_url: `${SITE.URL}`,
+    feed_url: `${SITE.URL}feed`,
+    language: 'ja',
+    hub: 'https://pubsubhubbub.appspot.com/',
+  });
+
+  posts?.forEach((post, i) => {
+    if (i < 30) {
+      feed.item({
+        title: post.title,
+        description: post.excerpt,
+        date: new Date(post.date),
+        url: `${SITE.URL}${post.slug}.html`,
+      });
+    }
+  });
+
+  return feed.xml();
+}
 
 export const getServerSideProps = async ({ res }: GetServerSidePropsContext) => {
   const xml = await generateFeedXml();
