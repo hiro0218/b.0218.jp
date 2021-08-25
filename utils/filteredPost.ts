@@ -1,21 +1,6 @@
 import cheerio from 'cheerio';
 
 export const filteredPost = ($: typeof cheerio): string => {
-  // hljs
-  $('.hljs').each((_, element) => {
-    const $element = $(element);
-    const className = $element.attr('class').replace('hljs', '').replace('language-', '').trim();
-
-    if (className) {
-      $element.attr('data-language', className);
-    }
-  });
-
-  // image
-  $('img').each((_, element) => {
-    $(element).attr('loading', 'lazy');
-  });
-
   // wrap table
   $('table').each((_, element) => {
     $(element).wrap($('<div class="p-post-table-container"></div>'));

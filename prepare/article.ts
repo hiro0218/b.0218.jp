@@ -2,6 +2,7 @@ import cheerio from 'cheerio';
 import fs from 'fs-extra';
 import matter from 'gray-matter';
 import rehypeHighlight from 'rehype-highlight';
+import rehypeRaw from 'rehype-raw';
 import rehypeStringify from 'rehype-stringify';
 import remarkBreaks from 'remark-breaks';
 import remarkExternalLinks from 'remark-external-links';
@@ -13,6 +14,7 @@ import { unified } from 'unified';
 
 import { NextPrevPost, Post as PropPost } from '../types/source';
 import { filteredPost, getHeadingText } from '../utils/filteredPost';
+import remark0218 from './remark0218';
 
 const path = {
   src: `${process.cwd()}/_article`,
@@ -37,10 +39,12 @@ function markdown2html(markdown: string) {
     .use(remarkBreaks)
     .use(remarkExternalLinks, { rel: ['nofollow', 'noopener'] })
     .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
     .use(rehypeHighlight, {
       subset: false,
       ignoreMissing: true,
     })
+    .use(remark0218)
     .use(rehypeStringify, { allowDangerousHtml: true })
     .processSync(markdown);
 
