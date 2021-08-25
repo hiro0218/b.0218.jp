@@ -14,7 +14,7 @@ import remarkUnwrapImages from 'remark-unwrap-images';
 import { unified } from 'unified';
 
 import { NextPrevPost, Post as PropPost } from '../types/source';
-import { filteredPost, getHeadingText } from '../utils/filteredPost';
+import { filteredPost } from '../utils/filteredPost';
 import remark0218 from './remark0218';
 
 const path = {
@@ -27,6 +27,18 @@ const path = {
  */
 function replaceMoreComment(content: string) {
   return content.replace('<!--more-->', '\r\n<div class="more js-separate"></div>\r\n');
+}
+
+/**
+ * h2の内容をを取得して中身を取り出す
+ */
+function getHeading2Text(content: string) {
+  return content
+    .match(/<h2[^>]*>([^<]+)<\/h2>/g)
+    ?.map((heading) => {
+      return heading.replace('<h2>', '').replace('</h2>', '');
+    })
+    .join(' / ');
 }
 
 /**
@@ -77,7 +89,7 @@ function buildPost() {
       date,
       updated,
       content: filteredPost($),
-      excerpt: getHeadingText($),
+      excerpt: getHeading2Text(content),
       categories,
       tags,
     });

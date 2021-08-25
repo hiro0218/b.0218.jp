@@ -11,15 +11,3 @@ export const filteredPost = ($: typeof cheerio): string => {
 
   return $.html();
 };
-
-/**
- * h2の内容をを取得して中身を取り出す
- */
-export const getHeadingText = ($: typeof cheerio, tagName = 'h2') => {
-  return $(tagName)
-    .map(function (i) {
-      return i < 5 && $(this).text();
-    })
-    .toArray()
-    .join(' / ');
-};
