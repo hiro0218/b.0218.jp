@@ -3,7 +3,7 @@ import { Processor, Transformer } from 'unified';
 import { visit } from 'unist-util-visit';
 
 export default function remark0218(this: Processor): Transformer {
-  function visitor(el: hast.Element, i: number, parent: hast.Parent): void {
+  function visitor(el: hast.Element): void {
     if (el.tagName === 'img') {
       el.properties = {
         ...(el.properties || {}),

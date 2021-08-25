@@ -1,4 +1,3 @@
-import cheerio from 'cheerio';
 import fs from 'fs-extra';
 import matter from 'gray-matter';
 import rehypeHighlight from 'rehype-highlight';
@@ -14,20 +13,12 @@ import remarkUnwrapImages from 'remark-unwrap-images';
 import { unified } from 'unified';
 
 import { NextPrevPost, Post as PropPost } from '../types/source';
-import { filteredPost } from '../utils/filteredPost';
 import remark0218 from './remark0218';
 
 const path = {
   src: `${process.cwd()}/_article`,
   dist: `${process.cwd()}/dist`,
 } as const;
-
-/**
- * <!--more--> を置き換える
- */
-function replaceMoreComment(content: string) {
-  return content.replace('<!--more-->', '\r\n<div class="more js-separate"></div>\r\n');
-}
 
 /**
  * h2の内容をを取得して中身を取り出す
@@ -78,17 +69,14 @@ function buildPost() {
     // front matter を取得
     const post = matter.read(`${path.src}/_posts/${file}`);
     const { title, date, updated, categories, tags }: Partial<PropPost> = post.data;
-    const content = replaceMoreComment(markdown2html(post.content));
-
-    // cheerio
-    const $ = cheerio.load(content, null, false);
+    const content = markdown2html(post.content);
 
     posts.push({
       title,
       slug: file.replace('.md', ''),
       date,
       updated,
-      content: filteredPost($),
+      content: content,
       excerpt: getHeading2Text(content),
       categories,
       tags,

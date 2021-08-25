@@ -2,18 +2,18 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } fro
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import Adsense, { GOOGLE_ADSENSE } from '@/components/Adsense';
 import PageContainer from '@/components/layout/PageContainer';
 import { getPostsJson } from '@/lib/posts';
 const PostPager = dynamic(() => import('@/components/PostPager'));
 const PostShare = dynamic(() => import('@/components/post/share'));
+import Mokuji from '@/components/Mokuji';
 import PostHeader from '@/components/post/header';
 import { SITE } from '@/constant';
 import { Post as PostType } from '@/types/source';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '@/utils/json-ld';
-import { mokuji } from '@/utils/mokuji';
 
 type PostProps = {
   post: PostType;
@@ -22,12 +22,11 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const Post: NextPage<Props> = ({ post }) => {
   const { asPath } = useRouter();
+  const refContent = useRef<HTMLDivElement>(null);
   const permalink = `${SITE.URL}${post.slug}.html`;
 
   useEffect(() => {
-    const postContent = document.querySelector<HTMLDivElement>('.js-post-content');
-    mokuji(postContent);
-    if (window.twttr) window.twttr.widgets.load(postContent);
+    if (window.twttr) window.twttr.widgets.load(refContent.current);
   }, [asPath]);
 
   return (
@@ -71,8 +70,11 @@ const Post: NextPage<Props> = ({ post }) => {
 
           <Adsense />
 
+          <Mokuji refContent={refContent} />
+
           <div
-            className="p-post__content js-post-content"
+            ref={refContent}
+            className="p-post__content"
             itemProp="articleBody"
             dangerouslySetInnerHTML={{
               __html: `${post.content}`,
