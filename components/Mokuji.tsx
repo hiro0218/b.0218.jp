@@ -26,7 +26,7 @@ const Mokuji = ({ refContent }: { refContent: MutableRefObject<HTMLDivElement> }
 
   return (
     <div key={asPath} ref={refMokuji} className="c-mokuji">
-      <details ref={refDetail} open>
+      <details ref={refDetail}>
         <summary></summary>
       </details>
     </div>
