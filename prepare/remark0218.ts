@@ -19,10 +19,6 @@ export default function remark0218(this: Processor): Transformer {
 
       return;
     }
-
-    if (el.tagName === 'table') {
-      console.log(parent);
-    }
   }
 
   function transformer(htmlAST) {

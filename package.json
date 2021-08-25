@@ -18,6 +18,7 @@
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
     "react-modal": "^3.14.3",
+    "rehype-wrap-all": "^1.1.0",
     "rss": "^1.2.2",
     "shokika.css": "^1.4.0"
   },

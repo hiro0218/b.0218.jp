@@ -4,6 +4,7 @@ import matter from 'gray-matter';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeRaw from 'rehype-raw';
 import rehypeStringify from 'rehype-stringify';
+import rehypeWrap from 'rehype-wrap-all';
 import remarkBreaks from 'remark-breaks';
 import remarkExternalLinks from 'remark-external-links';
 import remarkGfm from 'remark-gfm';
@@ -45,6 +46,7 @@ function markdown2html(markdown: string) {
       ignoreMissing: true,
     })
     .use(remark0218)
+    .use(rehypeWrap, { selector: 'table', wrapper: 'div.p-post-table-container' })
     .use(rehypeStringify, { allowDangerousHtml: true })
     .processSync(markdown);
 

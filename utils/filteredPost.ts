@@ -1,11 +1,6 @@
 import cheerio from 'cheerio';
 
 export const filteredPost = ($: typeof cheerio): string => {
-  // wrap table
-  $('table').each((_, element) => {
-    $(element).wrap($('<div class="p-post-table-container"></div>'));
-  });
-
   // 目次用のラッパー(details/summary)を挿入する
   const mokujiWrapper = '<div class="c-mokuji js-mokuji"><details><summary></summary></details></div>';
   if ($('.js-separate').length !== 0) {
