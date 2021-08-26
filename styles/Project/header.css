@@ -46,13 +46,6 @@
   height: 100%;
   color: var(--color-text);
   pointer-events: auto;
-
-  & svg {
-    width: 5rem;
-    height: 100%;
-    transition: width 0.2s;
-    fill: currentColor;
-  }
 }
 
 .pj-header-search {
