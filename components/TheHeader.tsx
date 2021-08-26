@@ -5,7 +5,6 @@ import ReactModal from 'react-modal';
 
 import Search from '@/components/Search';
 import { SITE } from '@/constant';
-import Logo from '@/images/logo.svg';
 
 ReactModal.setAppElement('#__next');
 const customStyles = {

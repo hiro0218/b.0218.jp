@@ -23,7 +23,6 @@
     "shokika.css": "^1.4.0"
   },
   "devDependencies": {
-    "@svgr/webpack": "^5.5.0",
     "@types/css-font-loading-module": "^0.0.6",
     "@types/fs-extra": "^9.0.12",
     "@types/hast": "^2.3.4",
