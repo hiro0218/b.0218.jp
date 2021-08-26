@@ -1,34 +1,32 @@
-import fs from 'fs-extra';
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import path from 'path';
-import React, { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import Adsense, { GOOGLE_ADSENSE } from '@/components/Adsense';
 import PageContainer from '@/components/layout/PageContainer';
+import { getPostsJson } from '@/lib/posts';
 const PostPager = dynamic(() => import('@/components/PostPager'));
 const PostShare = dynamic(() => import('@/components/post/share'));
+import Mokuji from '@/components/Mokuji';
 import PostHeader from '@/components/post/header';
 import { SITE } from '@/constant';
 import { Post as PostType } from '@/types/source';
-import filteredPost from '@/utils/filteredPost';
 import { getBlogPostingStructured, getBreadcrumbStructured } from '@/utils/json-ld';
-import { mokuji } from '@/utils/mokuji';
 
-interface Props {
+type PostProps = {
   post: PostType;
-}
+};
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const Post: NextPage<Props> = ({ post }) => {
   const { asPath } = useRouter();
+  const refContent = useRef<HTMLDivElement>(null);
   const permalink = `${SITE.URL}${post.slug}.html`;
 
   useEffect(() => {
-    const postContent = document.querySelector<HTMLDivElement>('.js-post-content');
-    mokuji(postContent);
-    if (window.twttr) window.twttr.widgets.load(postContent);
+    if (window.twttr) window.twttr.widgets.load(refContent.current);
   }, [asPath]);
 
   return (
@@ -55,9 +53,9 @@ const Post: NextPage<Props> = ({ post }) => {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(getBreadcrumbStructured(post)) }}
         />
         <script
-          data-ad-client={GOOGLE_ADSENSE.CLIENT}
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GOOGLE_ADSENSE.CLIENT}`}
+          crossOrigin="anonymous"
         ></script>
         {post.content.includes('twitter-tweet') && (
           <script async src="https://platform.twitter.com/widgets.js"></script>
@@ -72,8 +70,11 @@ const Post: NextPage<Props> = ({ post }) => {
 
           <Adsense />
 
+          <Mokuji refContent={refContent} />
+
           <div
-            className="p-post__content js-post-content"
+            ref={refContent}
+            className="p-post__content"
             itemProp="articleBody"
             dangerouslySetInnerHTML={{
               __html: `${post.content}`,
@@ -96,8 +97,7 @@ const Post: NextPage<Props> = ({ post }) => {
 export default Post;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const dataPath = path.join(process.cwd(), 'dist/posts.json');
-  const posts: Array<PostType> = fs.readJsonSync(dataPath);
+  const posts = getPostsJson();
   const paths = posts.map((post) => ({
     params: { slug: post.slug },
   }));
@@ -105,9 +105,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const dataPath = path.join(process.cwd(), 'dist/posts.json');
-  const posts: Array<PostType> = fs.readJsonSync(dataPath);
+export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
+  const posts = getPostsJson();
 
   // next build: 拡張子が含まれていると出力できない
   // 拡張子がないとデータが取得できないため .html を付与する
@@ -115,17 +114,15 @@ export const getStaticProps: GetStaticProps = async (context) => {
     context.params.slug += '.html';
   }
 
-  const postData: PostType = posts.find((post) => {
-    const slug = context.params.slug as string;
+  const slug = context.params.slug as string;
+
+  const post = posts.find((post) => {
     return post.slug === slug.replace('.html', '');
   });
 
-  // SSG時に処理する
-  postData.content = filteredPost(postData.content);
-
   return {
     props: {
-      post: postData,
+      post,
     },
   };
 };

@@ -1,40 +1,23 @@
-import fs from 'fs-extra';
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import Head from 'next/head';
-import path from 'path';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 
-import PageContainer from '@/components/layout/PageContainer';
-import PageTerm from '@/components/PageTerm';
-import { SITE } from '@/constant';
+import TermsBody from '@/components/terms/body';
+import { getTermJson } from '@/lib/posts';
 import { TermsPostLits } from '@/types/source';
 
-interface Props {
+type TermProps = {
   title: string;
   posts: Array<TermsPostLits>;
-}
+};
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const Tags: NextPage<Props> = ({ title, posts }) => {
-  return (
-    <>
-      <Head>
-        <title key="title">
-          tag: {title} - {SITE.NAME}
-        </title>
-        <meta name="robots" content="noindex" />
-      </Head>
-
-      <PageContainer>
-        <PageTerm posts={posts} title={title} type={'Tag'} />
-      </PageContainer>
-    </>
-  );
+  return <TermsBody type={'Tag'} title={title} posts={posts} />;
 };
 
 export default Tags;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const dataPath = path.join(process.cwd(), 'dist/tags.json');
-  const posts = fs.readJsonSync(dataPath);
+  const posts = getTermJson('tags');
   const paths = Object.keys(posts).map((slug) => ({
     params: { slug },
   }));
@@ -42,9 +25,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const dataPath = path.join(process.cwd(), 'dist/tags.json');
-  const posts = fs.readJsonSync(dataPath);
+export const getStaticProps: GetStaticProps<TermProps> = async (context) => {
+  const posts = getTermJson('tags');
   const slug = context.params.slug as string;
 
   return {

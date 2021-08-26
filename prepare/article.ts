@@ -1,8 +1,9 @@
-import cheerio from 'cheerio';
 import fs from 'fs-extra';
 import matter from 'gray-matter';
 import rehypeHighlight from 'rehype-highlight';
+import rehypeRaw from 'rehype-raw';
 import rehypeStringify from 'rehype-stringify';
+import rehypeWrap from 'rehype-wrap-all';
 import remarkBreaks from 'remark-breaks';
 import remarkExternalLinks from 'remark-external-links';
 import remarkGfm from 'remark-gfm';
@@ -12,6 +13,7 @@ import remarkUnwrapImages from 'remark-unwrap-images';
 import { unified } from 'unified';
 
 import { NextPrevPost, Post as PropPost } from '../types/source';
+import remark0218 from './remark0218';
 
 const path = {
   src: `${process.cwd()}/_article`,
@@ -19,28 +21,15 @@ const path = {
 } as const;
 
 /**
- * <!--more--> を置き換える
- */
-function replaceMoreComment(content: string) {
-  return content.replace('<!--more-->', '\r\n<div class="more js-separate"></div>\r\n');
-}
-
-/**
  * h2の内容をを取得して中身を取り出す
  */
-function getHeadings(content: string) {
-  const $ = cheerio.load(content);
-  const $h2 = $('h2');
-  const headings = [];
-
-  $h2.each(function (i) {
-    // 5つだけ抽出
-    if (i < 5) {
-      headings[i] = $(this).text();
-    }
-  });
-
-  return headings.join(' / ');
+function getHeading2Text(content: string) {
+  return content
+    .match(/<h2[^>]*>([^<]+)<\/h2>/g)
+    ?.map((heading) => {
+      return heading.replace('<h2>', '').replace('</h2>', '');
+    })
+    .join(' / ');
 }
 
 /**
@@ -54,10 +43,13 @@ function markdown2html(markdown: string) {
     .use(remarkBreaks)
     .use(remarkExternalLinks, { rel: ['nofollow', 'noopener'] })
     .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
     .use(rehypeHighlight, {
       subset: false,
       ignoreMissing: true,
     })
+    .use(remark0218)
+    .use(rehypeWrap, { selector: 'table', wrapper: 'div.p-post-table-container' })
     .use(rehypeStringify, { allowDangerousHtml: true })
     .processSync(markdown);
 
@@ -84,8 +76,8 @@ function buildPost() {
       slug: file.replace('.md', ''),
       date,
       updated,
-      content: replaceMoreComment(content),
-      excerpt: getHeadings(content),
+      content: content,
+      excerpt: getHeading2Text(content),
       categories,
       tags,
     });

@@ -1,7 +1,6 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { FaTwitter } from 'react-icons/fa';
 
-import styleShare from '@/styles/Components/share.module.css';
 interface Props {
   title: string;
   url: string;
@@ -9,10 +8,10 @@ interface Props {
 
 const PostShare: FC<Props> = ({ title, url }) => {
   return (
-    <div className={styleShare['c-share']}>
+    <div className="c-share">
       <a
         href={'https://twitter.com/intent/tweet?url=' + url + '&text=' + encodeURIComponent(title)}
-        className={styleShare['c-share__item']}
+        className="c-share__item"
         title="Share Twitter"
         target="_blank"
         rel="noopener noreferrer"

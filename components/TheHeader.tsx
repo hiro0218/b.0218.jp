@@ -1,11 +1,10 @@
 import Link from 'next/link';
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 import ReactModal from 'react-modal';
 
 import Search from '@/components/Search';
 import { SITE } from '@/constant';
-import Logo from '@/images/logo.svg';
 
 ReactModal.setAppElement('#__next');
 const customStyles = {
@@ -86,8 +85,7 @@ const TheHeader: FC = () => {
           <Link href="/">
             <a className="pj-header__logo">
               <img src="/hiro0218@100x100.webp" className="pj-header__avatar" alt="avatar" height="32" width="32" />
-              <Logo width="5rem" />
-              <span className="sr-only">{SITE.NAME}</span>
+              <img src="/logo.svg" width="80" alt={SITE.NAME} />
             </a>
           </Link>
           <button type="button" className="pj-header-search" aria-label="Search" onClick={openModal}>
