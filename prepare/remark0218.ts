@@ -1,9 +1,8 @@
-import hast from 'hast';
 import { Processor, Transformer } from 'unified';
 import { visit } from 'unist-util-visit';
 
 export default function remark0218(this: Processor): Transformer {
-  function visitor(el: hast.Element): void {
+  function visitor(el): void {
     if (el.tagName === 'img') {
       el.properties = {
         ...(el.properties || {}),
