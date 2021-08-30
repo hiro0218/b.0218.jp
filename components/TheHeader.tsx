@@ -76,7 +76,7 @@ const TheHeader: FC = () => {
 
   useEffect(() => {
     initUnpinHeader(refHeader.current);
-  });
+  }, []);
 
   return (
     <>
