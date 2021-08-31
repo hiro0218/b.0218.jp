@@ -1,5 +1,6 @@
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 
+import { GOOGLE_ADSENSE } from '@/components/Adsense';
 import { GA_TRACKING_ID } from '@/lib/gtag';
 
 class SampleDocument extends Document {
@@ -20,6 +21,11 @@ class SampleDocument extends Document {
           <link rel="icon" type="image/x-icon" href="/favicon.ico" />
           <link rel="alternate" type="application/rss+xml" href="https://b.0218.jp/feed" />
           <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" />
+          <script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GOOGLE_ADSENSE.CLIENT}`}
+            crossOrigin="anonymous"
+          ></script>
           <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
           <script
             dangerouslySetInnerHTML={{
