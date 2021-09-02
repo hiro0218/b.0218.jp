@@ -1,7 +1,7 @@
 .link-card {
   display: flex;
   height: 100%;
-  padding: 1rem 1.25rem;
+  padding: calc(var(--margin-base) * 0.6) calc(var(--margin-base) * 0.8);
   transition: background 0.2s ease, box-shadow 0.4s ease;
   border-radius: 0.25rem;
   color: var(--color-text-heading);
@@ -51,7 +51,7 @@
 .link-card-icon {
   display: flex;
   align-items: center;
-  padding-left: 1rem;
+  padding-left: calc(var(--margin-base) * 0.4);
 }
 
 .link-card-icon__arrow {
