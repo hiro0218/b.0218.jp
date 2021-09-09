@@ -33,7 +33,12 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
             <MenuList className="p-home-section__contents">
               {recentPosts.map((post, index) => (
                 <MenuListItem key={index}>
-                  <LinkCard link={`${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
+                  <LinkCard
+                    link={`${post.slug}.html`}
+                    title={post.title}
+                    date={post.updated || post.date}
+                    excerpt={post.excerpt}
+                  />
                 </MenuListItem>
               ))}
             </MenuList>
@@ -46,7 +51,12 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
             <MenuList className="p-home-section__contents">
               {updatesPosts.map((post, index) => (
                 <MenuListItem key={index}>
-                  <LinkCard link={`${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
+                  <LinkCard
+                    link={`${post.slug}.html`}
+                    title={post.title}
+                    date={post.updated || post.date}
+                    excerpt={post.excerpt}
+                  />
                 </MenuListItem>
               ))}
             </MenuList>
