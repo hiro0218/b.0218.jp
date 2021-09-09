@@ -1,7 +1,3 @@
-.p-home {
-
-}
-
 .p-home-section {
   margin-top: calc(var(--margin-base) * 1);
 
@@ -11,5 +7,20 @@
 
   &__contents {
     margin-top: calc(var(--margin-base));
+  }
+}
+
+.p-home-tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 calc(var(--margin-base) * -0.25);
+
+  &__item {
+    align-items: center;
+    align-self: flex-start;
+    margin-bottom: calc(var(--margin-base) * 0.5);
+    margin-left: calc(var(--margin-base) * 0.25);
+    text-align: center;
+    white-space: nowrap;
   }
 }
