@@ -32,8 +32,6 @@ const html = `
       font-feature-settings: "palt";
       word-wrap: break-word;
       overflow-wrap: break-word;
-
-      border: 1px solid #333;
     }
 
     .title-container {
