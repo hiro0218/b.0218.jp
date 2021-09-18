@@ -1,4 +1,4 @@
-/** @type {import('next/dist/next-server/server/config-shared').NextConfig} */
+/** @type {import('next').NextConfig} */
 module.exports = {
   env: {
     NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'UA-50805440-1',
