@@ -24,7 +24,7 @@
   "devDependencies": {
     "@types/css-font-loading-module": "^0.0.6",
     "@types/fs-extra": "^9.0.12",
-    "@types/node": "^16.9.1",
+    "@types/node": "^16.9.4",
     "@types/react": "^17.0.20",
     "@types/react-modal": "^3.12.1",
     "@types/rss": "^0.0.29",
