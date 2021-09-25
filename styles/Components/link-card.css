@@ -8,6 +8,10 @@
   color: var(--color-text-heading);
   font-size: var(--font-size-sm);
 
+  @media (--mobile-viewport) {
+    padding: calc(var(--margin-base) * 0.6);
+  }
+
   &:hover,
   &:focus {
     background: var(--bg-color--lighter);
