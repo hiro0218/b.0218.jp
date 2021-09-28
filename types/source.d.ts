@@ -36,4 +36,5 @@ export interface Post {
   tags: Array<string>;
   next: NextPrevPost;
   prev: NextPrevPost;
+  readingTime: string;
 }

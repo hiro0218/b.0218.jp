@@ -11,6 +11,17 @@
   }
 }
 
+.c-post-meta-reading-time {
+  color: var(--color-text--lighter);
+  font-size: var(--font-size-md);
+  line-height: 1;
+
+  &::before {
+    content: '・';
+    margin: 0 calc(var(--margin-base) * 0.25);
+  }
+}
+
 .c-post-meta-separator {
   width: 2ch;
   height: 1px;

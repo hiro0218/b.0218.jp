@@ -17,6 +17,7 @@ const PostHeader: FC<Props> = ({ post }) => {
 
       <div className="c-post-meta">
         <PostDate date={post.date} updated={post.updated} />
+        <div className="c-post-meta-reading-time">{post.readingTime}</div>
         <div className="c-post-meta-separator"></div>
         <PostCategory categories={post.categories} />
       </div>
