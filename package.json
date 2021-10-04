@@ -28,7 +28,7 @@
     "@types/react": "^17.0.27",
     "@types/react-modal": "^3.12.1",
     "@types/rss": "^0.0.29",
-    "@typescript-eslint/eslint-plugin": "^4.31.2",
+    "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@typescript-eslint/parser": "^4.31.2",
     "cheerio": "^1.0.0-rc.10",
     "cssnano": "^5.0.8",
