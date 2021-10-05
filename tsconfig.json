@@ -22,7 +22,8 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "incremental": true
   },
   "typeRoots": [
     "node_modules/@types",
