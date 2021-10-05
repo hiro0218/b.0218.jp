@@ -1,15 +1,26 @@
-.c-heading {
-  color: var(--color-text);
-  font-weight: 900;
-  line-height: 1.6;
-  overflow-wrap: break-word;
-}
+.c-heading-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-.c-heading--normal {
-  @extend .c-heading;
+  &__title {
+    color: var(--color-text);
+    font-weight: 900;
+    line-height: 1.6;
+    overflow-wrap: break-word;
 
-  color: var(--color-text--light);
-  font-weight: 500;
+    &--normal {
+      @extend &__title;
+
+      color: var(--color-text--light);
+      font-weight: 500;
+    }
+  }
+
+  &__side {
+    color: var(--color-text--light);
+    font-size: var(--font-size-sm);
+  }
 }
 
 .c-heading-sub {
