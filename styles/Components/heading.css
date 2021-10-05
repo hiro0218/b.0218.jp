@@ -1,6 +1,6 @@
 .c-heading-main {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
 
   &__title {
@@ -18,8 +18,7 @@
   }
 
   &__side {
-    color: var(--color-text--light);
-    font-size: var(--font-size-sm);
+    color: var(--color-text--lighter);
   }
 }
 

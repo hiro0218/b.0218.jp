@@ -54,7 +54,7 @@ const Archive: NextPage<Props> = ({ archives }) => {
       <PageContainer>
         <article className="p-archive">
           <header>
-            <Heading text={'Archive'} />
+            <Heading text={'Archive'} textSide={`${archives.length}件`} />
           </header>
 
           <section className="p-archive__contents">
