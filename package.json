@@ -46,7 +46,7 @@
     "gray-matter": "^4.0.3",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2",
-    "postcss": "^8.3.8",
+    "postcss": "^8.3.9",
     "postcss-calc": "^8.0.0",
     "postcss-custom-media": "^8.0.0",
     "postcss-extend": "^1.0.5",
