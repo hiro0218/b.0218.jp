@@ -84,3 +84,5 @@ dist
 
 # service worker
 sw.*
+
+tsconfig.tsbuildinfo
