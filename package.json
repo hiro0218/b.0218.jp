@@ -29,7 +29,7 @@
     "@types/react-modal": "^3.12.1",
     "@types/rss": "^0.0.29",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
-    "@typescript-eslint/parser": "^4.31.2",
+    "@typescript-eslint/parser": "^4.33.0",
     "cssnano": "^5.0.8",
     "esbuild": "^0.13.3",
     "esbuild-register": "^3.0.0",
