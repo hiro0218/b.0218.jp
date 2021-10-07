@@ -14,7 +14,7 @@ interface Props {
 
 const LinkCard: FC<Props> = ({ link, title, date, excerpt, target = false }) => {
   return (
-    <Link href={link}>
+    <Link href={link} prefetch={false}>
       <a className="link-card" {...(target && { target: '_blank' })}>
         <div className="link-card-main">
           <h3 className="link-card__title">{title}</h3>

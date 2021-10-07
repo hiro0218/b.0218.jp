@@ -13,7 +13,7 @@ const PostPager: FC<Props> = ({ next, prev }) => {
   return (
     <nav className="c-pager">
       {Object.keys(prev).length !== 0 && (
-        <Link href={`${prev.slug}.html`}>
+        <Link href={`${prev.slug}.html`} prefetch={false}>
           <a className="c-pager__item--prev">
             <div className="c-pager-icon--prev">
               <div className="c-pager-icon__arrow">
@@ -28,7 +28,7 @@ const PostPager: FC<Props> = ({ next, prev }) => {
         </Link>
       )}
       {Object.keys(next).length !== 0 && (
-        <Link href={`${next.slug}.html`}>
+        <Link href={`${next.slug}.html`} prefetch={false}>
           <a className="c-pager__item--next">
             <div className="c-pager-main">
               <div className="c-pager__label">Next</div>

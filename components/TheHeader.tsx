@@ -88,7 +88,7 @@ const TheHeader: FC = () => {
     <>
       <header ref={refHeader} className="pj-header">
         <div className="pj-header-container">
-          <Link href="/">
+          <Link href="/" prefetch={false}>
             <a className="pj-header__logo">
               <img src="/hiro0218@100x100.webp" className="pj-header__avatar" alt="avatar" height="32" width="32" />
               <img src="/logo.svg" width="80" alt={SITE.NAME} />
