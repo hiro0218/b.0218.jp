@@ -1,8 +1,9 @@
 import fs from 'fs-extra';
-import { Cluster } from 'puppeteer-cluster';
+import puppeteer from 'puppeteer';
+
+import { getPostsJson } from '../lib/posts';
 
 const path = {
-  src: `${process.cwd()}/dist/posts.json`,
   dist: `${process.cwd()}/public/images/ogp`,
 };
 
@@ -32,8 +33,6 @@ const html = `
       font-feature-settings: "palt";
       word-wrap: break-word;
       overflow-wrap: break-word;
-
-      border: 1px solid #333;
     }
 
     .title-container {
@@ -81,13 +80,12 @@ const html = `
 
 (async () => {
   fs.ensureDirSync(path.dist);
-  const posts = fs.readJsonSync(path.src);
+  const posts = getPostsJson();
   const length = posts.length;
+  let browser = null;
 
-  const cluster = await Cluster.launch({
-    concurrency: Cluster.CONCURRENCY_PAGE,
-    maxConcurrency: 10,
-    puppeteerOptions: {
+  try {
+    browser = await puppeteer.launch({
       defaultViewport: {
         width: 1200,
         height: 630,
@@ -102,36 +100,36 @@ const html = `
         '--no-zygote',
         '--disable-gpu',
       ],
-    },
-  });
+    });
+    const page = await browser.newPage();
 
-  await cluster.task(async ({ page, data: { post, index } }) => {
-    await page
-      .setContent(html.replace('{{title}}', post.title.replace(/</g, '&lt;').replace(/>/g, '&gt;')), {
-        waitUntil: 'domcontentloaded',
-      })
-      .then(() => {
-        const count = index + 1;
-        if (count === 1 || count % 10 === 0 || count === length) {
-          console.log('Generating OGP Images', `(${count}/${length})`);
-        }
+    let index = 1;
+    for (const { title, slug } of posts) {
+      await page
+        .setContent(html.replace('{{title}}', title.replace(/</g, '&lt;').replace(/>/g, '&gt;')), {
+          waitUntil: 'domcontentloaded',
+        })
+        .then(() => {
+          if (index === 1 || index % 10 === 0 || index === length) {
+            console.log('Generating OGP Images', `(${index}/${length})`);
+          }
+        });
+      await page.evaluate(async () => {
+        await Promise.all([document.fonts.ready]);
       });
-    await page.evaluate(async () => {
-      await Promise.all([document.fonts.ready]);
-    });
 
-    const content = await page.$('body');
-    await content.screenshot({
-      fullPage: false,
-      path: `${path.dist}/${post.slug}.png`,
-    });
-    await page.close();
-  });
-
-  posts.forEach((post, index) => {
-    cluster.queue({ post, index });
-  });
-
-  await cluster.idle();
-  await cluster.close();
+      const content = await page.$('body');
+      await content.screenshot({
+        fullPage: false,
+        path: `${path.dist}/${slug}.png`,
+      });
+      index++;
+    }
+  } catch (err) {
+    console.error('Generating OGP Images', err.message);
+  } finally {
+    if (browser) {
+      await browser.close();
+    }
+  }
 })();

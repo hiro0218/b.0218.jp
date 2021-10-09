@@ -6,9 +6,17 @@ interface Props {
 }
 
 export const MenuList: FC<Props> = ({ className, children }) => {
-  return <div className={['l-menu-list', className].join(' ')}>{children}</div>;
+  return (
+    <div className={['l-menu-list', className].join(' ')} role="list">
+      {children}
+    </div>
+  );
 };
 
 export const MenuListItem: FC<Props> = ({ className, children }) => {
-  return <div className={['l-menu-list__item', className].join(' ')}>{children}</div>;
+  return (
+    <div className={['l-menu-list__item', className].join(' ')} role="listitem">
+      {children}
+    </div>
+  );
 };

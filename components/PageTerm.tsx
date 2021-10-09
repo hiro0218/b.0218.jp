@@ -15,7 +15,7 @@ const Term: FC<Props> = ({ posts, title, type }) => {
   return (
     <section className="p-term">
       <header>
-        <Heading text={type} />
+        <Heading text={type} textSide={`${posts.length}件`} />
       </header>
       <section className="p-term-section">
         <header>

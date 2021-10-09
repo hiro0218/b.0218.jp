@@ -10,15 +10,19 @@ type Props = (
 ) & {
   tagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   text?: string;
+  textSide?: string;
+  textSub?: string;
   isWeightNormal?: boolean;
-  descriptionText?: string;
 };
 
-const Heading: FC<Props> = ({ tagName: Tag = 'h1', text, isWeightNormal = false, descriptionText }) => {
+const Heading: FC<Props> = ({ tagName: Tag = 'h1', text, textSide, textSub, isWeightNormal = false }) => {
   return (
     <>
-      <Tag className={!isWeightNormal ? 'c-heading' : 'c-heading--normal'}>{text}</Tag>
-      {descriptionText && <div className="c-heading-sub">{descriptionText}</div>}
+      <div className="c-heading-main">
+        <Tag className={!isWeightNormal ? 'c-heading-main__title' : 'c-heading-main__title--normal'}>{text}</Tag>
+        {textSide && <div className="c-heading-main__side">{textSide}</div>}
+      </div>
+      {textSub && <div className="c-heading-sub">{textSub}</div>}
     </>
   );
 };

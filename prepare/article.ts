@@ -1,5 +1,6 @@
 import fs from 'fs-extra';
 import matter from 'gray-matter';
+import readingTime from 'reading-time';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeRaw from 'rehype-raw';
 import rehypeStringify from 'rehype-stringify';
@@ -70,6 +71,7 @@ function buildPost() {
     const post = matter.read(`${path.src}/_posts/${file}`);
     const { title, date, updated, categories, tags }: Partial<PropPost> = post.data;
     const content = markdown2html(post.content);
+    const { text } = readingTime(content);
 
     posts.push({
       title,
@@ -80,6 +82,7 @@ function buildPost() {
       excerpt: getHeading2Text(content),
       categories,
       tags,
+      readingTime: text,
     });
   }
 

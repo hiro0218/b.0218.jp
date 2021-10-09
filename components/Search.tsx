@@ -55,7 +55,10 @@ const Search: FC = () => {
         return value
           .toLowerCase()
           .split(' ')
-          .every((el: string) => post.title.toLowerCase().includes(el));
+          .every((word: string) => {
+            // 「タイトル」もしくは「タグ」に一致するか
+            return post.title.toLowerCase().includes(word) || post.tags?.includes(word);
+          });
       });
       const keyword = value;
       setData({
