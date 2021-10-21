@@ -1,0 +1,23 @@
+export const PostData = {
+  title: 'Post Format: Standard',
+  slug: '202002181010',
+  date: '2020-02-18T10:10:10.000Z',
+  updated: '2021-02-18T10:10:10.000Z',
+  content: 'All children, except one, grow up. They soon know that they will grow up, and the way Wendy knew was this.',
+  excerpt: 'All children, except one, grow up. ',
+  categories: ['Engineering'],
+  tags: [
+    'Community',
+    'Company',
+    'Education',
+    'Engineering',
+    'Enterprise',
+    'Open Source',
+    'Policy',
+    'Product',
+    'Security',
+  ],
+  readingTime: '5 min read',
+  prev: { title: 'Post Format: Gallery', slug: '202011201258' },
+  next: { title: 'Post Format: Aside', slug: '202012162243' },
+};
