@@ -26,7 +26,7 @@
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^16.10.3",
     "@types/react": "^17.0.30",
-    "@types/react-modal": "^3.12.1",
+    "@types/react-modal": "^3.13.1",
     "@types/rss": "^0.0.29",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.33.0",
