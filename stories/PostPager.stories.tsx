@@ -1,6 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import PostPager from '../components/PostPager';
+import { PostData } from './mock';
 
 export default {
   title: 'Components/PostPager',
@@ -11,14 +12,8 @@ const Template: ComponentStory<typeof PostPager> = (args) => <PostPager {...args
 
 export const Both = Template.bind({});
 Both.args = {
-  next: {
-    title: 'post title',
-    slug: '#',
-  },
-  prev: {
-    title: 'post title',
-    slug: '#',
-  },
+  next: PostData.next,
+  prev: PostData.prev,
 };
 
 export const Next = Template.bind({});

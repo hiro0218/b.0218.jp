@@ -1,6 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import PostTag from '../components/post/term/tag';
+import { PostData } from './mock';
 
 export default {
   title: 'Components/PostTag',
@@ -11,5 +12,5 @@ const Template: ComponentStory<typeof PostTag> = (args) => <PostTag {...args} />
 
 export const Default = Template.bind({});
 Default.args = {
-  tags: ['tag'],
+  tags: PostData.tags,
 };

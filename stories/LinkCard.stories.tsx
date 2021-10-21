@@ -1,6 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import LinkCard from '../components/LinkCard';
+import { PostData } from './mock';
 
 export default {
   title: 'Components/LinkCard',
@@ -12,7 +13,7 @@ const Template: ComponentStory<typeof LinkCard> = (args) => <LinkCard {...args} 
 export const Default = Template.bind({});
 Default.args = {
   link: '#',
-  title: 'post title',
-  date: '2020-02-18',
-  excerpt: 'post excerpt',
+  title: PostData.title,
+  date: PostData.date,
+  excerpt: PostData.excerpt,
 };
