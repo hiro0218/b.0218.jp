@@ -15,4 +15,4 @@ const Template: ComponentStory<typeof TheHeader> = (args) => {
   );
 };
 
-export const Normal = Template.bind({});
+export const Default = Template.bind({});

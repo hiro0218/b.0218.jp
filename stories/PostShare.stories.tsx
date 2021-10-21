@@ -9,8 +9,8 @@ export default {
 
 const Template: ComponentStory<typeof PostShare> = (args) => <PostShare {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const Default = Template.bind({});
+Default.args = {
   title: document.title,
   url: location.href,
 };

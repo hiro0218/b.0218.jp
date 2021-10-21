@@ -9,8 +9,8 @@ export default {
 
 const Template: ComponentStory<typeof LinkCard> = (args) => <LinkCard {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const Default = Template.bind({});
+Default.args = {
   link: '#',
   title: 'post title',
   date: '2020-02-18',

@@ -9,8 +9,8 @@ export default {
 
 const Template: ComponentStory<typeof Heading> = (args) => <Heading {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const Default = Template.bind({});
+Default.args = {
   tagName: 'h2',
   text: 'Heading Component',
   isWeightNormal: true,

@@ -9,8 +9,8 @@ export default {
 
 const Template: ComponentStory<typeof PostPager> = (args) => <PostPager {...args} />;
 
-export const Normal = Template.bind({});
-Normal.args = {
+export const Default = Template.bind({});
+Default.args = {
   next: {
     title: 'post title',
     slug: '#',
@@ -23,12 +23,12 @@ Normal.args = {
 
 export const Next = Template.bind({});
 Next.args = {
-  ...Normal.args,
+  ...Default.args,
   prev: {},
 };
 
 export const Prev = Template.bind({});
 Prev.args = {
-  ...Normal.args,
+  ...Default.args,
   next: {},
 };

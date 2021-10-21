@@ -9,14 +9,14 @@ export default {
 
 const Template: ComponentStory<typeof PostDate> = (args) => <PostDate {...args} />;
 
-export const Normal = Template.bind({});
-Normal.args = {
+export const Default = Template.bind({});
+Default.args = {
   date: '2020-02-18 10:10:10',
   updated: '',
 };
 
 export const Updated = Template.bind({});
 Updated.args = {
-  date: '2020-02-18 10:10:10',
+  ...Default.args,
   updated: '2021-02-18 10:10:10',
 };

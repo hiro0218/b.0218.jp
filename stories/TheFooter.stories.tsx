@@ -9,4 +9,4 @@ export default {
 
 const Template: ComponentStory<typeof TheFooter> = (args) => <TheFooter {...args} />;
 
-export const Normal = Template.bind({});
+export const Default = Template.bind({});

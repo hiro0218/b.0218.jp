@@ -98,4 +98,4 @@ export default {
 
 const Template: ComponentStory<typeof Colors> = (args) => <Colors {...args} />;
 
-export const Normal = Template.bind({});
+export const Default = Template.bind({});
