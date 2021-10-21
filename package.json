@@ -33,7 +33,7 @@
     "cssnano": "^5.0.8",
     "esbuild": "^0.13.8",
     "esbuild-register": "^3.0.0",
-    "eslint": "^7.32.0",
+    "eslint": "^8.0.1",
     "eslint-config-next": "^11.1.2",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
