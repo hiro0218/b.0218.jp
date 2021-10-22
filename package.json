@@ -10,7 +10,7 @@
     "prebuild": "git submodule update --remote && node --require esbuild-register ./prepare/article.ts",
     "postbuild": "node --require esbuild-register ./prepare/ogp.ts",
     "prepare": "husky install",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006 -s ./public",
     "build:storybook": "build-storybook -o build/storybook"
   },
   "dependencies": {
