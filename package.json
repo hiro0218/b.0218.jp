@@ -37,7 +37,7 @@
     "@types/rss": "^0.0.29",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.33.0",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^8.2.3",
     "cssnano": "^5.0.8",
     "esbuild": "^0.13.8",
     "esbuild-register": "^3.0.0",
