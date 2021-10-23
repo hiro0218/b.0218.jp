@@ -9,7 +9,9 @@
     "lint": "eslint {components,lib,pages,prepare,utils}/** --ext .ts,.tsx",
     "prebuild": "git submodule update --remote && node --require esbuild-register ./prepare/article.ts",
     "postbuild": "node --require esbuild-register ./prepare/ogp.ts",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "storybook": "start-storybook -p 6006 -s ./public",
+    "build:storybook": "build-storybook -o build/storybook"
   },
   "dependencies": {
     "mokuji.js": "^3.1.0",
@@ -22,6 +24,11 @@
     "shokika.css": "^1.4.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@storybook/addon-actions": "^6.3.12",
+    "@storybook/addon-essentials": "^6.3.12",
+    "@storybook/addon-links": "^6.3.12",
+    "@storybook/react": "^6.3.12",
     "@types/css-font-loading-module": "^0.0.6",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^16.11.2",
@@ -30,6 +37,7 @@
     "@types/rss": "^0.0.29",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.33.0",
+    "babel-loader": "^8.2.3",
     "cssnano": "^5.0.8",
     "esbuild": "^0.13.8",
     "esbuild-register": "^3.0.0",
@@ -65,6 +73,8 @@
     "remark-parse": "^10.0.0",
     "remark-rehype": "^10.0.0",
     "remark-unwrap-images": "^3.0.0",
+    "storybook-addon-next-router": "^3.0.8",
+    "storybook-addon-turbo-build": "^1.0.1",
     "stylelint": "^13.13.1",
     "stylelint-config-property-sort-order-smacss": "^7.1.0",
     "stylelint-config-recommended": "^5.0.0",
