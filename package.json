@@ -30,7 +30,7 @@
     "@storybook/react": "^6.3.12",
     "@types/css-font-loading-module": "^0.0.6",
     "@types/fs-extra": "^9.0.13",
-    "@types/node": "^16.11.2",
+    "@types/node": "^16.11.5",
     "@types/react": "^17.0.32",
     "@types/react-modal": "^3.13.1",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
