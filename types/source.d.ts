@@ -8,7 +8,7 @@ export interface Pages {
 }
 
 // Terms
-export interface TermsPostLits {
+export interface TermsPostList {
   title: string;
   slug: string;
   date: string;

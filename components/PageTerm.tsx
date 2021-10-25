@@ -3,10 +3,10 @@ import { FC } from 'react';
 import Heading from '@/components/Heading';
 import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import LinkCard from '@/components/LinkCard';
-import { TermsPostLits } from '@/types/source';
+import { TermsPostList } from '@/types/source';
 
 interface Props {
-  posts?: Array<TermsPostLits>;
+  posts?: Array<TermsPostList>;
   title: string;
   type: 'Category' | 'Tag';
 }
