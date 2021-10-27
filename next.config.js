@@ -10,7 +10,7 @@ module.exports = {
     strictPostcssConfiguration: true,
   },
 
-  webpack5: true,
+  swcMinify: true,
 
   reactStrictMode: true,
 
