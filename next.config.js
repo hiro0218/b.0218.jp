@@ -1,5 +1,8 @@
+const withPlugins = require('next-compose-plugins');
+const withLinaria = require('next-linaria');
+
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfiguration = {
   env: {
     NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'UA-50805440-1',
   },
@@ -9,8 +12,6 @@ module.exports = {
   future: {
     strictPostcssConfiguration: true,
   },
-
-  swcMinify: true,
 
   reactStrictMode: true,
 
@@ -27,3 +28,5 @@ module.exports = {
     return config;
   },
 };
+
+module.exports = withPlugins([withLinaria], nextConfiguration);
