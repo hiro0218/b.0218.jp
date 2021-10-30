@@ -27,6 +27,10 @@ const nextConfiguration = {
   webpack(config) {
     return config;
   },
+
+  linaria: {
+    cacheDirectory: './.next/cache/.linaria-cache',
+  },
 };
 
 module.exports = withPlugins([withLinaria], nextConfiguration);
