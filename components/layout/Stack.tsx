@@ -1,8 +1,8 @@
 import { Property } from 'csstype';
+import { styled } from 'linaria/react';
 import React, { CSSProperties, memo, NamedExoticComponent } from 'react';
 
 export interface StackProps {
-  children?: React.ReactNode;
   gap?: Property.Gap;
   align?: Property.AlignContent;
   justify?: Property.JustifyContent;
@@ -12,42 +12,34 @@ export interface StackProps {
   grow?: Property.FlexGrow;
   shrink?: Property.FlexShrink;
   className?: string;
-  width?: number | string;
-  height?: number | string;
   style?: CSSProperties;
+  children?: React.ReactNode;
 }
 
 export const Stack = memo(function Stack(props: StackProps) {
-  const { direction, align, gap, justify, wrap, basis, grow, shrink, width, height, className, style, children } =
-    props;
-  const styles = {
-    display: 'flex',
-    flexDirection: direction,
-    gap: gap,
-    alignItems: align,
-    justifyContent: justify,
-    flexWrap: wrap,
-    flexBasis: basis,
-    flexGrow: grow,
-    flexShrink: shrink,
-    width: width,
-    height: height,
-    ...style,
-  };
+  const { children, ...others } = props;
 
-  return (
-    <div className={className} style={styles}>
-      {children}
-    </div>
-  );
+  const Root = styled.div<StackProps>`
+    display: flex;
+    gap: ${(props) => props.gap || ''};
+    flex-direction: ${(props) => props.direction || ''};
+    align-items: ${(props) => props.align || ''};
+    justify-content: ${(props) => props.justify || ''};
+    flex-wrap: ${(props) => props.wrap || ''};
+    flex-basis: ${(props) => props.basis || ''};
+    flex-grow: ${(props) => props.grow || ''};
+    flex-shrink: ${(props) => props.shrink || ''};
+  `;
+
+  return <Root {...others}>{children}</Root>;
 }) as NamedExoticComponent<StackProps> & {
   Item: typeof Item;
 };
 
 export const Item = memo(function Item(props: StackProps) {
-  const { children } = props;
+  const { children, ...others } = props;
 
-  return <Stack {...props}>{children}</Stack>;
+  return <Stack {...others}>{children}</Stack>;
 });
 
 Stack.Item = Item;
