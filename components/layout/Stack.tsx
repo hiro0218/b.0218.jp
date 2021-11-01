@@ -1,5 +1,5 @@
+import { styled } from '@linaria/react';
 import { Property } from 'csstype';
-import { styled } from 'linaria/react';
 import React, { CSSProperties, memo, NamedExoticComponent } from 'react';
 
 export interface StackProps {
