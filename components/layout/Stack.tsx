@@ -18,14 +18,14 @@ export interface StackProps {
 
 const Root = styled.div<StackProps>`
   display: flex;
-  flex-basis: ${(props) => props.basis || ''};
-  flex-direction: ${(props) => props.direction || ''};
-  flex-grow: ${(props) => props.grow || ''};
-  flex-shrink: ${(props) => props.shrink || ''};
-  flex-wrap: ${(props) => props.wrap || ''};
-  align-items: ${(props) => props.align || ''};
-  justify-content: ${(props) => props.justify || ''};
-  gap: ${(props) => props.gap || ''};
+  flex-basis: ${({ basis }) => basis || ''};
+  flex-direction: ${({ direction }) => direction || ''};
+  flex-grow: ${({ grow }) => grow || ''};
+  flex-shrink: ${({ shrink }) => shrink || ''};
+  flex-wrap: ${({ wrap }) => wrap || ''};
+  align-items: ${({ align }) => align || ''};
+  justify-content: ${({ justify }) => justify || ''};
+  gap: ${({ gap }) => gap || ''};
 `;
 
 export const Stack = memo(function Stack(props: StackProps) {
