@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Heading from '@/components/Heading';
 import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
+import { Stack } from '@/components/layout/Stack';
 import LinkCard from '@/components/LinkCard';
 import { getPostsJson, getTermJson } from '@/lib/posts';
 import { Post as PropsPost } from '@/types/source';
@@ -67,10 +68,10 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
               <Heading tagName={'h2'} text={'Tags'} isWeightNormal={true} />
             </header>
             <div className="p-home-section__contents">
-              <div className="p-home-tags">
+              <Stack wrap="wrap" gap="calc(var(--margin-base) * 0.5) calc(var(--margin-base) * 0.25)">
                 {Object.entries(tags).map(([slug, number]) => {
                   return (
-                    <div key={slug} className="p-home-tags__item">
+                    <Stack.Item align="center" key={slug}>
                       <div className="c-post-meta-tag">
                         <Link href={'/tags/' + slug} prefetch={false}>
                           <a className="c-post-meta__link--tag" title={`${slug}: ${number}件`}>
@@ -78,10 +79,10 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
                           </a>
                         </Link>
                       </div>
-                    </div>
+                    </Stack.Item>
                   );
                 })}
-              </div>
+              </Stack>
             </div>
           </section>
         </section>
