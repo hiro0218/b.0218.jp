@@ -23,7 +23,8 @@
         "./*"
       ]
     },
-    "incremental": true
+    "incremental": true,
+    "jsxImportSource": "@emotion/react"
   },
   "typeRoots": [
     "node_modules/@types",

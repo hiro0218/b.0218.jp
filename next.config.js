@@ -1,5 +1,4 @@
 const withPlugins = require('next-compose-plugins');
-const withLinaria = require('next-linaria');
 
 /** @type {import('next').NextConfig} */
 const nextConfiguration = {
@@ -27,10 +26,6 @@ const nextConfiguration = {
   webpack(config) {
     return config;
   },
-
-  linaria: {
-    cacheDirectory: './.next/cache/.linaria-cache',
-  },
 };
 
-module.exports = withPlugins([withLinaria], nextConfiguration);
+module.exports = withPlugins([], nextConfiguration);

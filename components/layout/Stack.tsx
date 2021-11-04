@@ -1,4 +1,4 @@
-import { styled } from '@linaria/react';
+import styled from '@emotion/styled';
 import { Property } from 'csstype';
 import React, { CSSProperties, memo, NamedExoticComponent } from 'react';
 
@@ -11,7 +11,6 @@ export interface StackProps {
   basis?: Property.FlexBasis;
   grow?: Property.FlexGrow;
   shrink?: Property.FlexShrink;
-  className?: string;
   style?: CSSProperties;
   children?: React.ReactNode;
 }
