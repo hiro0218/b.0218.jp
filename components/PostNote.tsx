@@ -24,6 +24,10 @@ const styleNote = css`
 `;
 
 const PostNote: FC<Props> = ({ note }) => {
+  if (!note) {
+    return <></>;
+  }
+
   return <div css={styleNote} dangerouslySetInnerHTML={{ __html: note }} />;
 };
 
