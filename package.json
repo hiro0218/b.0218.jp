@@ -23,7 +23,7 @@
     "shokika.css": "^1.4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.8",
+    "@babel/core": "^7.16.0",
     "@emotion/babel-plugin": "^11.3.0",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
