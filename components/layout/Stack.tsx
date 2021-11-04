@@ -2,7 +2,9 @@ import styled from '@emotion/styled';
 import { Property } from 'csstype';
 import React, { CSSProperties, memo, NamedExoticComponent } from 'react';
 
-export interface StackProps {
+type divProps = JSX.IntrinsicElements['div'];
+export interface StackProps extends divProps {
+  display?: Property.Display;
   gap?: Property.Gap;
   align?: Property.AlignContent;
   justify?: Property.JustifyContent;
@@ -16,7 +18,7 @@ export interface StackProps {
 }
 
 const Root = styled.div<StackProps>`
-  display: flex;
+  display: ${({ display }) => display || 'flex'};
   flex-basis: ${({ basis }) => basis || ''};
   flex-direction: ${({ direction }) => direction || ''};
   flex-grow: ${({ grow }) => grow || ''};
