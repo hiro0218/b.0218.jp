@@ -28,6 +28,7 @@ export interface NextPrevPost {
 export interface Post {
   date: string;
   updated: string;
+  note: string;
   slug: string;
   title: string;
   content: string;
