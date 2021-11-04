@@ -21,13 +21,15 @@ const Term: FC<Props> = ({ posts, title, type }) => {
         <header>
           <Heading tagName={'h2'} text={title} isWeightNormal={true} />
         </header>
-        <Stack direction="column" gap="calc(var(--margin-base) * 0.25) 0" role="list">
-          {posts.map((post, index) => (
-            <Stack.Item key={index} display="block" role="listitem">
-              <LinkCard link={`/${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
-            </Stack.Item>
-          ))}
-        </Stack>
+        <div className="p-term-section__contents">
+          <Stack direction="column" gap="calc(var(--margin-base) * 0.25) 0" role="list">
+            {posts.map((post, index) => (
+              <Stack.Item key={index} display="block" role="listitem">
+                <LinkCard link={`/${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
+              </Stack.Item>
+            ))}
+          </Stack>
+        </div>
       </section>
     </section>
   );

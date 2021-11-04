@@ -30,36 +30,40 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
             <header>
               <Heading tagName={'h2'} text={'Recent Articles'} isWeightNormal={true} />
             </header>
-            <Stack direction="column" gap="calc(var(--margin-base) * 0.25) 0" role="list">
-              {recentPosts.map((post, index) => (
-                <Stack.Item key={index} display="block" role="listitem">
-                  <LinkCard
-                    link={`${post.slug}.html`}
-                    title={post.title}
-                    date={post.updated || post.date}
-                    excerpt={post.excerpt}
-                  />
-                </Stack.Item>
-              ))}
-            </Stack>
+            <div className="p-home-section__contents">
+              <Stack direction="column" gap="calc(var(--margin-base) * 0.25) 0" role="list">
+                {recentPosts.map((post, index) => (
+                  <Stack.Item key={index} display="block" role="listitem">
+                    <LinkCard
+                      link={`${post.slug}.html`}
+                      title={post.title}
+                      date={post.updated || post.date}
+                      excerpt={post.excerpt}
+                    />
+                  </Stack.Item>
+                ))}
+              </Stack>
+            </div>
           </section>
 
           <section className="p-home-section">
             <header>
               <Heading tagName={'h2'} text={'Updated Articles'} isWeightNormal={true} />
             </header>
-            <Stack direction="column" gap="calc(var(--margin-base) * 0.25) 0" role="list">
-              {updatesPosts.map((post, index) => (
-                <Stack.Item key={index} display="block" role="listitem">
-                  <LinkCard
-                    link={`${post.slug}.html`}
-                    title={post.title}
-                    date={post.updated || post.date}
-                    excerpt={post.excerpt}
-                  />
-                </Stack.Item>
-              ))}
-            </Stack>
+            <div className="p-home-section__contents">
+              <Stack direction="column" gap="calc(var(--margin-base) * 0.25) 0" role="list">
+                {updatesPosts.map((post, index) => (
+                  <Stack.Item key={index} display="block" role="listitem">
+                    <LinkCard
+                      link={`${post.slug}.html`}
+                      title={post.title}
+                      date={post.updated || post.date}
+                      excerpt={post.excerpt}
+                    />
+                  </Stack.Item>
+                ))}
+              </Stack>
+            </div>
           </section>
 
           <section className="p-home-section">
