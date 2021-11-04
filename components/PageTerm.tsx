@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import Heading from '@/components/Heading';
-import { MenuList, MenuListItem } from '@/components/layout/MenuList';
+import { Stack } from '@/components/layout/Stack';
 import LinkCard from '@/components/LinkCard';
 import { TermsPostList } from '@/types/source';
 
@@ -21,13 +21,13 @@ const Term: FC<Props> = ({ posts, title, type }) => {
         <header>
           <Heading tagName={'h2'} text={title} isWeightNormal={true} />
         </header>
-        <MenuList className="p-term-section__contents">
+        <Stack direction="column" gap="calc(var(--margin-base) * 0.25) 0" role="list">
           {posts.map((post, index) => (
-            <MenuListItem key={index}>
+            <Stack.Item key={index} display="block" role="listitem">
               <LinkCard link={`/${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
-            </MenuListItem>
+            </Stack.Item>
           ))}
-        </MenuList>
+        </Stack>
       </section>
     </section>
   );

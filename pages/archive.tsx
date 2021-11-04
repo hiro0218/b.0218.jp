@@ -2,8 +2,8 @@ import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
 import Heading from '@/components/Heading';
-import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
+import { Stack } from '@/components/layout/Stack';
 import LinkCard from '@/components/LinkCard';
 import { SITE } from '@/constant';
 import { getPostsJson } from '@/lib/posts';
@@ -64,20 +64,28 @@ const Archive: NextPage<Props> = ({ archives }) => {
                   <div className="archive-year">
                     <h2 className="archive-year__title">{key}</h2>
                   </div>
-                  <MenuList className="archive-post">
+                  <Stack
+                    direction="column"
+                    gap="calc(var(--margin-base) * 0.125) 0"
+                    grow={1}
+                    style={{
+                      minWidth: 0,
+                    }}
+                    role="list"
+                  >
                     {posts[key].map((post: PropPost, index: number) => {
                       return (
-                        <MenuListItem key={index}>
+                        <Stack.Item key={index} display="block" role="listitem">
                           <LinkCard
                             link={`/${post.slug}.html`}
                             title={post.title}
                             date={post.date}
                             excerpt={post.excerpt}
                           />
-                        </MenuListItem>
+                        </Stack.Item>
                       );
                     })}
-                  </MenuList>
+                  </Stack>
                 </div>
               );
             })}

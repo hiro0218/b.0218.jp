@@ -3,7 +3,6 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 import Heading from '@/components/Heading';
-import { MenuList, MenuListItem } from '@/components/layout/MenuList';
 import PageContainer from '@/components/layout/PageContainer';
 import { Stack } from '@/components/layout/Stack';
 import LinkCard from '@/components/LinkCard';
@@ -31,36 +30,36 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
             <header>
               <Heading tagName={'h2'} text={'Recent Articles'} isWeightNormal={true} />
             </header>
-            <MenuList className="p-home-section__contents">
+            <Stack direction="column" gap="calc(var(--margin-base) * 0.25) 0" role="list">
               {recentPosts.map((post, index) => (
-                <MenuListItem key={index}>
+                <Stack.Item key={index} display="block" role="listitem">
                   <LinkCard
                     link={`${post.slug}.html`}
                     title={post.title}
                     date={post.updated || post.date}
                     excerpt={post.excerpt}
                   />
-                </MenuListItem>
+                </Stack.Item>
               ))}
-            </MenuList>
+            </Stack>
           </section>
 
           <section className="p-home-section">
             <header>
               <Heading tagName={'h2'} text={'Updated Articles'} isWeightNormal={true} />
             </header>
-            <MenuList className="p-home-section__contents">
+            <Stack direction="column" gap="calc(var(--margin-base) * 0.25) 0" role="list">
               {updatesPosts.map((post, index) => (
-                <MenuListItem key={index}>
+                <Stack.Item key={index} display="block" role="listitem">
                   <LinkCard
                     link={`${post.slug}.html`}
                     title={post.title}
                     date={post.updated || post.date}
                     excerpt={post.excerpt}
                   />
-                </MenuListItem>
+                </Stack.Item>
               ))}
-            </MenuList>
+            </Stack>
           </section>
 
           <section className="p-home-section">
@@ -68,10 +67,10 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
               <Heading tagName={'h2'} text={'Tags'} isWeightNormal={true} />
             </header>
             <div className="p-home-section__contents">
-              <Stack wrap="wrap" gap="calc(var(--margin-base) * 0.5) calc(var(--margin-base) * 0.25)">
+              <Stack wrap="wrap" gap="calc(var(--margin-base) * 0.5) calc(var(--margin-base) * 0.25)" role="list">
                 {Object.entries(tags).map(([slug, number]) => {
                   return (
-                    <Stack.Item align="center" key={slug}>
+                    <Stack.Item align="center" key={slug} role="listitem">
                       <div className="c-post-meta-tag">
                         <Link href={'/tags/' + slug} prefetch={false}>
                           <a className="c-post-meta__link--tag" title={`${slug}: ${number}件`}>
