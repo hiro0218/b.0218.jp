@@ -6,7 +6,6 @@ h5,
 h6 {
   color: var(--gray-9);
   line-height: 1.25;
-  font-feature-settings: 'palt' 1;
 }
 
 h1 {
