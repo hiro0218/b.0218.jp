@@ -7,8 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint {components,lib,pages,prepare,utils}/** --ext .ts,.tsx",
-    "prebuild": "git submodule update --remote && node --require esbuild-register ./prepare/article.ts && node --require esbuild-register ./prepare/feed.ts",
+    "prebuild": "git submodule update --remote && npm run build:article && npm run build:feed && npm run build:sitemap",
     "postbuild": "node --require esbuild-register ./prepare/ogp.ts",
+    "build:article": "node --require esbuild-register ./prepare/article.ts",
+    "build:feed": "node --require esbuild-register ./prepare/feed.ts",
+    "build:sitemap": "node --require esbuild-register ./prepare/sitemap.ts",
     "prepare": "husky install",
     "storybook": "start-storybook -p 6006 -s ./public",
     "build:storybook": "build-storybook -o build/storybook"
