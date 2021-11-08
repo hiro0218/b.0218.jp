@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { FC } from 'react';
 import { FaTwitter } from 'react-icons/fa';
 
@@ -9,7 +9,7 @@ interface Props {
   url: string;
 }
 
-const styleShare = css`
+const Root = styled.a`
   width: 3.5rem;
   height: 3.5rem;
   padding: 0.25em;
@@ -32,16 +32,15 @@ const PostShare: FC<Props> = ({ title, url }) => {
   return (
     <Stack justify="center">
       <Stack.Item align="center" justify="center">
-        <a
+        <Root
           href={'https://twitter.com/intent/tweet?url=' + url + '&text=' + encodeURIComponent(title)}
           title="Share Twitter"
           target="_blank"
           rel="noopener noreferrer"
-          css={styleShare}
           aria-label="Twitter"
         >
           <FaTwitter />
-        </a>
+        </Root>
       </Stack.Item>
     </Stack>
   );
