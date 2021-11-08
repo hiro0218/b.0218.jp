@@ -44,7 +44,7 @@
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
     "babel-loader": "^8.2.3",
-    "cssnano": "^5.0.9",
+    "cssnano": "^5.0.10",
     "csstype": "^3.0.9",
     "esbuild": "^0.13.12",
     "esbuild-register": "^3.0.0",
