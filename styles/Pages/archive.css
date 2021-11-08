@@ -31,15 +31,6 @@
   }
 }
 
-.archive-post {
-  flex-grow: 1;
-  min-width: 0;
-
-  &:not(:last-child) {
-    margin-bottom: 2rem;
-  }
-}
-
 .archive-post-item {
   display: block;
   padding: 1rem;

@@ -1,12 +1,25 @@
-import Document, { Head, Html, Main, NextScript } from 'next/document';
+import { extractCritical } from '@emotion/server';
+import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
 
 import { GOOGLE_ADSENSE } from '@/components/Adsense';
 import { GA_TRACKING_ID } from '@/lib/gtag';
 
 class SampleDocument extends Document {
-  static async getInitialProps(ctx) {
+  static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx);
-    return { ...initialProps };
+    const styles = extractCritical(initialProps.html);
+
+    return {
+      ...initialProps,
+      styles: (
+        <>
+          {initialProps.styles}
+          {styles.css && (
+            <style data-emotion={`css ${styles.ids.join(' ')}`} dangerouslySetInnerHTML={{ __html: styles.css }} />
+          )}
+        </>
+      ),
+    };
   }
 
   render() {

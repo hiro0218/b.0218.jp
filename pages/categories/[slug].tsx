@@ -2,11 +2,11 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } fro
 
 import TermsBody from '@/components/terms/body';
 import { getTermJson } from '@/lib/posts';
-import { TermsPostLits } from '@/types/source';
+import { TermsPostList } from '@/types/source';
 
 type TermProps = {
   title: string;
-  posts: Array<TermsPostLits>;
+  posts: Array<TermsPostList>;
 };
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

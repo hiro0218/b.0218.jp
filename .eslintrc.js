@@ -37,6 +37,7 @@ module.exports = {
     'prettier',
   ],
   rules: {
+    complexity: ['error', 10],
     'jsx-a11y/anchor-is-valid': 'off',
     'simple-import-sort/imports': 'warn',
     'react/prop-types': 'off',

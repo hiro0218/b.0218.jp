@@ -1,13 +1,13 @@
 import { readJsonSync } from 'fs-extra';
 import { join } from 'path';
 
-import { Pages, Post, TermsPostLits } from '@/types/source';
+import { Pages, Post, TermsPostList } from '@/types/source';
 
 const getPath = (filename: string) => {
   return join(process.cwd(), `dist/${filename}.json`);
 };
 
-export const getTermJson = (type: 'categories' | 'tags'): Array<TermsPostLits> => {
+export const getTermJson = (type: 'categories' | 'tags'): Array<TermsPostList> => {
   const path = getPath(type);
 
   return readJsonSync(path);

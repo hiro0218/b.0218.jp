@@ -6,6 +6,7 @@ body {
   padding-top: var(--header-height);
   color: var(--color-text);
   font-family: var(--font-family-sans-serif);
+  font-feature-settings: 'palt' 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.75;

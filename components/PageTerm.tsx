@@ -1,12 +1,12 @@
 import { FC } from 'react';
 
 import Heading from '@/components/Heading';
-import { MenuList, MenuListItem } from '@/components/layout/MenuList';
+import { Stack } from '@/components/layout/Stack';
 import LinkCard from '@/components/LinkCard';
-import { TermsPostLits } from '@/types/source';
+import { TermsPostList } from '@/types/source';
 
 interface Props {
-  posts?: Array<TermsPostLits>;
+  posts?: Array<TermsPostList>;
   title: string;
   type: 'Category' | 'Tag';
 }
@@ -21,13 +21,15 @@ const Term: FC<Props> = ({ posts, title, type }) => {
         <header>
           <Heading tagName={'h2'} text={title} isWeightNormal={true} />
         </header>
-        <MenuList className="p-term-section__contents">
-          {posts.map((post, index) => (
-            <MenuListItem key={index}>
-              <LinkCard link={`/${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
-            </MenuListItem>
-          ))}
-        </MenuList>
+        <div className="p-term-section__contents">
+          <Stack direction="column" gap="calc(var(--margin-base) * 0.25) 0" role="list">
+            {posts.map((post, index) => (
+              <Stack.Item key={index} display="block" role="listitem">
+                <LinkCard link={`/${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
+              </Stack.Item>
+            ))}
+          </Stack>
+        </div>
       </section>
     </section>
   );

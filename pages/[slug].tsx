@@ -9,6 +9,7 @@ import PageContainer from '@/components/layout/PageContainer';
 import { getPostsJson } from '@/lib/posts';
 const PostPager = dynamic(() => import('@/components/PostPager'));
 const PostShare = dynamic(() => import('@/components/post/share'));
+const PostNote = dynamic(() => import('@/components/PostNote'));
 import Mokuji from '@/components/Mokuji';
 import PostHeader from '@/components/post/header';
 import { SITE } from '@/constant';
@@ -64,6 +65,8 @@ const Post: NextPage<Props> = ({ post }) => {
           </header>
 
           <Adsense />
+
+          <PostNote note={post.note} />
 
           <Mokuji refContent={refContent} />
 

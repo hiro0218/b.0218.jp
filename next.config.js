@@ -1,5 +1,7 @@
+const withPlugins = require('next-compose-plugins');
+
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfiguration = {
   env: {
     NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'UA-50805440-1',
   },
@@ -9,8 +11,6 @@ module.exports = {
   future: {
     strictPostcssConfiguration: true,
   },
-
-  webpack5: true,
 
   reactStrictMode: true,
 
@@ -27,3 +27,5 @@ module.exports = {
     return config;
   },
 };
+
+module.exports = withPlugins([], nextConfiguration);

@@ -69,7 +69,7 @@ function buildPost() {
 
     // front matter を取得
     const post = matter.read(`${path.src}/_posts/${file}`);
-    const { title, date, updated, categories, tags }: Partial<PropPost> = post.data;
+    const { title, date, updated, note, categories, tags }: Partial<PropPost> = post.data;
     const content = markdown2html(post.content);
     const { text } = readingTime(content);
 
@@ -78,6 +78,7 @@ function buildPost() {
       slug: file.replace('.md', ''),
       date,
       updated,
+      note: markdown2html(note),
       content: content,
       excerpt: getHeading2Text(content),
       categories,

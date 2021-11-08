@@ -1,10 +1,11 @@
-import { GetServerSidePropsContext } from 'next';
+import fs from 'fs-extra';
 
-import { SITE } from '@/constant';
-import { getPostsJson } from '@/lib/posts';
-import { Post } from '@/types/source';
+import { SITE } from '../constant';
+import { getPostsJson } from '../lib/posts';
 
-async function generateSitemapXml(posts: Array<Post>) {
+function generatedSitemap() {
+  const posts = getPostsJson();
+
   let xml = '';
 
   xml += `<?xml version="1.0" encoding="UTF-8"?>`;
@@ -27,22 +28,9 @@ async function generateSitemapXml(posts: Array<Post>) {
 
   xml += `</urlset>`;
 
-  return xml;
+  fs.writeFileSync('./public/sitemap.xml', xml);
 }
 
-export const getServerSideProps = async ({ res }: GetServerSidePropsContext) => {
-  const posts = getPostsJson();
-  const xml = await generateSitemapXml(posts);
+generatedSitemap();
 
-  res.statusCode = 200;
-  res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate');
-  res.setHeader('Content-Type', 'text/xml');
-  res.end(xml);
-
-  return {
-    props: {},
-  };
-};
-
-const Sitemap = () => null;
-export default Sitemap;
+export default generatedSitemap;

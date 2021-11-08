@@ -4,12 +4,12 @@ import { FC } from 'react';
 import PageContainer from '@/components/layout/PageContainer';
 import PageTerm from '@/components/PageTerm';
 import { SITE } from '@/constant';
-import { TermsPostLits } from '@/types/source';
+import { TermsPostList } from '@/types/source';
 
 type Props = {
   type: 'Category' | 'Tag';
   title: string;
-  posts: Array<TermsPostLits>;
+  posts: Array<TermsPostList>;
 };
 
 const TermsBody: FC<Props> = ({ type, title, posts }) => {

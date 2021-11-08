@@ -1,5 +1,7 @@
 import '../styles/index.css';
 
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
@@ -7,6 +9,11 @@ import TheFooter from '@/components/TheFooter';
 import TheHeader from '@/components/TheHeader';
 import { AUTHOR, SITE } from '@/constant';
 import usePageView from '@/lib/hooks/usePageView';
+
+const emotionCache = createCache({
+  prefix: false,
+  stylisPlugins: [],
+});
 
 const App = ({ Component, pageProps }: AppProps) => {
   usePageView();
@@ -33,11 +40,15 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta name="author" content={AUTHOR.NAME} />
       </Head>
 
-      <TheHeader />
-      <main>
-        <Component {...pageProps} />
-      </main>
-      <TheFooter />
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */}
+      <CacheProvider value={emotionCache}>
+        <TheHeader />
+        <main>
+          <Component {...pageProps} />
+        </main>
+        <TheFooter />
+      </CacheProvider>
     </>
   );
 };
