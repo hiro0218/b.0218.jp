@@ -18,7 +18,17 @@ export interface StackProps extends divProps {
 }
 
 const Root = styled.div<StackProps>`
-  display: ${({ display }) => display || 'flex'};
+  display: ${({ display }) => {
+    switch (display) {
+      case '':
+      case undefined:
+        return 'flex';
+      case 'block':
+        return '';
+      default:
+        return display;
+    }
+  }};
   flex-basis: ${({ basis }) => basis || ''};
   flex-direction: ${({ direction }) => direction || ''};
   flex-grow: ${({ grow }) => grow || ''};
@@ -44,7 +54,11 @@ export const Stack = memo(function Stack(props: StackProps) {
 export const Item = memo(function Item(props: StackProps) {
   const { children, ...others } = props;
 
-  return <Stack {...others}>{children}</Stack>;
+  return (
+    <Stack className="l-stack__item" {...others}>
+      {children}
+    </Stack>
+  );
 });
 
 Stack.Item = Item;
