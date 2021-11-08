@@ -14,7 +14,9 @@ class SampleDocument extends Document {
       styles: (
         <>
           {initialProps.styles}
-          <style data-emotion={`css ${styles.ids.join(' ')}`} dangerouslySetInnerHTML={{ __html: styles.css }} />
+          {styles.css && (
+            <style data-emotion={`css ${styles.ids.join(' ')}`} dangerouslySetInnerHTML={{ __html: styles.css }} />
+          )}
         </>
       ),
     };
