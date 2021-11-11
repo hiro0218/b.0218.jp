@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
 import Adsense from '@/components/Adsense';
-import PageContainer from '@/components/layout/PageContainer';
+import { Container } from '@/components/layout/Container';
 import { getPostsJson } from '@/lib/posts';
 const PostPager = dynamic(() => import('@/components/PostPager'));
 const PostShare = dynamic(() => import('@/components/post/share'));
@@ -58,7 +58,7 @@ const Post: NextPage<Props> = ({ post }) => {
         )}
       </Head>
 
-      <PageContainer>
+      <Container>
         <article className="p-post">
           <header>
             <PostHeader post={post} />
@@ -87,7 +87,7 @@ const Post: NextPage<Props> = ({ post }) => {
         <div className="p-post__pager">
           <PostPager next={post.next} prev={post.prev} />
         </div>
-      </PageContainer>
+      </Container>
     </>
   );
 };

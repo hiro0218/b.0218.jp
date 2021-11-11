@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { FC } from 'react';
 
-import PageContainer from '@/components/layout/PageContainer';
+import { Container } from '@/components/layout/Container';
 import PageTerm from '@/components/PageTerm';
 import { SITE } from '@/constant';
 import { TermsPostList } from '@/types/source';
@@ -22,9 +22,9 @@ const TermsBody: FC<Props> = ({ type, title, posts }) => {
         <meta name="robots" content="noindex" />
       </Head>
 
-      <PageContainer>
+      <Container>
         <PageTerm posts={posts} title={title} type={type} />
-      </PageContainer>
+      </Container>
     </>
   );
 };

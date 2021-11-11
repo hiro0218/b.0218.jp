@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 import Heading from '@/components/Heading';
-import PageContainer from '@/components/layout/PageContainer';
+import { Container } from '@/components/layout/Container';
 import { Stack } from '@/components/layout/Stack';
 import LinkCard from '@/components/LinkCard';
 import { getPostsJson, getTermJson } from '@/lib/posts';
@@ -21,7 +21,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
       <Head>
         <meta name="thumbnail" content="https://b.0218.jp/hiro0218.png" />
       </Head>
-      <PageContainer>
+      <Container>
         <header>
           <Heading text={'Home'} />
         </header>
@@ -89,7 +89,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
             </div>
           </section>
         </section>
-      </PageContainer>
+      </Container>
     </>
   );
 };
