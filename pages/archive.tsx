@@ -2,7 +2,6 @@ import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
 import Heading from '@/components/Heading';
-import { Container } from '@/components/layout/Container';
 import { Stack } from '@/components/layout/Stack';
 import LinkCard from '@/components/LinkCard';
 import { SITE } from '@/constant';
@@ -51,47 +50,45 @@ const Archive: NextPage<Props> = ({ archives }) => {
         <title key="title">Archive - {SITE.NAME}</title>
       </Head>
 
-      <Container>
-        <article className="p-archive">
-          <header>
-            <Heading text={'Archive'} textSide={`${archives.length}件`} />
-          </header>
+      <article className="p-archive">
+        <header>
+          <Heading text={'Archive'} textSide={`${archives.length}件`} />
+        </header>
 
-          <section className="p-archive__contents">
-            {Object.keys(posts).map((key: string) => {
-              return (
-                <div key={key} className="archive-list">
-                  <div className="archive-year">
-                    <h2 className="archive-year__title">{key}</h2>
-                  </div>
-                  <Stack
-                    direction="column"
-                    gap="calc(var(--margin-base) * 0.125) 0"
-                    grow={1}
-                    style={{
-                      minWidth: 0,
-                    }}
-                    role="list"
-                  >
-                    {posts[key].map((post: PropPost, index: number) => {
-                      return (
-                        <Stack.Item key={index} display="block" role="listitem">
-                          <LinkCard
-                            link={`/${post.slug}.html`}
-                            title={post.title}
-                            date={post.date}
-                            excerpt={post.excerpt}
-                          />
-                        </Stack.Item>
-                      );
-                    })}
-                  </Stack>
+        <section className="p-archive__contents">
+          {Object.keys(posts).map((key: string) => {
+            return (
+              <div key={key} className="archive-list">
+                <div className="archive-year">
+                  <h2 className="archive-year__title">{key}</h2>
                 </div>
-              );
-            })}
-          </section>
-        </article>
-      </Container>
+                <Stack
+                  direction="column"
+                  gap="calc(var(--margin-base) * 0.125) 0"
+                  grow={1}
+                  style={{
+                    minWidth: 0,
+                  }}
+                  role="list"
+                >
+                  {posts[key].map((post: PropPost, index: number) => {
+                    return (
+                      <Stack.Item key={index} display="block" role="listitem">
+                        <LinkCard
+                          link={`/${post.slug}.html`}
+                          title={post.title}
+                          date={post.date}
+                          excerpt={post.excerpt}
+                        />
+                      </Stack.Item>
+                    );
+                  })}
+                </Stack>
+              </div>
+            );
+          })}
+        </section>
+      </article>
     </>
   );
 };

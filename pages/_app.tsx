@@ -5,6 +5,7 @@ import { CacheProvider } from '@emotion/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
+import { Container } from '@/components/layout/Container';
 import TheFooter from '@/components/TheFooter';
 import TheHeader from '@/components/TheHeader';
 import { AUTHOR, SITE } from '@/constant';
@@ -45,7 +46,9 @@ const App = ({ Component, pageProps }: AppProps) => {
       <CacheProvider value={emotionCache}>
         <TheHeader />
         <main>
-          <Component {...pageProps} />
+          <Container>
+            <Component {...pageProps} />
+          </Container>
         </main>
         <TheFooter />
       </CacheProvider>

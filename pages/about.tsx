@@ -2,7 +2,6 @@ import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
 import Heading from '@/components/Heading';
-import { Container } from '@/components/layout/Container';
 import { SITE } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
 import { Pages } from '@/types/source';
@@ -18,20 +17,18 @@ const About: NextPage<Props> = ({ page }) => {
         <title key="title">サイトについて - {SITE.NAME}</title>
       </Head>
 
-      <Container>
-        <article className="p-post">
-          <header>
-            <Heading text={'About'} />
-          </header>
+      <article className="p-post">
+        <header>
+          <Heading text={'About'} />
+        </header>
 
-          <div
-            className="p-post__content"
-            dangerouslySetInnerHTML={{
-              __html: `${page.content}`,
-            }}
-          />
-        </article>
-      </Container>
+        <div
+          className="p-post__content"
+          dangerouslySetInnerHTML={{
+            __html: `${page.content}`,
+          }}
+        />
+      </article>
     </>
   );
 };
