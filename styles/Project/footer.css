@@ -3,30 +3,21 @@
   padding: 3rem 0;
   background: var(--bg-color--lighter);
   color: var(--color-text--light);
-  font-size: var(--font-size-sm);
   line-height: 1;
   text-align: center;
-
-  @media (--mobile-viewport) {
-    font-size: var(--font-size-md);
-  }
 }
 
 .pj-footer-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: var(--container-width);
   margin: 0 auto;
+  transition: padding 0.1s ease-in-out;
 
-  @media (--desktop-viewport) {
-    max-width: var(--desktop-width);
-  }
-
-  @media (--mobile-viewport) {
-    max-width: var(--max-width);
+  @media (max-width: 959px) {
     padding: 0 5vw;
   }
-
 }
 
 .pj-footer__link {

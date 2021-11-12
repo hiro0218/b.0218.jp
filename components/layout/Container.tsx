@@ -10,6 +10,7 @@ export interface ContainerProps extends divProps {
 const Root = styled.div<ContainerProps>`
   max-width: var(--container-width);
   margin: var(--margin-base) auto 0;
+  transition: padding 0.1s ease-in-out;
 
   @media (max-width: 959px) {
     padding: 0 5vw;
