@@ -8,7 +8,7 @@ export interface ContainerProps extends divProps {
 }
 
 const Root = styled.div<ContainerProps>`
-  max-width: 85ch;
+  max-width: var(--container-width);
   margin: var(--margin-base) auto 0;
 
   @media (max-width: 959px) {

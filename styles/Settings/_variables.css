@@ -35,6 +35,7 @@
   /* size */
   --max-width: 640px;
   --desktop-width: 960px;
+  --container-width: 85ch;
 
   /* font */
   --font-family-sans-serif: 'Noto Sans JP', YuGoMedium, YuGothic, 'Yu Gothic', 'Hiragino Kaku Gothic ProN', Meiryo, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
