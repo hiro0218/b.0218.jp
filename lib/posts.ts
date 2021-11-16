@@ -19,6 +19,12 @@ export const getPostsJson = (): Array<Post> => {
   return readJsonSync(path);
 };
 
+export const getPostsListJson = (): Array<Partial<Post>> => {
+  const path = getPath('posts-list');
+
+  return readJsonSync(path);
+};
+
 export const getPagesJson = (): Array<Pages> => {
   const path = getPath('pages');
 

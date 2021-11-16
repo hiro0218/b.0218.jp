@@ -5,7 +5,7 @@ import Heading from '@/components/Heading';
 import { Stack } from '@/components/layout/Stack';
 import LinkCard from '@/components/LinkCard';
 import { SITE } from '@/constant';
-import { getPostsJson } from '@/lib/posts';
+import { getPostsListJson } from '@/lib/posts';
 import { Post as PropPost } from '@/types/source';
 
 interface Props {
@@ -96,7 +96,7 @@ const Archive: NextPage<Props> = ({ archives }) => {
 export default Archive;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const archives = getPostsJson();
+  const archives = getPostsListJson();
 
   return {
     props: {

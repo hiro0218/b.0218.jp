@@ -115,6 +115,20 @@ function buildPost() {
   fs.ensureDirSync(`${path.dist}`);
   fs.writeJSONSync(`${path.dist}/posts.json`, posts);
   console.log('Write dist/posts.json');
+  fs.writeJSONSync(`${path.dist}/posts-list.json`, removePostsData(posts));
+  console.log('Write dist/posts-list.json');
+}
+
+function removePostsData(posts: Array<Partial<PropPost>>) {
+  return posts.map((post) => {
+    delete post.note;
+    delete post.content;
+    delete post.prev;
+    delete post.next;
+    delete post.readingTime;
+
+    return post;
+  });
 }
 
 function buildTerms() {

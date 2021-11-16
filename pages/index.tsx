@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Heading from '@/components/Heading';
 import { Stack } from '@/components/layout/Stack';
 import LinkCard from '@/components/LinkCard';
-import { getPostsJson, getTermJson } from '@/lib/posts';
+import { getPostsListJson, getTermJson } from '@/lib/posts';
 import { Post as PropsPost } from '@/types/source';
 
 interface Props {
@@ -95,7 +95,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = getPostsJson();
+  const posts = getPostsListJson();
   const recentPosts = posts.filter((_, i) => i < 5);
   const updatesPosts = posts
     .sort((a, b) => {
