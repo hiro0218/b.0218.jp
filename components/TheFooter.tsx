@@ -32,12 +32,12 @@ const FooterContainer = styled.div`
   }
 `;
 
-const FooterMeneList = styled.ul`
+const FooterMenuList = styled.ul`
   display: inline-flex;
   list-style: none;
 `;
 
-const FooterMeneListItem = styled.li`
+const FooterMenuListItem = styled.li`
   & + & {
     margin-left: 1em;
   }
@@ -53,23 +53,23 @@ const TheFooter: FC = () => {
   return (
     <Footer>
       <FooterContainer>
-        <FooterMeneList>
-          <FooterMeneListItem>
+        <FooterMenuList>
+          <FooterMenuListItem>
             <Link href="/" prefetch={false}>
               <a>home</a>
             </Link>
-          </FooterMeneListItem>
-          <FooterMeneListItem>
+          </FooterMenuListItem>
+          <FooterMenuListItem>
             <Link href="/about" prefetch={false}>
               <a>about</a>
             </Link>
-          </FooterMeneListItem>
-          <FooterMeneListItem>
+          </FooterMenuListItem>
+          <FooterMenuListItem>
             <Link href="/archive" prefetch={false}>
               <a>archive</a>
             </Link>
-          </FooterMeneListItem>
-        </FooterMeneList>
+          </FooterMenuListItem>
+        </FooterMenuList>
 
         <FooterCopyright>
           <small>©&nbsp;hiro</small>
