@@ -34,7 +34,6 @@ const FooterContainer = styled.div`
 
 const FooterMeneList = styled.ul`
   display: inline-flex;
-  padding: 0;
   list-style: none;
 `;
 
