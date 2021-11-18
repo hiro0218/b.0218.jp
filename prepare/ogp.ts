@@ -33,6 +33,7 @@ const html = `
       font-feature-settings: "palt";
       word-wrap: break-word;
       overflow-wrap: break-word;
+      line-break: strict;
     }
 
     .title-container {
