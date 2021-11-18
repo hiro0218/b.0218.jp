@@ -15,9 +15,11 @@ pre {
   display: block;
   overflow: auto;
   border-radius: 0.15rem;
+  background: var(--bg-color--lighter);
   font-size: var(--font-size-sm);
   overflow-wrap: break-word;
   -webkit-overflow-scrolling: touch;
+  resize: horizontal;
 
   & > code {
     display: block;
