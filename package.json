@@ -68,7 +68,7 @@
     "postcss-custom-media": "^8.0.0",
     "postcss-extend": "^1.0.5",
     "postcss-nested": "5.0.6",
-    "postcss-preset-env": "^7.0.0",
+    "postcss-preset-env": "^7.0.1",
     "postcss-sort-media-queries": "^4.1.0",
     "prettier": "^2.4.1",
     "puppeteer": "^11.0.0",
