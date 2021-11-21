@@ -1,5 +1,7 @@
+import { loadDefaultJapaneseParser } from 'budoux';
 import fs from 'fs-extra';
 import puppeteer from 'puppeteer';
+const parser = loadDefaultJapaneseParser();
 
 import { getPostsJson } from '../lib/posts';
 
@@ -120,9 +122,12 @@ const html = `
     let index = 1;
     for (const { title, slug } of posts) {
       await page
-        .setContent(html.replace('{{title}}', title.replace(/</g, '&lt;').replace(/>/g, '&gt;')), {
-          waitUntil: 'domcontentloaded',
-        })
+        .setContent(
+          html.replace('{{title}}', parser.translateHTMLString(title.replace(/</g, '&lt;').replace(/>/g, '&gt;'))),
+          {
+            waitUntil: 'domcontentloaded',
+          },
+        )
         .then(() => {
           if (index === 1 || index % 10 === 0 || index === length) {
             console.log('Generating OGP Images', `(${index}/${length})`);
