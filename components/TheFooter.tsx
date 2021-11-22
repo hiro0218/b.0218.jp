@@ -55,11 +55,6 @@ const TheFooter: FC = () => {
       <FooterContainer>
         <FooterMenuList>
           <FooterMenuListItem>
-            <Link href="/" prefetch={false}>
-              <a>home</a>
-            </Link>
-          </FooterMenuListItem>
-          <FooterMenuListItem>
             <Link href="/about" prefetch={false}>
               <a>about</a>
             </Link>
