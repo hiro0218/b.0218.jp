@@ -48,7 +48,7 @@
     "budoux": "^0.0.1",
     "cssnano": "^5.0.10",
     "csstype": "^3.0.10",
-    "esbuild": "^0.13.14",
+    "esbuild": "^0.13.15",
     "esbuild-register": "^3.1.2",
     "eslint": "^7.32.0",
     "eslint-config-next": "^12.0.4",
