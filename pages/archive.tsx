@@ -2,6 +2,7 @@ import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
 import Heading from '@/components/Heading';
+import { Columns } from '@/components/layout/Columns';
 import { Stack } from '@/components/layout/Stack';
 import LinkCard from '@/components/LinkCard';
 import { SITE } from '@/constant';
@@ -58,10 +59,7 @@ const Archive: NextPage<Props> = ({ archives }) => {
         <section className="p-archive__contents">
           {Object.keys(posts).map((key: string) => {
             return (
-              <div key={key} className="archive-list">
-                <div className="archive-year">
-                  <h2 className="archive-year__title">{key}</h2>
-                </div>
+              <Columns key={key} title={key}>
                 <Stack
                   direction="column"
                   gap="calc(var(--margin-base) * 0.125) 0"
@@ -84,7 +82,7 @@ const Archive: NextPage<Props> = ({ archives }) => {
                     );
                   })}
                 </Stack>
-              </div>
+              </Columns>
             );
           })}
         </section>

@@ -2,14 +2,10 @@
 
   &__contents {
     margin-top: calc(var(--margin-base) * 1);
-  }
-}
 
-.archive-list {
-  margin-bottom: 2rem;
-
-  @media (--desktop-viewport) {
-    display: flex;
+    > * + * {
+      margin-top: 2rem;
+    }
   }
 }
 
@@ -22,40 +18,4 @@
   @media (--mobile-viewport) {
     margin-bottom: 1rem;
   }
-
-  &__title {
-    position: sticky;
-    top: calc(var(--header-height) + 0.5rem);
-    margin: 0;
-    font-size: 1.5em;
-  }
-}
-
-.archive-post-item {
-  display: block;
-  padding: 1rem;
-  transition: background 0.2s ease;
-  border-radius: 0.25rem;
-
-  &:hover,
-  &:focus {
-    background: var(--bg-color--lighter);
-  }
-
-  &:not(:last-child) {
-    margin-bottom: 0.5rem;
-  }
-}
-
-.archive-post-item__title {
-  margin-bottom: 0.5rem;
-  color: var(--color-text-heading);
-  font-size: 1rem;
-}
-
-.archive-post-item__date {
-  display: block;
-  color: var(--color-text--lighter);
-  font-size: var(--font-size-sm);
-  line-height: 1;
 }
