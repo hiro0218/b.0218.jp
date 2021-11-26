@@ -71,7 +71,7 @@
     "postcss-nested": "5.0.6",
     "postcss-preset-env": "^7.0.1",
     "postcss-sort-media-queries": "^4.1.0",
-    "prettier": "^2.4.1",
+    "prettier": "^2.5.0",
     "puppeteer": "^11.0.0",
     "reading-time": "^1.5.0",
     "rehype-highlight": "^5.0.0",
