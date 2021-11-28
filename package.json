@@ -28,7 +28,7 @@
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@emotion/babel-plugin": "^11.3.0",
-    "@emotion/react": "^11.6.0",
+    "@emotion/react": "^11.7.0",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.6.0",
     "@storybook/addon-a11y": "^6.4.0",
