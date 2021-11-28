@@ -2,6 +2,7 @@ import { extractCritical } from '@emotion/server';
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
 
 import { GOOGLE_ADSENSE } from '@/components/Adsense';
+import { AUTHOR, SITE } from '@/constant';
 import { GA_TRACKING_ID } from '@/lib/gtag';
 
 class SampleDocument extends Document {
@@ -34,6 +35,17 @@ class SampleDocument extends Document {
           <link rel="icon" type="image/x-icon" href="/favicon.ico" />
           <link rel="alternate" type="application/rss+xml" href="https://b.0218.jp/feed.xml" />
           <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: `{
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "url": "${SITE.URL}",
+                "logo": "${AUTHOR.ICON}"
+              }`,
+            }}
+          ></script>
           <script
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GOOGLE_ADSENSE.CLIENT}`}
