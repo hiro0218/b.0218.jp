@@ -1,9 +1,0 @@
-.l-page-container {
-  max-width: 85ch;
-  min-height: calc(100vh - var(--header-height));
-  margin: var(--margin-base) auto 0;
-
-  @media (--mobile-viewport) {
-    padding: 0 5vw;
-  }
-}

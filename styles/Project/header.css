@@ -20,15 +20,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: var(--container-width);
   height: 100%;
-  margin: 0 5vw;
-}
+  margin: 0 auto;
+  transition: padding 0.1s ease-in-out;
 
-.pj-header__avatar {
-  width: 2rem;
-  height: 2rem;
-  margin-right: 0.5rem;
-  border-radius: 100%;
+  @media (max-width: 959px) {
+    padding: 0 5vw;
+  }
 }
 
 .pj-header__logo {

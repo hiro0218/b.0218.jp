@@ -35,4 +35,10 @@ module.exports = {
     'no-missing-end-of-source-newline': true,
     'at-rule-no-unknown': [true, { ignoreAtRules: ['extend'] }],
   },
+  overrides: [
+    {
+      files: ['**/*.{jsx,tsx}'],
+      customSyntax: '@stylelint/postcss-css-in-js',
+    },
+  ],
 };

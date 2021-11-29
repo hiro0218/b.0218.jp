@@ -18,6 +18,7 @@ export interface StackProps extends divProps {
 }
 
 const Root = styled.div<StackProps>`
+  /* stylelint-disable indentation */
   display: ${({ display }) => {
     switch (display) {
       case '':
