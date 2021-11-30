@@ -201,8 +201,8 @@ function buildPage() {
 }
 
 function copyFiles() {
-  fs.copyFileSync(`${path.dist}/posts.json`, `public/posts.json`);
-  console.log('Copy dist/posts.json');
+  fs.copyFileSync(`${path.dist}/posts-list.json`, `public/posts-list.json`);
+  console.log('Copy dist/posts-list.json');
   fs.copySync(`${process.cwd()}/_article/images`, `public/images`);
   console.log('Copy _article/images');
 }
