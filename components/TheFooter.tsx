@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 const Footer = styled.footer`
+  position: sticky;
+  top: 100vh;
   margin-top: calc(var(--margin-base) * 4);
   padding: 3rem 0;
   background: var(--bg-color--lighter);

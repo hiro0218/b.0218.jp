@@ -5,7 +5,7 @@ import { Post } from '@/types/source';
 
 type Props = Pick<Post, 'note'>;
 
-const Root = styled.a`
+const Root = styled.div`
   display: flex;
   padding: calc(var(--margin-base) * 0.6) calc(var(--margin-base) * 0.8);
   border: 2px solid var(--gray-1);
@@ -16,6 +16,10 @@ const Root = styled.a`
     content: 'Note:';
     margin-right: 0.25em;
     font-weight: bold;
+  }
+
+  &:empty {
+    display: none;
   }
 
   a {

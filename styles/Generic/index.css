@@ -1,2 +1,3 @@
 @import '~shokika.css';
+@import './_reset.css';
 @import './_ui-monospace.css';
