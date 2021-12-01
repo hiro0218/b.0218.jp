@@ -1,6 +1,5 @@
 import '../styles/index.css';
 
-import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -9,14 +8,11 @@ import { Container } from '@/components/layout/Container';
 import TheFooter from '@/components/TheFooter';
 import TheHeader from '@/components/TheHeader';
 import { AUTHOR, SITE } from '@/constant';
+import createEmotionCache from '@/lib/createEmotionCache';
 import usePageView from '@/lib/hooks/usePageView';
 
-const emotionCache = createCache({
-  prefix: false,
-  stylisPlugins: [],
-});
-
 const App = ({ Component, pageProps }: AppProps) => {
+  const clientSideEmotionCache = createEmotionCache();
   usePageView();
 
   return (
@@ -43,7 +39,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}
-      <CacheProvider value={emotionCache}>
+      <CacheProvider value={clientSideEmotionCache}>
         <TheHeader />
         <main>
           <Container>
