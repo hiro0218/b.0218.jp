@@ -1,5 +1,8 @@
-import { extractCritical } from '@emotion/server';
+import createCache from '@emotion/cache';
+import createEmotionServer from '@emotion/server/create-instance';
+import { RenderPageResult } from 'next/dist/shared/lib/utils';
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
+import * as React from 'react';
 
 import { GOOGLE_ADSENSE } from '@/components/Adsense';
 import { AUTHOR, SITE } from '@/constant';
@@ -7,19 +10,36 @@ import { GA_TRACKING_ID } from '@/lib/gtag';
 
 class SampleDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
+    const originalRenderPage = ctx.renderPage;
+
+    const cache = createCache({ key: 'css' });
+    /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+    /* @ts-ignore */
+    const { extractCriticalToChunks } = createEmotionServer(cache);
+
+    ctx.renderPage = (): RenderPageResult | Promise<RenderPageResult> =>
+      originalRenderPage({
+        enhanceApp:
+          (App: any) =>
+          // eslint-disable-next-line react/display-name
+          (props): JSX.Element =>
+            <App emotionCache={cache} {...props} />,
+      });
+
     const initialProps = await Document.getInitialProps(ctx);
-    const styles = extractCritical(initialProps.html);
+    const emotionStyles = extractCriticalToChunks(initialProps.html);
+    const emotionStyleTags = emotionStyles.styles.map((style) => (
+      <style
+        data-emotion={`${style.key} ${style.ids.join(' ')}`}
+        key={style.key}
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: style.css }}
+      />
+    ));
 
     return {
       ...initialProps,
-      styles: (
-        <>
-          {initialProps.styles}
-          {styles.css && (
-            <style data-emotion={`css ${styles.ids.join(' ')}`} dangerouslySetInnerHTML={{ __html: styles.css }} />
-          )}
-        </>
-      ),
+      styles: [...React.Children.toArray(initialProps.styles), ...emotionStyleTags],
     };
   }
 
