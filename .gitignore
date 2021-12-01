@@ -65,6 +65,7 @@ typings/
 # next.js build output
 .next
 public/posts.json
+public/posts-list.json
 public/images
 public/feed.xml
 public/atom.xml

@@ -129,7 +129,7 @@ const html = `
           },
         )
         .then(() => {
-          if (index === 1 || index % 10 === 0 || index === length) {
+          if (index === 1 || index % 100 === 0 || index === length) {
             console.log('Generating OGP Images', `(${index}/${length})`);
           }
         });

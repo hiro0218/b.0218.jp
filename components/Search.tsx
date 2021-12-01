@@ -17,7 +17,7 @@ const Search: FC = () => {
     refInput.current.focus();
 
     (async () => {
-      return await fetch('/posts.json')
+      return await fetch('/posts-list.json')
         .then((response) => response.json())
         .then((json: Array<Post>) => {
           setArchives(json);
