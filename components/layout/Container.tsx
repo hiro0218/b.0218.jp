@@ -1,4 +1,4 @@
-import { css, cx } from '@emotion/css';
+import { css } from '@emotion/react';
 import React, { CSSProperties, memo } from 'react';
 
 type divProps = JSX.IntrinsicElements['div'];
@@ -21,7 +21,7 @@ export const Container = memo(function Container(props: ContainerProps) {
   const { children, ...others } = props;
 
   return (
-    <div className={cx('l-container', cssContainer)} {...others}>
+    <div className="l-container" css={cssContainer} {...others}>
       {children}
     </div>
   );
