@@ -1,11 +1,21 @@
-import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { FC } from 'react';
 
 import { Post } from '@/types/source';
 
 type Props = Pick<Post, 'note'>;
 
-const Root = styled.div`
+const PostNote: FC<Props> = ({ note }) => {
+  if (!note) {
+    return <></>;
+  }
+
+  return <div css={cssPostNote} dangerouslySetInnerHTML={{ __html: note }}></div>;
+};
+
+export default PostNote;
+
+const cssPostNote = css`
   display: flex;
   padding: calc(var(--margin-base) * 0.6) calc(var(--margin-base) * 0.8);
   border: 2px solid var(--gray-1);
@@ -26,13 +36,3 @@ const Root = styled.div`
     text-decoration: underline;
   }
 `;
-
-const PostNote: FC<Props> = ({ note }) => {
-  if (!note) {
-    return <></>;
-  }
-
-  return <Root dangerouslySetInnerHTML={{ __html: note }}></Root>;
-};
-
-export default PostNote;

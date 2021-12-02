@@ -5,7 +5,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
 import { Container } from '@/components/layout/Container';
-import TheFooter from '@/components/TheFooter';
+import { TheFooter } from '@/components/TheFooter';
 import TheHeader from '@/components/TheHeader';
 import { AUTHOR, SITE } from '@/constant';
 import createEmotionCache from '@/lib/createEmotionCache';
