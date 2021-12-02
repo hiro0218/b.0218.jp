@@ -2,6 +2,28 @@ import { css } from '@emotion/react';
 import Link from 'next/link';
 import { FC } from 'react';
 
+export const TheFooter: FC = () => {
+  return (
+    <footer className="footer" css={cssFooter}>
+      <div className="footer-container">
+        <div className="footer-menu-list" role="list">
+          <div className="footer-menu-list__item" role="listitem">
+            <Link href="/about" prefetch={false}>
+              <a>about</a>
+            </Link>
+          </div>
+          <div className="footer-menu-list__item" role="listitem">
+            <Link href="/archive" prefetch={false}>
+              <a>archive</a>
+            </Link>
+          </div>
+        </div>
+        <small>© hiro</small>
+      </div>
+    </footer>
+  );
+};
+
 const cssFooter = css`
   position: sticky;
   top: 100vh;
@@ -46,27 +68,3 @@ const cssFooter = css`
     font-size: 1rem;
   }
 `;
-
-const TheFooter: FC = () => {
-  return (
-    <footer className="footer" css={cssFooter}>
-      <div className="footer-container">
-        <div className="footer-menu-list" role="list">
-          <div className="footer-menu-list__item" role="listitem">
-            <Link href="/about" prefetch={false}>
-              <a>about</a>
-            </Link>
-          </div>
-          <div className="footer-menu-list__item" role="listitem">
-            <Link href="/archive" prefetch={false}>
-              <a>archive</a>
-            </Link>
-          </div>
-        </div>
-        <small>© hiro</small>
-      </div>
-    </footer>
-  );
-};
-
-export default TheFooter;
