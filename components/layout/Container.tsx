@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { css, cx } from '@emotion/css';
 import React, { CSSProperties, memo } from 'react';
 
 type divProps = JSX.IntrinsicElements['div'];
@@ -7,7 +7,7 @@ export interface ContainerProps extends divProps {
   children?: React.ReactNode;
 }
 
-const Root = styled.div<ContainerProps>`
+const cssContainer = css`
   max-width: var(--container-width);
   margin: var(--margin-base) auto 0;
   transition: padding 0.1s ease-in-out;
@@ -21,8 +21,8 @@ export const Container = memo(function Container(props: ContainerProps) {
   const { children, ...others } = props;
 
   return (
-    <Root className="l-container" {...others}>
+    <div className={cx('l-container', cssContainer)} {...others}>
       {children}
-    </Root>
+    </div>
   );
 });
