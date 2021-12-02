@@ -51,7 +51,7 @@ const cssFooter = css`
   }
 
   .footer-menu-list__item {
-    &:not(:first-child) {
+    &:not(:first-of-type) {
       margin-left: 1em;
     }
   }
