@@ -19,11 +19,8 @@ class SampleDocument extends Document {
 
     ctx.renderPage = (): RenderPageResult | Promise<RenderPageResult> =>
       originalRenderPage({
-        enhanceApp:
-          (App: any) =>
-          // eslint-disable-next-line react/display-name
-          (props): JSX.Element =>
-            <App emotionCache={cache} {...props} />,
+        // eslint-disable-next-line react/display-name, @typescript-eslint/no-explicit-any
+        enhanceApp: (App: any) => (props) => <App emotionCache={cache} {...props} />,
       });
 
     const initialProps = await Document.getInitialProps(ctx);
