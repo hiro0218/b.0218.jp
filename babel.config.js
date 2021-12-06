@@ -7,6 +7,7 @@ module.exports = {
         'preset-env': {
           modules: false,
           useBuiltIns: 'usage',
+          corejs: 3,
         },
         'preset-react': {
           runtime: 'automatic',
