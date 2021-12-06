@@ -78,7 +78,7 @@
     "remark-external-links": "^9.0.1",
     "remark-gfm": "^3.0.1",
     "remark-parse": "^10.0.1",
-    "remark-rehype": "^10.0.1",
+    "remark-rehype": "^10.1.0",
     "remark-unwrap-images": "^3.0.1",
     "storybook-addon-next-router": "^3.0.10",
     "storybook-addon-turbo-build": "^1.0.1",
