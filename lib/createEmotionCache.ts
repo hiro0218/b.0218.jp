@@ -1,5 +1,5 @@
 import createCache from '@emotion/cache';
 
 export default function createEmotionCache() {
-  return createCache({ key: 'css', prefix: false, stylisPlugins: [] });
+  return createCache({ key: 'css', stylisPlugins: [] });
 }
