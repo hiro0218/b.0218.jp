@@ -80,7 +80,7 @@
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
     "remark-unwrap-images": "^3.0.1",
-    "storybook-addon-next-router": "^3.0.10",
+    "storybook-addon-next-router": "^3.1.0",
     "storybook-addon-turbo-build": "^1.0.1",
     "stylelint": "^14.1.0",
     "stylelint-config-property-sort-order-smacss": "^8.0.0",
