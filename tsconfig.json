@@ -24,7 +24,8 @@
       ]
     },
     "incremental": true,
-    "jsxImportSource": "@emotion/react"
+    "jsxImportSource": "@emotion/react",
+    "noErrorTruncation": true
   },
   "typeRoots": [
     "node_modules/@types",
