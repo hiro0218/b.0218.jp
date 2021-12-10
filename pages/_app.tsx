@@ -4,6 +4,7 @@ import { CacheProvider } from '@emotion/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
+import { CSSReset } from '@/components/CSSReset';
 import { Container } from '@/components/layout/Container';
 import { TheFooter } from '@/components/TheFooter';
 import TheHeader from '@/components/TheHeader';
@@ -40,6 +41,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}
       <CacheProvider value={clientSideEmotionCache}>
+        <CSSReset />
         <TheHeader />
         <main>
           <Container>
