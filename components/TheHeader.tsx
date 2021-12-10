@@ -90,7 +90,7 @@ const TheHeader: FC = () => {
         <div className="pj-header-container">
           <Link href="/" prefetch={false}>
             <a className="pj-header__logo">
-              <img src="/logo.svg" width="80" alt={SITE.NAME} />
+              <img src="/logo.svg" width="80" height="25" alt={SITE.NAME} />
             </a>
           </Link>
           <button type="button" className="pj-header-search" aria-label="Search" onClick={openModal}>
