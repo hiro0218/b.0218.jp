@@ -38,8 +38,6 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta name="author" content={AUTHOR.NAME} />
       </Head>
 
-      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-      {/* @ts-ignore */}
       <CacheProvider value={clientSideEmotionCache}>
         <CSSReset />
         <TheHeader />
