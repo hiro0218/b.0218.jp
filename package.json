@@ -63,7 +63,7 @@
     "husky": "^7.0.4",
     "lint-staged": "^12.1.2",
     "next-compose-plugins": "^2.2.1",
-    "postcss": "^8.4.4",
+    "postcss": "^8.4.5",
     "postcss-calc": "^8.0.0",
     "postcss-custom-media": "^8.0.0",
     "postcss-extend": "^1.0.5",
