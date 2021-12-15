@@ -52,6 +52,12 @@ class SampleDocument extends Document {
           <link rel="icon" type="image/x-icon" href="/favicon.ico" />
           <link rel="alternate" type="application/rss+xml" href="https://b.0218.jp/feed.xml" />
           <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Source+Code+Pro&display=swap"
+            rel="stylesheet"
+          />
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
