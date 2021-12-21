@@ -90,7 +90,6 @@ const TheHeader: FC = () => {
         <div className="pj-header-container">
           <Link href="/" prefetch={false}>
             <a className="pj-header__logo">
-              {/* <img src="/logo.svg" width="80" height="25" alt={SITE.NAME} /> */}
               <Logo width="80" height="25" />
             </a>
           </Link>
