@@ -85,7 +85,7 @@
     "remark-unwrap-images": "^3.0.1",
     "storybook-addon-next-router": "^3.1.1",
     "storybook-addon-turbo-build": "^1.0.1",
-    "stylelint": "^14.1.0",
+    "stylelint": "^14.2.0",
     "stylelint-config-property-sort-order-smacss": "^8.0.0",
     "stylelint-config-recommended": "^6.0.0",
     "stylelint-declaration-block-no-ignored-properties": "^2.5.0",
