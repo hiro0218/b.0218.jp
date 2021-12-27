@@ -44,7 +44,7 @@
     "@types/react": "^17.0.38",
     "@types/react-modal": "^3.13.1",
     "@types/twitter-for-web": "^0.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/eslint-plugin": "^5.8.0",
     "babel-loader": "^8.2.3",
     "budoux": "^0.0.3",
     "critters": "^0.0.15",
