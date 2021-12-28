@@ -4,8 +4,8 @@ import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 import ReactModal from 'react-modal';
 
+import { Logo } from '@/components/Logo';
 import Search from '@/components/Search';
-import { SITE } from '@/constant';
 
 ReactModal.setAppElement('#__next');
 const customStyles = {
@@ -90,7 +90,8 @@ const TheHeader: FC = () => {
         <div className="pj-header-container">
           <Link href="/" prefetch={false}>
             <a className="pj-header__logo">
-              <img src="/logo.svg" width="80" height="25" alt={SITE.NAME} />
+              {/* <img src="/logo.svg" width="80" height="25" alt={SITE.NAME} /> */}
+              <Logo width="80" height="25" />
             </a>
           </Link>
           <button type="button" className="pj-header-search" aria-label="Search" onClick={openModal}>

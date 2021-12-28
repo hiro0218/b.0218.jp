@@ -13,8 +13,6 @@ class SampleDocument extends Document {
     const originalRenderPage = ctx.renderPage;
 
     const cache = createEmotionCache();
-    /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-    /* @ts-ignore */
     const { extractCriticalToChunks } = createEmotionServer(cache);
 
     ctx.renderPage = (): RenderPageResult | Promise<RenderPageResult> =>
