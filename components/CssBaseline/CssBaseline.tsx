@@ -1,7 +1,7 @@
 import { css, Global } from '@emotion/react';
 
-import resetStyle from './Generic/reset';
-import variableStyle from './Settings/variables';
+import resetStyle from './Generic';
+import variableStyle from './Settings';
 
 const globalStyle = css`
   ${variableStyle}
