@@ -5,4 +5,8 @@ const globalStyle = css`
   ${resetCSS}
 `;
 
-export const CSSReset = () => <Global styles={globalStyle} />;
+const CssBaseline = () => {
+  return <Global styles={globalStyle} />;
+};
+
+export default CssBaseline;
