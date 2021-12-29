@@ -1,8 +1,11 @@
 import { css, Global } from '@emotion/react';
-import resetCSS from 'shokika.css/dist/string';
+
+import resetStyle from './Generic/reset';
+import variableStyle from './Settings/variables';
 
 const globalStyle = css`
-  ${resetCSS}
+  ${variableStyle}
+  ${resetStyle}
 `;
 
 const CssBaseline = () => {
