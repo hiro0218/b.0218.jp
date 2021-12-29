@@ -3,7 +3,7 @@ const withPlugins = require('next-compose-plugins');
 /** @type {import('next').NextConfig} */
 const nextConfiguration = {
   env: {
-    NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'UA-50805440-1',
+    NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'G-J5F29GMZHX',
   },
 
   experimental: {
