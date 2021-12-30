@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 
@@ -20,7 +21,7 @@ const Adsense: FC = () => {
   }, [asPath]);
 
   return (
-    <div key={asPath} className="c-adsense">
+    <Ads key={asPath}>
       <ins
         className="adsbygoogle"
         style={{ display: 'block', textAlign: 'center' }}
@@ -29,8 +30,18 @@ const Adsense: FC = () => {
         data-ad-client={GOOGLE_ADSENSE.CLIENT}
         data-ad-slot={GOOGLE_ADSENSE.SLOT}
       />
-    </div>
+    </Ads>
   );
 };
 
 export default Adsense;
+
+const Ads = styled.div`
+  max-width: 336px;
+  height: 280px;
+  margin: 2rem auto;
+
+  @media (max-width: 959px) {
+    min-height: 100px;
+  }
+`;
