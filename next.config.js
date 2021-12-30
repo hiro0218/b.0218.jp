@@ -6,10 +6,6 @@ const nextConfiguration = {
     NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'G-J5F29GMZHX',
   },
 
-  experimental: {
-    optimizeCss: true,
-  },
-
   future: {
     strictPostcssConfiguration: true,
   },
