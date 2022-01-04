@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 
+import { mobile } from '@/lib/mediaQuery';
+
 export const GOOGLE_ADSENSE = {
   LAYOUT: 'in-article',
   FORMAT: 'fluid',
@@ -41,7 +43,7 @@ const Ads = styled.div`
   height: 280px;
   margin: 2rem auto;
 
-  @media (max-width: 959px) {
+  ${mobile} {
     min-height: 100px;
   }
 `;

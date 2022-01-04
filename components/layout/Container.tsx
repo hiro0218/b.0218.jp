@@ -1,6 +1,8 @@
 import { css } from '@emotion/react';
 import React, { CSSProperties, memo } from 'react';
 
+import { mobile } from '@/lib/mediaQuery';
+
 type divProps = JSX.IntrinsicElements['div'];
 export interface ContainerProps extends divProps {
   style?: CSSProperties;
@@ -22,7 +24,7 @@ const cssContainer = css`
   margin: var(--margin-base) auto 0;
   transition: padding 0.1s ease-in-out;
 
-  @media (max-width: 959px) {
+  ${mobile} {
     padding: 0 5vw;
   }
 `;

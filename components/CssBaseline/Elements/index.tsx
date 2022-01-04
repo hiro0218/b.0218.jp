@@ -1,5 +1,7 @@
 import { css } from '@emotion/react';
 
+import { mobile } from '@/lib/mediaQuery';
+
 export default css`
   // global
   ::selection {
@@ -20,7 +22,7 @@ export default css`
     line-height: 1.75;
     font-feature-settings: 'palt' 1;
 
-    @media (--mobile-viewport) {
+    ${mobile} {
       font-size: 0.95rem;
     }
 
@@ -149,7 +151,7 @@ export default css`
     width: 100%;
     background: #fff;
 
-    @media (--mobile-viewport) {
+    ${mobile} {
       table-layout: fixed;
     }
   }
@@ -160,7 +162,7 @@ export default css`
     border-top: var(--table-border-width) solid var(--table-border-color);
     vertical-align: top;
 
-    @media (--mobile-viewport) {
+    ${mobile} {
       white-space: nowrap;
     }
   }
