@@ -1,42 +1,46 @@
+import { CacheProvider } from '@emotion/react';
 import createEmotionServer from '@emotion/server/create-instance';
 import { RenderPageResult } from 'next/dist/shared/lib/utils';
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
-import * as React from 'react';
 
 import { GOOGLE_ADSENSE } from '@/components/Adsense';
 import { AUTHOR, SITE } from '@/constant';
 import createEmotionCache from '@/lib/createEmotionCache';
 import { GA_TRACKING_ID } from '@/lib/gtag';
-
+import { processPostCSS } from '@/lib/postcss';
 class SampleDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const originalRenderPage = ctx.renderPage;
 
     const cache = createEmotionCache();
-    const { extractCriticalToChunks } = createEmotionServer(cache);
+    const { extractCritical } = createEmotionServer(cache);
 
     ctx.renderPage = (): RenderPageResult | Promise<RenderPageResult> =>
       originalRenderPage({
-        // eslint-disable-next-line react/display-name, @typescript-eslint/no-explicit-any
-        enhanceApp: (App: any) => (props) => <App emotionCache={cache} {...props} />,
+        // eslint-disable-next-line react/display-name
+        enhanceComponent: (Component) => (props) =>
+          (
+            <CacheProvider value={cache}>
+              <Component {...props} />
+            </CacheProvider>
+          ),
       });
 
     const initialProps = await Document.getInitialProps(ctx);
-    const emotionStyles = extractCriticalToChunks(initialProps.html);
-    const emotionStyleTags = emotionStyles.styles.map(
-      (style) =>
-        style.css && (
-          <style
-            data-emotion={`${style.key} ${style.ids.join(' ')}`}
-            key={style.key}
-            dangerouslySetInnerHTML={{ __html: style.css }}
-          />
-        ),
-    );
+    const emotionStyles = extractCritical(initialProps.html);
+    const processedStyle = await processPostCSS(emotionStyles.css);
 
     return {
       ...initialProps,
-      styles: [...React.Children.toArray(initialProps.styles), ...emotionStyleTags],
+      styles: (
+        <>
+          {initialProps.styles}
+          <style
+            data-emotion={emotionStyles.ids.join(' ')}
+            dangerouslySetInnerHTML={{ __html: processedStyle }}
+          ></style>
+        </>
+      ),
     };
   }
 

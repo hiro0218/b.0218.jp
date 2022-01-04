@@ -2,6 +2,8 @@ import { css } from '@emotion/react';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import { mobile } from '@/lib/mediaQuery';
+
 export const TheFooter: FC = () => {
   return (
     <footer className="footer" css={cssFooter}>
@@ -41,7 +43,7 @@ const cssFooter = css`
     margin: 0 auto;
     transition: padding 0.1s ease-in-out;
 
-    @media (max-width: 959px) {
+    ${mobile} {
       padding: 0 5vw;
     }
   }

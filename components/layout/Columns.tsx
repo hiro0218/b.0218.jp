@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React, { CSSProperties, memo } from 'react';
 
 import Heading from '@/components/Heading';
+import { desktop, mobile } from '@/lib/mediaQuery';
 
 type divProps = JSX.IntrinsicElements['div'];
 export interface ContainerProps extends divProps {
@@ -11,21 +12,18 @@ export interface ContainerProps extends divProps {
 }
 
 const Root = styled.section`
-  /* desktop */
-  @media (min-width: 960px) {
+  ${desktop} {
     display: flex;
   }
 `;
 
 const Col = {
   Title: styled.div`
-    /* mobile */
-    @media (max-width: 959px) {
+    ${mobile} {
       margin-bottom: 1rem;
     }
 
-    /* desktop */
-    @media (min-width: 960px) {
+    ${desktop} {
       position: sticky;
       top: calc(var(--header-height) + 0.5rem);
       width: 29.28%;
@@ -33,8 +31,7 @@ const Col = {
     }
   `,
   Main: styled.div`
-    /* desktop */
-    @media (min-width: 960px) {
+    ${desktop} {
       width: 70.72%;
     }
   `,

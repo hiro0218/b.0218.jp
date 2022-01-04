@@ -1,5 +1,8 @@
+import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
+
+import { mobile } from '@/lib/mediaQuery';
 
 export const GOOGLE_ADSENSE = {
   LAYOUT: 'in-article',
@@ -20,7 +23,7 @@ const Adsense: FC = () => {
   }, [asPath]);
 
   return (
-    <div key={asPath} className="c-adsense">
+    <Ads key={asPath}>
       <ins
         className="adsbygoogle"
         style={{ display: 'block', textAlign: 'center' }}
@@ -29,8 +32,18 @@ const Adsense: FC = () => {
         data-ad-client={GOOGLE_ADSENSE.CLIENT}
         data-ad-slot={GOOGLE_ADSENSE.SLOT}
       />
-    </div>
+    </Ads>
   );
 };
 
 export default Adsense;
+
+const Ads = styled.div`
+  max-width: 336px;
+  height: 280px;
+  margin: 2rem auto;
+
+  ${mobile} {
+    min-height: 100px;
+  }
+`;
