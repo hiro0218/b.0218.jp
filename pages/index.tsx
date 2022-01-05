@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 import Heading from '@/components/Heading';
 import { Columns } from '@/components/layout/Columns';
+import { PageContentContainer } from '@/components/layout/PageContentContainer';
 import { Stack } from '@/components/layout/Stack';
 import LinkCard from '@/components/LinkCard';
 import { getPostsListJson, getTermJson } from '@/lib/posts';
@@ -26,7 +27,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
         <Heading text={'Home'} />
       </header>
 
-      <section className="p-home">
+      <PageContentContainer>
         <Columns title={'Recent Articles'}>
           <Stack direction="column" gap="calc(var(--margin-base) * 0.25) 0" role="list">
             {recentPosts.map((post, index) => (
@@ -74,7 +75,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
             })}
           </Stack>
         </Columns>
-      </section>
+      </PageContentContainer>
     </>
   );
 };

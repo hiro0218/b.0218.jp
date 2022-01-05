@@ -3,6 +3,7 @@ import Head from 'next/head';
 
 import Heading from '@/components/Heading';
 import { Columns } from '@/components/layout/Columns';
+import { PageContentContainer } from '@/components/layout/PageContentContainer';
 import { Stack } from '@/components/layout/Stack';
 import LinkCard from '@/components/LinkCard';
 import { SITE } from '@/constant';
@@ -56,7 +57,7 @@ const Archive: NextPage<Props> = ({ archives }) => {
           <Heading text={'Archive'} textSide={`${archives.length}件`} />
         </header>
 
-        <section className="p-archive__contents">
+        <PageContentContainer>
           {Object.keys(posts).map((key: string) => {
             return (
               <Columns key={key} title={key}>
@@ -85,7 +86,7 @@ const Archive: NextPage<Props> = ({ archives }) => {
               </Columns>
             );
           })}
-        </section>
+        </PageContentContainer>
       </article>
     </>
   );
