@@ -52,7 +52,7 @@ const Archive: NextPage<Props> = ({ archives }) => {
         <title key="title">Archive - {SITE.NAME}</title>
       </Head>
 
-      <article className="p-archive">
+      <article>
         <header>
           <Heading text={'Archive'} textSide={`${archives.length}件`} />
         </header>
