@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
 import Adsense from '@/components/Adsense';
+import { PageContentContainer } from '@/components/layout/PageContentContainer';
 import { getPostsJson } from '@/lib/posts';
 const PostPager = dynamic(() => import('@/components/PostPager'));
 const PostShare = dynamic(() => import('@/components/post/share'));
@@ -62,29 +63,31 @@ const Post: NextPage<Props> = ({ post }) => {
           <PostHeader post={post} />
         </header>
 
-        <Adsense />
+        <PageContentContainer>
+          <Adsense />
 
-        <PostNote note={post.note} />
+          <PostNote note={post.note} />
 
-        <Mokuji refContent={refContent} />
+          <Mokuji refContent={refContent} />
 
-        <div
-          ref={refContent}
-          className="p-post__content"
-          itemProp="articleBody"
-          dangerouslySetInnerHTML={{
-            __html: `${post.content}`,
-          }}
-        />
+          <div
+            ref={refContent}
+            className="p-post__content"
+            itemProp="articleBody"
+            dangerouslySetInnerHTML={{
+              __html: `${post.content}`,
+            }}
+          />
+
+          <div>
+            <PostShare title={post.title} url={permalink} />
+          </div>
+
+          <div>
+            <PostPager next={post.next} prev={post.prev} />
+          </div>
+        </PageContentContainer>
       </article>
-
-      <div className="p-post__share">
-        <PostShare title={post.title} url={permalink} />
-      </div>
-
-      <div className="p-post__pager">
-        <PostPager next={post.next} prev={post.prev} />
-      </div>
     </>
   );
 };

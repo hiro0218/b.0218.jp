@@ -1,5 +1,4 @@
 .p-post__content {
-  margin: calc(var(--margin-base) * 3) auto 0;
 
   & > *:first-child {
     margin-top: 0;
@@ -142,12 +141,4 @@
   overflow: hidden;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-}
-
-.p-post__share {
-  margin-top: calc(var(--margin-base) * 3);
-}
-
-.p-post__pager {
-  margin-top: calc(var(--margin-base) * 2);
 }
