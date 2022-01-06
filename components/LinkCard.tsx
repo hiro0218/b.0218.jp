@@ -1,7 +1,9 @@
+import { css } from '@emotion/react';
 import Link from 'next/link';
 import { FC } from 'react';
 import { HiOutlineChevronRight } from 'react-icons/hi';
 
+import { mobile } from '@/lib/mediaQuery';
 import { convertDateToSimpleFormat } from '@/utils/date';
 
 interface Props {
@@ -14,8 +16,8 @@ interface Props {
 
 const LinkCard: FC<Props> = ({ link, title, date, excerpt, target = false }) => {
   return (
-    <Link href={link} prefetch={false}>
-      <a className="link-card" {...(target && { target: '_blank' })}>
+    <Link href={link} prefetch={false} passHref>
+      <a className="link-card" css={cssLinkCard} {...(target && { target: '_blank' })}>
         <div className="link-card-main">
           <h3 className="link-card__title">{title}</h3>
           <div className="link-card__text">
@@ -57,3 +59,73 @@ const LinkCard: FC<Props> = ({ link, title, date, excerpt, target = false }) => 
 };
 
 export default LinkCard;
+
+const cssLinkCard = css`
+  display: flex;
+  height: 100%;
+  margin: 0 calc(var(--margin-base) * -0.6);
+  padding: calc(var(--margin-base) * 0.6) calc(var(--margin-base) * 0.8);
+  transition: background 0.2s ease, box-shadow 0.4s ease;
+  border-radius: 0.25rem;
+  color: var(--color-text-heading);
+  font-size: var(--font-size-sm);
+
+  ${mobile} {
+    padding: calc(var(--margin-base) * 0.6);
+  }
+
+  &:hover {
+    background: var(--bg-color--lighter);
+    box-shadow: 0 0 0 0.25rem var(--bg-color--lighter);
+  }
+
+  .link-card-main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+
+  .link-card__title {
+    color: var(--color-text-heading);
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .link-card__text {
+    margin-top: 0.25rem;
+    overflow: hidden;
+    color: var(--color-text-description);
+    letter-spacing: 0.025em;
+    line-height: 1.8;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+  }
+
+  .link-card__date {
+    &:not(:only-child) {
+      &::after {
+        content: ' — ';
+      }
+    }
+  }
+
+  .link-card-icon {
+    display: flex;
+    align-items: center;
+    padding-left: calc(var(--margin-base) * 0.4);
+  }
+
+  .link-card-icon__arrow {
+    display: flex;
+    align-items: center;
+    color: var(--bg-color--dark);
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+`;
