@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import React, { CSSProperties, memo } from 'react';
 
-import Heading from '@/components/Heading';
 import { desktop, mobile } from '@/lib/mediaQuery';
 
 type divProps = JSX.IntrinsicElements['div'];
@@ -37,13 +36,18 @@ const Col = {
   `,
 };
 
+const TitleText = styled.h2`
+  color: var(--color-text--light);
+  font-weight: 500;
+`;
+
 export const Columns = memo(function Columns(props: ContainerProps) {
   const { title, children, ...others } = props;
 
   return (
     <Root className="l-columns" {...others}>
       <Col.Title>
-        <Heading tagName={'h2'} text={title} isWeightNormal={true} />
+        <TitleText>{title}</TitleText>
       </Col.Title>
       <Col.Main>{children}</Col.Main>
     </Root>
