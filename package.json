@@ -47,7 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "babel-loader": "^8.2.3",
     "budoux": "^0.0.3",
-    "cssnano": "^5.0.14",
+    "cssnano": "^5.0.15",
     "csstype": "^3.0.10",
     "esbuild": "^0.14.10",
     "esbuild-register": "^3.3.1",
