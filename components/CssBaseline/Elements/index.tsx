@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { mobile } from '@/lib/mediaQuery';
 
 export default css`
-  // global
+  /* global */
   ::selection {
     background-color: rgba(0, 0, 0, 0.1);
   }
@@ -69,7 +69,7 @@ export default css`
     list-style: decimal;
   }
 
-  // typography
+  /* typography */
   h1,
   h2,
   h3,
@@ -103,7 +103,7 @@ export default css`
     background-color: var(--mark-bg-color);
   }
 
-  // code
+  /* code */
   pre,
   code {
     font-family: var(--font-family-monospace);
@@ -146,7 +146,7 @@ export default css`
     font-size: var(--font-size-sm);
   }
 
-  // table
+  /* table */
   table {
     width: 100%;
     background: #fff;
