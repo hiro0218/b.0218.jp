@@ -1,6 +1,10 @@
 /** @type {import('stylelint').Configuration} */
 module.exports = {
-  extends: ['stylelint-config-recommended', 'stylelint-config-property-sort-order-smacss'],
+  extends: [
+    'stylelint-config-recommended',
+    'stylelint-config-property-sort-order-smacss',
+    'stylelint-config-prettier',
+  ],
   plugins: ['stylelint-declaration-block-no-ignored-properties'],
   rules: {
     'plugin/declaration-block-no-ignored-properties': true,
@@ -24,7 +28,6 @@ module.exports = {
     'selector-list-comma-space-before': 'never',
     'selector-list-comma-newline-after': 'always',
     'selector-pseudo-element-colon-notation': 'double',
-    'value-list-comma-newline-after': 'always-multi-line',
     'value-list-comma-space-after': 'always-single-line',
     'value-list-comma-space-before': 'never',
     'declaration-block-trailing-semicolon': 'always',
@@ -32,12 +35,11 @@ module.exports = {
     'declaration-block-semicolon-newline-before': 'never-multi-line',
     'declaration-block-semicolon-space-after': 'always-single-line',
     'no-extra-semicolons': true,
-    'no-missing-end-of-source-newline': true,
     'at-rule-no-unknown': [true, { ignoreAtRules: ['extend'] }],
   },
   overrides: [
     {
-      files: ['**/*.{jsx,tsx}'],
+      files: ['**/*.{ts,jsx,tsx}'],
       customSyntax: '@hiro0218/postcss-css-in-js',
     },
   ],
