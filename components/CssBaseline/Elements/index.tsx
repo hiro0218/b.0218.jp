@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 
 import { mobile } from '@/lib/mediaQuery';
+import { getModularScale } from '@/lib/modular-scale';
 
 export default css`
   /* global */
@@ -81,22 +82,20 @@ export default css`
   }
 
   h1 {
-    font-size: var(--h1-font-size);
+    font-size: ${getModularScale({ degree: 4 })};
   }
   h2 {
-    font-size: var(--h2-font-size);
+    font-size: ${getModularScale({ degree: 3 })};
   }
   h3 {
-    font-size: var(--h3-font-size);
+    font-size: ${getModularScale({ degree: 2 })};
   }
   h4 {
-    font-size: var(--h4-font-size);
+    font-size: ${getModularScale({ degree: 1 })};
   }
-  h5 {
-    font-size: var(--h5-font-size);
-  }
+  h5,
   h6 {
-    font-size: var(--h6-font-size);
+    font-size: ${getModularScale({ degree: 0 })};
   }
 
   mark {

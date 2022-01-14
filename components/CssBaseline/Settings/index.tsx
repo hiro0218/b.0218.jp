@@ -1,5 +1,7 @@
 import { css } from '@emotion/react';
 
+import { getModularScale } from '@/lib/modular-scale';
+
 export default css`
   :root {
     --background: #fff;
@@ -45,17 +47,9 @@ export default css`
       -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --font-family-monospace: ui-monospace, SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
 
-    --font-size-xs: calc(1em * 6 / 8);
-    --font-size-sm: calc(1em * 6 / 7);
-    --font-size-md: calc(1em * 6 / 6);
-    --font-size-lg: calc(1em * 6 / 5);
-
-    --h1-font-size: calc(1em * 6 / 3); /* 2em */
-    --h2-font-size: calc(1em * 6 / 4); /* 1.5em */
-    --h3-font-size: calc(1em * 6 / 5); /* 1.2em */
-    --h4-font-size: calc(1em * 6 / 6); /* 1rem */
-    --h5-font-size: calc(1em * 6 / 7); /* 0.85714em */
-    --h6-font-size: calc(1em * 6 / 8); /* 0.75em */
+    --font-size-sm: ${getModularScale({ degree: -1 })};
+    --font-size-md: ${getModularScale({ degree: 0 })};
+    --font-size-lg: ${getModularScale({ degree: 1 })};
 
     /* margin */
     --margin-base: 1.5rem;
