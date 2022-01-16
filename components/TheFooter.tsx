@@ -29,8 +29,8 @@ export const TheFooter: FC = () => {
 const cssFooter = css`
   position: sticky;
   top: 100vh;
-  margin-top: calc(var(--margin-base) * 4);
-  padding: calc(var(--margin-base) * 2) 0;
+  margin-top: var(--space-x-lg);
+  padding: var(--space-x-lg) 0;
   background: var(--bg-color--lighter);
   color: var(--color-text--light);
   line-height: 1;

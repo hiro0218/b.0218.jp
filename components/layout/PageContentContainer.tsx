@@ -18,9 +18,9 @@ export const PageContentContainer = memo(function Container(props: ContainerProp
 });
 
 const cssContainer = css`
-  margin-top: calc(var(--margin-base) * 1);
+  margin-top: var(--space-md);
 
   > * + * {
-    margin-top: calc(var(--margin-base) * 2);
+    margin-top: var(--space-lg);
   }
 `;

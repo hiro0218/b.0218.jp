@@ -1,5 +1,4 @@
 .c-mokuji {
-  margin: calc(var(--margin-base) * 2) 0;
   border: 2px solid var(--bg-color--light);
   border-radius: 0.25rem;
   color: var(--color-text--light);

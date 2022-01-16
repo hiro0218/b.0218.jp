@@ -1,5 +1,10 @@
 .p-post__content {
 
+  & > * {
+    margin-top: var(--space-sm);
+    margin-bottom: var(--space-sm);
+  }
+
   & > *:first-child {
     margin-top: 0;
   }
@@ -53,22 +58,19 @@
   }
 
   h2 {
-    margin: calc(var(--margin-base) * 2) auto  calc(var(--margin-base) * 1);
+    margin: var(--space-x-lg) auto var(--space-sm);
   }
 
-  h3 {
-    margin: calc(var(--margin-base) * 1.75) auto calc(var(--margin-base) * 0.75);
-  }
-
+  h3,
   h4,
   h5,
   h6 {
-    margin: calc(var(--margin-base) * 1.5) auto calc(var(--margin-base) * 0.5);
+    margin: var(--space-lg) auto var(--space-sm);
   }
 
   ul,
   ol {
-    margin: 1rem 0;
+    margin: var(--space-md) 0;
     padding-left: 2rem;
     letter-spacing: 0.05em;
 
@@ -93,14 +95,12 @@
   }
 
   > p {
-    margin: var(--margin-base) 0 var(--margin-base);
     letter-spacing: 0.05em;
     line-height: 2;
     word-break: break-all;
   }
 
   blockquote {
-    margin: var(--margin-base) 0 var(--margin-base);
     padding: 1em 1.5em 1em;
     border-left: 2px solid var(--bg-color--light);
     color: var(--color-text--light);
@@ -112,20 +112,15 @@
     }
   }
 
-  & pre {
-    margin: var(--margin-base) 0;
-  }
-
   & iframe {
     aspect-ratio: 16 / 9;
-    margin: var(--margin-base) auto;
   }
 
   & hr {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: calc(var(--margin-base) * 1.5) 0;
+    margin: var(--space-x-lg) 0;
     border: 0;
 
     &::before {
@@ -137,7 +132,6 @@
 }
 
 .p-post-table-container {
-  margin: calc(var(--margin-base) * 2) 0;
   overflow: hidden;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;

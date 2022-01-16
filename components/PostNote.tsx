@@ -17,7 +17,7 @@ export default PostNote;
 
 const cssPostNote = css`
   display: flex;
-  padding: calc(var(--margin-base) * 0.6) calc(var(--margin-base) * 0.8);
+  padding: var(--space-sm) var(--space-x-sm);
   border: 2px solid var(--gray-1);
   border-radius: 0.25rem;
   line-height: 1.8;

@@ -21,7 +21,7 @@ export const Container = memo(function Container(props: ContainerProps) {
 
 const cssContainer = css`
   max-width: var(--container-width);
-  margin: var(--margin-base) auto 0;
+  margin: var(--space-md) auto 0;
   transition: padding 0.1s ease-in-out;
 
   ${mobile} {

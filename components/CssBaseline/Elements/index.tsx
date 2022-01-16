@@ -46,16 +46,15 @@ export default css`
   }
 
   figure {
-    margin: var(--margin-base) 0;
     text-align: center;
 
     & img {
       margin-right: auto;
-      margin-bottom: calc(var(--margin-base) * 0.5);
       margin-left: auto;
     }
 
     & figcaption {
+      margin-top: var(--space-x-sm);
       color: var(--color-text--lighter);
       font-size: var(--font-size-sm);
       text-align: center;
