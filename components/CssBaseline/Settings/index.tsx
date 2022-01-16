@@ -54,6 +54,13 @@ export default css`
     /* margin */
     --margin-base: 1.5rem;
 
+    /* space */
+    --space-x-sm: ${getModularScale({ baseFontSize: '1.5rem', degree: -4 })};
+    --space-sm: ${getModularScale({ baseFontSize: '1.5rem', degree: -2 })};
+    --space-md: ${getModularScale({ baseFontSize: '1.5rem', degree: 0 })};
+    --space-lg: ${getModularScale({ baseFontSize: '1.5rem', degree: 2 })};
+    --space-x-lg: ${getModularScale({ baseFontSize: '1.5rem', degree: 4 })};
+
     /* header */
     --header-height: calc(var(--margin-base) * 3);
 
