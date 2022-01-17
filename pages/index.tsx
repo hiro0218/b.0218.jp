@@ -3,9 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 import Heading from '@/components/Heading';
-import { Columns } from '@/components/layout/Columns';
-import { PageContentContainer } from '@/components/layout/PageContentContainer';
-import { Stack } from '@/components/layout/Stack';
+import { Columns, PageContentContainer, Stack } from '@/components/layout';
 import LinkCard from '@/components/LinkCard';
 import { getPostsListJson, getTermJson } from '@/lib/posts';
 import { Post as PropsPost } from '@/types/source';

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 import { FaTwitter } from 'react-icons/fa';
 
-import { Stack } from '@/components/layout/Stack';
+import { Stack } from '@/components/layout';
 
 interface Props {
   title: string;

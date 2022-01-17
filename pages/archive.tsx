@@ -2,9 +2,7 @@ import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
 import Heading from '@/components/Heading';
-import { Columns } from '@/components/layout/Columns';
-import { PageContentContainer } from '@/components/layout/PageContentContainer';
-import { Stack } from '@/components/layout/Stack';
+import { Columns, PageContentContainer, Stack } from '@/components/layout';
 import LinkCard from '@/components/LinkCard';
 import { SITE } from '@/constant';
 import { getPostsListJson } from '@/lib/posts';
