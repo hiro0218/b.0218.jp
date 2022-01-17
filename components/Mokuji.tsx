@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import { Mokuji as MokujiJs } from 'mokuji.js';
 import { useRouter } from 'next/router';
 import { MutableRefObject, useEffect, useRef } from 'react';
@@ -25,12 +26,64 @@ const Mokuji = ({ refContent }: { refContent: MutableRefObject<HTMLDivElement> }
   }, [asPath, refContent]);
 
   return (
-    <div key={asPath} ref={refMokuji} className="c-mokuji">
+    <Root key={asPath} ref={refMokuji} className="c-mokuji">
       <details ref={refDetail}>
-        <summary></summary>
+        <Summary />
       </details>
-    </div>
+    </Root>
   );
 };
 
 export default Mokuji;
+
+const Root = styled.div`
+  border: 2px solid var(--bg-color--light);
+  border-radius: 0.25rem;
+  color: var(--color-text--light);
+  font-size: var(--font-size-sm);
+
+  a {
+    color: inherit;
+  }
+
+  ol {
+    list-style: none;
+    counter-reset: number;
+
+    & li {
+      margin-bottom: 0.625rem;
+      list-style: none;
+
+      &::before {
+        content: counters(number, '-') '. ';
+        counter-increment: number;
+      }
+    }
+
+    & ol {
+      margin: 0.5rem 0;
+      padding-left: 1.25em;
+    }
+  }
+
+  .c-mokuji__list {
+    margin: 0;
+    padding: 0.75rem 1.5rem 1rem;
+
+    > li > a {
+      font-weight: bold;
+    }
+  }
+`;
+
+const Summary = styled.summary`
+  padding: 0.75rem 1.5rem;
+  font-size: var(--font-size-md);
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+
+  &::after {
+    content: '目次';
+  }
+`;
