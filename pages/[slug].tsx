@@ -64,9 +64,9 @@ const Post: NextPage<Props> = ({ post }) => {
         </header>
 
         <PageContentContainer>
-          <Adsense />
-
           <PostNote note={post.note} />
+
+          <Adsense />
 
           <Mokuji refContent={refContent} />
 

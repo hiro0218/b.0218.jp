@@ -64,11 +64,6 @@ export default css`
     /* header */
     --header-height: calc(var(--margin-base) * 3);
 
-    /* table */
-    --table-border-width: 1px;
-    --table-border-color: var(--bg-color--light);
-    --table-hover-color: var(--gray-0);
-
     /* z-index */
     --zIndex-header: 10;
     --zIndex-search: 12;

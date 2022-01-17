@@ -147,7 +147,8 @@ export default css`
   /* table */
   table {
     width: 100%;
-    background: #fff;
+    background: var(--background);
+    font-size: var(--font-size-sm);
 
     ${mobile} {
       table-layout: fixed;
@@ -157,7 +158,7 @@ export default css`
   th,
   td {
     padding: 0.5rem 1rem;
-    border-top: var(--table-border-width) solid var(--table-border-color);
+    border-top: 1px solid var(--bg-color--light);
     vertical-align: top;
 
     ${mobile} {
@@ -167,7 +168,8 @@ export default css`
 
   thead {
     & th {
-      border-bottom: calc(var(--table-border-width) * 3) solid var(--table-border-color);
+      border-top: none;
+      border-bottom: 1px solid var(--bg-color);
       text-align: left;
       vertical-align: bottom;
       white-space: nowrap;
@@ -175,14 +177,19 @@ export default css`
   }
 
   tbody {
-    & tr {
+    & + tbody {
+      border-top: 2px solid var(--bg-color--light);
+    }
+
+    &:last-child {
+      border-bottom: 1px solid var(--bg-color--light);
+    }
+
+    tr {
       transition: background 0.3s ease;
       &:hover {
         background: var(--table-hover-color);
       }
-    }
-    & + tbody {
-      border-top: calc(var(--table-border-width) * 2) solid var(--table-border-color);
     }
   }
 `;
