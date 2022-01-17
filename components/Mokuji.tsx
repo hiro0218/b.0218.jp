@@ -71,7 +71,7 @@ const Root = styled.div`
     padding: 0.75rem 1.5rem 1rem;
 
     > li > a {
-      font-weight: bold;
+      font-weight: 500;
     }
   }
 `;
@@ -79,7 +79,7 @@ const Root = styled.div`
 const Summary = styled.summary`
   padding: 0.75rem 1.5rem;
   font-size: var(--font-size-md);
-  font-weight: bold;
+  font-weight: 500;
   cursor: pointer;
   user-select: none;
 

@@ -77,21 +77,27 @@ export default css`
   h5,
   h6 {
     color: var(--gray-9);
+    font-weight: 500;
     line-height: 1.25;
   }
 
   h1 {
     font-size: ${getModularScale({ degree: 4 })};
+    font-weight: 900;
   }
+
   h2 {
     font-size: ${getModularScale({ degree: 3 })};
   }
+
   h3 {
     font-size: ${getModularScale({ degree: 2 })};
   }
+
   h4 {
     font-size: ${getModularScale({ degree: 1 })};
   }
+
   h5,
   h6 {
     font-size: ${getModularScale({ degree: 0 })};

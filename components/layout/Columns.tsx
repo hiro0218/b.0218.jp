@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React, { CSSProperties, memo } from 'react';
 
 import { desktop, mobile } from '@/lib/mediaQuery';
+import { getModularScale } from '@/lib/modular-scale';
 
 type divProps = JSX.IntrinsicElements['div'];
 export interface ContainerProps extends divProps {
@@ -38,7 +39,7 @@ const Col = {
 
 const TitleText = styled.h2`
   color: var(--color-text--light);
-  font-weight: 500;
+  font-size: ${getModularScale({ degree: 2 })};
 `;
 
 export const Columns = memo(function Columns(props: ContainerProps) {
