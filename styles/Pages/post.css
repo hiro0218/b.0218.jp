@@ -27,32 +27,38 @@
     font-weight: bold;
     scroll-margin-top: 1em;
 
-    & > .anchor {
-      display: inline-flex;
-      visibility: hidden;
-      position: absolute;
-      top: 0;
-      right: calc(100%);
-      bottom: 0;
-      align-items: center;
-      justify-content: center;
-      width: 2rem;
-      height: 2rem;
-      margin: auto;
-      color: var(--bg-color--darker);
-      text-decoration: none;
-      user-select: none;
-
-      @media (--mobile-viewport) {
-        position: static;
-        margin-left: 0.25em;
-      }
-    }
-
     &:hover,
     &:focus {
       & > .anchor {
         visibility: visible;
+      }
+    }
+
+    & > {
+      code {
+        font-size: 1em;
+      }
+
+      .anchor {
+        display: inline-flex;
+        visibility: hidden;
+        position: absolute;
+        top: 0;
+        right: calc(100%);
+        bottom: 0;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        margin: auto;
+        color: var(--bg-color--darker);
+        text-decoration: none;
+        user-select: none;
+
+        @media (--mobile-viewport) {
+          position: static;
+          margin-left: 0.25em;
+        }
       }
     }
   }
