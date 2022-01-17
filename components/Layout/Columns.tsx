@@ -38,8 +38,11 @@ const Col = {
 };
 
 const TitleText = styled.h2`
+  overflow: hidden;
   color: var(--color-text--light);
   font-size: ${getModularScale({ degree: 2 })};
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const Columns = memo(function Columns(props: ContainerProps) {
