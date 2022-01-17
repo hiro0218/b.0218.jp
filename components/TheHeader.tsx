@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
@@ -88,20 +88,18 @@ const TheHeader: FC = () => {
 
   return (
     <>
-      <header ref={refHeader} css={cssHeader} className="pj-header">
-        <div className="pj-header-container">
-          <Link href="/" prefetch={false}>
-            <a className="pj-header__logo">
+      <HeaderRoot ref={refHeader}>
+        <HeaderContainer>
+          <Link href="/" prefetch={false} passHref>
+            <HeaderLogoAnchor>
               <Logo width="80" height="25" />
-            </a>
+            </HeaderLogoAnchor>
           </Link>
-          <button type="button" className="pj-header-search" aria-label="Search" onClick={openModal}>
-            <div className="pj-header-search__icon">
-              <HiSearch />
-            </div>
-          </button>
-        </div>
-      </header>
+          <HeaderSearchButton type="button" aria-label="Search" onClick={openModal}>
+            <HiSearch />
+          </HeaderSearchButton>
+        </HeaderContainer>
+      </HeaderRoot>
 
       <ReactModal
         isOpen={modalIsOpen}
@@ -118,7 +116,7 @@ const TheHeader: FC = () => {
 
 export default TheHeader;
 
-const cssHeader = css`
+const HeaderRoot = styled.header`
   position: fixed;
   z-index: var(--zIndex-header);
   top: 0;
@@ -134,55 +132,51 @@ const cssHeader = css`
     transform: translateY(calc(var(--header-height) * -1));
     box-shadow: none;
   }
+`;
 
-  .pj-header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: var(--container-width);
-    height: 100%;
-    margin: 0 auto;
-    transition: padding 0.1s ease-in-out;
+const HeaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--container-width);
+  height: 100%;
+  margin: 0 auto;
+  transition: padding 0.1s ease-in-out;
 
-    ${mobile} {
-      padding: 0 5vw;
-    }
+  ${mobile} {
+    padding: 0 5vw;
+  }
+`;
+
+const HeaderLogoAnchor = styled.a`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  color: var(--color-text);
+  pointer-events: auto;
+`;
+
+const HeaderSearchButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  transition: background 0.2s ease;
+  border: none;
+  border-radius: 100%;
+  background: none;
+  cursor: pointer;
+  pointer-events: auto;
+
+  &:hover,
+  &:focus {
+    background: var(--bg-color--lighter);
   }
 
-  .pj-header__logo {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    color: var(--color-text);
-    pointer-events: auto;
-  }
-
-  .pj-header-search {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    transition: background 0.2s ease;
-    border: none;
-    border-radius: 100%;
-    background: none;
-    cursor: pointer;
-    pointer-events: auto;
-
-    &:hover,
-    &:focus {
-      background: var(--bg-color--lighter);
-    }
-  }
-
-  .pj-header-search__icon {
-    display: flex;
-
-    & svg {
-      width: 1.25rem;
-      height: 1.25rem;
-      color: var(--color-text--light);
-    }
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--color-text--light);
   }
 `;
