@@ -20,8 +20,7 @@ const PostPager: FC<Props> = ({ next, prev }) => {
             <PagerIcon>
               <HiOutlineArrowLeft />
             </PagerIcon>
-            <PagerMain>
-              <div className="label">Prev</div>
+            <PagerMain data-label="Prev">
               <div className="title">{prev.title}</div>
             </PagerMain>
           </PagerAnchorItem>
@@ -30,8 +29,7 @@ const PostPager: FC<Props> = ({ next, prev }) => {
       {Object.keys(next).length !== 0 && (
         <Link href={`${next.slug}.html`} prefetch={false} passHref>
           <PagerAnchorItem>
-            <PagerMain>
-              <div className="label">Next</div>
+            <PagerMain data-label="Next">
               <div className="title">{next.title}</div>
             </PagerMain>
             <PagerIcon>
@@ -86,14 +84,13 @@ const PagerAnchorItem = styled.a`
 const PagerMain = styled.div`
   flex-grow: 1;
 
-  .label {
+  &::before {
+    content: attr(data-label);
     color: var(--color-text--lighter);
-    font-weight: bold;
-    line-height: 1;
   }
 
   .title {
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
     color: var(--color-text);
   }
 `;
