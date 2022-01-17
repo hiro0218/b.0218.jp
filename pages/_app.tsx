@@ -5,7 +5,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
 import CssBaseline from '@/components/CssBaseline';
-import { Container } from '@/components/layout';
+import { Container } from '@/components/Layout';
 import { TheFooter } from '@/components/TheFooter';
 import TheHeader from '@/components/TheHeader';
 import { AUTHOR, SITE } from '@/constant';
