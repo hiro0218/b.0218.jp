@@ -1,9 +1,35 @@
 import { css } from '@emotion/react';
+import { gray } from '@radix-ui/colors';
 
 import { getModularScale } from '@/lib/modular-scale';
 
 export default css`
   :root {
+    /* 1:  アプリの背景 */
+    --backgrounds-1: ${gray.gray1};
+    /* 2:  微妙な背景 */
+    --backgrounds-2: ${gray.gray2};
+    /* 3:  UI要素の背景 */
+    --component-backgrounds-3: ${gray.gray3};
+    /* 4:  ホバーされたUI要素の背景 */
+    --component-backgrounds-4: ${gray.gray4};
+    /* 5:  アクティブ/選択されたUI要素の背景 */
+    --component-backgrounds-5: ${gray.gray5};
+    /* 6:  微妙な境界線と区切り文字 */
+    --borders-6: ${gray.gray6};
+    /* 7:  UI要素の境界線とフォーカスリング */
+    --borders-7: ${gray.gray7};
+    /* 8:  ホバーされたUI要素の境界線 */
+    --borders-8: ${gray.gray8};
+    /* 9:  しっかりとした背景 */
+    --solid-backgrounds-9: ${gray.gray9};
+    /* 10: ホバーされた無地の背景 */
+    --solid-backgrounds-10: ${gray.gray10};
+    /* 11: 低コントラストのテキスト */
+    --text-11: ${gray.gray11};
+    /* 12: 高コントラストテキスト */
+    --text-12: ${gray.gray12};
+
     --background: #fff;
     --foreground: #000;
 
