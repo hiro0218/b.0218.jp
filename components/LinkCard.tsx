@@ -65,7 +65,7 @@ const cssLinkCard = css`
   height: 100%;
   margin: 0 calc(var(--margin-base) * -0.6);
   padding: calc(var(--margin-base) * 0.6) calc(var(--margin-base) * 0.8);
-  transition: background 0.2s ease, box-shadow 0.4s ease;
+  transition: background-color 0.2s ease, box-shadow 0.4s ease;
   border-radius: 0.25rem;
   font-size: var(--font-size-sm);
 
@@ -74,7 +74,7 @@ const cssLinkCard = css`
   }
 
   &:hover {
-    background: var(--component-backgrounds-4);
+    background-color: var(--component-backgrounds-4);
     box-shadow: 0 0 0 0.25rem var(--component-backgrounds-4);
   }
 

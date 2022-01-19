@@ -57,7 +57,7 @@ const PagerAnchorItem = styled.a`
   gap: 0.75rem;
   width: 50%;
   padding: 1rem;
-  transition: background 0.2s ease, box-shadow 0.4s ease;
+  transition: background-color 0.2s ease, box-shadow 0.4s ease;
   border-radius: 0.25em;
   line-height: 1.8;
   word-break: break-all;
@@ -67,7 +67,7 @@ const PagerAnchorItem = styled.a`
   }
 
   &:hover {
-    background: var(--component-backgrounds-4);
+    background-color: var(--component-backgrounds-4);
     box-shadow: 0 0 0 0.25rem var(--component-backgrounds-4);
   }
 

@@ -68,7 +68,7 @@
     font-size: var(--font-size-sm);
 
     &:hover {
-      background: var(--component-backgrounds-4);
+      background-color: var(--component-backgrounds-4);
     }
   }
 }

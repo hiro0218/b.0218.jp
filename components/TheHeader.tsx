@@ -161,7 +161,7 @@ const HeaderSearchButton = styled.button`
   justify-content: center;
   width: 3rem;
   height: 3rem;
-  transition: background 0.2s ease;
+  transition: background-color 0.2s ease;
   border: none;
   border-radius: 100%;
   background: none;
@@ -170,7 +170,7 @@ const HeaderSearchButton = styled.button`
 
   &:hover,
   &:focus {
-    background: var(--component-backgrounds-4);
+    background-color: var(--component-backgrounds-4);
   }
 
   svg {

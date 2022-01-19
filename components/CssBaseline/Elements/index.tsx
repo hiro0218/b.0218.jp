@@ -192,9 +192,9 @@ export default css`
     }
 
     tr {
-      transition: background 0.3s ease;
+      transition: background-color 0.3s ease;
       &:hover {
-        background: var(--component-backgrounds-4);
+        background-color: var(--component-backgrounds-4);
       }
     }
   }
