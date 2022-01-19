@@ -14,11 +14,7 @@
     word-break: break-all;
 
     &:hover {
-      text-decoration-color: var(--color-text);
-    }
-
-    &:focus {
-      background-color: var(--bg-color--light);
+      text-decoration-color: var(--text-11);
     }
   }
 
@@ -50,7 +46,7 @@
         width: 2rem;
         height: 2rem;
         margin: auto;
-        color: var(--bg-color--darker);
+        color: var(--text-11);
         text-decoration: none;
         user-select: none;
 
@@ -95,7 +91,7 @@
     margin-bottom: 0.5em;
 
     &::marker {
-      color: var(--color-text--light);
+      color: var(--solid-backgrounds-9);
     }
   }
 
@@ -107,8 +103,8 @@
 
   blockquote {
     padding: 1em 1.5em 1em;
-    border-left: 2px solid var(--bg-color--light);
-    color: var(--color-text--light);
+    border-left: 2px solid var(--borders-6);
+    color: var(--text-11);
 
     & p {
       &:last-child {
@@ -130,7 +126,7 @@
 
     &::before {
       content: '◇ ◆ ◇';
-      color: var(--color-text);
+      color: var(--text-12);
       font-size: 1em;
     }
   }

@@ -31,8 +31,8 @@ const FooterRoot = styled.footer`
   top: 100vh;
   margin-top: var(--space-x-lg);
   padding: var(--space-x-lg) 0;
-  background: var(--bg-color--lighter);
-  color: var(--color-text--light);
+  background: var(--component-backgrounds-3);
+  color: var(--text-12);
   line-height: 1;
 
   a {

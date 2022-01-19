@@ -67,7 +67,6 @@ const cssLinkCard = css`
   padding: calc(var(--margin-base) * 0.6) calc(var(--margin-base) * 0.8);
   transition: background 0.2s ease, box-shadow 0.4s ease;
   border-radius: 0.25rem;
-  color: var(--color-text-heading);
   font-size: var(--font-size-sm);
 
   ${mobile} {
@@ -75,8 +74,8 @@ const cssLinkCard = css`
   }
 
   &:hover {
-    background: var(--bg-color--lighter);
-    box-shadow: 0 0 0 0.25rem var(--bg-color--lighter);
+    background: var(--component-backgrounds-4);
+    box-shadow: 0 0 0 0.25rem var(--component-backgrounds-4);
   }
 
   .link-card-main {
@@ -88,7 +87,7 @@ const cssLinkCard = css`
   }
 
   .link-card__title {
-    color: var(--color-text-heading);
+    color: var(--text-12);
     font-size: 1rem;
     line-height: 1.8;
   }
@@ -96,7 +95,7 @@ const cssLinkCard = css`
   .link-card__text {
     margin-top: 0.25rem;
     overflow: hidden;
-    color: var(--color-text-description);
+    color: var(--text-11);
     letter-spacing: 0.025em;
     line-height: 1.8;
     text-overflow: ellipsis;
@@ -121,7 +120,7 @@ const cssLinkCard = css`
   .link-card-icon__arrow {
     display: flex;
     align-items: center;
-    color: var(--bg-color--dark);
+    color: var(--text-11);
 
     svg {
       width: 1rem;

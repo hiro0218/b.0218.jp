@@ -20,11 +20,11 @@ const Root = styled.a`
 
   &:focus,
   &:hover {
-    background-color: var(--bg-color--lighter);
+    background-color: var(--component-backgrounds-4);
   }
 
   svg {
-    color: var(--color-text--light);
+    color: var(--text-12);
   }
 `;
 

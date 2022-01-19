@@ -59,7 +59,6 @@ const PagerAnchorItem = styled.a`
   padding: 1rem;
   transition: background 0.2s ease, box-shadow 0.4s ease;
   border-radius: 0.25em;
-  color: var(--color-text);
   line-height: 1.8;
   word-break: break-all;
 
@@ -68,8 +67,8 @@ const PagerAnchorItem = styled.a`
   }
 
   &:hover {
-    background: var(--bg-color--lighter);
-    box-shadow: 0 0 0 0.25rem var(--bg-color--lighter);
+    background: var(--component-backgrounds-4);
+    box-shadow: 0 0 0 0.25rem var(--component-backgrounds-4);
   }
 
   &:only-child {
@@ -86,12 +85,12 @@ const PagerMain = styled.div`
 
   &::before {
     content: attr(data-label);
-    color: var(--color-text--lighter);
+    color: var(--text-11);
   }
 
   .title {
     margin-top: 0.25rem;
-    color: var(--color-text);
+    color: var(--text-12);
   }
 `;
 
@@ -99,7 +98,7 @@ const PagerIcon = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
-  color: var(--color-text--lighter);
+  color: var(--text-11);
 
   svg {
     width: 1rem;

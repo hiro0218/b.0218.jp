@@ -16,7 +16,7 @@ export default css`
   body {
     height: 100%;
     padding-top: var(--header-height);
-    color: var(--color-text);
+    color: var(--text-12);
     font-family: var(--font-family-sans-serif);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -34,14 +34,14 @@ export default css`
 
   a {
     transition: background 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease-in-out;
-    color: var(--color-text-link);
+    color: var(--text-12);
     text-decoration: none;
     text-underline-position: under;
-    text-decoration-color: var(--color-text--lighter);
+    text-decoration-color: var(--borders-8);
 
     &:focus {
       outline: 0;
-      box-shadow: 0 0 0 0.25rem rgba(12, 12, 12, 0.25);
+      box-shadow: 0 0 0 0.25rem var(--borders-8);
     }
   }
 
@@ -55,7 +55,7 @@ export default css`
 
     & figcaption {
       margin-top: var(--space-x-sm);
-      color: var(--color-text--lighter);
+      color: var(--text-11);
       font-size: var(--font-size-sm);
       text-align: center;
     }
@@ -76,7 +76,7 @@ export default css`
   h4,
   h5,
   h6 {
-    color: var(--gray-9);
+    color: var(--text-12);
     font-weight: 500;
     line-height: 1.25;
   }
@@ -104,7 +104,7 @@ export default css`
   }
 
   mark {
-    background-color: var(--mark-bg-color);
+    background-color: var(--component-backgrounds-3);
   }
 
   /* code */
@@ -125,7 +125,7 @@ export default css`
     display: block;
     overflow: auto;
     border-radius: 0.15rem;
-    background: var(--bg-color--lighter);
+    background: var(--backgrounds-2);
     font-size: var(--font-size-sm);
     overflow-wrap: break-word;
     -webkit-overflow-scrolling: touch;
@@ -134,7 +134,7 @@ export default css`
     & > code {
       display: block;
       padding: 1.5rem;
-      background: var(--bg-color--lighter);
+      background: var(--backgrounds-2);
       color: #383a42;
       font-size: inherit;
       line-height: 1.8;
@@ -145,15 +145,15 @@ export default css`
     margin: 0;
     padding: 0.25rem 0.5rem;
     border-radius: 0.15rem;
-    background: var(--bg-color--lighter);
-    color: var(--color-text--light);
+    background: var(--backgrounds-2);
+    color: var(--text-12);
     font-size: var(--font-size-sm);
   }
 
   /* table */
   table {
     width: 100%;
-    background: var(--background);
+    background: var(--backgrounds-1);
     font-size: var(--font-size-sm);
 
     ${mobile} {
@@ -164,7 +164,7 @@ export default css`
   th,
   td {
     padding: 0.5rem 1rem;
-    border-top: 1px solid var(--bg-color--light);
+    border-top: 1px solid var(--borders-6);
     vertical-align: top;
 
     ${mobile} {
@@ -175,7 +175,7 @@ export default css`
   thead {
     & th {
       border-top: none;
-      border-bottom: 1px solid var(--bg-color);
+      border-bottom: 1px solid var(--borders-7);
       text-align: left;
       vertical-align: bottom;
       white-space: nowrap;
@@ -184,17 +184,17 @@ export default css`
 
   tbody {
     & + tbody {
-      border-top: 2px solid var(--bg-color--light);
+      border-top: 2px solid var(--borders-6);
     }
 
     &:last-child {
-      border-bottom: 1px solid var(--bg-color--light);
+      border-bottom: 1px solid var(--borders-6);
     }
 
     tr {
       transition: background 0.3s ease;
       &:hover {
-        background: var(--table-hover-color);
+        background: var(--component-backgrounds-4);
       }
     }
   }

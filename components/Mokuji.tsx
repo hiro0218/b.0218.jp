@@ -37,9 +37,8 @@ const Mokuji = ({ refContent }: { refContent: MutableRefObject<HTMLDivElement> }
 export default Mokuji;
 
 const Root = styled.div`
-  border: 2px solid var(--bg-color--light);
+  border: 2px solid var(--borders-7);
   border-radius: 0.25rem;
-  color: var(--color-text--light);
   font-size: var(--font-size-sm);
 
   a {

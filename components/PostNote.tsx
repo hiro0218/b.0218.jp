@@ -25,7 +25,7 @@ const PostNoteRoot = styled.div`
   display: flex;
   align-items: center;
   padding: var(--space-sm) var(--space-x-sm);
-  border: 2px solid var(--gray-1);
+  border: 2px solid var(--borders-6);
   border-radius: 0.25rem;
   line-height: 1.8;
 
@@ -38,5 +38,6 @@ const PostNoteRoot = styled.div`
     width: 1.5em;
     height: 1.5em;
     margin-right: 0.25em;
+    color: inherit;
   }
 `;

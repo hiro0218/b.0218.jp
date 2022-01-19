@@ -4,7 +4,7 @@
   justify-content: space-between;
 
   &__title {
-    color: var(--color-text);
+    color: var(--text-12);
     font-weight: 900;
     line-height: 1.6;
     overflow-wrap: break-word;
@@ -12,18 +12,18 @@
     &--normal {
       @extend &__title;
 
-      color: var(--color-text--light);
+      color: var(--text-11);
       font-weight: 500;
     }
   }
 
   &__side {
-    color: var(--color-text--lighter);
+    color: var(--text-11);
   }
 }
 
 .c-heading-sub {
-  color: var(--color-text--lighter);
+  color: var(--text-11);
   font-weight: normal;
   line-height: 1.4;
   overflow-wrap: break-word;

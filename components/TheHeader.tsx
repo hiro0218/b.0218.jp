@@ -152,7 +152,6 @@ const HeaderLogoAnchor = styled.a`
   display: flex;
   align-items: center;
   height: 100%;
-  color: var(--color-text);
   pointer-events: auto;
 `;
 
@@ -171,12 +170,12 @@ const HeaderSearchButton = styled.button`
 
   &:hover,
   &:focus {
-    background: var(--bg-color--lighter);
+    background: var(--component-backgrounds-4);
   }
 
   svg {
     width: 1.25rem;
     height: 1.25rem;
-    color: var(--color-text--light);
+    color: var(--text-12);
   }
 `;

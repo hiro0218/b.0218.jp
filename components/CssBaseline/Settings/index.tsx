@@ -5,6 +5,7 @@ import { getModularScale } from '@/lib/modular-scale';
 
 export default css`
   :root {
+    /* color */
     /* 1:  アプリの背景 */
     --backgrounds-1: ${gray.gray1};
     /* 2:  微妙な背景 */
@@ -29,39 +30,6 @@ export default css`
     --text-11: ${gray.gray11};
     /* 12: 高コントラストテキスト */
     --text-12: ${gray.gray12};
-
-    --background: #fff;
-    --foreground: #000;
-
-    --gray-0: #f8f8f8;
-    --gray-1: #ececec;
-    --gray-2: #d3d3d3;
-    --gray-3: #c6c6c6;
-    --gray-4: #959595;
-    --gray-5: #888;
-    --gray-6: #4a4a4a;
-    --gray-7: #3e3e3e;
-    --gray-8: #191919;
-    --gray-9: #0c0c0c;
-
-    /* color */
-    --color-text--darker: var(--gray-9);
-    --color-text--dark: var(--gray-8);
-    --color-text: var(--gray-7);
-    --color-text--light: var(--gray-6);
-    --color-text--lighter: var(--gray-5);
-
-    --color-text-heading: var(--gray-8);
-    --color-text-description: var(--gray-5);
-    --color-text-link: var(--gray-9);
-
-    --bg-color--darker: var(--gray-4);
-    --bg-color--dark: var(--gray-3);
-    --bg-color: var(--gray-2);
-    --bg-color--light: var(--gray-1);
-    --bg-color--lighter: var(--gray-0);
-
-    --mark-bg-color: var(--gray-1);
 
     /* size */
     --max-width: 640px;
