@@ -3,7 +3,7 @@ import { FC } from 'react';
 import Heading from '@/components/Heading';
 import PostDate from '@/components/post/date';
 import PostCategory from '@/components/post/term/category';
-import PostTag from '@/components/post/term/tag';
+import PostTag from '@/components/PostTag';
 import { Post as PostType } from '@/types/source';
 
 interface Props {
