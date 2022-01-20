@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -9,18 +10,35 @@ const PostCategory: FC<Props> = ({ categories }) => {
   if (categories?.length === 0) return <></>;
 
   return (
-    <div className={'c-post-meta-category'}>
+    <PostCategoryRoot>
       {categories?.map((category, index) => (
-        <div key={index} className={'c-post-meta__item'}>
-          <Link href={'/categories/' + category} prefetch={false}>
-            <a className={'c-post-meta__link--category'} title={'category: ' + category}>
-              {category}
-            </a>
+        <PostCategoryItem key={index}>
+          <Link href={'/categories/' + category} prefetch={false} passHref>
+            <PostCategoryAnchor title={'category: ' + category}>{category}</PostCategoryAnchor>
           </Link>
-        </div>
+        </PostCategoryItem>
       ))}
-    </div>
+    </PostCategoryRoot>
   );
 };
 
 export default PostCategory;
+
+const PostCategoryRoot = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const PostCategoryItem = styled.div`
+  &:not(:last-child) {
+    margin-right: 0.25em;
+  }
+`;
+
+const PostCategoryAnchor = styled.a`
+  color: var(--text-11);
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;

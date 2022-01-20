@@ -1,17 +1,17 @@
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 
 import Heading from '@/components/Heading';
 import { Columns, PageContentContainer, Stack } from '@/components/Layout';
 import LinkCard from '@/components/LinkCard';
+import PostTag, { Props as PostTagProps } from '@/components/PostTag';
 import { getPostsListJson, getTermJson } from '@/lib/posts';
 import { Post as PropsPost } from '@/types/source';
 
 interface Props {
   recentPosts: Array<PropsPost>;
   updatesPosts: Array<PropsPost>;
-  tags: { [key: string]: number };
+  tags: Array<PostTagProps>;
 }
 
 const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
@@ -57,20 +57,8 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
         </Columns>
 
         <Columns title={'Tags'}>
-          <Stack wrap="wrap" gap="calc(var(--margin-base) * 0.5) calc(var(--margin-base) * 0.25)" role="list">
-            {Object.entries(tags).map(([slug, number]) => {
-              return (
-                <Stack.Item align="center" key={slug} role="listitem">
-                  <div className="c-post-meta-tag">
-                    <Link href={'/tags/' + slug} prefetch={false}>
-                      <a className="c-post-meta__link--tag" title={`${slug}: ${number}件`}>
-                        {slug}
-                      </a>
-                    </Link>
-                  </div>
-                </Stack.Item>
-              );
-            })}
+          <Stack wrap="wrap" gap="calc(var(--margin-base) * 0.25)">
+            <PostTag tags={tags} />
           </Stack>
         </Columns>
       </PageContentContainer>
@@ -94,16 +82,17 @@ export const getStaticProps: GetStaticProps = async () => {
     })
     .filter((_, i) => i < 5);
 
-  const tags = Object.fromEntries(
-    Object.entries(getTermJson('tags'))
-      .map(([key, val]) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        return [key, val.length];
-      })
-      .sort((a, b) => b[1] - a[1]) // 件数の多い順にソート
-      .filter((item, i) => item[1] >= 10 && i < 25), // 件数が10件以上を25個抽出
-  );
+  const tags = Object.entries(getTermJson('tags'))
+    .map(([key, val]) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      return [key, val.length] as [string, number];
+    })
+    .sort((a, b) => b[1] - a[1]) // 件数の多い順にソート
+    .filter((item, i) => item[1] >= 10 && i < 25) // 件数が10件以上を25個抽出
+    .map(([slug, count]) => {
+      return { slug, count };
+    });
 
   return {
     props: {
