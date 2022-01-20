@@ -13,7 +13,7 @@ interface Props {
 }
 
 const PostHeader: FC<Props> = ({ post }) => {
-  const tags = post.tags.map((slug) => ({ slug }));
+  const tags = post.tags?.map((slug) => ({ slug }));
 
   return (
     <PostHeaderContainer>
