@@ -50,6 +50,10 @@ const LinkCardAnchor = styled.a`
     background-color: var(--component-backgrounds-4);
     box-shadow: 0 0 0 0.25rem var(--component-backgrounds-4);
   }
+
+  &:focus {
+    background-color: var(--component-backgrounds-5);
+  }
 `;
 
 const LinkCardText = styled.div`

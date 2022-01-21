@@ -27,7 +27,7 @@ const PostHeader: FC<Props> = ({ post }) => {
         <PostCategory categories={post.categories} />
       </PostHeaderItem>
       <PostHeaderItem>
-        <Stack wrap="wrap" gap="calc(var(--margin-base) * 0.25)">
+        <Stack wrap="wrap" gap="var(--space-xx-sm)">
           <PostTag tags={tags} />
         </Stack>
       </PostHeaderItem>

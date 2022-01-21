@@ -29,7 +29,7 @@ export default PostTag;
 
 const PostTagAnchor = styled.a`
   display: block;
-  padding: 0.25rem 0.5rem;
+  padding: 0 0.5em;
   border-radius: 0.15rem;
   background-color: var(--component-backgrounds-3);
   color: var(--text-11);
@@ -37,6 +37,10 @@ const PostTagAnchor = styled.a`
 
   &:hover {
     background-color: var(--component-backgrounds-4);
+  }
+
+  &:focus {
+    background-color: var(--component-backgrounds-5);
   }
 
   &::before {

@@ -28,12 +28,12 @@ export const TheFooter: FC = () => {
 
 const FooterRoot = styled.footer`
   position: sticky;
-  top: 100vh;
+  top: calc(100vh - var(--header-height));
   margin-top: var(--space-x-lg);
   padding: var(--space-x-lg) 0;
   background-color: var(--component-backgrounds-3);
   color: var(--text-12);
-  line-height: 1;
+  font-size: var(--font-size-sm);
 
   a {
     color: inherit;

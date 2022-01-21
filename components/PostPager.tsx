@@ -71,6 +71,10 @@ const PagerAnchorItem = styled.a`
     box-shadow: 0 0 0 0.25rem var(--component-backgrounds-4);
   }
 
+  &:focus {
+    background-color: var(--component-backgrounds-5);
+  }
+
   &:only-child {
     flex-grow: 1;
   }

@@ -25,13 +25,11 @@ const PostNoteRoot = styled.div`
   display: flex;
   align-items: center;
   padding: var(--space-sm) var(--space-x-sm);
-  border: 2px solid var(--borders-6);
+  background-color: var(--backgrounds-2);
+  color: var(--text-11);
+  border: 1px solid var(--borders-6);
   border-radius: 0.25rem;
   line-height: 1.8;
-
-  a {
-    text-decoration: underline;
-  }
 
   svg {
     flex-shrink: 0;

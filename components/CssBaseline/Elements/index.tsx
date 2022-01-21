@@ -33,7 +33,7 @@ export default css`
   }
 
   a {
-    transition: background 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease-in-out;
+    transition: background-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease-in-out;
     color: var(--text-12);
     text-decoration: none;
     text-underline-position: under;
@@ -49,6 +49,8 @@ export default css`
     text-align: center;
 
     & img {
+      display: block;
+      border: 1px solid var(--borders-6);
       margin-right: auto;
       margin-left: auto;
     }
@@ -78,7 +80,6 @@ export default css`
   h6 {
     color: var(--text-12);
     font-weight: 500;
-    line-height: 1.25;
   }
 
   h1 {

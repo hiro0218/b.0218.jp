@@ -3,6 +3,8 @@ import { gray } from '@radix-ui/colors';
 
 import { getModularScale } from '@/lib/modular-scale';
 
+const BaseFontSize = '1rem';
+
 export default css`
   :root {
     /* color */
@@ -32,9 +34,7 @@ export default css`
     --text-12: ${gray.gray12};
 
     /* size */
-    --max-width: 640px;
-    --desktop-width: 960px;
-    --container-width: 85ch;
+    --container-width: 50rem;
 
     /* font */
     --font-family-sans-serif: 'Noto Sans JP', YuGoMedium, YuGothic, 'Yu Gothic', 'Hiragino Kaku Gothic ProN', Meiryo,
@@ -49,14 +49,16 @@ export default css`
     --margin-base: 1.5rem;
 
     /* space */
-    --space-x-sm: ${getModularScale({ baseFontSize: '1.5rem', degree: -4 })};
-    --space-sm: ${getModularScale({ baseFontSize: '1.5rem', degree: -2 })};
-    --space-md: ${getModularScale({ baseFontSize: '1.5rem', degree: 0 })};
-    --space-lg: ${getModularScale({ baseFontSize: '1.5rem', degree: 2 })};
-    --space-x-lg: ${getModularScale({ baseFontSize: '1.5rem', degree: 4 })};
+    --space-xx-sm: ${getModularScale({ baseFontSize: BaseFontSize, degree: -6 })};
+    --space-x-sm: ${getModularScale({ baseFontSize: BaseFontSize, degree: -4 })};
+    --space-sm: ${getModularScale({ baseFontSize: BaseFontSize, degree: -2 })};
+    --space-md: ${getModularScale({ baseFontSize: BaseFontSize, degree: 0 })};
+    --space-lg: ${getModularScale({ baseFontSize: BaseFontSize, degree: 2 })};
+    --space-x-lg: ${getModularScale({ baseFontSize: BaseFontSize, degree: 4 })};
+    --space-xx-lg: ${getModularScale({ baseFontSize: BaseFontSize, degree: 6 })};
 
     /* header */
-    --header-height: calc(var(--margin-base) * 3);
+    --header-height: 72px;
 
     /* z-index */
     --zIndex-header: 10;
