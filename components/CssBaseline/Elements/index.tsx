@@ -56,7 +56,7 @@ export default css`
     }
 
     & figcaption {
-      margin-top: var(--space-x-sm);
+      margin-top: var(--space-xs);
       color: var(--text-11);
       font-size: var(--font-size-sm);
       text-align: center;

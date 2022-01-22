@@ -27,7 +27,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
 
       <PageContentContainer>
         <Columns title={'Recent Articles'}>
-          <Stack direction="column" gap="var(--space-xx-sm) 0" role="list">
+          <Stack direction="column" gap="var(--space-x-xs) 0" role="list">
             {recentPosts.map((post, index) => (
               <Stack.Item key={index} display="block" role="listitem">
                 <LinkCard
@@ -42,7 +42,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
         </Columns>
 
         <Columns title={'Updated Articles'}>
-          <Stack direction="column" gap="var(--space-xx-sm) 0" role="list">
+          <Stack direction="column" gap="var(--space-x-xs) 0" role="list">
             {updatesPosts.map((post, index) => (
               <Stack.Item key={index} display="block" role="listitem">
                 <LinkCard
@@ -57,7 +57,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
         </Columns>
 
         <Columns title={'Tags'}>
-          <Stack wrap="wrap" gap="var(--space-xx-sm)">
+          <Stack wrap="wrap" gap="var(--space-x-xs)">
             <PostTag tags={tags} />
           </Stack>
         </Columns>

@@ -27,7 +27,7 @@ const PostHeader: FC<Props> = ({ post }) => {
         <PostCategory categories={post.categories} />
       </PostHeaderItem>
       <PostHeaderItem>
-        <Stack wrap="wrap" gap="var(--space-xx-sm)">
+        <Stack wrap="wrap" gap="var(--space-x-xs)">
           <PostTag tags={tags} />
         </Stack>
       </PostHeaderItem>
@@ -39,7 +39,7 @@ export default PostHeader;
 
 const PostHeaderContainer = styled.div`
   > * + * {
-    margin-top: var(--space-x-sm);
+    margin-top: var(--space-xs);
   }
 `;
 

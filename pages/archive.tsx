@@ -61,7 +61,7 @@ const Archive: NextPage<Props> = ({ archives }) => {
               <Columns key={key} title={key}>
                 <Stack
                   direction="column"
-                  gap="var(--space-xx-sm) 0"
+                  gap="var(--space-x-xs) 0"
                   grow={1}
                   style={{
                     minWidth: 0,

@@ -21,6 +21,6 @@ const cssContainer = css`
   margin-top: var(--space-md);
 
   > * + * {
-    margin-top: var(--space-x-lg);
+    margin-top: var(--space-xl);
   }
 `;

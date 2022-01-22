@@ -29,8 +29,8 @@ export const TheFooter: FC = () => {
 const FooterRoot = styled.footer`
   position: sticky;
   top: calc(100vh - var(--header-height));
-  margin-top: var(--space-x-lg);
-  padding: var(--space-x-lg) 0;
+  margin-top: var(--space-xl);
+  padding: var(--space-xl) 0;
   background-color: var(--component-backgrounds-3);
   color: var(--text-12);
   font-size: var(--font-size-sm);

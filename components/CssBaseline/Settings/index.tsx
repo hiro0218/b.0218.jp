@@ -49,13 +49,13 @@ export default css`
     --margin-base: 1.5rem;
 
     /* space */
-    --space-xx-sm: ${getModularScale({ baseFontSize: BaseFontSize, degree: -6 })};
-    --space-x-sm: ${getModularScale({ baseFontSize: BaseFontSize, degree: -4 })};
+    --space-x-xs: ${getModularScale({ baseFontSize: BaseFontSize, degree: -6 })};
+    --space-xs: ${getModularScale({ baseFontSize: BaseFontSize, degree: -4 })};
     --space-sm: ${getModularScale({ baseFontSize: BaseFontSize, degree: -2 })};
     --space-md: ${getModularScale({ baseFontSize: BaseFontSize, degree: 0 })};
     --space-lg: ${getModularScale({ baseFontSize: BaseFontSize, degree: 2 })};
-    --space-x-lg: ${getModularScale({ baseFontSize: BaseFontSize, degree: 4 })};
-    --space-xx-lg: ${getModularScale({ baseFontSize: BaseFontSize, degree: 6 })};
+    --space-xl: ${getModularScale({ baseFontSize: BaseFontSize, degree: 4 })};
+    --space-x-xl: ${getModularScale({ baseFontSize: BaseFontSize, degree: 6 })};
 
     /* header */
     --header-height: 72px;
