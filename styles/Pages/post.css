@@ -68,14 +68,17 @@
   }
 
   h2 {
-    margin: var(--space-x-lg) auto var(--space-sm);
+    margin: var(--space-x-xl) auto var(--space-sm);
   }
 
-  h3,
+  h3 {
+    margin: var(--space-xl) auto var(--space-sm);
+  }
+
   h4,
   h5,
   h6 {
-    margin: var(--space-xl) auto var(--space-sm);
+    margin: var(--space-lg) auto var(--space-sm);
   }
 
   ul,
@@ -126,7 +129,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: var(--space-xl) 0;
+    margin: var(--space-x-xl) 0;
     border: 0;
 
     &::before {
