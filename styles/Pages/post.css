@@ -103,7 +103,7 @@
     margin-bottom: 0.5em;
   }
 
-  > p {
+  > :where(p) {
     letter-spacing: 0.05em;
     line-height: 2;
     word-break: break-all;
@@ -114,10 +114,8 @@
     border-left: 2px solid var(--borders-6);
     color: var(--text-11);
 
-    p {
-      &:last-child {
-        margin-bottom: 0;
-      }
+    p:last-child {
+      margin-bottom: 0;
     }
   }
 
