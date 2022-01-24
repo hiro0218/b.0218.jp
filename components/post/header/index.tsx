@@ -1,9 +1,11 @@
+import styled from '@emotion/styled';
 import { FC } from 'react';
 
 import Heading from '@/components/Heading';
+import { Stack } from '@/components/Layout';
 import PostDate from '@/components/post/date';
 import PostCategory from '@/components/post/term/category';
-import PostTag from '@/components/post/term/tag';
+import PostTag from '@/components/PostTag';
 import { Post as PostType } from '@/types/source';
 
 interface Props {
@@ -11,22 +13,54 @@ interface Props {
 }
 
 const PostHeader: FC<Props> = ({ post }) => {
+  const tags = post.tags?.map((slug) => ({ slug }));
+
   return (
-    <>
-      <Heading text={post.title} />
-
-      <div className="c-post-meta">
+    <PostHeaderContainer>
+      <PostHeaderItem>
+        <Heading text={post.title} />
+      </PostHeaderItem>
+      <PostHeaderItem>
         <PostDate date={post.date} updated={post.updated} />
-        <div className="c-post-meta-reading-time">{post.readingTime}</div>
-        <div className="c-post-meta-separator"></div>
+        <PostHeaderReadingTime>{post.readingTime}</PostHeaderReadingTime>
+        <PostHeaderSeparator />
         <PostCategory categories={post.categories} />
-      </div>
-
-      <div className="c-post-meta">
-        <PostTag tags={post.tags} />
-      </div>
-    </>
+      </PostHeaderItem>
+      <PostHeaderItem>
+        <Stack wrap="wrap" gap="var(--space-x-xs)">
+          <PostTag tags={tags} />
+        </Stack>
+      </PostHeaderItem>
+    </PostHeaderContainer>
   );
 };
 
 export default PostHeader;
+
+const PostHeaderContainer = styled.div`
+  > * + * {
+    margin-top: var(--space-xs);
+  }
+`;
+
+const PostHeaderItem = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const PostHeaderReadingTime = styled.div`
+  color: var(--text-11);
+  font-size: var(--font-size-md);
+
+  &::before {
+    content: '・';
+    margin: 0 calc(var(--margin-base) * 0.25);
+  }
+`;
+
+const PostHeaderSeparator = styled.div`
+  width: 2ch;
+  height: 1px;
+  margin: 0 12px;
+  background-color: var(--text-11);
+`;

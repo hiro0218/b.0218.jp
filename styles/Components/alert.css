@@ -1,14 +1,10 @@
 .c-alert {
   padding: 1rem 1.25rem;
   border-radius: 0.25rem;
-  background-color: var(--bg-color--lighter);
-  color: var(--color-text--light);
+  background-color: var(--backgrounds-2);
+  color: var(--text-11);
 
   & a {
-    color: var(--color-text);
-  }
-
-  & + & {
-    margin-top: 1rem;
+    color: var(--text-11);
   }
 }

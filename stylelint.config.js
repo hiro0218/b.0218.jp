@@ -1,44 +1,45 @@
 /** @type {import('stylelint').Configuration} */
 module.exports = {
-  extends: ['stylelint-config-recommended', 'stylelint-config-property-sort-order-smacss'],
+  extends: [
+    'stylelint-config-recommended',
+    'stylelint-config-property-sort-order-smacss',
+    'stylelint-config-prettier',
+  ],
   plugins: ['stylelint-declaration-block-no-ignored-properties'],
   rules: {
-    'plugin/declaration-block-no-ignored-properties': true,
-    'color-hex-length': 'short',
-    'color-no-invalid-hex': true,
-    indentation: 2,
-    'length-zero-no-unit': true,
-    'max-empty-lines': 2,
-    'string-quotes': 'single',
-    'declaration-block-no-duplicate-properties': [
-      true,
-      {
-        ignore: ['consecutive-duplicates'],
-      },
-    ],
-    'no-empty-source': null,
-    'block-opening-brace-space-before': 'always',
-    'block-opening-brace-newline-after': 'always',
+    'at-rule-no-unknown': [true, {
+      ignoreAtRules: ['extend']
+    }],
     'block-closing-brace-newline-after': 'always',
     'block-closing-brace-newline-before': 'always',
-    'selector-list-comma-space-before': 'never',
-    'selector-list-comma-newline-after': 'always',
-    'selector-pseudo-element-colon-notation': 'double',
-    'value-list-comma-newline-after': 'always-multi-line',
-    'value-list-comma-space-after': 'always-single-line',
-    'value-list-comma-space-before': 'never',
-    'declaration-block-trailing-semicolon': 'always',
+    'block-opening-brace-newline-after': 'always',
+    'block-opening-brace-space-before': 'always',
+    'color-hex-length': 'short',
+    'color-no-invalid-hex': true,
+    'declaration-block-no-duplicate-properties': [true, {
+      ignore: ['consecutive-duplicates']
+    }],
     'declaration-block-semicolon-newline-after': 'always-multi-line',
     'declaration-block-semicolon-newline-before': 'never-multi-line',
     'declaration-block-semicolon-space-after': 'always-single-line',
+    'declaration-block-trailing-semicolon': 'always',
+    indentation: 2,
+    'length-zero-no-unit': true,
+    'max-empty-lines': 2,
+    'no-empty-source': null,
     'no-extra-semicolons': true,
-    'no-missing-end-of-source-newline': true,
-    'at-rule-no-unknown': [true, { ignoreAtRules: ['extend'] }],
+    'plugin/declaration-block-no-ignored-properties': true,
+    'selector-list-comma-newline-after': 'always',
+    'selector-list-comma-space-before': 'never',
+    'selector-pseudo-element-colon-notation': 'double',
+    'string-quotes': 'single',
+    'value-list-comma-space-after': 'always-single-line',
+    'value-list-comma-space-before': 'never'
   },
   overrides: [
     {
-      files: ['**/*.{jsx,tsx}'],
-      customSyntax: '@stylelint/postcss-css-in-js',
+      files: ['**/*.{ts,jsx,tsx}'],
+      customSyntax: '@hiro0218/postcss-css-in-js',
     },
   ],
 };

@@ -1,19 +1,24 @@
 import '../styles/index.css';
 
-import { CacheProvider } from '@emotion/react';
+import { CacheProvider, EmotionCache } from '@emotion/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
 import CssBaseline from '@/components/CssBaseline';
-import { Container } from '@/components/layout/Container';
+import { Container } from '@/components/Layout';
 import { TheFooter } from '@/components/TheFooter';
 import TheHeader from '@/components/TheHeader';
 import { AUTHOR, SITE } from '@/constant';
 import createEmotionCache from '@/lib/createEmotionCache';
 import usePageView from '@/lib/hooks/usePageView';
 
-const App = ({ Component, pageProps }: AppProps) => {
-  const clientSideEmotionCache = createEmotionCache();
+interface MyAppProps extends AppProps {
+  emotionCache?: EmotionCache;
+}
+
+const clientSideEmotionCache = createEmotionCache();
+
+const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: MyAppProps) => {
   usePageView();
 
   return (
@@ -38,7 +43,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <meta name="author" content={AUTHOR.NAME} />
       </Head>
 
-      <CacheProvider value={clientSideEmotionCache}>
+      <CacheProvider value={emotionCache}>
         <CssBaseline />
         <TheHeader />
         <main>

@@ -1,5 +1,6 @@
-import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { FC } from 'react';
+import { HiOutlineInformationCircle } from 'react-icons/hi';
 
 import { Post } from '@/types/source';
 
@@ -10,29 +11,31 @@ const PostNote: FC<Props> = ({ note }) => {
     return <></>;
   }
 
-  return <div css={cssPostNote} dangerouslySetInnerHTML={{ __html: note }}></div>;
+  return (
+    <PostNoteRoot>
+      <HiOutlineInformationCircle />
+      <div dangerouslySetInnerHTML={{ __html: note }} />
+    </PostNoteRoot>
+  );
 };
 
 export default PostNote;
 
-const cssPostNote = css`
+const PostNoteRoot = styled.div`
   display: flex;
-  padding: calc(var(--margin-base) * 0.6) calc(var(--margin-base) * 0.8);
-  border: 2px solid var(--gray-1);
+  align-items: center;
+  padding: var(--space-sm) var(--space-xs);
+  background-color: var(--backgrounds-2);
+  color: var(--text-11);
+  border: 1px solid var(--borders-6);
   border-radius: 0.25rem;
   line-height: 1.8;
 
-  &::before {
-    content: 'Note:';
+  svg {
+    flex-shrink: 0;
+    width: 1.5em;
+    height: 1.5em;
     margin-right: 0.25em;
-    font-weight: bold;
-  }
-
-  &:empty {
-    display: none;
-  }
-
-  a {
-    text-decoration: underline;
+    color: inherit;
   }
 `;

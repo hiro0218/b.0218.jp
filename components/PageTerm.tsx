@@ -1,8 +1,7 @@
 import { FC } from 'react';
 
 import Heading from '@/components/Heading';
-import { Columns } from '@/components/layout/Columns';
-import { Stack } from '@/components/layout/Stack';
+import { Columns, PageContentContainer, Stack } from '@/components/Layout';
 import LinkCard from '@/components/LinkCard';
 import { TermsPostList } from '@/types/source';
 
@@ -18,7 +17,7 @@ const Term: FC<Props> = ({ posts, title, type }) => {
       <header>
         <Heading text={type} textSide={`${posts.length}件`} />
       </header>
-      <section className="p-term-section">
+      <PageContentContainer>
         <Columns title={title}>
           <Stack direction="column" gap="calc(var(--margin-base) * 0.25) 0" role="list">
             {posts.map((post, index) => (
@@ -28,7 +27,7 @@ const Term: FC<Props> = ({ posts, title, type }) => {
             ))}
           </Stack>
         </Columns>
-      </section>
+      </PageContentContainer>
     </section>
   );
 };

@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
@@ -6,6 +7,7 @@ import ReactModal from 'react-modal';
 
 import { Logo } from '@/components/Logo';
 import Search from '@/components/Search';
+import { mobile } from '@/lib/mediaQuery';
 
 ReactModal.setAppElement('#__next');
 const customStyles = {
@@ -86,20 +88,18 @@ const TheHeader: FC = () => {
 
   return (
     <>
-      <header ref={refHeader} className="pj-header">
-        <div className="pj-header-container">
-          <Link href="/" prefetch={false}>
-            <a className="pj-header__logo">
+      <HeaderRoot ref={refHeader}>
+        <HeaderContainer>
+          <Link href="/" prefetch={false} passHref>
+            <HeaderLogoAnchor>
               <Logo width="80" height="25" />
-            </a>
+            </HeaderLogoAnchor>
           </Link>
-          <button type="button" className="pj-header-search" aria-label="Search" onClick={openModal}>
-            <div className="pj-header-search__icon">
-              <HiSearch />
-            </div>
-          </button>
-        </div>
-      </header>
+          <HeaderSearchButton type="button" aria-label="Search" onClick={openModal}>
+            <HiSearch />
+          </HeaderSearchButton>
+        </HeaderContainer>
+      </HeaderRoot>
 
       <ReactModal
         isOpen={modalIsOpen}
@@ -115,3 +115,67 @@ const TheHeader: FC = () => {
 };
 
 export default TheHeader;
+
+const HeaderRoot = styled.header`
+  position: fixed;
+  z-index: var(--zIndex-header);
+  top: 0;
+  right: 0;
+  left: 0;
+  height: var(--header-height);
+  margin: 0 auto;
+  transition: transform 0.25s ease;
+  pointer-events: none;
+  will-change: transform;
+
+  &.is-unpin {
+    transform: translateY(calc(var(--header-height) * -1));
+    box-shadow: none;
+  }
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--container-width);
+  height: 100%;
+  margin: 0 auto;
+  transition: padding 0.1s ease-in-out;
+
+  ${mobile} {
+    padding: 0 5vw;
+  }
+`;
+
+const HeaderLogoAnchor = styled.a`
+  display: flex;
+  align-items: center;
+  height: 100%;
+  pointer-events: auto;
+`;
+
+const HeaderSearchButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  transition: background-color 0.2s ease;
+  border: none;
+  border-radius: 100%;
+  background: none;
+  cursor: pointer;
+  pointer-events: auto;
+
+  &:hover,
+  &:focus {
+    background-color: var(--component-backgrounds-4);
+  }
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--text-12);
+  }
+`;

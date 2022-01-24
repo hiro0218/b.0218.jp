@@ -2,8 +2,7 @@ import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
 import Heading from '@/components/Heading';
-import { Columns } from '@/components/layout/Columns';
-import { Stack } from '@/components/layout/Stack';
+import { Columns, PageContentContainer, Stack } from '@/components/Layout';
 import LinkCard from '@/components/LinkCard';
 import { SITE } from '@/constant';
 import { getPostsListJson } from '@/lib/posts';
@@ -51,18 +50,18 @@ const Archive: NextPage<Props> = ({ archives }) => {
         <title key="title">Archive - {SITE.NAME}</title>
       </Head>
 
-      <article className="p-archive">
+      <article>
         <header>
           <Heading text={'Archive'} textSide={`${archives.length}件`} />
         </header>
 
-        <section className="p-archive__contents">
+        <PageContentContainer>
           {Object.keys(posts).map((key: string) => {
             return (
               <Columns key={key} title={key}>
                 <Stack
                   direction="column"
-                  gap="calc(var(--margin-base) * 0.125) 0"
+                  gap="var(--space-x-xs) 0"
                   grow={1}
                   style={{
                     minWidth: 0,
@@ -85,7 +84,7 @@ const Archive: NextPage<Props> = ({ archives }) => {
               </Columns>
             );
           })}
-        </section>
+        </PageContentContainer>
       </article>
     </>
   );

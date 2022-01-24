@@ -3,5 +3,5 @@
 pre code.hljs {
   padding: 1.5rem;
   overflow-x: auto;
-  background: var(--bg-color--lighter);
+  background: var(--backgrounds-2);
 }

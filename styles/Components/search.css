@@ -37,7 +37,7 @@
     font-size: var(--font-size-md);
 
     &::placeholder {
-      color: var(--color-text--lighter);
+      color: var(--text-11);
       font-size: var(--font-size-sm);
     }
 
@@ -68,7 +68,7 @@
     font-size: var(--font-size-sm);
 
     &:hover {
-      background: var(--bg-color--lighter);
+      background-color: var(--component-backgrounds-4);
     }
   }
 }
@@ -85,7 +85,7 @@
   & svg {
     width: 1.5rem;
     height: 100%;
-    color: var(--color-text--light);
+    color: var(--text-11);
   }
 }
 
@@ -94,12 +94,12 @@
   justify-content: space-between;
   padding: 0.25rem 0.5rem;
   box-shadow: 2px 0 4px 0 rgba(0, 0, 0, 0.16);
-  color: var(--color-text--light);
+  color: var(--text-11);
   font-size: var(--font-size-sm);
 }
 
 .c-search-footer__search-result {
-  color: var(--color-text--lighter);
+  color: var(--text-11);
 }
 
 .c-search-footer__search-external {

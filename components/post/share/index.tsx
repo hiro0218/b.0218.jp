@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 import { FaTwitter } from 'react-icons/fa';
 
-import { Stack } from '@/components/layout/Stack';
+import { Stack } from '@/components/Layout';
 
 interface Props {
   title: string;
@@ -20,11 +20,11 @@ const Root = styled.a`
 
   &:focus,
   &:hover {
-    background-color: var(--bg-color--lighter);
+    background-color: var(--component-backgrounds-4);
   }
 
   svg {
-    color: var(--color-text--light);
+    color: var(--text-12);
   }
 `;
 

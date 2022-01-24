@@ -1,7 +1,0 @@
-.p-home {
-  margin-top: calc(var(--margin-base) * 1);
-
-  > * + * {
-    margin-top: calc(var(--margin-base) * 2);
-  }
-}

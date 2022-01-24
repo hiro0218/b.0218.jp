@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -6,57 +6,34 @@ import { mobile } from '@/lib/mediaQuery';
 
 export const TheFooter: FC = () => {
   return (
-    <footer className="footer" css={cssFooter}>
-      <div className="footer-container">
-        <div className="footer-menu-list" role="list">
-          <div className="footer-menu-list__item" role="listitem">
-            <Link href="/about" prefetch={false}>
+    <FooterRoot>
+      <FooterContainer>
+        <FooterMenuList role="list">
+          <FooterMenuListItem role="listitem">
+            <Link href="/about" prefetch={false} passHref>
               <a>about</a>
             </Link>
-          </div>
-          <div className="footer-menu-list__item" role="listitem">
-            <Link href="/archive" prefetch={false}>
+          </FooterMenuListItem>
+          <FooterMenuListItem role="listitem">
+            <Link href="/archive" prefetch={false} passHref>
               <a>archive</a>
             </Link>
-          </div>
-        </div>
+          </FooterMenuListItem>
+        </FooterMenuList>
         <small>© hiro</small>
-      </div>
-    </footer>
+      </FooterContainer>
+    </FooterRoot>
   );
 };
 
-const cssFooter = css`
+const FooterRoot = styled.footer`
   position: sticky;
-  top: 100vh;
-  margin-top: calc(var(--margin-base) * 4);
-  padding: calc(var(--margin-base) * 2) 0;
-  background: var(--bg-color--lighter);
-  color: var(--color-text--light);
-  line-height: 1;
-
-  .footer-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: var(--container-width);
-    margin: 0 auto;
-    transition: padding 0.1s ease-in-out;
-
-    ${mobile} {
-      padding: 0 5vw;
-    }
-  }
-
-  .footer-menu-list {
-    display: inline-flex;
-  }
-
-  .footer-menu-list__item {
-    &:not(:first-of-type) {
-      margin-left: 1em;
-    }
-  }
+  top: calc(100vh - var(--header-height));
+  margin-top: var(--space-xl);
+  padding: var(--space-xl) 0;
+  background-color: var(--component-backgrounds-3);
+  color: var(--text-12);
+  font-size: var(--font-size-sm);
 
   a {
     color: inherit;
@@ -68,5 +45,30 @@ const cssFooter = css`
 
   small {
     font-size: 1rem;
+  }
+`;
+
+const FooterContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  transition: padding 0.1s ease-in-out;
+
+  ${mobile} {
+    padding: 0 5vw;
+  }
+`;
+
+const FooterMenuList = styled.div`
+  display: inline-flex;
+`;
+
+const FooterMenuListItem = styled.div`
+  display: inline-flex;
+
+  &:not(:first-of-type) {
+    margin-left: 1em;
   }
 `;
