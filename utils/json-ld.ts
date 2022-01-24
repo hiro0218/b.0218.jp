@@ -1,7 +1,9 @@
+import { BlogPosting, BreadcrumbList, ListItem, WithContext } from 'schema-dts';
+
 import { AUTHOR, SITE } from '../constant';
 import { Post } from '../types/source';
 
-const getDescriptionText = (postContent: string): string => {
+export const getDescriptionText = (postContent: string): string => {
   let content = postContent;
 
   // strip line break
@@ -16,9 +18,9 @@ const getDescriptionText = (postContent: string): string => {
   return content;
 };
 
-export const getBlogPostingStructured = (post: Post) => {
+export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> => {
   return {
-    '@context': 'http://schema.org',
+    '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     mainEntityOfPage: {
       '@type': 'WebPage',
@@ -44,12 +46,12 @@ export const getBlogPostingStructured = (post: Post) => {
 };
 
 export const getBreadcrumbStructured = (post: Post) => {
-  let itemCount = 1;
-  const itemListElement = [
+  const itemListElement: ListItem[] = [
     {
       '@type': 'ListItem',
-      position: itemCount,
-      item: { '@id': SITE.URL, name: SITE.NAME },
+      position: 1,
+      name: SITE.NAME,
+      item: SITE.URL,
     },
   ];
 
@@ -58,29 +60,26 @@ export const getBreadcrumbStructured = (post: Post) => {
       const category = post.categories[i];
       itemListElement.push({
         '@type': 'ListItem',
-        position: ++itemCount,
-        item: {
-          '@id': `${SITE.URL}categories/${category}`,
-          name: category,
-        },
+        position: i + 2,
+        name: category,
+        item: `${SITE.URL}categories/${category}`,
       });
     }
   }
 
   itemListElement.push({
     '@type': 'ListItem',
-    position: ++itemCount,
-    item: { '@id': `${SITE.URL}${post.slug}.html`, name: post.title },
+    position: post.categories.length + 2,
+    name: post.title,
+    item: `${SITE.URL}${post.slug}.html`,
   });
 
-  const structure = Object.assign(
-    {
-      '@context': 'http://schema.org',
-      '@type': 'BreadcrumbList',
-      name: 'パンくずリスト',
-    },
-    { itemListElement: itemListElement },
-  );
+  const structure: WithContext<BreadcrumbList> = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    name: 'パンくずリスト',
+    itemListElement: itemListElement,
+  };
 
   return structure;
 };
