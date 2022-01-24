@@ -14,7 +14,7 @@ import Mokuji from '@/components/Mokuji';
 import PostHeader from '@/components/post/header';
 import { SITE } from '@/constant';
 import { Post as PostType } from '@/types/source';
-import { getBlogPostingStructured, getBreadcrumbStructured } from '@/utils/json-ld';
+import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/utils/json-ld';
 
 type PostProps = {
   post: PostType;
@@ -34,11 +34,11 @@ const Post: NextPage<Props> = ({ post }) => {
     <>
       <Head>
         <title key="title">{post.title}</title>
-        <meta key="description" name="description" content={post.excerpt} />
+        <meta key="description" name="description" content={getDescriptionText(post.content)} />
         <meta key="og:url" property="og:url" content={permalink} />
         <meta key="og:title" property="og:title" content={post.title} />
         <meta key="og:type" property="og:type" content="article" />
-        <meta key="og:description" property="og:description" content={post.excerpt} />
+        <meta key="og:description" property="og:description" content={getDescriptionText(post.content)} />
         <meta key="og:updated_time" property="og:updated_time" content={post.updated} />
         <meta key="article:published_time" property="article:published_time" content={post.date} />
         <meta key="article:modified_time" property="article:modified_time" content={post.updated} />
