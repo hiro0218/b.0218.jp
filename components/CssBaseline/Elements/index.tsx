@@ -23,10 +23,6 @@ export default css`
     line-height: 1.75;
     font-feature-settings: 'palt' 1;
 
-    ${mobile} {
-      font-size: 0.95rem;
-    }
-
     &.is-no-scroll {
       overflow: hidden !important;
     }
@@ -50,9 +46,9 @@ export default css`
 
     & img {
       display: block;
-      border: 1px solid var(--borders-6);
       margin-right: auto;
       margin-left: auto;
+      border: 1px solid var(--borders-6);
     }
 
     & figcaption {

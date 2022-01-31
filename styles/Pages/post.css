@@ -1,8 +1,8 @@
 .p-post__content {
 
   & > * {
-    margin-top: var(--space-sm);
-    margin-bottom: var(--space-sm);
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-xl);
 
     &:first-child {
       margin-top: 0;
@@ -65,6 +65,10 @@
         }
       }
     }
+
+    & + :is(*) {
+      margin-top: auto;
+    }
   }
 
   h2 {
@@ -83,14 +87,13 @@
 
   ul,
   ol {
-    margin: var(--space-md) 0;
-    padding-left: 2rem;
+    padding-left: var(--space-xl);
     letter-spacing: 0.05em;
 
     ul,
     ol {
-      margin: 0.25rem 0 1rem;
-      padding-left: 1.5rem;
+      margin: var(--space-x-xs) 0 var(--space-md);
+      padding-left: var(--space-lg);
     }
 
     img {
@@ -101,6 +104,14 @@
   li {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   > :where(p) {
