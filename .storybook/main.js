@@ -1,5 +1,20 @@
+const fs = require('fs');
 const path = require('path');
 const toPath = (_path) => path.join(process.cwd(), _path);
+
+function getPackageDir(filepath) {
+  let currDir = path.dirname(require.resolve(filepath));
+  while (true) {
+      if (fs.existsSync(path.join(currDir, 'package.json'))) {
+          return currDir;
+      }
+      const { dir, root } = path.parse(currDir);
+      if (dir === root) {
+          throw new Error(`Could not find package.json in the parent directories starting from ${filepath}.`);
+      }
+      currDir = dir;
+  }
+}
 
 module.exports = {
   stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -40,9 +55,9 @@ module.exports = {
            *
            * @see https://github.com/storybookjs/storybook/issues/13277#issuecomment-751747964
            */
-          '@emotion/core': toPath('node_modules/@emotion/react'),
-          '@emotion/styled': toPath('node_modules/@emotion/styled'),
-          'emotion-theming': toPath('node_modules/@emotion/react'),
+          '@emotion/core': getPackageDir('@emotion/react'),
+          '@emotion/styled': getPackageDir('@emotion/styled'),
+          'emotion-theming': getPackageDir('@emotion/react'),
         },
       },
     };

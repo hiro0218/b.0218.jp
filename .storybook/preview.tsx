@@ -1,5 +1,8 @@
+import { Story } from '@storybook/react'
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 
+// @ts-ignore
+import CssBaseline from '@/components/CssBaseline';
 import '../styles/index.css';
 
 export const parameters = {
@@ -14,3 +17,12 @@ export const parameters = {
     Provider: RouterContext.Provider,
   },
 };
+
+export const decorators = [
+  (StoryContent: Story) => (
+    <>
+      <CssBaseline />
+      <StoryContent />
+    </>
+  ),
+]
