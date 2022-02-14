@@ -36,7 +36,7 @@
     "@storybook/addon-a11y": "^6.4.18",
     "@storybook/addon-actions": "^6.4.19",
     "@storybook/addon-essentials": "^6.4.18",
-    "@storybook/addon-links": "^6.4.18",
+    "@storybook/addon-links": "^6.4.19",
     "@storybook/react": "^6.4.14",
     "@types/css-font-loading-module": "^0.0.7",
     "@types/fs-extra": "^9.0.13",
