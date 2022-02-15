@@ -1,6 +1,6 @@
 import { loadDefaultJapaneseParser } from 'budoux';
 import fs from 'fs-extra';
-import puppeteer from 'puppeteer';
+import { chromium } from 'playwright';
 const parser = loadDefaultJapaneseParser();
 
 import { getPostsJson } from '../lib/posts';
@@ -101,23 +101,10 @@ const html = `
   let browser = null;
 
   try {
-    browser = await puppeteer.launch({
-      defaultViewport: {
-        width: 1200,
-        height: 630,
-      },
-      headless: true,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-accelerated-2d-canvas',
-        '--no-first-run',
-        '--no-zygote',
-        '--disable-gpu',
-      ],
-    });
+    browser = await chromium.launch();
     const page = await browser.newPage();
+
+    await page.setViewportSize({ width: 1200, height: 630 });
 
     let index = 1;
     for (const { title, slug } of posts) {
