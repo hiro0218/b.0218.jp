@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 8080",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
     "lint": "eslint {components,lib,pages,prepare,utils}/** --ext .ts,.tsx",
     "prebuild": "git submodule update --remote && npm run build:article && npm run build:feed && npm run build:sitemap",
