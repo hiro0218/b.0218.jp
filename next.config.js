@@ -12,6 +12,8 @@ const nextConfiguration = {
 
   reactStrictMode: true,
 
+  swcMinify: true,
+
   async rewrites() {
     return [
       {
