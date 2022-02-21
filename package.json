@@ -27,11 +27,11 @@
     "shokika.css": "^1.6.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.2",
+    "@babel/core": "^7.17.5",
     "@emotion/babel-plugin": "^11.7.2",
-    "@emotion/react": "^11.7.1",
+    "@emotion/react": "^11.8.1",
     "@emotion/server": "^11.4.0",
-    "@emotion/styled": "^11.6.0",
+    "@emotion/styled": "^11.8.1",
     "@hiro0218/postcss-css-in-js": "github:hiro0218/postcss-css-in-js",
     "@storybook/addon-a11y": "^6.4.19",
     "@storybook/addon-actions": "^6.4.19",
@@ -51,7 +51,7 @@
     "budoux": "^0.0.3",
     "cssnano": "^5.0.17",
     "csstype": "^3.0.10",
-    "esbuild": "^0.14.22",
+    "esbuild": "^0.14.23",
     "esbuild-register": "^3.3.2",
     "eslint": "^7.32.0",
     "eslint-config-next": "^12.1.0",
