@@ -4,7 +4,6 @@ import { FC } from 'react';
 import Heading from '@/components/Heading';
 import { Stack } from '@/components/Layout';
 import PostDate from '@/components/post/date';
-import PostCategory from '@/components/post/term/category';
 import PostTag from '@/components/PostTag';
 import { Post as PostType } from '@/types/source';
 
@@ -23,8 +22,6 @@ const PostHeader: FC<Props> = ({ post }) => {
       <PostHeaderItem>
         <PostDate date={post.date} updated={post.updated} />
         <PostHeaderReadingTime>{post.readingTime}</PostHeaderReadingTime>
-        <PostHeaderSeparator />
-        <PostCategory categories={post.categories} />
       </PostHeaderItem>
       <PostHeaderItem>
         <Stack wrap="wrap" gap="var(--space-x-xs)">
@@ -56,11 +53,4 @@ const PostHeaderReadingTime = styled.div`
     content: '・';
     margin: 0 calc(var(--margin-base) * 0.25);
   }
-`;
-
-const PostHeaderSeparator = styled.div`
-  width: 2ch;
-  height: 1px;
-  margin: 0 12px;
-  background-color: var(--text-11);
 `;

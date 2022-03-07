@@ -6,7 +6,7 @@ import { SITE } from '@/constant';
 import { TermsPostList } from '@/types/source';
 
 type Props = {
-  type: 'Category' | 'Tag';
+  type: 'Tag';
   title: string;
   posts: Array<TermsPostList>;
 };

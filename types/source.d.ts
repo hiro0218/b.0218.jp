@@ -33,7 +33,6 @@ export interface Post {
   title: string;
   content: string;
   excerpt: string;
-  categories: Array<string>;
   tags: Array<string>;
   next: NextPrevPost;
   prev: NextPrevPost;
