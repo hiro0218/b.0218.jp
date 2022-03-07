@@ -7,7 +7,7 @@ const getPath = (filename: string) => {
   return join(process.cwd(), `dist/${filename}.json`);
 };
 
-export const getTermJson = (type: 'categories' | 'tags'): Array<TermsPostList> => {
+export const getTermJson = (type: 'tags'): Array<TermsPostList> => {
   const path = getPath(type);
 
   return readJsonSync(path);

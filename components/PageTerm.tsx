@@ -8,7 +8,7 @@ import { TermsPostList } from '@/types/source';
 interface Props {
   posts?: Array<TermsPostList>;
   title: string;
-  type: 'Category' | 'Tag';
+  type: 'Tag';
 }
 
 const Term: FC<Props> = ({ posts, title, type }) => {

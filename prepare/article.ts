@@ -69,7 +69,7 @@ function buildPost() {
 
     // front matter を取得
     const post = matter.read(`${path.src}/_posts/${file}`);
-    const { title, date, updated, note, categories, tags }: Partial<PropPost> = post.data;
+    const { title, date, updated, note, tags }: Partial<PropPost> = post.data;
     const content = markdown2html(post.content);
     const { text } = readingTime(content);
 
@@ -81,7 +81,6 @@ function buildPost() {
       note: markdown2html(note),
       content: content,
       excerpt: getHeading2Text(content),
-      categories,
       tags,
       readingTime: text,
     });
@@ -134,26 +133,15 @@ function removePostsData(posts: Array<Partial<PropPost>>) {
 function buildTerms() {
   const posts: Array<PropPost> = fs.readJSONSync(`${path.dist}/posts.json`);
   const tagsMap = {};
-  const categoriesMap = {};
 
   posts.forEach((post) => {
-    const { title, slug, date, excerpt, categories, tags } = post;
+    const { title, slug, date, excerpt, tags } = post;
     const item = {
       title,
       slug,
       date,
       excerpt,
     };
-
-    categories?.forEach((category) => {
-      const mappedCategories = categoriesMap[category];
-
-      if (mappedCategories) {
-        mappedCategories.push(item);
-      } else {
-        categoriesMap[category] = [item];
-      }
-    });
 
     tags?.forEach((tag) => {
       const mappedTags = tagsMap[tag];
@@ -168,8 +156,6 @@ function buildTerms() {
 
   fs.writeJSONSync(`${path.dist}/tags.json`, tagsMap);
   console.log('Write dist/tags.json');
-  fs.writeJSONSync(`${path.dist}/categories.json`, categoriesMap);
-  console.log('Write dist/categories.json');
 }
 
 function buildPage() {
