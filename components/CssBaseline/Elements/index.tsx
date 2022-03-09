@@ -145,6 +145,7 @@ export default css`
     background: var(--backgrounds-2);
     color: var(--text-12);
     font-size: var(--font-size-sm);
+    text-align: left;
   }
 
   /* table */
