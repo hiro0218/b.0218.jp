@@ -153,10 +153,6 @@ export default css`
     width: 100%;
     background: var(--backgrounds-1);
     font-size: var(--font-size-sm);
-
-    ${mobile} {
-      table-layout: fixed;
-    }
   }
 
   th,
