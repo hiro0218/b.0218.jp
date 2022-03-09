@@ -23,6 +23,11 @@ module.exports = {
     'declaration-block-semicolon-newline-before': 'never-multi-line',
     'declaration-block-semicolon-space-after': 'always-single-line',
     'declaration-block-trailing-semicolon': 'always',
+    "function-no-unknown": [true, {
+      ignoreFunctions: [
+        "/getModularScale/",
+      ]
+    }],
     indentation: 2,
     'length-zero-no-unit': true,
     'max-empty-lines': 2,
