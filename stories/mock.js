@@ -5,7 +5,6 @@ export const PostData = {
   updated: '2021-02-18T10:10:10.000Z',
   content: 'All children, except one, grow up. They soon know that they will grow up, and the way Wendy knew was this.',
   excerpt: 'All children, except one, grow up. ',
-  categories: ['Engineering'],
   tags: [
     { slug: 'Community'},
     { slug: 'Company'},

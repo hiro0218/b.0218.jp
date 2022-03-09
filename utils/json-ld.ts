@@ -55,21 +55,21 @@ export const getBreadcrumbStructured = (post: Post) => {
     },
   ];
 
-  if (post.categories) {
-    for (let i = 0; i < post.categories.length; i++) {
-      const category = post.categories[i];
+  if (post.tags && post.tags.length > 0) {
+    for (let i = 0; i < 1; i++) {
+      const tags = post.tags[i];
       itemListElement.push({
         '@type': 'ListItem',
-        position: i + 2,
-        name: category,
-        item: `${SITE.URL}categories/${category}`,
+        position: 2,
+        name: tags,
+        item: `${SITE.URL}tags/${tags}`,
       });
     }
   }
 
   itemListElement.push({
     '@type': 'ListItem',
-    position: post.categories.length + 2,
+    position: 3,
     name: post.title,
     item: `${SITE.URL}${post.slug}.html`,
   });

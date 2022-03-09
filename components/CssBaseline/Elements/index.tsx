@@ -145,6 +145,7 @@ export default css`
     background: var(--backgrounds-2);
     color: var(--text-12);
     font-size: var(--font-size-sm);
+    text-align: left;
   }
 
   /* table */
@@ -152,10 +153,6 @@ export default css`
     width: 100%;
     background: var(--backgrounds-1);
     font-size: var(--font-size-sm);
-
-    ${mobile} {
-      table-layout: fixed;
-    }
   }
 
   th,
