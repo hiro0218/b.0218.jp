@@ -147,6 +147,17 @@
       font-size: 1em;
     }
   }
+
+  .c-alert {
+    padding: 1rem 1.25rem;
+    border-radius: 0.25rem;
+    background-color: var(--backgrounds-2);
+    color: var(--text-11);
+
+    & a {
+      color: var(--text-11);
+    }
+  }
 }
 
 .p-post-table-container {
