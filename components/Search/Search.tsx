@@ -1,4 +1,4 @@
-import { css, keyframes } from '@emotion/react';
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC, useEffect, useRef, useState } from 'react';
