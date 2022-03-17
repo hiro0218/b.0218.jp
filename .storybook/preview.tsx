@@ -22,7 +22,9 @@ export const decorators = [
   (StoryContent: Story) => (
     <>
       <CssBaseline />
-      <StoryContent />
+      <div id="__next">
+        <StoryContent />
+      </div>
     </>
   ),
 ]

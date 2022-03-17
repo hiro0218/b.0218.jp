@@ -1,7 +1,10 @@
+import { keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 import Link from 'next/link';
 import { FC, useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
+import { mobile } from '@/lib/mediaQuery';
 import { Post } from '@/types/source';
 
 const Search: FC = () => {
@@ -69,46 +72,148 @@ const Search: FC = () => {
   };
 
   return (
-    <div className="c-search">
-      <div className="c-search-header">
-        <label className="c-search-header__icon" htmlFor="search-input">
+    <SearchMain>
+      <SearchHeader>
+        <SearchHeaderIcon htmlFor="search-input">
           <HiSearch />
-        </label>
-        <input
+        </SearchHeaderIcon>
+        <SearchInput
           type="search"
-          className="c-search__input"
           placeholder="記事のタイトルから検索する"
           id="search-input"
           autoComplete="off"
           ref={refInput}
           onKeyUp={(e) => onKeyup(e)}
         />
-      </div>
+      </SearchHeader>
       {data.suggest.length > 0 && (
         <>
-          <div className="c-search-list">
+          <SearchResult>
             {data.suggest.map((post, index) => {
               return (
-                <Link key={index} href={`/${post.slug}.html`}>
-                  <a className="c-search-list__link">{post.title}</a>
+                <Link key={index} href={`/${post.slug}.html`} passHref prefetch={false}>
+                  <SearchResultAnchor>{post.title}</SearchResultAnchor>
                 </Link>
               );
             })}
-          </div>
-          <div className="c-search-footer">
-            <div className="c-search-footer__search-result">
+          </SearchResult>
+          <SearchFooter>
+            <div>
               {data.suggest.length > 0 && <span>Result: {data.suggest.length} posts</span>}
             </div>
-            <div className="c-search-footer__search-external">
+            <div>
               <a href="https://www.google.com/search?q=site:b.0218.jp" target="_blank" rel="noopener noreferrer">
                 Google 検索
               </a>
             </div>
-          </div>
+          </SearchFooter>
         </>
       )}
-    </div>
+    </SearchMain>
   );
 };
 
 export default Search;
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+`
+
+const SearchMain = styled.div`
+  display: block;
+  position: fixed;
+  z-index: var(--zIndex-search);
+  top: 10vh;
+  right: 0;
+  left: 0;
+  width: 50vw;
+  margin: auto;
+  overflow: hidden;
+  animation: ${fadeIn} 0.8s ease;
+  border-radius: 4px;
+  opacity: 0;
+  background: #fff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  animation-fill-mode: both;
+
+  ${mobile} {
+    width: 80vw;
+  }
+`
+
+const SearchInput = styled.input`
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: none;
+    font-size: var(--font-size-md);
+
+    &::placeholder {
+      color: var(--text-11);
+      font-size: var(--font-size-sm);
+    }
+
+    &::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+`
+
+const SearchHeader = styled.div`
+  display: flex;
+  height: 3rem;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.16);
+`;
+
+const SearchHeaderIcon = styled.label`
+  display: flex;
+  align-items: center;
+  padding: 0 .5rem 0 0.75rem;
+
+  svg {
+    width: 1.5rem;
+    height: 100%;
+    color: var(--text-11);
+  }
+`
+
+const SearchResult = styled.div`
+  max-height: 50vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: none;
+  overflow-y: auto;
+
+  ${mobile} {
+    max-height: 60vh;
+  }
+`
+
+const SearchResultAnchor = styled.a`
+    display: block;
+    padding: 0.75em 1.5em;
+    font-size: var(--font-size-sm);
+
+    &:hover {
+      background-color: var(--component-backgrounds-4);
+    }
+`
+
+const SearchFooter = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0.5rem;
+  box-shadow: 2px 0 4px 0 rgba(0, 0, 0, 0.16);
+  color: var(--text-11);
+  font-size: var(--font-size-sm);
+`
