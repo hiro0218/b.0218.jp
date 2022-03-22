@@ -12,6 +12,10 @@ const nextConfiguration = {
 
   reactStrictMode: true,
 
+  experimental: {
+    emotion: true,
+  },
+
   swcMinify: true,
 
   async rewrites() {
