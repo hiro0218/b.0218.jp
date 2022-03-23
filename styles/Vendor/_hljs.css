@@ -1,7 +1,0 @@
-@import '~highlight.js/styles/a11y-light.css';
-
-pre code.hljs {
-  padding: 1.5rem;
-  overflow-x: auto;
-  background: var(--backgrounds-2);
-}
