@@ -19,12 +19,14 @@ export const parameters = {
 };
 
 export const decorators = [
-  (StoryContent: Story) => (
-    <>
-      <CssBaseline />
-      <div id="__next">
-        <StoryContent />
-      </div>
-    </>
-  ),
+  (StoryContent: Story) => {
+    return (
+      <>
+        <CssBaseline />
+        <div id="__next">
+          <StoryContent />
+        </div>
+      </>
+    )
+  },
 ]

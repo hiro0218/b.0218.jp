@@ -15,9 +15,11 @@ function getPackageDir(filepath) {
       currDir = dir;
   }
 }
+//   staticDirs: ['../public', '../static', { from: '../foo/assets', to: '/assets' }],
 
 module.exports = {
   stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+  staticDirs: ['../public'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',

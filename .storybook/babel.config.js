@@ -9,5 +9,18 @@
  * @see https://emotion.sh/docs/css-prop#babel-preset Configuring Emotion 11
  */
 module.exports = {
-  plugins: ['@emotion/babel-plugin'],
+  presets: [
+    [
+      'next/babel',
+      {
+        'preset-react': {
+          runtime: 'automatic',
+          importSource: '@emotion/react',
+        },
+      },
+    ],
+  ],
+  plugins: [
+    '@emotion/babel-plugin',
+  ],
 };
