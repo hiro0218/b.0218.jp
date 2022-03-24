@@ -51,7 +51,7 @@ const html = `
       color: #212529;
       font-size: 56px;
       font-weight: 900;
-      line-height: 1.8;
+      line-height: 1.618034;
       letter-spacing: 0.0025em;
       display: -webkit-box;
       -webkit-box-orient: vertical;

@@ -59,7 +59,7 @@ const PagerAnchorItem = styled.a`
   padding: 1rem;
   transition: background-color 0.2s ease, box-shadow 0.4s ease;
   border-radius: 0.25em;
-  line-height: 1.8;
+  line-height: 1.875;
   word-break: break-all;
 
   ${mobile} {

@@ -116,7 +116,7 @@
 
   > :where(p) {
     letter-spacing: 0.05em;
-    line-height: 2;
+    line-height: 1.875;
     word-break: break-all;
   }
 

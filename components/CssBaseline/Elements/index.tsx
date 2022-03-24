@@ -20,7 +20,7 @@ export default css`
     font-family: var(--font-family-sans-serif);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    line-height: 1.75;
+    line-height: 1.875;
     font-feature-settings: 'palt' 1;
 
     &.is-no-scroll {
@@ -134,7 +134,7 @@ export default css`
       background: var(--backgrounds-2);
       color: #383a42;
       font-size: inherit;
-      line-height: 1.8;
+      line-height: 1.875;
     }
   }
 
