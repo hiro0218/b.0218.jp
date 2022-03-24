@@ -37,7 +37,7 @@ const HeaderMain = styled.div`
 const HeaderMainTitle = styled.h1<{ weight: boolean }>`
   color: var(--text-12);
   font-weight: 500;
-  line-height: 1.6;
+  line-height: 1.618034;
   overflow-wrap: break-word;
 
   ${({ weight }) => weight && css`
@@ -52,6 +52,6 @@ const HeadingSide = styled.div`
 const HeaderSub = styled.div`
   color: var(--text-11);
   font-weight: normal;
-  line-height: 1.4;
+  line-height: 1.41421;
   overflow-wrap: break-word;
 `

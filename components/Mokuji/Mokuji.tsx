@@ -9,40 +9,66 @@ const Mokuji = ({ refContent }: { refContent: MutableRefObject<HTMLDivElement> }
   const refDetail = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const mokujiList: HTMLOListElement = new MokujiJs(refContent.current, {
+    const mokujiList = new MokujiJs(refContent.current, {
       anchorType: true,
       anchorLink: true,
       anchorLinkSymbol: '#',
       anchorLinkBefore: false,
       anchorLinkClassName: 'anchor',
-    });
+      anchorContainerTagName: 'ol',
+    }) as unknown as HTMLOListElement;
 
     if (mokujiList?.childNodes.length !== 0) {
-      mokujiList.classList.add('c-mokuji__list');
       refDetail.current.appendChild(mokujiList);
-    } else {
-      refMokuji.current.style.display = 'none';
+      refMokuji.current.style.display = 'block';
     }
   }, [asPath, refContent]);
 
   return (
-    <Root key={asPath} ref={refMokuji} className="c-mokuji">
-      <details ref={refDetail}>
+    <Root key={asPath} ref={refMokuji} style={{ display: 'none' }}>
+      <Details ref={refDetail}>
         <Summary />
-      </details>
+      </Details>
     </Root>
   );
 };
 
 export default Mokuji;
 
-const Root = styled.div`
+const Root = styled.aside`
   border: 2px solid var(--borders-7);
   border-radius: 0.25rem;
   font-size: var(--font-size-sm);
 
   a {
     color: inherit;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
+const Summary = styled.summary`
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+
+  &::after {
+    content: '目次';
+  }
+`;
+
+const Details = styled.details`
+  > ol {
+    margin: 0;
+    padding: var(--space-md) var(--space-xl);
+
+    > li > a {
+      font-weight: 500;
+    }
   }
 
   ol {
@@ -50,8 +76,11 @@ const Root = styled.div`
     counter-reset: number;
 
     & li {
-      margin-bottom: 0.625rem;
       list-style: none;
+
+      &:not(:last-child) {
+        margin-bottom: var(--space-xs);
+      }
 
       &::before {
         content: counters(number, '-') '. ';
@@ -64,25 +93,4 @@ const Root = styled.div`
       padding-left: 1.25em;
     }
   }
-
-  .c-mokuji__list {
-    margin: 0;
-    padding: 0.75rem 1.5rem 1rem;
-
-    > li > a {
-      font-weight: 500;
-    }
-  }
-`;
-
-const Summary = styled.summary`
-  padding: 0.75rem 1.5rem;
-  font-size: var(--font-size-md);
-  font-weight: 500;
-  cursor: pointer;
-  user-select: none;
-
-  &::after {
-    content: '目次';
-  }
-`;
+`

@@ -68,7 +68,7 @@ const LinkCardTitle = styled.h3`
   color: var(--text-12);
   font-size: var(--font-size-md);
   font-weight: normal;
-  line-height: 1.8;
+  line-height: 1.875;
 `;
 
 const LinkCardParagraph = styled.p`
@@ -77,7 +77,7 @@ const LinkCardParagraph = styled.p`
   color: var(--text-11);
   font-size: var(--font-size-sm);
   letter-spacing: 0.025em;
-  line-height: 1.8;
+  line-height: 1.875;
   text-overflow: ellipsis;
   word-break: break-all;
   white-space: nowrap;
