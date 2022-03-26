@@ -6,7 +6,7 @@ import { MutableRefObject, useEffect, useRef } from 'react';
 const Mokuji = ({ refContent }: { refContent: MutableRefObject<HTMLDivElement> }) => {
   const { asPath } = useRouter();
   const refMokuji = useRef<HTMLDivElement>(null);
-  const refDetail = useRef<HTMLDivElement>(null);
+  const refDetail = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {
     const mokujiList = new MokujiJs(refContent.current, {
