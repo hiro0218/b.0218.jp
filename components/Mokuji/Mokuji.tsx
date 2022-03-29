@@ -9,16 +9,16 @@ const Mokuji = ({ refContent }: { refContent: MutableRefObject<HTMLDivElement> }
   const refDetail = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {
-    const mokujiList = new MokujiJs(refContent.current, {
+    const mokujiList = MokujiJs(refContent.current, {
       anchorType: true,
       anchorLink: true,
       anchorLinkSymbol: '#',
       anchorLinkBefore: false,
       anchorLinkClassName: 'anchor',
       anchorContainerTagName: 'ol',
-    }) as unknown as HTMLOListElement;
+    });
 
-    if (mokujiList?.childNodes.length !== 0) {
+    if (mokujiList.childNodes.length !== 0) {
       refDetail.current.appendChild(mokujiList);
       refMokuji.current.style.display = 'block';
     }
