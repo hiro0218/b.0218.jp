@@ -33,7 +33,7 @@
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.8.1",
     "@hiro0218/postcss-css-in-js": "github:hiro0218/postcss-css-in-js",
-    "@storybook/addon-a11y": "^6.4.19",
+    "@storybook/addon-a11y": "^6.4.20",
     "@storybook/addon-actions": "^6.4.20",
     "@storybook/addon-essentials": "^6.4.19",
     "@storybook/addon-links": "^6.4.20",
