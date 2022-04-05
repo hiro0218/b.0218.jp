@@ -12,7 +12,7 @@
     "build:article": "node --require esbuild-register ./src/prepare/article.ts",
     "build:feed": "node --require esbuild-register ./src/prepare/feed.ts",
     "build:sitemap": "node --require esbuild-register ./src/prepare/sitemap.ts",
-    "prepare": "husky install",
+    "prepare": "husky install && playwright install",
     "storybook": "start-storybook -p 6006",
     "build:storybook": "build-storybook -o build/storybook"
   },
