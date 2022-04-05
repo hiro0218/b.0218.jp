@@ -1,6 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import PostPager from '../components/PostPager';
+import PostPager from '@/components/PostPager';
+
 import { PostData } from './mock';
 
 export default {

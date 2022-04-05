@@ -26,6 +26,7 @@ module.exports = {
     "function-no-unknown": [true, {
       ignoreFunctions: [
         "/getModularScale/",
+        "${"
       ]
     }],
     indentation: 2,

@@ -4,7 +4,7 @@ module.exports = {
     'postcss-nested': {},
     'postcss-extend': {},
     'postcss-custom-media': {
-      importFrom: './styles/Settings/_custom-media.css',
+      importFrom: './src/styles/Settings/_custom-media.css',
     },
     'postcss-sort-media-queries': {
       sort: 'mobile-first',
