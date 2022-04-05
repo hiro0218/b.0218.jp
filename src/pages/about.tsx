@@ -38,6 +38,10 @@ const About: NextPage<Props> = ({ page }) => {
 
 export default About;
 
+export const config = {
+  unstable_runtimeJS: false,
+};
+
 export const getStaticProps: GetStaticProps = async () => {
   const pages = getPagesJson();
   const page = pages.find((page) => page.slug === 'about');
