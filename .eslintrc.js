@@ -1,4 +1,6 @@
-/** @type {import('@typescript-eslint/experimental-utils').TSESLint.Linter.Config} */
+// @ts-check
+
+/** @type {import('eslint/lib/shared/types').ConfigData} */
 module.exports = {
   env: {
     es6: true,

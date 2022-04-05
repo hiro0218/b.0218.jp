@@ -1,13 +1,11 @@
+// @ts-check
+
 const withPlugins = require('next-compose-plugins');
 
 /** @type {import('next').NextConfig} */
 const nextConfiguration = {
   env: {
     NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'G-J5F29GMZHX',
-  },
-
-  future: {
-    strictPostcssConfiguration: true,
   },
 
   reactStrictMode: true,

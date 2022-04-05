@@ -1,4 +1,6 @@
-/** @type {import('prettier').Options} */
+// @ts-check
+
+/** @type {import('prettier').Config} */
 module.exports = {
   printWidth: 120,
   trailingComma: 'all',
