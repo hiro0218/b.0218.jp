@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import PostShare from '../components/post/share';
+import PostShare from '@/components/post/share';
 
 export default {
   title: 'Components/PostShare',

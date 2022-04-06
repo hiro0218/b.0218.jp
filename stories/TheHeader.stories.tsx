@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import TheHeader from '../components/TheHeader';
+import TheHeader from '@/components/TheHeader';
 
 export default {
   title: 'Project/TheHeader',

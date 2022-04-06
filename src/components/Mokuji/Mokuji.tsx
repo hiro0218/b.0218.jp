@@ -36,8 +36,6 @@ const Mokuji = ({ refContent }: { refContent: MutableRefObject<HTMLDivElement> }
 export default Mokuji;
 
 const Root = styled.aside`
-  border: 2px solid var(--borders-7);
-  border-radius: 0.25rem;
   font-size: var(--font-size-sm);
 
   a {
@@ -62,6 +60,14 @@ const Summary = styled.summary`
 `;
 
 const Details = styled.details`
+  transition: background-color 0.2s ease;
+  border-radius: 0.25rem;
+  background-color: var(--component-backgrounds-3);
+
+  &:not([open]):hover {
+    background-color: var(--component-backgrounds-4);
+  }
+
   > ol {
     margin: 0;
     padding: var(--space-md) var(--space-xl);
@@ -93,4 +99,4 @@ const Details = styled.details`
       padding-left: 1.25em;
     }
   }
-`
+`;

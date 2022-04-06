@@ -1,5 +1,3 @@
-import '../styles/index.css';
-
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';

@@ -1,4 +1,3 @@
-/** @type {import('stylelint').Configuration} */
 module.exports = {
   extends: [
     'stylelint-config-recommended',
@@ -23,11 +22,6 @@ module.exports = {
     'declaration-block-semicolon-newline-before': 'never-multi-line',
     'declaration-block-semicolon-space-after': 'always-single-line',
     'declaration-block-trailing-semicolon': 'always',
-    "function-no-unknown": [true, {
-      ignoreFunctions: [
-        "/getModularScale/",
-      ]
-    }],
     indentation: 2,
     'length-zero-no-unit': true,
     'max-empty-lines': 2,
@@ -45,6 +39,12 @@ module.exports = {
     {
       files: ['**/*.{ts,jsx,tsx}'],
       customSyntax: '@hiro0218/postcss-css-in-js',
+      rules: {
+        // CSS in JS との相性が悪いため無効化
+        'custom-property-pattern': null,
+        'function-name-case': null,
+        'function-no-unknown': null,
+      }
     },
   ],
 };
