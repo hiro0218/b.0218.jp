@@ -3,7 +3,6 @@ import { RouterContext } from 'next/dist/shared/lib/router-context';
 
 // @ts-ignore
 import CssBaseline from '@/components/CssBaseline';
-import '../styles/index.css';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },

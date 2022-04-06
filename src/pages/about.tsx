@@ -3,6 +3,7 @@ import Head from 'next/head';
 
 import Heading from '@/components/Heading';
 import { PageContentContainer } from '@/components/Layout';
+import PagePost from '@/components/PagePost'
 import { SITE } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
 import { Pages } from '@/types/source';
@@ -18,7 +19,7 @@ const About: NextPage<Props> = ({ page }) => {
         <title key="title">サイトについて - {SITE.NAME}</title>
       </Head>
 
-      <article className="p-post">
+      <PagePost>
         <header>
           <Heading text={'About'} />
         </header>
@@ -31,7 +32,7 @@ const About: NextPage<Props> = ({ page }) => {
             }}
           />
         </PageContentContainer>
-      </article>
+      </PagePost>
     </>
   );
 };
