@@ -99,4 +99,4 @@ const Details = styled.details`
       padding-left: 1.25em;
     }
   }
-`
+`;
