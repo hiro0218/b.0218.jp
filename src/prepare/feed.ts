@@ -29,11 +29,13 @@ function generatedRssFeed(): void {
 
   posts.forEach((post, index) => {
     if (index < 30) {
+      const permalink = `${SITE.URL}${post.slug}.html`;
       feed.addItem({
         title: post.title,
-        description: post.excerpt,
+        description: (post.excerpt).replace(/<[^>]*>/g, ''),
         id: post.slug,
-        link: `${SITE.URL}${post.slug}.html`,
+        link: permalink,
+        guid: permalink,
         date: new Date(post.date),
       });
     }
