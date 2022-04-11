@@ -1,28 +1,12 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef } from 'react';
 import { HiSearch } from 'react-icons/hi';
-import ReactModal from 'react-modal';
 
 import { Logo } from '@/components/Logo';
 import Search from '@/components/Search';
 import { mobile } from '@/lib/mediaQuery';
-
-ReactModal.setAppElement('#__next');
-const customStyles = {
-  overlay: {
-    zIndex: 'var(--zIndex-search-overlay)' as string,
-    backgroundColor: 'rgba(0,0,0,0.4)',
-  },
-  content: {
-    position: 'static',
-    padding: 0,
-    border: 'none',
-    borderRadius: 'none',
-    background: 'none',
-  },
-} as ReactModal.Styles;
 
 const initUnpinHeader = (elHeader: HTMLElement) => {
   const headerHeight = elHeader.offsetHeight;
@@ -65,16 +49,32 @@ const initUnpinHeader = (elHeader: HTMLElement) => {
 };
 
 export const TheHeader: FC = () => {
+  const refDialog = useRef<HTMLDialogElement>(null);
+  const refStyleOverflow = useRef<CSSStyleDeclaration["overflow"]>(
+    typeof window !== 'undefined' ? window.getComputedStyle(document.body).overflow : ''
+  );
   const { asPath } = useRouter();
-  const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const openModal = useCallback(() => {
-    setModalIsOpen(true);
+  const openDialog = useCallback(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    refDialog.current?.showModal();
+    document.body.style.overflow = "hidden";
   }, []);
 
-  const closeModal = useCallback(() => {
-    setModalIsOpen(false);
+  const closeDialog = useCallback(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    refDialog.current?.close();
+    document.body.style.overflow = refStyleOverflow.current;
   }, []);
+
+  const stopPropagation = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      e.stopPropagation();
+    },
+    []
+  );
 
   const refHeader = useRef<HTMLElement>(null);
 
@@ -83,8 +83,8 @@ export const TheHeader: FC = () => {
   }, []);
 
   useEffect(() => {
-    closeModal();
-  }, [asPath, closeModal]);
+    closeDialog();
+  }, [asPath, closeDialog]);
 
   return (
     <>
@@ -95,21 +95,17 @@ export const TheHeader: FC = () => {
               <Logo width="80" height="25" />
             </HeaderLogoAnchor>
           </Link>
-          <HeaderSearchButton type="button" aria-label="Search" onClick={openModal}>
+          <HeaderSearchButton type="button" aria-label="Search" onClick={openDialog}>
             <HiSearch />
           </HeaderSearchButton>
         </HeaderContainer>
       </HeaderRoot>
 
-      <ReactModal
-        isOpen={modalIsOpen}
-        preventScroll={true}
-        onRequestClose={closeModal}
-        shouldCloseOnOverlayClick={true}
-        style={customStyles}
-      >
-        <Search />
-      </ReactModal>
+      <Dialog ref={refDialog} onClick={closeDialog}>
+        <div onClick={stopPropagation}>
+          <Search />
+        </div>
+      </Dialog>
     </>
   );
 };
@@ -177,3 +173,9 @@ const HeaderSearchButton = styled.button`
     color: var(--text-12);
   }
 `;
+
+const Dialog = styled.dialog`
+  top: 10vh;
+  padding: 0;
+  border: none;
+`
