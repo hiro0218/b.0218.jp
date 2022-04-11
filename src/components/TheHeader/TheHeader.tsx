@@ -64,7 +64,7 @@ const initUnpinHeader = (elHeader: HTMLElement) => {
   );
 };
 
-const TheHeader: FC = () => {
+export const TheHeader: FC = () => {
   const { asPath } = useRouter();
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -113,8 +113,6 @@ const TheHeader: FC = () => {
     </>
   );
 };
-
-export default TheHeader;
 
 const HeaderRoot = styled.header`
   position: fixed;
