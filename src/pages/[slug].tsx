@@ -28,7 +28,7 @@ const Post: NextPage<Props> = ({ post }) => {
   const permalink = `${SITE.URL}${post.slug}.html`;
 
   useEffect(() => {
-    if (window.twttr) window.twttr.widgets.load(refContent.current);
+    window?.twttr?.widgets.load(refContent.current);
   }, [asPath]);
 
   return (
