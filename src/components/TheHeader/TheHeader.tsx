@@ -8,9 +8,10 @@ import { Logo } from '@/components/Logo';
 import Search from '@/components/Search';
 import { mobile } from '@/lib/mediaQuery';
 
+const HEADER_UNPIN_CLASS_NAME = 'is-unpin';
+
 const initUnpinHeader = (elHeader: HTMLElement) => {
   const headerHeight = elHeader.offsetHeight;
-  const headerUnpinClassName = 'is-unpin';
   let ticking = false;
   let lastKnownScrollY = 0;
 
@@ -23,12 +24,12 @@ const initUnpinHeader = (elHeader: HTMLElement) => {
         // ヘッダーの高さを超えた場合
         if (currentScrollY >= headerHeight) {
           if (currentScrollY <= lastKnownScrollY) {
-            elHeader.classList.remove(headerUnpinClassName);
+            elHeader.classList.remove(HEADER_UNPIN_CLASS_NAME);
           } else {
-            elHeader.classList.add(headerUnpinClassName);
+            elHeader.classList.add(HEADER_UNPIN_CLASS_NAME);
           }
         } else {
-          elHeader.classList.remove(headerUnpinClassName);
+          elHeader.classList.remove(HEADER_UNPIN_CLASS_NAME);
         }
 
         // 今回のスクロール位置を残す
@@ -122,7 +123,7 @@ const HeaderRoot = styled.header`
   pointer-events: none;
   will-change: transform;
 
-  &.is-unpin {
+  &.${HEADER_UNPIN_CLASS_NAME} {
     transform: translateY(calc(var(--header-height) * -1));
     box-shadow: none;
   }
