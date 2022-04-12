@@ -1,12 +1,14 @@
 import styled from '@emotion/styled';
+import dynamic from 'next/dynamic'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useCallback, useEffect, useRef } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
 import { Logo } from '@/components/Logo';
-import Search from '@/components/Search';
 import { mobile } from '@/lib/mediaQuery';
+
+const Search = dynamic(() => import('@/components/Search'));
 
 const HEADER_UNPIN_CLASS_NAME = 'is-unpin';
 
