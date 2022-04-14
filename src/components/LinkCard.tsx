@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { FC } from 'react';
 import { HiOutlineChevronRight } from 'react-icons/hi';
 
+import { convertDateToSimpleFormat } from '@/lib/date';
 import { mobile } from '@/lib/mediaQuery';
 import { showHoverBackground } from '@/ui/mixin';
-import { convertDateToSimpleFormat } from '@/utils/date';
 
 interface Props {
   link: string;
