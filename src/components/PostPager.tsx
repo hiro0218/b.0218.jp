@@ -5,6 +5,7 @@ import { HiOutlineArrowLeft, HiOutlineArrowRight } from 'react-icons/hi';
 
 import { mobile } from '@/lib/mediaQuery';
 import { NextPrevPost } from '@/types/source';
+import { showHoverBackground } from '@/ui/mixin';
 
 type Props = {
   next: NextPrevPost;
@@ -66,10 +67,7 @@ const PagerAnchorItem = styled.a`
     width: 100%;
   }
 
-  &:hover {
-    background-color: var(--component-backgrounds-4);
-    box-shadow: 0 0 0 0.25rem var(--component-backgrounds-4);
-  }
+  ${showHoverBackground}
 
   &:focus {
     background-color: var(--component-backgrounds-5);

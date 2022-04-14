@@ -7,6 +7,7 @@ import { HiSearch } from 'react-icons/hi';
 
 import { Logo } from '@/components/Logo';
 import { mobile } from '@/lib/mediaQuery';
+import { showHoverBackground } from '@/ui/mixin';
 
 const Search = dynamic(() => import('@/components/Search'));
 
@@ -165,9 +166,14 @@ const HeaderSearchButton = styled.button`
   cursor: pointer;
   pointer-events: auto;
 
-  &:hover,
+  ${showHoverBackground}
+
+  &::after {
+    border-radius: 100%;
+  }
+
   &:focus {
-    background-color: var(--component-backgrounds-4);
+    background-color: var(--component-backgrounds-5);
   }
 
   svg {

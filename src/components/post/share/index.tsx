@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { FaTwitter } from 'react-icons/fa';
 
 import { Stack } from '@/components/Layout';
+import { showHoverBackground } from '@/ui/mixin';
 
 interface Props {
   title: string;
@@ -18,9 +19,14 @@ const Root = styled.a`
   font-size: 1.75rem;
   text-align: center;
 
-  &:focus,
-  &:hover {
-    background-color: var(--component-backgrounds-4);
+  ${showHoverBackground}
+
+  &::after {
+    border-radius: 100%;
+  }
+
+  &:focus {
+    background-color: var(--component-backgrounds-5);
   }
 
   svg {
