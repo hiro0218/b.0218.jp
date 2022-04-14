@@ -2,7 +2,7 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
-import CssBaseline from '@/components/CssBaseline';
+import CssBaseline from '@/components/Functional/CssBaseline';
 import { Container } from '@/components/Layout';
 import { TheFooter } from '@/components/TheFooter';
 import TheHeader from '@/components/TheHeader';
