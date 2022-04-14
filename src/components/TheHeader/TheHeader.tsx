@@ -178,7 +178,9 @@ const HeaderSearchButton = styled.button`
 `;
 
 const Dialog = styled.dialog`
-  top: 10vh;
-  padding: 0;
-  border: none;
+  &[open] {
+    top: 10vh;
+    padding: 0;
+    border: none;
+  }
 `
