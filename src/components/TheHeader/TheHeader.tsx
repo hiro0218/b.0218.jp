@@ -1,32 +1,21 @@
+import { css, jsx, keyframes } from '@emotion/react'
 import styled from '@emotion/styled';
+import dynamic from 'next/dynamic'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef } from 'react';
 import { HiSearch } from 'react-icons/hi';
-import ReactModal from 'react-modal';
 
 import { Logo } from '@/components/Logo';
-import Search from '@/components/Search';
 import { mobile } from '@/lib/mediaQuery';
+import { showHoverBackground } from '@/ui/mixin';
 
-ReactModal.setAppElement('#__next');
-const customStyles = {
-  overlay: {
-    zIndex: 'var(--zIndex-search-overlay)' as string,
-    backgroundColor: 'rgba(0,0,0,0.4)',
-  },
-  content: {
-    position: 'static',
-    padding: 0,
-    border: 'none',
-    borderRadius: 'none',
-    background: 'none',
-  },
-} as ReactModal.Styles;
+const Search = dynamic(() => import('@/components/Search'));
+
+const HEADER_UNPIN_CLASS_NAME = 'is-unpin';
 
 const initUnpinHeader = (elHeader: HTMLElement) => {
   const headerHeight = elHeader.offsetHeight;
-  const headerUnpinClassName = 'is-unpin';
   let ticking = false;
   let lastKnownScrollY = 0;
 
@@ -39,12 +28,12 @@ const initUnpinHeader = (elHeader: HTMLElement) => {
         // ヘッダーの高さを超えた場合
         if (currentScrollY >= headerHeight) {
           if (currentScrollY <= lastKnownScrollY) {
-            elHeader.classList.remove(headerUnpinClassName);
+            elHeader.classList.remove(HEADER_UNPIN_CLASS_NAME);
           } else {
-            elHeader.classList.add(headerUnpinClassName);
+            elHeader.classList.add(HEADER_UNPIN_CLASS_NAME);
           }
         } else {
-          elHeader.classList.remove(headerUnpinClassName);
+          elHeader.classList.remove(HEADER_UNPIN_CLASS_NAME);
         }
 
         // 今回のスクロール位置を残す
@@ -64,17 +53,33 @@ const initUnpinHeader = (elHeader: HTMLElement) => {
   );
 };
 
-const TheHeader: FC = () => {
+export const TheHeader: FC = () => {
+  const refDialog = useRef<HTMLDialogElement>(null);
+  const refStyleOverflow = useRef<CSSStyleDeclaration["overflow"]>(
+    typeof window !== 'undefined' ? window.getComputedStyle(document.body).overflow : ''
+  );
   const { asPath } = useRouter();
-  const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const openModal = useCallback(() => {
-    setModalIsOpen(true);
+  const openDialog = useCallback(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    refDialog.current?.showModal();
+    document.body.style.overflow = "hidden";
   }, []);
 
-  const closeModal = useCallback(() => {
-    setModalIsOpen(false);
+  const closeDialog = useCallback(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    refDialog.current?.close();
+    document.body.style.overflow = refStyleOverflow.current;
   }, []);
+
+  const stopPropagation = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      e.stopPropagation();
+    },
+    []
+  );
 
   const refHeader = useRef<HTMLElement>(null);
 
@@ -83,8 +88,8 @@ const TheHeader: FC = () => {
   }, []);
 
   useEffect(() => {
-    closeModal();
-  }, [asPath, closeModal]);
+    closeDialog();
+  }, [asPath, closeDialog]);
 
   return (
     <>
@@ -95,26 +100,48 @@ const TheHeader: FC = () => {
               <Logo width="80" height="25" />
             </HeaderLogoAnchor>
           </Link>
-          <HeaderSearchButton type="button" aria-label="Search" onClick={openModal}>
+          <HeaderSearchButton type="button" aria-label="Search" onClick={openDialog}>
             <HiSearch />
           </HeaderSearchButton>
         </HeaderContainer>
       </HeaderRoot>
 
-      <ReactModal
-        isOpen={modalIsOpen}
-        preventScroll={true}
-        onRequestClose={closeModal}
-        shouldCloseOnOverlayClick={true}
-        style={customStyles}
-      >
-        <Search />
-      </ReactModal>
+      <Dialog ref={refDialog} onClick={closeDialog}>
+        <div onClick={stopPropagation}>
+          <Search />
+        </div>
+      </Dialog>
     </>
   );
 };
 
-export default TheHeader;
+const slideIn = keyframes`
+  0% {
+    transform: translateY(400px);
+    animation-timing-function: ease-out;
+  }
+  60% {
+    transform: translateY(-30px);
+    animation-timing-function: ease-in;
+  }
+  80% {
+    transform: translateY(10px);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    transform: translateY(0px);
+    animation-timing-function: ease-in;
+  }
+`
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`
 
 const HeaderRoot = styled.header`
   position: fixed;
@@ -128,7 +155,7 @@ const HeaderRoot = styled.header`
   pointer-events: none;
   will-change: transform;
 
-  &.is-unpin {
+  &.${HEADER_UNPIN_CLASS_NAME} {
     transform: translateY(calc(var(--header-height) * -1));
     box-shadow: none;
   }
@@ -168,9 +195,14 @@ const HeaderSearchButton = styled.button`
   cursor: pointer;
   pointer-events: auto;
 
-  &:hover,
+  ${showHoverBackground}
+
+  &::after {
+    border-radius: 100%;
+  }
+
   &:focus {
-    background-color: var(--component-backgrounds-4);
+    background-color: var(--component-backgrounds-5);
   }
 
   svg {
@@ -179,3 +211,11 @@ const HeaderSearchButton = styled.button`
     color: var(--text-12);
   }
 `;
+
+const Dialog = styled.dialog`
+  &[open] {
+    padding: 0;
+    animation: ${fadeIn} 0.4s, ${slideIn} 0.4s linear;
+    border: none;
+  }
+`

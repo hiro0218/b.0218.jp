@@ -2,7 +2,7 @@ import { Story } from '@storybook/react'
 import { RouterContext } from 'next/dist/shared/lib/router-context';
 
 // @ts-ignore
-import CssBaseline from '@/components/CssBaseline';
+import CssBaseline from '@/components/Functional/CssBaseline';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },

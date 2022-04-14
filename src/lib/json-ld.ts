@@ -4,18 +4,13 @@ import { AUTHOR, SITE } from '../constant';
 import { Post } from '../types/source';
 
 export const getDescriptionText = (postContent: string): string => {
-  let content = postContent;
-
-  // strip line break
-  content = content.replace(/(?:\r\n|\r|\n)/g, '');
-
-  // strip tag
-  content = content.replace(/<\/?[^>]+(>|$)/g, ' ');
-
-  // character extraction
-  content = content.substring(0, 140);
-
-  return content;
+  return postContent
+    // strip line break
+    .replace(/(?:\r\n|\r|\n)/g, '')
+    // strip tag
+    .replace(/<\/?[^>]+(>|$)/g, ' ')
+    // character extraction
+    .substring(0, 140);
 };
 
 export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> => {

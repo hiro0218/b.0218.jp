@@ -127,11 +127,7 @@ const fadeIn = keyframes`
 
 const SearchMain = styled.div`
   display: block;
-  position: fixed;
   z-index: var(--zIndex-search);
-  top: 10vh;
-  right: 0;
-  left: 0;
   width: 50vw;
   margin: auto;
   overflow: hidden;

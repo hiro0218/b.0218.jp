@@ -3,8 +3,9 @@ import Link from 'next/link';
 import { FC } from 'react';
 import { HiOutlineChevronRight } from 'react-icons/hi';
 
+import { convertDateToSimpleFormat } from '@/lib/date';
 import { mobile } from '@/lib/mediaQuery';
-import { convertDateToSimpleFormat } from '@/utils/date';
+import { showHoverBackground } from '@/ui/mixin';
 
 interface Props {
   link: string;
@@ -46,10 +47,7 @@ const LinkCardAnchor = styled.a`
     padding: calc(var(--margin-base) * 0.6);
   }
 
-  &:hover {
-    background-color: var(--component-backgrounds-4);
-    box-shadow: 0 0 0 0.25rem var(--component-backgrounds-4);
-  }
+  ${showHoverBackground}
 
   &:focus {
     background-color: var(--component-backgrounds-5);

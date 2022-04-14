@@ -14,8 +14,8 @@ const PostNote = dynamic(() => import('@/components/PostNote'));
 import Mokuji from '@/components/Mokuji';
 import PostHeader from '@/components/post/header';
 import { SITE } from '@/constant';
+import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { Post as PostType } from '@/types/source';
-import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/utils/json-ld';
 
 type PostProps = {
   post: PostType;
@@ -28,7 +28,7 @@ const Post: NextPage<Props> = ({ post }) => {
   const permalink = `${SITE.URL}${post.slug}.html`;
 
   useEffect(() => {
-    if (window.twttr) window.twttr.widgets.load(refContent.current);
+    window?.twttr?.widgets.load(refContent.current);
   }, [asPath]);
 
   return (
