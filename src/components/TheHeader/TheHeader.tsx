@@ -91,6 +91,20 @@ export const TheHeader: FC = () => {
     closeDialog();
   }, [asPath, closeDialog]);
 
+  const escFunction = useCallback((event) => {
+    if (event.keyCode === 27) {
+      closeDialog();
+    }
+  }, [closeDialog]);
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction);
+
+    return () => {
+      document.removeEventListener("keydown", escFunction);
+    };
+  }, [escFunction]);
+
   return (
     <>
       <HeaderRoot ref={refHeader}>
