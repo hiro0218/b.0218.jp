@@ -1,8 +1,10 @@
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
+import { useRef } from 'react';
 
 import Heading from '@/components/Heading';
 import { PageContentContainer } from '@/components/Layout';
+import Mokuji from '@/components/Mokuji';
 import PagePost from '@/components/PagePost'
 import { SITE } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
@@ -13,6 +15,8 @@ interface Props {
 }
 
 const About: NextPage<Props> = ({ page }) => {
+  const refContent = useRef<HTMLDivElement>(null);
+
   return (
     <>
       <Head>
@@ -25,7 +29,10 @@ const About: NextPage<Props> = ({ page }) => {
         </header>
 
         <PageContentContainer>
+          <Mokuji refContent={refContent} />
+
           <div
+            ref={refContent}
             className="p-post__content"
             dangerouslySetInnerHTML={{
               __html: `${page.content}`,
