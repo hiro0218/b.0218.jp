@@ -1,4 +1,4 @@
-import { css, jsx, keyframes } from '@emotion/react'
+import { keyframes } from '@emotion/react'
 import styled from '@emotion/styled';
 import dynamic from 'next/dynamic'
 import Link from 'next/link';
@@ -17,27 +17,24 @@ const HEADER_UNPIN_CLASS_NAME = 'is-unpin';
 const initUnpinHeader = (elHeader: HTMLElement) => {
   const headerHeight = elHeader.offsetHeight;
   let ticking = false;
-  let lastKnownScrollY = 0;
+  let lastScrollY = 0;
 
   const handleScroll = (elHeader: HTMLElement, headerHeight: number) => {
+    const currentScrollY = window.scrollY;
+
     if (!ticking) {
       requestAnimationFrame(() => {
         ticking = false;
-        const currentScrollY = window.pageYOffset;
 
         // ヘッダーの高さを超えた場合
         if (currentScrollY >= headerHeight) {
-          if (currentScrollY <= lastKnownScrollY) {
-            elHeader.classList.remove(HEADER_UNPIN_CLASS_NAME);
-          } else {
-            elHeader.classList.add(HEADER_UNPIN_CLASS_NAME);
-          }
+          elHeader.classList.toggle(HEADER_UNPIN_CLASS_NAME, (currentScrollY <= lastScrollY));
         } else {
           elHeader.classList.remove(HEADER_UNPIN_CLASS_NAME);
         }
 
         // 今回のスクロール位置を残す
-        lastKnownScrollY = currentScrollY;
+        lastScrollY = currentScrollY;
       });
     }
 
