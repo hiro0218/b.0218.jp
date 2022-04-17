@@ -70,7 +70,7 @@ const Details = styled.details`
 
   > ol {
     margin: 0;
-    padding: var(--space-md) var(--space-xl);
+    padding: 0 var(--space-md) var(--space-lg);
 
     > li > a {
       font-weight: 500;

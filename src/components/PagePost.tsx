@@ -50,6 +50,7 @@ const PagePost = styled.article`
       margin: auto;
       color: var(--text-11);
       text-decoration: none;
+      user-select: none;
 
       ${mobile} {
         position: static;
