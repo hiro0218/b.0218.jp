@@ -107,18 +107,20 @@ export const TheHeader: FC = () => {
 
   return (
     <>
-      <HeaderRoot ref={refHeader}>
-        <HeaderContainer>
-          <Link href="/" prefetch={false} passHref>
-            <HeaderLogoAnchor>
-              <Logo width="80" height="25" />
-            </HeaderLogoAnchor>
-          </Link>
-          <HeaderSearchButton type="button" aria-label="Search" onClick={openDialog}>
-            <HiSearch />
-          </HeaderSearchButton>
-        </HeaderContainer>
-      </HeaderRoot>
+      <Underline>
+        <Header ref={refHeader}>
+          <HeaderContainer>
+            <Link href="/" prefetch={false} passHref>
+              <HeaderLogoAnchor>
+                <Logo width="80" height="25" />
+              </HeaderLogoAnchor>
+            </Link>
+            <HeaderSearchButton type="button" aria-label="Search" onClick={openDialog}>
+              <HiSearch />
+            </HeaderSearchButton>
+          </HeaderContainer>
+        </Header>
+      </Underline>
 
       <Dialog ref={refDialog} onClick={closeDialog}>
         <div onClick={stopPropagation}>
@@ -157,7 +159,11 @@ const fadeIn = keyframes`
   }
 `
 
-const HeaderRoot = styled.header`
+const Underline = styled.div`
+  height: var(--header-height);
+`;
+
+const Header = styled.header`
   position: fixed;
   z-index: var(--zIndex-header);
   top: 0;

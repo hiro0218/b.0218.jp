@@ -15,7 +15,6 @@ export default css`
 
   body {
     height: 100%;
-    padding-top: var(--header-height);
     color: var(--text-12);
     font-family: var(--font-family-sans-serif);
     -webkit-font-smoothing: antialiased;
