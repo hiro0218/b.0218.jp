@@ -36,7 +36,7 @@
     "@storybook/addon-essentials": "^6.4.21",
     "@storybook/addon-links": "^6.4.21",
     "@storybook/addon-postcss": "^2.0.0",
-    "@storybook/react": "^6.4.21",
+    "@storybook/react": "^6.4.22",
     "@types/css-font-loading-module": "^0.0.7",
     "@types/fs-extra": "^9.0.13",
     "@types/gtag.js": "^0.0.10",
