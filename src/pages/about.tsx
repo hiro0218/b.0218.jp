@@ -4,8 +4,8 @@ import { useRef } from 'react';
 
 import Heading from '@/components/Heading';
 import { PageContentContainer } from '@/components/Layout';
-import Mokuji from '@/components/Mokuji';
 import PagePost from '@/components/PagePost'
+import Mokuji from '@/components/UI/Mokuji';
 import { SITE } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
 import { Pages } from '@/types/source';
