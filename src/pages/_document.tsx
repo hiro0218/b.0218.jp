@@ -1,7 +1,7 @@
 import createEmotionServer from '@emotion/server/create-instance';
 import { RenderPageResult } from 'next/dist/shared/lib/utils';
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
-import * as React from 'react';
+import { Children } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/components/UI/Adsense';
 import { AUTHOR, SITE } from '@/constant';
@@ -36,7 +36,7 @@ class SampleDocument extends Document {
 
     return {
       ...initialProps,
-      styles: [...React.Children.toArray(initialProps.styles), ...emotionStyleTags],
+      styles: [...Children.toArray(initialProps.styles), ...emotionStyleTags],
     };
   }
 

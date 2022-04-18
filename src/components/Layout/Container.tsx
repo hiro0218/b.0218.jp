@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import React, { CSSProperties, memo } from 'react';
+import { CSSProperties, memo } from 'react';
 
 import { mobile } from '@/lib/mediaQuery';
 

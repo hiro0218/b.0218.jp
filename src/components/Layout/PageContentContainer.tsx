@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import React, { CSSProperties, memo } from 'react';
+import { CSSProperties, memo } from 'react';
 
 type divProps = JSX.IntrinsicElements['div'];
 export interface ContainerProps extends divProps {

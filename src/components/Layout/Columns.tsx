@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { CSSProperties, memo } from 'react';
+import { CSSProperties, memo } from 'react';
 
 import { desktop, mobile } from '@/lib/mediaQuery';
 import { getModularScale } from '@/lib/modular-scale';
