@@ -108,17 +108,8 @@ const PagePost = styled.article`
       }
     }
 
-    li {
+    li + li {
       margin-top: 0.5em;
-      margin-bottom: 0.5em;
-
-      &:first-child {
-        margin-top: 0;
-      }
-
-      &:last-child {
-        margin-bottom: 0;
-      }
     }
 
     blockquote {

@@ -34,6 +34,10 @@ const PostDateRoot = styled.div`
   display: flex;
   align-items: center;
   color: var(--text-11);
+
+  > * + * {
+    margin-left: 0.5em;
+  }
 `;
 
 const PostDateItem = styled.div<{ existModified?: boolean }>`
@@ -51,8 +55,4 @@ const PostDateItem = styled.div<{ existModified?: boolean }>`
       `
     );
   }}
-
-  &:not(:first-child) {
-    margin-left: 0.5em;
-  }
 `;
