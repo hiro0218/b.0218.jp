@@ -59,7 +59,7 @@
     "husky": "^7.0.4",
     "lint-staged": "^12.3.8",
     "next-compose-plugins": "^2.2.1",
-    "playwright": "^1.20.2",
+    "playwright": "^1.21.0",
     "prettier": "^2.6.2",
     "reading-time": "^1.5.0",
     "rehype-highlight": "^5.0.2",
