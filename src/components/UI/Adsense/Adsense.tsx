@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { mobile } from '@/lib/mediaQuery';
 
@@ -11,7 +11,7 @@ export const GOOGLE_ADSENSE = {
   SLOT: '4045255408',
 } as const;
 
-const Adsense: FC = () => {
+export const Adsense = () => {
   const { asPath } = useRouter();
 
   useEffect(() => {
@@ -35,8 +35,6 @@ const Adsense: FC = () => {
     </Ads>
   );
 };
-
-export default Adsense;
 
 const Ads = styled.div`
   max-width: 336px;

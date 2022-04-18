@@ -4,9 +4,9 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
-import Adsense from '@/components/Adsense';
 import { PageContentContainer } from '@/components/Layout';
 import PagePost from '@/components/PagePost'
+import { Adsense } from '@/components/UI/Adsense';
 import { getPostsJson } from '@/lib/posts';
 const PostPager = dynamic(() => import('@/components/PostPager'));
 const PostShare = dynamic(() => import('@/components/post/share'));
