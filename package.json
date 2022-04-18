@@ -43,7 +43,7 @@
     "@types/node": "^17.0.24",
     "@types/react": "^17.0.43",
     "@types/twitter-for-web": "^0.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.18.0",
+    "@typescript-eslint/eslint-plugin": "^5.19.0",
     "babel-loader": "^8.2.4",
     "budoux": "^0.1.0",
     "csstype": "^3.0.11",
