@@ -1,7 +1,7 @@
-import { css } from '@emotion/react';
 import { CSSProperties, memo } from 'react';
 
 import { mobile } from '@/lib/mediaQuery';
+import { css } from '@/ui/styled';
 
 type divProps = JSX.IntrinsicElements['div'];
 export interface ContainerProps extends divProps {

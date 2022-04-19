@@ -1,7 +1,6 @@
-import { css } from '@emotion/react';
-
 import { mobile } from '@/lib/mediaQuery';
 import { getModularScale } from '@/lib/modular-scale';
+import { css } from '@/ui/styled';
 
 export default css`
   /* global */

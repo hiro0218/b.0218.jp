@@ -1,8 +1,8 @@
-import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 import { mobile } from '@/lib/mediaQuery';
+import { styled } from '@/ui/styled';
 
 export const GOOGLE_ADSENSE = {
   LAYOUT: 'in-article',

@@ -1,5 +1,3 @@
-import { keyframes } from '@emotion/react'
-import styled from '@emotion/styled';
 import dynamic from 'next/dynamic'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -9,6 +7,7 @@ import { HiSearch } from 'react-icons/hi';
 import { Logo } from '@/components/UI/Logo';
 import { mobile } from '@/lib/mediaQuery';
 import { showHoverBackground } from '@/ui/mixin';
+import { keyframes, styled } from '@/ui/styled';
 
 const Search = dynamic(() => import('@/components/UI/Search'));
 
@@ -142,7 +141,7 @@ const slideIn = keyframes`
     animation-timing-function: ease-out;
   }
   100% {
-    transform: translateY(0px);
+    transform: translateY(0);
     animation-timing-function: ease-in;
   }
 `

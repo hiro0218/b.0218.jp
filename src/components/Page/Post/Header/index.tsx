@@ -1,10 +1,9 @@
-import styled from '@emotion/styled';
-
 import PostDate from '@/components/Page/Post/Date';
 import Heading from '@/components/UI/Heading';
 import { Stack } from '@/components/UI/Layout';
 import PostTag from '@/components/UI/Tag';
 import { Post as PostType } from '@/types/source';
+import { styled } from '@/ui/styled';
 
 interface Props {
   post: PostType;

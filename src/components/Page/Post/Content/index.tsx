@@ -1,6 +1,5 @@
-import styled from '@emotion/styled';
-
 import { mobile } from '@/lib/mediaQuery';
+import { styled } from '@/ui/styled';
 
 const PostContent = styled.article`
   & > * {

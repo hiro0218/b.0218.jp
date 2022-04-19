@@ -1,4 +1,4 @@
-import { css, Global } from '@emotion/react';
+import { css, Global } from '@/ui/styled';
 
 import elementStyle from './Elements';
 import resetStyle from './Generic';

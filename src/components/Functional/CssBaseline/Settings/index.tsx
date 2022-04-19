@@ -1,7 +1,7 @@
-import { css } from '@emotion/react';
 import { gray } from '@radix-ui/colors';
 
 import { getModularScale } from '@/lib/modular-scale';
+import { css } from '@/ui/styled';
 
 const BaseFontSize = '1rem';
 

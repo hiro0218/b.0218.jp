@@ -1,8 +1,8 @@
-import styled from '@emotion/styled';
 import { CSSProperties, memo } from 'react';
 
 import { desktop, mobile } from '@/lib/mediaQuery';
 import { getModularScale } from '@/lib/modular-scale';
+import { styled } from '@/ui/styled';
 
 type divProps = JSX.IntrinsicElements['div'];
 export interface ContainerProps extends divProps {

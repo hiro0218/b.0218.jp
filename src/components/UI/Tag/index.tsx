@@ -1,5 +1,6 @@
-import styled from '@emotion/styled';
 import Link from 'next/link';
+
+import { styled } from '@/ui/styled';
 
 export type Props = {
   slug: string;

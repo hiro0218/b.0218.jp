@@ -1,6 +1,6 @@
 import 'highlight.js/styles/a11y-light.css';
 
-import { css } from '@emotion/react';
+import { css } from '@/ui/styled';
 
 export default css`
   /* hljs */

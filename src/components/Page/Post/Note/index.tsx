@@ -1,7 +1,7 @@
-import styled from '@emotion/styled';
 import { HiOutlineInformationCircle } from 'react-icons/hi';
 
 import { Post } from '@/types/source';
+import { styled } from '@/ui/styled';
 
 type Props = Pick<Post, 'note'>;
 

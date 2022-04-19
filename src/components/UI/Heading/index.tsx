@@ -1,5 +1,5 @@
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
+import { css } from '@/ui/styled';
+import { styled } from '@/ui/styled';
 
 type Props = {
   tagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';

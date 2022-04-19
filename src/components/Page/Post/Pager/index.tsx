@@ -1,10 +1,10 @@
-import styled from '@emotion/styled';
 import Link from 'next/link';
 import { HiOutlineArrowLeft, HiOutlineArrowRight } from 'react-icons/hi';
 
 import { mobile } from '@/lib/mediaQuery';
 import { NextPrevPost } from '@/types/source';
 import { showHoverBackground } from '@/ui/mixin';
+import { styled } from '@/ui/styled';
 
 type Props = {
   next: NextPrevPost;

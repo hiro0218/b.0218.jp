@@ -1,8 +1,8 @@
-import styled from '@emotion/styled';
 import { FaTwitter } from 'react-icons/fa';
 
 import { Stack } from '@/components/UI/Layout';
 import { showHoverBackground } from '@/ui/mixin';
+import { styled } from '@/ui/styled';
 
 interface Props {
   title: string;

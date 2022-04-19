@@ -1,7 +1,7 @@
-import styled from '@emotion/styled';
 import Link from 'next/link';
 
 import { mobile } from '@/lib/mediaQuery';
+import { styled } from '@/ui/styled';
 
 export const TheFooter = () => {
   return (

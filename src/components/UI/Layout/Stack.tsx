@@ -1,6 +1,7 @@
-import styled from '@emotion/styled';
 import { Property } from 'csstype';
 import { CSSProperties, memo, NamedExoticComponent } from 'react';
+
+import { styled } from '@/ui/styled';
 
 type divProps = JSX.IntrinsicElements['div'];
 export interface StackProps extends divProps {

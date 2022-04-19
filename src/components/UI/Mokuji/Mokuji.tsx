@@ -1,7 +1,8 @@
-import styled from '@emotion/styled';
 import { Mokuji as MokujiJs } from 'mokuji.js';
 import { useRouter } from 'next/router';
 import { MutableRefObject, useEffect, useRef } from 'react';
+
+import { styled } from '@/ui/styled';
 
 const Mokuji = ({ refContent }: { refContent: MutableRefObject<HTMLDivElement> }) => {
   const { asPath } = useRouter();

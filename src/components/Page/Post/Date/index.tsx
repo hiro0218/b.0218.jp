@@ -1,8 +1,6 @@
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-
 import { convertDateToSimpleFormat, isSameDate } from '@/lib/date';
 import { Post } from '@/types/source';
+import { css, styled } from '@/ui/styled';
 
 type Props = Pick<Post, 'date' | 'updated'>;
 
