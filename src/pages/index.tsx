@@ -1,9 +1,9 @@
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
-import { Columns, PageContentContainer, Stack } from '@/components/Layout';
 import PostTag, { Props as PostTagProps } from '@/components/PostTag';
 import Heading from '@/components/UI/Heading';
+import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { getPostsListJson, getTermJson } from '@/lib/posts';
 import { Post as PropsPost } from '@/types/source';

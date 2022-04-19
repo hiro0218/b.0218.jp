@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import { Stack } from '@/components/Layout';
 import PostDate from '@/components/post/date';
 import PostTag from '@/components/PostTag';
 import Heading from '@/components/UI/Heading';
+import { Stack } from '@/components/UI/Layout';
 import { Post as PostType } from '@/types/source';
 
 interface Props {

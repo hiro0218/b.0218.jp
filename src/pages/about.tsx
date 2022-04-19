@@ -2,9 +2,9 @@ import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useRef } from 'react';
 
-import { PageContentContainer } from '@/components/Layout';
 import PagePost from '@/components/PagePost'
 import Heading from '@/components/UI/Heading';
+import { PageContentContainer } from '@/components/UI/Layout';
 import Mokuji from '@/components/UI/Mokuji';
 import { SITE } from '@/constant';
 import { getPagesJson } from '@/lib/posts';

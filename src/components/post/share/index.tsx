@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { FC } from 'react';
 import { FaTwitter } from 'react-icons/fa';
 
-import { Stack } from '@/components/Layout';
+import { Stack } from '@/components/UI/Layout';
 import { showHoverBackground } from '@/ui/mixin';
 
 interface Props {
