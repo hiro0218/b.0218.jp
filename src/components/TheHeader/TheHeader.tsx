@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { FC, useCallback, useEffect, useRef } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
-import { Logo } from '@/components/Logo';
+import { Logo } from '@/components/UI/Logo';
 import { mobile } from '@/lib/mediaQuery';
 import { showHoverBackground } from '@/ui/mixin';
 
