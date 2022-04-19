@@ -121,7 +121,7 @@ export default css`
     display: block;
     overflow: auto;
     border-radius: 0.15rem;
-    background: var(--backgrounds-2);
+    background: var(--component-backgrounds-3);
     font-size: var(--font-size-sm);
     overflow-wrap: break-word;
     -webkit-overflow-scrolling: touch;
@@ -130,8 +130,8 @@ export default css`
     & > code {
       display: block;
       padding: 1.5rem;
-      background: var(--backgrounds-2);
-      color: #383a42;
+      background: var(--component-backgrounds-3);
+      color: var(--text-12);
       font-size: inherit;
       line-height: 1.875;
     }
@@ -141,7 +141,7 @@ export default css`
     margin: 0;
     padding: 0.25rem 0.5rem;
     border-radius: 0.15rem;
-    background: var(--backgrounds-2);
+    background: var(--component-backgrounds-3);
     color: var(--text-12);
     font-size: var(--font-size-sm);
     text-align: left;
