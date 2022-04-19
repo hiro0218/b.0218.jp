@@ -1,12 +1,11 @@
 import styled from '@emotion/styled';
-import { FC } from 'react';
 import { HiOutlineInformationCircle } from 'react-icons/hi';
 
 import { Post } from '@/types/source';
 
 type Props = Pick<Post, 'note'>;
 
-const PostNote: FC<Props> = ({ note }) => {
+const PostNote = ({ note }: Props) => {
   if (!note) {
     return <></>;
   }

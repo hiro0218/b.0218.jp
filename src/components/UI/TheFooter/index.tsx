@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { FC } from 'react';
 
 import { mobile } from '@/lib/mediaQuery';
 
-export const TheFooter: FC = () => {
+export const TheFooter = () => {
   return (
     <FooterRoot>
       <FooterContainer>

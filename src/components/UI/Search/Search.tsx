@@ -1,13 +1,13 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { FC, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
 import { mobile } from '@/lib/mediaQuery';
 import { Post } from '@/types/source';
 
-const Search: FC = () => {
+const Search = () => {
   const refInput = useRef(null);
 
   const [data, setData] = useState({

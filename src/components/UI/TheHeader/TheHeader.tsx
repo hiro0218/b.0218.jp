@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import dynamic from 'next/dynamic'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
 import { Logo } from '@/components/UI/Logo';
@@ -50,7 +50,7 @@ const initUnpinHeader = (elHeader: HTMLElement) => {
   );
 };
 
-export const TheHeader: FC = () => {
+export const TheHeader = () => {
   const refDialog = useRef<HTMLDialogElement>(null);
   const refStyleOverflow = useRef<CSSStyleDeclaration["overflow"]>(
     typeof window !== 'undefined' ? window.getComputedStyle(document.body).overflow : ''

@@ -1,5 +1,3 @@
-import { FC } from 'react';
-
 import Heading from '@/components/UI/Heading';
 import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
@@ -11,7 +9,7 @@ interface Props {
   type: 'Tag';
 }
 
-const Term: FC<Props> = ({ posts, title, type }) => {
+const Term = ({ posts, title, type }: Props) => {
   return (
     <section className="p-term">
       <header>

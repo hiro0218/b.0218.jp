@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { FC } from 'react';
 import { HiOutlineArrowLeft, HiOutlineArrowRight } from 'react-icons/hi';
 
 import { mobile } from '@/lib/mediaQuery';
@@ -12,7 +11,7 @@ type Props = {
   prev: NextPrevPost;
 };
 
-const PostPager: FC<Props> = ({ next, prev }) => {
+const PostPager = ({ next, prev }: Props) => {
   return (
     <PagerRoot>
       {Object.keys(prev).length !== 0 && (

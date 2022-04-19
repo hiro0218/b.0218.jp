@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { FC } from 'react';
 
 type Props = {
   tagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
@@ -10,7 +9,7 @@ type Props = {
   isWeightNormal?: boolean;
 };
 
-const Heading: FC<Props> = ({ tagName: Tag = 'h1', text, textSide, textSub, isWeightNormal = true }) => {
+const Heading = ({ tagName: Tag = 'h1', text, textSide, textSub, isWeightNormal = true }: Props) => {
   const HeaderTitle = HeaderMainTitle.withComponent(Tag)
 
   return (

@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { FC } from 'react';
 
 export type Props = {
   slug: string;
@@ -11,7 +10,7 @@ type PostTagProps = {
   tags: Array<Props>;
 };
 
-const PostTag: FC<PostTagProps> = ({ tags }) => {
+const PostTag = ({ tags }: PostTagProps) => {
   if (tags?.length === 0) return <></>;
 
   return (

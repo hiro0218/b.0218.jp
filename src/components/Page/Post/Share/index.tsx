@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { FC } from 'react';
 import { FaTwitter } from 'react-icons/fa';
 
 import { Stack } from '@/components/UI/Layout';
@@ -34,7 +33,7 @@ const Root = styled.a`
   }
 `;
 
-const PostShare: FC<Props> = ({ title, url }) => {
+const PostShare = ({ title, url }: Props) => {
   return (
     <Stack justify="center">
       <Stack.Item align="center" justify="center">

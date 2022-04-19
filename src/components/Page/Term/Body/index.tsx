@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { FC } from 'react';
 
 import PageTerm from '@/components/Page/Term';
 import { SITE } from '@/constant';
@@ -11,7 +10,7 @@ type Props = {
   posts: Array<TermsPostList>;
 };
 
-const TermsBody: FC<Props> = ({ type, title, posts }) => {
+const TermsBody = ({ type, title, posts }: Props) => {
   return (
     <>
       <Head>

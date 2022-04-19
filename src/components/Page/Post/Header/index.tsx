@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { FC } from 'react';
 
 import PostDate from '@/components/Page/Post/Date';
 import Heading from '@/components/UI/Heading';
@@ -11,7 +10,7 @@ interface Props {
   post: PostType;
 }
 
-const PostHeader: FC<Props> = ({ post }) => {
+const PostHeader = ({ post }: Props) => {
   const tags = post.tags?.map((slug) => ({ slug }));
 
   return (

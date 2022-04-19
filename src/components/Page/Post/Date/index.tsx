@@ -1,13 +1,12 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { FC } from 'react';
 
 import { convertDateToSimpleFormat, isSameDate } from '@/lib/date';
 import { Post } from '@/types/source';
 
 type Props = Pick<Post, 'date' | 'updated'>;
 
-const PostDate: FC<Props> = ({ date, updated }) => {
+const PostDate = ({ date, updated }: Props) => {
   const existsModified = !isSameDate(date, updated);
 
   return (
