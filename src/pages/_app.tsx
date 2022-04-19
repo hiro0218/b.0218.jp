@@ -4,8 +4,8 @@ import Head from 'next/head';
 
 import CssBaseline from '@/components/Functional/CssBaseline';
 import { Container } from '@/components/Layout';
-import TheHeader from '@/components/TheHeader';
 import { TheFooter } from '@/components/UI/TheFooter';
+import TheHeader from '@/components/UI/TheHeader';
 import { AUTHOR, SITE } from '@/constant';
 import createEmotionCache from '@/lib/createEmotionCache';
 import usePageView from '@/lib/hooks/usePageView';

@@ -10,7 +10,7 @@ import { Logo } from '@/components/UI/Logo';
 import { mobile } from '@/lib/mediaQuery';
 import { showHoverBackground } from '@/ui/mixin';
 
-const Search = dynamic(() => import('@/components/Search'));
+const Search = dynamic(() => import('@/components/UI/Search'));
 
 const HEADER_UNPIN_CLASS_NAME = 'is-unpin';
 
