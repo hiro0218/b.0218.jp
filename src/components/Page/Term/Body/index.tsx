@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { FC } from 'react';
 
-import PageTerm from '@/components/PageTerm';
+import PageTerm from '@/components/Page/Term';
 import { SITE } from '@/constant';
 import { TermsPostList } from '@/types/source';
 

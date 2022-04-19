@@ -11,7 +11,7 @@ import { getPostsJson } from '@/lib/posts';
 const PostPager = dynamic(() => import('@/components/Page/Post/Pager'));
 const PostShare = dynamic(() => import('@/components/Page/Post/Share'));
 const PostNote = dynamic(() => import('@/components/Page/Post/Note'));
-import PostHeader from '@/components/post/header';
+import PostHeader from '@/components/Page/Post/Header';
 import Mokuji from '@/components/UI/Mokuji';
 import { SITE } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
