@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import PostDate from '@/components/post/date';
+import PostDate from '@/components/Page/Post/Date';
 
 import { PostData } from './mock';
 

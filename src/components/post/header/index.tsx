@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import { FC } from 'react';
 
-import PostDate from '@/components/post/date';
-import PostTag from '@/components/PostTag';
+import PostDate from '@/components/Page/Post/Date';
+import PostTag from '@/components/Page/Post/Tag';
 import Heading from '@/components/UI/Heading';
 import { Stack } from '@/components/UI/Layout';
 import { Post as PostType } from '@/types/source';

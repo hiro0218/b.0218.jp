@@ -8,9 +8,9 @@ import PagePost from '@/components/PagePost'
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContentContainer } from '@/components/UI/Layout';
 import { getPostsJson } from '@/lib/posts';
-const PostPager = dynamic(() => import('@/components/PostPager'));
-const PostShare = dynamic(() => import('@/components/post/share'));
-const PostNote = dynamic(() => import('@/components/PostNote'));
+const PostPager = dynamic(() => import('@/components/Page/Post/Pager'));
+const PostShare = dynamic(() => import('@/components/Page/Post/Share'));
+const PostNote = dynamic(() => import('@/components/Page/Post/Note'));
 import PostHeader from '@/components/post/header';
 import Mokuji from '@/components/UI/Mokuji';
 import { SITE } from '@/constant';
