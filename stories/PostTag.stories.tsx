@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import PostTag from '@/components/Page/Post/Tag';
+import PostTag from '@/components/UI/Tag';
 
 import { PostData } from './mock';
 
