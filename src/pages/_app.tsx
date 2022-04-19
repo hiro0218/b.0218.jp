@@ -1,14 +1,14 @@
-import { CacheProvider, EmotionCache } from '@emotion/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
 import CssBaseline from '@/components/Functional/CssBaseline';
-import { Container } from '@/components/Layout';
-import { TheFooter } from '@/components/TheFooter';
-import TheHeader from '@/components/TheHeader';
+import { Container } from '@/components/UI/Layout';
+import { TheFooter } from '@/components/UI/TheFooter';
+import TheHeader from '@/components/UI/TheHeader';
 import { AUTHOR, SITE } from '@/constant';
 import createEmotionCache from '@/lib/createEmotionCache';
 import usePageView from '@/lib/hooks/usePageView';
+import { CacheProvider, EmotionCache } from '@/ui/styled';
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;

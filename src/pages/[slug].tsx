@@ -4,15 +4,15 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
-import Adsense from '@/components/Adsense';
-import { PageContentContainer } from '@/components/Layout';
-import PagePost from '@/components/PagePost'
+import PostContent from '@/components/Page/Post/Content'
+import { Adsense } from '@/components/UI/Adsense';
+import { PageContentContainer } from '@/components/UI/Layout';
 import { getPostsJson } from '@/lib/posts';
-const PostPager = dynamic(() => import('@/components/PostPager'));
-const PostShare = dynamic(() => import('@/components/post/share'));
-const PostNote = dynamic(() => import('@/components/PostNote'));
-import Mokuji from '@/components/Mokuji';
-import PostHeader from '@/components/post/header';
+const PostPager = dynamic(() => import('@/components/Page/Post/Pager'));
+const PostShare = dynamic(() => import('@/components/Page/Post/Share'));
+const PostNote = dynamic(() => import('@/components/Page/Post/Note'));
+import PostHeader from '@/components/Page/Post/Header';
+import Mokuji from '@/components/UI/Mokuji';
 import { SITE } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { Post as PostType } from '@/types/source';
@@ -26,6 +26,7 @@ const Post: NextPage<Props> = ({ post }) => {
   const { asPath } = useRouter();
   const refContent = useRef<HTMLDivElement>(null);
   const permalink = `${SITE.URL}${post.slug}.html`;
+  const description = getDescriptionText(post.content);
 
   useEffect(() => {
     window?.twttr?.widgets.load(refContent.current);
@@ -35,14 +36,14 @@ const Post: NextPage<Props> = ({ post }) => {
     <>
       <Head>
         <title key="title">{post.title}</title>
-        <meta key="description" name="description" content={getDescriptionText(post.content)} />
+        <meta key="description" name="description" content={description} />
         <meta key="og:url" property="og:url" content={permalink} />
         <meta key="og:title" property="og:title" content={post.title} />
         <meta key="og:type" property="og:type" content="article" />
-        <meta key="og:description" property="og:description" content={getDescriptionText(post.content)} />
-        <meta key="og:updated_time" property="og:updated_time" content={post.updated} />
+        <meta key="og:description" property="og:description" content={description} />
+        {post.updated && <meta key="og:updated_time" property="og:updated_time" content={post.updated} />}
         <meta key="article:published_time" property="article:published_time" content={post.date} />
-        <meta key="article:modified_time" property="article:modified_time" content={post.updated} />
+        {post.updated && <meta key="article:modified_time" property="article:modified_time" content={post.updated} />}
         <meta key="og:image" property="og:image" content={`${SITE.URL}images/ogp/${post.slug}.png`} />
         <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
         <link rel="canonical" href={permalink} />
@@ -59,7 +60,7 @@ const Post: NextPage<Props> = ({ post }) => {
         )}
       </Head>
 
-      <PagePost>
+      <>
         <header>
           <PostHeader post={post} />
         </header>
@@ -71,7 +72,7 @@ const Post: NextPage<Props> = ({ post }) => {
 
           <Mokuji refContent={refContent} />
 
-          <div
+          <PostContent
             ref={refContent}
             className="p-post__content"
             itemProp="articleBody"
@@ -88,7 +89,7 @@ const Post: NextPage<Props> = ({ post }) => {
             <PostPager next={post.next} prev={post.prev} />
           </div>
         </PageContentContainer>
-      </PagePost>
+      </>
     </>
   );
 };

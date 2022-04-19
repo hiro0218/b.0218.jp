@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css } from '@/ui/styled';
 
 export const showHoverBackground = css`
   position: relative;

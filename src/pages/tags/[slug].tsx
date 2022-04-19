@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 
-import TermsBody from '@/components/terms/body';
+import TermsBody from '@/components/Page/Term/Body';
 import { getTermJson } from '@/lib/posts';
 import { TermsPostList } from '@/types/source';
 

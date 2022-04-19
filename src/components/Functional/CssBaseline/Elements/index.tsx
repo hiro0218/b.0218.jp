@@ -1,7 +1,6 @@
-import { css } from '@emotion/react';
-
 import { mobile } from '@/lib/mediaQuery';
 import { getModularScale } from '@/lib/modular-scale';
+import { css } from '@/ui/styled';
 
 export default css`
   /* global */
@@ -15,7 +14,6 @@ export default css`
 
   body {
     height: 100%;
-    padding-top: var(--header-height);
     color: var(--text-12);
     font-family: var(--font-family-sans-serif);
     -webkit-font-smoothing: antialiased;
@@ -30,10 +28,11 @@ export default css`
 
   a {
     transition: background-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease-in-out;
+    transition: text-decoration-color 0.3s;
     color: var(--text-12);
     text-decoration: none;
-    text-underline-position: under;
     text-decoration-color: var(--borders-8);
+    text-underline-position: under;
 
     &:focus {
       outline: 0;
@@ -122,7 +121,7 @@ export default css`
     display: block;
     overflow: auto;
     border-radius: 0.15rem;
-    background: var(--backgrounds-2);
+    background: var(--component-backgrounds-3);
     font-size: var(--font-size-sm);
     overflow-wrap: break-word;
     -webkit-overflow-scrolling: touch;
@@ -131,8 +130,8 @@ export default css`
     & > code {
       display: block;
       padding: 1.5rem;
-      background: var(--backgrounds-2);
-      color: #383a42;
+      background: var(--component-backgrounds-3);
+      color: var(--text-12);
       font-size: inherit;
       line-height: 1.875;
     }
@@ -142,7 +141,7 @@ export default css`
     margin: 0;
     padding: 0.25rem 0.5rem;
     border-radius: 0.15rem;
-    background: var(--backgrounds-2);
+    background: var(--component-backgrounds-3);
     color: var(--text-12);
     font-size: var(--font-size-sm);
     text-align: left;

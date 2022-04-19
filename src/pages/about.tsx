@@ -1,9 +1,9 @@
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
-import Heading from '@/components/Heading';
-import { PageContentContainer } from '@/components/Layout';
-import PagePost from '@/components/PagePost'
+import PostContent from '@/components/Page/Post/Content'
+import Heading from '@/components/UI/Heading';
+import { PageContentContainer } from '@/components/UI/Layout';
 import { SITE } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
 import { Pages } from '@/types/source';
@@ -19,20 +19,20 @@ const About: NextPage<Props> = ({ page }) => {
         <title key="title">サイトについて - {SITE.NAME}</title>
       </Head>
 
-      <PagePost>
+      <>
         <header>
           <Heading text={'About'} />
         </header>
 
         <PageContentContainer>
-          <div
+          <PostContent
             className="p-post__content"
             dangerouslySetInnerHTML={{
               __html: `${page.content}`,
             }}
           />
         </PageContentContainer>
-      </PagePost>
+      </>
     </>
   );
 };
