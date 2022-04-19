@@ -29,10 +29,11 @@ export default css`
 
   a {
     transition: background-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease-in-out;
+    transition: text-decoration-color 0.3s;
     color: var(--text-12);
     text-decoration: none;
-    text-underline-position: under;
     text-decoration-color: var(--borders-8);
+    text-underline-position: under;
 
     &:focus {
       outline: 0;
