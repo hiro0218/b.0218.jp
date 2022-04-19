@@ -2,7 +2,7 @@ import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useRef } from 'react';
 
-import PagePost from '@/components/PagePost'
+import PostContent from '@/components/Page/Post/Content'
 import Heading from '@/components/UI/Heading';
 import { PageContentContainer } from '@/components/UI/Layout';
 import Mokuji from '@/components/UI/Mokuji';
@@ -31,7 +31,7 @@ const About: NextPage<Props> = ({ page }) => {
         <PageContentContainer>
           <Mokuji refContent={refContent} />
 
-          <PagePost
+          <PostContent
             ref={refContent}
             className="p-post__content"
             dangerouslySetInnerHTML={{

@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
-import PagePost from '@/components/PagePost'
+import PostContent from '@/components/Page/Post/Content'
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContentContainer } from '@/components/UI/Layout';
 import { getPostsJson } from '@/lib/posts';
@@ -72,7 +72,7 @@ const Post: NextPage<Props> = ({ post }) => {
 
           <Mokuji refContent={refContent} />
 
-          <PagePost
+          <PostContent
             ref={refContent}
             className="p-post__content"
             itemProp="articleBody"

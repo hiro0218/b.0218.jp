@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { mobile } from '@/lib/mediaQuery';
 
-const PagePost = styled.article`
+const PostContent = styled.article`
   & > * {
     margin-top: var(--space-xl);
     margin-bottom: var(--space-xl);
@@ -157,4 +157,4 @@ const PagePost = styled.article`
   }
 `;
 
-export default PagePost;
+export default PostContent;
