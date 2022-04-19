@@ -23,7 +23,7 @@ const About: NextPage<Props> = ({ page }) => {
         <title key="title">サイトについて - {SITE.NAME}</title>
       </Head>
 
-      <PagePost>
+      <>
         <header>
           <Heading text={'About'} />
         </header>
@@ -31,7 +31,7 @@ const About: NextPage<Props> = ({ page }) => {
         <PageContentContainer>
           <Mokuji refContent={refContent} />
 
-          <div
+          <PagePost
             ref={refContent}
             className="p-post__content"
             dangerouslySetInnerHTML={{
@@ -39,7 +39,7 @@ const About: NextPage<Props> = ({ page }) => {
             }}
           />
         </PageContentContainer>
-      </PagePost>
+      </>
     </>
   );
 };

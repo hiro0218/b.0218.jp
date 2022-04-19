@@ -60,7 +60,7 @@ const Post: NextPage<Props> = ({ post }) => {
         )}
       </Head>
 
-      <PagePost>
+      <>
         <header>
           <PostHeader post={post} />
         </header>
@@ -72,7 +72,7 @@ const Post: NextPage<Props> = ({ post }) => {
 
           <Mokuji refContent={refContent} />
 
-          <div
+          <PagePost
             ref={refContent}
             className="p-post__content"
             itemProp="articleBody"
@@ -89,7 +89,7 @@ const Post: NextPage<Props> = ({ post }) => {
             <PostPager next={post.next} prev={post.prev} />
           </div>
         </PageContentContainer>
-      </PagePost>
+      </>
     </>
   );
 };
