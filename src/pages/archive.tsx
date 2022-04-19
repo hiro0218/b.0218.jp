@@ -1,9 +1,9 @@
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
-import Heading from '@/components/Heading';
 import { Columns, PageContentContainer, Stack } from '@/components/Layout';
 import LinkCard from '@/components/LinkCard';
+import Heading from '@/components/UI/Heading';
 import { SITE } from '@/constant';
 import { getPostsListJson } from '@/lib/posts';
 import { Post as PropPost } from '@/types/source';

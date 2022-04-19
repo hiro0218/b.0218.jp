@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
-import Heading from '@/components/Heading';
 import { Columns, PageContentContainer, Stack } from '@/components/Layout';
 import LinkCard from '@/components/LinkCard';
+import Heading from '@/components/UI/Heading';
 import { TermsPostList } from '@/types/source';
 
 interface Props {
