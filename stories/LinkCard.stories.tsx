@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import LinkCard from '@/components/LinkCard';
+import LinkCard from '@/components/UI/LinkCard';
 
 import { PostData } from './mock';
 
