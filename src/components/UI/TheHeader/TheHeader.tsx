@@ -1,15 +1,17 @@
 import dynamic from 'next/dynamic'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
 import { Logo } from '@/components/UI/Logo';
+import { useModal } from '@/components/UI/Search/useDialog';
 import { mobile } from '@/lib/mediaQuery';
 import { showHoverBackground } from '@/ui/mixin';
-import { keyframes, styled } from '@/ui/styled';
+import { styled } from '@/ui/styled';
 
 const Search = dynamic(() => import('@/components/UI/Search'));
+import { SearchDialog } from '@/components/UI/Search/SearchDialog';
 
 const HEADER_UNPIN_CLASS_NAME = 'is-unpin';
 
@@ -50,33 +52,8 @@ const initUnpinHeader = (elHeader: HTMLElement) => {
 };
 
 export const TheHeader = () => {
-  const refDialog = useRef<HTMLDialogElement>(null);
-  const refStyleOverflow = useRef<CSSStyleDeclaration["overflow"]>(
-    typeof window !== 'undefined' ? window.getComputedStyle(document.body).overflow : ''
-  );
+  const { ref, openDialog, closeDialog } = useModal();
   const { asPath } = useRouter();
-
-  const openDialog = useCallback(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    refDialog.current?.showModal();
-    document.body.style.overflow = "hidden";
-  }, []);
-
-  const closeDialog = useCallback(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    refDialog.current?.close();
-    document.body.style.overflow = refStyleOverflow.current;
-  }, []);
-
-  const stopPropagation = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      e.stopPropagation();
-    },
-    []
-  );
-
   const refHeader = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -87,73 +64,29 @@ export const TheHeader = () => {
     closeDialog();
   }, [asPath, closeDialog]);
 
-  const escFunction = useCallback((event) => {
-    if (event.keyCode === 27) {
-      closeDialog();
-    }
-  }, [closeDialog]);
-
-  useEffect(() => {
-    document.addEventListener("keydown", escFunction);
-
-    return () => {
-      document.removeEventListener("keydown", escFunction);
-    };
-  }, [escFunction]);
-
   return (
     <>
       <Underline>
         <Header ref={refHeader}>
-          <HeaderContainer>
+          <Container>
             <Link href="/" prefetch={false} passHref>
-              <HeaderLogoAnchor>
+              <LogoAnchor>
                 <Logo width="80" height="25" />
-              </HeaderLogoAnchor>
+              </LogoAnchor>
             </Link>
-            <HeaderSearchButton type="button" aria-label="Search" onClick={openDialog}>
+            <SearchButton type="button" aria-label="Search" onClick={openDialog}>
               <HiSearch />
-            </HeaderSearchButton>
-          </HeaderContainer>
+            </SearchButton>
+          </Container>
         </Header>
       </Underline>
 
-      <Dialog ref={refDialog} onClick={closeDialog}>
-        <div onClick={stopPropagation}>
-          <Search />
-        </div>
-      </Dialog>
+      <SearchDialog ref={ref} closeDialog={closeDialog}>
+        <Search />
+      </SearchDialog>
     </>
   );
 };
-
-const slideIn = keyframes`
-  0% {
-    transform: translateY(400px);
-    animation-timing-function: ease-out;
-  }
-  60% {
-    transform: translateY(-30px);
-    animation-timing-function: ease-in;
-  }
-  80% {
-    transform: translateY(10px);
-    animation-timing-function: ease-out;
-  }
-  100% {
-    transform: translateY(0);
-    animation-timing-function: ease-in;
-  }
-`
-
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`
 
 const Underline = styled.div`
   height: var(--header-height);
@@ -177,7 +110,7 @@ const Header = styled.header`
   }
 `;
 
-const HeaderContainer = styled.div`
+const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -191,14 +124,14 @@ const HeaderContainer = styled.div`
   }
 `;
 
-const HeaderLogoAnchor = styled.a`
+const LogoAnchor = styled.a`
   display: flex;
   align-items: center;
   height: 100%;
   pointer-events: auto;
 `;
 
-const HeaderSearchButton = styled.button`
+const SearchButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -227,11 +160,3 @@ const HeaderSearchButton = styled.button`
     color: var(--text-12);
   }
 `;
-
-const Dialog = styled.dialog`
-  &[open] {
-    padding: 0;
-    animation: ${fadeIn} 0.4s, ${slideIn} 0.4s linear;
-    border: none;
-  }
-`
