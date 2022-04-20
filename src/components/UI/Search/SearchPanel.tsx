@@ -4,6 +4,7 @@ import { HiSearch } from 'react-icons/hi';
 
 import { mobile } from '@/lib/mediaQuery';
 import { Post } from '@/types/source';
+import { fadeIn } from '@/ui/mixin';
 import { keyframes, styled } from '@/ui/styled';
 
 export const SearchPanel = () => {
@@ -111,16 +112,6 @@ export const SearchPanel = () => {
     </SearchMain>
   );
 };
-
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-`
 
 const SearchMain = styled.div`
   display: block;
