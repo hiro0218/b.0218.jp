@@ -13,7 +13,7 @@ export const SearchPanel = () => {
     keyword: '',
     suggest: [],
   });
-  const [archives, setArchives] = useState([] as Array<Post>);
+  const [archives, setArchives] = useState<Array<Post>>([]);
 
   useEffect(() => {
     refInput.current.focus();
