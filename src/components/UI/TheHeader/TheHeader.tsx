@@ -1,17 +1,12 @@
-import dynamic from 'next/dynamic'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
-import { HiSearch } from 'react-icons/hi';
 
 import { Logo } from '@/components/UI/Logo';
+import { SearchButton, SearchDialog } from '@/components/UI/Search';
 import { useModal } from '@/components/UI/Search/useDialog';
 import { mobile } from '@/lib/mediaQuery';
-import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
-
-const Search = dynamic(() => import('@/components/UI/Search'));
-import { SearchDialog } from '@/components/UI/Search/SearchDialog';
 
 const HEADER_UNPIN_CLASS_NAME = 'is-unpin';
 
@@ -74,16 +69,12 @@ export const TheHeader = () => {
                 <Logo width="80" height="25" />
               </LogoAnchor>
             </Link>
-            <SearchButton type="button" aria-label="Search" onClick={openDialog}>
-              <HiSearch />
-            </SearchButton>
+            <SearchButton openDialog={openDialog} />
           </Container>
         </Header>
       </Underline>
 
-      <SearchDialog ref={ref} closeDialog={closeDialog}>
-        <Search />
-      </SearchDialog>
+      <SearchDialog ref={ref} closeDialog={closeDialog} />
     </>
   );
 };
@@ -131,32 +122,3 @@ const LogoAnchor = styled.a`
   pointer-events: auto;
 `;
 
-const SearchButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3rem;
-  height: 3rem;
-  transition: background-color 0.2s ease;
-  border: none;
-  border-radius: 100%;
-  background: none;
-  cursor: pointer;
-  pointer-events: auto;
-
-  ${showHoverBackground}
-
-  &::after {
-    border-radius: 100%;
-  }
-
-  &:focus {
-    background-color: var(--component-backgrounds-5);
-  }
-
-  svg {
-    width: 1.25rem;
-    height: 1.25rem;
-    color: var(--text-12);
-  }
-`;

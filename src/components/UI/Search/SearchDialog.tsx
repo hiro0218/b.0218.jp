@@ -1,24 +1,24 @@
 import {
   forwardRef,
   MutableRefObject,
-  ReactNode,
   useCallback,
   useEffect,
 } from 'react';
 
 import { keyframes, styled } from '@/ui/styled';
 
+import { SearchPanel } from './SearchPanel';
+
 type RefProps = React.LegacyRef<HTMLDialogElement>;
 
 type Props = {
   ref: MutableRefObject<HTMLDialogElement>;
   closeDialog: () => void;
-  children: ReactNode;
 };
 
 const ESC_KEY_CODE = 27;
 
-export const SearchDialog = forwardRef(function SearchDialog({ closeDialog, children }: Props, ref: RefProps) {
+export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Props, ref: RefProps) {
   const stopPropagation = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
   }, []);
@@ -42,7 +42,9 @@ export const SearchDialog = forwardRef(function SearchDialog({ closeDialog, chil
 
   return (
     <Dialog ref={ref} onClick={closeDialog}>
-      <div onClick={stopPropagation}>{children}</div>
+      <div onClick={stopPropagation}>
+        <SearchPanel />
+      </div>
     </Dialog>
   );
 });

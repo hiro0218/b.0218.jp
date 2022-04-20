@@ -6,7 +6,7 @@ import { mobile } from '@/lib/mediaQuery';
 import { Post } from '@/types/source';
 import { keyframes, styled } from '@/ui/styled';
 
-const Search = () => {
+export const SearchPanel = () => {
   const refInput = useRef(null);
 
   const [data, setData] = useState({
@@ -111,8 +111,6 @@ const Search = () => {
     </SearchMain>
   );
 };
-
-export default Search;
 
 const fadeIn = keyframes`
   0% {
