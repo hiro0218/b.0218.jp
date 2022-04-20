@@ -1,21 +1,19 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useRef } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 
 import { Logo } from '@/components/UI/Logo';
 import { SearchButton, SearchDialog } from '@/components/UI/Search';
 import { useModal } from '@/components/UI/Search/useDialog';
 import { mobile } from '@/lib/mediaQuery';
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
-const HEADER_UNPIN_CLASS_NAME = 'is-unpin';
-
-const initUnpinHeader = (elHeader: HTMLElement) => {
+const initUnpinHeader = (elHeader: HTMLElement, setIsHeaderShown: Dispatch<SetStateAction<boolean>>) => {
   const headerHeight = elHeader.offsetHeight;
   let ticking = false;
   let lastScrollY = 0;
 
-  const handleScroll = (elHeader: HTMLElement, headerHeight: number) => {
+  const handleScroll = (headerHeight: number) => {
     const currentScrollY = window.scrollY;
 
     if (!ticking) {
@@ -24,9 +22,9 @@ const initUnpinHeader = (elHeader: HTMLElement) => {
 
         // ヘッダーの高さを超えた場合
         if (currentScrollY >= headerHeight) {
-          elHeader.classList.toggle(HEADER_UNPIN_CLASS_NAME, (currentScrollY <= lastScrollY));
+          setIsHeaderShown(currentScrollY <= lastScrollY);
         } else {
-          elHeader.classList.remove(HEADER_UNPIN_CLASS_NAME);
+          setIsHeaderShown(true);
         }
 
         // 今回のスクロール位置を残す
@@ -40,7 +38,7 @@ const initUnpinHeader = (elHeader: HTMLElement) => {
   document.addEventListener(
     'scroll',
     () => {
-      handleScroll(elHeader, headerHeight);
+      handleScroll(headerHeight);
     },
     { passive: true },
   );
@@ -48,11 +46,12 @@ const initUnpinHeader = (elHeader: HTMLElement) => {
 
 export const TheHeader = () => {
   const { ref, openDialog, closeDialog } = useModal();
+  const [isHeaderShown, setIsHeaderShown] = useState(true);
   const { asPath } = useRouter();
   const refHeader = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    initUnpinHeader(refHeader.current);
+    initUnpinHeader(refHeader.current, setIsHeaderShown);
   }, []);
 
   useEffect(() => {
@@ -62,7 +61,7 @@ export const TheHeader = () => {
   return (
     <>
       <Underline>
-        <Header ref={refHeader}>
+        <Header ref={refHeader} isFixed={isHeaderShown}>
           <Container>
             <Link href="/" prefetch={false} passHref>
               <LogoAnchor>
@@ -83,7 +82,7 @@ const Underline = styled.div`
   height: var(--header-height);
 `;
 
-const Header = styled.header`
+const Header = styled.header<{ isFixed: boolean }>`
   position: fixed;
   z-index: var(--zIndex-header);
   top: 0;
@@ -95,10 +94,15 @@ const Header = styled.header`
   pointer-events: none;
   will-change: transform;
 
-  &.${HEADER_UNPIN_CLASS_NAME} {
-    transform: translateY(calc(var(--header-height) * -1));
-    box-shadow: none;
-  }
+  ${({ isFixed }) => {
+    return (
+      !isFixed &&
+      css`
+        transform: translateY(calc(var(--header-height) * -1));
+        box-shadow: none;
+      `
+    )
+  }}
 `;
 
 const Container = styled.div`
