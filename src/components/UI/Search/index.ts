@@ -1,3 +1,4 @@
-import Search from './Search';
+import { SearchButton } from './SearchButton';
+import { SearchDialog } from './SearchDialog';
 
-export default Search;
+export { SearchButton, SearchDialog };

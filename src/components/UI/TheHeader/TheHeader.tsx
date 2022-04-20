@@ -1,24 +1,19 @@
-import dynamic from 'next/dynamic'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useRef } from 'react';
-import { HiSearch } from 'react-icons/hi';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 
 import { Logo } from '@/components/UI/Logo';
+import { SearchButton, SearchDialog } from '@/components/UI/Search';
+import { useModal } from '@/components/UI/Search/useDialog';
 import { mobile } from '@/lib/mediaQuery';
-import { showHoverBackground } from '@/ui/mixin';
-import { keyframes, styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
-const Search = dynamic(() => import('@/components/UI/Search'));
-
-const HEADER_UNPIN_CLASS_NAME = 'is-unpin';
-
-const initUnpinHeader = (elHeader: HTMLElement) => {
+const initUnpinHeader = (elHeader: HTMLElement, setIsHeaderShown: Dispatch<SetStateAction<boolean>>) => {
   const headerHeight = elHeader.offsetHeight;
   let ticking = false;
   let lastScrollY = 0;
 
-  const handleScroll = (elHeader: HTMLElement, headerHeight: number) => {
+  const handleScroll = (headerHeight: number) => {
     const currentScrollY = window.scrollY;
 
     if (!ticking) {
@@ -27,9 +22,9 @@ const initUnpinHeader = (elHeader: HTMLElement) => {
 
         // ヘッダーの高さを超えた場合
         if (currentScrollY >= headerHeight) {
-          elHeader.classList.toggle(HEADER_UNPIN_CLASS_NAME, (currentScrollY <= lastScrollY));
+          setIsHeaderShown(currentScrollY <= lastScrollY);
         } else {
-          elHeader.classList.remove(HEADER_UNPIN_CLASS_NAME);
+          setIsHeaderShown(true);
         }
 
         // 今回のスクロール位置を残す
@@ -43,123 +38,51 @@ const initUnpinHeader = (elHeader: HTMLElement) => {
   document.addEventListener(
     'scroll',
     () => {
-      handleScroll(elHeader, headerHeight);
+      handleScroll(headerHeight);
     },
     { passive: true },
   );
 };
 
 export const TheHeader = () => {
-  const refDialog = useRef<HTMLDialogElement>(null);
-  const refStyleOverflow = useRef<CSSStyleDeclaration["overflow"]>(
-    typeof window !== 'undefined' ? window.getComputedStyle(document.body).overflow : ''
-  );
+  const { ref, openDialog, closeDialog } = useModal();
+  const [isHeaderShown, setIsHeaderShown] = useState(true);
   const { asPath } = useRouter();
-
-  const openDialog = useCallback(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    refDialog.current?.showModal();
-    document.body.style.overflow = "hidden";
-  }, []);
-
-  const closeDialog = useCallback(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    refDialog.current?.close();
-    document.body.style.overflow = refStyleOverflow.current;
-  }, []);
-
-  const stopPropagation = useCallback(
-    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      e.stopPropagation();
-    },
-    []
-  );
-
   const refHeader = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    initUnpinHeader(refHeader.current);
+    initUnpinHeader(refHeader.current, setIsHeaderShown);
   }, []);
 
   useEffect(() => {
     closeDialog();
   }, [asPath, closeDialog]);
 
-  const escFunction = useCallback((event) => {
-    if (event.keyCode === 27) {
-      closeDialog();
-    }
-  }, [closeDialog]);
-
-  useEffect(() => {
-    document.addEventListener("keydown", escFunction);
-
-    return () => {
-      document.removeEventListener("keydown", escFunction);
-    };
-  }, [escFunction]);
-
   return (
     <>
       <Underline>
-        <Header ref={refHeader}>
-          <HeaderContainer>
+        <Header ref={refHeader} isFixed={isHeaderShown}>
+          <Container>
             <Link href="/" prefetch={false} passHref>
-              <HeaderLogoAnchor>
+              <LogoAnchor>
                 <Logo width="80" height="25" />
-              </HeaderLogoAnchor>
+              </LogoAnchor>
             </Link>
-            <HeaderSearchButton type="button" aria-label="Search" onClick={openDialog}>
-              <HiSearch />
-            </HeaderSearchButton>
-          </HeaderContainer>
+            <SearchButton openDialog={openDialog} />
+          </Container>
         </Header>
       </Underline>
 
-      <Dialog ref={refDialog} onClick={closeDialog}>
-        <div onClick={stopPropagation}>
-          <Search />
-        </div>
-      </Dialog>
+      <SearchDialog ref={ref} closeDialog={closeDialog} />
     </>
   );
 };
-
-const slideIn = keyframes`
-  0% {
-    transform: translateY(400px);
-    animation-timing-function: ease-out;
-  }
-  60% {
-    transform: translateY(-30px);
-    animation-timing-function: ease-in;
-  }
-  80% {
-    transform: translateY(10px);
-    animation-timing-function: ease-out;
-  }
-  100% {
-    transform: translateY(0);
-    animation-timing-function: ease-in;
-  }
-`
-
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`
 
 const Underline = styled.div`
   height: var(--header-height);
 `;
 
-const Header = styled.header`
+const Header = styled.header<{ isFixed: boolean }>`
   position: fixed;
   z-index: var(--zIndex-header);
   top: 0;
@@ -171,13 +94,18 @@ const Header = styled.header`
   pointer-events: none;
   will-change: transform;
 
-  &.${HEADER_UNPIN_CLASS_NAME} {
-    transform: translateY(calc(var(--header-height) * -1));
-    box-shadow: none;
-  }
+  ${({ isFixed }) => {
+    return (
+      !isFixed &&
+      css`
+        transform: translateY(calc(var(--header-height) * -1));
+        box-shadow: none;
+      `
+    )
+  }}
 `;
 
-const HeaderContainer = styled.div`
+const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -191,47 +119,10 @@ const HeaderContainer = styled.div`
   }
 `;
 
-const HeaderLogoAnchor = styled.a`
+const LogoAnchor = styled.a`
   display: flex;
   align-items: center;
   height: 100%;
   pointer-events: auto;
 `;
 
-const HeaderSearchButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3rem;
-  height: 3rem;
-  transition: background-color 0.2s ease;
-  border: none;
-  border-radius: 100%;
-  background: none;
-  cursor: pointer;
-  pointer-events: auto;
-
-  ${showHoverBackground}
-
-  &::after {
-    border-radius: 100%;
-  }
-
-  &:focus {
-    background-color: var(--component-backgrounds-5);
-  }
-
-  svg {
-    width: 1.25rem;
-    height: 1.25rem;
-    color: var(--text-12);
-  }
-`;
-
-const Dialog = styled.dialog`
-  &[open] {
-    padding: 0;
-    animation: ${fadeIn} 0.4s, ${slideIn} 0.4s linear;
-    border: none;
-  }
-`

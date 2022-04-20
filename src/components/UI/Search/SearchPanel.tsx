@@ -4,16 +4,17 @@ import { HiSearch } from 'react-icons/hi';
 
 import { mobile } from '@/lib/mediaQuery';
 import { Post } from '@/types/source';
+import { fadeIn } from '@/ui/mixin';
 import { keyframes, styled } from '@/ui/styled';
 
-const Search = () => {
+export const SearchPanel = () => {
   const refInput = useRef(null);
 
   const [data, setData] = useState({
     keyword: '',
     suggest: [],
   });
-  const [archives, setArchives] = useState([] as Array<Post>);
+  const [archives, setArchives] = useState<Array<Post>>([]);
 
   useEffect(() => {
     refInput.current.focus();
@@ -111,18 +112,6 @@ const Search = () => {
     </SearchMain>
   );
 };
-
-export default Search;
-
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-`
 
 const SearchMain = styled.div`
   display: block;
