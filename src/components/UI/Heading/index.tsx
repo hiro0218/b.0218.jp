@@ -1,4 +1,3 @@
-import { css } from '@/ui/styled';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -35,13 +34,9 @@ const HeaderMain = styled.div`
 
 const HeaderMainTitle = styled.h1<{ weight: boolean }>`
   color: var(--text-12);
-  font-weight: 500;
+  font-weight: ${({ weight }) => weight ? '900' : '500'};
   line-height: 1.618034;
   overflow-wrap: break-word;
-
-  ${({ weight }) => weight && css`
-    font-weight: 900;
-  `}
 `
 
 const HeadingSide = styled.div`
