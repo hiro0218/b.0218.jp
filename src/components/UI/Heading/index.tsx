@@ -29,7 +29,7 @@ export default Heading;
 
 const HeaderMain = styled.div`
   display: flex;
-  align-items: baseline;
+  align-items: flex-end;
   justify-content: space-between;
 `
 
