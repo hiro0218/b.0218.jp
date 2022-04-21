@@ -47,7 +47,7 @@
     "babel-loader": "^8.2.5",
     "budoux": "^0.1.0",
     "csstype": "^3.0.11",
-    "esbuild": "^0.14.36",
+    "esbuild": "^0.14.37",
     "esbuild-register": "^3.3.2",
     "eslint": "^8.12.0",
     "eslint-config-next": "^12.1.5",
