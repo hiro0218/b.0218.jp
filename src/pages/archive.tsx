@@ -8,11 +8,13 @@ import { SITE } from '@/constant';
 import { getPostsListJson } from '@/lib/posts';
 import { Post as PropPost } from '@/types/source';
 
+type ArchiveProps = Partial<PropPost>[];
+
 interface Props {
-  archives: Array<PropPost>;
+  archives: ArchiveProps;
 }
 
-const initArchiveYearList = (archives: Array<PropPost>) => {
+const initArchiveYearList = (archives: ArchiveProps) => {
   const list = {};
 
   [
@@ -26,7 +28,7 @@ const initArchiveYearList = (archives: Array<PropPost>) => {
   return list;
 };
 
-const divideByYearArchive = (archives: Array<PropPost>) => {
+const divideByYearArchive = (archives: ArchiveProps) => {
   const formatArchives = initArchiveYearList(archives);
 
   for (let i = 0; i < archives.length; i++) {
@@ -97,7 +99,14 @@ export const config = {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const archives = getPostsListJson();
+  const archives = getPostsListJson().map(({ title, slug, date, excerpt }) => {
+    return {
+      title,
+      slug,
+      date,
+      excerpt: excerpt || '',
+    };
+  });
 
   return {
     props: {
