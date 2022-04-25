@@ -11,6 +11,7 @@ import { getPostsJson } from '@/lib/posts';
 const PostPager = dynamic(() => import('@/components/Page/Post/Pager'));
 const PostShare = dynamic(() => import('@/components/Page/Post/Share'));
 const PostNote = dynamic(() => import('@/components/Page/Post/Note'));
+const PostEdit = dynamic(() => import('@/components/Page/Post/Edit'));
 import PostHeader from '@/components/Page/Post/Header';
 import Mokuji from '@/components/UI/Mokuji';
 import { SITE } from '@/constant';
@@ -81,13 +82,11 @@ const Post: NextPage<Props> = ({ post }) => {
             }}
           />
 
-          <div>
-            <PostShare title={post.title} url={permalink} />
-          </div>
+          <PostShare title={post.title} url={permalink} />
 
-          <div>
-            <PostPager next={post.next} prev={post.prev} />
-          </div>
+          <PostPager next={post.next} prev={post.prev} />
+
+          <PostEdit slug={post.slug} />
         </PageContentContainer>
       </>
     </>

@@ -8,8 +8,8 @@ import {
   Theme,
   ThemeProvider,
   useTheme,
-} from '@emotion/react'
-import styled from '@emotion/styled'
+} from '@emotion/react';
+import styled from '@emotion/styled';
 
 export {
   css,

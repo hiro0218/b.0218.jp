@@ -8,6 +8,8 @@ import PostTag, { Props as PostTagProps } from '@/components/UI/Tag';
 import { getPostsListJson, getTermJson } from '@/lib/posts';
 import { Post as PropsPost } from '@/types/source';
 
+const POST_DISPLAY_LIMIT = 5;
+
 interface Props {
   recentPosts: Array<PropsPost>;
   updatesPosts: Array<PropsPost>;
@@ -68,19 +70,31 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
 
 export default Home;
 
+const pickPosts = (posts: Partial<PropsPost>) => {
+  const { title, slug, date, updated, excerpt } = posts;
+  return { title, slug, date, updated, excerpt };
+};
+
 export const getStaticProps: GetStaticProps = async () => {
   const posts = getPostsListJson();
-  const recentPosts = posts.filter((_, i) => i < 5);
+  const recentPosts = posts
+    .filter((_, i) => i < POST_DISPLAY_LIMIT)
+    .map((post) => {
+      return pickPosts(post);
+    });
   const updatesPosts = posts
     .sort((a, b) => {
       return a.updated < b.updated ? 1 : -1;
     })
-    .filter((post) => post.date < post.updated)
+    .filter((post) => post.updated && post.date < post.updated)
     .filter((post) => {
       // recentPosts に含まれているものは除外する
       return !recentPosts.filter((recentPost) => post.slug === recentPost.slug).length;
     })
-    .filter((_, i) => i < 5);
+    .filter((_, i) => i < POST_DISPLAY_LIMIT)
+    .map((post) => {
+      return pickPosts(post);
+    });
 
   const tags = Object.entries(getTermJson('tags'))
     .map(([key, val]) => {

@@ -45,7 +45,8 @@ const PostContent = styled.article`
     justify-content: center;
     width: 2rem;
     height: 2rem;
-    margin: auto;
+    height: 100%;
+    margin: 0;
     color: var(--text-11);
     text-decoration: none;
     user-select: none;

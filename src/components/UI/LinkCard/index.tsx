@@ -69,12 +69,12 @@ const LinkCardTitle = styled.h3`
 `;
 
 const LinkCardParagraph = styled.p`
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
   overflow: hidden;
   color: var(--text-11);
   font-size: var(--font-size-sm);
   letter-spacing: 0.025em;
-  line-height: 1.875;
+  line-height: 1;
   text-overflow: ellipsis;
   word-break: break-all;
   white-space: nowrap;
