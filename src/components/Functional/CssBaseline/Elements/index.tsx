@@ -1,4 +1,3 @@
-import { mobile } from '@/lib/mediaQuery';
 import { getModularScale } from '@/lib/modular-scale';
 import { css } from '@/ui/styled';
 
@@ -159,10 +158,7 @@ export default css`
     padding: 0.5rem 1rem;
     border-top: 1px solid var(--borders-6);
     vertical-align: top;
-
-    ${mobile} {
-      white-space: nowrap;
-    }
+    white-space: nowrap;
   }
 
   thead {
