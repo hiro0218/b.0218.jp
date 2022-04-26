@@ -2,7 +2,7 @@ import { CSSProperties, memo } from 'react';
 
 import { desktop, mobile } from '@/lib/mediaQuery';
 import { getModularScale } from '@/lib/modular-scale';
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
 type divProps = JSX.IntrinsicElements['div'];
 export interface ContainerProps extends divProps {
@@ -25,9 +25,14 @@ const Col = {
 
     ${desktop} {
       position: sticky;
-      top: calc(var(--header-height) + 0.5rem);
       width: 29.28%;
       height: 100%;
+      ${({ theme }) => {
+      return (
+        css`&& {
+        top: calc(${theme.components.header.height}px + 0.5rem);
+      }`)
+    }}
     }
   `,
   Main: styled.div`
