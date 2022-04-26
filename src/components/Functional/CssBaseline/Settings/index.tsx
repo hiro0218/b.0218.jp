@@ -60,6 +60,5 @@ export default css`
     /* z-index */
     --zIndex-header: 10;
     --zIndex-search: 12;
-    --zIndex-search-overlay: 11;
   }
 `;
