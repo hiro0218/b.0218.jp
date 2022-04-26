@@ -1,6 +1,6 @@
 // @ts-check
 
-const withPlugins = require('next-compose-plugins');
+import withPlugins from 'next-compose-plugins';
 
 /** @type {import('next').NextConfig} */
 const nextConfiguration = {
@@ -26,4 +26,4 @@ const nextConfiguration = {
   },
 };
 
-module.exports = withPlugins([], nextConfiguration);
+export default withPlugins([], nextConfiguration);
