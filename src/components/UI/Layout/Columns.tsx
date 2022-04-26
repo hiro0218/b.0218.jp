@@ -28,11 +28,12 @@ const Col = {
       width: 29.28%;
       height: 100%;
       ${({ theme }) => {
-      return (
-        css`&& {
-        top: calc(${theme.components.header.height}px + 0.5rem);
-      }`)
-    }}
+        return css`
+          && {
+            top: calc(${theme.components.header.height}px + 0.5rem);
+          }
+        `;
+      }}
     }
   `,
   Main: styled.div`
