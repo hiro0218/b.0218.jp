@@ -28,6 +28,7 @@ const Container = styled.div`
   padding-top: var(--space-md);
   border-top: 1px solid var(--borders-6);
   line-height: 1;
+  text-align: right;
 `;
 
 const Anchor = styled.a`
