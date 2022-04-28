@@ -25,9 +25,7 @@ export default PostEdit;
 
 const Container = styled.div`
   margin-top: var(--space-x-xl);
-  padding-top: var(--space-md);
-  border-top: 1px solid var(--borders-6);
-  line-height: 1;
+  text-align: right;
 `;
 
 const Anchor = styled.a`

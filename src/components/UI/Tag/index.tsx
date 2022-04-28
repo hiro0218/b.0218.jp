@@ -31,7 +31,7 @@ const PostTagAnchor = styled.a`
   display: block;
   padding: 0 0.5em;
   border-radius: 0.15rem;
-  background-color: var(--component-backgrounds-4);
+  background-color: var(--component-backgrounds-3);
   color: var(--text-11);
   font-size: var(--font-size-sm);
 

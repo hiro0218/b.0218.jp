@@ -8,7 +8,8 @@ import TheHeader from '@/components/UI/TheHeader';
 import { AUTHOR, SITE } from '@/constant';
 import createEmotionCache from '@/lib/createEmotionCache';
 import usePageView from '@/lib/hooks/usePageView';
-import { CacheProvider, EmotionCache } from '@/ui/styled';
+import { CacheProvider, EmotionCache, ThemeProvider } from '@/ui/styled';
+import { theme } from '@/ui/themes'
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
@@ -42,14 +43,16 @@ const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: My
       </Head>
 
       <CacheProvider value={emotionCache}>
-        <CssBaseline />
-        <TheHeader />
-        <main>
-          <Container>
-            <Component {...pageProps} />
-          </Container>
-        </main>
-        <TheFooter />
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <TheHeader />
+          <main>
+            <Container>
+              <Component {...pageProps} />
+            </Container>
+          </main>
+          <TheFooter />
+        </ThemeProvider>
       </CacheProvider>
     </>
   );

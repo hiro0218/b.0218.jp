@@ -47,10 +47,6 @@ const LinkCardAnchor = styled.a`
   }
 
   ${showHoverBackground}
-
-  &:focus {
-    background-color: var(--component-backgrounds-5);
-  }
 `;
 
 const LinkCardText = styled.div`
@@ -74,7 +70,7 @@ const LinkCardParagraph = styled.p`
   color: var(--text-11);
   font-size: var(--font-size-sm);
   letter-spacing: 0.025em;
-  line-height: 1;
+  line-height: 1.4;
   text-overflow: ellipsis;
   word-break: break-all;
   white-space: nowrap;

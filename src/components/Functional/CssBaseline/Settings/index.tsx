@@ -57,12 +57,8 @@ export default css`
     --space-xl: ${getModularScale({ baseFontSize: BaseFontSize, degree: 4 })};
     --space-x-xl: ${getModularScale({ baseFontSize: BaseFontSize, degree: 6 })};
 
-    /* header */
-    --header-height: 72px;
-
     /* z-index */
     --zIndex-header: 10;
     --zIndex-search: 12;
-    --zIndex-search-overlay: 11;
   }
 `;

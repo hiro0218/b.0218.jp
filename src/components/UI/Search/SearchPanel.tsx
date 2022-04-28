@@ -5,7 +5,7 @@ import { HiSearch } from 'react-icons/hi';
 import { mobile } from '@/lib/mediaQuery';
 import { Post } from '@/types/source';
 import { fadeIn } from '@/ui/mixin';
-import { keyframes, styled } from '@/ui/styled';
+import { styled } from '@/ui/styled';
 
 export const SearchPanel = () => {
   const refInput = useRef(null);

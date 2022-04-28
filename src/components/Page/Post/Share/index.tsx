@@ -24,10 +24,6 @@ const Root = styled.a`
     border-radius: 100%;
   }
 
-  &:focus {
-    background-color: var(--component-backgrounds-5);
-  }
-
   svg {
     color: var(--text-12);
   }

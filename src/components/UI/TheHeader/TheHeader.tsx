@@ -7,13 +7,14 @@ import { SearchButton, SearchDialog } from '@/components/UI/Search';
 import { useModal } from '@/components/UI/Search/useDialog';
 import { mobile } from '@/lib/mediaQuery';
 import { css, styled } from '@/ui/styled';
+import { theme } from '@/ui/themes';
 
-const initUnpinHeader = (elHeader: HTMLElement, setIsHeaderShown: Dispatch<SetStateAction<boolean>>) => {
-  const headerHeight = elHeader.offsetHeight;
+const initUnpinHeader = (setIsHeaderShown: Dispatch<SetStateAction<boolean>>) => {
+  const headerHeight = theme.components.header.height;
   let ticking = false;
   let lastScrollY = 0;
 
-  const handleScroll = (headerHeight: number) => {
+  const handleScroll = () => {
     const currentScrollY = window.scrollY;
 
     if (!ticking) {
@@ -38,7 +39,7 @@ const initUnpinHeader = (elHeader: HTMLElement, setIsHeaderShown: Dispatch<SetSt
   document.addEventListener(
     'scroll',
     () => {
-      handleScroll(headerHeight);
+      handleScroll();
     },
     { passive: true },
   );
@@ -51,7 +52,7 @@ export const TheHeader = () => {
   const refHeader = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    initUnpinHeader(refHeader.current, setIsHeaderShown);
+    initUnpinHeader(setIsHeaderShown);
   }, []);
 
   useEffect(() => {
@@ -79,7 +80,9 @@ export const TheHeader = () => {
 };
 
 const Underline = styled.div`
-  height: var(--header-height);
+  ${({ theme }) => {
+    return css`height: ${theme.components.header.height}px;`
+  }}
 `;
 
 const Header = styled.header<{ isFixed: boolean }>`
@@ -88,19 +91,21 @@ const Header = styled.header<{ isFixed: boolean }>`
   top: 0;
   right: 0;
   left: 0;
-  height: var(--header-height);
   margin: 0 auto;
   transition: transform 0.25s ease;
   pointer-events: none;
   will-change: transform;
 
-  ${({ isFixed }) => {
+  ${({ theme }) => {
+    return css`height: ${theme.components.header.height}px;`
+  }}
+
+  ${({ theme, isFixed }) => {
     return (
       !isFixed &&
-      css`
-        transform: translateY(calc(var(--header-height) * -1));
-        box-shadow: none;
-      `
+      css`&& {
+        transform: translateY(${theme.components.header.height * -1}px);
+      }`
     )
   }}
 `;

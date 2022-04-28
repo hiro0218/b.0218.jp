@@ -19,23 +19,21 @@ export default css`
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.875;
     font-feature-settings: 'palt' 1;
-
-    &.is-no-scroll {
-      overflow: hidden !important;
-    }
   }
 
   a {
     transition: background-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease-in-out;
     transition: text-decoration-color 0.3s;
+    transition: box-shadow 0.2s ease, background-color 0.2s ease;
     color: var(--text-12);
     text-decoration: none;
     text-decoration-color: var(--borders-8);
     text-underline-position: under;
+    text-underline-offset: 25%;
 
     &:focus {
       outline: 0;
-      box-shadow: 0 0 0 0.25rem var(--borders-8);
+      box-shadow: 0 0 0 2px var(--borders-7);
     }
   }
 
@@ -149,7 +147,6 @@ export default css`
   /* table */
   table {
     width: 100%;
-    background: var(--backgrounds-1);
     font-size: var(--font-size-sm);
   }
 
@@ -183,7 +180,7 @@ export default css`
     tr {
       transition: background-color 0.3s ease;
       &:hover {
-        background-color: var(--component-backgrounds-4);
+        background-color: var(--component-backgrounds-3);
       }
     }
   }
