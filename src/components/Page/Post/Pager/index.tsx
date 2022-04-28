@@ -68,10 +68,6 @@ const PagerAnchorItem = styled.a`
 
   ${showHoverBackground}
 
-  &:focus {
-    background-color: var(--component-backgrounds-5);
-  }
-
   &:only-child {
     flex-grow: 1;
   }

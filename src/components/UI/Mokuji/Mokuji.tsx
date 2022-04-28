@@ -65,15 +65,15 @@ const Summary = styled.summary`
 const Details = styled.details`
   transition: background-color 0.2s ease;
   border-radius: 0.25rem;
-  background-color: var(--component-backgrounds-3);
+  background-color: var(--backgrounds-2);
 
   &:not([open]):hover {
-    background-color: var(--component-backgrounds-4);
+    background-color: var(--component-backgrounds-3);
   }
 
   > ol {
     margin: 0;
-    padding: 0 var(--space-md) var(--space-lg);
+    padding: 0 var(--space-lg) var(--space-lg);
 
     > li > a {
       font-weight: 500;

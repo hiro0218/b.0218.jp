@@ -34,10 +34,6 @@ const Button = styled.button`
     border-radius: 100%;
   }
 
-  &:focus {
-    background-color: var(--component-backgrounds-5);
-  }
-
   svg {
     width: 1.25rem;
     height: 1.25rem;

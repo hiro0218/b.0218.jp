@@ -14,7 +14,7 @@ export const showHoverBackground = css`
     margin: auto;
     width: 50%;
     height: 50%;
-    background-color: var(--component-backgrounds-4);
+    background-image: linear-gradient(120deg, var(--backgrounds-2), var(--component-backgrounds-4));
     border-radius: 0.25rem;
     transform: scale(0.1);
     opacity: 0;
@@ -22,13 +22,18 @@ export const showHoverBackground = css`
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s;
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     &::after {
       opacity: 1;
       width: 100%;
       height: 100%;
       transform: scale(1);
     }
+  }
+
+  &:focus {
+    box-shadow: inset 0 0 0 2px var(--borders-7);
   }
 `;
 
