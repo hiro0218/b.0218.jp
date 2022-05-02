@@ -3,7 +3,7 @@ import fs from 'fs-extra';
 import { chromium } from 'playwright';
 const parser = loadDefaultJapaneseParser();
 
-import { getPostsJson } from '../lib/posts';
+import { getPostsJson } from '../../lib/posts';
 
 const path = {
   dist: `${process.cwd()}/public/images/ogp`,
