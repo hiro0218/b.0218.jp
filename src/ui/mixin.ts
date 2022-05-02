@@ -1,3 +1,4 @@
+import easing from '@/ui/foundation/easing';
 import { css, keyframes } from '@/ui/styled';
 
 export const showHoverBackground = css`
@@ -19,7 +20,7 @@ export const showHoverBackground = css`
     transform: scale(0.1);
     opacity: 0;
     z-index: -1;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s;
+    transition: transform 0.4s ${easing.easeOutBack}, opacity 0.4s;
   }
 
   &:hover,
