@@ -28,7 +28,6 @@ const PostTag = ({ tags }: PostTagProps) => {
 export default PostTag;
 
 const PostTagAnchor = styled.a`
-  display: block;
   padding: 0 0.5em;
   border-radius: 0.15rem;
   background-color: var(--component-backgrounds-3);
