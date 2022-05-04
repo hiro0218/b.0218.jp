@@ -18,6 +18,11 @@ export const TheFooter = () => {
               <a>archive</a>
             </Link>
           </FooterMenuListItem>
+          <FooterMenuListItem role="listitem">
+            <Link href="/tags" prefetch={false} passHref>
+              <a>tags</a>
+            </Link>
+          </FooterMenuListItem>
         </FooterMenuList>
         <small>© hiro</small>
       </FooterContainer>
