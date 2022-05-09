@@ -2,7 +2,7 @@ export const AUTHOR = {
   NAME: 'hiro',
   ICON: 'https://b.0218.jp/hiro0218.png',
   ICON_LOCAL: '/hiro0218.png',
-  PROFILE: 'web developer.',
+  PROFILE: 'Web Frontend Engineer / ex: Web Backend Engineer, Application Engineer',
 };
 
 export const SITE = {
