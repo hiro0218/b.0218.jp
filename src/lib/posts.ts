@@ -30,3 +30,13 @@ export const getPagesJson = (): Array<Pages> => {
 
   return readJsonSync(path);
 };
+
+export const getTermWithCount = (type: 'tags'): [string, number][] => {
+  return Object.entries(getTermJson(type))
+    .map(([key, val]) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      return [key, val.length] as [string, number];
+    })
+    .sort((a, b) => b[1] - a[1]) // 件数の多い順にソート
+}
