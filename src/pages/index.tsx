@@ -5,7 +5,7 @@ import Heading from '@/components/UI/Heading';
 import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import PostTag, { Props as PostTagProps } from '@/components/UI/Tag';
-import { getPostsListJson, getTermJson } from '@/lib/posts';
+import { getPostsListJson, getTermWithCount } from '@/lib/posts';
 import { Post as PropsPost } from '@/types/source';
 
 const POST_DISPLAY_LIMIT = 5;
@@ -96,13 +96,7 @@ export const getStaticProps: GetStaticProps = async () => {
       return pickPosts(post);
     });
 
-  const tags = Object.entries(getTermJson('tags'))
-    .map(([key, val]) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      return [key, val.length] as [string, number];
-    })
-    .sort((a, b) => b[1] - a[1]) // 件数の多い順にソート
+  const tags = getTermWithCount('tags')
     .filter((item, i) => item[1] >= 10 && i < 25) // 件数が10件以上を25個抽出
     .map(([slug, count]) => {
       return { slug, count };

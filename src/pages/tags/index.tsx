@@ -3,7 +3,7 @@ import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 import Heading from '@/components/UI/Heading';
 import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
 import PostTag, { Props as PostTagProps } from '@/components/UI/Tag';
-import { getTermJson } from '@/lib/posts';
+import { getTermWithCount } from '@/lib/posts';
 
 type TermProps = {
   tags: Array<PostTagProps>;
@@ -30,13 +30,7 @@ const Tags: NextPage<Props> = ({ tags }) => {
 export default Tags;
 
 export const getStaticProps: GetStaticProps<TermProps> = async () => {
-  const tags = Object.entries(getTermJson('tags'))
-    .map(([key, val]) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      return [key, val.length] as [string, number];
-    })
-    .sort((a, b) => b[1] - a[1]) // 件数の多い順にソート
+  const tags = getTermWithCount('tags')
     .map(([slug, count]) => {
       return { slug, count };
     });

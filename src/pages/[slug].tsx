@@ -7,7 +7,7 @@ import { useEffect, useRef } from 'react';
 import PostContent from '@/components/Page/Post/Content'
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContentContainer } from '@/components/UI/Layout';
-import { getPostsJson, getTermJson } from '@/lib/posts';
+import { getPostsJson, getTermJson, getTermWithCount } from '@/lib/posts';
 const PostPager = dynamic(() => import('@/components/Page/Post/Pager'));
 const PostShare = dynamic(() => import('@/components/Page/Post/Share'));
 const PostNote = dynamic(() => import('@/components/Page/Post/Note'));
@@ -124,13 +124,7 @@ export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
   });
 
   // tagsを件数順に並び替える
-  post.tags = post.tags.length > 1 ? Object.entries(getTermJson('tags'))
-    .map(([key, val]) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      return [key, val.length] as [string, number];
-    })
-    .sort((a, b) => b[1] - a[1]) // 件数の多い順にソート
+  post.tags = post.tags.length > 1 ? getTermWithCount('tags')
     .filter(([key]) => {
       return post.tags.filter((tag) => tag === key).length > 0;
     })
