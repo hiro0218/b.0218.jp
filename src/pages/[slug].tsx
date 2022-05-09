@@ -7,13 +7,14 @@ import { useEffect, useRef } from 'react';
 import PostContent from '@/components/Page/Post/Content'
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContentContainer } from '@/components/UI/Layout';
-import { getPostsJson } from '@/lib/posts';
+import { getPostsJson, getTermWithCount } from '@/lib/posts';
 const PostPager = dynamic(() => import('@/components/Page/Post/Pager'));
 const PostShare = dynamic(() => import('@/components/Page/Post/Share'));
 const PostNote = dynamic(() => import('@/components/Page/Post/Note'));
 const PostEdit = dynamic(() => import('@/components/Page/Post/Edit'));
 import PostHeader from '@/components/Page/Post/Header';
 import Mokuji from '@/components/UI/Mokuji';
+import { Profile } from '@/components/UI/Profile';
 import { SITE } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { Post as PostType } from '@/types/source';
@@ -84,6 +85,8 @@ const Post: NextPage<Props> = ({ post }) => {
 
           <PostShare title={post.title} url={permalink} />
 
+          <Profile />
+
           <PostPager next={post.next} prev={post.prev} />
 
           <PostEdit slug={post.slug} />
@@ -115,9 +118,19 @@ export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
 
   const slug = context.params.slug as string;
 
+  // slug に一致する post を取得
   const post = posts.find((post) => {
     return post.slug === slug.replace('.html', '');
   });
+
+  // tagsを件数順に並び替える
+  post.tags = post.tags.length > 1 ? getTermWithCount('tags')
+    .filter(([key]) => {
+      return post.tags.filter((tag) => tag === key).length > 0;
+    })
+    .map(([slug]) => {
+      return slug;
+    }) : post.tags;
 
   return {
     props: {

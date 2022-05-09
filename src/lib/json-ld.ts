@@ -1,6 +1,6 @@
 import { BlogPosting, BreadcrumbList, ListItem, WithContext } from 'schema-dts';
 
-import { AUTHOR, SITE } from '../constant';
+import { AUTHOR, SITE, URL } from '../constant';
 import { Post } from '../types/source';
 
 export const getDescriptionText = (postContent: string): string => {
@@ -24,7 +24,11 @@ export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> =
     headline: post.title,
     datePublished: post.date,
     dateModified: post.updated,
-    author: { '@type': 'Person', name: AUTHOR.NAME },
+    author: {
+      '@type': 'Person',
+      name: AUTHOR.NAME,
+      url: [URL.SITE, URL.TWITTER, URL.GITHUB, URL.QIITA, URL.ZENN],
+    },
     description: getDescriptionText(post.content),
     image: [`${SITE.URL}images/ogp/${post.slug}.png`],
     publisher: {
@@ -78,3 +82,4 @@ export const getBreadcrumbStructured = (post: Post) => {
 
   return structure;
 };
+
