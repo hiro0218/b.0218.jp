@@ -28,11 +28,16 @@ const PostTag = ({ tags }: PostTagProps) => {
 export default PostTag;
 
 const PostTagAnchor = styled.a`
+  flex: 1 1 auto;
+  align-items: center;
+  align-self: flex-start;
   padding: 0 0.5em;
   border-radius: 0.15rem;
   background-color: var(--component-backgrounds-3);
   color: var(--text-11);
   font-size: var(--font-size-sm);
+  text-align: center;
+  white-space: nowrap;
 
   &:hover,
   &:focus {
