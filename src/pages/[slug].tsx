@@ -7,7 +7,7 @@ import { useEffect, useRef } from 'react';
 import PostContent from '@/components/Page/Post/Content'
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContentContainer } from '@/components/UI/Layout';
-import { getPostsJson, getTermJson, getTermWithCount } from '@/lib/posts';
+import { getPostsJson, getTermWithCount } from '@/lib/posts';
 const PostPager = dynamic(() => import('@/components/Page/Post/Pager'));
 const PostShare = dynamic(() => import('@/components/Page/Post/Share'));
 const PostNote = dynamic(() => import('@/components/Page/Post/Note'));
