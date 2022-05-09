@@ -10,3 +10,12 @@ export const SITE = {
   DESCRIPTION: '様々な情報をストックするサイバーメモ帳',
   URL: 'https://b.0218.jp/',
 };
+
+export const URL = {
+  SITE: 'https://b.0218.jp/',
+  TWITTER: 'https://twitter.com/hiro0218',
+  GITHUB: 'https://github.com/hiro0218',
+  NPM: 'https://www.npmjs.com/~hiro0218',
+  QIITA: 'https://qiita.com/hiro0218',
+  ZENN: 'https://zenn.dev/hiro',
+};
