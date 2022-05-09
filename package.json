@@ -57,7 +57,7 @@
     "feed": "^4.2.2",
     "fs-extra": "^10.1.0",
     "gray-matter": "^4.0.3",
-    "husky": "^8.0.0",
+    "husky": "^8.0.1",
     "lint-staged": "^12.4.1",
     "next-compose-plugins": "^2.2.1",
     "playwright": "^1.21.1",
