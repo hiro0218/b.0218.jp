@@ -1,4 +1,6 @@
-import { AUTHOR } from '@/constant';
+import { FaGithub } from 'react-icons/fa';
+
+import { AUTHOR, URL } from '@/constant';
 import { styled } from '@/ui/styled';
 
 const ICON_SIZE = 64;
@@ -10,7 +12,14 @@ export const Profile = () => {
         <img src={AUTHOR.ICON_LOCAL} height={ICON_SIZE} width={ICON_SIZE} alt="avatar" />
       </Avatar>
       <Introduction>
-        <Name>{AUTHOR.NAME}</Name>
+        <Name>
+          {AUTHOR.NAME}
+          <SnsList>
+            <a href={URL.GITHUB} target="_blank" rel="noreferrer">
+              <FaGithub aria-label="GitHub" />
+            </a>
+          </SnsList>
+        </Name>
         <Description>{AUTHOR.PROFILE}</Description>
       </Introduction>
     </Container>
@@ -35,9 +44,16 @@ const Introduction = styled.div`
 `;
 
 const Name = styled.h1`
+  display: flex;
+  align-items: center;
   font-size: var(--font-size-lg);
   font-weight: 500;
   line-height: 1;
+`;
+
+const SnsList = styled.div`
+  display: inline-flex;
+  margin-left: var(--space-x-xs);
 `;
 
 const Description = styled.p`
