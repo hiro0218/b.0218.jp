@@ -6,7 +6,7 @@ import { css, styled } from '@/ui/styled';
 
 type divProps = JSX.IntrinsicElements['div'];
 export interface ContainerProps extends divProps {
-  title: string;
+  title?: string;
   style?: CSSProperties;
   children?: React.ReactNode;
 }
@@ -28,12 +28,12 @@ const Col = {
       width: 29.28%;
       height: 100%;
       ${({ theme }) => {
-        return css`
+      return css`
           && {
             top: calc(${theme.components.header.height}px + 0.5rem);
           }
         `;
-      }}
+    }}
     }
   `,
   Main: styled.div`
@@ -56,7 +56,7 @@ export const Columns = memo(function Columns(props: ContainerProps) {
   return (
     <Root className="l-columns" {...others}>
       <Col.Title>
-        <TitleText>{title}</TitleText>
+        {title && <TitleText>{title}</TitleText>}
       </Col.Title>
       <Col.Main>{children}</Col.Main>
     </Root>

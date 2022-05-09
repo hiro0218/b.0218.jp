@@ -17,7 +17,7 @@ const Tags: NextPage<Props> = ({ tags }) => {
         <Heading text={'Tags'} />
       </header>
       <PageContentContainer>
-        <Columns title={''}>
+        <Columns>
           <Stack wrap="wrap" gap="var(--space-x-xs)">
             <PostTag tags={tags} />
           </Stack>
