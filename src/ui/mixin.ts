@@ -6,30 +6,30 @@ export const showHoverBackground = css`
 
   &::after {
     content: '';
-    position: absolute;
     display: block;
+    position: absolute;
+    z-index: -1;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
-    margin: auto;
+    left: 0;
     width: 50%;
     height: 50%;
-    background-image: linear-gradient(120deg, var(--backgrounds-2), var(--component-backgrounds-4));
-    border-radius: 0.25rem;
+    margin: auto;
     transform: scale(0.1);
-    opacity: 0;
-    z-index: -1;
     transition: transform 0.4s ${easing.easeOutBack}, opacity 0.4s;
+    border-radius: 0.25rem;
+    opacity: 0;
+    background-image: linear-gradient(120deg, var(--backgrounds-2), var(--component-backgrounds-4));
   }
 
   &:hover,
   &:focus {
     &::after {
-      opacity: 1;
       width: 100%;
       height: 100%;
       transform: scale(1);
+      opacity: 1;
     }
   }
 
