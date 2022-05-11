@@ -38,7 +38,7 @@ module.exports = {
   overrides: [
     {
       files: ['**/*.{ts,jsx,tsx}'],
-      customSyntax: '@hiro0218/postcss-css-in-js',
+      customSyntax: '@stylelint/postcss-css-in-js',
       rules: {
         // CSS in JS との相性が悪いため無効化
         'custom-property-pattern': null,
