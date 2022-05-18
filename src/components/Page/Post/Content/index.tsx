@@ -1,4 +1,5 @@
 import { mobile } from '@/lib/mediaQuery';
+import { showHoverShadow } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 const PostContent = styled.article`
@@ -123,6 +124,14 @@ const PostContent = styled.article`
 
   iframe {
     aspect-ratio: 16 / 9;
+
+    ${showHoverShadow}
+  }
+
+  figure {
+    img {
+      ${showHoverShadow}
+    }
   }
 
   hr {
