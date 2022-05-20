@@ -159,10 +159,40 @@ const PostContent = styled.article`
     }
   }
 
-  .p-post-table-container {
-    overflow: hidden;
-    overflow-x: auto;
+  .p-table-container {
+    position: relative;
+    isolation: isolate;
+    margin-left: -0.5em;
+  }
+
+  .p-table-shadow {
+    display: flex;
+
+    z-index: 1;
+    overflow: auto;
+
+    background:
+      linear-gradient(to left, #fff, #fff 0.5em) left/0.5em 100%,
+      linear-gradient(to left, rgba(0,0,0,.01), rgba(0,0,0,.12)) left/0.5em 100%,
+      linear-gradient(to right, #fff, #fff 0) right/0.5em 100%,
+      linear-gradient(to right, rgba(0,0,0,.01), rgba(0,0,0,.12)) right/0.5em 100%;
+    background-attachment: local, scroll, local, scroll;
+    background-repeat: no-repeat;
+
+    &::before,
+    &::after {
+      content: '';
+      width: 1px;
+      height: 1px;
+      margin: 0 0.25em;
+    }
+  }
+
+  .p-table-scroll {
+    position: relative;
+    z-index: -1;
     -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: auto;
   }
 `;
 

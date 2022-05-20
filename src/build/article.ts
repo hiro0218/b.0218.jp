@@ -50,7 +50,20 @@ function markdown2html(markdown: string) {
       ignoreMissing: true,
     })
     .use(remark0218)
-    .use(rehypeWrap, { selector: 'table', wrapper: 'div.p-post-table-container' })
+    .use(rehypeWrap, [
+      {
+        selector: 'table',
+        wrapper: 'div.p-table-container',
+      },
+      {
+        selector: 'table',
+        wrapper: 'div.p-table-shadow',
+      },
+      {
+        selector: 'table',
+        wrapper: 'div.p-table-scroll',
+      },
+    ])
     .use(rehypeStringify, { allowDangerousHtml: true })
     .processSync(markdown);
 

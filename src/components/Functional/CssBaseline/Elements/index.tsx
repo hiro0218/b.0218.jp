@@ -162,6 +162,7 @@ export default css`
     & th {
       border-top: none;
       border-bottom: 1px solid var(--borders-7);
+      background-color: var(--component-backgrounds-3);
       text-align: left;
       vertical-align: bottom;
       white-space: nowrap;
@@ -180,7 +181,7 @@ export default css`
     tr {
       transition: background-color 0.3s ease;
       &:hover {
-        background-color: var(--component-backgrounds-3);
+        background-color: var(--component-backgrounds-4);
       }
     }
   }
