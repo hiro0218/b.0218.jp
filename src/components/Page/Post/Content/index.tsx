@@ -1,4 +1,5 @@
 import { mobile } from '@/lib/mediaQuery';
+import { showHoverShadow } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 const PostContent = styled.article`
@@ -123,6 +124,14 @@ const PostContent = styled.article`
 
   iframe {
     aspect-ratio: 16 / 9;
+
+    ${showHoverShadow}
+  }
+
+  figure {
+    img {
+      ${showHoverShadow}
+    }
   }
 
   hr {
@@ -150,11 +159,38 @@ const PostContent = styled.article`
     }
   }
 
-  .p-post-table-container {
-    overflow: hidden;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+  .p-table-scroll {
+    position: relative;
+    isolation: isolate;
+    margin-left: -0.5em;
+
+    table {
+      position: relative;
+      z-index: -1;
+    }
+
+    &__shadow {
+      display: flex;
+      z-index: 1;
+      overflow: auto;
+      background:
+        linear-gradient(to left, #fff, #fff 0.5em) left/0.5em 100%,
+        linear-gradient(to left, rgba(0,0,0,.01), rgba(0,0,0,.12)) left/0.5em 100%,
+        linear-gradient(to right, #fff, #fff 0) right/0.5em 100%,
+        linear-gradient(to right, rgba(0,0,0,.01), rgba(0,0,0,.12)) right/0.5em 100%;
+      background-attachment: local, scroll, local, scroll;
+      background-repeat: no-repeat;
+
+      &::before,
+      &::after {
+        content: '';
+        width: 1px;
+        height: 1px;
+        margin: 0 calc(0.25em - 1px);
+      }
+    }
   }
+
 `;
 
 export default PostContent;
