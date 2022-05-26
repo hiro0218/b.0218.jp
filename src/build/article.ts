@@ -53,15 +53,11 @@ function markdown2html(markdown: string) {
     .use(rehypeWrap, [
       {
         selector: 'table',
-        wrapper: 'div.p-table-container',
-      },
-      {
-        selector: 'table',
-        wrapper: 'div.p-table-shadow',
-      },
-      {
-        selector: 'table',
         wrapper: 'div.p-table-scroll',
+      },
+      {
+        selector: 'table',
+        wrapper: 'div.p-table-scroll__shadow',
       },
     ])
     .use(rehypeStringify, { allowDangerousHtml: true })
