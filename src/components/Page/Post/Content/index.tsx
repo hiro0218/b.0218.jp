@@ -164,11 +164,6 @@ const PostContent = styled.article`
     isolation: isolate;
     margin-left: -0.5em;
 
-    table {
-      position: relative;
-      z-index: -1;
-    }
-
     &__shadow {
       display: flex;
       z-index: 1;

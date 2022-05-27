@@ -7,6 +7,6 @@ export default {
   component: TheFooter,
 } as ComponentMeta<typeof TheFooter>;
 
-const Template: ComponentStory<typeof TheFooter> = (args) => <TheFooter {...args} />;
+const Template: ComponentStory<typeof TheFooter> = () => <TheFooter />;
 
 export const Default = Template.bind({});

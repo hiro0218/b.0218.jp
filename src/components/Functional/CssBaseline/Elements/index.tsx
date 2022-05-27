@@ -147,7 +147,6 @@ export default css`
   /* table */
   table {
     width: 100%;
-    font-size: var(--font-size-sm);
   }
 
   th,
@@ -158,11 +157,14 @@ export default css`
     white-space: nowrap;
   }
 
+  td {
+    font-size: var(--font-size-sm);
+  }
+
   thead {
-    & th {
+    th {
       border-top: none;
       border-bottom: 1px solid var(--borders-7);
-      background-color: var(--component-backgrounds-3);
       text-align: left;
       vertical-align: bottom;
       white-space: nowrap;

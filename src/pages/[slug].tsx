@@ -62,36 +62,34 @@ const Post: NextPage<Props> = ({ post }) => {
         )}
       </Head>
 
-      <>
-        <header>
-          <PostHeader post={post} />
-        </header>
+      <header>
+        <PostHeader post={post} />
+      </header>
 
-        <PageContentContainer>
-          <PostNote note={post.note} />
+      <PageContentContainer>
+        <PostNote note={post.note} />
 
-          <Adsense />
+        <Adsense />
 
-          <Mokuji refContent={refContent} />
+        <Mokuji refContent={refContent} />
 
-          <PostContent
-            ref={refContent}
-            className="p-post__content"
-            itemProp="articleBody"
-            dangerouslySetInnerHTML={{
-              __html: `${post.content}`,
-            }}
-          />
+        <PostContent
+          ref={refContent}
+          className="p-post__content"
+          itemProp="articleBody"
+          dangerouslySetInnerHTML={{
+            __html: `${post.content}`,
+          }}
+        />
 
-          <PostShare title={post.title} url={permalink} />
+        <PostShare title={post.title} url={permalink} />
 
-          <Profile />
+        <Profile />
 
-          <PostPager next={post.next} prev={post.prev} />
+        <PostPager next={post.next} prev={post.prev} />
 
-          <PostEdit slug={post.slug} />
-        </PageContentContainer>
-      </>
+        <PostEdit slug={post.slug} />
+      </PageContentContainer>
     </>
   );
 };
