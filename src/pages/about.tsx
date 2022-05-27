@@ -19,20 +19,18 @@ const About: NextPage<Props> = ({ page }) => {
         <title key="title">サイトについて - {SITE.NAME}</title>
       </Head>
 
-      <>
-        <header>
-          <Heading text={'About'} />
-        </header>
+      <header>
+        <Heading text={'About'} />
+      </header>
 
-        <PageContentContainer>
-          <PostContent
-            className="p-post__content"
-            dangerouslySetInnerHTML={{
-              __html: `${page.content}`,
-            }}
-          />
-        </PageContentContainer>
-      </>
+      <PageContentContainer>
+        <PostContent
+          className="p-post__content"
+          dangerouslySetInnerHTML={{
+            __html: `${page.content}`,
+          }}
+        />
+      </PageContentContainer>
     </>
   );
 };
