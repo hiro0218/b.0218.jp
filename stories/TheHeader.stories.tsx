@@ -7,10 +7,10 @@ export default {
   component: TheHeader,
 } as ComponentMeta<typeof TheHeader>;
 
-const Template: ComponentStory<typeof TheHeader> = (args) => {
+const Template: ComponentStory<typeof TheHeader> = () => {
   return (
     <div style={{ height: '300vh' }}>
-      <TheHeader {...args} />
+      <TheHeader />
     </div>
   );
 };

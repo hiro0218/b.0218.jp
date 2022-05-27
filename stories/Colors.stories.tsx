@@ -96,6 +96,6 @@ export default {
   component: Colors,
 } as ComponentMeta<typeof Colors>;
 
-const Template: ComponentStory<typeof Colors> = (args) => <Colors {...args} />;
+const Template: ComponentStory<typeof Colors> = () => <Colors />;
 
 export const Default = Template.bind({});
