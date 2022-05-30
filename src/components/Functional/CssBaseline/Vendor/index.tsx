@@ -11,11 +11,6 @@ export default css`
     color: var(--text-12);
   }
 
-  /* react modal */
-  .ReactModal__Body--open {
-    overflow: hidden;
-  }
-
   /* twitter */
   .twitter-tweet.twitter-tweet-rendered {
     margin-right: auto;
