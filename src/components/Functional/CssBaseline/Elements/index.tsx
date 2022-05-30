@@ -18,7 +18,7 @@ export default css`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.875;
-    font-feature-settings: 'palt' 1;
+    font-feature-settings: 'chws' 1;
   }
 
   a {

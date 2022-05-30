@@ -7,12 +7,8 @@ export default css`
   pre code.hljs {
     padding: 1.5rem;
     overflow-x: auto;
-    background: var(--backgrounds-2);
-  }
-
-  /* react modal */
-  .ReactModal__Body--open {
-    overflow: hidden;
+    background: var(--component-backgrounds-3);
+    color: var(--text-12);
   }
 
   /* twitter */
