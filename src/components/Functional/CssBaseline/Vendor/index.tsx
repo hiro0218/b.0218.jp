@@ -7,7 +7,8 @@ export default css`
   pre code.hljs {
     padding: 1.5rem;
     overflow-x: auto;
-    background: var(--backgrounds-2);
+    background: var(--component-backgrounds-3);
+    color: var(--text-12);
   }
 
   /* react modal */
