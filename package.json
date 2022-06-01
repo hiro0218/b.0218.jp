@@ -13,7 +13,7 @@
     "build:feed": "node --require esbuild-register ./src/build/feed.ts",
     "build:sitemap": "node --require esbuild-register ./src/build/sitemap.ts",
     "build:ogp": "node --require esbuild-register ./src/build/ogp",
-    "prepare": "husky install && playwright install",
+    "prepare": "husky install && playwright install --with-deps chromium",
     "storybook": "start-storybook -p 6006",
     "build:storybook": "build-storybook -o build/storybook"
   },
