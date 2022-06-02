@@ -7,7 +7,7 @@ type Props = Pick<Post, 'note'>;
 
 const PostNote = ({ note }: Props) => {
   if (!note) {
-    return <></>;
+    return null;
   }
 
   return (
