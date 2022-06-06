@@ -12,7 +12,9 @@ type PostTagProps = {
 };
 
 const PostTag = ({ tags }: PostTagProps) => {
-  if (tags?.length === 0) return <></>;
+  if (tags?.length === 0) {
+    return null;
+  }
 
   return (
     <>
