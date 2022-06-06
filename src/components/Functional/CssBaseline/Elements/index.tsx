@@ -31,7 +31,7 @@ export default css`
     text-underline-position: under;
     text-underline-offset: 25%;
 
-    &:focus {
+    &:focus-visible {
       outline: 0;
       box-shadow: 0 0 0 2px var(--borders-7);
     }
