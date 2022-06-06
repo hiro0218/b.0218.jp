@@ -9,7 +9,7 @@ updates:
     directory: "/" # Location of package manifests
     target-branch: "develop"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     reviewers:
       - "hiro0218"
     open-pull-requests-limit: 10
