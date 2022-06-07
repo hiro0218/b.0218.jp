@@ -2,7 +2,7 @@ import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
 import Heading from '@/components/UI/Heading';
-import { Columns, Flex, PageContentContainer } from '@/components/UI/Layout';
+import { Columns, Flex, PageContentContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import PostTag, { Props as PostTagProps } from '@/components/UI/Tag';
 import { getPostsListJson, getTermWithCount } from '@/lib/posts';
@@ -29,33 +29,33 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
 
       <PageContentContainer>
         <Columns title={'Recent Articles'}>
-          <Flex direction="column" gap="var(--space-x-xs) 0" role="list">
+          <Stack space="var(--space-x-xs)" role="list">
             {recentPosts.map((post, index) => (
-              <Flex.Item key={index} display="block" role="listitem">
-                <LinkCard
-                  link={`${post.slug}.html`}
-                  title={post.title}
-                  date={post.updated || post.date}
-                  excerpt={post.excerpt}
-                />
-              </Flex.Item>
+              <LinkCard
+                key={index}
+                link={`${post.slug}.html`}
+                title={post.title}
+                date={post.updated || post.date}
+                excerpt={post.excerpt}
+                role="listitem"
+              />
             ))}
-          </Flex>
+          </Stack>
         </Columns>
 
         <Columns title={'Updated Articles'}>
-          <Flex direction="column" gap="var(--space-x-xs) 0" role="list">
+          <Stack space="var(--space-x-xs)" role="list">
             {updatesPosts.map((post, index) => (
-              <Flex.Item key={index} display="block" role="listitem">
-                <LinkCard
-                  link={`${post.slug}.html`}
-                  title={post.title}
-                  date={post.updated || post.date}
-                  excerpt={post.excerpt}
-                />
-              </Flex.Item>
+              <LinkCard
+                key={index}
+                link={`${post.slug}.html`}
+                title={post.title}
+                date={post.updated || post.date}
+                excerpt={post.excerpt}
+                role="listitem"
+              />
             ))}
-          </Flex>
+          </Stack>
         </Columns>
 
         <Columns title={'Tags'}>
