@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { AriaRole } from 'react';
 import { HiOutlineChevronRight } from 'react-icons/hi';
 
 import { convertDateToSimpleFormat } from '@/lib/date';
@@ -12,11 +13,12 @@ interface Props {
   date: string;
   excerpt?: string;
   target?: boolean;
+  role?: AriaRole;
 }
 
-const LinkCard = ({ link, title, date, excerpt, target = false }: Props) => {
+const LinkCard = ({ link, title, date, excerpt, target = false, role }: Props) => {
   return (
-    <Link href={link} prefetch={false} passHref>
+    <Link href={link} prefetch={false} passHref role={role}>
       <LinkCardAnchor {...(target && { target: '_blank' })}>
         <LinkCardText>
           <LinkCardTitle>{title}</LinkCardTitle>
