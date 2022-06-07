@@ -1,7 +1,7 @@
 import { CSSProperties, memo } from 'react';
 
 import { mobile } from '@/lib/mediaQuery';
-import { css } from '@/ui/styled';
+import { styled } from '@/ui/styled';
 
 type divProps = JSX.IntrinsicElements['div'];
 export interface ContainerProps extends divProps {
@@ -13,13 +13,13 @@ export const Container = memo(function Container(props: ContainerProps) {
   const { children, ...others } = props;
 
   return (
-    <div className="l-container" css={cssContainer} {...others}>
+    <ContainerRoot className="l-container" {...others}>
       {children}
-    </div>
+    </ContainerRoot>
   );
 });
 
-const cssContainer = css`
+const ContainerRoot = styled.div`
   max-width: var(--container-width);
   margin: var(--space-md) auto 0;
   transition: padding 0.1s ease-in-out;
