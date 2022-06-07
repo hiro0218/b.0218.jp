@@ -18,8 +18,8 @@ interface Props {
 
 const LinkCard = ({ link, title, date, excerpt, target = false, role }: Props) => {
   return (
-    <Link href={link} prefetch={false} passHref role={role}>
-      <LinkCardAnchor {...(target && { target: '_blank' })}>
+    <Link href={link} prefetch={false} passHref>
+      <LinkCardAnchor {...(target && { target: '_blank' })} role={role}>
         <LinkCardText>
           <LinkCardTitle>{title}</LinkCardTitle>
           <LinkCardParagraph>
