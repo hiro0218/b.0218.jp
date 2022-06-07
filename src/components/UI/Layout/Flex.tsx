@@ -4,7 +4,7 @@ import { CSSProperties, memo, NamedExoticComponent } from 'react';
 import { styled } from '@/ui/styled';
 
 type divProps = JSX.IntrinsicElements['div'];
-export interface StackProps extends divProps {
+export interface FlexProps extends divProps {
   display?: Property.Display;
   gap?: Property.Gap;
   align?: Property.AlignContent;
@@ -18,7 +18,7 @@ export interface StackProps extends divProps {
   children?: React.ReactNode;
 }
 
-const Root = styled.div<StackProps>`
+const Root = styled.div<FlexProps>`
   /* stylelint-disable indentation */
   display: ${({ display }) => {
     switch (display) {
@@ -41,26 +41,26 @@ const Root = styled.div<StackProps>`
   gap: ${({ gap }) => gap || ''};
 `;
 
-export const Stack = memo(function Stack(props: StackProps) {
+export const Flex = memo(function Flex(props: FlexProps) {
   const { children, ...others } = props;
 
   return (
-    <Root className="l-stack" {...others}>
+    <Root className="l-flex" {...others}>
       {children}
     </Root>
   );
-}) as NamedExoticComponent<StackProps> & {
+}) as NamedExoticComponent<FlexProps> & {
   Item: typeof Item;
 };
 
-export const Item = memo(function Item(props: StackProps) {
+export const Item = memo(function Item(props: FlexProps) {
   const { children, ...others } = props;
 
   return (
-    <Stack className="l-stack__item" {...others}>
+    <Flex className="l-flex__item" {...others}>
       {children}
-    </Stack>
+    </Flex>
   );
 });
 
-Stack.Item = Item;
+Flex.Item = Item;

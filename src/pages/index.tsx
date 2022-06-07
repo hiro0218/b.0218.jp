@@ -2,7 +2,7 @@ import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
 import Heading from '@/components/UI/Heading';
-import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
+import { Columns, Flex, PageContentContainer } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import PostTag, { Props as PostTagProps } from '@/components/UI/Tag';
 import { getPostsListJson, getTermWithCount } from '@/lib/posts';
@@ -29,39 +29,39 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
 
       <PageContentContainer>
         <Columns title={'Recent Articles'}>
-          <Stack direction="column" gap="var(--space-x-xs) 0" role="list">
+          <Flex direction="column" gap="var(--space-x-xs) 0" role="list">
             {recentPosts.map((post, index) => (
-              <Stack.Item key={index} display="block" role="listitem">
+              <Flex.Item key={index} display="block" role="listitem">
                 <LinkCard
                   link={`${post.slug}.html`}
                   title={post.title}
                   date={post.updated || post.date}
                   excerpt={post.excerpt}
                 />
-              </Stack.Item>
+              </Flex.Item>
             ))}
-          </Stack>
+          </Flex>
         </Columns>
 
         <Columns title={'Updated Articles'}>
-          <Stack direction="column" gap="var(--space-x-xs) 0" role="list">
+          <Flex direction="column" gap="var(--space-x-xs) 0" role="list">
             {updatesPosts.map((post, index) => (
-              <Stack.Item key={index} display="block" role="listitem">
+              <Flex.Item key={index} display="block" role="listitem">
                 <LinkCard
                   link={`${post.slug}.html`}
                   title={post.title}
                   date={post.updated || post.date}
                   excerpt={post.excerpt}
                 />
-              </Stack.Item>
+              </Flex.Item>
             ))}
-          </Stack>
+          </Flex>
         </Columns>
 
         <Columns title={'Tags'}>
-          <Stack wrap="wrap" gap="var(--space-x-xs)">
+          <Flex wrap="wrap" gap="var(--space-x-xs)">
             <PostTag tags={tags} />
-          </Stack>
+          </Flex>
         </Columns>
       </PageContentContainer>
     </>

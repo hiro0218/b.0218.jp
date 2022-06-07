@@ -1,5 +1,5 @@
 import Heading from '@/components/UI/Heading';
-import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
+import { Columns, Flex, PageContentContainer } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { TermsPostList } from '@/types/source';
 
@@ -17,13 +17,13 @@ const Term = ({ posts, title, type }: Props) => {
       </header>
       <PageContentContainer>
         <Columns title={title}>
-          <Stack direction="column" gap="calc(var(--margin-base) * 0.25) 0" role="list">
+          <Flex direction="column" gap="calc(var(--margin-base) * 0.25) 0" role="list">
             {posts.map((post, index) => (
-              <Stack.Item key={index} display="block" role="listitem">
+              <Flex.Item key={index} display="block" role="listitem">
                 <LinkCard link={`/${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
-              </Stack.Item>
+              </Flex.Item>
             ))}
-          </Stack>
+          </Flex>
         </Columns>
       </PageContentContainer>
     </section>

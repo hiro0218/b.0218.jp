@@ -1,7 +1,7 @@
 import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 
 import Heading from '@/components/UI/Heading';
-import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
+import { Columns, Flex, PageContentContainer } from '@/components/UI/Layout';
 import PostTag, { Props as PostTagProps } from '@/components/UI/Tag';
 import { getTermWithCount } from '@/lib/posts';
 
@@ -18,9 +18,9 @@ const Tags: NextPage<Props> = ({ tags }) => {
       </header>
       <PageContentContainer>
         <Columns>
-          <Stack wrap="wrap" gap="var(--space-x-xs)">
+          <Flex wrap="wrap" gap="var(--space-x-xs)">
             <PostTag tags={tags} />
-          </Stack>
+          </Flex>
         </Columns>
       </PageContentContainer>
     </>
