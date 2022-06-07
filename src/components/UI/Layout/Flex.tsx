@@ -1,21 +1,20 @@
-import { Property } from 'csstype';
-import { CSSProperties, memo, NamedExoticComponent } from 'react';
+import { CSSProperties, memo, NamedExoticComponent, ReactNode } from 'react';
 
 import { styled } from '@/ui/styled';
 
 type divProps = JSX.IntrinsicElements['div'];
 export interface FlexProps extends divProps {
-  display?: Property.Display;
-  gap?: Property.Gap;
-  align?: Property.AlignContent;
-  justify?: Property.JustifyContent;
-  wrap?: Property.FlexWrap;
-  direction?: Property.FlexDirection;
-  basis?: Property.FlexBasis;
-  grow?: Property.FlexGrow;
-  shrink?: Property.FlexShrink;
+  display?: CSSProperties['display'];
+  gap?: CSSProperties['columnGap'];
+  align?: CSSProperties['alignItems'];
+  justify?: CSSProperties['justifyContent'];
+  wrap?: CSSProperties['flexWrap'];
+  direction?: CSSProperties['flexDirection'];
+  basis?: CSSProperties['flexBasis'];
+  grow?: CSSProperties['flexGrow'];
+  shrink?: CSSProperties['flexShrink'];
   style?: CSSProperties;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 const Root = styled.div<FlexProps>`
