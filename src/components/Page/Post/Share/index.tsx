@@ -1,6 +1,6 @@
 import { FaTwitter } from 'react-icons/fa';
 
-import { Stack } from '@/components/UI/Layout';
+import { Flex } from '@/components/UI/Layout';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -31,8 +31,8 @@ const Root = styled.a`
 
 const PostShare = ({ title, url }: Props) => {
   return (
-    <Stack justify="center">
-      <Stack.Item align="center" justify="center">
+    <Flex justify="center">
+      <Flex.Item align="center" justify="center">
         <Root
           href={'https://twitter.com/intent/tweet?url=' + url + '&text=' + encodeURIComponent(title)}
           title="Share Twitter"
@@ -42,8 +42,8 @@ const PostShare = ({ title, url }: Props) => {
         >
           <FaTwitter />
         </Root>
-      </Stack.Item>
-    </Stack>
+      </Flex.Item>
+    </Flex>
   );
 };
 
