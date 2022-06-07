@@ -2,7 +2,7 @@ import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
 import Heading from '@/components/UI/Heading';
-import { Columns, Flex, PageContentContainer } from '@/components/UI/Layout';
+import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { SITE } from '@/constant';
 import { getPostsListJson } from '@/lib/posts';
@@ -61,15 +61,7 @@ const Archive: NextPage<Props> = ({ archives }) => {
           {Object.keys(posts).map((key: string) => {
             return (
               <Columns key={key} title={key}>
-                <Flex
-                  direction="column"
-                  gap="var(--space-x-xs) 0"
-                  grow={1}
-                  style={{
-                    minWidth: 0,
-                  }}
-                  role="list"
-                >
+                <Stack space="var(--space-x-xs)" role="list">
                   {posts[key].map((post: PropPost, index: number) => {
                     return (
                       <LinkCard
@@ -82,7 +74,7 @@ const Archive: NextPage<Props> = ({ archives }) => {
                       />
                     );
                   })}
-                </Flex>
+                </Stack>
               </Columns>
             );
           })}

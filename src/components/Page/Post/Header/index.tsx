@@ -1,6 +1,6 @@
 import PostDate from '@/components/Page/Post/Date';
 import Heading from '@/components/UI/Heading';
-import { Flex } from '@/components/UI/Layout';
+import { Flex, Stack } from '@/components/UI/Layout';
 import PostTag from '@/components/UI/Tag';
 import { Post as PostType } from '@/types/source';
 import { styled } from '@/ui/styled';
@@ -13,7 +13,7 @@ const PostHeader = ({ post }: Props) => {
   const tags = post.tags?.map((slug) => ({ slug }));
 
   return (
-    <PostHeaderContainer>
+    <Stack space="var(--space-xs)">
       <PostHeaderItem>
         <Heading text={post.title} />
       </PostHeaderItem>
@@ -26,17 +26,11 @@ const PostHeader = ({ post }: Props) => {
           <PostTag tags={tags} />
         </Flex>
       </PostHeaderItem>
-    </PostHeaderContainer>
+    </Stack>
   );
 };
 
 export default PostHeader;
-
-const PostHeaderContainer = styled.div`
-  > * + * {
-    margin-top: var(--space-xs);
-  }
-`;
 
 const PostHeaderItem = styled.div`
   display: flex;
