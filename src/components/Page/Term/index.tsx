@@ -1,5 +1,5 @@
 import Heading from '@/components/UI/Heading';
-import { Columns, Flex, PageContentContainer, Stack } from '@/components/UI/Layout';
+import { Columns, Flex, PageContentContainer } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { TermsPostList } from '@/types/source';
 
@@ -11,7 +11,7 @@ interface Props {
 
 const Term = ({ posts, title, type }: Props) => {
   return (
-    <section className="p-term">
+    <section>
       <header>
         <Heading text={type} textSide={`${posts.length}件`} />
       </header>
