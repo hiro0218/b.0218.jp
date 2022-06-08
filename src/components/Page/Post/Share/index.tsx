@@ -1,6 +1,5 @@
 import { FaTwitter } from 'react-icons/fa';
 
-import { Flex } from '@/components/UI/Layout';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
