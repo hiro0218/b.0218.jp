@@ -1,7 +1,7 @@
 import PostDate from '@/components/Page/Post/Date';
 import Heading from '@/components/UI/Heading';
-import { Flex, Stack } from '@/components/UI/Layout';
-import PostTag from '@/components/UI/Tag';
+import { Stack } from '@/components/UI/Layout';
+import PostTag, { PostTagGridContainer } from '@/components/UI/Tag';
 import { Post as PostType } from '@/types/source';
 import { styled } from '@/ui/styled';
 
@@ -22,9 +22,9 @@ const PostHeader = ({ post }: Props) => {
         <PostHeaderReadingTime>{post.readingTime}</PostHeaderReadingTime>
       </PostHeaderItem>
       <PostHeaderItem>
-        <Flex wrap="wrap" gap="var(--space-x-xs)">
+        <PostTagGridContainer>
           <PostTag tags={tags} />
-        </Flex>
+        </PostTagGridContainer>
       </PostHeaderItem>
     </Stack>
   );

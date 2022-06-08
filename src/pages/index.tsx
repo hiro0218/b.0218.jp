@@ -2,9 +2,9 @@ import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
 import Heading from '@/components/UI/Heading';
-import { Columns, Flex, PageContentContainer, Stack } from '@/components/UI/Layout';
+import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
-import PostTag, { Props as PostTagProps } from '@/components/UI/Tag';
+import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
 import { getPostsListJson, getTermWithCount } from '@/lib/posts';
 import { Post as PropsPost } from '@/types/source';
 
@@ -59,9 +59,9 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
         </Columns>
 
         <Columns title={'Tags'}>
-          <Flex wrap="wrap" gap="var(--space-x-xs)">
+          <PostTagGridContainer>
             <PostTag tags={tags} />
-          </Flex>
+          </PostTagGridContainer>
         </Columns>
       </PageContentContainer>
     </>
