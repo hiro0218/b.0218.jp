@@ -108,7 +108,6 @@ const Container = styled.div`
   max-width: var(--container-width);
   height: 100%;
   margin: 0 auto;
-  transition: padding 0.1s ease-in-out;
 
   ${mobile} {
     padding: 0 5vw;
