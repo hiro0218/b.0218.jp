@@ -9,7 +9,31 @@ interface Props {
   url: string;
 }
 
-const Root = styled.a`
+const PostShare = ({ title, url }: Props) => {
+  return (
+    <Container>
+      <Anchor
+        href={'https://twitter.com/intent/tweet?url=' + url + '&text=' + encodeURIComponent(title)}
+        title="Share Twitter"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Twitter"
+      >
+        <FaTwitter />
+      </Anchor>
+    </Container>
+  );
+};
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
+const Anchor = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 3.5rem;
   height: 3.5rem;
   padding: 0.25em;
@@ -28,23 +52,5 @@ const Root = styled.a`
     color: var(--text-12);
   }
 `;
-
-const PostShare = ({ title, url }: Props) => {
-  return (
-    <Flex justify="center">
-      <Flex.Item align="center" justify="center">
-        <Root
-          href={'https://twitter.com/intent/tweet?url=' + url + '&text=' + encodeURIComponent(title)}
-          title="Share Twitter"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Twitter"
-        >
-          <FaTwitter />
-        </Root>
-      </Flex.Item>
-    </Flex>
-  );
-};
 
 export default PostShare;
