@@ -29,6 +29,12 @@ const PostTag = ({ tags }: PostTagProps) => {
 
 export default PostTag;
 
+export const PostTagGridContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-x-xs);
+`;
+
 const PostTagAnchor = styled.a`
   flex: 1 1 auto;
   align-items: center;

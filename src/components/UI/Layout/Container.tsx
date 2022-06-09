@@ -22,7 +22,6 @@ export const Container = memo(function Container(props: ContainerProps) {
 const ContainerRoot = styled.div`
   max-width: var(--container-width);
   margin: var(--space-md) auto 0;
-  transition: padding 0.1s ease-in-out;
 
   ${mobile} {
     padding: 0 5vw;
