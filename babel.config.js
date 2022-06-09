@@ -6,7 +6,7 @@ module.exports = {
       {
         "preset-env": {
           "targets": {
-            "browsers": ">1%, not dead, not ie 11, not op_mini all"
+            "browsers": ">1%, not dead, not op_mini all"
           },
         },
         'preset-react': {
