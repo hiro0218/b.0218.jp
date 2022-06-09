@@ -8,8 +8,6 @@ const nextConfiguration = {
     NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'G-J5F29GMZHX',
   },
 
-  swcMinify: true,
-
   reactStrictMode: true,
 
   experimental: {
