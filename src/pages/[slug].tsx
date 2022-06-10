@@ -5,9 +5,10 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
 import PostContent from '@/components/Page/Post/Content'
+import { PostNextRead } from '@/components/Page/Post/NextRead';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContentContainer } from '@/components/UI/Layout';
-import { getPostsJson, getTermWithCount } from '@/lib/posts';
+import { getPostsJson, getTermJson, getTermWithCount } from '@/lib/posts';
 const PostPager = dynamic(() => import('@/components/Page/Post/Pager'));
 const PostShare = dynamic(() => import('@/components/Page/Post/Share'));
 const PostNote = dynamic(() => import('@/components/Page/Post/Note'));
@@ -17,14 +18,15 @@ import Mokuji from '@/components/UI/Mokuji';
 import { Profile } from '@/components/UI/Profile';
 import { SITE } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
-import { Post as PostType } from '@/types/source';
+import { Post as PostType, TermsPostList } from '@/types/source';
 
 type PostProps = {
   post: PostType;
+  nextRead: TermsPostList[];
 };
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const Post: NextPage<Props> = ({ post }) => {
+const Post: NextPage<Props> = ({ post, nextRead }) => {
   const { asPath } = useRouter();
   const refContent = useRef<HTMLDivElement>(null);
   const permalink = `${SITE.URL}${post.slug}.html`;
@@ -90,6 +92,8 @@ const Post: NextPage<Props> = ({ post }) => {
 
         <PostEdit slug={post.slug} />
       </PageContentContainer>
+
+      <PostNextRead posts={nextRead} />
     </>
   );
 };
@@ -107,6 +111,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
   const posts = getPostsJson();
+
+  const originSlug = context.params.slug as string;
 
   // next build: 拡張子が含まれていると出力できない
   // 拡張子がないとデータが取得できないため .html を付与する
@@ -130,9 +136,19 @@ export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
       return slug;
     }) : post.tags;
 
+  // 関連記事
+  const tag = post.tags.at(0);
+  const nextRead = Object.entries(getTermJson('tags'))
+    .filter(([key]) => key === tag)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .map(([_, val]) => val)
+    .flat()
+    .filter((post, i) => !post.slug.includes(originSlug) && i < 6);
+
   return {
     props: {
       post,
+      nextRead,
     },
   };
 };

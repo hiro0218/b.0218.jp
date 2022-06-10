@@ -10,6 +10,10 @@ const nextConfiguration = {
 
   reactStrictMode: true,
 
+  experimental: {
+    scrollRestoration: true
+  },
+
   async rewrites() {
     return [
       {

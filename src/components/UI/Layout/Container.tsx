@@ -1,19 +1,15 @@
-import { CSSProperties, memo } from 'react';
+import { memo, ReactNode } from 'react';
 
 import { mobile } from '@/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
-type divProps = JSX.IntrinsicElements['div'];
-export interface ContainerProps extends divProps {
-  style?: CSSProperties;
-  children?: React.ReactNode;
+type ContainerProps = {
+  children?: ReactNode;
 }
 
-export const Container = memo(function Container(props: ContainerProps) {
-  const { children, ...others } = props;
-
+export const Container = memo(function Container({ children }: ContainerProps) {
   return (
-    <ContainerRoot className="l-container" {...others}>
+    <ContainerRoot className="l-container">
       {children}
     </ContainerRoot>
   );
@@ -21,7 +17,7 @@ export const Container = memo(function Container(props: ContainerProps) {
 
 const ContainerRoot = styled.div`
   max-width: var(--container-width);
-  margin: var(--space-md) auto 0;
+  margin: 0 auto;
 
   ${mobile} {
     padding: 0 5vw;
