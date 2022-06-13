@@ -1,15 +1,22 @@
-import { CSSProperties, memo } from 'react';
+import { CSSProperties, memo, ReactNode } from 'react';
 
 import { desktop, mobile } from '@/lib/mediaQuery';
-import { getModularScale } from '@/lib/modular-scale';
 import { css, styled } from '@/ui/styled';
 
-type divProps = JSX.IntrinsicElements['div'];
-export interface ContainerProps extends divProps {
+export interface ContainerProps {
   title?: string;
   style?: CSSProperties;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
+
+export const Columns = memo(function Columns({ title, children, ...others }: ContainerProps) {
+  return (
+    <Root className="l-columns" {...others}>
+      <ColumnTitle>{title && <TitleText>{title}</TitleText>}</ColumnTitle>
+      <ColumnMain>{children}</ColumnMain>
+    </Root>
+  );
+});
 
 const Root = styled.section`
   ${desktop} {
@@ -17,48 +24,32 @@ const Root = styled.section`
   }
 `;
 
-const Col = {
-  Title: styled.div`
-    ${mobile} {
-      margin-bottom: 1rem;
-    }
-
-    ${desktop} {
-      position: sticky;
-      width: 29.28%;
-      height: 100%;
-      ${({ theme }) => {
-      return css`
-          && {
-            top: calc(${theme.components.header.height}px + 0.5rem);
-          }
-        `;
-    }}
-    }
-  `,
-  Main: styled.div`
-    ${desktop} {
-      width: 70.72%;
-    }
-  `,
-};
-
 const TitleText = styled.h2`
   overflow: hidden;
-  font-size: ${getModularScale({ degree: 2 })};
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
 
-export const Columns = memo(function Columns(props: ContainerProps) {
-  const { title, children, ...others } = props;
+const ColumnTitle = styled.div`
+  ${mobile} {
+    margin-bottom: 1rem;
+  }
 
-  return (
-    <Root className="l-columns" {...others}>
-      <Col.Title>
-        {title && <TitleText>{title}</TitleText>}
-      </Col.Title>
-      <Col.Main>{children}</Col.Main>
-    </Root>
-  );
-});
+  ${desktop} {
+    position: sticky;
+    width: 38.2%;
+    height: 100%;
+
+    ${({ theme }) => css`
+      && {
+        top: calc(${theme.components.header.height}px + 0.5rem);
+      }
+    `}
+  }
+`;
+
+const ColumnMain = styled.div`
+  ${desktop} {
+    width: 61.8%;
+  }
+`;
