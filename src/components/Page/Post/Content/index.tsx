@@ -113,8 +113,8 @@ const PostContent = styled.article`
   }
 
   blockquote {
-    padding: 1em 1.5em 1em;
-    border-left: 2px solid var(--borders-6);
+    padding: 1.5rem;
+    border-left: 0.25rem solid var(--borders-6);
     color: var(--text-11);
 
     p:last-child {
