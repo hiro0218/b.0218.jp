@@ -40,12 +40,11 @@ export default LinkCard;
 const LinkCardAnchor = styled.a`
   display: flex;
   height: 100%;
-  padding: calc(var(--margin-base) * 0.6) calc(var(--margin-base) * 0.8);
-  transition: background-color 0.2s ease, box-shadow 0.4s ease;
+  padding: calc(var(--margin-base) * 0.6) var(--margin-base);
   border-radius: 0.25rem;
 
   ${mobile} {
-    padding: calc(var(--margin-base) * 0.6);
+    padding: var(--margin-base);
   }
 
   ${showHoverBackground}
