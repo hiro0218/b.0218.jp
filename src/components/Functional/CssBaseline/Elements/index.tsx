@@ -118,7 +118,7 @@ export default css`
     display: block;
     overflow: auto;
     border-radius: 0.15rem;
-    background: var(--component-backgrounds-3);
+    background: var(--backgrounds-2);
     font-size: var(--font-size-sm);
     overflow-wrap: break-word;
     -webkit-overflow-scrolling: touch;
@@ -127,7 +127,7 @@ export default css`
     & > code {
       display: block;
       padding: 1.5rem;
-      background: var(--component-backgrounds-3);
+      background: var(--backgrounds-2);
       color: var(--text-12);
       font-size: inherit;
       line-height: 1.875;

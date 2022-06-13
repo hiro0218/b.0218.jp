@@ -7,7 +7,7 @@ export default css`
   pre code.hljs {
     padding: 1.5rem;
     overflow-x: auto;
-    background: var(--component-backgrounds-3);
+    background: var(--backgrounds-2);
     color: var(--text-12);
   }
 

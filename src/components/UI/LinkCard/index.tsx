@@ -42,6 +42,7 @@ const LinkCardAnchor = styled.a`
   height: 100%;
   padding: calc(var(--margin-base) * 0.6) var(--margin-base);
   border-radius: 0.25rem;
+  gap: calc(var(--margin-base) * 0.25);
 
   ${mobile} {
     padding: var(--margin-base);
@@ -56,6 +57,7 @@ const LinkCardText = styled.div`
   flex-grow: 1;
   justify-content: space-between;
   overflow: hidden;
+  gap: calc(var(--margin-base) * 0.5);
 `;
 
 const LinkCardTitle = styled.h3`
@@ -66,7 +68,6 @@ const LinkCardTitle = styled.h3`
 `;
 
 const LinkCardParagraph = styled.p`
-  margin-top: 0.5rem;
   overflow: hidden;
   color: var(--text-11);
   font-size: var(--font-size-sm);
@@ -88,7 +89,6 @@ const LinkCardParagraph = styled.p`
 const LinkCardIcon = styled.div`
   display: flex;
   align-items: center;
-  padding-left: calc(var(--margin-base) * 0.4);
   color: var(--text-11);
 
   svg {
