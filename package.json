@@ -94,11 +94,13 @@
     "**/*.{ts,tsx,js}": [
       "eslint --fix",
       "eslint",
+      "prettier --write",
       "bash -c 'tsc --noEmit --skipLibCheck'"
     ],
     "**/*.{css,tsx}": [
       "stylelint --fix",
-      "stylelint"
+      "stylelint",
+      "prettier --write"
     ]
   },
   "nextBundleAnalysis": {
