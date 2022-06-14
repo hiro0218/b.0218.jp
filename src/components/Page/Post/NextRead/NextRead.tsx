@@ -1,21 +1,21 @@
 import Heading from '@/components/UI/Heading';
 import LinkCard from '@/components/UI/LinkCard';
 import { mobile } from '@/lib/mediaQuery';
-import { TermsPostList } from "@/types/source"
+import { TermsPostList } from '@/types/source';
 import { styled } from '@/ui/styled';
 
 type Props = {
-  posts: TermsPostList[]
-}
+  posts: TermsPostList[];
+};
 
 export const PostNextRead = ({ posts }: Props) => {
   if (posts.length === 0) {
-    return null
+    return null;
   }
 
   return (
-    <div className='next-read'>
-      <Heading tagName='h2' text={'Next Read'} />
+    <div className="next-read">
+      <Heading tagName="h2" text={'Next Read'} />
       <Container role="list">
         {posts.map((post, index) => {
           return (
@@ -27,12 +27,12 @@ export const PostNextRead = ({ posts }: Props) => {
               excerpt={post.excerpt}
               role="listitem"
             />
-          )
+          );
         })}
       </Container>
     </div>
-  )
-}
+  );
+};
 
 const Container = styled.div`
   display: grid;
@@ -44,4 +44,4 @@ const Container = styled.div`
     grid-template-columns: minmax(100%, max-content);
     gap: var(--space-sm);
   }
-`
+`;

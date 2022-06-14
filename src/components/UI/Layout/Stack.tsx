@@ -6,7 +6,7 @@ type Props = {
   space?: CSSProperties['margin'];
   role?: AriaRole;
   children: ReactNode;
-}
+};
 
 const StackRoot = styled.div<Props>`
   display: flex;
@@ -14,12 +14,12 @@ const StackRoot = styled.div<Props>`
   justify-content: flex-start;
 
   & > * + * {
-    margin-block-start: ${props => props.space || 'var(--space-md)'};
+    margin-block-start: ${(props) => props.space || 'var(--space-md)'};
   }
 `;
 
 const Stack = memo(function Stack({ children, ...props }: Props) {
-  return (<StackRoot {...props}>{children}</StackRoot>)
+  return <StackRoot {...props}>{children}</StackRoot>;
 });
 
 export default Stack;

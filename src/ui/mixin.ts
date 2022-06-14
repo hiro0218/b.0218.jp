@@ -5,9 +5,9 @@ export const showHoverShadow = css`
   transition: box-shadow 0.3s ${easing.easeOutBack};
 
   &:hover {
-    box-shadow: 0 5px 10px rgba(0,0,0,.12);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
   }
-`
+`;
 
 export const showHoverBackground = css`
   position: relative;

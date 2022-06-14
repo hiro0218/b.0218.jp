@@ -1,9 +1,4 @@
-import {
-  forwardRef,
-  MutableRefObject,
-  useCallback,
-  useEffect,
-} from 'react';
+import { forwardRef, MutableRefObject, useCallback, useEffect } from 'react';
 
 import { fadeIn, slideIn } from '@/ui/mixin';
 import { styled } from '@/ui/styled';

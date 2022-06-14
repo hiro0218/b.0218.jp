@@ -9,7 +9,7 @@ import { AUTHOR, SITE } from '@/constant';
 import createEmotionCache from '@/lib/createEmotionCache';
 import usePageView from '@/lib/hooks/usePageView';
 import { CacheProvider, EmotionCache, ThemeProvider } from '@/ui/styled';
-import { theme } from '@/ui/themes'
+import { theme } from '@/ui/themes';
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;

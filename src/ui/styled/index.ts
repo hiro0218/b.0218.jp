@@ -11,14 +11,6 @@ import {
 } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export {
-  css,
-  Global,
-  keyframes,
-  CacheProvider,
-  ThemeProvider,
-  useTheme,
-  styled,
-}
+export { css, Global, keyframes, CacheProvider, ThemeProvider, useTheme, styled };
 
-export type { EmotionCache, Theme, SerializedStyles }
+export type { EmotionCache, Theme, SerializedStyles };

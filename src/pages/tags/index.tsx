@@ -24,16 +24,15 @@ const Tags: NextPage<Props> = ({ tags }) => {
         </Columns>
       </PageContentContainer>
     </>
-  )
+  );
 };
 
 export default Tags;
 
 export const getStaticProps: GetStaticProps<TermProps> = async () => {
-  const tags = getTermWithCount('tags')
-    .map(([slug, count]) => {
-      return { slug, count };
-    });
+  const tags = getTermWithCount('tags').map(([slug, count]) => {
+    return { slug, count };
+  });
 
   return {
     props: {
