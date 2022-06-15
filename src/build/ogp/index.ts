@@ -21,7 +21,7 @@ const template = readFileSync(`${process.cwd()}/src/build/ogp/template.html`, 'u
     browser = await chromium.launch();
     const page = await browser.newPage();
     await page.setContent(template, {
-      waitUntil: 'domcontentloaded',
+      waitUntil: 'networkidle',
     });
     await page.setViewportSize({ width: 1200, height: 630 });
 
