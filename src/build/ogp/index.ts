@@ -25,8 +25,8 @@ const template = readFileSync(`${process.cwd()}/src/build/ogp/template.html`, 'u
     });
     await page.setViewportSize({ width: 1200, height: 630 });
 
-    let index = 1;
-    for (const { title, slug } of posts) {
+    for (let index = 0; index < length; index++) {
+      const { title, slug } = posts[index];
       const pageTitle = parser.translateHTMLString(title.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
 
       await page.evaluate(async (pageTitle: string) => {
@@ -40,12 +40,11 @@ const template = readFileSync(`${process.cwd()}/src/build/ogp/template.html`, 'u
           path: `${path.dist}/${slug}.png`,
         })
         .then(() => {
-          if (index === 1 || index % 100 === 0 || index === length) {
-            console.log('Generating OGP Images', `(${index}/${length})`);
+          const processed = index + 1;
+          if (processed === 1 || processed % 100 === 0 || processed === length) {
+            console.log('Generating OGP Images', `(${processed}/${length})`);
           }
         });
-
-      index++;
     }
   } catch (err) {
     console.error('Generating OGP Images', err.message);
