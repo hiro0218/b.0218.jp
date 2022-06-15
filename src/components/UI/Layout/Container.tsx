@@ -5,14 +5,10 @@ import { styled } from '@/ui/styled';
 
 type ContainerProps = {
   children?: ReactNode;
-}
+};
 
 export const Container = memo(function Container({ children }: ContainerProps) {
-  return (
-    <ContainerRoot className="l-container">
-      {children}
-    </ContainerRoot>
-  );
+  return <ContainerRoot className="l-container">{children}</ContainerRoot>;
 });
 
 const ContainerRoot = styled.div`

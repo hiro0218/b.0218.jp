@@ -38,5 +38,5 @@ export const getTermWithCount = (type: 'tags'): [string, number][] => {
       // @ts-ignore
       return [key, val.length] as [string, number];
     })
-    .sort((a, b) => b[1] - a[1]) // 件数の多い順にソート
-}
+    .sort((a, b) => b[1] - a[1]); // 件数の多い順にソート
+};

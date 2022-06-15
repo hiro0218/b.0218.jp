@@ -72,7 +72,9 @@ export const TheHeader = () => {
 
 const Underline = styled.div`
   ${({ theme }) => {
-    return css`height: ${theme.components.header.height}px;`
+    return css`
+      height: ${theme.components.header.height}px;
+    `;
   }}
 `;
 
@@ -88,16 +90,20 @@ const Header = styled.header<{ isFixed: boolean }>`
   will-change: transform;
 
   ${({ theme }) => {
-    return css`height: ${theme.components.header.height}px;`
+    return css`
+      height: ${theme.components.header.height}px;
+    `;
   }}
 
   ${({ theme, isFixed }) => {
     return (
       !isFixed &&
-      css`&& {
-        transform: translateY(${theme.components.header.height * -1}px);
-      }`
-    )
+      css`
+        && {
+          transform: translateY(${theme.components.header.height * -1}px);
+        }
+      `
+    );
   }}
 `;
 
@@ -120,4 +126,3 @@ const LogoAnchor = styled.a`
   height: 100%;
   pointer-events: auto;
 `;
-

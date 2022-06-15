@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
-import PostContent from '@/components/Page/Post/Content'
+import PostContent from '@/components/Page/Post/Content';
 import { PostNextRead } from '@/components/Page/Post/NextRead';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContentContainer } from '@/components/UI/Layout';
@@ -128,13 +128,16 @@ export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
   });
 
   // tagsを件数順に並び替える
-  post.tags = post.tags.length > 1 ? getTermWithCount('tags')
-    .filter(([key]) => {
-      return post.tags.filter((tag) => tag === key).length > 0;
-    })
-    .map(([slug]) => {
-      return slug;
-    }) : post.tags;
+  post.tags =
+    post.tags.length > 1
+      ? getTermWithCount('tags')
+          .filter(([key]) => {
+            return post.tags.filter((tag) => tag === key).length > 0;
+          })
+          .map(([slug]) => {
+            return slug;
+          })
+      : post.tags;
 
   // 関連記事
   const tag = post.tags.at(0);

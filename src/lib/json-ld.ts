@@ -4,13 +4,15 @@ import { AUTHOR, SITE, URL } from '../constant';
 import { Post } from '../types/source';
 
 export const getDescriptionText = (postContent: string): string => {
-  return postContent
-    // strip line break
-    .replace(/(?:\r\n|\r|\n)/g, '')
-    // strip tag
-    .replace(/<\/?[^>]+(>|$)/g, ' ')
-    // character extraction
-    .substring(0, 140);
+  return (
+    postContent
+      // strip line break
+      .replace(/(?:\r\n|\r|\n)/g, '')
+      // strip tag
+      .replace(/<\/?[^>]+(>|$)/g, ' ')
+      // character extraction
+      .substring(0, 140)
+  );
 };
 
 export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> => {
@@ -82,4 +84,3 @@ export const getBreadcrumbStructured = (post: Post) => {
 
   return structure;
 };
-

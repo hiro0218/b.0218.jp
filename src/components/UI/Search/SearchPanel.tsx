@@ -98,9 +98,7 @@ export const SearchPanel = () => {
             })}
           </SearchResult>
           <SearchFooter>
-            <div>
-              {data.suggest.length > 0 && <span>Result: {data.suggest.length} posts</span>}
-            </div>
+            <div>{data.suggest.length > 0 && <span>Result: {data.suggest.length} posts</span>}</div>
             <div>
               <a href="https://www.google.com/search?q=site:b.0218.jp" target="_blank" rel="noopener noreferrer">
                 Google 検索
@@ -129,29 +127,28 @@ const SearchMain = styled.div`
   ${mobile} {
     width: 80vw;
   }
-`
+`;
 
 const SearchInput = styled.input`
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    border: none;
-    font-size: var(--font-size-md);
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  font-size: var(--font-size-md);
 
-    &::placeholder {
-      color: var(--text-11);
-      font-size: var(--font-size-sm);
-    }
+  &::placeholder {
+    color: var(--text-11);
+    font-size: var(--font-size-sm);
+  }
 
-    &::-webkit-search-cancel-button {
-      -webkit-appearance: none;
-    }
+  &::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+  }
 
-    &:focus {
-      outline: none;
-    }
-
-`
+  &:focus {
+    outline: none;
+  }
+`;
 
 const SearchHeader = styled.div`
   display: flex;
@@ -162,14 +159,14 @@ const SearchHeader = styled.div`
 const SearchHeaderIcon = styled.label`
   display: flex;
   align-items: center;
-  padding: 0 .5rem 0 0.75rem;
+  padding: 0 0.5rem 0 0.75rem;
 
   svg {
     width: 1.5rem;
     height: 100%;
     color: var(--text-11);
   }
-`
+`;
 
 const SearchResult = styled.div`
   max-height: 50vh;
@@ -181,17 +178,17 @@ const SearchResult = styled.div`
   ${mobile} {
     max-height: 60vh;
   }
-`
+`;
 
 const SearchResultAnchor = styled.a`
-    display: block;
-    padding: 0.75em 1.5em;
-    font-size: var(--font-size-sm);
+  display: block;
+  padding: 0.75em 1.5em;
+  font-size: var(--font-size-sm);
 
-    &:hover {
-      background-color: var(--component-backgrounds-4);
-    }
-`
+  &:hover {
+    background-color: var(--component-backgrounds-4);
+  }
+`;
 
 const SearchFooter = styled.div`
   display: flex;
@@ -200,4 +197,4 @@ const SearchFooter = styled.div`
   box-shadow: 2px 0 4px 0 rgba(0, 0, 0, 0.16);
   color: var(--text-11);
   font-size: var(--font-size-sm);
-`
+`;

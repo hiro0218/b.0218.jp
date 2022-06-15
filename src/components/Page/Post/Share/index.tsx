@@ -27,7 +27,7 @@ const PostShare = ({ title, url }: Props) => {
 const Container = styled.div`
   display: flex;
   justify-content: center;
-`
+`;
 
 const Anchor = styled.a`
   display: inline-flex;

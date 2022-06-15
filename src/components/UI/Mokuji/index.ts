@@ -1,3 +1,3 @@
 import Mokuji from './Mokuji';
 
-export default Mokuji
+export default Mokuji;
