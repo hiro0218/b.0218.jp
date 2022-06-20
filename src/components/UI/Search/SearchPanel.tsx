@@ -89,13 +89,11 @@ export const SearchPanel = () => {
       {data.suggest.length > 0 && (
         <>
           <SearchResult>
-            {data.suggest.map((post, index) => {
-              return (
-                <Link key={index} href={`/${post.slug}.html`} passHref prefetch={false}>
-                  <SearchResultAnchor>{post.title}</SearchResultAnchor>
-                </Link>
-              );
-            })}
+            {data.suggest.map((post, index) => (
+              <Link key={index} href={`/${post.slug}.html`} passHref prefetch={false}>
+                <SearchResultAnchor>{post.title}</SearchResultAnchor>
+              </Link>
+            ))}
           </SearchResult>
           <SearchFooter>
             <div>{data.suggest.length > 0 && <span>Result: {data.suggest.length} posts</span>}</div>

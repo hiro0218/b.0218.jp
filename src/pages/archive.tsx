@@ -58,26 +58,22 @@ const Archive: NextPage<Props> = ({ archives }) => {
         </header>
 
         <PageContentContainer>
-          {Object.keys(posts).map((key: string) => {
-            return (
-              <Columns key={key} title={key}>
-                <Stack space="var(--space-x-xs)" role="list">
-                  {posts[key].map((post: PropPost, index: number) => {
-                    return (
-                      <LinkCard
-                        key={index}
-                        link={`/${post.slug}.html`}
-                        title={post.title}
-                        date={post.date}
-                        excerpt={post.excerpt}
-                        role="listitem"
-                      />
-                    );
-                  })}
-                </Stack>
-              </Columns>
-            );
-          })}
+          {Object.keys(posts).map((key: string) => (
+            <Columns key={key} title={key}>
+              <Stack space="var(--space-x-xs)" role="list">
+                {posts[key].map((post: PropPost, index: number) => (
+                  <LinkCard
+                    key={index}
+                    link={`/${post.slug}.html`}
+                    title={post.title}
+                    date={post.date}
+                    excerpt={post.excerpt}
+                    role="listitem"
+                  />
+                ))}
+              </Stack>
+            </Columns>
+          ))}
         </PageContentContainer>
       </article>
     </>
