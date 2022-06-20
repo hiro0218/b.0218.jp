@@ -12,16 +12,14 @@ type Props = {
   closeDialog: () => void;
 };
 
-const ESC_KEY_CODE = 27;
-
 export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Props, ref: RefProps) {
   const stopPropagation = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
   }, []);
 
   const escFunction = useCallback(
-    (event) => {
-      if (event.keyCode === ESC_KEY_CODE) {
+    (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
         closeDialog();
       }
     },
