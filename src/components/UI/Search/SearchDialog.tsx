@@ -1,4 +1,4 @@
-import { forwardRef, MutableRefObject, useCallback, useEffect } from 'react';
+import { forwardRef, MutableRefObject, useCallback } from 'react';
 
 import { fadeIn, slideIn } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
@@ -17,7 +17,7 @@ export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Pr
   }, []);
 
   return (
-    <Dialog ref={ref} onClick={closeDialog}>
+    <Dialog ref={ref} onClick={closeDialog} aria-modal>
       <div onClick={stopPropagation}>
         <SearchPanel />
       </div>
