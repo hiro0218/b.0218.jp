@@ -5,10 +5,9 @@ import { styled } from '@/ui/styled';
 
 import { SearchPanel } from './SearchPanel';
 
-type RefProps = React.LegacyRef<HTMLDialogElement>;
+type RefProps = MutableRefObject<HTMLDialogElement>;
 
 type Props = {
-  ref: MutableRefObject<HTMLDialogElement>;
   closeDialog: () => void;
 };
 
@@ -16,23 +15,6 @@ export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Pr
   const stopPropagation = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
   }, []);
-
-  const escFunction = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        closeDialog();
-      }
-    },
-    [closeDialog],
-  );
-
-  useEffect(() => {
-    document.addEventListener('keydown', escFunction);
-
-    return () => {
-      document.removeEventListener('keydown', escFunction);
-    };
-  }, [escFunction]);
 
   return (
     <Dialog ref={ref} onClick={closeDialog}>
