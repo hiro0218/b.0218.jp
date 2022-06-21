@@ -1,43 +1,23 @@
-import { forwardRef, MutableRefObject, useCallback, useEffect } from 'react';
+import { forwardRef, MutableRefObject, useCallback } from 'react';
 
 import { fadeIn, slideIn } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 import { SearchPanel } from './SearchPanel';
 
-type RefProps = React.LegacyRef<HTMLDialogElement>;
+type RefProps = MutableRefObject<HTMLDialogElement>;
 
 type Props = {
-  ref: MutableRefObject<HTMLDialogElement>;
   closeDialog: () => void;
 };
-
-const ESC_KEY_CODE = 27;
 
 export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Props, ref: RefProps) {
   const stopPropagation = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
   }, []);
 
-  const escFunction = useCallback(
-    (event) => {
-      if (event.keyCode === ESC_KEY_CODE) {
-        closeDialog();
-      }
-    },
-    [closeDialog],
-  );
-
-  useEffect(() => {
-    document.addEventListener('keydown', escFunction);
-
-    return () => {
-      document.removeEventListener('keydown', escFunction);
-    };
-  }, [escFunction]);
-
   return (
-    <Dialog ref={ref} onClick={closeDialog}>
+    <Dialog ref={ref} onClick={closeDialog} aria-modal>
       <div onClick={stopPropagation}>
         <SearchPanel />
       </div>

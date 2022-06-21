@@ -13,7 +13,7 @@ import remarkRehype from 'remark-rehype';
 import remarkUnwrapImages from 'remark-unwrap-images';
 import { unified } from 'unified';
 
-import { NextPrevPost, Post as PropPost } from '../types/source';
+import { Post as PropPost } from '../types/source';
 import remark0218 from './remark0218';
 
 const path = {
@@ -95,26 +95,6 @@ function buildPost() {
     });
   }
 
-  // 記事一覧に付加情報を追加
-  for (let i = 0; i < NUMBER_OF_FILES; i++) {
-    const post = posts[i];
-
-    post.prev = (() => {
-      if (i <= 0) return {};
-
-      const { title, slug } = posts[i - 1];
-
-      return { title, slug };
-    })() as NextPrevPost;
-    post.next = (() => {
-      if (i >= NUMBER_OF_FILES - 1) return {};
-
-      const { title, slug } = posts[i + 1];
-
-      return { title, slug };
-    })() as NextPrevPost;
-  }
-
   // sort: 日付順
   posts.sort((a, b) => {
     return a.date < b.date ? 1 : -1;
@@ -131,8 +111,6 @@ function removePostsData(posts: Array<Partial<PropPost>>) {
   return posts.map((post) => {
     delete post.note;
     delete post.content;
-    delete post.prev;
-    delete post.next;
     delete post.readingTime;
 
     return post;

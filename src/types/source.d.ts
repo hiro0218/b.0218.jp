@@ -20,11 +20,6 @@ export interface TermsPostList {
   name: string;
 }
 
-export interface NextPrevPost {
-  title: string;
-  slug: string;
-}
-
 export interface Post {
   date: string;
   updated: string;
@@ -34,7 +29,5 @@ export interface Post {
   content: string;
   excerpt: string;
   tags: Array<string>;
-  next: NextPrevPost;
-  prev: NextPrevPost;
   readingTime: string;
 }

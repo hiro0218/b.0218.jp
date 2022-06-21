@@ -28,7 +28,7 @@ export const SearchPanel = () => {
     })();
   }, []);
 
-  const onKeyup = (e) => {
+  const onKeyup = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const { target } = e;
 
     if (!(target instanceof HTMLInputElement)) {
@@ -38,7 +38,7 @@ export const SearchPanel = () => {
     const value = target.value.trim();
 
     // Enterを押した場合
-    if (!e.isComposing && e.key === 'Enter') {
+    if (!e.nativeEvent.isComposing && e.key === 'Enter') {
       // 入力値が同じなら検索しない
       if (value === data.keyword) {
         return;
@@ -83,19 +83,17 @@ export const SearchPanel = () => {
           id="search-input"
           autoComplete="off"
           ref={refInput}
-          onKeyUp={(e) => onKeyup(e)}
+          onKeyUp={onKeyup}
         />
       </SearchHeader>
       {data.suggest.length > 0 && (
         <>
           <SearchResult>
-            {data.suggest.map((post, index) => {
-              return (
-                <Link key={index} href={`/${post.slug}.html`} passHref prefetch={false}>
-                  <SearchResultAnchor>{post.title}</SearchResultAnchor>
-                </Link>
-              );
-            })}
+            {data.suggest.map((post, index) => (
+              <Link key={index} href={`/${post.slug}.html`} passHref prefetch={false}>
+                <SearchResultAnchor>{post.title}</SearchResultAnchor>
+              </Link>
+            ))}
           </SearchResult>
           <SearchFooter>
             <div>{data.suggest.length > 0 && <span>Result: {data.suggest.length} posts</span>}</div>
