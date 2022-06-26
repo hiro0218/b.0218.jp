@@ -46,11 +46,9 @@ const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: My
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <TheHeader />
-          <main>
-            <Container>
-              <Component {...pageProps} />
-            </Container>
-          </main>
+          <Container>
+            <Component {...pageProps} />
+          </Container>
           <TheFooter />
         </ThemeProvider>
       </CacheProvider>
