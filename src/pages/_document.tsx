@@ -49,6 +49,7 @@ class SampleDocument extends Document {
           <link rel="dns-prefetch" href="//www.googletagservices.com" />
           <link rel="dns-prefetch" href="//www.googletagmanager.com" />
           <link rel="dns-prefetch" href="//platform.twitter.com" />
+          <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
           <link rel="icon" type="image/x-icon" href="/favicon.ico" />
           <link rel="alternate" type="application/rss+xml" href="https://b.0218.jp/feed.xml" />
           <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" />
