@@ -10,22 +10,20 @@ type TermProps = {
 };
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const Tags: NextPage<Props> = ({ tags }) => {
-  return (
-    <>
-      <header>
-        <Heading text={'Tags'} />
-      </header>
-      <PageContentContainer>
-        <Columns>
-          <PostTagGridContainer>
-            <PostTag tags={tags} />
-          </PostTagGridContainer>
-        </Columns>
-      </PageContentContainer>
-    </>
-  );
-};
+const Tags: NextPage<Props> = ({ tags }) => (
+  <>
+    <header>
+      <Heading text={'Tags'} />
+    </header>
+    <PageContentContainer>
+      <Columns>
+        <PostTagGridContainer>
+          <PostTag tags={tags} />
+        </PostTagGridContainer>
+      </Columns>
+    </PageContentContainer>
+  </>
+);
 
 export default Tags;
 
