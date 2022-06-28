@@ -59,7 +59,7 @@ const Archive: NextPage<Props> = ({ archives }) => {
 
         <PageContentContainer>
           {Object.keys(posts).map((key: string) => (
-            <Columns key={key} title={key}>
+            <Columns key={key} title={`${key}年`}>
               <Stack space="var(--space-x-xs)" role="list">
                 {posts[key].map((post: PropPost, index: number) => (
                   <LinkCard
