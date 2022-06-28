@@ -69,7 +69,7 @@ const List = styled.div`
 const ListItem = styled.div`
   display: inline-flex;
 
-  &:not(:first-of-type) {
+  & + & {
     margin-left: 1em;
   }
 `;
