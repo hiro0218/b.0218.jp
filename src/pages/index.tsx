@@ -90,11 +90,9 @@ const pickPosts = (posts: Partial<PropsPost>) => {
 
 export const getStaticProps: GetStaticProps = async () => {
   const posts = getPostsListJson();
-  const recentPosts = posts
-    .filter((_, i) => i < POST_DISPLAY_LIMIT)
-    .map((post) => {
-      return pickPosts(post);
-    });
+  const recentPosts = posts.slice(0, POST_DISPLAY_LIMIT).map((post) => {
+    return pickPosts(post);
+  });
   const updatesPosts = posts
     .sort((a, b) => {
       return a.updated < b.updated ? 1 : -1;
@@ -104,7 +102,7 @@ export const getStaticProps: GetStaticProps = async () => {
       // recentPosts に含まれているものは除外する
       return !recentPosts.filter((recentPost) => post.slug === recentPost.slug).length;
     })
-    .filter((_, i) => i < POST_DISPLAY_LIMIT)
+    .slice(0, POST_DISPLAY_LIMIT)
     .map((post) => {
       return pickPosts(post);
     });
