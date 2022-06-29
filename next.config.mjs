@@ -11,7 +11,9 @@ const nextConfiguration = {
   reactStrictMode: true,
 
   experimental: {
-    scrollRestoration: true
+    scrollRestoration: true,
+    browsersListForSwc: true,
+    legacyBrowsers: false,
   },
 
   async rewrites() {
