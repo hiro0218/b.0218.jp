@@ -7,7 +7,7 @@ const PostContent = styled.article`
     margin-top: var(--space-xl);
     margin-bottom: var(--space-xl);
 
-    &:first-child {
+    &:first-of-type {
       margin-top: 0;
     }
 
@@ -15,7 +15,7 @@ const PostContent = styled.article`
       margin-top: var(--space-xs);
       margin-bottom: var(--space-xs);
 
-      &:first-child {
+      &:first-of-type {
         margin-top: 0;
       }
     }
