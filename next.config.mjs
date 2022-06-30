@@ -16,14 +16,14 @@ const nextConfiguration = {
     legacyBrowsers: false,
   },
 
-  async rewrites() {
-    return [
-      {
-        source: '/:slug*.html', // Old url with .html
-        destination: '/:slug*', // Redirect without .html
-      },
-    ];
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/:slug*.html', // Old url with .html
+  //       destination: '/:slug*', // Redirect without .html
+  //     },
+  //   ];
+  // },
 
   webpack(config) {
     return config;

@@ -100,7 +100,7 @@ export default Post;
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = getPostsJson();
   const paths = posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: `${post.slug}.html` },
   }));
 
   return { paths, fallback: false };
@@ -108,15 +108,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
   const posts = getPostsJson();
-
-  const originSlug = context.params.slug as string;
-
-  // next build: 拡張子が含まれていると出力できない
-  // 拡張子がないとデータが取得できないため .html を付与する
-  if (!context.params.slug.includes('.html')) {
-    context.params.slug += '.html';
-  }
-
   const slug = context.params.slug as string;
 
   // slug に一致する post を取得
@@ -143,7 +134,7 @@ export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .map(([_, val]) => val)
     .flat()
-    .filter((post, i) => !post.slug.includes(originSlug) && i <= 6);
+    .filter((post, i) => !post.slug.includes(slug) && i <= 6);
 
   return {
     props: {
