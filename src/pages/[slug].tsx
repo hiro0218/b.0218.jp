@@ -134,7 +134,7 @@ export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .map(([_, val]) => val)
     .flat()
-    .filter((post, i) => !post.slug.includes(slug) && i <= 6);
+    .filter((post, i) => !post.slug.includes(slug) && i < 6);
 
   return {
     props: {
