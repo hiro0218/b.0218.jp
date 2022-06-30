@@ -31,7 +31,7 @@ const Tags: NextPage<Props> = ({ title, posts }) => (
       </header>
       <PageContentContainer>
         <Columns title={title}>
-          <Stack space="calc(var(--margin-base) * 0.25)" role="list">
+          <Stack space="calc(var(--margin-base) * 0.25)">
             {posts.map((post, index) => (
               <LinkCard
                 key={index}
@@ -39,7 +39,6 @@ const Tags: NextPage<Props> = ({ title, posts }) => (
                 title={post.title}
                 date={post.date}
                 excerpt={post.excerpt}
-                role="listitem"
               />
             ))}
           </Stack>
