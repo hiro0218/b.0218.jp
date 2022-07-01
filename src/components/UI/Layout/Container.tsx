@@ -11,7 +11,7 @@ export const Container = memo(function Container({ children }: ContainerProps) {
   return <ContainerRoot className="l-container">{children}</ContainerRoot>;
 });
 
-const ContainerRoot = styled.div`
+const ContainerRoot = styled.main`
   max-width: var(--container-width);
   margin: 0 auto;
 

@@ -42,7 +42,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
 
       <PageContentContainer>
         <Columns title={'Recent Articles'}>
-          <Stack space="var(--space-x-xs)" role="list">
+          <Stack space="var(--space-x-xs)">
             {recentPosts.map((post, index) => (
               <LinkCard
                 key={index}
@@ -50,14 +50,13 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
                 title={post.title}
                 date={post.updated || post.date}
                 excerpt={post.excerpt}
-                role="listitem"
               />
             ))}
           </Stack>
         </Columns>
 
         <Columns title={'Updated Articles'}>
-          <Stack space="var(--space-x-xs)" role="list">
+          <Stack space="var(--space-x-xs)">
             {updatesPosts.map((post, index) => (
               <LinkCard
                 key={index}
@@ -65,7 +64,6 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
                 title={post.title}
                 date={post.updated || post.date}
                 excerpt={post.excerpt}
-                role="listitem"
               />
             ))}
           </Stack>
@@ -90,11 +88,9 @@ const pickPosts = (posts: Partial<PropsPost>) => {
 
 export const getStaticProps: GetStaticProps = async () => {
   const posts = getPostsListJson();
-  const recentPosts = posts
-    .filter((_, i) => i < POST_DISPLAY_LIMIT)
-    .map((post) => {
-      return pickPosts(post);
-    });
+  const recentPosts = posts.slice(0, POST_DISPLAY_LIMIT).map((post) => {
+    return pickPosts(post);
+  });
   const updatesPosts = posts
     .sort((a, b) => {
       return a.updated < b.updated ? 1 : -1;
@@ -104,7 +100,7 @@ export const getStaticProps: GetStaticProps = async () => {
       // recentPosts に含まれているものは除外する
       return !recentPosts.filter((recentPost) => post.slug === recentPost.slug).length;
     })
-    .filter((_, i) => i < POST_DISPLAY_LIMIT)
+    .slice(0, POST_DISPLAY_LIMIT)
     .map((post) => {
       return pickPosts(post);
     });

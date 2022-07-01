@@ -1,6 +1,10 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
+import Head from 'next/head';
 
-import TermsBody from '@/components/Page/Term/Body';
+import Heading from '@/components/UI/Heading';
+import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
+import LinkCard from '@/components/UI/LinkCard';
+import { SITE } from '@/constant';
 import { getTermJson } from '@/lib/posts';
 import { TermsPostList } from '@/types/source';
 
@@ -10,9 +14,39 @@ type TermProps = {
 };
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const Tags: NextPage<Props> = ({ title, posts }) => {
-  return <TermsBody type={'Tag'} title={title} posts={posts} />;
-};
+const pageTitle = 'Tag';
+
+const Tags: NextPage<Props> = ({ title, posts }) => (
+  <>
+    <Head>
+      <title key="title">
+        {pageTitle}: {title} - {SITE.NAME}
+      </title>
+      <meta name="robots" content="noindex" />
+    </Head>
+
+    <section>
+      <header>
+        <Heading text={pageTitle} textSide={`${posts.length}件`} />
+      </header>
+      <PageContentContainer>
+        <Columns title={title}>
+          <Stack space="calc(var(--margin-base) * 0.25)">
+            {posts.map((post, index) => (
+              <LinkCard
+                key={index}
+                link={`/${post.slug}.html`}
+                title={post.title}
+                date={post.date}
+                excerpt={post.excerpt}
+              />
+            ))}
+          </Stack>
+        </Columns>
+      </PageContentContainer>
+    </section>
+  </>
+);
 
 export default Tags;
 

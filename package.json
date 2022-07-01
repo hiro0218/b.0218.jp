@@ -13,7 +13,7 @@
     "build:feed": "node --require esbuild-register ./src/build/feed.ts",
     "build:sitemap": "node --require esbuild-register ./src/build/sitemap.ts",
     "build:ogp": "node --require esbuild-register ./src/build/ogp",
-    "prepare": "husky install && playwright install",
+    "prepare": "husky install && playwright install chromium",
     "storybook": "start-storybook -p 6006",
     "build:storybook": "build-storybook -o build/storybook"
   },
@@ -21,7 +21,7 @@
     "@radix-ui/colors": "^0.1.8",
     "css-in-js-easing": "^1.1.0",
     "mokuji.js": "^4.1.0",
-    "next": "^12.1.6",
+    "next": "^12.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.4.0",
@@ -48,19 +48,19 @@
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "babel-loader": "^8.2.5",
     "budoux": "^0.1.0",
-    "esbuild": "^0.14.46",
+    "esbuild": "^0.14.48",
     "esbuild-register": "^3.3.3",
     "eslint": "^8.18.0",
-    "eslint-config-next": "^12.1.6",
+    "eslint-config-next": "^12.2.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "feed": "^4.2.2",
     "fs-extra": "^10.1.0",
     "gray-matter": "^4.0.3",
     "husky": "^8.0.1",
-    "lint-staged": "^13.0.2",
+    "lint-staged": "^13.0.3",
     "next-compose-plugins": "^2.2.1",
-    "playwright": "^1.22.2",
+    "playwright": "^1.23.1",
     "prettier": "^2.7.1",
     "reading-time": "^1.5.0",
     "rehype-highlight": "^5.0.2",
@@ -94,13 +94,13 @@
     "**/*.{ts,tsx,js}": [
       "eslint --fix",
       "eslint",
-      "prettier --write",
+      "prettier --write --cache",
       "bash -c 'tsc --noEmit --skipLibCheck'"
     ],
     "**/*.{css,tsx}": [
       "stylelint --fix",
       "stylelint",
-      "prettier --write"
+      "prettier --write --cache"
     ]
   },
   "nextBundleAnalysis": {
