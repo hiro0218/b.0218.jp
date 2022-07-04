@@ -1,10 +1,8 @@
-import resetCSS from 'shokika.css/dist/string';
+import 'shokika.css';
 
 import { css } from '@/ui/styled';
 
 export default css`
-  ${resetCSS}
-
   #__next {
     min-height: 100%;
   }
