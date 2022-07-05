@@ -33,7 +33,7 @@
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.9.3",
     "@storybook/addon-a11y": "^6.5.8",
-    "@storybook/addon-actions": "^6.5.8",
+    "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^6.4.22",
     "@storybook/addon-links": "^6.5.8",
     "@storybook/addon-postcss": "^2.0.0",
