@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint \"src/**/*{.js,.ts,.tsx}\"",
-    "prebuild": "git submodule update --remote && npm run build:article && npm run build:feed && npm run build:sitemap && npm run build:rss && npm run build:github",
+    "prebuild": "git submodule update --remote && npm run build:article && npm run build:feed && npm run build:sitemap && npm run build:github",
     "postbuild": "npm run build:ogp",
     "build:article": "node --require esbuild-register ./src/build/article.ts",
     "build:feed": "node --require esbuild-register ./src/build/feed.ts",
