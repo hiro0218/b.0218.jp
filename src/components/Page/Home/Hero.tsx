@@ -2,12 +2,12 @@ import { getModularScale } from '@/lib/modular-scale';
 import { styled } from '@/ui/styled';
 
 export const Hero = () => (
-  <>
+  <section>
     <Heading>Hello, I&apos;m hiro.</Heading>
     <Paragraph>
       I was a web backend developer and native app developer. Currently I am a web front-end developer.
     </Paragraph>
-  </>
+  </section>
 );
 
 const Heading = styled.h1`
