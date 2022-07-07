@@ -58,5 +58,6 @@ const SnsList = styled.div`
 
 const Description = styled.p`
   margin-top: var(--space-x-xs);
+  color: var(--text-11);
   font-size: var(--font-size-sm);
 `;
