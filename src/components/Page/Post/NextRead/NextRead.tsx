@@ -15,7 +15,7 @@ export const PostNextRead = ({ posts }: Props) => {
 
   return (
     <div className="next-read">
-      <Heading tagName="h2" text={'Next Read'} />
+      <Heading tagName="h2" text={'Next Read'} isWeightNormal={false} />
       <Container>
         {posts.map((post, index) => (
           <LinkCard key={index} link={`${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
