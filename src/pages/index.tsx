@@ -1,7 +1,7 @@
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
-import Heading from '@/components/UI/Heading';
+import { Hero } from '@/components/Page/Home';
 import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
@@ -36,11 +36,9 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
         />
       </Head>
 
-      <header>
-        <Heading text={'Home'} />
-      </header>
-
       <PageContentContainer>
+        <Hero />
+
         <Columns title={'Recent Articles'}>
           <Stack space="var(--space-x-xs)">
             {recentPosts.map((post, index) => (
