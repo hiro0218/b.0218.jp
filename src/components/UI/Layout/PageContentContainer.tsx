@@ -22,6 +22,6 @@ const Container = styled.div`
   margin-top: var(--space-md);
 
   > * + * {
-    margin-top: var(--space-xl);
+    margin-top: var(--space-x-xl);
   }
 `;
