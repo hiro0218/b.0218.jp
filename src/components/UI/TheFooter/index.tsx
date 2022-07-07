@@ -32,10 +32,10 @@ const Footer = styled.footer`
   position: sticky;
   top: 100vh;
   margin-top: var(--space-x-xl);
-  padding: var(--space-xl) 0;
+  padding: var(--space-x-xl) 0;
   background-color: var(--component-backgrounds-3);
   color: var(--text-12);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
 
   a {
     color: inherit;
