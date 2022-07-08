@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { AriaRole } from 'react';
-import { HiOutlineChevronRight } from 'react-icons/hi';
+import { AriaRole, ReactNode } from 'react';
+import { HiOutlineChevronRight, HiOutlineExternalLink } from 'react-icons/hi';
 
 import { convertDateToSimpleFormat } from '@/lib/date';
 import { mobile } from '@/lib/mediaQuery';
@@ -10,8 +10,8 @@ import { styled } from '@/ui/styled';
 interface Props {
   link: string;
   title: string;
-  date: string;
-  excerpt?: string;
+  date?: string;
+  excerpt?: ReactNode;
   target?: boolean;
   role?: AriaRole;
 }
@@ -23,13 +23,11 @@ const LinkCard = ({ link, title, date, excerpt, target = false, role }: Props) =
         <LinkCardText>
           <LinkCardTitle>{title}</LinkCardTitle>
           <LinkCardParagraph>
-            <time dateTime={date}>{convertDateToSimpleFormat(date)}</time>
+            {date && <time dateTime={date}>{convertDateToSimpleFormat(date)}</time>}
             {excerpt && <span>{excerpt}</span>}
           </LinkCardParagraph>
         </LinkCardText>
-        <LinkCardIcon>
-          <HiOutlineChevronRight />
-        </LinkCardIcon>
+        <LinkCardIcon>{target ? <HiOutlineExternalLink /> : <HiOutlineChevronRight />}</LinkCardIcon>
       </LinkCardAnchor>
     </Link>
   );
