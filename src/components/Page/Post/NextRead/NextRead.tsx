@@ -27,12 +27,12 @@ export const PostNextRead = ({ posts }: Props) => {
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, minmax(calc(50% - var(--space-md)), 1fr));
+  grid-template-columns: repeat(2, minmax(calc(50% - var(--space-md)), max-content));
   gap: var(--space-md);
   margin-top: var(--space-md);
 
   ${mobile} {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(100%, max-content);
     gap: var(--space-sm);
   }
 `;
