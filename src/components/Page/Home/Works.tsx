@@ -61,7 +61,7 @@ const Description = ({ description, forkCount, stargazerCount, languages }: Part
 const DescriptionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: calc(var(--margin-base) * 0.25);
+  gap: calc(var(--margin-base) * 0.5);
 `;
 
 const StatusList = styled.ul`
