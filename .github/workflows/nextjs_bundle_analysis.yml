@@ -15,8 +15,6 @@ defaults:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_GRAPHQL_TOKEN: ${{ secrets.GIT_GRAPHQL_TOKEN }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -55,6 +53,8 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}
 
       - name: Build next.js app
+        env:
+          GITHUB_GRAPHQL_TOKEN: ${{ secrets.GIT_GRAPHQL_TOKEN }}
         # change this if your site requires a custom build command
         run: npm run build:article && ./node_modules/.bin/next build
 
