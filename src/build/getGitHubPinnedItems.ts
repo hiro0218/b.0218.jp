@@ -3,6 +3,10 @@ import 'dotenv/config';
 import fs from 'fs-extra';
 import fetch from 'node-fetch';
 
+const path = {
+  dist: `${process.cwd()}/dist`,
+} as const;
+
 async function getGitHubPinnedItems() {
   return await fetch('https://api.github.com/graphql', {
     method: 'post',
@@ -54,8 +58,8 @@ async function main() {
   const data = await getGitHubPinnedItems();
 
   if (data) {
-    fs.ensureDirSync(`${process.cwd()}/dist`);
-    fs.writeJSONSync(`${process.cwd()}/dist/githubPinnedItems.json`, data);
+    fs.ensureDirSync(`${path.dist}`);
+    fs.writeJSONSync(`${path.dist}/githubPinnedItems.json`, data);
     console.log('Write dist/githubPinnedItems.json');
   }
 }
