@@ -31,3 +31,15 @@ export interface Post {
   tags: Array<string>;
   readingTime: string;
 }
+
+export interface GithubPinnedItems {
+  name: string;
+  description: string;
+  updatedAt: string;
+  createdAt: string;
+  homepageUrl: string;
+  url: string;
+  stargazerCount: number;
+  forkCount: number;
+  languages: { color: string; name: string };
+}
