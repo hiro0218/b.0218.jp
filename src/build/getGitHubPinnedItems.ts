@@ -48,7 +48,6 @@ async function getGitHubPinnedItems() {
         return { ...rest, languages: languages.nodes.at(0) };
       });
     });
-  // .then((x) => x?.languages?.nodes?.map((x) => x.nodes));
 }
 
 async function main() {
