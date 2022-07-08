@@ -53,6 +53,8 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}
 
       - name: Build next.js app
+        env:
+          GITHUB_GRAPHQL_TOKEN: ${{ secrets.HIRO0218_NO_PASSPHRASE }}
         # change this if your site requires a custom build command
         run: npm run build:article && ./node_modules/.bin/next build
 
