@@ -21,7 +21,7 @@ export const Works = ({ items }: Props) => (
           View All
         </ViewAll>
       }
-      textSub={'GitHub Repositories'}
+      textSub={'GitHub Pinned Repositories'}
       isWeightNormal={false}
     />
     <Container>
