@@ -11,12 +11,12 @@ type Props = {
 };
 
 const Heading = ({ tagName: Tag = 'h1', text, textSide, textSub, isWeightNormal = true }: Props) => {
-  const HeaderTitle = HeaderMainTitle.withComponent(Tag);
-
   return (
     <>
       <HeaderMain>
-        <HeaderTitle weight={isWeightNormal}>{text}</HeaderTitle>
+        <HeaderTitle as={Tag} weight={isWeightNormal}>
+          {text}
+        </HeaderTitle>
         {textSide && <HeadingSide>{textSide}</HeadingSide>}
       </HeaderMain>
       {textSub && <HeaderSub>{textSub}</HeaderSub>}
@@ -32,7 +32,7 @@ const HeaderMain = styled.div`
   justify-content: space-between;
 `;
 
-const HeaderMainTitle = styled.h1<{ weight: boolean }>`
+const HeaderTitle = styled.h1<{ weight: boolean }>`
   color: var(--text-12);
   font-weight: ${({ weight }) => (weight ? '900' : '500')};
   line-height: 1.618034;
