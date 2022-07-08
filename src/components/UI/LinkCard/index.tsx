@@ -11,7 +11,7 @@ interface Props {
   link: string;
   title: string;
   date?: string;
-  excerpt?: ReactNode;
+  excerpt?: ReactNode | string;
   target?: boolean;
   role?: AriaRole;
 }
@@ -22,9 +22,9 @@ const LinkCard = ({ link, title, date, excerpt, target = false, role }: Props) =
       <LinkCardAnchor {...(target && { target: '_blank' })} role={role}>
         <LinkCardText>
           <LinkCardTitle>{title}</LinkCardTitle>
-          <LinkCardParagraph>
+          <LinkCardParagraph {...(typeof excerpt !== 'string' && { as: 'div' })}>
             {date && <time dateTime={date}>{convertDateToSimpleFormat(date)}</time>}
-            {excerpt && <span>{excerpt}</span>}
+            {excerpt && excerpt}
           </LinkCardParagraph>
         </LinkCardText>
         <LinkCardIcon>{target ? <HiOutlineExternalLink /> : <HiOutlineChevronRight />}</LinkCardIcon>
