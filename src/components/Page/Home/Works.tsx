@@ -30,14 +30,7 @@ export const Works = ({ items }: Props) => (
           key={index}
           link={item.homepageUrl || item.url}
           title={item.name}
-          excerpt={
-            <Description
-              description={item.description}
-              forkCount={item.forkCount}
-              stargazerCount={item.stargazerCount}
-              languages={item.languages}
-            />
-          }
+          excerpt={<Description {...item} />}
           target={true}
         />
       ))}
