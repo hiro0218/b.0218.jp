@@ -16,22 +16,20 @@ interface Props {
   role?: AriaRole;
 }
 
-const LinkCard = ({ link, title, date, excerpt, target = false, role }: Props) => {
-  return (
-    <Link href={link} prefetch={false} passHref>
-      <LinkCardAnchor {...(target && { target: '_blank' })} role={role}>
-        <LinkCardText>
-          <LinkCardTitle>{title}</LinkCardTitle>
-          <LinkCardParagraph {...(typeof excerpt !== 'string' && { as: 'div' })}>
-            {date && <time dateTime={date}>{convertDateToSimpleFormat(date)}</time>}
-            {excerpt && excerpt}
-          </LinkCardParagraph>
-        </LinkCardText>
-        <LinkCardIcon>{target ? <HiOutlineExternalLink /> : <HiOutlineChevronRight />}</LinkCardIcon>
-      </LinkCardAnchor>
-    </Link>
-  );
-};
+const LinkCard = ({ link, title, date, excerpt, target = false, role }: Props) => (
+  <Link href={link} prefetch={false} passHref>
+    <LinkCardAnchor {...(target && { target: '_blank' })} role={role}>
+      <LinkCardText>
+        <LinkCardTitle>{title}</LinkCardTitle>
+        <LinkCardParagraph {...(typeof excerpt !== 'string' && { as: 'div' })}>
+          {date && <time dateTime={date}>{convertDateToSimpleFormat(date)}</time>}
+          {excerpt && excerpt}
+        </LinkCardParagraph>
+      </LinkCardText>
+      <LinkCardIcon>{target ? <HiOutlineExternalLink /> : <HiOutlineChevronRight />}</LinkCardIcon>
+    </LinkCardAnchor>
+  </Link>
+);
 
 export default LinkCard;
 
