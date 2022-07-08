@@ -52,13 +52,12 @@ async function getGitHubPinnedItems() {
 
 async function main() {
   const data = await getGitHubPinnedItems();
-  console.log(data);
 
-  if (!data) {
-    throw Error('No data');
+  if (data) {
+    fs.ensureDirSync(`${process.cwd()}/dist`);
+    fs.writeJSONSync(`${process.cwd()}/dist/githubPinnedItems.json`, data);
+    console.log('Write dist/githubPinnedItems.json');
   }
-
-  fs.writeJSONSync(`${process.cwd()}/dist/githubPinnedItems.json`, data);
 }
 
 main();
