@@ -1,10 +1,12 @@
+import { ReactNode } from 'react';
+
 import { styled } from '@/ui/styled';
 
 type Props = {
   tagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  text?: string;
-  textSide?: string;
-  textSub?: string;
+  text?: ReactNode;
+  textSide?: ReactNode;
+  textSub?: ReactNode;
   isWeightNormal?: boolean;
 };
 
@@ -42,6 +44,7 @@ const HeadingSide = styled.div`
 `;
 
 const HeaderSub = styled.div`
+  margin-top: var(--space-xs);
   color: var(--text-11);
   font-weight: normal;
   line-height: 1.41421;
