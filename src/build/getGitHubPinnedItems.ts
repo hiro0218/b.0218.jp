@@ -11,29 +11,54 @@ async function getGitHubPinnedItems() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      query: `{
-          user(login: "hiro0218") {
-            pinnedItems(first: 6, types: REPOSITORY) {
-              nodes {
-                ...on RepositoryInfo {
+      query: `
+      {
+        user(login: "hiro0218") {
+          pinnedItems(first: 6, types: REPOSITORY) {
+            edges {
+              node {
+                ... on Repository {
                   name
                   description
-                  url
-                  createdAt
                   updatedAt
+                  createdAt
+                  homepageUrl
+                  url
+                  stargazerCount
+                  forkCount
+                  languages(first: 1) {
+                    nodes {
+                      color
+                      name
+                    }
+                  }
                 }
               }
             }
           }
-        }`,
+        }
+      }
+      `,
     }),
   })
     .then((response) => response.json())
-    .then((x) => x.data.user.pinnedItems.nodes);
+    .then((x) => {
+      return x?.data?.user?.pinnedItems?.edges?.map((x) => {
+        const { languages, ...rest } = x.node;
+        return { ...rest, languages: languages.nodes.at(0) };
+      });
+    });
+  // .then((x) => x?.languages?.nodes?.map((x) => x.nodes));
 }
 
 async function main() {
   const data = await getGitHubPinnedItems();
+  console.log(data);
+
+  if (!data) {
+    throw Error('No data');
+  }
+
   fs.writeJSONSync(`${process.cwd()}/dist/githubPinnedItems.json`, data);
 }
 
