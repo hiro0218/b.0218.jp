@@ -15,6 +15,8 @@ defaults:
 jobs:
   analyze:
     runs-on: ubuntu-latest
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
     steps:
       - uses: actions/checkout@v3
         with:
@@ -57,7 +59,7 @@ jobs:
         run: | 
           touch .env
           echo "GITHUB_GRAPHQL_TOKEN=${{ secrets.GIT_GRAPHQL_TOKEN }}" >> .env
-          npm run build:article && ./node_modules/.bin/next build
+          npm run prebuild && ./node_modules/.bin/next build
 
       # Here's the first place where next-bundle-analysis' own script is used
       # This step pulls the raw bundle stats for the current bundle
