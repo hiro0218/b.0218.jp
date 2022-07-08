@@ -1,22 +1,24 @@
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
-import Heading from '@/components/UI/Heading';
+import { Hero, Works } from '@/components/Page/Home';
 import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
+import { githubPinnedItems } from '@/lib/getData';
 import { getPostsListJson, getTermWithCount } from '@/lib/posts';
-import { Post as PropsPost } from '@/types/source';
+import { GithubPinnedItems, Post as PropsPost } from '@/types/source';
 
 const POST_DISPLAY_LIMIT = 5;
 
 interface Props {
+  pinnedItems: Array<GithubPinnedItems>;
   recentPosts: Array<PropsPost>;
   updatesPosts: Array<PropsPost>;
   tags: Array<PostTagProps>;
 }
 
-const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
+const Home: NextPage<Props> = ({ pinnedItems, recentPosts, updatesPosts, tags }) => {
   return (
     <>
       <Head>
@@ -36,11 +38,11 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
         />
       </Head>
 
-      <header>
-        <Heading text={'Home'} />
-      </header>
-
       <PageContentContainer>
+        <Hero />
+
+        <Works items={pinnedItems} />
+
         <Columns title={'Recent Articles'}>
           <Stack space="var(--space-x-xs)">
             {recentPosts.map((post, index) => (
@@ -87,6 +89,7 @@ const pickPosts = (posts: Partial<PropsPost>) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
+  const pinnedItems = githubPinnedItems();
   const posts = getPostsListJson();
   const recentPosts = posts.slice(0, POST_DISPLAY_LIMIT).map((post) => {
     return pickPosts(post);
@@ -113,6 +116,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
+      pinnedItems,
       recentPosts,
       updatesPosts,
       tags,

@@ -12,7 +12,7 @@ export interface ContainerProps {
 
 export const Columns = memo(function Columns({ title, children, ...others }: ContainerProps) {
   return (
-    <Root className="l-columns" {...others}>
+    <Root {...others}>
       <ColumnTitle>{title && <TitleText>{title}</TitleText>}</ColumnTitle>
       <ColumnMain>{children}</ColumnMain>
     </Root>

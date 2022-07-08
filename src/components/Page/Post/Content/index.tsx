@@ -34,6 +34,14 @@ const PostContent = styled.article`
     &:hover {
       text-decoration-color: var(--text-11);
     }
+
+    &[target='_blank'] {
+      &::after {
+        content: '↗';
+        display: inline-block;
+        text-decoration: none;
+      }
+    }
   }
 
   .anchor {

@@ -15,7 +15,7 @@ export const PostNextRead = ({ posts }: Props) => {
 
   return (
     <div className="next-read">
-      <Heading tagName="h2" text={'Next Read'} />
+      <Heading tagName="h2" text={'Next Read'} isWeightNormal={false} />
       <Container>
         {posts.map((post, index) => (
           <LinkCard key={index} link={`${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
@@ -27,12 +27,12 @@ export const PostNextRead = ({ posts }: Props) => {
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, minmax(calc(50% - var(--space-md)), max-content));
+  grid-template-columns: repeat(2, minmax(calc(50% - var(--space-md)), 1fr));
   gap: var(--space-md);
   margin-top: var(--space-md);
 
   ${mobile} {
-    grid-template-columns: minmax(100%, max-content);
+    grid-template-columns: 1fr;
     gap: var(--space-sm);
   }
 `;
