@@ -23,7 +23,7 @@ const LinkCard = ({ link, title, date, excerpt, target = false, role }: Props) =
         <LinkCardTitle>{title}</LinkCardTitle>
         <LinkCardParagraph {...(typeof excerpt !== 'string' && { as: 'div' })}>
           {date && <time dateTime={date}>{convertDateToSimpleFormat(date)}</time>}
-          {excerpt && excerpt}
+          {excerpt && <span>{excerpt}</span>}
         </LinkCardParagraph>
       </LinkCardText>
       <LinkCardIcon>{target ? <HiOutlineExternalLink /> : <HiOutlineChevronRight />}</LinkCardIcon>
