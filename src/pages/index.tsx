@@ -42,7 +42,7 @@ const Home: NextPage<Props> = ({ pinnedItems, recentPosts, updatesPosts, tags })
       <PageContentContainer>
         <Title
           heading="Hello, I'm hiro."
-          paragraph="I was a web backend developer and native app developer. Currently I am a web front-end developer."
+          paragraph="I was a web backend developer and native app developer. Currently I am a web frontend developer."
         />
 
         <Works items={pinnedItems} />
