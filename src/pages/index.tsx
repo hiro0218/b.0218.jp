@@ -1,10 +1,11 @@
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
-import { Hero, Works } from '@/components/Page/Home';
+import { Works } from '@/components/Page/Home';
 import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
+import { Title } from '@/components/UI/Title';
 import { githubPinnedItems } from '@/lib/getData';
 import { getPostsListJson, getTermWithCount } from '@/lib/posts';
 import { GithubPinnedItems, Post as PropsPost } from '@/types/source';
@@ -39,7 +40,10 @@ const Home: NextPage<Props> = ({ pinnedItems, recentPosts, updatesPosts, tags })
       </Head>
 
       <PageContentContainer>
-        <Hero />
+        <Title
+          heading="Hello, I'm hiro."
+          paragraph="I was a web backend developer and native app developer. Currently I am a web front-end developer."
+        />
 
         <Works items={pinnedItems} />
 
