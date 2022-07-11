@@ -7,10 +7,10 @@ type Props = {
 };
 
 export const Title = ({ heading, paragraph }: Props) => (
-  <section>
+  <header>
     <H1>{heading}</H1>
     {paragraph && <P>{paragraph}</P>}
-  </section>
+  </header>
 );
 
 const H1 = styled.h1`
