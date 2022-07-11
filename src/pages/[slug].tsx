@@ -8,6 +8,7 @@ import PostContent from '@/components/Page/Post/Content';
 import { PostNextRead } from '@/components/Page/Post/NextRead';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContentContainer } from '@/components/UI/Layout';
+import { Title } from '@/components/UI/Title';
 import { getPostsJson, getTermJson, getTermWithCount } from '@/lib/posts';
 const PostShare = dynamic(() => import('@/components/Page/Post/Share'));
 const PostNote = dynamic(() => import('@/components/Page/Post/Note'));
@@ -63,11 +64,11 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
         )}
       </Head>
 
-      <header>
-        <PostHeader post={post} />
-      </header>
-
       <PageContentContainer>
+        <Title heading={post.title}>
+          <PostHeader post={post} />
+        </Title>
+
         <PostNote note={post.note} />
 
         <Adsense />

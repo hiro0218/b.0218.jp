@@ -1,15 +1,19 @@
+import { ReactNode } from 'react';
+
 import { getModularScale } from '@/lib/modular-scale';
 import { styled } from '@/ui/styled';
 
 type Props = {
   heading: string;
   paragraph?: string;
+  children?: ReactNode;
 };
 
-export const Title = ({ heading, paragraph }: Props) => (
+export const Title = ({ heading, paragraph, children }: Props) => (
   <header>
     <H1>{heading}</H1>
     {paragraph && <P>{paragraph}</P>}
+    {children}
   </header>
 );
 
