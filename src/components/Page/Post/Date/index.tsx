@@ -30,7 +30,6 @@ export default PostDate;
 const PostDateRoot = styled.div`
   display: flex;
   align-items: center;
-  color: var(--text-11);
 
   > * + * {
     margin-left: 0.5em;
@@ -40,8 +39,6 @@ const PostDateRoot = styled.div`
 const PostDateItem = styled.div<{ existModified?: boolean }>`
   display: flex;
   align-items: center;
-  color: var(--text-11);
-  font-size: var(--font-size-md);
 
   ${({ existModified }) => {
     return (

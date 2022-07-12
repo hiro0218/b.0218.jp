@@ -38,12 +38,11 @@ const PostHeaderList = styled.div`
 const PostHeaderItem = styled.div`
   display: flex;
   align-items: center;
+  color: var(--text-11);
+  font-size: var(--font-size-md);
 `;
 
 const PostHeaderReadingTime = styled.div`
-  color: var(--text-11);
-  font-size: var(--font-size-md);
-
   &::before {
     content: '・';
     margin: 0 calc(var(--margin-base) * 0.25);
