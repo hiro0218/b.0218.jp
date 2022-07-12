@@ -1,8 +1,8 @@
 import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 
-import Heading from '@/components/UI/Heading';
 import { Columns, PageContentContainer } from '@/components/UI/Layout';
 import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
+import { Title } from '@/components/UI/Title';
 import { getTermWithCount } from '@/lib/posts';
 
 type TermProps = {
@@ -11,18 +11,14 @@ type TermProps = {
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const Tags: NextPage<Props> = ({ tags }) => (
-  <>
-    <header>
-      <Heading text={'Tags'} />
-    </header>
-    <PageContentContainer>
-      <Columns>
-        <PostTagGridContainer>
-          <PostTag tags={tags} />
-        </PostTagGridContainer>
-      </Columns>
-    </PageContentContainer>
-  </>
+  <PageContentContainer>
+    <Title heading="Tags" />
+    <Columns>
+      <PostTagGridContainer>
+        <PostTag tags={tags} />
+      </PostTagGridContainer>
+    </Columns>
+  </PageContentContainer>
 );
 
 export default Tags;

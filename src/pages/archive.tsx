@@ -1,9 +1,9 @@
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
-import Heading from '@/components/UI/Heading';
 import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
+import { Title } from '@/components/UI/Title';
 import { SITE } from '@/constant';
 import { getPostsListJson } from '@/lib/posts';
 import { Post as PropPost } from '@/types/source';
@@ -53,11 +53,9 @@ const Archive: NextPage<Props> = ({ archives }) => {
       </Head>
 
       <article>
-        <header>
-          <Heading text={'Archive'} textSide={`${archives.length}件`} />
-        </header>
-
         <PageContentContainer>
+          <Title heading="Archive" paragraph={`${archives.length}件`} />
+
           {Object.keys(posts).map((key: string) => (
             <Columns key={key} title={`${key}年`}>
               <Stack space="var(--space-x-xs)">

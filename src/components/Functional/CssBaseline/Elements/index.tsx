@@ -19,6 +19,7 @@ export default css`
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.875;
     font-feature-settings: 'chws' 1;
+    line-break: strict;
   }
 
   a {
