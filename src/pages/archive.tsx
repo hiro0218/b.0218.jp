@@ -53,9 +53,9 @@ const Archive: NextPage<Props> = ({ archives }) => {
       </Head>
 
       <article>
-        <Title heading="Archive" paragraph={`${archives.length}件`} />
-
         <PageContentContainer>
+          <Title heading="Archive" paragraph={`${archives.length}件`} />
+
           {Object.keys(posts).map((key: string) => (
             <Columns key={key} title={`${key}年`}>
               <Stack space="var(--space-x-xs)">
