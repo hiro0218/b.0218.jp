@@ -18,7 +18,7 @@ export const Title = ({ heading, paragraph, children }: Props) => (
 );
 
 const H1 = styled.h1`
-  font-size: ${getModularScale({ degree: 5 })};
+  font-size: ${getModularScale({ degree: 4 })};
   line-height: 1.5;
 `;
 
