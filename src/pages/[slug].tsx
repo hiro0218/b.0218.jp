@@ -1,23 +1,22 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
-import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
 import PostContent from '@/components/Page/Post/Content';
+import PostEdit from '@/components/Page/Post/Edit';
+import PostHeader from '@/components/Page/Post/Header';
 import { PostNextRead } from '@/components/Page/Post/NextRead';
+import PostNote from '@/components/Page/Post/Note';
+import PostShare from '@/components/Page/Post/Share';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContentContainer } from '@/components/UI/Layout';
-import { Title } from '@/components/UI/Title';
-import { getPostsJson, getTermJson, getTermWithCount } from '@/lib/posts';
-const PostShare = dynamic(() => import('@/components/Page/Post/Share'));
-const PostNote = dynamic(() => import('@/components/Page/Post/Note'));
-const PostEdit = dynamic(() => import('@/components/Page/Post/Edit'));
-import PostHeader from '@/components/Page/Post/Header';
 import Mokuji from '@/components/UI/Mokuji';
 import { Profile } from '@/components/UI/Profile';
+import { Title } from '@/components/UI/Title';
 import { SITE } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
+import { getPostsJson, getTermJson, getTermWithCount } from '@/lib/posts';
 import { Post as PostType, TermsPostList } from '@/types/source';
 
 type PostProps = {
