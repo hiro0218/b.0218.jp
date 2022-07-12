@@ -1,4 +1,5 @@
 import { GoRepoForked, GoStar } from 'react-icons/go';
+import { HiOutlineExternalLink } from 'react-icons/hi';
 
 import Heading from '@/components/UI/Heading';
 import LinkCard from '@/components/UI/LinkCard';
@@ -18,7 +19,7 @@ export const Works = ({ items }: Props) => (
       text={'Works'}
       textSide={
         <ViewAll href={URL.GITHUB} target="_blank">
-          View All
+          View All <HiOutlineExternalLink />
         </ViewAll>
       }
       textSub={'GitHub Pinned Repositories'}
@@ -89,8 +90,15 @@ const StatusLanguageCircle = styled.span<{ color: string }>`
 `;
 
 const ViewAll = styled.a`
+  display: inline-flex;
+  align-items: center;
+
   &:hover {
     text-decoration: underline;
+  }
+
+  svg {
+    margin-left: 0.25em;
   }
 `;
 
