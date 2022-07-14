@@ -19,9 +19,7 @@ const pageTitle = 'Tag';
 const Tags: NextPage<Props> = ({ title, posts }) => (
   <>
     <Head>
-      <title key="title">
-        {pageTitle}: {title} - {SITE.NAME}
-      </title>
+      <title key="title">{`${pageTitle}: ${title} - ${SITE.NAME}`}</title>
       <meta name="robots" content="noindex" />
     </Head>
 

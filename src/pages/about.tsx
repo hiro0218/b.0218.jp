@@ -16,7 +16,7 @@ const About: NextPage<Props> = ({ page }) => {
   return (
     <>
       <Head>
-        <title key="title">サイトについて - {SITE.NAME}</title>
+        <title key="title">{`サイトについて - ${SITE.NAME}`}</title>
       </Head>
 
       <PageContentContainer>
