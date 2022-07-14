@@ -49,7 +49,7 @@ const Archive: NextPage<Props> = ({ archives }) => {
   return (
     <>
       <Head>
-        <title key="title">Archive - {SITE.NAME}</title>
+        <title key="title">{`Archive - ${SITE.NAME}`}</title>
       </Head>
 
       <article>
