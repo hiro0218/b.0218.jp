@@ -8,12 +8,12 @@ const Mokuji = ({ refContent }: { refContent: MutableRefObject<HTMLDivElement> }
   const { asPath } = useRouter();
   const refMokuji = useRef<HTMLDivElement>(null);
   const refDetail = useRef<HTMLDetailsElement>(null);
-  const firstRenderRef = useRef(true);
+  const refFirstRender = useRef(true);
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
-      if (firstRenderRef.current) {
-        firstRenderRef.current = false;
+      if (refFirstRender.current) {
+        refFirstRender.current = false;
         return;
       }
     }
