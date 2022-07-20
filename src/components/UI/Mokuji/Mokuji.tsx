@@ -8,23 +8,31 @@ const Mokuji = ({ refContent }: { refContent: MutableRefObject<HTMLDivElement> }
   const { asPath } = useRouter();
   const refMokuji = useRef<HTMLDivElement>(null);
   const refDetail = useRef<HTMLDetailsElement>(null);
+  const firstRenderRef = useRef(true);
 
   useEffect(() => {
-    const mokujiList = MokujiJs(refContent.current, {
-      anchorType: true,
-      anchorLink: true,
-      anchorLinkSymbol: '#',
-      anchorLinkBefore: false,
-      anchorLinkClassName: 'anchor',
-      anchorContainerTagName: 'ol',
-    });
-
-    if (mokujiList.childNodes.length !== 0) {
-      refDetail.current.appendChild(mokujiList);
-      refMokuji.current.style.display = 'block';
-    } else {
-      refMokuji.current.style.display = 'none';
+    if (firstRenderRef.current) {
+      firstRenderRef.current = false;
+      return;
     }
+
+    requestAnimationFrame(() => {
+      const mokujiList = MokujiJs(refContent.current, {
+        anchorType: true,
+        anchorLink: true,
+        anchorLinkSymbol: '#',
+        anchorLinkBefore: false,
+        anchorLinkClassName: 'anchor',
+        anchorContainerTagName: 'ol',
+      });
+
+      if (mokujiList.childNodes.length !== 0) {
+        refDetail.current.appendChild(mokujiList);
+        refMokuji.current.style.display = 'block';
+      } else {
+        refMokuji.current.style.display = 'none';
+      }
+    });
   }, [asPath, refContent]);
 
   return (
