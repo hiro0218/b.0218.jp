@@ -11,9 +11,11 @@ const Mokuji = ({ refContent }: { refContent: MutableRefObject<HTMLDivElement> }
   const firstRenderRef = useRef(true);
 
   useEffect(() => {
-    if (firstRenderRef.current) {
-      firstRenderRef.current = false;
-      return;
+    if (process.env.NODE_ENV === 'development') {
+      if (firstRenderRef.current) {
+        firstRenderRef.current = false;
+        return;
+      }
     }
 
     requestAnimationFrame(() => {
