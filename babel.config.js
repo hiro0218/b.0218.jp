@@ -4,10 +4,12 @@ module.exports = {
     [
       'next/babel',
       {
-        "preset-env": {
-          "targets": {
-            "browsers": ">1%, not dead, not op_mini all"
+        'preset-env': {
+          targets: {
+            browsers: '>1%, not dead, not op_mini all',
           },
+          modules: false,
+          useBuiltIns: false,
         },
         'preset-react': {
           runtime: 'automatic',
@@ -31,4 +33,4 @@ module.exports = {
       },
     ],
   ],
-}
+};

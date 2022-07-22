@@ -7,7 +7,7 @@ const PostContent = styled.article`
     margin-top: var(--space-xl);
     margin-bottom: var(--space-xl);
 
-    &:first-of-type {
+    &:first-of-type:not(hr) {
       margin-top: 0;
     }
 

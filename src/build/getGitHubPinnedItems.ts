@@ -30,7 +30,7 @@ async function getGitHubPinnedItems() {
                   url
                   stargazerCount
                   forkCount
-                  languages(first: 1) {
+                  languages(first: 1, orderBy: {field: SIZE, direction: DESC}) {
                     nodes {
                       color
                       name
