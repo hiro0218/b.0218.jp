@@ -1,30 +1,34 @@
-import { Processor, Transformer } from 'unified';
+import type { Element } from 'hast';
+import { Transformer } from 'unified';
+import { Node } from 'unist';
 import { visit } from 'unist-util-visit';
+import type { Visitor } from 'unist-util-visit/complex-types';
 
-export default function remark0218(this: Processor): Transformer {
-  function visitor(el): void {
-    if (el.tagName === 'img') {
-      el.properties = {
-        ...(el.properties || {}),
+const remark0218 = (): Transformer => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const visitor: Visitor<Element> = (node, index, parent) => {
+    if (node.tagName === 'img') {
+      node.properties = {
+        ...(node.properties || {}),
         loading: 'lazy',
       };
 
       return;
     }
 
-    if (el.tagName === 'code' && Array.isArray(el.properties?.className) && el.properties.className.includes('hljs')) {
-      const className = el.properties?.className.join(' ').replace('hljs language-', '');
-      el.properties.dataLanguage = className;
+    if (
+      node.tagName === 'code' &&
+      Array.isArray(node.properties?.className) &&
+      node.properties.className.includes('hljs')
+    ) {
+      const className = node.properties?.className.join(' ').replace('hljs language-', '');
+      node.properties.dataLanguage = className;
 
       return;
     }
-  }
+  };
 
-  function transformer(htmlAST) {
-    visit(htmlAST, 'element', visitor);
+  return (tree: Node) => visit(tree, 'element', visitor);
+};
 
-    return htmlAST;
-  }
-
-  return transformer;
-}
+export default remark0218;
