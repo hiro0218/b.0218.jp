@@ -4,27 +4,30 @@ import { Node } from 'unist';
 import { visit } from 'unist-util-visit';
 import type { Visitor } from 'unist-util-visit/complex-types';
 
+const transformImage = (node: Element) => {
+  node.properties = {
+    ...(node.properties || {}),
+    loading: 'lazy',
+  };
+};
+
+const transformCodeblock = (node: Element) => {
+  if (Array.isArray(node.properties?.className) && node.properties.className.includes('hljs')) {
+    const className = node.properties?.className.join(' ').replace('hljs language-', '');
+    node.properties.dataLanguage = className;
+  }
+};
+
 const remark0218 = (): Transformer => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const visitor: Visitor<Element> = (node, index, parent) => {
-    if (node.tagName === 'img') {
-      node.properties = {
-        ...(node.properties || {}),
-        loading: 'lazy',
-      };
-
-      return;
-    }
-
-    if (
-      node.tagName === 'code' &&
-      Array.isArray(node.properties?.className) &&
-      node.properties.className.includes('hljs')
-    ) {
-      const className = node.properties?.className.join(' ').replace('hljs language-', '');
-      node.properties.dataLanguage = className;
-
-      return;
+    switch (node.tagName) {
+      case 'img':
+        transformImage(node);
+        break;
+      case 'code':
+        transformCodeblock(node);
+        break;
     }
   };
 
