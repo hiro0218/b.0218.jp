@@ -36,8 +36,8 @@ function getHeading2Text(content: string) {
 /**
  * markdownをhtml形式に変換
  */
-function markdown2html(markdown: string) {
-  const result = unified()
+async function markdown2html(markdown: string) {
+  const result = await unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkUnwrapImages)
@@ -61,12 +61,12 @@ function markdown2html(markdown: string) {
       },
     ])
     .use(rehypeStringify, { allowDangerousHtml: true })
-    .processSync(markdown);
+    .process(markdown);
 
   return result.toString();
 }
 
-function buildPost() {
+async function buildPost() {
   // md ファイル一覧を取得
   const files = fs.readdirSync(`${path.src}/_posts`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
@@ -79,7 +79,7 @@ function buildPost() {
     // front matter を取得
     const post = matter.read(`${path.src}/_posts/${file}`);
     const { title, date, updated, note, tags }: Partial<PropPost> = post.data;
-    const content = markdown2html(post.content);
+    const content = await markdown2html(post.content);
     const { text } = readingTime(content);
 
     posts.push({
@@ -87,7 +87,7 @@ function buildPost() {
       slug: file.replace('.md', ''),
       date,
       updated,
-      note: markdown2html(note),
+      note: await markdown2html(note),
       content: content,
       excerpt: getHeading2Text(content),
       tags,
@@ -145,7 +145,7 @@ function buildTerms() {
   console.log('Write dist/tags.json');
 }
 
-function buildPage() {
+async function buildPage() {
   // md ファイル一覧を取得
   const files = fs.readdirSync(`${path.src}`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
@@ -158,7 +158,7 @@ function buildPage() {
     // front matter を取得
     const page = matter.read(`${path.src}/${file}`);
     const { title, date, updated }: Partial<PropPost> = page.data;
-    const content = markdown2html(page.content);
+    const content = await markdown2html(page.content);
 
     pages.push({
       title,
