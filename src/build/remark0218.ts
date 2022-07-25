@@ -1,4 +1,5 @@
-import type { Element, ElementContent } from 'hast';
+import type { Element } from 'hast';
+import { h } from 'hastscript';
 import { JSDOM } from 'jsdom';
 import fetch from 'node-fetch';
 import { Transformer } from 'unified';
@@ -27,61 +28,15 @@ const setPreviewLinkNodes = (node: Element, ogp: OpgProps) => {
   const CLASS_NAME = 'p-link-preview';
   const properties = node.properties;
   node.properties = {};
-  node.tagName = 'div';
-  node.children = [
-    {
-      type: 'element',
-      tagName: 'a',
-      properties: {
-        ...properties,
-        className: [CLASS_NAME],
-      },
-      children: [
-        {
-          type: 'element',
-          tagName: 'div',
-          properties: { className: [`${CLASS_NAME}-body`] },
-          children: [
-            {
-              type: 'element',
-              tagName: 'div',
-              properties: { className: [`${CLASS_NAME}-body__title`] },
-              children: [
-                {
-                  type: 'text',
-                  value: ogp.title || '',
-                },
-              ],
-            },
-            {
-              type: 'element',
-              tagName: 'div',
-              properties: { className: [`${CLASS_NAME}-body__description`] },
-              children: [
-                {
-                  type: 'text',
-                  value: ogp.description || '',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          type: 'element',
-          tagName: 'div',
-          properties: { className: [`${CLASS_NAME}-thumbnail`] },
-          children: [
-            {
-              type: 'element',
-              tagName: 'img',
-              properties: { src: ogp.image || '', alt: '', loading: 'lazy' },
-              children: [],
-            },
-          ],
-        },
-      ],
-    },
-  ] as ElementContent[];
+  node.tagName = 'p';
+  const template = h('a', { ...properties, class: CLASS_NAME }, [
+    h('span', { class: `${CLASS_NAME}-body` }, [
+      h('span', { class: `${CLASS_NAME}-body__title` }, ogp.title),
+      ogp.description && h('span', { class: `${CLASS_NAME}-body__description` }, ogp.description),
+    ]),
+    h('span', { class: `${CLASS_NAME}-thumbnail` }, [h('img', { src: ogp.image, alt: ogp.title })]),
+  ]);
+  node.children = [template];
 };
 
 // eslint-disable-next-line complexity
