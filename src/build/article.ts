@@ -3,6 +3,7 @@ import matter from 'gray-matter';
 import readingTime from 'reading-time';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeRaw from 'rehype-raw';
+import rehypeRemoveEmptyAttribute from 'rehype-remove-empty-attribute';
 import rehypeStringify from 'rehype-stringify';
 import rehypeWrap from 'rehype-wrap-all';
 import remarkBreaks from 'remark-breaks';
@@ -50,6 +51,7 @@ async function markdown2html(markdown: string) {
       ignoreMissing: true,
     })
     .use(remark0218)
+    .use(rehypeRemoveEmptyAttribute)
     .use(rehypeWrap, [
       {
         selector: 'table',
