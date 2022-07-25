@@ -3,7 +3,9 @@ import matter from 'gray-matter';
 import readingTime from 'reading-time';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeRaw from 'rehype-raw';
+import rehypeRemoveComments from 'rehype-remove-comments';
 import rehypeRemoveEmptyAttribute from 'rehype-remove-empty-attribute';
+import rehypeRemoveEmptyParagraph from 'rehype-remove-empty-paragraph';
 import rehypeStringify from 'rehype-stringify';
 import rehypeWrap from 'rehype-wrap-all';
 import remarkBreaks from 'remark-breaks';
@@ -53,6 +55,8 @@ async function markdown2html(markdown: string, simple = false) {
         })
         .use(remark0218)
         .use(rehypeRemoveEmptyAttribute)
+        .use(rehypeRemoveEmptyParagraph, { trimBr: true })
+        .use(rehypeRemoveComments)
         .use(rehypeWrap, [
           {
             selector: 'table',
