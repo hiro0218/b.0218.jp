@@ -34,7 +34,7 @@ const setPreviewLinkNodes = (node: Element, ogp: OpgProps) => {
       h('span', { class: `${CLASS_NAME}-body__title` }, ogp.title),
       ogp.description && h('span', { class: `${CLASS_NAME}-body__description` }, ogp.description),
     ]),
-    h('span', { class: `${CLASS_NAME}-thumbnail` }, [h('img', { src: ogp.image, alt: ogp.title })]),
+    h('span', { class: `${CLASS_NAME}-thumbnail` }, [h('img', { src: ogp.image, alt: '' })]),
   ]);
   node.children = [template];
 };
