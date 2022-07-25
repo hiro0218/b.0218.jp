@@ -145,28 +145,27 @@ const remark0218 = (): Transformer => {
   const nodes = new Set<{ node: Element; index: number; parent: Element }>();
 
   return async (tree) => {
-    visit(tree, 'element', function visitor(node: Element, index, parent) {
+    visit(tree, { tagName: 'a' }, function visitor(node: Element, index, parent) {
       nodes.add({ node, index, parent });
     });
 
     await Promise.all(
       [...nodes].map(async ({ node, index, parent }) => {
-        switch (node.tagName) {
-          case 'a':
-            await transformLinkPreview(node, index, parent);
-            break;
-          case 'img':
-            transformImage(node);
-            break;
-          case 'code':
-            transformCodeblock(node);
-            break;
-          case 'p':
-            removeEmptyParagraph(node, index, parent);
-            break;
-        }
+        await transformLinkPreview(node, index, parent);
       }),
     );
+
+    visit(tree, { tagName: 'img' }, function visitor(node: Element) {
+      transformImage(node);
+    });
+
+    visit(tree, { tagName: 'code' }, function visitor(node: Element) {
+      transformCodeblock(node);
+    });
+
+    visit(tree, { tagName: 'p' }, function visitor(node: Element, index, parent) {
+      removeEmptyParagraph(node, index, parent);
+    });
   };
 };
 
