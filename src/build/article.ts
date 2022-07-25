@@ -37,33 +37,41 @@ function getHeading2Text(content: string) {
 /**
  * markdownをhtml形式に変換
  */
-async function markdown2html(markdown: string) {
-  const result = await unified()
-    .use(remarkParse)
-    .use(remarkGfm)
-    .use(remarkUnwrapImages)
-    .use(remarkBreaks)
-    .use(remarkExternalLinks, { rel: ['nofollow', 'noopener'] })
-    .use(remarkRehype, { allowDangerousHtml: true })
-    .use(rehypeRaw)
-    .use(rehypeHighlight, {
-      subset: false,
-      ignoreMissing: true,
-    })
-    .use(remark0218)
-    .use(rehypeRemoveEmptyAttribute)
-    .use(rehypeWrap, [
-      {
-        selector: 'table',
-        wrapper: 'div.p-table-scroll',
-      },
-      {
-        selector: 'table',
-        wrapper: 'div.p-table-scroll__shadow',
-      },
-    ])
-    .use(rehypeStringify, { allowDangerousHtml: true })
-    .process(markdown);
+async function markdown2html(markdown: string, simple = false) {
+  const result = !simple
+    ? await unified()
+        .use(remarkParse)
+        .use(remarkGfm)
+        .use(remarkUnwrapImages)
+        .use(remarkBreaks)
+        .use(remarkExternalLinks, { rel: ['nofollow', 'noopener'] })
+        .use(remarkRehype, { allowDangerousHtml: true })
+        .use(rehypeRaw)
+        .use(rehypeHighlight, {
+          subset: false,
+          ignoreMissing: true,
+        })
+        .use(remark0218)
+        .use(rehypeRemoveEmptyAttribute)
+        .use(rehypeWrap, [
+          {
+            selector: 'table',
+            wrapper: 'div.p-table-scroll',
+          },
+          {
+            selector: 'table',
+            wrapper: 'div.p-table-scroll__shadow',
+          },
+        ])
+        .use(rehypeStringify, { allowDangerousHtml: true })
+        .process(markdown)
+    : await unified()
+        .use(remarkParse)
+        .use(remarkGfm)
+        .use(remarkRehype, { allowDangerousHtml: true })
+        .use(rehypeRaw)
+        .use(rehypeStringify, { allowDangerousHtml: true })
+        .process(markdown);
 
   return result.toString();
 }
@@ -89,7 +97,7 @@ async function buildPost() {
       slug: file.replace('.md', ''),
       date,
       updated,
-      note: await markdown2html(note),
+      note: await markdown2html(note, true),
       content: content,
       excerpt: getHeading2Text(content),
       tags,
