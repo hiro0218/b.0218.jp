@@ -194,7 +194,9 @@ function copyFiles() {
   console.log('Copy _article/images');
 }
 
-buildPost();
-buildTerms();
-buildPage();
-copyFiles();
+(async () => {
+  await buildPost();
+  buildTerms();
+  await buildPage();
+  copyFiles();
+})();
