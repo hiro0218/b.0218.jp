@@ -135,6 +135,12 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
   }
 };
 
+const removeEmptyParagraph = (node: Element, index: number, parent: Element) => {
+  if (node.children.length === 0) {
+    parent.children.splice(index, 1);
+  }
+};
+
 const remark0218 = (): Transformer => {
   const nodes = new Set<{ node: Element; index: number; parent: Element }>();
 
@@ -154,6 +160,9 @@ const remark0218 = (): Transformer => {
             break;
           case 'code':
             transformCodeblock(node);
+            break;
+          case 'p':
+            removeEmptyParagraph(node, index, parent);
             break;
         }
       }),
