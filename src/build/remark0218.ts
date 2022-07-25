@@ -21,7 +21,7 @@ const transformCodeblock = (node: Element) => {
   }
 };
 
-const setPreviewLinkNodes = (node: Element, ogp: OpgProps) => {
+const setPreviewLinkNodes = (node: Element, index: number, parent: Element, ogp: OpgProps) => {
   if (Object.keys(ogp).length === 0) return;
   if (!ogp.title) return;
 
@@ -37,6 +37,8 @@ const setPreviewLinkNodes = (node: Element, ogp: OpgProps) => {
     h('span', { class: `${CLASS_NAME}-thumbnail` }, [h('img', { src: ogp.image, alt: '' })]),
   ]);
   node.children = [template];
+
+  parent.children.splice(index, 1, ...node.children);
 };
 
 // eslint-disable-next-line complexity
@@ -83,7 +85,7 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
           return tmp;
         }, {});
 
-      setPreviewLinkNodes(node, ogp);
+      setPreviewLinkNodes(node, index, parent, ogp);
     }
   } catch (error) {
     console.error(error, node.properties.href);
