@@ -203,6 +203,11 @@ const PostContent = styled.article`
     background-color: #fff;
     text-decoration: none;
 
+    ${mobile} {
+      flex-direction: column;
+      height: 360px;
+    }
+
     &:hover {
       border-color: var(--borders-8);
       background-color: var(--backgrounds-2);
@@ -219,6 +224,12 @@ const PostContent = styled.article`
       height: 120px;
       padding: 0.8em 1.2em;
 
+      ${mobile} {
+        display: block;
+        order: 1;
+        width: 100%;
+      }
+
       &__title {
         display: -webkit-box;
         max-height: 3em;
@@ -230,6 +241,7 @@ const PostContent = styled.article`
       }
 
       &__description {
+        display: block;
         margin-top: 0.5em;
         overflow: hidden;
         color: var(--text-11);
@@ -244,11 +256,22 @@ const PostContent = styled.article`
       height: 120px;
       user-select: none;
 
+      ${mobile} {
+        order: 0;
+        width: 100%;
+        max-width: 100%;
+        height: 240px;
+      }
+
       img {
         flex-shrink: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
+
+        ${mobile} {
+          object-fit: contain;
+        }
       }
     }
   }
