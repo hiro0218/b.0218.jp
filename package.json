@@ -3,21 +3,39 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 8080",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint \"src/**/*{.js,.ts,.tsx}\"",
     "prebuild": "git submodule update --remote && npm run build:article && npm run build:feed && npm run build:sitemap && npm run build:github",
+    "build": "next build",
     "postbuild": "npm run build:ogp",
     "build:article": "node --require esbuild-register ./src/build/article.ts",
     "build:feed": "node --require esbuild-register ./src/build/feed.ts",
-    "build:sitemap": "node --require esbuild-register ./src/build/sitemap.ts",
     "build:github": "node --require esbuild-register ./src/build/getGitHubPinnedItems.ts",
     "build:ogp": "node --require esbuild-register ./src/build/ogp",
+    "build:sitemap": "node --require esbuild-register ./src/build/sitemap.ts",
+    "build:storybook": "build-storybook -o build/storybook",
+    "dev": "next dev -p 8080",
+    "lint": "eslint \"src/**/*{.js,.ts,.tsx}\"",
     "prepare": "husky install && playwright install chromium",
-    "storybook": "start-storybook -p 6006",
-    "build:storybook": "build-storybook -o build/storybook"
+    "start": "next start",
+    "storybook": "start-storybook -p 6006"
   },
+  "lint-staged": {
+    "**/*.{ts,tsx,js}": [
+      "eslint --fix",
+      "eslint",
+      "prettier --write --cache",
+      "bash -c 'tsc --noEmit --skipLibCheck'"
+    ],
+    "**/*.{css,tsx}": [
+      "stylelint --fix",
+      "stylelint",
+      "prettier --write --cache"
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "not dead",
+    "not op_mini all"
+  ],
   "dependencies": {
     "@radix-ui/colors": "^0.1.8",
     "css-in-js-easing": "^1.1.0",
@@ -91,24 +109,6 @@
     "typescript": "^4.7.4",
     "unified": "^10.1.2",
     "unist-util-visit": "^4.1.0"
-  },
-  "browserslist": [
-    "> 1%",
-    "not dead",
-    "not op_mini all"
-  ],
-  "lint-staged": {
-    "**/*.{ts,tsx,js}": [
-      "eslint --fix",
-      "eslint",
-      "prettier --write --cache",
-      "bash -c 'tsc --noEmit --skipLibCheck'"
-    ],
-    "**/*.{css,tsx}": [
-      "stylelint --fix",
-      "stylelint",
-      "prettier --write --cache"
-    ]
   },
   "nextBundleAnalysis": {
     "budget": 358400,
