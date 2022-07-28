@@ -108,11 +108,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
   const posts = getPostsJson();
-  const slug = context.params.slug as string;
+  const slug = (context.params.slug as string).replace('.html', '');
 
   // slug に一致する post を取得
   const post = posts.find((post) => {
-    return post.slug === slug.replace('.html', '');
+    return post.slug === slug;
   });
 
   // tagsを件数順に並び替える
