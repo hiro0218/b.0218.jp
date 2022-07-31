@@ -47,10 +47,10 @@
     "shokika.css": "^1.6.0"
   },
   "devDependencies": {
-    "@emotion/babel-plugin": "^11.9.2",
-    "@emotion/react": "^11.9.3",
-    "@emotion/server": "^11.4.0",
-    "@emotion/styled": "^11.9.3",
+    "@emotion/babel-plugin": "^11.10.0",
+    "@emotion/react": "^11.10.0",
+    "@emotion/server": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
     "@storybook/addon-a11y": "^6.5.8",
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^6.4.22",
