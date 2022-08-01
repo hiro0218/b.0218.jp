@@ -3,6 +3,7 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
+    "dev": "next dev -p 8080",
     "prebuild": "git submodule update --remote && npm run build:article && npm run build:feed && npm run build:sitemap && npm run build:github",
     "build": "next build",
     "postbuild": "npm run build:ogp",
@@ -12,11 +13,10 @@
     "build:ogp": "node --require esbuild-register ./src/build/ogp",
     "build:sitemap": "node --require esbuild-register ./src/build/sitemap.ts",
     "build:storybook": "build-storybook -o build/storybook",
-    "dev": "next dev -p 8080",
-    "lint": "eslint \"src/**/*{.js,.ts,.tsx}\"",
-    "prepare": "husky install && playwright install chromium",
     "start": "next start",
-    "storybook": "start-storybook -p 6006"
+    "lint": "eslint \"src/**/*{.js,.ts,.tsx}\"",
+    "storybook": "start-storybook -p 6006",
+    "prepare": "husky install && playwright install chromium"
   },
   "lint-staged": {
     "**/*.{ts,tsx,js}": [
