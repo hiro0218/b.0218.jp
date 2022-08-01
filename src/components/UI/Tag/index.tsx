@@ -1,5 +1,4 @@
-import Link from 'next/link';
-
+import { Anchor } from '@/components/UI/Anchor';
 import { styled } from '@/ui/styled';
 
 export type Props = {
@@ -19,9 +18,9 @@ const PostTag = ({ tags }: PostTagProps) => {
   return (
     <>
       {tags?.map(({ slug, count }, index) => (
-        <Link href={'/tags/' + slug} prefetch={false} passHref key={index}>
+        <Anchor href={'/tags/' + slug} prefetch={false} passHref key={index}>
           <PostTagAnchor title={count ? `${slug}: ${count}件` : 'tag: ' + slug}>{slug}</PostTagAnchor>
-        </Link>
+        </Anchor>
       ))}
     </>
   );

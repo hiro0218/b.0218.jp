@@ -1,7 +1,7 @@
-import Link from 'next/link';
 import { AriaRole, ReactNode } from 'react';
 import { HiOutlineChevronRight, HiOutlineExternalLink } from 'react-icons/hi';
 
+import { Anchor } from '@/components/UI/Anchor';
 import { convertDateToSimpleFormat } from '@/lib/date';
 import { mobile } from '@/lib/mediaQuery';
 import { showHoverBackground } from '@/ui/mixin';
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const LinkCard = ({ link, title, date, excerpt, target = false, role }: Props) => (
-  <Link href={link} prefetch={false} passHref>
+  <Anchor href={link} prefetch={false} passHref>
     <LinkCardAnchor {...(target && { target: '_blank' })} role={role}>
       <LinkCardText>
         <LinkCardTitle>{title}</LinkCardTitle>
@@ -28,7 +28,7 @@ const LinkCard = ({ link, title, date, excerpt, target = false, role }: Props) =
       </LinkCardText>
       <LinkCardIcon>{target ? <HiOutlineExternalLink /> : <HiOutlineChevronRight />}</LinkCardIcon>
     </LinkCardAnchor>
-  </Link>
+  </Anchor>
 );
 
 export default LinkCard;

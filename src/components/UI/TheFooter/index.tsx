@@ -1,5 +1,4 @@
-import Link from 'next/link';
-
+import { Anchor } from '@/components/UI/Anchor';
 import { mobile } from '@/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
@@ -8,19 +7,19 @@ export const TheFooter = () => (
     <Container>
       <List role="list">
         <ListItem role="listitem">
-          <Link href="/about" prefetch={false} passHref>
+          <Anchor href="/about" prefetch={false} passHref>
             <a>about</a>
-          </Link>
+          </Anchor>
         </ListItem>
         <ListItem role="listitem">
-          <Link href="/archive" prefetch={false} passHref>
+          <Anchor href="/archive" prefetch={false} passHref>
             <a>archive</a>
-          </Link>
+          </Anchor>
         </ListItem>
         <ListItem role="listitem">
-          <Link href="/tags" prefetch={false} passHref>
+          <Anchor href="/tags" prefetch={false} passHref>
             <a>tags</a>
-          </Link>
+          </Anchor>
         </ListItem>
       </List>
       <small>© hiro</small>

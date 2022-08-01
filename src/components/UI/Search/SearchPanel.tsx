@@ -1,7 +1,7 @@
-import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
+import { Anchor } from '@/components/UI/Anchor';
 import { mobile } from '@/lib/mediaQuery';
 import { Post } from '@/types/source';
 import { fadeIn } from '@/ui/mixin';
@@ -90,9 +90,9 @@ export const SearchPanel = () => {
         <>
           <SearchResult>
             {data.suggest.map((post, index) => (
-              <Link key={index} href={`/${post.slug}.html`} passHref prefetch={false}>
+              <Anchor key={index} href={`/${post.slug}.html`} passHref prefetch={false}>
                 <SearchResultAnchor>{post.title}</SearchResultAnchor>
-              </Link>
+              </Anchor>
             ))}
           </SearchResult>
           <SearchFooter>
