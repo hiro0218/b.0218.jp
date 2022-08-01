@@ -256,7 +256,10 @@ const PostContent = styled.article`
       &__url {
         display: block;
         margin-top: auto;
+        overflow: hidden;
         font-size: 85%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
 
