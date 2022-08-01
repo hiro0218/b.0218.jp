@@ -55,7 +55,6 @@
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^6.4.22",
     "@storybook/addon-links": "^6.5.8",
-    "@storybook/addon-postcss": "^2.0.0",
     "@storybook/react": "^6.1.21",
     "@stylelint/postcss-css-in-js": "^0.38.0",
     "@types/css-font-loading-module": "^0.0.7",
