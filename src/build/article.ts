@@ -62,10 +62,6 @@ async function markdown2html(markdown: string, simple = false) {
             selector: 'table',
             wrapper: 'div.p-table-scroll',
           },
-          {
-            selector: 'table',
-            wrapper: 'div.p-table-scroll__shadow',
-          },
         ])
         .use(rehypeStringify, { allowDangerousHtml: true })
         .process(markdown)
