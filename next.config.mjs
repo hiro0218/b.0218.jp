@@ -1,6 +1,6 @@
 // @ts-check
 
-import withPlugins from 'next-compose-plugins';
+// import withPlugins from 'next-compose-plugins';
 
 /** @type {import('next').NextConfig} */
 const nextConfiguration = {
@@ -30,4 +30,6 @@ const nextConfiguration = {
   },
 };
 
-export default withPlugins([], nextConfiguration);
+// export default withPlugins([], nextConfiguration);
+
+export default nextConfiguration;
