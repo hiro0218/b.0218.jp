@@ -3,6 +3,8 @@ import 'dotenv/config';
 import fs from 'fs-extra';
 import fetch from 'node-fetch';
 
+import { GitHubGraphQl } from './types';
+
 const path = {
   dist: `${process.cwd()}/dist`,
 } as const;
@@ -46,7 +48,7 @@ async function getGitHubPinnedItems() {
     }),
   })
     .then((response) => response.json())
-    .then((x) => {
+    .then((x: GitHubGraphQl) => {
       return x?.data?.user?.pinnedItems?.edges?.map((x) => {
         const { languages, ...rest } = x.node;
         return { ...rest, languages: languages.nodes.at(0) };
