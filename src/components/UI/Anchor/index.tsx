@@ -6,7 +6,12 @@ type Props = {
 } & LinkProps;
 
 export const Anchor = ({ href, prefetch = false, passHref, children, ...rest }: Props) => (
-  <Link href={href} prefetch={prefetch} passHref={passHref} {...rest}>
+  <Link
+    href={href}
+    prefetch={prefetch}
+    passHref={passHref}
+    {...rest}
+    legacyBehavior>
     {children}
   </Link>
 );
