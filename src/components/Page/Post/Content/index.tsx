@@ -171,32 +171,28 @@ const PostContent = styled.article`
     position: relative;
     isolation: isolate;
     margin-left: -0.5em;
+    overflow: auto;
 
-    &__shadow {
-      display: flex;
-      z-index: 1;
-      overflow: auto;
-      background: linear-gradient(to left, #fff, #fff 0.5em) left/0.5em 100%,
-        linear-gradient(to left, rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.12)) left/0.5em 100%,
-        linear-gradient(to right, #fff, #fff 0) right/0.5em 100%,
-        linear-gradient(to right, rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.12)) right/0.5em 100%;
-      background-attachment: local, scroll, local, scroll;
-      background-repeat: no-repeat;
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
 
-      &::before,
-      &::after {
-        content: '';
-        width: 1px;
-        height: 1px;
-        margin: 0 calc(0.25em - 1px);
-      }
+    &::-webkit-scrollbar-track {
+      border-radius: 4px;
+      background-color: var(--backgrounds-2);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: var(--solid-backgrounds-9);
     }
   }
 
   .p-link-preview {
     display: flex;
     align-items: center;
-    height: 120px;
+    height: 150px;
     overflow: hidden;
     border: 1px solid var(--borders-7);
     border-radius: 8px;
@@ -205,7 +201,7 @@ const PostContent = styled.article`
 
     ${mobile} {
       flex-direction: column;
-      height: 360px;
+      height: auto;
     }
 
     &:hover {
@@ -219,25 +215,32 @@ const PostContent = styled.article`
     }
 
     &-body {
+      display: flex;
       flex: 1 1;
+      flex-direction: column;
       min-width: 0;
-      height: 120px;
+      height: 100%;
       padding: 0.8em 1.2em;
+      color: var(--text-12);
 
       ${mobile} {
-        display: block;
         order: 1;
         width: 100%;
       }
 
-      &__title {
+      &__title,
+      &__description {
         display: -webkit-box;
-        max-height: 3em;
-        overflow: hidden;
-        font-weight: bold;
-        line-height: 1.5;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      &__title {
+        max-height: 3em;
+        font-size: var(--font-size-md);
+        font-weight: bold;
+        line-height: 1.5;
       }
 
       &__description {
@@ -249,11 +252,21 @@ const PostContent = styled.article`
         text-overflow: ellipsis;
         white-space: nowrap;
       }
+
+      &__url {
+        display: block;
+        margin-top: auto;
+        overflow: hidden;
+        font-size: 85%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
 
     &-thumbnail {
-      max-width: 230px;
-      height: 120px;
+      width: 300px;
+      height: 150px;
+      background-color: #fff;
       user-select: none;
 
       ${mobile} {
@@ -270,7 +283,7 @@ const PostContent = styled.article`
         object-fit: cover;
 
         ${mobile} {
-          object-fit: contain;
+          /* object-fit: contain; */
         }
       }
     }

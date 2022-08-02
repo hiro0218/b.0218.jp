@@ -21,7 +21,7 @@ const transformCodeblock = (node: Element) => {
   }
 };
 
-const setPreviewLinkNodes = (node: Element, index: number, parent: Element, ogp: OpgProps) => {
+const setPreviewLinkNodes = (node: Element, index: number, parent: Element, url: string, ogp: OpgProps) => {
   if (Object.keys(ogp).length === 0) return;
   if (!ogp.title) return;
 
@@ -33,6 +33,7 @@ const setPreviewLinkNodes = (node: Element, index: number, parent: Element, ogp:
     h('span', { class: `${CLASS_NAME}-body` }, [
       h('span', { class: `${CLASS_NAME}-body__title` }, ogp.title),
       ogp.description && h('span', { class: `${CLASS_NAME}-body__description` }, ogp.description),
+      h('span', { class: `${CLASS_NAME}-body__url` }, url),
     ]),
     h('span', { class: `${CLASS_NAME}-thumbnail` }, [h('img', { src: ogp.image, alt: '' })]),
   ]);
@@ -85,7 +86,7 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
           return tmp;
         }, {});
 
-      setPreviewLinkNodes(node, index, parent, ogp);
+      setPreviewLinkNodes(node, index, parent, url, ogp);
     }
   } catch (error) {
     console.error(error, node.properties.href);

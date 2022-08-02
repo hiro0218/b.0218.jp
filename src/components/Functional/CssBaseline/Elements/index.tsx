@@ -158,6 +158,10 @@ export default css`
     white-space: nowrap;
   }
 
+  th {
+    background-color: var(--component-backgrounds-3);
+  }
+
   td {
     font-size: var(--font-size-sm);
   }
@@ -165,7 +169,7 @@ export default css`
   thead {
     th {
       border-top: none;
-      border-bottom: 1px solid var(--borders-7);
+      border-bottom: 2px solid var(--borders-6);
       text-align: left;
       vertical-align: bottom;
       white-space: nowrap;

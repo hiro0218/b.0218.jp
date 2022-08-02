@@ -1,7 +1,7 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
+import { Anchor } from '@/components/UI/Anchor';
 import { Logo } from '@/components/UI/Logo';
 import { SearchButton, SearchDialog } from '@/components/UI/Search';
 import { useModal } from '@/components/UI/Search/useDialog';
@@ -22,11 +22,11 @@ export const TheHeader = () => {
     <>
       <HeaderLayout>
         <Container>
-          <Link href="/" prefetch={false} passHref>
+          <Anchor href="/" prefetch={false} passHref>
             <LogoAnchor>
               <Logo width="80" height="25" />
             </LogoAnchor>
-          </Link>
+          </Anchor>
           <SearchButton openDialog={openDialog} />
         </Container>
       </HeaderLayout>
