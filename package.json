@@ -62,7 +62,7 @@
     "babel-loader": "^8.2.5",
     "budoux": "^0.1.2",
     "dotenv": "^16.0.1",
-    "esbuild": "^0.14.51",
+    "esbuild": "^0.14.53",
     "esbuild-register": "^3.3.3",
     "eslint": "^8.21.0",
     "eslint-config-next": "^12.2.3",
