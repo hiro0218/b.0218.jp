@@ -39,6 +39,9 @@ const PostContent = styled.article`
       &::after {
         content: '↗';
         display: inline-block;
+        margin: 0 0.15em;
+        font-size: 80%;
+        line-height: 1;
         text-decoration: none;
       }
     }
