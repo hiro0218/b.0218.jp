@@ -30,6 +30,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
   const refContent = useRef<HTMLDivElement>(null);
   const permalink = `${SITE.URL}${post.slug}.html`;
   const description = getDescriptionText(post.content);
+  const cacheBusting = new Date(post?.updated || post.date).getTime();
 
   useEffect(() => {
     window?.twttr?.widgets.load(refContent.current);
@@ -47,7 +48,11 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
         {post.updated && <meta key="og:updated_time" property="og:updated_time" content={post.updated} />}
         <meta key="article:published_time" property="article:published_time" content={post.date} />
         {post.updated && <meta key="article:modified_time" property="article:modified_time" content={post.updated} />}
-        <meta key="og:image" property="og:image" content={`${SITE.URL}images/ogp/${post.slug}.png`} />
+        <meta
+          key="og:image"
+          property="og:image"
+          content={`${SITE.URL}images/ogp/${post.slug}.png?ts=${cacheBusting}`}
+        />
         <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
         <link rel="canonical" href={permalink} />
         <script
