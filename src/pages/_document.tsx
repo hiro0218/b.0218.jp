@@ -70,7 +70,6 @@ class SampleDocument extends Document {
             crossOrigin="anonymous"
           ></script>
           <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
-          <script async src="https://polyfill.io/v3/polyfill.min.js" />
           <script
             dangerouslySetInnerHTML={{
               __html: `
