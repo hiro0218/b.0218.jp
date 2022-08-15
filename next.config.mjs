@@ -10,6 +10,8 @@ const nextConfiguration = {
 
   reactStrictMode: true,
 
+  swcMinify: true,
+
   experimental: {
     scrollRestoration: true,
     browsersListForSwc: true,
