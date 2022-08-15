@@ -34,7 +34,7 @@ export const WorksLists = ({ items }: Props) => (
 
 const Description = ({ description, forkCount, stargazerCount, languages }: Partial<GithubPinnedItems>) => (
   <DescriptionContainer>
-    <span>{description}</span>
+    <div>{description}</div>
     <StatusList>
       <StatusListItem>
         <StatusLanguageCircle color={languages.color} aria-hidden="true" />
