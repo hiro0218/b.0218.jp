@@ -6,8 +6,8 @@ import { Container } from '@/components/UI/Layout';
 import { TheFooter } from '@/components/UI/TheFooter';
 import TheHeader from '@/components/UI/TheHeader';
 import { AUTHOR, SITE } from '@/constant';
+import usePageView from '@/hooks/usePageView';
 import createEmotionCache from '@/lib/createEmotionCache';
-import usePageView from '@/lib/hooks/usePageView';
 import { CacheProvider, EmotionCache, ThemeProvider } from '@/ui/styled';
 import { theme } from '@/ui/themes';
 
