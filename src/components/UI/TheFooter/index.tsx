@@ -21,6 +21,11 @@ export const TheFooter = () => (
             <a>tags</a>
           </Anchor>
         </ListItem>
+        <ListItem role="listitem">
+          <Anchor href="/works" prefetch={false} passHref>
+            <a>works</a>
+          </Anchor>
+        </ListItem>
       </List>
       <small>© hiro</small>
     </Container>
