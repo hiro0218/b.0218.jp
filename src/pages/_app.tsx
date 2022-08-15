@@ -4,7 +4,7 @@ import Head from 'next/head';
 import AppFooter from '@/components/App/TheFooter';
 import AppHeader from '@/components/App/TheHeader';
 import CssBaseline from '@/components/Functional/CssBaseline';
-import { Container } from '@/components/UI/Layout';
+import { MainContainer } from '@/components/UI/Layout';
 import { AUTHOR, SITE } from '@/constant';
 import usePageView from '@/hooks/usePageView';
 import createEmotionCache from '@/lib/createEmotionCache';
@@ -46,9 +46,9 @@ const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: My
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <AppHeader />
-          <Container>
+          <MainContainer>
             <Component {...pageProps} />
-          </Container>
+          </MainContainer>
           <AppFooter />
         </ThemeProvider>
       </CacheProvider>
