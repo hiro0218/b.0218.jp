@@ -1,8 +1,8 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
-import { TheFooter } from '@/components/App/TheFooter';
-import TheHeader from '@/components/App/TheHeader';
+import AppFooter from '@/components/App/TheFooter';
+import AppHeader from '@/components/App/TheHeader';
 import CssBaseline from '@/components/Functional/CssBaseline';
 import { Container } from '@/components/UI/Layout';
 import { AUTHOR, SITE } from '@/constant';
@@ -45,11 +45,11 @@ const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: My
       <CacheProvider value={emotionCache}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <TheHeader />
+          <AppHeader />
           <Container>
             <Component {...pageProps} />
           </Container>
-          <TheFooter />
+          <AppFooter />
         </ThemeProvider>
       </CacheProvider>
     </>

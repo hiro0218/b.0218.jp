@@ -39,7 +39,7 @@ export const HeaderLayout = ({ children }: Props) => {
     };
 
     document.removeEventListener('scroll', handleScroll);
-    document.addEventListener('scroll', handleScroll, { passive: true });
+    document.addEventListener('scroll', handleScroll);
   }, []);
 
   return (

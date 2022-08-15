@@ -2,7 +2,7 @@ import { Anchor } from '@/components/UI/Anchor';
 import { mobile } from '@/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
-export const TheFooter = () => (
+const TheFooter = () => (
   <Footer>
     <Container>
       <List role="list">
@@ -31,6 +31,8 @@ export const TheFooter = () => (
     </Container>
   </Footer>
 );
+
+export default TheFooter;
 
 const Footer = styled.footer`
   position: sticky;

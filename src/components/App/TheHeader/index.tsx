@@ -10,7 +10,7 @@ import { styled } from '@/ui/styled';
 
 import { HeaderLayout } from './HeaderLayout';
 
-export const TheHeader = () => {
+const TheHeader = () => {
   const { ref, openDialog, closeDialog } = useModal();
   const { asPath } = useRouter();
 
@@ -35,6 +35,8 @@ export const TheHeader = () => {
     </>
   );
 };
+
+export default TheHeader;
 
 const Container = styled.div`
   display: flex;
