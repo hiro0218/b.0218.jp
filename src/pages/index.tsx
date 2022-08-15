@@ -24,20 +24,21 @@ const Home: NextPage<Props> = ({ pinnedItems, recentPosts, updatesPosts, tags })
     <>
       <Head>
         <meta name="thumbnail" content="https://b.0218.jp/hiro0218.png" />
-        <template
-          dangerouslySetInnerHTML={{
-            __html: `<!--
-                        <PageMap>
-                          <DataObject type="thumbnail">
-                            <Attribute name="src" value="https://b.0218.jp/hiro0218.png"/>
-                            <Attribute name="width" value="100"/>
-                            <Attribute name="height" value="100"/>
-                          </DataObject>
-                        </PageMap>
-                      -->`,
-          }}
-        />
       </Head>
+
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `<!--
+                      <PageMap>
+                        <DataObject type="thumbnail">
+                          <Attribute name="src" value="https://b.0218.jp/hiro0218.png"/>
+                          <Attribute name="width" value="100"/>
+                          <Attribute name="height" value="100"/>
+                        </DataObject>
+                      </PageMap>
+                    -->`,
+        }}
+      />
 
       <PageContentContainer>
         <Title
