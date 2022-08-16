@@ -3,13 +3,15 @@ import { memo, ReactNode } from 'react';
 import { mobile } from '@/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
-type ContainerProps = {
+type Props = {
   children?: ReactNode;
 };
 
-export const MainContainer = memo(function Container({ children }: ContainerProps) {
+const MainContainer = memo(function Container({ children }: Props) {
   return <ContainerRoot className="l-container">{children}</ContainerRoot>;
 });
+
+export default MainContainer;
 
 const ContainerRoot = styled.main`
   max-width: var(--container-width);

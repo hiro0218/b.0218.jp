@@ -10,7 +10,7 @@ export interface ContainerProps {
   children?: ReactNode;
 }
 
-export const Columns = memo(function Columns({ title, children, ...others }: ContainerProps) {
+const Columns = memo(function Columns({ title, children, ...others }: ContainerProps) {
   return (
     <Root {...others}>
       <ColumnTitle>{title && <TitleText>{title}</TitleText>}</ColumnTitle>
@@ -18,6 +18,8 @@ export const Columns = memo(function Columns({ title, children, ...others }: Con
     </Root>
   );
 });
+
+export default Columns;
 
 const Root = styled.section`
   ${desktop} {
