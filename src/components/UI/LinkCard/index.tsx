@@ -17,23 +17,25 @@ interface Props {
 }
 
 const LinkCard = ({ link, title, date, excerpt, target = false, role }: Props) => (
-  <Anchor href={link} prefetch={false} passHref>
-    <LinkCardAnchor {...(target && { target: '_blank' })} role={role}>
-      <LinkCardText>
-        <LinkCardTitle>{title}</LinkCardTitle>
-        <LinkCardParagraph {...(typeof excerpt !== 'string' && { as: 'div' })}>
-          {date && <time dateTime={date}>{convertDateToSimpleFormat(date)}</time>}
-          {excerpt && <span>{excerpt}</span>}
-        </LinkCardParagraph>
-      </LinkCardText>
-      <LinkCardIcon>{target ? <HiOutlineExternalLink /> : <HiOutlineChevronRight />}</LinkCardIcon>
-    </LinkCardAnchor>
-  </Anchor>
+  <LinkCardContainer role={role}>
+    <LinkCardText>
+      <Anchor href={link} prefetch={false} passHref>
+        <LinkAnchor {...(target && { target: '_blank' })}>
+          <LinkCardTitle>{title}</LinkCardTitle>
+        </LinkAnchor>
+      </Anchor>
+      <LinkCardParagraph {...(typeof excerpt !== 'string' && { as: 'div' })}>
+        {date && <time dateTime={date}>{convertDateToSimpleFormat(date)}</time>}
+        {excerpt && <span>{excerpt}</span>}
+      </LinkCardParagraph>
+    </LinkCardText>
+    <LinkCardIcon>{target ? <HiOutlineExternalLink /> : <HiOutlineChevronRight />}</LinkCardIcon>
+  </LinkCardContainer>
 );
 
 export default LinkCard;
 
-const LinkCardAnchor = styled.a`
+const LinkCardContainer = styled.div`
   display: flex;
   height: 100%;
   padding: calc(var(--margin-base) * 0.6) var(--margin-base);
@@ -54,6 +56,17 @@ const LinkCardText = styled.div`
   justify-content: space-between;
   overflow: hidden;
   gap: calc(var(--margin-base) * 0.5);
+`;
+
+const LinkAnchor = styled.a`
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const LinkCardTitle = styled.h3`
