@@ -1,27 +1,19 @@
-import { CSSProperties, memo } from 'react';
+import { memo } from 'react';
 
 import { styled } from '@/ui/styled';
 
-type divProps = JSX.IntrinsicElements['div'];
-export interface ContainerProps extends divProps {
-  style?: CSSProperties;
+export interface ContainerProps {
   children?: React.ReactNode;
 }
 
-export const PageContentContainer = memo(function PageContentContainer(props: ContainerProps) {
-  const { children, ...others } = props;
-
-  return (
-    <Container className="l-page-content-container" {...others}>
-      {children}
-    </Container>
-  );
+export const PageContentContainer = memo(function PageContentContainer({ children }: ContainerProps) {
+  return <Container>{children}</Container>;
 });
 
 const Container = styled.div`
   margin-top: var(--space-md);
 
   > * + * {
-    margin-top: var(--space-x-xl);
+    margin-top: var(--space-xl);
   }
 `;
