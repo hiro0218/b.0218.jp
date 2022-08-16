@@ -83,8 +83,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
 
 export default Home;
 
-const pickPosts = (posts: Partial<PropsPost>) => {
-  const { title, slug, date, updated, excerpt } = posts;
+const pickPosts = ({ title, slug, date, updated, excerpt }: Partial<PropsPost>) => {
   return { title, slug, date, updated, excerpt };
 };
 
