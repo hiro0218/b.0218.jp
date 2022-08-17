@@ -10,7 +10,7 @@ type Props = {
 export const SearchButton = ({ openDialog }: Props) => {
   return (
     <Button type="button" aria-label="Search" onClick={openDialog}>
-      <HiSearch />
+      <HiSearch size="20" />
     </Button>
   );
 };
@@ -35,8 +35,6 @@ const Button = styled.button`
   }
 
   svg {
-    width: 1.25rem;
-    height: 1.25rem;
     color: var(--text-12);
   }
 `;
