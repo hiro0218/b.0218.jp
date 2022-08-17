@@ -1,7 +1,7 @@
-import { forwardRef, MutableRefObject, useCallback } from 'react';
+import { forwardRef, MutableRefObject } from 'react';
 
 import { fadeIn, slideIn } from '@/ui/mixin';
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
 import { SearchPanel } from './SearchPanel';
 
@@ -12,21 +12,41 @@ type Props = {
 };
 
 export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Props, ref: RefProps) {
-  const stopPropagation = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
-  }, []);
-
   return (
-    <Dialog ref={ref} onClick={closeDialog} aria-modal>
-      <div onClick={stopPropagation}>
+    <>
+      <Overlay isOpen={!!ref.current?.open} onClick={closeDialog} />
+      <Dialog ref={ref} onClick={closeDialog} aria-modal>
         <SearchPanel closeDialog={closeDialog} />
-      </div>
-    </Dialog>
+      </Dialog>
+    </>
   );
 });
 
+const Overlay = styled.div<{ isOpen: boolean }>`
+  position: fixed;
+  animation: ${fadeIn} 0.4s linear both;
+
+  && {
+    ${({ isOpen }) =>
+      isOpen
+        ? css`
+            z-index: calc(var(--zIndex-search) - 1);
+            opacity: 1;
+            background-color: var(--overlay-backgrounds);
+            inset: 0;
+          `
+        : css`
+            opacity: 0;
+          `}
+  }
+`;
+
 const Dialog = styled.dialog`
+  position: fixed;
+  top: 25vh;
+
   &[open] {
+    z-index: calc(var(--zIndex-search));
     padding: 0;
     animation: ${fadeIn} 0.4s, ${slideIn} 0.4s linear;
     border: none;

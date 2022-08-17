@@ -8,7 +8,7 @@ export const useModal = () => {
 
   const openDialog = useCallback(() => {
     setLocked(true);
-    ref.current?.showModal?.();
+    ref.current?.show?.();
   }, [setLocked]);
 
   const closeDialog = useCallback(() => {
