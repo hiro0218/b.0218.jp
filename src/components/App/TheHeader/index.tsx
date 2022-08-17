@@ -1,6 +1,3 @@
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-
 import { Anchor } from '@/components/UI/Anchor';
 import { Logo } from '@/components/UI/Logo';
 import { SearchButton, SearchDialog } from '@/components/UI/Search';
@@ -12,11 +9,6 @@ import { HeaderLayout } from './HeaderLayout';
 
 const TheHeader = () => {
   const { ref, openDialog, closeDialog } = useModal();
-  const { asPath } = useRouter();
-
-  useEffect(() => {
-    closeDialog();
-  }, [asPath, closeDialog]);
 
   return (
     <>
