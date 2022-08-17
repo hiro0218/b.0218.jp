@@ -19,7 +19,7 @@ export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Pr
   return (
     <Dialog ref={ref} onClick={closeDialog} aria-modal>
       <div onClick={stopPropagation}>
-        <SearchPanel />
+        <SearchPanel closeDialog={closeDialog} />
       </div>
     </Dialog>
   );

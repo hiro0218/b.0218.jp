@@ -1,3 +1,4 @@
+import router from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
@@ -7,12 +8,15 @@ import { Post } from '@/types/source';
 import { fadeIn } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
-export const SearchPanel = () => {
-  const refInput = useRef(null);
+type Props = {
+  closeDialog: () => void;
+};
 
+export const SearchPanel = ({ closeDialog }: Props) => {
+  const refInput = useRef(null);
   const [data, setData] = useState({
     keyword: '',
-    suggest: [],
+    suggest: [] as Post[],
   });
   const [archives, setArchives] = useState<Array<Post>>([]);
 
@@ -71,15 +75,23 @@ export const SearchPanel = () => {
     }
   };
 
+  useEffect(() => {
+    router.events.on('routeChangeComplete', closeDialog);
+
+    return () => {
+      router.events.off('routeChangeComplete', closeDialog);
+    };
+  }, [closeDialog]);
+
   return (
     <SearchMain>
       <SearchHeader>
         <SearchHeaderIcon htmlFor="search-input">
-          <HiSearch />
+          <HiSearch size="24" />
         </SearchHeaderIcon>
         <SearchInput
           type="search"
-          placeholder="記事のタイトルから検索する"
+          placeholder="記事のタイトルから検索する（入力してEnterを押すと検索結果が表示）"
           id="search-input"
           autoComplete="off"
           ref={refInput}
@@ -89,14 +101,14 @@ export const SearchPanel = () => {
       {data.suggest.length > 0 && (
         <>
           <SearchResult>
-            {data.suggest.map((post, index) => (
-              <Anchor key={index} href={`/${post.slug}.html`} passHref prefetch={false}>
+            {data.suggest.map((post) => (
+              <Anchor key={post.slug} href={`/${post.slug}.html`} passHref prefetch={false} onClick={closeDialog}>
                 <SearchResultAnchor>{post.title}</SearchResultAnchor>
               </Anchor>
             ))}
           </SearchResult>
           <SearchFooter>
-            <div>{data.suggest.length > 0 && <span>Result: {data.suggest.length} posts</span>}</div>
+            <div>Result: {data.suggest.length} posts</div>
             <div>
               <a href="https://www.google.com/search?q=site:b.0218.jp" target="_blank" rel="noopener noreferrer">
                 Google 検索
@@ -160,8 +172,6 @@ const SearchHeaderIcon = styled.label`
   padding: 0 0.5rem 0 0.75rem;
 
   svg {
-    width: 1.5rem;
-    height: 100%;
     color: var(--text-11);
   }
 `;
