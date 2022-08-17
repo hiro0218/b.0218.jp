@@ -47,6 +47,10 @@ const LinkCardContainer = styled.div`
   }
 
   ${showHoverBackground}
+
+  &:focus-within {
+    box-shadow: 0 0 0 2px var(--borders-7);
+  }
 `;
 
 const LinkCardText = styled.div`
@@ -66,6 +70,10 @@ const LinkAnchor = styled.a`
     left: 0;
     width: 100%;
     height: 100%;
+  }
+
+  &:focus-within {
+    box-shadow: none;
   }
 `;
 

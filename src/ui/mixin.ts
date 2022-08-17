@@ -32,7 +32,8 @@ export const showHoverBackground = css`
   }
 
   &:hover,
-  &:focus {
+  &:focus,
+  &:focus-within {
     &::after {
       width: 100%;
       height: 100%;
