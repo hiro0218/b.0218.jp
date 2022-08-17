@@ -43,13 +43,11 @@ export const HeaderLayout = ({ children }: Props) => {
   }, []);
 
   return (
-    <>
-      <Underline>
-        <Header ref={refHeader} isFixed={isHeaderShown}>
-          {children}
-        </Header>
-      </Underline>
-    </>
+    <Underline>
+      <Header ref={refHeader} isFixed={isHeaderShown}>
+        {children}
+      </Header>
+    </Underline>
   );
 };
 
