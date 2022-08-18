@@ -9,7 +9,7 @@ export const Profile = () => {
   return (
     <Container>
       <Avatar>
-        <img src={AUTHOR.ICON_LOCAL} height={ICON_SIZE} width={ICON_SIZE} alt="avatar" />
+        <img src={AUTHOR.ICON_LOCAL} height={ICON_SIZE} width={ICON_SIZE} alt="" />
       </Avatar>
       <Introduction>
         <Name>
