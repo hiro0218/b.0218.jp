@@ -7,6 +7,7 @@ import CssBaseline from '@/components/Functional/CssBaseline';
 import { MainContainer } from '@/components/UI/Layout';
 import { AUTHOR, SITE } from '@/constant';
 import usePageView from '@/hooks/usePageView';
+import useRouterScrollTop from '@/hooks/useRouterScrollTop';
 import createEmotionCache from '@/lib/createEmotionCache';
 import { CacheProvider, EmotionCache, ThemeProvider } from '@/ui/styled';
 import { theme } from '@/ui/themes';
@@ -19,6 +20,7 @@ const clientSideEmotionCache = createEmotionCache();
 
 const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: MyAppProps) => {
   usePageView();
+  useRouterScrollTop();
 
   return (
     <>
