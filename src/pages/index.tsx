@@ -1,10 +1,13 @@
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
+import { FaGithub } from 'react-icons/fa';
 
+import Heading from '@/components/UI/Heading';
 import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
 import { Title } from '@/components/UI/Title';
+import { URL } from '@/constant';
 import { getPostsListJson, getTermWithCount } from '@/lib/posts';
 import { Post as PropsPost } from '@/types/source';
 
@@ -43,39 +46,43 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
           paragraph="I was a web backend developer and native app developer. Currently I am a web frontend developer."
         />
 
-        <Columns title={'Recent Articles'}>
-          <Stack space="var(--space-x-xs)">
-            {recentPosts.map((post, index) => (
-              <LinkCard
-                key={index}
-                link={`${post.slug}.html`}
-                title={post.title}
-                date={post.updated || post.date}
-                excerpt={post.excerpt}
-              />
-            ))}
-          </Stack>
-        </Columns>
+        <Stack>
+          <Heading tagName="h2" text="Articles" />
+          <Columns title="Recent Articles" titleTagName="h3">
+            <Stack space="var(--space-x-xs)">
+              {recentPosts.map((post, index) => (
+                <LinkCard
+                  key={index}
+                  link={`${post.slug}.html`}
+                  title={post.title}
+                  date={post.updated || post.date}
+                  excerpt={post.excerpt}
+                />
+              ))}
+            </Stack>
+          </Columns>
 
-        <Columns title={'Updated Articles'}>
-          <Stack space="var(--space-x-xs)">
-            {updatesPosts.map((post, index) => (
-              <LinkCard
-                key={index}
-                link={`${post.slug}.html`}
-                title={post.title}
-                date={post.updated || post.date}
-                excerpt={post.excerpt}
-              />
-            ))}
-          </Stack>
-        </Columns>
+          <Columns title="Updated Articles" titleTagName="h3">
+            <Stack space="var(--space-x-xs)">
+              {updatesPosts.map((post, index) => (
+                <LinkCard
+                  key={index}
+                  link={`${post.slug}.html`}
+                  title={post.title}
+                  date={post.updated || post.date}
+                  excerpt={post.excerpt}
+                />
+              ))}
+            </Stack>
+          </Columns>
+        </Stack>
 
-        <Columns title={'Tags'}>
+        <Stack>
+          <Heading tagName="h2" text="Tags" />
           <PostTagGridContainer>
             <PostTag tags={tags} />
           </PostTagGridContainer>
-        </Columns>
+        </Stack>
       </PageContentContainer>
     </>
   );

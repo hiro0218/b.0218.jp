@@ -6,14 +6,15 @@ import { css, styled } from '@/ui/styled';
 
 export interface ContainerProps {
   title?: string;
+  titleTagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   style?: CSSProperties;
   children?: ReactNode;
 }
 
-const Columns = memo(function Columns({ title, children, ...others }: ContainerProps) {
+const Columns = memo(function Columns({ title, titleTagName = 'h2', children, ...others }: ContainerProps) {
   return (
     <Root {...others}>
-      <ColumnTitle>{title && <TitleText>{title}</TitleText>}</ColumnTitle>
+      <ColumnTitle>{title && <TitleText as={titleTagName}>{title}</TitleText>}</ColumnTitle>
       <ColumnMain>{children}</ColumnMain>
     </Root>
   );
