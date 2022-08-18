@@ -12,10 +12,10 @@ const Links = [
 const TheFooter = () => (
   <Footer>
     <Container>
-      <List role="list">
+      <List>
         {Links.map(({ title, href }, index) => {
           return (
-            <ListItem role="listitem" key={index}>
+            <ListItem key={index}>
               <Anchor href={href}>{title}</Anchor>
             </ListItem>
           );
@@ -62,11 +62,11 @@ const Container = styled.div`
   }
 `;
 
-const List = styled.div`
+const List = styled.ul`
   display: inline-flex;
 `;
 
-const ListItem = styled.div`
+const ListItem = styled.li`
   display: inline-flex;
 
   & + & {
