@@ -17,25 +17,25 @@ interface Props {
 }
 
 const LinkCard = ({ link, title, date, excerpt, target = false, role }: Props) => (
-  <LinkCardContainer role={role}>
-    <LinkCardText>
+  <Container role={role}>
+    <Main>
       <Anchor href={link} prefetch={false} passHref>
         <LinkAnchor {...(target && { target: '_blank' })}>
-          <LinkCardTitle>{title}</LinkCardTitle>
+          <Title>{title}</Title>
         </LinkAnchor>
       </Anchor>
-      <LinkCardParagraph {...(typeof excerpt !== 'string' && { as: 'div' })}>
+      <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>
         {date && <time dateTime={date}>{convertDateToSimpleFormat(date)}</time>}
         {excerpt && <span>{excerpt}</span>}
-      </LinkCardParagraph>
-    </LinkCardText>
-    <LinkCardIcon>{target ? <HiOutlineExternalLink /> : <HiOutlineChevronRight />}</LinkCardIcon>
-  </LinkCardContainer>
+      </Paragraph>
+    </Main>
+    <Icon>{target ? <HiOutlineExternalLink /> : <HiOutlineChevronRight />}</Icon>
+  </Container>
 );
 
 export default LinkCard;
 
-const LinkCardContainer = styled.div`
+const Container = styled.div`
   display: flex;
   height: 100%;
   padding: calc(var(--margin-base) * 0.6) var(--margin-base);
@@ -53,7 +53,7 @@ const LinkCardContainer = styled.div`
   }
 `;
 
-const LinkCardText = styled.div`
+const Main = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -77,14 +77,14 @@ const LinkAnchor = styled.a`
   }
 `;
 
-const LinkCardTitle = styled.h3`
+const Title = styled.h3`
   color: var(--text-12);
   font-size: var(--font-size-md);
   font-weight: normal;
   line-height: 1.875;
 `;
 
-const LinkCardParagraph = styled.p`
+const Paragraph = styled.p`
   overflow: hidden;
   color: var(--text-11);
   font-size: var(--font-size-sm);
@@ -103,7 +103,7 @@ const LinkCardParagraph = styled.p`
   }
 `;
 
-const LinkCardIcon = styled.div`
+const Icon = styled.div`
   display: flex;
   align-items: center;
   color: var(--text-11);
