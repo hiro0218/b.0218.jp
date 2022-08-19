@@ -5,8 +5,8 @@ import { Children } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/components/UI/Adsense';
 import { AUTHOR, SITE } from '@/constant';
-import createEmotionCache from '@/lib/createEmotionCache';
 import { GA_TRACKING_ID } from '@/lib/gtag';
+import createEmotionCache from '@/ui/lib/createEmotionCache';
 
 class SampleDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
