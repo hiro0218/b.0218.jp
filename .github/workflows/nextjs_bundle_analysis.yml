@@ -43,7 +43,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Restore next build
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: restore-build-cache
         env:
           cache-name: cache-next-build
@@ -67,7 +67,7 @@ jobs:
         run: npx -p nextjs-bundle-analysis report
 
       - name: Upload bundle
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: bundle
           path: .next/analyze/__bundle_analysis.json
