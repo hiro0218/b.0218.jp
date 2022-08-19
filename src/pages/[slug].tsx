@@ -12,7 +12,6 @@ import PostShare from '@/components/Page/Post/Share';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContentContainer } from '@/components/UI/Layout';
 import Mokuji from '@/components/UI/Mokuji';
-import { Profile } from '@/components/UI/Profile';
 import { Title } from '@/components/UI/Title';
 import { SITE } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
@@ -89,8 +88,6 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
         />
 
         <PostShare title={post.title} url={permalink} />
-
-        <Profile />
 
         <PostEdit slug={post.slug} />
       </PageContentContainer>
