@@ -14,14 +14,14 @@ export const PostNextRead = ({ posts }: Props) => {
   }
 
   return (
-    <div className="next-read">
+    <section>
       <Heading tagName="h2" text={'Next Read'} isWeightNormal={false} />
       <Container>
         {posts.map((post, index) => (
           <LinkCard key={index} link={`${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
         ))}
       </Container>
-    </div>
+    </section>
   );
 };
 
