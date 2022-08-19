@@ -72,7 +72,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
           </Columns>
         </Stack>
 
-        <Stack>
+        <Stack tagName="section">
           <Heading tagName="h2" text="Tags" />
           <PostTagGridContainer>
             <PostTag tags={tags} />

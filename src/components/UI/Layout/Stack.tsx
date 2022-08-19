@@ -3,6 +3,7 @@ import { AriaRole, CSSProperties, memo, ReactNode } from 'react';
 import { styled } from '@/ui/styled';
 
 type Props = {
+  tagName?: 'div' | 'section';
   space?: CSSProperties['margin'];
   role?: AriaRole;
   children: ReactNode;
@@ -18,8 +19,12 @@ const StackRoot = styled.div<Props>`
   }
 `;
 
-const Stack = memo(function Stack({ children, ...props }: Props) {
-  return <StackRoot {...props}>{children}</StackRoot>;
+const Stack = memo(function Stack({ tagName = 'div', children, ...props }: Props) {
+  return (
+    <StackRoot as={tagName} {...props}>
+      {children}
+    </StackRoot>
+  );
 });
 
 export default Stack;
