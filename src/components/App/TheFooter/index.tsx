@@ -1,31 +1,32 @@
 import { Anchor } from '@/components/UI/Anchor';
-import { mobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
-export const TheFooter = () => (
+const Links = [
+  { title: 'about', href: '/about' },
+  { title: 'works', href: '/works' },
+  { title: 'tags', href: '/tags' },
+  { title: 'archive', href: '/archive' },
+];
+
+const TheFooter = () => (
   <Footer>
     <Container>
-      <List role="list">
-        <ListItem role="listitem">
-          <Anchor href="/about" prefetch={false} passHref>
-            <a>about</a>
-          </Anchor>
-        </ListItem>
-        <ListItem role="listitem">
-          <Anchor href="/archive" prefetch={false} passHref>
-            <a>archive</a>
-          </Anchor>
-        </ListItem>
-        <ListItem role="listitem">
-          <Anchor href="/tags" prefetch={false} passHref>
-            <a>tags</a>
-          </Anchor>
-        </ListItem>
+      <List>
+        {Links.map(({ title, href }, index) => {
+          return (
+            <ListItem key={index}>
+              <Anchor href={href}>{title}</Anchor>
+            </ListItem>
+          );
+        })}
       </List>
       <small>© hiro</small>
     </Container>
   </Footer>
 );
+
+export default TheFooter;
 
 const Footer = styled.footer`
   position: sticky;
@@ -56,16 +57,16 @@ const Container = styled.div`
   max-width: var(--container-width);
   margin: 0 auto;
 
-  ${mobile} {
+  ${isMobile} {
     padding: 0 5vw;
   }
 `;
 
-const List = styled.div`
+const List = styled.ul`
   display: inline-flex;
 `;
 
-const ListItem = styled.div`
+const ListItem = styled.li`
   display: inline-flex;
 
   & + & {

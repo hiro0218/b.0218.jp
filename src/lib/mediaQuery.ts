@@ -1,6 +1,6 @@
-const breakpoint = 960;
+const BREAKPOINT = 960;
 
-const mobile = `@media (max-width: ${breakpoint - 1}px)`;
-const desktop = `@media (min-width: ${breakpoint}px)`;
+const isMobile = `@media (max-width: ${BREAKPOINT - 1}px)`;
+const isDesktop = `@media (min-width: ${BREAKPOINT}px)`;
 
-export { mobile, desktop };
+export { isMobile, isDesktop };

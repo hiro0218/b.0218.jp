@@ -5,8 +5,8 @@ import { Children } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/components/UI/Adsense';
 import { AUTHOR, SITE } from '@/constant';
-import createEmotionCache from '@/lib/createEmotionCache';
 import { GA_TRACKING_ID } from '@/lib/gtag';
+import createEmotionCache from '@/ui/lib/createEmotionCache';
 
 class SampleDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -44,7 +44,6 @@ class SampleDocument extends Document {
     return (
       <Html prefix="og: http://ogp.me/ns#" lang="ja">
         <Head>
-          <meta httpEquiv="x-dns-prefetch-control" content="on" />
           <link rel="dns-prefetch" href="//www.google-analytics.com" />
           <link rel="dns-prefetch" href="//www.googletagservices.com" />
           <link rel="dns-prefetch" href="//www.googletagmanager.com" />
@@ -70,7 +69,6 @@ class SampleDocument extends Document {
             crossOrigin="anonymous"
           ></script>
           <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
-          <script async src="https://polyfill.io/v3/polyfill.min.js" />
           <script
             dangerouslySetInnerHTML={{
               __html: `

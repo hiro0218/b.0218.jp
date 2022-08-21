@@ -1,85 +1,83 @@
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
-import { Works } from '@/components/Page/Home';
+import { Hero } from '@/components/Page/Home/Hero';
+import Heading from '@/components/UI/Heading';
 import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
-import { Title } from '@/components/UI/Title';
-import { githubPinnedItems } from '@/lib/getData';
 import { getPostsListJson, getTermWithCount } from '@/lib/posts';
-import { GithubPinnedItems, Post as PropsPost } from '@/types/source';
+import { Post as PropsPost } from '@/types/source';
 
 const POST_DISPLAY_LIMIT = 5;
 
 interface Props {
-  pinnedItems: Array<GithubPinnedItems>;
   recentPosts: Array<PropsPost>;
   updatesPosts: Array<PropsPost>;
   tags: Array<PostTagProps>;
 }
 
-const Home: NextPage<Props> = ({ pinnedItems, recentPosts, updatesPosts, tags }) => {
+const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
   return (
     <>
       <Head>
         <meta name="thumbnail" content="https://b.0218.jp/hiro0218.png" />
-        <template
-          dangerouslySetInnerHTML={{
-            __html: `<!--
-                        <PageMap>
-                          <DataObject type="thumbnail">
-                            <Attribute name="src" value="https://b.0218.jp/hiro0218.png"/>
-                            <Attribute name="width" value="100"/>
-                            <Attribute name="height" value="100"/>
-                          </DataObject>
-                        </PageMap>
-                      -->`,
-          }}
-        />
       </Head>
 
+      <div
+        dangerouslySetInnerHTML={{
+          __html: `<!--
+                      <PageMap>
+                        <DataObject type="thumbnail">
+                          <Attribute name="src" value="https://b.0218.jp/hiro0218.png"/>
+                          <Attribute name="width" value="100"/>
+                          <Attribute name="height" value="100"/>
+                        </DataObject>
+                      </PageMap>
+                    -->`,
+        }}
+      />
+
       <PageContentContainer>
-        <Title
-          heading="Hello, I'm hiro."
-          paragraph="I was a web backend developer and native app developer. Currently I am a web frontend developer."
-        />
+        <Hero />
 
-        <Works items={pinnedItems} />
+        <Stack>
+          <Heading tagName="h2" text="Articles" />
+          <Columns title="Recent Articles" titleTagName="h3">
+            <Stack space="var(--space-x-xs)">
+              {recentPosts.map((post, index) => (
+                <LinkCard
+                  key={index}
+                  link={`${post.slug}.html`}
+                  title={post.title}
+                  date={post.updated || post.date}
+                  excerpt={post.excerpt}
+                />
+              ))}
+            </Stack>
+          </Columns>
 
-        <Columns title={'Recent Articles'}>
-          <Stack space="var(--space-x-xs)">
-            {recentPosts.map((post, index) => (
-              <LinkCard
-                key={index}
-                link={`${post.slug}.html`}
-                title={post.title}
-                date={post.updated || post.date}
-                excerpt={post.excerpt}
-              />
-            ))}
-          </Stack>
-        </Columns>
+          <Columns title="Updated Articles" titleTagName="h3">
+            <Stack space="var(--space-x-xs)">
+              {updatesPosts.map((post, index) => (
+                <LinkCard
+                  key={index}
+                  link={`${post.slug}.html`}
+                  title={post.title}
+                  date={post.updated || post.date}
+                  excerpt={post.excerpt}
+                />
+              ))}
+            </Stack>
+          </Columns>
+        </Stack>
 
-        <Columns title={'Updated Articles'}>
-          <Stack space="var(--space-x-xs)">
-            {updatesPosts.map((post, index) => (
-              <LinkCard
-                key={index}
-                link={`${post.slug}.html`}
-                title={post.title}
-                date={post.updated || post.date}
-                excerpt={post.excerpt}
-              />
-            ))}
-          </Stack>
-        </Columns>
-
-        <Columns title={'Tags'}>
+        <Stack tagName="section">
+          <Heading tagName="h2" text="Tags" />
           <PostTagGridContainer>
             <PostTag tags={tags} />
           </PostTagGridContainer>
-        </Columns>
+        </Stack>
       </PageContentContainer>
     </>
   );
@@ -87,13 +85,11 @@ const Home: NextPage<Props> = ({ pinnedItems, recentPosts, updatesPosts, tags })
 
 export default Home;
 
-const pickPosts = (posts: Partial<PropsPost>) => {
-  const { title, slug, date, updated, excerpt } = posts;
+const pickPosts = ({ title, slug, date, updated, excerpt }: Partial<PropsPost>) => {
   return { title, slug, date, updated, excerpt };
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const pinnedItems = githubPinnedItems();
   const posts = getPostsListJson();
   const recentPosts = posts.slice(0, POST_DISPLAY_LIMIT).map((post) => {
     return pickPosts(post);
@@ -120,7 +116,6 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      pinnedItems,
       recentPosts,
       updatesPosts,
       tags,

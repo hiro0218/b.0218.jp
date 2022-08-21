@@ -1,26 +1,29 @@
 import { CSSProperties, memo, ReactNode } from 'react';
 
-import { desktop, mobile } from '@/lib/mediaQuery';
+import { isDesktop, isMobile } from '@/lib/mediaQuery';
 import { getModularScale } from '@/lib/modular-scale';
 import { css, styled } from '@/ui/styled';
 
 export interface ContainerProps {
   title?: string;
+  titleTagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   style?: CSSProperties;
   children?: ReactNode;
 }
 
-export const Columns = memo(function Columns({ title, children, ...others }: ContainerProps) {
+const Columns = memo(function Columns({ title, titleTagName = 'h2', children, ...others }: ContainerProps) {
   return (
     <Root {...others}>
-      <ColumnTitle>{title && <TitleText>{title}</TitleText>}</ColumnTitle>
+      <ColumnTitle>{title && <TitleText as={titleTagName}>{title}</TitleText>}</ColumnTitle>
       <ColumnMain>{children}</ColumnMain>
     </Root>
   );
 });
 
+export default Columns;
+
 const Root = styled.section`
-  ${desktop} {
+  ${isDesktop} {
     display: flex;
   }
 `;
@@ -33,11 +36,11 @@ const TitleText = styled.h2`
 `;
 
 const ColumnTitle = styled.div`
-  ${mobile} {
+  ${isMobile} {
     margin-bottom: 1rem;
   }
 
-  ${desktop} {
+  ${isDesktop} {
     position: sticky;
     width: 38.2%;
     height: 100%;
@@ -51,7 +54,7 @@ const ColumnTitle = styled.div`
 `;
 
 const ColumnMain = styled.div`
-  ${desktop} {
+  ${isDesktop} {
     width: 61.8%;
   }
 `;

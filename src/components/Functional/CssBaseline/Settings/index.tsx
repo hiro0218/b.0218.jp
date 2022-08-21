@@ -1,4 +1,4 @@
-import { gray } from '@radix-ui/colors';
+import { blackA, gray } from '@radix-ui/colors';
 
 import { getModularScale } from '@/lib/modular-scale';
 import { css } from '@/ui/styled';
@@ -32,6 +32,8 @@ export default css`
     --text-11: ${gray.gray11};
     /* 12: 高コントラストテキスト */
     --text-12: ${gray.gray12};
+
+    --overlay-backgrounds: ${blackA.blackA10};
 
     /* size */
     --container-width: 50rem;

@@ -14,7 +14,7 @@ const PostEdit = ({ slug }: Props) => {
         target="_blank"
         rel="noreferrer"
       >
-        <FaGithub />
+        <FaGithub size={18} />
         Edit on GitHub
       </Anchor>
     </Container>
@@ -39,8 +39,6 @@ const Anchor = styled.a`
   }
 
   svg {
-    width: 1.25em;
-    height: 1.25em;
     margin-right: 0.25em;
     fill: var(--text-12);
   }

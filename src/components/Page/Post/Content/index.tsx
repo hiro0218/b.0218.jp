@@ -1,4 +1,4 @@
-import { mobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/lib/mediaQuery';
 import { showHoverShadow } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -39,6 +39,9 @@ const PostContent = styled.article`
       &::after {
         content: '↗';
         display: inline-block;
+        margin: 0 0.15em;
+        font-size: 80%;
+        line-height: 1;
         text-decoration: none;
       }
     }
@@ -60,7 +63,7 @@ const PostContent = styled.article`
     text-decoration: none;
     user-select: none;
 
-    ${mobile} {
+    ${isMobile} {
       position: static;
       margin-left: 0.25em;
     }
@@ -199,7 +202,7 @@ const PostContent = styled.article`
     background-color: #fff;
     text-decoration: none;
 
-    ${mobile} {
+    ${isMobile} {
       flex-direction: column;
       height: auto;
     }
@@ -223,7 +226,7 @@ const PostContent = styled.article`
       padding: 0.8em 1.2em;
       color: var(--text-12);
 
-      ${mobile} {
+      ${isMobile} {
         order: 1;
         width: 100%;
       }
@@ -269,7 +272,7 @@ const PostContent = styled.article`
       background-color: #fff;
       user-select: none;
 
-      ${mobile} {
+      ${isMobile} {
         order: 0;
         width: 100%;
         max-width: 100%;
@@ -282,7 +285,7 @@ const PostContent = styled.article`
         height: 100%;
         object-fit: cover;
 
-        ${mobile} {
+        ${isMobile} {
           /* object-fit: contain; */
         }
       }

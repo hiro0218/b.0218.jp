@@ -3,7 +3,7 @@ import { HiOutlineChevronRight, HiOutlineExternalLink } from 'react-icons/hi';
 
 import { Anchor } from '@/components/UI/Anchor';
 import { convertDateToSimpleFormat } from '@/lib/date';
-import { mobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/lib/mediaQuery';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -17,37 +17,43 @@ interface Props {
 }
 
 const LinkCard = ({ link, title, date, excerpt, target = false, role }: Props) => (
-  <Anchor href={link} prefetch={false} passHref>
-    <LinkCardAnchor {...(target && { target: '_blank' })} role={role}>
-      <LinkCardText>
-        <LinkCardTitle>{title}</LinkCardTitle>
-        <LinkCardParagraph {...(typeof excerpt !== 'string' && { as: 'div' })}>
-          {date && <time dateTime={date}>{convertDateToSimpleFormat(date)}</time>}
-          {excerpt && <span>{excerpt}</span>}
-        </LinkCardParagraph>
-      </LinkCardText>
-      <LinkCardIcon>{target ? <HiOutlineExternalLink /> : <HiOutlineChevronRight />}</LinkCardIcon>
-    </LinkCardAnchor>
-  </Anchor>
+  <Container role={role}>
+    <Main>
+      <Anchor href={link} prefetch={false} passHref>
+        <LinkAnchor {...(target && { target: '_blank' })}>
+          <Title>{title}</Title>
+        </LinkAnchor>
+      </Anchor>
+      <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>
+        {date && <time dateTime={date}>{convertDateToSimpleFormat(date)}</time>}
+        {excerpt && <span>{excerpt}</span>}
+      </Paragraph>
+    </Main>
+    <Icon>{target ? <HiOutlineExternalLink /> : <HiOutlineChevronRight />}</Icon>
+  </Container>
 );
 
 export default LinkCard;
 
-const LinkCardAnchor = styled.a`
+const Container = styled.div`
   display: flex;
   height: 100%;
   padding: calc(var(--margin-base) * 0.6) var(--margin-base);
   border-radius: 0.25rem;
   gap: calc(var(--margin-base) * 0.25);
 
-  ${mobile} {
+  ${isMobile} {
     padding: var(--margin-base);
   }
 
   ${showHoverBackground}
+
+  &:focus-within {
+    box-shadow: 0 0 0 2px var(--borders-7);
+  }
 `;
 
-const LinkCardText = styled.div`
+const Main = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -56,14 +62,29 @@ const LinkCardText = styled.div`
   gap: calc(var(--margin-base) * 0.5);
 `;
 
-const LinkCardTitle = styled.h3`
+const LinkAnchor = styled.a`
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &:focus-within {
+    box-shadow: none;
+  }
+`;
+
+const Title = styled.h3`
   color: var(--text-12);
   font-size: var(--font-size-md);
   font-weight: normal;
   line-height: 1.875;
 `;
 
-const LinkCardParagraph = styled.p`
+const Paragraph = styled.p`
   overflow: hidden;
   color: var(--text-11);
   font-size: var(--font-size-sm);
@@ -82,7 +103,7 @@ const LinkCardParagraph = styled.p`
   }
 `;
 
-const LinkCardIcon = styled.div`
+const Icon = styled.div`
   display: flex;
   align-items: center;
   color: var(--text-11);

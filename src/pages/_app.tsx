@@ -1,13 +1,14 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
+import AppFooter from '@/components/App/TheFooter';
+import AppHeader from '@/components/App/TheHeader';
 import CssBaseline from '@/components/Functional/CssBaseline';
-import { Container } from '@/components/UI/Layout';
-import { TheFooter } from '@/components/UI/TheFooter';
-import TheHeader from '@/components/UI/TheHeader';
+import { MainContainer } from '@/components/UI/Layout';
 import { AUTHOR, SITE } from '@/constant';
-import createEmotionCache from '@/lib/createEmotionCache';
-import usePageView from '@/lib/hooks/usePageView';
+import usePageView from '@/hooks/usePageView';
+import useRouterScrollTop from '@/hooks/useRouterScrollTop';
+import createEmotionCache from '@/ui/lib/createEmotionCache';
 import { CacheProvider, EmotionCache, ThemeProvider } from '@/ui/styled';
 import { theme } from '@/ui/themes';
 
@@ -19,6 +20,7 @@ const clientSideEmotionCache = createEmotionCache();
 
 const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: MyAppProps) => {
   usePageView();
+  useRouterScrollTop();
 
   return (
     <>
@@ -45,11 +47,11 @@ const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: My
       <CacheProvider value={emotionCache}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <TheHeader />
-          <Container>
+          <AppHeader />
+          <MainContainer>
             <Component {...pageProps} />
-          </Container>
-          <TheFooter />
+          </MainContainer>
+          <AppFooter />
         </ThemeProvider>
       </CacheProvider>
     </>

@@ -23,9 +23,7 @@ export default css`
   }
 
   a {
-    transition: background-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease-in-out;
-    transition: text-decoration-color 0.3s;
-    transition: box-shadow 0.2s ease, background-color 0.2s ease;
+    transition: background-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease-in-out, text-decoration-color 0.3s;
     color: var(--text-12);
     text-decoration: none;
     text-decoration-color: var(--borders-8);

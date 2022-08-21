@@ -12,24 +12,26 @@ type Props = {
 
 const Heading = ({ tagName: Tag = 'h1', text, textSide, textSub, isWeightNormal = true }: Props) => {
   return (
-    <>
-      <HeaderMain>
+    <Container>
+      <Main>
         <HeaderTitle as={Tag} weight={isWeightNormal}>
           {text}
         </HeaderTitle>
-        {textSide && <HeadingSide>{textSide}</HeadingSide>}
-      </HeaderMain>
-      {textSub && <HeaderSub>{textSub}</HeaderSub>}
-    </>
+        {textSub && <HeaderSub>{textSub}</HeaderSub>}
+      </Main>
+      {textSide && <Side>{textSide}</Side>}
+    </Container>
   );
 };
 
 export default Heading;
 
-const HeaderMain = styled.div`
+const Container = styled.div`
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+`;
+
+const Main = styled.div`
+  flex: 1 1;
 `;
 
 const HeaderTitle = styled.h1<{ weight: boolean }>`
@@ -39,7 +41,8 @@ const HeaderTitle = styled.h1<{ weight: boolean }>`
   overflow-wrap: break-word;
 `;
 
-const HeadingSide = styled.div`
+const Side = styled.div`
+  margin-top: auto;
   color: var(--text-11);
 `;
 

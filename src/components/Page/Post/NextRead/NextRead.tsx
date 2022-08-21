@@ -1,6 +1,6 @@
 import Heading from '@/components/UI/Heading';
 import LinkCard from '@/components/UI/LinkCard';
-import { mobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/lib/mediaQuery';
 import { TermsPostList } from '@/types/source';
 import { styled } from '@/ui/styled';
 
@@ -14,14 +14,14 @@ export const PostNextRead = ({ posts }: Props) => {
   }
 
   return (
-    <div className="next-read">
+    <section>
       <Heading tagName="h2" text={'Next Read'} isWeightNormal={false} />
       <Container>
         {posts.map((post, index) => (
           <LinkCard key={index} link={`${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
         ))}
       </Container>
-    </div>
+    </section>
   );
 };
 
@@ -31,7 +31,7 @@ const Container = styled.div`
   gap: var(--space-md);
   margin-top: var(--space-md);
 
-  ${mobile} {
+  ${isMobile} {
     grid-template-columns: minmax(100%, max-content);
     gap: var(--space-sm);
   }

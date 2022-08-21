@@ -25,14 +25,15 @@ export const showHoverBackground = css`
     height: 50%;
     margin: auto;
     transform: scale(0.1);
-    transition: transform 0.4s ${easing.easeOutBack}, opacity 0.4s;
+    transition: transform 0.4s ${easing.easeOutBack};
     border-radius: 0.25rem;
     opacity: 0;
     background-image: linear-gradient(120deg, var(--backgrounds-2), var(--component-backgrounds-4));
   }
 
   &:hover,
-  &:focus {
+  &:focus,
+  &:focus-within {
     &::after {
       width: 100%;
       height: 100%;

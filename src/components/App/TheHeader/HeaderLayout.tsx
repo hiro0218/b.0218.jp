@@ -39,17 +39,15 @@ export const HeaderLayout = ({ children }: Props) => {
     };
 
     document.removeEventListener('scroll', handleScroll);
-    document.addEventListener('scroll', handleScroll, { passive: true });
+    document.addEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <>
-      <Underline>
-        <Header ref={refHeader} isFixed={isHeaderShown}>
-          {children}
-        </Header>
-      </Underline>
-    </>
+    <Underline>
+      <Header ref={refHeader} isFixed={isHeaderShown}>
+        {children}
+      </Header>
+    </Underline>
   );
 };
 
