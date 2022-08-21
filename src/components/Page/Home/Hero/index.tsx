@@ -1,6 +1,6 @@
 import { Title } from '@/components/UI/Title';
 import { AUTHOR } from '@/constant';
-import { isMobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 const ICON_SIZE = 128;

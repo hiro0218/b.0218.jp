@@ -1,7 +1,7 @@
 import Heading from '@/components/UI/Heading';
 import LinkCard from '@/components/UI/LinkCard';
-import { isMobile } from '@/lib/mediaQuery';
 import { TermsPostList } from '@/types/source';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 type Props = {

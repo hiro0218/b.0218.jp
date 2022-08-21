@@ -1,6 +1,6 @@
 import { memo, ReactNode } from 'react';
 
-import { isMobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 type Props = {

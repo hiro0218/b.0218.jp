@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
 import { Anchor } from '@/components/UI/Anchor';
-import { isMobile } from '@/lib/mediaQuery';
 import { Post } from '@/types/source';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { fadeIn } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
