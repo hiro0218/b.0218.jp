@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
 import { Anchor } from '@/components/UI/Anchor';
-import { mobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/lib/mediaQuery';
 import { Post } from '@/types/source';
 import { fadeIn } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
@@ -134,7 +134,7 @@ const SearchMain = styled.div`
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
   animation-fill-mode: both;
 
-  ${mobile} {
+  ${isMobile} {
     width: 80vw;
   }
 `;
@@ -183,7 +183,7 @@ const SearchResult = styled.div`
   overflow-x: none;
   overflow-y: auto;
 
-  ${mobile} {
+  ${isMobile} {
     max-height: 60vh;
   }
 `;

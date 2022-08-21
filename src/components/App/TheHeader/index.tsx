@@ -2,7 +2,7 @@ import { Anchor } from '@/components/UI/Anchor';
 import { Logo } from '@/components/UI/Logo';
 import { SearchButton, SearchDialog } from '@/components/UI/Search';
 import { useModal } from '@/components/UI/Search/useDialog';
-import { mobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 import { HeaderLayout } from './HeaderLayout';
@@ -38,7 +38,7 @@ const Container = styled.div`
   height: 100%;
   margin: 0 auto;
 
-  ${mobile} {
+  ${isMobile} {
     padding: 0 5vw;
   }
 `;

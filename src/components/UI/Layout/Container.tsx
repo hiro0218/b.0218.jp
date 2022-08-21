@@ -1,6 +1,6 @@
 import { memo, ReactNode } from 'react';
 
-import { mobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -17,7 +17,7 @@ const ContainerRoot = styled.main`
   max-width: var(--container-width);
   margin: 0 auto;
 
-  ${mobile} {
+  ${isMobile} {
     padding: 0 5vw;
   }
 `;

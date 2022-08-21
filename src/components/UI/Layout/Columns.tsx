@@ -1,6 +1,6 @@
 import { CSSProperties, memo, ReactNode } from 'react';
 
-import { desktop, mobile } from '@/lib/mediaQuery';
+import { isDesktop, isMobile } from '@/lib/mediaQuery';
 import { getModularScale } from '@/lib/modular-scale';
 import { css, styled } from '@/ui/styled';
 
@@ -23,7 +23,7 @@ const Columns = memo(function Columns({ title, titleTagName = 'h2', children, ..
 export default Columns;
 
 const Root = styled.section`
-  ${desktop} {
+  ${isDesktop} {
     display: flex;
   }
 `;
@@ -36,11 +36,11 @@ const TitleText = styled.h2`
 `;
 
 const ColumnTitle = styled.div`
-  ${mobile} {
+  ${isMobile} {
     margin-bottom: 1rem;
   }
 
-  ${desktop} {
+  ${isDesktop} {
     position: sticky;
     width: 38.2%;
     height: 100%;
@@ -54,7 +54,7 @@ const ColumnTitle = styled.div`
 `;
 
 const ColumnMain = styled.div`
-  ${desktop} {
+  ${isDesktop} {
     width: 61.8%;
   }
 `;

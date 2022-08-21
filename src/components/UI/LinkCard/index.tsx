@@ -3,7 +3,7 @@ import { HiOutlineChevronRight, HiOutlineExternalLink } from 'react-icons/hi';
 
 import { Anchor } from '@/components/UI/Anchor';
 import { convertDateToSimpleFormat } from '@/lib/date';
-import { mobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/lib/mediaQuery';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -42,7 +42,7 @@ const Container = styled.div`
   border-radius: 0.25rem;
   gap: calc(var(--margin-base) * 0.25);
 
-  ${mobile} {
+  ${isMobile} {
     padding: var(--margin-base);
   }
 

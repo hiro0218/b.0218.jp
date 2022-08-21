@@ -1,6 +1,6 @@
 import Heading from '@/components/UI/Heading';
 import LinkCard from '@/components/UI/LinkCard';
-import { mobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/lib/mediaQuery';
 import { TermsPostList } from '@/types/source';
 import { styled } from '@/ui/styled';
 
@@ -31,7 +31,7 @@ const Container = styled.div`
   gap: var(--space-md);
   margin-top: var(--space-md);
 
-  ${mobile} {
+  ${isMobile} {
     grid-template-columns: minmax(100%, max-content);
     gap: var(--space-sm);
   }

@@ -4,7 +4,7 @@ import { GoRepoForked, GoStar } from 'react-icons/go';
 import Heading from '@/components/UI/Heading';
 import LinkCard from '@/components/UI/LinkCard';
 import { URL } from '@/constant';
-import { mobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/lib/mediaQuery';
 import { GithubPinnedItems } from '@/types/source';
 import { styled } from '@/ui/styled';
 
@@ -88,7 +88,7 @@ const Container = styled.div`
   gap: var(--space-md);
   margin-top: var(--space-md);
 
-  ${mobile} {
+  ${isMobile} {
     grid-template-columns: 1fr;
     gap: var(--space-sm);
   }

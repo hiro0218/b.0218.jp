@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-import { mobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 export const GOOGLE_ADSENSE = {
@@ -41,7 +41,7 @@ const Ads = styled.div`
   height: 280px;
   margin: 2rem auto;
 
-  ${mobile} {
+  ${isMobile} {
     min-height: 100px;
   }
 `;

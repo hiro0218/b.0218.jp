@@ -1,5 +1,5 @@
 import { Anchor } from '@/components/UI/Anchor';
-import { mobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 const Links = [
@@ -57,7 +57,7 @@ const Container = styled.div`
   max-width: var(--container-width);
   margin: 0 auto;
 
-  ${mobile} {
+  ${isMobile} {
     padding: 0 5vw;
   }
 `;

@@ -1,6 +1,6 @@
 import { Title } from '@/components/UI/Title';
 import { AUTHOR } from '@/constant';
-import { mobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 const ICON_SIZE = 128;
@@ -28,7 +28,7 @@ const Avatar = styled.div`
   flex-shrink: 0;
   width: ${ICON_SIZE}px;
 
-  ${mobile} {
+  ${isMobile} {
     width: ${ICON_SIZE / 1.6}px;
   }
 
