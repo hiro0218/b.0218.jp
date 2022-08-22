@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const Title = ({ headingTagName: Tag = 'h1', heading, paragraph, sideElement, children }: Props) => (
-  <div>
+  <>
     <Container>
       <Main>
         <HeaderTitle as={Tag}>{heading}</HeaderTitle>
@@ -21,7 +21,7 @@ export const Title = ({ headingTagName: Tag = 'h1', heading, paragraph, sideElem
       {sideElement && <Side>{sideElement}</Side>}
     </Container>
     {children}
-  </div>
+  </>
 );
 
 const Container = styled.header`
