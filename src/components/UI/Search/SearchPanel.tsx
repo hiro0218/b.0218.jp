@@ -102,7 +102,7 @@ export const SearchPanel = ({ closeDialog }: Props) => {
         <>
           <SearchResult>
             {data.suggest.map((post) => (
-              <Anchor key={post.slug} href={`/${post.slug}.html`} passHref prefetch={false} onClick={closeDialog}>
+              <Anchor key={post.slug} href={`/${post.slug}.html`} passHref prefetch={true} onClick={closeDialog}>
                 <SearchResultAnchor>{post.title}</SearchResultAnchor>
               </Anchor>
             ))}
