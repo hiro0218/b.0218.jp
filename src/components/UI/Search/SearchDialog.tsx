@@ -1,4 +1,5 @@
-import { forwardRef, MutableRefObject } from 'react';
+import { forwardRef, MutableRefObject, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import { fadeIn, slideIn } from '@/ui/mixin';
 import { css, styled } from '@/ui/styled';
@@ -12,13 +13,24 @@ type Props = {
 };
 
 export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Props, ref: RefProps) {
-  return (
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
+  return createPortal(
     <>
       <Overlay isOpen={!!ref.current?.open} onClick={closeDialog} />
       <Dialog ref={ref} onClick={closeDialog} aria-modal>
         <SearchPanel closeDialog={closeDialog} />
       </Dialog>
-    </>
+    </>,
+    document.body,
   );
 });
 
