@@ -28,6 +28,21 @@ const nextConfiguration = {
   // },
 
   webpack(config) {
+    // eslint-disable-next-line @next/next/no-assign-module-variable
+    const module = config.module || {};
+    const rules = module.rules || {};
+
+    config.module = {
+      ...module,
+      rules: [
+        ...rules,
+        {
+          test: /src\/components\/.*\/index\.ts/i,
+          sideEffects: false,
+        },
+      ],
+    }
+
     return config;
   },
 };
