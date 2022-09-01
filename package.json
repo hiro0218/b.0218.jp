@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.10.2",
-    "@emotion/react": "^11.10.0",
+    "@emotion/react": "^11.10.4",
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@stylelint/postcss-css-in-js": "^0.38.0",
