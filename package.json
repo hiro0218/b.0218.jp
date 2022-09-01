@@ -61,7 +61,7 @@
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "babel-loader": "^8.2.5",
     "budoux": "^0.2.0",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.2",
     "esbuild": "^0.15.5",
     "esbuild-register": "^3.3.3",
     "eslint": "^8.21.0",
