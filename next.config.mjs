@@ -16,6 +16,11 @@ const nextConfiguration = {
     scrollRestoration: true,
     browsersListForSwc: true,
     legacyBrowsers: false,
+    modularizeImports: {
+      'react-icons': {
+        transform: 'react-icons/{{member}}',
+      },
+    },
   },
 
   // async rewrites() {
