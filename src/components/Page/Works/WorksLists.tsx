@@ -4,8 +4,8 @@ import { GoRepoForked, GoStar } from 'react-icons/go';
 import Heading from '@/components/UI/Heading';
 import LinkCard from '@/components/UI/LinkCard';
 import { URL } from '@/constant';
-import { isMobile } from '@/lib/mediaQuery';
 import { GithubPinnedItems } from '@/types/source';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 type Props = {

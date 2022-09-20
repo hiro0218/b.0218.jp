@@ -1,23 +1,25 @@
 module.exports = {
-  extends: [
-    'stylelint-config-recommended',
-    'stylelint-config-property-sort-order-smacss',
-    'stylelint-config-prettier',
-  ],
-  plugins: ['stylelint-declaration-block-no-ignored-properties'],
+  extends: ['stylelint-config-recommended', 'stylelint-config-property-sort-order-smacss', 'stylelint-config-prettier'],
+  plugins: ['stylelint-declaration-block-no-ignored-properties', 'stylelint-no-unsupported-browser-features'],
   rules: {
-    'at-rule-no-unknown': [true, {
-      ignoreAtRules: ['extend']
-    }],
+    'at-rule-no-unknown': [
+      true,
+      {
+        ignoreAtRules: ['extend'],
+      },
+    ],
     'block-closing-brace-newline-after': 'always',
     'block-closing-brace-newline-before': 'always',
     'block-opening-brace-newline-after': 'always',
     'block-opening-brace-space-before': 'always',
     'color-hex-length': 'short',
     'color-no-invalid-hex': true,
-    'declaration-block-no-duplicate-properties': [true, {
-      ignore: ['consecutive-duplicates']
-    }],
+    'declaration-block-no-duplicate-properties': [
+      true,
+      {
+        ignore: ['consecutive-duplicates'],
+      },
+    ],
     'declaration-block-semicolon-newline-after': 'always-multi-line',
     'declaration-block-semicolon-newline-before': 'never-multi-line',
     'declaration-block-semicolon-space-after': 'always-single-line',
@@ -33,7 +35,13 @@ module.exports = {
     'selector-pseudo-element-colon-notation': 'double',
     'string-quotes': 'single',
     'value-list-comma-space-after': 'always-single-line',
-    'value-list-comma-space-before': 'never'
+    'value-list-comma-space-before': 'never',
+    'plugin/no-unsupported-browser-features': [
+      true,
+      {
+        ignorePartialSupport: true,
+      },
+    ],
   },
   overrides: [
     {
@@ -44,7 +52,7 @@ module.exports = {
         'custom-property-pattern': null,
         'function-name-case': null,
         'function-no-unknown': null,
-      }
+      },
     },
   ],
 };

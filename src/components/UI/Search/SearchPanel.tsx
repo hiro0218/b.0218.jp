@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
 import { Anchor } from '@/components/UI/Anchor';
-import { isMobile } from '@/lib/mediaQuery';
 import { Post } from '@/types/source';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { fadeIn } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -102,7 +102,7 @@ export const SearchPanel = ({ closeDialog }: Props) => {
         <>
           <SearchResult>
             {data.suggest.map((post) => (
-              <Anchor key={post.slug} href={`/${post.slug}.html`} passHref prefetch={false} onClick={closeDialog}>
+              <Anchor key={post.slug} href={`/${post.slug}.html`} passHref prefetch={true} onClick={closeDialog}>
                 <SearchResultAnchor>{post.title}</SearchResultAnchor>
               </Anchor>
             ))}

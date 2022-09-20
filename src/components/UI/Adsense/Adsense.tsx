@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-import { isMobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 export const GOOGLE_ADSENSE = {

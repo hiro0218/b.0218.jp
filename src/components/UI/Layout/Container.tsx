@@ -1,6 +1,6 @@
 import { memo, ReactNode } from 'react';
 
-import { isMobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 };
 
 const MainContainer = memo(function Container({ children }: Props) {
-  return <ContainerRoot className="l-container">{children}</ContainerRoot>;
+  return <ContainerRoot>{children}</ContainerRoot>;
 });
 
 export default MainContainer;

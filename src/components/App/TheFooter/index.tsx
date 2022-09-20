@@ -1,5 +1,5 @@
 import { Anchor } from '@/components/UI/Anchor';
-import { isMobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 const Links = [

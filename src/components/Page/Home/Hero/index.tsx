@@ -1,15 +1,14 @@
 import { Title } from '@/components/UI/Title';
-import { AUTHOR } from '@/constant';
-import { isMobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
-const ICON_SIZE = 128;
+const ICON_SIZE = 100;
 
 export const Hero = () => {
   return (
     <Container>
       <Avatar>
-        <img src={AUTHOR.ICON_LOCAL} height={ICON_SIZE} width={ICON_SIZE} alt="" />
+        <img src="/hiro0218@100x100.webp" height={ICON_SIZE} width={ICON_SIZE} alt="" />
       </Avatar>
       <Title
         heading="Hello, I'm hiro."

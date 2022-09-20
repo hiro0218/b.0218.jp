@@ -1,7 +1,7 @@
 import { CSSProperties, memo, ReactNode } from 'react';
 
-import { isDesktop, isMobile } from '@/lib/mediaQuery';
 import { getModularScale } from '@/lib/modular-scale';
+import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
 import { css, styled } from '@/ui/styled';
 
 export interface ContainerProps {

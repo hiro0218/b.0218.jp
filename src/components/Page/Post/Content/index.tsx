@@ -1,4 +1,4 @@
-import { isMobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { showHoverShadow } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 

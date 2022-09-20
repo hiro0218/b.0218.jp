@@ -2,7 +2,7 @@ import { Anchor } from '@/components/UI/Anchor';
 import { Logo } from '@/components/UI/Logo';
 import { SearchButton, SearchDialog } from '@/components/UI/Search';
 import { useModal } from '@/components/UI/Search/useDialog';
-import { isMobile } from '@/lib/mediaQuery';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 import { HeaderLayout } from './HeaderLayout';
