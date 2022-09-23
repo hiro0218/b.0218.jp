@@ -16,9 +16,10 @@ export const Adsense = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    setIsLoaded(true);
+
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
-      setIsLoaded(true);
     } catch (err) {
       console.log(err);
     }
