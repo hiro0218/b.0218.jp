@@ -17,12 +17,9 @@ export const showHoverBackground = css`
     display: block;
     position: absolute;
     z-index: -1;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 50%;
-    height: 50%;
+    inset: 0;
+    width: 0;
+    height: 0;
     margin: auto;
     transform: scale(0.1);
     transition: transform 0.4s ${easing.easeOutBack};
