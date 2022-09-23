@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
@@ -13,25 +13,29 @@ export const GOOGLE_ADSENSE = {
 
 export const Adsense = () => {
   const { asPath } = useRouter();
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
+      setIsLoaded(true);
     } catch (err) {
       console.log(err);
     }
-  }, [asPath]);
+  }, [asPath, setIsLoaded]);
 
   return (
     <Ads key={asPath}>
-      <ins
-        className="adsbygoogle"
-        style={{ display: 'block', textAlign: 'center' }}
-        data-ad-layout={GOOGLE_ADSENSE.LAYOUT}
-        data-ad-format={GOOGLE_ADSENSE.FORMAT}
-        data-ad-client={GOOGLE_ADSENSE.CLIENT}
-        data-ad-slot={GOOGLE_ADSENSE.SLOT}
-      />
+      {isLoaded && (
+        <ins
+          className="adsbygoogle"
+          style={{ display: 'block', textAlign: 'center' }}
+          data-ad-layout={GOOGLE_ADSENSE.LAYOUT}
+          data-ad-format={GOOGLE_ADSENSE.FORMAT}
+          data-ad-client={GOOGLE_ADSENSE.CLIENT}
+          data-ad-slot={GOOGLE_ADSENSE.SLOT}
+        />
+      )}
     </Ads>
   );
 };
