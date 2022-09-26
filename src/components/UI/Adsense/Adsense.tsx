@@ -17,26 +17,30 @@ export const Adsense = () => {
 
   useEffect(() => {
     setIsLoaded(true);
+  }, [asPath, setIsLoaded]);
 
+  useEffect(() => {
     try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      window.requestAnimationFrame(() => {
+        if (isLoaded) {
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        }
+      });
     } catch (err) {
       console.log(err);
     }
-  }, [asPath, setIsLoaded]);
+  }, [asPath, isLoaded]);
 
   return (
     <Ads key={asPath}>
-      {isLoaded && (
-        <ins
-          className="adsbygoogle"
-          style={{ display: 'block', textAlign: 'center' }}
-          data-ad-layout={GOOGLE_ADSENSE.LAYOUT}
-          data-ad-format={GOOGLE_ADSENSE.FORMAT}
-          data-ad-client={GOOGLE_ADSENSE.CLIENT}
-          data-ad-slot={GOOGLE_ADSENSE.SLOT}
-        />
-      )}
+      <ins
+        className="adsbygoogle"
+        style={{ display: 'block', textAlign: 'center' }}
+        data-ad-layout={GOOGLE_ADSENSE.LAYOUT}
+        data-ad-format={GOOGLE_ADSENSE.FORMAT}
+        data-ad-client={GOOGLE_ADSENSE.CLIENT}
+        data-ad-slot={GOOGLE_ADSENSE.SLOT}
+      />
     </Ads>
   );
 };
