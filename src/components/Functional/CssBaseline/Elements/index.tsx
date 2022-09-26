@@ -70,7 +70,6 @@ export default css`
   h4,
   h5,
   h6 {
-    color: var(--text-12);
     font-weight: var(--font-weight-normal);
   }
 
