@@ -4,8 +4,8 @@ import { HiSearch } from 'react-icons/hi';
 
 import { Anchor } from '@/components/UI/Anchor';
 import { Post } from '@/types/source';
+import { fadeIn } from '@/ui/animation';
 import { isMobile } from '@/ui/lib/mediaQuery';
-import { fadeIn } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 type Props = {
