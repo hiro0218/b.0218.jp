@@ -78,7 +78,6 @@ const PostContent = styled.article`
     position: relative;
     scroll-margin-top: 1em;
     margin: var(--space-lg) auto var(--space-sm);
-    font-weight: bold;
 
     & > {
       code {
@@ -238,7 +237,7 @@ const PostContent = styled.article`
       &__title {
         max-height: 3em;
         font-size: var(--font-size-md);
-        font-weight: bold;
+        font-weight: var(--font-weight-bold);
         line-height: 1.5;
       }
 

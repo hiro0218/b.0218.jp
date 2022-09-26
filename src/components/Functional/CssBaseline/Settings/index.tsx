@@ -47,6 +47,9 @@ export default css`
     --font-size-md: ${getModularScale({ degree: 0 })};
     --font-size-lg: ${getModularScale({ degree: 1 })};
 
+    --font-weight-normal: 500;
+    --font-weight-bold: 900;
+
     /* margin */
     --margin-base: 1.5rem;
 

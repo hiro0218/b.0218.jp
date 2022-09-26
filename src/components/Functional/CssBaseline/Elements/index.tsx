@@ -17,6 +17,7 @@ export default css`
     font-family: var(--font-family-sans-serif);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-weight: var(--font-weight-normal);
     line-height: 1.875;
     font-feature-settings: 'chws' 1;
     line-break: strict;
@@ -70,12 +71,12 @@ export default css`
   h5,
   h6 {
     color: var(--text-12);
-    font-weight: 500;
+    font-weight: var(--font-weight-normal);
   }
 
   h1 {
     font-size: ${getModularScale({ degree: 4 })};
-    font-weight: 900;
+    font-weight: var(--font-weight-bold);
   }
 
   h2 {
@@ -121,7 +122,9 @@ export default css`
     font-size: var(--font-size-sm);
     overflow-wrap: break-word;
     -webkit-overflow-scrolling: touch;
+    /* stylelint-disable */
     resize: horizontal;
+    /* stylelint-enable */
 
     & > code {
       display: block;
