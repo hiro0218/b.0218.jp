@@ -27,6 +27,7 @@ const PostShare = ({ title, url }: Props) => {
 const Container = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: var(--space-x-xl);
 `;
 
 const Anchor = styled.a`
@@ -35,10 +36,9 @@ const Anchor = styled.a`
   justify-content: center;
   width: 3.5rem;
   height: 3.5rem;
-  padding: 0.25em;
   transition: background-color 0.4s;
   border-radius: 100%;
-  font-size: 1.75rem;
+  font-size: 1.85rem;
   text-align: center;
 
   ${showHoverBackground}
