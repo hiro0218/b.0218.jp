@@ -78,6 +78,7 @@ const PostContent = styled.article`
     position: relative;
     scroll-margin-top: 1em;
     margin: var(--space-lg) auto var(--space-sm);
+    font-weight: var(--font-weight-bold);
 
     & > {
       code {
