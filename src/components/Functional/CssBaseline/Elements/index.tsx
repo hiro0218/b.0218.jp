@@ -29,7 +29,7 @@ export default css`
     text-decoration: none;
     text-decoration-color: var(--borders-8);
     text-underline-position: under;
-    text-underline-offset: 25%;
+    text-underline-offset: 2%;
 
     &:focus-visible {
       outline: 0;
