@@ -10,14 +10,19 @@ export default css`
     /* color */
     /* 1:  アプリの背景 */
     --backgrounds-1: ${gray.gray1};
+    --backgrounds-1A: ${blackA.blackA1};
     /* 2:  微妙な背景 */
     --backgrounds-2: ${gray.gray2};
+    --backgrounds-2A: ${blackA.blackA2};
     /* 3:  UI要素の背景 */
     --component-backgrounds-3: ${gray.gray3};
+    --component-backgrounds-3A: ${blackA.blackA3};
     /* 4:  ホバーされたUI要素の背景 */
     --component-backgrounds-4: ${gray.gray4};
+    --component-backgrounds-4A: ${blackA.blackA4};
     /* 5:  アクティブ/選択されたUI要素の背景 */
     --component-backgrounds-5: ${gray.gray5};
+    --component-backgrounds-5A: ${blackA.blackA5};
     /* 6:  微妙な境界線と区切り文字 */
     --borders-6: ${gray.gray6};
     /* 7:  UI要素の境界線とフォーカスリング */
