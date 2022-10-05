@@ -25,7 +25,7 @@ export const showHoverBackground = css`
     transition: transform 0.4s ${easing.easeOutBack};
     border-radius: 0.25rem;
     opacity: 0;
-    background-image: linear-gradient(120deg, var(--backgrounds-2), var(--component-backgrounds-4));
+    background-image: linear-gradient(120deg, var(--backgrounds-2A), var(--component-backgrounds-4A));
   }
 
   &:hover,
