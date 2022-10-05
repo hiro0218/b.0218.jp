@@ -4,7 +4,7 @@ import { css } from '@/ui/styled';
 export default css`
   /* global */
   ::selection {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: var(--component-backgrounds-5A);
   }
 
   html {
