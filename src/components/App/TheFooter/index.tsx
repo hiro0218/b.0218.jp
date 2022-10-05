@@ -1,3 +1,4 @@
+import { WaveUp } from '@/components/Functional/Wave';
 import { Anchor } from '@/components/UI/Anchor';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
@@ -10,28 +11,36 @@ const Links = [
 ];
 
 const TheFooter = () => (
-  <Footer>
-    <Container>
-      <List>
-        {Links.map(({ title, href }, index) => {
-          return (
-            <ListItem key={index}>
-              <Anchor href={href}>{title}</Anchor>
-            </ListItem>
-          );
-        })}
-      </List>
-      <small>© hiro</small>
-    </Container>
-  </Footer>
+  <Root>
+    <WaveUp fill="var(--component-backgrounds-3)" />
+    <Footer>
+      <Container>
+        <List>
+          {Links.map(({ title, href }, index) => {
+            return (
+              <ListItem key={index}>
+                <Anchor href={href}>{title}</Anchor>
+              </ListItem>
+            );
+          })}
+        </List>
+        <small>© hiro</small>
+      </Container>
+    </Footer>
+  </Root>
 );
 
 export default TheFooter;
 
-const Footer = styled.footer`
+const Root = styled.footer`
+  display: flex;
   position: sticky;
   top: 100vh;
+  flex-direction: column;
   margin-top: var(--space-x-xl);
+`;
+
+const Footer = styled.div`
   padding: var(--space-x-xl) 0;
   background-color: var(--component-backgrounds-3);
   color: var(--text-12);
