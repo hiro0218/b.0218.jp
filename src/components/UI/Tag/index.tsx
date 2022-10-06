@@ -48,7 +48,6 @@ const PostTagAnchor = styled.a`
   &:hover,
   &:focus {
     background-color: var(--component-backgrounds-5);
-    color: var(--text-12);
   }
 
   &::before {

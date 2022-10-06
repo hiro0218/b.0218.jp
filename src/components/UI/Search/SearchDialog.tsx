@@ -1,7 +1,7 @@
 import { forwardRef, MutableRefObject, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { fadeIn, slideIn } from '@/ui/mixin';
+import { fadeIn, slideIn } from '@/ui/animation';
 import { css, styled } from '@/ui/styled';
 
 import { SearchPanel } from './SearchPanel';

@@ -42,7 +42,6 @@ const P = styled.p`
   margin-top: var(--space-xs);
   color: var(--text-11);
   font-size: var(--font-size-lg);
-  font-weight: normal;
   overflow-wrap: break-word;
 `;
 

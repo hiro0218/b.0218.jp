@@ -1,5 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
+import { WaveDown } from '@/components/Functional/Wave';
 import { css, styled } from '@/ui/styled';
 import { theme } from '@/ui/themes';
 
@@ -47,6 +48,7 @@ export const HeaderLayout = ({ children }: Props) => {
       <Header ref={refHeader} isFixed={isHeaderShown}>
         {children}
       </Header>
+      <WaveDown fill="var(--component-backgrounds-3)" />
     </Underline>
   );
 };

@@ -63,7 +63,6 @@ const Root = styled.aside`
 const Summary = styled.summary`
   padding: var(--space-md) var(--space-lg);
   font-size: var(--font-size-md);
-  font-weight: 500;
   cursor: pointer;
   user-select: none;
 
@@ -85,9 +84,7 @@ const Details = styled.details`
     margin: 0;
     padding: 0 var(--space-lg) var(--space-lg);
 
-    > li > a {
-      font-weight: 500;
-    }
+    /* > li > a {} */
   }
 
   ol {

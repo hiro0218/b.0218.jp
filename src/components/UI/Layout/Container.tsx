@@ -16,6 +16,7 @@ export default MainContainer;
 const ContainerRoot = styled.main`
   max-width: var(--container-width);
   margin: 0 auto;
+  padding: 0 2rem;
 
   ${isMobile} {
     padding: 0 5vw;

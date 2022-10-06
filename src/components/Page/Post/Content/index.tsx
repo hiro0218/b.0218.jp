@@ -77,6 +77,8 @@ const PostContent = styled.article`
   h6 {
     position: relative;
     scroll-margin-top: 1em;
+    margin: var(--space-lg) auto var(--space-sm);
+    font-weight: var(--font-weight-bold);
 
     & > {
       code {
@@ -90,17 +92,11 @@ const PostContent = styled.article`
   }
 
   h2 {
-    margin: var(--space-x-xl) auto var(--space-sm);
+    margin-top: var(--space-x-xl);
   }
 
   h3 {
-    margin: var(--space-xl) auto var(--space-sm);
-  }
-
-  h4,
-  h5,
-  h6 {
-    margin: var(--space-lg) auto var(--space-sm);
+    margin-top: var(--space-xl);
   }
 
   ul,
@@ -242,7 +238,7 @@ const PostContent = styled.article`
       &__title {
         max-height: 3em;
         font-size: var(--font-size-md);
-        font-weight: bold;
+        font-weight: var(--font-weight-bold);
         line-height: 1.5;
       }
 

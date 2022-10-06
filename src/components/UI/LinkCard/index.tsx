@@ -80,7 +80,7 @@ const LinkAnchor = styled.a`
 const Title = styled.h3`
   color: var(--text-12);
   font-size: var(--font-size-md);
-  font-weight: normal;
+  font-weight: var(--font-weight-normal);
   line-height: 1.875;
 `;
 

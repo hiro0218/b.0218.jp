@@ -4,7 +4,7 @@ import { css } from '@/ui/styled';
 export default css`
   /* global */
   ::selection {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: var(--component-backgrounds-5A);
   }
 
   html {
@@ -17,6 +17,7 @@ export default css`
     font-family: var(--font-family-sans-serif);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-weight: var(--font-weight-normal);
     line-height: 1.875;
     font-feature-settings: 'chws' 1;
     line-break: strict;
@@ -28,7 +29,7 @@ export default css`
     text-decoration: none;
     text-decoration-color: var(--borders-8);
     text-underline-position: under;
-    text-underline-offset: 25%;
+    text-underline-offset: 2%;
 
     &:focus-visible {
       outline: 0;
@@ -69,13 +70,12 @@ export default css`
   h4,
   h5,
   h6 {
-    color: var(--text-12);
-    font-weight: 500;
+    font-weight: var(--font-weight-normal);
   }
 
   h1 {
     font-size: ${getModularScale({ degree: 4 })};
-    font-weight: 900;
+    font-weight: var(--font-weight-bold);
   }
 
   h2 {
@@ -121,7 +121,9 @@ export default css`
     font-size: var(--font-size-sm);
     overflow-wrap: break-word;
     -webkit-overflow-scrolling: touch;
+    /* stylelint-disable */
     resize: horizontal;
+    /* stylelint-enable */
 
     & > code {
       display: block;
