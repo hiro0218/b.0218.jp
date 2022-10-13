@@ -1,11 +1,15 @@
 import type { Element } from 'hast';
 import { h } from 'hastscript';
 import { JSDOM } from 'jsdom';
-import fetch from 'node-fetch';
+import nodeFetch from 'node-fetch';
+import timeoutFetch, { TimeoutError } from 'timeout-fetch';
 import { Transformer } from 'unified';
 import { visit } from 'unist-util-visit';
 
 type OpgProps = { description?: string; image?: string; title?: string };
+
+const ONE_SECOND = 1000;
+const fetch: typeof nodeFetch = timeoutFetch(ONE_SECOND * 2, nodeFetch);
 
 const transformImage = (node: Element) => {
   node.properties = {
@@ -89,7 +93,11 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
       setPreviewLinkNodes(node, index, parent, url, ogp);
     }
   } catch (error) {
-    console.error(error, node.properties.href);
+    if (error instanceof TimeoutError) {
+      console.error('Fetch timed out');
+    } else {
+      console.error('Unexpected error occurred', error, node.properties.href);
+    }
   }
 };
 

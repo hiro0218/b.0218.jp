@@ -50,7 +50,6 @@ async function markdown2html(markdown: string, simple = false) {
         .use(remarkRehype, { allowDangerousHtml: true })
         .use(rehypeRaw)
         .use(rehypeHighlight, {
-          subset: false,
           ignoreMissing: true,
         })
         .use(remark0218)
