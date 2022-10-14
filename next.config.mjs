@@ -16,6 +16,7 @@ const nextConfiguration = {
     scrollRestoration: true,
     browsersListForSwc: true,
     legacyBrowsers: false,
+    fallbackNodePolyfills: false,
   },
 
   // async rewrites() {
