@@ -95,6 +95,11 @@ export default css`
     font-size: ${getModularScale({ degree: 0 })};
   }
 
+  b,
+  strong {
+    font-weight: var(--font-weight-bold);
+  }
+
   mark {
     background-color: var(--component-backgrounds-3);
   }
