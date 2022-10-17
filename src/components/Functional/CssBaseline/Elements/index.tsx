@@ -15,12 +15,16 @@ export default css`
     height: 100%;
     color: var(--text-12);
     font-family: var(--font-family-sans-serif);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: subpixel-antialiased;
     font-weight: var(--font-weight-normal);
     line-height: 1.875;
     font-feature-settings: 'chws' 1;
     line-break: strict;
+
+    @media only screen and (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
   }
 
   a {
