@@ -44,7 +44,7 @@ export default css`
     --container-width: 50rem;
 
     /* font */
-    --font-family-sans-serif: 'Noto Sans JP', YuGoMedium, YuGothic, 'Yu Gothic', 'Hiragino Kaku Gothic ProN', Meiryo,
+    --font-family-sans-serif: 'Noto Sans JP', 'Noto Sans Japanese', 'Yu Gothic', 'Hiragino Kaku Gothic ProN', Meiryo,
       -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --font-family-monospace: ui-monospace, SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
 
