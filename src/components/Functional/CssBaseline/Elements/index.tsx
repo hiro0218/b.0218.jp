@@ -148,7 +148,7 @@ export default css`
     margin: 0;
     padding: 0.25rem 0.5rem;
     border-radius: 0.15rem;
-    background: var(--component-backgrounds-3);
+    background: var(--component-backgrounds-3A);
     color: var(--text-12);
     font-size: var(--font-size-sm);
     text-align: left;
@@ -168,7 +168,7 @@ export default css`
   }
 
   th {
-    background-color: var(--component-backgrounds-3);
+    background-color: var(--component-backgrounds-4);
   }
 
   td {
@@ -197,7 +197,7 @@ export default css`
     tr {
       transition: background-color 0.3s ease;
       &:hover {
-        background-color: var(--component-backgrounds-4);
+        background-color: var(--component-backgrounds-3);
       }
     }
   }
