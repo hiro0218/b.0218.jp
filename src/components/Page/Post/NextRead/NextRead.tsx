@@ -15,10 +15,16 @@ export const PostNextRead = ({ posts }: Props) => {
 
   return (
     <section>
-      <Heading tagName="h2" text="Related Articles" isWeightNormal={false} />
+      <Heading tagName="h2" text="Related Articles" />
       <Container>
-        {posts.map((post, index) => (
-          <LinkCard key={index} link={`${post.slug}.html`} title={post.title} date={post.date} excerpt={post.excerpt} />
+        {posts.map((post) => (
+          <LinkCard
+            key={post.slug}
+            link={`${post.slug}.html`}
+            title={post.title}
+            date={post.date}
+            excerpt={post.excerpt}
+          />
         ))}
       </Container>
     </section>
