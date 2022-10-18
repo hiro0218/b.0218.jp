@@ -16,10 +16,11 @@ import { Title } from '@/components/UI/Title';
 import { SITE } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { getPostsJson, getTermJson, getTermWithCount } from '@/lib/posts';
+import { textSegmenter } from '@/lib/textSegmenter';
 import { Post as PostType, TermsPostList } from '@/types/source';
 
 type PostProps = {
-  post: PostType;
+  post: PostType & { segmentedTitle: string };
   nextRead: TermsPostList[];
 };
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
@@ -68,7 +69,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
       </Head>
 
       <PageContentContainer>
-        <Title heading={post.title}>
+        <Title heading={post.segmentedTitle}>
           <PostHeader post={post} />
         </Title>
 
@@ -129,6 +130,9 @@ export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
           })
       : post.tags;
 
+  // タイトルの文字組み
+  const segmentedTitle = textSegmenter(post.title);
+
   // 関連記事
   const tag = post.tags.at(0);
   const nextRead = Object.entries(getTermJson('tags'))
@@ -140,7 +144,7 @@ export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
 
   return {
     props: {
-      post,
+      post: { ...post, segmentedTitle },
       nextRead,
     },
   };
