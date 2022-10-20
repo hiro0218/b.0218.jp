@@ -7,10 +7,6 @@ const PostContent = styled.article`
     margin-top: var(--space-xl);
     margin-bottom: var(--space-xl);
 
-    &:first-of-type:not(hr) {
-      margin-top: 0;
-    }
-
     & > p {
       margin-top: var(--space-xs);
       margin-bottom: var(--space-xs);
@@ -285,6 +281,26 @@ const PostContent = styled.article`
           /* object-fit: contain; */
         }
       }
+    }
+  }
+
+  [data-footnotes] {
+    margin-top: var(--space-x-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--borders-6);
+    color: var(--text-11);
+    font-size: var(--font-size-sm);
+
+    h2 {
+      margin: auto;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    [data-footnote-backref] {
+      text-decoration-line: none;
     }
   }
 `;

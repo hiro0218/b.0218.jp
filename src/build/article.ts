@@ -1,6 +1,7 @@
 import fs from 'fs-extra';
 import matter from 'gray-matter';
 import readingTime from 'reading-time';
+import rehypeExternalLinks from 'rehype-external-links';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeRaw from 'rehype-raw';
 import rehypeRemoveComments from 'rehype-remove-comments';
@@ -9,13 +10,13 @@ import rehypeRemoveEmptyParagraph from 'rehype-remove-empty-paragraph';
 import rehypeStringify from 'rehype-stringify';
 import rehypeWrap from 'rehype-wrap-all';
 import remarkBreaks from 'remark-breaks';
-import remarkExternalLinks from 'remark-external-links';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import remarkUnwrapImages from 'remark-unwrap-images';
 import { unified } from 'unified';
 
+import { SITE } from '../constant';
 import { Post as PropPost } from '../types/source';
 import remark0218 from './remark0218';
 
@@ -46,9 +47,14 @@ async function markdown2html(markdown: string, simple = false) {
         .use(remarkGfm)
         .use(remarkUnwrapImages)
         .use(remarkBreaks)
-        .use(remarkExternalLinks, { rel: ['nofollow', 'noopener'] })
         .use(remarkRehype, { allowDangerousHtml: true })
         .use(rehypeRaw)
+        .use(rehypeExternalLinks, {
+          target(element) {
+            return !(element.properties.href as string).includes(SITE.URL) ? '_blank' : undefined;
+          },
+          rel: ['nofollow'],
+        })
         .use(rehypeHighlight, {
           ignoreMissing: true,
         })
