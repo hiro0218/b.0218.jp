@@ -1,3 +1,6 @@
 {
-  "redirects": []
+  "redirects": [],
+  "github": {
+    "autoJobCancelation": true
+  }
 }
