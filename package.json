@@ -18,14 +18,14 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx,js}": [
-      "eslint --fix",
-      "eslint",
+      "eslint --fix --cache",
+      "eslint --cache",
       "prettier --write --cache",
       "bash -c 'tsc --noEmit --skipLibCheck'"
     ],
     "**/*.{css,tsx}": [
-      "stylelint --fix",
-      "stylelint",
+      "stylelint --fix --cache",
+      "stylelint --cache",
       "prettier --write --cache"
     ]
   },
