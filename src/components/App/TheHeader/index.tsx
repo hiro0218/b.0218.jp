@@ -1,4 +1,4 @@
-import { Anchor } from '@/components/UI/Anchor';
+import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { Logo } from '@/components/UI/Logo';
 import { SearchButton, SearchDialog } from '@/components/UI/Search';
 import { useModal } from '@/components/UI/Search/useDialog';
@@ -15,9 +15,7 @@ const TheHeader = () => {
       <HeaderLayout>
         <Container>
           <Anchor href="/" prefetch={false} passHref>
-            <LogoAnchor>
-              <Logo width="80" height="25" />
-            </LogoAnchor>
+            <Logo width="80" height="25" />
           </Anchor>
           <SearchButton openDialog={openDialog} />
         </Container>
@@ -43,7 +41,7 @@ const Container = styled.div`
   }
 `;
 
-const LogoAnchor = styled.a`
+const Anchor = styled(_Anchor)`
   display: flex;
   align-items: center;
   height: 100%;

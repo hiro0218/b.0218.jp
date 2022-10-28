@@ -2,7 +2,7 @@ import router from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
-import { Anchor } from '@/components/UI/Anchor';
+import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { Post } from '@/types/source';
 import { fadeIn } from '@/ui/animation';
 import { isMobile } from '@/ui/lib/mediaQuery';
@@ -103,7 +103,7 @@ export const SearchPanel = ({ closeDialog }: Props) => {
           <SearchResult>
             {data.suggest.map((post) => (
               <Anchor key={post.slug} href={`/${post.slug}.html`} passHref prefetch={true} onClick={closeDialog}>
-                <SearchResultAnchor>{post.title}</SearchResultAnchor>
+                {post.title}
               </Anchor>
             ))}
           </SearchResult>
@@ -188,7 +188,7 @@ const SearchResult = styled.div`
   }
 `;
 
-const SearchResultAnchor = styled.a`
+const Anchor = styled(_Anchor)`
   display: block;
   padding: 0.75em 1.5em;
   font-size: var(--font-size-sm);
