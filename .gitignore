@@ -93,3 +93,4 @@ sw.*
 tsconfig.tsbuildinfo
 
 .vscode
+.stylelintcache
