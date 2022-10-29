@@ -10,55 +10,49 @@ type Props = {
 
 export const HeaderLayout = ({ children }: Props) => {
   const [isHeaderShown, setIsHeaderShown] = useState(true);
-  const refHeader = useRef<HTMLElement>(null);
+  const lastScrollY = useRef(0);
+  const ticking = useRef(false);
 
   useEffect(() => {
-    const headerHeight = theme.components.header.height;
-    let ticking = false;
-    let lastScrollY = 0;
-
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (!ticking) {
+      if (!ticking.current) {
         requestAnimationFrame(() => {
-          ticking = false;
+          const currentScrollY = window.scrollY;
+
+          ticking.current = false;
 
           // ヘッダーの高さを超えた場合
-          if (currentScrollY >= headerHeight) {
-            setIsHeaderShown(currentScrollY <= lastScrollY);
+          if (currentScrollY >= theme.components.header.height) {
+            setIsHeaderShown(currentScrollY <= lastScrollY.current);
           } else {
             setIsHeaderShown(true);
           }
 
           // 今回のスクロール位置を残す
-          lastScrollY = currentScrollY;
+          lastScrollY.current = currentScrollY;
         });
       }
 
-      ticking = true;
+      ticking.current = true;
     };
 
     document.removeEventListener('scroll', handleScroll);
-    document.addEventListener('scroll', handleScroll);
-  }, []);
+    return () => {
+      document.addEventListener('scroll', handleScroll);
+      lastScrollY.current = 0;
+    };
+  }, [ticking, lastScrollY]);
 
   return (
     <Underline>
-      <Header ref={refHeader} isFixed={isHeaderShown}>
-        {children}
-      </Header>
+      <Header isFixed={isHeaderShown}>{children}</Header>
       <WaveDown fill="var(--component-backgrounds-3)" />
     </Underline>
   );
 };
 
 const Underline = styled.div`
-  ${({ theme }) => {
-    return css`
-      height: ${theme.components.header.height}px;
-    `;
-  }}
+  height: ${({ theme }) => theme.components.header.height}px;
 `;
 
 const Header = styled.header<{ isFixed: boolean }>`
@@ -67,16 +61,11 @@ const Header = styled.header<{ isFixed: boolean }>`
   top: 0;
   right: 0;
   left: 0;
+  height: ${({ theme }) => theme.components.header.height}px;
   margin: 0 auto;
   transition: transform 0.25s ease;
   pointer-events: none;
   will-change: transform;
-
-  ${({ theme }) => {
-    return css`
-      height: ${theme.components.header.height}px;
-    `;
-  }}
 
   ${({ theme, isFixed }) => {
     return (
