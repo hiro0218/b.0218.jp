@@ -1,20 +1,35 @@
 # b.0218.jp
 
-[Next.js](https://nextjs.org/) + Markdown
+This repository maintains the source code for b.0218.jp
+
+## Technologies used
+
+- Next.js
+- TypeScript
+
+Article data is managed in a separate repository and loaded via submodule.
 
 ## Preparing for development
+
+You need to run `prebuild` because you need to pre-build the markdown files.
 
 ```
 npm run prebuild
 ```
 
-## Development
+However, if you have run `npm run build` beforehand, you do not need to run `npm run prebuild`.
+
+### Development
+
+The Next.js development server will be started.
 
 ```
 npm run dev
 ```
 
-## Production build
+### Production build
+
+The Next.js build will be executed.
 
 ```
 npm run build

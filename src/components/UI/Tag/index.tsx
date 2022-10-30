@@ -1,4 +1,4 @@
-import { Anchor } from '@/components/UI/Anchor';
+import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { styled } from '@/ui/styled';
 
 export type Props = {
@@ -18,8 +18,14 @@ const PostTag = ({ tags }: PostTagProps) => {
   return (
     <>
       {tags?.map(({ slug, count }, index) => (
-        <Anchor href={'/tags/' + slug} prefetch={false} passHref key={index}>
-          <PostTagAnchor title={count ? `${slug}: ${count}件` : 'tag: ' + slug}>{slug}</PostTagAnchor>
+        <Anchor
+          href={'/tags/' + slug}
+          prefetch={false}
+          passHref
+          key={index}
+          title={count ? `${slug}: ${count}件` : 'tag: ' + slug}
+        >
+          {slug}
         </Anchor>
       ))}
     </>
@@ -34,7 +40,7 @@ export const PostTagGridContainer = styled.div`
   gap: var(--space-x-xs);
 `;
 
-const PostTagAnchor = styled.a`
+const Anchor = styled(_Anchor)`
   flex: 1 1 auto;
   align-items: center;
   align-self: flex-start;

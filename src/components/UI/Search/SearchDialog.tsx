@@ -26,7 +26,7 @@ export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Pr
   return createPortal(
     <>
       <Overlay isOpen={!!ref.current?.open} onClick={closeDialog} />
-      <Dialog ref={ref} onClick={closeDialog} aria-modal>
+      <Dialog ref={ref} aria-modal>
         <SearchPanel closeDialog={closeDialog} />
       </Dialog>
     </>,

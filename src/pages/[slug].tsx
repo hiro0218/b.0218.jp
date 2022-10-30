@@ -91,9 +91,9 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
         <PostShare title={post.title} url={permalink} />
 
         <PostEdit slug={post.slug} />
-      </PageContentContainer>
 
-      <PostNextRead posts={nextRead} />
+        <PostNextRead posts={nextRead} />
+      </PageContentContainer>
     </>
   );
 };

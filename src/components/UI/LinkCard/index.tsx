@@ -1,7 +1,7 @@
 import { AriaRole, ReactNode } from 'react';
 import { HiOutlineChevronRight, HiOutlineExternalLink } from 'react-icons/hi';
 
-import { Anchor } from '@/components/UI/Anchor';
+import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { convertDateToSimpleFormat } from '@/lib/date';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { showHoverBackground } from '@/ui/mixin';
@@ -19,10 +19,8 @@ interface Props {
 const LinkCard = ({ link, title, date, excerpt, target = false, role }: Props) => (
   <Container role={role}>
     <Main>
-      <Anchor href={link} prefetch={false} passHref>
-        <LinkAnchor {...(target && { target: '_blank' })}>
-          <Title>{title}</Title>
-        </LinkAnchor>
+      <Anchor href={link} prefetch={false} passHref {...(target && { target: '_blank' })}>
+        <Title>{title}</Title>
       </Anchor>
       <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>
         {date && <time dateTime={date}>{convertDateToSimpleFormat(date)}</time>}
@@ -62,7 +60,7 @@ const Main = styled.div`
   gap: calc(var(--margin-base) * 0.5);
 `;
 
-const LinkAnchor = styled.a`
+const Anchor = styled(_Anchor)`
   &::before {
     content: '';
     position: absolute;

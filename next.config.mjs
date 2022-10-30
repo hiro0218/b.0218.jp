@@ -14,7 +14,6 @@ const nextConfiguration = {
 
   experimental: {
     scrollRestoration: true,
-    browsersListForSwc: true,
     legacyBrowsers: false,
     fallbackNodePolyfills: false,
   },

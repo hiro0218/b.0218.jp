@@ -25,7 +25,12 @@
     },
     "incremental": true,
     "jsxImportSource": "@emotion/react",
-    "noErrorTruncation": true
+    "noErrorTruncation": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "typeRoots": [
     "node_modules/@types",
@@ -34,7 +39,8 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

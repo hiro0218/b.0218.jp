@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
@@ -5,7 +7,7 @@ type Props = {
   fill?: string;
 };
 
-export const WaveUp = ({ fill = '#fff' }: Props) => {
+const _WaveUp = ({ fill = '#fff' }: Props) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 200" preserveAspectRatio="none">
       <path
@@ -16,7 +18,9 @@ export const WaveUp = ({ fill = '#fff' }: Props) => {
   );
 };
 
-export const WaveDown = ({ fill = '#fff' }: Props) => {
+export const WaveUp = memo(_WaveUp);
+
+const _WaveDown = ({ fill = '#fff' }: Props) => {
   return (
     <SvgAdjustContainer>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 140" preserveAspectRatio="none">
@@ -43,3 +47,5 @@ const SvgAdjustContainer = styled.div`
     }
   }
 `;
+
+export const WaveDown = memo(_WaveDown);
