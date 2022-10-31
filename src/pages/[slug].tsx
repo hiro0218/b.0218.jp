@@ -64,7 +64,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(getBreadcrumbStructured(post)) }}
         />
         {post.content.includes('twitter-tweet') && (
-          <script async src="https://platform.twitter.com/widgets.js"></script>
+          <script async defer src="https://platform.twitter.com/widgets.js"></script>
         )}
       </Head>
 
