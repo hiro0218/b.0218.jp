@@ -43,7 +43,7 @@
     "css-in-js-easing": "^1.1.0",
     "highlight.js": "^11.6.0",
     "mokuji.js": "^4.2.0",
-    "next": "^13.0.0",
+    "next": "^13.0.1",
     "nextjs-google-analytics": "^2.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
