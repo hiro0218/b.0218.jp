@@ -142,6 +142,11 @@ export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
     .flat()
     .filter((post, i) => !post.slug.includes(slug) && i < 6);
 
+  // 奇数の場合は偶数に寄せる
+  if (nextRead.length % 2 !== 0) {
+    nextRead.pop();
+  }
+
   return {
     props: {
       post: { ...post, segmentedTitle },
