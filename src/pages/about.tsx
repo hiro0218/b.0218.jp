@@ -1,7 +1,7 @@
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
-import PostContent from '@/components/Page/Post/Content';
+import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import { PageContentContainer } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE } from '@/constant';

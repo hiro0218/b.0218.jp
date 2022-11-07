@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
-import PostContent from '@/components/Page/Post/Content';
+import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import PostEdit from '@/components/Page/Post/Edit';
 import PostHeader from '@/components/Page/Post/Header';
 import { PostNextRead } from '@/components/Page/Post/NextRead';
