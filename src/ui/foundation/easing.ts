@@ -1,6 +1,7 @@
-import { easeOutBack } from 'css-in-js-easing';
+import { easeOut, easeOutBack } from 'css-in-js-easing';
 
 const easing = {
+  easeOut,
   easeOutBack,
 };
 

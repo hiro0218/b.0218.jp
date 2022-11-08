@@ -1,6 +1,42 @@
+import { getModularScale } from '@/lib/modular-scale';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { showHoverShadow } from '@/ui/mixin';
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
+
+const Headings = css`
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    position: relative;
+    scroll-margin-top: 1em;
+    font-weight: var(--font-weight-bold);
+
+    & > {
+      code {
+        font-size: 1em;
+      }
+    }
+
+    & + :where(*) {
+      margin-top: auto;
+    }
+  }
+
+  ${[1, 2, 3, 4, 5, 6].map((headingNumber: number, index: number, array: number[]) => {
+    const config = { baseFontSize: '1em' };
+    const degree = array.length - index;
+
+    return css`
+      h${headingNumber} {
+        margin-top: ${getModularScale({ ...config, degree: degree })};
+        margin-bottom: ${getModularScale({ ...config, degree: degree * -1 })};
+      }
+    `;
+  })}
+`;
 
 const PostContent = styled.article`
   & > * {
@@ -65,40 +101,11 @@ const PostContent = styled.article`
     }
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    position: relative;
-    scroll-margin-top: 1em;
-    margin: var(--space-lg) auto var(--space-sm);
-    font-weight: var(--font-weight-bold);
-
-    & > {
-      code {
-        font-size: 1em;
-      }
-    }
-
-    & + :where(*) {
-      margin-top: auto;
-    }
-  }
-
-  h2 {
-    margin-top: var(--space-x-xl);
-  }
-
-  h3 {
-    margin-top: var(--space-xl);
-  }
+  ${Headings}
 
   ul,
   ol {
     padding-left: var(--space-xl);
-    letter-spacing: 0.05em;
 
     ul,
     ol {

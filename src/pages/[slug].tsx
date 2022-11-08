@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
-import PostContent from '@/components/Page/Post/Content';
+import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import PostEdit from '@/components/Page/Post/Edit';
 import PostHeader from '@/components/Page/Post/Header';
 import { PostNextRead } from '@/components/Page/Post/NextRead';
@@ -64,7 +64,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(getBreadcrumbStructured(post)) }}
         />
         {post.content.includes('twitter-tweet') && (
-          <script async src="https://platform.twitter.com/widgets.js"></script>
+          <script async defer src="https://platform.twitter.com/widgets.js"></script>
         )}
       </Head>
 
@@ -141,6 +141,11 @@ export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
     .map(([_, val]) => val)
     .flat()
     .filter((post, i) => !post.slug.includes(slug) && i < 6);
+
+  // 奇数の場合は偶数に寄せる
+  if (nextRead.length % 2 !== 0) {
+    nextRead.pop();
+  }
 
   return {
     props: {

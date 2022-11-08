@@ -4,10 +4,6 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfiguration = {
-  env: {
-    NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: 'G-J5F29GMZHX',
-  },
-
   reactStrictMode: true,
 
   swcMinify: true,

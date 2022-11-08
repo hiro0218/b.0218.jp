@@ -26,6 +26,10 @@ const Root = styled.section`
   ${isDesktop} {
     display: flex;
   }
+
+  & + & {
+    margin-top: var(--space-xl);
+  }
 `;
 
 const TitleText = styled.h2`

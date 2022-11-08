@@ -5,7 +5,6 @@ import { Children } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/components/UI/Adsense';
 import { AUTHOR, SITE } from '@/constant';
-import { GA_TRACKING_ID } from '@/lib/gtag';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
 
 class SampleDocument extends Document {
@@ -68,19 +67,6 @@ class SampleDocument extends Document {
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GOOGLE_ADSENSE.CLIENT}`}
             crossOrigin="anonymous"
           ></script>
-          <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments);}
-                    gtag('js', new Date());
-                    gtag('config', '${GA_TRACKING_ID}', {
-                      page_path: window.location.pathname,
-                    });
-                  `,
-            }}
-          />
         </Head>
         <body>
           <Main />

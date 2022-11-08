@@ -8,7 +8,7 @@ export const Hero = () => {
   return (
     <Container>
       <Avatar>
-        <img src="/hiro0218@100x100.webp" height={ICON_SIZE} width={ICON_SIZE} alt="" />
+        <img src="/hiro0218@100x100.webp" height={ICON_SIZE} width={ICON_SIZE} alt="" decoding="async" />
       </Avatar>
       <Title
         heading="Hello, I'm hiro."

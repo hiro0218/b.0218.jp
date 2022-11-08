@@ -1,12 +1,12 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { GoogleAnalytics } from 'nextjs-google-analytics';
 
 import AppFooter from '@/components/App/TheFooter';
 import AppHeader from '@/components/App/TheHeader';
 import CssBaseline from '@/components/Functional/CssBaseline';
 import { MainContainer } from '@/components/UI/Layout';
 import { AUTHOR, SITE } from '@/constant';
-import usePageView from '@/hooks/usePageView';
 import useRouterScrollTop from '@/hooks/useRouterScrollTop';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
 import { CacheProvider, EmotionCache, ThemeProvider } from '@/ui/styled';
@@ -19,7 +19,6 @@ interface MyAppProps extends AppProps {
 const clientSideEmotionCache = createEmotionCache();
 
 const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: MyAppProps) => {
-  usePageView();
   useRouterScrollTop();
 
   return (
@@ -47,6 +46,7 @@ const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: My
       <CacheProvider value={emotionCache}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
+          <GoogleAnalytics trackPageViews={{ ignoreHashChange: true }} />
           <AppHeader />
           <MainContainer>
             <Component {...pageProps} />
