@@ -106,7 +106,6 @@ const PostContent = styled.article`
   ul,
   ol {
     padding-left: var(--space-xl);
-    letter-spacing: 0.05em;
 
     ul,
     ol {
