@@ -10,30 +10,32 @@ type Props = {
 
 export const HeaderLayout = ({ children }: Props) => {
   const [isHeaderShown, setIsHeaderShown] = useState(true);
-  const lastScrollY = useRef(0);
-  const ticking = useRef(false);
 
   useEffect(() => {
+    const headerHeight = theme.components.header.height;
+    let ticking = false;
+    let lastScrollY = 0;
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      if (!ticking.current) {
+      if (!ticking) {
         requestAnimationFrame(() => {
-          ticking.current = false;
+          ticking = false;
 
           // ヘッダーの高さを超えた場合
-          if (currentScrollY >= theme.components.header.height) {
-            setIsHeaderShown(currentScrollY <= lastScrollY.current);
+          if (currentScrollY >= headerHeight) {
+            setIsHeaderShown(currentScrollY <= lastScrollY);
           } else {
             setIsHeaderShown(true);
           }
 
           // 今回のスクロール位置を残す
-          lastScrollY.current = currentScrollY;
+          lastScrollY = currentScrollY;
         });
       }
 
-      ticking.current = true;
+      ticking = true;
     };
 
     document.removeEventListener('scroll', handleScroll);
