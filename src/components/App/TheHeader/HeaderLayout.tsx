@@ -16,10 +16,10 @@ export const HeaderLayout = ({ children }: Props) => {
     let ticking = false;
 
     const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
       if (!ticking) {
         requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY;
-
           ticking = false;
 
           // ヘッダーの高さを超えた場合
