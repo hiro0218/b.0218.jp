@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import { WaveDown } from '@/components/Functional/Wave';
 import { css, styled } from '@/ui/styled';
