@@ -6,6 +6,10 @@ const nextConfiguration = {
 
   swcMinify: true,
 
+  compiler: {
+    emotion: true,
+  },
+
   experimental: {
     scrollRestoration: true,
     legacyBrowsers: false,
