@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import { WaveDown } from '@/components/Functional/Wave';
 import { css, styled } from '@/ui/styled';
@@ -10,38 +10,37 @@ type Props = {
 
 export const HeaderLayout = ({ children }: Props) => {
   const [isHeaderShown, setIsHeaderShown] = useState(true);
-  const lastScrollY = useRef(0);
-  const ticking = useRef(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!ticking.current) {
-        requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY;
+    const headerHeight = theme.components.header.height;
+    let ticking = false;
+    let lastScrollY = 0;
 
-          ticking.current = false;
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          ticking = false;
 
           // ヘッダーの高さを超えた場合
-          if (currentScrollY >= theme.components.header.height) {
-            setIsHeaderShown(currentScrollY <= lastScrollY.current);
+          if (currentScrollY >= headerHeight) {
+            setIsHeaderShown(currentScrollY <= lastScrollY);
           } else {
             setIsHeaderShown(true);
           }
 
           // 今回のスクロール位置を残す
-          lastScrollY.current = currentScrollY;
+          lastScrollY = currentScrollY;
         });
       }
 
-      ticking.current = true;
+      ticking = true;
     };
 
     document.removeEventListener('scroll', handleScroll);
-    return () => {
-      document.addEventListener('scroll', handleScroll);
-      lastScrollY.current = 0;
-    };
-  }, [ticking, lastScrollY]);
+    document.addEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <Underline>

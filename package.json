@@ -51,7 +51,6 @@
     "shokika.css": "^1.6.0"
   },
   "devDependencies": {
-    "@emotion/babel-plugin": "^11.10.5",
     "@markuplint/jsx-parser": "^2.4.2",
     "@markuplint/react-spec": "^2.1.1",
     "@stylelint/postcss-css-in-js": "^0.38.0",
