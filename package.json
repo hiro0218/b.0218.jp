@@ -67,7 +67,7 @@
     "budoux": "^0.2.1",
     "dotenv": "^16.0.3",
     "esbuild": "^0.15.13",
-    "esbuild-register": "^3.4.0",
+    "esbuild-register": "^3.4.1",
     "eslint": "^8.27.0",
     "eslint-config-next": "^13.0.2",
     "eslint-config-prettier": "^8.5.0",
