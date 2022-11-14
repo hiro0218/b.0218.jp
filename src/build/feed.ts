@@ -27,8 +27,10 @@ function generatedRssFeed(): void {
 
   const posts = getPostsJson();
 
-  posts.forEach((post, index) => {
-    if (index < 30) {
+  for (let i = 0; i < posts.length; i++) {
+    const post = posts[i];
+
+    if (i < 30) {
       const permalink = `${SITE.URL}${post.slug}.html`;
       feed.addItem({
         title: post.title,
@@ -39,7 +41,7 @@ function generatedRssFeed(): void {
         date: new Date(post.date),
       });
     }
-  });
+  }
 
   fs.writeFileSync('./public/feed.xml', feed.rss2());
   fs.writeFileSync('./public/atom.xml', feed.atom1());
