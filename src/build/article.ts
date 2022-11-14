@@ -93,7 +93,7 @@ async function buildPost() {
 
     // front matter を取得
     const post = matter.read(`${path.src}/_posts/${file}`);
-    const { title, date, updated, note, tags }: Partial<PropPost> = post.data;
+    const { title, date, updated, note, tags, noindex }: Partial<PropPost> = post.data;
     const content = await markdown2html(post.content);
     const { text } = readingTime(content);
 
@@ -107,6 +107,7 @@ async function buildPost() {
       excerpt: getHeading2Text(content),
       tags,
       readingTime: text,
+      noindex,
     });
   }
 
