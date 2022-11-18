@@ -54,6 +54,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
           content={`${SITE.URL}images/ogp/${post.slug}.png?ts=${cacheBusting}`}
         />
         <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
+        {post.noindex && <meta name="robots" content="noindex" />}
         <link rel="canonical" href={permalink} />
         <script
           type="application/ld+json"
