@@ -7,5 +7,24 @@
   },
   "extends": [
     "markuplint:recommended"
+  ],
+  "nodeRules": [
+    {
+      "selector": "meta[property]",
+      "rules": {
+        "invalid-attr": {
+          "option": {
+            "attrs": {
+              "property": {
+                "type": "Any"
+              },
+              "content": {
+                "type": "Any"
+              }
+            }
+          }
+        }
+      }
+    }
   ]
 }
