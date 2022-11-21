@@ -26,12 +26,18 @@ function generatedRssFeed(): void {
   });
 
   const posts = getPostsJson();
+  let loopCount = 0;
 
   for (let i = 0; i < posts.length; i++) {
     const post = posts[i];
 
-    if (i < 30) {
+    if (post.noindex == true) {
+      continue;
+    }
+
+    if (loopCount < 30) {
       const permalink = `${SITE.URL}${post.slug}.html`;
+
       feed.addItem({
         title: post.title,
         description: post.excerpt.replace(/<[^>]*>/g, ''),
@@ -40,6 +46,8 @@ function generatedRssFeed(): void {
         guid: permalink,
         date: new Date(post.date),
       });
+
+      loopCount++;
     }
   }
 

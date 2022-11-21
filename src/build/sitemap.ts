@@ -17,14 +17,20 @@ function generatedSitemap() {
   xml += ` <priority>1</priority>`;
   xml += `</url>`;
 
-  posts?.forEach((post) => {
+  for (let i = 0; i < posts.length; i++) {
+    const post = posts[i];
+
+    if (post.noindex == true) {
+      continue;
+    }
+
     xml += `<url>`;
     xml += ` <loc>${SITE.URL}${post.slug}.html</loc>`;
     xml += ` <lastmod>${post.date}</lastmod>`;
     xml += ` <changefreq>weekly</changefreq>`;
     xml += ` <priority>0.6</priority>`;
     xml += `</url>`;
-  });
+  }
 
   xml += `</urlset>`;
 
