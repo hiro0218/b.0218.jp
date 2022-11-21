@@ -7,7 +7,12 @@ import { GOOGLE_ADSENSE } from '@/components/UI/Adsense';
 import { AUTHOR, SITE } from '@/constant';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
 
-class SampleDocument extends Document {
+const HTML_PREFIX = {
+  home: 'og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#',
+  article: 'og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#',
+};
+
+class SampleDocument extends Document<{ ogpPrefix: string }> {
   static async getInitialProps(ctx: DocumentContext) {
     const originalRenderPage = ctx.renderPage;
 
@@ -33,15 +38,20 @@ class SampleDocument extends Document {
         ),
     );
 
+    const ogpPrefix = ctx.pathname.startsWith('/[slug]') ? HTML_PREFIX.article : HTML_PREFIX.home;
+
     return {
       ...initialProps,
       styles: [...Children.toArray(initialProps.styles), ...emotionStyleTags],
+      ogpPrefix,
     };
   }
 
   render() {
+    const ogpPrefix = this.props.ogpPrefix;
+
     return (
-      <Html prefix="og: http://ogp.me/ns#" lang="ja">
+      <Html prefix={ogpPrefix} lang="ja">
         <Head>
           <link rel="dns-prefetch" href="//www.google-analytics.com" />
           <link rel="dns-prefetch" href="//www.googletagservices.com" />
