@@ -55,7 +55,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
         />
         <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
         {post.noindex && <meta name="robots" content="noindex" />}
-        <link rel="canonical" href={permalink} />
+        {!post.noindex && <link rel="canonical" href={permalink} />}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(getBlogPostingStructured(post)) }}
