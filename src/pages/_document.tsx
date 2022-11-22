@@ -12,7 +12,7 @@ const HTML_PREFIX = {
   article: 'og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#',
 };
 
-class SampleDocument extends Document<{ ogpPrefix: string }> {
+class MyDocument extends Document<{ ogpPrefix: string }> {
   static async getInitialProps(ctx: DocumentContext) {
     const originalRenderPage = ctx.renderPage;
 
@@ -87,4 +87,4 @@ class SampleDocument extends Document<{ ogpPrefix: string }> {
   }
 }
 
-export default SampleDocument;
+export default MyDocument;
