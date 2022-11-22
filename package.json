@@ -52,8 +52,8 @@
     "shokika.css": "^1.6.0"
   },
   "devDependencies": {
-    "@markuplint/jsx-parser": "^2.4.2",
-    "@markuplint/react-spec": "^2.1.1",
+    "@markuplint/jsx-parser": "^2.4.4",
+    "@markuplint/react-spec": "^2.1.2",
     "@stylelint/postcss-css-in-js": "^0.38.0",
     "@types/css-font-loading-module": "^0.0.7",
     "@types/fs-extra": "^9.0.13",
@@ -81,7 +81,7 @@
     "husky": "^8.0.2",
     "jsdom": "^20.0.3",
     "lint-staged": "^13.0.3",
-    "markuplint": "^2.11.0",
+    "markuplint": "^2.11.2",
     "next-compose-plugins": "^2.2.1",
     "node-fetch": "^3.3.0",
     "playwright": "^1.28.0",
