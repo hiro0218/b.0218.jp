@@ -1,7 +1,6 @@
 import createEmotionServer from '@emotion/server/create-instance';
 import { RenderPageResult } from 'next/dist/shared/lib/utils';
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
-import { Children } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/components/UI/Adsense';
 import { AUTHOR, SITE } from '@/constant';
@@ -14,10 +13,12 @@ const HTML_PREFIX = {
 
 class MyDocument extends Document<{ ogpPrefix: string }> {
   static async getInitialProps(ctx: DocumentContext) {
+    const initialProps = await Document.getInitialProps(ctx);
     const originalRenderPage = ctx.renderPage;
 
     const cache = createEmotionCache();
-    const { extractCriticalToChunks } = createEmotionServer(cache);
+    const { extractCritical } = createEmotionServer(cache);
+    const { css, ids } = extractCritical(initialProps.html);
 
     ctx.renderPage = (): RenderPageResult | Promise<RenderPageResult> =>
       originalRenderPage({
@@ -25,24 +26,16 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
         enhanceApp: (App: any) => (props) => <App emotionCache={cache} {...props} />,
       });
 
-    const initialProps = await Document.getInitialProps(ctx);
-    const emotionStyles = extractCriticalToChunks(initialProps.html);
-    const emotionStyleTags = emotionStyles.styles.map(
-      (style) =>
-        style.css && (
-          <style
-            data-emotion={`${style.key} ${style.ids.join(' ')}`}
-            key={style.key}
-            dangerouslySetInnerHTML={{ __html: style.css }}
-          />
-        ),
-    );
-
     const ogpPrefix = ctx.pathname.startsWith('/[slug]') ? HTML_PREFIX.article : HTML_PREFIX.home;
 
     return {
       ...initialProps,
-      styles: [...Children.toArray(initialProps.styles), ...emotionStyleTags],
+      styles: (
+        <>
+          {initialProps.styles}
+          <style data-emotion={`css ${ids.join(' ')}`} dangerouslySetInnerHTML={{ __html: css }} />
+        </>
+      ),
       ogpPrefix,
     };
   }
