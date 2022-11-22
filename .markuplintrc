@@ -1,4 +1,8 @@
 {
+  "excludeFiles": [
+    "./src/_app.tsx",
+    "./src/_document.tsx"
+  ],
   "parser": {
     "\\.[jt]sx?$": "@markuplint/jsx-parser"
   },
