@@ -30,6 +30,7 @@ export interface Post {
   excerpt: string;
   tags: Array<string>;
   readingTime: string;
+  noindex?: boolean;
 }
 
 export interface GithubPinnedItems {

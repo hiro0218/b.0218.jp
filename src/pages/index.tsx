@@ -25,6 +25,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
       </Head>
 
       <div
+        aria-hidden="true"
         dangerouslySetInnerHTML={{
           __html: `<!--
                       <PageMap>

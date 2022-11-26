@@ -93,7 +93,7 @@ async function buildPost() {
 
     // front matter を取得
     const post = matter.read(`${path.src}/_posts/${file}`);
-    const { title, date, updated, note, tags }: Partial<PropPost> = post.data;
+    const { title, date, updated, note, tags, noindex }: Partial<PropPost> = post.data;
     const content = await markdown2html(post.content);
     const { text } = readingTime(content);
 
@@ -107,6 +107,7 @@ async function buildPost() {
       excerpt: getHeading2Text(content),
       tags,
       readingTime: text,
+      noindex,
     });
   }
 
@@ -136,8 +137,8 @@ function buildTerms() {
   const posts: Array<PropPost> = fs.readJSONSync(`${path.dist}/posts.json`);
   const tagsMap = {};
 
-  posts.forEach((post) => {
-    const { title, slug, date, excerpt, tags } = post;
+  for (let i = 0; i < posts.length; i++) {
+    const { title, slug, date, excerpt, tags } = posts[i];
     const item = {
       title,
       slug,
@@ -145,7 +146,8 @@ function buildTerms() {
       excerpt,
     };
 
-    tags?.forEach((tag) => {
+    for (let i = 0; i < tags.length; i++) {
+      const tag = tags[i];
       const mappedTags = tagsMap[tag];
 
       if (mappedTags) {
@@ -153,8 +155,8 @@ function buildTerms() {
       } else {
         tagsMap[tag] = [item];
       }
-    });
-  });
+    }
+  }
 
   fs.writeJSONSync(`${path.dist}/tags.json`, tagsMap);
   console.log('Write dist/tags.json');

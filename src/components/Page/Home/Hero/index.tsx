@@ -28,7 +28,7 @@ const Avatar = styled.div`
   width: ${ICON_SIZE}px;
 
   ${isMobile} {
-    width: ${ICON_SIZE / 1.6}px;
+    width: ${ICON_SIZE / 1.5}px;
   }
 
   img {
