@@ -52,7 +52,7 @@
     "shokika.css": "^1.6.0"
   },
   "devDependencies": {
-    "@markuplint/jsx-parser": "^2.4.4",
+    "@markuplint/jsx-parser": "^2.4.5",
     "@markuplint/react-spec": "^2.1.2",
     "@stylelint/postcss-css-in-js": "^0.38.0",
     "@types/css-font-loading-module": "^0.0.7",
