@@ -1,6 +1,9 @@
+import { ElementType } from 'react';
+
 import { styled } from '@/ui/styled';
 
 type Props = {
+  as?: ElementType;
   text: string;
 };
 
@@ -20,6 +23,6 @@ const SrOnlyText = styled.span`
   white-space: nowrap;
 `;
 
-export const ScreenReaderOnlyText = ({ text }: Props) => {
-  return <SrOnlyText>{text}</SrOnlyText>;
+export const ScreenReaderOnlyText = ({ as, text }: Props) => {
+  return <SrOnlyText as={as}>{text}</SrOnlyText>;
 };
