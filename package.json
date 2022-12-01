@@ -81,7 +81,7 @@
     "husky": "^8.0.2",
     "jsdom": "^20.0.3",
     "lint-staged": "^13.0.3",
-    "markuplint": "^2.11.2",
+    "markuplint": "^2.11.4",
     "next-compose-plugins": "^2.2.1",
     "node-fetch": "^3.3.0",
     "playwright": "^1.28.1",
