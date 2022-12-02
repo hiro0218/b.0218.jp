@@ -101,7 +101,7 @@
     "remark-rehype": "^10.1.0",
     "remark-unwrap-images": "^3.0.1",
     "schema-dts": "^1.1.0",
-    "stylelint": "^14.9.1",
+    "stylelint": "^14.15.0",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-property-sort-order-smacss": "^9.0.0",
     "stylelint-config-recommended": "^8.0.0",
