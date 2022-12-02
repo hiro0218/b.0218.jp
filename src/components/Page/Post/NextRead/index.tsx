@@ -8,7 +8,7 @@ type Props = {
   posts: TermsPostList[];
 };
 
-export const PostNextRead = ({ posts }: Props) => {
+const PostNextRead = ({ posts }: Props) => {
   if (posts.length === 0) {
     return null;
   }
@@ -30,6 +30,8 @@ export const PostNextRead = ({ posts }: Props) => {
     </section>
   );
 };
+
+export default PostNextRead;
 
 const Container = styled.div`
   display: grid;
