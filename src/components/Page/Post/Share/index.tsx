@@ -1,5 +1,6 @@
 import { FaTwitter } from 'react-icons/fa';
 
+import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -10,17 +11,20 @@ interface Props {
 
 const PostShare = ({ title, url }: Props) => {
   return (
-    <Container>
-      <Anchor
-        href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <IconContainer data-label="Tweet">
-          <FaTwitter />
-        </IconContainer>
-      </Anchor>
-    </Container>
+    <section>
+      <ScreenReaderOnlyText as="h2" text={'このページをシェアする'} />
+      <Container>
+        <Anchor
+          href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <IconContainer data-label="Tweet">
+            <FaTwitter />
+          </IconContainer>
+        </Anchor>
+      </Container>
+    </section>
   );
 };
 

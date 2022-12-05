@@ -1,4 +1,4 @@
-import PostDate from '@/components/Page/Post/Date';
+import { PostDate } from '@/components/Page/Post';
 import PostTag, { PostTagGridContainer } from '@/components/UI/Tag';
 import { Post as PostType } from '@/types/source';
 import { styled } from '@/ui/styled';

@@ -4,11 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
-import PostEdit from '@/components/Page/Post/Edit';
-import PostHeader from '@/components/Page/Post/Header';
-import { PostNextRead } from '@/components/Page/Post/NextRead';
-import PostNote from '@/components/Page/Post/Note';
-import PostShare from '@/components/Page/Post/Share';
+import { PostEdit, PostHeader, PostNextRead, PostNote, PostShare } from '@/components/Page/Post';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContentContainer } from '@/components/UI/Layout';
 import Mokuji from '@/components/UI/Mokuji';
