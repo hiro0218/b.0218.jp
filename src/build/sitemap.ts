@@ -34,7 +34,7 @@ function generatedSitemap() {
 
   xml += `</urlset>`;
 
-  fs.writeFileSync('./public/sitemap.xml', xml);
+  fs.writeFile('./public/sitemap.xml', xml);
 }
 
 generatedSitemap();

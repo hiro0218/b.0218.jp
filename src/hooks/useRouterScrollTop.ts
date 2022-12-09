@@ -1,19 +1,17 @@
-import { useRouter } from 'next/router';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 
 export default function useRouterScrollTop() {
-  const router = useRouter();
-  const handleRouteChange = useCallback(() => {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 0);
-  }, []);
-
   useEffect(() => {
-    router.events.on('routeChangeComplete', handleRouteChange);
+    const handlePageShow = () => {
+      window.setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 0);
+    };
+
+    window.addEventListener('pageshow', handlePageShow);
 
     return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
+      window.removeEventListener('pageshow', handlePageShow);
     };
-  }, [handleRouteChange, router.events]);
+  }, []);
 }
