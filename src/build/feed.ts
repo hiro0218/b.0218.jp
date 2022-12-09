@@ -51,9 +51,9 @@ function generatedRssFeed(): void {
     }
   }
 
-  fs.writeFileSync('./public/feed.xml', feed.rss2());
-  fs.writeFileSync('./public/atom.xml', feed.atom1());
-  fs.writeFileSync('./public/feed.json', feed.json1());
+  fs.writeFile('./public/feed.xml', feed.rss2());
+  fs.writeFile('./public/atom.xml', feed.atom1());
+  fs.writeFile('./public/feed.json', feed.json1());
 }
 
 generatedRssFeed();

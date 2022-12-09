@@ -158,8 +158,9 @@ function buildTerms() {
     }
   }
 
-  fs.writeJSONSync(`${path.dist}/tags.json`, tagsMap);
-  console.log('Write dist/tags.json');
+  fs.writeJSON(`${path.dist}/tags.json`, tagsMap).then(() => {
+    console.log('Write dist/tags.json');
+  });
 }
 
 async function buildPage() {
@@ -191,10 +192,12 @@ async function buildPage() {
 }
 
 function copyFiles() {
-  fs.copyFileSync(`${path.dist}/posts-list.json`, `public/posts-list.json`);
-  console.log('Copy dist/posts-list.json');
-  fs.copySync(`${process.cwd()}/_article/images`, `public/images`);
-  console.log('Copy _article/images');
+  fs.copy(`${path.dist}/posts-list.json`, `public/posts-list.json`).then(() => {
+    console.log('Copy dist/posts-list.json');
+  });
+  fs.copy(`${process.cwd()}/_article/images`, `public/images`).then(() => {
+    console.log('Copy _article/images');
+  });
 }
 
 (async () => {
