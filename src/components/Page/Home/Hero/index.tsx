@@ -12,7 +12,7 @@ export const Hero = () => {
       </Avatar>
       <Title
         heading="Hello, I'm hiro."
-        paragraph="I was a web backend developer and native app developer. Currently I am a web frontend developer."
+        paragraph="Web Developer (Frontend) | Development Experience: Backend, iOS App, Windows App"
       />
     </Container>
   );
