@@ -17,7 +17,7 @@
       "selector": "meta[property]",
       "rules": {
         "invalid-attr": {
-          "option": {
+          "options": {
             "attrs": {
               "property": {
                 "type": "Any"
