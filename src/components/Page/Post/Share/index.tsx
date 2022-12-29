@@ -16,6 +16,7 @@ const PostShare = ({ title, url }: Props) => {
       <Container>
         <Anchor
           href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}`}
+          aria-label="Tweetする"
           target="_blank"
           rel="noopener noreferrer"
         >
