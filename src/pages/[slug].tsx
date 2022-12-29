@@ -72,18 +72,17 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
 
         <PostNote note={post.note} />
 
-        <Adsense />
-
         <Mokuji refContent={refContent} />
 
         <PostContent
           ref={refContent}
-          className="p-post__content"
           itemProp="articleBody"
           dangerouslySetInnerHTML={{
             __html: `${post.content}`,
           }}
         />
+
+        <Adsense />
 
         <PostShare title={post.title} url={permalink} />
 
