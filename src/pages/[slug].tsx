@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 import { useEffect, useRef } from 'react';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
@@ -60,10 +61,11 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(getBreadcrumbStructured(post)) }}
         />
-        {post.content.includes('twitter-tweet') && (
-          <script async defer src="https://platform.twitter.com/widgets.js"></script>
-        )}
       </Head>
+
+      {post.content.includes('twitter-tweet') && (
+        <Script strategy="lazyOnload" src="https://platform.twitter.com/widgets.js" />
+      )}
 
       <PageContentContainer>
         <Title heading={post.segmentedTitle}>
