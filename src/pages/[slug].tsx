@@ -76,7 +76,6 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
 
         <PostContent
           ref={refContent}
-          className="p-post__content"
           itemProp="articleBody"
           dangerouslySetInnerHTML={{
             __html: `${post.content}`,

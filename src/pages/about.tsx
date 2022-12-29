@@ -23,7 +23,6 @@ const About: NextPage<Props> = ({ page }) => {
         <Title heading="About" />
 
         <PostContent
-          className="p-post__content"
           dangerouslySetInnerHTML={{
             __html: `${page.content}`,
           }}
