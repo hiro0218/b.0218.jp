@@ -20,7 +20,7 @@ const About: NextPage<Props> = ({ page }) => {
       </Head>
 
       <PageContentContainer>
-        <Title heading="About" />
+        <Title heading="About" paragraph="サイトと運営者について" />
 
         <PostContent
           dangerouslySetInnerHTML={{
