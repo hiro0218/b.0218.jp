@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import throttle from '@/lib/throttle';
 import { theme } from '@/ui/themes';
 
 export const useHeaderScrollHandler = () => {
@@ -7,30 +8,21 @@ export const useHeaderScrollHandler = () => {
 
   useEffect(() => {
     const headerHeight = theme.components.header.height;
-    let ticking = false;
     let lastScrollY = 0;
 
-    const handleScroll = () => {
+    const handleScroll = throttle(() => {
       const currentScrollY = window.scrollY;
 
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          ticking = false;
-
-          // ヘッダーの高さを超えた場合
-          if (currentScrollY >= headerHeight) {
-            setIsHeaderShown(currentScrollY <= lastScrollY);
-          } else {
-            setIsHeaderShown(true);
-          }
-
-          // 今回のスクロール位置を残す
-          lastScrollY = currentScrollY;
-        });
+      // ヘッダーの高さを超えた場合
+      if (currentScrollY >= headerHeight) {
+        setIsHeaderShown(currentScrollY <= lastScrollY);
+      } else {
+        setIsHeaderShown(true);
       }
 
-      ticking = true;
-    };
+      // 今回のスクロール位置を残す
+      lastScrollY = currentScrollY;
+    });
 
     document.addEventListener('scroll', handleScroll);
     () => document.removeEventListener('scroll', handleScroll);
