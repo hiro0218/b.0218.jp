@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { WaveUp } from '@/components/Functional/Wave';
 import { Anchor } from '@/components/UI/Anchor';
 import { isMobile } from '@/ui/lib/mediaQuery';
@@ -10,25 +12,27 @@ const Links = [
   { title: 'archive', href: '/archive' },
 ];
 
-const TheFooter = () => (
-  <Root>
-    <WaveUp fill="var(--component-backgrounds-3)" />
-    <Footer>
-      <Container>
-        <List>
-          {Links.map(({ title, href }, index) => {
-            return (
-              <ListItem key={index}>
-                <Anchor href={href}>{title}</Anchor>
-              </ListItem>
-            );
-          })}
-        </List>
-        <small>© hiro</small>
-      </Container>
-    </Footer>
-  </Root>
-);
+const TheFooter = memo(function TheFooter() {
+  return (
+    <Root>
+      <WaveUp fill="var(--component-backgrounds-3)" />
+      <Footer>
+        <Container>
+          <List>
+            {Links.map(({ title, href }, index) => {
+              return (
+                <ListItem key={index}>
+                  <Anchor href={href}>{title}</Anchor>
+                </ListItem>
+              );
+            })}
+          </List>
+          <small>© hiro</small>
+        </Container>
+      </Footer>
+    </Root>
+  );
+});
 
 export default TheFooter;
 
