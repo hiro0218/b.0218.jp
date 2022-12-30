@@ -1,41 +1,13 @@
-import { Mokuji as MokujiJs } from 'mokuji.js';
 import { useRouter } from 'next/router';
-import { MutableRefObject, useEffect, useRef } from 'react';
 
 import { styled } from '@/ui/styled';
 
-const Mokuji = ({ refContent }: { refContent: MutableRefObject<HTMLDivElement> }) => {
+import { MokujiProps } from './type';
+import { useMokuji } from './useMokuji';
+
+const Mokuji = ({ refContent }: MokujiProps) => {
   const { asPath } = useRouter();
-  const refMokuji = useRef<HTMLDivElement>(null);
-  const refDetail = useRef<HTMLDetailsElement>(null);
-  const refFirstRender = useRef(true);
-
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      if (refFirstRender.current) {
-        refFirstRender.current = false;
-        return;
-      }
-    }
-
-    requestAnimationFrame(() => {
-      const mokujiList = MokujiJs(refContent.current, {
-        anchorType: true,
-        anchorLink: true,
-        anchorLinkSymbol: '#',
-        anchorLinkBefore: false,
-        anchorLinkClassName: 'anchor',
-        anchorContainerTagName: 'ol',
-      });
-
-      if (mokujiList.childNodes.length !== 0) {
-        refDetail.current.appendChild(mokujiList);
-        refMokuji.current.style.display = 'block';
-      } else {
-        refMokuji.current.style.display = 'none';
-      }
-    });
-  }, [asPath, refContent]);
+  const { refMokuji, refDetail } = useMokuji({ refContent });
 
   return (
     <Root key={asPath} ref={refMokuji}>
