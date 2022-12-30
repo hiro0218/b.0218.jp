@@ -3,13 +3,13 @@ import { ReactNode } from 'react';
 import { WaveDown } from '@/components/Functional/Wave';
 import { css, styled } from '@/ui/styled';
 
-import { useScrollHandler } from './useScrollHandler';
+import { useHeaderScrollHandler } from './useHeaderScrollHandler';
 type Props = {
   children: ReactNode;
 };
 
 export const HeaderLayout = ({ children }: Props) => {
-  const isHeaderShown = useScrollHandler();
+  const isHeaderShown = useHeaderScrollHandler();
 
   return (
     <Underline>

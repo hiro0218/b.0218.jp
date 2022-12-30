@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { theme } from '@/ui/themes';
 
-export const useScrollHandler = () => {
+export const useHeaderScrollHandler = () => {
   const [isHeaderShown, setIsHeaderShown] = useState(true);
 
   useEffect(() => {
