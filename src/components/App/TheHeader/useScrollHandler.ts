@@ -32,8 +32,8 @@ export const useScrollHandler = () => {
       ticking = true;
     };
 
-    document.removeEventListener('scroll', handleScroll);
     document.addEventListener('scroll', handleScroll);
+    () => document.removeEventListener('scroll', handleScroll);
   }, []);
 
   return isHeaderShown;
