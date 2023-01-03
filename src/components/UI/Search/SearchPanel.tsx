@@ -1,5 +1,5 @@
 import router from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
@@ -32,7 +32,7 @@ export const SearchPanel = ({ closeDialog }: Props) => {
     })();
   }, []);
 
-  const onKeyup = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const onKeyup = (e: KeyboardEvent<HTMLInputElement>) => {
     const { target } = e;
 
     if (!(target instanceof HTMLInputElement)) {
