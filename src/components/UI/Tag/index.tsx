@@ -17,12 +17,12 @@ const PostTag = ({ tags }: PostTagProps) => {
 
   return (
     <>
-      {tags?.map(({ slug, count }, index) => (
+      {tags?.map(({ slug, count }) => (
         <Anchor
           href={'/tags/' + slug}
           prefetch={false}
           passHref
-          key={index}
+          key={slug}
           title={count ? `${slug}: ${count}件` : 'tag: ' + slug}
         >
           {slug}

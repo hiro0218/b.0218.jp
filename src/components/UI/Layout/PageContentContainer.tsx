@@ -1,9 +1,9 @@
-import { memo } from 'react';
+import { memo, ReactNode } from 'react';
 
 import { styled } from '@/ui/styled';
 
 type Props = {
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 const PageContentContainer = memo(function PageContentContainer({ children }: Props) {

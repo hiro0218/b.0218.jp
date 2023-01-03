@@ -1,10 +1,12 @@
+import { memo } from 'react';
+
 import { Title } from '@/components/UI/Title';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 const ICON_SIZE = 100;
 
-export const Hero = () => {
+export const Hero = memo(function Hero() {
   return (
     <Container>
       <Avatar>
@@ -16,7 +18,7 @@ export const Hero = () => {
       />
     </Container>
   );
-};
+});
 
 const Container = styled.section`
   display: flex;

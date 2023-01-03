@@ -1,6 +1,6 @@
 import type { Element } from 'hast';
 import { h } from 'hastscript';
-import { JSDOM } from 'jsdom';
+import { JSDOM, VirtualConsole } from 'jsdom';
 import nodeFetch from 'node-fetch';
 import timeoutFetch, { TimeoutError } from 'timeout-fetch';
 import { Transformer } from 'unified';
@@ -10,6 +10,15 @@ type OpgProps = { description?: string; image?: string; title?: string };
 
 const ONE_SECOND = 1000;
 const fetch: typeof nodeFetch = timeoutFetch(ONE_SECOND * 2, nodeFetch);
+
+/**
+ * 不正な CSS を読み込んだ際のパースエラーを握りつぶす
+ * @see https://github.com/jsdom/jsdom/issues/2230
+ */
+const virtualConsole = new VirtualConsole();
+virtualConsole.on('error', () => {
+  // No-op to skip console errors.
+});
 
 const transformImage = (node: Element) => {
   node.properties = {
@@ -75,7 +84,7 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
     });
 
     if (result) {
-      const dom = new JSDOM(result);
+      const dom = new JSDOM(result, { virtualConsole });
       const meta = dom.window.document.querySelectorAll('head > meta');
       const ogp: OpgProps = Array.from(meta)
         .filter((element) => {
