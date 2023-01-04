@@ -3,7 +3,6 @@ import { memo } from 'react';
 import { WaveUp } from '@/components/Functional/Wave';
 import { Anchor } from '@/components/UI/Anchor';
 import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
-import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 const Links = [
