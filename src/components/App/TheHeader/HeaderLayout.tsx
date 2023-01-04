@@ -26,6 +26,7 @@ const Underline = styled.div`
 const Header = styled.header<{ isFixed: boolean }>`
   position: fixed;
   z-index: var(--zIndex-header);
+  isolation: isolate;
   top: 0;
   right: 0;
   left: 0;

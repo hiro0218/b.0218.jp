@@ -1,6 +1,8 @@
-import { forwardRef, MutableRefObject, useEffect, useState } from 'react';
+import { forwardRef, MutableRefObject, useId } from 'react';
 import { createPortal } from 'react-dom';
 
+import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
+import useIsClient from '@/hooks/useIsClient';
 import { fadeIn, slideIn } from '@/ui/animation';
 import { css, styled } from '@/ui/styled';
 
@@ -13,11 +15,9 @@ type Props = {
 };
 
 export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Props, ref: RefProps) {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const isClient = useIsClient();
+  const labelledbyId = useId();
+  const describedbyId = useId();
 
   if (!isClient) {
     return null;
@@ -26,7 +26,9 @@ export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Pr
   return createPortal(
     <>
       <Overlay isOpen={!!ref.current?.open} onClick={closeDialog} />
-      <Dialog ref={ref} aria-modal>
+      <Dialog ref={ref} aria-modal aria-labelledby={labelledbyId} aria-describedby={describedbyId}>
+        <ScreenReaderOnlyText as="h2" id={labelledbyId} text="記事検索" />
+        <ScreenReaderOnlyText as="p" id={describedbyId} text="記事のタイトルから検索することができます" />
         <SearchPanel closeDialog={closeDialog} />
       </Dialog>
     </>,
@@ -36,6 +38,7 @@ export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Pr
 
 const Overlay = styled.div<{ isOpen: boolean }>`
   position: fixed;
+  isolation: isolate;
   animation: ${fadeIn} 0.4s linear both;
 
   && {
@@ -55,6 +58,7 @@ const Overlay = styled.div<{ isOpen: boolean }>`
 
 const Dialog = styled.dialog`
   position: fixed;
+  isolation: isolate;
   top: 25vh;
 
   &[open] {
