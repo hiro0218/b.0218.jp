@@ -127,6 +127,7 @@ export const SearchPanel = ({ closeDialog }: Props) => {
 const SearchMain = styled.div`
   display: block;
   z-index: var(--zIndex-search);
+  isolation: isolate;
   width: 50vw;
   margin: auto;
   overflow: hidden;

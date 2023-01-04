@@ -38,6 +38,7 @@ export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Pr
 
 const Overlay = styled.div<{ isOpen: boolean }>`
   position: fixed;
+  isolation: isolate;
   animation: ${fadeIn} 0.4s linear both;
 
   && {
@@ -57,6 +58,7 @@ const Overlay = styled.div<{ isOpen: boolean }>`
 
 const Dialog = styled.dialog`
   position: fixed;
+  isolation: isolate;
   top: 25vh;
 
   &[open] {
