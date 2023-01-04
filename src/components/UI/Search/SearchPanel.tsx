@@ -3,6 +3,7 @@ import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
+import useEffectOnce from '@/hooks/useEffectOnce';
 import { Post } from '@/types/source';
 import { fadeIn } from '@/ui/animation';
 import { isMobile } from '@/ui/lib/mediaQuery';
@@ -13,7 +14,7 @@ type Props = {
 };
 
 export const SearchPanel = ({ closeDialog }: Props) => {
-  const refInput = useRef(null);
+  const refInput = useRef<HTMLInputElement>(null);
   const [data, setData] = useState({
     keyword: '',
     suggest: [] as Post[],
@@ -22,15 +23,17 @@ export const SearchPanel = ({ closeDialog }: Props) => {
 
   useEffect(() => {
     refInput.current.focus();
+  }, []);
 
+  useEffectOnce(() => {
     (async () => {
-      return await fetch('/posts-list.json')
+      await fetch('/posts-list.json')
         .then((response) => response.json())
         .then((json: Array<Post>) => {
           setArchives(json);
         });
     })();
-  }, []);
+  });
 
   const onKeyup = (e: KeyboardEvent<HTMLInputElement>) => {
     const { target } = e;
