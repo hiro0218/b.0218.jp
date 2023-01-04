@@ -1,11 +1,11 @@
-import { ElementType } from 'react';
+import { ElementType, HTMLAttributes } from 'react';
 
 import { styled } from '@/ui/styled';
 
 type Props = {
   as?: ElementType;
   text: string;
-};
+} & HTMLAttributes<HTMLSpanElement>;
 
 /**
  * TailwindCSS の sr-only クラス実装を参考
@@ -23,6 +23,10 @@ const SrOnlyText = styled.span`
   white-space: nowrap;
 `;
 
-export const ScreenReaderOnlyText = ({ as, text }: Props) => {
-  return <SrOnlyText as={as}>{text}</SrOnlyText>;
+export const ScreenReaderOnlyText = ({ as, text, ...props }: Props) => {
+  return (
+    <SrOnlyText as={as} {...props}>
+      {text}
+    </SrOnlyText>
+  );
 };
