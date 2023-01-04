@@ -29,9 +29,9 @@ const Tags: NextPage<Props> = ({ title, posts }) => (
 
         <Columns title={title}>
           <Stack space="calc(var(--margin-base) * 0.25)">
-            {posts.map((post, index) => (
+            {posts.map((post) => (
               <LinkCard
-                key={index}
+                key={post.slug}
                 link={`/${post.slug}.html`}
                 title={post.title}
                 date={post.date}
