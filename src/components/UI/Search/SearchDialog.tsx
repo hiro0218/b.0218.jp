@@ -1,6 +1,7 @@
-import { forwardRef, MutableRefObject, useEffect, useState } from 'react';
+import { forwardRef, MutableRefObject } from 'react';
 import { createPortal } from 'react-dom';
 
+import useIsClient from '@/hooks/useIsClient';
 import { fadeIn, slideIn } from '@/ui/animation';
 import { css, styled } from '@/ui/styled';
 
@@ -13,11 +14,7 @@ type Props = {
 };
 
 export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Props, ref: RefProps) {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const isClient = useIsClient();
 
   if (!isClient) {
     return null;
