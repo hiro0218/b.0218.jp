@@ -7,7 +7,6 @@ import AppHeader from '@/components/App/TheHeader';
 import CssBaseline from '@/components/Functional/CssBaseline';
 import { MainContainer } from '@/components/UI/Layout';
 import { AUTHOR, SITE } from '@/constant';
-import useRouterScrollTop from '@/hooks/useRouterScrollTop';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
 import { CacheProvider, EmotionCache, ThemeProvider } from '@/ui/styled';
 import { theme } from '@/ui/themes';
@@ -19,8 +18,6 @@ interface MyAppProps extends AppProps {
 const clientSideEmotionCache = createEmotionCache();
 
 const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: MyAppProps) => {
-  useRouterScrollTop();
-
   return (
     <>
       <Head>
