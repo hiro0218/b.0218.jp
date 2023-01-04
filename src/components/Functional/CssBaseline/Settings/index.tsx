@@ -44,10 +44,10 @@ export default css`
     --container-width: 50rem;
 
     /* font */
-    --font-family-sans-serif: 'Noto Sans JP', 'Noto Sans Japanese', 'Yu Gothic', 'Hiragino Kaku Gothic ProN', Meiryo,
-      -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --font-family-monospace: ui-monospace, SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace;
-
+    --font-family-sans-serif: 'Noto Sans JP', 'Noto Sans Japanese', 'Yu Gothic', 'Hiragino Kaku Gothic ProN',
+      'Hiragino Sans', Meiryo, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif, 'Segoe UI Emoji';
+    --font-family-monospace: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace, Apple Color Emoji,
+      Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
     --font-size-sm: ${getModularScale({ degree: -1 })};
     --font-size-md: ${getModularScale({ degree: 0 })};
     --font-size-lg: ${getModularScale({ degree: 1 })};
