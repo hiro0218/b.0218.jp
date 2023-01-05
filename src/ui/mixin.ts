@@ -16,16 +16,15 @@ export const showHoverBackground = css`
     content: '';
     display: block;
     position: absolute;
-    z-index: -1;
+    isolation: isolate;
     inset: 0;
-    width: 0;
-    height: 0;
     margin: auto;
-    transform: scale(0.1);
+    transform: scale(0);
     transition: transform 0.1s ${easing.easeOut};
     border-radius: 0.25rem;
     opacity: 0;
     background-image: linear-gradient(120deg, var(--backgrounds-2A), var(--component-backgrounds-4A));
+    pointer-events: none;
   }
 
   &:hover,
