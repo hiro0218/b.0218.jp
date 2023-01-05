@@ -2,7 +2,9 @@ import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { Logo } from '@/components/UI/Logo';
 import { SearchButton, SearchDialog } from '@/components/UI/Search';
 import { useModal } from '@/components/UI/Search/useDialog';
+import easing from '@/ui/foundation/easing';
 import { isMobile } from '@/ui/lib/mediaQuery';
+import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 import { HeaderLayout } from './HeaderLayout';
@@ -46,4 +48,25 @@ const Anchor = styled(_Anchor)`
   align-items: center;
   height: 100%;
   pointer-events: auto;
+
+  ${showHoverBackground}
+
+  &::after {
+    left: 50%;
+  }
+
+  &:hover,
+  &:focus,
+  &:focus-within {
+    &::after {
+      width: 125%;
+      height: 70%;
+      translate: -50% 0;
+    }
+  }
+  &:focus-visible {
+    &::after {
+      opacity: 0;
+    }
+  }
 `;
