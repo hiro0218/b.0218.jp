@@ -31,15 +31,18 @@ const Container = styled.div`
 const Anchor = styled.a`
   display: inline-flex;
   align-items: center;
-  color: var(--text-11);
+  padding: var(--space-x-xs) var(--space-xs);
+  border-radius: 0.25rem;
+  color: var(--text-12);
   font-size: var(--font-size-sm);
+  line-height: 1;
 
   &:hover {
-    text-decoration: underline;
+    background-color: var(--component-backgrounds-3A);
   }
 
   svg {
     margin-right: 0.25em;
-    fill: var(--text-12);
+    fill: currentColor;
   }
 `;
