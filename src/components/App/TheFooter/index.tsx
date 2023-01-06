@@ -10,7 +10,7 @@ const Links = [
   { title: 'works', href: '/works' },
   { title: 'tags', href: '/tags' },
   { title: 'archive', href: '/archive' },
-];
+] as const;
 
 const TheFooter = memo(function TheFooter() {
   return (
