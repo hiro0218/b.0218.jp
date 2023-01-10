@@ -20,8 +20,9 @@ const PostShare = ({ title, url }: Props) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <IconContainer data-label="Tweet">
+          <IconContainer>
             <FaTwitter />
+            <span>Tweet</span>
           </IconContainer>
         </Anchor>
       </Container>
@@ -60,8 +61,7 @@ const IconContainer = styled.div`
     border-radius: 100%;
   }
 
-  &::before {
-    content: attr(data-label);
+  > span {
     position: absolute;
     top: 3.5rem;
     color: var(--text-11);
