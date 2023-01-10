@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { styled } from '@/ui/styled';
 
@@ -10,7 +12,7 @@ type PostTagProps = {
   tags: Array<Props>;
 };
 
-const PostTag = ({ tags }: PostTagProps) => {
+const PostTag = memo(function PostTag({ tags }: PostTagProps) {
   if (tags?.length === 0) {
     return null;
   }
@@ -30,7 +32,7 @@ const PostTag = ({ tags }: PostTagProps) => {
       ))}
     </>
   );
-};
+});
 
 export default PostTag;
 

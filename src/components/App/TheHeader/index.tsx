@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { Logo } from '@/components/UI/Logo';
 import { SearchButton, SearchDialog } from '@/components/UI/Search';
@@ -8,7 +10,7 @@ import { styled } from '@/ui/styled';
 
 import { HeaderLayout } from './HeaderLayout';
 
-const TheHeader = () => {
+const TheHeader = memo(function TheHeader() {
   const { ref, openDialog, closeDialog } = useModal();
 
   return (
@@ -25,7 +27,7 @@ const TheHeader = () => {
       <SearchDialog ref={ref} closeDialog={closeDialog} />
     </>
   );
-};
+});
 
 export default TheHeader;
 
