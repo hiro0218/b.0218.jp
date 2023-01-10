@@ -144,6 +144,23 @@ const PostContent = styled.article`
     }
   }
 
+  details {
+    summary {
+      padding: var(--space-sm) var(--space-md);
+      border-radius: 0.25rem;
+      background-color: var(--component-backgrounds-3);
+
+      & ~ * {
+        margin-right: var(--space-lg);
+        margin-left: var(--space-lg);
+      }
+    }
+
+    &[open] summary {
+      margin-bottom: var(--space-lg);
+    }
+  }
+
   hr {
     display: flex;
     align-items: center;
