@@ -1,5 +1,5 @@
 import router from 'next/router';
-import { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { HiSearch } from 'react-icons/hi';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
@@ -42,46 +42,55 @@ export const SearchPanel = ({ closeDialog }: Props) => {
     })();
   });
 
-  const onKeyup = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (!(e.target instanceof HTMLInputElement)) {
-      return;
-    }
+  const onKeyup = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (!(e.target instanceof HTMLInputElement)) {
+        return;
+      }
 
-    const value = e.target.value.trim().toLowerCase();
+      const value = e.target.value.trim().toLowerCase();
 
-    // 入力値が空
-    if (!value) {
-      setData(initialData);
-      return;
-    }
+      // 入力値が空
+      if (!value) {
+        setData(initialData);
+        return;
+      }
 
-    // Enter以外はスキップ
-    if (e.nativeEvent.isComposing || e.key !== 'Enter') {
-      return;
-    }
+      // Enter以外はスキップ
+      if (e.nativeEvent.isComposing || e.key !== 'Enter') {
+        return;
+      }
 
-    // 入力値が同じなら検索しない
-    if (value === data.keyword.toLowerCase()) {
-      return;
-    }
+      // 入力値が同じなら検索しない
+      if (value === data.keyword.toLowerCase()) {
+        return;
+      }
 
-    const values = value.split(' ');
+      const values = value.split(' ');
 
-    const suggest = archives.filter((post) => {
-      const { title, tags } = post;
+      const suggest = archives.filter((post) => {
+        const { title, tags } = post;
 
-      // AND検索のため入力値をスペースで区切って、それぞれの条件に一致するか
-      return values.every((word) => {
-        // 「タイトル」もしくは「タグ」に一致するか
-        return title.toLowerCase().includes(word) || tags?.includes(word);
+        // AND検索のため入力値をスペースで区切って、それぞれの条件に一致するか
+        return values.every((word) => {
+          // 「タイトル」もしくは「タグ」に一致するか
+          return title.toLowerCase().includes(word) || tags?.includes(word);
+        });
       });
-    });
 
-    setData({
-      keyword: value,
-      suggest,
-    });
-  };
+      setData({
+        keyword: value,
+        suggest,
+      });
+    },
+    [archives, data.keyword],
+  );
+
+  const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length === 0) {
+      setData(initialData);
+    }
+  }, []);
 
   useEffect(() => {
     router.events.on('routeChangeComplete', closeDialog);
@@ -104,6 +113,7 @@ export const SearchPanel = ({ closeDialog }: Props) => {
           autoComplete="off"
           ref={refInput}
           onKeyUp={onKeyup}
+          onChange={onChange}
         />
       </SearchHeader>
       {data.suggest.length > 0 && (
