@@ -43,43 +43,43 @@ export const SearchPanel = ({ closeDialog }: Props) => {
   });
 
   const onKeyup = (e: KeyboardEvent<HTMLInputElement>) => {
-    const { target } = e;
-
-    if (!(target instanceof HTMLInputElement)) {
+    if (!(e.target instanceof HTMLInputElement)) {
       return;
     }
 
-    const value = target.value.trim();
+    const value = e.target.value.trim();
 
-    // Enterを押した場合
-    if (!e.nativeEvent.isComposing && e.key === 'Enter') {
-      // 入力値が同じなら検索しない
-      if (value === data.keyword) {
-        return;
-      }
-
-      // 入力値が空
-      if (!value) {
-        setData(initialData);
-        return;
-      }
-
-      const suggest = archives.filter((post: Post) => {
-        // AND検索のため入力値をスペースで区切って、それぞれの条件に一致するか
-        return value
-          .toLowerCase()
-          .split(' ')
-          .every((word: string) => {
-            // 「タイトル」もしくは「タグ」に一致するか
-            return post.title.toLowerCase().includes(word) || post.tags?.includes(word);
-          });
-      });
-
-      setData({
-        keyword: value,
-        suggest,
-      });
+    // 入力値が空
+    if (!value) {
+      setData(initialData);
+      return;
     }
+
+    // Enter以外はスキップ
+    if (e.nativeEvent.isComposing || e.key !== 'Enter') {
+      return;
+    }
+
+    // 入力値が同じなら検索しない
+    if (value === data.keyword) {
+      return;
+    }
+
+    const suggest = archives.filter((post: Post) => {
+      // AND検索のため入力値をスペースで区切って、それぞれの条件に一致するか
+      return value
+        .toLowerCase()
+        .split(' ')
+        .every((word: string) => {
+          // 「タイトル」もしくは「タグ」に一致するか
+          return post.title.toLowerCase().includes(word) || post.tags?.includes(word);
+        });
+    });
+
+    setData({
+      keyword: value,
+      suggest,
+    });
   };
 
   useEffect(() => {
