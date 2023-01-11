@@ -15,9 +15,12 @@ type Props = {
 
 export const SearchPanel = ({ closeDialog }: Props) => {
   const refInput = useRef<HTMLInputElement>(null);
-  const [data, setData] = useState({
+  const [data, setData] = useState<{
+    keyword: string;
+    suggest: Post[];
+  }>({
     keyword: '',
-    suggest: [] as Post[],
+    suggest: [],
   });
   const [archives, setArchives] = useState<Array<Post>>([]);
 
