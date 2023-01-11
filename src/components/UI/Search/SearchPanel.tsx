@@ -47,7 +47,7 @@ export const SearchPanel = ({ closeDialog }: Props) => {
       return;
     }
 
-    const value = e.target.value.trim();
+    const value = e.target.value.trim().toLowerCase();
 
     // 入力値が空
     if (!value) {
@@ -61,19 +61,20 @@ export const SearchPanel = ({ closeDialog }: Props) => {
     }
 
     // 入力値が同じなら検索しない
-    if (value === data.keyword) {
+    if (value === data.keyword.toLowerCase()) {
       return;
     }
 
-    const suggest = archives.filter((post: Post) => {
+    const values = value.split(' ');
+
+    const suggest = archives.filter((post) => {
+      const { title, tags } = post;
+
       // AND検索のため入力値をスペースで区切って、それぞれの条件に一致するか
-      return value
-        .toLowerCase()
-        .split(' ')
-        .every((word: string) => {
-          // 「タイトル」もしくは「タグ」に一致するか
-          return post.title.toLowerCase().includes(word) || post.tags?.includes(word);
-        });
+      return values.every((word) => {
+        // 「タイトル」もしくは「タグ」に一致するか
+        return title.toLowerCase().includes(word) || tags?.includes(word);
+      });
     });
 
     setData({
