@@ -73,9 +73,9 @@ export const SearchPanel = ({ closeDialog }: Props) => {
             return post.title.toLowerCase().includes(word) || post.tags?.includes(word);
           });
       });
-      const keyword = value;
+
       setData({
-        keyword,
+        keyword: value,
         suggest,
       });
     }
