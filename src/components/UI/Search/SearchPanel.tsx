@@ -13,15 +13,19 @@ type Props = {
   closeDialog: () => void;
 };
 
+type DataProps = {
+  keyword: string;
+  suggest: Post[];
+};
+
+const initialData: DataProps = {
+  keyword: '',
+  suggest: [],
+};
+
 export const SearchPanel = ({ closeDialog }: Props) => {
   const refInput = useRef<HTMLInputElement>(null);
-  const [data, setData] = useState<{
-    keyword: string;
-    suggest: Post[];
-  }>({
-    keyword: '',
-    suggest: [],
-  });
+  const [data, setData] = useState<DataProps>(initialData);
   const [archives, setArchives] = useState<Array<Post>>([]);
 
   useEffect(() => {
@@ -56,10 +60,7 @@ export const SearchPanel = ({ closeDialog }: Props) => {
 
       // 入力値が空
       if (!value) {
-        setData({
-          keyword: '',
-          suggest: [],
-        });
+        setData(initialData);
         return;
       }
 
