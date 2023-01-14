@@ -4,6 +4,7 @@ import { HiSearch } from 'react-icons/hi';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import useEffectOnce from '@/hooks/useEffectOnce';
+import { parseJSON } from '@/lib/parseJSON';
 import { Post } from '@/types/source';
 import { fadeIn } from '@/ui/animation';
 import { isMobile } from '@/ui/lib/mediaQuery';
@@ -17,6 +18,8 @@ type DataProps = {
   keyword: string;
   suggest: Post[];
 };
+
+const STORAGE_KEY = `${process.env.BUILD_ID}_posts-list`;
 
 const initialData: DataProps = {
   keyword: '',
@@ -32,12 +35,24 @@ export const SearchPanel = ({ closeDialog }: Props) => {
     refInput.current.focus();
   }, []);
 
+  /**
+   * posts-list.jsonを取得する
+   * 複数リクエストをさせないようにlocalStorageへキャッシュ
+   */
   useEffectOnce(() => {
+    const cachedValue = window.localStorage.getItem(STORAGE_KEY);
+
+    if (cachedValue) {
+      setArchives(parseJSON(cachedValue));
+      return;
+    }
+
     (async () => {
       await fetch('/posts-list.json')
-        .then((response) => response.json())
-        .then((json: Array<Post>) => {
+        .then<Post[]>((response) => response.json())
+        .then((json) => {
           setArchives(json);
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(json));
         });
     })();
   });
