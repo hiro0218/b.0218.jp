@@ -13,7 +13,10 @@ type Props = {
 };
 
 export const SearchPanel = ({ closeDialog }: Props) => {
-  const { SearchHeader, searchData } = useSearchHeader({ closeDialog });
+  const {
+    SearchHeader,
+    searchData: { suggest },
+  } = useSearchHeader({ closeDialog });
 
   useEffect(() => {
     router.events.on('routeChangeComplete', closeDialog);
@@ -26,17 +29,17 @@ export const SearchPanel = ({ closeDialog }: Props) => {
   return (
     <SearchMain>
       {SearchHeader}
-      {searchData.suggest.length > 0 && (
+      {suggest.length > 0 && (
         <>
           <SearchResult>
-            {searchData.suggest.map((post) => (
-              <Anchor key={post.slug} href={`/${post.slug}.html`} passHref prefetch={true} onClick={closeDialog}>
+            {suggest.map((post) => (
+              <Anchor key={post.slug} href={`/${post.slug}.html`} passHref prefetch={true}>
                 {post.title}
               </Anchor>
             ))}
           </SearchResult>
           <SearchFooter>
-            <div>Result: {searchData.suggest.length} posts</div>
+            <div>Result: {suggest.length} posts</div>
             <div>
               <a href="https://www.google.com/search?q=site:b.0218.jp" target="_blank" rel="noopener noreferrer">
                 Google 検索
