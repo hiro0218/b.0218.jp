@@ -26,6 +26,20 @@ const initialData: DataProps = {
   suggest: [],
 };
 
+const resetLocalStorage = (query = 'posts-list') => {
+  if (typeof window === 'undefined' || !('localStorage' in window)) {
+    return;
+  }
+
+  for (const key in window.localStorage) {
+    if (window.localStorage.hasOwnProperty(key)) {
+      if ((key !== STORAGE_KEY && key.match(query)) || (!query && typeof key === 'string')) {
+        window.localStorage.removeItem(key);
+      }
+    }
+  }
+};
+
 export const SearchPanel = ({ closeDialog }: Props) => {
   const refInput = useRef<HTMLInputElement>(null);
   const [data, setData] = useState<DataProps>(initialData);
@@ -44,6 +58,7 @@ export const SearchPanel = ({ closeDialog }: Props) => {
 
     if (cachedValue) {
       setArchives(parseJSON(cachedValue));
+      window.requestIdleCallback(() => resetLocalStorage());
       return;
     }
 
