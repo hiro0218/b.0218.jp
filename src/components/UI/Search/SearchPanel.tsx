@@ -78,6 +78,11 @@ export const SearchPanel = ({ closeDialog }: Props) => {
         return;
       }
 
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        closeDialog();
+        return;
+      }
+
       const value = e.target.value.trim().toLowerCase();
 
       // 入力値が空
@@ -113,14 +118,8 @@ export const SearchPanel = ({ closeDialog }: Props) => {
         suggest,
       });
     },
-    [archives, data.keyword],
+    [archives, closeDialog, data.keyword],
   );
-
-  const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length === 0) {
-      setData(initialData);
-    }
-  }, []);
 
   useEffect(() => {
     router.events.on('routeChangeComplete', closeDialog);
@@ -137,13 +136,12 @@ export const SearchPanel = ({ closeDialog }: Props) => {
           <HiSearch size="24" />
         </SearchHeaderIcon>
         <SearchInput
-          type="search"
+          type="text"
           placeholder="記事のタイトルから検索する（入力してEnterを押すと検索結果が表示）"
           id="search-input"
           autoComplete="off"
           ref={refInput}
           onKeyUp={onKeyup}
-          onChange={onChange}
         />
       </SearchHeader>
       {data.suggest.length > 0 && (
