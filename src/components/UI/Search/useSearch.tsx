@@ -1,13 +1,13 @@
-import { useMemo } from 'react';
+import { ComponentProps, useMemo } from 'react';
 
 import { SearchButton as Button, SearchDialog as Dialog } from '@/components/UI/Search';
-import { useDialog } from '@/components/UI/Search/useDialog';
 
-type DialogProps = ReturnType<typeof useDialog>;
+type ButtonProps = ComponentProps<typeof Button>;
+type DialogProps = ComponentProps<typeof Dialog>;
 
 type Props = {
   refModal: DialogProps['ref'];
-  openDialog: DialogProps['openDialog'];
+  openDialog: ButtonProps['openDialog'];
   closeDialog: DialogProps['closeDialog'];
 };
 
