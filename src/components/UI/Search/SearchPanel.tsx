@@ -29,25 +29,19 @@ export const SearchPanel = ({ closeDialog }: Props) => {
   return (
     <SearchMain>
       {SearchHeader}
-      {suggest.length > 0 && (
-        <>
-          <SearchResult>
-            {suggest.map((post) => (
-              <Anchor key={post.slug} href={`/${post.slug}.html`} passHref prefetch={true}>
-                {post.title}
-              </Anchor>
-            ))}
-          </SearchResult>
-          <SearchFooter>
-            <div>Result: {suggest.length} posts</div>
-            <div>
-              <a href="https://www.google.com/search?q=site:b.0218.jp" target="_blank" rel="noopener noreferrer">
-                Google 検索
-              </a>
-            </div>
-          </SearchFooter>
-        </>
-      )}
+      <SearchResult>
+        {suggest.map((post) => (
+          <Anchor key={post.slug} href={`/${post.slug}.html`} passHref prefetch={true}>
+            {post.title}
+          </Anchor>
+        ))}
+      </SearchResult>
+      <SearchFooter>
+        <span>Result: {suggest.length} posts</span>
+        <a href="https://www.google.com/search?q=site:b.0218.jp" target="_blank" rel="noopener noreferrer">
+          Google 検索
+        </a>
+      </SearchFooter>
     </SearchMain>
   );
 };
