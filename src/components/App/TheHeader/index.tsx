@@ -2,8 +2,7 @@ import { memo } from 'react';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { Logo } from '@/components/UI/Logo';
-import { SearchButton, SearchDialog } from '@/components/UI/Search';
-import { useModal } from '@/components/UI/Search/useDialog';
+import { useDialog, useSearch } from '@/components/UI/Search';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
@@ -11,7 +10,8 @@ import { styled } from '@/ui/styled';
 import { HeaderLayout } from './HeaderLayout';
 
 const TheHeader = memo(function TheHeader() {
-  const { ref, openDialog, closeDialog } = useModal();
+  const { ref, openDialog, closeDialog } = useDialog();
+  const { SearchButton, SearchDialog } = useSearch({ refModal: ref, openDialog, closeDialog });
 
   return (
     <>
@@ -20,11 +20,11 @@ const TheHeader = memo(function TheHeader() {
           <Anchor href="/" prefetch={false} passHref>
             <Logo width="80" height="25" />
           </Anchor>
-          <SearchButton openDialog={openDialog} />
+          {SearchButton}
         </Container>
       </HeaderLayout>
 
-      <SearchDialog ref={ref} closeDialog={closeDialog} />
+      {SearchDialog}
     </>
   );
 });

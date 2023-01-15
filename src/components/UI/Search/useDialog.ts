@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react';
 
 import { useLockedBody } from '@/hooks/useLockedBody';
 
-export const useModal = () => {
+export const useDialog = () => {
   const ref = useRef<HTMLDialogElement>(null);
   const [, setLocked] = useLockedBody(false);
 
