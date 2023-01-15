@@ -169,10 +169,6 @@ const SearchInput = styled.input`
     font-size: var(--font-size-sm);
   }
 
-  &::-webkit-search-cancel-button {
-    -webkit-appearance: none;
-  }
-
   &:focus {
     outline: none;
   }
