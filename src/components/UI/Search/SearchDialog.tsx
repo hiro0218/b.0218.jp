@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
 import useIsClient from '@/hooks/useIsClient';
 import { fadeIn, slideIn } from '@/ui/animation';
-import { css, styled } from '@/ui/styled';
+import { styled } from '@/ui/styled';
 
 import { SearchPanel } from './SearchPanel';
 
