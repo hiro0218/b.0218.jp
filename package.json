@@ -4,12 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 8080",
-    "prebuild": "git submodule update --remote && npm run build:article && npm run build:feed && npm run build:sitemap && npm run build:github",
+    "prebuild": "git submodule update --remote && npm run build:article && npm run build:feed && npm run build:sitemap",
     "build": "next build",
     "postbuild": "npm run build:ogp",
     "build:article": "node --require esbuild-register ./src/build/article.ts",
     "build:feed": "node --require esbuild-register ./src/build/feed.ts",
-    "build:github": "node --require esbuild-register ./src/build/getGitHubPinnedItems.ts",
     "build:ogp": "node --require esbuild-register ./src/build/ogp",
     "build:sitemap": "node --require esbuild-register ./src/build/sitemap.ts",
     "start": "next start",
