@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { PostDate } from '@/components/Page/Post';
 import PostTag, { PostTagGridContainer } from '@/components/UI/Tag';
 import { Post as PostProps } from '@/types/source';
@@ -11,7 +13,7 @@ type Props = {
 };
 
 const PostHeader = ({ date, updated, readingTime, tags }: Props) => {
-  const postTags = tags.map((slug) => ({ slug }));
+  const postTags = useMemo(() => tags.map((slug) => ({ slug })), [tags]);
 
   return (
     <PostHeaderList>
