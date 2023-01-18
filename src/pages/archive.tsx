@@ -8,48 +8,43 @@ import { SITE } from '@/constant';
 import { getPostsListJson } from '@/lib/posts';
 import { Post as PropPost } from '@/types/source';
 
-type ArchiveProps = Partial<PropPost>[];
+type PostsProps = Partial<Pick<PropPost, 'title' | 'slug' | 'date' | 'excerpt'>>[];
+
+type ArchiveProps = {
+  [key in string]: PostsProps | [];
+};
 
 interface Props {
   archives: ArchiveProps;
+  numberOfPosts: number;
 }
 
-type FormattedArchivesProps = {
-  [key in string]: Partial<PropPost>[];
-};
+const getYear = (date: PropPost['date']) => date.slice(0, 4) + ' ';
 
-const initArchiveYearList = (archives: ArchiveProps): FormattedArchivesProps => {
-  const list = {};
+const generateYearList = (archives: PostsProps) => {
+  const list: ArchiveProps = {};
 
-  [
-    ...new Set(
-      archives.map(({ date }) => {
-        return date.slice(0, 4) + ' ';
-      }),
-    ),
-  ].map((year) => (list[year] = []));
+  [...new Set(archives.map(({ date }) => getYear(date)))].map((year) => (list[year] = []));
 
   return list;
 };
 
-const divideByYearArchive = (archives: ArchiveProps) => {
-  const formatArchives = initArchiveYearList(archives);
+const divideByYearArchive = (archives: PostsProps): ArchiveProps => {
+  const formattedArchives = generateYearList(archives);
 
   for (let i = 0; i < archives.length; i++) {
     const post = archives[i];
+    const year = getYear(post.date);
 
-    // 日付を取得する
-    const year = post.date.slice(0, 4) + ' ';
-
-    formatArchives[year].push(post);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    formattedArchives[year].push(post);
   }
 
-  return formatArchives;
+  return formattedArchives;
 };
 
-const Archive: NextPage<Props> = ({ archives }) => {
-  const posts = divideByYearArchive(archives);
-
+const Archive: NextPage<Props> = ({ archives, numberOfPosts }) => {
   return (
     <>
       <Head>
@@ -58,19 +53,13 @@ const Archive: NextPage<Props> = ({ archives }) => {
 
       <article>
         <PageContentContainer>
-          <Title heading="Archive" paragraph={`${archives.length}件`} />
+          <Title heading="Archive" paragraph={`${numberOfPosts}件`} />
 
-          {Object.keys(posts).map((key: string) => (
-            <Columns key={key} title={`${key}年`}>
+          {Object.keys(archives).map((year: string) => (
+            <Columns key={year} title={`${year}年`}>
               <Stack space="var(--space-x-xs)">
-                {posts[key].map((post: PropPost) => (
-                  <LinkCard
-                    key={post.slug}
-                    link={`/${post.slug}.html`}
-                    title={post.title}
-                    date={post.date}
-                    excerpt={post.excerpt}
-                  />
+                {archives[year].map(({ slug, title, date, excerpt }: PropPost) => (
+                  <LinkCard key={slug} link={`/${slug}.html`} title={title} date={date} excerpt={excerpt} />
                 ))}
               </Stack>
             </Columns>
@@ -88,7 +77,7 @@ export const config = {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const archives = getPostsListJson().map(({ title, slug, date, excerpt }) => {
+  const posts: PostsProps = getPostsListJson().map(({ title, slug, date, excerpt }) => {
     return {
       title,
       slug,
@@ -97,9 +86,12 @@ export const getStaticProps: GetStaticProps = async () => {
     };
   });
 
+  const archives = divideByYearArchive(posts);
+
   return {
     props: {
       archives,
+      numberOfPosts: posts.length,
     },
   };
 };
