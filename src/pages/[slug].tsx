@@ -27,7 +27,6 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
   const refContent = useRef<HTMLDivElement>(null);
   const permalink = `${SITE.URL}${post.slug}.html`;
   const description = getDescriptionText(post.content);
-  const cacheBusting = new Date(post?.updated || post.date).getTime();
 
   useEffect(() => {
     window?.twttr?.widgets.load(refContent.current);
@@ -48,7 +47,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
         <meta
           key="og:image"
           property="og:image"
-          content={`${SITE.URL}images/ogp/${post.slug}.png?ts=${cacheBusting}`}
+          content={`${SITE.URL}images/ogp/${post.slug}.png?ts=${process.env.BUILD_ID}`}
         />
         <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
         {post.noindex && <meta name="robots" content="noindex" />}
