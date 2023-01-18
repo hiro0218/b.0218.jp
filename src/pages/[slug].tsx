@@ -68,7 +68,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
 
       <PageContentContainer>
         <Title heading={post.segmentedTitle}>
-          <PostHeader post={post} />
+          <PostHeader date={post.date} updated={post.updated} readingTime={post.readingTime} tags={post.tags} />
         </Title>
 
         <PostNote note={post.note} />

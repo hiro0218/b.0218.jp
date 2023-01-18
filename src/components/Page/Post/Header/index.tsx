@@ -1,24 +1,27 @@
 import { PostDate } from '@/components/Page/Post';
 import PostTag, { PostTagGridContainer } from '@/components/UI/Tag';
-import { Post as PostType } from '@/types/source';
+import { Post as PostProps } from '@/types/source';
 import { styled } from '@/ui/styled';
 
-interface Props {
-  post: PostType;
-}
+type Props = {
+  date: PostProps['date'];
+  updated: PostProps['updated'];
+  readingTime: PostProps['updated'];
+  tags: PostProps['tags'];
+};
 
-const PostHeader = ({ post }: Props) => {
-  const tags = post.tags?.map((slug) => ({ slug }));
+const PostHeader = ({ date, updated, readingTime, tags }: Props) => {
+  const postTags = tags.map((slug) => ({ slug }));
 
   return (
     <PostHeaderList>
       <PostHeaderItem>
-        <PostDate date={post.date} updated={post.updated} />
-        <PostHeaderReadingTime>{post.readingTime}</PostHeaderReadingTime>
+        <PostDate date={date} updated={updated} />
+        <PostHeaderReadingTime>{readingTime}</PostHeaderReadingTime>
       </PostHeaderItem>
       <PostHeaderItem>
         <PostTagGridContainer>
-          <PostTag tags={tags} />
+          <PostTag tags={postTags} />
         </PostTagGridContainer>
       </PostHeaderItem>
     </PostHeaderList>
