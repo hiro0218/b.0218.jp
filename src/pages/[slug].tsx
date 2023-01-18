@@ -11,6 +11,7 @@ import { PageContentContainer } from '@/components/UI/Layout';
 import Mokuji from '@/components/UI/Mokuji';
 import { Title } from '@/components/UI/Title';
 import { SITE } from '@/constant';
+import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { getPostsJson, getTermJson, getTermWithCount } from '@/lib/posts';
 import { textSegmenter } from '@/lib/textSegmenter';
@@ -23,14 +24,11 @@ type PostProps = {
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const Post: NextPage<Props> = ({ post, nextRead }) => {
-  const { asPath } = useRouter();
   const refContent = useRef<HTMLDivElement>(null);
   const permalink = `${SITE.URL}${post.slug}.html`;
   const description = getDescriptionText(post.content);
 
-  useEffect(() => {
-    window?.twttr?.widgets.load(refContent.current);
-  }, [asPath]);
+  useTwitterWidgetsLoad({ ref: refContent });
 
   return (
     <>
