@@ -1,8 +1,7 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import { PostEdit, PostHeader, PostNextRead, PostNote, PostShare } from '@/components/Page/Post';
