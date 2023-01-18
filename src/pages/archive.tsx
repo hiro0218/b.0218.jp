@@ -14,7 +14,11 @@ interface Props {
   archives: ArchiveProps;
 }
 
-const initArchiveYearList = (archives: ArchiveProps) => {
+type FormattedArchivesProps = {
+  [key in string]: Partial<PropPost>[];
+};
+
+const initArchiveYearList = (archives: ArchiveProps): FormattedArchivesProps => {
   const list = {};
 
   [
