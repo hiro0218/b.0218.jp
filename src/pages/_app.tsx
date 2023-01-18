@@ -1,23 +1,31 @@
+import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { GoogleAnalytics } from 'nextjs-google-analytics';
+import { ReactElement, ReactNode } from 'react';
 
-import AppFooter from '@/components/App/TheFooter';
-import AppHeader from '@/components/App/TheHeader';
 import CssBaseline from '@/components/Functional/CssBaseline';
-import { MainContainer } from '@/components/UI/Layout';
+import AppLayout from '@/components/Layouts/AppLayout';
 import { AUTHOR, SITE } from '@/constant';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
 import { CacheProvider, EmotionCache, ThemeProvider } from '@/ui/styled';
 import { theme } from '@/ui/themes';
 
-interface MyAppProps extends AppProps {
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type MyAppProps = AppProps & {
   emotionCache?: EmotionCache;
-}
+  Component: NextPageWithLayout;
+};
 
 const clientSideEmotionCache = createEmotionCache();
 
 const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: MyAppProps) => {
+  // ページレベルで定義されたレイアウトがある場合はそれを使用する
+  const getLayout = Component.getLayout || ((page) => page);
+
   return (
     <>
       <Head>
@@ -44,11 +52,7 @@ const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: My
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <GoogleAnalytics trackPageViews={{ ignoreHashChange: true }} />
-          <AppHeader />
-          <MainContainer>
-            <Component {...pageProps} />
-          </MainContainer>
-          <AppFooter />
+          <AppLayout>{getLayout(<Component {...pageProps} />)}</AppLayout>
         </ThemeProvider>
       </CacheProvider>
     </>
