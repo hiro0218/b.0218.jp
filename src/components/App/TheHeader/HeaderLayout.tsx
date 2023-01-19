@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { memo, ReactNode } from 'react';
 
 import { WaveDown } from '@/components/Functional/Wave';
 import { css, styled } from '@/ui/styled';
@@ -8,7 +8,7 @@ type Props = {
   children: ReactNode;
 };
 
-export const HeaderLayout = ({ children }: Props) => {
+export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
   const isHeaderShown = useHeaderScrollHandler();
 
   return (
@@ -17,7 +17,7 @@ export const HeaderLayout = ({ children }: Props) => {
       <WaveDown fill="var(--component-backgrounds-3)" />
     </Underline>
   );
-};
+});
 
 const Underline = styled.div`
   height: ${({ theme }) => theme.components.header.height}px;

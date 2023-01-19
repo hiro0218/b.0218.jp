@@ -1,111 +1,22 @@
 import router from 'next/router';
-import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { HiSearch } from 'react-icons/hi';
+import { useEffect } from 'react';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
-import useEffectOnce from '@/hooks/useEffectOnce';
-import { parseJSON } from '@/lib/parseJSON';
-import { Post } from '@/types/source';
 import { fadeIn } from '@/ui/animation';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
+
+import { useSearchHeader } from './useSearchHeader';
 
 type Props = {
   closeDialog: () => void;
 };
 
-type DataProps = {
-  keyword: string;
-  suggest: Post[];
-};
-
-const STORAGE_KEY = `${process.env.BUILD_ID}_posts-list`;
-
-const initialData: DataProps = {
-  keyword: '',
-  suggest: [],
-};
-
 export const SearchPanel = ({ closeDialog }: Props) => {
-  const refInput = useRef<HTMLInputElement>(null);
-  const [data, setData] = useState<DataProps>(initialData);
-  const [archives, setArchives] = useState<Array<Post>>([]);
-
-  useEffect(() => {
-    refInput.current.focus();
-  }, []);
-
-  /**
-   * posts-list.jsonを取得する
-   * 複数リクエストをさせないようにlocalStorageへキャッシュ
-   */
-  useEffectOnce(() => {
-    const cachedValue = window.localStorage.getItem(STORAGE_KEY);
-
-    if (cachedValue) {
-      setArchives(parseJSON(cachedValue));
-      return;
-    }
-
-    (async () => {
-      await fetch('/posts-list.json')
-        .then<Post[]>((response) => response.json())
-        .then((json) => {
-          setArchives(json);
-          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(json));
-        });
-    })();
-  });
-
-  const onKeyup = useCallback(
-    (e: KeyboardEvent<HTMLInputElement>) => {
-      if (!(e.target instanceof HTMLInputElement)) {
-        return;
-      }
-
-      const value = e.target.value.trim().toLowerCase();
-
-      // 入力値が空
-      if (!value) {
-        setData(initialData);
-        return;
-      }
-
-      // Enter以外はスキップ
-      if (e.nativeEvent.isComposing || e.key !== 'Enter') {
-        return;
-      }
-
-      // 入力値が同じなら検索しない
-      if (value === data.keyword.toLowerCase()) {
-        return;
-      }
-
-      const values = value.split(' ');
-
-      const suggest = archives.filter((post) => {
-        const { title, tags } = post;
-
-        // AND検索のため入力値をスペースで区切って、それぞれの条件に一致するか
-        return values.every((word) => {
-          // 「タイトル」もしくは「タグ」に一致するか
-          return title.toLowerCase().includes(word) || tags?.includes(word);
-        });
-      });
-
-      setData({
-        keyword: value,
-        suggest,
-      });
-    },
-    [archives, data.keyword],
-  );
-
-  const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length === 0) {
-      setData(initialData);
-    }
-  }, []);
+  const {
+    SearchHeader,
+    searchData: { suggest },
+  } = useSearchHeader({ closeDialog });
 
   useEffect(() => {
     router.events.on('routeChangeComplete', closeDialog);
@@ -117,39 +28,20 @@ export const SearchPanel = ({ closeDialog }: Props) => {
 
   return (
     <SearchMain>
-      <SearchHeader>
-        <SearchHeaderIcon htmlFor="search-input">
-          <HiSearch size="24" />
-        </SearchHeaderIcon>
-        <SearchInput
-          type="search"
-          placeholder="記事のタイトルから検索する（入力してEnterを押すと検索結果が表示）"
-          id="search-input"
-          autoComplete="off"
-          ref={refInput}
-          onKeyUp={onKeyup}
-          onChange={onChange}
-        />
-      </SearchHeader>
-      {data.suggest.length > 0 && (
-        <>
-          <SearchResult>
-            {data.suggest.map((post) => (
-              <Anchor key={post.slug} href={`/${post.slug}.html`} passHref prefetch={true} onClick={closeDialog}>
-                {post.title}
-              </Anchor>
-            ))}
-          </SearchResult>
-          <SearchFooter>
-            <div>Result: {data.suggest.length} posts</div>
-            <div>
-              <a href="https://www.google.com/search?q=site:b.0218.jp" target="_blank" rel="noopener noreferrer">
-                Google 検索
-              </a>
-            </div>
-          </SearchFooter>
-        </>
-      )}
+      {SearchHeader}
+      <SearchResult>
+        {suggest.map((post) => (
+          <Anchor key={post.slug} href={`/${post.slug}.html`} passHref prefetch={true}>
+            {post.title}
+          </Anchor>
+        ))}
+      </SearchResult>
+      <SearchFooter>
+        <span>Result: {suggest.length} posts</span>
+        <a href="https://www.google.com/search?q=site:b.0218.jp" target="_blank" rel="noopener noreferrer">
+          Google 検索
+        </a>
+      </SearchFooter>
     </SearchMain>
   );
 };
@@ -170,43 +62,6 @@ const SearchMain = styled.div`
 
   ${isMobile} {
     width: 80vw;
-  }
-`;
-
-const SearchInput = styled.input`
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  font-size: var(--font-size-md);
-
-  &::placeholder {
-    color: var(--text-11);
-    font-size: var(--font-size-sm);
-  }
-
-  &::-webkit-search-cancel-button {
-    -webkit-appearance: none;
-  }
-
-  &:focus {
-    outline: none;
-  }
-`;
-
-const SearchHeader = styled.div`
-  display: flex;
-  height: 3rem;
-  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.16);
-`;
-
-const SearchHeaderIcon = styled.label`
-  display: flex;
-  align-items: center;
-  padding: 0 0.5rem 0 0.75rem;
-
-  svg {
-    color: var(--text-11);
   }
 `;
 

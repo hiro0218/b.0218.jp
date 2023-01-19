@@ -1,8 +1,7 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import Script from 'next/script';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import { PostEdit, PostHeader, PostNextRead, PostNote, PostShare } from '@/components/Page/Post';
@@ -11,6 +10,7 @@ import { PageContentContainer } from '@/components/UI/Layout';
 import Mokuji from '@/components/UI/Mokuji';
 import { Title } from '@/components/UI/Title';
 import { SITE } from '@/constant';
+import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { getPostsJson, getTermJson, getTermWithCount } from '@/lib/posts';
 import { textSegmenter } from '@/lib/textSegmenter';
@@ -23,15 +23,11 @@ type PostProps = {
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const Post: NextPage<Props> = ({ post, nextRead }) => {
-  const { asPath } = useRouter();
   const refContent = useRef<HTMLDivElement>(null);
   const permalink = `${SITE.URL}${post.slug}.html`;
   const description = getDescriptionText(post.content);
-  const cacheBusting = new Date(post?.updated || post.date).getTime();
 
-  useEffect(() => {
-    window?.twttr?.widgets.load(refContent.current);
-  }, [asPath]);
+  useTwitterWidgetsLoad({ ref: refContent });
 
   return (
     <>
@@ -48,7 +44,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
         <meta
           key="og:image"
           property="og:image"
-          content={`${SITE.URL}images/ogp/${post.slug}.png?ts=${cacheBusting}`}
+          content={`${SITE.URL}images/ogp/${post.slug}.png?ts=${process.env.BUILD_ID}`}
         />
         <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
         {post.noindex && <meta name="robots" content="noindex" />}
@@ -69,7 +65,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
 
       <PageContentContainer>
         <Title heading={post.segmentedTitle}>
-          <PostHeader post={post} />
+          <PostHeader date={post.date} updated={post.updated} readingTime={post.readingTime} tags={post.tags} />
         </Title>
 
         <PostNote note={post.note} />

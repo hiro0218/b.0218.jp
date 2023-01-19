@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
 import useIsClient from '@/hooks/useIsClient';
 import { fadeIn, slideIn } from '@/ui/animation';
-import { css, styled } from '@/ui/styled';
+import { styled } from '@/ui/styled';
 
 import { SearchPanel } from './SearchPanel';
 
@@ -25,36 +25,16 @@ export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Pr
 
   return createPortal(
     <>
-      <Overlay isOpen={!!ref.current?.open} onClick={closeDialog} />
       <Dialog ref={ref} aria-modal aria-labelledby={labelledbyId} aria-describedby={describedbyId}>
         <ScreenReaderOnlyText as="h2" id={labelledbyId} text="記事検索" />
         <ScreenReaderOnlyText as="p" id={describedbyId} text="記事のタイトルから検索することができます" />
         <SearchPanel closeDialog={closeDialog} />
       </Dialog>
+      <Overlay onClick={closeDialog} />
     </>,
     document.body,
   );
 });
-
-const Overlay = styled.div<{ isOpen: boolean }>`
-  position: fixed;
-  isolation: isolate;
-  animation: ${fadeIn} 0.4s linear both;
-
-  && {
-    ${({ isOpen }) =>
-      isOpen
-        ? css`
-            z-index: calc(var(--zIndex-search) - 1);
-            opacity: 1;
-            background-color: var(--overlay-backgrounds);
-            inset: 0;
-          `
-        : css`
-            opacity: 0;
-          `}
-  }
-`;
 
 const Dialog = styled.dialog`
   position: fixed;
@@ -66,5 +46,19 @@ const Dialog = styled.dialog`
     padding: 0;
     animation: ${fadeIn} 0.4s, ${slideIn} 0.4s linear;
     border: none;
+  }
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  isolation: isolate;
+  animation: ${fadeIn} 0.4s linear both;
+  opacity: 0;
+
+  dialog[open] + & {
+    z-index: calc(var(--zIndex-search) - 1);
+    opacity: 1;
+    background-color: var(--overlay-backgrounds);
+    inset: 0;
   }
 `;

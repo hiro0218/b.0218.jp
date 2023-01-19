@@ -7,7 +7,7 @@ type Props = {
   fill?: string;
 };
 
-const _WaveUp = ({ fill = '#fff' }: Props) => {
+export const WaveUp = memo(function WaveUp({ fill = '#fff' }: Props) {
   return (
     <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
       <path
@@ -16,11 +16,9 @@ const _WaveUp = ({ fill = '#fff' }: Props) => {
       ></path>
     </svg>
   );
-};
+});
 
-export const WaveUp = memo(_WaveUp);
-
-const _WaveDown = ({ fill = '#fff' }: Props) => {
+export const WaveDown = memo(function WaveDown({ fill = '#fff' }: Props) {
   return (
     <WaveDownSvgAdjustContainer>
       <svg viewBox="0 0 1440 140" preserveAspectRatio="none">
@@ -31,7 +29,7 @@ const _WaveDown = ({ fill = '#fff' }: Props) => {
       </svg>
     </WaveDownSvgAdjustContainer>
   );
-};
+});
 
 const WaveDownSvgAdjustContainer = styled.div`
   overflow: hidden;
@@ -47,5 +45,3 @@ const WaveDownSvgAdjustContainer = styled.div`
     }
   }
 `;
-
-export const WaveDown = memo(_WaveDown);
