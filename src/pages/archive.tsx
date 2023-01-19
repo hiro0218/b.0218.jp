@@ -10,16 +10,14 @@ import { Post as PropPost } from '@/types/source';
 
 type PostsProps = Partial<Pick<PropPost, 'title' | 'slug' | 'date' | 'excerpt'>>[];
 
-type ArchiveProps = {
-  [key in string]: PostsProps | [];
-};
+type ArchiveProps = Record<number, PostsProps>;
 
 type Props = {
   archives: ArchiveProps;
   numberOfPosts: number;
 };
 
-const getYear = (date: PropPost['date']) => date.slice(0, 4) + ' ';
+const getYear = (date: PropPost['date']) => Number(date.slice(0, 4));
 
 const generateYearList = (archives: PostsProps) => {
   const list: ArchiveProps = {};
@@ -36,8 +34,6 @@ const divideByYearArchive = (archives: PostsProps): ArchiveProps => {
     const post = archives[i];
     const year = getYear(post.date);
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     formattedArchives[year].push(post);
   }
 
@@ -55,15 +51,17 @@ const Archive: NextPage<Props> = ({ archives, numberOfPosts }) => {
         <PageContentContainer>
           <Title heading="Archive" paragraph={`${numberOfPosts}件`} />
 
-          {Object.keys(archives).map((year) => (
-            <Columns key={year} title={`${year}年`}>
-              <Stack space="var(--space-x-xs)">
-                {archives[year].map(({ slug, title, date, excerpt }: PropPost) => (
-                  <LinkCard key={slug} link={`/${slug}.html`} title={title} date={date} excerpt={excerpt} />
-                ))}
-              </Stack>
-            </Columns>
-          ))}
+          {Object.keys(archives)
+            .reverse()
+            .map((year) => (
+              <Columns key={year} title={`${year}年`}>
+                <Stack space="var(--space-x-xs)">
+                  {archives[year].map(({ slug, title, date, excerpt }: PropPost) => (
+                    <LinkCard key={slug} link={`/${slug}.html`} title={title} date={date} excerpt={excerpt} />
+                  ))}
+                </Stack>
+              </Columns>
+            ))}
         </PageContentContainer>
       </article>
     </>
