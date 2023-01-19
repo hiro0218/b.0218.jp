@@ -55,7 +55,7 @@ const Archive: NextPage<Props> = ({ archives, numberOfPosts }) => {
         <PageContentContainer>
           <Title heading="Archive" paragraph={`${numberOfPosts}件`} />
 
-          {Object.keys(archives).map((year: string) => (
+          {Object.keys(archives).map((year) => (
             <Columns key={year} title={`${year}年`}>
               <Stack space="var(--space-x-xs)">
                 {archives[year].map(({ slug, title, date, excerpt }: PropPost) => (
