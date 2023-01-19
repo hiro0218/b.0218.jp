@@ -55,7 +55,7 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
           <link rel="dns-prefetch" href="//platform.twitter.com" />
           <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
           <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-          <link rel="alternate" type="application/rss+xml" href="https://b.0218.jp/feed.xml" />
+          <link rel="alternate" type="application/rss+xml" href={`${SITE.URL}feed.xml`} />
           <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" />
           <script
             type="application/ld+json"

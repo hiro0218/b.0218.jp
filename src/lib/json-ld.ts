@@ -38,7 +38,7 @@ export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> =
       name: SITE.NAME,
       logo: {
         '@type': 'ImageObject',
-        url: 'https://b.0218.jp/hiro0218.png',
+        url: `${SITE.URL}hiro0218.png`,
         width: '400px',
         height: '400px',
       },
