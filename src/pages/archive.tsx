@@ -14,10 +14,10 @@ type ArchiveProps = {
   [key in string]: PostsProps | [];
 };
 
-interface Props {
+type Props = {
   archives: ArchiveProps;
   numberOfPosts: number;
-}
+};
 
 const getYear = (date: PropPost['date']) => date.slice(0, 4) + ' ';
 
