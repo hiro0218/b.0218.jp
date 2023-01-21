@@ -20,7 +20,7 @@ export const Hero = memo(function Hero() {
   );
 });
 
-const Container = styled.section`
+const Container = styled.div`
   display: flex;
   gap: 1rem;
 `;
