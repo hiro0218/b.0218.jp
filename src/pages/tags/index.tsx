@@ -1,7 +1,7 @@
 import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 import Head from 'next/head';
 
-import { PageContentContainer, Stack } from '@/components/UI/Layout';
+import { PageContainer, Stack } from '@/components/UI/Layout';
 import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
 import { Title } from '@/components/UI/Title';
 import { SITE } from '@/constant';
@@ -17,14 +17,14 @@ const Tags: NextPage<Props> = ({ tags }) => (
     <Head>
       <title key="title">{`Tags - ${SITE.NAME}`}</title>
     </Head>
-    <PageContentContainer>
+    <PageContainer>
       <Title heading="Tags" paragraph={`${tags.length}件`} />
       <Stack>
         <PostTagGridContainer>
           <PostTag tags={tags} />
         </PostTagGridContainer>
       </Stack>
-    </PageContentContainer>
+    </PageContainer>
   </>
 );
 

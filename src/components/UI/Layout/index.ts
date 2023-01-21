@@ -1,5 +1,5 @@
 import Columns from './Columns';
-import PageContentContainer from './PageContentContainer';
+import PageContainer from './PageContainer';
 import Stack from './Stack';
 
-export { Stack, Columns, PageContentContainer };
+export { Stack, Columns, PageContainer };

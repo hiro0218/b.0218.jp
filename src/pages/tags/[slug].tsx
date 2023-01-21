@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 import Head from 'next/head';
 
-import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
+import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE } from '@/constant';
@@ -24,7 +24,7 @@ const Tags: NextPage<Props> = ({ title, posts }) => (
     </Head>
 
     <section>
-      <PageContentContainer>
+      <PageContainer>
         <Title heading={pageTitle} paragraph={`${posts.length}件`} />
 
         <Columns title={title}>
@@ -40,7 +40,7 @@ const Tags: NextPage<Props> = ({ title, posts }) => (
             ))}
           </Stack>
         </Columns>
-      </PageContentContainer>
+      </PageContainer>
     </section>
   </>
 );

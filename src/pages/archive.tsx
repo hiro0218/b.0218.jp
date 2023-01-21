@@ -1,7 +1,7 @@
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
-import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
+import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE } from '@/constant';
@@ -48,7 +48,7 @@ const Archive: NextPage<Props> = ({ archives, numberOfPosts }) => {
       </Head>
 
       <article>
-        <PageContentContainer>
+        <PageContainer>
           <Title heading="Archive" paragraph={`${numberOfPosts}件`} />
 
           {Object.keys(archives)
@@ -62,7 +62,7 @@ const Archive: NextPage<Props> = ({ archives, numberOfPosts }) => {
                 </Stack>
               </Columns>
             ))}
-        </PageContentContainer>
+        </PageContainer>
       </article>
     </>
   );

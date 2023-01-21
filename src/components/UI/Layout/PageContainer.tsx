@@ -6,11 +6,11 @@ type Props = {
   children?: ReactNode;
 };
 
-const PageContentContainer = memo(function PageContentContainer({ children }: Props) {
+const PageContainer = memo(function PageContainer({ children }: Props) {
   return <Container>{children}</Container>;
 });
 
-export default PageContentContainer;
+export default PageContainer;
 
 const Container = styled.div`
   margin-top: var(--space-md);

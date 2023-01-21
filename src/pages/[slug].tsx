@@ -6,7 +6,7 @@ import { useRef } from 'react';
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import { PostEdit, PostHeader, PostNextRead, PostNote, PostShare } from '@/components/Page/Post';
 import { Adsense } from '@/components/UI/Adsense';
-import { PageContentContainer } from '@/components/UI/Layout';
+import { PageContainer } from '@/components/UI/Layout';
 import Mokuji from '@/components/UI/Mokuji';
 import { Title } from '@/components/UI/Title';
 import { SITE } from '@/constant';
@@ -63,7 +63,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
         <Script strategy="lazyOnload" src="https://platform.twitter.com/widgets.js" />
       )}
 
-      <PageContentContainer>
+      <PageContainer>
         <Title heading={post.segmentedTitle}>
           <PostHeader date={post.date} updated={post.updated} readingTime={post.readingTime} tags={post.tags} />
         </Title>
@@ -87,7 +87,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
         <PostEdit slug={post.slug} />
 
         <PostNextRead posts={nextRead} />
-      </PageContentContainer>
+      </PageContainer>
     </>
   );
 };
