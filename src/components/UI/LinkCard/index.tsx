@@ -27,7 +27,7 @@ const LinkCard = ({ link, title, date, excerpt, target = false, role }: Props) =
         {excerpt && <span>{excerpt}</span>}
       </Paragraph>
     </Main>
-    <Icon>{target ? <HiOutlineExternalLink /> : <HiOutlineChevronRight />}</Icon>
+    <Icon className="icon">{target ? <HiOutlineExternalLink /> : <HiOutlineChevronRight />}</Icon>
   </Container>
 );
 
@@ -36,15 +36,23 @@ export default LinkCard;
 const Container = styled.div`
   display: flex;
   height: 100%;
-  padding: calc(var(--margin-base) * 0.6) var(--margin-base);
+  padding: calc(var(--margin-base) * 0.6);
+  padding-left: var(--margin-base);
   border-radius: 0.25rem;
   gap: calc(var(--margin-base) * 0.25);
 
   ${isMobile} {
-    padding: var(--margin-base);
+    padding: calc(var(--margin-base) * 0.8);
   }
 
   ${showHoverBackground}
+
+  &:hover,
+  &:focus-within {
+    .icon {
+      opacity: 1;
+    }
+  }
 
   &:focus-within {
     box-shadow: 0 0 0 2px var(--borders-7);
@@ -104,6 +112,8 @@ const Paragraph = styled.p`
 const Icon = styled.div`
   display: flex;
   align-items: center;
+  transition: opacity 0.2s ease-in-out;
+  opacity: 0;
   color: var(--text-11);
 
   svg {
