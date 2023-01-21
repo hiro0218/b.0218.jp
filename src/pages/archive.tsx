@@ -47,23 +47,21 @@ const Archive: NextPage<Props> = ({ archives, numberOfPosts }) => {
         <title key="title">{`Archive - ${SITE.NAME}`}</title>
       </Head>
 
-      <article>
-        <PageContainer>
-          <Title heading="Archive" paragraph={`${numberOfPosts}件`} />
+      <PageContainer as="article">
+        <Title heading="Archive" paragraph={`${numberOfPosts}件`} />
 
-          {Object.keys(archives)
-            .reverse()
-            .map((year) => (
-              <Columns key={year} title={`${year}年`}>
-                <Stack space="var(--space-x-xs)">
-                  {archives[year].map(({ slug, title, date, excerpt }: PropPost) => (
-                    <LinkCard key={slug} link={`/${slug}.html`} title={title} date={date} excerpt={excerpt} />
-                  ))}
-                </Stack>
-              </Columns>
-            ))}
-        </PageContainer>
-      </article>
+        {Object.keys(archives)
+          .reverse()
+          .map((year) => (
+            <Columns key={year} title={`${year}年`}>
+              <Stack space="var(--space-x-xs)">
+                {archives[year].map(({ slug, title, date, excerpt }: PropPost) => (
+                  <LinkCard key={slug} link={`/${slug}.html`} title={title} date={date} excerpt={excerpt} />
+                ))}
+              </Stack>
+            </Columns>
+          ))}
+      </PageContainer>
     </>
   );
 };

@@ -63,7 +63,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
         <Script strategy="lazyOnload" src="https://platform.twitter.com/widgets.js" />
       )}
 
-      <PageContainer>
+      <PageContainer as="article">
         <Title heading={post.segmentedTitle}>
           <PostHeader date={post.date} updated={post.updated} readingTime={post.readingTime} tags={post.tags} />
         </Title>

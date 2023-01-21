@@ -17,6 +17,7 @@ const Tags: NextPage<Props> = ({ tags }) => (
     <Head>
       <title key="title">{`Tags - ${SITE.NAME}`}</title>
     </Head>
+
     <PageContainer>
       <Title heading="Tags" paragraph={`${tags.length}件`} />
       <Stack>

@@ -23,25 +23,23 @@ const Tags: NextPage<Props> = ({ title, posts }) => (
       <meta name="robots" content="noindex" />
     </Head>
 
-    <section>
-      <PageContainer>
-        <Title heading={pageTitle} paragraph={`${posts.length}件`} />
+    <PageContainer as="section">
+      <Title heading={pageTitle} paragraph={`${posts.length}件`} />
 
-        <Columns title={title}>
-          <Stack space="calc(var(--margin-base) * 0.25)">
-            {posts.map((post) => (
-              <LinkCard
-                key={post.slug}
-                link={`/${post.slug}.html`}
-                title={post.title}
-                date={post.date}
-                excerpt={post.excerpt}
-              />
-            ))}
-          </Stack>
-        </Columns>
-      </PageContainer>
-    </section>
+      <Columns title={title}>
+        <Stack space="calc(var(--margin-base) * 0.25)">
+          {posts.map((post) => (
+            <LinkCard
+              key={post.slug}
+              link={`/${post.slug}.html`}
+              title={post.title}
+              date={post.date}
+              excerpt={post.excerpt}
+            />
+          ))}
+        </Stack>
+      </Columns>
+    </PageContainer>
   </>
 );
 

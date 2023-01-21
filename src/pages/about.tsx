@@ -19,7 +19,7 @@ const About: NextPage<Props> = ({ page }) => {
         <title key="title">{`サイトについて - ${SITE.NAME}`}</title>
       </Head>
 
-      <PageContainer>
+      <PageContainer as="article">
         <Title heading="About" paragraph="サイトと運営者について" />
 
         <PostContent

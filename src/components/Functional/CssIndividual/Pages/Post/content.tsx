@@ -38,7 +38,7 @@ const Headings = css`
   })}
 `;
 
-const PostContent = styled.article`
+const PostContent = styled.div`
   & > * {
     margin-top: var(--space-xl);
     margin-bottom: var(--space-xl);
