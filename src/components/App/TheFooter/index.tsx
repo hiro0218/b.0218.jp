@@ -2,7 +2,7 @@ import { memo } from 'react';
 
 import { WaveUp } from '@/components/Functional/Wave';
 import { Anchor } from '@/components/UI/Anchor';
-import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 const Links = [
@@ -55,7 +55,7 @@ const Footer = styled.div`
     color: inherit;
 
     ${isMobile} {
-      padding: var(--space-md);
+      padding: var(--space-x-xs) var(--space-xs);
     }
 
     &:hover {
@@ -84,14 +84,27 @@ const Container = styled.div`
 
 const List = styled.ul`
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  ${isMobile} {
+    width: 65vw;
+  }
 `;
 
 const ListItem = styled.li`
   display: inline-flex;
+  justify-content: center;
 
-  ${isDesktop} {
+  & + & {
+    margin-left: var(--space-sm);
+  }
+
+  ${isMobile} {
+    width: calc(100% / ${Links.length});
+
     & + & {
-      margin-left: var(--space-sm);
+      margin-left: var(--space-xs);
     }
   }
 `;
