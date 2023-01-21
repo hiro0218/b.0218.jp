@@ -61,10 +61,6 @@ const Footer = styled.div`
     &:hover {
       background-color: var(--component-backgrounds-3A);
     }
-
-    &:focus-within {
-      box-shadow: 0 0 0 2px var(--borders-7);
-    }
   }
 
   small {
