@@ -53,10 +53,6 @@ const Container = styled.div`
       opacity: 1;
     }
   }
-
-  &:focus-within {
-    box-shadow: 0 0 0 2px var(--borders-7);
-  }
 `;
 
 const Main = styled.div`
