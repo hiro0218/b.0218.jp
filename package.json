@@ -78,7 +78,7 @@
     "gray-matter": "^4.0.3",
     "hastscript": "^7.2.0",
     "husky": "^8.0.3",
-    "jsdom": "^21.0.0",
+    "jsdom": "^21.1.0",
     "lint-staged": "^13.1.0",
     "markuplint": "^3.2.0",
     "next-build-id": "^3.0.0",
