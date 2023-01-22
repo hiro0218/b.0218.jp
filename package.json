@@ -65,7 +65,7 @@
     "@types/twitter-for-web": "^0.0.2",
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "budoux": "^0.4.1",
-    "dependency-cruiser": "^12.5.0",
+    "dependency-cruiser": "^12.5.1",
     "dotenv": "^16.0.3",
     "esbuild": "^0.17.3",
     "esbuild-register": "^3.4.2",
