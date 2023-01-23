@@ -19,7 +19,8 @@ const PostHeader = ({ date, updated, readingTime, tags }: Props) => {
     <PostHeaderList>
       <PostHeaderItem>
         <PostDate date={date} updated={updated} />
-        <PostHeaderReadingTime>{readingTime}</PostHeaderReadingTime>
+        <Separator aria-hidden="true">・</Separator>
+        <span>{readingTime}</span>
       </PostHeaderItem>
       <PostHeaderItem>
         <PostTagGridContainer>
@@ -47,9 +48,7 @@ const PostHeaderItem = styled.div`
   font-size: var(--font-size-md);
 `;
 
-const PostHeaderReadingTime = styled.div`
-  &::before {
-    content: '・';
-    margin: 0 calc(var(--margin-base) * 0.25);
-  }
+const Separator = styled.span`
+  margin: 0 calc(var(--margin-base) * 0.25);
+  user-select: none;
 `;
