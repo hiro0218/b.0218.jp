@@ -3,18 +3,18 @@ import { ReactNode } from 'react';
 import { styled } from '@/ui/styled';
 
 type Props = {
-  tagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   text?: ReactNode;
   textSide?: ReactNode;
   textSub?: ReactNode;
   isWeightNormal?: boolean;
 };
 
-const Heading = ({ tagName: Tag = 'h1', text, textSide, textSub, isWeightNormal = true }: Props) => {
+const Heading = ({ as = 'h1', text, textSide, textSub, isWeightNormal = true }: Props) => {
   return (
     <Container>
       <Main>
-        <HeaderTitle as={Tag} weight={isWeightNormal}>
+        <HeaderTitle as={as} weight={isWeightNormal}>
           {text}
         </HeaderTitle>
         {textSub && <HeaderSub>{textSub}</HeaderSub>}

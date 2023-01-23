@@ -46,7 +46,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
         </Stack>
 
         <Stack as="section">
-          <Heading tagName="h2" text="Articles" />
+          <Heading as="h2" text="Articles" />
           <Columns title="Recent Articles" titleTagName="h3">
             <Stack space="var(--space-x-xs)">
               {recentPosts.map((post) => (
@@ -77,7 +77,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
         </Stack>
 
         <Stack as="section">
-          <Heading tagName="h2" text="Tags" />
+          <Heading as="h2" text="Tags" />
           <PostTagGridContainer>
             <PostTag tags={tags} />
           </PostTagGridContainer>

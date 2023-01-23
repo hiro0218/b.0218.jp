@@ -15,7 +15,7 @@ const PostNextRead = ({ posts }: Props) => {
 
   return (
     <section>
-      <Heading tagName="h2" text="Related Articles" />
+      <Heading as="h2" text="Related Articles" />
       <Container>
         {posts.map((post) => (
           <LinkCard
