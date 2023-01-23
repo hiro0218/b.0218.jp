@@ -13,7 +13,7 @@ export const Hero = memo(function Hero() {
         <img src="/hiro0218@100x100.webp" height={ICON_SIZE} width={ICON_SIZE} alt="" decoding="async" />
       </Avatar>
       <Title
-        heading="Hello, I'm hiro."
+        heading="Hi, I'm hiro."
         paragraph="Web Developer (Frontend) | Development Experience: Backend, iOS App, Windows App"
       />
     </Container>
