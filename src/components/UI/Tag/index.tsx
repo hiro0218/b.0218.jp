@@ -54,7 +54,9 @@ const Anchor = styled(_Anchor)`
   text-align: center;
   white-space: nowrap;
 
-  ${showHoverBackground}
+  &:hover {
+    background-color: var(--component-backgrounds-4);
+  }
 
   &::before {
     content: '#';
