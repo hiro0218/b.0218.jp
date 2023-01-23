@@ -5,9 +5,9 @@ import { useRef } from 'react';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import { PostEdit, PostHeader, PostNextRead, PostNote, PostShare } from '@/components/Page/Post';
+import Mokuji from '@/components/Page/Post/Mokuji';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContainer } from '@/components/UI/Layout';
-import Mokuji from '@/components/UI/Mokuji';
 import { Title } from '@/components/UI/Title';
 import { AUTHOR, SITE } from '@/constant';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
