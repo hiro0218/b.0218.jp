@@ -41,11 +41,11 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
       />
 
       <PageContainer>
-        <Stack tagName="section">
+        <Stack as="section">
           <Hero />
         </Stack>
 
-        <Stack tagName="section">
+        <Stack as="section">
           <Heading tagName="h2" text="Articles" />
           <Columns title="Recent Articles" titleTagName="h3">
             <Stack space="var(--space-x-xs)">
@@ -76,7 +76,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
           </Columns>
         </Stack>
 
-        <Stack tagName="section">
+        <Stack as="section">
           <Heading tagName="h2" text="Tags" />
           <PostTagGridContainer>
             <PostTag tags={tags} />
