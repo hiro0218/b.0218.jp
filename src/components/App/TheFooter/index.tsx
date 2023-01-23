@@ -50,9 +50,11 @@ const Footer = styled.div`
   font-size: var(--font-size-md);
 
   a {
+    width: 100%;
     padding: var(--space-xs) var(--space-sm);
     border-radius: 0.25rem;
     color: inherit;
+    text-align: center;
 
     ${isMobile} {
       padding: var(--space-x-xs) var(--space-xs);
@@ -77,8 +79,7 @@ const Container = styled.div`
 
   ${isMobile} {
     flex-direction: column;
-    gap: var(--space-md);
-    padding: 0 5vw;
+    gap: var(--space-xl);
   }
 `;
 
@@ -86,6 +87,7 @@ const List = styled.ul`
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: var(--space-sm);
 
   ${isMobile} {
     width: 65vw;
@@ -96,15 +98,7 @@ const ListItem = styled.li`
   display: inline-flex;
   justify-content: center;
 
-  & + & {
-    margin-left: var(--space-sm);
-  }
-
   ${isMobile} {
     width: calc(100% / ${Links.length});
-
-    & + & {
-      margin-left: var(--space-xs);
-    }
   }
 `;
