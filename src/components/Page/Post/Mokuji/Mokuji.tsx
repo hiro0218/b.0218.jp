@@ -11,17 +11,13 @@ const Mokuji = ({ refContent }: MokujiProps) => {
   const { asPath } = useRouter();
   const { refMokuji, refDetailContent } = useMokuji({ refContent });
   const refDetails = useRef<HTMLDetailsElement>(null);
-  const refFirstRender = useRef(true);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      if (refFirstRender.current) {
-        refFirstRender.current = false;
-        return;
-      }
-    }
+    const accordion = new DetailsAccordion(refDetails.current, refDetailContent.current);
 
-    new DetailsAccordion(refDetails.current, refDetailContent.current);
+    return () => {
+      accordion.removeEventListener();
+    };
   }, [asPath, refDetailContent]);
 
   return (

@@ -14,7 +14,15 @@ export class DetailsAccordion {
     this.isClosing = false;
     this.isExpanding = false;
 
+    this.addEventListener();
+  }
+
+  addEventListener() {
     this.summary.addEventListener('click', (e) => this.onClick(e));
+  }
+
+  removeEventListener() {
+    this.summary.removeEventListener('click', (e) => this.onClick(e));
   }
 
   onClick(e: MouseEvent) {
