@@ -2,7 +2,7 @@ import { memo } from 'react';
 
 import { WaveUp } from '@/components/Functional/Wave';
 import { Anchor } from '@/components/UI/Anchor';
-import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 const Links = [
@@ -50,20 +50,18 @@ const Footer = styled.div`
   font-size: var(--font-size-md);
 
   a {
+    width: 100%;
     padding: var(--space-xs) var(--space-sm);
     border-radius: 0.25rem;
     color: inherit;
+    text-align: center;
 
     ${isMobile} {
-      padding: var(--space-md);
+      padding: var(--space-x-xs) var(--space-xs);
     }
 
     &:hover {
       background-color: var(--component-backgrounds-3A);
-    }
-
-    &:focus-within {
-      box-shadow: 0 0 0 2px var(--borders-7);
     }
   }
 
@@ -81,21 +79,26 @@ const Container = styled.div`
 
   ${isMobile} {
     flex-direction: column;
-    gap: var(--space-md);
-    padding: 0 5vw;
+    gap: var(--space-xl);
   }
 `;
 
 const List = styled.ul`
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+
+  ${isMobile} {
+    width: 65vw;
+  }
 `;
 
 const ListItem = styled.li`
   display: inline-flex;
+  justify-content: center;
 
-  ${isDesktop} {
-    & + & {
-      margin-left: var(--space-sm);
-    }
+  ${isMobile} {
+    width: calc(100% / ${Links.length});
   }
 `;

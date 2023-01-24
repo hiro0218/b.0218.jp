@@ -3,7 +3,7 @@ import { AriaRole, CSSProperties, memo, ReactNode } from 'react';
 import { styled } from '@/ui/styled';
 
 type Props = {
-  tagName?: 'div' | 'section';
+  as?: 'div' | 'section';
   space?: CSSProperties['margin'];
   role?: AriaRole;
   children: ReactNode;
@@ -15,13 +15,13 @@ const StackRoot = styled.div<Props>`
   justify-content: flex-start;
 
   & > * + * {
-    margin-block-start: ${(props) => props.space || 'var(--space-md)'};
+    margin-top: ${({ space }) => space || 'var(--space-md)'};
   }
 `;
 
-const Stack = memo(function Stack({ tagName = 'div', children, ...props }: Props) {
+const Stack = memo(function Stack({ as = 'div', children, ...props }: Props) {
   return (
-    <StackRoot as={tagName} {...props}>
+    <StackRoot as={as} {...props}>
       {children}
     </StackRoot>
   );

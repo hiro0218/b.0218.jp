@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 import Head from 'next/head';
 
-import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
+import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE } from '@/constant';
@@ -23,25 +23,23 @@ const Tags: NextPage<Props> = ({ title, posts }) => (
       <meta name="robots" content="noindex" />
     </Head>
 
-    <section>
-      <PageContentContainer>
-        <Title heading={pageTitle} paragraph={`${posts.length}件`} />
+    <PageContainer as="section">
+      <Title heading={pageTitle} paragraph={`${posts.length}件`} />
 
-        <Columns title={title}>
-          <Stack space="calc(var(--margin-base) * 0.25)">
-            {posts.map((post) => (
-              <LinkCard
-                key={post.slug}
-                link={`/${post.slug}.html`}
-                title={post.title}
-                date={post.date}
-                excerpt={post.excerpt}
-              />
-            ))}
-          </Stack>
-        </Columns>
-      </PageContentContainer>
-    </section>
+      <Columns title={title}>
+        <Stack space="calc(var(--margin-base) * 0.25)">
+          {posts.map((post) => (
+            <LinkCard
+              key={post.slug}
+              link={`/${post.slug}.html`}
+              title={post.title}
+              date={post.date}
+              excerpt={post.excerpt}
+            />
+          ))}
+        </Stack>
+      </Columns>
+    </PageContainer>
   </>
 );
 

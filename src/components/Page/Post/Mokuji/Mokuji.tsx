@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
+import { useEffect, useRef } from 'react';
 
+import { DetailsAccordion } from '@/lib/DetailsAccordion';
 import { styled } from '@/ui/styled';
 
 import { MokujiProps } from './type';
@@ -7,12 +9,22 @@ import { useMokuji } from './useMokuji';
 
 const Mokuji = ({ refContent }: MokujiProps) => {
   const { asPath } = useRouter();
-  const { refMokuji, refDetail } = useMokuji({ refContent });
+  const { refMokuji, refDetailContent } = useMokuji({ refContent });
+  const refDetails = useRef<HTMLDetailsElement>(null);
+
+  useEffect(() => {
+    const accordion = new DetailsAccordion(refDetails.current, refDetailContent.current);
+
+    return () => {
+      accordion.removeEventListener();
+    };
+  }, [asPath, refDetailContent]);
 
   return (
     <Root key={asPath} ref={refMokuji}>
-      <Details ref={refDetail}>
-        <Summary />
+      <Details ref={refDetails}>
+        <Summary>目次</Summary>
+        <DetailsContent ref={refDetailContent} />
       </Details>
     </Root>
   );
@@ -35,12 +47,9 @@ const Root = styled.aside`
 const Summary = styled.summary`
   padding: var(--space-md) var(--space-lg);
   font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   user-select: none;
-
-  &::after {
-    content: '目次';
-  }
 `;
 
 const Details = styled.details`
@@ -51,12 +60,18 @@ const Details = styled.details`
   &:not([open]):hover {
     background-color: var(--component-backgrounds-4);
   }
+`;
+
+const DetailsContent = styled.div`
+  padding-top: var(--space-md);
 
   > ol {
     margin: 0;
     padding: 0 var(--space-lg) var(--space-lg);
 
-    /* > li > a {} */
+    > li > a {
+      font-weight: var(--font-weight-bold);
+    }
   }
 
   ol {

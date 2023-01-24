@@ -1,7 +1,7 @@
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
-import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
+import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE } from '@/constant';
@@ -47,23 +47,21 @@ const Archive: NextPage<Props> = ({ archives, numberOfPosts }) => {
         <title key="title">{`Archive - ${SITE.NAME}`}</title>
       </Head>
 
-      <article>
-        <PageContentContainer>
-          <Title heading="Archive" paragraph={`${numberOfPosts}件`} />
+      <PageContainer as="article">
+        <Title heading="Archive" paragraph={`${numberOfPosts}件`} />
 
-          {Object.keys(archives)
-            .reverse()
-            .map((year) => (
-              <Columns key={year} title={`${year}年`}>
-                <Stack space="var(--space-x-xs)">
-                  {archives[year].map(({ slug, title, date, excerpt }: PropPost) => (
-                    <LinkCard key={slug} link={`/${slug}.html`} title={title} date={date} excerpt={excerpt} />
-                  ))}
-                </Stack>
-              </Columns>
-            ))}
-        </PageContentContainer>
-      </article>
+        {Object.keys(archives)
+          .reverse()
+          .map((year) => (
+            <Columns key={year} title={`${year}年`}>
+              <Stack space="var(--space-x-xs)">
+                {archives[year].map(({ slug, title, date, excerpt }: PropPost) => (
+                  <LinkCard key={slug} link={`/${slug}.html`} title={title} date={date} excerpt={excerpt} />
+                ))}
+              </Stack>
+            </Columns>
+          ))}
+      </PageContainer>
     </>
   );
 };

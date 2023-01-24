@@ -5,11 +5,11 @@ import { useRef } from 'react';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import { PostEdit, PostHeader, PostNextRead, PostNote, PostShare } from '@/components/Page/Post';
+import Mokuji from '@/components/Page/Post/Mokuji';
 import { Adsense } from '@/components/UI/Adsense';
-import { PageContentContainer } from '@/components/UI/Layout';
-import Mokuji from '@/components/UI/Mokuji';
+import { PageContainer } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
-import { SITE } from '@/constant';
+import { AUTHOR, SITE } from '@/constant';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { getPostsJson, getTermJson, getTermWithCount } from '@/lib/posts';
@@ -47,6 +47,10 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
           content={`${SITE.URL}images/ogp/${post.slug}.png?ts=${process.env.BUILD_ID}`}
         />
         <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:label1" content="Written by" />
+        <meta name="twitter:data1" content={AUTHOR.NAME} />
+        <meta name="twitter:label2" content="Reading time" />
+        <meta name="twitter:data2" content={post.readingTime} />
         {post.noindex && <meta name="robots" content="noindex" />}
         {!post.noindex && <link rel="canonical" href={permalink} />}
         <script
@@ -63,7 +67,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
         <Script strategy="lazyOnload" src="https://platform.twitter.com/widgets.js" />
       )}
 
-      <PageContentContainer>
+      <PageContainer as="article">
         <Title heading={post.segmentedTitle}>
           <PostHeader date={post.date} updated={post.updated} readingTime={post.readingTime} tags={post.tags} />
         </Title>
@@ -87,7 +91,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
         <PostEdit slug={post.slug} />
 
         <PostNextRead posts={nextRead} />
-      </PageContentContainer>
+      </PageContainer>
     </>
   );
 };

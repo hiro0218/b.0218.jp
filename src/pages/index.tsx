@@ -3,7 +3,7 @@ import Head from 'next/head';
 
 import { Hero } from '@/components/Page/Home/Hero';
 import Heading from '@/components/UI/Heading';
-import { Columns, PageContentContainer, Stack } from '@/components/UI/Layout';
+import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
 import { SITE } from '@/constant';
@@ -40,11 +40,13 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
         }}
       />
 
-      <PageContentContainer>
-        <Hero />
+      <PageContainer>
+        <Stack as="section">
+          <Hero />
+        </Stack>
 
-        <Stack>
-          <Heading tagName="h2" text="Articles" />
+        <Stack as="section">
+          <Heading as="h2" text="Articles" />
           <Columns title="Recent Articles" titleTagName="h3">
             <Stack space="var(--space-x-xs)">
               {recentPosts.map((post) => (
@@ -74,13 +76,13 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
           </Columns>
         </Stack>
 
-        <Stack tagName="section">
-          <Heading tagName="h2" text="Tags" />
+        <Stack as="section">
+          <Heading as="h2" text="Tags" />
           <PostTagGridContainer>
             <PostTag tags={tags} />
           </PostTagGridContainer>
         </Stack>
-      </PageContentContainer>
+      </PageContainer>
     </>
   );
 };

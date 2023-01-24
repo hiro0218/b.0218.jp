@@ -1,6 +1,7 @@
 import { memo } from 'react';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
+import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 export type Props = {
@@ -53,9 +54,8 @@ const Anchor = styled(_Anchor)`
   text-align: center;
   white-space: nowrap;
 
-  &:hover,
-  &:focus {
-    background-color: var(--component-backgrounds-5);
+  &:hover {
+    background-color: var(--component-backgrounds-4);
   }
 
   &::before {
