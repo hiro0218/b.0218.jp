@@ -1,4 +1,4 @@
-export class Accordion {
+export class DetailsAccordion {
   detailsElement: HTMLDetailsElement;
   summary: HTMLElement;
   content: HTMLElement;
@@ -43,7 +43,7 @@ export class Accordion {
         height: [startHeight, endHeight],
       },
       {
-        duration: 400,
+        duration: 200,
         easing: 'ease-out',
       },
     );
@@ -73,7 +73,7 @@ export class Accordion {
         height: [startHeight, endHeight],
       },
       {
-        duration: 400,
+        duration: 200,
         easing: 'ease-out',
       },
     );

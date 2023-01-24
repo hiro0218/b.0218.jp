@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
-import { Accordion } from '@/lib/Accordion';
+import { DetailsAccordion } from '@/lib/DetailsAccordion';
 import { styled } from '@/ui/styled';
 
 import { MokujiProps } from './type';
@@ -11,16 +11,24 @@ const Mokuji = ({ refContent }: MokujiProps) => {
   const { asPath } = useRouter();
   const { refMokuji, refDetailContent } = useMokuji({ refContent });
   const refDetails = useRef<HTMLDetailsElement>(null);
+  const refFirstRender = useRef(true);
 
   useEffect(() => {
-    new Accordion(refDetails.current, refDetailContent.current);
+    if (process.env.NODE_ENV === 'development') {
+      if (refFirstRender.current) {
+        refFirstRender.current = false;
+        return;
+      }
+    }
+
+    new DetailsAccordion(refDetails.current, refDetailContent.current);
   }, [asPath, refDetailContent]);
 
   return (
     <Root key={asPath} ref={refMokuji}>
       <Details ref={refDetails}>
         <Summary>目次</Summary>
-        <DetailsContent ref={refDetailContent} className="content" />
+        <DetailsContent ref={refDetailContent} />
       </Details>
     </Root>
   );
