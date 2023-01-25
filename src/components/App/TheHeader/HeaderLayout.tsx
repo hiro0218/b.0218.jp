@@ -1,6 +1,7 @@
 import { memo, ReactNode } from 'react';
 
 import { WaveDown } from '@/components/Functional/Wave';
+import { fadeIn, fadeOut } from '@/ui/animation';
 import { css, styled } from '@/ui/styled';
 
 import { useHeaderScrollHandler } from './useHeaderScrollHandler';
@@ -32,16 +33,16 @@ const Header = styled.header<{ isFixed: boolean }>`
   left: 0;
   height: ${({ theme }) => theme.components.header.height}px;
   margin: 0 auto;
-  transition: transform 0.25s ease;
+  animation: ${fadeIn} 0.4s linear both;
   pointer-events: none;
-  will-change: transform;
+  will-change: opacity;
 
-  ${({ theme, isFixed }) => {
+  ${({ isFixed }) => {
     return (
       !isFixed &&
       css`
         && {
-          transform: translateY(${theme.components.header.height * -1}px);
+          animation: ${fadeOut} 0.4s linear both;
         }
       `
     );
