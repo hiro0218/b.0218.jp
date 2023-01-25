@@ -27,3 +27,13 @@ export const fadeIn = keyframes`
     opacity: 1;
   }
 `;
+
+export const fadeOut = keyframes`
+  0% {
+    opacity: 1;
+  }
+  100% {
+    visibility: hidden;
+    opacity: 0;
+  }
+`;
