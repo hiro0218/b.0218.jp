@@ -11,5 +11,5 @@ export default function useIsMounted() {
     };
   }, []);
 
-  return useCallback(() => isMounted.current, []);
+  return useCallback(() => isMounted.current, [])();
 }
