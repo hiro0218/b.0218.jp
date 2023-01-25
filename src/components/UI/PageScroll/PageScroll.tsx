@@ -1,9 +1,9 @@
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import { RxCaretDown, RxCaretUp } from 'react-icons/rx';
 
 import { styled } from '@/ui/styled';
 
-export const PageScroll = () => {
+export const PageScroll = memo(function PageScroll() {
   const onScrollTop = useCallback(() => {
     window.scroll(0, 0);
   }, []);
@@ -25,7 +25,7 @@ export const PageScroll = () => {
       </Button>
     </Container>
   );
-};
+});
 
 const Container = styled.div`
   position: fixed;
