@@ -6,15 +6,17 @@ import useIsClient from '@/hooks/useIsClient';
 import { fadeIn, slideIn } from '@/ui/animation';
 import { styled } from '@/ui/styled';
 
+import { Overlay } from './Overlay';
 import { SearchPanel } from './SearchPanel';
 
 type RefProps = MutableRefObject<HTMLDialogElement>;
 
 type Props = {
+  isActive: boolean;
   closeDialog: () => void;
 };
 
-export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Props, ref: RefProps) {
+export const SearchDialog = forwardRef(function SearchDialog({ isActive, closeDialog }: Props, ref: RefProps) {
   const isClient = useIsClient();
   const labelledbyId = useId();
   const describedbyId = useId();
@@ -30,7 +32,7 @@ export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Pr
         <ScreenReaderOnlyText as="p" id={describedbyId} text="記事のタイトルから検索することができます" />
         <SearchPanel closeDialog={closeDialog} />
       </Dialog>
-      <Overlay onClick={closeDialog} />
+      <Overlay isActive={isActive} onClick={closeDialog} />
     </>,
     document.body,
   );
@@ -46,19 +48,5 @@ const Dialog = styled.dialog`
     padding: 0;
     animation: ${fadeIn} 0.4s, ${slideIn} 0.4s linear;
     border: none;
-  }
-`;
-
-const Overlay = styled.div`
-  position: fixed;
-  isolation: isolate;
-  animation: ${fadeIn} 0.4s linear both;
-  opacity: 0;
-
-  dialog[open] + & {
-    z-index: calc(var(--zIndex-search) - 1);
-    opacity: 1;
-    background-color: var(--overlay-backgrounds);
-    inset: 0;
   }
 `;

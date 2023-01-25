@@ -1,5 +1,5 @@
-import { AriaRole, ReactNode } from 'react';
-import { HiOutlineChevronRight, HiOutlineExternalLink } from 'react-icons/hi';
+import { AriaRole, ReactNode, useMemo } from 'react';
+import { HiOutlineChevronRight } from 'react-icons/hi';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { convertDateToSimpleFormat } from '@/lib/date';
@@ -12,24 +12,33 @@ interface Props {
   title: string;
   date?: string;
   excerpt?: ReactNode | string;
-  target?: boolean;
   role?: AriaRole;
 }
 
-const LinkCard = ({ link, title, date, excerpt, target = false, role }: Props) => (
-  <Container role={role}>
-    <Main>
-      <Anchor href={link} prefetch={false} passHref {...(target && { target: '_blank' })}>
-        <Title>{title}</Title>
-      </Anchor>
-      <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>
-        {date && <time dateTime={date}>{convertDateToSimpleFormat(date)}</time>}
-        {excerpt && <span>{excerpt}</span>}
-      </Paragraph>
-    </Main>
-    <Icon className="icon">{target ? <HiOutlineExternalLink /> : <HiOutlineChevronRight />}</Icon>
-  </Container>
-);
+const LinkCard = ({ link, title, date, excerpt, role }: Props) => {
+  const IconArrow = useMemo(() => {
+    return (
+      <Icon className="icon">
+        <HiOutlineChevronRight />
+      </Icon>
+    );
+  }, []);
+
+  return (
+    <Container role={role}>
+      <Main>
+        <Anchor href={link} prefetch={false} passHref>
+          <Title>{title}</Title>
+        </Anchor>
+        <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>
+          {date && <time dateTime={date}>{convertDateToSimpleFormat(date)}</time>}
+          {excerpt && <span>{excerpt}</span>}
+        </Paragraph>
+      </Main>
+      {IconArrow}
+    </Container>
+  );
+};
 
 export default LinkCard;
 

@@ -1,19 +1,25 @@
 import { memo, ReactNode } from 'react';
 
 import { WaveDown } from '@/components/Functional/Wave';
+import useIsMounted from '@/hooks/useIsMounted';
+import { fadeIn, fadeOut } from '@/ui/animation';
 import { css, styled } from '@/ui/styled';
 
 import { useHeaderScrollHandler } from './useHeaderScrollHandler';
+
 type Props = {
   children: ReactNode;
 };
 
 export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
+  const isMounted = useIsMounted();
   const isHeaderShown = useHeaderScrollHandler();
 
   return (
     <Underline>
-      <Header isFixed={isHeaderShown}>{children}</Header>
+      <Header isMounted={isMounted} isShown={isHeaderShown}>
+        {children}
+      </Header>
       <WaveDown fill="var(--component-backgrounds-3)" />
     </Underline>
   );
@@ -23,7 +29,7 @@ const Underline = styled.div`
   height: ${({ theme }) => theme.components.header.height}px;
 `;
 
-const Header = styled.header<{ isFixed: boolean }>`
+const Header = styled.header<{ isMounted: boolean; isShown: boolean }>`
   position: fixed;
   z-index: var(--zIndex-header);
   isolation: isolate;
@@ -32,18 +38,20 @@ const Header = styled.header<{ isFixed: boolean }>`
   left: 0;
   height: ${({ theme }) => theme.components.header.height}px;
   margin: 0 auto;
-  transition: transform 0.25s ease;
   pointer-events: none;
-  will-change: transform;
+  will-change: opacity;
 
-  ${({ theme, isFixed }) => {
-    return (
-      !isFixed &&
-      css`
-        && {
-          transform: translateY(${theme.components.header.height * -1}px);
-        }
-      `
-    );
+  ${({ isMounted, isShown }) => {
+    if (!isMounted) {
+      return;
+    }
+
+    return isShown
+      ? css`
+          animation: ${fadeIn} 0.4s linear both;
+        `
+      : css`
+          animation: ${fadeOut} 0.4s linear both;
+        `;
   }}
 `;

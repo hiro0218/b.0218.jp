@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 
 import throttle from '@/lib/throttle';
-import { theme } from '@/ui/themes';
+import { useTheme } from '@/ui/styled';
 
 export const useHeaderScrollHandler = () => {
   const [isHeaderShown, setIsHeaderShown] = useState(true);
+  const theme = useTheme();
+  const headerHeight = theme.components.header.height;
 
   useEffect(() => {
-    const headerHeight = theme.components.header.height;
     let lastScrollY = 0;
 
     const handleScroll = throttle(() => {
@@ -26,7 +27,7 @@ export const useHeaderScrollHandler = () => {
 
     document.addEventListener('scroll', handleScroll);
     () => document.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [headerHeight]);
 
   return isHeaderShown;
 };
