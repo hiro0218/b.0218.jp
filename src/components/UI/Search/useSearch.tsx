@@ -7,13 +7,17 @@ type DialogProps = ComponentProps<typeof Dialog>;
 
 type Props = {
   refModal: DialogProps['ref'];
+  isActive: boolean;
   openDialog: ButtonProps['openDialog'];
   closeDialog: DialogProps['closeDialog'];
 };
 
-export const useSearch = ({ refModal, openDialog, closeDialog }: Props) => {
+export const useSearch = ({ refModal, isActive, openDialog, closeDialog }: Props) => {
   const SearchButton = useMemo(() => <Button openDialog={openDialog} />, [openDialog]);
-  const SearchDialog = useMemo(() => <Dialog ref={refModal} closeDialog={closeDialog} />, [refModal, closeDialog]);
+  const SearchDialog = useMemo(
+    () => <Dialog ref={refModal} isActive={isActive} closeDialog={closeDialog} />,
+    [refModal, isActive, closeDialog],
+  );
 
   return {
     SearchButton,
