@@ -14,7 +14,7 @@ export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
 
   return (
     <Underline>
-      <Header isFixed={isHeaderShown}>{children}</Header>
+      <Header isShown={isHeaderShown}>{children}</Header>
       <WaveDown fill="var(--component-backgrounds-3)" />
     </Underline>
   );
@@ -24,7 +24,7 @@ const Underline = styled.div`
   height: ${({ theme }) => theme.components.header.height}px;
 `;
 
-const Header = styled.header<{ isFixed: boolean }>`
+const Header = styled.header<{ isShown: boolean }>`
   position: fixed;
   z-index: var(--zIndex-header);
   isolation: isolate;
@@ -33,18 +33,17 @@ const Header = styled.header<{ isFixed: boolean }>`
   left: 0;
   height: ${({ theme }) => theme.components.header.height}px;
   margin: 0 auto;
-  animation: ${fadeIn} 0.4s linear both;
+  transition: opacity 0.4s linear;
   pointer-events: none;
   will-change: opacity;
 
-  ${({ isFixed }) => {
-    return (
-      !isFixed &&
-      css`
-        && {
+  ${({ isShown }) => {
+    return isShown
+      ? css`
+          animation: ${fadeIn} 0.4s linear both;
+        `
+      : css`
           animation: ${fadeOut} 0.4s linear both;
-        }
-      `
-    );
+        `;
   }}
 `;
