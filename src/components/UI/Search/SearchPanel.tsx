@@ -1,7 +1,5 @@
-import router from 'next/router';
-import { useEffect } from 'react';
-
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
+import { useRouteChangeComplete } from '@/hooks/useRouteChangeComplete';
 import { fadeIn } from '@/ui/animation';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
@@ -18,13 +16,7 @@ export const SearchPanel = ({ closeDialog }: Props) => {
     searchData: { suggest },
   } = useSearchHeader({ closeDialog });
 
-  useEffect(() => {
-    router.events.on('routeChangeComplete', closeDialog);
-
-    return () => {
-      router.events.off('routeChangeComplete', closeDialog);
-    };
-  }, [closeDialog]);
+  useRouteChangeComplete(closeDialog);
 
   return (
     <SearchMain>
