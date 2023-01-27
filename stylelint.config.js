@@ -46,9 +46,10 @@ module.exports = {
   overrides: [
     {
       files: ['**/*.{ts,jsx,tsx}'],
-      customSyntax: '@stylelint/postcss-css-in-js',
+      customSyntax: 'postcss-styled-syntax',
       rules: {
         // CSS in JS との相性が悪いため無効化
+        'block-no-empty': null,
         'custom-property-pattern': null,
         'function-name-case': null,
         'function-no-unknown': null,
