@@ -31,8 +31,8 @@ const Headings = css`
 
     return css`
       h${headingNumber} {
-        margin-top: ${getModularScale({ ...config, degree: degree })};
-        margin-bottom: ${getModularScale({ ...config, degree: degree * -1 })};
+        margin-top: ${getModularScale({ ...config, degree: degree })}
+        margin-bottom: ${getModularScale({ ...config, degree: degree * -1 })}
       }
     `;
   })}
@@ -104,7 +104,7 @@ const PostContent = styled.div`
   ${Headings}
 
   ul,
-  ol {
+ol {
     padding-left: var(--space-xl);
 
     ul,
@@ -133,6 +133,8 @@ const PostContent = styled.div`
   }
 
   iframe {
+    width: 100%;
+    height: 100%;
     aspect-ratio: 16 / 9;
 
     ${showHoverShadow}
