@@ -5,14 +5,22 @@ import { styled } from '@/ui/styled';
 
 export const PageScroll = memo(function PageScroll() {
   const onScrollTop = useCallback(() => {
-    window.scroll(0, 0);
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
   }, []);
 
   const onScrollBottom = useCallback(() => {
     const documentElement = document.documentElement;
     const positionBottom = documentElement.scrollHeight - documentElement.clientHeight;
 
-    window.scroll(0, positionBottom);
+    window.scroll({
+      top: positionBottom,
+      left: 0,
+      behavior: 'smooth',
+    });
   }, []);
 
   return (
