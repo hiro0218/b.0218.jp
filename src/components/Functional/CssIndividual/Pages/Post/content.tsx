@@ -1,10 +1,8 @@
-import { getModularScale } from '@/lib/modular-scale';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { showHoverShadow } from '@/ui/mixin';
 import { css, styled } from '@/ui/styled';
 
 const Headings = css`
-  h1,
   h2,
   h3,
   h4,
@@ -25,14 +23,12 @@ const Headings = css`
     }
   }
 
-  ${[1, 2, 3, 4, 5, 6].map((headingNumber: number, index: number, array: number[]) => {
-    const config = { baseFontSize: '1em' };
-    const degree = array.length - index;
-
+  ${[2, 3, 4, 5, 6].map((headingNumber: number) => {
     return css`
       h${headingNumber} {
-        margin-top: ${getModularScale({ ...config, degree: degree })}
-        margin-bottom: ${getModularScale({ ...config, degree: degree * -1 })}
+        margin-top: ${headingNumber >= 2 ? 'var(--space-5)' : headingNumber >= 5 ? 'var(--space-4)' : 'var(--space-3)'}
+        margin-bottom: ${headingNumber >= 3 ? 'var(--space-3)' : 'var(--space-2)'}
+        line-height: 1.5
       }
     `;
   })}
@@ -40,12 +36,12 @@ const Headings = css`
 
 const PostContent = styled.div`
   & > * {
-    margin-top: var(--space-xl);
-    margin-bottom: var(--space-xl);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-3);
 
     & > p {
-      margin-top: var(--space-xs);
-      margin-bottom: var(--space-xs);
+      margin-top: var(--space-1);
+      margin-bottom: var(--space-1);
 
       &:first-of-type {
         margin-top: 0;
@@ -105,12 +101,12 @@ const PostContent = styled.div`
 
   ul,
 ol {
-    padding-left: var(--space-xl);
+    padding-left: var(--space-4);
 
     ul,
     ol {
-      margin: var(--space-x-xs) 0 var(--space-md);
-      padding-left: var(--space-lg);
+      margin: var(--space-half) 0 var(--space-3);
+      padding-left: var(--space-4);
     }
 
     img {
@@ -123,7 +119,7 @@ ol {
   }
 
   blockquote {
-    padding: 1.5rem;
+    padding: var(--space-3);
     border-left: 0.25rem solid var(--borders-6);
     color: var(--text-11);
 
@@ -148,18 +144,18 @@ ol {
 
   details {
     summary {
-      padding: var(--space-sm) var(--space-md);
+      padding: var(--space-2) var(--space-3);
       border-radius: 0.25rem;
       background-color: var(--component-backgrounds-3);
 
       & ~ * {
-        margin-right: var(--space-lg);
-        margin-left: var(--space-lg);
+        margin-right: var(--space-4);
+        margin-left: var(--space-4);
       }
     }
 
     &[open] summary {
-      margin-bottom: var(--space-lg);
+      margin-bottom: var(--space-4);
     }
   }
 
@@ -167,7 +163,7 @@ ol {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: var(--space-x-xl) 0;
+    margin: var(--space-6) 0;
     border: 0;
 
     &::before {
@@ -311,8 +307,8 @@ ol {
   }
 
   [data-footnotes] {
-    margin-top: var(--space-x-xl);
-    padding-top: var(--space-lg);
+    margin-top: var(--space-6);
+    padding-top: var(--space-3);
     border-top: 1px solid var(--borders-6);
     color: var(--text-11);
     font-size: var(--font-size-sm);

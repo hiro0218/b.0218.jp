@@ -34,10 +34,10 @@ const PostHeader = ({ date, updated, readingTime, tags }: Props) => {
 export default PostHeader;
 
 const PostHeaderList = styled.div`
-  margin-top: var(--space-md);
+  margin-top: var(--space-3);
 
   > * + * {
-    margin-top: var(--space-xs);
+    margin-top: var(--space-1);
   }
 `;
 
@@ -49,6 +49,6 @@ const PostHeaderItem = styled.div`
 `;
 
 const Separator = styled.span`
-  margin: 0 calc(var(--margin-base) * 0.25);
+  margin: 0 calc(var(--space-3) * 0.25);
   user-select: none;
 `;

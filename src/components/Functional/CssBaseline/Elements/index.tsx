@@ -2,6 +2,8 @@ import { getModularScale } from '@/lib/modular-scale';
 import { css } from '@/ui/styled';
 
 export default css`
+  /* stylelint-disable indentation */
+
   /* global */
   ::selection {
     background-color: var(--component-backgrounds-5A);
@@ -52,7 +54,7 @@ export default css`
     }
 
     & figcaption {
-      margin-top: var(--space-xs);
+      margin-top: var(--space-1);
       color: var(--text-11);
       font-size: var(--font-size-sm);
       text-align: center;

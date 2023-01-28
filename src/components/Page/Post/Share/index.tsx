@@ -33,7 +33,7 @@ const PostShare = ({ title, url }: Props) => {
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: var(--space-x-xl);
+  margin-top: var(--space-6);
 `;
 
 const Anchor = styled.a`

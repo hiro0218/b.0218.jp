@@ -45,19 +45,19 @@ export default LinkCard;
 const Container = styled.div`
   display: flex;
   height: 100%;
-  padding: calc(var(--margin-base) * 0.6);
-  padding-left: var(--margin-base);
+  padding: calc(var(--space-3) * 0.6);
+  padding-left: var(--space-3);
   border-radius: 0.25rem;
-  gap: calc(var(--margin-base) * 0.25);
+  gap: calc(var(--space-3) * 0.25);
 
   ${isMobile} {
-    padding: calc(var(--margin-base) * 0.8);
+    padding: calc(var(--space-3) * 0.8);
   }
 
   ${showHoverBackground}
 
   &:hover,
-  &:focus-within {
+&:focus-within {
     .icon {
       opacity: 1;
     }
@@ -70,7 +70,7 @@ const Main = styled.div`
   flex-grow: 1;
   justify-content: space-between;
   overflow: hidden;
-  gap: calc(var(--margin-base) * 0.5);
+  gap: calc(var(--space-3) * 0.5);
 `;
 
 const Anchor = styled(_Anchor)`

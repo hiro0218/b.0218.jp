@@ -28,7 +28,7 @@ const Root = styled.section`
   }
 
   & + & {
-    margin-top: var(--space-xl);
+    margin-top: var(--space-5);
   }
 `;
 

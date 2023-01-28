@@ -14,9 +14,9 @@ const PageContainer = memo(function PageContainer({ as, children }: Props) {
 export default PageContainer;
 
 const Container = styled.div`
-  margin-top: var(--space-md);
+  margin-top: var(--space-3);
 
   > * + * {
-    margin-top: var(--space-xl);
+    margin-top: var(--space-4);
   }
 `;

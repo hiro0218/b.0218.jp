@@ -1,7 +1,6 @@
 import { memo } from 'react';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
-import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 export type Props = {
@@ -40,7 +39,7 @@ export default PostTag;
 export const PostTagGridContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-x-xs);
+  gap: var(--space-1);
 `;
 
 const Anchor = styled(_Anchor)`

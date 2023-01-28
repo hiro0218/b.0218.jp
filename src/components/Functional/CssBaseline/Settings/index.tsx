@@ -3,9 +3,10 @@ import { blackA, gray } from '@radix-ui/colors';
 import { getModularScale } from '@/lib/modular-scale';
 import { css } from '@/ui/styled';
 
-const BaseFontSize = '1rem';
+const SPACING_BASE_PX = 8;
 
 export default css`
+  /* stylelint-disable indentation */
   :root {
     /* color */
     /* 1:  アプリの背景 */
@@ -55,17 +56,17 @@ export default css`
     --font-weight-normal: 500;
     --font-weight-bold: 900;
 
-    /* margin */
-    --margin-base: 1.5rem;
-
-    /* space */
-    --space-x-xs: ${getModularScale({ baseFontSize: BaseFontSize, degree: -6 })};
-    --space-xs: ${getModularScale({ baseFontSize: BaseFontSize, degree: -4 })};
-    --space-sm: ${getModularScale({ baseFontSize: BaseFontSize, degree: -2 })};
-    --space-md: ${getModularScale({ baseFontSize: BaseFontSize, degree: 0 })};
-    --space-lg: ${getModularScale({ baseFontSize: BaseFontSize, degree: 2 })};
-    --space-xl: ${getModularScale({ baseFontSize: BaseFontSize, degree: 4 })};
-    --space-x-xl: ${getModularScale({ baseFontSize: BaseFontSize, degree: 6 })};
+    /**
+     * space
+     * 段階はフィボナッチ数列を利用
+     */
+    --space-half: ${SPACING_BASE_PX / 2}px;
+    --space-1: ${SPACING_BASE_PX}px;
+    --space-2: ${SPACING_BASE_PX * 2}px;
+    --space-3: ${SPACING_BASE_PX * 3}px;
+    --space-4: ${SPACING_BASE_PX * 5}px;
+    --space-5: ${SPACING_BASE_PX * 8}px;
+    --space-6: ${SPACING_BASE_PX * 13}px;
 
     /* z-index */
     --zIndex-header: 10;

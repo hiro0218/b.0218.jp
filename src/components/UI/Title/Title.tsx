@@ -39,7 +39,7 @@ const HeaderTitle = styled.h1`
 `;
 
 const P = styled.p`
-  margin-top: var(--space-xs);
+  margin-top: var(--space-1);
   color: var(--text-11);
   font-size: var(--font-size-lg);
   overflow-wrap: break-word;

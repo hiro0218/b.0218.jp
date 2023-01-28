@@ -23,7 +23,7 @@ export default PostNote;
 const PostNoteRoot = styled.div`
   display: flex;
   align-items: center;
-  padding: var(--space-sm) var(--space-xs);
+  padding: var(--space-2) var(--space-1);
   border: 1px solid var(--borders-6);
   border-radius: 0.25rem;
   background-color: var(--backgrounds-2);

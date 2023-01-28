@@ -24,14 +24,14 @@ const PostEdit = ({ slug }: Props) => {
 export default PostEdit;
 
 const Container = styled.div`
-  margin-top: var(--space-x-xl);
+  margin-top: var(--space-6);
   text-align: right;
 `;
 
 const Anchor = styled.a`
   display: inline-flex;
   align-items: center;
-  padding: var(--space-x-xs) var(--space-xs);
+  padding: var(--space-1) var(--space-2);
   border-radius: 0.25rem;
   color: var(--text-12);
   font-size: var(--font-size-sm);

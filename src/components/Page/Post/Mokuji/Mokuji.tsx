@@ -45,7 +45,7 @@ const Root = styled.aside`
 `;
 
 const Summary = styled.summary`
-  padding: var(--space-md) var(--space-lg);
+  padding: var(--space-2) var(--space-3);
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-bold);
   cursor: pointer;
@@ -63,11 +63,11 @@ const Details = styled.details`
 `;
 
 const DetailsContent = styled.div`
-  padding-top: var(--space-md);
+  padding-top: var(--space-2);
 
   > ol {
     margin: 0;
-    padding: 0 var(--space-lg) var(--space-lg);
+    padding: 0 var(--space-4) var(--space-3) var(--space-4);
 
     > li > a {
       font-weight: var(--font-weight-bold);
@@ -82,7 +82,7 @@ const DetailsContent = styled.div`
       list-style: none;
 
       &:not(:last-child) {
-        margin-bottom: var(--space-xs);
+        margin-bottom: var(--space-1);
       }
 
       &::before {

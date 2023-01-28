@@ -40,24 +40,24 @@ const Root = styled.footer`
   position: sticky;
   top: 100vh;
   flex-direction: column;
-  margin-top: var(--space-x-xl);
+  margin-top: var(--space-6);
 `;
 
 const Footer = styled.div`
-  padding: var(--space-x-xl) 0;
+  padding: var(--space-5) 0;
   background-color: var(--component-backgrounds-3);
   color: var(--text-12);
   font-size: var(--font-size-md);
 
   a {
     width: 100%;
-    padding: var(--space-xs) var(--space-sm);
+    padding: var(--space-1) var(--space-2);
     border-radius: 0.25rem;
     color: inherit;
     text-align: center;
 
     ${isMobile} {
-      padding: var(--space-x-xs) var(--space-xs);
+      padding: var(--space-half) var(--space-1);
     }
 
     &:hover {
@@ -79,7 +79,7 @@ const Container = styled.div`
 
   ${isMobile} {
     flex-direction: column;
-    gap: var(--space-xl);
+    gap: var(--space-5);
   }
 `;
 
@@ -87,7 +87,7 @@ const List = styled.ul`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-sm);
+  gap: var(--space-2);
 
   ${isMobile} {
     width: 65vw;

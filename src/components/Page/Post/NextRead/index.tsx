@@ -35,12 +35,12 @@ export default PostNextRead;
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, minmax(calc(50% - var(--space-md)), max-content));
-  gap: var(--space-md);
-  margin-top: var(--space-md);
+  grid-template-columns: repeat(2, minmax(calc(50% - var(--space-3)), max-content));
+  gap: var(--space-3);
+  margin-top: var(--space-3);
 
   ${isMobile} {
     grid-template-columns: minmax(100%, max-content);
-    gap: var(--space-sm);
+    gap: var(--space-2);
   }
 `;

@@ -18,7 +18,7 @@ export default function AppLayout({ children }) {
 const Container = styled.main`
   max-width: var(--container-width);
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--space-4);
 
   ${isMobile} {
     padding: 0 5vw;
