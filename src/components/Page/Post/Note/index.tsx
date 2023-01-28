@@ -23,12 +23,11 @@ export default PostNote;
 const PostNoteRoot = styled.div`
   display: flex;
   align-items: center;
-  padding: var(--space-2) var(--space-1);
+  padding: var(--space-3) var(--space-2);
   border: 1px solid var(--borders-6);
   border-radius: var(--border-radius-4);
   background-color: var(--backgrounds-2);
   color: var(--text-11);
-  line-height: 1.875;
 
   svg {
     flex-shrink: 0;

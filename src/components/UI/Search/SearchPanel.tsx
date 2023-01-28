@@ -71,7 +71,7 @@ const SearchResult = styled.div`
 
 const Anchor = styled(_Anchor)`
   display: block;
-  padding: 0.75em 1.5em;
+  padding: var(--space-1) var(--space-2);
   font-size: var(--font-size-sm);
 
   &:hover {
@@ -82,7 +82,7 @@ const Anchor = styled(_Anchor)`
 const SearchFooter = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0.25rem 0.5rem;
+  padding: var(--space-half) var(--space-1);
   box-shadow: 2px 0 4px 0 rgba(0, 0, 0, 0.16);
   color: var(--text-11);
   font-size: var(--font-size-sm);

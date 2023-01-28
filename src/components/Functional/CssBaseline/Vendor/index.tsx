@@ -5,7 +5,7 @@ import { css } from '@/ui/styled';
 export default css`
   /* hljs */
   pre code.hljs {
-    padding: 1.5rem;
+    padding: var(--space-3);
     overflow-x: auto;
     background: var(--backgrounds-2);
     color: var(--text-12);

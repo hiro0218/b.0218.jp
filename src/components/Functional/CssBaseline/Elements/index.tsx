@@ -140,7 +140,7 @@ export default css`
 
     & > code {
       display: block;
-      padding: 1.5rem;
+      padding: var(--space-3);
       background: var(--backgrounds-2);
       color: var(--text-12);
       font-size: inherit;
@@ -150,7 +150,7 @@ export default css`
 
   :not(pre) > code {
     margin: 0;
-    padding: 0.25rem 0.5rem;
+    padding: var(--space-half) var(--space-1);
     border-radius: var(--border-radius-2);
     background: var(--component-backgrounds-3A);
     color: var(--text-12);
@@ -165,7 +165,7 @@ export default css`
 
   th,
   td {
-    padding: 0.5rem 1rem;
+    padding: var(--space-1) var(--space-2);
     border-top: 1px solid var(--borders-6);
     vertical-align: top;
     white-space: nowrap;

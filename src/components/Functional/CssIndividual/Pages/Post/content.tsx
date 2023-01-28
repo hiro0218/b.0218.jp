@@ -47,10 +47,6 @@ const PostContent = styled.div`
     & > p {
       margin-top: var(--space-1);
       margin-bottom: var(--space-1);
-
-      &:first-of-type {
-        margin-top: 0;
-      }
     }
   }
 
@@ -178,8 +174,11 @@ ol {
     }
   }
 
+  /**
+   * @deprecated
+   */
   .c-alert {
-    padding: 1rem 1.25rem;
+    padding: var(--space-3) var(--space-2);
     border-radius: var(--border-radius-4);
     background-color: var(--backgrounds-2);
     color: var(--text-11);
