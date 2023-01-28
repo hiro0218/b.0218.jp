@@ -34,7 +34,7 @@ const PostHeader = ({ date, updated, readingTime, tags }: Props) => {
 export default PostHeader;
 
 const PostHeaderList = styled.div`
-  margin-top: var(--space-3);
+  margin-top: var(--space-2);
 
   > * + * {
     margin-top: var(--space-1);
