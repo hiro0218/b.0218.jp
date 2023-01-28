@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 
-import { getModularScale } from '@/lib/modular-scale';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -33,7 +32,6 @@ const Main = styled.div`
 `;
 
 const HeaderTitle = styled.h1`
-  font-size: ${getModularScale({ degree: 4 })};
   line-height: 1.618034;
   overflow-wrap: break-word;
 `;

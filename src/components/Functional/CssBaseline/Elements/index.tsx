@@ -1,4 +1,3 @@
-import { getModularScale } from '@/lib/modular-scale';
 import { css } from '@/ui/styled';
 
 export default css`
@@ -80,25 +79,28 @@ export default css`
   }
 
   h1 {
-    font-size: ${getModularScale({ degree: 4 })};
+    font-size: var(--font-size-h1);
     font-weight: var(--font-weight-bold);
   }
 
   h2 {
-    font-size: ${getModularScale({ degree: 3 })};
+    font-size: var(--font-size-h2);
   }
 
   h3 {
-    font-size: ${getModularScale({ degree: 2 })};
+    font-size: var(--font-size-h3);
   }
 
   h4 {
-    font-size: ${getModularScale({ degree: 1 })};
+    font-size: var(--font-size-h4);
   }
 
-  h5,
+  h5 {
+    font-size: var(--font-size-h5);
+  }
+
   h6 {
-    font-size: ${getModularScale({ degree: 0 })};
+    font-size: var(--font-size-h6);
   }
 
   b,

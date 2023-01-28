@@ -1,6 +1,7 @@
 import { blackA, gray } from '@radix-ui/colors';
 
 import { getModularScale } from '@/lib/modular-scale';
+import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
 import { css } from '@/ui/styled';
 
 const SPACING_BASE_PX = 8;
@@ -52,6 +53,24 @@ export default css`
     --font-size-sm: ${getModularScale({ degree: -1 })};
     --font-size-md: ${getModularScale({ degree: 0 })};
     --font-size-lg: ${getModularScale({ degree: 1 })};
+
+    ${isDesktop} {
+      --font-size-h1: 32px;
+      --font-size-h2: 24px;
+      --font-size-h3: 22px;
+      --font-size-h4: 20px;
+      --font-size-h5: 18px;
+      --font-size-h6: 16px;
+    }
+
+    ${isMobile} {
+      --font-size-h1: 24px;
+      --font-size-h2: 22px;
+      --font-size-h3: 20px;
+      --font-size-h4: 18px;
+      --font-size-h5: 16px;
+      --font-size-h6: 16px;
+    }
 
     --font-weight-normal: 500;
     --font-weight-bold: 900;
