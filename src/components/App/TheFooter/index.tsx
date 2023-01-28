@@ -5,18 +5,22 @@ import { Anchor } from '@/components/UI/Anchor';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
+type Props = {
+  containerWidth?: number;
+};
+
 const Links = [
   { title: 'about', href: '/about' },
   { title: 'tags', href: '/tags' },
   { title: 'archive', href: '/archive' },
 ] as const;
 
-const TheFooter = memo(function TheFooter() {
+const TheFooter = memo(function TheFooter(props: Props) {
   return (
     <Root>
       <WaveUp fill="var(--component-backgrounds-3)" />
       <Footer>
-        <Container>
+        <Container containerWidth={props.containerWidth}>
           <List>
             {Links.map(({ title, href }, index) => {
               return (
@@ -40,24 +44,24 @@ const Root = styled.footer`
   position: sticky;
   top: 100vh;
   flex-direction: column;
-  margin-top: var(--space-x-xl);
+  margin-top: var(--space-6);
 `;
 
 const Footer = styled.div`
-  padding: var(--space-x-xl) 0;
+  padding: var(--space-5) 0;
   background-color: var(--component-backgrounds-3);
   color: var(--text-12);
   font-size: var(--font-size-md);
 
   a {
     width: 100%;
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: 0.25rem;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--border-radius-4);
     color: inherit;
     text-align: center;
 
     ${isMobile} {
-      padding: var(--space-x-xs) var(--space-xs);
+      padding: var(--space-half) var(--space-1);
     }
 
     &:hover {
@@ -70,16 +74,16 @@ const Footer = styled.div`
   }
 `;
 
-const Container = styled.div`
+const Container = styled.div<{ containerWidth: number }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: var(--container-width);
+  max-width: ${(props) => `${props.containerWidth}px`};
   margin: 0 auto;
 
   ${isMobile} {
     flex-direction: column;
-    gap: var(--space-xl);
+    gap: var(--space-5);
   }
 `;
 
@@ -87,7 +91,7 @@ const List = styled.ul`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-sm);
+  gap: var(--space-2);
 
   ${isMobile} {
     width: 65vw;

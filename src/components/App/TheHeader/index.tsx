@@ -9,14 +9,18 @@ import { styled } from '@/ui/styled';
 
 import { HeaderLayout } from './HeaderLayout';
 
-const TheHeader = memo(function TheHeader() {
+type Props = {
+  containerWidth?: number;
+};
+
+const TheHeader = memo(function TheHeader(props: Props) {
   const { ref, locked, openDialog, closeDialog } = useDialog();
   const { SearchButton, SearchDialog } = useSearch({ refModal: ref, isActive: locked, openDialog, closeDialog });
 
   return (
     <>
       <HeaderLayout>
-        <Container>
+        <Container containerWidth={props.containerWidth}>
           <Anchor href="/" prefetch={false} passHref>
             <Logo width="80" height="25" />
           </Anchor>
@@ -31,11 +35,11 @@ const TheHeader = memo(function TheHeader() {
 
 export default TheHeader;
 
-const Container = styled.div`
+const Container = styled.div<{ containerWidth: number }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: var(--container-width);
+  max-width: ${(props) => `${props.containerWidth}px`};
   height: 100%;
   margin: 0 auto;
 

@@ -48,7 +48,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
         <Stack as="section">
           <Heading as="h2" text="Articles" />
           <Columns title="Recent Articles" titleTagName="h3">
-            <Stack space="var(--space-x-xs)">
+            <Stack space="var(--space-half)">
               {recentPosts.map((post) => (
                 <LinkCard
                   key={post.slug}
@@ -62,7 +62,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
           </Columns>
 
           <Columns title="Updated Articles" titleTagName="h3">
-            <Stack space="var(--space-x-xs)">
+            <Stack space="var(--space-half)">
               {updatesPosts.map((post) => (
                 <LinkCard
                   key={post.slug}

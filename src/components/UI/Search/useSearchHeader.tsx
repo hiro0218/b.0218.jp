@@ -150,7 +150,7 @@ const Header = styled.div`
 const HeaderIcon = styled.label`
   display: flex;
   align-items: center;
-  padding: 0 0.5rem 0 0.75rem;
+  padding: 0 var(--space-1);
 
   svg {
     color: var(--text-11);

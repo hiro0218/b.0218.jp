@@ -15,7 +15,7 @@ const StackRoot = styled.div<Props>`
   justify-content: flex-start;
 
   & > * + * {
-    margin-top: ${({ space }) => space || 'var(--space-md)'};
+    margin-top: ${({ space }) => space || 'var(--space-3)'};
   }
 `;
 

@@ -1,11 +1,12 @@
 import { blackA, gray } from '@radix-ui/colors';
 
-import { getModularScale } from '@/lib/modular-scale';
+import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
 import { css } from '@/ui/styled';
 
-const BaseFontSize = '1rem';
+const SPACING_BASE_PX = 8;
 
 export default css`
+  /* stylelint-disable indentation */
   :root {
     /* color */
     /* 1:  アプリの背景 */
@@ -40,32 +41,68 @@ export default css`
 
     --overlay-backgrounds: ${blackA.blackA10};
 
-    /* size */
-    --container-width: 50rem;
-
-    /* font */
+    /**
+     * Font Family
+     */
     --font-family-sans-serif: 'Noto Sans JP', 'Noto Sans Japanese', 'Yu Gothic', 'Hiragino Kaku Gothic ProN',
       'Hiragino Sans', Meiryo, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif, 'Segoe UI Emoji';
     --font-family-monospace: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace, Apple Color Emoji,
       Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
-    --font-size-sm: ${getModularScale({ degree: -1 })};
-    --font-size-md: ${getModularScale({ degree: 0 })};
-    --font-size-lg: ${getModularScale({ degree: 1 })};
 
+    /**
+     * Font Size
+     */
+    --font-size-sm: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 18px;
+
+    /**
+     * Heading Font Size
+     */
+    ${isDesktop} {
+      --font-size-h1: 32px;
+      --font-size-h2: 24px;
+      --font-size-h3: 22px;
+      --font-size-h4: 20px;
+      --font-size-h5: 18px;
+      --font-size-h6: 16px;
+    }
+
+    ${isMobile} {
+      --font-size-h1: 24px;
+      --font-size-h2: 22px;
+      --font-size-h3: 20px;
+      --font-size-h4: 18px;
+      --font-size-h5: 16px;
+      --font-size-h6: 16px;
+    }
+
+    /**
+     * Font Weight
+     */
     --font-weight-normal: 500;
     --font-weight-bold: 900;
 
-    /* margin */
-    --margin-base: 1.5rem;
+    /**
+     * space
+     * 段階はフィボナッチ数列を利用
+     */
+    --space-half: ${SPACING_BASE_PX / 2}px;
+    --space-1: ${SPACING_BASE_PX}px;
+    --space-2: ${SPACING_BASE_PX * 2}px;
+    --space-3: ${SPACING_BASE_PX * 3}px;
+    --space-4: ${SPACING_BASE_PX * 5}px;
+    --space-5: ${SPACING_BASE_PX * 8}px;
+    --space-6: ${SPACING_BASE_PX * 13}px;
 
-    /* space */
-    --space-x-xs: ${getModularScale({ baseFontSize: BaseFontSize, degree: -6 })};
-    --space-xs: ${getModularScale({ baseFontSize: BaseFontSize, degree: -4 })};
-    --space-sm: ${getModularScale({ baseFontSize: BaseFontSize, degree: -2 })};
-    --space-md: ${getModularScale({ baseFontSize: BaseFontSize, degree: 0 })};
-    --space-lg: ${getModularScale({ baseFontSize: BaseFontSize, degree: 2 })};
-    --space-xl: ${getModularScale({ baseFontSize: BaseFontSize, degree: 4 })};
-    --space-x-xl: ${getModularScale({ baseFontSize: BaseFontSize, degree: 6 })};
+    /**
+     * border-radius
+     */
+    --border-radius-2: 2px;
+    --border-radius-4: 4px;
+    --border-radius-8: 8px;
+    --border-radius-12: 12px;
+    --border-radius-full: 100%;
 
     /* z-index */
     --zIndex-header: 10;

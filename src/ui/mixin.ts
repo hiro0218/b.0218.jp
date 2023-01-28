@@ -21,7 +21,7 @@ export const showHoverBackground = css`
     margin: auto;
     transform: scale(0);
     transition: transform 0.1s ${easing.easeOut};
-    border-radius: 0.25rem;
+    border-radius: var(--border-radius-4);
     opacity: 0;
     background-image: linear-gradient(120deg, var(--backgrounds-2A), var(--component-backgrounds-4A));
     pointer-events: none;

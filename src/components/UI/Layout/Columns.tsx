@@ -1,6 +1,5 @@
 import { CSSProperties, memo, ReactNode } from 'react';
 
-import { getModularScale } from '@/lib/modular-scale';
 import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
 import { css, styled } from '@/ui/styled';
 
@@ -28,13 +27,12 @@ const Root = styled.section`
   }
 
   & + & {
-    margin-top: var(--space-xl);
+    margin-top: var(--space-5);
   }
 `;
 
 const TitleText = styled.h2`
   overflow: hidden;
-  font-size: ${getModularScale({ degree: 2 })};
   text-overflow: ellipsis;
   white-space: nowrap;
 `;

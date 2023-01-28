@@ -50,7 +50,7 @@ const Button = styled.button`
   height: 56px;
   transition: background-color 0.2s ease;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: var(--border-radius-4);
   background-color: transparent;
   appearance: none;
 

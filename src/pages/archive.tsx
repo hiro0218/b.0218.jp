@@ -54,7 +54,7 @@ const Archive: NextPage<Props> = ({ archives, numberOfPosts }) => {
           .reverse()
           .map((year) => (
             <Columns key={year} title={`${year}年`}>
-              <Stack space="var(--space-x-xs)">
+              <Stack space="var(--space-half)">
                 {archives[year].map(({ slug, title, date, excerpt }: PropPost) => (
                   <LinkCard key={slug} link={`/${slug}.html`} title={title} date={date} excerpt={excerpt} />
                 ))}

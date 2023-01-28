@@ -1,10 +1,8 @@
-import { getModularScale } from '@/lib/modular-scale';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { showHoverShadow } from '@/ui/mixin';
 import { css, styled } from '@/ui/styled';
 
 const Headings = css`
-  h1,
   h2,
   h3,
   h4,
@@ -25,14 +23,17 @@ const Headings = css`
     }
   }
 
-  ${[1, 2, 3, 4, 5, 6].map((headingNumber: number, index: number, array: number[]) => {
-    const config = { baseFontSize: '1em' };
-    const degree = array.length - index;
+  ${[2, 3, 4, 5, 6].map((headingNumber: number) => {
+    const tag = `h${headingNumber}`;
+    const style = {
+      marginTop: `${headingNumber >= 2 ? 'var(--space-5)' : headingNumber >= 5 ? 'var(--space-4)' : 'var(--space-3)'}`,
+      marginBottom: `${headingNumber >= 3 ? 'var(--space-3)' : 'var(--space-2)'}`,
+      lineHeight: 1.5,
+    };
 
     return css`
-      h${headingNumber} {
-        margin-top: ${getModularScale({ ...config, degree: degree })}
-        margin-bottom: ${getModularScale({ ...config, degree: degree * -1 })}
+      ${tag} {
+        ${style}
       }
     `;
   })}
@@ -40,16 +41,12 @@ const Headings = css`
 
 const PostContent = styled.div`
   & > * {
-    margin-top: var(--space-xl);
-    margin-bottom: var(--space-xl);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-3);
 
     & > p {
-      margin-top: var(--space-xs);
-      margin-bottom: var(--space-xs);
-
-      &:first-of-type {
-        margin-top: 0;
-      }
+      margin-top: var(--space-1);
+      margin-bottom: var(--space-1);
     }
   }
 
@@ -105,12 +102,12 @@ const PostContent = styled.div`
 
   ul,
 ol {
-    padding-left: var(--space-xl);
+    padding-left: var(--space-4);
 
     ul,
     ol {
-      margin: var(--space-x-xs) 0 var(--space-md);
-      padding-left: var(--space-lg);
+      margin: var(--space-half) 0 var(--space-3);
+      padding-left: var(--space-4);
     }
 
     img {
@@ -123,7 +120,7 @@ ol {
   }
 
   blockquote {
-    padding: 1.5rem;
+    padding: var(--space-3);
     border-left: 0.25rem solid var(--borders-6);
     color: var(--text-11);
 
@@ -148,18 +145,18 @@ ol {
 
   details {
     summary {
-      padding: var(--space-sm) var(--space-md);
-      border-radius: 0.25rem;
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--border-radius-4);
       background-color: var(--component-backgrounds-3);
 
       & ~ * {
-        margin-right: var(--space-lg);
-        margin-left: var(--space-lg);
+        margin-right: var(--space-4);
+        margin-left: var(--space-4);
       }
     }
 
     &[open] summary {
-      margin-bottom: var(--space-lg);
+      margin-bottom: var(--space-4);
     }
   }
 
@@ -167,7 +164,7 @@ ol {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: var(--space-x-xl) 0;
+    margin: var(--space-6) 0;
     border: 0;
 
     &::before {
@@ -177,9 +174,12 @@ ol {
     }
   }
 
+  /**
+   * @deprecated
+   */
   .c-alert {
-    padding: 1rem 1.25rem;
-    border-radius: 0.25rem;
+    padding: var(--space-3) var(--space-2);
+    border-radius: var(--border-radius-4);
     background-color: var(--backgrounds-2);
     color: var(--text-11);
 
@@ -200,12 +200,12 @@ ol {
     }
 
     &::-webkit-scrollbar-track {
-      border-radius: 4px;
+      border-radius: var(--border-radius-4);
       background-color: var(--backgrounds-2);
     }
 
     &::-webkit-scrollbar-thumb {
-      border-radius: 4px;
+      border-radius: var(--border-radius-4);
       background-color: var(--solid-backgrounds-9);
     }
   }
@@ -216,7 +216,7 @@ ol {
     height: 150px;
     overflow: hidden;
     border: 1px solid var(--borders-7);
-    border-radius: 8px;
+    border-radius: var(--border-radius-8);
     background-color: #fff;
     text-decoration: none;
 
@@ -241,7 +241,7 @@ ol {
       flex-direction: column;
       min-width: 0;
       height: 100%;
-      padding: 0.8em 1.2em;
+      padding: var(--space-3);
       color: var(--text-12);
 
       ${isMobile} {
@@ -266,7 +266,7 @@ ol {
 
       &__description {
         display: block;
-        margin-top: 0.5em;
+        margin-top: var(--space-half);
         overflow: hidden;
         color: var(--text-11);
         font-size: var(--font-size-sm);
@@ -278,7 +278,7 @@ ol {
         display: block;
         margin-top: auto;
         overflow: hidden;
-        font-size: 85%;
+        font-size: var(--font-size-sm);
         text-overflow: ellipsis;
         white-space: nowrap;
       }
@@ -311,8 +311,8 @@ ol {
   }
 
   [data-footnotes] {
-    margin-top: var(--space-x-xl);
-    padding-top: var(--space-lg);
+    margin-top: var(--space-6);
+    padding-top: var(--space-3);
     border-top: 1px solid var(--borders-6);
     color: var(--text-11);
     font-size: var(--font-size-sm);

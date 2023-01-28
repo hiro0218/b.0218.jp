@@ -1,7 +1,8 @@
-import { getModularScale } from '@/lib/modular-scale';
 import { css } from '@/ui/styled';
 
 export default css`
+  /* stylelint-disable indentation */
+
   /* global */
   ::selection {
     background-color: var(--component-backgrounds-5A);
@@ -52,7 +53,7 @@ export default css`
     }
 
     & figcaption {
-      margin-top: var(--space-xs);
+      margin-top: var(--space-1);
       color: var(--text-11);
       font-size: var(--font-size-sm);
       text-align: center;
@@ -78,25 +79,28 @@ export default css`
   }
 
   h1 {
-    font-size: ${getModularScale({ degree: 4 })};
+    font-size: var(--font-size-h1);
     font-weight: var(--font-weight-bold);
   }
 
   h2 {
-    font-size: ${getModularScale({ degree: 3 })};
+    font-size: var(--font-size-h2);
   }
 
   h3 {
-    font-size: ${getModularScale({ degree: 2 })};
+    font-size: var(--font-size-h3);
   }
 
   h4 {
-    font-size: ${getModularScale({ degree: 1 })};
+    font-size: var(--font-size-h4);
   }
 
-  h5,
+  h5 {
+    font-size: var(--font-size-h5);
+  }
+
   h6 {
-    font-size: ${getModularScale({ degree: 0 })};
+    font-size: var(--font-size-h6);
   }
 
   b,
@@ -125,7 +129,7 @@ export default css`
   pre {
     display: block;
     overflow: auto;
-    border-radius: 0.15rem;
+    border-radius: var(--border-radius-2);
     background: var(--backgrounds-2);
     font-size: var(--font-size-sm);
     overflow-wrap: break-word;
@@ -136,7 +140,7 @@ export default css`
 
     & > code {
       display: block;
-      padding: 1.5rem;
+      padding: var(--space-3);
       background: var(--backgrounds-2);
       color: var(--text-12);
       font-size: inherit;
@@ -146,8 +150,8 @@ export default css`
 
   :not(pre) > code {
     margin: 0;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.15rem;
+    padding: var(--space-half) var(--space-1);
+    border-radius: var(--border-radius-2);
     background: var(--component-backgrounds-3A);
     color: var(--text-12);
     font-size: var(--font-size-sm);
@@ -161,7 +165,7 @@ export default css`
 
   th,
   td {
-    padding: 0.5rem 1rem;
+    padding: var(--space-1) var(--space-2);
     border-top: 1px solid var(--borders-6);
     vertical-align: top;
     white-space: nowrap;
