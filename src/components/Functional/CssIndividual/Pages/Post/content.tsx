@@ -241,7 +241,7 @@ ol {
       flex-direction: column;
       min-width: 0;
       height: 100%;
-      padding: 0.8em 1.2em;
+      padding: var(--space-3);
       color: var(--text-12);
 
       ${isMobile} {
@@ -266,7 +266,7 @@ ol {
 
       &__description {
         display: block;
-        margin-top: 0.5em;
+        margin-top: var(--space-half);
         overflow: hidden;
         color: var(--text-11);
         font-size: var(--font-size-sm);
@@ -278,7 +278,7 @@ ol {
         display: block;
         margin-top: auto;
         overflow: hidden;
-        font-size: 85%;
+        font-size: var(--font-size-sm);
         text-overflow: ellipsis;
         white-space: nowrap;
       }
