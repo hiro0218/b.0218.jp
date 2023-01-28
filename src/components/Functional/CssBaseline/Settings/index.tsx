@@ -45,15 +45,24 @@ export default css`
     /* size */
     --container-width: 50rem;
 
-    /* font */
+    /**
+     * Font Family
+     */
     --font-family-sans-serif: 'Noto Sans JP', 'Noto Sans Japanese', 'Yu Gothic', 'Hiragino Kaku Gothic ProN',
       'Hiragino Sans', Meiryo, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif, 'Segoe UI Emoji';
     --font-family-monospace: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace, Apple Color Emoji,
       Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+
+    /**
+     * Font Size
+     */
     --font-size-sm: ${getModularScale({ degree: -1 })};
     --font-size-md: ${getModularScale({ degree: 0 })};
     --font-size-lg: ${getModularScale({ degree: 1 })};
 
+    /**
+     * Heading Font Size
+     */
     ${isDesktop} {
       --font-size-h1: 32px;
       --font-size-h2: 24px;
@@ -72,6 +81,9 @@ export default css`
       --font-size-h6: 16px;
     }
 
+    /**
+     * Font Weight
+     */
     --font-weight-normal: 500;
     --font-weight-bold: 900;
 
