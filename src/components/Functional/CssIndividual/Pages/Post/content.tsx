@@ -24,8 +24,9 @@ const Headings = css`
   }
 
   ${[2, 3, 4, 5, 6].map((headingNumber: number) => {
+    const tag = `h${headingNumber}`;
     return css`
-      h${headingNumber} {
+      ${tag} {
         margin-top: ${headingNumber >= 2 ? 'var(--space-5)' : headingNumber >= 5 ? 'var(--space-4)' : 'var(--space-3)'}
         margin-bottom: ${headingNumber >= 3 ? 'var(--space-3)' : 'var(--space-2)'}
         line-height: 1.5
