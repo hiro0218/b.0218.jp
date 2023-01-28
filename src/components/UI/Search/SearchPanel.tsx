@@ -46,7 +46,7 @@ const SearchMain = styled.div`
   margin: auto;
   overflow: hidden;
   animation: ${fadeIn} 0.8s ease;
-  border-radius: 4px;
+  border-radius: var(--border-radius-4);
   opacity: 0;
   background: #fff;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);

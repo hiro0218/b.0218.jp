@@ -54,7 +54,7 @@ const Summary = styled.summary`
 
 const Details = styled.details`
   transition: background-color 0.2s ease;
-  border-radius: 0.25rem;
+  border-radius: var(--border-radius-4);
   background-color: var(--component-backgrounds-3);
 
   &:not([open]):hover {

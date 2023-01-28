@@ -32,7 +32,7 @@ const Anchor = styled.a`
   display: inline-flex;
   align-items: center;
   padding: var(--space-1) var(--space-2);
-  border-radius: 0.25rem;
+  border-radius: var(--border-radius-4);
   color: var(--text-12);
   font-size: var(--font-size-sm);
   line-height: 1;

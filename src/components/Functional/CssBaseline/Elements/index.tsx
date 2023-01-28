@@ -127,7 +127,7 @@ export default css`
   pre {
     display: block;
     overflow: auto;
-    border-radius: 0.15rem;
+    border-radius: var(--border-radius-2);
     background: var(--backgrounds-2);
     font-size: var(--font-size-sm);
     overflow-wrap: break-word;
@@ -149,7 +149,7 @@ export default css`
   :not(pre) > code {
     margin: 0;
     padding: 0.25rem 0.5rem;
-    border-radius: 0.15rem;
+    border-radius: var(--border-radius-2);
     background: var(--component-backgrounds-3A);
     color: var(--text-12);
     font-size: var(--font-size-sm);

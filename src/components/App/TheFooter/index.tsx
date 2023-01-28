@@ -52,7 +52,7 @@ const Footer = styled.div`
   a {
     width: 100%;
     padding: var(--space-1) var(--space-2);
-    border-radius: 0.25rem;
+    border-radius: var(--border-radius-4);
     color: inherit;
     text-align: center;
 

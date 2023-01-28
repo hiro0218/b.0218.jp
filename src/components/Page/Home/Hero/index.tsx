@@ -35,6 +35,6 @@ const Avatar = styled.div`
 
   img {
     border: 5px solid var(--backgrounds-1);
-    border-radius: 100%;
+    border-radius: var(--border-radius-full);
   }
 `;

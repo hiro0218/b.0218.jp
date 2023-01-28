@@ -23,7 +23,7 @@ const Button = styled.button`
   height: 3rem;
   transition: background-color 0.2s ease;
   border: none;
-  border-radius: 100%;
+  border-radius: var(--border-radius-full);
   background: none;
   cursor: pointer;
   pointer-events: auto;
@@ -31,7 +31,7 @@ const Button = styled.button`
   ${showHoverBackground}
 
   &::after {
-    border-radius: 100%;
+    border-radius: var(--border-radius-full);
   }
 
   svg {

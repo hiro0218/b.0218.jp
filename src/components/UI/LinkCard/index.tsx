@@ -47,7 +47,7 @@ const Container = styled.div`
   height: 100%;
   padding: calc(var(--space-3) * 0.6);
   padding-left: var(--space-3);
-  border-radius: 0.25rem;
+  border-radius: var(--border-radius-4);
   gap: calc(var(--space-3) * 0.25);
 
   ${isMobile} {

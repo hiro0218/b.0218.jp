@@ -68,6 +68,15 @@ export default css`
     --space-5: ${SPACING_BASE_PX * 8}px;
     --space-6: ${SPACING_BASE_PX * 13}px;
 
+    /**
+     * border-radius
+     */
+    --border-radius-2: 2px;
+    --border-radius-4: 4px;
+    --border-radius-8: 8px;
+    --border-radius-12: 12px;
+    --border-radius-full: 100%;
+
     /* z-index */
     --zIndex-header: 10;
     --zIndex-search: 12;

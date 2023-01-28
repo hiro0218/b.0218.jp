@@ -58,7 +58,7 @@ const IconContainer = styled.div`
   ${showHoverBackground}
 
   &::after {
-    border-radius: 100%;
+    border-radius: var(--border-radius-full);
   }
 
   > span {

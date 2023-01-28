@@ -25,7 +25,7 @@ const PostNoteRoot = styled.div`
   align-items: center;
   padding: var(--space-2) var(--space-1);
   border: 1px solid var(--borders-6);
-  border-radius: 0.25rem;
+  border-radius: var(--border-radius-4);
   background-color: var(--backgrounds-2);
   color: var(--text-11);
   line-height: 1.875;
