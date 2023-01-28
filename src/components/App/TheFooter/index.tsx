@@ -5,18 +5,22 @@ import { Anchor } from '@/components/UI/Anchor';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
+type Props = {
+  containerWidth?: number;
+};
+
 const Links = [
   { title: 'about', href: '/about' },
   { title: 'tags', href: '/tags' },
   { title: 'archive', href: '/archive' },
 ] as const;
 
-const TheFooter = memo(function TheFooter() {
+const TheFooter = memo(function TheFooter(props: Props) {
   return (
     <Root>
       <WaveUp fill="var(--component-backgrounds-3)" />
       <Footer>
-        <Container>
+        <Container containerWidth={props.containerWidth}>
           <List>
             {Links.map(({ title, href }, index) => {
               return (
@@ -70,11 +74,11 @@ const Footer = styled.div`
   }
 `;
 
-const Container = styled.div`
+const Container = styled.div<{ containerWidth: number }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: var(--container-width);
+  max-width: ${(props) => `${props.containerWidth}px`};
   margin: 0 auto;
 
   ${isMobile} {
