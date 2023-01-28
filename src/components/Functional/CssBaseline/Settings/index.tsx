@@ -1,6 +1,5 @@
 import { blackA, gray } from '@radix-ui/colors';
 
-import { getModularScale } from '@/lib/modular-scale';
 import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
 import { css } from '@/ui/styled';
 
@@ -56,9 +55,9 @@ export default css`
     /**
      * Font Size
      */
-    --font-size-sm: ${getModularScale({ degree: -1 })};
-    --font-size-md: ${getModularScale({ degree: 0 })};
-    --font-size-lg: ${getModularScale({ degree: 1 })};
+    --font-size-sm: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 18px;
 
     /**
      * Heading Font Size
