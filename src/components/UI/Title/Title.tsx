@@ -32,7 +32,6 @@ const Main = styled.div`
 `;
 
 const HeaderTitle = styled.h1`
-  line-height: 1.618034;
   overflow-wrap: break-word;
 `;
 

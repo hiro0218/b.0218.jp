@@ -12,7 +12,7 @@ const PostNote = ({ note }: Props) => {
 
   return (
     <PostNoteRoot>
-      <HiOutlineInformationCircle />
+      <HiOutlineInformationCircle size={24} />
       <div dangerouslySetInnerHTML={{ __html: note }} />
     </PostNoteRoot>
   );
@@ -23,7 +23,7 @@ export default PostNote;
 const PostNoteRoot = styled.div`
   display: flex;
   align-items: center;
-  padding: var(--space-3) var(--space-2);
+  padding: var(--space-2);
   border: 1px solid var(--borders-6);
   border-radius: var(--border-radius-4);
   background-color: var(--backgrounds-2);
@@ -31,9 +31,7 @@ const PostNoteRoot = styled.div`
 
   svg {
     flex-shrink: 0;
-    width: 1.5em;
-    height: 1.5em;
-    margin-right: 0.25em;
+    margin-right: var(--space-half);
     color: inherit;
   }
 `;

@@ -21,9 +21,9 @@ const PostShare = ({ title, url }: Props) => {
           rel="noopener noreferrer"
         >
           <IconContainer>
-            <FaTwitter />
-            <span>Tweet</span>
+            <FaTwitter size={32} />
           </IconContainer>
+          <span>Tweet</span>
         </Anchor>
       </Container>
     </section>
@@ -40,6 +40,7 @@ const Anchor = styled.a`
   display: flex;
   flex-direction: column;
   text-align: center;
+  justify-content: center;
 
   svg {
     color: var(--text-12);
@@ -51,9 +52,9 @@ const IconContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 3.5rem;
-  height: 3.5rem;
-  font-size: 1.8rem;
+  width: 56px;
+  height: 56px;
+  margin: auto;
 
   ${showHoverBackground}
 
@@ -62,8 +63,6 @@ const IconContainer = styled.div`
   }
 
   > span {
-    position: absolute;
-    top: 3.5rem;
     color: var(--text-11);
     font-size: var(--font-size-sm);
   }

@@ -28,6 +28,7 @@ const Div = styled.div<{
 }>`
   visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
   position: fixed;
+  z-index: calc(var(--zIndex-search) - 1);
   transition: opacity 0.4s ease, visibility 0.4s ease;
   opacity: ${({ isActive }) => (isActive ? 1 : 0)};
   background-color: var(--overlay-backgrounds);

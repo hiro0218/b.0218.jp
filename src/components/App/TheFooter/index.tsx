@@ -55,13 +55,13 @@ const Footer = styled.div`
 
   a {
     width: 100%;
-    padding: var(--space-1) var(--space-2);
+    padding: var(--space-1);
     border-radius: var(--border-radius-4);
     color: inherit;
     text-align: center;
 
     ${isMobile} {
-      padding: var(--space-half) var(--space-1);
+      padding: var(--space-half);
     }
 
     &:hover {
@@ -70,7 +70,7 @@ const Footer = styled.div`
   }
 
   small {
-    font-size: 1rem;
+    font-size: var(--font-size-md);
   }
 `;
 
@@ -83,7 +83,7 @@ const Container = styled.div<{ containerWidth: number }>`
 
   ${isMobile} {
     flex-direction: column;
-    gap: var(--space-5);
+    gap: var(--space-4);
   }
 `;
 

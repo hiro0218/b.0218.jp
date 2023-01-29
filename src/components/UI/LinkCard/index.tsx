@@ -3,7 +3,6 @@ import { HiOutlineChevronRight } from 'react-icons/hi';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { convertDateToSimpleFormat } from '@/lib/date';
-import { isMobile } from '@/ui/lib/mediaQuery';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -45,14 +44,10 @@ export default LinkCard;
 const Container = styled.div`
   display: flex;
   height: 100%;
-  padding: calc(var(--space-3) * 0.6);
-  padding-left: var(--space-3);
+  padding: var(--space-2);
+  padding-right: var(--space-1);
   border-radius: var(--border-radius-4);
-  gap: calc(var(--space-3) * 0.25);
-
-  ${isMobile} {
-    padding: calc(var(--space-3) * 0.8);
-  }
+  gap: var(--space-1);
 
   ${showHoverBackground}
 
@@ -70,7 +65,7 @@ const Main = styled.div`
   flex-grow: 1;
   justify-content: space-between;
   overflow: hidden;
-  gap: calc(var(--space-3) * 0.5);
+  gap: var(--space-2);
 `;
 
 const Anchor = styled(_Anchor)`
@@ -92,7 +87,6 @@ const Title = styled.h3`
   color: var(--text-12);
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-normal);
-  line-height: 1.875;
 `;
 
 const Paragraph = styled.p`

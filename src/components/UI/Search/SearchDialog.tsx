@@ -44,7 +44,7 @@ const Dialog = styled.dialog`
   top: 25vh;
 
   &[open] {
-    z-index: calc(var(--zIndex-search));
+    z-index: var(--zIndex-search);
     padding: 0;
     animation: ${fadeIn} 0.4s, ${slideIn} 0.4s linear;
     border: none;

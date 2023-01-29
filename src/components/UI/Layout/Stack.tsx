@@ -1,10 +1,10 @@
-import { AriaRole, CSSProperties, memo, ReactNode } from 'react';
+import { AriaRole, memo, ReactNode } from 'react';
 
 import { styled } from '@/ui/styled';
 
 type Props = {
   as?: 'div' | 'section';
-  space?: CSSProperties['margin'];
+  space?: 'half' | '1' | '2' | '3' | '4' | '5' | '6';
   role?: AriaRole;
   children: ReactNode;
 };
@@ -15,7 +15,7 @@ const StackRoot = styled.div<Props>`
   justify-content: flex-start;
 
   & > * + * {
-    margin-top: ${({ space }) => space || 'var(--space-3)'};
+    margin-top: ${({ space = '2' }) => `var(--space-${space})`};
   }
 `;
 
