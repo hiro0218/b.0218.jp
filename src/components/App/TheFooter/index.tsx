@@ -70,7 +70,7 @@ const Footer = styled.div`
   }
 
   small {
-    font-size: 1rem;
+    font-size: var(--font-size-md);
   }
 `;
 
