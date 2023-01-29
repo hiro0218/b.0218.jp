@@ -27,7 +27,7 @@ const Tags: NextPage<Props> = ({ title, posts }) => (
       <Title heading={pageTitle} paragraph={`${posts.length}件`} />
 
       <Columns title={title}>
-        <Stack space="calc(var(--space-3) * 0.25)">
+        <Stack space="half">
           {posts.map((post) => (
             <LinkCard
               key={post.slug}
