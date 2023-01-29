@@ -35,7 +35,7 @@ export default PostNextRead;
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, minmax(calc(50% - var(--space-3)), max-content));
+  grid-template-columns: repeat(2, minmax(calc(50% - var(--space-1)), max-content));
   gap: var(--space-1);
   margin-top: var(--space-3);
 
