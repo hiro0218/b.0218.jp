@@ -3,7 +3,6 @@ import { HiOutlineChevronRight } from 'react-icons/hi';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { convertDateToSimpleFormat } from '@/lib/date';
-import { isMobile } from '@/ui/lib/mediaQuery';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -46,6 +45,7 @@ const Container = styled.div`
   display: flex;
   height: 100%;
   padding: var(--space-2);
+  padding-right: var(--space-1);
   border-radius: var(--border-radius-4);
   gap: var(--space-1);
 
