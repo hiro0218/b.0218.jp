@@ -205,4 +205,10 @@ export default css`
       }
     }
   }
+
+  button {
+    border: none;
+    background-color: transparent;
+    appearance: none;
+  }
 `;
