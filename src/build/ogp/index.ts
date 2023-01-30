@@ -33,8 +33,7 @@ const template = readFileSync(`${process.cwd()}/src/build/ogp/template.html`, 'u
         await Promise.all([(document.getElementById('title').innerHTML = pageTitle), document.fonts.ready]);
       }, pageTitle);
 
-      const content = await page.$('body');
-      await content
+      await page
         .screenshot({
           fullPage: false,
           path: `${path.dist}/${slug}.png`,
