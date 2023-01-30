@@ -6,10 +6,18 @@
     <title>OGP Image</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400,900&display=swap" rel="stylesheet" />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400,900&display=swap"
+      as="style"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400,900&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
     <style>
-      @import url('https://cdn.jsdelivr.net/npm/yakuhanjp@3.4.1/dist/css/yakuhanjp-noto.min.css');
-
       *,
       *::before,
       *::after {
@@ -31,7 +39,7 @@
         padding: 40px 60px;
         background-color: #fff;
         text-align: center;
-        font-family: YakuHanJP_Noto, 'Noto Sans JP', sans-serif;
+        font-family: 'Noto Sans JP', sans-serif;
         font-feature-settings: 'palt';
         word-break: keep-all;
         overflow-wrap: break-word;
