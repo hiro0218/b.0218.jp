@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { FaTwitter } from 'react-icons/fa';
 import { HiLink } from 'react-icons/hi';
+import { SiHatenabookmark, SiTwitter } from 'react-icons/si';
 
 import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
@@ -26,19 +26,24 @@ const PostShare = ({ title, url }: Props) => {
       <Container>
         <Anchor
           href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}`}
-          aria-label="Tweetする"
           target="_blank"
           rel="noopener noreferrer"
         >
           <IconContainer>
-            <FaTwitter size={ICON_SIZE / 2} />
+            <SiTwitter size={ICON_SIZE / 2} />
             <Label>Tweet</Label>
+          </IconContainer>
+        </Anchor>
+        <Anchor href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`} target="_blank" rel="noopener noreferrer">
+          <IconContainer>
+            <SiHatenabookmark size={ICON_SIZE / 2} />
+            <Label>Bookmark</Label>
           </IconContainer>
         </Anchor>
         <Anchor as="button" type="button" onClick={onClickCopyPermalink}>
           <IconContainer>
             <HiLink size={ICON_SIZE / 2} />
-            <Label>Copy URL</Label>
+            <Label>Copy</Label>
           </IconContainer>
         </Anchor>
       </Container>
@@ -50,14 +55,14 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   margin-top: var(--space-6);
-  gap: var(--space-2);
+  gap: var(--space-3);
 `;
 
 const Anchor = styled.a`
   display: flex;
-  flex-direction: column;
   text-align: center;
   justify-content: center;
+  line-height: 1;
   cursor: pointer;
 `;
 
@@ -67,6 +72,8 @@ const Label = styled.span`
   display: block;
   color: var(--text-11);
   font-size: var(--font-size-sm);
+  line-height: 1.5;
+  white-space: nowrap;
 `;
 
 const IconContainer = styled.div`

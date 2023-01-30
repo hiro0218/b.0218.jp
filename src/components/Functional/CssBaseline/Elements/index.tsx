@@ -207,6 +207,7 @@ export default css`
   }
 
   button {
+    padding: 0;
     border: none;
     background-color: transparent;
     appearance: none;
