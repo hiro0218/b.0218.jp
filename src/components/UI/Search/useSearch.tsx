@@ -7,7 +7,7 @@ type DialogProps = ComponentProps<typeof Dialog>;
 
 type Props = {
   refModal: DialogProps['ref'];
-  isActive: boolean;
+  isActive: DialogProps['isActive'];
   openDialog: ButtonProps['openDialog'];
   closeDialog: DialogProps['closeDialog'];
 };
