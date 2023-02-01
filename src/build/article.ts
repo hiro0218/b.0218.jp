@@ -41,14 +41,15 @@ function getHeading2Text(content: string) {
  * markdownをhtml形式に変換
  */
 async function markdown2html(markdown: string, simple = false) {
+  const commonProcessor = unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkUnwrapImages)
+    .use(remarkBreaks)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw);
   const result = !simple
-    ? await unified()
-        .use(remarkParse)
-        .use(remarkGfm)
-        .use(remarkUnwrapImages)
-        .use(remarkBreaks)
-        .use(remarkRehype, { allowDangerousHtml: true })
-        .use(rehypeRaw)
+    ? await commonProcessor
         .use(rehypeExternalLinks, {
           target(element) {
             return !(element.properties.href as string).includes(SITE.URL) ? '_blank' : undefined;
@@ -70,13 +71,7 @@ async function markdown2html(markdown: string, simple = false) {
         ])
         .use(rehypeStringify, { allowDangerousHtml: true })
         .process(markdown)
-    : await unified()
-        .use(remarkParse)
-        .use(remarkGfm)
-        .use(remarkRehype, { allowDangerousHtml: true })
-        .use(rehypeRaw)
-        .use(rehypeStringify, { allowDangerousHtml: true })
-        .process(markdown);
+    : await commonProcessor.use(rehypeStringify, { allowDangerousHtml: true }).process(markdown);
 
   return result.toString();
 }
