@@ -8,10 +8,6 @@ type Props = {
   text: string;
 } & HTMLAttributes<HTMLSpanElement>;
 
-/**
- * TailwindCSS の sr-only クラス実装を参考
- * @see https://tailwindcss.com/docs/screen-readers
- */
 const SrOnlyText = styled.span`
   ${srOnly}
 `;

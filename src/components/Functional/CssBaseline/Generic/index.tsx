@@ -2,6 +2,10 @@ import 'shokika.css';
 
 import { css } from '@/ui/styled';
 
+/**
+ * TailwindCSS の sr-only クラス実装を参考
+ * @see https://tailwindcss.com/docs/screen-readers
+ */
 export const srOnly = css`
   /* stylelint-disable indentation */
   position: absolute;
