@@ -7,7 +7,17 @@ const nextConfiguration = {
   swcMinify: true,
 
   compiler: {
-    emotion: true,
+    emotion: {
+      autoLabel: 'dev-only',
+      importMap: {
+        ['@/ui/styled']: {
+          ['styled']: {
+            canonicalImport: ['@emotion/styled', 'default'],
+            styledBaseImport: ['@/ui/styled', 'styled'],
+          },
+        },
+      },
+    },
   },
 
   experimental: {
