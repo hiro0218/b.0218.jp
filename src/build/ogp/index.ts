@@ -15,11 +15,10 @@ const template = readFileSync(`${process.cwd()}/src/build/ogp/template.html`, 'u
   ensureDirSync(path.dist);
   const posts = getPostsListJson();
   const length = posts.length;
-  let browserServer: BrowserServer;
   let browser: Browser;
 
   try {
-    browserServer = await chromium.launchServer({
+    browser = await chromium.launch({
       args: [
         '--disable-extensions',
         '--disable-gpu',
@@ -35,8 +34,6 @@ const template = readFileSync(`${process.cwd()}/src/build/ogp/template.html`, 'u
         '--disable-new-tab-first-run',
       ],
     });
-    const wsEndpoint = browserServer.wsEndpoint();
-    browser = await chromium.connect(wsEndpoint);
     const page = await browser.newPage();
     await page.setContent(template, {
       waitUntil: 'networkidle',
@@ -66,7 +63,6 @@ const template = readFileSync(`${process.cwd()}/src/build/ogp/template.html`, 'u
   } catch (err) {
     console.error('Generating OGP Images', err.message);
   } finally {
-    await browserServer?.close();
     await browser?.close();
   }
 })();
