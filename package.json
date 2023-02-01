@@ -82,7 +82,6 @@
     "markuplint": "^3.2.0",
     "next-build-id": "^3.0.0",
     "next-compose-plugins": "^2.2.1",
-    "node-fetch": "^3.3.0",
     "playwright": "^1.30.0",
     "postcss-styled-syntax": "^0.3.1",
     "prettier": "^2.8.3",
@@ -107,7 +106,6 @@
     "stylelint-config-recommended": "^9.0.0",
     "stylelint-declaration-block-no-ignored-properties": "^2.6.0",
     "stylelint-no-unsupported-browser-features": "^6.0.1",
-    "timeout-fetch": "^1.0.0",
     "typescript": "^4.9.4",
     "unified": "^10.1.2",
     "unist-util-visit": "^4.1.2"
