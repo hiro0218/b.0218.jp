@@ -1,6 +1,6 @@
 import { loadDefaultJapaneseParser } from 'budoux';
 import { ensureDirSync, readFileSync } from 'fs-extra';
-import { chromium } from 'playwright';
+import { Browser, BrowserServer, chromium } from 'playwright';
 const parser = loadDefaultJapaneseParser();
 
 import { getPostsJson } from '../../lib/posts';
@@ -15,10 +15,28 @@ const template = readFileSync(`${process.cwd()}/src/build/ogp/template.html`, 'u
   ensureDirSync(path.dist);
   const posts = getPostsJson();
   const length = posts.length;
-  let browser = null;
+  let browserServer: BrowserServer;
+  let browser: Browser;
 
   try {
-    browser = await chromium.launch();
+    browserServer = await chromium.launchServer({
+      args: [
+        '--disable-extensions',
+        '--disable-gpu',
+        '--disable-background-timer-throttling',
+        '--disable-backgrounding-occluded-windows',
+        '--disable-renderer-backgrounding',
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-video-decode',
+        '--disable-blink-features',
+        '--disable-translate',
+        '--disable-popup-blocking',
+        '--disable-features',
+        '--disable-new-tab-first-run',
+      ],
+    });
+    const wsEndpoint = browserServer.wsEndpoint();
+    browser = await chromium.connect(wsEndpoint);
     const page = await browser.newPage();
     await page.setContent(template, {
       waitUntil: 'networkidle',
@@ -48,8 +66,7 @@ const template = readFileSync(`${process.cwd()}/src/build/ogp/template.html`, 'u
   } catch (err) {
     console.error('Generating OGP Images', err.message);
   } finally {
-    if (browser) {
-      await browser.close();
-    }
+    await browserServer?.close();
+    await browser?.close();
   }
 })();
