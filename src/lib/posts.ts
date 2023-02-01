@@ -19,7 +19,9 @@ export const getPostsJson = (): Array<Post> => {
   return readJsonSync(path);
 };
 
-export const getPostsListJson = (): Array<Partial<Post>> => {
+export const getPostsListJson = (): Array<
+  Partial<Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>>
+> => {
   const path = getPath('posts-list');
 
   return readJsonSync(path);
