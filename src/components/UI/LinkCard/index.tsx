@@ -76,6 +76,7 @@ const Anchor = styled(_Anchor)`
     left: 0;
     width: 100%;
     height: 100%;
+    cursor: pointer;
   }
 
   &:focus-within {

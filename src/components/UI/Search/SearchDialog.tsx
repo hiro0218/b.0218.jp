@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { forwardRef, MutableRefObject, useId } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -6,8 +7,8 @@ import useIsClient from '@/hooks/useIsClient';
 import { fadeIn, slideIn } from '@/ui/animation';
 import { styled } from '@/ui/styled';
 
-import { Overlay } from './Overlay';
-import { SearchPanel } from './SearchPanel';
+const SearchPanel = dynamic(() => import('./SearchPanel').then((module) => module.SearchPanel));
+const Overlay = dynamic(() => import('./Overlay').then((module) => module.Overlay));
 
 type RefProps = MutableRefObject<HTMLDialogElement>;
 

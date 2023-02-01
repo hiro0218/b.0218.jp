@@ -1,6 +1,9 @@
-import { FaTwitter } from 'react-icons/fa';
+import { useCallback } from 'react';
+import { HiLink } from 'react-icons/hi';
+import { SiHatenabookmark, SiTwitter } from 'react-icons/si';
 
 import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
+import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -9,21 +12,39 @@ interface Props {
   url: string;
 }
 
+const ICON_SIZE = 56;
+
 const PostShare = ({ title, url }: Props) => {
+  const [, copy] = useCopyToClipboard();
+  const onClickCopyPermalink = useCallback(() => {
+    copy(url);
+  }, [copy, url]);
+
   return (
     <section>
       <ScreenReaderOnlyText as="h2" text={'このページをシェアする'} />
       <Container>
         <Anchor
           href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}`}
-          aria-label="Tweetする"
           target="_blank"
           rel="noopener noreferrer"
         >
           <IconContainer>
-            <FaTwitter size={32} />
+            <SiTwitter size={ICON_SIZE / 2} />
+            <Label>Tweet</Label>
           </IconContainer>
-          <span>Tweet</span>
+        </Anchor>
+        <Anchor href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`} target="_blank" rel="noopener noreferrer">
+          <IconContainer>
+            <SiHatenabookmark size={ICON_SIZE / 2} />
+            <Label>Bookmark</Label>
+          </IconContainer>
+        </Anchor>
+        <Anchor as="button" type="button" onClick={onClickCopyPermalink}>
+          <IconContainer>
+            <HiLink size={ICON_SIZE / 2} />
+            <Label>Copy</Label>
+          </IconContainer>
         </Anchor>
       </Container>
     </section>
@@ -34,26 +55,35 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   margin-top: var(--space-6);
+  gap: var(--space-3);
 `;
 
 const Anchor = styled.a`
   display: flex;
-  flex-direction: column;
   text-align: center;
   justify-content: center;
+  line-height: 1;
+  cursor: pointer;
+`;
 
-  svg {
-    color: var(--text-12);
-  }
+const Label = styled.span`
+  position: absolute;
+  top: 100%;
+  display: block;
+  color: var(--text-11);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  white-space: nowrap;
 `;
 
 const IconContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: ${ICON_SIZE}px;
+  height: ${ICON_SIZE}px;
   margin: auto;
 
   ${showHoverBackground}
@@ -62,9 +92,8 @@ const IconContainer = styled.div`
     border-radius: var(--border-radius-full);
   }
 
-  > span {
-    color: var(--text-11);
-    font-size: var(--font-size-sm);
+  svg {
+    color: var(--text-12);
   }
 `;
 

@@ -1,15 +1,12 @@
 import type { Element } from 'hast';
 import { h } from 'hastscript';
 import { JSDOM, VirtualConsole } from 'jsdom';
-import nodeFetch from 'node-fetch';
-import timeoutFetch, { TimeoutError } from 'timeout-fetch';
 import { Transformer } from 'unified';
 import { visit } from 'unist-util-visit';
 
 type OpgProps = { description?: string; image?: string; title?: string };
 
-const ONE_SECOND = 1000;
-const fetch: typeof nodeFetch = timeoutFetch(ONE_SECOND * 2, nodeFetch);
+const FETCH_TIMEOUT = 1000;
 
 /**
  * 不正な CSS を読み込んだ際のパースエラーを握りつぶす
@@ -77,9 +74,12 @@ const canTransformLinkPreview = (node: Element, index: number, parent: Element) 
 const transformLinkPreview = async (node: Element, index: number, parent: Element) => {
   if (!canTransformLinkPreview(node, index, parent)) return;
 
+  const url = node.properties.href as string;
+
   try {
-    const url = node.properties.href as string;
-    const result = await fetch(url).then((res) => {
+    const result = await fetch(url, {
+      signal: AbortSignal.timeout(FETCH_TIMEOUT),
+    }).then((res) => {
       return res.status === 200 ? res.text() : '';
     });
 
@@ -102,10 +102,14 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
       setPreviewLinkNodes(node, index, parent, url, ogp);
     }
   } catch (error) {
-    if (error instanceof TimeoutError) {
-      console.error('Fetch timed out');
+    if (error.name === 'TimeoutError') {
+      console.error(`Timeout: It took more than ${FETCH_TIMEOUT} ms to retrieve the result.`, url);
+    } else if (error.name === 'AbortError') {
+      console.error('Fetch aborted by user action.', url);
+    } else if (error.name === 'TypeError') {
+      console.error('AbortSignal.timeout() method is not supported', url);
     } else {
-      console.error('Unexpected error occurred', error, node.properties.href);
+      console.error('Unexpected error occurred', error, url);
     }
   }
 };

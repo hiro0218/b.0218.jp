@@ -30,10 +30,7 @@ export default PostDate;
 const PostDateRoot = styled.div`
   display: flex;
   align-items: center;
-
-  > * + * {
-    margin-left: 0.5em;
-  }
+  gap: var(--space-half);
 `;
 
 const PostDateItem = styled.div<{ existModified?: boolean }>`
@@ -44,8 +41,8 @@ const PostDateItem = styled.div<{ existModified?: boolean }>`
     return (
       existModified &&
       css`
-        opacity: 0.8;
-        text-decoration: line-through;
+        opacity: 0.8
+        text-decoration: line-through
       `
     );
   }}

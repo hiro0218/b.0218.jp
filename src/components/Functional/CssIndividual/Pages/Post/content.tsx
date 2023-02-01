@@ -1,52 +1,11 @@
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { showHoverShadow } from '@/ui/mixin';
-import { css, styled } from '@/ui/styled';
+import { styled } from '@/ui/styled';
 
-const Headings = css`
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    position: relative;
-    scroll-margin-top: 1em;
-    font-weight: var(--font-weight-bold);
-
-    & > {
-      code {
-        font-size: 1em;
-      }
-    }
-
-    & + :where(*) {
-      margin-top: auto;
-    }
-  }
-
-  ${[2, 3, 4, 5, 6].map((headingNumber) => {
-    const tag = `h${headingNumber}`;
-    const nextTagNumber = headingNumber + 1;
-    const nextTagSiblingSelector = nextTagNumber <= 6 ? `${tag} + h${nextTagNumber}` : undefined;
-    const style = {
-      marginTop: `${headingNumber >= 2 ? 'var(--space-5)' : headingNumber >= 5 ? 'var(--space-4)' : 'var(--space-3)'}`,
-      marginBottom: `${headingNumber >= 3 ? 'var(--space-3)' : 'var(--space-2)'}`,
-      lineHeight: 1.5,
-    };
-    const cancelMarginStyle = {
-      marginTop: 0,
-    };
-
-    return css`
-      ${tag} {
-        ${style}
-      }
-      ${tag} + ${tag},
-      ${nextTagSiblingSelector} {
-        ${cancelMarginStyle}
-      }
-    `;
-  })}
-`;
+import Footnotes from './Footnotes';
+import Headings from './Heading';
+import LinkPreview from './LinkPreview';
+import TableScroll from './TableScroll';
 
 const PostContent = styled.div`
   & > * {
@@ -197,147 +156,11 @@ ol {
     }
   }
 
-  .p-table-scroll {
-    position: relative;
-    isolation: isolate;
-    margin-left: -0.5em;
-    overflow: auto;
+  ${TableScroll}
 
-    &::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
+  ${LinkPreview}
 
-    &::-webkit-scrollbar-track {
-      border-radius: var(--border-radius-4);
-      background-color: var(--backgrounds-2);
-    }
-
-    &::-webkit-scrollbar-thumb {
-      border-radius: var(--border-radius-4);
-      background-color: var(--solid-backgrounds-9);
-    }
-  }
-
-  .p-link-preview {
-    display: flex;
-    align-items: center;
-    height: 150px;
-    overflow: hidden;
-    border: 1px solid var(--borders-7);
-    border-radius: var(--border-radius-8);
-    background-color: #fff;
-    text-decoration: none;
-
-    ${isMobile} {
-      flex-direction: column;
-      height: auto;
-    }
-
-    &:hover {
-      border-color: var(--borders-8);
-      background-color: var(--backgrounds-2);
-    }
-
-    &::after {
-      content: '';
-      display: none;
-    }
-
-    &-body {
-      display: flex;
-      flex: 1 1;
-      flex-direction: column;
-      min-width: 0;
-      height: 100%;
-      padding: var(--space-3);
-      color: var(--text-12);
-
-      ${isMobile} {
-        order: 1;
-        width: 100%;
-      }
-
-      &__title,
-      &__description {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-
-      &__title {
-        max-height: 3em;
-        font-size: var(--font-size-md);
-        font-weight: var(--font-weight-bold);
-        line-height: 1.5;
-      }
-
-      &__description {
-        display: block;
-        margin-top: var(--space-half);
-        overflow: hidden;
-        color: var(--text-11);
-        font-size: var(--font-size-sm);
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      &__url {
-        display: block;
-        margin-top: auto;
-        overflow: hidden;
-        font-size: var(--font-size-sm);
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-    }
-
-    &-thumbnail {
-      width: 300px;
-      height: 150px;
-      background-color: #fff;
-      user-select: none;
-
-      ${isMobile} {
-        order: 0;
-        width: 100%;
-        max-width: 100%;
-        height: 240px;
-      }
-
-      img {
-        flex-shrink: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-
-        ${isMobile} {
-          /* object-fit: contain; */
-        }
-      }
-    }
-  }
-
-  [data-footnotes] {
-    margin-top: var(--space-6);
-    padding-top: var(--space-3);
-    border-top: 1px solid var(--borders-6);
-    color: var(--text-11);
-    font-size: var(--font-size-sm);
-
-    h2 {
-      margin: auto;
-    }
-
-    a {
-      color: inherit;
-    }
-
-    [data-footnote-backref] {
-      text-decoration-line: none;
-    }
-  }
+  ${Footnotes}
 `;
 
 export default PostContent;
