@@ -3,7 +3,7 @@ import { ensureDirSync, readFileSync } from 'fs-extra';
 import { Browser, BrowserServer, chromium } from 'playwright';
 const parser = loadDefaultJapaneseParser();
 
-import { getPostsJson } from '../../lib/posts';
+import { getPostsListJson } from '../../lib/posts';
 
 const path = {
   dist: `${process.cwd()}/public/images/ogp`,
@@ -13,7 +13,7 @@ const template = readFileSync(`${process.cwd()}/src/build/ogp/template.html`, 'u
 
 (async () => {
   ensureDirSync(path.dist);
-  const posts = getPostsJson();
+  const posts = getPostsListJson();
   const length = posts.length;
   let browserServer: BrowserServer;
   let browser: Browser;
