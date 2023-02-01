@@ -1,6 +1,6 @@
 import { loadDefaultJapaneseParser } from 'budoux';
 import { ensureDirSync, readFileSync } from 'fs-extra';
-import { Browser, BrowserServer, chromium } from 'playwright';
+import { Browser, chromium } from 'playwright';
 const parser = loadDefaultJapaneseParser();
 
 import { getPostsListJson } from '../../lib/posts';
