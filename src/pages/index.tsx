@@ -2,6 +2,8 @@ import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
 import { Hero } from '@/components/Page/Home/Hero';
+import { LinkMoreArchive } from '@/components/Page/Home/LinkMore';
+import { LinkMoreTag } from '@/components/Page/Home/LinkMore/index';
 import Heading from '@/components/UI/Heading';
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
@@ -46,7 +48,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
         </Stack>
 
         <Stack as="section">
-          <Heading as="h2" text="Articles" />
+          <Heading as="h2" text="Articles" textSide={<LinkMoreArchive />} />
           <Columns title="Recent Articles" titleTagName="h3">
             <Stack space="half">
               {recentPosts.map((post) => (
@@ -77,7 +79,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
         </Stack>
 
         <Stack as="section">
-          <Heading as="h2" text="Tags" />
+          <Heading as="h2" text="Tags" textSide={<LinkMoreTag />} />
           <PostTagGridContainer>
             <PostTag tags={tags} />
           </PostTagGridContainer>

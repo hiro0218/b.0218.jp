@@ -28,6 +28,7 @@ export default Heading;
 
 const Container = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const Main = styled.div`
@@ -41,7 +42,6 @@ const HeaderTitle = styled.h1<{ weight: boolean }>`
 `;
 
 const Side = styled.div`
-  margin-top: auto;
   color: var(--text-11);
 `;
 
