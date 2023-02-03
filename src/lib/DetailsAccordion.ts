@@ -1,3 +1,8 @@
+const DefaultKeyframeAnimationOptions: KeyframeAnimationOptions = {
+  duration: 200,
+  easing: 'ease-out',
+} as const;
+
 export class DetailsAccordion {
   detailsElement: HTMLDetailsElement;
   summary: HTMLElement;
@@ -5,14 +10,20 @@ export class DetailsAccordion {
   animation: Animation;
   isClosing: boolean;
   isExpanding: boolean;
+  keyframeAnimationOption: KeyframeAnimationOptions;
 
-  constructor(detailsElement: HTMLDetailsElement, contentElement: HTMLElement) {
+  constructor(
+    detailsElement: HTMLDetailsElement,
+    contentElement: HTMLElement,
+    keyframeAnimationOption = DefaultKeyframeAnimationOptions,
+  ) {
     this.detailsElement = detailsElement;
     this.summary = detailsElement.querySelector('summary');
     this.content = contentElement;
     this.animation = null;
     this.isClosing = false;
     this.isExpanding = false;
+    this.keyframeAnimationOption = keyframeAnimationOption;
 
     this.addEventListener();
   }
@@ -50,10 +61,7 @@ export class DetailsAccordion {
       {
         height: [startHeight, endHeight],
       },
-      {
-        duration: 200,
-        easing: 'ease-out',
-      },
+      this.keyframeAnimationOption,
     );
 
     this.animation.onfinish = () => this.onAnimationFinish(false);
@@ -80,10 +88,7 @@ export class DetailsAccordion {
       {
         height: [startHeight, endHeight],
       },
-      {
-        duration: 200,
-        easing: 'ease-out',
-      },
+      this.keyframeAnimationOption,
     );
 
     this.animation.onfinish = () => this.onAnimationFinish(true);
@@ -95,6 +100,7 @@ export class DetailsAccordion {
     this.animation = null;
     this.isClosing = false;
     this.isExpanding = false;
-    this.detailsElement.style.height = this.detailsElement.style.overflow = '';
+    this.detailsElement.style.height = '';
+    this.detailsElement.style.overflow = '';
   }
 }
