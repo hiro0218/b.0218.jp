@@ -7,7 +7,7 @@ export class DetailsAccordion {
   detailsElement: HTMLDetailsElement;
   summary: HTMLElement;
   content: HTMLElement;
-  animation: Animation;
+  animationQueue: Animation;
   isClosing: boolean;
   isExpanding: boolean;
   keyframeAnimationOption: KeyframeAnimationOptions;
@@ -20,7 +20,7 @@ export class DetailsAccordion {
     this.detailsElement = detailsElement;
     this.summary = detailsElement.querySelector('summary');
     this.content = contentElement;
-    this.animation = null;
+    this.animationQueue = null;
     this.isClosing = false;
     this.isExpanding = false;
     this.keyframeAnimationOption = keyframeAnimationOption;
@@ -53,19 +53,19 @@ export class DetailsAccordion {
     const startHeight = `${this.detailsElement.offsetHeight}px`;
     const endHeight = `${this.summary.offsetHeight}px`;
 
-    if (this.animation) {
-      this.animation.cancel();
+    if (this.animationQueue) {
+      this.animationQueue.cancel();
     }
 
-    this.animation = this.detailsElement.animate(
+    this.animationQueue = this.detailsElement.animate(
       {
         height: [startHeight, endHeight],
       },
       this.keyframeAnimationOption,
     );
 
-    this.animation.onfinish = () => this.onAnimationFinish(false);
-    this.animation.oncancel = () => (this.isClosing = false);
+    this.animationQueue.onfinish = () => this.onAnimationFinish(false);
+    this.animationQueue.oncancel = () => (this.isClosing = false);
   }
 
   open() {
@@ -80,24 +80,24 @@ export class DetailsAccordion {
     const startHeight = `${this.detailsElement.offsetHeight}px`;
     const endHeight = `${this.summary.offsetHeight + this.content.offsetHeight}px`;
 
-    if (this.animation) {
-      this.animation.cancel();
+    if (this.animationQueue) {
+      this.animationQueue.cancel();
     }
 
-    this.animation = this.detailsElement.animate(
+    this.animationQueue = this.detailsElement.animate(
       {
         height: [startHeight, endHeight],
       },
       this.keyframeAnimationOption,
     );
 
-    this.animation.onfinish = () => this.onAnimationFinish(true);
-    this.animation.oncancel = () => (this.isExpanding = false);
+    this.animationQueue.onfinish = () => this.onAnimationFinish(true);
+    this.animationQueue.oncancel = () => (this.isExpanding = false);
   }
 
   onAnimationFinish(open: boolean) {
     this.detailsElement.open = open;
-    this.animation = null;
+    this.animationQueue = null;
     this.isClosing = false;
     this.isExpanding = false;
     this.detailsElement.style.height = '';
