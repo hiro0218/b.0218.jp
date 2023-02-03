@@ -40,7 +40,7 @@ const PostShare = ({ title, url }: Props) => {
             <Label>Bookmark</Label>
           </IconContainer>
         </Anchor>
-        <Anchor as="button" type="button" onClick={onClickCopyPermalink}>
+        <Anchor as="button" type="button" title="記事のURLをコピーする" onClick={onClickCopyPermalink}>
           <IconContainer>
             <HiLink size={ICON_SIZE / 2} />
             <Label>Copy</Label>
