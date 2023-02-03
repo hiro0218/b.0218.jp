@@ -33,17 +33,16 @@ const PostDateRoot = styled.div`
   gap: var(--space-half);
 `;
 
+const existModifiedStyle = css`
+  opacity: 0.8;
+  text-decoration: line-through;
+`;
+
 const PostDateItem = styled.div<{ existModified?: boolean }>`
   display: flex;
   align-items: center;
 
   ${({ existModified }) => {
-    return (
-      existModified &&
-      css`
-        opacity: 0.8
-        text-decoration: line-through
-      `
-    );
+    return existModified && existModifiedStyle;
   }}
 `;
