@@ -53,6 +53,8 @@ module.exports = {
         'custom-property-pattern': null,
         'function-name-case': null,
         'function-no-unknown': null,
+        'no-extra-semicolons': null,
+        indentation: null, // prettierに任せる
       },
     },
   ],

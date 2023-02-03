@@ -1,6 +1,6 @@
 import { memo, useCallback } from 'react';
-import { RxCaretDown, RxCaretUp } from 'react-icons/rx';
 
+import { RxCaretDown, RxCaretUp } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 export const PageScroll = memo(function PageScroll() {

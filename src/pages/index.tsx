@@ -2,9 +2,12 @@ import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 
 import { Hero } from '@/components/Page/Home/Hero';
+import { LinkMoreArchive } from '@/components/Page/Home/LinkMore';
+import { LinkMoreTag } from '@/components/Page/Home/LinkMore/index';
 import Heading from '@/components/UI/Heading';
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
+import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
 import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
 import { SITE } from '@/constant';
 import { getPostsListJson, getTermWithCount } from '@/lib/posts';
@@ -41,12 +44,14 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
       />
 
       <PageContainer>
+        <ScreenReaderOnlyText as="h1" text="トップページ" />
+
         <Stack as="section">
           <Hero />
         </Stack>
 
         <Stack as="section">
-          <Heading as="h2" text="Articles" />
+          <Heading as="h2" text="最新記事" textSide={<LinkMoreArchive />} />
           <Columns title="Recent Articles" titleTagName="h3">
             <Stack space="half">
               {recentPosts.map((post) => (
@@ -77,7 +82,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
         </Stack>
 
         <Stack as="section">
-          <Heading as="h2" text="Tags" />
+          <Heading as="h2" text="タグ" textSide={<LinkMoreTag />} />
           <PostTagGridContainer>
             <PostTag tags={tags} />
           </PostTagGridContainer>

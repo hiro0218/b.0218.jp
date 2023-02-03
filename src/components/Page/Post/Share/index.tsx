@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
-import { HiLink } from 'react-icons/hi';
-import { SiHatenabookmark, SiTwitter } from 'react-icons/si';
 
 import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
+import { SiHatenabookmark, SiTwitter } from '@/ui/icons';
+import { HiLink } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -40,7 +40,7 @@ const PostShare = ({ title, url }: Props) => {
             <Label>Bookmark</Label>
           </IconContainer>
         </Anchor>
-        <Anchor as="button" type="button" onClick={onClickCopyPermalink}>
+        <Anchor as="button" type="button" title="記事のURLをコピーする" onClick={onClickCopyPermalink}>
           <IconContainer>
             <HiLink size={ICON_SIZE / 2} />
             <Label>Copy</Label>

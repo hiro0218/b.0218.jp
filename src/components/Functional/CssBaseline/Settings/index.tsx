@@ -41,6 +41,9 @@ export default css`
 
     --overlay-backgrounds: ${blackA.blackA10};
 
+    /* size */
+    --container-width: 800px;
+
     /**
      * Font Family
      */

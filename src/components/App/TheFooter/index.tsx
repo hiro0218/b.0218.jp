@@ -1,13 +1,10 @@
 import { memo } from 'react';
 
 import { WaveUp } from '@/components/Functional/Wave';
-import { Anchor } from '@/components/UI/Anchor';
+import { Anchor as _Anchor } from '@/components/UI/Anchor';
+import { LinkStyle } from '@/components/UI/LinkMenu';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
-
-type Props = {
-  containerWidth?: number;
-};
 
 const Links = [
   { title: 'about', href: '/about' },
@@ -15,12 +12,12 @@ const Links = [
   { title: 'archive', href: '/archive' },
 ] as const;
 
-const TheFooter = memo(function TheFooter(props: Props) {
+const TheFooter = memo(function TheFooter() {
   return (
     <Root>
       <WaveUp fill="var(--component-backgrounds-3)" />
       <Footer>
-        <Container containerWidth={props.containerWidth}>
+        <Container>
           <List>
             {Links.map(({ title, href }, index) => {
               return (
@@ -53,32 +50,16 @@ const Footer = styled.div`
   color: var(--text-12);
   font-size: var(--font-size-md);
 
-  a {
-    width: 100%;
-    padding: var(--space-1);
-    border-radius: var(--border-radius-4);
-    color: inherit;
-    text-align: center;
-
-    ${isMobile} {
-      padding: var(--space-half);
-    }
-
-    &:hover {
-      background-color: var(--component-backgrounds-3A);
-    }
-  }
-
   small {
     font-size: var(--font-size-md);
   }
 `;
 
-const Container = styled.div<{ containerWidth: number }>`
+const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: ${(props) => `${props.containerWidth}px`};
+  max-width: var(--container-width);
   margin: 0 auto;
 
   ${isMobile} {
@@ -92,10 +73,6 @@ const List = styled.ul`
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-
-  ${isMobile} {
-    width: 65vw;
-  }
 `;
 
 const ListItem = styled.li`
@@ -104,5 +81,18 @@ const ListItem = styled.li`
 
   ${isMobile} {
     width: calc(100% / ${Links.length});
+  }
+`;
+
+const Anchor = styled(_Anchor)`
+  ${LinkStyle}
+
+  display: flex;
+  padding: var(--space-1) var(--space-2);
+  text-align: center;
+  font-size: var(--font-size-md);
+
+  ${isMobile} {
+    padding: var(--space-2) var(--space-3);
   }
 `;
