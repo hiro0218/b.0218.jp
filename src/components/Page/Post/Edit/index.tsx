@@ -1,5 +1,4 @@
-import { FaGithub } from 'react-icons/fa';
-
+import { FaGithub } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 type Props = {

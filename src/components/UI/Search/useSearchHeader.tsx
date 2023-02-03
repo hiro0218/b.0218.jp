@@ -1,9 +1,9 @@
 import { KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { HiSearch } from 'react-icons/hi';
 
 import useEffectOnce from '@/hooks/useEffectOnce';
 import { parseJSON } from '@/lib/parseJSON';
 import { Post } from '@/types/source';
+import { HiSearch } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 type Props = {

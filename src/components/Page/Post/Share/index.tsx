@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
-import { HiLink } from 'react-icons/hi';
-import { SiHatenabookmark, SiTwitter } from 'react-icons/si';
 
 import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
+import { SiHatenabookmark, SiTwitter } from '@/ui/icons';
+import { HiLink } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 

@@ -1,5 +1,4 @@
-import { HiSearch } from 'react-icons/hi';
-
+import { HiSearch } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 

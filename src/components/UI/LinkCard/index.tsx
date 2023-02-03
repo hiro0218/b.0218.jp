@@ -1,8 +1,8 @@
 import { AriaRole, ReactNode, useMemo } from 'react';
-import { HiOutlineChevronRight } from 'react-icons/hi';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { convertDateToSimpleFormat } from '@/lib/date';
+import { HiOutlineChevronRight } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 

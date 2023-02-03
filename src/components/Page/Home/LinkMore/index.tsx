@@ -1,8 +1,8 @@
 import { memo } from 'react';
-import { HiOutlineChevronRight } from 'react-icons/hi';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { LinkStyle } from '@/components/UI/LinkMenu';
+import { HiOutlineChevronRight } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 const IconArrow = memo(function IconArrow() {
