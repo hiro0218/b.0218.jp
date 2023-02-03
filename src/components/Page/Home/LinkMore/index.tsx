@@ -8,7 +8,7 @@ import { styled } from '@/ui/styled';
 const IconArrow = memo(function IconArrow() {
   return (
     <Icon>
-      <HiOutlineChevronRight size={16} />
+      <HiOutlineChevronRight size={12} />
     </Icon>
   );
 });
@@ -34,16 +34,13 @@ export const LinkMoreTag = () => {
 const Icon = styled.div`
   display: flex;
   align-items: center;
+  margin-left: var(--space-half);
   color: var(--text-11);
-
-  svg {
-    width: 1em;
-    height: 1em;
-  }
 `;
 
 const Anchor = styled(_Anchor)`
   ${LinkStyle}
 
   color: var(--text-11);
+  font-size: var(--font-size-md);
 `;
