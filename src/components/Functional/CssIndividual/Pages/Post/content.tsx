@@ -1,5 +1,4 @@
 import { isMobile } from '@/ui/lib/mediaQuery';
-import { showHoverShadow } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 import Footnotes from './Footnotes';
@@ -101,14 +100,6 @@ ol {
     width: 100%;
     height: 100%;
     aspect-ratio: 16 / 9;
-
-    ${showHoverShadow}
-  }
-
-  figure {
-    img {
-      ${showHoverShadow}
-    }
   }
 
   details {
