@@ -100,6 +100,10 @@ ol {
     width: 100%;
     height: 100%;
     aspect-ratio: 16 / 9;
+
+    ${isMobile} {
+      min-height: 320px;
+    }
   }
 
   details {
