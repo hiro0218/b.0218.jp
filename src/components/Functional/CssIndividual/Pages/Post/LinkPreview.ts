@@ -96,7 +96,7 @@ const LinkPreview = css`
         object-fit: cover;
 
         ${isMobile} {
-          /* object-fit: contain; */
+          object-fit: contain;
         }
       }
     }
