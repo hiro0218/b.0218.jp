@@ -64,7 +64,7 @@ const Container = styled.div`
 
   ${isMobile} {
     flex-direction: column;
-    gap: var(--space-4);
+    gap: var(--space-2);
   }
 `;
 
