@@ -1,5 +1,4 @@
 import { isMobile } from '@/ui/lib/mediaQuery';
-import { showHoverShadow } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 import Footnotes from './Footnotes';
@@ -102,12 +101,8 @@ ol {
     height: 100%;
     aspect-ratio: 16 / 9;
 
-    ${showHoverShadow}
-  }
-
-  figure {
-    img {
-      ${showHoverShadow}
+    ${isMobile} {
+      min-height: 320px;
     }
   }
 

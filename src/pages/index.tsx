@@ -9,7 +9,7 @@ import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
 import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
-import { SITE } from '@/constant';
+import { AUTHOR } from '@/constant';
 import { getPostsListJson, getTermWithCount } from '@/lib/posts';
 import { Post as PropsPost } from '@/types/source';
 
@@ -25,7 +25,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
   return (
     <>
       <Head>
-        <meta name="thumbnail" content={`${SITE.URL}hiro0218.png`} />
+        <meta name="thumbnail" content={`${AUTHOR.ICON}`} />
       </Head>
 
       <div
@@ -34,7 +34,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
           __html: `<!--
                       <PageMap>
                         <DataObject type="thumbnail">
-                          <Attribute name="src" value="${SITE.URL}hiro0218.png"/>
+                          <Attribute name="src" value="${AUTHOR.ICON}"/>
                           <Attribute name="width" value="100"/>
                           <Attribute name="height" value="100"/>
                         </DataObject>
