@@ -16,9 +16,9 @@ import remarkRehype from 'remark-rehype';
 import remarkUnwrapImages from 'remark-unwrap-images';
 import { unified } from 'unified';
 
-import { SITE } from '../constant';
-import { Post as PropPost } from '../types/source';
-import remark0218 from './remark0218';
+import { SITE } from '../../constant';
+import { Post as PropPost } from '../../types/source';
+import remark0218 from '../remark0218';
 
 const path = {
   src: `${process.cwd()}/_article`,
