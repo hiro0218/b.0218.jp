@@ -1,9 +1,9 @@
 import { memo, ReactNode } from 'react';
 
-import { WaveDown } from '@/components/Functional/Wave';
+import { WaveTop } from '@/components/Functional/Wave';
 import useIsMounted from '@/hooks/useIsMounted';
 import { fadeIn, fadeOut } from '@/ui/animation';
-import { css, styled } from '@/ui/styled';
+import { css, styled, useTheme } from '@/ui/styled';
 
 import { useHeaderScrollHandler } from './useHeaderScrollHandler';
 
@@ -14,19 +14,20 @@ type Props = {
 export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
   const isMounted = useIsMounted();
   const isHeaderShown = useHeaderScrollHandler();
+  const theme = useTheme();
 
   return (
-    <Underline>
+    <Underline UnderlineHeight={theme.components.header.height}>
       <Header isMounted={isMounted} isShown={isHeaderShown}>
         {children}
       </Header>
-      <WaveDown fill="var(--component-backgrounds-3)" />
+      <WaveTop />
     </Underline>
   );
 });
 
-const Underline = styled.div`
-  height: ${({ theme }) => theme.components.header.height}px;
+const Underline = styled.div<{ UnderlineHeight: number }>`
+  height: ${({ UnderlineHeight }) => UnderlineHeight}px;
 `;
 
 const Header = styled.header<{ isMounted: boolean; isShown: boolean }>`

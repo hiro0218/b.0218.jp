@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { WaveUp } from '@/components/Functional/Wave';
+import { WaveBottom } from '@/components/Functional/Wave';
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { LinkStyle } from '@/components/UI/LinkMenu';
 import { isMobile } from '@/ui/lib/mediaQuery';
@@ -15,7 +15,7 @@ const Links = [
 const TheFooter = memo(function TheFooter() {
   return (
     <Root>
-      <WaveUp fill="var(--component-backgrounds-3)" />
+      <WaveBottom />
       <Footer>
         <Container>
           <List>
@@ -45,7 +45,7 @@ const Root = styled.footer`
 `;
 
 const Footer = styled.div`
-  padding: var(--space-5) 0;
+  padding: var(--space-4) 0;
   background-color: var(--component-backgrounds-3);
   color: var(--text-12);
   font-size: var(--font-size-md);
