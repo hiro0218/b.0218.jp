@@ -15,7 +15,7 @@ const Links = [
 const TheFooter = memo(function TheFooter() {
   return (
     <Root>
-      <WaveBottom fill="var(--component-backgrounds-3)" />
+      <WaveBottom svgFill="var(--component-backgrounds-3)" />
       <Footer>
         <Container>
           <List>
@@ -45,7 +45,7 @@ const Root = styled.footer`
 `;
 
 const Footer = styled.div`
-  padding: var(--space-5) 0;
+  padding: 0 0 var(--space-5) 0;
   background-color: var(--component-backgrounds-3);
   color: var(--text-12);
   font-size: var(--font-size-md);
