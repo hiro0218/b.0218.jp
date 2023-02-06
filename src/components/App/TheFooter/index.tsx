@@ -45,7 +45,7 @@ const Root = styled.footer`
 `;
 
 const Footer = styled.div`
-  padding: 0 0 var(--space-5) 0;
+  padding: var(--space-4) 0;
   background-color: var(--component-backgrounds-3);
   color: var(--text-12);
   font-size: var(--font-size-md);
