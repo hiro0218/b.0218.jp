@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { WaveUp } from '@/components/Functional/Wave';
+import { WaveBottom } from '@/components/Functional/Wave';
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { LinkStyle } from '@/components/UI/LinkMenu';
 import { isMobile } from '@/ui/lib/mediaQuery';
@@ -15,7 +15,7 @@ const Links = [
 const TheFooter = memo(function TheFooter() {
   return (
     <Root>
-      <WaveUp fill="var(--component-backgrounds-3)" />
+      <WaveBottom fill="var(--component-backgrounds-3)" />
       <Footer>
         <Container>
           <List>
