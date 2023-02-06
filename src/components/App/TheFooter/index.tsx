@@ -15,7 +15,7 @@ const Links = [
 const TheFooter = memo(function TheFooter() {
   return (
     <Root>
-      <WaveBottom svgFill="var(--component-backgrounds-3)" />
+      <WaveBottom />
       <Footer>
         <Container>
           <List>

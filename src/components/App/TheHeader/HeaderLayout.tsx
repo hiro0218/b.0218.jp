@@ -21,7 +21,7 @@ export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
       <Header isMounted={isMounted} isShown={isHeaderShown}>
         {children}
       </Header>
-      <WaveTop svgFill="var(--component-backgrounds-3)" />
+      <WaveTop />
     </Underline>
   );
 });
