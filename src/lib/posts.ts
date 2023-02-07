@@ -7,27 +7,27 @@ const getPath = (filename: string) => {
   return join(process.cwd(), `dist/${filename}.json`);
 };
 
-export const getTermJson = (type: 'tags'): Array<TermsPostList> => {
+export const getTermJson = (type: 'tags'): TermsPostList[] => {
   const path = getPath(type);
 
   return readJsonSync(path);
 };
 
-export const getPostsJson = (): Array<Post> => {
+export const getPostsJson = (): Post[] => {
   const path = getPath('posts');
 
   return readJsonSync(path);
 };
 
-export const getPostsListJson = (): Array<
-  Partial<Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>>
-> => {
+export const getPostsListJson = (): Partial<
+  Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>
+>[] => {
   const path = getPath('posts-list');
 
   return readJsonSync(path);
 };
 
-export const getPagesJson = (): Array<Pages> => {
+export const getPagesJson = (): Pages[] => {
   const path = getPath('pages');
 
   return readJsonSync(path);

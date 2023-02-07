@@ -16,9 +16,9 @@ import { Post as PropsPost } from '@/types/source';
 const POST_DISPLAY_LIMIT = 5;
 
 interface Props {
-  recentPosts: Array<PropsPost>;
-  updatesPosts: Array<PropsPost>;
-  tags: Array<PostTagProps>;
+  recentPosts: PropsPost[];
+  updatesPosts: PropsPost[];
+  tags: PostTagProps[];
 }
 
 const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {

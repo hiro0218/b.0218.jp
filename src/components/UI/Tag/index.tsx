@@ -9,7 +9,7 @@ export type Props = {
 };
 
 type PostTagProps = {
-  tags: Array<Props>;
+  tags: Props[];
 };
 
 const PostTag = memo(function PostTag({ tags }: PostTagProps) {

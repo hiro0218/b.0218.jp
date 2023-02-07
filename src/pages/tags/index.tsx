@@ -8,7 +8,7 @@ import { SITE } from '@/constant';
 import { getTermWithCount } from '@/lib/posts';
 
 type TermProps = {
-  tags: Array<PostTagProps>;
+  tags: PostTagProps[];
 };
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
