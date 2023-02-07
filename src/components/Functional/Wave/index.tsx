@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 export const WaveTop = memo(function WaveTop() {
@@ -16,7 +16,7 @@ export const WaveTop = memo(function WaveTop() {
 export const WaveBottom = memo(function WaveBottom() {
   return (
     <Container aria-hidden="true">
-      <svg viewBox="0 0 500 80" preserveAspectRatio={isDesktop ? 'none' : 'xMaxYMax slice'}>
+      <svg viewBox="0 0 500 80" preserveAspectRatio="none">
         <path d="M0.00,49.99 C149.99,150.00 349.81,-49.99 500.00,49.99 L500.00,150.00 L0.00,150.00 Z"></path>
       </svg>
     </Container>
