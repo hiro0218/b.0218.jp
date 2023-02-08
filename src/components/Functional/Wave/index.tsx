@@ -31,11 +31,7 @@ const Container = styled.div`
   svg {
     position: relative;
     z-index: -1;
-    left: 50%;
-    width: 100%;
-    height: fit-content;
-    margin: auto;
-    transform: translateX(-50%);
+    width: 100vw;
     stroke: none;
     fill: var(--component-backgrounds-3);
 
