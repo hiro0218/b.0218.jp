@@ -45,11 +45,28 @@ const Root = styled.aside`
 `;
 
 const Summary = styled.summary`
+  display: flex;
+  justify-content: space-between;
   padding: var(--space-2) var(--space-3);
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-bold);
   cursor: pointer;
   user-select: none;
+
+  // for Safari
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &::after {
+    content: '';
+    display: list-item;
+    list-style: disclosure-closed;
+  }
+
+  [open] &::after {
+    list-style-type: disclosure-open;
+  }
 `;
 
 const Details = styled.details`
