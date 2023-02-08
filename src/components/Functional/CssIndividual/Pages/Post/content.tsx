@@ -43,11 +43,11 @@ const PostContent = styled.div`
     }
   }
 
-  .anchor {
+  [data-mokuji-anchor] {
     display: inline-flex;
     position: absolute;
     top: 0;
-    right: calc(100%);
+    right: 100%;
     bottom: 0;
     align-items: center;
     justify-content: center;
