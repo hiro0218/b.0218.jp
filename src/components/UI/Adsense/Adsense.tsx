@@ -48,7 +48,7 @@ export const Adsense = () => {
 const Ads = styled.div`
   max-width: 336px;
   height: 280px;
-  margin: 2rem auto;
+  margin: var(--space-4) auto;
 
   ${isMobile} {
     min-height: 100px;
