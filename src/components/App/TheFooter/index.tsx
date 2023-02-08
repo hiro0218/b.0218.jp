@@ -37,18 +37,25 @@ const TheFooter = memo(function TheFooter() {
 export default TheFooter;
 
 const Root = styled.footer`
-  display: flex;
+  display: grid;
+  align-items: end;
   position: sticky;
   top: 100vh;
-  flex-direction: column;
   margin-top: var(--space-6);
+
+  & > * {
+    grid-area: 1/-1;
+  }
 `;
 
 const Footer = styled.div`
   padding: var(--space-4) 0;
-  background-color: var(--component-backgrounds-3);
   color: var(--text-12);
   font-size: var(--font-size-md);
+
+  ${isMobile} {
+    padding: var(--space-3) 0;
+  }
 
   small {
     font-size: var(--font-size-md);
@@ -64,6 +71,7 @@ const Container = styled.div`
 
   ${isMobile} {
     flex-direction: column;
+    justify-content: unset;
     gap: var(--space-2);
   }
 `;

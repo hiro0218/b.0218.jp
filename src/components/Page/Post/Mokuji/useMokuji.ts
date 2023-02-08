@@ -9,7 +9,6 @@ const MOKUJI_OPTION: MokujiOption = {
   anchorLink: true,
   anchorLinkSymbol: '#',
   anchorLinkBefore: false,
-  anchorLinkClassName: 'anchor',
   anchorContainerTagName: 'ol',
 } as const;
 

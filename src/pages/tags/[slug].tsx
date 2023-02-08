@@ -10,7 +10,7 @@ import { TermsPostList } from '@/types/source';
 
 type TermProps = {
   title: string;
-  posts: Array<TermsPostList>;
+  posts: TermsPostList[];
 };
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

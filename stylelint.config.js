@@ -54,6 +54,7 @@ module.exports = {
         'function-name-case': null,
         'function-no-unknown': null,
         'no-extra-semicolons': null,
+        'no-invalid-double-slash-comments': null,
         indentation: null, // prettierに任せる
       },
     },

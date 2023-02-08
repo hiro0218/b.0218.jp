@@ -38,7 +38,7 @@ const resetLocalStorage = (query = 'posts-list') => {
 export const useSearchHeader = ({ closeDialog }: Props) => {
   const refInput = useRef<HTMLInputElement>(null);
   const [data, setData] = useState<DataProps>(initialData);
-  const [archives, setArchives] = useState<Array<Post>>([]);
+  const [archives, setArchives] = useState<Post[]>([]);
 
   useEffect(() => {
     refInput.current.focus();

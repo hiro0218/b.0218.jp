@@ -36,7 +36,7 @@ async function buildPost() {
   // md ファイル一覧を取得
   const files = fs.readdirSync(`${path.src}/_posts`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
-  const posts: Array<Partial<PropPost>> = [];
+  const posts: Partial<PropPost>[] = [];
 
   // 記事一覧
   for (let i = 0; i < NUMBER_OF_FILES; i++) {
@@ -74,7 +74,7 @@ async function buildPost() {
   console.log('Write dist/posts-list.json');
 }
 
-function removePostsData(posts: Array<Partial<PropPost>>) {
+function removePostsData(posts: Partial<PropPost>[]) {
   return posts.map((post) => {
     delete post.note;
     delete post.content;
@@ -85,7 +85,7 @@ function removePostsData(posts: Array<Partial<PropPost>>) {
 }
 
 function buildTerms() {
-  const posts: Array<PropPost> = fs.readJSONSync(`${path.dist}/posts.json`);
+  const posts: PropPost[] = fs.readJSONSync(`${path.dist}/posts.json`);
   const tagsMap = {};
 
   for (let i = 0; i < posts.length; i++) {
@@ -118,7 +118,7 @@ async function buildPage() {
   // md ファイル一覧を取得
   const files = fs.readdirSync(`${path.src}`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
-  const pages: Array<Partial<PropPost>> = [];
+  const pages: Partial<PropPost>[] = [];
 
   // 記事一覧
   for (let i = 0; i < NUMBER_OF_FILES; i++) {

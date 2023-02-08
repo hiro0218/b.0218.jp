@@ -28,7 +28,7 @@ export interface Post {
   title: string;
   content: string;
   excerpt: string;
-  tags: Array<string>;
+  tags: string[];
   readingTime: string;
   noindex?: boolean;
 }
