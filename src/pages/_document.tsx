@@ -64,12 +64,12 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
-              __html: `{
-                "@context": "https://schema.org",
-                "@type": "Organization",
-                "url": "${SITE.URL}",
-                "logo": "${AUTHOR.ICON}"
-              }`,
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'Organization',
+                url: SITE.URL,
+                logo: AUTHOR.ICON,
+              }),
             }}
           ></script>
           <script
