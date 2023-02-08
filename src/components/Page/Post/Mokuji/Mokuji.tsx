@@ -61,7 +61,7 @@ const Summary = styled.summary`
   &::after {
     content: '';
     display: list-item;
-    list-style: disclosure-closed;
+    list-style: disclosure-closed inside;
   }
 
   [open] &::after {
