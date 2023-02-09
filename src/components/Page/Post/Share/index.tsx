@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { SiHatenabookmark, SiTwitter } from '@/ui/icons';
-import { HiLink } from '@/ui/icons';
+import { RxLink2 } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -42,7 +42,7 @@ const PostShare = ({ title, url }: Props) => {
         </Anchor>
         <Anchor as="button" type="button" title="記事のURLをコピーする" onClick={onClickCopyPermalink}>
           <IconContainer>
-            <HiLink size={ICON_SIZE / 2} />
+            <RxLink2 size={ICON_SIZE / 2} />
             <Label>Copy</Label>
           </IconContainer>
         </Anchor>

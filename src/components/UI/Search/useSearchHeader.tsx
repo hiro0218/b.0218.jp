@@ -3,7 +3,7 @@ import { KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from
 import useEffectOnce from '@/hooks/useEffectOnce';
 import { parseJSON } from '@/lib/parseJSON';
 import { Post } from '@/types/source';
-import { HiSearch } from '@/ui/icons';
+import { RxMagnifyingGlass } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -120,7 +120,7 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
     () => (
       <Header>
         <HeaderIcon htmlFor="search-input">
-          <HiSearch size="24" />
+          <RxMagnifyingGlass size="24" />
         </HeaderIcon>
         <SearchInput
           type="text"
@@ -153,7 +153,7 @@ const HeaderIcon = styled.label`
   padding: 0 var(--space-1);
 
   svg {
-    color: var(--text-11);
+    color: var(--text-12);
   }
 `;
 

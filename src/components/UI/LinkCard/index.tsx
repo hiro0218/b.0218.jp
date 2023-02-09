@@ -2,7 +2,7 @@ import { AriaRole, ReactNode, useMemo } from 'react';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { convertDateToSimpleFormat } from '@/lib/date';
-import { HiOutlineChevronRight } from '@/ui/icons';
+import { RxCaretRight } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -18,7 +18,7 @@ const LinkCard = ({ link, title, date, excerpt, role }: Props) => {
   const IconArrow = useMemo(() => {
     return (
       <Icon className="icon">
-        <HiOutlineChevronRight />
+        <RxCaretRight size={24} />
       </Icon>
     );
   }, []);
@@ -115,9 +115,4 @@ const Icon = styled.div`
   transition: opacity 0.2s ease-in-out;
   opacity: 0;
   color: var(--text-11);
-
-  svg {
-    width: 1rem;
-    height: 1rem;
-  }
 `;

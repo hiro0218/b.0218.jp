@@ -1,5 +1,5 @@
 import { Post } from '@/types/source';
-import { HiOutlineInformationCircle } from '@/ui/icons';
+import { RxInfoCircled } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 type Props = Pick<Post, 'note'>;
@@ -11,7 +11,7 @@ const PostNote = ({ note }: Props) => {
 
   return (
     <PostNoteRoot>
-      <HiOutlineInformationCircle size={24} />
+      <RxInfoCircled size={24} />
       <div dangerouslySetInnerHTML={{ __html: note }} />
     </PostNoteRoot>
   );
