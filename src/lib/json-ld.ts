@@ -32,7 +32,7 @@ export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> =
       url: [URL.SITE, URL.TWITTER, URL.GITHUB, URL.QIITA, URL.ZENN],
     },
     description: getDescriptionText(post.content),
-    image: [`${SITE.URL}images/ogp/${post.slug}.png`],
+    image: [`${SITE.URL}images/ogp/${post.slug}.webp`],
     publisher: {
       '@type': 'Organization',
       name: SITE.NAME,
