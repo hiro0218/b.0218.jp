@@ -28,21 +28,6 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
         <meta name="thumbnail" content={`${AUTHOR.ICON}`} />
       </Head>
 
-      <div
-        aria-hidden="true"
-        dangerouslySetInnerHTML={{
-          __html: `<!--
-                      <PageMap>
-                        <DataObject type="thumbnail">
-                          <Attribute name="src" value="${AUTHOR.ICON}"/>
-                          <Attribute name="width" value="100"/>
-                          <Attribute name="height" value="100"/>
-                        </DataObject>
-                      </PageMap>
-                    -->`,
-        }}
-      />
-
       <PageContainer>
         <ScreenReaderOnlyText as="h1" text="トップページ" />
 

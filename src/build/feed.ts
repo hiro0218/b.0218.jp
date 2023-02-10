@@ -31,7 +31,7 @@ function generatedRssFeed(): void {
   for (let i = 0; i < posts.length; i++) {
     const post = posts[i];
 
-    if (post.noindex == true) {
+    if (post.noindex == true || post.tags.includes('名探偵コナン')) {
       continue;
     }
 

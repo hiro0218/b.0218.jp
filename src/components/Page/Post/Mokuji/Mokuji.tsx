@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
 import { DetailsAccordion } from '@/lib/DetailsAccordion';
+import { RxTriangleDown, RxTriangleUp } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 import { MokujiProps } from './type';
@@ -23,7 +24,11 @@ const Mokuji = ({ refContent }: MokujiProps) => {
   return (
     <Root key={asPath} ref={refMokuji}>
       <Details ref={refDetails}>
-        <Summary>目次</Summary>
+        <Summary>
+          目次
+          <RxTriangleDown size={20} data-disclosure="closed" />
+          <RxTriangleUp size={20} data-disclosure="open" />
+        </Summary>
         <DetailsContent ref={refDetailContent} />
       </Details>
     </Root>
@@ -44,8 +49,28 @@ const Root = styled.aside`
   }
 `;
 
+const Details = styled.details`
+  transition: background-color 0.2s ease;
+  border-radius: var(--border-radius-4);
+  background-color: var(--component-backgrounds-3);
+
+  &:not([open]):hover {
+    background-color: var(--component-backgrounds-4);
+  }
+
+  [data-disclosure] {
+    display: none;
+  }
+
+  &:not([open]) [data-disclosure='closed'],
+  &[open] [data-disclosure='open'] {
+    display: block;
+  }
+`;
+
 const Summary = styled.summary`
   display: flex;
+  align-items: center;
   justify-content: space-between;
   padding: var(--space-2) var(--space-3);
   font-size: var(--font-size-md);
@@ -56,26 +81,6 @@ const Summary = styled.summary`
   // for Safari
   &::-webkit-details-marker {
     display: none;
-  }
-
-  &::after {
-    content: '';
-    display: list-item;
-    list-style: disclosure-closed inside;
-  }
-
-  [open] &::after {
-    list-style-type: disclosure-open;
-  }
-`;
-
-const Details = styled.details`
-  transition: background-color 0.2s ease;
-  border-radius: var(--border-radius-4);
-  background-color: var(--component-backgrounds-3);
-
-  &:not([open]):hover {
-    background-color: var(--component-backgrounds-4);
   }
 `;
 

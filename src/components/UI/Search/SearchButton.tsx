@@ -1,4 +1,4 @@
-import { HiSearch } from '@/ui/icons';
+import { RxMagnifyingGlass } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -9,7 +9,7 @@ type Props = {
 export const SearchButton = ({ openDialog }: Props) => {
   return (
     <Button type="button" aria-label="Search" onClick={openDialog}>
-      <HiSearch size="20" />
+      <RxMagnifyingGlass size="20" />
     </Button>
   );
 };

@@ -1,6 +1,6 @@
 import { memo, useCallback } from 'react';
 
-import { RxCaretDown, RxCaretUp } from '@/ui/icons';
+import { RxChevronDown, RxChevronUp } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 export const PageScroll = memo(function PageScroll() {
@@ -26,10 +26,10 @@ export const PageScroll = memo(function PageScroll() {
   return (
     <Container>
       <Button type="button" aria-label="ページの最上部へスクロールする" onClick={onScrollTop}>
-        <RxCaretUp size={32} />
+        <RxChevronUp size={24} />
       </Button>
       <Button type="button" aria-label="ページの最下部へスクロールする" onClick={onScrollBottom}>
-        <RxCaretDown size={32} />
+        <RxChevronDown size={24} />
       </Button>
     </Container>
   );

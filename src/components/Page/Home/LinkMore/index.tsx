@@ -2,13 +2,13 @@ import { memo } from 'react';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { LinkStyle } from '@/components/UI/LinkMenu';
-import { HiOutlineChevronRight } from '@/ui/icons';
+import { RxCaretRight } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 const IconArrow = memo(function IconArrow() {
   return (
     <Icon>
-      <HiOutlineChevronRight size={12} />
+      <RxCaretRight />
     </Icon>
   );
 });

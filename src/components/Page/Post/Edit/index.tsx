@@ -1,4 +1,4 @@
-import { FaGithub } from '@/ui/icons';
+import { RxGithubLogo } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -13,7 +13,7 @@ const PostEdit = ({ slug }: Props) => {
         target="_blank"
         rel="noreferrer"
       >
-        <FaGithub size={18} />
+        <RxGithubLogo size={18} />
         Edit on GitHub
       </Anchor>
     </Container>

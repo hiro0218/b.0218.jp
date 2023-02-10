@@ -44,7 +44,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
         <meta
           key="og:image"
           property="og:image"
-          content={`${SITE.URL}images/ogp/${post.slug}.png?ts=${process.env.BUILD_ID}`}
+          content={`${SITE.URL}images/ogp/${post.slug}.webp?ts=${process.env.BUILD_ID}`}
         />
         <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
         <meta name="twitter:label1" content="Written by" />
