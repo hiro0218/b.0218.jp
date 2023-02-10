@@ -11,7 +11,6 @@
     "build:feed": "node --require esbuild-register ./src/build/feed.ts",
     "build:ogp": "node --require esbuild-register ./src/build/ogp && node --require esbuild-register ./src/build/ogp/convertPngToWebP.ts",
     "build:sitemap": "node --require esbuild-register ./src/build/sitemap.ts",
-    "optimize:ogp": "sharp -i './public/images/ogp/*.png' -f webp -o {dir} && rimraf ./public/images/ogp/*.png",
     "start": "next start",
     "lint": "eslint \"src/**/*{.js,.ts,.tsx}\"",
     "lint:markup": "markuplint \"src/**/*{.jsx,.tsx}\"",
