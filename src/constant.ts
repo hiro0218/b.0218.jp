@@ -1,3 +1,5 @@
+const SITE_URL = 'https://b.0218.jp/';
+
 export const AUTHOR = {
   NAME: 'hiro',
   ICON: 'https://b.0218.jp/hiro0218.png',
@@ -8,11 +10,11 @@ export const AUTHOR = {
 export const SITE = {
   NAME: '零弐壱蜂',
   DESCRIPTION: '様々な情報をストックするサイバーメモ帳',
-  URL: 'https://b.0218.jp/',
+  URL: SITE_URL,
 } as const;
 
 export const URL = {
-  SITE: 'https://b.0218.jp/',
+  SITE: SITE_URL,
   TWITTER: 'https://twitter.com/hiro0218',
   GITHUB: 'https://github.com/hiro0218',
   NPM: 'https://www.npmjs.com/~hiro0218',
