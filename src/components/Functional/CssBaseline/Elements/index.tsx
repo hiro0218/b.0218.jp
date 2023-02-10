@@ -183,7 +183,6 @@ export default css`
     th {
       border-top: none;
       border-bottom: 2px solid var(--borders-6);
-      text-align: left;
       vertical-align: bottom;
       white-space: nowrap;
     }
