@@ -4,7 +4,7 @@ import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/do
 import { Children } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/components/UI/Adsense';
-import { AUTHOR, SITE } from '@/constant';
+import { AUTHOR, SITE, URL } from '@/constant';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
 
 const HTML_PREFIX = {
@@ -61,6 +61,9 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
           <link rel="icon" type="image/x-icon" href="/favicon.ico" />
           <link rel="alternate" type="application/rss+xml" href={`${SITE.URL}feed.xml`} />
           <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" />
+          {Object.entries(URL).map(([key, url]) => {
+            return key !== 'SITE' && <link key={key} rel="me" href={url} />;
+          })}
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
