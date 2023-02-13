@@ -4,7 +4,12 @@ import { JSDOM, VirtualConsole } from 'jsdom';
 import { Transformer } from 'unified';
 import { visit } from 'unist-util-visit';
 
-type OpgProps = { description?: string; image?: string; title?: string };
+type OpgProps = {
+  description?: string;
+  image?: string;
+  title?: string;
+  card?: 'summary' | 'summary_large_image' | 'app' | 'player';
+};
 
 const FETCH_TIMEOUT = 1000;
 
@@ -37,9 +42,10 @@ const setPreviewLinkNodes = (node: Element, index: number, parent: Element, url:
 
   const CLASS_NAME = 'p-link-preview';
   const properties = node.properties;
+
   node.properties = {};
   node.tagName = 'p';
-  const template = h('a', { ...properties, class: CLASS_NAME }, [
+  const template = h('a', { ...properties, class: CLASS_NAME, 'data-card': ogp?.card || 'summary' }, [
     h('span', { class: `${CLASS_NAME}-body` }, [
       h('span', { class: `${CLASS_NAME}-body__title` }, ogp.title),
       ogp.description && h('span', { class: `${CLASS_NAME}-body__description` }, ogp.description),
@@ -87,15 +93,19 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
       const dom = new JSDOM(result, { virtualConsole });
       const meta = dom.window.document.querySelectorAll('head > meta');
       const ogp: OpgProps = Array.from(meta)
-        .filter((element) => {
+        .filter((element: HTMLMetaElement) => {
           const property = element.getAttribute('property');
           const name = element.getAttribute('name');
 
-          return property === 'og:title' || property === 'og:image' || name === 'description';
+          return (
+            property === 'og:title' || property === 'og:image' || name === 'description' || name === 'twitter:card'
+          );
         })
-        .reduce((tmp, element) => {
-          tmp[element.getAttribute('property')?.replace('og:', '') || element.getAttribute('name')] =
-            element.getAttribute('content');
+        .reduce((tmp, element: HTMLMetaElement) => {
+          const key =
+            element.getAttribute('property')?.replace('og:', '') ||
+            element.getAttribute('name')?.replace('twitter:', '');
+          tmp[key] = element.getAttribute('content');
           return tmp;
         }, {});
 
