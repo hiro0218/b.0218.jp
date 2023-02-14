@@ -25,7 +25,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
   return (
     <>
       <Head>
-        <meta name="thumbnail" content={`${AUTHOR.ICON}`} />
+        <meta name="thumbnail" content={AUTHOR.ICON} />
       </Head>
 
       <PageContainer>

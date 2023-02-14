@@ -11,7 +11,7 @@ function generatedRssFeed(): void {
     id: SITE.URL,
     link: SITE.URL,
     language: 'ja',
-    image: `${AUTHOR.ICON}`,
+    image: AUTHOR.ICON,
     copyright: `© ${AUTHOR.NAME}`,
     updated: new Date(),
     feedLinks: {

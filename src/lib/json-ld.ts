@@ -41,7 +41,7 @@ export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> =
       name: SITE.NAME,
       logo: {
         '@type': 'ImageObject',
-        url: `${AUTHOR.ICON}`,
+        url: AUTHOR.ICON,
         width: '400px',
         height: '400px',
       },
