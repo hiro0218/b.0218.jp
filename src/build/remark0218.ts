@@ -46,12 +46,12 @@ const setPreviewLinkNodes = (node: Element, index: number, parent: Element, url:
   node.properties = {};
   node.tagName = 'p';
   const template = h('a', { ...properties, class: CLASS_NAME, 'data-card': ogp?.card || 'summary' }, [
+    h('span', { class: `${CLASS_NAME}-thumbnail` }, [h('img', { src: ogp.image, alt: '' })]),
     h('span', { class: `${CLASS_NAME}-body` }, [
       h('span', { class: `${CLASS_NAME}-body__title` }, ogp.title),
       ogp.description && h('span', { class: `${CLASS_NAME}-body__description` }, ogp.description),
       h('span', { class: `${CLASS_NAME}-body__url` }, url),
     ]),
-    h('span', { class: `${CLASS_NAME}-thumbnail` }, [h('img', { src: ogp.image, alt: '' })]),
   ]);
   node.children = [template];
 
