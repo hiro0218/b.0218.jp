@@ -23,7 +23,7 @@ export const showHoverBackground = css`
     transition: transform 0.1s ${easeOut};
     border-radius: var(--border-radius-4);
     opacity: 0;
-    background-color: var(--component-backgrounds-4A);
+    background-color: var(--component-backgrounds-3A);
     pointer-events: none;
   }
 
