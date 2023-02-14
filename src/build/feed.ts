@@ -1,8 +1,8 @@
 import { Feed } from 'feed';
 import fs from 'fs-extra';
 
-import { AUTHOR, SITE } from '../constant';
-import { getPostsJson } from '../lib/posts';
+import { AUTHOR, SITE } from '@/constant';
+import { getPostsJson } from '@/lib/posts';
 
 function generatedRssFeed(): void {
   const feed = new Feed({

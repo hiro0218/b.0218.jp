@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 
-import { SITE } from '../constant';
-import { getPostsJson } from '../lib/posts';
+import { SITE } from '@/constant';
+import { getPostsJson } from '@/lib/posts';
 
 function generatedSitemap() {
   const posts = getPostsJson();

@@ -1,7 +1,7 @@
 import { BlogPosting, BreadcrumbList, ListItem, WithContext } from 'schema-dts';
 
-import { AUTHOR, SITE, URL } from '../constant';
-import { Post } from '../types/source';
+import { AUTHOR, SITE, URL } from '@/constant';
+import { Post } from '@/types/source';
 
 export const getDescriptionText = (postContent: string): string => {
   return (

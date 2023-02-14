@@ -2,7 +2,8 @@ import fs from 'fs-extra';
 import matter from 'gray-matter';
 import readingTime from 'reading-time';
 
-import { Post as PropPost } from '../../types/source';
+import { Post as PropPost } from '@/types/source';
+
 import markdownToHtmlString from './markdownToHtmlString';
 
 const path = {
