@@ -10,6 +10,9 @@ export const getDescriptionText = (postContent: string): string => {
       .replace(/(?:\r\n|\r|\n)/g, '')
       // strip tag
       .replace(/<\/?[^>]+(>|$)/g, ' ')
+      // delete consecutive spaces
+      .trim()
+      .replace(/ +/g, ' ')
       // character extraction
       .substring(0, 140)
   );
