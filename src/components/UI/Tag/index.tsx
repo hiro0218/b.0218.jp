@@ -48,7 +48,7 @@ const Anchor = styled(_Anchor)`
   align-self: flex-start;
   padding: 0 var(--space-1);
   border-radius: var(--border-radius-2);
-  background-color: var(--backgrounds-2A);
+  background-color: var(--component-backgrounds-3A);
   color: var(--text-11);
   text-align: center;
   white-space: nowrap;
