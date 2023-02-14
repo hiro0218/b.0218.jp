@@ -54,11 +54,9 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
         {post.noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={permalink} />}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(getBlogPostingStructured(post)) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(getBreadcrumbStructured(post)) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([getBlogPostingStructured(post), getBreadcrumbStructured(post)]),
+          }}
         />
       </Head>
 
