@@ -1,7 +1,7 @@
 import { BlogPosting, BreadcrumbList, ListItem, WithContext } from 'schema-dts';
 
-import { AUTHOR, SITE, URL } from '../constant';
-import { Post } from '../types/source';
+import { AUTHOR, SITE, URL } from '@/constant';
+import { Post } from '@/types/source';
 
 export const getDescriptionText = (postContent: string): string => {
   return (
@@ -10,6 +10,9 @@ export const getDescriptionText = (postContent: string): string => {
       .replace(/(?:\r\n|\r|\n)/g, '')
       // strip tag
       .replace(/<\/?[^>]+(>|$)/g, ' ')
+      // delete consecutive spaces
+      .trim()
+      .replace(/ +/g, ' ')
       // character extraction
       .substring(0, 140)
   );
@@ -38,7 +41,7 @@ export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> =
       name: SITE.NAME,
       logo: {
         '@type': 'ImageObject',
-        url: `${AUTHOR.ICON}`,
+        url: AUTHOR.ICON,
         width: '400px',
         height: '400px',
       },

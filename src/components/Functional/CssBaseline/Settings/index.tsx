@@ -8,7 +8,9 @@ const SPACING_BASE_PX = 8;
 export default css`
   /* stylelint-disable indentation */
   :root {
-    /* color */
+    /**
+     * color
+     */
     /* 1:  アプリの背景 */
     --backgrounds-1: ${gray.gray1};
     --backgrounds-1A: ${blackA.blackA1};

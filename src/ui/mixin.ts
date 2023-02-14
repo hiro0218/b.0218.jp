@@ -1,8 +1,8 @@
-import easing from '@/ui/foundation/easing';
+import { easeOut, easeOutBack } from '@/ui/foundation/easing';
 import { css } from '@/ui/styled';
 
 export const showHoverShadow = css`
-  transition: box-shadow 0.3s ${easing.easeOutBack};
+  transition: box-shadow 0.3s ${easeOutBack};
 
   &:hover {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
@@ -20,10 +20,10 @@ export const showHoverBackground = css`
     inset: 0;
     margin: auto;
     transform: scale(0);
-    transition: transform 0.1s ${easing.easeOut};
+    transition: transform 0.1s ${easeOut};
     border-radius: var(--border-radius-4);
     opacity: 0;
-    background-image: linear-gradient(120deg, var(--backgrounds-2A), var(--component-backgrounds-4A));
+    background-color: var(--component-backgrounds-3A);
     pointer-events: none;
   }
 

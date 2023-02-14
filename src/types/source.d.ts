@@ -1,26 +1,19 @@
-// Pages
-export interface Pages {
+export type Pages = {
   title: string;
   slug: string;
   date: string;
   updated: string;
   content: string;
-}
+};
 
-// Terms
-export interface TermsPostList {
+export type TermsPostList = {
   title: string;
   slug: string;
   date: string;
   excerpt: string;
-}
+};
 
-// Post
-export interface TermsPostList {
-  name: string;
-}
-
-export interface Post {
+export type Post = {
   date: string;
   updated: string;
   note: string;
@@ -31,16 +24,4 @@ export interface Post {
   tags: string[];
   readingTime: string;
   noindex?: boolean;
-}
-
-export interface GithubPinnedItems {
-  name: string;
-  description: string;
-  updatedAt: string;
-  createdAt: string;
-  homepageUrl: string;
-  url: string;
-  stargazerCount: number;
-  forkCount: number;
-  languages: { color: string; name: string };
-}
+};

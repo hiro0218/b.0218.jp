@@ -1,17 +1,17 @@
 import { Feed } from 'feed';
 import fs from 'fs-extra';
 
-import { AUTHOR, SITE } from '../constant';
-import { getPostsJson } from '../lib/posts';
+import { AUTHOR, SITE } from '@/constant';
+import { getPostsJson } from '@/lib/posts';
 
 function generatedRssFeed(): void {
   const feed = new Feed({
-    title: `${SITE.NAME}`,
-    description: `${SITE.DESCRIPTION}`,
+    title: SITE.NAME,
+    description: SITE.DESCRIPTION,
     id: SITE.URL,
     link: SITE.URL,
     language: 'ja',
-    image: `${AUTHOR.ICON}`,
+    image: AUTHOR.ICON,
     copyright: `© ${AUTHOR.NAME}`,
     updated: new Date(),
     feedLinks: {
