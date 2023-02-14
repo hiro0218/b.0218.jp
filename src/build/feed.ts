@@ -6,8 +6,8 @@ import { getPostsJson } from '../lib/posts';
 
 function generatedRssFeed(): void {
   const feed = new Feed({
-    title: `${SITE.NAME}`,
-    description: `${SITE.DESCRIPTION}`,
+    title: SITE.NAME,
+    description: SITE.DESCRIPTION,
     id: SITE.URL,
     link: SITE.URL,
     language: 'ja',
