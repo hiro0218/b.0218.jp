@@ -51,8 +51,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
         <meta name="twitter:data1" content={AUTHOR.NAME} />
         <meta name="twitter:label2" content="Reading time" />
         <meta name="twitter:data2" content={post.readingTime} />
-        {post.noindex && <meta name="robots" content="noindex" />}
-        {!post.noindex && <link rel="canonical" href={permalink} />}
+        {post.noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={permalink} />}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(getBlogPostingStructured(post)) }}
