@@ -38,9 +38,9 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
         <meta key="og:title" property="og:title" content={post.title} />
         <meta key="og:type" property="og:type" content="article" />
         <meta key="og:description" property="og:description" content={description} />
-        {post.updated && <meta key="og:updated_time" property="og:updated_time" content={post.updated} />}
+        <meta key="og:updated_time" property="og:updated_time" content={post.updated || post.date} />
         <meta key="article:published_time" property="article:published_time" content={post.date} />
-        {post.updated && <meta key="article:modified_time" property="article:modified_time" content={post.updated} />}
+        <meta key="article:modified_time" property="article:modified_time" content={post.updated || post.date} />
         <meta
           key="og:image"
           property="og:image"
