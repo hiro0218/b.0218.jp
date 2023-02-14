@@ -40,7 +40,6 @@ const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: My
         <meta property="og:site_name" content={SITE.NAME} />
         <meta property="og:locale" content="ja_JP" />
         <meta property="fb:app_id" content="1042526022490602" />
-        <meta key="og:site_name" name="og:site_name" property="og:site_name" content={SITE.NAME} />
         <meta key="twitter:card" name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@hiro0218" />
         <meta name="twitter:creator" content="@hiro0218" />
