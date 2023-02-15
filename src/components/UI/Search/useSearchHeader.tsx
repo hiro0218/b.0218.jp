@@ -161,8 +161,8 @@ const SearchInput = styled.input`
   width: 100%;
   height: 100%;
   padding: 0;
-  border: none;
   font-size: var(--font-size-md);
+  border: none;
 
   &::placeholder {
     font-size: var(--font-size-sm);

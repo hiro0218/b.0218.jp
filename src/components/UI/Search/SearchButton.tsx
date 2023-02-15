@@ -20,12 +20,12 @@ const Button = styled.button`
   justify-content: center;
   width: 3rem;
   height: 3rem;
-  transition: background-color 0.2s ease;
+  pointer-events: auto;
+  cursor: pointer;
+  background: none;
   border: none;
   border-radius: var(--border-radius-full);
-  background: none;
-  cursor: pointer;
-  pointer-events: auto;
+  transition: background-color 0.2s ease;
 
   ${showHoverBackground}
 

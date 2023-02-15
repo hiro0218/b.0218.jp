@@ -39,17 +39,17 @@ export const SearchPanel = ({ closeDialog }: Props) => {
 };
 
 const SearchMain = styled.div`
-  display: block;
   z-index: var(--zIndex-search);
-  isolation: isolate;
+  display: block;
   width: 50vw;
   margin: auto;
   overflow: hidden;
-  animation: ${fadeIn} 0.8s ease;
-  border-radius: var(--border-radius-4);
-  opacity: 0;
   background: #fff;
+  isolation: isolate;
+  border-radius: var(--border-radius-4);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  opacity: 0;
+  animation: ${fadeIn} 0.8s ease;
   animation-fill-mode: both;
 
   ${isMobile} {
@@ -59,8 +59,8 @@ const SearchMain = styled.div`
 
 const SearchResult = styled.div`
   max-height: 50vh;
-  margin: 0;
   padding: 0;
+  margin: 0;
   overflow-x: none;
   overflow-y: auto;
 
@@ -83,7 +83,7 @@ const SearchFooter = styled.div`
   display: flex;
   justify-content: space-between;
   padding: var(--space-half) var(--space-1);
-  box-shadow: 2px 0 4px 0 rgba(0, 0, 0, 0.16);
-  color: var(--text-11);
   font-size: var(--font-size-sm);
+  color: var(--text-11);
+  box-shadow: 2px 0 4px 0 rgba(0, 0, 0, 0.16);
 `;

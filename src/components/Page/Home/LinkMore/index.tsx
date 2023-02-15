@@ -41,6 +41,6 @@ const Icon = styled.div`
 const Anchor = styled(_Anchor)`
   ${LinkStyle}
 
-  color: var(--text-11);
   font-size: var(--font-size-md);
+  color: var(--text-11);
 `;

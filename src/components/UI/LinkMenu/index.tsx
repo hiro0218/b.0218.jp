@@ -18,9 +18,9 @@ export const LinkStyle = css`
   display: inline-flex;
   align-items: center;
   padding: var(--space-half) var(--space-1);
-  border-radius: var(--border-radius-4);
-  color: var(--text-12);
   font-size: var(--font-size-sm);
+  color: var(--text-12);
+  border-radius: var(--border-radius-4);
 
   &:hover {
     background-color: var(--component-backgrounds-3A);

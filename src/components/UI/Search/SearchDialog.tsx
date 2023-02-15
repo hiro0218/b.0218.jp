@@ -41,8 +41,8 @@ export const SearchDialog = forwardRef(function SearchDialog({ isActive, closeDi
 
 const Dialog = styled.dialog`
   position: fixed;
-  isolation: isolate;
   top: 25vh;
+  isolation: isolate;
 
   &[open] {
     z-index: var(--zIndex-search);

@@ -50,9 +50,9 @@ const Root = styled.aside`
 `;
 
 const Details = styled.details`
-  transition: background-color 0.2s ease;
-  border-radius: var(--border-radius-4);
   background-color: var(--component-backgrounds-3);
+  border-radius: var(--border-radius-4);
+  transition: background-color 0.2s ease;
 
   &:not([open]):hover {
     background-color: var(--component-backgrounds-4);
