@@ -71,8 +71,8 @@ const Container = styled.div`
 
   ${isMobile} {
     flex-direction: column;
-    justify-content: unset;
     gap: var(--space-2);
+    justify-content: unset;
   }
 `;
 

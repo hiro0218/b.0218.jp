@@ -165,8 +165,8 @@ const SearchInput = styled.input`
   font-size: var(--font-size-md);
 
   &::placeholder {
-    color: var(--text-11);
     font-size: var(--font-size-sm);
+    color: var(--text-11);
   }
 
   &:focus {

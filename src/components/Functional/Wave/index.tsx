@@ -32,8 +32,8 @@ const Container = styled.div`
     position: relative;
     z-index: -1;
     width: 100vw;
-    stroke: none;
     fill: var(--component-backgrounds-3);
+    stroke: none;
 
     ${isMobile} {
       flex: 1 0 0;

@@ -14,13 +14,13 @@ export default css`
 
   body {
     height: 100%;
-    color: var(--text-12);
     font-family: var(--font-family-sans-serif);
-    -webkit-font-smoothing: subpixel-antialiased;
     font-weight: var(--font-weight-normal);
-    line-height: 1.875;
     font-feature-settings: 'chws' 1;
+    line-height: 1.875;
+    color: var(--text-12);
     line-break: strict;
+    -webkit-font-smoothing: subpixel-antialiased;
 
     @media only screen and (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
       -webkit-font-smoothing: antialiased;
@@ -29,12 +29,12 @@ export default css`
   }
 
   a {
-    transition: background-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease-in-out, text-decoration-color 0.3s;
     color: var(--text-12);
     text-decoration: none;
     text-decoration-color: var(--borders-8);
     text-underline-position: under;
     text-underline-offset: 2%;
+    transition: background-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease-in-out, text-decoration-color 0.3s;
 
     &:focus-visible {
       outline: 0;
@@ -54,8 +54,8 @@ export default css`
 
     & figcaption {
       margin-top: var(--space-1);
-      color: var(--text-11);
       font-size: var(--font-size-sm);
+      color: var(--text-11);
       text-align: center;
     }
   }
@@ -129,10 +129,10 @@ export default css`
   pre {
     display: block;
     overflow: auto;
-    border-radius: var(--border-radius-2);
-    background: var(--backgrounds-2);
     font-size: var(--font-size-sm);
     overflow-wrap: break-word;
+    background: var(--backgrounds-2);
+    border-radius: var(--border-radius-2);
     -webkit-overflow-scrolling: touch;
     /* stylelint-disable */
     resize: horizontal;
@@ -141,21 +141,21 @@ export default css`
     & > code {
       display: block;
       padding: var(--space-3);
-      background: var(--backgrounds-2);
-      color: var(--text-12);
       font-size: inherit;
       line-height: 1.875;
+      color: var(--text-12);
+      background: var(--backgrounds-2);
     }
   }
 
   :not(pre) > code {
-    margin: 0;
     padding: var(--space-half) var(--space-1);
-    border-radius: var(--border-radius-2);
-    background: var(--component-backgrounds-3A);
-    color: var(--text-12);
+    margin: 0;
     font-size: var(--font-size-sm);
+    color: var(--text-12);
     text-align: left;
+    background: var(--component-backgrounds-3A);
+    border-radius: var(--border-radius-2);
   }
 
   /* table */
@@ -166,9 +166,9 @@ export default css`
   th,
   td {
     padding: var(--space-1) var(--space-2);
-    border-top: 1px solid var(--borders-6);
-    vertical-align: top;
     white-space: nowrap;
+    vertical-align: top;
+    border-top: 1px solid var(--borders-6);
   }
 
   th {
@@ -181,10 +181,10 @@ export default css`
 
   thead {
     th {
+      white-space: nowrap;
+      vertical-align: bottom;
       border-top: none;
       border-bottom: 2px solid var(--borders-6);
-      vertical-align: bottom;
-      white-space: nowrap;
     }
   }
 
@@ -207,8 +207,8 @@ export default css`
 
   button {
     padding: 0;
-    border: none;
     background-color: transparent;
+    border: none;
     appearance: none;
   }
 `;

@@ -7,8 +7,8 @@ export default css`
   pre code.hljs {
     padding: var(--space-3);
     overflow-x: auto;
-    background: var(--backgrounds-2);
     color: var(--text-12);
+    background: var(--backgrounds-2);
   }
 
   /* twitter */

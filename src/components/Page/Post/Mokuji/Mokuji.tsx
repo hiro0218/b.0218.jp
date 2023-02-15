@@ -88,8 +88,8 @@ const DetailsContent = styled.div`
   padding-top: var(--space-2);
 
   > ol {
-    margin: 0;
     padding: 0 var(--space-4) var(--space-3) var(--space-4);
+    margin: 0;
 
     > li > a {
       font-weight: var(--font-weight-bold);
@@ -114,8 +114,8 @@ const DetailsContent = styled.div`
     }
 
     & ol {
-      margin: 0.5rem 0;
       padding-left: 1.25em;
+      margin: 0.5rem 0;
     }
   }
 `;

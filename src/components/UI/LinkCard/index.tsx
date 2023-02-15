@@ -70,13 +70,13 @@ const Main = styled.div`
 
 const Anchor = styled(_Anchor)`
   &::before {
-    content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     cursor: pointer;
+    content: '';
   }
 
   &:focus-within {
