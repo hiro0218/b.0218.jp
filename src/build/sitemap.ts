@@ -1,4 +1,4 @@
-import fs from 'fs-extra';
+import { writeFile } from 'fs-extra';
 
 import { SITE } from '@/constant';
 import { getPostsJson } from '@/lib/posts';
@@ -34,7 +34,7 @@ function generatedSitemap() {
 
   xml += `</urlset>`;
 
-  fs.writeFile('./public/sitemap.xml', xml);
+  writeFile('./public/sitemap.xml', xml);
 }
 
 generatedSitemap();

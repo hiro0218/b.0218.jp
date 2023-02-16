@@ -1,4 +1,4 @@
-import fs from 'fs-extra';
+import { copy, ensureDirSync, readdirSync, readJSONSync, writeJSON, writeJSONSync } from 'fs-extra';
 import matter from 'gray-matter';
 import readingTime from 'reading-time';
 
@@ -36,7 +36,7 @@ function getHeading2Text(content: string) {
 
 async function buildPost() {
   // md ファイル一覧を取得
-  const files = fs.readdirSync(`${PATH.SRC}/_posts`).filter((file) => file.endsWith('.md'));
+  const files = readdirSync(`${PATH.SRC}/_posts`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
   const posts: Partial<PropPost>[] = [];
 
@@ -70,10 +70,10 @@ async function buildPost() {
     return a.date < b.date ? 1 : -1;
   });
 
-  fs.ensureDirSync(`${PATH.DIST}`);
-  fs.writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS}.json`, posts);
+  ensureDirSync(`${PATH.DIST}`);
+  writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS}.json`, posts);
   console.log(`Write dist/${FILENAME_POSTS}.json`);
-  fs.writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, removePostsData(posts));
+  writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, removePostsData(posts));
   console.log(`Write dist/${FILENAME_POSTS_LIST}.json`);
 }
 
@@ -88,7 +88,7 @@ function removePostsData(posts: Partial<PropPost>[]) {
 }
 
 function buildTerms() {
-  const posts: PropPost[] = fs.readJSONSync(`${PATH.DIST}/${FILENAME_POSTS}.json`);
+  const posts: PropPost[] = readJSONSync(`${PATH.DIST}/${FILENAME_POSTS}.json`);
   const tagsMap = {};
 
   for (let i = 0; i < posts.length; i++) {
@@ -112,14 +112,14 @@ function buildTerms() {
     }
   }
 
-  fs.writeJSON(`${PATH.DIST}/tags.json`, tagsMap).then(() => {
+  writeJSON(`${PATH.DIST}/tags.json`, tagsMap).then(() => {
     console.log('Write dist/tags.json');
   });
 }
 
 async function buildPage() {
   // md ファイル一覧を取得
-  const files = fs.readdirSync(`${PATH.SRC}`).filter((file) => file.endsWith('.md'));
+  const files = readdirSync(`${PATH.SRC}`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
   const pages: Partial<PropPost>[] = [];
 
@@ -141,15 +141,15 @@ async function buildPage() {
     });
   }
 
-  fs.writeJSONSync(`${PATH.DIST}/${FILENAME_PAGES}.json`, pages);
+  writeJSONSync(`${PATH.DIST}/${FILENAME_PAGES}.json`, pages);
   console.log(`Write dist/${FILENAME_PAGES}.json`);
 }
 
 function copyFiles() {
-  fs.copy(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, `public/${FILENAME_POSTS_LIST}.json`).then(() => {
+  copy(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, `public/${FILENAME_POSTS_LIST}.json`).then(() => {
     console.log(`Copy dist/${FILENAME_POSTS_LIST}.json`);
   });
-  fs.copy(`${process.cwd()}/_article/images`, `public/images`).then(() => {
+  copy(`${process.cwd()}/_article/images`, `public/images`).then(() => {
     console.log('Copy _article/images');
   });
 }

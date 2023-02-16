@@ -1,11 +1,11 @@
-import fs from 'fs-extra';
+import { readdirSync } from 'fs-extra';
 import path from 'path';
 import rimraf from 'rimraf';
 import sharp from 'sharp';
 
 const TARGET_DIRECTORY = path.join(process.cwd(), 'public/images/ogp');
 
-const files = fs.readdirSync(TARGET_DIRECTORY);
+const files = readdirSync(TARGET_DIRECTORY);
 
 files.forEach((file) => {
   if (path.extname(file) === '.png') {
