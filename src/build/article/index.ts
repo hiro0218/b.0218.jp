@@ -2,6 +2,7 @@ import fs from 'fs-extra';
 import matter from 'gray-matter';
 import readingTime from 'reading-time';
 
+import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
 import { Post as PropPost } from '@/types/source';
 
 import markdownToHtmlString from './markdownToHtmlString';
@@ -70,10 +71,10 @@ async function buildPost() {
   });
 
   fs.ensureDirSync(`${PATH.DIST}`);
-  fs.writeJSONSync(`${PATH.DIST}/posts.json`, posts);
-  console.log('Write dist/posts.json');
-  fs.writeJSONSync(`${PATH.DIST}/posts-list.json`, removePostsData(posts));
-  console.log('Write dist/posts-list.json');
+  fs.writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS}.json`, posts);
+  console.log(`Write dist/${FILENAME_POSTS}.json`);
+  fs.writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, removePostsData(posts));
+  console.log(`Write dist/${FILENAME_POSTS_LIST}.json`);
 }
 
 function removePostsData(posts: Partial<PropPost>[]) {
@@ -87,7 +88,7 @@ function removePostsData(posts: Partial<PropPost>[]) {
 }
 
 function buildTerms() {
-  const posts: PropPost[] = fs.readJSONSync(`${PATH.DIST}/posts.json`);
+  const posts: PropPost[] = fs.readJSONSync(`${PATH.DIST}/${FILENAME_POSTS}.json`);
   const tagsMap = {};
 
   for (let i = 0; i < posts.length; i++) {
@@ -140,13 +141,13 @@ async function buildPage() {
     });
   }
 
-  fs.writeJSONSync(`${PATH.DIST}/pages.json`, pages);
-  console.log('Write dist/pages.json');
+  fs.writeJSONSync(`${PATH.DIST}/${FILENAME_PAGES}.json`, pages);
+  console.log(`Write dist/${FILENAME_PAGES}.json`);
 }
 
 function copyFiles() {
-  fs.copy(`${PATH.DIST}/posts-list.json`, `public/posts-list.json`).then(() => {
-    console.log('Copy dist/posts-list.json');
+  fs.copy(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, `public/${FILENAME_POSTS_LIST}.json`).then(() => {
+    console.log(`Copy dist/${FILENAME_POSTS_LIST}.json`);
   });
   fs.copy(`${process.cwd()}/_article/images`, `public/images`).then(() => {
     console.log('Copy _article/images');

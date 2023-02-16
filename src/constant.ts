@@ -21,3 +21,7 @@ export const URL = {
   QIITA: 'https://qiita.com/hiro0218',
   ZENN: 'https://zenn.dev/hiro',
 } as const;
+
+export const FILENAME_POSTS = 'posts';
+export const FILENAME_POSTS_LIST = 'posts-list';
+export const FILENAME_PAGES = 'pages';
