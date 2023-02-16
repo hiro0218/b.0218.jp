@@ -27,16 +27,17 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
 
     const initialProps = await Document.getInitialProps(ctx);
     const emotionStyles = extractCriticalToChunks(initialProps.html);
-    const emotionStyleTags = emotionStyles.styles.map(
-      (style) =>
+    const emotionStyleTags = emotionStyles.styles.map((style) => {
+      return (
         style.css && (
           <style
             data-emotion={`${style.key} ${style.ids.join(' ')}`}
             key={style.key}
             dangerouslySetInnerHTML={{ __html: style.css }}
           />
-        ),
-    );
+        )
+      );
+    });
 
     const ogpPrefix = ctx.pathname.startsWith('/[slug]') ? HTML_PREFIX.article : HTML_PREFIX.home;
 
