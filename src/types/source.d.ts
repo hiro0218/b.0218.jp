@@ -16,7 +16,7 @@ export type TermsPostList = {
 export type Post = {
   date: string;
   updated: string;
-  note: string;
+  note?: string;
   slug: string;
   title: string;
   content: string;

@@ -29,13 +29,13 @@ export default PostDate;
 
 const PostDateRoot = styled.div`
   display: flex;
-  align-items: center;
   gap: var(--space-half);
+  align-items: center;
 `;
 
 const existModifiedStyle = css`
-  opacity: 0.8;
   text-decoration: line-through;
+  opacity: 0.8;
 `;
 
 const PostDateItem = styled.div<{ existModified?: boolean }>`

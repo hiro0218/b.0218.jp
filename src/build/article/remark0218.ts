@@ -46,7 +46,9 @@ const setPreviewLinkNodes = (node: Element, index: number, parent: Element, doma
   node.properties = {};
   node.tagName = 'p';
   const template = h('a', { ...properties, class: CLASS_NAME, 'data-card': ogp?.card || 'summary' }, [
-    h('span', { class: `${CLASS_NAME}-thumbnail` }, [h('img', { src: ogp.image, alt: '' })]),
+    h('span', { class: `${CLASS_NAME}-thumbnail` }, [
+      h('img', { src: ogp.image, alt: '', loading: 'lazy', decoding: 'async' }),
+    ]),
     h('span', { class: `${CLASS_NAME}-body` }, [
       h('span', { class: `${CLASS_NAME}-body__url` }, domain),
       h('span', { class: `${CLASS_NAME}-body__title` }, ogp.title),
@@ -81,9 +83,11 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
   if (!canTransformLinkPreview(node, index, parent)) return;
 
   const url = node.properties.href as string;
+  const headers = { 'User-Agent': 'Twitterbot/1.0' };
 
   try {
     const result = await fetch(url, {
+      headers,
       signal: AbortSignal.timeout(FETCH_TIMEOUT),
     }).then((res) => {
       return res.status === 200 ? res.text() : '';
@@ -91,7 +95,7 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
 
     if (result) {
       const dom = new JSDOM(result, { virtualConsole });
-      const meta = dom.window.document.querySelectorAll('head > meta');
+      const meta = dom.window.document.head.querySelectorAll('meta');
       const ogp: OpgProps = Array.from(meta)
         .filter((element: HTMLMetaElement) => {
           const property = element.getAttribute('property');

@@ -37,9 +37,9 @@ export const PageScroll = memo(function PageScroll() {
 
 const Container = styled.div`
   position: fixed;
-  z-index: 1;
   right: 0;
   bottom: 0;
+  z-index: 1;
 `;
 
 const Button = styled.button`
@@ -48,10 +48,10 @@ const Button = styled.button`
   justify-content: center;
   width: 56px;
   height: 56px;
-  transition: background-color 0.2s ease;
+  background-color: transparent;
   border: none;
   border-radius: var(--border-radius-4);
-  background-color: transparent;
+  transition: background-color 0.2s ease;
   appearance: none;
 
   &:hover {

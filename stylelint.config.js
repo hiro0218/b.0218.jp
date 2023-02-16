@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['stylelint-config-recommended', 'stylelint-config-property-sort-order-smacss', 'stylelint-config-prettier'],
+  extends: ['stylelint-config-recommended', 'stylelint-config-recess-order'],
   plugins: ['stylelint-declaration-block-no-ignored-properties', 'stylelint-no-unsupported-browser-features'],
   rules: {
     'at-rule-no-unknown': [
@@ -31,7 +31,6 @@ module.exports = {
         'custom-property-pattern': null,
         'function-name-case': null,
         'function-no-unknown': null,
-        'no-extra-semicolons': null,
         'no-invalid-double-slash-comments': null,
       },
     },

@@ -37,10 +37,10 @@ const TheFooter = memo(function TheFooter() {
 export default TheFooter;
 
 const Root = styled.footer`
-  display: grid;
-  align-items: end;
   position: sticky;
   top: 100vh;
+  display: grid;
+  align-items: end;
   margin-top: var(--space-6);
 
   & > * {
@@ -50,8 +50,8 @@ const Root = styled.footer`
 
 const Footer = styled.div`
   padding: var(--space-4) 0;
-  color: var(--text-12);
   font-size: var(--font-size-md);
+  color: var(--text-12);
 
   ${isMobile} {
     padding: var(--space-3) 0;
@@ -71,16 +71,16 @@ const Container = styled.div`
 
   ${isMobile} {
     flex-direction: column;
-    justify-content: unset;
     gap: var(--space-2);
+    justify-content: unset;
   }
 `;
 
 const List = styled.ul`
   display: inline-flex;
+  gap: var(--space-2);
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
 `;
 
 const ListItem = styled.li`
@@ -97,8 +97,8 @@ const Anchor = styled(_Anchor)`
 
   display: flex;
   padding: var(--space-1) var(--space-2);
-  text-align: center;
   font-size: var(--font-size-md);
+  text-align: center;
 
   ${isMobile} {
     padding: var(--space-2) var(--space-3);

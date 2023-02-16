@@ -44,8 +44,8 @@ const PostHeaderList = styled.div`
 const PostHeaderItem = styled.div`
   display: flex;
   align-items: center;
-  color: var(--text-11);
   font-size: var(--font-size-md);
+  color: var(--text-11);
 `;
 
 const Separator = styled.span`

@@ -53,16 +53,16 @@ const PostShare = ({ title, url }: Props) => {
 
 const Container = styled.div`
   display: flex;
+  gap: var(--space-3);
   justify-content: center;
   margin-top: var(--space-6);
-  gap: var(--space-3);
 `;
 
 const Anchor = styled.a`
   display: flex;
-  text-align: center;
   justify-content: center;
   line-height: 1;
+  text-align: center;
   cursor: pointer;
 `;
 
@@ -70,9 +70,9 @@ const Label = styled.span`
   position: absolute;
   top: 100%;
   display: block;
-  color: var(--text-11);
   font-size: var(--font-size-sm);
   line-height: 1.5;
+  color: var(--text-11);
   white-space: nowrap;
 `;
 

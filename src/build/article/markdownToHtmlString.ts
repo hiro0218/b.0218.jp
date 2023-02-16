@@ -13,8 +13,9 @@ import remarkRehype from 'remark-rehype';
 import remarkUnwrapImages from 'remark-unwrap-images';
 import { unified } from 'unified';
 
-import remark0218 from '@/build/remark0218';
 import { SITE } from '@/constant';
+
+import remark0218 from './remark0218';
 
 const markdownToHtmlString = async (markdown: string, simple = false) => {
   const commonProcessor = unified()

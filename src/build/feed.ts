@@ -1,5 +1,5 @@
 import { Feed } from 'feed';
-import fs from 'fs-extra';
+import { writeFile } from 'fs-extra';
 
 import { AUTHOR, SITE } from '@/constant';
 import { getPostsJson } from '@/lib/posts';
@@ -51,9 +51,9 @@ function generatedRssFeed(): void {
     }
   }
 
-  fs.writeFile('./public/feed.xml', feed.rss2());
-  fs.writeFile('./public/atom.xml', feed.atom1());
-  fs.writeFile('./public/feed.json', feed.json1());
+  writeFile('./public/feed.xml', feed.rss2());
+  writeFile('./public/atom.xml', feed.atom1());
+  writeFile('./public/feed.json', feed.json1());
 }
 
 generatedRssFeed();

@@ -32,14 +32,14 @@ const Underline = styled.div<{ UnderlineHeight: number }>`
 
 const Header = styled.header<{ isMounted: boolean; isShown: boolean }>`
   position: fixed;
-  z-index: var(--zIndex-header);
-  isolation: isolate;
   top: 0;
   right: 0;
   left: 0;
+  z-index: var(--zIndex-header);
   height: ${({ theme }) => theme.components.header.height}px;
   margin: 0 auto;
   pointer-events: none;
+  isolation: isolate;
   will-change: opacity;
 
   ${({ isMounted, isShown }) => {

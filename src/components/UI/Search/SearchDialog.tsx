@@ -41,13 +41,13 @@ export const SearchDialog = forwardRef(function SearchDialog({ isActive, closeDi
 
 const Dialog = styled.dialog`
   position: fixed;
-  isolation: isolate;
   top: 25vh;
+  isolation: isolate;
 
   &[open] {
     z-index: var(--zIndex-search);
     padding: 0;
-    animation: ${fadeIn} 0.4s, ${slideIn} 0.4s linear;
     border: none;
+    animation: ${fadeIn} 0.4s, ${slideIn} 0.4s linear;
   }
 `;

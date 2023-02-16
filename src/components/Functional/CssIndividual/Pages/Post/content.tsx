@@ -18,8 +18,8 @@ const PostContent = styled.div`
   }
 
   > :where(p) {
-    letter-spacing: 0.05em;
     line-height: 1.875;
+    letter-spacing: 0.05em;
     word-break: break-all;
   }
 
@@ -33,22 +33,22 @@ const PostContent = styled.div`
 
     :where(&[target='_blank']) {
       &::after {
-        content: '↗';
         display: inline-block;
         margin: 0 0.15em;
         font-size: 80%;
         line-height: 1;
         text-decoration: none;
+        content: '↗';
       }
     }
   }
 
   [data-mokuji-anchor] {
-    display: inline-flex;
     position: absolute;
     top: 0;
     right: 100%;
     bottom: 0;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 2rem;
@@ -73,8 +73,8 @@ ol {
 
     ul,
     ol {
-      margin: var(--space-half) 0 var(--space-3);
       padding-left: var(--space-4);
+      margin: var(--space-half) 0 var(--space-3);
     }
 
     img {
@@ -88,8 +88,8 @@ ol {
 
   blockquote {
     padding: var(--space-3);
-    border-left: 0.25rem solid var(--borders-6);
     color: var(--text-11);
+    border-left: 0.25rem solid var(--borders-6);
 
     p:last-child {
       margin-bottom: 0;
@@ -109,8 +109,8 @@ ol {
   details {
     summary {
       padding: var(--space-2) var(--space-3);
-      border-radius: var(--border-radius-4);
       background-color: var(--component-backgrounds-3);
+      border-radius: var(--border-radius-4);
 
       & ~ * {
         margin-right: var(--space-4);
@@ -131,9 +131,9 @@ ol {
     border: 0;
 
     &::before {
-      content: '◇ ◆ ◇';
-      color: var(--text-12);
       font-size: 1em;
+      color: var(--text-12);
+      content: '◇ ◆ ◇';
     }
   }
 
@@ -142,9 +142,9 @@ ol {
    */
   .c-alert {
     padding: var(--space-3) var(--space-2);
-    border-radius: var(--border-radius-4);
-    background-color: var(--backgrounds-2);
     color: var(--text-11);
+    background-color: var(--backgrounds-2);
+    border-radius: var(--border-radius-4);
 
     a {
       color: var(--text-11);

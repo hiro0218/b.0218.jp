@@ -27,16 +27,17 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
 
     const initialProps = await Document.getInitialProps(ctx);
     const emotionStyles = extractCriticalToChunks(initialProps.html);
-    const emotionStyleTags = emotionStyles.styles.map(
-      (style) =>
+    const emotionStyleTags = emotionStyles.styles.map((style) => {
+      return (
         style.css && (
           <style
             data-emotion={`${style.key} ${style.ids.join(' ')}`}
             key={style.key}
             dangerouslySetInnerHTML={{ __html: style.css }}
           />
-        ),
-    );
+        )
+      );
+    });
 
     const ogpPrefix = ctx.pathname.startsWith('/[slug]') ? HTML_PREFIX.article : HTML_PREFIX.home;
 
@@ -49,14 +50,19 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
 
   render() {
     const ogpPrefix = this.props.ogpPrefix;
+    const dnsPrefetchHref = [
+      '//www.google-analytics.com',
+      '//www.googletagservices.com',
+      '//www.googletagmanager.com',
+      '//platform.twitter.com',
+    ];
 
     return (
       <Html prefix={ogpPrefix} lang="ja">
         <Head>
-          <link rel="dns-prefetch" href="//www.google-analytics.com" />
-          <link rel="dns-prefetch" href="//www.googletagservices.com" />
-          <link rel="dns-prefetch" href="//www.googletagmanager.com" />
-          <link rel="dns-prefetch" href="//platform.twitter.com" />
+          {dnsPrefetchHref.map((href, index) => {
+            return <link key={href + index} rel="dns-prefetch" href={href} />;
+          })}
           <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
           <link rel="icon" type="image/x-icon" href="/favicon.ico" />
           <link rel="alternate" type="application/rss+xml" href={`${SITE.URL}feed.xml`} />

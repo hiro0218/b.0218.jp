@@ -1,14 +1,15 @@
-import fs from 'fs-extra';
+import { copy, ensureDirSync, readdirSync, readJSONSync, writeJSON, writeJSONSync } from 'fs-extra';
 import matter from 'gray-matter';
 import readingTime from 'reading-time';
 
+import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
 import { Post as PropPost } from '@/types/source';
 
 import markdownToHtmlString from './markdownToHtmlString';
 
-const path = {
-  src: `${process.cwd()}/_article`,
-  dist: `${process.cwd()}/dist`,
+const PATH = {
+  SRC: `${process.cwd()}/_article`,
+  DIST: `${process.cwd()}/dist`,
 } as const;
 
 /**
@@ -35,7 +36,7 @@ function getHeading2Text(content: string) {
 
 async function buildPost() {
   // md ファイル一覧を取得
-  const files = fs.readdirSync(`${path.src}/_posts`).filter((file) => file.endsWith('.md'));
+  const files = readdirSync(`${PATH.SRC}/_posts`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
   const posts: Partial<PropPost>[] = [];
 
@@ -44,17 +45,18 @@ async function buildPost() {
     const file = files[i];
 
     // front matter を取得
-    const post = matter.read(`${path.src}/_posts/${file}`);
+    const post = matter.read(`${PATH.SRC}/_posts/${file}`);
     const { title, date, updated, note, tags, noindex }: Partial<PropPost> = post.data;
-    const content = await markdownToHtmlString(post.content);
+    const content = (await markdownToHtmlString(post.content)) || null;
+    const noteContent = (await markdownToHtmlString(note, true)) || null;
     const { text } = readingTime(content);
 
     posts.push({
       title,
       slug: file.replace('.md', ''),
       date,
-      updated,
-      note: await markdownToHtmlString(note, true),
+      updated: updated || '',
+      ...(noteContent && { note: noteContent }),
       content: content,
       excerpt: getHeading2Text(content),
       tags,
@@ -68,11 +70,11 @@ async function buildPost() {
     return a.date < b.date ? 1 : -1;
   });
 
-  fs.ensureDirSync(`${path.dist}`);
-  fs.writeJSONSync(`${path.dist}/posts.json`, posts);
-  console.log('Write dist/posts.json');
-  fs.writeJSONSync(`${path.dist}/posts-list.json`, removePostsData(posts));
-  console.log('Write dist/posts-list.json');
+  ensureDirSync(`${PATH.DIST}`);
+  writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS}.json`, posts);
+  console.log(`Write dist/${FILENAME_POSTS}.json`);
+  writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, removePostsData(posts));
+  console.log(`Write dist/${FILENAME_POSTS_LIST}.json`);
 }
 
 function removePostsData(posts: Partial<PropPost>[]) {
@@ -86,7 +88,7 @@ function removePostsData(posts: Partial<PropPost>[]) {
 }
 
 function buildTerms() {
-  const posts: PropPost[] = fs.readJSONSync(`${path.dist}/posts.json`);
+  const posts: PropPost[] = readJSONSync(`${PATH.DIST}/${FILENAME_POSTS}.json`);
   const tagsMap = {};
 
   for (let i = 0; i < posts.length; i++) {
@@ -110,14 +112,14 @@ function buildTerms() {
     }
   }
 
-  fs.writeJSON(`${path.dist}/tags.json`, tagsMap).then(() => {
+  writeJSON(`${PATH.DIST}/tags.json`, tagsMap).then(() => {
     console.log('Write dist/tags.json');
   });
 }
 
 async function buildPage() {
   // md ファイル一覧を取得
-  const files = fs.readdirSync(`${path.src}`).filter((file) => file.endsWith('.md'));
+  const files = readdirSync(`${PATH.SRC}`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
   const pages: Partial<PropPost>[] = [];
 
@@ -126,7 +128,7 @@ async function buildPage() {
     const file = files[i];
 
     // front matter を取得
-    const page = matter.read(`${path.src}/${file}`);
+    const page = matter.read(`${PATH.SRC}/${file}`);
     const { title, date, updated }: Partial<PropPost> = page.data;
     const content = await markdownToHtmlString(page.content);
 
@@ -139,15 +141,15 @@ async function buildPage() {
     });
   }
 
-  fs.writeJSONSync(`${path.dist}/pages.json`, pages);
-  console.log('Write dist/pages.json');
+  writeJSONSync(`${PATH.DIST}/${FILENAME_PAGES}.json`, pages);
+  console.log(`Write dist/${FILENAME_PAGES}.json`);
 }
 
 function copyFiles() {
-  fs.copy(`${path.dist}/posts-list.json`, `public/posts-list.json`).then(() => {
-    console.log('Copy dist/posts-list.json');
+  copy(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, `public/${FILENAME_POSTS_LIST}.json`).then(() => {
+    console.log(`Copy dist/${FILENAME_POSTS_LIST}.json`);
   });
-  fs.copy(`${process.cwd()}/_article/images`, `public/images`).then(() => {
+  copy(`${process.cwd()}/_article/images`, `public/images`).then(() => {
     console.log('Copy _article/images');
   });
 }

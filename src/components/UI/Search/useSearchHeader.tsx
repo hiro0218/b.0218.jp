@@ -1,5 +1,6 @@
 import { KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { FILENAME_POSTS_LIST } from '@/constant';
 import useEffectOnce from '@/hooks/useEffectOnce';
 import { parseJSON } from '@/lib/parseJSON';
 import { Post } from '@/types/source';
@@ -14,14 +15,14 @@ type DataProps = {
   suggest: Post[];
 };
 
-const STORAGE_KEY = `${process.env.BUILD_ID}_posts-list`;
+const STORAGE_KEY = `${process.env.BUILD_ID}_${FILENAME_POSTS_LIST}`;
 
 const initialData: DataProps = {
   keyword: '',
   suggest: [],
 };
 
-const resetLocalStorage = (query = 'posts-list') => {
+const resetLocalStorage = (query = FILENAME_POSTS_LIST) => {
   if (typeof window === 'undefined' || !('localStorage' in window)) {
     return;
   }
@@ -58,7 +59,7 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
     }
 
     (async () => {
-      await fetch('/posts-list.json')
+      await fetch(`/${FILENAME_POSTS_LIST}.json`)
         .then<Post[]>((response) => response.json())
         .then((json) => {
           setArchives(json);
@@ -161,12 +162,12 @@ const SearchInput = styled.input`
   width: 100%;
   height: 100%;
   padding: 0;
-  border: none;
   font-size: var(--font-size-md);
+  border: none;
 
   &::placeholder {
-    color: var(--text-11);
     font-size: var(--font-size-sm);
+    color: var(--text-11);
   }
 
   &:focus {

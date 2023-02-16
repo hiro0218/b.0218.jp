@@ -26,12 +26,12 @@ const Div = styled.div<{
   isActive: boolean;
   isVisible: boolean;
 }>`
-  visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
   position: fixed;
-  z-index: calc(var(--zIndex-search) - 1);
-  transition: opacity 0.4s ease, visibility 0.4s ease;
-  opacity: ${({ isActive }) => (isActive ? 1 : 0)};
-  background-color: var(--overlay-backgrounds);
   inset: 0;
+  z-index: calc(var(--zIndex-search) - 1);
+  visibility: ${({ isVisible }) => (isVisible ? 'visible' : 'hidden')};
+  background-color: var(--overlay-backgrounds);
   isolation: isolate;
+  opacity: ${({ isActive }) => (isActive ? 1 : 0)};
+  transition: opacity 0.4s ease, visibility 0.4s ease;
 `;
