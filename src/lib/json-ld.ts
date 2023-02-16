@@ -28,11 +28,12 @@ export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> =
     },
     headline: post.title,
     datePublished: post.date,
-    dateModified: post.updated,
+    dateModified: post.updated || post.date,
     author: {
       '@type': 'Person',
       name: AUTHOR.NAME,
       url: [URL.SITE, URL.TWITTER, URL.GITHUB, URL.QIITA, URL.ZENN],
+      jobTitle: 'Frontend Developer',
     },
     description: getDescriptionText(post.content),
     image: [`${SITE.URL}images/ogp/${post.slug}.webp`],
