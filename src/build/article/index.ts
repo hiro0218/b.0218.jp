@@ -46,15 +46,16 @@ async function buildPost() {
     // front matter を取得
     const post = matter.read(`${path.src}/_posts/${file}`);
     const { title, date, updated, note, tags, noindex }: Partial<PropPost> = post.data;
-    const content = await markdownToHtmlString(post.content);
+    const content = (await markdownToHtmlString(post.content)) || null;
+    const noteContent = (await markdownToHtmlString(note, true)) || null;
     const { text } = readingTime(content);
 
     posts.push({
       title,
       slug: file.replace('.md', ''),
       date,
-      updated,
-      note: await markdownToHtmlString(note, true),
+      updated: updated || '',
+      ...(noteContent && { note: noteContent }),
       content: content,
       excerpt: getHeading2Text(content),
       tags,
