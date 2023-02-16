@@ -6,9 +6,9 @@ import { Post as PropPost } from '@/types/source';
 
 import markdownToHtmlString from './markdownToHtmlString';
 
-const path = {
-  src: `${process.cwd()}/_article`,
-  dist: `${process.cwd()}/dist`,
+const PATH = {
+  SRC: `${process.cwd()}/_article`,
+  DIST: `${process.cwd()}/dist`,
 } as const;
 
 /**
@@ -35,7 +35,7 @@ function getHeading2Text(content: string) {
 
 async function buildPost() {
   // md ファイル一覧を取得
-  const files = fs.readdirSync(`${path.src}/_posts`).filter((file) => file.endsWith('.md'));
+  const files = fs.readdirSync(`${PATH.SRC}/_posts`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
   const posts: Partial<PropPost>[] = [];
 
@@ -44,7 +44,7 @@ async function buildPost() {
     const file = files[i];
 
     // front matter を取得
-    const post = matter.read(`${path.src}/_posts/${file}`);
+    const post = matter.read(`${PATH.SRC}/_posts/${file}`);
     const { title, date, updated, note, tags, noindex }: Partial<PropPost> = post.data;
     const content = (await markdownToHtmlString(post.content)) || null;
     const noteContent = (await markdownToHtmlString(note, true)) || null;
@@ -69,10 +69,10 @@ async function buildPost() {
     return a.date < b.date ? 1 : -1;
   });
 
-  fs.ensureDirSync(`${path.dist}`);
-  fs.writeJSONSync(`${path.dist}/posts.json`, posts);
+  fs.ensureDirSync(`${PATH.DIST}`);
+  fs.writeJSONSync(`${PATH.DIST}/posts.json`, posts);
   console.log('Write dist/posts.json');
-  fs.writeJSONSync(`${path.dist}/posts-list.json`, removePostsData(posts));
+  fs.writeJSONSync(`${PATH.DIST}/posts-list.json`, removePostsData(posts));
   console.log('Write dist/posts-list.json');
 }
 
@@ -87,7 +87,7 @@ function removePostsData(posts: Partial<PropPost>[]) {
 }
 
 function buildTerms() {
-  const posts: PropPost[] = fs.readJSONSync(`${path.dist}/posts.json`);
+  const posts: PropPost[] = fs.readJSONSync(`${PATH.DIST}/posts.json`);
   const tagsMap = {};
 
   for (let i = 0; i < posts.length; i++) {
@@ -111,14 +111,14 @@ function buildTerms() {
     }
   }
 
-  fs.writeJSON(`${path.dist}/tags.json`, tagsMap).then(() => {
+  fs.writeJSON(`${PATH.DIST}/tags.json`, tagsMap).then(() => {
     console.log('Write dist/tags.json');
   });
 }
 
 async function buildPage() {
   // md ファイル一覧を取得
-  const files = fs.readdirSync(`${path.src}`).filter((file) => file.endsWith('.md'));
+  const files = fs.readdirSync(`${PATH.SRC}`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
   const pages: Partial<PropPost>[] = [];
 
@@ -127,7 +127,7 @@ async function buildPage() {
     const file = files[i];
 
     // front matter を取得
-    const page = matter.read(`${path.src}/${file}`);
+    const page = matter.read(`${PATH.SRC}/${file}`);
     const { title, date, updated }: Partial<PropPost> = page.data;
     const content = await markdownToHtmlString(page.content);
 
@@ -140,12 +140,12 @@ async function buildPage() {
     });
   }
 
-  fs.writeJSONSync(`${path.dist}/pages.json`, pages);
+  fs.writeJSONSync(`${PATH.DIST}/pages.json`, pages);
   console.log('Write dist/pages.json');
 }
 
 function copyFiles() {
-  fs.copy(`${path.dist}/posts-list.json`, `public/posts-list.json`).then(() => {
+  fs.copy(`${PATH.DIST}/posts-list.json`, `public/posts-list.json`).then(() => {
     console.log('Copy dist/posts-list.json');
   });
   fs.copy(`${process.cwd()}/_article/images`, `public/images`).then(() => {
