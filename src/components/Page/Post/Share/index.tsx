@@ -76,7 +76,7 @@ const Label = styled.span`
   white-space: nowrap;
 `;
 
-const IconContainer = styled.div`
+const IconContainer = styled.span`
   position: relative;
   display: flex;
   flex-direction: column;
