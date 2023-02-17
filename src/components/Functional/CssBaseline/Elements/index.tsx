@@ -1,8 +1,6 @@
 import { css } from '@/ui/styled';
 
 export default css`
-  /* stylelint-disable indentation */
-
   /* global */
   ::selection {
     background-color: var(--component-backgrounds-5A);
@@ -173,6 +171,14 @@ export default css`
 
   th {
     background-color: var(--component-backgrounds-4);
+
+    ${['left', 'center', 'right'].map((value) => {
+      return css`
+        &[align='${value}'] {
+          text-align: ${value};
+        }
+      `;
+    })}
   }
 
   td {

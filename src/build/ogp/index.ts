@@ -1,9 +1,10 @@
 import { loadDefaultJapaneseParser } from 'budoux';
 import { ensureDirSync, readFileSync } from 'fs-extra';
 import { Browser, chromium } from 'playwright';
-const parser = loadDefaultJapaneseParser();
 
 import { getPostsListJson } from '@/lib/posts';
+
+const parser = loadDefaultJapaneseParser();
 
 const path = {
   dist: `${process.cwd()}/public/images/ogp`,

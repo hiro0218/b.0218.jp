@@ -52,12 +52,12 @@ async function buildPost() {
     const { text } = readingTime(content);
 
     posts.push({
-      title,
+      title: title.trim(),
       slug: file.replace('.md', ''),
       date,
       updated: updated || '',
       ...(noteContent && { note: noteContent }),
-      content: content,
+      content: content.trim(),
       excerpt: getHeading2Text(content),
       tags,
       readingTime: text,
