@@ -1,8 +1,6 @@
 import { css } from '@/ui/styled';
 
 export default css`
-  /* stylelint-disable indentation */
-
   /* global */
   ::selection {
     background-color: var(--component-backgrounds-5A);

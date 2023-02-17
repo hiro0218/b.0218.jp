@@ -7,7 +7,6 @@ import { css } from '@/ui/styled';
  * @see https://tailwindcss.com/docs/screen-readers
  */
 export const srOnly = css`
-  /* stylelint-disable indentation */
   position: absolute;
   width: 1px;
   height: 1px;
