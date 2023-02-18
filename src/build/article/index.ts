@@ -3,6 +3,7 @@ import matter from 'gray-matter';
 import readingTime from 'reading-time';
 
 import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
+import * as Log from '@/lib/Log';
 import { Post as PropPost } from '@/types/source';
 
 import markdownToHtmlString from './markdownToHtmlString';
@@ -72,9 +73,9 @@ async function buildPost() {
 
   ensureDirSync(`${PATH.DIST}`);
   writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS}.json`, posts);
-  console.log(`Write dist/${FILENAME_POSTS}.json`);
+  Log.info(`Write dist/${FILENAME_POSTS}.json`);
   writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, removePostsData(posts));
-  console.log(`Write dist/${FILENAME_POSTS_LIST}.json`);
+  Log.info(`Write dist/${FILENAME_POSTS_LIST}.json`);
 }
 
 function removePostsData(posts: Partial<PropPost>[]) {
@@ -113,7 +114,7 @@ function buildTerms() {
   }
 
   writeJSON(`${PATH.DIST}/tags.json`, tagsMap).then(() => {
-    console.log('Write dist/tags.json');
+    Log.info('Write dist/tags.json');
   });
 }
 
@@ -142,15 +143,15 @@ async function buildPage() {
   }
 
   writeJSONSync(`${PATH.DIST}/${FILENAME_PAGES}.json`, pages);
-  console.log(`Write dist/${FILENAME_PAGES}.json`);
+  Log.info(`Write dist/${FILENAME_PAGES}.json`);
 }
 
 function copyFiles() {
   copy(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, `public/${FILENAME_POSTS_LIST}.json`).then(() => {
-    console.log(`Copy dist/${FILENAME_POSTS_LIST}.json`);
+    Log.info(`Copy dist/${FILENAME_POSTS_LIST}.json`);
   });
   copy(`${process.cwd()}/_article/images`, `public/images`).then(() => {
-    console.log('Copy _article/images');
+    Log.info('Copy _article/images');
   });
 }
 

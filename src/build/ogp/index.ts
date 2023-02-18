@@ -2,6 +2,7 @@ import { loadDefaultJapaneseParser } from 'budoux';
 import { ensureDirSync, readFileSync } from 'fs-extra';
 import { Browser, chromium } from 'playwright';
 
+import * as Log from '@/lib/Log';
 import { getPostsListJson } from '@/lib/posts';
 
 const parser = loadDefaultJapaneseParser();
@@ -57,12 +58,12 @@ const template = readFileSync(`${process.cwd()}/src/build/ogp/template.html`, 'u
         .then(() => {
           const processed = index + 1;
           if (processed === 1 || processed % 100 === 0 || processed === length) {
-            console.log('Generating OGP Images', `(${processed}/${length})`);
+            Log.info('Generating OGP Images', `(${processed}/${length})`);
           }
         });
     }
   } catch (err) {
-    console.error('Generating OGP Images', err.message);
+    Log.error('Generating OGP Images', err.message);
   } finally {
     await browser?.close();
   }

@@ -4,6 +4,8 @@ import { JSDOM, VirtualConsole } from 'jsdom';
 import { Transformer } from 'unified';
 import { visit } from 'unist-util-visit';
 
+import * as Log from '@/lib/Log';
+
 type OpgProps = {
   description?: string;
   image?: string;
@@ -118,13 +120,13 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
     }
   } catch (error) {
     if (error.name === 'TimeoutError') {
-      console.error(`Timeout: It took more than ${FETCH_TIMEOUT} ms to retrieve the result.`, url);
+      Log.error(`Timeout: It took more than ${FETCH_TIMEOUT} ms to retrieve the result.`, url);
     } else if (error.name === 'AbortError') {
-      console.error('Fetch aborted by user action.', url);
+      Log.error('Fetch aborted by user action.', url);
     } else if (error.name === 'TypeError') {
-      console.error('AbortSignal.timeout() method is not supported', url);
+      Log.error('AbortSignal.timeout() method is not supported', url);
     } else {
-      console.error('Unexpected error occurred', error, url);
+      Log.error('Unexpected error occurred', error, url);
     }
   }
 };
