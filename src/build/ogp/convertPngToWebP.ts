@@ -3,6 +3,8 @@ import path from 'path';
 import rimraf from 'rimraf';
 import sharp from 'sharp';
 
+import * as Log from '@/lib/Log';
+
 const TARGET_DIRECTORY = path.join(process.cwd(), 'public/images/ogp');
 
 const files = readdirSync(TARGET_DIRECTORY);
@@ -16,7 +18,7 @@ files.forEach((file) => {
       .toFormat('webp')
       .toFile(outputFile, (err) => {
         if (err) {
-          console.error(err);
+          Log.error(err.message);
         }
 
         rimraf.sync(inputFile);
