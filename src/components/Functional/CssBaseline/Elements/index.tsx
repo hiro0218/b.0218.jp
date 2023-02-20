@@ -159,6 +159,13 @@ export default css`
   /* table */
   table {
     width: 100%;
+
+    caption {
+      margin: var(--space-1) 0;
+      font-size: var(--font-size-sm);
+      color: var(--text-11);
+      text-align: center;
+    }
   }
 
   th,
