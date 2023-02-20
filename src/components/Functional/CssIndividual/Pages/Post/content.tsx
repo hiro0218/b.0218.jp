@@ -137,20 +137,6 @@ ol {
     }
   }
 
-  /**
-   * @deprecated
-   */
-  .c-alert {
-    padding: var(--space-3) var(--space-2);
-    color: var(--text-11);
-    background-color: var(--backgrounds-2);
-    border-radius: var(--border-radius-4);
-
-    a {
-      color: var(--text-11);
-    }
-  }
-
   ${TableScroll}
 
   ${LinkPreview}
