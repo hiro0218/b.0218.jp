@@ -19,12 +19,12 @@ const PostContent = styled.div`
 
   > :where(p) {
     letter-spacing: 0.05em;
-    word-break: break-all;
+    word-break: break-word;
+    word-wrap: break-word;
   }
 
   a {
     text-decoration-line: underline;
-    word-break: break-all;
 
     &:hover {
       text-decoration-color: var(--text-11);
