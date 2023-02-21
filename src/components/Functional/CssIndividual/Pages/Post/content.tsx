@@ -56,7 +56,6 @@ const PostContent = styled.div`
     align-items: center;
     justify-content: center;
     width: 2rem;
-    height: 2rem;
     height: 100%;
     margin: 0;
     color: var(--text-11);
@@ -65,7 +64,6 @@ const PostContent = styled.div`
 
     ${isMobile} {
       position: static;
-      margin-left: 0.25em;
     }
   }
 
