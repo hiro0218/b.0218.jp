@@ -39,6 +39,11 @@ const PostContent = styled.div`
         text-decoration: none;
         content: '↗';
       }
+      &:has(img) {
+        &::after {
+          content: none;
+        }
+      }
     }
   }
 
