@@ -18,7 +18,6 @@ const PostContent = styled.div`
   }
 
   > :where(p) {
-    line-height: 1.875;
     letter-spacing: 0.05em;
     word-break: break-all;
   }

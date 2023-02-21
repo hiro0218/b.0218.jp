@@ -140,7 +140,6 @@ export default css`
       display: block;
       padding: var(--space-3);
       font-size: inherit;
-      line-height: 1.875;
       color: var(--text-12);
       background: var(--backgrounds-2);
     }
