@@ -68,7 +68,7 @@ const PostContent = styled.div`
   ${Headings}
 
   ul,
-ol {
+  ol {
     padding-left: var(--space-4);
 
     ul,
