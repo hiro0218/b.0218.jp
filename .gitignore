@@ -64,6 +64,7 @@ typings/
 
 # next.js build output
 .next
+out
 public/posts.json
 public/posts-list.json
 public/images

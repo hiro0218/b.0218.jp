@@ -18,14 +18,13 @@ const PostContent = styled.div`
   }
 
   > :where(p) {
-    line-height: 1.875;
     letter-spacing: 0.05em;
-    word-break: break-all;
+    word-break: break-word;
+    word-wrap: break-word;
   }
 
   a {
     text-decoration-line: underline;
-    word-break: break-all;
 
     &:hover {
       text-decoration-color: var(--text-11);
@@ -40,6 +39,11 @@ const PostContent = styled.div`
         text-decoration: none;
         content: '↗';
       }
+      &:has(img) {
+        &::after {
+          content: none;
+        }
+      }
     }
   }
 
@@ -52,7 +56,6 @@ const PostContent = styled.div`
     align-items: center;
     justify-content: center;
     width: 2rem;
-    height: 2rem;
     height: 100%;
     margin: 0;
     color: var(--text-11);
@@ -61,14 +64,13 @@ const PostContent = styled.div`
 
     ${isMobile} {
       position: static;
-      margin-left: 0.25em;
     }
   }
 
   ${Headings}
 
   ul,
-ol {
+  ol {
     padding-left: var(--space-4);
 
     ul,
