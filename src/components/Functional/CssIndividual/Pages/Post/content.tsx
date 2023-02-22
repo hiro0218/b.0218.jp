@@ -69,23 +69,36 @@ const PostContent = styled.div`
 
   ${Headings}
 
+  ul {
+    li {
+      padding-inline-start: var(--space-1);
+
+      &::marker {
+        padding-inline-start: var(--space-1);
+        font-size: var(--font-size-lg);
+        color: var(--text-11);
+        content: '-';
+      }
+    }
+  }
+
   ul,
   ol {
-    padding-left: var(--space-4);
+    padding-left: var(--space-1);
 
     ul,
     ol {
-      padding-left: var(--space-4);
-      margin: var(--space-half) 0 var(--space-3);
+      padding-left: var(--space-2);
+      margin: var(--space-half) 0 var(--space-2);
     }
 
-    img {
-      margin: 0.25em 0;
+    *:not(ul, ol, li) {
+      margin: var(--space-2) 0;
     }
   }
 
   li + li {
-    margin-top: 0.5em;
+    margin-top: var(--space-1);
   }
 
   blockquote {

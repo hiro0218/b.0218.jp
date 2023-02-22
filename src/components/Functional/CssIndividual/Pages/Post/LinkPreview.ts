@@ -4,7 +4,7 @@ import { css } from '@/ui/styled';
 const LinkPreview = css`
   .p-link-preview {
     display: flex;
-    border: 1px solid var(--borders-6);
+    border: 1px solid var(--borders-7);
     border-radius: var(--border-radius-8);
     text-decoration-line: unset;
     background-color: var(--backgrounds-1);
@@ -13,6 +13,7 @@ const LinkPreview = css`
 
     &:hover {
       background-color: var(--component-backgrounds-4);
+      border-color: var(--borders-8);
     }
 
     &[target='_blank']::after {
