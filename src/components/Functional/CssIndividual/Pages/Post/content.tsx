@@ -71,7 +71,7 @@ const PostContent = styled.div`
 
   ul {
     li {
-      padding-inline-start: 1ch;
+      padding-inline-start: var(--space-1);
 
       &::marker {
         padding-inline-start: var(--space-1);
@@ -84,16 +84,16 @@ const PostContent = styled.div`
 
   ul,
   ol {
-    padding-left: var(--space-3);
+    padding-left: var(--space-1);
 
     ul,
     ol {
-      padding-left: var(--space-3);
-      margin: var(--space-half) 0 var(--space-3);
+      padding-left: var(--space-2);
+      margin: var(--space-half) 0 var(--space-2);
     }
 
-    img {
-      margin: 0.25em 0;
+    *:not(ul, ol, li) {
+      margin: var(--space-2) 0;
     }
   }
 
