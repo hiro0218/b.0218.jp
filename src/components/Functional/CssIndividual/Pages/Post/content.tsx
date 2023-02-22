@@ -69,13 +69,26 @@ const PostContent = styled.div`
 
   ${Headings}
 
+  ul {
+    li {
+      padding-inline-start: 1ch;
+
+      &::marker {
+        padding-inline-start: var(--space-1);
+        font-size: var(--font-size-lg);
+        color: var(--text-11);
+        content: '-';
+      }
+    }
+  }
+
   ul,
   ol {
-    padding-left: var(--space-4);
+    padding-left: var(--space-3);
 
     ul,
     ol {
-      padding-left: var(--space-4);
+      padding-left: var(--space-3);
       margin: var(--space-half) 0 var(--space-3);
     }
 
@@ -85,7 +98,7 @@ const PostContent = styled.div`
   }
 
   li + li {
-    margin-top: 0.5em;
+    margin-top: var(--space-1);
   }
 
   blockquote {
