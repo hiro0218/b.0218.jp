@@ -84,7 +84,7 @@
     "markuplint": "^3.3.0",
     "next-build-id": "^3.0.0",
     "next-compose-plugins": "^2.2.1",
-    "playwright": "^1.30.0",
+    "playwright": "^1.31.0",
     "postcss-styled-syntax": "^0.3.3",
     "prettier": "^2.8.4",
     "reading-time": "^1.5.0",
