@@ -1,5 +1,4 @@
-import ReactDOMServer from 'react-dom/server';
-
+import { SvgComponentToBase64 } from '@/lib/SvgComponentToBase64';
 import { RxExternalLink } from '@/ui/icons';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
@@ -9,10 +8,7 @@ import Headings from './Heading';
 import LinkPreview from './LinkPreview';
 import TableScroll from './TableScroll';
 
-const IconExternalLink = () => {
-  const SVG = ReactDOMServer.renderToString(<RxExternalLink size={16} />);
-  return 'data:image/svg+xml;base64,' + Buffer.from(SVG).toString('base64');
-};
+const IconExternalLink = SvgComponentToBase64(<RxExternalLink size={16} />);
 
 const PostContent = styled.div`
   & > * {
