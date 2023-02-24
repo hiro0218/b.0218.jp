@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import ReactDOMServer from 'react-dom/server';
 
-export const SvgComponentToBase64 = (Component: ReactElement) => {
+export const SvgComponentToDataUrlScheme = (Component: ReactElement) => {
   const SVG = ReactDOMServer.renderToString(Component);
   return 'data:image/svg+xml,' + encodeURIComponent(SVG);
 };
