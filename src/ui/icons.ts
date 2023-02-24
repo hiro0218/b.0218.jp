@@ -10,4 +10,5 @@ export {
   RxChevronUp,
   RxChevronDown,
   RxMagnifyingGlass,
+  RxExternalLink,
 } from 'react-icons/rx';

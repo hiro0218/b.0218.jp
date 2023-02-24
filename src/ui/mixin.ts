@@ -13,18 +13,18 @@ export const showHoverBackground = css`
   position: relative;
 
   &::after {
-    content: '';
-    display: block;
     position: absolute;
-    isolation: isolate;
     inset: 0;
+    display: block;
     margin: auto;
-    transform: scale(0);
-    transition: transform 0.1s ${easeOut};
+    pointer-events: none;
+    content: '';
+    background-color: var(--component-backgrounds-3A);
+    isolation: isolate;
     border-radius: var(--border-radius-4);
     opacity: 0;
-    background-color: var(--component-backgrounds-3A);
-    pointer-events: none;
+    transition: transform 0.1s ${easeOut};
+    transform: scale(0);
   }
 
   &:hover,
@@ -33,8 +33,8 @@ export const showHoverBackground = css`
     &::after {
       width: 100%;
       height: 100%;
-      transform: scale(1);
       opacity: 1;
+      transform: scale(1);
     }
   }
 

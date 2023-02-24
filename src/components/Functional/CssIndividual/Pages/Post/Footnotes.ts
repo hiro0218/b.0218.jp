@@ -8,6 +8,7 @@ const Footnotes = css`
     color: var(--text-11);
     font-size: var(--font-size-sm);
 
+    p,
     h2 {
       margin: auto;
     }
