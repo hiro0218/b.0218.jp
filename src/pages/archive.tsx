@@ -1,4 +1,4 @@
-import { GetStaticProps, NextPage } from 'next';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
@@ -40,7 +40,7 @@ const divideByYearArchive = (archives: PostsProps): ArchiveProps => {
   return formattedArchives;
 };
 
-const Archive: NextPage<Props> = ({ archives, numberOfPosts }) => {
+export default function Archive({ archives, numberOfPosts }: Props) {
   return (
     <>
       <Head>
@@ -64,9 +64,7 @@ const Archive: NextPage<Props> = ({ archives, numberOfPosts }) => {
       </PageContainer>
     </>
   );
-};
-
-export default Archive;
+}
 
 export const config = {
   unstable_runtimeJS: false,

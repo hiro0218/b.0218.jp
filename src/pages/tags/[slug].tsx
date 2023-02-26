@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
@@ -16,34 +16,34 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const pageTitle = 'Tag';
 
-const Tags: NextPage<Props> = ({ title, posts }) => (
-  <>
-    <Head>
-      <title key="title">{`${pageTitle}: ${title} - ${SITE.NAME}`}</title>
-      <meta name="robots" content="noindex" />
-    </Head>
+export default function Tags({ title, posts }: Props) {
+  return (
+    <>
+      <Head>
+        <title key="title">{`${pageTitle}: ${title} - ${SITE.NAME}`}</title>
+        <meta name="robots" content="noindex" />
+      </Head>
 
-    <PageContainer as="section">
-      <Title heading={pageTitle} paragraph={`${posts.length}件`} />
+      <PageContainer as="section">
+        <Title heading={pageTitle} paragraph={`${posts.length}件`} />
 
-      <Columns title={title}>
-        <Stack space="half">
-          {posts.map((post) => (
-            <LinkCard
-              key={post.slug}
-              link={`/${post.slug}.html`}
-              title={post.title}
-              date={post.date}
-              excerpt={post.excerpt}
-            />
-          ))}
-        </Stack>
-      </Columns>
-    </PageContainer>
-  </>
-);
-
-export default Tags;
+        <Columns title={title}>
+          <Stack space="half">
+            {posts.map((post) => (
+              <LinkCard
+                key={post.slug}
+                link={`/${post.slug}.html`}
+                title={post.title}
+                date={post.date}
+                excerpt={post.excerpt}
+              />
+            ))}
+          </Stack>
+        </Columns>
+      </PageContainer>
+    </>
+  );
+}
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = getTermJson('tags');

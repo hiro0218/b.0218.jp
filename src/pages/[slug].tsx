@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 import Script from 'next/script';
 import { useRef } from 'react';
@@ -22,7 +22,7 @@ type PostProps = {
 };
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const Post: NextPage<Props> = ({ post, nextRead }) => {
+export default function Post({ post, nextRead }: Props) {
   const refContent = useRef<HTMLDivElement>(null);
   const permalink = `${SITE.URL}${post.slug}.html`;
   const description = getDescriptionText(post.content);
@@ -91,9 +91,7 @@ const Post: NextPage<Props> = ({ post, nextRead }) => {
       </PageContainer>
     </>
   );
-};
-
-export default Post;
+}
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = getPostsJson();

@@ -22,7 +22,7 @@ type MyAppProps = AppProps & {
 
 const clientSideEmotionCache = createEmotionCache();
 
-const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: MyAppProps) => {
+export default function App({ Component, emotionCache = clientSideEmotionCache, pageProps }: MyAppProps) {
   // ページレベルで定義されたレイアウトがある場合はそれを使用する
   const getLayout = Component.getLayout || ((page) => page);
 
@@ -56,6 +56,4 @@ const App = ({ Component, emotionCache = clientSideEmotionCache, pageProps }: My
       </CacheProvider>
     </>
   );
-};
-
-export default App;
+}

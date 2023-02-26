@@ -1,4 +1,4 @@
-import { GetStaticProps, NextPage } from 'next';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
 import { Hero } from '@/components/Page/Home/Hero';
@@ -21,7 +21,7 @@ interface Props {
   tags: PostTagProps[];
 }
 
-const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
+export default function Index({ recentPosts, updatesPosts, tags }: Props) {
   return (
     <>
       <Head>
@@ -75,9 +75,7 @@ const Home: NextPage<Props> = ({ recentPosts, updatesPosts, tags }) => {
       </PageContainer>
     </>
   );
-};
-
-export default Home;
+}
 
 const pickPosts = ({ title, slug, date, updated, excerpt }: Partial<PropsPost>) => {
   return { title, slug, date, updated, excerpt };

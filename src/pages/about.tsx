@@ -1,4 +1,4 @@
-import { GetStaticProps, NextPage } from 'next';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
@@ -12,7 +12,7 @@ interface Props {
   page: Pages;
 }
 
-const About: NextPage<Props> = ({ page }) => {
+export default function About({ page }: Props) {
   return (
     <>
       <Head>
@@ -30,9 +30,7 @@ const About: NextPage<Props> = ({ page }) => {
       </PageContainer>
     </>
   );
-};
-
-export default About;
+}
 
 export const config = {
   unstable_runtimeJS: false,
