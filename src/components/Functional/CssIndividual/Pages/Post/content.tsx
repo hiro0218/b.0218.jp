@@ -100,7 +100,7 @@ const PostContent = styled.div`
   }
 
   li + li {
-    margin-top: var(--space-1);
+    margin-top: var(--space-half);
   }
 
   blockquote {
