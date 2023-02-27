@@ -87,6 +87,7 @@ const Title = styled.h3`
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-normal);
   color: var(--text-12);
+  word-break: break-all;
 `;
 
 const Paragraph = styled.p`

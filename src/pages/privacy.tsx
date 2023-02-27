@@ -10,9 +10,9 @@ interface Props {
   page: Pages;
 }
 
-type AboutProps = InferGetStaticPropsType<typeof getStaticProps>;
+type PrivacyProps = InferGetStaticPropsType<typeof getStaticProps>;
 
-export default function About({ page }: AboutProps) {
+export default function Privacy({ page }: PrivacyProps) {
   return (
     <PostContent
       dangerouslySetInnerHTML={{
@@ -22,11 +22,11 @@ export default function About({ page }: AboutProps) {
   );
 }
 
-About.getLayout = createGetLayout({
-  head: { title: `サイトについて - ${SITE.NAME}` },
+Privacy.getLayout = createGetLayout({
+  head: { title: `プライバシーポリシー - ${SITE.NAME}` },
   title: {
-    heading: 'About',
-    paragraph: 'サイトと運営者について',
+    heading: 'Privacy',
+    paragraph: 'プライバシーポリシー',
   },
 });
 
@@ -36,7 +36,7 @@ export const config = {
 
 export const getStaticProps: GetStaticProps<Props> = () => {
   const pages = getPagesJson();
-  const page = pages.find((page) => page.slug === 'about');
+  const page = pages.find((page) => page.slug === 'privacy');
 
   return {
     props: {

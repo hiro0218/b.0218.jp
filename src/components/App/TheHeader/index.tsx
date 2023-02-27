@@ -9,7 +9,7 @@ import { styled } from '@/ui/styled';
 
 import { HeaderLayout } from './HeaderLayout';
 
-const TheHeader = memo(function TheHeader() {
+export default memo(function TheHeader() {
   const { ref, locked, openDialog, closeDialog } = useDialog();
   const { SearchButton, SearchDialog } = useSearch({ refModal: ref, isActive: locked, openDialog, closeDialog });
 
@@ -28,8 +28,6 @@ const TheHeader = memo(function TheHeader() {
     </>
   );
 });
-
-export default TheHeader;
 
 const Container = styled.div`
   display: flex;

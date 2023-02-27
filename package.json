@@ -102,7 +102,7 @@
     "remark-rehype": "^10.1.0",
     "remark-unwrap-images": "^3.0.1",
     "rimraf": "^4.1.2",
-    "schema-dts": "^1.1.0",
+    "schema-dts": "^1.1.2",
     "sharp": "^0.31.3",
     "stylelint": "^15.2.0",
     "stylelint-config-recess-order": "^4.0.0",

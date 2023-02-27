@@ -28,16 +28,16 @@ jobs:
           node-version-file: '.node-version'
           cache: 'npm'
 
-#       - name: Set up ssh
-#         env:
-#           PRIVATE_KEY: ${{ secrets.HIRO0218_NO_PASSPHRASE }}
-#         run: |
-#           mkdir -p ~/.ssh
-#           echo "$PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-#           chmod 700 ~/.ssh/id_rsa
-#           eval $(ssh-agent -s)
-#           ssh-add ~/.ssh/id_rsa
-#           ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+      #       - name: Set up ssh
+      #         env:
+      #           PRIVATE_KEY: ${{ secrets.HIRO0218_NO_PASSPHRASE }}
+      #         run: |
+      #           mkdir -p ~/.ssh
+      #           echo "$PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+      #           chmod 700 ~/.ssh/id_rsa
+      #           eval $(ssh-agent -s)
+      #           ssh-add ~/.ssh/id_rsa
+      #           ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
@@ -97,15 +97,14 @@ jobs:
         if: success() && github.event.number
         run: ls -laR .next/analyze/base && npx -p nextjs-bundle-analysis compare
 
-      - name: Get comment body
+      - name: Get Comment Body
         id: get-comment-body
         if: success() && github.event.number
+        # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
         run: |
-          body=$(cat .next/analyze/__bundle_analysis_comment.txt)
-          body="${body//'%'/'%25'}"
-          body="${body//$'\n'/'%0A'}"
-          body="${body//$'\r'/'%0D'}"
-          echo ::set-output name=body::$body
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo "$(cat .next/analyze/__bundle_analysis_comment.txt)" >> $GITHUB_OUTPUT
+          echo EOF >> $GITHUB_OUTPUT
 
       - name: Find Comment
         uses: peter-evans/find-comment@v2

@@ -1,4 +1,4 @@
-import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 
 import { PageContainer, Stack } from '@/components/UI/Layout';
@@ -12,24 +12,24 @@ type TermProps = {
 };
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const Tags: NextPage<Props> = ({ tags }) => (
-  <>
-    <Head>
-      <title key="title">{`Tags - ${SITE.NAME}`}</title>
-    </Head>
+export default function Tags({ tags }: Props) {
+  return (
+    <>
+      <Head>
+        <title key="title">{`Tags - ${SITE.NAME}`}</title>
+      </Head>
 
-    <PageContainer>
-      <Title heading="Tags" paragraph={`${tags.length}件`} />
-      <Stack>
-        <PostTagGridContainer>
-          <PostTag tags={tags} />
-        </PostTagGridContainer>
-      </Stack>
-    </PageContainer>
-  </>
-);
-
-export default Tags;
+      <PageContainer>
+        <Title heading="Tags" paragraph={`${tags.length}件`} />
+        <Stack>
+          <PostTagGridContainer>
+            <PostTag tags={tags} />
+          </PostTagGridContainer>
+        </Stack>
+      </PageContainer>
+    </>
+  );
+}
 
 export const getStaticProps: GetStaticProps<TermProps> = async () => {
   const tags = getTermWithCount('tags').map(([slug, count]) => {

@@ -12,7 +12,7 @@ const Links = [
   { title: 'archive', href: '/archive' },
 ] as const;
 
-const TheFooter = memo(function TheFooter() {
+export default memo(function TheFooter() {
   return (
     <Root>
       <WaveBottom />
@@ -33,8 +33,6 @@ const TheFooter = memo(function TheFooter() {
     </Root>
   );
 });
-
-export default TheFooter;
 
 const Root = styled.footer`
   position: sticky;
