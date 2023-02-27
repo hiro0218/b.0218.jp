@@ -72,6 +72,8 @@ const PostContent = styled.div`
   ${Headings}
 
   ul {
+    padding-left: var(--space-1);
+
     li {
       padding-inline-start: var(--space-1);
 
@@ -84,10 +86,12 @@ const PostContent = styled.div`
     }
   }
 
+  ol {
+    padding-left: var(--space-2);
+  }
+
   ul,
   ol {
-    padding-left: var(--space-1);
-
     ul,
     ol {
       padding-left: var(--space-2);
