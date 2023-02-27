@@ -34,7 +34,3 @@ const Layout = ({ children, ...props }: PropsWithChildren<LayoutProps>) => {
     </>
   );
 };
-
-export const getLayout = (page: React.ReactElement) => {
-  return <div data-page="SinglePage">{page}</div>;
-};
