@@ -1,9 +1,7 @@
-import { GetStaticProps } from 'next';
-import Head from 'next/head';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
-import { PageContainer } from '@/components/UI/Layout';
-import { Title } from '@/components/UI/Title';
+import { createGetLayout } from '@/components/Layouts/SinglePageLayout';
 import { SITE } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
 import { Pages } from '@/types/source';
@@ -12,31 +10,31 @@ interface Props {
   page: Pages;
 }
 
-export default function About({ page }: Props) {
+type PrivacyProps = InferGetStaticPropsType<typeof getStaticProps>;
+
+export default function Privacy({ page }: PrivacyProps) {
   return (
-    <>
-      <Head>
-        <title key="title">{`プライバシーポリシー - ${SITE.NAME}`}</title>
-      </Head>
-
-      <PageContainer as="article">
-        <Title heading="Privacy" paragraph="プライバシーポリシー" />
-
-        <PostContent
-          dangerouslySetInnerHTML={{
-            __html: `${page.content}`,
-          }}
-        />
-      </PageContainer>
-    </>
+    <PostContent
+      dangerouslySetInnerHTML={{
+        __html: `${page.content}`,
+      }}
+    />
   );
 }
+
+Privacy.getLayout = createGetLayout({
+  head: { title: `プライバシーポリシー - ${SITE.NAME}` },
+  title: {
+    heading: 'Privacy',
+    paragraph: 'プライバシーポリシー',
+  },
+});
 
 export const config = {
   unstable_runtimeJS: false,
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<Props> = () => {
   const pages = getPagesJson();
   const page = pages.find((page) => page.slug === 'privacy');
 
