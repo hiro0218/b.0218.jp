@@ -22,6 +22,6 @@ export type Post = {
   content: string;
   excerpt: string;
   tags: string[];
-  readingTime: string;
+  readingTime: number;
   noindex?: boolean;
 };

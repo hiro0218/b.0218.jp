@@ -9,7 +9,7 @@ import Mokuji from '@/components/Page/Post/Mokuji';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContainer } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
-import { AUTHOR, SITE } from '@/constant';
+import { AUTHOR, READ_TIME_SUFFIX, SITE } from '@/constant';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { getPostsJson, getTermJson, getTermWithCount } from '@/lib/posts';
@@ -50,7 +50,7 @@ export default function Post({ post, nextRead }: Props) {
         <meta name="twitter:label1" content="Written by" />
         <meta name="twitter:data1" content={AUTHOR.NAME} />
         <meta name="twitter:label2" content="Reading time" />
-        <meta name="twitter:data2" content={post.readingTime} />
+        <meta name="twitter:data2" content={`${post.readingTime} ${READ_TIME_SUFFIX}`} />
         {post.noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={permalink} />}
         <script
           type="application/ld+json"

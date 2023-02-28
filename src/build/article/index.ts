@@ -50,7 +50,7 @@ async function buildPost() {
     const { title, date, updated, note, tags, noindex }: Partial<PropPost> = post.data;
     const content = (await markdownToHtmlString(post.content)) || null;
     const noteContent = (await markdownToHtmlString(note, true)) || null;
-    const { text } = readingTime(content);
+    const { minutes: readingTimeMinutes } = readingTime(content);
 
     posts.push({
       title: title.trim(),
@@ -61,7 +61,7 @@ async function buildPost() {
       content: content.trim(),
       excerpt: getHeading2Text(content),
       tags,
-      readingTime: text,
+      readingTime: Math.round(readingTimeMinutes),
       noindex,
     });
   }
