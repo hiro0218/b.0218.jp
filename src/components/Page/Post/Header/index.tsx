@@ -12,24 +12,24 @@ const PostHeader = ({ date, updated, readingTime, tags }: Props) => {
   const postTags = useMemo(() => tags.map((slug) => ({ slug })), [tags]);
 
   return (
-    <PostHeaderList>
-      <PostHeaderItem>
+    <List>
+      <Item>
         <PostDate date={date} updated={updated} />
         <Separator aria-hidden="true">・</Separator>
         <span>{`${readingTime} ${READ_TIME_SUFFIX}`}</span>
-      </PostHeaderItem>
-      <PostHeaderItem>
+      </Item>
+      <Item>
         <PostTagGridContainer>
           <PostTag tags={postTags} />
         </PostTagGridContainer>
-      </PostHeaderItem>
-    </PostHeaderList>
+      </Item>
+    </List>
   );
 };
 
 export default PostHeader;
 
-const PostHeaderList = styled.div`
+const List = styled.div`
   margin-top: var(--space-2);
 
   > * + * {
@@ -37,7 +37,7 @@ const PostHeaderList = styled.div`
   }
 `;
 
-const PostHeaderItem = styled.div`
+const Item = styled.div`
   display: flex;
   align-items: center;
   font-size: var(--font-size-md);
