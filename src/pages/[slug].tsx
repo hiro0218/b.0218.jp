@@ -128,12 +128,22 @@ export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
 
   // 関連記事
   const tag = post.tags.at(0);
-  const nextRead = Object.entries(getTermJson('tags'))
+  const tagData = getTermJson('tags');
+  const nextRead = Object.entries(tagData)
     .filter(([key]) => key === tag)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    .map(([_, val]) => val)
-    .flat()
-    .filter((post, i) => !post.slug.includes(slug) && i < 6);
+    .flatMap(([, values]) =>
+      values
+        .filter((post, i) => !post.includes(slug) && i < 6)
+        .map((slug) => {
+          const post = posts.find((post) => post.slug === slug);
+          return {
+            title: post.title,
+            slug,
+            date: post.date,
+            excerpt: post.excerpt,
+          };
+        }),
+    );
 
   // 奇数の場合は偶数に寄せる
   if (nextRead.length % 2 !== 0) {

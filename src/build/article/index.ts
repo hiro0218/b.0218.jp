@@ -93,13 +93,8 @@ function buildTerms() {
   const tagsMap = {};
 
   for (let i = 0; i < posts.length; i++) {
-    const { title, slug, date, excerpt, tags } = posts[i];
-    const item = {
-      title,
-      slug,
-      date,
-      excerpt,
-    };
+    const { slug, tags } = posts[i];
+    const item = slug;
 
     for (let i = 0; i < tags.length; i++) {
       const tag = tags[i];
