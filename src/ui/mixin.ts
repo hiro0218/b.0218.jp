@@ -21,7 +21,7 @@ export const showHoverBackground = css`
     content: '';
     background-color: var(--component-backgrounds-3A);
     isolation: isolate;
-    border-radius: var(--border-radius-4);
+    border-radius: var(--border-radius-8);
     opacity: 0;
     transition: transform 0.1s ${easeOut};
     transform: scale(0);
