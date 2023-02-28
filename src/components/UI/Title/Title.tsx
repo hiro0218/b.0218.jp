@@ -25,6 +25,7 @@ export const Title = ({ headingTagName: Tag = 'h1', heading, paragraph, sideElem
 
 const Container = styled.header`
   display: flex;
+  overflow-wrap: break-word;
 `;
 
 const Main = styled.div`
@@ -32,14 +33,13 @@ const Main = styled.div`
 `;
 
 const HeaderTitle = styled.h1`
-  overflow-wrap: break-word;
+  font-weight: var(--font-weight-bolder);
 `;
 
 const P = styled.p`
   margin-top: var(--space-1);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-md);
   color: var(--text-11);
-  overflow-wrap: break-word;
 `;
 
 const Side = styled.div`
