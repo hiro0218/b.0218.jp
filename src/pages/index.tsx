@@ -10,7 +10,7 @@ import LinkCard from '@/components/UI/LinkCard';
 import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
 import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
 import { AUTHOR } from '@/constant';
-import { getPostsListJson, getTermWithCount } from '@/lib/posts';
+import { getPostsListJson, getTagsWithCount } from '@/lib/posts';
 import { Post as PropsPost } from '@/types/source';
 
 const POST_DISPLAY_LIMIT = 5;
@@ -100,7 +100,7 @@ export const getStaticProps: GetStaticProps = async () => {
       return pickPosts(post);
     });
 
-  const tags = getTermWithCount()
+  const tags = getTagsWithCount()
     .filter((item, i) => item[1] >= 10 && i < 25) // 件数が10件以上を25個抽出
     .map(([slug, count]) => {
       return { slug, count };

@@ -12,7 +12,7 @@ import { Title } from '@/components/UI/Title';
 import { AUTHOR, READ_TIME_SUFFIX, SITE } from '@/constant';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
-import { getPostsJson, getTermJson, getTermWithCount } from '@/lib/posts';
+import { getPostsJson, getTagsJson, getTagsWithCount } from '@/lib/posts';
 import { textSegmenter } from '@/lib/textSegmenter';
 import { Post as PostType, TermsPostList } from '@/types/source';
 
@@ -114,7 +114,7 @@ export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
   // tagsを件数順に並び替える
   post.tags =
     post.tags.length > 1
-      ? getTermWithCount()
+      ? getTagsWithCount()
           .filter(([key]) => {
             return post.tags.filter((tag) => tag === key).length > 0;
           })
@@ -128,7 +128,7 @@ export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
 
   // 関連記事
   const tag = post.tags.at(0);
-  const tagData = getTermJson();
+  const tagData = getTagsJson();
   const nextRead = Object.entries(tagData)
     .filter(([key]) => key === tag)
     .flatMap(([, values]) =>

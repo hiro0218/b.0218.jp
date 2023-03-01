@@ -8,7 +8,7 @@ const getPath = (filename: string) => {
   return join(process.cwd(), `dist/${filename}.json`);
 };
 
-export const getTermJson = (): Record<string, string[]> => {
+export const getTagsJson = (): Record<string, string[]> => {
   const path = getPath('tags');
 
   return readJsonSync(path);
@@ -34,8 +34,8 @@ export const getPagesJson = (): Pages[] => {
   return readJsonSync(path);
 };
 
-export const getTermWithCount = (): [string, number][] => {
-  return Object.entries(getTermJson())
+export const getTagsWithCount = (): [string, number][] => {
+  return Object.entries(getTagsJson())
     .map(([key, val]) => {
       return [key, val.length] as [string, number];
     })

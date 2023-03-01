@@ -5,7 +5,7 @@ import { PageContainer, Stack } from '@/components/UI/Layout';
 import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
 import { Title } from '@/components/UI/Title';
 import { SITE } from '@/constant';
-import { getTermWithCount } from '@/lib/posts';
+import { getTagsWithCount } from '@/lib/posts';
 
 type TermProps = {
   tags: PostTagProps[];
@@ -32,7 +32,7 @@ export default function Tags({ tags }: Props) {
 }
 
 export const getStaticProps: GetStaticProps<TermProps> = async () => {
-  const tags = getTermWithCount().map(([slug, count]) => {
+  const tags = getTagsWithCount().map(([slug, count]) => {
     return { slug, count };
   });
 

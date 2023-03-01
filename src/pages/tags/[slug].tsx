@@ -5,7 +5,7 @@ import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE } from '@/constant';
-import { getPostsJson, getTermJson } from '@/lib/posts';
+import { getPostsJson, getTagsJson } from '@/lib/posts';
 import { TermsPostList } from '@/types/source';
 
 type TermProps = {
@@ -46,7 +46,7 @@ export default function Tags({ title, posts }: Props) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const tags = getTermJson();
+  const tags = getTagsJson();
   const paths = Object.keys(tags).map((slug) => ({
     params: { slug },
   }));
@@ -56,7 +56,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<TermProps> = async (context) => {
   const posts = getPostsJson();
-  const tags = getTermJson();
+  const tags = getTagsJson();
   const slug = context.params.slug as string;
   const tagsPosts = tags[slug].map((slug) => {
     const post = posts.find((post) => post.slug === slug);
