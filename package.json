@@ -80,7 +80,7 @@
     "hastscript": "^7.2.0",
     "husky": "^8.0.3",
     "jsdom": "^21.1.0",
-    "lint-staged": "^13.1.1",
+    "lint-staged": "^13.1.2",
     "markuplint": "^3.3.0",
     "next-build-id": "^3.0.0",
     "next-compose-plugins": "^2.2.1",
