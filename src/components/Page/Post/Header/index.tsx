@@ -2,38 +2,34 @@ import { useMemo } from 'react';
 
 import { PostDate } from '@/components/Page/Post';
 import PostTag, { PostTagGridContainer } from '@/components/UI/Tag';
+import { READ_TIME_SUFFIX } from '@/constant';
 import { Post as PostProps } from '@/types/source';
 import { styled } from '@/ui/styled';
 
-type Props = {
-  date: PostProps['date'];
-  updated: PostProps['updated'];
-  readingTime: PostProps['updated'];
-  tags: PostProps['tags'];
-};
+type Props = Pick<PostProps, 'date' | 'updated' | 'readingTime' | 'tags'>;
 
 const PostHeader = ({ date, updated, readingTime, tags }: Props) => {
   const postTags = useMemo(() => tags.map((slug) => ({ slug })), [tags]);
 
   return (
-    <PostHeaderList>
-      <PostHeaderItem>
+    <List>
+      <Item>
         <PostDate date={date} updated={updated} />
         <Separator aria-hidden="true">・</Separator>
-        <span>{readingTime}</span>
-      </PostHeaderItem>
-      <PostHeaderItem>
+        <span>{`${readingTime} ${READ_TIME_SUFFIX}`}</span>
+      </Item>
+      <Item>
         <PostTagGridContainer>
           <PostTag tags={postTags} />
         </PostTagGridContainer>
-      </PostHeaderItem>
-    </PostHeaderList>
+      </Item>
+    </List>
   );
 };
 
 export default PostHeader;
 
-const PostHeaderList = styled.div`
+const List = styled.div`
   margin-top: var(--space-2);
 
   > * + * {
@@ -41,7 +37,7 @@ const PostHeaderList = styled.div`
   }
 `;
 
-const PostHeaderItem = styled.div`
+const Item = styled.div`
   display: flex;
   align-items: center;
   font-size: var(--font-size-md);

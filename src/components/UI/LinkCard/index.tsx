@@ -47,7 +47,6 @@ const Container = styled.div`
   height: 100%;
   padding: var(--space-2);
   padding-right: var(--space-1);
-  border-radius: var(--border-radius-4);
 
   ${showHoverBackground}
 

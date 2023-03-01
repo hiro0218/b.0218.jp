@@ -51,7 +51,7 @@ const Root = styled.aside`
 
 const Details = styled.details`
   background-color: var(--component-backgrounds-3);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--border-radius-8);
   transition: background-color 0.2s ease;
 
   &:not([open]):hover {

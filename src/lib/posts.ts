@@ -2,14 +2,14 @@ import { readJsonSync } from 'fs-extra';
 import { join } from 'path';
 
 import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
-import { Pages, Post, TermsPostList } from '@/types/source';
+import { Pages, Post } from '@/types/source';
 
 const getPath = (filename: string) => {
   return join(process.cwd(), `dist/${filename}.json`);
 };
 
-export const getTermJson = (type: 'tags'): TermsPostList[] => {
-  const path = getPath(type);
+export const getTagsJson = (): Record<string, string[]> => {
+  const path = getPath('tags');
 
   return readJsonSync(path);
 };
@@ -34,11 +34,9 @@ export const getPagesJson = (): Pages[] => {
   return readJsonSync(path);
 };
 
-export const getTermWithCount = (type: 'tags'): [string, number][] => {
-  return Object.entries(getTermJson(type))
+export const getTagsWithCount = (): [string, number][] => {
+  return Object.entries(getTagsJson())
     .map(([key, val]) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       return [key, val.length] as [string, number];
     })
     .sort((a, b) => b[1] - a[1]); // 件数の多い順にソート

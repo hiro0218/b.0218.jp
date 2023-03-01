@@ -41,6 +41,7 @@ export default css`
   /**
    * Font Weight
    */
-  --font-weight-normal: 500;
-  --font-weight-bold: 900;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+  --font-weight-bolder: 900;
 `;

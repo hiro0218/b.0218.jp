@@ -1,10 +1,12 @@
-export type Pages = {
+type ArticleBaseProps = {
   title: string;
   slug: string;
   date: string;
   updated: string;
   content: string;
 };
+
+export type Pages = ArticleBaseProps;
 
 export type TermsPostList = {
   title: string;
@@ -13,15 +15,10 @@ export type TermsPostList = {
   excerpt: string;
 };
 
-export type Post = {
-  date: string;
-  updated: string;
+export type Post = ArticleBaseProps & {
   note?: string;
-  slug: string;
-  title: string;
-  content: string;
   excerpt: string;
   tags: string[];
-  readingTime: string;
+  readingTime: number;
   noindex?: boolean;
 };

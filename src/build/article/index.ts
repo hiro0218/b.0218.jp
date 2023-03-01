@@ -4,7 +4,7 @@ import readingTime from 'reading-time';
 
 import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
 import * as Log from '@/lib/Log';
-import { Post as PropPost } from '@/types/source';
+import { Pages, Post as PropPost } from '@/types/source';
 
 import markdownToHtmlString from './markdownToHtmlString';
 
@@ -50,7 +50,7 @@ async function buildPost() {
     const { title, date, updated, note, tags, noindex }: Partial<PropPost> = post.data;
     const content = (await markdownToHtmlString(post.content)) || null;
     const noteContent = (await markdownToHtmlString(note, true)) || null;
-    const { text } = readingTime(content);
+    const { minutes: readingTimeMinutes } = readingTime(content);
 
     posts.push({
       title: title.trim(),
@@ -61,7 +61,7 @@ async function buildPost() {
       content: content.trim(),
       excerpt: getHeading2Text(content),
       tags,
-      readingTime: text,
+      readingTime: Math.round(readingTimeMinutes),
       noindex,
     });
   }
@@ -93,13 +93,8 @@ function buildTerms() {
   const tagsMap = {};
 
   for (let i = 0; i < posts.length; i++) {
-    const { title, slug, date, excerpt, tags } = posts[i];
-    const item = {
-      title,
-      slug,
-      date,
-      excerpt,
-    };
+    const { slug, tags } = posts[i];
+    const item = slug;
 
     for (let i = 0; i < tags.length; i++) {
       const tag = tags[i];
@@ -122,7 +117,7 @@ async function buildPage() {
   // md ファイル一覧を取得
   const files = readdirSync(`${PATH.SRC}`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
-  const pages: Partial<PropPost>[] = [];
+  const pages: Pages[] = [];
 
   // 記事一覧
   for (let i = 0; i < NUMBER_OF_FILES; i++) {
@@ -130,7 +125,7 @@ async function buildPage() {
 
     // front matter を取得
     const page = matter.read(`${PATH.SRC}/${file}`);
-    const { title, date, updated }: Partial<PropPost> = page.data;
+    const { title, date, updated }: Partial<Pages> = page.data;
     const content = await markdownToHtmlString(page.content);
 
     pages.push({

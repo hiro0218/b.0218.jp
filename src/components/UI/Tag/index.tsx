@@ -46,14 +46,16 @@ const Anchor = styled(_Anchor)`
   flex: 1 1 auto;
   align-items: center;
   align-self: flex-start;
-  padding: 0 var(--space-1);
+  padding: var(--space-1);
+  line-height: 1;
   color: var(--text-11);
   text-align: center;
   white-space: nowrap;
   background-color: var(--component-backgrounds-3A);
-  border-radius: var(--border-radius-2);
+  border-radius: var(--border-radius-4);
 
   &:hover {
+    color: var(--text-12);
     background-color: var(--component-backgrounds-4A);
   }
 

@@ -148,11 +148,11 @@ const PostContent = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: var(--space-6) 0;
+    margin: var(--space-5) 0;
     border: 0;
 
     &::before {
-      font-size: 1em;
+      font-size: var(--font-size-sm);
       color: var(--text-12);
       content: '◇ ◆ ◇';
     }
