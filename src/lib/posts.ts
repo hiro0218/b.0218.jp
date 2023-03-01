@@ -8,8 +8,8 @@ const getPath = (filename: string) => {
   return join(process.cwd(), `dist/${filename}.json`);
 };
 
-export const getTermJson = (type: 'tags'): Record<string, string[]> => {
-  const path = getPath(type);
+export const getTermJson = (): Record<string, string[]> => {
+  const path = getPath('tags');
 
   return readJsonSync(path);
 };
@@ -34,8 +34,8 @@ export const getPagesJson = (): Pages[] => {
   return readJsonSync(path);
 };
 
-export const getTermWithCount = (type: 'tags'): [string, number][] => {
-  return Object.entries(getTermJson(type))
+export const getTermWithCount = (): [string, number][] => {
+  return Object.entries(getTermJson())
     .map(([key, val]) => {
       return [key, val.length] as [string, number];
     })

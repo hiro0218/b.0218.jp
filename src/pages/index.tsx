@@ -100,7 +100,7 @@ export const getStaticProps: GetStaticProps = async () => {
       return pickPosts(post);
     });
 
-  const tags = getTermWithCount('tags')
+  const tags = getTermWithCount()
     .filter((item, i) => item[1] >= 10 && i < 25) // 件数が10件以上を25個抽出
     .map(([slug, count]) => {
       return { slug, count };

@@ -114,7 +114,7 @@ export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
   // tagsを件数順に並び替える
   post.tags =
     post.tags.length > 1
-      ? getTermWithCount('tags')
+      ? getTermWithCount()
           .filter(([key]) => {
             return post.tags.filter((tag) => tag === key).length > 0;
           })
@@ -128,7 +128,7 @@ export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
 
   // 関連記事
   const tag = post.tags.at(0);
-  const tagData = getTermJson('tags');
+  const tagData = getTermJson();
   const nextRead = Object.entries(tagData)
     .filter(([key]) => key === tag)
     .flatMap(([, values]) =>

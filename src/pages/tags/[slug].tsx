@@ -46,8 +46,8 @@ export default function Tags({ title, posts }: Props) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const posts = getTermJson('tags');
-  const paths = Object.keys(posts).map((slug) => ({
+  const tags = getTermJson();
+  const paths = Object.keys(tags).map((slug) => ({
     params: { slug },
   }));
 
@@ -56,7 +56,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<TermProps> = async (context) => {
   const posts = getPostsJson();
-  const tags = getTermJson('tags');
+  const tags = getTermJson();
   const slug = context.params.slug as string;
   const tagsPosts = tags[slug].map((slug) => {
     const post = posts.find((post) => post.slug === slug);
