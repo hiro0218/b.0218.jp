@@ -1,5 +1,6 @@
 import rehypeExternalLinks from 'rehype-external-links';
 import rehypeHighlight from 'rehype-highlight';
+import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
 import rehypeRaw from 'rehype-raw';
 import rehypeRemoveComments from 'rehype-remove-comments';
 import rehypeRemoveEmptyAttribute from 'rehype-remove-empty-attribute';
@@ -24,6 +25,7 @@ const markdownToHtmlString = async (markdown: string, simple = false) => {
     .use(remarkUnwrapImages)
     .use(remarkBreaks)
     .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeMinifyWhitespace)
     .use(rehypeRaw);
 
   const result = !simple
