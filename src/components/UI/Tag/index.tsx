@@ -51,11 +51,12 @@ const Anchor = styled(_Anchor)`
   color: var(--text-11);
   text-align: center;
   white-space: nowrap;
-  background-color: var(--component-backgrounds-4A);
+  background-color: var(--component-backgrounds-3A);
   border-radius: var(--border-radius-4);
 
   &:hover {
-    background-color: var(--component-backgrounds-5A);
+    color: var(--text-12);
+    background-color: var(--component-backgrounds-4A);
   }
 
   &::before {
