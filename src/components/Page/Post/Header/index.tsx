@@ -16,7 +16,7 @@ const PostHeader = ({ date, updated, readingTime, tags }: Props) => {
       <Item>
         <PostDate date={date} updated={updated} />
         <Separator aria-hidden="true">・</Separator>
-        <span>{`${readingTime} ${READ_TIME_SUFFIX}`}</span>
+        <span>{`${readingTime || 1} ${READ_TIME_SUFFIX}`}</span>
       </Item>
       <Item>
         <PostTagGridContainer>
