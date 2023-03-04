@@ -44,8 +44,10 @@ export default function Index({ recentPosts, updatesPosts, tags }: Props) {
                   key={post.slug}
                   link={`${post.slug}.html`}
                   title={post.title}
-                  date={post.updated || post.date}
+                  date={post.date}
+                  updated={post.updated}
                   excerpt={post.excerpt}
+                  tags={post.tags}
                 />
               ))}
             </Stack>
@@ -58,8 +60,10 @@ export default function Index({ recentPosts, updatesPosts, tags }: Props) {
                   key={post.slug}
                   link={`${post.slug}.html`}
                   title={post.title}
-                  date={post.updated || post.date}
+                  date={post.date}
+                  updated={post.updated}
                   excerpt={post.excerpt}
+                  tags={post.tags}
                 />
               ))}
             </Stack>
@@ -77,8 +81,8 @@ export default function Index({ recentPosts, updatesPosts, tags }: Props) {
   );
 }
 
-const pickPosts = ({ title, slug, date, updated, excerpt }: Partial<PropsPost>) => {
-  return { title, slug, date, updated, excerpt };
+const pickPosts = ({ title, slug, date, updated, excerpt, tags }: Partial<PropsPost>) => {
+  return { title, slug, date, updated, excerpt, tags };
 };
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -96,9 +100,7 @@ export const getStaticProps: GetStaticProps = async () => {
       return !recentPosts.filter((recentPost) => post.slug === recentPost.slug).length;
     })
     .slice(0, POST_DISPLAY_LIMIT)
-    .map((post) => {
-      return pickPosts(post);
-    });
+    .map((post) => pickPosts(post));
 
   const tags = getTagsWithCount()
     .filter((item, i) => item[1] >= 10 && i < 25) // 件数が10件以上を25個抽出

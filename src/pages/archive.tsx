@@ -8,7 +8,7 @@ import { SITE } from '@/constant';
 import { getPostsListJson } from '@/lib/posts';
 import { Post as PropPost } from '@/types/source';
 
-type PostsProps = Partial<Pick<PropPost, 'title' | 'slug' | 'date' | 'excerpt'>>[];
+type PostsProps = Partial<Pick<PropPost, 'title' | 'slug' | 'date' | 'updated' | 'excerpt'>>[];
 
 type ArchiveProps = Record<number, PostsProps>;
 
@@ -55,8 +55,16 @@ export default function Archive({ archives, numberOfPosts }: Props) {
           .map((year) => (
             <Columns key={year} title={`${year}年`}>
               <Stack space="half">
-                {archives[year].map(({ slug, title, date, excerpt }: PropPost) => (
-                  <LinkCard key={slug} link={`/${slug}.html`} title={title} date={date} excerpt={excerpt} />
+                {archives[year].map(({ slug, title, date, updated, excerpt, tags }: PropPost) => (
+                  <LinkCard
+                    key={slug}
+                    link={`/${slug}.html`}
+                    title={title}
+                    date={date}
+                    updated={updated}
+                    excerpt={excerpt}
+                    tags={tags}
+                  />
                 ))}
               </Stack>
             </Columns>
@@ -71,12 +79,14 @@ export const config = {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts: PostsProps = getPostsListJson().map(({ title, slug, date, excerpt }) => {
+  const posts: PostsProps = getPostsListJson().map(({ title, slug, date, updated, excerpt, tags }) => {
     return {
       title,
       slug,
       date,
+      updated,
       excerpt: excerpt || '',
+      tags,
     };
   });
 
