@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react';
+import { memo } from 'react';
 
 import { RxChevronDown, RxChevronUp } from '@/ui/icons';
 import { styled } from '@/ui/styled';
