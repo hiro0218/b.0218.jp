@@ -29,8 +29,9 @@ export default PostDate;
 
 const PostDateRoot = styled.div`
   display: flex;
-  gap: var(--space-half);
+  gap: var(--space-1);
   align-items: center;
+  color: var(--text-11);
 `;
 
 const existModifiedStyle = css`

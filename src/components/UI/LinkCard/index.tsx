@@ -70,7 +70,6 @@ const Main = styled.div`
   flex-direction: column;
   flex-grow: 1;
   gap: var(--space-1);
-  justify-content: space-between;
   overflow: hidden;
   word-break: break-all;
 
