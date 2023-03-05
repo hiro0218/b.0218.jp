@@ -70,7 +70,7 @@
     "dotenv": "^16.0.3",
     "esbuild": "^0.17.11",
     "esbuild-register": "^3.4.2",
-    "eslint": "^8.34.0",
+    "eslint": "^8.35.0",
     "eslint-config-next": "^13.2.3",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
