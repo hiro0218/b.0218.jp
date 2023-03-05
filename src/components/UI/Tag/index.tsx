@@ -1,7 +1,7 @@
 import { memo } from 'react';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
 export type Props = {
   slug: string;
@@ -42,7 +42,7 @@ export const PostTagGridContainer = styled.div`
   gap: var(--space-1);
 `;
 
-const Anchor = styled(_Anchor)`
+export const PostTagAnchorStyle = css`
   flex: 1 1 auto;
   align-items: center;
   align-self: flex-start;
@@ -62,4 +62,8 @@ const Anchor = styled(_Anchor)`
   &::before {
     content: '#';
   }
+`;
+
+const Anchor = styled(_Anchor)`
+  ${PostTagAnchorStyle}
 `;

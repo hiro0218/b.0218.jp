@@ -16,7 +16,7 @@
     "lint:markup": "markuplint \"src/**/*{.jsx,.tsx}\"",
     "prepare": "husky install && playwright install chromium"
   },
-  "lint-staged": {
+  "nano-staged": {
     "**/*.{ts,tsx,js}": [
       "eslint --fix --cache",
       "eslint --cache",
@@ -68,7 +68,7 @@
     "chalk": "^5.2.0",
     "dependency-cruiser": "^12.10.0",
     "dotenv": "^16.0.3",
-    "esbuild": "^0.17.10",
+    "esbuild": "^0.17.11",
     "esbuild-register": "^3.4.2",
     "eslint": "^8.34.0",
     "eslint-config-next": "^13.2.3",
@@ -80,8 +80,8 @@
     "hastscript": "^7.2.0",
     "husky": "^8.0.3",
     "jsdom": "^21.1.0",
-    "lint-staged": "^13.1.1",
     "markuplint": "^3.3.0",
+    "nano-staged": "^0.8.0",
     "next-build-id": "^3.0.0",
     "next-compose-plugins": "^2.2.1",
     "playwright": "^1.31.1",

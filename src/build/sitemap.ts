@@ -26,7 +26,7 @@ function generatedSitemap() {
 
     xml += `<url>`;
     xml += ` <loc>${SITE.URL}${post.slug}.html</loc>`;
-    xml += ` <lastmod>${post.date}</lastmod>`;
+    xml += ` <lastmod>${post.updated || post.date}</lastmod>`;
     xml += ` <changefreq>weekly</changefreq>`;
     xml += ` <priority>0.6</priority>`;
     xml += `</url>`;

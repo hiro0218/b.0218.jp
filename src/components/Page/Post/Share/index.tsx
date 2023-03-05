@@ -81,7 +81,7 @@ const Anchor = styled.a`
     color: var(--text-11);
     white-space: nowrap;
     content: attr(title);
-    background-color: var(--component-backgrounds-4);
+    background-color: var(--component-backgrounds-3);
     border-radius: var(--border-radius-4);
     transform: translateX(-50%);
   }
