@@ -96,8 +96,8 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
     });
 
     if (result) {
-      const dom = new JSDOM(result, { virtualConsole });
-      const meta = dom.window.document.head.querySelectorAll('meta');
+      const { document } = new JSDOM(result.replace(/<body.*?>.*?<\/body>/gs, ''), { virtualConsole }).window;
+      const meta = document.head.querySelectorAll('meta');
       const ogp: OpgProps = Array.from(meta)
         .filter((element: HTMLMetaElement) => {
           const property = element.getAttribute('property');
