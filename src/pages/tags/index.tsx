@@ -31,7 +31,7 @@ export default function Tags({ tags }: Props) {
   );
 }
 
-export const getStaticProps: GetStaticProps<TermProps> = async () => {
+export const getStaticProps: GetStaticProps<TermProps> = () => {
   const tags = getTagsWithCount().map(([slug, count]) => {
     return { slug, count };
   });

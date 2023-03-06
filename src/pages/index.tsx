@@ -85,7 +85,7 @@ const pickPosts = ({ title, slug, date, updated, excerpt, tags }: Partial<PropsP
   return { title, slug, date, updated, excerpt, tags };
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = () => {
   const posts = getPostsListJson();
   const recentPosts = posts.slice(0, POST_DISPLAY_LIMIT).map((post) => {
     return pickPosts(post);

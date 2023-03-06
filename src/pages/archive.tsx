@@ -78,7 +78,7 @@ export const config = {
   unstable_runtimeJS: false,
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = () => {
   const posts: PostsProps = getPostsListJson().map(({ title, slug, date, updated, excerpt, tags }) => {
     return {
       title,

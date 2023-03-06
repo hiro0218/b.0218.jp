@@ -54,7 +54,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps<TermProps> = async (context) => {
+export const getStaticProps: GetStaticProps<TermProps> = (context) => {
   const posts = getPostsJson();
   const tags = getTagsJson();
   const slug = context.params.slug as string;
