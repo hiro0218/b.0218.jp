@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
@@ -54,7 +54,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps<TermProps> = (context) => {
+export const getStaticProps: GetStaticProps<TermProps> = (context: GetStaticPropsContext) => {
   const posts = getPostsJson();
   const tags = getTagsJson();
   const slug = context.params.slug as string;

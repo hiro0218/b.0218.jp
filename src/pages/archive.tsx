@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
@@ -10,24 +10,26 @@ import { Post as PropPost } from '@/types/source';
 
 type PostsProps = Partial<Pick<PropPost, 'title' | 'slug' | 'date' | 'updated' | 'excerpt'>>[];
 
-type ArchiveProps = Record<number, PostsProps>;
+type ArchiveListProps = Record<number, PostsProps>;
 
-type Props = {
-  archives: ArchiveProps;
+type ArchiveProps = {
+  archives: ArchiveListProps;
   numberOfPosts: number;
 };
+
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const getYear = (date: PropPost['date']) => Number(date.slice(0, 4));
 
 const generateYearList = (archives: PostsProps) => {
-  const list: ArchiveProps = {};
+  const list: ArchiveListProps = {};
 
   [...new Set(archives.map(({ date }) => getYear(date)))].map((year) => (list[year] = []));
 
   return list;
 };
 
-const divideByYearArchive = (archives: PostsProps): ArchiveProps => {
+const divideByYearArchive = (archives: PostsProps): ArchiveListProps => {
   const formattedArchives = generateYearList(archives);
 
   for (let i = 0; i < archives.length; i++) {
@@ -78,7 +80,7 @@ export const config = {
   unstable_runtimeJS: false,
 };
 
-export const getStaticProps: GetStaticProps = () => {
+export const getStaticProps: GetStaticProps<ArchiveProps> = () => {
   const posts: PostsProps = getPostsListJson().map(({ title, slug, date, updated, excerpt, tags }) => {
     return {
       title,
