@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 
 import { Hero } from '@/components/Page/Home/Hero';
@@ -15,11 +15,15 @@ import { Post as PropsPost } from '@/types/source';
 
 const POST_DISPLAY_LIMIT = 5;
 
-interface Props {
-  recentPosts: PropsPost[];
-  updatesPosts: PropsPost[];
+type pickupPostsProps = Pick<PropsPost, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>;
+
+type IndexProps = {
+  recentPosts: pickupPostsProps[];
+  updatesPosts: pickupPostsProps[];
   tags: PostTagProps[];
-}
+};
+
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export default function Index({ recentPosts, updatesPosts, tags }: Props) {
   return (
@@ -81,11 +85,11 @@ export default function Index({ recentPosts, updatesPosts, tags }: Props) {
   );
 }
 
-const pickPosts = ({ title, slug, date, updated, excerpt, tags }: Partial<PropsPost>) => {
+const pickPosts = ({ title, slug, date, updated, excerpt, tags }: Partial<PropsPost>): pickupPostsProps => {
   return { title, slug, date, updated, excerpt, tags };
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<IndexProps> = () => {
   const posts = getPostsListJson();
   const recentPosts = posts.slice(0, POST_DISPLAY_LIMIT).map((post) => {
     return pickPosts(post);

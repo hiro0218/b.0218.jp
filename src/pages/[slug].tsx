@@ -93,7 +93,7 @@ export default function Post({ post, nextRead }: Props) {
   );
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   const posts = getPostsJson();
   const paths = posts.map((post) => ({
     params: { slug: `${post.slug}.html` },
@@ -102,7 +102,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: false };
 };
 
-export const getStaticProps: GetStaticProps<PostProps> = async (context) => {
+export const getStaticProps: GetStaticProps<PostProps> = (context) => {
   const posts = getPostsJson();
   const slug = (context.params.slug as string).replace('.html', '');
 

@@ -1,18 +1,18 @@
-import { memo, useCallback } from 'react';
+import { memo } from 'react';
 
 import { RxChevronDown, RxChevronUp } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 export const PageScroll = memo(function PageScroll() {
-  const onScrollTop = useCallback(() => {
+  const onScrollTop = () => {
     window.scroll({
       top: 0,
       left: 0,
       behavior: 'smooth',
     });
-  }, []);
+  };
 
-  const onScrollBottom = useCallback(() => {
+  const onScrollBottom = () => {
     const documentElement = document.documentElement;
     const positionBottom = documentElement.scrollHeight - documentElement.clientHeight;
 
@@ -21,7 +21,7 @@ export const PageScroll = memo(function PageScroll() {
       left: 0,
       behavior: 'smooth',
     });
-  }, []);
+  };
 
   return (
     <Container>
