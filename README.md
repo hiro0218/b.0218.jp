@@ -1,17 +1,17 @@
 # b.0218.jp
 
-This repository maintains the source code for b.0218.jp
+This repository contains the source code for `b.0218.jp`, a web application built using Next.js and TypeScript. Article data is stored in a separate repository and loaded through a submodule.
 
 ## Technologies used
 
-- Next.js
-- TypeScript
+- [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
 
 Article data is managed in a separate repository and loaded via submodule.
 
 ## Preparing for development
 
-First, prepare the .env file.
+Before you begin development, make sure to prepare the .env file with the following contents:
 
 ```ini
 TZ=Asia/Tokyo
@@ -29,7 +29,7 @@ However, if you have run `npm run build` beforehand, you do not need to run `npm
 
 ### Development
 
-The Next.js development server will be started.
+To start the Next.js development server, run the following command:
 
 ```
 npm run dev
@@ -37,7 +37,7 @@ npm run dev
 
 ### Production build
 
-The Next.js build will be executed.
+To execute the Next.js build for production, run the following command:
 
 ```
 npm run build
