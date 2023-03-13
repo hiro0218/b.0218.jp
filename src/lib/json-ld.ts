@@ -9,10 +9,10 @@ export const getDescriptionText = (postContent: string): string => {
       // strip line break
       .replace(/(?:\r\n|\r|\n)/g, '')
       // strip tag
-      .replace(/<\/?[^>]+(>|$)/g, ' ')
+      .replace(/<\/?[^>]+(>|$)/g, '')
       // delete consecutive spaces
       .trim()
-      .replace(/ +/g, ' ')
+      .replace(/\s{2,}/gu, ' ')
       // character extraction
       .substring(0, 140)
   );
