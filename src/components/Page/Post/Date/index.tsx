@@ -1,23 +1,23 @@
-import { convertDateToSimpleFormat, isSameDate } from '@/lib/date';
+import { convertDateToSimpleFormat, isSameDay } from '@/lib/date';
 import { Post } from '@/types/source';
 import { css, styled } from '@/ui/styled';
 
 type Props = Pick<Post, 'date' | 'updated'>;
 
 const PostDate = ({ date, updated }: Props) => {
-  const existsModified = !isSameDate(date, updated);
+  const existsModified = updated && !isSameDay(new Date(date), new Date(updated));
 
   return (
     <PostDateRoot>
       <PostDateItem existModified={existsModified}>
         <time dateTime={date} itemProp="datePublished" title={'投稿日時: ' + date}>
-          {convertDateToSimpleFormat(date)}
+          {convertDateToSimpleFormat(new Date(date))}
         </time>
       </PostDateItem>
-      {existsModified && (
+      {updated && (
         <PostDateItem>
           <time dateTime={updated} itemProp="dateModified" title={'更新日時: ' + updated}>
-            {convertDateToSimpleFormat(updated)}
+            {convertDateToSimpleFormat(new Date(updated))}
           </time>
         </PostDateItem>
       )}
