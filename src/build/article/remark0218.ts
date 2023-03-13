@@ -129,7 +129,7 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
           tmp[key] = element.getAttribute('content');
           return tmp;
         }, {});
-      const domain = url.split('/')[2];
+      const domain = new URL(url).hostname;
 
       setPreviewLinkNodes(node, index, parent, domain, ogp);
     }
