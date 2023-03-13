@@ -81,10 +81,15 @@ const canTransformLinkPreview = (node: Element, index: number, parent: Element) 
   return !prevNode && !nextNode;
 };
 
+const normalizeURL = (url: string) => {
+  const parseURL = new URL(url);
+  return `${parseURL.protocol}//${parseURL.hostname}${parseURL.pathname}`;
+};
+
 const transformLinkPreview = async (node: Element, index: number, parent: Element) => {
   if (!canTransformLinkPreview(node, index, parent)) return;
 
-  const url = node.properties.href as string;
+  const url = normalizeURL(node.properties.href as string);
   const headers = { 'User-Agent': 'Twitterbot/1.0' };
 
   try {
