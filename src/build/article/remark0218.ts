@@ -81,6 +81,12 @@ const canTransformLinkPreview = (node: Element, index: number, parent: Element) 
   return !prevNode && !nextNode;
 };
 
+const isValidURL = (url: string) => {
+  const regex =
+    /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-zA-Z0-9]+([-.]{1}[a-zA-Z0-9]+)*\.[a-zA-Z]{2,}(\/.*)?$/;
+  return regex.test(url);
+};
+
 const normalizeURL = (url: string) => {
   const parseURL = new URL(url);
   return `${parseURL.protocol}//${parseURL.hostname}${parseURL.pathname}`;
@@ -89,7 +95,11 @@ const normalizeURL = (url: string) => {
 const transformLinkPreview = async (node: Element, index: number, parent: Element) => {
   if (!canTransformLinkPreview(node, index, parent)) return;
 
-  const url = normalizeURL(node.properties.href as string);
+  const href = node.properties.href as string;
+
+  if (!isValidURL(href)) return;
+
+  const url = normalizeURL(href);
   const headers = { 'User-Agent': 'Twitterbot/1.0' };
 
   try {
