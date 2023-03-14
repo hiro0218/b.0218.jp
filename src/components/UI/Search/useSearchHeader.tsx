@@ -53,7 +53,7 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
     const cachedValue = window.localStorage.getItem(STORAGE_KEY);
 
     if (cachedValue) {
-      setArchives(parseJSON(cachedValue));
+      setArchives(parseJSON<Post[]>(cachedValue));
       resetLocalStorage();
       return;
     }

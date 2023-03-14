@@ -55,8 +55,8 @@ async function buildPost() {
     posts.push({
       title: title.trim(),
       slug: file.replace('.md', ''),
-      date,
-      updated: updated || '',
+      date: new Date(date).toISOString(),
+      updated: updated ? new Date(updated).toISOString() : '',
       ...(noteContent && { note: noteContent }),
       content: content.trim(),
       excerpt: getHeading2Text(content),

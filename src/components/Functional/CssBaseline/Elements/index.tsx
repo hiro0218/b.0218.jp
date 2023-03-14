@@ -129,7 +129,7 @@ export default css`
     overflow: auto;
     font-size: var(--font-size-sm);
     overflow-wrap: break-word;
-    background: var(--backgrounds-2);
+    background: var(--backgrounds-1);
     border-radius: var(--border-radius-2);
     -webkit-overflow-scrolling: touch;
     /* stylelint-disable */

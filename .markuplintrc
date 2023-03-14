@@ -1,5 +1,6 @@
 {
   "excludeFiles": [
+    "./src/**/*.ts",
     "./src/_app.tsx",
     "./src/_document.tsx"
   ],

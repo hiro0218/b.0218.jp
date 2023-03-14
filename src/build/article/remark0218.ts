@@ -6,6 +6,8 @@ import { visit } from 'unist-util-visit';
 
 import * as Log from '@/lib/Log';
 
+import { isValidURL, normalizeURL } from './url';
+
 type OpgProps = {
   description?: string;
   image?: string;
@@ -84,7 +86,11 @@ const canTransformLinkPreview = (node: Element, index: number, parent: Element) 
 const transformLinkPreview = async (node: Element, index: number, parent: Element) => {
   if (!canTransformLinkPreview(node, index, parent)) return;
 
-  const url = node.properties.href as string;
+  const href = node.properties.href as string;
+
+  if (!isValidURL(href)) return;
+
+  const url = normalizeURL(href);
   const headers = { 'User-Agent': 'Twitterbot/1.0' };
 
   try {
@@ -114,7 +120,7 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
           tmp[key] = element.getAttribute('content');
           return tmp;
         }, {});
-      const domain = url.split('/')[2];
+      const domain = new URL(url).hostname;
 
       setPreviewLinkNodes(node, index, parent, domain, ogp);
     }
