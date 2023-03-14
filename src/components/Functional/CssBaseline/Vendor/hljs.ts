@@ -1,21 +1,30 @@
+import { blue, gray, green, orange, purple, red } from '@radix-ui/colors';
+
 import { css } from '@/ui/styled';
 
-/**
- * @see https://github.com/highlightjs/highlight.js/blob/main/src/styles/a11y-light.css
- */
 export default css`
   .hljs {
-    background: #fefefe;
-    color: #545454;
+    background: ${gray.gray1};
+    color: ${gray.gray12};
   }
 
-  /* Comment */
   .hljs-comment,
-  .hljs-quote {
-    color: #696969;
+  .hljs-code,
+  .hljs-quote,
+  .hljs-formula {
+    color: ${gray.gray11};
   }
 
-  /* Red */
+  .hljs-doctag,
+  .hljs-keyword,
+  .hljs-meta .hljs-keyword,
+  .hljs-template-tag,
+  .hljs-template-variable,
+  .hljs-type,
+  .hljs-variable.language_ {
+    color: ${red.red11};
+  }
+
   .hljs-variable,
   .hljs-template-variable,
   .hljs-tag,
@@ -24,10 +33,9 @@ export default css`
   .hljs-selector-class,
   .hljs-regexp,
   .hljs-deletion {
-    color: #d91e18;
+    color: ${red.red11};
   }
 
-  /* Orange */
   .hljs-number,
   .hljs-built_in,
   .hljs-literal,
@@ -35,32 +43,32 @@ export default css`
   .hljs-params,
   .hljs-meta,
   .hljs-link {
-    color: #aa5d00;
+    color: ${orange.orange11};
   }
 
-  /* Yellow */
+  .hljs-variable,
+  .hljs-params,
+  .hljs-attr,
   .hljs-attribute {
-    color: #aa5d00;
+    color: ${green.green11};
   }
 
-  /* Green */
   .hljs-string,
   .hljs-symbol,
-  .hljs-bullet,
   .hljs-addition {
-    color: #008000;
+    color: ${green.green11};
   }
 
-  /* Blue */
+  .hljs-bullet,
   .hljs-title,
   .hljs-section {
-    color: #007faa;
+    color: ${blue.blue11};
   }
 
-  /* Purple */
   .hljs-keyword,
-  .hljs-selector-tag {
-    color: #7928a1;
+  .hljs-selector-tag,
+  .hljs-selector-pseudo {
+    color: ${purple.purple11};
   }
 
   .hljs-emphasis {
