@@ -1,9 +1,11 @@
-import 'highlight.js/styles/a11y-light.css';
-
 import { css } from '@/ui/styled';
+
+import hljsStyle from './hljs';
 
 export default css`
   /* hljs */
+  ${hljsStyle}
+
   pre code.hljs {
     padding: var(--space-3);
     overflow-x: auto;
