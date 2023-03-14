@@ -6,6 +6,8 @@ import { visit } from 'unist-util-visit';
 
 import * as Log from '@/lib/Log';
 
+import { isValidURL, normalizeURL } from './url';
+
 type OpgProps = {
   description?: string;
   image?: string;
@@ -79,17 +81,6 @@ const canTransformLinkPreview = (node: Element, index: number, parent: Element) 
 
   // 前後が空行だった場合はtrue
   return !prevNode && !nextNode;
-};
-
-const isValidURL = (url: string) => {
-  const regex =
-    /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-zA-Z0-9]+([-.]{1}[a-zA-Z0-9]+)*\.[a-zA-Z]{2,}(\/.*)?$/;
-  return regex.test(url);
-};
-
-const normalizeURL = (url: string) => {
-  const parseURL = new URL(url);
-  return `${parseURL.protocol}//${parseURL.hostname}${parseURL.pathname}`;
 };
 
 const transformLinkPreview = async (node: Element, index: number, parent: Element) => {
