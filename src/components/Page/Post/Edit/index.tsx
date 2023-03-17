@@ -10,8 +10,8 @@ const PostEdit = ({ slug }: Props) => {
     <Container>
       <Anchor
         href={`https://github.com/hiro0218/article/edit/master/_posts/${slug}.md`}
-        target="_blank"
         rel="noreferrer"
+        target="_blank"
       >
         <RxGithubLogo size={18} />
         Edit on GitHub

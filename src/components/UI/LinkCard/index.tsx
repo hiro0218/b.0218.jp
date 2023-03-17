@@ -32,7 +32,7 @@ const LinkCard = ({ link, title, date, updated, excerpt, tags, role }: Props) =>
     <Container role={role}>
       <Main>
         {date && <PostDate date={date} updated={updated} />}
-        <Anchor href={link} prefetch={false} passHref>
+        <Anchor href={link} passHref prefetch={false}>
           <Title>{title}</Title>
         </Anchor>
         <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>{excerpt && <span>{excerpt}</span>}</Paragraph>

@@ -59,13 +59,13 @@ export default function Archive({ archives, numberOfPosts }: Props) {
               <Stack space="half">
                 {archives[year].map(({ slug, title, date, updated, excerpt, tags }: PropPost) => (
                   <LinkCard
+                    date={date}
+                    excerpt={excerpt}
                     key={slug}
                     link={`/${slug}.html`}
-                    title={title}
-                    date={date}
-                    updated={updated}
-                    excerpt={excerpt}
                     tags={tags}
+                    title={title}
+                    updated={updated}
                   />
                 ))}
               </Stack>

@@ -124,12 +124,12 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
           <RxMagnifyingGlass size="24" />
         </HeaderIcon>
         <SearchInput
-          type="text"
-          placeholder="記事のタイトルから検索する（入力してEnterを押すと検索結果が表示）"
-          id="search-input"
           autoComplete="off"
-          ref={refInput}
+          id="search-input"
           onKeyUp={onKeyup}
+          placeholder="記事のタイトルから検索する（入力してEnterを押すと検索結果が表示）"
+          ref={refInput}
+          type="text"
         />
       </Header>
     ),

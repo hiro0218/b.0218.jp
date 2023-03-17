@@ -21,7 +21,7 @@ export default function Tags({ title, posts }: Props) {
     <>
       <Head>
         <title key="title">{`${pageTitle}: ${title} - ${SITE.NAME}`}</title>
-        <meta name="robots" content="noindex" />
+        <meta content="noindex" name="robots" />
       </Head>
 
       <PageContainer as="section">
@@ -31,11 +31,11 @@ export default function Tags({ title, posts }: Props) {
           <Stack space="half">
             {posts.map((post) => (
               <LinkCard
+                date={post.date}
+                excerpt={post.excerpt}
                 key={post.slug}
                 link={`/${post.slug}.html`}
                 title={post.title}
-                date={post.date}
-                excerpt={post.excerpt}
               />
             ))}
           </Stack>

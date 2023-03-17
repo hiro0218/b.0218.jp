@@ -17,8 +17,8 @@ export default memo(function TheHeader() {
     <>
       <HeaderLayout>
         <Container>
-          <Anchor href="/" prefetch={false} passHref>
-            <Logo width="80" height="25" />
+          <Anchor href="/" passHref prefetch={false}>
+            <Logo height="25" width="80" />
           </Anchor>
           {SearchButton}
         </Container>

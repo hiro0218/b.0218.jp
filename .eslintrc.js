@@ -10,14 +10,11 @@ module.exports = {
     },
   },
   plugins: ['simple-import-sort', '@typescript-eslint'],
-  extends: [
-    'next/core-web-vitals',
-    'plugin:@typescript-eslint/recommended',
-    'eslint-config-prettier',
-  ],
+  extends: ['next/core-web-vitals', 'plugin:@typescript-eslint/recommended', 'eslint-config-prettier'],
   rules: {
     complexity: ['error', 10],
     'simple-import-sort/imports': 'warn',
+    'react/jsx-sort-props': 'warn',
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',

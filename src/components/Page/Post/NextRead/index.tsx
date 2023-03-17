@@ -19,11 +19,11 @@ const PostNextRead = ({ posts }: Props) => {
       <Container>
         {posts.map((post) => (
           <LinkCard
+            date={post.date}
+            excerpt={post.excerpt}
             key={post.slug}
             link={`${post.slug}.html`}
             title={post.title}
-            date={post.date}
-            excerpt={post.excerpt}
           />
         ))}
       </Container>

@@ -31,9 +31,9 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
       return (
         style.css && (
           <style
+            dangerouslySetInnerHTML={{ __html: style.css }}
             data-emotion={`${style.key} ${style.ids.join(' ')}`}
             key={style.key}
-            dangerouslySetInnerHTML={{ __html: style.css }}
           />
         )
       );
@@ -58,20 +58,19 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
     ];
 
     return (
-      <Html prefix={ogpPrefix} lang="ja">
+      <Html lang="ja" prefix={ogpPrefix}>
         <Head>
           {dnsPrefetchHref.map((href, index) => {
-            return <link key={href + index} rel="dns-prefetch" href={href} />;
+            return <link href={href} key={href + index} rel="dns-prefetch" />;
           })}
-          <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
-          <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-          <link rel="alternate" type="application/rss+xml" href={`${SITE.URL}feed.xml`} />
-          <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" />
+          <link href="https://googleads.g.doubleclick.net" rel="preconnect" />
+          <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+          <link href={`${SITE.URL}feed.xml`} rel="alternate" type="application/rss+xml" />
+          <link href="/opensearch.xml" rel="search" type="application/opensearchdescription+xml" />
           {Object.entries(URL).map(([key, url]) => {
-            return key !== 'SITE' && <link key={key} rel="me" href={url} />;
+            return key !== 'SITE' && <link href={url} key={key} rel="me" />;
           })}
           <script
-            type="application/ld+json"
             dangerouslySetInnerHTML={{
               __html: JSON.stringify({
                 '@context': 'https://schema.org',
@@ -80,11 +79,12 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
                 logo: AUTHOR.ICON,
               }),
             }}
+            type="application/ld+json"
           ></script>
           <script
             async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GOOGLE_ADSENSE.CLIENT}`}
             crossOrigin="anonymous"
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GOOGLE_ADSENSE.CLIENT}`}
           ></script>
         </Head>
         <body>
