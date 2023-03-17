@@ -35,11 +35,11 @@ export const Adsense = () => {
     <Ads key={asPath}>
       <ins
         className="adsbygoogle"
-        style={{ display: 'block', textAlign: 'center' }}
-        data-ad-layout={GOOGLE_ADSENSE.LAYOUT}
-        data-ad-format={GOOGLE_ADSENSE.FORMAT}
         data-ad-client={GOOGLE_ADSENSE.CLIENT}
+        data-ad-format={GOOGLE_ADSENSE.FORMAT}
+        data-ad-layout={GOOGLE_ADSENSE.LAYOUT}
         data-ad-slot={GOOGLE_ADSENSE.SLOT}
+        style={{ display: 'block', textAlign: 'center' }}
       />
     </Ads>
   );

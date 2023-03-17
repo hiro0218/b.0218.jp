@@ -29,7 +29,7 @@ export default function Index({ recentPosts, updatesPosts, tags }: Props) {
   return (
     <>
       <Head>
-        <meta name="thumbnail" content={AUTHOR.ICON} />
+        <meta content={AUTHOR.ICON} name="thumbnail" />
       </Head>
 
       <PageContainer>
@@ -45,13 +45,13 @@ export default function Index({ recentPosts, updatesPosts, tags }: Props) {
             <Stack space="half">
               {recentPosts.map((post) => (
                 <LinkCard
+                  date={post.date}
+                  excerpt={post.excerpt}
                   key={post.slug}
                   link={`${post.slug}.html`}
-                  title={post.title}
-                  date={post.date}
-                  updated={post.updated}
-                  excerpt={post.excerpt}
                   tags={post.tags}
+                  title={post.title}
+                  updated={post.updated}
                 />
               ))}
             </Stack>
@@ -61,13 +61,13 @@ export default function Index({ recentPosts, updatesPosts, tags }: Props) {
             <Stack space="half">
               {updatesPosts.map((post) => (
                 <LinkCard
+                  date={post.date}
+                  excerpt={post.excerpt}
                   key={post.slug}
                   link={`${post.slug}.html`}
-                  title={post.title}
-                  date={post.date}
-                  updated={post.updated}
-                  excerpt={post.excerpt}
                   tags={post.tags}
+                  title={post.title}
+                  updated={post.updated}
                 />
               ))}
             </Stack>

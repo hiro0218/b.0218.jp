@@ -33,40 +33,40 @@ export default function Post({ post, nextRead }: Props) {
     <>
       <Head>
         <title key="title">{post.title}</title>
-        <meta key="description" name="description" content={description} />
-        <meta key="og:url" property="og:url" content={permalink} />
-        <meta key="og:title" property="og:title" content={post.title} />
-        <meta key="og:type" property="og:type" content="article" />
-        <meta key="og:description" property="og:description" content={description} />
-        <meta key="og:updated_time" property="og:updated_time" content={post.updated || post.date} />
-        <meta key="article:published_time" property="article:published_time" content={post.date} />
-        <meta key="article:modified_time" property="article:modified_time" content={post.updated || post.date} />
+        <meta content={description} key="description" name="description" />
+        <meta content={permalink} key="og:url" property="og:url" />
+        <meta content={post.title} key="og:title" property="og:title" />
+        <meta content="article" key="og:type" property="og:type" />
+        <meta content={description} key="og:description" property="og:description" />
+        <meta content={post.updated || post.date} key="og:updated_time" property="og:updated_time" />
+        <meta content={post.date} key="article:published_time" property="article:published_time" />
+        <meta content={post.updated || post.date} key="article:modified_time" property="article:modified_time" />
         <meta
+          content={`${SITE.URL}images/ogp/${post.slug}.webp?ts=${process.env.BUILD_ID}`}
           key="og:image"
           property="og:image"
-          content={`${SITE.URL}images/ogp/${post.slug}.webp?ts=${process.env.BUILD_ID}`}
         />
-        <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:label1" content="Written by" />
-        <meta name="twitter:data1" content={AUTHOR.NAME} />
-        <meta name="twitter:label2" content="Reading time" />
-        <meta name="twitter:data2" content={`${post.readingTime} ${READ_TIME_SUFFIX}`} />
-        {post.noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={permalink} />}
+        <meta content="summary_large_image" key="twitter:card" name="twitter:card" />
+        <meta content="Written by" name="twitter:label1" />
+        <meta content={AUTHOR.NAME} name="twitter:data1" />
+        <meta content="Reading time" name="twitter:label2" />
+        <meta content={`${post.readingTime} ${READ_TIME_SUFFIX}`} name="twitter:data2" />
+        {post.noindex ? <meta content="noindex" name="robots" /> : <link href={permalink} rel="canonical" />}
         <script
-          type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify([getBlogPostingStructured(post), getBreadcrumbStructured(post)]),
           }}
+          type="application/ld+json"
         />
       </Head>
 
       {post.content.includes('twitter-tweet') && (
-        <Script strategy="lazyOnload" src="https://platform.twitter.com/widgets.js" />
+        <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />
       )}
 
       <PageContainer as="article">
         <Title heading={post.segmentedTitle}>
-          <PostHeader date={post.date} updated={post.updated} readingTime={post.readingTime} tags={post.tags} />
+          <PostHeader date={post.date} readingTime={post.readingTime} tags={post.tags} updated={post.updated} />
         </Title>
 
         <PostNote note={post.note} />
@@ -74,11 +74,11 @@ export default function Post({ post, nextRead }: Props) {
         <Mokuji refContent={refContent} />
 
         <PostContent
-          ref={refContent}
-          itemProp="articleBody"
           dangerouslySetInnerHTML={{
             __html: `${post.content}`,
           }}
+          itemProp="articleBody"
+          ref={refContent}
         />
 
         <Adsense />

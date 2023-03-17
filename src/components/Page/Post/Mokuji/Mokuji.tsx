@@ -26,8 +26,8 @@ const Mokuji = ({ refContent }: MokujiProps) => {
       <Details ref={refDetails}>
         <Summary>
           目次
-          <RxTriangleDown size={20} data-disclosure="closed" />
-          <RxTriangleUp size={20} data-disclosure="open" />
+          <RxTriangleDown data-disclosure="closed" size={20} />
+          <RxTriangleUp data-disclosure="open" size={20} />
         </Summary>
         <DetailsContent ref={refDetailContent} />
       </Details>

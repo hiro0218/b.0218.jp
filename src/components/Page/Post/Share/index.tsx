@@ -27,8 +27,8 @@ const PostShare = ({ title, url }: Props) => {
       <Container>
         <Anchor
           href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}`}
-          target="_blank"
           rel="noopener noreferrer"
+          target="_blank"
           title="Twitterでツイートする"
         >
           <IconContainer>
@@ -37,15 +37,15 @@ const PostShare = ({ title, url }: Props) => {
         </Anchor>
         <Anchor
           href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`}
-          target="_blank"
           rel="noopener noreferrer"
+          target="_blank"
           title="はてなブックマークでブックマークする"
         >
           <IconContainer>
             <SiHatenabookmark size={ICON_SIZE / 2} />
           </IconContainer>
         </Anchor>
-        <Anchor as="button" type="button" title="記事のURLをコピーする" onClick={onClickCopyPermalink}>
+        <Anchor as="button" onClick={onClickCopyPermalink} title="記事のURLをコピーする" type="button">
           <IconContainer>
             <RxLink2 size={ICON_SIZE / 2} />
           </IconContainer>

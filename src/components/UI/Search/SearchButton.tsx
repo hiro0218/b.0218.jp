@@ -8,7 +8,7 @@ type Props = {
 
 export const SearchButton = ({ openDialog }: Props) => {
   return (
-    <Button type="button" aria-label="Search" onClick={openDialog}>
+    <Button aria-label="Search" onClick={openDialog} type="button">
       <RxMagnifyingGlass size="20" />
     </Button>
   );

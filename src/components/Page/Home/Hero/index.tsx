@@ -10,11 +10,11 @@ export const Hero = memo(function Hero() {
   return (
     <Container>
       <Avatar>
-        <img src="/hiro0218@100x100.webp" height={ICON_SIZE} width={ICON_SIZE} alt="" decoding="async" />
+        <img alt="" decoding="async" height={ICON_SIZE} src="/hiro0218@100x100.webp" width={ICON_SIZE} />
       </Avatar>
       <Title
-        headingTagName="h2"
         heading="Hi, I'm hiro."
+        headingTagName="h2"
         paragraph="Web Developer (Frontend) | Development Experience: Backend, iOS App, Windows App"
       />
     </Container>

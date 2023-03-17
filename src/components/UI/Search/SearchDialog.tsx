@@ -28,7 +28,7 @@ export const SearchDialog = forwardRef(function SearchDialog({ isActive, closeDi
 
   return createPortal(
     <>
-      <Dialog ref={ref} aria-modal aria-labelledby={labelledbyId} aria-describedby={describedbyId}>
+      <Dialog aria-describedby={describedbyId} aria-labelledby={labelledbyId} aria-modal ref={ref}>
         <ScreenReaderOnlyText as="h2" id={labelledbyId} text="記事検索" />
         <ScreenReaderOnlyText as="p" id={describedbyId} text="記事のタイトルから検索することができます" />
         <SearchPanel closeDialog={closeDialog} />

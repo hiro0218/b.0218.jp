@@ -25,10 +25,10 @@ export const PageScroll = memo(function PageScroll() {
 
   return (
     <Container>
-      <Button type="button" aria-label="ページの最上部へスクロールする" onClick={onScrollTop}>
+      <Button aria-label="ページの最上部へスクロールする" onClick={onScrollTop} type="button">
         <RxChevronUp size={24} />
       </Button>
-      <Button type="button" aria-label="ページの最下部へスクロールする" onClick={onScrollBottom}>
+      <Button aria-label="ページの最下部へスクロールする" onClick={onScrollBottom} type="button">
         <RxChevronDown size={24} />
       </Button>
     </Container>
