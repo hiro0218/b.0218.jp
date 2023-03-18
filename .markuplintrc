@@ -11,7 +11,7 @@
     "\\.[jt]sx?$": "@markuplint/react-spec"
   },
   "extends": [
-    "markuplint:recommended"
+    "markuplint:recommended-react"
   ],
   "nodeRules": [
     {
