@@ -30,9 +30,7 @@
     ]
   },
   "browserslist": [
-    "> 1%",
-    "not dead",
-    "not op_mini all"
+    "last 2 versions and >= 1% in JP and not dead, last 2 Firefox versions"
   ],
   "dependencies": {
     "@emotion/cache": "^11.10.5",
