@@ -2,8 +2,7 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 
 import { Hero } from '@/components/Page/Home/Hero';
-import { LinkMoreArchive } from '@/components/Page/Home/LinkMore';
-import { LinkMoreTag } from '@/components/Page/Home/LinkMore/index';
+import { LinkMoreArchive, LinkMoreTag } from '@/components/Page/Home/LinkMore';
 import Heading from '@/components/UI/Heading';
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
