@@ -1,6 +1,4 @@
-// @ts-check
-
-/** @type {import('eslint/lib/shared/types').ConfigData} */
+/** @type {import('eslint').Linter.Config} */
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -9,7 +7,7 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ['simple-import-sort', '@typescript-eslint'],
+  plugins: ['simple-import-sort', '@typescript-eslint', 'unused-imports'],
   extends: ['next/core-web-vitals', 'plugin:@typescript-eslint/recommended', 'eslint-config-prettier'],
   rules: {
     complexity: ['error', 10],
@@ -19,6 +17,16 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@next/next/no-img-element': 'off',
+    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': [
+      'error',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
   },
   overrides: [
     {
