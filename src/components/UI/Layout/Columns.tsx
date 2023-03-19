@@ -13,7 +13,7 @@ export interface ContainerProps {
 const Columns = memo(function Columns({ title, titleTagName = 'h2', children, ...others }: ContainerProps) {
   return (
     <Root {...others}>
-      <ColumnTitle>{title && <TitleText as={titleTagName}>{title}</TitleText>}</ColumnTitle>
+      <ColumnTitle>{!!title && <TitleText as={titleTagName}>{title}</TitleText>}</ColumnTitle>
       <ColumnMain>{children}</ColumnMain>
     </Root>
   );

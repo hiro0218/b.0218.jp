@@ -5,16 +5,16 @@ import { css, styled } from '@/ui/styled';
 type Props = Pick<Post, 'date' | 'updated'>;
 
 const PostDate = ({ date, updated }: Props) => {
-  const existsModified = updated && !isSameDay(new Date(date), new Date(updated));
+  const hasModified = updated && !isSameDay(new Date(date), new Date(updated));
 
   return (
     <PostDateRoot>
-      <PostDateItem existModified={existsModified}>
+      <PostDateItem existModified={hasModified}>
         <time dateTime={date} itemProp="datePublished" title={'投稿日時: ' + date}>
           {convertDateToSimpleFormat(new Date(date))}
         </time>
       </PostDateItem>
-      {updated && (
+      {!!updated && (
         <PostDateItem>
           <time dateTime={updated} itemProp="dateModified" title={'更新日時: ' + updated}>
             {convertDateToSimpleFormat(new Date(updated))}

@@ -17,9 +17,9 @@ const Heading = ({ as = 'h1', text, textSide, textSub, isWeightNormal = true }: 
         <HeaderTitle as={as} weight={isWeightNormal}>
           {text}
         </HeaderTitle>
-        {textSub && <HeaderSub>{textSub}</HeaderSub>}
+        {!!textSub && <HeaderSub>{textSub}</HeaderSub>}
       </Main>
-      {textSide && <Side>{textSide}</Side>}
+      {!!textSide && <Side>{textSide}</Side>}
     </Container>
   );
 };

@@ -15,9 +15,9 @@ export const Title = ({ headingTagName: Tag = 'h1', heading, paragraph, sideElem
     <Container>
       <Main>
         <HeaderTitle as={Tag} dangerouslySetInnerHTML={{ __html: heading }}></HeaderTitle>
-        {paragraph && <P>{paragraph}</P>}
+        {!!paragraph && <P>{paragraph}</P>}
       </Main>
-      {sideElement && <Side>{sideElement}</Side>}
+      {!!sideElement && <Side>{sideElement}</Side>}
     </Container>
     {children}
   </>

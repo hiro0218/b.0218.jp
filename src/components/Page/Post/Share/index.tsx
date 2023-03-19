@@ -3,8 +3,7 @@ import { useCallback } from 'react';
 import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { fadeIn } from '@/ui/animation';
-import { SiHatenabookmark, SiTwitter } from '@/ui/icons';
-import { RxLink2 } from '@/ui/icons';
+import { RxLink2, SiHatenabookmark, SiTwitter } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 

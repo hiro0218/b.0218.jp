@@ -47,6 +47,7 @@ async function buildPost() {
 
     // front matter を取得
     const post = matter.read(`${PATH.SRC}/_posts/${file}`);
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { title, date, updated, note, tags, noindex }: Partial<PropPost> = post.data;
     const content = (await markdownToHtmlString(post.content)) || null;
     const noteContent = (await markdownToHtmlString(note, true)) || null;
