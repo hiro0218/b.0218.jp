@@ -10,8 +10,8 @@ import { styled } from '@/ui/styled';
 import { HeaderLayout } from './HeaderLayout';
 
 export default memo(function TheHeader() {
-  const { ref, locked, openDialog, closeDialog } = useDialog();
-  const { SearchButton, SearchDialog } = useSearch({ refModal: ref, isActive: locked, openDialog, closeDialog });
+  const { ref, isLocked, openDialog, closeDialog } = useDialog();
+  const { SearchButton, SearchDialog } = useSearch({ refModal: ref, isActive: isLocked, openDialog, closeDialog });
 
   return (
     <>

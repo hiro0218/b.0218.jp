@@ -1,14 +1,14 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function throttle<T extends (...args: any[]) => any>(callback: T): T {
-  let scheduled = false;
+  let isScheduled = false;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return function (...args: any[]) {
-    if (!scheduled) {
-      scheduled = true;
+    if (!isScheduled) {
+      isScheduled = true;
       window.requestAnimationFrame(() => {
         callback(...args);
-        scheduled = false;
+        isScheduled = false;
       });
     }
   } as T;

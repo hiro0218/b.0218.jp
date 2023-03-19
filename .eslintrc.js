@@ -20,6 +20,15 @@ module.exports = {
   rules: {
     '@next/next/no-img-element': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/naming-convention': [
+      'error',
+      {
+        selector: 'variable',
+        types: ['boolean'],
+        format: ['PascalCase'],
+        prefix: ['is', 'has', 'should'],
+      },
+    ],
     complexity: ['error', 10],
     'import/no-unassigned-import': 'off',
     'import/no-default-export': 'off',
