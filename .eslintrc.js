@@ -7,6 +7,7 @@ module.exports = {
     es2022: true,
   },
   extends: ['next/core-web-vitals', 'plugin:@typescript-eslint/recommended', 'eslint-config-prettier'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     ecmaFeatures: {
