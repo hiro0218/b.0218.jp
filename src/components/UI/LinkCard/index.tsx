@@ -31,11 +31,11 @@ const LinkCard = ({ link, title, date, updated, excerpt, tags, role }: Props) =>
   return (
     <Container role={role}>
       <Main>
-        {date && <PostDate date={date} updated={updated} />}
+        {!!date && <PostDate date={date} updated={updated} />}
         <Anchor href={link} passHref prefetch={false}>
           <Title>{title}</Title>
         </Anchor>
-        <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>{excerpt && <span>{excerpt}</span>}</Paragraph>
+        <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>{!!excerpt && <span>{excerpt}</span>}</Paragraph>
         {tags && (
           <Tags>
             {tags.map((tag, index) => {
