@@ -86,7 +86,7 @@
     "next-compose-plugins": "^2.2.1",
     "playwright": "^1.31.2",
     "postcss-styled-syntax": "^0.4.0",
-    "prettier": "^2.8.4",
+    "prettier": "^2.8.5",
     "reading-time": "^1.5.0",
     "rehype-external-links": "^2.0.1",
     "rehype-highlight": "^6.0.0",
