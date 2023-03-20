@@ -1,4 +1,4 @@
-import { KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { KeyboardEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import { FILENAME_POSTS_LIST } from '@/constant';
 import useEffectOnce from '@/hooks/useEffectOnce';
@@ -40,6 +40,7 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
   const refInput = useRef<HTMLInputElement>(null);
   const [data, setData] = useState<DataProps>(initialData);
   const [archives, setArchives] = useState<Post[]>([]);
+  const searchInputId = useId();
 
   useEffect(() => {
     refInput.current.focus();
@@ -120,12 +121,12 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
   const SearchHeader = useMemo(
     () => (
       <Header>
-        <HeaderIcon htmlFor="search-input">
+        <HeaderIcon htmlFor={searchInputId}>
           <RxMagnifyingGlass size="24" />
         </HeaderIcon>
         <SearchInput
           autoComplete="off"
-          id="search-input"
+          id={searchInputId}
           onKeyUp={onKeyup}
           placeholder="記事のタイトルから検索する（入力してEnterを押すと検索結果が表示）"
           ref={refInput}
@@ -133,7 +134,7 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
         />
       </Header>
     ),
-    [onKeyup],
+    [onKeyup, searchInputId],
   );
 
   return {
