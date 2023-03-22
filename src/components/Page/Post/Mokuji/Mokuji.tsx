@@ -54,8 +54,13 @@ const Details = styled.details`
   border-radius: var(--border-radius-8);
   transition: background-color 0.2s ease;
 
-  &:not([open]):hover {
-    background-color: var(--component-backgrounds-4);
+  &:not([open]) {
+    &:hover {
+      background-color: var(--component-backgrounds-4);
+    }
+    &:active {
+      background-color: var(--component-backgrounds-5);
+    }
   }
 
   [data-disclosure] {

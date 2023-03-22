@@ -1,4 +1,4 @@
-import { KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { KeyboardEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import { FILENAME_POSTS_LIST } from '@/constant';
 import useEffectOnce from '@/hooks/useEffectOnce';
@@ -10,9 +10,12 @@ import { styled } from '@/ui/styled';
 type Props = {
   closeDialog: () => void;
 };
+
+type SearchProps = Pick<Post, 'title' | 'tags' | 'slug'>;
+
 type DataProps = {
   keyword: string;
-  suggest: Post[];
+  suggest: SearchProps[];
 };
 
 const STORAGE_KEY = `${process.env.BUILD_ID}_${FILENAME_POSTS_LIST}`;
@@ -23,23 +26,20 @@ const initialData: DataProps = {
 };
 
 const resetLocalStorage = (query = FILENAME_POSTS_LIST) => {
-  if (typeof window === 'undefined' || !('localStorage' in window)) {
-    return;
-  }
-
-  for (const key in window.localStorage) {
-    if (window.localStorage.hasOwnProperty(key)) {
+  if (typeof window !== 'undefined' && 'localStorage' in window) {
+    Object.keys(localStorage).forEach((key) => {
       if ((key !== STORAGE_KEY && key.match(query)) || (!query && typeof key === 'string')) {
-        window.localStorage.removeItem(key);
+        localStorage.removeItem(key);
       }
-    }
+    });
   }
 };
 
 export const useSearchHeader = ({ closeDialog }: Props) => {
   const refInput = useRef<HTMLInputElement>(null);
   const [data, setData] = useState<DataProps>(initialData);
-  const [archives, setArchives] = useState<Post[]>([]);
+  const [archives, setArchives] = useState<SearchProps[]>([]);
+  const searchInputId = useId();
 
   useEffect(() => {
     refInput.current.focus();
@@ -53,7 +53,7 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
     const cachedValue = window.localStorage.getItem(STORAGE_KEY);
 
     if (cachedValue) {
-      setArchives(parseJSON<Post[]>(cachedValue));
+      setArchives(parseJSON<SearchProps[]>(cachedValue));
       resetLocalStorage();
       return;
     }
@@ -61,6 +61,15 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
     (async () => {
       await fetch(`/${FILENAME_POSTS_LIST}.json`)
         .then<Post[]>((response) => response.json())
+        .then((json) => {
+          return json.map((obj) => {
+            return {
+              title: obj.title,
+              tags: obj.tags,
+              slug: obj.slug,
+            };
+          });
+        })
         .then((json) => {
           setArchives(json);
           window.localStorage.setItem(STORAGE_KEY, JSON.stringify(json));
@@ -120,20 +129,20 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
   const SearchHeader = useMemo(
     () => (
       <Header>
-        <HeaderIcon htmlFor="search-input">
+        <HeaderIcon htmlFor={searchInputId}>
           <RxMagnifyingGlass size="24" />
         </HeaderIcon>
         <SearchInput
           autoComplete="off"
-          id="search-input"
+          id={searchInputId}
           onKeyUp={onKeyup}
-          placeholder="記事のタイトルから検索する（入力してEnterを押すと検索結果が表示）"
+          placeholder="記事タイトルやタグから検索する（Enterで検索結果表示）"
           ref={refInput}
           type="text"
         />
       </Header>
     ),
-    [onKeyup],
+    [onKeyup, searchInputId],
   );
 
   return {

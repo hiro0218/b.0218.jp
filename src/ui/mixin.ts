@@ -38,6 +38,12 @@ export const showHoverBackground = css`
     }
   }
 
+  &:active {
+    &::after {
+      background-color: var(--component-backgrounds-4A);
+    }
+  }
+
   &:focus-visible {
     outline: 0;
     box-shadow: inset 0 0 0 2px var(--borders-7);

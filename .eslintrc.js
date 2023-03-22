@@ -16,7 +16,7 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.json',
   },
-  plugins: ['import', 'simple-import-sort', '@typescript-eslint', 'unused-imports', 'jsx-expressions'],
+  plugins: ['import', 'simple-import-sort', '@typescript-eslint', 'unused-imports', 'react-hooks', 'jsx-expressions'],
   rules: {
     '@next/next/no-img-element': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
@@ -40,6 +40,8 @@ module.exports = {
     'react/jsx-sort-props': 'warn',
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
     'simple-import-sort/imports': 'warn',
     'unused-imports/no-unused-imports': 'error',
     'unused-imports/no-unused-vars': [
