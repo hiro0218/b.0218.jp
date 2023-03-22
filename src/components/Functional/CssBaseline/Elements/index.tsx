@@ -107,7 +107,7 @@ export default css`
   }
 
   mark {
-    background-color: var(--component-backgrounds-3);
+    background-color: var(--component-backgrounds-5A);
   }
 
   /* code */
