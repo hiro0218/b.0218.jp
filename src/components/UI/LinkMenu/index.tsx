@@ -25,6 +25,10 @@ export const LinkStyle = css`
   &:hover {
     background-color: var(--component-backgrounds-3A);
   }
+
+  &:active {
+    background-color: var(--component-backgrounds-4A);
+  }
 `;
 
 const Link = styled(Anchor)`

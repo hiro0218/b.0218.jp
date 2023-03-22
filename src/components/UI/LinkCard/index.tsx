@@ -126,8 +126,6 @@ const TagItem = styled.span`
   ${PostTagAnchorStyle}
 
   flex: 0;
-  font-size: var(--font-size-sm);
-  border-radius: var(--border-radius-8);
 `;
 
 const Icon = styled.div`

@@ -55,10 +55,14 @@ const Button = styled.button`
   appearance: none;
 
   &:hover {
-    background-color: var(--component-backgrounds-3A);
+    background-color: var(--component-backgrounds-4A);
   }
 
-  &:focus {
+  &:active {
+    background-color: var(--component-backgrounds-5A);
+  }
+
+  &:focus-visible {
     outline: 0;
     box-shadow: inset 0 0 0 2px var(--borders-7);
   }

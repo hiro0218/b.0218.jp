@@ -47,6 +47,7 @@ export const PostTagAnchorStyle = css`
   align-items: center;
   align-self: flex-start;
   padding: var(--space-1);
+  font-size: var(--font-size-sm);
   line-height: 1;
   color: var(--text-11);
   text-align: center;
@@ -55,8 +56,11 @@ export const PostTagAnchorStyle = css`
   border-radius: var(--border-radius-4);
 
   &:hover {
-    color: var(--text-12);
     background-color: var(--component-backgrounds-4A);
+  }
+
+  &:active {
+    background-color: var(--component-backgrounds-5A);
   }
 
   &::before {
