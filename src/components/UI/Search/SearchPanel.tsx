@@ -13,7 +13,7 @@ type Props = {
 export const SearchPanel = ({ closeDialog }: Props) => {
   const {
     SearchHeader,
-    searchData: { suggest },
+    searchData: { suggest, keyword },
   } = useSearchHeader({ closeDialog });
 
   useRouteChangeComplete(closeDialog);
@@ -22,11 +22,25 @@ export const SearchPanel = ({ closeDialog }: Props) => {
     <SearchMain>
       {SearchHeader}
       <SearchResult>
-        {suggest.map((post) => (
-          <Anchor href={`/${post.slug}.html`} key={post.slug} passHref prefetch={true}>
-            {post.title}
-          </Anchor>
-        ))}
+        {suggest.map((post) => {
+          const index = post.title.toLowerCase().indexOf(keyword.toLowerCase());
+          const title =
+            index !== -1
+              ? `${post.title.slice(0, index)}<mark>${post.title.slice(
+                  index,
+                  index + keyword.length,
+                )}</mark>${post.title.slice(index + keyword.length)}`
+              : post.title;
+          return (
+            <Anchor
+              dangerouslySetInnerHTML={{ __html: title }}
+              href={`/${post.slug}.html`}
+              key={post.slug}
+              passHref
+              prefetch={true}
+            />
+          );
+        })}
       </SearchResult>
       <SearchFooter>
         <span>Result: {suggest.length} posts</span>
