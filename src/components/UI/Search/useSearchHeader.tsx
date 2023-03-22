@@ -136,7 +136,7 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
           autoComplete="off"
           id={searchInputId}
           onKeyUp={onKeyup}
-          placeholder="記事のタイトルから検索する（入力してEnterを押すと検索結果が表示）"
+          placeholder="記事タイトルやタグから検索する（Enterで検索結果表示）"
           ref={refInput}
           type="text"
         />
