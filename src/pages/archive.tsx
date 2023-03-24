@@ -8,7 +8,7 @@ import { SITE } from '@/constant';
 import { getPostsListJson } from '@/lib/posts';
 import { Post as PropPost } from '@/types/source';
 
-type PostsProps = Partial<Pick<PropPost, 'title' | 'slug' | 'date' | 'updated' | 'excerpt'>>[];
+type PostsProps = ReturnType<typeof getPostsListJson>;
 
 type ArchiveListProps = Record<number, PostsProps>;
 
@@ -21,25 +21,21 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const getYear = (date: PropPost['date']) => Number(date.slice(0, 4));
 
-const generateYearList = (archives: PostsProps) => {
-  const list: ArchiveListProps = {};
+const divideByYearArchive = (posts: PostsProps): ArchiveListProps => {
+  const result: ArchiveListProps = {};
 
-  [...new Set(archives.map(({ date }) => getYear(date)))].map((year) => (list[year] = []));
-
-  return list;
-};
-
-const divideByYearArchive = (archives: PostsProps): ArchiveListProps => {
-  const formattedArchives = generateYearList(archives);
-
-  for (let i = 0; i < archives.length; i++) {
-    const post = archives[i];
+  for (let i = 0; i < posts.length; i++) {
+    const post = posts[i];
     const year = getYear(post.date);
 
-    formattedArchives[year].push(post);
+    if (!result[year]) {
+      result[year] = [];
+    }
+
+    result[year].push(post);
   }
 
-  return formattedArchives;
+  return result;
 };
 
 export default function Archive({ archives, numberOfPosts }: Props) {
@@ -81,17 +77,7 @@ export const config = {
 };
 
 export const getStaticProps: GetStaticProps<ArchiveProps> = () => {
-  const posts: PostsProps = getPostsListJson().map(({ title, slug, date, updated, excerpt, tags }) => {
-    return {
-      title,
-      slug,
-      date,
-      updated,
-      excerpt: excerpt || '',
-      tags,
-    };
-  });
-
+  const posts = getPostsListJson();
   const archives = divideByYearArchive(posts);
 
   return {
