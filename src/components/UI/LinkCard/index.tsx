@@ -22,7 +22,7 @@ type Props = {
 const LinkCard = ({ link, title, date, updated, excerpt, tags, role }: Props) => {
   const IconArrow = useMemo(() => {
     return (
-      <Icon className="icon">
+      <Icon>
         <RxCaretRight size={24} />
       </Icon>
     );
@@ -51,6 +51,18 @@ const LinkCard = ({ link, title, date, updated, excerpt, tags, role }: Props) =>
 
 export default LinkCard;
 
+const Icon = styled.div`
+  position: absolute;
+  top: 0;
+  right: var(--space-half);
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  color: var(--text-11);
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+`;
+
 const Container = styled.div`
   display: flex;
   height: 100%;
@@ -59,7 +71,7 @@ const Container = styled.div`
   ${showHoverBackground}
 
   &:hover, &:focus-within {
-    .icon {
+    ${Icon} {
       opacity: 1;
     }
   }
@@ -126,16 +138,4 @@ const TagItem = styled.span`
   ${PostTagAnchorStyle}
 
   flex: 0;
-`;
-
-const Icon = styled.div`
-  position: absolute;
-  top: 0;
-  right: var(--space-half);
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  color: var(--text-11);
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
 `;
