@@ -23,7 +23,11 @@ export const SearchPanel = ({ closeDialog }: Props) => {
       {SearchHeader}
       <SearchResult>
         {suggest.map((post) => {
-          const index = post.title.toLowerCase().indexOf(keyword.toLowerCase());
+          /**
+           * todo
+           * post.title が html を含む場合の対処が済むまで回避
+           */
+          const index = -1; // post.title.toLowerCase().indexOf(keyword.toLowerCase());
           const title =
             index !== -1
               ? `${post.title.slice(0, index)}<mark>${post.title.slice(
@@ -32,13 +36,9 @@ export const SearchPanel = ({ closeDialog }: Props) => {
                 )}</mark>${post.title.slice(index + keyword.length)}`
               : post.title;
           return (
-            <Anchor
-              dangerouslySetInnerHTML={{ __html: title }}
-              href={`/${post.slug}.html`}
-              key={post.slug}
-              passHref
-              prefetch={true}
-            />
+            <Anchor href={`/${post.slug}.html`} key={post.slug} passHref prefetch={true}>
+              {title}
+            </Anchor>
           );
         })}
       </SearchResult>
