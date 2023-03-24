@@ -55,17 +55,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps<TermProps> = (context: GetStaticPropsContext) => {
-  const posts = getPostsJson();
-  const tags = getTagsJson();
   const slug = context.params.slug as string;
-  const tagsPosts = tags[slug].map((slug) => {
-    const post = posts.find((post) => post.slug === slug);
-    return {
-      title: post.title,
-      slug,
-      date: post.date,
-      excerpt: post.excerpt,
-    };
+  const posts = getPostsJson().filter((post) => post.tags.includes(slug));
+  const tag = getTagsJson()[slug];
+  const tagsPosts = tag.map((slug) => {
+    const { title, date, excerpt } = posts.find((post) => post.slug === slug);
+    return { title, slug, date, excerpt };
   });
 
   return {
