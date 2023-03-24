@@ -2,36 +2,30 @@ import { readJsonSync } from 'fs-extra';
 import { join } from 'path';
 
 import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
-import { Pages, Post } from '@/types/source';
+import { Page, Post } from '@/types/source';
 
-const getPath = (filename: string) => {
-  return join(process.cwd(), `dist/${filename}.json`);
+type PostList = Partial<Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>>;
+
+const getJson = <T>(filename: string): T => {
+  const path = join(process.cwd(), `dist/${filename}.json`);
+
+  return readJsonSync(path) as T;
 };
 
 export const getTagsJson = (): Record<string, string[]> => {
-  const path = getPath('tags');
-
-  return readJsonSync(path);
+  return getJson<Record<string, string[]>>('tags');
 };
 
 export const getPostsJson = (): Post[] => {
-  const path = getPath(FILENAME_POSTS);
-
-  return readJsonSync(path);
+  return getJson<Post[]>(FILENAME_POSTS);
 };
 
-export const getPostsListJson = (): Partial<
-  Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>
->[] => {
-  const path = getPath(FILENAME_POSTS_LIST);
-
-  return readJsonSync(path);
+export const getPostsListJson = (): PostList[] => {
+  return getJson<PostList[]>(FILENAME_POSTS_LIST);
 };
 
-export const getPagesJson = (): Pages[] => {
-  const path = getPath(FILENAME_PAGES);
-
-  return readJsonSync(path);
+export const getPagesJson = (): Page[] => {
+  return getJson<Page[]>(FILENAME_PAGES);
 };
 
 export const getTagsWithCount = (): [string, number][] => {

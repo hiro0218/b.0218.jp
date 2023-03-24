@@ -6,7 +6,7 @@ type ArticleBaseProps = {
   content: string;
 };
 
-export type Pages = ArticleBaseProps;
+export type Page = ArticleBaseProps;
 
 export type TermsPostList = {
   title: string;

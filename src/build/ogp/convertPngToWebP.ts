@@ -1,27 +1,28 @@
-import { readdirSync } from 'fs-extra';
+import fs from 'fs/promises';
 import path from 'path';
-import rimraf from 'rimraf';
 import sharp from 'sharp';
 
 import * as Log from '@/lib/Log';
 
 const TARGET_DIRECTORY = path.join(process.cwd(), 'public/images/ogp');
 
-const files = readdirSync(TARGET_DIRECTORY);
+async function convertToWebp(file: string) {
+  const inputFile = path.join(TARGET_DIRECTORY, file);
+  const outputFile = path.join(TARGET_DIRECTORY, path.basename(file, '.png') + '.webp');
 
-files.forEach((file) => {
-  if (path.extname(file) === '.png') {
-    const inputFile = path.join(TARGET_DIRECTORY, file);
-    const outputFile = path.join(TARGET_DIRECTORY, path.basename(file, '.png') + '.webp');
-
-    sharp(inputFile)
-      .toFormat('webp')
-      .toFile(outputFile, (err) => {
-        if (err) {
-          Log.error(err.message);
-        }
-
-        rimraf.sync(inputFile);
-      });
+  try {
+    await sharp(inputFile).toFormat('webp').toFile(outputFile);
+    await fs.unlink(inputFile);
+  } catch (err) {
+    Log.error(err.message);
   }
-});
+}
+
+async function main() {
+  const files = await fs.readdir(TARGET_DIRECTORY);
+  const pngFiles = files.filter((file) => path.extname(file) === '.png');
+
+  await Promise.all(pngFiles.map(convertToWebp));
+}
+
+main().catch((err) => Log.error(err.message));

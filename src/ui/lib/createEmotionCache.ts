@@ -4,7 +4,7 @@ export default function createEmotionCache() {
   const isSSR = typeof document === 'undefined';
 
   return createCache({
-    key: 'css',
+    key: '-',
     stylisPlugins: [],
     ...(!isSSR && {
       container: document.head,

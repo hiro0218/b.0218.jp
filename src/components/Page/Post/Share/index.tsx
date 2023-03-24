@@ -108,10 +108,6 @@ const IconContainer = styled.span`
   &::after {
     border-radius: var(--border-radius-full);
   }
-
-  svg {
-    color: var(--text-12);
-  }
 `;
 
 export default PostShare;

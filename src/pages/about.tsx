@@ -4,10 +4,10 @@ import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import { createGetLayout } from '@/components/Layouts/SinglePageLayout';
 import { SITE } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
-import { Pages } from '@/types/source';
+import { Page } from '@/types/source';
 
 interface Props {
-  page: Pages;
+  page: Page;
 }
 
 type AboutProps = InferGetStaticPropsType<typeof getStaticProps>;
