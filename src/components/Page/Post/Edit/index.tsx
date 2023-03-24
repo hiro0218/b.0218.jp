@@ -42,6 +42,5 @@ const Anchor = styled.a`
 
   svg {
     margin-right: 0.25em;
-    fill: currentColor;
   }
 `;

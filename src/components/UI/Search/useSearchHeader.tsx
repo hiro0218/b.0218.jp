@@ -161,10 +161,6 @@ const HeaderIcon = styled.label`
   display: flex;
   align-items: center;
   padding: 0 var(--space-1);
-
-  svg {
-    color: var(--text-12);
-  }
 `;
 
 const SearchInput = styled.input`

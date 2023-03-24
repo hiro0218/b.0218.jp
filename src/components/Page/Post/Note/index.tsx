@@ -31,6 +31,5 @@ const PostNoteRoot = styled.div`
   svg {
     flex-shrink: 0;
     margin-right: var(--space-half);
-    color: inherit;
   }
 `;
