@@ -45,7 +45,7 @@ export default function Tags({ title, posts }: Props) {
   );
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   const tags = getTagsJson();
   const paths = Object.keys(tags).map((slug) => ({
     params: { slug },
