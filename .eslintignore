@@ -4,3 +4,4 @@
 /out
 /next-env.d.ts
 .eslintrc.js
+next.config.js

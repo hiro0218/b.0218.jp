@@ -1,5 +1,6 @@
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { useRouteChangeComplete } from '@/hooks/useRouteChangeComplete';
+import escapeHTML from '@/lib/escapeHTML';
 import { fadeIn } from '@/ui/animation';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
@@ -8,6 +9,26 @@ import { useSearchHeader } from './useSearchHeader';
 
 type Props = {
   closeDialog: () => void;
+};
+
+const markEscapedHTML = (text: string, markText: string) => {
+  const tagName = 'mark';
+  const openingSymbol = '★';
+  const closingSymbol = '☆';
+
+  const index = text.toLowerCase().indexOf(markText.toLowerCase());
+  const title = escapeHTML(
+    index !== -1
+      ? `${text.slice(0, index)}${openingSymbol}${text.slice(
+          index,
+          index + markText.length,
+        )}${closingSymbol}${text.slice(index + markText.length)}`
+      : text,
+  )
+    .replace(openingSymbol, `<${tagName}>`)
+    .replace(closingSymbol, `</${tagName}>`);
+
+  return title;
 };
 
 export const SearchPanel = ({ closeDialog }: Props) => {
@@ -23,22 +44,16 @@ export const SearchPanel = ({ closeDialog }: Props) => {
       {SearchHeader}
       <SearchResult>
         {suggest.map((post) => {
-          /**
-           * todo
-           * post.title が html を含む場合の対処が済むまで回避
-           */
-          const index = -1; // post.title.toLowerCase().indexOf(keyword.toLowerCase());
-          const title =
-            index !== -1
-              ? `${post.title.slice(0, index)}<mark>${post.title.slice(
-                  index,
-                  index + keyword.length,
-                )}</mark>${post.title.slice(index + keyword.length)}`
-              : post.title;
+          const title = markEscapedHTML(post.title, keyword);
+
           return (
-            <Anchor href={`/${post.slug}.html`} key={post.slug} passHref prefetch={true}>
-              {title}
-            </Anchor>
+            <Anchor
+              dangerouslySetInnerHTML={{ __html: title }}
+              href={`/${post.slug}.html`}
+              key={post.slug}
+              passHref
+              prefetch={true}
+            />
           );
         })}
       </SearchResult>
