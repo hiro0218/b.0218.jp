@@ -127,7 +127,7 @@ export const getStaticProps: GetStaticProps<PostProps> = (context) => {
   const segmentedTitle = textSegmenter(post.title);
 
   // 関連記事
-  const tag = post.tags.at(0);
+  const tag = post.tags[0];
   const tagData = getTagsJson();
   const nextRead = Object.entries(tagData)
     .filter(([key]) => key === tag)
