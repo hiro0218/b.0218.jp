@@ -107,20 +107,14 @@ export const getStaticProps: GetStaticProps<PostProps> = (context) => {
   const slug = (context.params.slug as string).replace('.html', '');
 
   // slug に一致する post を取得
-  const post = posts.find((post) => {
-    return post.slug === slug;
-  });
+  const post = posts.find((post) => post.slug === slug);
 
   // tagsを件数順に並び替える
   post.tags =
     post.tags.length > 1
       ? getTagsWithCount()
-          .filter(([key]) => {
-            return post.tags.filter((tag) => tag === key).length > 0;
-          })
-          .map(([slug]) => {
-            return slug;
-          })
+          .filter(([key]) => post.tags.filter((tag) => tag === key).length > 0)
+          .map(([slug]) => slug)
       : post.tags;
 
   // タイトルの文字組み
@@ -135,13 +129,14 @@ export const getStaticProps: GetStaticProps<PostProps> = (context) => {
       values
         .filter((post, i) => !post.includes(slug) && i < 6)
         .map((slug) => {
-          const post = posts.find((post) => post.slug === slug);
+          const { title, date, updated, excerpt } = posts.find((post) => post.slug === slug);
+
           return {
-            title: post.title,
+            title,
             slug,
-            date: post.date,
-            updated: post.updated,
-            excerpt: post.excerpt,
+            date,
+            updated,
+            excerpt,
           };
         }),
     );
