@@ -1,3 +1,4 @@
 User-agent: *
+Disallow: /images/ogp/
 
 Sitemap: https://b.0218.jp/sitemap.xml
