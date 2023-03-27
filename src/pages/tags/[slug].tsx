@@ -36,6 +36,7 @@ export default function Tags({ title, posts }: Props) {
                 key={post.slug}
                 link={`/${post.slug}.html`}
                 title={post.title}
+                updated={post.updated}
               />
             ))}
           </Stack>
@@ -59,8 +60,8 @@ export const getStaticProps: GetStaticProps<TermProps> = (context: GetStaticProp
   const posts = getPostsJson().filter((post) => post.tags.includes(slug));
   const tag = getTagsJson()[slug];
   const tagsPosts = tag.map((slug) => {
-    const { title, date, excerpt } = posts.find((post) => post.slug === slug);
-    return { title, slug, date, excerpt };
+    const { title, date, updated, excerpt } = posts.find((post) => post.slug === slug);
+    return { title, slug, date, updated, excerpt };
   });
 
   return {

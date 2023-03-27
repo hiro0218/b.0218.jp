@@ -12,6 +12,7 @@ export type TermsPostList = {
   title: string;
   slug: string;
   date: string;
+  updated: string;
   excerpt: string;
 };
 

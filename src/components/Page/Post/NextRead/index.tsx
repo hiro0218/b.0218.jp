@@ -24,6 +24,7 @@ const PostNextRead = ({ posts }: Props) => {
             key={post.slug}
             link={`${post.slug}.html`}
             title={post.title}
+            updated={post.updated}
           />
         ))}
       </Container>

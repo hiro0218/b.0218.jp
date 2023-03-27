@@ -140,6 +140,7 @@ export const getStaticProps: GetStaticProps<PostProps> = (context) => {
             title: post.title,
             slug,
             date: post.date,
+            updated: post.updated,
             excerpt: post.excerpt,
           };
         }),
