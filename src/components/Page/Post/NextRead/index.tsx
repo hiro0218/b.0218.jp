@@ -42,6 +42,6 @@ const Container = styled.div`
 
   ${isMobile} {
     grid-template-columns: minmax(100%, max-content);
-    gap: var(--space-half);
+    gap: var(--space-½);
   }
 `;

@@ -111,7 +111,7 @@ const Anchor = styled(_Anchor)`
 const SearchFooter = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: var(--space-half) var(--space-1);
+  padding: var(--space-½) var(--space-1);
   font-size: var(--font-size-sm);
   color: var(--text-11);
   box-shadow: 2px 0 4px 0 rgba(0, 0, 0, 0.16);
