@@ -8,6 +8,7 @@ module.exports = {
   siteUrl: SITE.URL,
   outDir: './public',
   exclude: ['/tags/*'],
+  generateIndexSitemap: false,
   transform: async (config, path) => {
     const slug = path.replace(/^\//, '').replace('.html', '');
     const post = posts.find((post) => post.slug === slug);
