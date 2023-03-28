@@ -3,7 +3,7 @@ import { memo, ReactNode } from 'react';
 import { WaveTop } from '@/components/Functional/Wave';
 import useIsMounted from '@/hooks/useIsMounted';
 import { fadeIn, fadeOut } from '@/ui/animation';
-import { css, styled, useTheme } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
 import { useHeaderScrollHandler } from './useHeaderScrollHandler';
 
@@ -14,10 +14,9 @@ type Props = {
 export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
   const isMounted = useIsMounted();
   const isHeaderShown = useHeaderScrollHandler();
-  const theme = useTheme();
 
   return (
-    <Underline UnderlineHeight={theme.components.header.height}>
+    <Underline>
       <Header isMounted={isMounted} isShown={isHeaderShown}>
         {children}
       </Header>
@@ -26,8 +25,8 @@ export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
   );
 });
 
-const Underline = styled.div<{ UnderlineHeight: number }>`
-  height: ${({ UnderlineHeight }) => UnderlineHeight}px;
+const Underline = styled.div`
+  height: var(--space-5);
 `;
 
 const Header = styled.header<{ isMounted: boolean; isShown: boolean }>`
@@ -36,7 +35,7 @@ const Header = styled.header<{ isMounted: boolean; isShown: boolean }>`
   right: 0;
   left: 0;
   z-index: var(--zIndex-header);
-  height: ${({ theme }) => theme.components.header.height}px;
+  height: var(--space-5);
   margin: 0 auto;
   pointer-events: none;
   isolation: isolate;

@@ -1,7 +1,8 @@
 import { CSSProperties, memo, ReactNode } from 'react';
 
+import { SPACING_BASE_PX } from '@/components/Functional/CssBaseline/Settings/Space';
 import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
-import { css, styled } from '@/ui/styled';
+import { styled } from '@/ui/styled';
 
 export interface ContainerProps {
   title?: string;
@@ -39,7 +40,7 @@ const TitleText = styled.h2`
 
 const ColumnTitle = styled.div`
   ${isMobile} {
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-2);
   }
 
   ${isDesktop} {
@@ -47,11 +48,9 @@ const ColumnTitle = styled.div`
     width: 38.2%;
     height: 100%;
 
-    ${({ theme }) => css`
-      && {
-        top: calc(${theme.components.header.height}px + 0.5rem);
-      }
-    `}
+    && {
+      top: calc(${SPACING_BASE_PX * 5}px + 1rem);
+    }
   }
 `;
 

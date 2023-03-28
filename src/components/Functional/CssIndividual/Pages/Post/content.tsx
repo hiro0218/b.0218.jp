@@ -57,7 +57,7 @@ const PostContent = styled.div`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
+    width: var(--space-3);
     height: 100%;
     margin: 0;
     color: var(--text-11);

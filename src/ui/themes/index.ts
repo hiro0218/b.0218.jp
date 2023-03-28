@@ -1,7 +1,1 @@
-export const theme = {
-  components: {
-    header: {
-      height: 72,
-    },
-  },
-};
+export const theme = {};

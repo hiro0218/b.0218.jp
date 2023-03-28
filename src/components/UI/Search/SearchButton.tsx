@@ -18,8 +18,8 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 3rem;
-  height: 3rem;
+  width: var(--space-4);
+  height: var(--space-4);
   pointer-events: auto;
   cursor: pointer;
   background: none;

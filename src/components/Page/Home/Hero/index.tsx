@@ -23,7 +23,7 @@ export const Hero = memo(function Hero() {
 
 const Container = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: var(--space-2);
 `;
 
 const Avatar = styled.div`

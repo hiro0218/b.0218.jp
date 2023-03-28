@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 
+import { SPACING_BASE_PX } from '@/components/Functional/CssBaseline/Settings/Space';
 import throttle from '@/lib/throttle';
-import { useTheme } from '@/ui/styled';
 
 export const useHeaderScrollHandler = () => {
   const [isHeaderShown, setIsHeaderShown] = useState(true);
-  const theme = useTheme();
-  const headerHeight = theme.components.header.height;
+  const headerHeight = SPACING_BASE_PX * 8;
 
   useEffect(() => {
     let lastScrollY = 0;
@@ -14,7 +13,7 @@ export const useHeaderScrollHandler = () => {
     const handleScroll = throttle(() => {
       const currentScrollY = window.scrollY;
 
-      // ヘッダーの高さを超えた場合
+      // 指定の高さを超えた場合
       if (currentScrollY >= headerHeight) {
         setIsHeaderShown(currentScrollY <= lastScrollY);
       } else {

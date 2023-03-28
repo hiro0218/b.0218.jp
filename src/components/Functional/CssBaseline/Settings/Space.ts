@@ -1,6 +1,6 @@
 import { css } from '@/ui/styled';
 
-const SPACING_BASE_PX = 8;
+export const SPACING_BASE_PX = 8;
 
 export default css`
   /**
