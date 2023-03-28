@@ -54,7 +54,7 @@ export default LinkCard;
 const Icon = styled.div`
   position: absolute;
   top: 0;
-  right: var(--space-half);
+  right: var(--space-½);
   bottom: 0;
   display: flex;
   align-items: center;

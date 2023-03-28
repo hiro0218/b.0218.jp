@@ -83,7 +83,7 @@ const LinkPreview = css`
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    margin-top: var(--space-half);
+    margin-top: var(--space-½);
     color: var(--text-11);
     font-size: var(--font-size-sm);
     overflow: hidden;

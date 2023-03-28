@@ -1,4 +1,10 @@
+# *
 User-agent: *
+Allow: /
 Disallow: /images/ogp/
 
+# Host
+Host: https://b.0218.jp/
+
+# Sitemaps
 Sitemap: https://b.0218.jp/sitemap.xml

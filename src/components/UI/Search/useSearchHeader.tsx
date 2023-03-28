@@ -153,7 +153,7 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
 
 const Header = styled.div`
   display: flex;
-  height: 3rem;
+  height: var(--space-4);
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.16);
 `;
 

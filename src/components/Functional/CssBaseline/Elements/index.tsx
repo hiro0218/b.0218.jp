@@ -146,7 +146,7 @@ export default css`
   }
 
   :not(pre) > code {
-    padding: var(--space-half) var(--space-1);
+    padding: var(--space-½) var(--space-1);
     margin: 0;
     font-size: var(--font-size-sm);
     color: var(--text-12);

@@ -30,6 +30,6 @@ const PostNoteRoot = styled.div`
 
   svg {
     flex-shrink: 0;
-    margin-right: var(--space-half);
+    margin-right: var(--space-½);
   }
 `;

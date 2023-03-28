@@ -57,7 +57,7 @@ const PostContent = styled.div`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
+    width: var(--space-3);
     height: 100%;
     margin: 0;
     color: var(--text-11);
@@ -95,7 +95,7 @@ const PostContent = styled.div`
     ul,
     ol {
       padding-left: var(--space-2);
-      margin: var(--space-half) 0 var(--space-2);
+      margin: var(--space-½) 0 var(--space-2);
     }
 
     *:not(ul, ol, li) {
@@ -104,7 +104,7 @@ const PostContent = styled.div`
   }
 
   li + li {
-    margin-top: var(--space-half);
+    margin-top: var(--space-½);
   }
 
   blockquote {

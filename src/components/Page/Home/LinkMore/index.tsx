@@ -34,7 +34,7 @@ export const LinkMoreTag = () => {
 const Icon = styled.div`
   display: flex;
   align-items: center;
-  margin-left: var(--space-half);
+  margin-left: var(--space-½);
   color: var(--text-11);
 `;
 
