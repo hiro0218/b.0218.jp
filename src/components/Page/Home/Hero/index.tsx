@@ -15,7 +15,7 @@ export const Hero = memo(function Hero() {
       <Title
         heading="Hi, I'm hiro."
         headingTagName="h2"
-        paragraph="Web Developer (Frontend) | Development Experience: Backend, iOS App, Windows App"
+        paragraph="Web Developer (Frontend) with experience in Backend, iOS App, and Windows App development."
       />
     </Container>
   );

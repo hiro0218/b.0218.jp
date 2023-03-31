@@ -29,6 +29,8 @@ module.exports = {
         prefix: ['is', 'has', 'should'],
       },
     ],
+    '@typescript-eslint/prefer-optional-chain': 'error',
+    '@typescript-eslint/prefer-string-starts-ends-with': 'error',
     complexity: ['error', 10],
     'import/no-unassigned-import': 'off',
     'import/no-default-export': 'off',
@@ -38,8 +40,6 @@ module.exports = {
     'import/no-duplicates': ['error', { considerQueryString: true }],
     'jsx-expressions/strict-logical-expressions': 'error',
     'react/jsx-sort-props': 'warn',
-    'react/prop-types': 'off',
-    'react/react-in-jsx-scope': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'simple-import-sort/imports': 'warn',
@@ -53,6 +53,8 @@ module.exports = {
         varsIgnorePattern: '^_',
       },
     ],
+    'prefer-spread': 'error',
+    'prefer-template': 'error',
   },
   overrides: [
     {
