@@ -29,6 +29,7 @@ module.exports = {
         prefix: ['is', 'has', 'should'],
       },
     ],
+    '@typescript-eslint/prefer-optional-chain': 'error',
     complexity: ['error', 10],
     'import/no-unassigned-import': 'off',
     'import/no-default-export': 'off',
