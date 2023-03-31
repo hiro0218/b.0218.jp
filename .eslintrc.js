@@ -40,8 +40,6 @@ module.exports = {
     'import/no-duplicates': ['error', { considerQueryString: true }],
     'jsx-expressions/strict-logical-expressions': 'error',
     'react/jsx-sort-props': 'warn',
-    'react/prop-types': 'off',
-    'react/react-in-jsx-scope': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'simple-import-sort/imports': 'warn',
