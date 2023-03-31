@@ -14,7 +14,7 @@ const PostDate = ({ date, updated }: Props) => {
           {convertDateToSimpleFormat(new Date(date))}
         </time>
       </PostDateItem>
-      {!!updated && (
+      {hasModified && (
         <PostDateItem>
           <time dateTime={updated} itemProp="dateModified" title={'更新日時: ' + updated}>
             {convertDateToSimpleFormat(new Date(updated))}
