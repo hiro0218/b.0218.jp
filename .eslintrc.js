@@ -30,6 +30,7 @@ module.exports = {
       },
     ],
     '@typescript-eslint/prefer-optional-chain': 'error',
+    '@typescript-eslint/prefer-string-starts-ends-with': 'error',
     complexity: ['error', 10],
     'import/no-unassigned-import': 'off',
     'import/no-default-export': 'off',
