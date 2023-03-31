@@ -53,6 +53,7 @@ module.exports = {
         varsIgnorePattern: '^_',
       },
     ],
+    'prefer-template': 'error',
   },
   overrides: [
     {

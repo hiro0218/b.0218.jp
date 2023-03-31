@@ -21,11 +21,11 @@ const PostTag = memo(function PostTag({ tags }: PostTagProps) {
     <>
       {tags?.map(({ slug, count }) => (
         <Anchor
-          href={'/tags/' + slug}
+          href={`/tags/${slug}`}
           key={slug}
           passHref
           prefetch={false}
-          title={count ? `${slug}: ${count}件` : 'tag: ' + slug}
+          title={count ? `${slug}: ${count}件` : `tag: ${slug}`}
         >
           {slug}
         </Anchor>

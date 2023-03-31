@@ -1,9 +1,9 @@
 import chalk from 'chalk';
 
 export const prefixes = {
-  error: chalk.red('error') + ' -',
-  warn: chalk.yellow('warn') + '  -',
-  info: chalk.cyan('info') + '  -',
+  error: `${chalk.red('error')} -`,
+  warn: `${chalk.yellow('warn')}  -`,
+  info: `${chalk.cyan('info')}  -`,
 };
 
 export function error(...message: string[]) {

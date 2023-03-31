@@ -8,7 +8,7 @@ const TARGET_DIRECTORY = path.join(process.cwd(), 'public/images/ogp');
 
 async function convertToWebp(file: string) {
   const inputFile = path.join(TARGET_DIRECTORY, file);
-  const outputFile = path.join(TARGET_DIRECTORY, path.basename(file, '.png') + '.webp');
+  const outputFile = path.join(TARGET_DIRECTORY, `${path.basename(file, '.png')}.webp`);
 
   try {
     await sharp(inputFile).toFormat('webp').toFile(outputFile);
