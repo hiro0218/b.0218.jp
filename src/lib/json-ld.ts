@@ -88,3 +88,15 @@ export const getBreadcrumbStructured = (post: Post) => {
 
   return structure;
 };
+
+/**
+ * @see https://developers.google.com/search/docs/appearance/structured-data/logo?hl=ja
+ */
+export const getLogoStructured = () => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    url: SITE.URL,
+    logo: AUTHOR.ICON,
+  };
+};
