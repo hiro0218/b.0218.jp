@@ -4,7 +4,7 @@ import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/do
 import { Children } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/components/UI/Adsense';
-import { AUTHOR, SITE, URL } from '@/constant';
+import { SITE, URL } from '@/constant';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
 
 const HTML_PREFIX = {
@@ -70,17 +70,6 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
           {Object.entries(URL).map(([key, url]) => {
             return key !== 'SITE' && <link href={url} key={key} rel="me" />;
           })}
-          <script
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                '@context': 'https://schema.org',
-                '@type': 'Organization',
-                url: SITE.URL,
-                logo: AUTHOR.ICON,
-              }),
-            }}
-            type="application/ld+json"
-          ></script>
           <script
             async
             crossOrigin="anonymous"

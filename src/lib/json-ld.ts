@@ -96,6 +96,7 @@ export const getOrganizationStructured = (): WithContext<Organization> => {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    name: SITE.NAME,
     url: SITE.URL,
     logo: AUTHOR.ICON,
   };
