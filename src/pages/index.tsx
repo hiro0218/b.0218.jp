@@ -9,6 +9,7 @@ import LinkCard from '@/components/UI/LinkCard';
 import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
 import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
 import { AUTHOR } from '@/constant';
+import { getOrganizationStructured } from '@/lib/json-ld';
 import { getPostsListJson, getTagsWithCount } from '@/lib/posts';
 import { Post as PropsPost } from '@/types/source';
 
@@ -29,6 +30,12 @@ export default function Index({ recentPosts, updatesPosts, tags }: Props) {
     <>
       <Head>
         <meta content={AUTHOR.ICON} name="thumbnail" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getOrganizationStructured()),
+          }}
+          type="application/ld+json"
+        ></script>
       </Head>
 
       <PageContainer>

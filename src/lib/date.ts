@@ -7,13 +7,11 @@ export const convertDateToSimpleFormat = (date: Date): string => {
     return '';
   }
 
-  const formatter = new Intl.DateTimeFormat('ja-JP', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  });
+  const year = date.getFullYear();
+  const month = `0${date.getMonth() + 1}`.slice(-2);
+  const day = `0${date.getDate()}`.slice(-2);
 
-  return formatter.format(date);
+  return `${year}/${month}/${day}`;
 };
 
 export const isSameDay = (dateA: Date, dateB: Date) => {

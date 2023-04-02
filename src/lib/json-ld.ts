@@ -1,4 +1,4 @@
-import { BlogPosting, BreadcrumbList, ListItem, WithContext } from 'schema-dts';
+import { BlogPosting, BreadcrumbList, ListItem, Organization, WithContext } from 'schema-dts';
 
 import { AUTHOR, SITE, URL } from '@/constant';
 import { Post } from '@/types/source';
@@ -87,4 +87,17 @@ export const getBreadcrumbStructured = (post: Post) => {
   };
 
   return structure;
+};
+
+/**
+ * @see https://developers.google.com/search/docs/appearance/structured-data/logo?hl=ja
+ */
+export const getOrganizationStructured = (): WithContext<Organization> => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE.NAME,
+    url: SITE.URL,
+    logo: AUTHOR.ICON,
+  };
 };
