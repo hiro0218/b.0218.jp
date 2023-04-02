@@ -1,3 +1,10 @@
+const dateFormatter = new Intl.DateTimeFormat('ja-JP', {
+  timeZone: 'Asia/Tokyo',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+});
+
 const isInvalidDate = (date: Date) => {
   return Number.isNaN(date.getTime());
 };
@@ -7,13 +14,7 @@ export const convertDateToSimpleFormat = (date: Date): string => {
     return '';
   }
 
-  const formatter = new Intl.DateTimeFormat('ja-JP', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  });
-
-  return formatter.format(date);
+  return dateFormatter.format(date);
 };
 
 export const isSameDay = (dateA: Date, dateB: Date) => {
