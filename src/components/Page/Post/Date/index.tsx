@@ -13,13 +13,13 @@ const PostDate = ({ date, updated }: Props) => {
     <PostDateRoot>
       <PostDateItem existModified={hasModified}>
         <time dateTime={date} title={`投稿日時: ${date}`}>
-          {convertDateToSimpleFormat(dateTime)}
+          {convertDateToSimpleFormat(date)}
         </time>
       </PostDateItem>
       {hasModified && (
         <PostDateItem>
           <time dateTime={updated} title={`更新日時: ${updated}`}>
-            {convertDateToSimpleFormat(updatedTime)}
+            {convertDateToSimpleFormat(updated)}
           </time>
         </PostDateItem>
       )}
