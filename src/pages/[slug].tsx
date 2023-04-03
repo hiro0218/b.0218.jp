@@ -9,11 +9,12 @@ import Mokuji from '@/components/Page/Post/Mokuji';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContainer } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
-import { AUTHOR, READ_TIME_SUFFIX, SITE } from '@/constant';
+import { AUTHOR, READ_TIME_SUFFIX } from '@/constant';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { getPostsJson, getTagsJson, getTagsWithCount } from '@/lib/posts';
 import { textSegmenter } from '@/lib/textSegmenter';
+import { getOgpImage, getPermalink } from '@/lib/url';
 import { Post as PostType, TermsPostList } from '@/types/source';
 
 type PostProps = {
@@ -24,7 +25,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export default function Post({ post, nextRead }: Props) {
   const refContent = useRef<HTMLDivElement>(null);
-  const permalink = `${SITE.URL}${post.slug}.html`;
+  const permalink = getPermalink(post.slug);
   const description = getDescriptionText(post.content);
 
   useTwitterWidgetsLoad({ ref: refContent });
@@ -41,11 +42,7 @@ export default function Post({ post, nextRead }: Props) {
         <meta content={post.updated || post.date} key="og:updated_time" property="og:updated_time" />
         <meta content={post.date} key="article:published_time" property="article:published_time" />
         <meta content={post.updated || post.date} key="article:modified_time" property="article:modified_time" />
-        <meta
-          content={`${SITE.URL}images/ogp/${post.slug}.webp?ts=${process.env.BUILD_ID}`}
-          key="og:image"
-          property="og:image"
-        />
+        <meta content={`${getOgpImage(post.slug)}?ts=${process.env.BUILD_ID}`} key="og:image" property="og:image" />
         <meta content="summary_large_image" key="twitter:card" name="twitter:card" />
         <meta content="Written by" name="twitter:label1" />
         <meta content={AUTHOR.NAME} name="twitter:data1" />
