@@ -5,17 +5,18 @@ import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 type Props = {
+  heading?: string;
   posts: TermsPostList[];
 };
 
-const PostNextRead = ({ posts }: Props) => {
+const PostNextRead = ({ heading = '関連記事', posts }: Props) => {
   if (posts.length === 0) {
     return null;
   }
 
   return (
     <section>
-      <Heading as="h2" text="Related Articles" />
+      <Heading as="h2" text={heading} />
       <Container>
         {posts.map((post) => (
           <LinkCard
