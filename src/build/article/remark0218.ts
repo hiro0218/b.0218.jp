@@ -6,6 +6,9 @@ import { visit } from 'unist-util-visit';
 import * as Log from '@/lib/Log';
 
 import { getMeta } from './dom';
+import transformCodeblock from './transform/codeblock';
+import transformImage from './transform/image';
+import { removeEmptyParagraph } from './transform/paragraph';
 import { isValidURL, normalizeURL } from './url';
 
 type OpgProps = {
@@ -18,20 +21,6 @@ type OpgProps = {
 const FETCH_TIMEOUT = 1000;
 
 const FETCH_HEADERS = { 'User-Agent': 'Twitterbot/1.0' };
-
-const transformImage = (node: Element) => {
-  node.properties = {
-    ...(node.properties || {}),
-    loading: 'lazy',
-  };
-};
-
-const transformCodeblock = (node: Element) => {
-  if (Array.isArray(node.properties?.className) && node.properties.className.includes('hljs')) {
-    const className = node.properties?.className.join(' ').replace('hljs language-', '');
-    node.properties.dataLanguage = className;
-  }
-};
 
 const setPreviewLinkNodes = (node: Element, index: number, parent: Element, domain: string, ogp: OpgProps) => {
   if (Object.keys(ogp).length === 0) return;
@@ -122,12 +111,6 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
     } else {
       Log.error('Unexpected error occurred', error, url);
     }
-  }
-};
-
-const removeEmptyParagraph = (node: Element, index: number, parent: Element) => {
-  if (node.children.length === 0) {
-    parent.children.splice(index, 1);
   }
 };
 
