@@ -17,6 +17,8 @@ type OpgProps = {
 
 const FETCH_TIMEOUT = 1000;
 
+const FETCH_HEADERS = { 'User-Agent': 'Twitterbot/1.0' };
+
 const transformImage = (node: Element) => {
   node.properties = {
     ...(node.properties || {}),
@@ -82,11 +84,10 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
   if (!isValidURL(href)) return;
 
   const url = normalizeURL(href);
-  const headers = { 'User-Agent': 'Twitterbot/1.0' };
 
   try {
     const result = await fetch(url, {
-      headers,
+      headers: FETCH_HEADERS,
       signal: AbortSignal.timeout(FETCH_TIMEOUT),
     }).then((res) => {
       return res.status === 200 ? res.text() : '';
