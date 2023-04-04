@@ -22,25 +22,40 @@ const FETCH_TIMEOUT = 1000;
 
 const FETCH_HEADERS = { 'User-Agent': 'Twitterbot/1.0' };
 
+const PREVIEW_LINK_BLOCK_CLASS_NAME = 'p-link-preview';
+const PREVIEW_LINK_CLASS_NAMES = {
+  BLOCK: PREVIEW_LINK_BLOCK_CLASS_NAME,
+  THUMBNAIL: `${PREVIEW_LINK_BLOCK_CLASS_NAME}-thumbnail`,
+  BODY: {
+    BLOCK: `${PREVIEW_LINK_BLOCK_CLASS_NAME}-body`,
+    URL: `${PREVIEW_LINK_BLOCK_CLASS_NAME}-body__url`,
+    TITLE: `${PREVIEW_LINK_BLOCK_CLASS_NAME}-body__title`,
+    DESCRIPTION: `${PREVIEW_LINK_BLOCK_CLASS_NAME}-body__description`,
+  },
+};
+
 const setPreviewLinkNodes = (node: Element, index: number, parent: Element, domain: string, ogp: OpgProps) => {
   if (Object.keys(ogp).length === 0) return;
   if (!ogp.title) return;
 
-  const CLASS_NAME = 'p-link-preview';
   const properties = node.properties;
 
   node.properties = {};
   node.tagName = 'p';
-  const template = h('a', { ...properties, class: CLASS_NAME, 'data-card': ogp?.card || 'summary' }, [
-    h('span', { class: `${CLASS_NAME}-thumbnail` }, [
-      h('img', { src: ogp.image, alt: '', loading: 'lazy', decoding: 'async' }),
-    ]),
-    h('span', { class: `${CLASS_NAME}-body` }, [
-      h('span', { class: `${CLASS_NAME}-body__url` }, domain),
-      h('span', { class: `${CLASS_NAME}-body__title` }, ogp.title),
-      ogp.description && h('span', { class: `${CLASS_NAME}-body__description` }, ogp.description),
-    ]),
-  ]);
+  const template = h(
+    'a',
+    { ...properties, class: PREVIEW_LINK_CLASS_NAMES.BLOCK, 'data-card': ogp?.card || 'summary' },
+    [
+      h('span', { class: PREVIEW_LINK_CLASS_NAMES.THUMBNAIL }, [
+        h('img', { src: ogp.image, alt: '', loading: 'lazy', decoding: 'async' }),
+      ]),
+      h('span', { class: PREVIEW_LINK_CLASS_NAMES.BODY.BLOCK }, [
+        h('span', { class: PREVIEW_LINK_CLASS_NAMES.BODY.URL }, domain),
+        h('span', { class: PREVIEW_LINK_CLASS_NAMES.BODY.TITLE }, ogp.title),
+        ogp.description && h('span', { class: PREVIEW_LINK_CLASS_NAMES.BODY.DESCRIPTION }, ogp.description),
+      ]),
+    ],
+  );
   node.children = [template];
 
   parent.children.splice(index, 1, ...node.children);
