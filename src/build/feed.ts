@@ -3,6 +3,7 @@ import { writeFile } from 'fs-extra';
 
 import { AUTHOR, SITE } from '@/constant';
 import { getPostsJson } from '@/lib/posts';
+import { getPermalink } from '@/lib/url';
 
 function generatedRssFeed(): void {
   const feed = new Feed({
@@ -36,7 +37,7 @@ function generatedRssFeed(): void {
     }
 
     if (loopCount < 30) {
-      const permalink = `${SITE.URL}${post.slug}.html`;
+      const permalink = getPermalink(post.slug);
 
       feed.addItem({
         title: post.title,

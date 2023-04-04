@@ -3,6 +3,8 @@ import { BlogPosting, BreadcrumbList, ListItem, Organization, WithContext } from
 import { AUTHOR, SITE, URL } from '@/constant';
 import { Post } from '@/types/source';
 
+import { getOgpImage, getPermalink } from './url';
+
 export const getDescriptionText = (postContent: string): string => {
   return (
     postContent
@@ -24,19 +26,22 @@ export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> =
     '@type': 'BlogPosting',
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${SITE.URL}${post.slug}.html`,
+      '@id': getPermalink(post.slug),
     },
     headline: post.title,
     datePublished: post.date,
     dateModified: post.updated || post.date,
+    ...(!!post.tags && { keywords: post.tags }),
     author: {
       '@type': 'Person',
       name: AUTHOR.NAME,
-      url: [URL.SITE, URL.TWITTER, URL.GITHUB, URL.QIITA, URL.ZENN],
+      image: AUTHOR.ICON,
+      url: URL.SITE,
+      sameAs: [URL.TWITTER, URL.GITHUB, URL.QIITA, URL.ZENN],
       jobTitle: 'Frontend Developer',
     },
     description: getDescriptionText(post.content),
-    image: [`${SITE.URL}images/ogp/${post.slug}.webp`],
+    image: [getOgpImage(post.slug)],
     publisher: {
       '@type': 'Organization',
       name: SITE.NAME,
