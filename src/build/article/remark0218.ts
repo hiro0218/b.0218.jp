@@ -1,11 +1,11 @@
 import type { Element } from 'hast';
 import { h } from 'hastscript';
-import { JSDOM, VirtualConsole } from 'jsdom';
 import { Transformer } from 'unified';
 import { visit } from 'unist-util-visit';
 
 import * as Log from '@/lib/Log';
 
+import { getMeta } from './dom';
 import { isValidURL, normalizeURL } from './url';
 
 type OpgProps = {
@@ -16,15 +16,6 @@ type OpgProps = {
 };
 
 const FETCH_TIMEOUT = 1000;
-
-/**
- * 不正な CSS を読み込んだ際のパースエラーを握りつぶす
- * @see https://github.com/jsdom/jsdom/issues/2230
- */
-const virtualConsole = new VirtualConsole();
-virtualConsole.on('error', () => {
-  // No-op to skip console errors.
-});
 
 const transformImage = (node: Element) => {
   node.properties = {
@@ -101,29 +92,25 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
       return res.status === 200 ? res.text() : '';
     });
 
-    if (result) {
-      const { document } = new JSDOM(result.replace(/<body.*?>.*?<\/body>/gs, ''), { virtualConsole }).window;
-      const meta = document.head.querySelectorAll('meta');
-      const ogp: OpgProps = Array.from(meta)
-        .filter((element: HTMLMetaElement) => {
-          const property = element.getAttribute('property');
-          const name = element.getAttribute('name');
+    if (!result) return;
 
-          return (
-            property === 'og:title' || property === 'og:image' || name === 'description' || name === 'twitter:card'
-          );
-        })
-        .reduce((tmp, element: HTMLMetaElement) => {
-          const key =
-            element.getAttribute('property')?.replace('og:', '') ||
-            element.getAttribute('name')?.replace('twitter:', '');
-          tmp[key] = element.getAttribute('content');
-          return tmp;
-        }, {});
-      const domain = new URL(url).hostname;
+    const meta = getMeta(result);
+    const ogp: OpgProps = Array.from(meta)
+      .filter((element: HTMLMetaElement) => {
+        const property = element.getAttribute('property');
+        const name = element.getAttribute('name');
 
-      setPreviewLinkNodes(node, index, parent, domain, ogp);
-    }
+        return property === 'og:title' || property === 'og:image' || name === 'description' || name === 'twitter:card';
+      })
+      .reduce((tmp, element: HTMLMetaElement) => {
+        const key =
+          element.getAttribute('property')?.replace('og:', '') || element.getAttribute('name')?.replace('twitter:', '');
+        tmp[key] = element.getAttribute('content');
+        return tmp;
+      }, {});
+    const domain = new URL(url).hostname;
+
+    setPreviewLinkNodes(node, index, parent, domain, ogp);
   } catch (error) {
     if (error.name === 'TimeoutError') {
       Log.error(`Timeout: It took more than ${FETCH_TIMEOUT} ms to retrieve the result.`, url);
