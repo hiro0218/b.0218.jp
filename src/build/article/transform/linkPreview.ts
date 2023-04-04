@@ -11,6 +11,7 @@ type OpgProps = {
   title?: string;
   card?: 'summary' | 'summary_large_image' | 'app' | 'player';
 };
+type OgpKey = keyof OpgProps;
 
 const PREVIEW_LINK_BLOCK_CLASS_NAME = 'p-link-preview';
 const PREVIEW_LINK_CLASS_NAMES = {
@@ -70,6 +71,25 @@ const canTransformLinkPreview = (node: Element, index: number, parent: Element) 
   return !prevNode && !nextNode;
 };
 
+const getOgpContent = (element: HTMLMetaElement): [OgpKey, string] | null => {
+  const property = element.getAttribute('property');
+  const name = element.getAttribute('name');
+
+  if (property === 'og:title' || property === 'og:image' || name === 'description' || name === 'twitter:card') {
+    const key = property?.replace('og:', '') || name?.replace('twitter:', '');
+    const content = element.getAttribute('content');
+
+    return [key as OgpKey, content ?? ''];
+  }
+
+  return null;
+};
+
+const getOgpProps = (meta: HTMLMetaElement[]): OpgProps => {
+  const ogpEntries = meta.map(getOgpContent).filter((entry): entry is [OgpKey, string] => entry !== null);
+  return Object.fromEntries(ogpEntries);
+};
+
 const transformLinkPreview = async (node: Element, index: number, parent: Element) => {
   if (!canTransformLinkPreview(node, index, parent)) return;
 
@@ -81,19 +101,7 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
     if (!result) return;
 
     const meta = getMeta(result);
-    const ogp: OpgProps = Array.from(meta)
-      .filter((element: HTMLMetaElement) => {
-        const property = element.getAttribute('property');
-        const name = element.getAttribute('name');
-
-        return property === 'og:title' || property === 'og:image' || name === 'description' || name === 'twitter:card';
-      })
-      .reduce((tmp, element: HTMLMetaElement) => {
-        const key =
-          element.getAttribute('property')?.replace('og:', '') || element.getAttribute('name')?.replace('twitter:', '');
-        tmp[key] = element.getAttribute('content');
-        return tmp;
-      }, {});
+    const ogp = getOgpProps(Array.from(meta));
     const domain = new URL(href).hostname;
 
     setPreviewLinkNodes(node, index, parent, domain, ogp);
