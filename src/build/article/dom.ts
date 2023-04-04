@@ -1,5 +1,7 @@
 import { JSDOM, VirtualConsole } from 'jsdom';
 
+import { isValidURL, normalizeURL } from './url';
+
 const FETCH_HEADERS = { 'User-Agent': 'Twitterbot/1.0' };
 export const FETCH_TIMEOUT = 1000;
 
@@ -20,7 +22,11 @@ export const getMeta = (html: string) => {
 };
 
 export const getHTML = async (url: string) => {
-  return await fetch(url, {
+  if (!isValidURL(url)) return '';
+
+  const normalizedUrl = normalizeURL(url);
+
+  return await fetch(normalizedUrl, {
     headers: FETCH_HEADERS,
     signal: AbortSignal.timeout(FETCH_TIMEOUT),
   }).then((res) => {
