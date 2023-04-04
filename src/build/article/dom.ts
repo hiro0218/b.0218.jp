@@ -1,21 +1,15 @@
-import { JSDOM, VirtualConsole } from 'jsdom';
+import { Window } from 'happy-dom';
 
 import { isValidURL, normalizeURL } from './url';
+
+const window = new Window();
+const document = window.document;
 
 const FETCH_HEADERS = { 'User-Agent': 'Twitterbot/1.0' };
 export const FETCH_TIMEOUT = 1000;
 
-/**
- * 不正な CSS を読み込んだ際のパースエラーを握りつぶす
- * @see https://github.com/jsdom/jsdom/issues/2230
- */
-const virtualConsole = new VirtualConsole();
-virtualConsole.on('error', () => {
-  // No-op to skip console errors.
-});
-
 export const getMeta = (html: string) => {
-  const { document } = new JSDOM(html.match(/<head[^>]*>[\s\S]*?<\/head>/i)[0], { virtualConsole }).window;
+  document.head.innerHTML = html.match(/<head[^>]*>[\s\S]*?<\/head>/i)[0];
   const meta = document.head.querySelectorAll('meta');
 
   return meta;
