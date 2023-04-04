@@ -1,4 +1,4 @@
-import type { Element } from 'hast';
+import type { Element, ElementContent } from 'hast';
 import { h } from 'hastscript';
 
 import * as Log from '@/lib/Log';
@@ -54,21 +54,49 @@ const setPreviewLinkNodes = (node: Element, index: number, parent: Element, doma
 
 // eslint-disable-next-line complexity
 const canTransformLinkPreview = (node: Element, index: number, parent: Element) => {
-  // 親がp要素で子がa要素であること
-  if (parent.tagName !== 'p' && parent.children[0].type === 'element' && parent.children[0].tagName === 'a')
+  // a要素ではない
+  if (node.type !== 'element' && node.tagName !== 'a') {
     return false;
+  }
 
-  if (node.children[0]?.type !== 'text') return false;
+  // a要素に子がない
+  if (!node.children.length) {
+    return false;
+  }
+
+  // textノードではない
+  if (node.children[0].type !== 'text') {
+    return false;
+  }
+
+  // 親がp要素ではない
+  if (parent.tagName !== 'p' && parent.children[0].type === 'element') {
+    return false;
+  }
 
   // 子がtext、textがhrefと一致すること
-  if (node.children.length === 1 && node.children[0]?.value !== node.properties.href) return false;
+  if (node.children.length === 1 && node.children[0].value !== node.properties.href) {
+    return false;
+  }
 
   const siblings = parent ? parent.children : [];
   const prevNode = index && siblings[index - 1];
   const nextNode = index && siblings[index + 1];
 
   // 前後が空行だった場合はtrue
-  return !prevNode && !nextNode;
+  return !checkBreakNode(prevNode) && !checkBreakNode(nextNode);
+};
+
+const checkBreakNode = (node: ElementContent) => {
+  if (!node) {
+    return false;
+  }
+
+  try {
+    return (node.type === 'element' && node.tagName === 'br') || !!node;
+  } catch (e) {
+    return false;
+  }
 };
 
 const getOgpContent = (element: HTMLMetaElement): [OgpKey, string] | null => {
