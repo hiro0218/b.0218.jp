@@ -27,3 +27,4 @@ export const READ_TIME_SUFFIX = 'min read';
 export const FILENAME_POSTS = 'posts';
 export const FILENAME_POSTS_LIST = 'posts-list';
 export const FILENAME_PAGES = 'pages';
+export const FILENAME_TAG_SIMILARITY = 'tags-similarity';
