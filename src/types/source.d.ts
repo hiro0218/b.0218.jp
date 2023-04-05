@@ -19,3 +19,9 @@ export type Post = ArticleBaseProps & {
   readingTime: number;
   noindex?: boolean;
 };
+
+export type TagSimilar = {
+  [tag: string]: {
+    [relatedTag: string]: number;
+  };
+};

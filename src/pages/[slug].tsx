@@ -6,13 +6,15 @@ import { useRef } from 'react';
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import { PostEdit, PostHeader, PostNextRead, PostNote, PostShare } from '@/components/Page/Post';
 import Mokuji from '@/components/Page/Post/Mokuji';
+import TagSimilar from '@/components/Page/Post/TagSimilar';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContainer } from '@/components/UI/Layout';
+import { Props as PostTagProps } from '@/components/UI/Tag';
 import { Title } from '@/components/UI/Title';
 import { AUTHOR, READ_TIME_SUFFIX } from '@/constant';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
-import { getPostsJson, getTagsJson, getTagsWithCount } from '@/lib/posts';
+import { getPostsJson, getTagSimilar, getTagsJson, getTagsWithCount } from '@/lib/posts';
 import { textSegmenter } from '@/lib/textSegmenter';
 import { getOgpImage, getPermalink } from '@/lib/url';
 import { Post as PostType, TermsPostList } from '@/types/source';
@@ -20,10 +22,11 @@ import { Post as PostType, TermsPostList } from '@/types/source';
 type PostProps = {
   post: PostType & { segmentedTitle: string };
   nextRead: TermsPostList[];
+  similarTags: PostTagProps[];
 };
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-export default function Post({ post, nextRead }: Props) {
+export default function Post({ post, nextRead, similarTags }: Props) {
   const refContent = useRef<HTMLDivElement>(null);
   const permalink = getPermalink(post.slug);
   const description = getDescriptionText(post.content);
@@ -84,6 +87,8 @@ export default function Post({ post, nextRead }: Props) {
 
         <PostEdit slug={post.slug} />
 
+        <TagSimilar similarTags={similarTags} />
+
         <PostNextRead posts={nextRead} />
       </PageContainer>
     </>
@@ -143,10 +148,16 @@ export const getStaticProps: GetStaticProps<PostProps> = (context) => {
     nextRead.pop();
   }
 
+  // 関連タグ
+  const similarTags: PostTagProps[] = Object.entries(getTagSimilar()[tag]).map(([slug]) => {
+    return { slug };
+  });
+
   return {
     props: {
       post: { ...post, segmentedTitle },
       nextRead,
+      similarTags,
     },
   };
 };
