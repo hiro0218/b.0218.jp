@@ -43,6 +43,7 @@ export default function Archive({ archives, numberOfPosts }: Props) {
     <>
       <Head>
         <title key="title">{`Archive - ${SITE.NAME}`}</title>
+        <link href={`${SITE.URL}archive`} rel="canonical" />
       </Head>
 
       <PageContainer as="article">
