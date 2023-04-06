@@ -7,6 +7,10 @@ type Props = {
 };
 
 const TagSimilar = ({ similarTags }: Props) => {
+  if (!similarTags.length) {
+    return null;
+  }
+
   return (
     <section>
       <Heading as="h2" text="関連タグ" />
