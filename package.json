@@ -49,8 +49,8 @@
     "shokika.css": "^1.6.0"
   },
   "devDependencies": {
-    "@markuplint/jsx-parser": "^3.6.0",
-    "@markuplint/react-spec": "^3.6.0",
+    "@markuplint/jsx-parser": "^3.6.1",
+    "@markuplint/react-spec": "^3.6.1",
     "@types/css-font-loading-module": "^0.0.8",
     "@types/fs-extra": "^11.0.1",
     "@types/gtag.js": "^0.0.12",
@@ -80,7 +80,7 @@
     "happy-dom": "^9.1.7",
     "hastscript": "^7.2.0",
     "husky": "^8.0.3",
-    "markuplint": "^3.6.0",
+    "markuplint": "^3.6.1",
     "nano-staged": "^0.8.0",
     "next-build-id": "^3.0.0",
     "next-compose-plugins": "^2.2.1",
