@@ -1,5 +1,5 @@
 import Heading from '@/components/UI/Heading';
-import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
+import PostTag, { Props as PostTagProps } from '@/components/UI/Tag';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -15,9 +15,7 @@ const TagSimilar = ({ similarTags }: Props) => {
     <section>
       <Heading as="h2" text="関連タグ" />
       <Container>
-        <PostTagGridContainer>
-          <PostTag tags={similarTags} />
-        </PostTagGridContainer>
+        <PostTag tags={similarTags} />
       </Container>
     </section>
   );
@@ -26,5 +24,8 @@ const TagSimilar = ({ similarTags }: Props) => {
 export default TagSimilar;
 
 const Container = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
   margin-top: var(--space-3);
 `;

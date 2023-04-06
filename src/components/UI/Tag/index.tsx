@@ -36,14 +36,7 @@ const PostTag = memo(function PostTag({ tags }: PostTagProps) {
 
 export default PostTag;
 
-export const PostTagGridContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1);
-`;
-
 export const PostTagAnchorStyle = css`
-  flex: 1 1 auto;
   align-items: center;
   align-self: flex-start;
   padding: var(--space-1);
@@ -70,4 +63,14 @@ export const PostTagAnchorStyle = css`
 
 const Anchor = styled(_Anchor)`
   ${PostTagAnchorStyle}
+`;
+
+export const PostTagGridContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+
+  ${Anchor} {
+    flex: 1 1 auto;
+  }
 `;
