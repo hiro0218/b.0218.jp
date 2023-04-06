@@ -1,4 +1,5 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import Head from 'next/head';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import { createGetLayout } from '@/components/Layouts/SinglePageLayout';
@@ -14,11 +15,16 @@ type AboutProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 export default function About({ page }: AboutProps) {
   return (
-    <PostContent
-      dangerouslySetInnerHTML={{
-        __html: `${page.content}`,
-      }}
-    />
+    <>
+      <Head>
+        <link href={`${SITE.URL}about`} rel="canonical" />
+      </Head>
+      <PostContent
+        dangerouslySetInnerHTML={{
+          __html: `${page.content}`,
+        }}
+      />
+    </>
   );
 }
 

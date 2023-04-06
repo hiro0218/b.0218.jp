@@ -1,8 +1,8 @@
 import { readJsonSync } from 'fs-extra';
 import { join } from 'path';
 
-import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
-import { Page, Post } from '@/types/source';
+import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST, FILENAME_TAG_SIMILARITY } from '@/constant';
+import { Page, Post, TagSimilar } from '@/types/source';
 
 type PostList = Partial<Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>>;
 
@@ -34,4 +34,8 @@ export const getTagsWithCount = (): [string, number][] => {
       return [key, val.length] as [string, number];
     })
     .sort((a, b) => b[1] - a[1]); // 件数の多い順にソート
+};
+
+export const getTagSimilar = (): TagSimilar => {
+  return getJson<TagSimilar>(FILENAME_TAG_SIMILARITY);
 };
