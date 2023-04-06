@@ -149,9 +149,12 @@ export const getStaticProps: GetStaticProps<PostProps> = (context) => {
   }
 
   // 関連タグ
-  const similarTags: PostTagProps[] = Object.entries(getTagSimilar()[tag]).map(([slug]) => {
-    return { slug };
-  });
+  const similarTagsList = getTagSimilar()[tag];
+  const similarTags: PostTagProps[] = !!similarTagsList
+    ? Object.entries(similarTagsList).map(([slug]) => {
+        return { slug };
+      })
+    : [];
 
   return {
     props: {
