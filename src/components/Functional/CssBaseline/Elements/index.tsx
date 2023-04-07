@@ -117,7 +117,9 @@ export default css`
   }
 
   code {
+    color: var(--text-12);
     overflow-wrap: break-word;
+    border-radius: var(--border-radius-4);
 
     a > & {
       color: inherit;
@@ -130,7 +132,6 @@ export default css`
     font-size: var(--font-size-sm);
     overflow-wrap: break-word;
     background: var(--backgrounds-1);
-    border-radius: var(--border-radius-2);
     -webkit-overflow-scrolling: touch;
     /* stylelint-disable */
     resize: horizontal;
@@ -140,8 +141,7 @@ export default css`
       display: block;
       padding: var(--space-3);
       font-size: inherit;
-      color: var(--text-12);
-      background: var(--backgrounds-2);
+      border: 1px solid var(--borders-6);
     }
   }
 
@@ -149,10 +149,7 @@ export default css`
     padding: var(--space-½) var(--space-1);
     margin: 0;
     font-size: var(--font-size-sm);
-    color: var(--text-12);
-    text-align: left;
     background: var(--component-backgrounds-3A);
-    border-radius: var(--border-radius-2);
   }
 
   /* table */
