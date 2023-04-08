@@ -132,6 +132,8 @@ export default css`
     font-size: var(--font-size-sm);
     overflow-wrap: break-word;
     background: var(--backgrounds-1);
+    border: 1px solid var(--borders-6);
+    border-radius: var(--border-radius-4);
     -webkit-overflow-scrolling: touch;
     /* stylelint-disable */
     resize: horizontal;
@@ -141,7 +143,6 @@ export default css`
       display: block;
       padding: var(--space-3);
       font-size: inherit;
-      border: 1px solid var(--borders-6);
     }
   }
 

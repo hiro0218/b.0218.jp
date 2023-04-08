@@ -98,7 +98,7 @@ const PostContent = styled.div`
       margin: var(--space-½) 0 var(--space-2);
     }
 
-    *:not(ul, ol, li) {
+    :where(*):not(ul, ol, li) {
       margin: var(--space-2) 0;
     }
   }
