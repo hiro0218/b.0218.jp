@@ -1,4 +1,4 @@
-import { copy, ensureDirSync, readdirSync, readJSONSync, writeJSON, writeJSONSync } from 'fs-extra';
+import { copy, ensureDirSync, readdirSync, writeJSONSync } from 'fs-extra';
 import matter from 'gray-matter';
 import readingTime from 'reading-time';
 
@@ -75,6 +75,11 @@ async function buildPost() {
   ensureDirSync(`${PATH.DIST}`);
   writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS}.json`, posts);
   Log.info(`Write dist/${FILENAME_POSTS}.json`);
+
+  return posts;
+}
+
+function buildPostList(posts: Partial<PropPost>[]) {
   writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, removePostsData(posts));
   Log.info(`Write dist/${FILENAME_POSTS_LIST}.json`);
 }
@@ -89,8 +94,7 @@ function removePostsData(posts: Partial<PropPost>[]) {
   });
 }
 
-function buildTerms() {
-  const posts: PropPost[] = readJSONSync(`${PATH.DIST}/${FILENAME_POSTS}.json`);
+function buildTerms(posts: Partial<PropPost>[]) {
   const tagsMap = {};
 
   for (let i = 0; i < posts.length; i++) {
@@ -109,9 +113,8 @@ function buildTerms() {
     }
   }
 
-  writeJSON(`${PATH.DIST}/tags.json`, tagsMap).then(() => {
-    Log.info('Write dist/tags.json');
-  });
+  writeJSONSync(`${PATH.DIST}/tags.json`, tagsMap);
+  Log.info('Write dist/tags.json');
 }
 
 async function buildPage() {
@@ -152,8 +155,9 @@ function copyFiles() {
 }
 
 (async () => {
-  await buildPost();
-  buildTerms();
+  const posts = await buildPost();
+  buildTerms(posts);
+  buildPostList(posts);
   await buildPage();
   copyFiles();
 })();
