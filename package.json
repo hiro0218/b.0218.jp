@@ -84,7 +84,7 @@
     "nano-staged": "^0.8.0",
     "next-build-id": "^3.0.0",
     "next-compose-plugins": "^2.2.1",
-    "next-sitemap": "^4.0.6",
+    "next-sitemap": "^4.0.7",
     "playwright": "^1.32.2",
     "postcss-styled-syntax": "^0.4.0",
     "prettier": "^2.8.7",
