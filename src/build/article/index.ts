@@ -95,20 +95,21 @@ function removePostsData(posts: Partial<PropPost>[]) {
 }
 
 function buildTerms(posts: Partial<PropPost>[]) {
-  const tagsMap = {};
+  const tagsMap: {
+    [key: string]: string[];
+  } = {};
 
   for (let i = 0; i < posts.length; i++) {
     const { slug, tags } = posts[i];
-    const item = slug;
 
     for (let i = 0; i < tags.length; i++) {
       const tag = tags[i];
       const mappedTags = tagsMap[tag];
 
       if (mappedTags) {
-        mappedTags.push(item);
+        mappedTags.push(slug);
       } else {
-        tagsMap[tag] = [item];
+        tagsMap[tag] = [slug];
       }
     }
   }
