@@ -80,7 +80,7 @@
     "happy-dom": "^9.1.9",
     "hastscript": "^7.2.0",
     "husky": "^8.0.3",
-    "markuplint": "^3.6.1",
+    "markuplint": "^3.7.0",
     "nano-staged": "^0.8.0",
     "next-build-id": "^3.0.0",
     "next-compose-plugins": "^2.2.1",
