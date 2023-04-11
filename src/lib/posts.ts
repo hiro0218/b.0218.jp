@@ -6,10 +6,28 @@ import { Page, Post, TagSimilar } from '@/types/source';
 
 type PostList = Partial<Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>>;
 
+const cache = {
+  [`${FILENAME_PAGES}`]: null,
+  [`${FILENAME_POSTS}`]: null,
+  [`${FILENAME_POSTS_LIST}`]: null,
+  [`${FILENAME_TAG_SIMILARITY}`]: null,
+};
+
 const getJson = <T>(filename: string): T => {
   const path = join(process.cwd(), `dist/${filename}.json`);
 
-  return readJsonSync(path) as T;
+  // キャッシュにデータが存在する場合はキャッシュから取得する
+  if (cache[filename]) {
+    return cache[filename] as T;
+  }
+
+  // ファイルを読み込む
+  const data = readJsonSync(path) as T;
+
+  // キャッシュにデータを保存する
+  cache[filename] = data;
+
+  return data;
 };
 
 export const getTagsJson = (): Record<string, string[]> => {

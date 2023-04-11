@@ -28,3 +28,8 @@ export const FILENAME_POSTS = 'posts';
 export const FILENAME_POSTS_LIST = 'posts-list';
 export const FILENAME_PAGES = 'pages';
 export const FILENAME_TAG_SIMILARITY = 'tags-similarity';
+
+/**
+ * タグ一覧を生成するために必要なタグ件数
+ */
+export const TAG_VIEW_LIMIT = 3;

@@ -1,6 +1,7 @@
 import { memo } from 'react';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
+import { TAG_VIEW_LIMIT } from '@/constant';
 import { css, styled } from '@/ui/styled';
 
 export type Props = {
@@ -19,17 +20,17 @@ const PostTag = memo(function PostTag({ tags }: PostTagProps) {
 
   return (
     <>
-      {tags?.map(({ slug, count }) => (
-        <Anchor
-          href={`/tags/${slug}`}
-          key={slug}
-          passHref
-          prefetch={false}
-          title={count ? `${slug}: ${count}件` : `tag: ${slug}`}
-        >
-          {slug}
-        </Anchor>
-      ))}
+      {tags
+        .sort((a, b) => b.count - a.count)
+        .map(({ slug, count }) => {
+          const TagComponent = count >= TAG_VIEW_LIMIT ? Anchor : Anchor.withComponent('span');
+
+          return (
+            <TagComponent href={`/tags/${slug}`} key={slug} passHref prefetch={false}>
+              {slug}
+            </TagComponent>
+          );
+        })}
     </>
   );
 });

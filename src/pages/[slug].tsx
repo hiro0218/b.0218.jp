@@ -11,16 +11,19 @@ import { Adsense } from '@/components/UI/Adsense';
 import { PageContainer } from '@/components/UI/Layout';
 import { Props as PostTagProps } from '@/components/UI/Tag';
 import { Title } from '@/components/UI/Title';
-import { AUTHOR, READ_TIME_SUFFIX } from '@/constant';
+import { AUTHOR, READ_TIME_SUFFIX, TAG_VIEW_LIMIT } from '@/constant';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
-import { getPostsJson, getTagSimilar, getTagsJson, getTagsWithCount } from '@/lib/posts';
+import { getPostsJson, getTagSimilar, getTagsJson } from '@/lib/posts';
 import { textSegmenter } from '@/lib/textSegmenter';
 import { getOgpImage, getPermalink } from '@/lib/url';
 import { Post as PostType, TermsPostList } from '@/types/source';
 
 type PostProps = {
-  post: PostType & { segmentedTitle: string };
+  post: PostType & {
+    tagsWithCount: PostTagProps[];
+    segmentedTitle: string;
+  };
   nextRead: TermsPostList[];
   similarTags: PostTagProps[];
 };
@@ -66,7 +69,12 @@ export default function Post({ post, nextRead, similarTags }: Props) {
 
       <PageContainer as="article">
         <Title heading={post.segmentedTitle}>
-          <PostHeader date={post.date} readingTime={post.readingTime} tags={post.tags} updated={post.updated} />
+          <PostHeader
+            date={post.date}
+            readingTime={post.readingTime}
+            tagsWithCount={post.tagsWithCount}
+            updated={post.updated}
+          />
         </Title>
 
         <PostNote note={post.note} />
@@ -106,25 +114,27 @@ export const getStaticPaths: GetStaticPaths = () => {
 
 export const getStaticProps: GetStaticProps<PostProps> = (context) => {
   const posts = getPostsJson();
+  const tagData = getTagsJson();
+  const tagDataWithCount = Object.entries(tagData)
+    .map(([slug, val]) => {
+      return { slug, count: val.length };
+    })
+    .sort((a, b) => b.count - a.count);
   const slug = (context.params.slug as string).replace('.html', '');
 
   // slug に一致する post を取得
   const post = posts.find((post) => post.slug === slug);
 
-  // tagsを件数順に並び替える
-  post.tags =
-    post.tags.length > 1
-      ? getTagsWithCount()
-          .filter(([key]) => post.tags.filter((tag) => tag === key).length > 0)
-          .map(([slug]) => slug)
-      : post.tags;
+  // tagsに件数を追加
+  const tagsWithCount: PostTagProps[] = post.tags.map((slug) => {
+    return tagDataWithCount.find((tag) => tag.slug === slug) || null;
+  });
 
   // タイトルの文字組み
   const segmentedTitle = textSegmenter(post.title);
 
   // 関連記事
   const tag = post.tags[0];
-  const tagData = getTagsJson();
   const nextRead = Object.entries(tagData)
     .filter(([key]) => key === tag)
     .flatMap(([, values]) =>
@@ -149,16 +159,24 @@ export const getStaticProps: GetStaticProps<PostProps> = (context) => {
   }
 
   // 関連タグ
+  const getTagBySlug = (slug: PostTagProps['slug']) => {
+    return Object.entries(tagData).find(([key]) => key === slug);
+  };
   const similarTagsList = getTagSimilar()[tag];
   const similarTags: PostTagProps[] = !!similarTagsList
-    ? Object.entries(similarTagsList).map(([slug]) => {
-        return { slug };
-      })
+    ? Object.entries(similarTagsList)
+        .map(([slug]) => {
+          const tag = getTagBySlug(slug);
+          const count = tag.length > 1 ? tag[1].length : 0;
+          return count >= TAG_VIEW_LIMIT ? { slug, count } : null;
+        })
+        .filter((item) => item !== null)
+        .sort((a, b) => b.count - a.count)
     : [];
 
   return {
     props: {
-      post: { ...post, segmentedTitle },
+      post: { ...post, tagsWithCount, segmentedTitle },
       nextRead,
       similarTags,
     },

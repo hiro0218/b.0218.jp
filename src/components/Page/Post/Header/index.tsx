@@ -1,16 +1,14 @@
-import { useMemo } from 'react';
-
 import { PostDate } from '@/components/Page/Post';
-import PostTag, { PostTagGridContainer } from '@/components/UI/Tag';
+import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
 import { READ_TIME_SUFFIX } from '@/constant';
 import { Post as PostProps } from '@/types/source';
 import { styled } from '@/ui/styled';
 
-type Props = Pick<PostProps, 'date' | 'updated' | 'readingTime' | 'tags'>;
+type Props = Pick<PostProps, 'date' | 'updated' | 'readingTime'> & {
+  tagsWithCount: PostTagProps[];
+};
 
-const PostHeader = ({ date, updated, readingTime, tags }: Props) => {
-  const postTags = useMemo(() => tags.map((slug) => ({ slug })), [tags]);
-
+const PostHeader = ({ date, updated, readingTime, tagsWithCount }: Props) => {
   return (
     <List>
       <Item>
@@ -20,7 +18,7 @@ const PostHeader = ({ date, updated, readingTime, tags }: Props) => {
       </Item>
       <Item>
         <PostTagGridContainer>
-          <PostTag tags={postTags} />
+          <PostTag tags={tagsWithCount} />
         </PostTagGridContainer>
       </Item>
     </List>
