@@ -4,8 +4,8 @@ import Head from 'next/head';
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
-import { SITE } from '@/constant';
-import { getPostsJson, getTagsJson } from '@/lib/posts';
+import { SITE, TAG_VIEW_LIMIT } from '@/constant';
+import { getPostsJson, getTagsJson, getTagsWithCount } from '@/lib/posts';
 import { TermsPostList } from '@/types/source';
 
 type TermProps = {
@@ -47,10 +47,14 @@ export default function Tags({ title, posts }: Props) {
 }
 
 export const getStaticPaths: GetStaticPaths = () => {
-  const tags = getTagsJson();
-  const paths = Object.keys(tags).map((slug) => ({
-    params: { slug },
-  }));
+  const tags = getTagsWithCount();
+  const paths = tags
+    .filter(([, count]) => count >= TAG_VIEW_LIMIT)
+    .map(([slug]) => {
+      return {
+        params: { slug },
+      };
+    });
 
   return { paths, fallback: false };
 };
