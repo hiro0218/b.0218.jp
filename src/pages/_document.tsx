@@ -65,7 +65,9 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
           })}
           <link href="https://googleads.g.doubleclick.net" rel="preconnect" />
           <link href="/favicon.ico" rel="icon" type="image/x-icon" />
-          <link href={`${SITE.URL}feed.xml`} rel="alternate" type="application/rss+xml" />
+          <link href={`${SITE.URL}feed.xml`} rel="alternate" title="RSSフィード" type="application/rss+xml" />
+          <link href={`${SITE.URL}atom.xml`} rel="alternate" title="Atomフィード" type="application/atom+xml" />
+          <link href={`${SITE.URL}feed.json`} rel="alternate" title="JSONフィード" type="application/json" />
           <link href="/opensearch.xml" rel="search" type="application/opensearchdescription+xml" />
           {Object.entries(URL).map(([key, url]) => {
             return key !== 'SITE' && <link href={url} key={key} rel="me" />;
