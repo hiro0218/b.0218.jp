@@ -17,7 +17,7 @@ export default function Tags({ tags }: Props) {
     <>
       <Head>
         <title key="title">{`Tags - ${SITE.NAME}`}</title>
-        <link href={`${SITE.URL}tags`} rel="canonical" />
+        <link href={`${SITE.URL}/tags`} rel="canonical" />
       </Head>
 
       <PageContainer>

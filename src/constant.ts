@@ -1,4 +1,4 @@
-const SITE_URL = 'https://b.0218.jp/';
+const SITE_URL = 'https://b.0218.jp';
 
 export const AUTHOR = {
   NAME: 'hiro',

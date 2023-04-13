@@ -16,9 +16,9 @@ function generatedRssFeed(): void {
     copyright: `© ${AUTHOR.NAME}`,
     updated: new Date(),
     feedLinks: {
-      rss2: `${SITE.URL}rss/feed.xml`,
-      json: `${SITE.URL}rss/feed.json`,
-      atom: `${SITE.URL}rss/atom.xml`,
+      rss2: `${SITE.URL}/rss/feed.xml`,
+      json: `${SITE.URL}/rss/feed.json`,
+      atom: `${SITE.URL}/rss/atom.xml`,
     },
     author: {
       name: AUTHOR.NAME,
