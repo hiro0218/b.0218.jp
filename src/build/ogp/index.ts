@@ -50,17 +50,15 @@ const template = readFileSync(`${process.cwd()}/src/build/ogp/template.html`, 'u
         await Promise.all([(document.getElementById('title').innerHTML = pageTitle), document.fonts.ready]);
       }, pageTitle);
 
-      await page
-        .screenshot({
-          fullPage: false,
-          path: `${path.dist}/${slug}.png`,
-        })
-        .then(() => {
-          const processed = index + 1;
-          if (processed === 1 || processed % 100 === 0 || processed === length) {
-            Log.info('Generating OGP Images', `(${processed}/${length})`);
-          }
-        });
+      await page.screenshot({
+        fullPage: false,
+        path: `${path.dist}/${slug}.png`,
+      });
+
+      const processed = index + 1;
+      if (processed === 1 || processed % 100 === 0 || processed === length) {
+        Log.info('Generating OGP Images', `(${processed}/${length})`);
+      }
     }
   } catch (err) {
     Log.error('Generating OGP Images', err.message);
