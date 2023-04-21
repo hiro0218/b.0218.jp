@@ -63,7 +63,8 @@ ensureDirSync(path.dist);
           const pageTitle = parser.translateHTMLString(title.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
 
           await page.evaluate(async (pageTitle) => {
-            await Promise.all([(document.getElementById('title').innerHTML = pageTitle), document.fonts.ready]);
+            document.getElementById('title').innerHTML = pageTitle;
+            await document.fonts.ready;
           }, pageTitle);
 
           await page.screenshot({
