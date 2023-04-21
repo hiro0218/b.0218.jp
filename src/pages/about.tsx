@@ -17,7 +17,7 @@ export default function About({ page }: AboutProps) {
   return (
     <>
       <Head>
-        <link href={`${SITE.URL}about`} rel="canonical" />
+        <link href={`${SITE.URL}/about`} rel="canonical" />
       </Head>
       <PostContent
         dangerouslySetInnerHTML={{

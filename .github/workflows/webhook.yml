@@ -6,13 +6,13 @@ on:
     branches:
       - master
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * *' # UTC時刻で日本時間の0:00
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Webhook
-      uses: joelwmale/webhook-action@master
-      with:
-        url: ${{ secrets.VERCEL_WEBHOOK }}
+      - name: Webhook
+        uses: joelwmale/webhook-action@master
+        with:
+          url: ${{ secrets.VERCEL_WEBHOOK }}

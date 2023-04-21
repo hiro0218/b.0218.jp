@@ -72,7 +72,7 @@ export const getBreadcrumbStructured = (post: Post) => {
         '@type': 'ListItem',
         position: 2,
         name: tags,
-        item: `${SITE.URL}tags/${tags}`,
+        item: `${SITE.URL}/tags/${tags}`,
       });
     }
   }
@@ -81,7 +81,7 @@ export const getBreadcrumbStructured = (post: Post) => {
     '@type': 'ListItem',
     position: 3,
     name: post.title,
-    item: `${SITE.URL}${post.slug}.html`,
+    item: getPermalink(post.slug),
   });
 
   const structure: WithContext<BreadcrumbList> = {

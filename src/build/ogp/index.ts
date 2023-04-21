@@ -13,8 +13,9 @@ const path = {
 
 const template = readFileSync(`${process.cwd()}/src/build/ogp/template.html`, 'utf-8');
 
+ensureDirSync(path.dist);
+
 (async () => {
-  ensureDirSync(path.dist);
   const posts = getPostsListJson();
   const length = posts.length;
   let browser: Browser;
@@ -36,31 +37,50 @@ const template = readFileSync(`${process.cwd()}/src/build/ogp/template.html`, 'u
         '--disable-new-tab-first-run',
       ],
     });
-    const page = await browser.newPage();
-    await page.setContent(template, {
-      waitUntil: 'networkidle',
-    });
-    await page.setViewportSize({ width: 1200, height: 630 });
 
-    for (let index = 0; index < length; index++) {
-      const { title, slug } = posts[index];
-      const pageTitle = parser.translateHTMLString(title.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+    // 並行処理の数
+    const concurrency = 10;
 
-      await page.evaluate(async (pageTitle: string) => {
-        await Promise.all([(document.getElementById('title').innerHTML = pageTitle), document.fonts.ready]);
-      }, pageTitle);
+    // ページインスタンスを生成
+    const pages = await Promise.all(
+      Array(concurrency)
+        .fill(null)
+        .map(async () => {
+          const page = await browser.newPage();
+          await page.setContent(template, {
+            waitUntil: 'networkidle',
+          });
+          await page.setViewportSize({ width: 1200, height: 630 });
+          return page;
+        }),
+    );
 
-      await page
-        .screenshot({
-          fullPage: false,
-          path: `${path.dist}/${slug}.png`,
-        })
-        .then(() => {
+    for (let i = 0; i < length; i += concurrency) {
+      const screenshotPromises = pages.map(async (page, j) => {
+        const index = i + j;
+        if (index < length) {
+          const { title, slug } = posts[index];
+          const pageTitle = parser.translateHTMLString(title.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+
+          await page.evaluate(async (pageTitle) => {
+            document.getElementById('title').innerHTML = pageTitle;
+            await document.fonts.ready;
+          }, pageTitle);
+
+          await page.screenshot({
+            fullPage: false,
+            path: `${path.dist}/${slug}.png`,
+          });
+
           const processed = index + 1;
           if (processed === 1 || processed % 100 === 0 || processed === length) {
             Log.info('Generating OGP Images', `(${processed}/${length})`);
           }
-        });
+        }
+      });
+
+      // 並行してスクリーンショットを撮影
+      await Promise.all(screenshotPromises);
     }
   } catch (err) {
     Log.error('Generating OGP Images', err.message);
