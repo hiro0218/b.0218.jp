@@ -68,7 +68,7 @@
     "chalk": "^5.2.0",
     "dependency-cruiser": "^12.11.1",
     "dotenv": "^16.0.3",
-    "esbuild": "^0.17.17",
+    "esbuild": "^0.17.18",
     "esbuild-register": "^3.4.2",
     "eslint": "^8.39.0",
     "eslint-config-next": "^13.3.1",
