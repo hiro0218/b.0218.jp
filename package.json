@@ -12,6 +12,7 @@
     "build:ogp": "node --require esbuild-register ./src/build/ogp && node --require esbuild-register ./src/build/ogp/convertPngToWebP.ts",
     "build:sitemap": "node --require esbuild-register node_modules/next-sitemap/bin/next-sitemap",
     "build:tag-similarity": "node --require esbuild-register ./src/build/tag-similarity",
+    "build:analyzer": "ANALYZE=true next build",
     "start": "next start",
     "lint": "eslint \"src/**/*{.js,.ts,.tsx}\"",
     "lint:markup": "markuplint \"src/**/*{.jsx,.tsx}\"",
@@ -52,6 +53,7 @@
   "devDependencies": {
     "@markuplint/jsx-parser": "^3.6.1",
     "@markuplint/react-spec": "^3.7.0",
+    "@next/bundle-analyzer": "^13.3.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/css-font-loading-module": "^0.0.8",
