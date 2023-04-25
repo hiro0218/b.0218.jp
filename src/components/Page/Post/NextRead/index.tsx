@@ -18,15 +18,8 @@ const PostNextRead = ({ heading = '関連記事', posts }: Props) => {
     <section>
       <Heading as="h2" text={heading} />
       <Container>
-        {posts.map((post) => (
-          <LinkCard
-            date={post.date}
-            excerpt={post.excerpt}
-            key={post.slug}
-            link={`${post.slug}.html`}
-            title={post.title}
-            updated={post.updated}
-          />
+        {posts.map(({ date, excerpt, slug, title, updated }) => (
+          <LinkCard date={date} excerpt={excerpt} key={slug} link={`${slug}.html`} title={title} updated={updated} />
         ))}
       </Container>
     </section>

@@ -43,14 +43,14 @@ export const SearchPanel = ({ closeDialog }: Props) => {
     <SearchMain>
       {SearchHeader}
       <SearchResult>
-        {suggest.map((post) => {
-          const title = markEscapedHTML(post.title, keyword);
+        {suggest.map(({ title, slug }) => {
+          const escapedTitle = markEscapedHTML(title, keyword);
 
           return (
             <Anchor
-              dangerouslySetInnerHTML={{ __html: title }}
-              href={`/${post.slug}.html`}
-              key={post.slug}
+              dangerouslySetInnerHTML={{ __html: escapedTitle }}
+              href={`/${slug}.html`}
+              key={slug}
               passHref
               prefetch={true}
             />

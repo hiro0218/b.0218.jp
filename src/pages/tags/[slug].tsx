@@ -29,14 +29,14 @@ export default function Tags({ title, posts }: Props) {
 
         <Columns title={title}>
           <Stack space="half">
-            {posts.map((post) => (
+            {posts.map(({ date, excerpt, slug, title, updated }) => (
               <LinkCard
-                date={post.date}
-                excerpt={post.excerpt}
-                key={post.slug}
-                link={`/${post.slug}.html`}
-                title={post.title}
-                updated={post.updated}
+                date={date}
+                excerpt={excerpt}
+                key={slug}
+                link={`/${slug}.html`}
+                title={title}
+                updated={updated}
               />
             ))}
           </Stack>

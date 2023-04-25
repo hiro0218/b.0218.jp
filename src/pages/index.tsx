@@ -50,15 +50,15 @@ export default function Index({ recentPosts, updatesPosts, tags }: Props) {
           <Heading as="h2" text="最新記事" textSide={<LinkMoreArchive />} />
           <Columns title="Recent Articles" titleTagName="h3">
             <Stack space="half">
-              {recentPosts.map((post) => (
+              {recentPosts.map(({ date, excerpt, slug, tags, title, updated }) => (
                 <LinkCard
-                  date={post.date}
-                  excerpt={post.excerpt}
-                  key={post.slug}
-                  link={`${post.slug}.html`}
-                  tags={post.tags}
-                  title={post.title}
-                  updated={post.updated}
+                  date={date}
+                  excerpt={excerpt}
+                  key={slug}
+                  link={`${slug}.html`}
+                  tags={tags}
+                  title={title}
+                  updated={updated}
                 />
               ))}
             </Stack>
@@ -66,15 +66,15 @@ export default function Index({ recentPosts, updatesPosts, tags }: Props) {
 
           <Columns title="Updated Articles" titleTagName="h3">
             <Stack space="half">
-              {updatesPosts.map((post) => (
+              {updatesPosts.map(({ date, excerpt, slug, tags, title, updated }) => (
                 <LinkCard
-                  date={post.date}
-                  excerpt={post.excerpt}
-                  key={post.slug}
-                  link={`${post.slug}.html`}
-                  tags={post.tags}
-                  title={post.title}
-                  updated={post.updated}
+                  date={date}
+                  excerpt={excerpt}
+                  key={slug}
+                  link={`${slug}.html`}
+                  tags={tags}
+                  title={title}
+                  updated={updated}
                 />
               ))}
             </Stack>
