@@ -92,7 +92,7 @@
     "next-sitemap": "^4.0.7",
     "playwright": "^1.32.3",
     "postcss-styled-syntax": "^0.4.0",
-    "prettier": "^2.8.7",
+    "prettier": "^2.8.8",
     "reading-time": "^1.5.0",
     "rehype-external-links": "^2.0.1",
     "rehype-highlight": "^6.0.0",
