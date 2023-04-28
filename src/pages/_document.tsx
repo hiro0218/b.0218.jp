@@ -27,15 +27,9 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
 
     const initialProps = await Document.getInitialProps(ctx);
     const emotionStyles = extractCriticalToChunks(initialProps.html);
-    const emotionStyleTags = emotionStyles.styles.map((style) => {
+    const emotionStyleTags = emotionStyles.styles.map(({ css, key, ids }) => {
       return (
-        style.css && (
-          <style
-            dangerouslySetInnerHTML={{ __html: style.css }}
-            data-emotion={`${style.key} ${style.ids.join(' ')}`}
-            key={style.key}
-          />
-        )
+        css && <style dangerouslySetInnerHTML={{ __html: css }} data-emotion={`${key} ${ids.join(' ')}`} key={key} />
       );
     });
 

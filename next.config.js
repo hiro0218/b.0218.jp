@@ -1,5 +1,8 @@
 const nextBuildId = require('next-build-id');
 
+const withBundleAnalyzer =
+  process.env.ANALYZE === 'true' ? require('@next/bundle-analyzer')({ enabled: true }) : (config) => config;
+
 /** @type {import('next').NextConfig} */
 const nextConfiguration = {
   reactStrictMode: true,
@@ -54,4 +57,4 @@ const nextConfiguration = {
   },
 };
 
-module.exports = nextConfiguration;
+module.exports = withBundleAnalyzer(nextConfiguration);

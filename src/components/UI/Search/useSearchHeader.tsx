@@ -62,11 +62,11 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
       await fetch(`/${FILENAME_POSTS_LIST}.json`)
         .then<Post[]>((response) => response.json())
         .then((json) => {
-          return json.map((obj) => {
+          return json.map(({ title, tags, slug }) => {
             return {
-              title: obj.title,
-              tags: obj.tags,
-              slug: obj.slug,
+              title,
+              tags,
+              slug,
             };
           });
         })

@@ -105,8 +105,8 @@ export default function Post({ post, nextRead, similarTags }: Props) {
 
 export const getStaticPaths: GetStaticPaths = () => {
   const posts = getPostsJson();
-  const paths = posts.map((post) => ({
-    params: { slug: `${post.slug}.html` },
+  const paths = posts.map(({ slug }) => ({
+    params: { slug: `${slug}.html` },
   }));
 
   return { paths, fallback: false };
