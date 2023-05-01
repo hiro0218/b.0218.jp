@@ -53,7 +53,7 @@
   "devDependencies": {
     "@markuplint/jsx-parser": "^3.6.2",
     "@markuplint/react-spec": "^3.7.1",
-    "@next/bundle-analyzer": "^13.3.2",
+    "@next/bundle-analyzer": "^13.3.4",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/css-font-loading-module": "^0.0.8",
