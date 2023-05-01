@@ -14,7 +14,7 @@ import remarkRehype from 'remark-rehype';
 import remarkUnwrapImages from 'remark-unwrap-images';
 import { unified } from 'unified';
 
-import { SITE } from '@/constant';
+import { SITE_URL } from '@/constant';
 
 import remark0218 from './remark0218';
 
@@ -32,7 +32,7 @@ const markdownToHtmlString = async (markdown: string, simple = false) => {
     ? await commonProcessor
         .use(rehypeExternalLinks, {
           target(element) {
-            return !(element.properties.href as string).includes(SITE.URL) ? '_blank' : undefined;
+            return !(element.properties.href as string).includes(SITE_URL) ? '_blank' : undefined;
           },
           rel: ['nofollow'],
         })

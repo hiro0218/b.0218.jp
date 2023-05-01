@@ -1,6 +1,6 @@
 import { BlogPosting, BreadcrumbList, ListItem, Organization, WithContext } from 'schema-dts';
 
-import { AUTHOR, SITE, URL } from '@/constant';
+import { AUTHOR_ICON, AUTHOR_NAME, SITE_NAME, SITE_URL, URL } from '@/constant';
 import { Post } from '@/types/source';
 
 import { getOgpImage, getPermalink } from './url';
@@ -34,9 +34,9 @@ export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> =
     ...(!!post.tags && { keywords: post.tags }),
     author: {
       '@type': 'Person',
-      name: AUTHOR.NAME,
-      image: AUTHOR.ICON,
-      url: URL.SITE,
+      name: AUTHOR_NAME,
+      image: AUTHOR_ICON,
+      url: SITE_URL,
       sameAs: [URL.TWITTER, URL.GITHUB, URL.QIITA, URL.ZENN],
       jobTitle: 'Frontend Developer',
     },
@@ -44,10 +44,10 @@ export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> =
     image: [getOgpImage(post.slug)],
     publisher: {
       '@type': 'Organization',
-      name: SITE.NAME,
+      name: SITE_NAME,
       logo: {
         '@type': 'ImageObject',
-        url: AUTHOR.ICON,
+        url: AUTHOR_ICON,
         width: '400px',
         height: '400px',
       },
@@ -60,8 +60,8 @@ export const getBreadcrumbStructured = (post: Post) => {
     {
       '@type': 'ListItem',
       position: 1,
-      name: SITE.NAME,
-      item: SITE.URL,
+      name: SITE_NAME,
+      item: SITE_URL,
     },
   ];
 
@@ -72,7 +72,7 @@ export const getBreadcrumbStructured = (post: Post) => {
         '@type': 'ListItem',
         position: 2,
         name: tags,
-        item: `${SITE.URL}/tags/${tags}`,
+        item: `${SITE_URL}/tags/${tags}`,
       });
     }
   }
@@ -101,8 +101,8 @@ export const getOrganizationStructured = (): WithContext<Organization> => {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: SITE.NAME,
-    url: SITE.URL,
-    logo: AUTHOR.ICON,
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: AUTHOR_ICON,
   };
 };

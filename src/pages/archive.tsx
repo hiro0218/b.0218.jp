@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
-import { SITE } from '@/constant';
+import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPostsListJson } from '@/lib/posts';
 import { Post as PropPost } from '@/types/source';
 
@@ -42,8 +42,8 @@ export default function Archive({ archives, numberOfPosts }: Props) {
   return (
     <>
       <Head>
-        <title key="title">{`Archive - ${SITE.NAME}`}</title>
-        <link href={`${SITE.URL}/archive`} rel="canonical" />
+        <title key="title">{`Archive - ${SITE_NAME}`}</title>
+        <link href={`${SITE_URL}/archive`} rel="canonical" />
       </Head>
 
       <PageContainer as="article">

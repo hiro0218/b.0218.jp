@@ -2,7 +2,7 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import { createGetLayout } from '@/components/Layouts/SinglePageLayout';
-import { SITE } from '@/constant';
+import { SITE_NAME } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
 import { Page } from '@/types/source';
 
@@ -23,7 +23,7 @@ export default function Privacy({ page }: PrivacyProps) {
 }
 
 Privacy.getLayout = createGetLayout({
-  head: { title: `プライバシーポリシー - ${SITE.NAME}` },
+  head: { title: `プライバシーポリシー - ${SITE_NAME}` },
   title: {
     heading: 'Privacy',
     paragraph: 'プライバシーポリシー',

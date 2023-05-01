@@ -85,13 +85,16 @@ function buildPostList(posts: Partial<PropPost>[]) {
 }
 
 function removePostsData(posts: Partial<PropPost>[]) {
-  return posts.map((post) => {
+  const length = posts.length;
+
+  for (let i = 0; i < length; i++) {
+    const post = posts[i];
     delete post.note;
     delete post.content;
     delete post.readingTime;
+  }
 
-    return post;
-  });
+  return posts;
 }
 
 function buildTerms(posts: Partial<PropPost>[]) {

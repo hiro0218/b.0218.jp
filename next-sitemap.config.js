@@ -1,11 +1,11 @@
-import { SITE } from '@/constant';
+import { SITE_URL } from '@/constant';
 import { getPostsJson } from '@/lib/posts';
 
 const posts = getPostsJson();
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: SITE.URL,
+  siteUrl: SITE_URL,
   outDir: './public',
   exclude: ['/tags/*'],
   generateIndexSitemap: false,
