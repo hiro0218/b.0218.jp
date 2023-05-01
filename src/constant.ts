@@ -1,15 +1,22 @@
-const SITE_URL = 'https://b.0218.jp';
+export const AUTHOR_NAME = 'hiro';
+export const AUTHOR_ICON = 'https://b.0218.jp/hiro0218.png';
+export const AUTHOR_ICON_LOCAL = '/hiro0218.png';
+export const AUTHOR_PROFILE = 'Web Frontend Engineer / ex: Web Backend Engineer, Application Engineer';
 
 export const AUTHOR = {
-  NAME: 'hiro',
-  ICON: 'https://b.0218.jp/hiro0218.png',
-  ICON_LOCAL: '/hiro0218.png',
-  PROFILE: 'Web Frontend Engineer / ex: Web Backend Engineer, Application Engineer',
+  NAME: AUTHOR_NAME,
+  ICON: AUTHOR_ICON,
+  ICON_LOCAL: AUTHOR_ICON_LOCAL,
+  PROFILE: AUTHOR_PROFILE,
 } as const;
 
+export const SITE_NAME = '零弐壱蜂';
+export const SITE_DESCRIPTION = '様々な情報をストックするサイバーメモ帳';
+export const SITE_URL = 'https://b.0218.jp';
+
 export const SITE = {
-  NAME: '零弐壱蜂',
-  DESCRIPTION: '様々な情報をストックするサイバーメモ帳',
+  NAME: SITE_NAME,
+  DESCRIPTION: SITE_DESCRIPTION,
   URL: SITE_URL,
 } as const;
 
