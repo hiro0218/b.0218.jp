@@ -3,7 +3,7 @@ import Head from 'next/head';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import { createGetLayout } from '@/components/Layouts/SinglePageLayout';
-import { SITE } from '@/constant';
+import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
 import { Page } from '@/types/source';
 
@@ -17,7 +17,7 @@ export default function About({ page }: AboutProps) {
   return (
     <>
       <Head>
-        <link href={`${SITE.URL}/about`} rel="canonical" />
+        <link href={`${SITE_URL}/about`} rel="canonical" />
       </Head>
       <PostContent
         dangerouslySetInnerHTML={{
@@ -29,7 +29,7 @@ export default function About({ page }: AboutProps) {
 }
 
 About.getLayout = createGetLayout({
-  head: { title: `サイトについて - ${SITE.NAME}` },
+  head: { title: `サイトについて - ${SITE_NAME}` },
   title: {
     heading: 'About',
     paragraph: 'サイトと運営者について',

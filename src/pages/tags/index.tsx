@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { PageContainer, Stack } from '@/components/UI/Layout';
 import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
 import { Title } from '@/components/UI/Title';
-import { SITE, TAG_VIEW_LIMIT } from '@/constant';
+import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getTagsWithCount } from '@/lib/posts';
 
 type TermProps = {
@@ -16,8 +16,8 @@ export default function Tags({ tags }: Props) {
   return (
     <>
       <Head>
-        <title key="title">{`Tags - ${SITE.NAME}`}</title>
-        <link href={`${SITE.URL}/tags`} rel="canonical" />
+        <title key="title">{`Tags - ${SITE_NAME}`}</title>
+        <link href={`${SITE_URL}/tags`} rel="canonical" />
       </Head>
 
       <PageContainer>

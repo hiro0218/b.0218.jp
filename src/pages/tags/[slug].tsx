@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
-import { SITE, TAG_VIEW_LIMIT } from '@/constant';
+import { SITE_NAME, TAG_VIEW_LIMIT } from '@/constant';
 import { getPostsJson, getTagsJson, getTagsWithCount } from '@/lib/posts';
 import { TermsPostList } from '@/types/source';
 
@@ -20,7 +20,7 @@ export default function Tags({ title, posts }: Props) {
   return (
     <>
       <Head>
-        <title key="title">{`${pageTitle}: ${title} - ${SITE.NAME}`}</title>
+        <title key="title">{`${pageTitle}: ${title} - ${SITE_NAME}`}</title>
         <meta content="noindex" name="robots" />
       </Head>
 

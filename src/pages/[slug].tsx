@@ -11,7 +11,7 @@ import { Adsense } from '@/components/UI/Adsense';
 import { PageContainer } from '@/components/UI/Layout';
 import { Props as PostTagProps } from '@/components/UI/Tag';
 import { Title } from '@/components/UI/Title';
-import { AUTHOR, READ_TIME_SUFFIX, TAG_VIEW_LIMIT } from '@/constant';
+import { AUTHOR_NAME, READ_TIME_SUFFIX, TAG_VIEW_LIMIT } from '@/constant';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { getPostsJson, getTagSimilar, getTagsJson } from '@/lib/posts';
@@ -51,7 +51,7 @@ export default function Post({ post, nextRead, similarTags }: Props) {
         <meta content={`${getOgpImage(post.slug)}?ts=${process.env.BUILD_ID}`} key="og:image" property="og:image" />
         <meta content="summary_large_image" key="twitter:card" name="twitter:card" />
         <meta content="Written by" name="twitter:label1" />
-        <meta content={AUTHOR.NAME} name="twitter:data1" />
+        <meta content={AUTHOR_NAME} name="twitter:data1" />
         <meta content="Reading time" name="twitter:label2" />
         <meta content={`${post.readingTime} ${READ_TIME_SUFFIX}`} name="twitter:data2" />
         {post.noindex ? <meta content="noindex" name="robots" /> : <link href={permalink} rel="canonical" />}

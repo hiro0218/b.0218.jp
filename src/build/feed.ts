@@ -1,28 +1,28 @@
 import { Feed } from 'feed';
 import { writeFile } from 'fs-extra';
 
-import { AUTHOR, SITE } from '@/constant';
+import { AUTHOR_ICON, AUTHOR_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
 import { getPostsJson } from '@/lib/posts';
 import { getPermalink } from '@/lib/url';
 
 function generatedRssFeed(): void {
   const feed = new Feed({
-    title: SITE.NAME,
-    description: SITE.DESCRIPTION,
-    id: SITE.URL,
-    link: SITE.URL,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    id: SITE_URL,
+    link: SITE_URL,
     language: 'ja',
-    image: AUTHOR.ICON,
-    copyright: `© ${AUTHOR.NAME}`,
+    image: AUTHOR_ICON,
+    copyright: `© ${AUTHOR_NAME}`,
     updated: new Date(),
     feedLinks: {
-      rss2: `${SITE.URL}/rss/feed.xml`,
-      json: `${SITE.URL}/rss/feed.json`,
-      atom: `${SITE.URL}/rss/atom.xml`,
+      rss2: `${SITE_URL}/rss/feed.xml`,
+      json: `${SITE_URL}/rss/feed.json`,
+      atom: `${SITE_URL}/rss/atom.xml`,
     },
     author: {
-      name: AUTHOR.NAME,
-      link: SITE.URL,
+      name: AUTHOR_NAME,
+      link: SITE_URL,
     },
   });
 
