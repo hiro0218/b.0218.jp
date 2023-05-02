@@ -39,7 +39,6 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
         <meta content={AUTHOR_ICON} key="og:image" property="og:image" />
         <meta content={SITE_NAME} property="og:site_name" />
         <meta content="ja_JP" property="og:locale" />
-        <meta content="1042526022490602" property="fb:app_id" />
         <meta content="summary" key="twitter:card" name="twitter:card" />
         <meta content="@hiro0218" name="twitter:site" />
         <meta content="@hiro0218" name="twitter:creator" />
