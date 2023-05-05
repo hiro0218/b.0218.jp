@@ -1,7 +1,6 @@
 import { KeyboardEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import { FILENAME_POSTS_LIST } from '@/constant';
-import useEffectOnce from '@/hooks/useEffectOnce';
 import { parseJSON } from '@/lib/parseJSON';
 import { Post } from '@/types/source';
 import { RxMagnifyingGlass } from '@/ui/icons';
@@ -49,7 +48,7 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
    * posts-list.jsonを取得する
    * 複数リクエストをさせないようにlocalStorageへキャッシュ
    */
-  useEffectOnce(() => {
+  useEffect(() => {
     const cachedValue = window.localStorage.getItem(STORAGE_KEY);
 
     if (cachedValue) {
@@ -58,8 +57,12 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
       return;
     }
 
-    (async () => {
-      await fetch(`/${FILENAME_POSTS_LIST}.json`)
+    const abortController = new AbortController();
+
+    const fetchData = async () => {
+      await fetch(`/${FILENAME_POSTS_LIST}.json`, {
+        signal: abortController.signal,
+      })
         .then<Post[]>((response) => response.json())
         .then((json) => {
           return json.map(({ title, tags, slug }) => {
@@ -74,8 +77,14 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
           setArchives(json);
           window.localStorage.setItem(STORAGE_KEY, JSON.stringify(json));
         });
-    })();
-  });
+    };
+
+    fetchData();
+
+    return () => {
+      abortController.abort();
+    };
+  }, []);
 
   const onKeyup = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
