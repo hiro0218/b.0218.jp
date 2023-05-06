@@ -10,17 +10,15 @@ import { getRelatedTags } from './tag';
 const posts = getPostsListJson();
 const tags = getTagsJson();
 
-const PATH = {
-  DIST: `${process.cwd()}/dist`,
-} as const;
+const PATH_DIST = `${process.cwd()}/dist`;
 
 const relatedTags = getRelatedTags(posts, tags);
 
-writeJSONSync(`${PATH.DIST}/${FILENAME_TAG_SIMILARITY}.json`, relatedTags);
+writeJSONSync(`${PATH_DIST}/${FILENAME_TAG_SIMILARITY}.json`, relatedTags);
 Log.info(`Write dist/${FILENAME_TAG_SIMILARITY}.json`);
 
 // 関連記事を計算する
 const relatedPosts = getRelatedPosts(posts, posts, relatedTags);
 
-writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS_SIMILARITY}.json`, relatedPosts);
+writeJSONSync(`${PATH_DIST}/${FILENAME_POSTS_SIMILARITY}.json`, relatedPosts);
 Log.info(`Write dist/${FILENAME_POSTS_SIMILARITY}.json`);
