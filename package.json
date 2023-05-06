@@ -11,7 +11,7 @@
     "build:feed": "node --require esbuild-register ./src/build/feed.ts",
     "build:ogp": "node --require esbuild-register ./src/build/ogp && node --require esbuild-register ./src/build/ogp/convertPngToWebP.ts",
     "build:sitemap": "node --require esbuild-register node_modules/next-sitemap/bin/next-sitemap",
-    "build:tag-similarity": "node --require esbuild-register ./src/build/tag-similarity",
+    "build:similarity": "node --require esbuild-register ./src/build/similarity",
     "build:analyzer": "ANALYZE=true next build",
     "start": "next start",
     "lint": "eslint \"src/**/*{.js,.ts,.tsx}\"",
