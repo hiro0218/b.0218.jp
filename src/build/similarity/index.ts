@@ -12,6 +12,7 @@ const tags = getTagsJson();
 
 const PATH_DIST = `${process.cwd()}/dist`;
 
+// 関連タグを計算する
 const relatedTags = getRelatedTags(posts, tags);
 
 writeJSONSync(`${PATH_DIST}/${FILENAME_TAG_SIMILARITY}.json`, relatedTags);
