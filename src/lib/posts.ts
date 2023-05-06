@@ -2,7 +2,7 @@ import { readJsonSync } from 'fs-extra';
 import { join } from 'path';
 
 import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST, FILENAME_TAG_SIMILARITY } from '@/constant';
-import { Page, Post, TagSimilar } from '@/types/source';
+import { Page, Post, TagSimilar, TagsList } from '@/types/source';
 
 type PostList = Partial<Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>>;
 
@@ -30,8 +30,8 @@ const getJson = <T>(filename: string): T => {
   return data;
 };
 
-export const getTagsJson = (): Record<string, string[]> => {
-  return getJson<Record<string, string[]>>('tags');
+export const getTagsJson = (): TagsList => {
+  return getJson<TagsList>('tags');
 };
 
 export const getPostsJson = (): Post[] => {
