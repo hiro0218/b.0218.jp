@@ -3,9 +3,9 @@ import { css } from '@/ui/styled';
 const TableScroll = css`
   .p-table-scroll {
     position: relative;
-    isolation: isolate;
     margin-left: -0.5em;
     overflow: auto;
+    isolation: isolate;
 
     &::-webkit-scrollbar {
       width: 8px;
@@ -13,13 +13,13 @@ const TableScroll = css`
     }
 
     &::-webkit-scrollbar-track {
-      border-radius: var(--border-radius-4);
       background-color: var(--backgrounds-2);
+      border-radius: var(--border-radius-4);
     }
 
     &::-webkit-scrollbar-thumb {
-      border-radius: var(--border-radius-4);
       background-color: var(--solid-backgrounds-9);
+      border-radius: var(--border-radius-4);
     }
   }
 `;

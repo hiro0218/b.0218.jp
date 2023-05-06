@@ -2,7 +2,7 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 
 import { Hero } from '@/components/Page/Home/Hero';
-import { LinkMoreArchive, LinkMoreTag } from '@/components/Page/Home/LinkMore';
+import { LinkMore } from '@/components/Page/Home/LinkMore';
 import Heading from '@/components/UI/Heading';
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
@@ -47,7 +47,7 @@ export default function Index({ recentPosts, updatesPosts, tags }: Props) {
         </Stack>
 
         <Stack as="section">
-          <Heading as="h2" text="最新記事" textSide={<LinkMoreArchive />} />
+          <Heading as="h2" text="最新記事" textSide={<LinkMore href="/archive" text="archive" />} />
           <Columns title="Recent Articles" titleTagName="h3">
             <Stack space="half">
               {recentPosts.map(({ date, excerpt, slug, tags, title, updated }) => (
@@ -82,7 +82,7 @@ export default function Index({ recentPosts, updatesPosts, tags }: Props) {
         </Stack>
 
         <Stack as="section">
-          <Heading as="h2" text="タグ" textSide={<LinkMoreTag />} />
+          <Heading as="h2" text="タグ" textSide={<LinkMore href="/tags" text="tags" />} />
           <PostTagGridContainer>
             <PostTag tags={tags} />
           </PostTagGridContainer>

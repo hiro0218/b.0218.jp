@@ -4,12 +4,12 @@ import { css } from '@/ui/styled';
 const LinkPreview = css`
   .p-link-preview {
     display: flex;
-    border: 1px solid var(--borders-7);
-    border-radius: var(--border-radius-8);
+    overflow: hidden;
+    color: var(--text-12);
     text-decoration-line: unset;
     background-color: var(--backgrounds-1);
-    color: var(--text-12);
-    overflow: hidden;
+    border: 1px solid var(--borders-7);
+    border-radius: var(--border-radius-8);
 
     &:hover {
       background-color: var(--component-backgrounds-4);
@@ -72,21 +72,21 @@ const LinkPreview = css`
 
   .p-link-preview-body__title {
     display: block;
-    font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-sm);
     overflow: hidden;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   .p-link-preview-body__description {
     display: -webkit-box;
+    margin-top: var(--space-½);
+    overflow: hidden;
+    font-size: var(--font-size-sm);
+    color: var(--text-11);
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    margin-top: var(--space-½);
-    color: var(--text-11);
-    font-size: var(--font-size-sm);
-    overflow: hidden;
 
     ${isMobile} {
       display: none;
@@ -95,9 +95,9 @@ const LinkPreview = css`
 
   .p-link-preview-body__url {
     display: block;
+    overflow: hidden;
     font-size: var(--font-size-sm);
     color: var(--text-11);
-    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }

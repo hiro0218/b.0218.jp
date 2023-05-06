@@ -10,7 +10,7 @@ export const Hero = memo(function Hero() {
   return (
     <Container>
       <Avatar>
-        <img alt="" decoding="async" height={ICON_SIZE} src="/hiro0218@100x100.webp" width={ICON_SIZE} />
+        <img alt="" decoding="async" height={ICON_SIZE} src="/hiro0218.svg" width={ICON_SIZE} />
       </Avatar>
       <Title
         heading="Hi, I'm hiro."
@@ -35,7 +35,6 @@ const Avatar = styled.div`
   }
 
   img {
-    border: 5px solid var(--backgrounds-1);
     border-radius: var(--border-radius-full);
   }
 `;

@@ -4,28 +4,35 @@ import { READ_TIME_SUFFIX } from '@/constant';
 import { Post as PostProps } from '@/types/source';
 import { styled } from '@/ui/styled';
 
-type Props = Pick<PostProps, 'date' | 'updated' | 'readingTime'> & {
+type Props = Pick<PostProps, 'title' | 'date' | 'updated' | 'readingTime'> & {
   tagsWithCount: PostTagProps[];
 };
 
-const PostHeader = ({ date, updated, readingTime, tagsWithCount }: Props) => {
+const PostHeader = ({ title, date, updated, readingTime, tagsWithCount }: Props) => {
   return (
-    <List>
-      <Item>
-        <PostDate date={date} updated={updated} />
-        <Separator aria-hidden="true">・</Separator>
-        <span>{`${readingTime || 1} ${READ_TIME_SUFFIX}`}</span>
-      </Item>
-      <Item>
-        <PostTagGridContainer>
-          <PostTag tags={tagsWithCount} />
-        </PostTagGridContainer>
-      </Item>
-    </List>
+    <>
+      <Title dangerouslySetInnerHTML={{ __html: title }}></Title>
+      <List>
+        <Item>
+          <PostDate date={date} updated={updated} />
+          <Separator aria-hidden="true">・</Separator>
+          <span>{`${readingTime || 1} ${READ_TIME_SUFFIX}`}</span>
+        </Item>
+        <Item>
+          <PostTagGridContainer>
+            <PostTag tags={tagsWithCount} />
+          </PostTagGridContainer>
+        </Item>
+      </List>
+    </>
   );
 };
 
 export default PostHeader;
+
+const Title = styled.h1`
+  font-weight: var(--font-weight-bolder);
+`;
 
 const List = styled.div`
   margin-top: var(--space-2);

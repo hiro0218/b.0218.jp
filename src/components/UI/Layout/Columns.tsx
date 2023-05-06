@@ -4,7 +4,7 @@ import { SPACING_BASE_PX } from '@/components/Functional/CssBaseline/Settings/Sp
 import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
-export interface ContainerProps {
+interface ContainerProps {
   title?: string;
   titleTagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   style?: CSSProperties;

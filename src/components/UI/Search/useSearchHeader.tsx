@@ -139,7 +139,7 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
     () => (
       <Header>
         <HeaderIcon htmlFor={searchInputId}>
-          <RxMagnifyingGlass size="24" />
+          <RxMagnifyingGlass size="18" />
         </HeaderIcon>
         <SearchInput
           autoComplete="off"
@@ -162,19 +162,18 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
 
 const Header = styled.div`
   display: flex;
-  height: var(--space-4);
-  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.16);
+  border-bottom: 1px solid var(--borders-6);
 `;
 
 const HeaderIcon = styled.label`
   display: flex;
   align-items: center;
-  padding: 0 var(--space-1);
+  padding: 0 var(--space-1) 0 var(--space-2);
 `;
 
 const SearchInput = styled.input`
   width: 100%;
-  height: 100%;
+  height: var(--space-4);
   padding: 0;
   font-size: var(--font-size-md);
   border: none;

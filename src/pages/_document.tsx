@@ -64,7 +64,7 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
           <link href={`${SITE_URL}/feed.json`} rel="alternate" title="JSONフィード" type="application/json" />
           <link href="/opensearch.xml" rel="search" type="application/opensearchdescription+xml" />
           {Object.entries(URL).map(([key, url]) => {
-            return key !== 'SITE' && <link href={url} key={key} rel="me" />;
+            return <link href={url} key={key} rel="me" />;
           })}
           <script
             async
