@@ -10,7 +10,6 @@ import TagSimilar from '@/components/Page/Post/TagSimilar';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContainer } from '@/components/UI/Layout';
 import { Props as PostTagProps } from '@/components/UI/Tag';
-import { Title } from '@/components/UI/Title';
 import { AUTHOR_NAME, READ_TIME_SUFFIX, TAG_VIEW_LIMIT } from '@/constant';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
@@ -68,14 +67,13 @@ export default function Post({ post, nextRead, similarTags }: Props) {
       )}
 
       <PageContainer as="article">
-        <Title heading={post.segmentedTitle}>
-          <PostHeader
-            date={post.date}
-            readingTime={post.readingTime}
-            tagsWithCount={post.tagsWithCount}
-            updated={post.updated}
-          />
-        </Title>
+        <PostHeader
+          date={post.date}
+          readingTime={post.readingTime}
+          tagsWithCount={post.tagsWithCount}
+          title={post.segmentedTitle}
+          updated={post.updated}
+        />
 
         <PostNote note={post.note} />
 
