@@ -1,8 +1,15 @@
 import { writeJSONSync } from 'fs-extra';
 
-import { FILENAME_TAG_SIMILARITY } from '@/constant';
+import { FILENAME_POSTS_SIMILARITY, FILENAME_TAG_SIMILARITY } from '@/constant';
 import * as Log from '@/lib/Log';
 import { getPostsListJson, getTagsJson } from '@/lib/posts';
+
+type PostProps = UnpackedArray<ReturnType<typeof getPostsListJson>>;
+type TagSimilarity = {
+  [key: string]: {
+    [key: string]: number;
+  };
+};
 
 const posts = getPostsListJson();
 const tags = getTagsJson();
@@ -35,7 +42,7 @@ for (let i = 0; i < posts.length; i++) {
 }
 
 // タグ関連性を計算する
-const tagRelations = {};
+const tagRelations: TagSimilarity = {};
 const tagsKeys = Object.keys(tags);
 
 for (let i = 0, tagKeysLen = tagsKeys.length; i < tagKeysLen; i++) {
@@ -81,3 +88,53 @@ for (let i = 0, tagRelationsKeysLen = tagRelationsKeys.length; i < tagRelationsK
 
 writeJSONSync(`${PATH.DIST}/${FILENAME_TAG_SIMILARITY}.json`, sortedTags);
 Log.info(`Write dist/${FILENAME_TAG_SIMILARITY}.json`);
+
+// 関連記事を計算する
+function calculatePostSimilarity(post: PostProps, targetPostTags: PostProps['tags'], sortedTags: TagSimilarity) {
+  let similarityScore = 0;
+
+  targetPostTags.forEach((tag) => {
+    if (sortedTags[tag]) {
+      post.tags.forEach((relatedTag) => {
+        if (sortedTags[tag][relatedTag]) {
+          similarityScore += sortedTags[tag][relatedTag];
+        }
+      });
+    }
+  });
+
+  return Number(similarityScore.toFixed(4));
+}
+
+function getRelatedPosts(targetPosts: PostProps[], posts: PostProps[], sortedTags: TagSimilarity) {
+  const LIMIT = 6;
+  return targetPosts.map((targetPost) => {
+    const targetPostTags = targetPost.tags;
+    const scoredArticles = [];
+
+    posts.forEach((post) => {
+      if (post.slug !== targetPost.slug) {
+        const similarityScore = calculatePostSimilarity(post, targetPostTags, sortedTags);
+        if (similarityScore > 0) {
+          scoredArticles.push({ ...post, similarityScore });
+        }
+      }
+    });
+
+    scoredArticles.sort((a, b) => b.similarityScore - a.similarityScore);
+
+    const relatedArticles = scoredArticles.slice(0, LIMIT).reduce((acc, post) => {
+      acc[post.slug] = post.similarityScore;
+      return acc;
+    }, {});
+
+    return {
+      [targetPost.slug]: relatedArticles,
+    };
+  });
+}
+
+const relatedPosts = getRelatedPosts(posts, posts, sortedTags);
+
+writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS_SIMILARITY}.json`, relatedPosts);
+Log.info(`Write dist/${FILENAME_POSTS_SIMILARITY}.json`);
