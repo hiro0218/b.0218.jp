@@ -6,7 +6,6 @@ export {
   RxTriangleDown,
   RxTriangleUp,
   RxCaretRight,
-  RxCaretDown,
   RxChevronUp,
   RxChevronDown,
   RxMagnifyingGlass,

@@ -58,5 +58,3 @@ function generatedRssFeed(): void {
 }
 
 generatedRssFeed();
-
-export default generatedRssFeed;

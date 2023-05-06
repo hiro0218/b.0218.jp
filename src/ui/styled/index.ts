@@ -1,16 +1,6 @@
-import {
-  CacheProvider,
-  css,
-  EmotionCache,
-  Global,
-  keyframes,
-  SerializedStyles,
-  Theme,
-  ThemeProvider,
-  useTheme,
-} from '@emotion/react';
+import { CacheProvider, css, EmotionCache, Global, keyframes, ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export { css, Global, keyframes, CacheProvider, ThemeProvider, useTheme, styled };
+export { css, Global, keyframes, CacheProvider, ThemeProvider, styled };
 
-export type { EmotionCache, Theme, SerializedStyles };
+export type { EmotionCache };
