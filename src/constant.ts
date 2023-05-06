@@ -8,7 +8,6 @@ export const SITE_DESCRIPTION = '様々な情報をストックするサイバ�
 export const SITE_URL = 'https://b.0218.jp';
 
 export const URL = {
-  SITE: SITE_URL,
   TWITTER: 'https://twitter.com/hiro0218',
   GITHUB: 'https://github.com/hiro0218',
   NPM: 'https://www.npmjs.com/~hiro0218',
