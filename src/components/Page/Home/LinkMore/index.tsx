@@ -13,19 +13,10 @@ const IconArrow = memo(function IconArrow() {
   );
 });
 
-export const LinkMoreArchive = () => {
+export const LinkMore = ({ href, text }: { href: string; text: string }) => {
   return (
-    <Anchor href="/archive">
-      archive
-      <IconArrow />
-    </Anchor>
-  );
-};
-
-export const LinkMoreTag = () => {
-  return (
-    <Anchor href="/tags">
-      tags
+    <Anchor href={href}>
+      {text}
       <IconArrow />
     </Anchor>
   );
