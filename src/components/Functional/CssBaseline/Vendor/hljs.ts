@@ -4,8 +4,8 @@ import { css } from '@/ui/styled';
 
 export default css`
   .hljs {
-    background: ${gray.gray1};
     color: ${gray.gray12};
+    background: ${gray.gray1};
   }
 
   .hljs-comment,

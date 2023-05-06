@@ -2,11 +2,11 @@ import { css } from '@/ui/styled';
 
 const Footnotes = css`
   [data-footnotes] {
-    margin-top: var(--space-6);
     padding-top: var(--space-3);
-    border-top: 1px solid var(--borders-6);
-    color: var(--text-11);
+    margin-top: var(--space-6);
     font-size: var(--font-size-sm);
+    color: var(--text-11);
+    border-top: 1px solid var(--borders-6);
 
     p,
     h2 {
