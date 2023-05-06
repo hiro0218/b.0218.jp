@@ -3,15 +3,17 @@ import { Post as PostProps, TagSimilar } from '@/types/source';
 function calculatePostSimilarity(post: Partial<PostProps>, targetPostTags: PostProps['tags'], sortedTags: TagSimilar) {
   let similarityScore = 0;
 
-  targetPostTags.forEach((tag) => {
+  for (let i = 0; i < targetPostTags.length; i++) {
+    const tag = targetPostTags[i];
     if (sortedTags[tag]) {
-      post.tags.forEach((relatedTag) => {
+      for (let j = 0; j < post.tags.length; j++) {
+        const relatedTag = post.tags[j];
         if (sortedTags[tag][relatedTag]) {
           similarityScore += sortedTags[tag][relatedTag];
         }
-      });
+      }
     }
-  });
+  }
 
   return Number(similarityScore.toFixed(4));
 }
