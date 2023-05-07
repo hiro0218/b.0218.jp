@@ -5,38 +5,10 @@ import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
-import { getPostsListJson } from '@/lib/posts';
+import { ArchiveProps, getStaticPropsArchive } from '@/server/archive';
 import { Post as PropPost } from '@/types/source';
 
-type PostsProps = ReturnType<typeof getPostsListJson>;
-
-type ArchiveListProps = Record<number, PostsProps>;
-
-type ArchiveProps = {
-  archives: ArchiveListProps;
-  numberOfPosts: number;
-};
-
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
-
-const getYear = (date: PropPost['date']) => Number(date.slice(0, 4));
-
-const divideByYearArchive = (posts: PostsProps): ArchiveListProps => {
-  const result: ArchiveListProps = {};
-
-  for (let i = 0; i < posts.length; i++) {
-    const post = posts[i];
-    const year = getYear(post.date);
-
-    if (!result[year]) {
-      result[year] = [];
-    }
-
-    result[year].push(post);
-  }
-
-  return result;
-};
 
 export default function Archive({ archives, numberOfPosts }: Props) {
   return (
@@ -77,14 +49,4 @@ export const config = {
   unstable_runtimeJS: false,
 };
 
-export const getStaticProps: GetStaticProps<ArchiveProps> = () => {
-  const posts = getPostsListJson();
-  const archives = divideByYearArchive(posts);
-
-  return {
-    props: {
-      archives,
-      numberOfPosts: posts.length,
-    },
-  };
-};
+export const getStaticProps: GetStaticProps<ArchiveProps> = (context) => getStaticPropsArchive(context);
