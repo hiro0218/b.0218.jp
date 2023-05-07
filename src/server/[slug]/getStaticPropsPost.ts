@@ -1,10 +1,11 @@
 import { GetStaticProps } from 'next';
 
 import { Props as PostTagProps } from '@/components/UI/Tag';
-import { TAG_VIEW_LIMIT } from '@/constant';
-import { getPostsJson, getSimilarPost, getSimilarTag, getTagsJson } from '@/lib/posts';
-import { Post as PostType, PostSimilar as PostSimilarProps, TermsPostList } from '@/types/source';
+import { getPostsJson, getTagsJson } from '@/lib/posts';
+import { Post as PostType, TermsPostList } from '@/types/source';
 
+import { getSimilarPost } from './getSimilarPost';
+import { getSimilarTag } from './getSimilarTag';
 import { textSegmenter } from './textSegmenter';
 
 export type PostProps = {
@@ -14,11 +15,6 @@ export type PostProps = {
   };
   similarPost: TermsPostList[];
   similarTags: PostTagProps[];
-};
-
-const getSimilarPostBySlug = (similarPosts: PostSimilarProps, key: string) => {
-  const result = similarPosts.find((slug) => slug.hasOwnProperty(key));
-  return result ? result[key] : null;
 };
 
 export const getStaticPropsPost: GetStaticProps<PostProps> = (context) => {
@@ -43,41 +39,11 @@ export const getStaticPropsPost: GetStaticProps<PostProps> = (context) => {
   const segmentedTitle = textSegmenter(post.title);
 
   // 関連記事
-  const similarPosts = getSimilarPost();
-  const similarPostSlugs = getSimilarPostBySlug(similarPosts, slug);
-  const similarPost = Object.keys(similarPostSlugs).map((slug) => {
-    const { title, date, updated, excerpt } = posts.find((post) => post.slug === slug);
-
-    return {
-      title,
-      slug,
-      date,
-      updated,
-      excerpt,
-    };
-  });
-
-  // 奇数の場合は偶数に寄せる
-  if (similarPost.length % 2 !== 0) {
-    similarPost.pop();
-  }
+  const similarPost = getSimilarPost(posts, slug);
 
   // 関連タグ
   const tag = post.tags[0];
-  const getTagBySlug = (slug: PostTagProps['slug']) => {
-    return Object.entries(tagData).find(([key]) => key === slug);
-  };
-  const similarTagsList = getSimilarTag()[tag];
-  const similarTags: PostTagProps[] = !!similarTagsList
-    ? Object.entries(similarTagsList)
-        .map(([slug]) => {
-          const tag = getTagBySlug(slug);
-          const count = tag.length > 1 ? tag[1].length : 0;
-          return count >= TAG_VIEW_LIMIT ? { slug, count } : null;
-        })
-        .filter((item) => item !== null)
-        .sort((a, b) => b.count - a.count)
-    : [];
+  const similarTags = getSimilarTag(tag, tagData);
 
   return {
     props: {
