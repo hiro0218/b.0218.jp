@@ -20,8 +20,16 @@ export type Post = ArticleBaseProps & {
   noindex?: boolean;
 };
 
+export type TagsList = Record<string, string[]>;
+
 export type TagSimilar = {
   [tag: string]: {
     [relatedTag: string]: number;
   };
 };
+
+export type PostSimilar = {
+  [slug: string]: {
+    [slug: string]: number;
+  };
+}[];

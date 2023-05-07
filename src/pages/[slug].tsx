@@ -4,31 +4,19 @@ import Script from 'next/script';
 import { useRef } from 'react';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
-import { PostEdit, PostHeader, PostNextRead, PostNote, PostShare } from '@/components/Page/Post';
+import { PostEdit, PostHeader, PostNote, PostShare, PostSimilar, TagSimilar } from '@/components/Page/Post';
 import Mokuji from '@/components/Page/Post/Mokuji';
-import TagSimilar from '@/components/Page/Post/TagSimilar';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContainer } from '@/components/UI/Layout';
-import { Props as PostTagProps } from '@/components/UI/Tag';
-import { AUTHOR_NAME, READ_TIME_SUFFIX, TAG_VIEW_LIMIT } from '@/constant';
+import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
-import { getPostsJson, getTagSimilar, getTagsJson } from '@/lib/posts';
-import { textSegmenter } from '@/lib/textSegmenter';
 import { getOgpImage, getPermalink } from '@/lib/url';
-import { Post as PostType, TermsPostList } from '@/types/source';
+import { getStaticPathsPost, getStaticPropsPost, PostProps } from '@/server/[slug]';
 
-type PostProps = {
-  post: PostType & {
-    tagsWithCount: PostTagProps[];
-    segmentedTitle: string;
-  };
-  nextRead: TermsPostList[];
-  similarTags: PostTagProps[];
-};
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-export default function Post({ post, nextRead, similarTags }: Props) {
+export default function Post({ post, similarPost, similarTags }: Props) {
   const {
     title,
     date,
@@ -104,90 +92,14 @@ export default function Post({ post, nextRead, similarTags }: Props) {
 
         <PostEdit slug={slug} />
 
-        <TagSimilar similarTags={similarTags} />
+        <TagSimilar tags={similarTags} />
 
-        <PostNextRead posts={nextRead} />
+        <PostSimilar posts={similarPost} />
       </PageContainer>
     </>
   );
 }
 
-export const getStaticPaths: GetStaticPaths = () => {
-  const posts = getPostsJson();
-  const paths = posts.map(({ slug }) => ({
-    params: { slug: `${slug}.html` },
-  }));
+export const getStaticPaths: GetStaticPaths = (context) => getStaticPathsPost(context);
 
-  return { paths, fallback: false };
-};
-
-export const getStaticProps: GetStaticProps<PostProps> = (context) => {
-  const posts = getPostsJson();
-  const tagData = getTagsJson();
-  const tagDataWithCount = Object.entries(tagData)
-    .map(([slug, val]) => {
-      return { slug, count: val.length };
-    })
-    .sort((a, b) => b.count - a.count);
-  const slug = (context.params.slug as string).replace('.html', '');
-
-  // slug に一致する post を取得
-  const post = posts.find((post) => post.slug === slug);
-
-  // tagsに件数を追加
-  const tagsWithCount: PostTagProps[] = post.tags.map((slug) => {
-    return tagDataWithCount.find((tag) => tag.slug === slug) || null;
-  });
-
-  // タイトルの文字組み
-  const segmentedTitle = textSegmenter(post.title);
-
-  // 関連記事
-  const tag = post.tags[0];
-  const nextRead = Object.entries(tagData)
-    .filter(([key]) => key === tag)
-    .flatMap(([, values]) =>
-      values
-        .filter((post, i) => !post.includes(slug) && i < 6)
-        .map((slug) => {
-          const { title, date, updated, excerpt } = posts.find((post) => post.slug === slug);
-
-          return {
-            title,
-            slug,
-            date,
-            updated,
-            excerpt,
-          };
-        }),
-    );
-
-  // 奇数の場合は偶数に寄せる
-  if (nextRead.length % 2 !== 0) {
-    nextRead.pop();
-  }
-
-  // 関連タグ
-  const getTagBySlug = (slug: PostTagProps['slug']) => {
-    return Object.entries(tagData).find(([key]) => key === slug);
-  };
-  const similarTagsList = getTagSimilar()[tag];
-  const similarTags: PostTagProps[] = !!similarTagsList
-    ? Object.entries(similarTagsList)
-        .map(([slug]) => {
-          const tag = getTagBySlug(slug);
-          const count = tag.length > 1 ? tag[1].length : 0;
-          return count >= TAG_VIEW_LIMIT ? { slug, count } : null;
-        })
-        .filter((item) => item !== null)
-        .sort((a, b) => b.count - a.count)
-    : [];
-
-  return {
-    props: {
-      post: { ...post, tagsWithCount, segmentedTitle },
-      nextRead,
-      similarTags,
-    },
-  };
-};
+export const getStaticProps: GetStaticProps<PostProps> = (context) => getStaticPropsPost(context);
