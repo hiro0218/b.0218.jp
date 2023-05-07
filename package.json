@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 8080",
-    "prebuild": "git submodule update --remote && npm run build:article && npm run build:tag-similarity && npm run build:feed",
+    "prebuild": "git submodule update --remote && npm run build:article && npm run build:similarity && npm run build:feed",
     "build": "next build",
     "postbuild": "npm run build:sitemap && npm run build:ogp",
     "build:article": "node --require esbuild-register ./src/build/article",
