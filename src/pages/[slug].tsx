@@ -13,10 +13,10 @@ import { Props as PostTagProps } from '@/components/UI/Tag';
 import { AUTHOR_NAME, READ_TIME_SUFFIX, TAG_VIEW_LIMIT } from '@/constant';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
-import { getPostsJson, getTagSimilar, getTagsJson } from '@/lib/posts';
+import { getPostSimilar, getPostsJson, getTagSimilar, getTagsJson } from '@/lib/posts';
 import { textSegmenter } from '@/lib/textSegmenter';
 import { getOgpImage, getPermalink } from '@/lib/url';
-import { Post as PostType, TermsPostList } from '@/types/source';
+import { Post as PostType, PostSimilar, TermsPostList } from '@/types/source';
 
 type PostProps = {
   post: PostType & {
@@ -143,24 +143,23 @@ export const getStaticProps: GetStaticProps<PostProps> = (context) => {
   const segmentedTitle = textSegmenter(post.title);
 
   // 関連記事
-  const tag = post.tags[0];
-  const nextRead = Object.entries(tagData)
-    .filter(([key]) => key === tag)
-    .flatMap(([, values]) =>
-      values
-        .filter((post, i) => !post.includes(slug) && i < 6)
-        .map((slug) => {
-          const { title, date, updated, excerpt } = posts.find((post) => post.slug === slug);
+  const getPostSimilarBySlug = (data: PostSimilar, key: string) => {
+    const result = data.find((item) => item.hasOwnProperty(key));
+    return result ? result[key] : null;
+  };
+  const postsSimilar = getPostSimilar();
+  const postSimilarSlugs = getPostSimilarBySlug(postsSimilar, slug);
+  const nextRead = Object.keys(postSimilarSlugs).map((slug) => {
+    const { title, date, updated, excerpt } = posts.find((post) => post.slug === slug);
 
-          return {
-            title,
-            slug,
-            date,
-            updated,
-            excerpt,
-          };
-        }),
-    );
+    return {
+      title,
+      slug,
+      date,
+      updated,
+      excerpt,
+    };
+  });
 
   // 奇数の場合は偶数に寄せる
   if (nextRead.length % 2 !== 0) {
@@ -168,6 +167,7 @@ export const getStaticProps: GetStaticProps<PostProps> = (context) => {
   }
 
   // 関連タグ
+  const tag = post.tags[0];
   const getTagBySlug = (slug: PostTagProps['slug']) => {
     return Object.entries(tagData).find(([key]) => key === slug);
   };

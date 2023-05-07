@@ -27,3 +27,9 @@ export type TagSimilar = {
     [relatedTag: string]: number;
   };
 };
+
+export type PostSimilar = {
+  [slug: string]: {
+    [slug: string]: number;
+  };
+}[];
