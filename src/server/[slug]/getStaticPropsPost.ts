@@ -3,8 +3,9 @@ import { GetStaticProps } from 'next';
 import { Props as PostTagProps } from '@/components/UI/Tag';
 import { TAG_VIEW_LIMIT } from '@/constant';
 import { getPostsJson, getSimilarPost, getSimilarTag, getTagsJson } from '@/lib/posts';
-import { textSegmenter } from '@/lib/textSegmenter';
 import { Post as PostType, PostSimilar as PostSimilarProps, TermsPostList } from '@/types/source';
+
+import { textSegmenter } from './textSegmenter';
 
 export type PostProps = {
   post: PostType & {
