@@ -63,7 +63,6 @@
     "@types/node": "^20.0.0",
     "@types/react": "^18.2.5",
     "@types/react-dom": "^18.2.3",
-    "@types/sharp": "^0.32.0",
     "@types/twitter-for-web": "^0.0.2",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "budoux": "^0.5.1",
