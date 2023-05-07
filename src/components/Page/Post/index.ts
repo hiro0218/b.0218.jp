@@ -1,8 +1,9 @@
 import PostDate from './Date';
 import PostEdit from './Edit';
 import PostHeader from './Header';
-import PostNextRead from './NextRead';
 import PostNote from './Note';
+import PostSimilar from './PostSimilar';
 import PostShare from './Share';
+import TagSimilar from './TagSimilar';
 
-export { PostDate, PostEdit, PostHeader, PostNextRead, PostNote, PostShare };
+export { PostDate, PostEdit, PostHeader, PostSimilar, TagSimilar, PostNote, PostShare };

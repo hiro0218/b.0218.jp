@@ -4,31 +4,30 @@ import Script from 'next/script';
 import { useRef } from 'react';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
-import { PostEdit, PostHeader, PostNextRead, PostNote, PostShare } from '@/components/Page/Post';
+import { PostEdit, PostHeader, PostNote, PostShare, PostSimilar, TagSimilar } from '@/components/Page/Post';
 import Mokuji from '@/components/Page/Post/Mokuji';
-import TagSimilar from '@/components/Page/Post/TagSimilar';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContainer } from '@/components/UI/Layout';
 import { Props as PostTagProps } from '@/components/UI/Tag';
 import { AUTHOR_NAME, READ_TIME_SUFFIX, TAG_VIEW_LIMIT } from '@/constant';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
-import { getPostSimilar, getPostsJson, getTagSimilar, getTagsJson } from '@/lib/posts';
+import { getPostsJson, getSimilarPost, getSimilarTag, getTagsJson } from '@/lib/posts';
 import { textSegmenter } from '@/lib/textSegmenter';
 import { getOgpImage, getPermalink } from '@/lib/url';
-import { Post as PostType, PostSimilar, TermsPostList } from '@/types/source';
+import { Post as PostType, PostSimilar as PostSimilarProps, TermsPostList } from '@/types/source';
 
 type PostProps = {
   post: PostType & {
     tagsWithCount: PostTagProps[];
     segmentedTitle: string;
   };
-  nextRead: TermsPostList[];
+  similarPost: TermsPostList[];
   similarTags: PostTagProps[];
 };
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-export default function Post({ post, nextRead, similarTags }: Props) {
+export default function Post({ post, similarPost, similarTags }: Props) {
   const {
     title,
     date,
@@ -104,9 +103,9 @@ export default function Post({ post, nextRead, similarTags }: Props) {
 
         <PostEdit slug={slug} />
 
-        <TagSimilar similarTags={similarTags} />
+        <TagSimilar tags={similarTags} />
 
-        <PostNextRead posts={nextRead} />
+        <PostSimilar posts={similarPost} />
       </PageContainer>
     </>
   );
@@ -143,13 +142,13 @@ export const getStaticProps: GetStaticProps<PostProps> = (context) => {
   const segmentedTitle = textSegmenter(post.title);
 
   // 関連記事
-  const getPostSimilarBySlug = (data: PostSimilar, key: string) => {
-    const result = data.find((item) => item.hasOwnProperty(key));
+  const getSimilarPostBySlug = (similarPosts: PostSimilarProps, key: string) => {
+    const result = similarPosts.find((slug) => slug.hasOwnProperty(key));
     return result ? result[key] : null;
   };
-  const postsSimilar = getPostSimilar();
-  const postSimilarSlugs = getPostSimilarBySlug(postsSimilar, slug);
-  const nextRead = Object.keys(postSimilarSlugs).map((slug) => {
+  const similarPosts = getSimilarPost();
+  const similarPostSlugs = getSimilarPostBySlug(similarPosts, slug);
+  const similarPost = Object.keys(similarPostSlugs).map((slug) => {
     const { title, date, updated, excerpt } = posts.find((post) => post.slug === slug);
 
     return {
@@ -162,8 +161,8 @@ export const getStaticProps: GetStaticProps<PostProps> = (context) => {
   });
 
   // 奇数の場合は偶数に寄せる
-  if (nextRead.length % 2 !== 0) {
-    nextRead.pop();
+  if (similarPost.length % 2 !== 0) {
+    similarPost.pop();
   }
 
   // 関連タグ
@@ -171,7 +170,7 @@ export const getStaticProps: GetStaticProps<PostProps> = (context) => {
   const getTagBySlug = (slug: PostTagProps['slug']) => {
     return Object.entries(tagData).find(([key]) => key === slug);
   };
-  const similarTagsList = getTagSimilar()[tag];
+  const similarTagsList = getSimilarTag()[tag];
   const similarTags: PostTagProps[] = !!similarTagsList
     ? Object.entries(similarTagsList)
         .map(([slug]) => {
@@ -186,7 +185,7 @@ export const getStaticProps: GetStaticProps<PostProps> = (context) => {
   return {
     props: {
       post: { ...post, tagsWithCount, segmentedTitle },
-      nextRead,
+      similarPost,
       similarTags,
     },
   };

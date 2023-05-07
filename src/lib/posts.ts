@@ -60,10 +60,10 @@ export const getTagsWithCount = (): [string, number][] => {
     .sort((a, b) => b[1] - a[1]); // 件数の多い順にソート
 };
 
-export const getTagSimilar = (): TagSimilar => {
+export const getSimilarTag = (): TagSimilar => {
   return getJson<TagSimilar>(FILENAME_TAG_SIMILARITY);
 };
 
-export const getPostSimilar = (): PostSimilar => {
+export const getSimilarPost = (): PostSimilar => {
   return getJson<PostSimilar>(FILENAME_POSTS_SIMILARITY);
 };

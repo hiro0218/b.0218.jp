@@ -3,11 +3,11 @@ import PostTag, { Props as PostTagProps } from '@/components/UI/Tag';
 import { styled } from '@/ui/styled';
 
 type Props = {
-  similarTags: PostTagProps[];
+  tags: PostTagProps[];
 };
 
-const TagSimilar = ({ similarTags }: Props) => {
-  if (!similarTags.length) {
+const TagSimilar = ({ tags }: Props) => {
+  if (!tags.length) {
     return null;
   }
 
@@ -15,7 +15,7 @@ const TagSimilar = ({ similarTags }: Props) => {
     <section>
       <Heading as="h2" text="関連タグ" />
       <Container>
-        <PostTag tags={similarTags} />
+        <PostTag tags={tags} />
       </Container>
     </section>
   );

@@ -9,7 +9,7 @@ type Props = {
   posts: TermsPostList[];
 };
 
-const PostNextRead = ({ heading = '関連記事', posts }: Props) => {
+const PostSimilar = ({ heading = '関連記事', posts }: Props) => {
   if (posts.length === 0) {
     return null;
   }
@@ -26,7 +26,7 @@ const PostNextRead = ({ heading = '関連記事', posts }: Props) => {
   );
 };
 
-export default PostNextRead;
+export default PostSimilar;
 
 const Container = styled.div`
   display: grid;
