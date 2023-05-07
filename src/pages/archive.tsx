@@ -1,4 +1,4 @@
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { GetStaticProps, InferGetStaticPropsType, PageConfig } from 'next';
 import Head from 'next/head';
 
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
@@ -45,7 +45,7 @@ export default function Archive({ archives, numberOfPosts }: Props) {
   );
 }
 
-export const config = {
+export const config: PageConfig = {
   unstable_runtimeJS: false,
 };
 

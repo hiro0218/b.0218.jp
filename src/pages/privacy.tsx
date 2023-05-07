@@ -1,4 +1,4 @@
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { GetStaticProps, InferGetStaticPropsType, PageConfig } from 'next';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import { createGetLayout } from '@/components/Layouts/SinglePageLayout';
@@ -30,7 +30,7 @@ Privacy.getLayout = createGetLayout({
   },
 });
 
-export const config = {
+export const config: PageConfig = {
   unstable_runtimeJS: false,
 };
 

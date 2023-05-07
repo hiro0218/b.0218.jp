@@ -1,4 +1,4 @@
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { GetStaticProps, InferGetStaticPropsType, PageConfig } from 'next';
 import Head from 'next/head';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
@@ -36,7 +36,7 @@ About.getLayout = createGetLayout({
   },
 });
 
-export const config = {
+export const config: PageConfig = {
   unstable_runtimeJS: false,
 };
 
