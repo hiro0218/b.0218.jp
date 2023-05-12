@@ -16,7 +16,7 @@
     "start": "next start",
     "lint": "eslint \"src/**/*{.js,.ts,.tsx}\"",
     "lint:markup": "markuplint \"src/**/*{.jsx,.tsx}\"",
-    "test": "jest",
+    "test": "jest --forceExit --coverage",
     "prepare": "husky install && playwright install chromium"
   },
   "nano-staged": {
@@ -85,7 +85,6 @@
     "hastscript": "^7.2.0",
     "husky": "^8.0.3",
     "jest": "^29.5.0",
-    "jest-environment-jsdom": "^29.5.0",
     "markuplint": "^3.10.0",
     "nano-staged": "^0.8.0",
     "next-build-id": "^3.0.0",
