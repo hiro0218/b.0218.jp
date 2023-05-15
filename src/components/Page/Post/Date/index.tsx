@@ -7,7 +7,7 @@ type Props = Pick<Post, 'date' | 'updated'>;
 const PostDate = ({ date, updated }: Props) => {
   const dateTime = new Date(date);
   const updatedTime = new Date(updated);
-  const hasModified = updated && !isSameDay(dateTime, updatedTime);
+  const hasModified = !!updated && !isSameDay(dateTime, updatedTime);
 
   return (
     <PostDateRoot>
