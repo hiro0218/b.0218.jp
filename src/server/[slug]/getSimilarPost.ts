@@ -1,5 +1,5 @@
 import { getSimilarPost as getSimilarPosts } from '@/lib/posts';
-import { Post as PostType, PostSimilar as PostSimilarProps } from '@/types/source';
+import { Post as PostType, PostSimilarProps } from '@/types/source';
 
 const getSimilarPostBySlug = (similarPosts: PostSimilarProps, key: string) => {
   const result = similarPosts.find((slug) => slug.hasOwnProperty(key));

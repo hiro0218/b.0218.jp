@@ -8,7 +8,7 @@ import {
   FILENAME_POSTS_SIMILARITY,
   FILENAME_TAG_SIMILARITY,
 } from '@/constant';
-import { Page, Post, PostSimilar, TagSimilar, TagsList } from '@/types/source';
+import { Page, Post, PostSimilarProps, TagSimilarProps, TagsList } from '@/types/source';
 
 type PostList = Partial<Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>>;
 
@@ -60,10 +60,10 @@ export const getTagsWithCount = (): [string, number][] => {
     .sort((a, b) => b[1] - a[1]); // 件数の多い順にソート
 };
 
-export const getSimilarTag = (): TagSimilar => {
-  return getJson<TagSimilar>(FILENAME_TAG_SIMILARITY);
+export const getSimilarTag = (): TagSimilarProps => {
+  return getJson<TagSimilarProps>(FILENAME_TAG_SIMILARITY);
 };
 
-export const getSimilarPost = (): PostSimilar => {
-  return getJson<PostSimilar>(FILENAME_POSTS_SIMILARITY);
+export const getSimilarPost = (): PostSimilarProps => {
+  return getJson<PostSimilarProps>(FILENAME_POSTS_SIMILARITY);
 };
