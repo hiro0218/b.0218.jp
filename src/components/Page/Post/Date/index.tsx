@@ -38,7 +38,6 @@ const PostDateRoot = styled.div`
 
 const existModifiedStyle = css`
   text-decoration: line-through;
-  opacity: 0.8;
 `;
 
 const PostDateItem = styled.div<{ existModified?: boolean }>`
