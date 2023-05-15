@@ -10,7 +10,7 @@ import {
 } from '@/constant';
 import { Page, Post, PostSimilarProps, TagSimilarProps, TagsList } from '@/types/source';
 
-type PostList = Partial<Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>>;
+type PostList = Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>;
 
 const cache = {
   [`${FILENAME_PAGES}`]: null,
