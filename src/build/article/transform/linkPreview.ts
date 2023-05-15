@@ -76,21 +76,21 @@ const canTransformLinkPreview = (node: Element, index: number, parent: Element) 
   }
 
   // 子がtext、textがhrefと一致すること
-  if (node.children.length === 1 && node.children[0].value !== node.properties.href) {
+  if (node.children.length === 1 && node.children[0].value !== node?.properties?.href) {
     return false;
   }
 
   const siblings = parent ? parent.children : [];
-  const prevNode = index && siblings[index - 1];
-  const nextNode = index && siblings[index + 1];
+  const prevNode = !!index && siblings[index - 1];
+  const nextNode = !!index && siblings[index + 1];
 
   // 前後が空行だった場合はtrue
   return !checkBreakNode(prevNode) && !checkBreakNode(nextNode);
 };
 
-const checkBreakNode = (node: ElementContent) => {
-  if (!node) {
-    return false;
+const checkBreakNode = (node: boolean | ElementContent) => {
+  if (typeof node === 'boolean') {
+    return node;
   }
 
   try {
@@ -122,7 +122,7 @@ const getOgpProps = (meta: IElement[]): OpgProps => {
 const transformLinkPreview = async (node: Element, index: number, parent: Element) => {
   if (!canTransformLinkPreview(node, index, parent)) return;
 
-  const href = node.properties.href as string;
+  const href = node.properties?.href as string;
 
   try {
     const result = await getHTML(href);

@@ -25,15 +25,23 @@ export const getStaticPropsPost: GetStaticProps<PostProps> = (context) => {
       return { slug, count: val.length };
     })
     .sort((a, b) => b.count - a.count);
-  const slug = (context.params.slug as string).replace('.html', '');
+  const slug = (context.params?.slug as string).replace('.html', '');
 
   // slug に一致する post を取得
   const post = posts.find((post) => post.slug === slug);
 
+  if (!post) {
+    return {
+      notFound: true,
+    };
+  }
+
   // tagsに件数を追加
-  const tagsWithCount: PostTagProps[] = post.tags.map((slug) => {
-    return tagDataWithCount.find((tag) => tag.slug === slug) || null;
-  });
+  const tagsWithCount = post.tags
+    .map((slug) => {
+      return tagDataWithCount.find((tag) => tag.slug === slug) || null;
+    })
+    .filter((tag) => tag !== null);
 
   // タイトルの文字組み
   const segmentedTitle = textSegmenter(post.title);

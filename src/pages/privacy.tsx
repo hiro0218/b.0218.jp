@@ -38,6 +38,12 @@ export const getStaticProps: GetStaticProps<Props> = () => {
   const pages = getPagesJson();
   const page = pages.find((page) => page.slug === 'privacy');
 
+  if (!page) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       page,

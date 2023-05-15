@@ -60,13 +60,19 @@ export const getStaticPaths: GetStaticPaths = () => {
 };
 
 export const getStaticProps: GetStaticProps<TermProps> = (context: GetStaticPropsContext) => {
-  const slug = context.params.slug as string;
+  const slug = context.params?.slug as string;
   const posts = getPostsJson().filter((post) => post.tags.includes(slug));
   const tag = getTagsJson()[slug];
-  const tagsPosts = tag.map((slug) => {
-    const { title, date, updated, excerpt } = posts.find((post) => post.slug === slug);
-    return { title, slug, date, updated, excerpt };
-  });
+  const tagsPosts = tag
+    .map((slug) => {
+      const post = posts.find((post) => post.slug === slug);
+      if (!post) {
+        return null;
+      }
+      const { title, date, updated, excerpt } = post;
+      return { title, slug, date, updated, excerpt };
+    })
+    .filter((post) => post !== null) as TermsPostList[];
 
   return {
     props: {

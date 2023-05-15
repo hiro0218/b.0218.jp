@@ -1,4 +1,4 @@
-import { MutableRefObject } from 'react';
+import { RefObject } from 'react';
 export type MokujiProps = {
-  refContent: MutableRefObject<HTMLDivElement>;
+  refContent: RefObject<HTMLDivElement>;
 };

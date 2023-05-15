@@ -9,17 +9,26 @@ const getSimilarPostBySlug = (similarPosts: PostSimilarProps, key: string) => {
 export const getSimilarPost = (posts: PostType[], slug: string) => {
   const similarPosts = getSimilarPosts();
   const similarPostSlugs = getSimilarPostBySlug(similarPosts, slug);
-  const similarPost = Object.keys(similarPostSlugs).map((slug) => {
-    const { title, date, updated, excerpt } = posts.find((post) => post.slug === slug);
+  if (!similarPostSlugs) {
+    return [];
+  }
+  const similarPost = Object.keys(similarPostSlugs)
+    .map((slug) => {
+      const post = posts.find((post) => post.slug === slug);
+      if (!post) {
+        return null;
+      }
+      const { title, date, updated, excerpt } = post;
 
-    return {
-      title,
-      slug,
-      date,
-      updated,
-      excerpt,
-    };
-  });
+      return {
+        title,
+        slug,
+        date,
+        updated,
+        excerpt,
+      };
+    })
+    .filter((post) => post !== null);
 
   // 奇数の場合は偶数に寄せる
   if (similarPost.length % 2 !== 0) {

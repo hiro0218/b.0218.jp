@@ -11,6 +11,10 @@ function createCoOccurrenceMatrix(posts: Partial<PostProps>[]) {
 
   for (let i = 0; i < posts.length; i++) {
     const tags = posts[i].tags;
+    if (!tags) {
+      continue;
+    }
+
     for (let j = 0; j < tags.length; j++) {
       const tag = tags[j];
       if (!coOccurrenceMatrix[tag]) {

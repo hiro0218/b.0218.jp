@@ -1,14 +1,17 @@
 import { useRouter } from 'next/router';
-import { MutableRefObject, useEffect } from 'react';
+import { RefObject, useEffect } from 'react';
 
 type Props = {
-  ref: MutableRefObject<HTMLDivElement>;
+  ref: RefObject<HTMLDivElement>;
 };
 
 function useTwitterWidgetsLoad({ ref }: Props) {
   const { asPath } = useRouter();
 
   useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
     window?.twttr?.widgets.load(ref.current);
   }, [asPath, ref]);
 }

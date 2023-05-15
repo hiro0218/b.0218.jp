@@ -13,8 +13,8 @@ type Props = {
   link: string;
   title: string;
   excerpt?: ReactNode | string;
-  date?: PostDateProps['date'];
-  updated?: PostDateProps['updated'];
+  date: PostDateProps['date'];
+  updated: PostDateProps['updated'];
   tags?: string[];
   role?: AriaRole;
 };
