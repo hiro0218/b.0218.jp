@@ -30,7 +30,8 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "strictNullChecks": false
   },
   "typeRoots": [
     "node_modules/@types",
