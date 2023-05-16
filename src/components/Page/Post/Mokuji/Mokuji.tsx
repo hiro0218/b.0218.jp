@@ -14,7 +14,7 @@ const Mokuji = ({ refContent }: MokujiProps) => {
   const refDetails = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {
-    if (!refDetails.current) {
+    if (!refDetails.current || !refDetailContent.current) {
       return;
     }
 
