@@ -9,7 +9,7 @@ export const getSimilarTag = (tag: string, tagData: TagsList) => {
   };
   const similarTagsList = getSimilarTags()[tag];
   const similarTags = !!similarTagsList
-    ? Object.entries(similarTagsList)
+    ? (Object.entries(similarTagsList)
         .map(([slug]) => {
           const tag = getTagBySlug(slug);
           if (!tag) {
@@ -23,7 +23,7 @@ export const getSimilarTag = (tag: string, tagData: TagsList) => {
           if (a === null) return 1;
           if (b === null) return -1;
           return b.count - a.count;
-        })
+        }) as PostTagProps[])
     : [];
 
   return similarTags;
