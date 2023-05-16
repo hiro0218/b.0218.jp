@@ -28,7 +28,7 @@ export const getSimilarPost = (posts: PostType[], slug: string) => {
         excerpt,
       };
     })
-    .filter((post) => post !== null);
+    .filter((post) => post !== null) as PostType[];
 
   // 奇数の場合は偶数に寄せる
   if (similarPost.length % 2 !== 0) {
