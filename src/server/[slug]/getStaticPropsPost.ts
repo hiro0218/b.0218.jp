@@ -41,7 +41,7 @@ export const getStaticPropsPost: GetStaticProps<PostProps> = (context) => {
     .map((slug) => {
       return tagDataWithCount.find((tag) => tag.slug === slug) || null;
     })
-    .filter((tag) => tag !== null);
+    .filter((tag) => tag !== null) as PostTagProps[];
 
   // タイトルの文字組み
   const segmentedTitle = textSegmenter(post.title);
