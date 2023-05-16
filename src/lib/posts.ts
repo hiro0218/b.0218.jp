@@ -8,22 +8,32 @@ import {
   FILENAME_POSTS_SIMILARITY,
   FILENAME_TAG_SIMILARITY,
 } from '@/constant';
-import { Page, Post, PostSimilarProps, TagSimilarProps, TagsList } from '@/types/source';
+import { Page, Post, PostList, PostSimilarProps, TagSimilarProps, TagsList } from '@/types/source';
 
-type PostList = Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>;
+type CacheValues = Page[] | Post[] | PostList[] | PostSimilarProps | TagSimilarProps | TagsList;
 
-const cache = {
+const cache: Record<string, null | undefined | CacheValues> = {
   [`${FILENAME_PAGES}`]: null,
   [`${FILENAME_POSTS}`]: null,
   [`${FILENAME_POSTS_LIST}`]: null,
   [`${FILENAME_TAG_SIMILARITY}`]: null,
+  [`${FILENAME_POSTS_SIMILARITY}`]: null,
+  tags: null,
 };
 
-const getJson = <T>(filename: string): T => {
+const getJson = <T extends CacheValues>(
+  filename:
+    | typeof FILENAME_PAGES
+    | typeof FILENAME_POSTS
+    | typeof FILENAME_POSTS_LIST
+    | typeof FILENAME_TAG_SIMILARITY
+    | typeof FILENAME_POSTS_SIMILARITY
+    | 'tags',
+): T => {
   const path = join(process.cwd(), `dist/${filename}.json`);
 
   // キャッシュにデータが存在する場合はキャッシュから取得する
-  if (cache[filename]) {
+  if (cache[filename] !== undefined) {
     return cache[filename] as T;
   }
 
