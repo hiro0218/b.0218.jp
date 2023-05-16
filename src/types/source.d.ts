@@ -33,3 +33,5 @@ export type PostSimilarProps = {
     [slug: string]: number;
   };
 }[];
+
+export type PostList = Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>;
