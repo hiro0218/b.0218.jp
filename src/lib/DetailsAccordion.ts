@@ -7,7 +7,7 @@ export class DetailsAccordion {
   detailsElement: HTMLDetailsElement;
   summary: HTMLElement;
   content: HTMLElement;
-  animationQueue: Animation;
+  animationQueue: Animation | null;
   isClosing: boolean;
   isExpanding: boolean;
   keyframeAnimationOption: KeyframeAnimationOptions;
@@ -17,8 +17,14 @@ export class DetailsAccordion {
     contentElement: HTMLElement,
     keyframeAnimationOption = DefaultKeyframeAnimationOptions,
   ) {
+    const summary = detailsElement.querySelector('summary');
+
+    if (summary === null) {
+      throw new Error('Summary element not found in details element.');
+    }
+
     this.detailsElement = detailsElement;
-    this.summary = detailsElement.querySelector('summary');
+    this.summary = summary;
     this.content = contentElement;
     this.animationQueue = null;
     this.isClosing = false;
