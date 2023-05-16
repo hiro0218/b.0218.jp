@@ -12,7 +12,7 @@ import { Page, Post, PostList, PostSimilarProps, TagSimilarProps, TagsList } fro
 
 type CacheValues = Page[] | Post[] | PostList[] | PostSimilarProps | TagSimilarProps | TagsList;
 
-const cache: Record<string, null | undefined | CacheValues> = {
+const cache: Record<string, null | CacheValues> = {
   [`${FILENAME_PAGES}`]: null,
   [`${FILENAME_POSTS}`]: null,
   [`${FILENAME_POSTS_LIST}`]: null,
@@ -33,7 +33,7 @@ const getJson = <T extends CacheValues>(
   const path = join(process.cwd(), `dist/${filename}.json`);
 
   // キャッシュにデータが存在する場合はキャッシュから取得する
-  if (cache[filename] !== undefined) {
+  if (cache[filename] !== null) {
     return cache[filename] as T;
   }
 
