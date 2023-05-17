@@ -39,7 +39,7 @@ async function buildPost() {
   // md ファイル一覧を取得
   const files = readdirSync(`${PATH.SRC}/_posts`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
-  const posts: Partial<PropPost>[] = [];
+  const posts: PropPost[] = [];
 
   // 記事一覧
   for (let i = 0; i < NUMBER_OF_FILES; i++) {
@@ -48,9 +48,9 @@ async function buildPost() {
     // front matter を取得
     const post = matter.read(`${PATH.SRC}/_posts/${file}`);
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { title, date, updated, note, tags, noindex }: Partial<PropPost> = post.data;
-    const content = (await markdownToHtmlString(post.content)) || null;
-    const noteContent = (await markdownToHtmlString(note, true)) || null;
+    const { title, date, updated, note, tags, noindex } = post.data as PropPost;
+    const content = (await markdownToHtmlString(post.content)).trim();
+    const noteContent = !!note ? await markdownToHtmlString(note, true) : '';
     const { minutes: readingTimeMinutes } = readingTime(content);
 
     posts.push({
@@ -59,7 +59,7 @@ async function buildPost() {
       date: new Date(date).toISOString(),
       updated: updated ? new Date(updated).toISOString() : '',
       ...(noteContent && { note: noteContent }),
-      content: content.trim(),
+      content: content,
       excerpt: getHeading2Text(content),
       tags,
       readingTime: Math.round(readingTimeMinutes),
@@ -105,6 +105,10 @@ function buildTerms(posts: Partial<PropPost>[]) {
   for (let i = 0; i < posts.length; i++) {
     const { slug, tags } = posts[i];
 
+    if (!slug || !tags) {
+      continue;
+    }
+
     for (let i = 0; i < tags.length; i++) {
       const tag = tags[i];
       const mappedTags = tagsMap[tag];
@@ -133,7 +137,7 @@ async function buildPage() {
 
     // front matter を取得
     const page = matter.read(`${PATH.SRC}/${file}`);
-    const { title, date, updated }: Partial<Page> = page.data;
+    const { title, date, updated } = page.data as Page;
     const content = await markdownToHtmlString(page.content);
 
     pages.push({

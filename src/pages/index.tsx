@@ -92,7 +92,8 @@ export default function Index({ recentPosts, updatesPosts, tags }: Props) {
   );
 }
 
-const pickPosts = ({ title, slug, date, updated, excerpt, tags }: Partial<PropsPost>): pickupPostsProps => {
+type PostList = UnpackedArray<ReturnType<typeof getPostsListJson>>;
+const pickPosts = ({ title, slug, date, updated, excerpt, tags }: PostList): PostList => {
   return { title, slug, date, updated, excerpt, tags };
 };
 

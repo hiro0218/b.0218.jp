@@ -61,10 +61,8 @@ export default function Post({ post, similarPost, similarTags }: Props) {
           }}
           type="application/ld+json"
         />
+        {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
       </Head>
-
-      {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
-
       <PageContainer as="article">
         <PostHeader
           date={date}
@@ -73,11 +71,8 @@ export default function Post({ post, similarPost, similarTags }: Props) {
           title={segmentedTitle}
           updated={updated}
         />
-
         <PostNote note={note} />
-
         <Mokuji refContent={refContent} />
-
         <PostContent
           dangerouslySetInnerHTML={{
             __html: content,
@@ -85,15 +80,10 @@ export default function Post({ post, similarPost, similarTags }: Props) {
           itemProp="articleBody"
           ref={refContent}
         />
-
         <Adsense />
-
         <PostShare title={title} url={permalink} />
-
         <PostEdit slug={slug} />
-
         <TagSimilar tags={similarTags} />
-
         <PostSimilar posts={similarPost} />
       </PageContainer>
     </>

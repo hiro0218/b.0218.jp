@@ -32,7 +32,7 @@ const markdownToHtmlString = async (markdown: string, simple = false) => {
     ? await commonProcessor
         .use(rehypeExternalLinks, {
           target(element) {
-            return !(element.properties.href as string).includes(SITE_URL) ? '_blank' : undefined;
+            return !(element?.properties?.href as string).includes(SITE_URL) ? '_blank' : undefined;
           },
           rel: ['nofollow'],
         })

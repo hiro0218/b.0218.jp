@@ -22,14 +22,16 @@ export type Post = ArticleBaseProps & {
 
 export type TagsList = Record<string, string[]>;
 
-export type TagSimilar = {
+export type TagSimilarProps = {
   [tag: string]: {
     [relatedTag: string]: number;
   };
 };
 
-export type PostSimilar = {
+export type PostSimilarProps = {
   [slug: string]: {
     [slug: string]: number;
   };
 }[];
+
+export type PostList = Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>;

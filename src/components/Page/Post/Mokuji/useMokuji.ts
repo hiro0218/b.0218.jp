@@ -1,6 +1,6 @@
 import { Mokuji as MokujiJs, MokujiOption } from 'mokuji.js';
 import { useRouter } from 'next/router';
-import { MutableRefObject, useEffect, useRef } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
 
 import { MokujiProps } from './type';
 
@@ -13,8 +13,8 @@ const MOKUJI_OPTION: MokujiOption = {
 } as const;
 
 type ReturnProps = {
-  refMokuji: MutableRefObject<HTMLDivElement>;
-  refDetailContent: MutableRefObject<HTMLDivElement>;
+  refMokuji: RefObject<HTMLDivElement>;
+  refDetailContent: RefObject<HTMLDivElement>;
 };
 
 export const useMokuji = ({ refContent }: MokujiProps): ReturnProps => {
@@ -31,12 +31,20 @@ export const useMokuji = ({ refContent }: MokujiProps): ReturnProps => {
       }
     }
 
+    if (!refDetailContent.current) {
+      return;
+    }
+
     refDetailContent.current.replaceChildren();
 
     requestAnimationFrame(() => {
+      if (!refDetailContent.current || !refMokuji.current) {
+        return;
+      }
+
       const mokujiList = MokujiJs(refContent.current, MOKUJI_OPTION);
 
-      if (mokujiList.childNodes.length !== 0) {
+      if (mokujiList && mokujiList.childNodes.length !== 0) {
         refDetailContent.current.appendChild(mokujiList);
         refMokuji.current.style.display = 'block';
       } else {

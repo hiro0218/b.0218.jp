@@ -5,8 +5,6 @@ const createJestConfig = nextJest({
 });
 
 /** @type {import('jest').Config} */
-const config = {
-  testEnvironment: 'jest-environment-jsdom',
-};
+const config = {};
 
 module.exports = createJestConfig(config);

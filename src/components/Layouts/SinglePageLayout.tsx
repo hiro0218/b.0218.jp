@@ -15,7 +15,7 @@ type LayoutProps = {
   };
 };
 
-export const createGetLayout = (layoutProps?: LayoutProps): ((children: ReactElement) => ReactElement) => {
+export const createGetLayout = (layoutProps: LayoutProps): ((children: ReactElement) => ReactElement) => {
   return function getLayout(children: ReactElement) {
     return <Layout {...layoutProps}>{children}</Layout>;
   };

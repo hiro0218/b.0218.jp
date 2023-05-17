@@ -1,10 +1,8 @@
 import { GetStaticProps } from 'next';
 
 import { getPostsListJson } from '@/lib/posts';
-import { Post as PropPost } from '@/types/source';
-
 type PostsProps = ReturnType<typeof getPostsListJson>;
-
+type PostProps = UnpackedArray<PostsProps>;
 type ArchiveListProps = Record<number, PostsProps>;
 
 export type ArchiveProps = {
@@ -12,7 +10,7 @@ export type ArchiveProps = {
   numberOfPosts: number;
 };
 
-const getYear = (date: PropPost['date']) => Number(date.slice(0, 4));
+const getYear = (date: PostProps['date']) => Number(date.slice(0, 4));
 
 const divideByYearArchive = (posts: PostsProps): ArchiveListProps => {
   const result: ArchiveListProps = {};

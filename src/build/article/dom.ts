@@ -9,7 +9,8 @@ const FETCH_HEADERS = { 'User-Agent': 'Twitterbot/1.0' };
 export const FETCH_TIMEOUT = 1000;
 
 export const getMeta = (html: string) => {
-  document.head.innerHTML = html.match(/<head[^>]*>[\s\S]*?<\/head>/i)[0];
+  const head = html.match(/<head[^>]*>[\s\S]*?<\/head>/i);
+  document.head.innerHTML = head?.length ? head[0] : '';
   const meta = document.head.querySelectorAll('meta');
 
   return meta;

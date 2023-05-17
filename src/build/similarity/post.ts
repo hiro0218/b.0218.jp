@@ -1,6 +1,6 @@
-import { Post as PostProps, TagSimilar } from '@/types/source';
+import { PostList, TagSimilarProps } from '@/types/source';
 
-function calculatePostSimilarity(post: Partial<PostProps>, targetPostTags: PostProps['tags'], sortedTags: TagSimilar) {
+function calculatePostSimilarity(post: PostList, targetPostTags: PostList['tags'], sortedTags: TagSimilarProps) {
   let similarityScore = 0;
 
   for (let i = 0; i < targetPostTags.length; i++) {
@@ -18,15 +18,11 @@ function calculatePostSimilarity(post: Partial<PostProps>, targetPostTags: PostP
   return Number(similarityScore.toFixed(4));
 }
 
-export function getRelatedPosts(
-  targetPosts: Partial<PostProps>[],
-  posts: Partial<PostProps>[],
-  sortedTags: TagSimilar,
-) {
+export function getRelatedPosts(targetPosts: PostList[], posts: PostList[], sortedTags: TagSimilarProps) {
   const LIMIT = 6;
   return targetPosts.map((targetPost) => {
     const targetPostTags = targetPost.tags;
-    const scoredArticles = [];
+    const scoredArticles: { slug: PostList['slug']; similarityScore: number }[] = [];
 
     posts.forEach((post) => {
       if (post.slug !== targetPost.slug) {

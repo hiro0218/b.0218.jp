@@ -34,10 +34,8 @@ export default function Tags({ tags }: Props) {
 
 export const getStaticProps: GetStaticProps<TermProps> = () => {
   const tags = getTagsWithCount()
-    .map(([slug, count]) => {
-      return count >= TAG_VIEW_LIMIT ? { slug, count } : null;
-    })
-    .filter((tag) => tag !== null);
+    .filter(([, count]) => count >= TAG_VIEW_LIMIT)
+    .map(([slug, count]) => ({ slug, count }));
 
   return {
     props: {

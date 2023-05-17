@@ -41,7 +41,7 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
   const searchInputId = useId();
 
   useEffect(() => {
-    refInput.current.focus();
+    refInput?.current?.focus();
   }, []);
 
   /**

@@ -8,22 +8,32 @@ import {
   FILENAME_POSTS_SIMILARITY,
   FILENAME_TAG_SIMILARITY,
 } from '@/constant';
-import { Page, Post, PostSimilar, TagSimilar, TagsList } from '@/types/source';
+import { Page, Post, PostList, PostSimilarProps, TagSimilarProps, TagsList } from '@/types/source';
 
-type PostList = Partial<Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>>;
+type CacheValues = Page[] | Post[] | PostList[] | PostSimilarProps | TagSimilarProps | TagsList;
 
-const cache = {
+const cache: Record<string, null | CacheValues> = {
   [`${FILENAME_PAGES}`]: null,
   [`${FILENAME_POSTS}`]: null,
   [`${FILENAME_POSTS_LIST}`]: null,
   [`${FILENAME_TAG_SIMILARITY}`]: null,
+  [`${FILENAME_POSTS_SIMILARITY}`]: null,
+  tags: null,
 };
 
-const getJson = <T>(filename: string): T => {
+const getJson = <T extends CacheValues>(
+  filename:
+    | typeof FILENAME_PAGES
+    | typeof FILENAME_POSTS
+    | typeof FILENAME_POSTS_LIST
+    | typeof FILENAME_TAG_SIMILARITY
+    | typeof FILENAME_POSTS_SIMILARITY
+    | 'tags',
+): T => {
   const path = join(process.cwd(), `dist/${filename}.json`);
 
   // キャッシュにデータが存在する場合はキャッシュから取得する
-  if (cache[filename]) {
+  if (cache[filename] !== null) {
     return cache[filename] as T;
   }
 
@@ -60,10 +70,10 @@ export const getTagsWithCount = (): [string, number][] => {
     .sort((a, b) => b[1] - a[1]); // 件数の多い順にソート
 };
 
-export const getSimilarTag = (): TagSimilar => {
-  return getJson<TagSimilar>(FILENAME_TAG_SIMILARITY);
+export const getSimilarTag = (): TagSimilarProps => {
+  return getJson<TagSimilarProps>(FILENAME_TAG_SIMILARITY);
 };
 
-export const getSimilarPost = (): PostSimilar => {
-  return getJson<PostSimilar>(FILENAME_POSTS_SIMILARITY);
+export const getSimilarPost = (): PostSimilarProps => {
+  return getJson<PostSimilarProps>(FILENAME_POSTS_SIMILARITY);
 };

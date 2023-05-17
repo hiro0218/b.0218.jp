@@ -63,6 +63,8 @@ ensureDirSync(path.dist);
           const pageTitle = parser.translateHTMLString(title.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
 
           await page.evaluate(async (pageTitle) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             document.getElementById('title').innerHTML = pageTitle;
             await document.fonts.ready;
           }, pageTitle);
@@ -85,6 +87,8 @@ ensureDirSync(path.dist);
   } catch (err) {
     Log.error('Generating OGP Images', err.message);
   } finally {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     await browser?.close();
   }
 })();
