@@ -13,11 +13,11 @@ import { Page, Post, PostList, PostSimilarProps, TagSimilarProps, TagsList } fro
 type CacheValues = Page[] | Post[] | PostList[] | PostSimilarProps | TagSimilarProps | TagsList;
 
 const cache: Record<string, null | CacheValues> = {
-  [`${FILENAME_PAGES}`]: null,
-  [`${FILENAME_POSTS}`]: null,
-  [`${FILENAME_POSTS_LIST}`]: null,
-  [`${FILENAME_TAG_SIMILARITY}`]: null,
-  [`${FILENAME_POSTS_SIMILARITY}`]: null,
+  [FILENAME_PAGES]: null,
+  [FILENAME_POSTS]: null,
+  [FILENAME_POSTS_LIST]: null,
+  [FILENAME_TAG_SIMILARITY]: null,
+  [FILENAME_POSTS_SIMILARITY]: null,
   tags: null,
 };
 
