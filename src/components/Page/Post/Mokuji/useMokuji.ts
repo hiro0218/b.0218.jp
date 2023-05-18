@@ -1,4 +1,4 @@
-import { Mokuji as MokujiJs, MokujiOption } from 'mokuji.js';
+import { Mokuji as MokujiJs, type MokujiOption } from 'mokuji.js';
 import { useRouter } from 'next/router';
 import { RefObject, useEffect, useRef } from 'react';
 

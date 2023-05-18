@@ -1,5 +1,5 @@
 import type { Element } from 'hast';
-import { Transformer } from 'unified';
+import { type Transformer } from 'unified';
 import { visit } from 'unist-util-visit';
 
 import transformCodeblock from './transform/codeblock';
