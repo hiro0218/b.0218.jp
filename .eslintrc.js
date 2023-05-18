@@ -6,7 +6,12 @@ module.exports = {
     node: true,
     es2022: true,
   },
-  extends: ['next/core-web-vitals', 'plugin:@typescript-eslint/recommended', 'eslint-config-prettier'],
+  extends: [
+    'next/core-web-vitals',
+    'plugin:import/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'eslint-config-prettier',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
