@@ -15,6 +15,8 @@ import { Post as PropsPost } from '@/types/source';
 
 const POST_DISPLAY_LIMIT = 5;
 
+type PostListProps = UnpackedArray<ReturnType<typeof getPostsListJson>>;
+
 type pickupPostsProps = Pick<PropsPost, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>;
 
 type IndexProps = {
@@ -92,8 +94,7 @@ export default function Index({ recentPosts, updatesPosts, tags }: Props) {
   );
 }
 
-type PostList = UnpackedArray<ReturnType<typeof getPostsListJson>>;
-const pickPosts = ({ title, slug, date, updated, excerpt, tags }: PostList): PostList => {
+const pickPosts = ({ title, slug, date, updated, excerpt, tags }: PostListProps): PostListProps => {
   return { title, slug, date, updated, excerpt, tags };
 };
 
