@@ -2,7 +2,7 @@ import { GetStaticProps } from 'next';
 
 import { Props as PostTagProps } from '@/components/UI/Tag';
 import { getPostsJson, getTagsJson } from '@/lib/posts';
-import { Post as PostType, TermsPostList } from '@/types/source';
+import { Post as PostType, TermsPostListProps } from '@/types/source';
 
 import { getSimilarPost } from './getSimilarPost';
 import { getSimilarTag } from './getSimilarTag';
@@ -13,7 +13,7 @@ export type PostProps = {
     tagsWithCount: PostTagProps[];
     segmentedTitle: string;
   };
-  similarPost: TermsPostList[];
+  similarPost: TermsPostListProps[];
   similarTags: PostTagProps[];
 };
 

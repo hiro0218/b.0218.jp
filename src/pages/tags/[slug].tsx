@@ -6,11 +6,11 @@ import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, TAG_VIEW_LIMIT } from '@/constant';
 import { getPostsJson, getTagsJson, getTagsWithCount } from '@/lib/posts';
-import { TermsPostList } from '@/types/source';
+import { TermsPostListProps } from '@/types/source';
 
 type TermProps = {
   title: string;
-  posts: TermsPostList[];
+  posts: TermsPostListProps[];
 };
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -72,7 +72,7 @@ export const getStaticProps: GetStaticProps<TermProps> = (context: GetStaticProp
       const { title, date, updated, excerpt } = post;
       return { title, slug, date, updated, excerpt };
     })
-    .filter((post) => post !== null) as TermsPostList[];
+    .filter((post) => post !== null) as TermsPostListProps[];
 
   return {
     props: {
