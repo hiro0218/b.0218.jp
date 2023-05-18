@@ -4,7 +4,7 @@ import readingTime from 'reading-time';
 
 import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
 import * as Log from '@/lib/Log';
-import { Page, Post as PropPost } from '@/types/source';
+import { PageProps, Post as PropPost } from '@/types/source';
 
 import markdownToHtmlString from './markdownToHtmlString';
 
@@ -129,7 +129,7 @@ async function buildPage() {
   // md ファイル一覧を取得
   const files = readdirSync(`${PATH.SRC}`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
-  const pages: Page[] = [];
+  const pages: PageProps[] = [];
 
   // 記事一覧
   for (let i = 0; i < NUMBER_OF_FILES; i++) {
@@ -137,7 +137,7 @@ async function buildPage() {
 
     // front matter を取得
     const page = matter.read(`${PATH.SRC}/${file}`);
-    const { title, date, updated } = page.data as Page;
+    const { title, date, updated } = page.data as PageProps;
     const content = await markdownToHtmlString(page.content);
 
     pages.push({

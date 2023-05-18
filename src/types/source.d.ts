@@ -6,7 +6,7 @@ type ArticleBaseProps = {
   content: string;
 };
 
-export type Page = ArticleBaseProps;
+export type PageProps = ArticleBaseProps;
 
 export type TermsPostListProps = Omit<ArticleBaseProps, 'content'> & {
   excerpt: string;
