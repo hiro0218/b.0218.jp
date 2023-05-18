@@ -1,3 +1,5 @@
-import Mokuji from './Mokuji';
 
-export default Mokuji;
+
+
+
+export {default} from './Mokuji';
