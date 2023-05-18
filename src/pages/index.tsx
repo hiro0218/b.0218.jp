@@ -11,13 +11,13 @@ import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/componen
 import { AUTHOR_ICON, SITE_URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
 import { getPostsListJson, getTagsWithCount } from '@/lib/posts';
-import { Post as PropsPost } from '@/types/source';
+import { PostProps } from '@/types/source';
 
 const POST_DISPLAY_LIMIT = 5;
 
 type PostListProps = UnpackedArray<ReturnType<typeof getPostsListJson>>;
 
-type pickupPostsProps = Pick<PropsPost, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>;
+type pickupPostsProps = Pick<PostProps, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>;
 
 type IndexProps = {
   recentPosts: pickupPostsProps[];

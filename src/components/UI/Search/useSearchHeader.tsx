@@ -2,7 +2,7 @@ import { KeyboardEvent, useCallback, useEffect, useId, useMemo, useRef, useState
 
 import { FILENAME_POSTS_LIST } from '@/constant';
 import { parseJSON } from '@/lib/parseJSON';
-import { Post } from '@/types/source';
+import { PostProps } from '@/types/source';
 import { RxMagnifyingGlass } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
@@ -10,7 +10,7 @@ type Props = {
   closeDialog: () => void;
 };
 
-type SearchProps = Pick<Post, 'title' | 'tags' | 'slug'>;
+type SearchProps = Pick<PostProps, 'title' | 'tags' | 'slug'>;
 
 type DataProps = {
   keyword: string;
@@ -63,7 +63,7 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
       await fetch(`/${FILENAME_POSTS_LIST}.json`, {
         signal: abortController.signal,
       })
-        .then<Post[]>((response) => response.json())
+        .then<PostProps[]>((response) => response.json())
         .then((json) => {
           return json.map(({ title, tags, slug }) => {
             return {

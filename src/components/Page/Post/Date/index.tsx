@@ -1,8 +1,8 @@
 import { convertDateToSimpleFormat, isSameDay } from '@/lib/date';
-import { Post } from '@/types/source';
+import { PostProps } from '@/types/source';
 import { css, styled } from '@/ui/styled';
 
-type Props = Pick<Post, 'date' | 'updated'>;
+type Props = Pick<PostProps, 'date' | 'updated'>;
 
 const PostDate = ({ date, updated }: Props) => {
   const dateTime = new Date(date);

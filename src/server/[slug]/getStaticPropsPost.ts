@@ -2,14 +2,14 @@ import { GetStaticProps } from 'next';
 
 import { Props as PostTagProps } from '@/components/UI/Tag';
 import { getPostsJson, getTagsJson } from '@/lib/posts';
-import { Post as PostType, TermsPostListProps } from '@/types/source';
+import { PostProps, TermsPostListProps } from '@/types/source';
 
 import { getSimilarPost } from './getSimilarPost';
 import { getSimilarTag } from './getSimilarTag';
 import { textSegmenter } from './textSegmenter';
 
-export type PostProps = {
-  post: PostType & {
+export type PostPageProps = {
+  post: PostProps & {
     tagsWithCount: PostTagProps[];
     segmentedTitle: string;
   };
@@ -17,7 +17,7 @@ export type PostProps = {
   similarTags: PostTagProps[];
 };
 
-export const getStaticPropsPost: GetStaticProps<PostProps> = (context) => {
+export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
   const posts = getPostsJson();
   const tagData = getTagsJson();
   const tagDataWithCount = Object.entries(tagData)

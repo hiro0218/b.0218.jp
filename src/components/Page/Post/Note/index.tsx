@@ -1,8 +1,8 @@
-import { Post } from '@/types/source';
+import { PostProps } from '@/types/source';
 import { RxInfoCircled } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
-type Props = Pick<Post, 'note'>;
+type Props = Pick<PostProps, 'note'>;
 
 const PostNote = ({ note }: Props) => {
   if (!note) {

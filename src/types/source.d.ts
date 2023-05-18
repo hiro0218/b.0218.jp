@@ -12,7 +12,7 @@ export type TermsPostListProps = Omit<ArticleBaseProps, 'content'> & {
   excerpt: string;
 };
 
-export type Post = ArticleBaseProps & {
+export type PostProps = ArticleBaseProps & {
   note?: string;
   excerpt: string;
   tags: string[];

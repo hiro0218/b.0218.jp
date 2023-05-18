@@ -6,7 +6,7 @@ import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
 import { ArchiveProps, getStaticPropsArchive } from '@/server/archive';
-import { Post as PropPost } from '@/types/source';
+import { PostProps } from '@/types/source';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -26,7 +26,7 @@ export default function Archive({ archives, numberOfPosts }: Props) {
           .map((year) => (
             <Columns key={year} title={`${year}年`}>
               <Stack space="half">
-                {archives[year].map(({ slug, title, date, updated, excerpt, tags }: PropPost) => (
+                {archives[year].map(({ slug, title, date, updated, excerpt, tags }: PostProps) => (
                   <LinkCard
                     date={date}
                     excerpt={excerpt}

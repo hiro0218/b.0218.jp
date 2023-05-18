@@ -1,12 +1,12 @@
 import { getSimilarPost as getSimilarPosts } from '@/lib/posts';
-import { Post as PostType, PostSimilarProps } from '@/types/source';
+import { PostProps, PostSimilarProps } from '@/types/source';
 
 const getSimilarPostBySlug = (similarPosts: PostSimilarProps, key: string) => {
   const result = similarPosts.find((slug) => slug.hasOwnProperty(key));
   return result ? result[key] : null;
 };
 
-export const getSimilarPost = (posts: PostType[], slug: string) => {
+export const getSimilarPost = (posts: PostProps[], slug: string) => {
   const similarPosts = getSimilarPosts();
   const similarPostSlugs = getSimilarPostBySlug(similarPosts, slug);
   if (!similarPostSlugs) {
@@ -28,7 +28,7 @@ export const getSimilarPost = (posts: PostType[], slug: string) => {
         excerpt,
       };
     })
-    .filter((post) => post !== null) as PostType[];
+    .filter((post) => post !== null) as PostProps[];
 
   // 奇数の場合は偶数に寄せる
   if (similarPost.length % 2 !== 0) {
