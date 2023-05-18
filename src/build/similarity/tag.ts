@@ -1,4 +1,4 @@
-import { PostList, TagSimilarProps, TagsList } from '@/types/source';
+import { PostList, TagSimilarProps, TagsListProps } from '@/types/source';
 
 export type OccurrenceMatrixProps = {
   [tag: string]: {
@@ -36,7 +36,7 @@ function createCoOccurrenceMatrix(posts: PostList[]) {
   return coOccurrenceMatrix;
 }
 
-function calculateTagRelations(tags: TagsList, coOccurrenceMatrix: OccurrenceMatrixProps) {
+function calculateTagRelations(tags: TagsListProps, coOccurrenceMatrix: OccurrenceMatrixProps) {
   const tagRelations: TagSimilarProps = {};
   const tagsKeys = Object.keys(tags);
 
@@ -87,7 +87,7 @@ function sortTagRelations(tagRelations: TagSimilarProps) {
   return sortedTags;
 }
 
-export function getRelatedTags(posts: PostList[], tags: TagsList) {
+export function getRelatedTags(posts: PostList[], tags: TagsListProps) {
   const coOccurrenceMatrix = createCoOccurrenceMatrix(posts);
   const tagRelations = calculateTagRelations(tags, coOccurrenceMatrix);
   const sortedTags = sortTagRelations(tagRelations);

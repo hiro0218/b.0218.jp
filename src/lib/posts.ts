@@ -8,9 +8,9 @@ import {
   FILENAME_POSTS_SIMILARITY,
   FILENAME_TAG_SIMILARITY,
 } from '@/constant';
-import { Page, Post, PostList, PostSimilarProps, TagSimilarProps, TagsList } from '@/types/source';
+import { Page, Post, PostList, PostSimilarProps, TagSimilarProps, TagsListProps } from '@/types/source';
 
-type CacheValues = Page[] | Post[] | PostList[] | PostSimilarProps | TagSimilarProps | TagsList;
+type CacheValues = Page[] | Post[] | PostList[] | PostSimilarProps | TagSimilarProps | TagsListProps;
 
 const cache: Record<string, null | CacheValues> = {
   [FILENAME_PAGES]: null,
@@ -46,8 +46,8 @@ const getJson = <T extends CacheValues>(
   return data;
 };
 
-export const getTagsJson = (): TagsList => {
-  return getJson<TagsList>('tags');
+export const getTagsJson = (): TagsListProps => {
+  return getJson<TagsListProps>('tags');
 };
 
 export const getPostsJson = (): Post[] => {
