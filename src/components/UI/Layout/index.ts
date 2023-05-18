@@ -1,5 +1,9 @@
-import Columns from './Columns';
-import PageContainer from './PageContainer';
-import Stack from './Stack';
 
-export { Stack, Columns, PageContainer };
+
+
+
+
+
+export {default as Columns} from './Columns';
+export {default as PageContainer} from './PageContainer';
+export {default as Stack} from './Stack';
