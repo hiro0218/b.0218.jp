@@ -44,6 +44,7 @@ module.exports = {
     'import/extensions': 'off',
     'import/prefer-default-export': 'off',
     'import/no-duplicates': ['error', { considerQueryString: true }],
+    'import/no-extraneous-dependencies': 'error',
     'jsx-expressions/strict-logical-expressions': 'error',
     'react/jsx-sort-props': 'warn',
     'react-hooks/rules-of-hooks': 'error',
