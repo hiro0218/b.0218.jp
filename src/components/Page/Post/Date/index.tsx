@@ -1,5 +1,5 @@
 import { convertDateToSimpleFormat, isSameDay } from '@/lib/date';
-import { PostProps } from '@/types/source';
+import type { PostProps } from '@/types/source';
 import { css, styled } from '@/ui/styled';
 
 type Props = Pick<PostProps, 'date' | 'updated'>;

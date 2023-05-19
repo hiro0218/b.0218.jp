@@ -1,4 +1,4 @@
-import { AriaRole, ComponentProps, ReactNode, useMemo } from 'react';
+import { type AriaRole, type ComponentProps, type ReactNode, useMemo } from 'react';
 
 import PostDate from '@/components/Page/Post/Date';
 import { Anchor as _Anchor } from '@/components/UI/Anchor';

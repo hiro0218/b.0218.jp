@@ -25,6 +25,7 @@ module.exports = {
   rules: {
     '@next/next/no-img-element': 'off',
     '@typescript-eslint/array-type': 'warn',
+    '@typescript-eslint/consistent-type-imports': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/naming-convention': [
       'error',

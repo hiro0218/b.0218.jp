@@ -1,8 +1,8 @@
-import { KeyboardEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { type KeyboardEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import { FILENAME_POSTS_LIST } from '@/constant';
 import { parseJSON } from '@/lib/parseJSON';
-import { PostProps } from '@/types/source';
+import type { PostProps } from '@/types/source';
 import { RxMagnifyingGlass } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 

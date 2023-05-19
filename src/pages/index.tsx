@@ -1,4 +1,4 @@
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 
 import { Hero } from '@/components/Page/Home/Hero';
@@ -7,11 +7,12 @@ import Heading from '@/components/UI/Heading';
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
-import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
+import type { Props as PostTagProps } from '@/components/UI/Tag';
+import PostTag, { PostTagGridContainer } from '@/components/UI/Tag';
 import { AUTHOR_ICON, SITE_URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
 import { getPostsListJson, getTagsWithCount } from '@/lib/posts';
-import { PostProps } from '@/types/source';
+import type { PostProps } from '@/types/source';
 
 const POST_DISPLAY_LIMIT = 5;
 

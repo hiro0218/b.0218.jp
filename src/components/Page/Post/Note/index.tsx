@@ -1,4 +1,4 @@
-import { PostProps } from '@/types/source';
+import type { PostProps } from '@/types/source';
 import { RxInfoCircled } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 

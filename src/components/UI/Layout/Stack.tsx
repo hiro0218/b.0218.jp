@@ -1,4 +1,4 @@
-import { AriaRole, memo, ReactNode } from 'react';
+import { type AriaRole, memo, type ReactNode } from 'react';
 
 import { styled } from '@/ui/styled';
 

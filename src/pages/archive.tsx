@@ -1,12 +1,13 @@
-import { GetStaticProps, InferGetStaticPropsType, PageConfig } from 'next';
+import type { GetStaticProps, InferGetStaticPropsType, PageConfig } from 'next';
 import Head from 'next/head';
 
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
-import { ArchiveProps, getStaticPropsArchive } from '@/server/archive';
-import { PostProps } from '@/types/source';
+import type { ArchiveProps } from '@/server/archive';
+import { getStaticPropsArchive } from '@/server/archive';
+import type { PostProps } from '@/types/source';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

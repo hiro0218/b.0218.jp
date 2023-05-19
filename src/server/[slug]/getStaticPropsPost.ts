@@ -1,8 +1,8 @@
-import { GetStaticProps } from 'next';
+import type { GetStaticProps } from 'next';
 
-import { Props as PostTagProps } from '@/components/UI/Tag';
+import type { Props as PostTagProps } from '@/components/UI/Tag';
 import { getPostsJson, getTagsJson } from '@/lib/posts';
-import { PostProps, TermsPostListProps } from '@/types/source';
+import type { PostProps, TermsPostListProps } from '@/types/source';
 
 import { getSimilarPost } from './getSimilarPost';
 import { getSimilarTag } from './getSimilarTag';

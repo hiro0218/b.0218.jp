@@ -1,4 +1,4 @@
-import { ComponentProps, useMemo } from 'react';
+import { type ComponentProps, useMemo } from 'react';
 
 import { SearchButton as Button, SearchDialog as Dialog } from '@/components/UI/Search';
 

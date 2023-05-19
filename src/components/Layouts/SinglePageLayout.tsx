@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { PropsWithChildren, ReactElement } from 'react';
+import type { PropsWithChildren, ReactElement } from 'react';
 
 import { PageContainer } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';

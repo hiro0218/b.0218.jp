@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 import Script from 'next/script';
 import { useRef } from 'react';
@@ -12,7 +12,8 @@ import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { getOgpImage, getPermalink } from '@/lib/url';
-import { getStaticPathsPost, getStaticPropsPost, PostPageProps } from '@/server/[slug]';
+import type { PostPageProps } from '@/server/[slug]';
+import { getStaticPathsPost, getStaticPropsPost } from '@/server/[slug]';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

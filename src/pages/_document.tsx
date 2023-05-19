@@ -1,6 +1,7 @@
 import createEmotionServer from '@emotion/server/create-instance';
-import { RenderPageResult } from 'next/dist/shared/lib/utils';
-import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
+import type { RenderPageResult } from 'next/dist/shared/lib/utils';
+import type { DocumentContext } from 'next/document';
+import Document, { Head, Html, Main, NextScript } from 'next/document';
 import { Children } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/components/UI/Adsense';

@@ -1,4 +1,4 @@
-import { memo, ReactNode } from 'react';
+import { memo, type ReactNode } from 'react';
 
 import { WaveTop } from '@/components/Functional/Wave';
 import useIsMounted from '@/hooks/useIsMounted';

@@ -1,4 +1,4 @@
-import { CSSProperties, memo, ReactNode } from 'react';
+import { type CSSProperties, memo, type ReactNode } from 'react';
 
 import { SPACING_BASE_PX } from '@/components/Functional/CssBaseline/Settings/Space';
 import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';

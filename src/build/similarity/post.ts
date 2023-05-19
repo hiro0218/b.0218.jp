@@ -1,4 +1,4 @@
-import { PostListProps, TagSimilarProps } from '@/types/source';
+import type { PostListProps, TagSimilarProps } from '@/types/source';
 
 function calculatePostSimilarity(
   post: PostListProps,

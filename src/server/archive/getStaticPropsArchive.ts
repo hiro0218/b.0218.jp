@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next';
+import type { GetStaticProps } from 'next';
 
 import { getPostsListJson } from '@/lib/posts';
 type PostsProps = ReturnType<typeof getPostsListJson>;

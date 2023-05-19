@@ -1,8 +1,9 @@
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 
 import { PageContainer, Stack } from '@/components/UI/Layout';
-import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
+import type { Props as PostTagProps } from '@/components/UI/Tag';
+import PostTag, { PostTagGridContainer } from '@/components/UI/Tag';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getTagsWithCount } from '@/lib/posts';

@@ -8,7 +8,14 @@ import {
   FILENAME_POSTS_SIMILARITY,
   FILENAME_TAG_SIMILARITY,
 } from '@/constant';
-import { PageProps, PostListProps, PostProps, PostSimilarProps, TagSimilarProps, TagsListProps } from '@/types/source';
+import type {
+  PageProps,
+  PostListProps,
+  PostProps,
+  PostSimilarProps,
+  TagSimilarProps,
+  TagsListProps,
+} from '@/types/source';
 
 type CacheValues = PageProps[] | PostProps[] | PostListProps[] | PostSimilarProps | TagSimilarProps | TagsListProps;
 

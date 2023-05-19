@@ -1,4 +1,4 @@
-import { ElementType, memo, ReactNode } from 'react';
+import { type ElementType, memo, type ReactNode } from 'react';
 
 import { styled } from '@/ui/styled';
 

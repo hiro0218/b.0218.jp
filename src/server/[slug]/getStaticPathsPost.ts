@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticPathsContext } from 'next';
+import type { GetStaticPaths, GetStaticPathsContext } from 'next';
 
 import { getPostsJson } from '@/lib/posts';
 

@@ -1,11 +1,11 @@
-import { GetStaticProps, InferGetStaticPropsType, PageConfig } from 'next';
+import type { GetStaticProps, InferGetStaticPropsType, PageConfig } from 'next';
 import Head from 'next/head';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import { createGetLayout } from '@/components/Layouts/SinglePageLayout';
 import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
-import { PageProps } from '@/types/source';
+import type { PageProps } from '@/types/source';
 
 interface Props {
   page: PageProps;

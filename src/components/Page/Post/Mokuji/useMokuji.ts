@@ -1,8 +1,9 @@
 import { Mokuji as MokujiJs, type MokujiOption } from 'mokuji.js';
 import { useRouter } from 'next/router';
-import { RefObject, useEffect, useRef } from 'react';
+import type { RefObject } from 'react';
+import { useEffect, useRef } from 'react';
 
-import { MokujiProps } from './type';
+import type { MokujiProps } from './type';
 
 const MOKUJI_OPTION: MokujiOption = {
   anchorType: true,
