@@ -24,6 +24,7 @@ const nextConfiguration = {
   },
 
   experimental: {
+    webpackBuildWorker: true,
     scrollRestoration: true,
     legacyBrowsers: false,
     fallbackNodePolyfills: false,
