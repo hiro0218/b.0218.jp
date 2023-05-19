@@ -24,6 +24,7 @@ module.exports = {
   plugins: ['import', 'simple-import-sort', '@typescript-eslint', 'unused-imports', 'react-hooks', 'jsx-expressions'],
   rules: {
     '@next/next/no-img-element': 'off',
+    '@typescript-eslint/array-type': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/naming-convention': [
       'error',
