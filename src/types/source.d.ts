@@ -6,13 +6,13 @@ type ArticleBaseProps = {
   content: string;
 };
 
-export type Page = ArticleBaseProps;
+export type PageProps = ArticleBaseProps;
 
-export type TermsPostList = Omit<ArticleBaseProps, 'content'> & {
+export type TermsPostListProps = Omit<ArticleBaseProps, 'content'> & {
   excerpt: string;
 };
 
-export type Post = ArticleBaseProps & {
+export type PostProps = ArticleBaseProps & {
   note?: string;
   excerpt: string;
   tags: string[];
@@ -20,7 +20,7 @@ export type Post = ArticleBaseProps & {
   noindex?: boolean;
 };
 
-export type TagsList = Record<string, string[]>;
+export type TagsListProps = Record<string, string[]>;
 
 export type TagSimilarProps = {
   [tag: string]: {
@@ -34,4 +34,4 @@ export type PostSimilarProps = {
   };
 }[];
 
-export type PostList = Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>;
+export type PostListProps = Pick<Post, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>;

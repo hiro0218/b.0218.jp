@@ -8,16 +8,16 @@ import {
   FILENAME_POSTS_SIMILARITY,
   FILENAME_TAG_SIMILARITY,
 } from '@/constant';
-import { Page, Post, PostList, PostSimilarProps, TagSimilarProps, TagsList } from '@/types/source';
+import { PageProps, PostListProps, PostProps, PostSimilarProps, TagSimilarProps, TagsListProps } from '@/types/source';
 
-type CacheValues = Page[] | Post[] | PostList[] | PostSimilarProps | TagSimilarProps | TagsList;
+type CacheValues = PageProps[] | PostProps[] | PostListProps[] | PostSimilarProps | TagSimilarProps | TagsListProps;
 
 const cache: Record<string, null | CacheValues> = {
-  [`${FILENAME_PAGES}`]: null,
-  [`${FILENAME_POSTS}`]: null,
-  [`${FILENAME_POSTS_LIST}`]: null,
-  [`${FILENAME_TAG_SIMILARITY}`]: null,
-  [`${FILENAME_POSTS_SIMILARITY}`]: null,
+  [FILENAME_PAGES]: null,
+  [FILENAME_POSTS]: null,
+  [FILENAME_POSTS_LIST]: null,
+  [FILENAME_TAG_SIMILARITY]: null,
+  [FILENAME_POSTS_SIMILARITY]: null,
   tags: null,
 };
 
@@ -46,20 +46,20 @@ const getJson = <T extends CacheValues>(
   return data;
 };
 
-export const getTagsJson = (): TagsList => {
-  return getJson<TagsList>('tags');
+export const getTagsJson = (): TagsListProps => {
+  return getJson<TagsListProps>('tags');
 };
 
-export const getPostsJson = (): Post[] => {
-  return getJson<Post[]>(FILENAME_POSTS);
+export const getPostsJson = (): PostProps[] => {
+  return getJson<PostProps[]>(FILENAME_POSTS);
 };
 
-export const getPostsListJson = (): PostList[] => {
-  return getJson<PostList[]>(FILENAME_POSTS_LIST);
+export const getPostsListJson = (): PostListProps[] => {
+  return getJson<PostListProps[]>(FILENAME_POSTS_LIST);
 };
 
-export const getPagesJson = (): Page[] => {
-  return getJson<Page[]>(FILENAME_PAGES);
+export const getPagesJson = (): PageProps[] => {
+  return getJson<PageProps[]>(FILENAME_PAGES);
 };
 
 export const getTagsWithCount = (): [string, number][] => {

@@ -6,7 +6,12 @@ module.exports = {
     node: true,
     es2022: true,
   },
-  extends: ['next/core-web-vitals', 'plugin:@typescript-eslint/recommended', 'eslint-config-prettier'],
+  extends: [
+    'next/core-web-vitals',
+    'plugin:import/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'eslint-config-prettier',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
@@ -19,6 +24,7 @@ module.exports = {
   plugins: ['import', 'simple-import-sort', '@typescript-eslint', 'unused-imports', 'react-hooks', 'jsx-expressions'],
   rules: {
     '@next/next/no-img-element': 'off',
+    '@typescript-eslint/array-type': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/naming-convention': [
       'error',
@@ -38,6 +44,7 @@ module.exports = {
     'import/extensions': 'off',
     'import/prefer-default-export': 'off',
     'import/no-duplicates': ['error', { considerQueryString: true }],
+    'import/no-extraneous-dependencies': 'error',
     'jsx-expressions/strict-logical-expressions': 'error',
     'react/jsx-sort-props': 'warn',
     'react-hooks/rules-of-hooks': 'error',

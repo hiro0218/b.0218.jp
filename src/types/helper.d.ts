@@ -1,1 +1,1 @@
-type UnpackedArray<T> = T extends Array<infer U> ? U : never;
+type UnpackedArray<T> = T extends (infer U)[] ? U : never;

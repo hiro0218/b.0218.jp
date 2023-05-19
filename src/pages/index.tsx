@@ -11,11 +11,13 @@ import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/componen
 import { AUTHOR_ICON, SITE_URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
 import { getPostsListJson, getTagsWithCount } from '@/lib/posts';
-import { Post as PropsPost } from '@/types/source';
+import { PostProps } from '@/types/source';
 
 const POST_DISPLAY_LIMIT = 5;
 
-type pickupPostsProps = Pick<PropsPost, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>;
+type PostListProps = UnpackedArray<ReturnType<typeof getPostsListJson>>;
+
+type pickupPostsProps = Pick<PostProps, 'title' | 'slug' | 'date' | 'updated' | 'excerpt' | 'tags'>;
 
 type IndexProps = {
   recentPosts: pickupPostsProps[];
@@ -92,8 +94,7 @@ export default function Index({ recentPosts, updatesPosts, tags }: Props) {
   );
 }
 
-type PostList = UnpackedArray<ReturnType<typeof getPostsListJson>>;
-const pickPosts = ({ title, slug, date, updated, excerpt, tags }: PostList): PostList => {
+const pickPosts = ({ title, slug, date, updated, excerpt, tags }: PostListProps): PostListProps => {
   return { title, slug, date, updated, excerpt, tags };
 };
 

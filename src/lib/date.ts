@@ -3,7 +3,7 @@ const isInvalidDate = (date: Date) => {
 };
 
 export const convertDateToSimpleFormat = (date: string): string => {
-  return date.split('T')[0].replace(/-/g, '/');
+  return date.split('T')[0].replaceAll('-', '/');
 };
 
 export const isSameDay = (dateA: Date, dateB: Date) => {

@@ -1,7 +1,7 @@
 import { BlogPosting, BreadcrumbList, ListItem, Organization, WithContext } from 'schema-dts';
 
 import { AUTHOR_ICON, AUTHOR_NAME, SITE_NAME, SITE_URL, URL } from '@/constant';
-import { Post } from '@/types/source';
+import { PostProps } from '@/types/source';
 
 import { getOgpImage, getPermalink } from './url';
 
@@ -20,7 +20,7 @@ export const getDescriptionText = (postContent: string): string => {
   );
 };
 
-export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> => {
+export const getBlogPostingStructured = (post: PostProps): WithContext<BlogPosting> => {
   return {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -55,7 +55,7 @@ export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> =
   };
 };
 
-export const getBreadcrumbStructured = (post: Post) => {
+export const getBreadcrumbStructured = (post: PostProps) => {
   const itemListElement: ListItem[] = [
     {
       '@type': 'ListItem',

@@ -12,7 +12,7 @@ import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { getOgpImage, getPermalink } from '@/lib/url';
-import { getStaticPathsPost, getStaticPropsPost, PostProps } from '@/server/[slug]';
+import { getStaticPathsPost, getStaticPropsPost, PostPageProps } from '@/server/[slug]';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -92,4 +92,4 @@ export default function Post({ post, similarPost, similarTags }: Props) {
 
 export const getStaticPaths: GetStaticPaths = (context) => getStaticPathsPost(context);
 
-export const getStaticProps: GetStaticProps<PostProps> = (context) => getStaticPropsPost(context);
+export const getStaticProps: GetStaticProps<PostPageProps> = (context) => getStaticPropsPost(context);

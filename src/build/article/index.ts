@@ -4,7 +4,7 @@ import readingTime from 'reading-time';
 
 import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
 import * as Log from '@/lib/Log';
-import { Page, Post as PropPost } from '@/types/source';
+import { PageProps, PostProps } from '@/types/source';
 
 import markdownToHtmlString from './markdownToHtmlString';
 
@@ -39,7 +39,7 @@ async function buildPost() {
   // md ファイル一覧を取得
   const files = readdirSync(`${PATH.SRC}/_posts`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
-  const posts: PropPost[] = [];
+  const posts: PostProps[] = [];
 
   // 記事一覧
   for (let i = 0; i < NUMBER_OF_FILES; i++) {
@@ -48,7 +48,7 @@ async function buildPost() {
     // front matter を取得
     const post = matter.read(`${PATH.SRC}/_posts/${file}`);
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { title, date, updated, note, tags, noindex } = post.data as PropPost;
+    const { title, date, updated, note, tags, noindex } = post.data as PostProps;
     const content = (await markdownToHtmlString(post.content)).trim();
     const noteContent = !!note ? await markdownToHtmlString(note, true) : '';
     const { minutes: readingTimeMinutes } = readingTime(content);
@@ -79,12 +79,12 @@ async function buildPost() {
   return posts;
 }
 
-function buildPostList(posts: Partial<PropPost>[]) {
+function buildPostList(posts: Partial<PostProps>[]) {
   writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, removePostsData(posts));
   Log.info(`Write dist/${FILENAME_POSTS_LIST}.json`);
 }
 
-function removePostsData(posts: Partial<PropPost>[]) {
+function removePostsData(posts: Partial<PostProps>[]) {
   const length = posts.length;
 
   for (let i = 0; i < length; i++) {
@@ -97,7 +97,7 @@ function removePostsData(posts: Partial<PropPost>[]) {
   return posts;
 }
 
-function buildTerms(posts: Partial<PropPost>[]) {
+function buildTerms(posts: Partial<PostProps>[]) {
   const tagsMap: {
     [key: string]: string[];
   } = {};
@@ -129,7 +129,7 @@ async function buildPage() {
   // md ファイル一覧を取得
   const files = readdirSync(`${PATH.SRC}`).filter((file) => file.endsWith('.md'));
   const NUMBER_OF_FILES = files.length;
-  const pages: Page[] = [];
+  const pages: PageProps[] = [];
 
   // 記事一覧
   for (let i = 0; i < NUMBER_OF_FILES; i++) {
@@ -137,7 +137,7 @@ async function buildPage() {
 
     // front matter を取得
     const page = matter.read(`${PATH.SRC}/${file}`);
-    const { title, date, updated } = page.data as Page;
+    const { title, date, updated } = page.data as PageProps;
     const content = await markdownToHtmlString(page.content);
 
     pages.push({
