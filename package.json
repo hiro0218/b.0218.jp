@@ -54,6 +54,7 @@
     "@markuplint/jsx-parser": "^3.7.0",
     "@markuplint/react-spec": "^3.8.0",
     "@next/bundle-analyzer": "^13.4.3",
+    "@svgr/webpack": "^8.0.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/css-font-loading-module": "^0.0.8",
