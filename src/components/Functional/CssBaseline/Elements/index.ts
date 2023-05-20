@@ -224,6 +224,5 @@ export default css`
 
   svg {
     fill: currentColor;
-    stroke: currentColor;
   }
 `;
