@@ -1,14 +1,10 @@
 import { css } from '@/ui/styled';
 
-import { Scrollbar } from './scrollbar';
-
 export default css`
   /* global */
   ::selection {
     background-color: var(--component-backgrounds-5A);
   }
-
-  ${Scrollbar}
 
   html {
     height: 100%;
