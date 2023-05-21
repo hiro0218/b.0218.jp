@@ -5,10 +5,9 @@ import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import { createGetLayout } from '@/components/Layouts/SinglePageLayout';
 import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
-import type { PageProps } from '@/types/source';
 
 interface Props {
-  page: PageProps;
+  page: UnpackedArray<ReturnType<typeof getPagesJson>>;
 }
 
 type AboutProps = InferGetStaticPropsType<typeof getStaticProps>;
