@@ -1,16 +1,15 @@
-import { writeJSONSync } from 'fs-extra';
+import { readJSONSync, writeJSONSync } from 'fs-extra';
 
 import { FILENAME_POSTS_SIMILARITY, FILENAME_TAG_SIMILARITY } from '@/constant';
 import * as Log from '@/lib/Log';
-import { getPostsListJson, getTagsJson } from '@/lib/posts';
 
 import { getRelatedPosts } from './post';
 import { getRelatedTags } from './tag';
 
-const posts = getPostsListJson();
-const tags = getTagsJson();
-
 const PATH_DIST = `${process.cwd()}/dist`;
+
+const posts = readJSONSync(`${PATH_DIST}/posts.json`);
+const tags = readJSONSync(`${PATH_DIST}/tags.json`);
 
 // 関連タグを計算する
 const relatedTags = getRelatedTags(posts, tags);
