@@ -43,7 +43,7 @@ const Header = styled.header<{ isMounted: boolean; isShown: boolean }>`
 
   ${({ isMounted, isShown }) => {
     if (!isMounted) {
-      return;
+      return '';
     }
 
     return isShown
