@@ -1,22 +1,16 @@
-import type { GetStaticProps, InferGetStaticPropsType, PageConfig } from 'next';
-
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import { createGetLayout } from '@/components/Layouts/SinglePageLayout';
 import { SITE_NAME } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
-import type { PageProps } from '@/types/source';
 
-interface Props {
-  page: PageProps;
-}
+const pages = getPagesJson();
+const { content } = pages.find((page) => page.slug === 'privacy');
 
-type PrivacyProps = InferGetStaticPropsType<typeof getStaticProps>;
-
-export default function Privacy({ page }: PrivacyProps) {
+export default function Privacy() {
   return (
     <PostContent
       dangerouslySetInnerHTML={{
-        __html: `${page.content}`,
+        __html: content,
       }}
     />
   );
@@ -29,24 +23,3 @@ Privacy.getLayout = createGetLayout({
     paragraph: 'プライバシーポリシー',
   },
 });
-
-export const config: PageConfig = {
-  unstable_runtimeJS: false,
-};
-
-export const getStaticProps: GetStaticProps<Props> = () => {
-  const pages = getPagesJson();
-  const page = pages.find((page) => page.slug === 'privacy');
-
-  if (!page) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      page,
-    },
-  };
-};

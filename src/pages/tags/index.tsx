@@ -1,19 +1,16 @@
-import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 
 import { PageContainer, Stack } from '@/components/UI/Layout';
-import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag, { PostTagGridContainer } from '@/components/UI/Tag';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getTagsWithCount } from '@/lib/posts';
 
-type TermProps = {
-  tags: PostTagProps[];
-};
-type Props = InferGetStaticPropsType<typeof getStaticProps>;
+const tags = getTagsWithCount()
+  .filter(([, count]) => count >= TAG_VIEW_LIMIT)
+  .map(([slug, count]) => ({ slug, count }));
 
-export default function Tags({ tags }: Props) {
+export default function Tags() {
   return (
     <>
       <Head>
@@ -32,15 +29,3 @@ export default function Tags({ tags }: Props) {
     </>
   );
 }
-
-export const getStaticProps: GetStaticProps<TermProps> = () => {
-  const tags = getTagsWithCount()
-    .filter(([, count]) => count >= TAG_VIEW_LIMIT)
-    .map(([slug, count]) => ({ slug, count }));
-
-  return {
-    props: {
-      tags,
-    },
-  };
-};
