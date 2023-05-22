@@ -1,6 +1,6 @@
 import '@emotion/react';
 
-import { theme } from '@/ui/themes';
+import type { theme } from '@/ui/themes';
 
 type ThemeProps = typeof theme;
 

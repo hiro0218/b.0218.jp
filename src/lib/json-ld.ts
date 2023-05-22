@@ -1,7 +1,7 @@
-import { BlogPosting, BreadcrumbList, ListItem, Organization, WithContext } from 'schema-dts';
+import type { BlogPosting, BreadcrumbList, ListItem, Organization, WithContext } from 'schema-dts';
 
 import { AUTHOR_ICON, AUTHOR_NAME, SITE_NAME, SITE_URL, URL } from '@/constant';
-import { PostProps } from '@/types/source';
+import type { PostProps } from '@/types/source';
 
 import { getOgpImage, getPermalink } from './url';
 

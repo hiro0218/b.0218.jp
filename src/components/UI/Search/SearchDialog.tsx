@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { forwardRef, MutableRefObject, useId } from 'react';
+import { forwardRef, type MutableRefObject, useId } from 'react';
 import { createPortal } from 'react-dom';
 
 import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';

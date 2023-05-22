@@ -1,4 +1,4 @@
-import { ElementType, HTMLAttributes } from 'react';
+import type { ElementType, HTMLAttributes } from 'react';
 
 import { srOnly } from '@/components/Functional/CssBaseline/Generic';
 import { styled } from '@/ui/styled';

@@ -1,16 +1,18 @@
-import { GetStaticProps, InferGetStaticPropsType, PageConfig } from 'next';
 import Head from 'next/head';
 
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
-import { ArchiveProps, getStaticPropsArchive } from '@/server/archive';
-import { PostProps } from '@/types/source';
+import { getPostsListJson } from '@/lib/posts';
+import { divideByYearArchive } from '@/server/archive';
+import type { PostProps } from '@/types/source';
 
-type Props = InferGetStaticPropsType<typeof getStaticProps>;
+const posts = getPostsListJson();
+const archives = divideByYearArchive(posts);
+const numberOfPosts = posts.length;
 
-export default function Archive({ archives, numberOfPosts }: Props) {
+export default function Archive() {
   return (
     <>
       <Head>
@@ -44,9 +46,3 @@ export default function Archive({ archives, numberOfPosts }: Props) {
     </>
   );
 }
-
-export const config: PageConfig = {
-  unstable_runtimeJS: false,
-};
-
-export const getStaticProps: GetStaticProps<ArchiveProps> = (context) => getStaticPropsArchive(context);

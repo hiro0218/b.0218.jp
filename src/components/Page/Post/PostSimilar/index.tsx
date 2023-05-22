@@ -1,6 +1,6 @@
 import Heading from '@/components/UI/Heading';
 import LinkCard from '@/components/UI/LinkCard';
-import { TermsPostListProps } from '@/types/source';
+import type { TermsPostListProps } from '@/types/source';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 

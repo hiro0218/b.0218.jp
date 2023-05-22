@@ -25,7 +25,7 @@ export const useHeaderScrollHandler = () => {
     });
 
     document.addEventListener('scroll', handleScroll);
-    () => document.removeEventListener('scroll', handleScroll);
+    return () => document.removeEventListener('scroll', handleScroll);
   }, [headerHeight]);
 
   return isHeaderShown;

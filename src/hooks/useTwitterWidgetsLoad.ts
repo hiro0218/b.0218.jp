@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { RefObject, useEffect } from 'react';
+import { type RefObject, useEffect } from 'react';
 
 type Props = {
   ref: RefObject<HTMLDivElement>;

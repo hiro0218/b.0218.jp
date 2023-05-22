@@ -1,7 +1,7 @@
-import { Props as PostTagProps } from '@/components/UI/Tag';
+import type { Props as PostTagProps } from '@/components/UI/Tag';
 import { TAG_VIEW_LIMIT } from '@/constant';
 import { getSimilarTag as getSimilarTags } from '@/lib/posts';
-import { TagsListProps } from '@/types/source';
+import type { TagsListProps } from '@/types/source';
 
 export const getSimilarTag = (tag: string, tagData: TagsListProps) => {
   const getTagBySlug = (slug: PostTagProps['slug']) => {

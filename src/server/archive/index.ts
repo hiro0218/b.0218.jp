@@ -1,2 +1,1 @@
-export { getStaticPropsArchive } from './getStaticPropsArchive';
-export type { ArchiveProps } from './getStaticPropsArchive';
+export { divideByYearArchive } from './getStaticPropsArchive';

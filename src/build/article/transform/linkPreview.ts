@@ -1,4 +1,4 @@
-import { IElement } from 'happy-dom';
+import type { IElement } from 'happy-dom';
 import type { Element, ElementContent } from 'hast';
 import { h } from 'hastscript';
 

@@ -1,65 +1,32 @@
-import { readJsonSync } from 'fs-extra';
-import { join } from 'path';
-
-import {
-  FILENAME_PAGES,
-  FILENAME_POSTS,
-  FILENAME_POSTS_LIST,
-  FILENAME_POSTS_SIMILARITY,
-  FILENAME_TAG_SIMILARITY,
-} from '@/constant';
-import { PageProps, PostListProps, PostProps, PostSimilarProps, TagSimilarProps, TagsListProps } from '@/types/source';
-
-type CacheValues = PageProps[] | PostProps[] | PostListProps[] | PostSimilarProps | TagSimilarProps | TagsListProps;
-
-const cache: Record<string, null | CacheValues> = {
-  [FILENAME_PAGES]: null,
-  [FILENAME_POSTS]: null,
-  [FILENAME_POSTS_LIST]: null,
-  [FILENAME_TAG_SIMILARITY]: null,
-  [FILENAME_POSTS_SIMILARITY]: null,
-  tags: null,
-};
-
-const getJson = <T extends CacheValues>(
-  filename:
-    | typeof FILENAME_PAGES
-    | typeof FILENAME_POSTS
-    | typeof FILENAME_POSTS_LIST
-    | typeof FILENAME_TAG_SIMILARITY
-    | typeof FILENAME_POSTS_SIMILARITY
-    | 'tags',
-): T => {
-  const path = join(process.cwd(), `dist/${filename}.json`);
-
-  // キャッシュにデータが存在する場合はキャッシュから取得する
-  if (cache[filename] !== null) {
-    return cache[filename] as T;
-  }
-
-  // ファイルを読み込む
-  const data = readJsonSync(path) as T;
-
-  // キャッシュにデータを保存する
-  cache[filename] = data;
-
-  return data;
-};
+import type {
+  PageProps,
+  PostListProps,
+  PostProps,
+  PostSimilarProps,
+  TagSimilarProps,
+  TagsListProps,
+} from '@/types/source';
+import pages from '~/dist/pages.json';
+import posts from '~/dist/posts.json';
+import postsList from '~/dist/posts-list.json';
+import postsSimilarity from '~/dist/posts-similarity.json';
+import tags from '~/dist/tags.json';
+import tagsSimilarity from '~/dist/tags-similarity.json';
 
 export const getTagsJson = (): TagsListProps => {
-  return getJson<TagsListProps>('tags');
+  return tags;
 };
 
 export const getPostsJson = (): PostProps[] => {
-  return getJson<PostProps[]>(FILENAME_POSTS);
+  return posts;
 };
 
 export const getPostsListJson = (): PostListProps[] => {
-  return getJson<PostListProps[]>(FILENAME_POSTS_LIST);
+  return postsList;
 };
 
 export const getPagesJson = (): PageProps[] => {
-  return getJson<PageProps[]>(FILENAME_PAGES);
+  return pages;
 };
 
 export const getTagsWithCount = (): [string, number][] => {
@@ -71,9 +38,9 @@ export const getTagsWithCount = (): [string, number][] => {
 };
 
 export const getSimilarTag = (): TagSimilarProps => {
-  return getJson<TagSimilarProps>(FILENAME_TAG_SIMILARITY);
+  return tagsSimilarity;
 };
 
 export const getSimilarPost = (): PostSimilarProps => {
-  return getJson<PostSimilarProps>(FILENAME_POSTS_SIMILARITY);
+  return postsSimilarity;
 };

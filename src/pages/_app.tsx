@@ -2,13 +2,14 @@ import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { GoogleAnalytics } from 'nextjs-google-analytics';
-import { ReactElement, ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 
 import CssBaseline from '@/components/Functional/CssBaseline';
 import AppLayout from '@/components/Layouts/AppLayout';
 import { AUTHOR_ICON, AUTHOR_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
-import { CacheProvider, EmotionCache, ThemeProvider } from '@/ui/styled';
+import type { EmotionCache } from '@/ui/styled';
+import { CacheProvider, ThemeProvider } from '@/ui/styled';
 import { theme } from '@/ui/themes';
 
 type NextPageWithLayout = NextPage & {

@@ -1,19 +1,14 @@
-import { GetStaticProps, InferGetStaticPropsType, PageConfig } from 'next';
 import Head from 'next/head';
 
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import { createGetLayout } from '@/components/Layouts/SinglePageLayout';
 import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
-import { PageProps } from '@/types/source';
 
-interface Props {
-  page: PageProps;
-}
+const pages = getPagesJson();
+const { content } = pages.find((page) => page.slug === 'about');
 
-type AboutProps = InferGetStaticPropsType<typeof getStaticProps>;
-
-export default function About({ page }: AboutProps) {
+export default function About() {
   return (
     <>
       <Head>
@@ -21,7 +16,7 @@ export default function About({ page }: AboutProps) {
       </Head>
       <PostContent
         dangerouslySetInnerHTML={{
-          __html: `${page.content}`,
+          __html: content,
         }}
       />
     </>
@@ -35,24 +30,3 @@ About.getLayout = createGetLayout({
     paragraph: 'サイトと運営者について',
   },
 });
-
-export const config: PageConfig = {
-  unstable_runtimeJS: false,
-};
-
-export const getStaticProps: GetStaticProps<Props> = () => {
-  const pages = getPagesJson();
-  const page = pages.find((page) => page.slug === 'about');
-
-  if (!page) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      page,
-    },
-  };
-};

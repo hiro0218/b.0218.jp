@@ -1,6 +1,6 @@
 import { loadDefaultJapaneseParser } from 'budoux';
 import { ensureDirSync, readFileSync } from 'fs-extra';
-import { Browser, chromium } from 'playwright';
+import { type Browser, chromium } from 'playwright';
 
 import * as Log from '@/lib/Log';
 import { getPostsListJson } from '@/lib/posts';

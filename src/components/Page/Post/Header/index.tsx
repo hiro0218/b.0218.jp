@@ -1,7 +1,8 @@
 import { PostDate } from '@/components/Page/Post';
-import PostTag, { PostTagGridContainer, Props as PostTagProps } from '@/components/UI/Tag';
+import type { Props as PostTagProps } from '@/components/UI/Tag';
+import PostTag, { PostTagGridContainer } from '@/components/UI/Tag';
 import { READ_TIME_SUFFIX } from '@/constant';
-import { PostProps } from '@/types/source';
+import type { PostProps } from '@/types/source';
 import { styled } from '@/ui/styled';
 
 type Props = Pick<PostProps, 'title' | 'date' | 'updated' | 'readingTime'> & {

@@ -1,5 +1,6 @@
 import Heading from '@/components/UI/Heading';
-import PostTag, { Props as PostTagProps } from '@/components/UI/Tag';
+import type { Props as PostTagProps } from '@/components/UI/Tag';
+import PostTag from '@/components/UI/Tag';
 import { styled } from '@/ui/styled';
 
 type Props = {

@@ -4,7 +4,7 @@ import readingTime from 'reading-time';
 
 import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
 import * as Log from '@/lib/Log';
-import { PageProps, PostProps } from '@/types/source';
+import type { PageProps, PostProps } from '@/types/source';
 
 import markdownToHtmlString from './markdownToHtmlString';
 

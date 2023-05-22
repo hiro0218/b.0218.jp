@@ -1,4 +1,4 @@
-import { ComponentProps, ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
 import { css, styled } from '@/ui/styled';

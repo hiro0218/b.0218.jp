@@ -24,6 +24,7 @@ const nextConfiguration = {
   },
 
   experimental: {
+    webpackBuildWorker: true,
     scrollRestoration: true,
     legacyBrowsers: false,
     fallbackNodePolyfills: false,
@@ -43,6 +44,14 @@ const nextConfiguration = {
         {
           test: /src\/components\/.*\/index\.ts/i,
           sideEffects: false,
+        },
+        {
+          test: /\.svg$/,
+          use: [
+            {
+              loader: '@svgr/webpack',
+            },
+          ],
         },
       ],
     };

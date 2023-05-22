@@ -5,7 +5,7 @@ import { DetailsAccordion } from '@/lib/DetailsAccordion';
 import { RxTriangleDown, RxTriangleUp } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
-import { MokujiProps } from './type';
+import type { MokujiProps } from './type';
 import { useMokuji } from './useMokuji';
 
 const Mokuji = ({ refContent }: MokujiProps) => {

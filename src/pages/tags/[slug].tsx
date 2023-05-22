@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
+import type { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
@@ -6,7 +6,7 @@ import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, TAG_VIEW_LIMIT } from '@/constant';
 import { getPostsJson, getTagsJson, getTagsWithCount } from '@/lib/posts';
-import { TermsPostListProps } from '@/types/source';
+import type { TermsPostListProps } from '@/types/source';
 
 type TermProps = {
   title: string;
