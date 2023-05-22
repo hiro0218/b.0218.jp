@@ -25,7 +25,7 @@ export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
       return { slug, count: val.length };
     })
     .sort((a, b) => b.count - a.count);
-  const slug = (context.params?.slug as string).replace('.html', '');
+  const slug = (context.params?.post as string).replace('.html', '');
 
   // slug に一致する post を取得
   const post = posts.find((post) => post.slug === slug);

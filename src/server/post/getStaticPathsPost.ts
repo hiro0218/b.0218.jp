@@ -6,7 +6,7 @@ import { getPostsJson } from '@/lib/posts';
 export const getStaticPathsPost: GetStaticPaths = (context: GetStaticPathsContext) => {
   const posts = getPostsJson();
   const paths = posts.map(({ slug }) => ({
-    params: { slug: `${slug}.html` },
+    params: { post: `${slug}.html` },
   }));
 
   return { paths, fallback: false };

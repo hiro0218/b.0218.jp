@@ -12,8 +12,7 @@ import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { getOgpImage, getPermalink } from '@/lib/url';
-import type { PostPageProps } from '@/server/[slug]';
-import { getStaticPathsPost, getStaticPropsPost } from '@/server/[slug]';
+import { getStaticPathsPost, getStaticPropsPost, type PostPageProps } from '@/server/post';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
