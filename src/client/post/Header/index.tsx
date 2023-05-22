@@ -1,9 +1,10 @@
-import { PostDate } from '@/components/Page/Post';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag, { PostTagGridContainer } from '@/components/UI/Tag';
 import { READ_TIME_SUFFIX } from '@/constant';
 import type { PostProps } from '@/types/source';
 import { styled } from '@/ui/styled';
+
+import PostDate from '../Date';
 
 type Props = Pick<PostProps, 'title' | 'date' | 'updated' | 'readingTime'> & {
   tagsWithCount: PostTagProps[];

@@ -3,9 +3,8 @@ import Head from 'next/head';
 import Script from 'next/script';
 import { useRef } from 'react';
 
+import { Mokuji, PostEdit, PostHeader, PostNote, PostShare, PostSimilar, TagSimilar } from '@/client/post';
 import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
-import { PostEdit, PostHeader, PostNote, PostShare, PostSimilar, TagSimilar } from '@/components/Page/Post';
-import Mokuji from '@/components/Page/Post/Mokuji';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContainer } from '@/components/UI/Layout';
 import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
