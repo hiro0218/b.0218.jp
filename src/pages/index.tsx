@@ -1,7 +1,6 @@
 import Head from 'next/head';
 
-import { Hero } from '@/components/Page/Home/Hero';
-import { LinkMore } from '@/components/Page/Home/LinkMore';
+import { Hero, LinkMore } from '@/client/home';
 import Heading from '@/components/UI/Heading';
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
