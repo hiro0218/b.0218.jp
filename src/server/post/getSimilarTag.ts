@@ -3,15 +3,18 @@ import { TAG_VIEW_LIMIT } from '@/constant';
 import { getSimilarTag as getSimilarTags } from '@/lib/posts';
 import type { TagsListProps } from '@/types/source';
 
-export const getSimilarTag = (tag: string, tagData: TagsListProps) => {
-  const getTagBySlug = (slug: PostTagProps['slug']) => {
-    return Object.entries(tagData).find(([key]) => key === slug);
-  };
-  const similarTagsList = getSimilarTags()[tag];
+const tags = getSimilarTags();
+
+const getTagBySlug = (tagList: TagsListProps, slug: PostTagProps['slug']) => {
+  return Object.entries(tagList).find(([key]) => key === slug);
+};
+
+export const getSimilarTag = (tag: string, tagList: TagsListProps) => {
+  const similarTagsList = tags[tag];
   const similarTags = !!similarTagsList
     ? (Object.entries(similarTagsList)
         .map(([slug]) => {
-          const tag = getTagBySlug(slug);
+          const tag = getTagBySlug(tagList, slug);
           if (!tag) {
             return null;
           }
