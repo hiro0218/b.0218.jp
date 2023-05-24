@@ -17,9 +17,10 @@ export type PostPageProps = {
   similarTags: PostTagProps[];
 };
 
+const posts = getPostsJson();
+const tagData = getTagsJson();
+
 export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
-  const posts = getPostsJson();
-  const tagData = getTagsJson();
   const tagDataWithCount = Object.entries(tagData)
     .map(([slug, val]) => {
       return { slug, count: val.length };
