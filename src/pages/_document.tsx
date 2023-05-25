@@ -8,10 +8,8 @@ import { GOOGLE_ADSENSE } from '@/components/UI/Adsense';
 import { SITE_URL, URL } from '@/constant';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
 
-const HTML_PREFIX = {
-  home: 'og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#',
-  article: 'og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#',
-};
+const HTML_PREFIX_BASE = 'og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#';
+const HTML_PREFIX_ARTICLE = `${HTML_PREFIX_BASE} article: http://ogp.me/ns/article#`;
 
 class MyDocument extends Document<{ ogpPrefix: string }> {
   static async getInitialProps(ctx: DocumentContext) {
@@ -34,7 +32,7 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
       );
     });
 
-    const ogpPrefix = ctx.pathname.startsWith('/[slug]') ? HTML_PREFIX.article : HTML_PREFIX.home;
+    const ogpPrefix = ctx.pathname.startsWith('/[slug]') ? HTML_PREFIX_ARTICLE : HTML_PREFIX_BASE;
 
     return {
       ...initialProps,
