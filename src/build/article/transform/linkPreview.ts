@@ -1,4 +1,3 @@
-import type { IElement } from 'happy-dom';
 import type { Element, ElementContent } from 'hast';
 import { h } from 'hastscript';
 
@@ -100,7 +99,7 @@ const checkBreakNode = (node: boolean | ElementContent) => {
   }
 };
 
-const getOgpContent = (element: IElement): [OgpKey, string] | null => {
+const getOgpContent = (element: HTMLMetaElement): [OgpKey, string] | null => {
   const property = element.getAttribute('property');
   const name = element.getAttribute('name');
 
@@ -114,7 +113,7 @@ const getOgpContent = (element: IElement): [OgpKey, string] | null => {
   return null;
 };
 
-const getOgpProps = (meta: IElement[]): OpgProps => {
+const getOgpProps = (meta: HTMLMetaElement[]): OpgProps => {
   const ogpEntries = meta.map(getOgpContent).filter((entry): entry is [OgpKey, string] => entry !== null);
   return Object.fromEntries(ogpEntries);
 };
