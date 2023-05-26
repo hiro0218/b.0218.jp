@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import type { ReactNode } from 'react';
 
 import Footer from '@/components/App/TheFooter';
 import Header from '@/components/App/TheHeader';
@@ -7,7 +8,7 @@ import { styled } from '@/ui/styled';
 
 const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((module) => module.PageScroll));
 
-export default function AppLayout({ children }) {
+export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <Header />
