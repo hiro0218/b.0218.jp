@@ -7,4 +7,4 @@ import PostSimilar from './PostSimilar';
 import PostShare from './Share';
 import TagSimilar from './TagSimilar';
 
-export { Mokuji, PostDate, PostEdit, PostHeader, PostSimilar, TagSimilar, PostNote, PostShare };
+export { Mokuji, PostDate, PostEdit, PostHeader, PostNote, PostShare, PostSimilar, TagSimilar };
