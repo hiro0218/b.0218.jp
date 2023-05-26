@@ -4,17 +4,17 @@ import { useLockedBody } from '@/hooks/useLockedBody';
 
 export const useDialog = () => {
   const ref = useRef<HTMLDialogElement>(null);
-  const [isLocked, setLocked] = useLockedBody(false);
+  const [isLocked, setIsLocked] = useLockedBody(false);
 
   const openDialog = useCallback(() => {
-    setLocked(true);
+    setIsLocked(true);
     ref.current?.show?.();
-  }, [setLocked]);
+  }, [setIsLocked]);
 
   const closeDialog = useCallback(() => {
-    setLocked(false);
+    setIsLocked(false);
     ref.current?.close?.();
-  }, [setLocked]);
+  }, [setIsLocked]);
 
   return { ref, isLocked, openDialog, closeDialog };
 };
