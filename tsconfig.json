@@ -34,7 +34,8 @@
         "name": "next"
       }
     ],
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "locale": "ja_JP"
   },
   "typeRoots": [
     "node_modules/@types",
