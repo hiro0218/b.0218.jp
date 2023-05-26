@@ -10,7 +10,7 @@ type Props = Pick<PostProps, 'title' | 'date' | 'updated' | 'readingTime'> & {
   tagsWithCount: PostTagProps[];
 };
 
-const PostHeader = ({ title, date, updated, readingTime, tagsWithCount }: Props) => {
+function PostHeader({ title, date, updated, readingTime, tagsWithCount }: Props) {
   return (
     <>
       <Title dangerouslySetInnerHTML={{ __html: title }}></Title>
@@ -28,7 +28,7 @@ const PostHeader = ({ title, date, updated, readingTime, tagsWithCount }: Props)
       </List>
     </>
   );
-};
+}
 
 export default PostHeader;
 

@@ -14,7 +14,7 @@ interface Props {
 
 const ICON_SIZE = 56;
 
-const PostShare = ({ title, url }: Props) => {
+function PostShare({ title, url }: Props) {
   const [, copy] = useCopyToClipboard();
   const onClickCopyPermalink = useCallback(() => {
     copy(url);
@@ -22,7 +22,7 @@ const PostShare = ({ title, url }: Props) => {
 
   return (
     <section>
-      <ScreenReaderOnlyText as="h2" text={'このページをシェアする'} />
+      <ScreenReaderOnlyText as="h2" text="このページをシェアする" />
       <Container>
         <Anchor
           href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}`}
@@ -52,7 +52,7 @@ const PostShare = ({ title, url }: Props) => {
       </Container>
     </section>
   );
-};
+}
 
 const Container = styled.div`
   display: flex;

@@ -9,7 +9,7 @@ type Props = {
   posts: TermsPostListProps[];
 };
 
-const PostSimilar = ({ heading = '関連記事', posts }: Props) => {
+function PostSimilar({ heading = '関連記事', posts }: Props) {
   if (posts.length === 0) {
     return null;
   }
@@ -24,7 +24,7 @@ const PostSimilar = ({ heading = '関連記事', posts }: Props) => {
       </Container>
     </section>
   );
-};
+}
 
 export default PostSimilar;
 

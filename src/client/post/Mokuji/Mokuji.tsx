@@ -8,7 +8,7 @@ import { styled } from '@/ui/styled';
 import type { MokujiProps } from './type';
 import { useMokuji } from './useMokuji';
 
-const Mokuji = ({ refContent }: MokujiProps) => {
+function Mokuji({ refContent }: MokujiProps) {
   const { asPath } = useRouter();
   const { refMokuji, refDetailContent } = useMokuji({ refContent });
   const refDetails = useRef<HTMLDetailsElement>(null);
@@ -37,7 +37,7 @@ const Mokuji = ({ refContent }: MokujiProps) => {
       </Details>
     </Root>
   );
-};
+}
 
 export default Mokuji;
 

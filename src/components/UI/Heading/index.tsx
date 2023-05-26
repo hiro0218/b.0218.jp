@@ -10,7 +10,13 @@ type Props = {
   isWeightNormal?: boolean;
 };
 
-const Heading = ({ as = 'h1', text, textSide, textSub, isWeightNormal = true }: Props) => {
+function Heading({
+  as = 'h1',
+  text = undefined,
+  textSide = undefined,
+  textSub = undefined,
+  isWeightNormal = true,
+}: Props) {
   return (
     <Container>
       <Main>
@@ -22,7 +28,7 @@ const Heading = ({ as = 'h1', text, textSide, textSub, isWeightNormal = true }: 
       {!!textSide && <Side>{textSide}</Side>}
     </Container>
   );
-};
+}
 
 export default Heading;
 

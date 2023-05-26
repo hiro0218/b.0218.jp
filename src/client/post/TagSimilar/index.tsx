@@ -7,7 +7,7 @@ type Props = {
   tags: PostTagProps[];
 };
 
-const TagSimilar = ({ tags }: Props) => {
+function TagSimilar({ tags }: Props) {
   if (!tags.length) {
     return null;
   }
@@ -20,7 +20,7 @@ const TagSimilar = ({ tags }: Props) => {
       </Container>
     </section>
   );
-};
+}
 
 export default TagSimilar;
 

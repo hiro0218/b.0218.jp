@@ -5,7 +5,7 @@ type Props = {
   slug: string;
 };
 
-const PostEdit = ({ slug }: Props) => {
+function PostEdit({ slug }: Props) {
   return (
     <Container>
       <Anchor
@@ -18,7 +18,7 @@ const PostEdit = ({ slug }: Props) => {
       </Anchor>
     </Container>
   );
-};
+}
 
 export default PostEdit;
 

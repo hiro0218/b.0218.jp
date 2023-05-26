@@ -4,7 +4,7 @@ import { styled } from '@/ui/styled';
 
 type Props = Pick<PostProps, 'note'>;
 
-const PostNote = ({ note }: Props) => {
+function PostNote({ note }: Props) {
   if (!note) {
     return null;
   }
@@ -15,7 +15,7 @@ const PostNote = ({ note }: Props) => {
       <div dangerouslySetInnerHTML={{ __html: note }} />
     </PostNoteRoot>
   );
-};
+}
 
 export default PostNote;
 

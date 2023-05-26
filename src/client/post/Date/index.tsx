@@ -4,7 +4,7 @@ import { css, styled } from '@/ui/styled';
 
 type Props = Pick<PostProps, 'date' | 'updated'>;
 
-const PostDate = ({ date, updated }: Props) => {
+function PostDate({ date, updated }: Props) {
   const dateTime = new Date(date);
   const updatedTime = new Date(updated);
   const hasModified = !!updated && !isSameDay(dateTime, updatedTime);
@@ -16,7 +16,7 @@ const PostDate = ({ date, updated }: Props) => {
           {convertDateToSimpleFormat(date)}
         </time>
       </PostDateItem>
-      {hasModified && (
+      {!!hasModified && (
         <PostDateItem>
           <time dateTime={updated} title={`更新日時: ${updated}`}>
             {convertDateToSimpleFormat(updated)}
@@ -25,7 +25,7 @@ const PostDate = ({ date, updated }: Props) => {
       )}
     </PostDateRoot>
   );
-};
+}
 
 export default PostDate;
 
@@ -44,7 +44,5 @@ const PostDateItem = styled.div<{ existModified?: boolean }>`
   display: flex;
   align-items: center;
 
-  ${({ existModified }) => {
-    return existModified && existModifiedStyle;
-  }}
+  ${({ existModified }) => existModified && existModifiedStyle}
 `;

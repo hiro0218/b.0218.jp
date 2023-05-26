@@ -12,10 +12,10 @@ const SrOnlyText = styled.span`
   ${srOnly}
 `;
 
-export const ScreenReaderOnlyText = ({ as, text, ...props }: Props) => {
+export function ScreenReaderOnlyText({ as = 'span', text, ...props }: Props) {
   return (
     <SrOnlyText as={as} {...props}>
       {text}
     </SrOnlyText>
   );
-};
+}

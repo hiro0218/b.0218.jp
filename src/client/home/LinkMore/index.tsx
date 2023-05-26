@@ -13,14 +13,14 @@ const IconArrow = memo(function IconArrow() {
   );
 });
 
-export const LinkMore = ({ href, text }: { href: string; text: string }) => {
+export function LinkMore({ href, text }: { href: string; text: string }) {
   return (
     <Anchor href={href}>
       {text}
       <IconArrow />
     </Anchor>
   );
-};
+}
 
 const Icon = styled.div`
   display: flex;
