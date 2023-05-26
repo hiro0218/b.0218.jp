@@ -7,7 +7,7 @@ type Props = {
   onClick: () => void;
 };
 
-export const Overlay = ({ isActive, onClick }: Props) => {
+export function Overlay({ isActive, onClick }: Props) {
   const [isVisible, setIsVisible] = useState(isActive);
   const onTransitionEnd = useCallback(() => {
     if (!isActive) {
@@ -19,8 +19,16 @@ export const Overlay = ({ isActive, onClick }: Props) => {
     setIsVisible(isActive);
   }, [isActive]);
 
-  return <Div isActive={isActive} isVisible={isVisible} onClick={onClick} onTransitionEnd={onTransitionEnd} />;
-};
+  return (
+    <Div
+      aria-hidden={isVisible ? 'true' : 'false'}
+      isActive={isActive}
+      isVisible={isVisible}
+      onClick={onClick}
+      onTransitionEnd={onTransitionEnd}
+    />
+  );
+}
 
 const Div = styled.div<{
   isActive: boolean;
