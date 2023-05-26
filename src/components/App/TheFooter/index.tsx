@@ -19,9 +19,9 @@ export default memo(function TheFooter() {
       <Footer>
         <Container>
           <List>
-            {Links.map(({ title, href }, index) => {
+            {Links.map(({ title, href }) => {
               return (
-                <ListItem key={index}>
+                <ListItem key={href + title}>
                   <Anchor href={href}>{title}</Anchor>
                 </ListItem>
               );
