@@ -21,7 +21,7 @@ export function Overlay({ isActive, onClick }: Props) {
 
   return (
     <Div
-      aria-hidden={isVisible ? 'true' : 'false'}
+      aria-hidden={isVisible ? 'false' : 'true'}
       isActive={isActive}
       isVisible={isVisible}
       onClick={onClick}
