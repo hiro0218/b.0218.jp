@@ -22,9 +22,7 @@ const tagData = getTagsJson();
 
 export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
   const tagDataWithCount = Object.entries(tagData)
-    .map(([slug, val]) => {
-      return { slug, count: val.length };
-    })
+    .map(([slug, val]) => ({ slug, count: val.length }))
     .sort((a, b) => b.count - a.count);
   const slug = (context.params?.post as string).replace('.html', '');
 
@@ -39,9 +37,7 @@ export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
 
   // tagsに件数を追加
   const tagsWithCount = post.tags
-    .map((slug) => {
-      return tagDataWithCount.find((tag) => tag.slug === slug) || null;
-    })
+    .map((slug) => tagDataWithCount.find((tag) => tag.slug === slug) || null)
     .filter((tag) => tag !== null) as PostTagProps[];
 
   // タイトルの文字組み
