@@ -23,11 +23,33 @@ module.exports = {
   },
   plugins: ['import', 'simple-import-sort', '@typescript-eslint', 'unused-imports', 'react-hooks', 'jsx-expressions'],
   rules: {
+    /**
+     * eslint
+     */
+    // プログラムで許可される最大循環的複雑性を強制する
+    complexity: ['error', 10],
+    // 古いパターンよりもスプレッド演算子(...)の使用を強制する
+    'prefer-spread': 'error',
+    // 文字列連結の代わりにテンプレートリテラルを要求する
+    'prefer-template': 'error',
+
+    /**
+     * eslint-config-next
+     */
     '@next/next/no-img-element': 'off',
+
+    /**
+     * @typescript-eslint/eslint-plugin
+     */
+    // `Array<T>` 形式を禁止して `T[]` の使用を推奨する
     '@typescript-eslint/array-type': 'warn',
+    // 一貫した型エクスポートの使用を強制する
     '@typescript-eslint/consistent-type-exports': 'error',
+    // 一貫した型のインポートの使用を強制する
     '@typescript-eslint/consistent-type-imports': 'warn',
+    // エクスポートされた関数とクラスのパブリッククラスメソッドに明示的な戻り値と引数の型を要求する
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    // コードベース全体でのすべての命名規則を強制する
     '@typescript-eslint/naming-convention': [
       'error',
       {
@@ -37,21 +59,52 @@ module.exports = {
         prefix: ['is', 'has', 'should'],
       },
     ],
+    // 空のオブジェクト、論理的なand、論理的なorを使用する代わりに、簡潔なオプションチェーン式を使用することを強制
     '@typescript-eslint/prefer-optional-chain': 'error',
+    // 文字列の部分文字列をチェックする他の同等のメソッドの代わりに、String#startsWithとString#endsWithの使用を強制
     '@typescript-eslint/prefer-string-starts-ends-with': 'error',
-    complexity: ['error', 10],
+
+    /**
+     * eslint-plugin-import
+     */
+    // 未割り当てのインポートを禁止する
     'import/no-unassigned-import': 'off',
+    // デフォルトエクスポートを禁止する
     'import/no-default-export': 'off',
+    // モジュールが自身への依存パスを持つモジュールをインポートすることを禁止する
     'import/no-cycle': 'off',
+    // ファイルパス内でのファイル拡張子の使用を一貫させる
     'import/extensions': 'off',
+    // モジュールが単一の名前または複数の名前をエクスポートする場合は、デフォルトエクスポートを優先する
     'import/prefer-default-export': 'off',
+    // 同じモジュールの複数箇所での繰り返しインポートを禁止する
     'import/no-duplicates': ['error', { considerQueryString: true }],
+    // 無関係なパッケージの使用を禁止
     'import/no-extraneous-dependencies': 'error',
+
+    /**
+     * eslint-plugin-jsx-expressions
+     */
+    // 論理「&&」式で、誤っている可能性のある数値や文字列を使用しないように強制する
     'jsx-expressions/strict-logical-expressions': 'error',
+
+    /**
+     * eslint-plugin-react
+     */
+    // JSXコンポーネントのプロパティがアルファベット順に並べ替えられていることを確認する
     'react/jsx-sort-props': 'warn',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+
+    /**
+     * eslint-plugin-simple-import-sort
+     */
     'simple-import-sort/imports': 'warn',
+    'simple-import-sort/exports': 'warn',
+
+    /**
+     * eslint-plugin-unused-imports
+     */
     'unused-imports/no-unused-imports': 'error',
     'unused-imports/no-unused-vars': [
       'error',
@@ -62,8 +115,6 @@ module.exports = {
         varsIgnorePattern: '^_',
       },
     ],
-    'prefer-spread': 'error',
-    'prefer-template': 'error',
   },
   overrides: [
     {

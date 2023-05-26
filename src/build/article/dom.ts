@@ -1,16 +1,23 @@
-import { Window } from 'happy-dom';
+import { JSDOM, VirtualConsole } from 'jsdom';
 
 import { isValidURL, normalizeURL } from './url';
 
-const window = new Window();
-const document = window.document;
-
 const FETCH_HEADERS = { 'User-Agent': 'Twitterbot/1.0' };
+
 export const FETCH_TIMEOUT = 1000;
+
+const virtualConsole = new VirtualConsole();
+virtualConsole.on('error', () => {
+  /* skip console errors */
+});
+const { DOMParser } = new JSDOM(`<!DOCTYPE html><body></body>`, { virtualConsole }).window;
 
 export const getMeta = (html: string) => {
   const head = html.match(/<head[^>]*>[\s\S]*?<\/head>/i);
-  document.head.innerHTML = head?.length ? head[0] : '';
+
+  if (head?.length === 0) return [];
+
+  const document = new DOMParser().parseFromString(head[0], 'text/html');
   const meta = document.head.querySelectorAll('meta');
 
   return meta;

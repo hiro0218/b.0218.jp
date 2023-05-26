@@ -8,9 +8,9 @@ interface Props {
   children: ReactNode;
 }
 
-const LinkMenu = ({ href, children }: Props) => {
+function LinkMenu({ href, children }: Props) {
   return <Link href={href}>{children}</Link>;
-};
+}
 
 export default LinkMenu;
 

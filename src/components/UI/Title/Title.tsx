@@ -10,18 +10,26 @@ type Props = {
   children?: ReactNode;
 };
 
-export const Title = ({ headingTagName: Tag = 'h1', heading, paragraph, sideElement, children }: Props) => (
-  <>
-    <Container>
-      <Main>
-        <HeaderTitle as={Tag} dangerouslySetInnerHTML={{ __html: heading }}></HeaderTitle>
-        {!!paragraph && <P>{paragraph}</P>}
-      </Main>
-      {!!sideElement && <Side>{sideElement}</Side>}
-    </Container>
-    {children}
-  </>
-);
+export function Title({
+  headingTagName: Tag = 'h1',
+  heading,
+  paragraph = undefined,
+  sideElement = undefined,
+  children = undefined,
+}: Props) {
+  return (
+    <>
+      <Container>
+        <Main>
+          <HeaderTitle as={Tag} dangerouslySetInnerHTML={{ __html: heading }}></HeaderTitle>
+          {!!paragraph && <P>{paragraph}</P>}
+        </Main>
+        {!!sideElement && <Side>{sideElement}</Side>}
+      </Container>
+      {children}
+    </>
+  );
+}
 
 const Container = styled.header`
   display: flex;

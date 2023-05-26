@@ -6,13 +6,13 @@ type Props = {
   openDialog: () => void;
 };
 
-export const SearchButton = ({ openDialog }: Props) => {
+export function SearchButton({ openDialog }: Props) {
   return (
     <Button aria-label="Search" onClick={openDialog} type="button">
       <RxMagnifyingGlass size="20" />
     </Button>
   );
-};
+}
 
 const Button = styled.button`
   display: flex;

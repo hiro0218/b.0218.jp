@@ -31,7 +31,7 @@ const markEscapedHTML = (text: string, markText: string) => {
   return title;
 };
 
-export const SearchPanel = ({ closeDialog }: Props) => {
+export function SearchPanel({ closeDialog }: Props) {
   const {
     SearchHeader,
     searchData: { suggest, keyword },
@@ -52,7 +52,7 @@ export const SearchPanel = ({ closeDialog }: Props) => {
               href={`/${slug}.html`}
               key={slug}
               passHref
-              prefetch={true}
+              prefetch
             />
           );
         })}
@@ -65,7 +65,7 @@ export const SearchPanel = ({ closeDialog }: Props) => {
       </SearchFooter>
     </SearchMain>
   );
-};
+}
 
 const SearchMain = styled.div`
   z-index: var(--zIndex-search);

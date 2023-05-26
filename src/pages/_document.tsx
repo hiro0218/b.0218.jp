@@ -4,14 +4,24 @@ import type { DocumentContext } from 'next/document';
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 import { Children } from 'react';
 
+import { MetaLinkDnsPrefetch, MetaLinkFeed, MetaLinkRelMe } from '@/components/Functional/MetaLink';
 import { GOOGLE_ADSENSE } from '@/components/UI/Adsense';
-import { SITE_URL, URL } from '@/constant';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
 
-const HTML_PREFIX = {
-  home: 'og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#',
-  article: 'og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#',
-};
+const HTML_PREFIX_BASE = 'og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#';
+const HTML_PREFIX_ARTICLE = `${HTML_PREFIX_BASE} article: http://ogp.me/ns/article#`;
+
+const prefetchDomains = [
+  '//www.google-analytics.com',
+  '//www.googletagservices.com',
+  '//www.googletagmanager.com',
+  '//platform.twitter.com',
+];
+const feeds = [
+  { href: '/feed.xml', type: 'application/rss+xml' },
+  { href: '/atom.xml', type: 'application/atom+xml' },
+  { href: '/feed.json', type: 'application/json' },
+];
 
 class MyDocument extends Document<{ ogpPrefix: string }> {
   static async getInitialProps(ctx: DocumentContext) {
@@ -34,7 +44,7 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
       );
     });
 
-    const ogpPrefix = ctx.pathname.startsWith('/[slug]') ? HTML_PREFIX.article : HTML_PREFIX.home;
+    const ogpPrefix = ctx.pathname.startsWith('/[slug]') ? HTML_PREFIX_ARTICLE : HTML_PREFIX_BASE;
 
     return {
       ...initialProps,
@@ -44,29 +54,15 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
   }
 
   render() {
-    const ogpPrefix = this.props.ogpPrefix;
-    const dnsPrefetchHref = [
-      '//www.google-analytics.com',
-      '//www.googletagservices.com',
-      '//www.googletagmanager.com',
-      '//platform.twitter.com',
-    ];
-
     return (
-      <Html lang="ja" prefix={ogpPrefix}>
+      <Html lang="ja" prefix={this.props.ogpPrefix}>
         <Head>
-          {dnsPrefetchHref.map((href, index) => {
-            return <link href={href} key={href + index} rel="dns-prefetch" />;
-          })}
+          <MetaLinkDnsPrefetch domains={prefetchDomains} />
           <link href="https://googleads.g.doubleclick.net" rel="preconnect" />
           <link href="/favicon.ico" rel="icon" type="image/x-icon" />
-          <link href={`${SITE_URL}/feed.xml`} rel="alternate" title="RSSフィード" type="application/rss+xml" />
-          <link href={`${SITE_URL}/atom.xml`} rel="alternate" title="Atomフィード" type="application/atom+xml" />
-          <link href={`${SITE_URL}/feed.json`} rel="alternate" title="JSONフィード" type="application/json" />
+          <MetaLinkFeed feeds={feeds} />
           <link href="/opensearch.xml" rel="search" type="application/opensearchdescription+xml" />
-          {Object.entries(URL).map(([key, url]) => {
-            return <link href={url} key={key} rel="me" />;
-          })}
+          <MetaLinkRelMe />
           <script
             async
             crossOrigin="anonymous"

@@ -11,7 +11,7 @@ export const GOOGLE_ADSENSE = {
   SLOT: '4045255408',
 } as const;
 
-export const Adsense = () => {
+export function Adsense() {
   const { asPath } = useRouter();
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -43,7 +43,7 @@ export const Adsense = () => {
       />
     </Ads>
   );
-};
+}
 
 const Ads = styled.div`
   max-width: 336px;

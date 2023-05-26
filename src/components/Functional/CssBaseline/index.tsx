@@ -12,6 +12,8 @@ const globalStyle = css`
   ${vendorStyle}
 `;
 
-const CssBaseline = () => <Global styles={globalStyle} />;
+function CssBaseline() {
+  return <Global styles={globalStyle} />;
+}
 
 export default CssBaseline;

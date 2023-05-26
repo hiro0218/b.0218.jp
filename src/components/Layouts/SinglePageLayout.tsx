@@ -21,7 +21,7 @@ export const createGetLayout = (layoutProps: LayoutProps): ((children: ReactElem
   };
 };
 
-const Layout = ({ children, ...props }: PropsWithChildren<LayoutProps>) => {
+function Layout({ children, ...props }: PropsWithChildren<LayoutProps>) {
   return (
     <>
       <Head>
@@ -33,4 +33,4 @@ const Layout = ({ children, ...props }: PropsWithChildren<LayoutProps>) => {
       </PageContainer>
     </>
   );
-};
+}
