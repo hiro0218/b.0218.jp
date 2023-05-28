@@ -1,4 +1,4 @@
-import { Mokuji as MokujiJs, type MokujiOption } from 'mokuji.js';
+import { Destroy as MokujiJsDestroy, Mokuji as MokujiJs, type MokujiOption } from 'mokuji.js';
 import { useRouter } from 'next/router';
 import type { RefObject } from 'react';
 import { useEffect, useRef } from 'react';
@@ -52,6 +52,10 @@ export const useMokuji = ({ refContent }: MokujiProps): ReturnProps => {
         refMokuji.current.style.display = 'none';
       }
     });
+
+    return () => {
+      MokujiJsDestroy();
+    };
   }, [asPath, refContent]);
 
   return { refMokuji, refDetailContent };
