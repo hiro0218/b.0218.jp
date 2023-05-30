@@ -178,7 +178,7 @@ module.exports = {
   options: {
     /* conditions specifying which files not to follow further when encountered:
        - path: a regular expression to match
-       - dependencyTypes: see https://github.com/sverweij/dependency-cruiser/blob/master/doc/rules-reference.md#dependencytypes-and-dependencytypesnot
+       - dependencyTypes: see https://github.com/sverweij/dependency-cruiser/blob/main/doc/rules-reference.md#dependencytypes-and-dependencytypesnot
        for a complete list
     */
     doNotFollow: {
@@ -210,7 +210,7 @@ module.exports = {
     // moduleSystems: ['amd', 'cjs', 'es6', 'tsd'],
 
     /* prefix for links in html and svg output (e.g. 'https://github.com/you/yourrepo/blob/develop/'
-       to open it on your online repo or `vscode://file/${process.cwd()}/` to 
+       to open it on your online repo or `vscode://file/${process.cwd()}/` to
        open it in visual studio code),
      */
     // prefix: '',
@@ -221,10 +221,10 @@ module.exports = {
      */
     tsPreCompilationDeps: true,
 
-    /* 
-       list of extensions to scan that aren't javascript or compile-to-javascript. 
+    /*
+       list of extensions to scan that aren't javascript or compile-to-javascript.
        Empty by default. Only put extensions in here that you want to take into
-       account that are _not_ parsable. 
+       account that are _not_ parsable.
     */
     // extraExtensionsToScan: [".json", ".jpg", ".png", ".svg", ".webp"],
 
@@ -255,20 +255,20 @@ module.exports = {
        to dependency-cruiser's current working directory. When not provided defaults
        to './webpack.conf.js'.
 
-       The (optional) `env` and `args` attributes contain the parameters to be passed if
+       The (optional) `env` and `arguments` attributes contain the parameters to be passed if
        your webpack config is a function and takes them (see webpack documentation
        for details)
      */
     // webpackConfig: {
     //  fileName: './webpack.config.js',
     //  env: {},
-    //  args: {},
+    //  arguments: {},
     // },
 
     /* Babel config ('.babelrc', '.babelrc.json', '.babelrc.json5', ...) to use
       for compilation (and whatever other naughty things babel plugins do to
       source code). This feature is well tested and usable, but might change
-      behavior a bit over time (e.g. more precise results for used module 
+      behavior a bit over time (e.g. more precise results for used module
       systems) without dependency-cruiser getting a major version bump.
      */
     // babelConfig: {
@@ -310,13 +310,22 @@ module.exports = {
       /*
          The extensions, by default are the same as the ones dependency-cruiser
          can access (run `npx depcruise --info` to see which ones that are in
-         _your_ environment. If that list is larger than what you need (e.g. 
-         it contains .js, .jsx, .ts, .tsx, .cts, .mts - but you don't use 
-         TypeScript you can pass just the extensions you actually use (e.g. 
-         [".js", ".jsx"]). This can speed up the most expensive step in 
+         _your_ environment. If that list is larger than what you need (e.g.
+         it contains .js, .jsx, .ts, .tsx, .cts, .mts - but you don't use
+         TypeScript you can pass just the extensions you actually use (e.g.
+         [".js", ".jsx"]). This can speed up the most expensive step in
          dependency cruising (module resolution) quite a bit.
        */
-      // extensions: [".js", ".jsx", ".ts", ".tsx", ".d.ts"]
+      // extensions: [".js", ".jsx", ".ts", ".tsx", ".d.ts"],
+      /*
+         If your TypeScript project makes use of types specified in 'types'
+         fields in package.jsons of external dependencies, specify "types"
+         in addition to "main" in here, so enhanced-resolve (the resolver
+         dependency-cruiser uses) knows to also look there. You can also do
+         this if you're not sure, but still use TypeScript. In a future version
+         of dependency-cruiser this will likely become the default.
+       */
+      mainFields: ['main', 'types'],
     },
     reporterOptions: {
       dot: {
@@ -325,10 +334,10 @@ module.exports = {
            collapses everything in node_modules to one folder deep so you see
            the external modules, but not the innards your app depends upon.
          */
-        collapsePattern: 'node_modules/[^/]+',
+        collapsePattern: 'node_modules/(@[^/]+/[^/]+|[^/]+)',
 
         /* Options to tweak the appearance of your graph.See
-           https://github.com/sverweij/dependency-cruiser/blob/master/doc/options-reference.md#reporteroptions
+           https://github.com/sverweij/dependency-cruiser/blob/main/doc/options-reference.md#reporteroptions
            for details and some examples. If you don't specify a theme
            don't worry - dependency-cruiser will fall back to the default one.
         */
@@ -406,10 +415,10 @@ module.exports = {
           dependency graph reporter (`archi`) you probably want to tweak
           this collapsePattern to your situation.
         */
-        collapsePattern: '^(packages|src|lib|app|bin|test(s?)|spec(s?))/[^/]+|node_modules/[^/]+',
+        collapsePattern: '^(packages|src|lib|app|bin|test(s?)|spec(s?))/[^/]+|node_modules/(@[^/]+/[^/]+|[^/]+)',
 
         /* Options to tweak the appearance of your graph.See
-           https://github.com/sverweij/dependency-cruiser/blob/master/doc/options-reference.md#reporteroptions
+           https://github.com/sverweij/dependency-cruiser/blob/main/doc/options-reference.md#reporteroptions
            for details and some examples. If you don't specify a theme
            for 'archi' dependency-cruiser will use the one specified in the
            dot section (see above), if any, and otherwise use the default one.
@@ -423,4 +432,4 @@ module.exports = {
     },
   },
 };
-// generated: dependency-cruiser@12.3.0 on 2022-12-30T02:27:21.254Z
+// generated: dependency-cruiser@13.0.2 on 2023-05-30T15:30:55.772Z
