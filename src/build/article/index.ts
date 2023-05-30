@@ -14,25 +14,14 @@ const PATH = {
 } as const;
 
 /**
- * h2の内容をを取得して中身を取り出す
+ * h2の内容を取得して中身を取り出す
  */
 function getHeading2Text(content: string) {
   const pattern = /<h2[^>]*>([^<]+)<\/h2>/g;
-  let match: RegExpExecArray | null;
-  const matches: string[] = [];
+  const matches = Array.from(content.matchAll(pattern), (match) => match[1]);
 
-  while ((match = pattern.exec(content)) !== null) {
-    matches.push(match[1]);
-    if (pattern.lastIndex === match.index) {
-      pattern.lastIndex++;
-    }
-  }
-
-  if (!matches) {
-    return '';
-  }
-
-  return matches.join(' / ');
+  // 160文字以内に収める
+  return matches.join(' / ').slice(0, 160);
 }
 
 async function buildPost() {
