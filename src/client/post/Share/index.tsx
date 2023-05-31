@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 
 import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
+import useToast from '@/hooks/useToast';
 import { fadeIn } from '@/ui/animation';
 import { RxLink2, SiHatenabookmark, SiTwitter } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
@@ -16,9 +17,11 @@ const ICON_SIZE = 56;
 
 function PostShare({ title, url }: Props) {
   const [, copy] = useCopyToClipboard();
+  const toast = useToast('記事のURLをコピーしました');
+
   const onClickCopyPermalink = useCallback(() => {
-    copy(url);
-  }, [copy, url]);
+    copy(url).then(() => toast());
+  }, [copy, toast, url]);
 
   return (
     <section>
