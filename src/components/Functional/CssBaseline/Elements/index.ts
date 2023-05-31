@@ -74,6 +74,7 @@ export default css`
   h5,
   h6 {
     font-weight: var(--font-weight-normal);
+    letter-spacing: var(--letter-spacing-md);
   }
 
   h1 {

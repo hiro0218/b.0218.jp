@@ -9,6 +9,7 @@ const Headings = css`
     position: relative;
     scroll-margin-top: 1em;
     font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-md);
 
     & > {
       code {

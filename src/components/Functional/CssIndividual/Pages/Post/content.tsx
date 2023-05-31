@@ -22,7 +22,7 @@ const PostContent = styled.div`
   }
 
   > :where(p) {
-    letter-spacing: 0.05em;
+    letter-spacing: var(--letter-spacing-md);
     word-break: break-word;
     word-wrap: break-word;
   }

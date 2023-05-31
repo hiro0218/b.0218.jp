@@ -125,7 +125,7 @@ const Paragraph = styled.p`
   font-size: var(--font-size-sm);
   color: var(--text-11);
   text-overflow: ellipsis;
-  letter-spacing: 0.025em;
+  letter-spacing: var(--letter-spacing-sm);
   white-space: nowrap;
 `;
 
