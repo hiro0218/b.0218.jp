@@ -74,6 +74,7 @@ export default css`
   h5,
   h6 {
     font-weight: var(--font-weight-normal);
+    letter-spacing: var(--letter-spacing-md);
   }
 
   h1 {
@@ -108,6 +109,8 @@ export default css`
 
   mark {
     background-color: var(--component-backgrounds-5A);
+    padding: 1px 2px;
+    border-radius: var(--border-radius-4);
   }
 
   /* code */

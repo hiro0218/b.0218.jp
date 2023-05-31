@@ -1,4 +1,4 @@
-import { RxGithubLogo } from '@/ui/icons';
+import { ICON_SIZE_XS, RxGithubLogo } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -13,7 +13,7 @@ function PostEdit({ slug }: Props) {
         rel="noreferrer"
         target="_blank"
       >
-        <RxGithubLogo size={18} />
+        <RxGithubLogo size={ICON_SIZE_XS} />
         Edit on GitHub
       </Anchor>
     </Container>
@@ -31,7 +31,7 @@ const Anchor = styled.a`
   display: inline-flex;
   align-items: center;
   padding: var(--space-1);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   line-height: 1;
   color: var(--text-12);
   border-radius: var(--border-radius-4);

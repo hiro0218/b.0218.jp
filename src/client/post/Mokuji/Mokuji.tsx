@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
 import { DetailsAccordion } from '@/lib/DetailsAccordion';
-import { RxTriangleDown, RxTriangleUp } from '@/ui/icons';
+import { ICON_SIZE_SM, RxTriangleDown, RxTriangleUp } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 import type { MokujiProps } from './type';
@@ -30,8 +30,8 @@ function Mokuji({ refContent }: MokujiProps) {
       <Details ref={refDetails}>
         <Summary>
           目次
-          <RxTriangleDown data-disclosure="closed" size={20} />
-          <RxTriangleUp data-disclosure="open" size={20} />
+          <RxTriangleDown data-disclosure="closed" size={ICON_SIZE_SM} />
+          <RxTriangleUp data-disclosure="open" size={ICON_SIZE_SM} />
         </Summary>
         <DetailsContent ref={refDetailContent} />
       </Details>

@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { RxChevronDown, RxChevronUp } from '@/ui/icons';
+import { ICON_SIZE_SM, RxChevronDown, RxChevronUp } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 export const PageScroll = memo(function PageScroll() {
@@ -26,10 +26,10 @@ export const PageScroll = memo(function PageScroll() {
   return (
     <Container>
       <Button aria-label="ページの最上部へスクロールする" onClick={onScrollTop} type="button">
-        <RxChevronUp size={24} />
+        <RxChevronUp size={ICON_SIZE_SM} />
       </Button>
       <Button aria-label="ページの最下部へスクロールする" onClick={onScrollBottom} type="button">
-        <RxChevronDown size={24} />
+        <RxChevronDown size={ICON_SIZE_SM} />
       </Button>
     </Container>
   );

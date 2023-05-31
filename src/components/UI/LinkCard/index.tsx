@@ -3,7 +3,7 @@ import { type AriaRole, type ComponentProps, type ReactNode, useMemo } from 'rea
 import { PostDate } from '@/client/post';
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { PostTagAnchorStyle } from '@/components/UI/Tag';
-import { RxCaretRight } from '@/ui/icons';
+import { ICON_SIZE_SM, RxCaretRight } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -23,7 +23,7 @@ function LinkCard({ link, title, date, updated, excerpt, tags, role }: Props) {
   const IconArrow = useMemo(
     () => (
       <Icon>
-        <RxCaretRight size={24} />
+        <RxCaretRight size={ICON_SIZE_SM} />
       </Icon>
     ),
     [],
@@ -68,6 +68,9 @@ const Container = styled.div`
   display: flex;
   height: 100%;
   padding: var(--space-3);
+  content-visibility: auto;
+  contain-intrinsic-size: 0 200px;
+  contain: layout style paint;
 
   ${showHoverBackground}
 
@@ -125,7 +128,7 @@ const Paragraph = styled.p`
   font-size: var(--font-size-sm);
   color: var(--text-11);
   text-overflow: ellipsis;
-  letter-spacing: 0.025em;
+  letter-spacing: var(--letter-spacing-sm);
   white-space: nowrap;
 `;
 

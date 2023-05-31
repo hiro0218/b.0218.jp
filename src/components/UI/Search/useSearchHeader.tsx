@@ -3,7 +3,7 @@ import { type KeyboardEvent, useCallback, useEffect, useId, useMemo, useRef, use
 import { FILENAME_POSTS_LIST } from '@/constant';
 import { parseJSON } from '@/lib/parseJSON';
 import type { PostProps } from '@/types/source';
-import { RxMagnifyingGlass } from '@/ui/icons';
+import { ICON_SIZE_XS, RxMagnifyingGlass } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -139,7 +139,7 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
     () => (
       <Header>
         <HeaderIcon htmlFor={searchInputId}>
-          <RxMagnifyingGlass size="18" />
+          <RxMagnifyingGlass size={ICON_SIZE_XS} />
         </HeaderIcon>
         <SearchInput
           autoComplete="off"
