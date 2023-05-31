@@ -109,6 +109,8 @@ export default css`
 
   mark {
     background-color: var(--component-backgrounds-5A);
+    padding: 1px 2px;
+    border-radius: var(--border-radius-4);
   }
 
   /* code */

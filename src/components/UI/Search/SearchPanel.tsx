@@ -116,7 +116,7 @@ const SearchFooter = styled.div`
   display: flex;
   justify-content: space-between;
   padding: var(--space-½) var(--space-1);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   color: var(--text-11);
   border-top: 1px solid var(--borders-6);
 
