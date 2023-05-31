@@ -68,6 +68,9 @@ const Container = styled.div`
   display: flex;
   height: 100%;
   padding: var(--space-3);
+  content-visibility: auto;
+  contain-intrinsic-size: 0 200px;
+  contain: layout style paint;
 
   ${showHoverBackground}
 
