@@ -13,6 +13,7 @@ export default css`
   /**
    * Font Size
    */
+  --font-size-xm: 12px;
   --font-size-sm: 14px;
   --font-size-md: 16px;
   --font-size-lg: 18px;
@@ -44,4 +45,17 @@ export default css`
   --font-weight-normal: 400;
   --font-weight-bold: 700;
   --font-weight-bolder: 900;
+
+  /**
+   * Line Height
+   */
+  --line-height-sm: 1.4;
+  --line-height-md: 1.6;
+  --line-height-lg: 1.8;
+
+  /**
+   * Letter Spacing
+   */
+  --letter-spacing-sm: 0.02em;
+  --letter-spacing-md: 0.04em;
 `;
