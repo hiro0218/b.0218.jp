@@ -2,13 +2,13 @@ import { memo } from 'react';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { LinkStyle } from '@/components/UI/LinkMenu';
-import { RxCaretRight } from '@/ui/icons';
+import { ICON_SIZE_XS, RxCaretRight } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 const IconArrow = memo(function IconArrow() {
   return (
     <Icon>
-      <RxCaretRight />
+      <RxCaretRight size={ICON_SIZE_XS} />
     </Icon>
   );
 });
@@ -33,5 +33,4 @@ const Anchor = styled(_Anchor)`
   ${LinkStyle}
 
   font-size: var(--font-size-md);
-  color: var(--text-11);
 `;

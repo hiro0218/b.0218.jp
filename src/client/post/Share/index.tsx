@@ -4,7 +4,7 @@ import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import useToast from '@/hooks/useToast';
 import { fadeIn } from '@/ui/animation';
-import { RxLink2, SiHatenabookmark, SiTwitter } from '@/ui/icons';
+import { ICON_SIZE_SM, RxLink2, SiHatenabookmark, SiTwitter } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -12,8 +12,6 @@ interface Props {
   title: string;
   url: string;
 }
-
-const ICON_SIZE = 56;
 
 function PostShare({ title, url }: Props) {
   const [, copy] = useCopyToClipboard();
@@ -34,7 +32,7 @@ function PostShare({ title, url }: Props) {
           title="Twitterでツイートする"
         >
           <IconContainer>
-            <SiTwitter size={ICON_SIZE / 2} />
+            <SiTwitter size={ICON_SIZE_SM} />
           </IconContainer>
         </Anchor>
         <Anchor
@@ -44,12 +42,12 @@ function PostShare({ title, url }: Props) {
           title="はてなブックマークでブックマークする"
         >
           <IconContainer>
-            <SiHatenabookmark size={ICON_SIZE / 2} />
+            <SiHatenabookmark size={ICON_SIZE_SM} />
           </IconContainer>
         </Anchor>
         <Anchor as="button" onClick={onClickCopyPermalink} title="記事のURLをコピーする" type="button">
           <IconContainer>
-            <RxLink2 size={ICON_SIZE / 2} />
+            <RxLink2 size={ICON_SIZE_SM} />
           </IconContainer>
         </Anchor>
       </Container>
@@ -102,8 +100,8 @@ const IconContainer = styled.span`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: ${ICON_SIZE}px;
-  height: ${ICON_SIZE}px;
+  width: ${ICON_SIZE_SM * 2}px;
+  height: ${ICON_SIZE_SM * 2}px;
   margin: auto;
 
   ${showHoverBackground}

@@ -13,7 +13,7 @@ export default css`
   /**
    * Font Size
    */
-  --font-size-xm: 12px;
+  --font-size-xs: 12px;
   --font-size-sm: 14px;
   --font-size-md: 16px;
   --font-size-lg: 18px;
