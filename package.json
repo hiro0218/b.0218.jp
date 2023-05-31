@@ -70,7 +70,7 @@
     "budoux": "^0.5.1",
     "chalk": "^5.2.0",
     "dependency-cruiser": "^13.0.2",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.1.1",
     "esbuild": "^0.17.19",
     "esbuild-register": "^3.4.2",
     "eslint": "^8.41.0",
