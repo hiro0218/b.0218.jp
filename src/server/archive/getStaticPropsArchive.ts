@@ -19,5 +19,12 @@ export const divideByYearArchive = (posts: PostsProps): ArchiveListProps => {
     result[year].push(post);
   }
 
+  // result内のobjectをslugでsortする
+  Object.keys(result).forEach((key) => {
+    result[key].sort((a: PostProps, b: PostProps) => {
+      return b.slug.localeCompare(a.slug);
+    });
+  });
+
   return result;
 };
