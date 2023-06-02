@@ -1,7 +1,7 @@
 import { type AriaRole, type ComponentProps, type ReactNode, useMemo } from 'react';
 
-import { PostDate } from '@/client/post';
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
+import PostDate from '@/components/UI/Date';
 import { PostTagAnchorStyle } from '@/components/UI/Tag';
 import { ICON_SIZE_SM, RxCaretRight } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
