@@ -113,6 +113,7 @@ module.exports = {
     /**
      * eslint-plugin-strict-dependencies
      */
+    // モジュールの依存性ルールを定義する
     'strict-dependencies/strict-dependencies': [
       'error',
       [
