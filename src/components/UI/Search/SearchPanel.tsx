@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { useRouteChangeComplete } from '@/hooks/useRouteChangeComplete';
 import escapeHTML from '@/lib/escapeHTML';
@@ -41,18 +43,21 @@ export function SearchPanel({ closeDialog }: Props) {
     searchData: { suggest, keyword },
   } = useSearchHeader({ closeDialog });
 
+  const splitKeyword = useMemo(() => keyword.split(' '), [keyword]);
+  const markedTitles = useMemo(() => {
+    return suggest.map(({ title }) => markEscapedHTML(title, splitKeyword));
+  }, [suggest, splitKeyword]);
+
   useRouteChangeComplete(closeDialog);
 
   return (
     <SearchMain>
       {SearchHeader}
       <SearchResult>
-        {suggest.map(({ title, slug }) => {
-          const escapedTitle = markEscapedHTML(title, keyword.split(' '));
-
+        {suggest.map(({ slug }, index) => {
           return (
             <Anchor
-              dangerouslySetInnerHTML={{ __html: escapedTitle }}
+              dangerouslySetInnerHTML={{ __html: markedTitles[index] }}
               href={`/${slug}.html`}
               key={slug}
               passHref
