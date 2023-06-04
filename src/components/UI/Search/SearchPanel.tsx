@@ -11,22 +11,26 @@ type Props = {
   closeDialog: () => void;
 };
 
-const markEscapedHTML = (text: string, markText: string) => {
+const markEscapedHTML = (text: string, markTexts: string[]) => {
   const tagName = 'mark';
-  const openingSymbol = '★';
-  const closingSymbol = '☆';
+  const OPENING_SYMBOL = '★';
+  const CLOSING_SYMBOL = '☆';
 
-  const index = text.toLowerCase().indexOf(markText.toLowerCase());
-  const title = escapeHTML(
-    index !== -1
-      ? `${text.slice(0, index)}${openingSymbol}${text.slice(
-          index,
-          index + markText.length,
-        )}${closingSymbol}${text.slice(index + markText.length)}`
-      : text,
-  )
-    .replace(openingSymbol, `<${tagName}>`)
-    .replace(closingSymbol, `</${tagName}>`);
+  let processedText = text;
+  markTexts.forEach((markText) => {
+    const index = processedText.toLowerCase().indexOf(markText.toLowerCase());
+    processedText =
+      index !== -1
+        ? `${processedText.slice(0, index)}${OPENING_SYMBOL}${processedText.slice(
+            index,
+            index + markText.length,
+          )}${CLOSING_SYMBOL}${processedText.slice(index + markText.length)}`
+        : processedText;
+  });
+
+  const title = escapeHTML(processedText)
+    .replaceAll(OPENING_SYMBOL, `<${tagName}>`)
+    .replaceAll(CLOSING_SYMBOL, `</${tagName}>`);
 
   return title;
 };
@@ -44,7 +48,7 @@ export function SearchPanel({ closeDialog }: Props) {
       {SearchHeader}
       <SearchResult>
         {suggest.map(({ title, slug }) => {
-          const escapedTitle = markEscapedHTML(title, keyword);
+          const escapedTitle = markEscapedHTML(title, keyword.split(' '));
 
           return (
             <Anchor
