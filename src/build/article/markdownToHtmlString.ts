@@ -25,17 +25,17 @@ const markdownToHtmlString = async (markdown: string, simple = false) => {
     .use(remarkUnwrapImages)
     .use(remarkBreaks)
     .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeExternalLinks, {
+      target(element) {
+        return !(element?.properties?.href as string).includes(SITE_URL) ? '_blank' : undefined;
+      },
+      rel: ['nofollow'],
+    })
     .use(rehypeMinifyWhitespace)
     .use(rehypeRaw);
 
   const result = !simple
     ? await commonProcessor
-        .use(rehypeExternalLinks, {
-          target(element) {
-            return !(element?.properties?.href as string).includes(SITE_URL) ? '_blank' : undefined;
-          },
-          rel: ['nofollow'],
-        })
         .use(rehypeHighlight, {
           ignoreMissing: true,
         })
