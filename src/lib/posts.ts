@@ -6,13 +6,12 @@ import type {
   TagSimilarProps,
   TagsListProps,
 } from '@/types/source';
-
-const { default: pages } = await import(/* webpackChunkName: "source" */ '~/dist/pages.json');
-const { default: posts } = await import(/* webpackChunkName: "source" */ '~/dist/posts.json');
-const { default: postsList } = await import(/* webpackChunkName: "source" */ '~/dist/posts-list.json');
-const { default: postsSimilarity } = await import(/* webpackChunkName: "source" */ '~/dist/posts-similarity.json');
-const { default: tags } = await import(/* webpackChunkName: "source" */ '~/dist/tags.json');
-const { default: tagsSimilarity } = await import(/* webpackChunkName: "source" */ '~/dist/tags-similarity.json');
+import pages from '~/dist/pages.json';
+import posts from '~/dist/posts.json';
+import postsList from '~/dist/posts-list.json';
+import postsSimilarity from '~/dist/posts-similarity.json';
+import tags from '~/dist/tags.json';
+import tagsSimilarity from '~/dist/tags-similarity.json';
 
 export const getTagsJson = (): TagsListProps => {
   return tags;

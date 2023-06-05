@@ -62,11 +62,6 @@ const nextConfiguration = {
       }),
     );
 
-    config.experiments = {
-      ...config.experiments,
-      topLevelAwait: true,
-    };
-
     return config;
   },
 };
