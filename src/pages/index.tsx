@@ -38,7 +38,7 @@ export default function Index() {
         <Stack as="section">
           <Heading as="h2" text="最新記事" textSide={<LinkMore href="/archive" text="archive" />} />
           <Columns title="Recent Articles" titleTagName="h3">
-            <Stack space="half">
+            <Stack space="½">
               {recentPosts.map(({ date, excerpt, slug, tags, title, updated }) => (
                 <LinkCard
                   date={date}
@@ -54,7 +54,7 @@ export default function Index() {
           </Columns>
 
           <Columns title="Updated Articles" titleTagName="h3">
-            <Stack space="half">
+            <Stack space="½">
               {updatesPosts.map(({ date, excerpt, slug, tags, title, updated }) => (
                 <LinkCard
                   date={date}

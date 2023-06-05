@@ -28,7 +28,7 @@ export default function Tags({ title, posts }: Props) {
         <Title heading={pageTitle} paragraph={`${posts.length}件`} />
 
         <Columns title={title}>
-          <Stack space="half">
+          <Stack space="½">
             {posts.map(({ date, excerpt, slug, title, updated }) => (
               <LinkCard
                 date={date}
