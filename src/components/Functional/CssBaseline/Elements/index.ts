@@ -224,8 +224,4 @@ export default css`
     border: none;
     appearance: none;
   }
-
-  svg {
-    fill: currentColor;
-  }
 `;
