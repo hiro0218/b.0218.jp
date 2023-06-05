@@ -35,21 +35,14 @@ export default memo(function TheFooter() {
 });
 
 const Root = styled.footer`
-  position: sticky;
-  top: 100vh;
-  display: grid;
-  align-items: end;
   margin-top: var(--space-6);
-
-  & > * {
-    grid-area: 1/-1;
-  }
 `;
 
 const Footer = styled.div`
   padding: var(--space-4) 0;
   font-size: var(--font-size-md);
   color: var(--text-12);
+  background-color: var(--component-backgrounds-3);
 
   ${isMobile} {
     padding: var(--space-3) 0;
