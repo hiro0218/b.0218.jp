@@ -23,6 +23,7 @@ export function Adsense() {
     try {
       if (isLoaded) {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
       }
     } catch (err) {
       console.log(err);
@@ -31,23 +32,28 @@ export function Adsense() {
 
   return (
     <Container key={asPath}>
-      {Array.from(Array(2), (_, i) => {
-        return (
-          <Ads key={asPath + i}>
-            <ins
-              className="adsbygoogle"
-              data-ad-client={GOOGLE_ADSENSE.CLIENT}
-              data-ad-format={GOOGLE_ADSENSE.FORMAT}
-              data-ad-layout={GOOGLE_ADSENSE.LAYOUT}
-              data-ad-slot={GOOGLE_ADSENSE.SLOT}
-              style={{ display: 'block', textAlign: 'center' }}
-            />
-          </Ads>
-        );
-      })}
+      <Ads>
+        <Ins />
+      </Ads>
+      <Ads>
+        <Ins />
+      </Ads>
     </Container>
   );
 }
+
+const Ins = () => {
+  return (
+    <ins
+      className="adsbygoogle"
+      data-ad-client={GOOGLE_ADSENSE.CLIENT}
+      data-ad-format={GOOGLE_ADSENSE.FORMAT}
+      data-ad-layout={GOOGLE_ADSENSE.LAYOUT}
+      data-ad-slot={GOOGLE_ADSENSE.SLOT}
+      style={{ display: 'block', textAlign: 'center' }}
+    />
+  );
+};
 
 const Container = styled.div`
   display: flex;
