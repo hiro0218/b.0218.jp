@@ -1,14 +1,14 @@
 import { memo } from 'react';
 
+import WaveBottomSvg from '@/assets/waveBottom.svg';
+import WaveTopSvg from '@/assets/waveTop.svg';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 export const WaveTop = memo(function WaveTop() {
   return (
     <Container aria-hidden="true">
-      <svg preserveAspectRatio="xMaxYMin meet" viewBox="0 0 500 80">
-        <path d="M0.00,49.99 C149.99,150.00 300.75,-49.99 500.00,49.99 L500.00,0.00 L0.00,0.00 Z"></path>
-      </svg>
+      <WaveTopSvg />
     </Container>
   );
 });
@@ -16,9 +16,7 @@ export const WaveTop = memo(function WaveTop() {
 export const WaveBottom = memo(function WaveBottom() {
   return (
     <Container aria-hidden="true">
-      <svg preserveAspectRatio="xMinYMax meet" viewBox="0 0 500 80">
-        <path d="M0.00,49.99 C149.99,150.00 349.81,-49.99 500.00,49.99 L500.00,150.00 L0.00,150.00 Z"></path>
-      </svg>
+      <WaveBottomSvg />
     </Container>
   );
 });
@@ -32,6 +30,8 @@ const Container = styled.div`
     position: relative;
     z-index: -1;
     width: 100vw;
+    height: max-content;
+    pointer-events: none;
     fill: var(--component-backgrounds-3);
     stroke: none;
 

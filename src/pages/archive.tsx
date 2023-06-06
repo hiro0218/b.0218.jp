@@ -27,7 +27,7 @@ export default function Archive() {
           .reverse()
           .map((year) => (
             <Columns key={year} title={`${year}年`}>
-              <Stack space="half">
+              <Stack space="½">
                 {archives[year].map(({ slug, title, date, updated, excerpt, tags }: PostProps) => (
                   <LinkCard
                     date={date}

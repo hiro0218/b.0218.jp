@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
+import { ScreenReaderOnlyText as SrOnly } from '@/components/UI/ScreenReaderOnlyText';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import useToast from '@/hooks/useToast';
 import { fadeIn } from '@/ui/animation';
@@ -23,7 +23,7 @@ function PostShare({ title, url }: Props) {
 
   return (
     <section>
-      <ScreenReaderOnlyText as="h2" text="このページをシェアする" />
+      <SrOnly as="h2" text="このページをシェアする" />
       <Container>
         <Anchor
           href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}`}

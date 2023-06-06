@@ -4,7 +4,7 @@ import { styled } from '@/ui/styled';
 
 type Props = {
   as?: 'div' | 'section';
-  space?: 'half' | '1' | '2' | '3' | '4' | '5' | '6';
+  space?: '½' | '1' | '2' | '3' | '4' | '5' | '6';
   role?: AriaRole;
   children: ReactNode;
 };

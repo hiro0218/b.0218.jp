@@ -21,36 +21,51 @@ export function Adsense() {
 
   useEffect(() => {
     try {
-      window.requestAnimationFrame(() => {
-        if (isLoaded) {
-          (window.adsbygoogle = window.adsbygoogle || []).push({});
-        }
-      });
+      if (isLoaded) {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      }
     } catch (err) {
       console.log(err);
     }
   }, [asPath, isLoaded]);
 
   return (
-    <Ads key={asPath}>
-      <ins
-        className="adsbygoogle"
-        data-ad-client={GOOGLE_ADSENSE.CLIENT}
-        data-ad-format={GOOGLE_ADSENSE.FORMAT}
-        data-ad-layout={GOOGLE_ADSENSE.LAYOUT}
-        data-ad-slot={GOOGLE_ADSENSE.SLOT}
-        style={{ display: 'block', textAlign: 'center' }}
-      />
-    </Ads>
+    <Container key={asPath}>
+      {Array.from(Array(2), (_, i) => {
+        return (
+          <Ads key={asPath + i}>
+            <ins
+              className="adsbygoogle"
+              data-ad-client={GOOGLE_ADSENSE.CLIENT}
+              data-ad-format={GOOGLE_ADSENSE.FORMAT}
+              data-ad-layout={GOOGLE_ADSENSE.LAYOUT}
+              data-ad-slot={GOOGLE_ADSENSE.SLOT}
+              style={{ display: 'block', textAlign: 'center' }}
+            />
+          </Ads>
+        );
+      })}
+    </Container>
   );
 }
 
-const Ads = styled.div`
-  max-width: 336px;
-  height: 280px;
+const Container = styled.div`
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  justify-content: center;
   margin: var(--space-4) auto;
 
   ${isMobile} {
-    min-height: 100px;
+    flex-direction: column;
+  }
+`;
+
+const Ads = styled.div`
+  min-width: 336px;
+  height: 280px;
+
+  ${isMobile} {
+    min-width: 250px;
   }
 `;

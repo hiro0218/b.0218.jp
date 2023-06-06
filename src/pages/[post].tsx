@@ -1,21 +1,19 @@
 import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 import Script from 'next/script';
-import { useRef } from 'react';
 
-import { Mokuji, PostEdit, PostHeader, PostNote, PostShare, PostSimilar, TagSimilar } from '@/client/post';
-import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
+import * as Post from '@/client/post';
+import * as Similar from '@/client/post/Similar';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContainer } from '@/components/UI/Layout';
 import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
-import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { getOgpImage, getPermalink } from '@/lib/url';
 import { getStaticPathsPost, getStaticPropsPost, type PostPageProps } from '@/server/post';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-export default function Post({ post, similarPost, similarTags }: Props) {
+export default function PostPage({ post, similarPost, similarTags }: Props) {
   const {
     title,
     date,
@@ -29,11 +27,8 @@ export default function Post({ post, similarPost, similarTags }: Props) {
     tagsWithCount,
   } = post;
   const hasTweet = content.includes('twitter-tweet');
-  const refContent = useRef<HTMLDivElement>(null);
-  const permalink = getPermalink(post.slug);
-  const description = getDescriptionText(post.content);
-
-  useTwitterWidgetsLoad({ ref: refContent });
+  const permalink = getPermalink(slug);
+  const description = getDescriptionText(content);
 
   return (
     <>
@@ -60,30 +55,23 @@ export default function Post({ post, similarPost, similarTags }: Props) {
           }}
           type="application/ld+json"
         />
-        {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
       </Head>
+      {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
       <PageContainer as="article">
-        <PostHeader
+        <Post.Header
           date={date}
           readingTime={readingTime}
           tagsWithCount={tagsWithCount}
           title={segmentedTitle}
           updated={updated}
         />
-        <PostNote note={note} />
-        <Mokuji refContent={refContent} />
-        <PostContent
-          dangerouslySetInnerHTML={{
-            __html: content,
-          }}
-          itemProp="articleBody"
-          ref={refContent}
-        />
+        <Post.Note note={note} />
+        <Post.Content content={content} />
         <Adsense />
-        <PostShare title={title} url={permalink} />
-        <PostEdit slug={slug} />
-        <TagSimilar tags={similarTags} />
-        <PostSimilar posts={similarPost} />
+        <Post.Share title={title} url={permalink} />
+        <Post.Edit slug={slug} />
+        <Similar.Tag tags={similarTags} />
+        <Similar.Post posts={similarPost} />
       </PageContainer>
     </>
   );

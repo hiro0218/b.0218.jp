@@ -21,6 +21,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
 const Container = styled.main`
   max-width: var(--container-width);
+  min-height: calc(100vh - var(--space-6) - 200px);
   padding: 0 var(--space-4);
   margin: 0 auto;
 
