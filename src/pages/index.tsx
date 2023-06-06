@@ -36,8 +36,8 @@ export default function Index() {
         </Stack>
 
         <Stack as="section">
-          <Heading as="h2" text="最新記事" textSide={<LinkMore href="/archive" text="archive" />} />
-          <Columns title="Recent Articles" titleTagName="h3">
+          <Heading as="h2" text="記事" textSide={<LinkMore href="/archive" text="archive" />} />
+          <Columns title="最新記事" titleTagName="h3">
             <Stack space="½">
               {recentPosts.map(({ date, excerpt, slug, tags, title, updated }) => (
                 <LinkCard
@@ -53,7 +53,7 @@ export default function Index() {
             </Stack>
           </Columns>
 
-          <Columns title="Updated Articles" titleTagName="h3">
+          <Columns title="更新記事" titleTagName="h3">
             <Stack space="½">
               {updatesPosts.map(({ date, excerpt, slug, tags, title, updated }) => (
                 <LinkCard
