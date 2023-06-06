@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import { forwardRef, type MutableRefObject, useId } from 'react';
 import { createPortal } from 'react-dom';
 
-import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
+import { ScreenReaderOnlyText as SrOnly } from '@/components/UI/ScreenReaderOnlyText';
 import useIsClient from '@/hooks/useIsClient';
 import { fadeIn, slideIn } from '@/ui/animation';
 import { styled } from '@/ui/styled';
@@ -29,8 +29,8 @@ export const SearchDialog = forwardRef(function SearchDialog({ isActive, closeDi
   return createPortal(
     <>
       <Dialog aria-describedby={describedbyId} aria-labelledby={labelledbyId} aria-modal ref={ref}>
-        <ScreenReaderOnlyText as="h2" id={labelledbyId} text="記事検索" />
-        <ScreenReaderOnlyText as="p" id={describedbyId} text="記事のタイトルから検索することができます" />
+        <SrOnly as="h2" id={labelledbyId} text="記事検索" />
+        <SrOnly as="p" id={describedbyId} text="記事のタイトルから検索することができます" />
         <SearchPanel closeDialog={closeDialog} />
       </Dialog>
       <Overlay isActive={isActive} onClick={closeDialog} />

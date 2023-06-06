@@ -4,7 +4,7 @@ import { Hero, LinkMore } from '@/client/home';
 import Heading from '@/components/UI/Heading';
 import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
-import { ScreenReaderOnlyText } from '@/components/UI/ScreenReaderOnlyText';
+import { ScreenReaderOnlyText as SrOnly } from '@/components/UI/ScreenReaderOnlyText';
 import PostTag, { PostTagGridContainer } from '@/components/UI/Tag';
 import { AUTHOR_ICON, SITE_URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
@@ -29,7 +29,7 @@ export default function Index() {
       </Head>
 
       <PageContainer>
-        <ScreenReaderOnlyText as="h1" text="トップページ" />
+        <SrOnly as="h1" text="トップページ" />
 
         <Stack as="section">
           <Hero />
