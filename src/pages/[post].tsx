@@ -55,8 +55,8 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
           }}
           type="application/ld+json"
         />
-        {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
       </Head>
+      {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
       <PageContainer as="article">
         <Post.Header
           date={date}
