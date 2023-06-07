@@ -11,7 +11,7 @@ type Props = Pick<PostProps, 'title' | 'date' | 'updated' | 'readingTime'> & {
 
 function PostHeader({ title, date, updated, readingTime, tagsWithCount }: Props) {
   return (
-    <>
+    <header>
       <Title dangerouslySetInnerHTML={{ __html: title }}></Title>
       <List>
         <Item>
@@ -25,7 +25,7 @@ function PostHeader({ title, date, updated, readingTime, tagsWithCount }: Props)
           </PostTagGridContainer>
         </Item>
       </List>
-    </>
+    </header>
   );
 }
 

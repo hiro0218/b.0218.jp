@@ -19,14 +19,37 @@
       "rules": {
         "invalid-attr": {
           "options": {
-            "attrs": {
-              "property": {
-                "type": "Any"
+            "allowAttrs": [
+              {
+                "name": "content",
+                "value": {
+                  "type": "Any"
+                }
               },
-              "content": {
-                "type": "Any"
+              {
+                "name": "property",
+                "value": {
+                  "type": "Any"
+                }
               }
-            }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "selector": "div",
+      "rules": {
+        "invalid-attr": {
+          "options": {
+            "allowAttrs": [
+              {
+                "name": "css",
+                "value": {
+                  "type": "Any"
+                }
+              }
+            ]
           }
         }
       }

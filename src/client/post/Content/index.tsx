@@ -1,23 +1,25 @@
 import { useRef } from 'react';
 
-import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import type { PostProps } from '@/types/source';
 
 import Mokuji from '../Mokuji';
+import PostContentStyle from './style';
 
 type Props = {
+  enableMokuji?: boolean;
   content: PostProps['content'];
 };
 
-export default function Content({ content }: Props) {
+export default function Content({ enableMokuji = true, content }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   useTwitterWidgetsLoad({ ref });
 
   return (
     <>
-      <Mokuji refContent={ref} />
-      <PostContent
+      {enableMokuji && <Mokuji refContent={ref} />}
+      <div
+        css={PostContentStyle}
         dangerouslySetInnerHTML={{
           __html: content,
         }}

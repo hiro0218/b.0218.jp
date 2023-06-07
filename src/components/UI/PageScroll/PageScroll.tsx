@@ -1,18 +1,18 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 
 import { ICON_SIZE_SM, RxChevronDown, RxChevronUp } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 export const PageScroll = memo(function PageScroll() {
-  const onScrollTop = () => {
+  const onScrollTop = useCallback(() => {
     window.scroll({
       top: 0,
       left: 0,
       behavior: 'smooth',
     });
-  };
+  }, []);
 
-  const onScrollBottom = () => {
+  const onScrollBottom = useCallback(() => {
     const documentElement = document.documentElement;
     const positionBottom = documentElement.scrollHeight - documentElement.clientHeight;
 
@@ -21,7 +21,7 @@ export const PageScroll = memo(function PageScroll() {
       left: 0,
       behavior: 'smooth',
     });
-  };
+  }, []);
 
   return (
     <Container>
@@ -48,11 +48,11 @@ const Button = styled.button`
   justify-content: center;
   width: 56px;
   height: 56px;
+  appearance: none;
   background-color: transparent;
   border: none;
   border-radius: var(--border-radius-4);
   transition: background-color 0.2s ease;
-  appearance: none;
 
   &:hover {
     background-color: var(--component-backgrounds-4A);
