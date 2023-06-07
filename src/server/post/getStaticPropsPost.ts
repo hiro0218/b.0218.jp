@@ -20,14 +20,18 @@ export type PostPageProps = {
 const posts = getPostsJson();
 const tagData = getTagsJson();
 
+const postsBySlug = Object.fromEntries(posts.map((post) => [post.slug, post]));
+const tagDataWithCount = Object.entries(tagData).map(([slug, val]) => ({
+  slug,
+  count: val.length,
+}));
+const tagDataWithCountBySlug = Object.fromEntries(tagDataWithCount.map((tag) => [tag.slug, tag]));
+
 export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
-  const tagDataWithCount = Object.entries(tagData)
-    .map(([slug, val]) => ({ slug, count: val.length }))
-    .sort((a, b) => b.count - a.count);
   const slug = (context.params?.post as string).replace('.html', '');
 
   // slug に一致する post を取得
-  const post = posts.find((post) => post.slug === slug);
+  const post = postsBySlug[slug];
 
   if (!post) {
     return {
@@ -36,9 +40,7 @@ export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
   }
 
   // tagsに件数を追加
-  const tagsWithCount = post.tags
-    .map((slug) => tagDataWithCount.find((tag) => tag.slug === slug) || null)
-    .filter((tag) => tag !== null) as PostTagProps[];
+  const tagsWithCount = post.tags.map((slug) => tagDataWithCountBySlug[slug]).filter((tag) => tag !== undefined);
 
   // タイトルの文字組み
   const segmentedTitle = textSegmenter(post.title);
