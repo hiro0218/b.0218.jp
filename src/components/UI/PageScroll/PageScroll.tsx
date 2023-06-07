@@ -48,11 +48,11 @@ const Button = styled.button`
   justify-content: center;
   width: 56px;
   height: 56px;
+  appearance: none;
   background-color: transparent;
   border: none;
   border-radius: var(--border-radius-4);
   transition: background-color 0.2s ease;
-  appearance: none;
 
   &:hover {
     background-color: var(--component-backgrounds-4A);
