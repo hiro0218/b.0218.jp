@@ -1,10 +1,10 @@
 import { useRef } from 'react';
 
-import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import type { PostProps } from '@/types/source';
 
 import Mokuji from '../Mokuji';
+import PostContentStyle from './style';
 
 type Props = {
   content: PostProps['content'];
@@ -17,7 +17,8 @@ export default function Content({ content }: Props) {
   return (
     <>
       <Mokuji refContent={ref} />
-      <PostContent
+      <div
+        css={PostContentStyle}
         dangerouslySetInnerHTML={{
           __html: content,
         }}

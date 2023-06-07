@@ -1,4 +1,4 @@
-import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
+import PostContentStyle from '@/client/post/Content/style';
 import { createGetLayout } from '@/components/Layouts/SinglePageLayout';
 import { SITE_NAME } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
@@ -8,7 +8,8 @@ const { content } = pages.find((page) => page.slug === 'privacy');
 
 export default function Privacy() {
   return (
-    <PostContent
+    <div
+      css={PostContentStyle}
       dangerouslySetInnerHTML={{
         __html: content,
       }}

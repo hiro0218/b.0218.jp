@@ -1,7 +1,7 @@
 import { SvgComponentToDataUrlScheme } from '@/lib/SvgComponentToDataUrlScheme';
 import { ICON_SIZE_XS, RxExternalLink } from '@/ui/icons';
 import { isMobile } from '@/ui/lib/mediaQuery';
-import { styled } from '@/ui/styled';
+import { css } from '@/ui/styled';
 
 import Footnotes from './Footnotes';
 import Headings from './Heading';
@@ -10,7 +10,7 @@ import TableScroll from './TableScroll';
 
 const IconExternalLink = SvgComponentToDataUrlScheme(<RxExternalLink size={ICON_SIZE_XS} />);
 
-const PostContent = styled.div`
+const PostContentStyle = css`
   & > * {
     margin-top: var(--space-2);
     margin-bottom: var(--space-3);
@@ -165,4 +165,4 @@ const PostContent = styled.div`
   ${Footnotes}
 `;
 
-export default PostContent;
+export default PostContentStyle;

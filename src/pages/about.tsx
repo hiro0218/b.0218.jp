@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import { PostContent } from '@/components/Functional/CssIndividual/Pages/Post';
+import PostContentStyle from '@/client/post/Content/style';
 import { createGetLayout } from '@/components/Layouts/SinglePageLayout';
 import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
@@ -14,7 +14,8 @@ export default function About() {
       <Head>
         <link href={`${SITE_URL}/about`} rel="canonical" />
       </Head>
-      <PostContent
+      <div
+        css={PostContentStyle}
         dangerouslySetInnerHTML={{
           __html: content,
         }}
