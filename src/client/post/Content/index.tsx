@@ -7,16 +7,17 @@ import Mokuji from '../Mokuji';
 import PostContentStyle from './style';
 
 type Props = {
+  enableMokuji?: boolean;
   content: PostProps['content'];
 };
 
-export default function Content({ content }: Props) {
+export default function Content({ enableMokuji = true, content }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   useTwitterWidgetsLoad({ ref });
 
   return (
     <>
-      <Mokuji refContent={ref} />
+      {enableMokuji && <Mokuji refContent={ref} />}
       <div
         css={PostContentStyle}
         dangerouslySetInnerHTML={{
