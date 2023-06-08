@@ -2,9 +2,6 @@ name: hook
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
   schedule:
     - cron: '0 0 * * *' # UTC時刻で日本時間の0:00
 
