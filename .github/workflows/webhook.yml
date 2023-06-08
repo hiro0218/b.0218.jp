@@ -12,7 +12,22 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive' # サブモジュールを再帰的にチェックアウト
+
+      - name: Check submodule update
+        id: check
+        run: |
+          git submodule update --remote
+          DIFF=$(git diff)
+          if [ -n "$DIFF" ]; then
+            echo "isChanged=true" >> $GITHUB_ENV
+          fi
+
       - name: Webhook
+        if: steps.check.outputs.isChanged == 'true'
         uses: joelwmale/webhook-action@master
         with:
           url: ${{ secrets.VERCEL_WEBHOOK }}
