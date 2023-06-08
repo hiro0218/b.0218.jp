@@ -11,6 +11,7 @@ export class DetailsAccordion {
   isClosing: boolean;
   isExpanding: boolean;
   keyframeAnimationOption: KeyframeAnimationOptions;
+  listener: (e: MouseEvent) => void;
 
   constructor(
     detailsElement: HTMLDetailsElement,
@@ -30,16 +31,16 @@ export class DetailsAccordion {
     this.isClosing = false;
     this.isExpanding = false;
     this.keyframeAnimationOption = keyframeAnimationOption;
-
+    this.listener = (e: MouseEvent) => this.onClick(e);
     this.addEventListener();
   }
 
   addEventListener() {
-    this.summary.addEventListener('click', (e) => this.onClick(e));
+    this.summary.addEventListener('click', this.listener);
   }
 
   removeEventListener() {
-    this.summary.removeEventListener('click', (e) => this.onClick(e));
+    this.summary.removeEventListener('click', this.listener);
   }
 
   onClick(e: MouseEvent) {
@@ -53,12 +54,7 @@ export class DetailsAccordion {
     }
   }
 
-  shrink() {
-    this.isClosing = true;
-
-    const startHeight = `${this.detailsElement.offsetHeight}px`;
-    const endHeight = `${this.summary.offsetHeight}px`;
-
+  animate(startHeight: string, endHeight: string, open: boolean) {
     if (this.animationQueue) {
       this.animationQueue.cancel();
     }
@@ -70,8 +66,20 @@ export class DetailsAccordion {
       this.keyframeAnimationOption,
     );
 
-    this.animationQueue.onfinish = () => this.onAnimationFinish(false);
-    this.animationQueue.oncancel = () => (this.isClosing = false);
+    this.animationQueue.onfinish = () => this.onAnimationFinish(open);
+    this.animationQueue.oncancel = () => {
+      this.isClosing = false;
+      this.isExpanding = false;
+    };
+  }
+
+  shrink() {
+    this.isClosing = true;
+
+    const startHeight = `${this.detailsElement.offsetHeight}px`;
+    const endHeight = `${this.summary.offsetHeight}px`;
+
+    this.animate(startHeight, endHeight, false);
   }
 
   open() {
@@ -83,22 +91,11 @@ export class DetailsAccordion {
 
   expand() {
     this.isExpanding = true;
+
     const startHeight = `${this.detailsElement.offsetHeight}px`;
     const endHeight = `${this.summary.offsetHeight + this.content.offsetHeight}px`;
 
-    if (this.animationQueue) {
-      this.animationQueue.cancel();
-    }
-
-    this.animationQueue = this.detailsElement.animate(
-      {
-        height: [startHeight, endHeight],
-      },
-      this.keyframeAnimationOption,
-    );
-
-    this.animationQueue.onfinish = () => this.onAnimationFinish(true);
-    this.animationQueue.oncancel = () => (this.isExpanding = false);
+    this.animate(startHeight, endHeight, true);
   }
 
   onAnimationFinish(open: boolean) {
