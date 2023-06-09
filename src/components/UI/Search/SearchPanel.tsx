@@ -7,7 +7,7 @@ import { fadeIn } from '@/ui/animation';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
-import type { onCloseDialogProps } from './type';
+import type { onCloseDialogProps, SearchProps } from './type';
 import { useSearchHeader } from './useSearchHeader';
 
 type Props = {
@@ -18,8 +18,32 @@ const markEscapedHTML = (text: string, markTexts: string[]) => {
   const tagName = 'mark';
   const escapedText = escapeHTML(text);
   const regEx = new RegExp(markTexts.join('|'), 'gi');
-  return escapedText.replace(regEx, (matched) => `<${tagName}>${matched}</${tagName}>`);
+  return escapedText.replace(regEx, `<${tagName}>$&</${tagName}>`);
 };
+
+const Result = memo(function Result({
+  suggestions,
+  markedTitles,
+}: {
+  suggestions: SearchProps[];
+  markedTitles: string[];
+}) {
+  return (
+    <SearchResult>
+      {suggestions.map(({ slug }, index) => {
+        return (
+          <Anchor
+            dangerouslySetInnerHTML={{ __html: markedTitles[index] }}
+            href={`/${slug}.html`}
+            key={slug}
+            passHref
+            prefetch
+          />
+        );
+      })}
+    </SearchResult>
+  );
+});
 
 const Footer = memo(function Footer({ resultNumber }: { resultNumber: number }) {
   return (
@@ -48,19 +72,7 @@ export function SearchPanel({ closeDialog }: Props) {
   return (
     <SearchMain>
       {SearchHeader}
-      <SearchResult>
-        {suggestions.map(({ slug }, index) => {
-          return (
-            <Anchor
-              dangerouslySetInnerHTML={{ __html: markedTitles[index] }}
-              href={`/${slug}.html`}
-              key={slug}
-              passHref
-              prefetch
-            />
-          );
-        })}
-      </SearchResult>
+      <Result markedTitles={markedTitles} suggestions={suggestions} />
       <Footer resultNumber={suggestions.length} />
     </SearchMain>
   );
