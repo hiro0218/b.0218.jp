@@ -1,6 +1,6 @@
-import { type KeyboardEvent, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
-import type { onCloseDialogProps, SearchProps } from './type';
+import type { onCloseDialogProps, onKeyupEventProps, SearchProps } from './type';
 
 type DataProps = {
   keyword: string;
@@ -19,7 +19,7 @@ export const useSearchData = (archives: SearchProps[], closeDialog: onCloseDialo
   const [data, setData] = useState<DataProps>(initialData);
 
   const onKeyup = useCallback(
-    (e: KeyboardEvent<HTMLInputElement>) => {
+    (e: onKeyupEventProps) => {
       if (!(e.target instanceof HTMLInputElement)) {
         return;
       }

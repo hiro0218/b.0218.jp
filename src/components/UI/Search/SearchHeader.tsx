@@ -1,10 +1,11 @@
 import { useEffect, useId, useRef } from 'react';
-import { type KeyboardEvent } from 'react';
 
 import { ICON_SIZE_XS, RxMagnifyingGlass } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
-export const SearchHeader = ({ onKeyup }: { onKeyup: (e: KeyboardEvent<HTMLInputElement>) => void }) => {
+import type { onKeyupProps } from './type';
+
+export const SearchHeader = ({ onKeyup }: { onKeyup: onKeyupProps }) => {
   const refInput = useRef<HTMLInputElement>(null);
   const searchInputId = useId();
 
@@ -23,6 +24,7 @@ export const SearchHeader = ({ onKeyup }: { onKeyup: (e: KeyboardEvent<HTMLInput
         onKeyUp={onKeyup}
         placeholder="記事タイトルやタグから検索する（Enterで検索結果表示）"
         ref={refInput}
+        role="searchbox"
         type="text"
       />
     </Header>
