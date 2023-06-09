@@ -28,6 +28,7 @@ module.exports = {
     'unused-imports',
     'strict-dependencies',
     'react-hooks',
+    'tree-shakable',
     'jsx-expressions',
   ],
   rules: {
@@ -129,6 +130,11 @@ module.exports = {
         },
       ],
     ],
+
+    /**
+     * eslint-plugin-tree-shakable
+     */
+    'tree-shakable/import-star': ['error'],
 
     /**
      * eslint-plugin-unused-imports
