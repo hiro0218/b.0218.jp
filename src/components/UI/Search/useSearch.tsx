@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
-import { SearchButton as Button, SearchDialog as Dialog } from '@/components/UI/Search';
-
+import { SearchButton as Button } from './SearchButton';
+import { SearchDialog as Dialog } from './SearchDialog';
 import { useDialog } from './useDialog';
 
 export const useSearch = () => {
