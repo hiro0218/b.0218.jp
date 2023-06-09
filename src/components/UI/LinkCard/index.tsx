@@ -1,4 +1,4 @@
-import { type AriaRole, type ComponentProps, type ReactNode, useMemo } from 'react';
+import { type AriaRole, type ComponentProps, type ReactNode } from 'react';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
@@ -19,16 +19,13 @@ type Props = {
   role?: AriaRole;
 };
 
-function LinkCard({ link, title, date, updated, excerpt, tags, role }: Props) {
-  const IconArrow = useMemo(
-    () => (
-      <Icon>
-        <RxCaretRight size={ICON_SIZE_SM} />
-      </Icon>
-    ),
-    [],
-  );
+const IconArrow = () => (
+  <Icon>
+    <RxCaretRight size={ICON_SIZE_SM} />
+  </Icon>
+);
 
+function LinkCard({ link, title, date, updated, excerpt, tags, role }: Props) {
   return (
     <Container role={role}>
       <Main>
@@ -39,13 +36,13 @@ function LinkCard({ link, title, date, updated, excerpt, tags, role }: Props) {
         <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>{!!excerpt && <span>{excerpt}</span>}</Paragraph>
         {!!tags && (
           <Tags>
-            {tags.map((tag, index) => (
-              <TagItem key={index}>{tag}</TagItem>
+            {tags.map((tag) => (
+              <TagItem key={tag}>{tag}</TagItem>
             ))}
           </Tags>
         )}
       </Main>
-      {IconArrow}
+      <IconArrow />
     </Container>
   );
 }
