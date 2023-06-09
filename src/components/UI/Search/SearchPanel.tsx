@@ -35,13 +35,13 @@ const Footer = memo(function Footer({ resultNumber }: { resultNumber: number }) 
 export function SearchPanel({ closeDialog }: Props) {
   const {
     SearchHeader,
-    searchData: { suggest, keyword },
+    searchData: { suggestions, keyword },
   } = useSearchHeader({ closeDialog });
 
   const splitKeyword = useMemo(() => keyword.split(' '), [keyword]);
   const markedTitles = useMemo(() => {
-    return suggest.map(({ title }) => markEscapedHTML(title, splitKeyword));
-  }, [suggest, splitKeyword]);
+    return suggestions.map(({ title }) => markEscapedHTML(title, splitKeyword));
+  }, [suggestions, splitKeyword]);
 
   useRouteChangeComplete(closeDialog);
 
@@ -49,7 +49,7 @@ export function SearchPanel({ closeDialog }: Props) {
     <SearchMain>
       {SearchHeader}
       <SearchResult>
-        {suggest.map(({ slug }, index) => {
+        {suggestions.map(({ slug }, index) => {
           return (
             <Anchor
               dangerouslySetInnerHTML={{ __html: markedTitles[index] }}
@@ -61,7 +61,7 @@ export function SearchPanel({ closeDialog }: Props) {
           );
         })}
       </SearchResult>
-      <Footer resultNumber={suggest.length} />
+      <Footer resultNumber={suggestions.length} />
     </SearchMain>
   );
 }

@@ -4,12 +4,12 @@ import type { onCloseDialogProps, onKeyupEventProps, SearchProps } from './type'
 
 type DataProps = {
   keyword: string;
-  suggest: SearchProps[];
+  suggestions: SearchProps[];
 };
 
 const initialData: DataProps = {
   keyword: '',
-  suggest: [],
+  suggestions: [],
 };
 
 /**
@@ -49,7 +49,7 @@ export const useSearchData = (archives: SearchProps[], closeDialog: onCloseDialo
 
       const values = value.split(' ');
 
-      const suggest = archives.filter((post) => {
+      const suggestions = archives.filter((post) => {
         const { title, tags } = post;
 
         // AND検索のため入力値をスペースで区切って、それぞれの条件に一致するか
@@ -61,7 +61,7 @@ export const useSearchData = (archives: SearchProps[], closeDialog: onCloseDialo
 
       setData({
         keyword: value,
-        suggest,
+        suggestions,
       });
     },
     [archives, closeDialog, data.keyword],
