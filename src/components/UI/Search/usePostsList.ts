@@ -17,18 +17,17 @@ export const usePostsList = () => {
 
   useEffect(() => {
     const abortController = new AbortController();
+    const cachedValue = window.localStorage.getItem(STORAGE_KEY);
+
+    // データがキャッシュされている場合、それを使用
+    if (cachedValue) {
+      setArchives(parseJSON<SearchProps[]>(cachedValue));
+      resetLocalStorage();
+      return;
+    }
 
     const fetchData = async () => {
       try {
-        const cachedValue = window.localStorage.getItem(STORAGE_KEY);
-
-        // データがキャッシュされている場合、それを使用
-        if (cachedValue) {
-          setArchives(parseJSON<SearchProps[]>(cachedValue));
-          resetLocalStorage();
-          return;
-        }
-
         // キャッシュがなければフェッチ
         const response = await fetch(`/${FILENAME_POSTS_LIST}.json`, {
           signal: abortController.signal,
