@@ -8,8 +8,9 @@ import {
   Header as PostHeader,
   Note as PostNote,
   Share as PostShare,
+  SimilarPost,
+  SimilarTag,
 } from '@/client/post';
-import { Post as SimilarPost, Tag as SimilarTag } from '@/client/post/Similar';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContainer } from '@/components/UI/Layout';
 import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
