@@ -7,10 +7,11 @@ import { fadeIn } from '@/ui/animation';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
+import type { onCloseDialogProps } from './type';
 import { useSearchHeader } from './useSearchHeader';
 
 type Props = {
-  closeDialog: () => void;
+  closeDialog: onCloseDialogProps;
 };
 
 const markEscapedHTML = (text: string, markTexts: string[]) => {

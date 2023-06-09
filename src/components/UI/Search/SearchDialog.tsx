@@ -7,14 +7,15 @@ import useIsClient from '@/hooks/useIsClient';
 import { fadeIn, slideIn } from '@/ui/animation';
 import { styled } from '@/ui/styled';
 
+import type { onCloseDialogProps } from './type';
+type RefProps = MutableRefObject<HTMLDialogElement>;
+
 const SearchPanel = dynamic(() => import('./SearchPanel').then((module) => module.SearchPanel));
 const Overlay = dynamic(() => import('@/components/UI/Overlay').then((module) => module.Overlay));
 
-type RefProps = MutableRefObject<HTMLDialogElement>;
-
 type Props = {
   isActive: boolean;
-  closeDialog: () => void;
+  closeDialog: onCloseDialogProps;
 };
 
 export const SearchDialog = forwardRef(function SearchDialog({ isActive, closeDialog }: Props, ref: RefProps) {

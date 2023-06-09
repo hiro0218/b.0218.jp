@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
 
 import { SearchHeader } from './SearchHeader';
+import type { onCloseDialogProps } from './type';
 import { usePostsList } from './usePostsList';
 import { useSearchData } from './useSearchData';
 
 type Props = {
-  closeDialog: () => void;
+  closeDialog: onCloseDialogProps;
 };
 
 export const useSearchHeader = ({ closeDialog }: Props) => {

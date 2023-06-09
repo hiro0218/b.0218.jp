@@ -1,6 +1,6 @@
 import { type KeyboardEvent, useCallback, useState } from 'react';
 
-import type { SearchProps } from './type';
+import type { onCloseDialogProps, SearchProps } from './type';
 
 type DataProps = {
   keyword: string;
@@ -15,7 +15,7 @@ const initialData: DataProps = {
 /**
  * 検索データを返す
  */
-export const useSearchData = (archives: SearchProps[], closeDialog: () => void) => {
+export const useSearchData = (archives: SearchProps[], closeDialog: onCloseDialogProps) => {
   const [data, setData] = useState<DataProps>(initialData);
 
   const onKeyup = useCallback(
