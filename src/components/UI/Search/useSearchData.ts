@@ -1,8 +1,6 @@
 import { type KeyboardEvent, useCallback, useState } from 'react';
 
-import type { PostProps } from '@/types/source';
-
-type SearchProps = Pick<PostProps, 'title' | 'tags' | 'slug'>;
+import type { SearchProps } from './type';
 
 type DataProps = {
   keyword: string;

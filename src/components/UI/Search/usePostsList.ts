@@ -4,8 +4,9 @@ import { FILENAME_POSTS_LIST } from '@/constant';
 import { parseJSON } from '@/lib/parseJSON';
 import type { PostProps } from '@/types/source';
 
+import type { SearchProps } from './type';
+
 const STORAGE_KEY = `${process.env.BUILD_ID}_${FILENAME_POSTS_LIST}`;
-type SearchProps = Pick<PostProps, 'title' | 'tags' | 'slug'>;
 
 /**
  * posts-list.jsonを取得する
