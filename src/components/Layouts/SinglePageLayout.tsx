@@ -2,7 +2,7 @@ import Head from 'next/head';
 import type { ReactElement } from 'react';
 
 // eslint-disable-next-line strict-dependencies/strict-dependencies
-import * as Post from '@/client/post';
+import { Content as PostContent } from '@/client/post';
 import { PageContainer } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
@@ -36,7 +36,7 @@ function Layout(props: LayoutProps) {
       </Head>
       <PageContainer as="article">
         <Title heading={props.title.heading} paragraph={props.title.paragraph} />
-        <Post.Content content={content} enableMokuji={false} />
+        <PostContent content={content} enableMokuji={false} />
       </PageContainer>
     </>
   );
