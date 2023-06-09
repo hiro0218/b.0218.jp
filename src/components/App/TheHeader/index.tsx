@@ -2,7 +2,7 @@ import { memo } from 'react';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { Logo } from '@/components/UI/Logo';
-import { useDialog, useSearch } from '@/components/UI/Search';
+import { useSearch } from '@/components/UI/Search';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
@@ -10,8 +10,7 @@ import { styled } from '@/ui/styled';
 import { HeaderLayout } from './HeaderLayout';
 
 export default memo(function TheHeader() {
-  const { ref, isLocked, openDialog, closeDialog } = useDialog();
-  const { SearchButton, SearchDialog } = useSearch({ refModal: ref, isActive: isLocked, openDialog, closeDialog });
+  const { SearchButton, SearchDialog } = useSearch();
 
   return (
     <>

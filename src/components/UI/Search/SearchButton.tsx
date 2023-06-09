@@ -2,8 +2,10 @@ import { ICON_SIZE_SM, RxMagnifyingGlass } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
+import type { onCloseDialogProps } from './type';
+
 type Props = {
-  openDialog: () => void;
+  openDialog: onCloseDialogProps;
 };
 
 export function SearchButton({ openDialog }: Props) {

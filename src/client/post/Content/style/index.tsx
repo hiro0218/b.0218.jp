@@ -5,6 +5,7 @@ import { css } from '@/ui/styled';
 
 import Footnotes from './Footnotes';
 import Headings from './Heading';
+import Highlight from './Highlight';
 import LinkPreview from './LinkPreview';
 import TableScroll from './TableScroll';
 
@@ -163,6 +164,8 @@ const PostContentStyle = css`
   ${LinkPreview}
 
   ${Footnotes}
+
+  ${Highlight}
 `;
 
 export default PostContentStyle;

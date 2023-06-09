@@ -1,22 +1,16 @@
-import { type ComponentProps, useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { SearchButton as Button, SearchDialog as Dialog } from '@/components/UI/Search';
+import { SearchButton as Button } from './SearchButton';
+import { SearchDialog as Dialog } from './SearchDialog';
+import { useDialog } from './useDialog';
 
-type ButtonProps = ComponentProps<typeof Button>;
-type DialogProps = ComponentProps<typeof Dialog>;
+export const useSearch = () => {
+  const { ref, isLocked, openDialog, closeDialog } = useDialog();
 
-type Props = {
-  refModal: DialogProps['ref'];
-  isActive: DialogProps['isActive'];
-  openDialog: ButtonProps['openDialog'];
-  closeDialog: DialogProps['closeDialog'];
-};
-
-export const useSearch = ({ refModal, isActive, openDialog, closeDialog }: Props) => {
   const SearchButton = useMemo(() => <Button openDialog={openDialog} />, [openDialog]);
   const SearchDialog = useMemo(
-    () => <Dialog closeDialog={closeDialog} isActive={isActive} ref={refModal} />,
-    [refModal, isActive, closeDialog],
+    () => <Dialog closeDialog={closeDialog} isActive={isLocked} ref={ref} />,
+    [ref, isLocked, closeDialog],
   );
 
   return {

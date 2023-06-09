@@ -2,8 +2,15 @@ import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'ne
 import Head from 'next/head';
 import Script from 'next/script';
 
-import * as Post from '@/client/post';
-import * as Similar from '@/client/post/Similar';
+import {
+  Content as PostContent,
+  Edit as PostEdit,
+  Header as PostHeader,
+  Note as PostNote,
+  Share as PostShare,
+  SimilarPost,
+  SimilarTag,
+} from '@/client/post';
 import { Adsense } from '@/components/UI/Adsense';
 import { PageContainer } from '@/components/UI/Layout';
 import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
@@ -58,20 +65,20 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
       </Head>
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
       <PageContainer as="article">
-        <Post.Header
+        <PostHeader
           date={date}
           readingTime={readingTime}
           tagsWithCount={tagsWithCount}
           title={segmentedTitle}
           updated={updated}
         />
-        <Post.Note note={note} />
-        <Post.Content content={content} />
+        <PostNote note={note} />
+        <PostContent content={content} />
         <Adsense />
-        <Post.Share title={title} url={permalink} />
-        <Post.Edit slug={slug} />
-        <Similar.Tag tags={similarTags} />
-        <Similar.Post posts={similarPost} />
+        <PostShare title={title} url={permalink} />
+        <PostEdit slug={slug} />
+        <SimilarTag tags={similarTags} />
+        <SimilarPost posts={similarPost} />
       </PageContainer>
     </>
   );

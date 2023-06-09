@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { useRouteChangeComplete } from '@/hooks/useRouteChangeComplete';
@@ -7,71 +7,74 @@ import { fadeIn } from '@/ui/animation';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
+import type { onCloseDialogProps, SearchProps } from './type';
 import { useSearchHeader } from './useSearchHeader';
 
 type Props = {
-  closeDialog: () => void;
+  closeDialog: onCloseDialogProps;
 };
+
+const HIGHLIGHT_TAG_NAME = 'mark';
 
 const markEscapedHTML = (text: string, markTexts: string[]) => {
-  const tagName = 'mark';
-  const OPENING_SYMBOL = '★';
-  const CLOSING_SYMBOL = '☆';
-
-  let processedText = text;
-  markTexts.forEach((markText) => {
-    const index = processedText.toLowerCase().indexOf(markText.toLowerCase());
-    processedText =
-      index !== -1
-        ? `${processedText.slice(0, index)}${OPENING_SYMBOL}${processedText.slice(
-            index,
-            index + markText.length,
-          )}${CLOSING_SYMBOL}${processedText.slice(index + markText.length)}`
-        : processedText;
-  });
-
-  const title = escapeHTML(processedText)
-    .replaceAll(OPENING_SYMBOL, `<${tagName}>`)
-    .replaceAll(CLOSING_SYMBOL, `</${tagName}>`);
-
-  return title;
+  const escapedText = escapeHTML(text);
+  const regEx = new RegExp(markTexts.join('|'), 'gi');
+  return escapedText.replace(regEx, `<${HIGHLIGHT_TAG_NAME}>$&</${HIGHLIGHT_TAG_NAME}>`);
 };
+
+const Result = memo(function Result({
+  suggestions,
+  markedTitles,
+}: {
+  suggestions: SearchProps[];
+  markedTitles: string[];
+}) {
+  return (
+    <SearchResult>
+      {suggestions.map(({ slug }, index) => {
+        return (
+          <Anchor
+            dangerouslySetInnerHTML={{ __html: markedTitles[index] }}
+            href={`/${slug}.html`}
+            key={slug}
+            passHref
+            prefetch
+          />
+        );
+      })}
+    </SearchResult>
+  );
+});
+
+const Footer = memo(function Footer({ resultNumber }: { resultNumber: number }) {
+  return (
+    <SearchFooter>
+      <span>Result: {resultNumber} posts</span>
+      <a href="https://www.google.com/search?q=site:b.0218.jp" rel="noopener noreferrer" target="_blank">
+        Google 検索
+      </a>
+    </SearchFooter>
+  );
+});
 
 export function SearchPanel({ closeDialog }: Props) {
   const {
     SearchHeader,
-    searchData: { suggest, keyword },
+    searchData: { suggestions, keyword },
   } = useSearchHeader({ closeDialog });
 
   const splitKeyword = useMemo(() => keyword.split(' '), [keyword]);
   const markedTitles = useMemo(() => {
-    return suggest.map(({ title }) => markEscapedHTML(title, splitKeyword));
-  }, [suggest, splitKeyword]);
+    return suggestions.map(({ title }) => markEscapedHTML(title, splitKeyword));
+  }, [suggestions, splitKeyword]);
 
   useRouteChangeComplete(closeDialog);
 
   return (
     <SearchMain>
       {SearchHeader}
-      <SearchResult>
-        {suggest.map(({ slug }, index) => {
-          return (
-            <Anchor
-              dangerouslySetInnerHTML={{ __html: markedTitles[index] }}
-              href={`/${slug}.html`}
-              key={slug}
-              passHref
-              prefetch
-            />
-          );
-        })}
-      </SearchResult>
-      <SearchFooter>
-        <span>Result: {suggest.length} posts</span>
-        <a href="https://www.google.com/search?q=site:b.0218.jp" rel="noopener noreferrer" target="_blank">
-          Google 検索
-        </a>
-      </SearchFooter>
+      <Result markedTitles={markedTitles} suggestions={suggestions} />
+      <Footer resultNumber={suggestions.length} />
     </SearchMain>
   );
 }
