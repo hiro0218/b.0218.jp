@@ -17,6 +17,7 @@ export const showHoverBackground = css`
     opacity: 0;
     transition: transform 0.1s ${easeOut};
     transform: scale(0);
+    content-visibility: auto;
   }
 
   &:hover,
