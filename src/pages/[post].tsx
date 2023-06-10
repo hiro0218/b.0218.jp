@@ -84,6 +84,6 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
   );
 }
 
-export const getStaticPaths: GetStaticPaths = (context) => getStaticPathsPost(context);
+export const getStaticPaths: GetStaticPaths = getStaticPathsPost;
 
-export const getStaticProps: GetStaticProps<PostPageProps> = (context) => getStaticPropsPost(context);
+export const getStaticProps: GetStaticProps<PostPageProps> = getStaticPropsPost;

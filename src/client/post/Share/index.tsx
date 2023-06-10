@@ -3,10 +3,9 @@ import { useCallback } from 'react';
 import { ScreenReaderOnlyText as SrOnly } from '@/components/UI/ScreenReaderOnlyText';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import useToast from '@/hooks/useToast';
-import { fadeIn } from '@/ui/animation';
 import { ICON_SIZE_SM, RxLink2, SiHatenabookmark, SiTwitter } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
 interface Props {
   title: string;
@@ -29,27 +28,24 @@ function PostShare({ title, url }: Props) {
           href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}`}
           rel="noopener noreferrer"
           target="_blank"
-          title="Twitterでツイートする"
         >
           <IconContainer>
+            <SrOnly text="Twitterでツイートする" />
             <SiTwitter size={ICON_SIZE_SM} />
           </IconContainer>
         </Anchor>
-        <Anchor
-          href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`}
-          rel="noopener noreferrer"
-          target="_blank"
-          title="はてなブックマークでブックマークする"
-        >
+        <Anchor href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`} rel="noopener noreferrer" target="_blank">
+          <SrOnly text="はてなブックマークでブックマークする" />
           <IconContainer>
             <SiHatenabookmark size={ICON_SIZE_SM} />
           </IconContainer>
         </Anchor>
-        <Anchor as="button" onClick={onClickCopyPermalink} title="記事のURLをコピーする" type="button">
+        <Button onClick={onClickCopyPermalink} type="button">
+          <SrOnly text="このページのURLをコピーする" />
           <IconContainer>
             <RxLink2 size={ICON_SIZE_SM} />
           </IconContainer>
-        </Anchor>
+        </Button>
       </Container>
     </section>
   );
@@ -62,36 +58,21 @@ const Container = styled.div`
   margin-top: var(--space-6);
 `;
 
-const Anchor = styled.a`
+const ShareButtonStyle = css`
   position: relative;
   display: flex;
   justify-content: center;
   line-height: 1;
   text-align: center;
   cursor: pointer;
+`;
 
-  &::after {
-    position: absolute;
-    bottom: calc(100% + var(--space-1));
-    left: 50%;
-    z-index: 1;
-    display: none;
-    padding: var(--space-1);
-    font-size: var(--font-size-sm);
-    color: var(--text-11);
-    white-space: nowrap;
-    content: attr(title);
-    background-color: var(--component-backgrounds-3);
-    border-radius: var(--border-radius-4);
-    transform: translateX(-50%);
-  }
+const Anchor = styled.a`
+  ${ShareButtonStyle}
+`;
 
-  &:hover {
-    &::after {
-      display: block;
-      animation: ${fadeIn} 0.2s linear both;
-    }
-  }
+const Button = styled.button`
+  ${ShareButtonStyle}
 `;
 
 const IconContainer = styled.span`
