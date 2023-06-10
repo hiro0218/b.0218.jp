@@ -15,7 +15,7 @@ const Links = [
 export default memo(function TheFooter() {
   return (
     <Root>
-      <WaveBottom />
+      <WaveBottom svgHeight={{ desktop: 100, mobile: 40 }} />
       <Footer>
         <Container>
           <List>
