@@ -22,7 +22,7 @@ const Container = styled.div`
   color: var(--text-12);
   white-space: nowrap;
   user-select: none;
-  background-color: var(--component-backgrounds-5A);
+  background-color: var(--component-backgrounds-4A);
   border-radius: var(--border-radius-4);
 `;
 
