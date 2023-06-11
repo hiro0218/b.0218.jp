@@ -29,8 +29,8 @@ function PostShare({ title, url }: Props) {
           rel="noopener noreferrer"
           target="_blank"
         >
+          <SrOnly text="Twitterでツイートする" />
           <IconContainer>
-            <SrOnly text="Twitterでツイートする" />
             <SiTwitter size={ICON_SIZE_SM} />
           </IconContainer>
         </Anchor>
