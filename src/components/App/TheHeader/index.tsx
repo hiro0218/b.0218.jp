@@ -1,10 +1,10 @@
 import { memo } from 'react';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
+import { LinkStyle } from '@/components/UI/LinkMenu';
 import { Logo } from '@/components/UI/Logo';
 import { useSearch } from '@/components/UI/Search';
 import { isMobile } from '@/ui/lib/mediaQuery';
-import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 import { HeaderLayout } from './HeaderLayout';
@@ -44,27 +44,8 @@ const Container = styled.div`
 const Anchor = styled(_Anchor)`
   display: flex;
   align-items: center;
-  height: 100%;
+  height: 70%;
   pointer-events: auto;
 
-  ${showHoverBackground}
-
-  &::after {
-    left: 50%;
-  }
-
-  &:hover,
-  &:focus,
-  &:focus-within {
-    &::after {
-      width: 125%;
-      height: 70%;
-      translate: -50% 0;
-    }
-  }
-  &:focus-visible {
-    &::after {
-      opacity: 0;
-    }
-  }
+  ${LinkStyle}
 `;

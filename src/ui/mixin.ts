@@ -8,7 +8,6 @@ export const showHoverBackground = css`
     position: absolute;
     inset: 0;
     display: block;
-    margin: auto;
     pointer-events: none;
     content: '';
     background-color: var(--component-backgrounds-3A);
@@ -23,8 +22,6 @@ export const showHoverBackground = css`
   &:focus,
   &:focus-within {
     &::after {
-      width: 100%;
-      height: 100%;
       transform: scale(1);
     }
   }
