@@ -1,0 +1,14 @@
+import type { ComponentProps } from 'react';
+
+import { LinkMore } from '@/client/home';
+import Heading from '@/components/UI/Heading';
+
+type Props = {
+  text: string;
+  as?: ComponentProps<typeof Heading>['as'];
+  href: ComponentProps<typeof LinkMore>['href'];
+};
+
+export const TitleSection = ({ as = 'h2', text, href }: Props) => {
+  return <Heading as={as} text={text} textSide={<LinkMore href={href} text="一覧" />} />;
+};
