@@ -130,18 +130,27 @@ const PostContentStyle = css`
 
   details {
     summary {
-      padding: var(--space-2) var(--space-3);
-      background-color: var(--component-backgrounds-3);
+      padding: var(--space-1) var(--space-2);
+      font-size: var(--font-size-sm);
+      border: 1px solid var(--borders-6);
       border-radius: var(--border-radius-4);
 
       & ~ * {
-        margin-right: var(--space-4);
-        margin-left: var(--space-4);
+        margin: var(--space-1);
+
+        > *:first-child {
+          margin-top: auto;
+        }
       }
     }
 
-    &[open] summary {
-      margin-bottom: var(--space-4);
+    &[open] {
+      border: 1px solid var(--borders-7);
+      border-radius: var(--border-radius-4);
+
+      summary {
+        border: none;
+      }
     }
   }
 
