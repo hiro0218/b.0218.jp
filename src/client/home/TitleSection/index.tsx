@@ -1,7 +1,8 @@
 import type { ComponentProps } from 'react';
 
-import { LinkMore } from '@/client/home';
 import Heading from '@/components/UI/Heading';
+
+import { LinkMore } from '../LinkMore';
 
 type Props = {
   text: string;
