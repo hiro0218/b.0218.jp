@@ -1,9 +1,8 @@
 import Head from 'next/head';
 
-import { Hero, LinkMore } from '@/client/home';
+import { Hero, LinkMore, PostSection } from '@/client/home';
 import Heading from '@/components/UI/Heading';
-import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
-import LinkCard from '@/components/UI/LinkCard';
+import { PageContainer, Stack } from '@/components/UI/Layout';
 import { ScreenReaderOnlyText as SrOnly } from '@/components/UI/ScreenReaderOnlyText';
 import PostTag, { PostTagGridContainer } from '@/components/UI/Tag';
 import { AUTHOR_ICON, SITE_URL } from '@/constant';
@@ -37,37 +36,8 @@ export default function Index() {
 
         <Stack as="section">
           <Heading as="h2" text="記事" textSide={<LinkMore href="/archive" text="archive" />} />
-          <Columns title="最新記事" titleTagName="h3">
-            <Stack space="½">
-              {recentPosts.map(({ date, excerpt, slug, tags, title, updated }) => (
-                <LinkCard
-                  date={date}
-                  excerpt={excerpt}
-                  key={slug}
-                  link={`${slug}.html`}
-                  tags={tags}
-                  title={title}
-                  updated={updated}
-                />
-              ))}
-            </Stack>
-          </Columns>
-
-          <Columns title="更新記事" titleTagName="h3">
-            <Stack space="½">
-              {updatesPosts.map(({ date, excerpt, slug, tags, title, updated }) => (
-                <LinkCard
-                  date={date}
-                  excerpt={excerpt}
-                  key={slug}
-                  link={`${slug}.html`}
-                  tags={tags}
-                  title={title}
-                  updated={updated}
-                />
-              ))}
-            </Stack>
-          </Columns>
+          <PostSection posts={recentPosts} title="最新記事" titleTagName="h3" />
+          <PostSection posts={updatesPosts} title="更新記事" titleTagName="h3" />
         </Stack>
 
         <Stack as="section">
