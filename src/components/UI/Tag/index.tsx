@@ -61,10 +61,6 @@ export const PostTagAnchorStyle = css`
   &:active {
     background-color: var(--component-backgrounds-5A);
   }
-
-  &::before {
-    content: '#';
-  }
 `;
 
 const Anchor = styled(_Anchor)`
