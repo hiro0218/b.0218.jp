@@ -3,7 +3,6 @@ import { css } from '@/ui/styled';
 const TableScroll = css`
   .p-table-scroll {
     position: relative;
-    margin-left: -0.5em;
     overflow: auto;
     isolation: isolate;
 

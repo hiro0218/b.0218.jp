@@ -19,12 +19,6 @@ type Props = {
   role?: AriaRole;
 };
 
-const IconArrow = () => (
-  <Icon>
-    <RxCaretRight size={ICON_SIZE_SM} />
-  </Icon>
-);
-
 function LinkCard({ link, title, date, updated, excerpt, tags, role }: Props) {
   return (
     <Container role={role}>
@@ -42,7 +36,9 @@ function LinkCard({ link, title, date, updated, excerpt, tags, role }: Props) {
           </Tags>
         )}
       </Main>
-      <IconArrow />
+      <Icon>
+        <RxCaretRight size={ICON_SIZE_SM} />
+      </Icon>
     </Container>
   );
 }
@@ -58,12 +54,11 @@ const Icon = styled.div`
   align-items: center;
   color: var(--text-11);
   opacity: 0;
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease;
 `;
 
 const Container = styled.div`
   display: flex;
-  height: 100%;
   padding: var(--space-3);
   content-visibility: auto;
   contain-intrinsic-size: 0 200px;
@@ -71,7 +66,8 @@ const Container = styled.div`
 
   ${showHoverBackground}
 
-  &:hover, &:focus-within {
+  &:hover,
+  &:focus-within {
     ${Icon} {
       opacity: 1;
     }
@@ -137,6 +133,4 @@ const Tags = styled.div`
 
 const TagItem = styled.span`
   ${PostTagAnchorStyle}
-
-  flex: 0;
 `;

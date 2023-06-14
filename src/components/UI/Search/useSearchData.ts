@@ -20,7 +20,7 @@ export const useSearchData = (archives: SearchProps[], closeDialog: onCloseDialo
 
   const onKeyup = useCallback(
     (e: onKeyupEventProps) => {
-      if (!(e.target instanceof HTMLInputElement)) {
+      if (!(e.currentTarget instanceof HTMLInputElement)) {
         return;
       }
 
@@ -29,7 +29,7 @@ export const useSearchData = (archives: SearchProps[], closeDialog: onCloseDialo
         return;
       }
 
-      const value = e.target.value.trim().toLowerCase();
+      const value = e.currentTarget.value.trim().toLowerCase();
 
       // 入力値が空
       if (!value) {
