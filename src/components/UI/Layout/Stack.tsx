@@ -1,9 +1,10 @@
-import { type AriaRole, memo, type ReactNode } from 'react';
+import type { AriaRole, ElementType, ReactNode } from 'react';
+import { memo } from 'react';
 
 import { styled } from '@/ui/styled';
 
 type Props = {
-  as?: 'div' | 'section';
+  as?: ElementType;
   space?: '½' | '1' | '2' | '3' | '4' | '5' | '6';
   role?: AriaRole;
   children: ReactNode;
