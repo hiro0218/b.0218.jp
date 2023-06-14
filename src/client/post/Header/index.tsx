@@ -1,4 +1,5 @@
 import PostDate from '@/components/UI/Date';
+import { Stack } from '@/components/UI/Layout';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag, { PostTagGridContainer } from '@/components/UI/Tag';
 import { READ_TIME_SUFFIX } from '@/constant';
@@ -11,9 +12,9 @@ type Props = Pick<PostProps, 'title' | 'date' | 'updated' | 'readingTime'> & {
 
 function PostHeader({ title, date, updated, readingTime, tagsWithCount }: Props) {
   return (
-    <header>
-      <Title dangerouslySetInnerHTML={{ __html: title }}></Title>
-      <List>
+    <Stack as="header" space="2">
+      <h1 dangerouslySetInnerHTML={{ __html: title }}></h1>
+      <Stack space="1">
         <Item>
           <PostDate date={date} updated={updated} />
           <Separator aria-hidden="true">・</Separator>
@@ -24,29 +25,15 @@ function PostHeader({ title, date, updated, readingTime, tagsWithCount }: Props)
             <PostTag tags={tagsWithCount} />
           </PostTagGridContainer>
         </Item>
-      </List>
-    </header>
+      </Stack>
+    </Stack>
   );
 }
 
 export default PostHeader;
 
-const Title = styled.h1`
-  font-weight: var(--font-weight-bolder);
-`;
-
-const List = styled.div`
-  margin-top: var(--space-2);
-
-  > * + * {
-    margin-top: var(--space-1);
-  }
-`;
-
 const Item = styled.div`
   display: flex;
-  align-items: center;
-  font-size: var(--font-size-md);
   color: var(--text-11);
 `;
 

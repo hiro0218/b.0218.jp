@@ -78,7 +78,7 @@ export default css`
 
   h1 {
     font-size: var(--font-size-h1);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bolder);
   }
 
   h2 {
