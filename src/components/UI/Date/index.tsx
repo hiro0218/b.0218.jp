@@ -1,6 +1,6 @@
 import { convertDateToSimpleFormat, isSameDay } from '@/lib/date';
 import type { PostProps } from '@/types/source';
-import { css, styled } from '@/ui/styled';
+import { styled } from '@/ui/styled';
 
 type Props = Pick<PostProps, 'date' | 'updated'>;
 
@@ -10,39 +10,29 @@ function PostDate({ date, updated }: Props) {
   const hasModified = !!updated && !isSameDay(dateTime, updatedTime);
 
   return (
-    <PostDateRoot>
-      <PostDateItem existModified={hasModified}>
-        <time dateTime={date} title={`投稿日時: ${date}`}>
-          {convertDateToSimpleFormat(date)}
-        </time>
-      </PostDateItem>
+    <Container>
+      <time
+        dateTime={date}
+        style={{
+          ...(hasModified && { textDecoration: 'line-through' }),
+        }}
+        title={`投稿日時: ${date}`}
+      >
+        {convertDateToSimpleFormat(date)}
+      </time>
       {!!hasModified && (
-        <PostDateItem>
-          <time dateTime={updated} title={`更新日時: ${updated}`}>
-            {convertDateToSimpleFormat(updated)}
-          </time>
-        </PostDateItem>
+        <time dateTime={updated} title={`更新日時: ${updated}`}>
+          {convertDateToSimpleFormat(updated)}
+        </time>
       )}
-    </PostDateRoot>
+    </Container>
   );
 }
 
 export default PostDate;
 
-const PostDateRoot = styled.div`
+const Container = styled.div`
   display: flex;
   gap: var(--space-1);
-  align-items: center;
   color: var(--text-11);
-`;
-
-const existModifiedStyle = css`
-  text-decoration: line-through;
-`;
-
-const PostDateItem = styled.div<{ existModified?: boolean }>`
-  display: flex;
-  align-items: center;
-
-  ${({ existModified }) => existModified && existModifiedStyle}
 `;
