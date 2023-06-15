@@ -1,6 +1,25 @@
 import { easeOut } from '@/ui/foundation/easing';
 import { css } from '@/ui/styled';
 
+export const outlineLinkStyle = css`
+  &:focus-visible {
+    outline: 0;
+    box-shadow: inset 0 0 0 2px var(--borders-7);
+  }
+`;
+
+export const hoverLinkStyle = css`
+  &:hover {
+    background-color: var(--component-backgrounds-3A);
+  }
+
+  &:active {
+    background-color: var(--component-backgrounds-4A);
+  }
+
+  ${outlineLinkStyle}
+`;
+
 export const showHoverBackground = css`
   position: relative;
 
@@ -32,8 +51,5 @@ export const showHoverBackground = css`
     }
   }
 
-  &:focus-visible {
-    outline: 0;
-    box-shadow: inset 0 0 0 2px var(--borders-7);
-  }
+  ${outlineLinkStyle}
 `;

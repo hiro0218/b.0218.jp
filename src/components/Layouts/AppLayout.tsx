@@ -13,8 +13,8 @@ export default function AppLayout({ children }: { children: ReactNode }) {
     <>
       <Header />
       <Container>{children}</Container>
-      <PageScroll />
       <Footer />
+      <PageScroll />
     </>
   );
 }

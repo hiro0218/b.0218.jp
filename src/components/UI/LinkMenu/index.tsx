@@ -1,6 +1,7 @@
 import type { ComponentProps, ReactNode } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
+import { hoverLinkStyle } from '@/ui/mixin';
 import { css, styled } from '@/ui/styled';
 
 interface Props {
@@ -22,13 +23,7 @@ export const LinkStyle = css`
   color: var(--text-12);
   border-radius: var(--border-radius-4);
 
-  &:hover {
-    background-color: var(--component-backgrounds-3A);
-  }
-
-  &:active {
-    background-color: var(--component-backgrounds-4A);
-  }
+  ${hoverLinkStyle}
 `;
 
 const Link = styled(Anchor)`

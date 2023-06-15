@@ -222,5 +222,6 @@ export default css`
     background-color: transparent;
     border: none;
     appearance: none;
+    -webkit-appearance: none;
   }
 `;
