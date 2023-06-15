@@ -1,6 +1,7 @@
 import { memo, useCallback } from 'react';
 
 import { ICON_SIZE_SM, RxChevronDown, RxChevronUp } from '@/ui/icons';
+import { hoverLinkStyle } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 export const PageScroll = memo(function PageScroll() {
@@ -54,16 +55,5 @@ const Button = styled.button`
   border-radius: var(--border-radius-4);
   transition: background-color 0.2s ease;
 
-  &:hover {
-    background-color: var(--component-backgrounds-4A);
-  }
-
-  &:active {
-    background-color: var(--component-backgrounds-5A);
-  }
-
-  &:focus-visible {
-    outline: 0;
-    box-shadow: inset 0 0 0 2px var(--borders-7);
-  }
+  ${hoverLinkStyle}
 `;

@@ -1,4 +1,5 @@
 import { ICON_SIZE_XS, RxGithubLogo } from '@/ui/icons';
+import { hoverLinkStyle } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -36,11 +37,9 @@ const Anchor = styled.a`
   color: var(--text-12);
   border-radius: var(--border-radius-4);
 
-  &:hover {
-    background-color: var(--component-backgrounds-3A);
-  }
+  ${hoverLinkStyle}
 
   svg {
-    margin-right: 0.25em;
+    margin-right: var(--space-½);
   }
 `;

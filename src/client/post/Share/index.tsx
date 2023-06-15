@@ -59,12 +59,16 @@ const Container = styled.div`
 `;
 
 const ShareButtonStyle = css`
-  position: relative;
   display: flex;
   justify-content: center;
   line-height: 1;
   text-align: center;
-  cursor: pointer;
+
+  ${showHoverBackground}
+
+  &::after {
+    border-radius: var(--border-radius-full);
+  }
 `;
 
 const Anchor = styled.a`
@@ -76,20 +80,11 @@ const Button = styled.button`
 `;
 
 const IconContainer = styled.span`
-  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: ${ICON_SIZE_SM * 2}px;
   height: ${ICON_SIZE_SM * 2}px;
-  margin: auto;
-
-  ${showHoverBackground}
-
-  &::after {
-    border-radius: var(--border-radius-full);
-  }
 `;
 
 export default PostShare;
