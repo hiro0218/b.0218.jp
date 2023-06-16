@@ -138,7 +138,7 @@ const PostContentStyle = css`
       & ~ * {
         margin: var(--space-1);
 
-        > *:first-child {
+        > *:first-of-type {
           margin-top: auto;
         }
       }
