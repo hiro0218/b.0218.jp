@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
 import { DetailsAccordion } from '@/lib/DetailsAccordion';
-import { ICON_SIZE_XS, RxChevronDown, RxChevronUp } from '@/ui/icons';
+import { ChevronDownIcon, ChevronUpIcon, ICON_SIZE_XS } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 import type { MokujiProps } from './type';
@@ -30,8 +30,8 @@ function Mokuji({ refContent }: MokujiProps) {
       <Details ref={refDetails}>
         <Summary>
           目次
-          <RxChevronDown data-disclosure="closed" size={ICON_SIZE_XS} />
-          <RxChevronUp data-disclosure="open" size={ICON_SIZE_XS} />
+          <ChevronDownIcon data-disclosure="closed" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
+          <ChevronUpIcon data-disclosure="open" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
         </Summary>
         <DetailsContent ref={refDetailContent} />
       </Details>

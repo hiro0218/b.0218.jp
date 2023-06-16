@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useId, useRef } from 'react';
 
-import { ICON_SIZE_XS, RxMagnifyingGlass } from '@/ui/icons';
+import { ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 import type { onKeyupProps } from './type';
@@ -25,7 +25,7 @@ export const SearchHeader = ({ onKeyup }: { onKeyup: onKeyupProps }) => {
   return (
     <Header>
       <HeaderIcon htmlFor={searchInputId}>
-        <RxMagnifyingGlass size={ICON_SIZE_XS} />
+        <MagnifyingGlassIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
       </HeaderIcon>
       <SearchInput
         autoComplete="off"

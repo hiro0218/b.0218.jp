@@ -1,6 +1,6 @@
 import { memo, useCallback } from 'react';
 
-import { ICON_SIZE_SM, RxChevronDown, RxChevronUp } from '@/ui/icons';
+import { ChevronDownIcon, ChevronUpIcon, ICON_SIZE_SM } from '@/ui/icons';
 import { hoverLinkStyle } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -27,10 +27,10 @@ export const PageScroll = memo(function PageScroll() {
   return (
     <Container>
       <Button aria-label="ページの最上部へスクロールする" onClick={onScrollTop} type="button">
-        <RxChevronUp size={ICON_SIZE_SM} />
+        <ChevronUpIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
       </Button>
       <Button aria-label="ページの最下部へスクロールする" onClick={onScrollBottom} type="button">
-        <RxChevronDown size={ICON_SIZE_SM} />
+        <ChevronDownIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
       </Button>
     </Container>
   );

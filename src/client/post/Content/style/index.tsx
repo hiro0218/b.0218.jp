@@ -1,5 +1,5 @@
 import { SvgComponentToDataUrlScheme } from '@/lib/SvgComponentToDataUrlScheme';
-import { ICON_SIZE_XS, RxExternalLink } from '@/ui/icons';
+import { ExternalLinkIcon, ICON_SIZE_XS } from '@/ui/icons';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { css } from '@/ui/styled';
 
@@ -9,7 +9,7 @@ import Highlight from './Highlight';
 import LinkPreview from './LinkPreview';
 import TableScroll from './TableScroll';
 
-const IconExternalLink = SvgComponentToDataUrlScheme(<RxExternalLink size={ICON_SIZE_XS} />);
+const IconExternalLink = SvgComponentToDataUrlScheme(<ExternalLinkIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />);
 
 const PostContentStyle = css`
   & > * {
