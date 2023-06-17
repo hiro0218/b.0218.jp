@@ -9,6 +9,7 @@ type Props = {
   as?: keyof JSX.IntrinsicElements;
   gap?: '½' | '1' | '2' | '3' | '4' | '5' | '6';
   role?: AriaRole;
+  isWide?: boolean;
   children: ReactNode;
 };
 
@@ -19,7 +20,7 @@ const GridRoot = styled.div<Props>`
   align-content: start;
 
   & > * {
-    flex: 1 1 auto;
+    ${({ isWide = true }) => isWide && 'flex: 1 1 auto;'};
   }
 `;
 
