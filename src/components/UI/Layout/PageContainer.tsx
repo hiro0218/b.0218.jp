@@ -1,9 +1,9 @@
-import { type ElementType, memo, type ReactNode } from 'react';
+import { memo, type ReactNode } from 'react';
 
 import { styled } from '@/ui/styled';
 
 type Props = {
-  as?: ElementType;
+  as?: keyof JSX.IntrinsicElements;
   children?: ReactNode;
 };
 

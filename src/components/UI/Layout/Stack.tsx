@@ -1,10 +1,10 @@
-import type { AriaRole, ElementType, ReactNode } from 'react';
-import { memo } from 'react';
+import type { AriaRole, ReactNode } from 'react';
+import { memo, useMemo } from 'react';
 
 import { styled } from '@/ui/styled';
 
 type Props = {
-  as?: ElementType;
+  as?: keyof JSX.IntrinsicElements;
   space?: '½' | '1' | '2' | '3' | '4' | '5' | '6';
   role?: AriaRole;
   children: ReactNode;
@@ -15,16 +15,22 @@ const StackRoot = styled.div<Props>`
   flex-direction: column;
   justify-content: flex-start;
 
+  & > * {
+    margin-block: 0;
+  }
+
   & > * + * {
-    margin-top: ${({ space = '2' }) => `var(--space-${space})`};
+    margin-block-start: ${({ space = '2' }) => `var(--space-${space})`};
   }
 `;
 
 const Stack = memo(function Stack({ as = 'div', children, ...props }: Props) {
+  const MemoizedStackRoot = useMemo(() => StackRoot.withComponent(as), [as]);
+
   return (
-    <StackRoot as={as} {...props}>
+    <MemoizedStackRoot as={as} {...props}>
       {children}
-    </StackRoot>
+    </MemoizedStackRoot>
   );
 });
 
