@@ -1,7 +1,7 @@
 import Heading from '@/components/UI/Heading';
+import { Grid, Stack } from '@/components/UI/Layout';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag from '@/components/UI/Tag';
-import { styled } from '@/ui/styled';
 
 type Props = {
   tags: PostTagProps[];
@@ -13,20 +13,15 @@ function TagSimilar({ tags }: Props) {
   }
 
   return (
-    <section>
+    <Stack as="section" space="2">
       <Heading as="h2" text="関連タグ" />
-      <Container>
-        <PostTag tags={tags} />
-      </Container>
-    </section>
+      <Stack>
+        <Grid isWide={false}>
+          <PostTag tags={tags} />
+        </Grid>
+      </Stack>
+    </Stack>
   );
 }
 
 export default TagSimilar;
-
-const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1);
-  margin-top: var(--space-3);
-`;

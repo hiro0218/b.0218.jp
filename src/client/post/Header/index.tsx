@@ -21,7 +21,7 @@ function PostHeader({ title, date, updated, readingTime, tagsWithCount }: Props)
           <span>{`${readingTime || 1} ${READ_TIME_SUFFIX}`}</span>
         </Item>
         <Item>
-          <Grid>
+          <Grid isWide={false}>
             <PostTag tags={tagsWithCount} />
           </Grid>
         </Item>
