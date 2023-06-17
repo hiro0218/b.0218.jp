@@ -1,7 +1,7 @@
 import Head from 'next/head';
 
-import { PageContainer, Stack } from '@/components/UI/Layout';
-import PostTag, { PostTagGridContainer } from '@/components/UI/Tag';
+import { Grid, PageContainer, Stack } from '@/components/UI/Layout';
+import PostTag from '@/components/UI/Tag';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getTagsWithCount } from '@/lib/posts';
@@ -21,9 +21,9 @@ export default function Tags() {
       <PageContainer>
         <Title heading="Tags" paragraph={`${tags.length}件`} />
         <Stack>
-          <PostTagGridContainer>
+          <Grid>
             <PostTag tags={tags} />
-          </PostTagGridContainer>
+          </Grid>
         </Stack>
       </PageContainer>
     </>

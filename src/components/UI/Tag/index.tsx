@@ -66,13 +66,3 @@ export const PostTagAnchorStyle = css`
 const Anchor = styled(_Anchor)`
   ${PostTagAnchorStyle}
 `;
-
-export const PostTagGridContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1);
-
-  ${Anchor} {
-    flex: 1 1 auto;
-  }
-`;
