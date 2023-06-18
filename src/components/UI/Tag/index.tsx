@@ -28,7 +28,7 @@ const PostTag = memo(function PostTag({ tags }: PostTagProps) {
           return b.count - a.count;
         })
         .map(({ slug, count }) => {
-          const TagComponent = Number(count) >= TAG_VIEW_LIMIT ? Anchor : Anchor.withComponent('span');
+          const TagComponent = count >= TAG_VIEW_LIMIT ? Anchor : Anchor.withComponent('span');
 
           return (
             <TagComponent href={`/tags/${slug}`} key={slug} passHref prefetch={false}>
