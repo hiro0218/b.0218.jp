@@ -3,7 +3,7 @@ import type { ReactElement } from 'react';
 
 // eslint-disable-next-line strict-dependencies/strict-dependencies
 import { Content as PostContent } from '@/client/post';
-import { PageContainer } from '@/components/UI/Layout';
+import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
@@ -34,10 +34,10 @@ function Layout(props: LayoutProps) {
         <title key="title">{`${props.title.heading} - ${SITE_NAME}`}</title>
         <link href={`${SITE_URL}/${props.slug}`} rel="canonical" />
       </Head>
-      <PageContainer as="article">
+      <Stack as="article" space="4">
         <Title heading={props.title.heading} paragraph={props.title.paragraph} />
         <PostContent content={content} enableMokuji={false} />
-      </PageContainer>
+      </Stack>
     </>
   );
 }

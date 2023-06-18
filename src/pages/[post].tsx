@@ -12,7 +12,7 @@ import {
   SimilarTag,
 } from '@/client/post';
 import { Adsense } from '@/components/UI/Adsense';
-import { PageContainer } from '@/components/UI/Layout';
+import { Stack } from '@/components/UI/Layout';
 import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { getOgpImage, getPermalink } from '@/lib/url';
@@ -64,7 +64,7 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
         />
       </Head>
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
-      <PageContainer as="article">
+      <Stack as="article" space="4">
         <PostHeader
           date={date}
           readingTime={readingTime}
@@ -79,7 +79,7 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
         <PostEdit slug={slug} />
         <SimilarTag tags={similarTags} />
         <SimilarPost posts={similarPost} />
-      </PageContainer>
+      </Stack>
     </>
   );
 }
