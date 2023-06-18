@@ -21,7 +21,7 @@ export default function Archive() {
       </Head>
 
       <Stack as="article" space="4">
-        <Title heading="Archive" paragraph={`${numberOfPosts}件`} />
+        <Title heading="Archive" paragraph={`${numberOfPosts}件の記事`} />
 
         {Object.keys(archives)
           .reverse()

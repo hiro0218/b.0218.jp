@@ -19,7 +19,7 @@ export default function Tags() {
       </Head>
 
       <Stack space="4">
-        <Title heading="Tags" paragraph={`${tags.length}件`} />
+        <Title heading="Tags" paragraph={`${tags.length}件のタグ`} />
         <Stack>
           <Grid>
             <PostTag tags={tags} />
