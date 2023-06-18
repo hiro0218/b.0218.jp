@@ -1,4 +1,4 @@
-import { ICON_SIZE_SM, RxMagnifyingGlass } from '@/ui/icons';
+import { ICON_SIZE_SM, MagnifyingGlassIcon } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -11,7 +11,7 @@ type Props = {
 export function SearchButton({ openDialog }: Props) {
   return (
     <Button aria-label="Search" onClick={openDialog} type="button">
-      <RxMagnifyingGlass size={ICON_SIZE_SM} />
+      <MagnifyingGlassIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
     </Button>
   );
 }

@@ -1,9 +1,9 @@
 import Head from 'next/head';
 
 import { Hero, PostSection, TitleSection } from '@/client/home';
-import { PageContainer, Stack } from '@/components/UI/Layout';
+import { Grid, Stack } from '@/components/UI/Layout';
 import { ScreenReaderOnlyText as SrOnly } from '@/components/UI/ScreenReaderOnlyText';
-import PostTag, { PostTagGridContainer } from '@/components/UI/Tag';
+import PostTag from '@/components/UI/Tag';
 import { AUTHOR_ICON, SITE_URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
 import { getData } from '@/server/home';
@@ -26,9 +26,9 @@ export default function Index() {
         ></script>
       </Head>
 
-      <PageContainer>
-        <SrOnly as="h1" text="トップページ" />
+      <SrOnly as="h1" text="トップページ" />
 
+      <Stack space="4">
         <Stack as="section">
           <Hero />
         </Stack>
@@ -41,11 +41,11 @@ export default function Index() {
 
         <Stack as="section">
           <TitleSection href="/tags" text="タグ" />
-          <PostTagGridContainer>
+          <Grid>
             <PostTag tags={tags} />
-          </PostTagGridContainer>
+          </Grid>
         </Stack>
-      </PageContainer>
+      </Stack>
     </>
   );
 }

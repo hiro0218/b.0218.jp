@@ -1,4 +1,5 @@
 import createEmotionServer from '@emotion/server/create-instance';
+import { syntax } from 'csso';
 import type { RenderPageResult } from 'next/dist/shared/lib/utils';
 import type { DocumentContext } from 'next/document';
 import Document, { Head, Html, Main, NextScript } from 'next/document';
@@ -39,8 +40,16 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
     const initialProps = await Document.getInitialProps(ctx);
     const emotionStyles = extractCriticalToChunks(initialProps.html);
     const emotionStyleTags = emotionStyles.styles.map(({ css, key, ids }) => {
+      const ast = syntax.parse(css);
+      const compressedAst = syntax.compress(ast, {
+        restructure: true,
+        forceMediaMerge: true,
+        comments: false,
+      }).ast;
+      const minifiedCss = syntax.generate(compressedAst);
+
       return (
-        css && <style dangerouslySetInnerHTML={{ __html: css }} data-emotion={`${key} ${ids.join(' ')}`} key={key} />
+        <style dangerouslySetInnerHTML={{ __html: minifiedCss }} data-emotion={`${key} ${ids.join(' ')}`} key={key} />
       );
     });
 

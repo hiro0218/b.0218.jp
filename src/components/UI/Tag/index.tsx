@@ -28,7 +28,7 @@ const PostTag = memo(function PostTag({ tags }: PostTagProps) {
           return b.count - a.count;
         })
         .map(({ slug, count }) => {
-          const TagComponent = Number(count) >= TAG_VIEW_LIMIT ? Anchor : Anchor.withComponent('span');
+          const TagComponent = count >= TAG_VIEW_LIMIT ? Anchor : Anchor.withComponent('span');
 
           return (
             <TagComponent href={`/tags/${slug}`} key={slug} passHref prefetch={false}>
@@ -65,14 +65,4 @@ export const PostTagAnchorStyle = css`
 
 const Anchor = styled(_Anchor)`
   ${PostTagAnchorStyle}
-`;
-
-export const PostTagGridContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1);
-
-  ${Anchor} {
-    flex: 1 1 auto;
-  }
 `;

@@ -1,4 +1,4 @@
-import { type CSSProperties, memo, type ReactNode } from 'react';
+import { memo, type ReactNode } from 'react';
 
 import { SPACING_BASE_PX } from '@/components/Functional/CssBaseline/Settings/Space';
 import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
@@ -7,7 +7,6 @@ import { styled } from '@/ui/styled';
 interface ContainerProps {
   title?: string;
   titleTagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  style?: CSSProperties;
   children?: ReactNode;
 }
 
@@ -45,12 +44,9 @@ const ColumnTitle = styled.div`
 
   ${isDesktop} {
     position: sticky;
+    top: calc(${SPACING_BASE_PX * 5}px + 1rem);
     width: 38.2%;
     height: 100%;
-
-    && {
-      top: calc(${SPACING_BASE_PX * 5}px + 1rem);
-    }
   }
 `;
 

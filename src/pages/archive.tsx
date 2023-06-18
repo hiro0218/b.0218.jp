@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
+import { Columns, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
@@ -20,8 +20,8 @@ export default function Archive() {
         <link href={`${SITE_URL}/archive`} rel="canonical" />
       </Head>
 
-      <PageContainer as="article">
-        <Title heading="Archive" paragraph={`${numberOfPosts}件`} />
+      <Stack as="article" space="4">
+        <Title heading="Archive" paragraph={`${numberOfPosts}件の記事`} />
 
         {Object.keys(archives)
           .reverse()
@@ -42,7 +42,7 @@ export default function Archive() {
               </Stack>
             </Columns>
           ))}
-      </PageContainer>
+      </Stack>
     </>
   );
 }

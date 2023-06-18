@@ -1,4 +1,5 @@
 import Heading from '@/components/UI/Heading';
+import { Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import type { TermsPostListProps } from '@/types/source';
 import { isMobile } from '@/ui/lib/mediaQuery';
@@ -15,14 +16,14 @@ function PostSimilar({ heading = '関連記事', posts }: Props) {
   }
 
   return (
-    <section>
+    <Stack as="section" space="2">
       <Heading as="h2" text={heading} />
       <Container>
         {posts.map(({ date, excerpt, slug, title, updated }) => (
           <LinkCard date={date} excerpt={excerpt} key={slug} link={`${slug}.html`} title={title} updated={updated} />
         ))}
       </Container>
-    </section>
+    </Stack>
   );
 }
 
@@ -32,7 +33,6 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(calc(50% - var(--space-1)), max-content));
   gap: var(--space-1);
-  margin-top: var(--space-3);
 
   ${isMobile} {
     grid-template-columns: minmax(100%, max-content);

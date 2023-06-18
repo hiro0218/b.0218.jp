@@ -1,7 +1,7 @@
 import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 
-import { Columns, PageContainer, Stack } from '@/components/UI/Layout';
+import { Columns, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME } from '@/constant';
@@ -24,8 +24,8 @@ export default function Tags({ title, posts }: Props) {
         <meta content="noindex" name="robots" />
       </Head>
 
-      <PageContainer as="section">
-        <Title heading={pageTitle} paragraph={`${posts.length}件`} />
+      <Stack as="section" space="4">
+        <Title heading={pageTitle} paragraph={`${posts.length}件の記事`} />
 
         <Columns title={title}>
           <Stack space="½">
@@ -41,7 +41,7 @@ export default function Tags({ title, posts }: Props) {
             ))}
           </Stack>
         </Columns>
-      </PageContainer>
+      </Stack>
     </>
   );
 }

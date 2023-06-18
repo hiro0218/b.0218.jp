@@ -1,6 +1,6 @@
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { LinkStyle } from '@/components/UI/LinkMenu';
-import { ICON_SIZE_XS, RxCaretRight } from '@/ui/icons';
+import { CaretRightIcon, ICON_SIZE_XS } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 export function LinkMore({ href, text }: { href: string; text: string }) {
@@ -8,7 +8,7 @@ export function LinkMore({ href, text }: { href: string; text: string }) {
     <Anchor href={href}>
       {text}
       <Icon>
-        <RxCaretRight size={ICON_SIZE_XS} />
+        <CaretRightIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
       </Icon>
     </Anchor>
   );

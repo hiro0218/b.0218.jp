@@ -3,7 +3,7 @@ import { type AriaRole, type ComponentProps, type ReactNode } from 'react';
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
 import { PostTagAnchorStyle } from '@/components/UI/Tag';
-import { ICON_SIZE_SM, RxCaretRight } from '@/ui/icons';
+import { CaretRightIcon, ICON_SIZE_SM } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -37,7 +37,7 @@ function LinkCard({ link, title, date, updated, excerpt, tags, role }: Props) {
         )}
       </Main>
       <Icon>
-        <RxCaretRight size={ICON_SIZE_SM} />
+        <CaretRightIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
       </Icon>
     </Container>
   );

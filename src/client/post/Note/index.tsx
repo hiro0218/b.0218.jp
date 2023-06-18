@@ -1,5 +1,5 @@
 import type { PostProps } from '@/types/source';
-import { ICON_SIZE_SM, RxInfoCircled } from '@/ui/icons';
+import { ICON_SIZE_SM, InfoCircledIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 type Props = Pick<PostProps, 'note'>;
@@ -11,7 +11,7 @@ function PostNote({ note }: Props) {
 
   return (
     <PostNoteRoot>
-      <RxInfoCircled size={ICON_SIZE_SM} />
+      <InfoCircledIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
       <div dangerouslySetInnerHTML={{ __html: note }} />
     </PostNoteRoot>
   );

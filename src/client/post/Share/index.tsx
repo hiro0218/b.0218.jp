@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { ScreenReaderOnlyText as SrOnly } from '@/components/UI/ScreenReaderOnlyText';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import useToast from '@/hooks/useToast';
-import { ICON_SIZE_SM, RxLink2, SiHatenabookmark, SiTwitter } from '@/ui/icons';
+import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, TwitterLogoIcon } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { css, styled } from '@/ui/styled';
 
@@ -31,19 +31,19 @@ function PostShare({ title, url }: Props) {
         >
           <SrOnly text="Twitterでツイートする" />
           <IconContainer>
-            <SiTwitter size={ICON_SIZE_SM} />
+            <TwitterLogoIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
           </IconContainer>
         </Anchor>
         <Anchor href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`} rel="noopener noreferrer" target="_blank">
           <SrOnly text="はてなブックマークでブックマークする" />
           <IconContainer>
-            <SiHatenabookmark size={ICON_SIZE_SM} />
+            <Hatenabookmark height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
           </IconContainer>
         </Anchor>
         <Button onClick={onClickCopyPermalink} type="button">
           <SrOnly text="このページのURLをコピーする" />
           <IconContainer>
-            <RxLink2 size={ICON_SIZE_SM} />
+            <Link2Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
           </IconContainer>
         </Button>
       </Container>
