@@ -44,12 +44,9 @@ const ColumnTitle = styled.div`
 
   ${isDesktop} {
     position: sticky;
+    top: calc(${SPACING_BASE_PX * 5}px + 1rem);
     width: 38.2%;
     height: 100%;
-
-    && {
-      top: calc(${SPACING_BASE_PX * 5}px + 1rem);
-    }
   }
 `;
 
