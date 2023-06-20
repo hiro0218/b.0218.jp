@@ -6,13 +6,14 @@ import { styled } from '@/ui/styled';
 type Props = {
   as?: keyof JSX.IntrinsicElements;
   space?: '½' | '1' | '2' | '3' | '4' | '5' | '6';
+  direction?: 'vertical' | 'horizontal';
   role?: AriaRole;
   children: ReactNode;
 };
 
 const StackRoot = styled.div<Props>`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${({ direction = 'horizontal' }) => (direction === 'vertical' ? 'row' : 'column')};
   justify-content: flex-start;
 
   & > * {
