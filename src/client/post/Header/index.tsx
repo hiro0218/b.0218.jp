@@ -38,6 +38,6 @@ const Item = styled.div`
 `;
 
 const Separator = styled.span`
-  margin: 0 calc(var(--space-3) * 0.25);
+  margin: 0 var(--space-1);
   user-select: none;
 `;
