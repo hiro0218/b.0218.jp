@@ -38,7 +38,7 @@
       }
     },
     {
-      "selector": "div",
+      "selector": "*",
       "rules": {
         "invalid-attr": {
           "options": {
