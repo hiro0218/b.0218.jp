@@ -25,12 +25,12 @@ const GridRoot = styled.div<Props>`
 `;
 
 const Grid = memo(function Grid({ as = 'div', children, ...props }: Props) {
-  const MemoizedStackRoot = useMemo(() => GridRoot.withComponent(as), [as]);
+  const MemoizedGridRoot = useMemo(() => GridRoot.withComponent(as), [as]);
 
   return (
-    <MemoizedStackRoot as={as} {...props}>
+    <MemoizedGridRoot as={as} {...props}>
       {children}
-    </MemoizedStackRoot>
+    </MemoizedGridRoot>
   );
 });
 
