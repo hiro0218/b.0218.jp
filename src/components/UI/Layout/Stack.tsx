@@ -1,7 +1,7 @@
 import type { AriaRole, ReactNode } from 'react';
 import { memo, useMemo } from 'react';
 
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
 type Props = {
   as?: keyof JSX.IntrinsicElements;
@@ -13,7 +13,7 @@ type Props = {
 
 const StackRoot = styled.div<Props>`
   display: flex;
-  flex-direction: ${({ direction = 'horizontal' }) => (direction === 'vertical' ? 'row' : 'column')};
+  flex-direction: ${({ direction = 'vertical' }) => (direction === 'horizontal' ? 'row' : 'column')};
   justify-content: flex-start;
 
   & > * {
@@ -21,7 +21,10 @@ const StackRoot = styled.div<Props>`
   }
 
   & > * + * {
-    margin-block-start: ${({ space = '2' }) => `var(--space-${space})`};
+    ${({ space = '2' }) =>
+      css`
+        margin-block-start: var(--space-${space});
+      `};
   }
 `;
 
