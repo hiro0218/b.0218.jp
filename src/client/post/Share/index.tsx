@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 
+import { Stack } from '@/components/UI/Layout';
 import { ScreenReaderOnlyText as SrOnly } from '@/components/UI/ScreenReaderOnlyText';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import useToast from '@/hooks/useToast';
@@ -21,48 +22,37 @@ function PostShare({ title, url }: Props) {
   }, [copy, toast, url]);
 
   return (
-    <section>
+    <div>
       <SrOnly as="h2" text="このページをシェアする" />
-      <Container>
+      <Stack direction="horizontal" space="2">
         <Anchor
           href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}`}
           rel="noopener noreferrer"
           target="_blank"
         >
           <SrOnly text="Twitterでツイートする" />
-          <IconContainer>
-            <TwitterLogoIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-          </IconContainer>
+          <TwitterLogoIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </Anchor>
         <Anchor href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`} rel="noopener noreferrer" target="_blank">
           <SrOnly text="はてなブックマークでブックマークする" />
-          <IconContainer>
-            <Hatenabookmark height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-          </IconContainer>
+          <Hatenabookmark height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </Anchor>
         <Button onClick={onClickCopyPermalink} type="button">
           <SrOnly text="このページのURLをコピーする" />
-          <IconContainer>
-            <Link2Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-          </IconContainer>
+          <Link2Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </Button>
-      </Container>
-    </section>
+      </Stack>
+    </div>
   );
 }
 
-const Container = styled.div`
-  display: flex;
-  gap: var(--space-3);
-  justify-content: center;
-  margin-top: var(--space-6);
-`;
-
 const ShareButtonStyle = css`
   display: flex;
+  align-items: center;
   justify-content: center;
+  width: ${ICON_SIZE_SM * 2}px;
+  height: ${ICON_SIZE_SM * 2}px;
   line-height: 1;
-  text-align: center;
 
   ${showHoverBackground}
 
@@ -77,14 +67,6 @@ const Anchor = styled.a`
 
 const Button = styled.button`
   ${ShareButtonStyle}
-`;
-
-const IconContainer = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: ${ICON_SIZE_SM * 2}px;
-  height: ${ICON_SIZE_SM * 2}px;
 `;
 
 export default PostShare;
