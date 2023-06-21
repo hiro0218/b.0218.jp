@@ -1,6 +1,7 @@
 import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 import Script from 'next/script';
+import { useMemo } from 'react';
 
 import {
   Content as PostContent,
@@ -37,6 +38,8 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
   const permalink = getPermalink(slug);
   const description = getDescriptionText(content);
 
+  const ShareComponent = useMemo(() => <PostShare title={title} url={permalink} />, [permalink, title]);
+
   return (
     <>
       <Head>
@@ -64,7 +67,7 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
         />
       </Head>
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
-      <Stack as="article" space="4">
+      <Stack as="article" space="3">
         <PostHeader
           date={date}
           readingTime={readingTime}
@@ -72,10 +75,11 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
           title={segmentedTitle}
           updated={updated}
         />
+        {ShareComponent}
         <PostNote note={note} />
         <PostContent content={content} />
         <Adsense />
-        <PostShare title={title} url={permalink} />
+        {ShareComponent}
         <PostEdit slug={slug} />
         <SimilarTag tags={similarTags} />
         <SimilarPost posts={similarPost} />
