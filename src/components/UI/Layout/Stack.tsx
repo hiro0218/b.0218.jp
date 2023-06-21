@@ -21,10 +21,14 @@ const StackRoot = styled.div<Props>`
   }
 
   & > * + * {
-    ${({ space = '2' }) =>
-      css`
-        margin-block-start: var(--space-${space});
-      `};
+    ${({ space = '2', direction = 'vertical' }) =>
+      direction === 'horizontal'
+        ? css`
+            margin-inline-start: var(--space-${space});
+          `
+        : css`
+            margin-block-start: var(--space-${space});
+          `};
   }
 `;
 
