@@ -52,7 +52,6 @@ const ShareButtonStyle = css`
   justify-content: center;
   width: ${ICON_SIZE_SM * 2}px;
   height: ${ICON_SIZE_SM * 2}px;
-  line-height: 1;
 
   ${showHoverBackground}
 
