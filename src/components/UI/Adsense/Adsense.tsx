@@ -60,7 +60,7 @@ const Container = styled.div`
   gap: var(--space-2);
   align-items: center;
   justify-content: center;
-  margin: var(--space-4) auto;
+  margin: 0 auto;
 
   ${isMobile} {
     flex-direction: column;
