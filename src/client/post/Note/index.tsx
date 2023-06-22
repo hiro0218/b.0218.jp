@@ -1,3 +1,4 @@
+import { Stack as _Stack } from '@/components/UI/Layout';
 import type { PostProps } from '@/types/source';
 import { ICON_SIZE_SM, InfoCircledIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled';
@@ -10,17 +11,16 @@ function PostNote({ note }: Props) {
   }
 
   return (
-    <PostNoteRoot>
+    <Stack direction="horizontal" space="1">
       <InfoCircledIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
       <div dangerouslySetInnerHTML={{ __html: note }} />
-    </PostNoteRoot>
+    </Stack>
   );
 }
 
 export default PostNote;
 
-const PostNoteRoot = styled.div`
-  display: flex;
+const Stack = styled(_Stack)`
   align-items: center;
   padding: var(--space-2);
   font-size: var(--font-size-sm);
@@ -33,10 +33,5 @@ const PostNoteRoot = styled.div`
     &:hover {
       text-decoration: underline;
     }
-  }
-
-  svg {
-    flex-shrink: 0;
-    margin-right: var(--space-1);
   }
 `;
