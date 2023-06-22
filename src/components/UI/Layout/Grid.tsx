@@ -1,5 +1,3 @@
-// Every Layout の Grid に基づいたコンポーネントを作成する
-
 import type { AriaRole, ReactNode } from 'react';
 import { memo, useMemo } from 'react';
 
