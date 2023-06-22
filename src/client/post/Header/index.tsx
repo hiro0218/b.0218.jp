@@ -17,7 +17,7 @@ function PostHeader({ title, date, updated, readingTime, tagsWithCount }: Props)
       <Stack space="1">
         <Item>
           <PostDate date={date} updated={updated} />
-          <Separator aria-hidden="true">・</Separator>
+          <Separator aria-hidden="true">•</Separator>
           <span>{`${readingTime || 1} ${READ_TIME_SUFFIX}`}</span>
         </Item>
         <Item>
