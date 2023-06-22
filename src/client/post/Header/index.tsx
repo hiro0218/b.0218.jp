@@ -17,7 +17,7 @@ function PostHeader({ title, date, updated, readingTime, tagsWithCount }: Props)
       <Stack space="1">
         <Item>
           <PostDate date={date} updated={updated} />
-          <Separator aria-hidden="true">・</Separator>
+          <Separator aria-hidden="true">•</Separator>
           <span>{`${readingTime || 1} ${READ_TIME_SUFFIX}`}</span>
         </Item>
         <Item>
@@ -38,6 +38,6 @@ const Item = styled.div`
 `;
 
 const Separator = styled.span`
-  margin: 0 calc(var(--space-3) * 0.25);
+  margin: 0 var(--space-1);
   user-select: none;
 `;

@@ -50,6 +50,10 @@ const nextConfiguration = {
           use: [
             {
               loader: '@svgr/webpack',
+              options: {
+                typescript: true,
+                memo: true,
+              },
             },
           ],
         },

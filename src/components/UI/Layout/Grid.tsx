@@ -1,9 +1,7 @@
-// Every Layout の Grid に基づいたコンポーネントを作成する
-
 import type { AriaRole, ReactNode } from 'react';
 import { memo, useMemo } from 'react';
 
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
 type Props = {
   as?: keyof JSX.IntrinsicElements;
@@ -17,20 +15,27 @@ const GridRoot = styled.div<Props>`
   display: flex;
   flex-wrap: wrap;
   gap: ${({ gap = '1' }) => `var(--space-${gap})`};
-  align-content: start;
 
-  & > * {
-    ${({ isWide = true }) => isWide && 'flex: 1 1 auto;'};
-  }
+  ${({ isWide = true }) => {
+    return (
+      isWide &&
+      css`
+        align-content: start;
+        & > * {
+          flex: 1 1 auto;
+        }
+      `
+    );
+  }};
 `;
 
 const Grid = memo(function Grid({ as = 'div', children, ...props }: Props) {
-  const MemoizedStackRoot = useMemo(() => GridRoot.withComponent(as), [as]);
+  const MemoizedGridRoot = useMemo(() => GridRoot.withComponent(as), [as]);
 
   return (
-    <MemoizedStackRoot as={as} {...props}>
+    <MemoizedGridRoot as={as} {...props}>
       {children}
-    </MemoizedStackRoot>
+    </MemoizedGridRoot>
   );
 });
 
