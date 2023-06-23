@@ -11,9 +11,13 @@ type Props = {
   children: ReactNode;
 };
 
-const StackRoot = styled.div<Props>`
+type StackRootProps = Omit<Props, 'direction'> & {
+  flexDirection?: 'vertical' | 'horizontal';
+};
+
+const StackRoot = styled.div<StackRootProps>`
   display: flex;
-  flex-direction: ${({ direction = 'vertical' }) => (direction === 'horizontal' ? 'row' : 'column')};
+  flex-direction: ${({ flexDirection = 'vertical' }) => (flexDirection === 'horizontal' ? 'row' : 'column')};
   justify-content: flex-start;
 
   & > * {
@@ -21,8 +25,8 @@ const StackRoot = styled.div<Props>`
   }
 
   & > * + * {
-    ${({ space = '2', direction = 'vertical' }) =>
-      direction === 'horizontal'
+    ${({ space = '2', flexDirection = 'vertical' }) =>
+      flexDirection === 'horizontal'
         ? css`
             margin-inline-start: var(--space-${space});
           `
@@ -34,9 +38,10 @@ const StackRoot = styled.div<Props>`
 
 const Stack = memo(function Stack({ as = 'div', children, ...props }: Props) {
   const MemoizedStackRoot = useMemo(() => StackRoot.withComponent(as), [as]);
+  const { direction, ...rest } = props;
 
   return (
-    <MemoizedStackRoot as={as} {...props}>
+    <MemoizedStackRoot as={as} flexDirection={direction} {...rest}>
       {children}
     </MemoizedStackRoot>
   );
