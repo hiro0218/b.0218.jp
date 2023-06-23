@@ -1,12 +1,16 @@
+import dynamic from 'next/dynamic';
 import { useCallback } from 'react';
 
 import { Stack } from '@/components/UI/Layout';
-import { ScreenReaderOnlyText as SrOnly } from '@/components/UI/ScreenReaderOnlyText';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import useToast from '@/hooks/useToast';
 import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, TwitterLogoIcon } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { css, styled } from '@/ui/styled';
+
+const SrOnly = dynamic(() =>
+  import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),
+);
 
 interface Props {
   title: string;

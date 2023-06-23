@@ -2,7 +2,6 @@ import dynamic from 'next/dynamic';
 import { forwardRef, type MutableRefObject, useId } from 'react';
 import { createPortal } from 'react-dom';
 
-import { ScreenReaderOnlyText as SrOnly } from '@/components/UI/ScreenReaderOnlyText';
 import useIsClient from '@/hooks/useIsClient';
 import { fadeIn, slideIn } from '@/ui/animation';
 import { styled } from '@/ui/styled';
@@ -10,6 +9,9 @@ import { styled } from '@/ui/styled';
 import type { onCloseDialogProps } from './type';
 type RefProps = MutableRefObject<HTMLDialogElement>;
 
+const SrOnly = dynamic(() =>
+  import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),
+);
 const SearchPanel = dynamic(() => import('./SearchPanel').then((module) => module.SearchPanel));
 const Overlay = dynamic(() => import('@/components/UI/Overlay').then((module) => module.Overlay));
 
