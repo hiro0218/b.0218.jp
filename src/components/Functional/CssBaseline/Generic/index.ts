@@ -2,6 +2,8 @@ import reset from 'shokika.css/dist/string';
 
 import { css } from '@/ui/styled';
 
+export const SrOnlyClassName = 'sr-only';
+
 /**
  * TailwindCSS の sr-only クラス実装を参考
  * @see https://tailwindcss.com/docs/screen-readers
@@ -25,7 +27,7 @@ export default css`
     min-height: 100%;
   }
 
-  .sr-only {
+  .${SrOnlyClassName} {
     ${srOnly}
   }
 `;
