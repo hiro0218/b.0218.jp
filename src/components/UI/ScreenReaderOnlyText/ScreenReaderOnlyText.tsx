@@ -1,6 +1,6 @@
 import type { HTMLAttributes } from 'react';
 
-import { srOnly } from '@/components/Functional/CssBaseline/Generic';
+import { SrOnlyClassName } from '@/components/Functional/CssBaseline/Generic';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -8,14 +8,12 @@ type Props = {
   text: string;
 } & HTMLAttributes<HTMLSpanElement>;
 
-const SrOnlyText = styled.span`
-  ${srOnly}
-`;
+const SrOnly = styled.span();
 
 export function ScreenReaderOnlyText({ as = 'span', text, ...props }: Props) {
   return (
-    <SrOnlyText as={as} {...props}>
+    <SrOnly as={as} className={SrOnlyClassName} {...props}>
       {text}
-    </SrOnlyText>
+    </SrOnly>
   );
 }
