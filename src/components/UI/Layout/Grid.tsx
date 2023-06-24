@@ -1,4 +1,4 @@
-import type { AriaRole, ReactNode } from 'react';
+import type { AriaRole, CSSProperties, ReactNode } from 'react';
 import { memo, useMemo } from 'react';
 
 import { css, styled } from '@/ui/styled';
@@ -6,6 +6,7 @@ import { css, styled } from '@/ui/styled';
 type Props = {
   as?: keyof JSX.IntrinsicElements;
   gap?: '½' | '1' | '2' | '3' | '4' | '5' | '6';
+  wrap?: CSSProperties['flexWrap'];
   role?: AriaRole;
   isWide?: boolean;
   children: ReactNode;
@@ -13,7 +14,7 @@ type Props = {
 
 const GridRoot = styled.div<Props>`
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: ${({ wrap = 'wrap' }) => wrap};
   gap: ${({ gap = '1' }) => `var(--space-${gap})`};
 
   ${({ isWide = true }) => {
