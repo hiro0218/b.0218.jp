@@ -7,6 +7,7 @@ import { fadeIn, slideIn } from '@/ui/animation';
 import { styled } from '@/ui/styled';
 
 import type { onCloseDialogProps } from './type';
+
 type RefProps = MutableRefObject<HTMLDialogElement>;
 
 const SrOnly = dynamic(() =>
