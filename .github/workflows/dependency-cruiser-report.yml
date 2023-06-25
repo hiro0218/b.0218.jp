@@ -3,11 +3,98 @@ name: 'dependency-cruiser-report'
 on:
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   report:
-    permissions:
-      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: MH4GF/dependency-cruiser-report-action@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+          persist-credentials: false
+          submodules: true
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: '.node-version'
+
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
+
+      - uses: actions/cache@v3
+        with:
+          # See here for caching with `yarn` https://github.com/actions/cache/blob/main/examples.md#node---yarn or you can leverage caching with actions/setup-node https://github.com/actions/setup-node
+          path: |
+            ~/.npm
+            ${{ github.workspace }}/.next/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          # If source files changed but packages didn't, rebuild from a prior cache.
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
+      - id: changed-files
+        uses: tj-actions/changed-files@v36.0.9
+        with:
+          path: '.'
+          diff_relative: true
+          files: |
+            **/*.js
+            **/*.cjs
+            **/*.mjs
+            **/*.jsx
+            **/*.ts
+            **/*.tsx
+          files_ignore: |
+            node_modules/**
+
+      - name: Run dependency-cruiser
+        if: steps.changed-files.outputs.all_modified_files != ''
+        run: |
+          files="${{ steps.changed-files.outputs.all_modified_files }}";
+          formattedOption=$(echo "$files" | sed 's/ /|^/g');
+
+          echo -e '\n```mermaid' >> result.md
+          npx depcruise --output-type mermaid --focus ^$formattedOption ${{ steps.changed-files.outputs.all_modified_files }} >> result.md
+          echo -e '\n```' >> result.md
+
+          cat result.md
+
+      - name: Initial Markdown File
+        run: |
+          echo '<!-- dependency-cruiser report -->' > comment.md
+          echo '' >> comment.md
+
+      - name: Generate Markdown Text
+        run: |
+          echo '# 依存関係分析結果（dependency-cruiser）' >> comment.md
+          echo '' >> comment.md
+
+          if [[ "${{ steps.changed-files.outputs.all_modified_files }}" != "" ]]; then
+            echo '変更されたファイルの依存関係を可視化します。' >> comment.md
+            echo '' >> comment.md
+            cat result.md >> comment.md
+          else
+            echo '依存関係を分析する対象のファイルがありませんでした。' >> comment.md
+          fi
+
+      - name: Write Comment (Use find-comment)
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: <!-- dependency-cruiser report -->
+
+      - name: Update Comment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body-file: comment.md
+          edit-mode: replace
+          token: ${{ secrets.GITHUB_TOKEN }}
