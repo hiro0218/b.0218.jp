@@ -123,8 +123,8 @@ const DetailsContent = styled.div`
     }
 
     & ol {
-      padding-left: 1.25em;
-      margin: 0.5rem 0;
+      padding-left: var(--space-2);
+      margin: var(--space-1) 0;
     }
   }
 `;
