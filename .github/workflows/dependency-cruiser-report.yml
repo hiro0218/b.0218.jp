@@ -39,7 +39,7 @@ jobs:
 
       - name: Run dependency-cruiser
         run: |
-          files="$(git diff --name-only --diff-filter=AM ${{ github.base_ref }}...HEAD | grep -E "\.(js|cjs|mjs|jsx|ts|tsx)$" | tr '\n' ' ' | xargs)";
+          files="$(git diff --name-only --diff-filter=AM origin/master...HEAD | grep -E "\.(js|cjs|mjs|jsx|ts|tsx)$" | tr '\n' ' ' | xargs)";
           formattedOption=$(echo "$files" | sed 's/ /|^/g');
 
           echo -e '\n```mermaid' >> result.md
