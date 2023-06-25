@@ -1,4 +1,5 @@
 import type { getPostsListJson } from '@/lib/posts';
+
 type PostsProps = ReturnType<typeof getPostsListJson>;
 type PostProps = UnpackedArray<PostsProps>;
 type ArchiveListProps = Record<number, PostsProps>;

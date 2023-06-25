@@ -55,7 +55,7 @@ const Ins = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled.aside`
   display: flex;
   gap: var(--space-2);
   align-items: center;

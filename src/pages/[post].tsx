@@ -67,7 +67,7 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
         />
       </Head>
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
-      <Stack as="article" space="3">
+      <Stack as="article" space="4">
         <PostHeader
           date={date}
           readingTime={readingTime}
@@ -80,7 +80,9 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
         <PostContent content={content} />
         <Adsense />
         {ShareComponent}
-        <PostEdit slug={slug} />
+        <footer>
+          <PostEdit slug={slug} />
+        </footer>
         <SimilarTag tags={similarTags} />
         <SimilarPost posts={similarPost} />
       </Stack>

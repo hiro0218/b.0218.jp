@@ -76,6 +76,10 @@ module.exports = {
     /**
      * eslint-plugin-import
      */
+    // インポートがファイルの先頭にあることを確認する
+    'import/first': 'error',
+    // すべてのインポートがファイルの先頭にあることを確認する
+    'import/newline-after-import': 'error',
     // 未割り当てのインポートを禁止する
     'import/no-unassigned-import': 'off',
     // デフォルトエクスポートを禁止する

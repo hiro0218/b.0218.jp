@@ -41,7 +41,7 @@ function Mokuji({ refContent }: MokujiProps) {
 
 export default Mokuji;
 
-const Root = styled.aside`
+const Root = styled.nav`
   font-size: var(--font-size-sm);
 
   a {
@@ -97,7 +97,7 @@ const DetailsContent = styled.div`
   padding-top: var(--space-2);
 
   > ol {
-    padding: 0 var(--space-4) var(--space-3) var(--space-4);
+    padding: 0 var(--space-3) var(--space-3) var(--space-3);
     margin: 0;
 
     > li > a {
@@ -123,8 +123,8 @@ const DetailsContent = styled.div`
     }
 
     & ol {
-      padding-left: 1.25em;
-      margin: 0.5rem 0;
+      padding-left: var(--space-2);
+      margin: var(--space-1) 0;
     }
   }
 `;

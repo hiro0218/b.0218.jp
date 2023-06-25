@@ -22,7 +22,7 @@ export default function Tags() {
         <Title heading="Tags" paragraph={`${tags.length}件のタグ`} />
         <Stack>
           <Grid>
-            <PostTag tags={tags} />
+            <PostTag hasRelTag={false} tags={tags} />
           </Grid>
         </Stack>
       </Stack>

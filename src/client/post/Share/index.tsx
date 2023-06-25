@@ -26,7 +26,7 @@ function PostShare({ title, url }: Props) {
   }, [copy, toast, url]);
 
   return (
-    <div>
+    <aside>
       <SrOnly as="h2" text="このページをシェアする" />
       <Stack direction="horizontal" space="1">
         <Anchor
@@ -46,7 +46,7 @@ function PostShare({ title, url }: Props) {
           <Link2Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </Button>
       </Stack>
-    </div>
+    </aside>
   );
 }
 

@@ -1,7 +1,7 @@
 import { createGetLayout } from '@/components/Layouts/SinglePageLayout';
 
 export default function About() {
-  return <></>;
+  return null;
 }
 
 About.getLayout = createGetLayout({

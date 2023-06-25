@@ -57,7 +57,7 @@ const Icon = styled.div`
   transition: opacity 0.2s ease;
 `;
 
-const Container = styled.div`
+const Container = styled.article`
   display: flex;
   padding: var(--space-3);
   content-visibility: auto;
