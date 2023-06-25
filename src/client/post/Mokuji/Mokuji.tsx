@@ -97,7 +97,7 @@ const DetailsContent = styled.div`
   padding-top: var(--space-2);
 
   > ol {
-    padding: 0 var(--space-4) var(--space-3) var(--space-4);
+    padding: 0 var(--space-3) var(--space-3) var(--space-3);
     margin: 0;
 
     > li > a {
