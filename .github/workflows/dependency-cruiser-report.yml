@@ -39,11 +39,11 @@ jobs:
 
       - name: Run dependency-cruiser
         run: |
-          files="$(git diff --name-only --diff-filter=AM ${{ github.base_ref }}...HEAD | tr '\n' ' ' | xargs)";
+          files="$(git diff --name-only --diff-filter=AM ${{ github.base_ref }}...HEAD | grep -E "\.(js|cjs|mjs|jsx|ts|tsx)$" | tr '\n' ' ' | xargs)";
           formattedOption=$(echo "$files" | sed 's/ /|^/g');
 
           echo -e '\n```mermaid' >> result.md
-          npx depcruise --output-type mermaid --focus ^$formattedOption $files >> result.md
+          npx depcruise --cache -X "^node_modules" --include-only "^src" --output-type mermaid --focus ^$formattedOption $files >> result.md
           echo -e '\n```' >> result.md
 
           echo "files=$files" >> $GITHUB_ENV
