@@ -37,32 +37,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
 
-      - id: changed-files
-        uses: tj-actions/changed-files@v37
-        with:
-          path: '.'
-          base_sha: ${{ github.event.pull_request.base.sha }}
-          diff_relative: true
-          files: |
-            **/*.js
-            **/*.cjs
-            **/*.mjs
-            **/*.jsx
-            **/*.ts
-            **/*.tsx
-          files_ignore: |
-            node_modules/**
-
       - name: Run dependency-cruiser
-        if: steps.changed-files.outputs.all_modified_files != ''
         run: |
-          files="${{ steps.changed-files.outputs.all_modified_files }}";
+          files="$(git diff --name-only origin/master...HEAD | tr '\n' ' ' | xargs)";
           formattedOption=$(echo "$files" | sed 's/ /|^/g');
 
           echo -e '\n```mermaid' >> result.md
-          npx depcruise --output-type mermaid --focus ^$formattedOption ${{ steps.changed-files.outputs.all_modified_files }} >> result.md
+          npx depcruise --output-type mermaid --focus ^$formattedOption $files >> result.md
           echo -e '\n```' >> result.md
 
+          echo "files=$files" >> $GITHUB_ENV
           cat result.md
 
       - name: Initial Markdown File
@@ -75,7 +59,7 @@ jobs:
           echo '# 依存関係分析結果（dependency-cruiser）' >> comment.md
           echo '' >> comment.md
 
-          if [[ "${{ steps.changed-files.outputs.all_modified_files }}" != "" ]]; then
+          if [[ "${{ env.files }}" != "" ]]; then
             echo '変更されたファイルの依存関係を可視化します。' >> comment.md
             echo '' >> comment.md
             cat result.md >> comment.md
