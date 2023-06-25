@@ -43,7 +43,7 @@ jobs:
           formattedOption=$(echo "$files" | sed 's/ /|^/g');
 
           echo -e '\n```mermaid' >> result.md
-          npx depcruise --cache -X "^node_modules" --include-only "^src" --output-type mermaid --focus ^$formattedOption $files >> result.md
+          npx depcruise --cache -X "^node_modules" --include-only "^src" --max-depth 2 --output-type mermaid --focus ^$formattedOption $files >> result.md
           echo -e '\n```' >> result.md
 
           echo "files=$files" >> $GITHUB_ENV
