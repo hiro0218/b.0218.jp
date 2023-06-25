@@ -1,7 +1,7 @@
 import { createGetLayout } from '@/components/Layouts/SinglePageLayout';
 
 export default function Privacy() {
-  return <></>;
+  return null;
 }
 
 Privacy.getLayout = createGetLayout({
