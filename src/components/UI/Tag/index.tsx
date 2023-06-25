@@ -11,9 +11,10 @@ export type Props = {
 
 type PostTagProps = {
   tags: Props[];
+  hasRelTag?: boolean;
 };
 
-const PostTag = memo(function PostTag({ tags }: PostTagProps) {
+const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) {
   if (tags?.length === 0) {
     return null;
   }
@@ -37,7 +38,7 @@ const PostTag = memo(function PostTag({ tags }: PostTagProps) {
                 prefetch: false,
                 passHref: true,
                 href: `/tags/${slug}`,
-                rel: 'tag',
+                rel: hasRelTag && 'tag',
               })}
               key={slug}
             >
