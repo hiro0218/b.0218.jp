@@ -38,9 +38,9 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
 
       - id: changed-files
-        uses: tj-actions/changed-files@v36.0.9
+        uses: tj-actions/changed-files@v37
         with:
-          path: '.'
+          path: './src'
           diff_relative: true
           files: |
             **/*.js
