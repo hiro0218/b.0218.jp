@@ -41,6 +41,7 @@ jobs:
         uses: tj-actions/changed-files@v37
         with:
           path: '.'
+          base_sha: ${{ github.event.pull_request.base.sha }}
           diff_relative: true
           files: |
             **/*.js
