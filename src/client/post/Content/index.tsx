@@ -18,12 +18,11 @@ export default function Content({ enableMokuji = true, content }: Props) {
   return (
     <>
       {enableMokuji && <Mokuji refContent={ref} />}
-      <div
+      <section
         css={PostContentStyle}
         dangerouslySetInnerHTML={{
           __html: content,
         }}
-        itemProp="articleBody"
         ref={ref}
       />
     </>

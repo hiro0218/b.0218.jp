@@ -41,7 +41,7 @@ function Mokuji({ refContent }: MokujiProps) {
 
 export default Mokuji;
 
-const Root = styled.aside`
+const Root = styled.nav`
   font-size: var(--font-size-sm);
 
   a {

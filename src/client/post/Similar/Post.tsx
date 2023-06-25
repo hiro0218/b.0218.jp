@@ -16,7 +16,7 @@ function PostSimilar({ heading = '関連記事', posts }: Props) {
   }
 
   return (
-    <Stack as="section" space="2">
+    <Stack as="aside" space="2">
       <Heading as="h2" text={heading} />
       <Container>
         {posts.map(({ date, excerpt, slug, title, updated }) => (
