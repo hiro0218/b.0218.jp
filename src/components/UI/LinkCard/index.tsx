@@ -4,7 +4,7 @@ import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
 import { PostTagAnchorStyle } from '@/components/UI/Tag';
 import { CaretRightIcon, ICON_SIZE_SM } from '@/ui/icons';
-import { showHoverBackground } from '@/ui/mixin';
+import { showHoverBackground, textEllipsis } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 type PostDateProps = ComponentProps<typeof PostDate>;
@@ -117,12 +117,11 @@ const Title = styled.h3`
 `;
 
 const Paragraph = styled.p`
-  overflow: hidden;
+  ${textEllipsis}
+
   font-size: var(--font-size-sm);
   color: var(--text-11);
-  text-overflow: ellipsis;
   letter-spacing: var(--letter-spacing-sm);
-  white-space: nowrap;
 `;
 
 const Tags = styled.div`

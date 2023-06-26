@@ -2,6 +2,7 @@ import { memo, type ReactNode } from 'react';
 
 import { SPACING_BASE_PX } from '@/components/Functional/CssBaseline/Settings/Space';
 import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
+import { textEllipsis } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 interface ContainerProps {
@@ -32,9 +33,7 @@ const Root = styled.section`
 `;
 
 const TitleText = styled.h2`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  ${textEllipsis}
 `;
 
 const ColumnTitle = styled.div`
