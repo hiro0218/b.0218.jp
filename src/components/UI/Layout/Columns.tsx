@@ -23,8 +23,11 @@ const Columns = memo(function Columns({ title, titleTagName = 'h2', children, ..
 export default Columns;
 
 const Root = styled.section`
-  ${isDesktop} {
-    display: flex;
+  display: flex;
+  gap: var(--space-2);
+
+  ${isMobile} {
+    flex-direction: column;
   }
 
   & + & {
@@ -37,10 +40,6 @@ const TitleText = styled.h2`
 `;
 
 const ColumnTitle = styled.div`
-  ${isMobile} {
-    margin-bottom: var(--space-2);
-  }
-
   ${isDesktop} {
     position: sticky;
     top: calc(${SPACING_BASE_PX * 5}px + 1rem);
