@@ -1,4 +1,5 @@
 import { isMobile } from '@/ui/lib/mediaQuery';
+import { textEllipsis } from '@/ui/mixin';
 import { css } from '@/ui/styled';
 
 const LinkPreview = css`
@@ -71,12 +72,11 @@ const LinkPreview = css`
   }
 
   .p-link-preview-body__title {
+    ${textEllipsis}
+
     display: block;
-    overflow: hidden;
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bold);
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .p-link-preview-body__description {
@@ -94,12 +94,11 @@ const LinkPreview = css`
   }
 
   .p-link-preview-body__url {
+    ${textEllipsis}
+
     display: block;
-    overflow: hidden;
     font-size: var(--font-size-sm);
     color: var(--text-11);
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .p-link-preview-thumbnail {

@@ -1,6 +1,12 @@
 import { easeOut } from '@/ui/foundation/easing';
 import { css } from '@/ui/styled';
 
+export const textEllipsis = css`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
 export const outlineLinkStyle = css`
   &:focus-visible {
     outline: 0;

@@ -2,6 +2,7 @@ import { memo, type ReactNode } from 'react';
 
 import { SPACING_BASE_PX } from '@/components/Functional/CssBaseline/Settings/Space';
 import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
+import { textEllipsis } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 interface ContainerProps {
@@ -22,8 +23,11 @@ const Columns = memo(function Columns({ title, titleTagName = 'h2', children, ..
 export default Columns;
 
 const Root = styled.section`
-  ${isDesktop} {
-    display: flex;
+  display: flex;
+  gap: var(--space-2);
+
+  ${isMobile} {
+    flex-direction: column;
   }
 
   & + & {
@@ -32,16 +36,10 @@ const Root = styled.section`
 `;
 
 const TitleText = styled.h2`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  ${textEllipsis}
 `;
 
 const ColumnTitle = styled.div`
-  ${isMobile} {
-    margin-bottom: var(--space-2);
-  }
-
   ${isDesktop} {
     position: sticky;
     top: calc(${SPACING_BASE_PX * 5}px + 1rem);
