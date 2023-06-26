@@ -23,7 +23,6 @@ export function Adsense() {
     try {
       if (isLoaded) {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
       }
     } catch (err) {
       console.log(err);
@@ -32,9 +31,6 @@ export function Adsense() {
 
   return (
     <Container key={asPath}>
-      <Ads>
-        <Ins />
-      </Ads>
       <Ads>
         <Ins />
       </Ads>
