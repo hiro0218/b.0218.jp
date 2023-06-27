@@ -31,4 +31,4 @@ async function main() {
   await Promise.all(pngFiles.map((file, index) => convertToWebp(file, index, total)));
 }
 
-main().catch((err) => Log.error(err.message));
+main();
