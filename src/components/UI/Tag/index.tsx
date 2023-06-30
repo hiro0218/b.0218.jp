@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { Anchor as _Anchor } from '@/components/UI/Anchor';
+import { Anchor } from '@/components/UI/Anchor';
 import { TAG_VIEW_LIMIT } from '@/constant';
 import { css, styled } from '@/ui/styled';
 
@@ -30,7 +30,7 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
         })
         .map(({ slug, count }) => {
           const isAnchor = count >= TAG_VIEW_LIMIT;
-          const TagComponent = isAnchor ? Anchor : Anchor.withComponent('span');
+          const TagComponent = isAnchor ? TagAnchor : DisabledTagAnchor;
 
           return (
             <TagComponent
@@ -53,8 +53,6 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
 export default PostTag;
 
 export const PostTagAnchorStyle = css`
-  align-items: center;
-  align-self: flex-start;
   padding: var(--space-1);
   font-size: var(--font-size-sm);
   line-height: 1;
@@ -63,6 +61,10 @@ export const PostTagAnchorStyle = css`
   white-space: nowrap;
   background-color: var(--component-backgrounds-3A);
   border-radius: var(--border-radius-4);
+`;
+
+const TagAnchor = styled(Anchor)`
+  ${PostTagAnchorStyle}
 
   &:hover {
     background-color: var(--component-backgrounds-4A);
@@ -73,6 +75,8 @@ export const PostTagAnchorStyle = css`
   }
 `;
 
-const Anchor = styled(_Anchor)`
+const DisabledTagAnchor = styled.span`
   ${PostTagAnchorStyle}
+
+  cursor: default;
 `;
