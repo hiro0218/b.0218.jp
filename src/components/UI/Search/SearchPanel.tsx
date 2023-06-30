@@ -71,7 +71,7 @@ export function SearchPanel({ closeDialog }: Props) {
   useRouteChangeComplete(closeDialog);
 
   return (
-    <SearchMain>
+    <SearchMain role="search">
       {SearchHeader}
       <Result markedTitles={markedTitles} suggestions={suggestions} />
       <Footer resultNumber={suggestions.length} />
