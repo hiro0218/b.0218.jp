@@ -114,7 +114,7 @@ const getOgpContent = (element: HTMLMetaElement): [OgpKey, string] | null => {
 };
 
 const getOgpProps = (meta: HTMLMetaElement[]): OpgProps => {
-  const ogpEntries = meta.map(getOgpContent).filter((entry): entry is [OgpKey, string] => entry !== null);
+  const ogpEntries = meta.map(getOgpContent).filter((entry): entry is [OgpKey, OpgProps['card']] => entry !== null);
   return Object.fromEntries(ogpEntries);
 };
 

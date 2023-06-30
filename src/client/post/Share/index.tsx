@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { useCallback } from 'react';
+import { useCallback, useId } from 'react';
 
 import { Stack } from '@/components/UI/Layout';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
@@ -18,6 +18,7 @@ interface Props {
 }
 
 function PostShare({ title, url }: Props) {
+  const labelledbyId = useId();
   const [, copy] = useCopyToClipboard();
   const toast = useToast('記事のURLをコピーしました');
 
@@ -26,8 +27,8 @@ function PostShare({ title, url }: Props) {
   }, [copy, toast, url]);
 
   return (
-    <aside>
-      <SrOnly as="h2" text="このページをシェアする" />
+    <aside aria-labelledby={labelledbyId}>
+      <SrOnly as="h2" id={labelledbyId} text="このページをシェアする" />
       <Stack direction="horizontal" space="1">
         <Anchor
           href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}`}
