@@ -29,8 +29,12 @@ export function Adsense() {
     }
   }, [asPath, isLoaded]);
 
+  /**
+   * aria-label
+   * @link https://support.google.com/adsense/answer/4533986?hl=ja
+   */
   return (
-    <Container key={asPath}>
+    <Container aria-label="スポンサーリンク" key={asPath}>
       <Ads>
         <Ins />
       </Ads>
