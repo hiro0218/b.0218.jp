@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { styled } from '@/ui/styled';
 
 type Props = {
+  id?: HTMLHeadingElement['id'];
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   text?: ReactNode;
   textSide?: ReactNode;
@@ -12,6 +13,7 @@ type Props = {
 };
 
 function Heading({
+  id = undefined,
   as = 'h1',
   text = undefined,
   textSide = undefined,
@@ -20,11 +22,11 @@ function Heading({
 }: Props) {
   const TitleComponent = useMemo(
     () => (
-      <HeaderTitle as={as} weight={isWeightNormal}>
+      <HeaderTitle as={as} id={id} weight={isWeightNormal}>
         {text}
       </HeaderTitle>
     ),
-    [as, isWeightNormal, text],
+    [as, isWeightNormal, id, text],
   );
   return (
     <Container>
