@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { useMemo } from 'react';
 
 import { styled } from '@/ui/styled';
 
@@ -17,15 +18,27 @@ function Heading({
   textSub = undefined,
   isWeightNormal = true,
 }: Props) {
+  const TitleComponent = useMemo(
+    () => (
+      <HeaderTitle as={as} weight={isWeightNormal}>
+        {text}
+      </HeaderTitle>
+    ),
+    [as, isWeightNormal, text],
+  );
   return (
     <Container>
-      <Main>
-        <HeaderTitle as={as} weight={isWeightNormal}>
-          {text}
-        </HeaderTitle>
-        {!!textSub && <HeaderSub>{textSub}</HeaderSub>}
-      </Main>
-      {!!textSide && <Side>{textSide}</Side>}
+      {!!textSub || !!textSide ? (
+        <>
+          <Main>
+            {TitleComponent}
+            {!!textSub && <HeaderSub>{textSub}</HeaderSub>}
+          </Main>
+          {!!textSide && <Side>{textSide}</Side>}
+        </>
+      ) : (
+        <>{TitleComponent}</>
+      )}
     </Container>
   );
 }
