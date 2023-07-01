@@ -3,7 +3,6 @@ import { type AriaRole, type ComponentProps, type ReactNode } from 'react';
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
 import { PostTagAnchorStyle } from '@/components/UI/Tag';
-import { CaretRightIcon, ICON_SIZE_SM } from '@/ui/icons';
 import { showHoverBackground, textEllipsis } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -36,26 +35,11 @@ function LinkCard({ link, title, date, updated, excerpt, tags, role }: Props) {
           </Tags>
         )}
       </Main>
-      <Icon>
-        <CaretRightIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-      </Icon>
     </Container>
   );
 }
 
 export default LinkCard;
-
-const Icon = styled.div`
-  position: absolute;
-  top: 0;
-  right: var(--space-½);
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  color: var(--text-11);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-`;
 
 const Container = styled.article`
   display: flex;
@@ -65,13 +49,6 @@ const Container = styled.article`
   contain: layout style paint;
 
   ${showHoverBackground}
-
-  &:hover,
-  &:focus-within {
-    ${Icon} {
-      opacity: 1;
-    }
-  }
 `;
 
 const Main = styled.div`
