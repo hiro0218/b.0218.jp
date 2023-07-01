@@ -76,7 +76,7 @@
     "csso": "^5.0.5",
     "dependency-cruiser": "^13.0.4",
     "dotenv": "^16.3.1",
-    "esbuild": "^0.18.9",
+    "esbuild": "^0.18.10",
     "esbuild-register": "^3.4.2",
     "eslint": "^8.43.0",
     "eslint-config-next": "^13.4.7",
