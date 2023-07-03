@@ -131,6 +131,9 @@
     "unified": "^10.1.2",
     "unist-util-visit": "^4.1.2"
   },
+  "overrides": {
+    "lowlight": "^2.9.0"
+  },
   "nextBundleAnalysis": {
     "budget": 358400,
     "budgetPercentIncreaseRed": 20,
