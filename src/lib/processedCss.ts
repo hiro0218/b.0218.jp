@@ -15,7 +15,7 @@ export const processedCss = (css: string) => {
       preset: ['cssnano-preset-advanced'],
       plugins: [],
     }),
-    combineSelectors({ removeDuplicatedProperties: true }),
     postcssSortMediaQueries,
+    combineSelectors({ removeDuplicatedProperties: true }),
   ]).process(css).css;
 };
