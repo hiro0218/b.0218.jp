@@ -41,5 +41,7 @@ const Div = styled.div<{
   background-color: var(--overlay-backgrounds);
   isolation: isolate;
   opacity: ${({ isActive }) => (isActive ? 1 : 0)};
-  transition: opacity 0.4s ease, visibility 0.4s ease;
+  transition:
+    opacity 0.4s ease,
+    visibility 0.4s ease;
 `;

@@ -2,17 +2,17 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    target-branch: "develop"
+  - package-ecosystem: 'npm' # See documentation for possible values
+    directory: '/' # Location of package manifests
+    target-branch: 'develop'
     schedule:
-      interval: "monthly"
-      time: "09:00"
+      interval: 'monthly'
+      time: '09:00'
       # Use Japan Standard Time (UTC +09:00)
-      timezone: "Asia/Tokyo"
+      timezone: 'Asia/Tokyo'
     reviewers:
-      - "hiro0218"
+      - 'hiro0218'
     open-pull-requests-limit: 10
     ignore:
-      - dependency-name: "puppeteer"
-        versions: ["5.x.x"]
+      - dependency-name: 'puppeteer'
+        versions: ['5.x.x']
