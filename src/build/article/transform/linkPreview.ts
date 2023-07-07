@@ -47,7 +47,7 @@ const setPreviewLinkNodes = (node: Element, index: number, parent: Element, doma
       ]),
     ],
   );
-  node.children = [template];
+  node.children = [template] as ElementContent[];
 
   parent.children.splice(index, 1, ...node.children);
 };

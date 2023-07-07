@@ -53,6 +53,8 @@ const Dialog = styled.dialog`
     z-index: var(--zIndex-search);
     padding: 0;
     border: none;
-    animation: ${fadeIn} 0.4s, ${slideIn} 0.4s linear;
+    animation:
+      ${fadeIn} 0.4s,
+      ${slideIn} 0.4s linear;
   }
 `;

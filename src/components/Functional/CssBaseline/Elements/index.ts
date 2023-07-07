@@ -32,7 +32,11 @@ export default css`
     text-decoration-color: var(--borders-8);
     text-underline-position: under;
     text-underline-offset: 2%;
-    transition: background-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease-in-out, text-decoration-color 0.3s;
+    transition:
+      background-color 0.2s ease,
+      opacity 0.2s ease,
+      box-shadow 0.2s ease-in-out,
+      text-decoration-color 0.3s;
 
     &:focus-visible {
       outline: 0;

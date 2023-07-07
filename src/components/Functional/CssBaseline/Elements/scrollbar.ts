@@ -10,12 +10,11 @@ export const Scrollbar = css`
   // Chrome, Edge and Safari
   *::-webkit-scrollbar {
     width: 8px;
-    width: 8px;
   }
 
   *::-webkit-scrollbar-track {
-    border-radius: 4px;
     background-color: var(--component-backgrounds-3A);
+    border-radius: 4px;
   }
 
   *::-webkit-scrollbar-track:hover {
@@ -27,10 +26,10 @@ export const Scrollbar = css`
   }
 
   *::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    border: 1px solid transparent;
     background-color: var(--solid-backgrounds-9);
     background-clip: content-box;
+    border: 1px solid transparent;
+    border-radius: 4px;
   }
 
   *::-webkit-scrollbar-thumb:hover {

@@ -32,6 +32,13 @@ module.exports = {
         'function-name-case': null,
         'function-no-unknown': null,
         'no-invalid-double-slash-comments': null,
+        'plugin/no-unsupported-browser-features': [
+          true,
+          {
+            ignorePartialSupport: true,
+            ignore: ['css-nesting'],
+          },
+        ],
       },
     },
   ],
