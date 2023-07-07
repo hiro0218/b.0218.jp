@@ -56,7 +56,7 @@ jobs:
 
       - name: Generate Markdown Text
         run: |
-          echo '# 依存関係分析結果（dependency-cruiser）' >> comment.md
+          echo '## 依存関係分析結果（dependency-cruiser）' >> comment.md
           echo '' >> comment.md
 
           if [[ "${{ env.files }}" != "" ]]; then
