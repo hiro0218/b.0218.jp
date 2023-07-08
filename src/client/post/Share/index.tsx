@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import { useCallback, useId } from 'react';
 
 import { Stack } from '@/components/UI/Layout';
+import { Tooltip } from '@/components/UI/Tooltip';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import useToast from '@/hooks/useToast';
 import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, TwitterLogoIcon } from '@/ui/icons';
@@ -35,15 +36,15 @@ function PostShare({ title, url }: Props) {
           rel="noopener noreferrer"
           target="_blank"
         >
-          <SrOnly text="Twitterでツイートする" />
+          <Tooltip text="Twitterでツイートする" />
           <TwitterLogoIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </Anchor>
         <Anchor href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`} rel="noopener noreferrer" target="_blank">
-          <SrOnly text="はてなブックマークでブックマークする" />
+          <Tooltip text="はてなブックマークでブックマークする" />
           <Hatenabookmark height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </Anchor>
         <Button onClick={onClickCopyPermalink} type="button">
-          <SrOnly text="このページのURLをコピーする" />
+          <Tooltip text="このページのURLをコピーする" />
           <Link2Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </Button>
       </Stack>
