@@ -3,6 +3,8 @@ import { TAG_VIEW_LIMIT } from '@/constant';
 import { getSimilarTag as getSimilarTags } from '@/lib/posts';
 import type { TagsListProps } from '@/types/source';
 
+const LIMIT_TAG_LIST = 10;
+
 const tags = getSimilarTags();
 
 const getTagBySlug = (tagList: TagsListProps, slug: PostTagProps['slug']) => {
@@ -26,7 +28,8 @@ export const getSimilarTag = (tag: string, tagList: TagsListProps) => {
           if (a === null) return 1;
           if (b === null) return -1;
           return b.count - a.count;
-        }) as PostTagProps[])
+        })
+        .splice(0, LIMIT_TAG_LIST) as PostTagProps[])
     : [];
 
   return similarTags;
