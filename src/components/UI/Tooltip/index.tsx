@@ -36,10 +36,10 @@ const Container = styled.span`
       position: absolute;
       padding: var(--space-½) var(--space-1);
       line-height: 1.5;
-      color: var(--backgrounds-1);
+      color: var(--dark-foregrounds);
       white-space: nowrap;
       pointer-events: none;
-      background-color: var(--text-12);
+      background-color: var(--dark-backgrounds);
       border-radius: var(--border-radius-4);
       animation: ${fadeIn} 0.6s ease;
       animation-fill-mode: both;
