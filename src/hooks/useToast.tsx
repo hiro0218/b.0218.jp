@@ -18,7 +18,7 @@ function ToastUI({ message }: { message: ReactNode }) {
 
 const Container = styled.div`
   padding: var(--space-1) var(--space-2);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   color: var(--dark-foregrounds);
   white-space: nowrap;
   user-select: none;
