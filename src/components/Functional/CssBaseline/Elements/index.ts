@@ -228,4 +228,14 @@ export default css`
     appearance: none;
     -webkit-appearance: none;
   }
+
+  del {
+    color: var(--text-11);
+    font-size: var(--font-size-sm);
+
+    &::before {
+      display: inline-block;
+      content: '（' attr(datetime) ' 削除）';
+    }
+  }
 `;
