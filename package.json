@@ -57,8 +57,8 @@
     "shokika.css": "^1.7.1"
   },
   "devDependencies": {
-    "@markuplint/jsx-parser": "^3.7.0",
-    "@markuplint/react-spec": "^3.8.0",
+    "@markuplint/jsx-parser": "^3.8.0",
+    "@markuplint/react-spec": "^3.9.0",
     "@next/bundle-analyzer": "^13.4.9",
     "@svgr/webpack": "^8.0.1",
     "@testing-library/jest-dom": "^5.16.5",
