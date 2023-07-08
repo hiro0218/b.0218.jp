@@ -11,8 +11,22 @@ const remark0218 = (): Transformer => {
   const nodes = new Set<{ node: Element; index: number; parent: Element }>();
 
   return async (tree) => {
-    visit(tree, { tagName: 'a' }, function visitor(node: Element, index, parent) {
-      nodes.add({ node, index, parent });
+    visit(tree, 'element', (node: Element, index, parent) => {
+      if (node.tagName === 'a') {
+        nodes.add({ node, index, parent });
+      }
+
+      if (node.tagName === 'img') {
+        transformImage(node);
+      }
+
+      if (node.tagName === 'code') {
+        transformCodeblock(node);
+      }
+
+      if (node.tagName === 'p') {
+        removeEmptyParagraph(node, index, parent);
+      }
     });
 
     await Promise.all(
@@ -20,18 +34,6 @@ const remark0218 = (): Transformer => {
         await transformLinkPreview(node, index, parent);
       }),
     );
-
-    visit(tree, { tagName: 'img' }, function visitor(node: Element) {
-      transformImage(node);
-    });
-
-    visit(tree, { tagName: 'code' }, function visitor(node: Element) {
-      transformCodeblock(node);
-    });
-
-    visit(tree, { tagName: 'p' }, function visitor(node: Element, index, parent) {
-      removeEmptyParagraph(node, index, parent);
-    });
   };
 };
 

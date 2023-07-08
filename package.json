@@ -129,7 +129,7 @@
     "stylelint-no-unsupported-browser-features": "^7.0.0",
     "typescript": "^5.0.4",
     "unified": "^10.1.2",
-    "unist-util-visit": "^4.1.2"
+    "unist-util-visit": "^5.0.0"
   },
   "overrides": {
     "lowlight": "^2.9.0"
