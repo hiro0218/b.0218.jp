@@ -20,6 +20,20 @@ export const srOnly = css`
   border-width: 0;
 `;
 
+/**
+ * @see https://tailwindcss.com/docs/screen-readers
+ */
+export const notSrOnly = css`
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+`;
+
 export default css`
   ${reset}
 
