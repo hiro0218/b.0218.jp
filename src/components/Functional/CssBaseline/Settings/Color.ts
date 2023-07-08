@@ -66,4 +66,10 @@ export default css`
    * その他
    */
   --overlay-backgrounds: ${blackA.blackA10};
+
+  /**
+   * Semantic Color
+   */
+  --dark-backgrounds: ${blackA.blackA12};
+  --dark-foregrounds: ${gray.gray1};
 `;

@@ -17,12 +17,12 @@ function ToastUI({ message }: { message: ReactNode }) {
 }
 
 const Container = styled.div`
-  padding: var(--space-2);
-  font-size: var(--font-size-sm);
-  color: var(--text-12);
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--dark-foregrounds);
   white-space: nowrap;
   user-select: none;
-  background-color: var(--component-backgrounds-4A);
+  background-color: var(--dark-backgrounds);
   border-radius: var(--border-radius-4);
 `;
 
