@@ -111,8 +111,8 @@ export default css`
   }
 
   mark {
-    background-color: var(--component-backgrounds-5A);
     padding: 1px 2px;
+    background-color: var(--component-backgrounds-5A);
     border-radius: var(--border-radius-4);
   }
 
@@ -156,6 +156,7 @@ export default css`
     padding: var(--space-½) var(--space-1);
     margin: 0;
     font-size: var(--font-size-sm);
+    color: inherit;
     background: var(--component-backgrounds-3A);
   }
 
@@ -223,15 +224,15 @@ export default css`
 
   button {
     padding: 0;
+    -webkit-appearance: none;
+    appearance: none;
     background-color: transparent;
     border: none;
-    appearance: none;
-    -webkit-appearance: none;
   }
 
   del {
-    color: var(--text-11);
     font-size: var(--font-size-sm);
+    color: var(--text-11);
 
     &::before {
       display: inline-block;
