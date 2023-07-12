@@ -46,19 +46,21 @@ export default css`
 
   figure {
     text-align: center;
+    font-size: var(--font-size-sm);
 
-    & img {
+    > * + * {
+      margin-top: var(--space-1);
+    }
+
+    img {
       display: block;
       margin-right: auto;
       margin-left: auto;
       border: 1px solid var(--borders-6);
     }
 
-    & figcaption {
-      margin-top: var(--space-1);
-      font-size: var(--font-size-sm);
+    figcaption {
       color: var(--text-11);
-      text-align: center;
     }
   }
 
