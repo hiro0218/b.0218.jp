@@ -21,20 +21,18 @@ type Props = {
 function LinkCard({ link, title, date, updated, excerpt, tags, role }: Props) {
   return (
     <Container role={role}>
-      <Main>
-        {!!date && <PostDate date={date} updated={updated} />}
-        <Anchor href={link} passHref prefetch={false}>
-          <Title>{title}</Title>
-        </Anchor>
-        <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>{!!excerpt && <span>{excerpt}</span>}</Paragraph>
-        {!!tags && (
-          <Tags>
-            {tags.map((tag) => (
-              <TagItem key={tag}>{tag}</TagItem>
-            ))}
-          </Tags>
-        )}
-      </Main>
+      {!!date && <PostDate date={date} updated={updated} />}
+      <Anchor href={link} passHref prefetch={false}>
+        <Title>{title}</Title>
+      </Anchor>
+      <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>{!!excerpt && <span>{excerpt}</span>}</Paragraph>
+      {!!tags && (
+        <Tags>
+          {tags.map((tag) => (
+            <TagItem key={tag}>{tag}</TagItem>
+          ))}
+        </Tags>
+      )}
     </Container>
   );
 }
@@ -43,21 +41,17 @@ export default LinkCard;
 
 const Container = styled.article`
   display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: var(--space-1);
   padding: var(--space-3);
   content-visibility: auto;
   contain-intrinsic-size: 0 200px;
   contain: layout style paint;
-
-  ${showHoverBackground}
-`;
-
-const Main = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  gap: var(--space-1);
   overflow: hidden;
   word-break: break-all;
+
+  ${showHoverBackground}
 
   time {
     font-size: var(--font-size-sm);
