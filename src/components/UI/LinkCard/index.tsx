@@ -21,11 +21,11 @@ type Props = {
 function LinkCard({ link, title, date, updated, excerpt, tags, role }: Props) {
   return (
     <Container role={role}>
-      {!!date && <PostDate date={date} updated={updated} />}
+      <PostDate date={date} updated={updated} />
       <Anchor href={link} passHref prefetch={false}>
         <Title>{title}</Title>
       </Anchor>
-      <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>{!!excerpt && <span>{excerpt}</span>}</Paragraph>
+      {!!excerpt && <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>{excerpt}</Paragraph>}
       {!!tags && (
         <Tags>
           {tags.map((tag) => (
@@ -48,7 +48,6 @@ const Container = styled.article`
   content-visibility: auto;
   contain-intrinsic-size: 0 200px;
   contain: layout style paint;
-  overflow: hidden;
   word-break: break-all;
 
   ${showHoverBackground}
