@@ -49,7 +49,6 @@ const Button = styled.button`
   justify-content: center;
   width: 56px;
   height: 56px;
-  appearance: none;
   background-color: transparent;
   border: none;
   border-radius: var(--border-radius-4);
