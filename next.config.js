@@ -7,8 +7,6 @@ const withBundleAnalyzer =
 const nextConfiguration = {
   reactStrictMode: true,
 
-  swcMinify: true,
-
   compiler: {
     emotion: {
       autoLabel: 'dev-only',
@@ -24,6 +22,7 @@ const nextConfiguration = {
   },
 
   experimental: {
+    workerThreads: true,
     webpackBuildWorker: true,
     scrollRestoration: true,
     legacyBrowsers: false,

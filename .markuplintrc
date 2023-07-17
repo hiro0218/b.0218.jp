@@ -15,28 +15,29 @@
   ],
   "nodeRules": [
     {
-      "selector": "meta[property]",
-      "rules": {
-        "invalid-attr": {
-          "options": {
-            "allowAttrs": [
-              {
-                "name": "content",
-                "value": {
-                  "type": "Any"
-                }
-              },
-              {
-                "name": "property",
-                "value": {
-                  "type": "Any"
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
+			"selector": "meta[property]",
+			"rules": {
+				"invalid-attr": {
+					"options": {
+						"allowAttrs": [
+							{
+								"name": "property",
+								"value": {
+									"pattern": "/^(og|article):.+/"
+								}
+							},
+							{
+								"name": "content",
+								"value": {
+									"type": "NoEmptyAny"
+								}
+							}
+						]
+					}
+				},
+				"required-attr": false
+			}
+		},
     {
       "selector": "*",
       "rules": {
