@@ -20,7 +20,7 @@ const remark0218 = (): Transformer => {
         transformImage(node);
       }
 
-      if (node.tagName === 'code') {
+      if (node.tagName === 'code' && node.children.length > 0) {
         transformCodeblock(node);
       }
 
