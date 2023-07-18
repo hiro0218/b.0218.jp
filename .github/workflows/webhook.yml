@@ -28,8 +28,9 @@ jobs:
           git commit -am "🤖: Update submodules"
           git push
 
-      - name: Webhook
-        if: ${{ env.isChanged == 'true' }}
-        uses: joelwmale/webhook-action@master
-        with:
-          url: ${{ secrets.VERCEL_WEBHOOK }}
+# コミットすることでVercelのCIが実行されるためwebhookが不要
+#       - name: Webhook
+#         if: ${{ env.isChanged == 'true' }}
+#         uses: joelwmale/webhook-action@master
+#         with:
+#           url: ${{ secrets.VERCEL_WEBHOOK }}
