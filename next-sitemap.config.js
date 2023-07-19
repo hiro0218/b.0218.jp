@@ -11,7 +11,7 @@ module.exports = {
   generateIndexSitemap: false,
   transform: async (config, path) => {
     const slug = path.replace(/^\//, '').replace('.html', '');
-    const post = posts.find((post) => post.slug === slug);
+    const post = posts.get(slug);
     const isPost = !!post;
 
     /**
