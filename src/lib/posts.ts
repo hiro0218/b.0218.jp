@@ -12,6 +12,7 @@ import postsList from '~/dist/posts-list.json';
 import postsSimilarity from '~/dist/posts-similarity.json';
 import tags from '~/dist/tags.json';
 import tagsSimilarity from '~/dist/tags-similarity.json';
+import tagsWithCount from '~/dist/tags-with-count.json';
 
 export const getTagsJson = (): TagsListProps => {
   return tags;
@@ -29,12 +30,8 @@ export const getPagesJson = (): PageProps[] => {
   return pages;
 };
 
-export const getTagsWithCount = (): [string, number][] => {
-  return Object.entries(getTagsJson())
-    .map(([key, val]) => {
-      return [key, val.length] as [string, number];
-    })
-    .sort((a, b) => b[1] - a[1]); // 件数の多い順にソート
+export const getTagsWithCount = () => {
+  return tagsWithCount.tagsWithCount;
 };
 
 export const getSimilarTag = (): TagSimilarProps => {

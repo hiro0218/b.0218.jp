@@ -13,9 +13,7 @@ export const getData = () => {
     .filter((post) => post.updated && post.date < post.updated && !recentSlugs.has(post.slug))
     .slice(0, POST_DISPLAY_LIMIT);
 
-  const tags = tagsWithCount
-    .filter((item, i) => item[1] >= 10 && i < 25) // 件数が10件以上を25個抽出
-    .map(([slug, count]) => ({ slug, count }));
+  const tags = tagsWithCount.filter((item, i) => item.count >= 10 && i < 25); // 件数が10件以上を25個抽出
 
   return {
     recentPosts,

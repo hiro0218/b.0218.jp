@@ -6,9 +6,7 @@ import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getTagsWithCount } from '@/lib/posts';
 
-const tags = getTagsWithCount()
-  .filter(([, count]) => count >= TAG_VIEW_LIMIT)
-  .map(([slug, count]) => ({ slug, count }));
+const tags = getTagsWithCount().filter((tag) => tag.count >= TAG_VIEW_LIMIT);
 
 export default function Tags() {
   return (
