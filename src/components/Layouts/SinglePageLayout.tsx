@@ -26,7 +26,7 @@ export const createGetLayout = (layoutProps: LayoutProps): (() => ReactElement) 
 };
 
 function Layout(props: LayoutProps) {
-  const { content } = pages.find((page) => page.slug === props.slug);
+  const { content } = pages.get(props.slug);
 
   return (
     <>

@@ -10,14 +10,13 @@ type TermProps = {
 
 const allPosts = getPostsJson();
 const allTags = getTagsJson();
-const postsBySlug = Object.fromEntries(allPosts.map((post) => [post.slug, post]));
 
 export const getStaticPropsTagDetail: GetStaticProps<TermProps> = (context: GetStaticPropsContext) => {
   const slug = context.params?.slug as string;
   const tag = allTags[slug];
   const tagsPosts = tag
     .map((slug) => {
-      const post = postsBySlug[slug];
+      const post = allPosts.get(slug);
       if (!post) {
         return null;
       }

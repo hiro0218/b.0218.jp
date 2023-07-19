@@ -20,7 +20,6 @@ export type PostPageProps = {
 const posts = getPostsJson();
 const tagData = getTagsJson();
 
-const postsBySlug = Object.fromEntries(posts.map((post) => [post.slug, post]));
 const tagDataWithCount = Object.entries(tagData).map(([slug, val]) => ({
   slug,
   count: val.length,
@@ -31,7 +30,7 @@ export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
   const slug = (context.params?.post as string).replace('.html', '');
 
   // slug に一致する post を取得
-  const post = postsBySlug[slug];
+  const post = posts.get(slug);
 
   if (!post) {
     return {

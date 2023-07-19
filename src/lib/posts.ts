@@ -18,16 +18,16 @@ export const getTagsJson = (): TagsListProps => {
   return tags;
 };
 
-export const getPostsJson = (): PostProps[] => {
-  return posts;
+export const getPostsJson = (): Map<PostProps['slug'], PostProps> => {
+  return new Map(posts.map((post) => [post.slug, post]));
 };
 
 export const getPostsListJson = (): PostListProps[] => {
   return postsList;
 };
 
-export const getPagesJson = (): PageProps[] => {
-  return pages;
+export const getPagesJson = (): Map<PageProps['slug'], PageProps> => {
+  return new Map(pages.map((page) => [page.slug, page]));
 };
 
 export const getTagsWithCount = () => {
