@@ -29,11 +29,9 @@ function generatedRssFeed(): void {
   const posts = getPostsJson();
   let loopCount = 0;
 
-  for (let i = 0; i < posts.length; i++) {
-    const post = posts[i];
-
+  posts.forEach((post) => {
     if (post.noindex == true || post.tags.includes('名探偵コナン')) {
-      continue;
+      return;
     }
 
     if (loopCount < 30) {
@@ -50,7 +48,7 @@ function generatedRssFeed(): void {
 
       loopCount++;
     }
-  }
+  });
 
   writeFile('./public/feed.xml', feed.rss2());
   writeFile('./public/atom.xml', feed.atom1());

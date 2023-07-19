@@ -1,8 +1,8 @@
 import rehypeExternalLinks from 'rehype-external-links';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
+import rehypePresetMinify from 'rehype-preset-minify';
 import rehypeRaw from 'rehype-raw';
-import rehypeRemoveComments from 'rehype-remove-comments';
 import rehypeRemoveEmptyAttribute from 'rehype-remove-empty-attribute';
 import rehypeRemoveEmptyParagraph from 'rehype-remove-empty-paragraph';
 import rehypeStringify from 'rehype-stringify';
@@ -42,7 +42,7 @@ const markdownToHtmlString = async (markdown: string, simple = false) => {
         .use(remark0218)
         .use(rehypeRemoveEmptyAttribute)
         .use(rehypeRemoveEmptyParagraph, { trimBr: true })
-        .use(rehypeRemoveComments)
+        .use(rehypePresetMinify)
         .use(rehypeWrap, [
           {
             selector: 'table',

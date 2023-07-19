@@ -6,10 +6,10 @@ import { getTagsWithCount } from '@/lib/posts';
 export const getStaticPathsTagDetail: GetStaticPaths = () => {
   const tags = getTagsWithCount();
   const paths = tags
-    .filter(([, count]) => count >= TAG_VIEW_LIMIT)
-    .map(([slug]) => {
+    .filter((item) => item.count >= TAG_VIEW_LIMIT) // 件数が10件以上を25個抽出
+    .map((item) => {
       return {
-        params: { slug },
+        params: { slug: item.slug },
       };
     });
 

@@ -112,6 +112,18 @@ function buildTerms(posts: Partial<PostProps>[]) {
 
   writeJSONSync(`${PATH.DIST}/tags.json`, tagsMap);
   Log.info('Write dist/tags.json');
+
+  const tagsWithCount = Object.entries(tagsMap)
+    .map(([slug, val]) => {
+      return {
+        slug: slug,
+        count: val.length,
+      };
+    })
+    .sort((a, b) => b.count - a.count); // 件数の多い順にソート
+
+  writeJSONSync(`${PATH.DIST}/tags-with-count.json`, { tagsWithCount });
+  Log.info('Write dist/tags-with-count.json');
 }
 
 async function buildPage() {

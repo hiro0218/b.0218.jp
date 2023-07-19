@@ -8,14 +8,14 @@ const getSimilarPostBySlug = (similarPosts: PostSimilarProps, key: string) => {
   return result ? result[key] : null;
 };
 
-export const getSimilarPost = (posts: PostProps[], slug: string) => {
+export const getSimilarPost = (posts: Map<PostProps['slug'], PostProps>, slug: string) => {
   const similarPostSlugs = getSimilarPostBySlug(similarPosts, slug);
   if (!similarPostSlugs) {
     return [];
   }
   const similarPost = Object.keys(similarPostSlugs)
     .map((slug) => {
-      const post = posts.find((post) => post.slug === slug);
+      const post = posts.get(slug);
       if (!post) {
         return null;
       }

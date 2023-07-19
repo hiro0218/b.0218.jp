@@ -9,18 +9,22 @@ import { removeEmptyParagraph } from './transform/paragraph';
 
 const remark0218 = (): Transformer => {
   const nodes = new Set<{ node: Element; index: number; parent: Element }>();
+  let imageCounter = 0;
 
   return async (tree) => {
     visit(tree, 'element', (node: Element, index, parent) => {
-      if (node.tagName === 'a') {
-        nodes.add({ node, index, parent });
+      if (node.tagName === 'a' && node.children.length > 0) {
+        if (node.children[0]?.type === 'text') {
+          nodes.add({ node, index, parent });
+        }
       }
 
       if (node.tagName === 'img') {
-        transformImage(node);
+        transformImage(node, imageCounter);
+        imageCounter++;
       }
 
-      if (node.tagName === 'code') {
+      if (node.tagName === 'code' && node.children.length > 0) {
         transformCodeblock(node);
       }
 
