@@ -31,7 +31,7 @@ const Container = styled.div`
 `;
 
 const Main = styled.main`
-  max-width: var(--container-width);
+  width: var(--container-width);
   padding: 0 var(--space-4);
   margin: var(--space-3) auto 0;
 
