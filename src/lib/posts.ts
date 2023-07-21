@@ -1,6 +1,7 @@
 import type {
   PageProps,
   PostListProps,
+  PostPopularProps,
   PostProps,
   PostSimilarProps,
   TagSimilarProps,
@@ -9,6 +10,7 @@ import type {
 import pages from '~/dist/pages.json';
 import posts from '~/dist/posts.json';
 import postsList from '~/dist/posts-list.json';
+import postsPopular from '~/dist/posts-popular.json';
 import postsSimilarity from '~/dist/posts-similarity.json';
 import tags from '~/dist/tags.json';
 import tagsSimilarity from '~/dist/tags-similarity.json';
@@ -40,4 +42,8 @@ export const getSimilarTag = (): TagSimilarProps => {
 
 export const getSimilarPost = (): PostSimilarProps => {
   return postsSimilarity;
+};
+
+export const getPostsPopular = (): PostPopularProps => {
+  return postsPopular;
 };
