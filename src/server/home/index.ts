@@ -1,11 +1,14 @@
 import { getPostsListJson, getTagsWithCount } from '@/lib/posts';
 
+import { getPopularPost } from './getPopularPost';
+
 const POST_DISPLAY_LIMIT = 5;
 
 const posts = getPostsListJson();
 const tagsWithCount = getTagsWithCount();
 
 export const getData = () => {
+  const popularPosts = getPopularPost(posts, POST_DISPLAY_LIMIT);
   const recentPosts = posts.slice(0, POST_DISPLAY_LIMIT);
   const recentSlugs = new Set(recentPosts.map(({ slug }) => slug));
   const updatesPosts = posts
@@ -18,6 +21,7 @@ export const getData = () => {
   return {
     recentPosts,
     updatesPosts,
+    popularPosts,
     tags,
   };
 };

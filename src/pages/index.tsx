@@ -15,7 +15,7 @@ const SrOnly = dynamic(() =>
 const data = getData();
 
 export default function Index() {
-  const { recentPosts, updatesPosts, tags } = data;
+  const { recentPosts, updatesPosts, popularPosts, tags } = data;
 
   return (
     <>
@@ -41,6 +41,7 @@ export default function Index() {
           <TitleSection href="/archive" text="記事" />
           <PostSection posts={recentPosts} title="最新記事" titleTagName="h3" />
           <PostSection posts={updatesPosts} title="更新記事" titleTagName="h3" />
+          <PostSection posts={popularPosts} title="注目記事" titleTagName="h3" />
         </Stack>
 
         <Stack as="section">
