@@ -34,4 +34,8 @@ const Stack = styled(_Stack)`
       text-decoration: underline;
     }
   }
+
+  svg {
+    flex-shrink: 0;
+  }
 `;
