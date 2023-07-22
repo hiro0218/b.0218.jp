@@ -1,12 +1,13 @@
-import { writeJSONSync } from 'fs-extra';
+import { readJSONSync, writeJSONSync } from 'fs-extra';
 
 import { FILENAME_POSTS_POPULAR, SITE_URL } from '@/constant';
 import * as Log from '@/lib/Log';
-import { getPostsListJson } from '@/lib/posts';
 
 const PATH_DIST = `${process.cwd()}/dist`;
 const HATENA_API_URL = 'https://bookmark.hatenaapis.com/count/entries';
 const MAX_URLS = 50;
+
+const postList = readJSONSync(`${PATH_DIST}/posts-list.json`);
 
 /**
  * URLをチャンクに分割する
@@ -42,7 +43,6 @@ function sortResultsByBookmarkCount(result: Record<string, number>): Record<stri
 }
 
 (async () => {
-  const postList = getPostsListJson();
   const urls = postList.map((post) => `${SITE_URL}/${post.slug}.html`);
   const chunkedUrls = chunkUrls(urls, MAX_URLS);
   const hatenaApiUrls = createHatenaApiUrls(chunkedUrls);
