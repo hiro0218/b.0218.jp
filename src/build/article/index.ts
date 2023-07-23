@@ -13,17 +13,6 @@ const PATH = {
   DIST: `${process.cwd()}/dist`,
 } as const;
 
-/**
- * h2の内容を取得して中身を取り出す
- */
-function getHeading2Text(content: string) {
-  const pattern = /<h2[^>]*>([^<]+)<\/h2>/g;
-  const matches = Array.from(content.matchAll(pattern), (match) => match[1]);
-
-  // 160文字以内に収める
-  return matches.join(' / ').slice(0, 160);
-}
-
 async function buildPost() {
   // md ファイル一覧を取得
   const files = readdirSync(`${PATH.SRC}/_posts`).filter((file) => file.endsWith('.md'));
@@ -49,7 +38,6 @@ async function buildPost() {
       updated: updated ? new Date(updated).toISOString() : '',
       ...(noteContent && { note: noteContent }),
       content: content,
-      excerpt: getHeading2Text(content),
       tags,
       readingTime: Math.round(readingTimeMinutes),
       noindex,

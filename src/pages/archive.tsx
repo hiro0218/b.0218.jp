@@ -28,16 +28,8 @@ export default function Archive() {
           .map((year) => (
             <Columns key={year} title={`${year}年`}>
               <Stack space="½">
-                {archives[year].map(({ slug, title, date, updated, excerpt, tags }: PostProps) => (
-                  <LinkCard
-                    date={date}
-                    excerpt={excerpt}
-                    key={slug}
-                    link={`/${slug}.html`}
-                    tags={tags}
-                    title={title}
-                    updated={updated}
-                  />
+                {archives[year].map(({ slug, title, date, updated, tags }: PostProps) => (
+                  <LinkCard date={date} key={slug} link={`/${slug}.html`} tags={tags} title={title} updated={updated} />
                 ))}
               </Stack>
             </Columns>

@@ -19,14 +19,13 @@ export const getSimilarPost = (posts: Map<PostProps['slug'], PostProps>, slug: s
       if (!post) {
         return null;
       }
-      const { title, date, updated, excerpt } = post;
+      const { title, date, updated } = post;
 
       return {
         title,
         slug,
         date,
         updated,
-        excerpt,
       };
     })
     .filter((post) => post !== null) as PostProps[];
