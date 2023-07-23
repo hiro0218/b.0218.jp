@@ -14,16 +14,8 @@ export const PostSection = ({ posts, title, titleTagName = 'h3' }: Props) => {
   return (
     <Columns title={title} titleTagName={titleTagName}>
       <Stack space="½">
-        {posts.map(({ date, excerpt, slug, tags, title, updated }) => (
-          <LinkCard
-            date={date}
-            excerpt={excerpt}
-            key={slug}
-            link={`${slug}.html`}
-            tags={tags}
-            title={title}
-            updated={updated}
-          />
+        {posts.map(({ date, slug, tags, title, updated }) => (
+          <LinkCard date={date} key={slug} link={`${slug}.html`} tags={tags} title={title} updated={updated} />
         ))}
       </Stack>
     </Columns>

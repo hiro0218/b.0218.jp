@@ -20,8 +20,8 @@ export const getStaticPropsTagDetail: GetStaticProps<TermProps> = (context: GetS
       if (!post) {
         return null;
       }
-      const { title, date, updated, excerpt } = post;
-      return { title, slug, date, updated, excerpt };
+      const { title, date, updated } = post;
+      return { title, slug, date, updated };
     })
     .filter((post) => post !== null) as TermsPostListProps[];
 

@@ -29,15 +29,8 @@ export default function Tags({ title, posts }: Props) {
 
         <Columns title={title}>
           <Stack space="½">
-            {posts.map(({ date, excerpt, slug, title, updated }) => (
-              <LinkCard
-                date={date}
-                excerpt={excerpt}
-                key={slug}
-                link={`/${slug}.html`}
-                title={title}
-                updated={updated}
-              />
+            {posts.map(({ date, slug, title, updated }) => (
+              <LinkCard date={date} key={slug} link={`/${slug}.html`} title={title} updated={updated} />
             ))}
           </Stack>
         </Columns>

@@ -39,7 +39,7 @@ function generatedRssFeed(): void {
 
       feed.addItem({
         title: post.title,
-        description: post.excerpt.replace(/<[^>]*>/g, ''),
+        description: post.content.replace(/<[^>]*>/g, '').slice(0, 140),
         id: post.slug,
         link: permalink,
         guid: permalink,
