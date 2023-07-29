@@ -65,7 +65,7 @@ export default css`
   }
 
   ul {
-    list-style: disc;
+    list-style: revert;
   }
 
   ol {
