@@ -42,11 +42,13 @@ const PostContentStyle = css`
         vertical-align: middle;
         content: url(${IconExternalLink});
       }
+      /* stylelint-disable */
       &:has(img) {
         &::after {
           content: none;
         }
       }
+      /* stylelint-enable */
     }
   }
 
@@ -72,40 +74,33 @@ const PostContentStyle = css`
 
   ${Headings}
 
-  ul {
-    padding-left: var(--space-1);
-
-    li {
-      padding-inline-start: var(--space-1);
-
-      &::marker {
-        padding-inline-start: var(--space-1);
-        font-size: var(--font-size-lg);
-        color: var(--text-11);
-        content: '-';
-      }
-    }
-  }
-
-  ol {
-    padding-left: var(--space-2);
-  }
-
   ul,
   ol {
-    ul,
-    ol {
-      padding-left: var(--space-2);
-      margin: var(--space-½) 0 var(--space-2);
-    }
+    padding-inline-start: var(--space-3);
 
-    :where(*):not(ul, ol, li) {
-      margin: var(--space-2) 0;
+    & + pre {
+      margin-inline-start: var(--space-3);
     }
   }
 
-  li + li {
-    margin-top: var(--space-½);
+  :where(li) > :is(ul, ol) {
+    margin-block-start: 0;
+  }
+
+  li {
+    margin-block-start: var(--space-½);
+
+    &::marker {
+      font-size: var(--font-size-sm);
+    }
+
+    &:first-of-type {
+      margin-block-start: 0;
+    }
+
+    ul:last-of-type {
+      margin-block-end: var(--space-1);
+    }
   }
 
   blockquote {

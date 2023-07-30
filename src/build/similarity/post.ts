@@ -1,5 +1,7 @@
 import type { PostListProps, TagSimilarProps } from '@/types/source';
 
+const LIMIT = 6;
+
 function calculatePostSimilarity(
   post: PostListProps,
   targetPostTags: PostListProps['tags'],
@@ -19,33 +21,35 @@ function calculatePostSimilarity(
     }
   }
 
-  return Number(similarityScore.toFixed(4));
+  // 小数点第4位で四捨五入
+  similarityScore = Math.round(similarityScore * 10000) / 10000;
+
+  return similarityScore;
 }
 
 export function getRelatedPosts(targetPosts: PostListProps[], posts: PostListProps[], sortedTags: TagSimilarProps) {
-  const LIMIT = 6;
   return targetPosts.map((targetPost) => {
     const targetPostTags = targetPost.tags;
-    const scoredArticles: { slug: PostListProps['slug']; similarityScore: number }[] = [];
 
-    posts.forEach((post) => {
-      if (post.slug !== targetPost.slug) {
-        const similarityScore = calculatePostSimilarity(post, targetPostTags, sortedTags);
-        if (similarityScore > 0) {
-          scoredArticles.push({ ...post, similarityScore });
+    const scoredArticles = posts
+      .map((post) => {
+        if (post.slug !== targetPost.slug) {
+          const similarityScore = calculatePostSimilarity(post, targetPostTags, sortedTags);
+          if (similarityScore > 0) {
+            return { slug: post.slug, similarityScore };
+          }
         }
-      }
-    });
-
-    scoredArticles.sort((a, b) => b.similarityScore - a.similarityScore);
-
-    const relatedArticles = scoredArticles.slice(0, LIMIT).reduce((acc, post) => {
-      acc[post.slug] = post.similarityScore;
-      return acc;
-    }, {});
+      })
+      .filter((post) => post !== undefined)
+      .sort((a, b) => b.similarityScore - a.similarityScore)
+      .slice(0, LIMIT)
+      .reduce((acc, post) => {
+        acc[post.slug] = post.similarityScore;
+        return acc;
+      }, {});
 
     return {
-      [targetPost.slug]: relatedArticles,
+      [targetPost.slug]: scoredArticles,
     };
   });
 }
