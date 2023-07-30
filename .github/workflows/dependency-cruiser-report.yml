@@ -42,13 +42,15 @@ jobs:
           files="$(git diff --name-only --diff-filter=AM origin/${{ github.base_ref }}...HEAD | grep -E "\.(js|cjs|mjs|jsx|ts|tsx)$" | tr '\n' ' ' | xargs)";
           formattedOption=$(echo "^$files" | sed 's/ /|^/g');
 
-          echo -e '\n```mermaid' >> result.md
-          npx depcruise --cache -X "^node_modules" --max-depth 3 --output-type mermaid --include-only "^src" --reaches $formattedOption $files >> result.md
-          echo -e '\n```' >> result.md
+          if [[ $files != "" ]]; then
+            echo -e '\n```mermaid' >> result.md
+            npx depcruise --cache -X "^node_modules" --max-depth 3 --output-type mermaid --include-only "^src" --reaches $formattedOption $files >> result.md
+            echo -e '\n```' >> result.md
 
-          echo -e '\n' >> result.md
-          npx depcruise --cache -X "^node_modules" --max-depth 3 --output-type markdown --include-only "^src" --reaches $formattedOption $files >> result.md
-          echo -e '\n' >> result.md
+            echo -e '\n' >> result.md
+            npx depcruise --cache -X "^node_modules" --max-depth 3 --output-type markdown --include-only "^src" --reaches $formattedOption $files >> result.md
+            echo -e '\n' >> result.md
+          fi
 
           echo "files=$files" >> $GITHUB_ENV
           cat result.md
