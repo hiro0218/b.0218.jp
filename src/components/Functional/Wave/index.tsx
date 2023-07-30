@@ -1,60 +1,41 @@
 import { memo } from 'react';
 
-import WaveBottomSvg from '@/assets/waveBottom.svg';
-import WaveTopSvg from '@/assets/waveTop.svg';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 type Props = {
-  svgHeight?: {
-    desktop: number;
-    mobile: number;
-  };
+  position: 'top' | 'bottom';
 };
 
-const DEFAULT_SVG_HEIGHT = {
-  desktop: 120,
-  mobile: 80,
-};
-
-export const WaveTop = memo(function WaveTop({ svgHeight }: Props) {
-  const svgHeightMerged = { ...DEFAULT_SVG_HEIGHT, ...svgHeight };
-
+const Wave = memo(function Wave({ position }: Props) {
   return (
-    <Container aria-hidden="true" svgHeight={svgHeightMerged}>
-      <WaveTopSvg />
+    <Container aria-hidden="true" position={position}>
+      <img alt="" decoding="async" height="192" src="/waveAnimation.svg" width="1920" />
     </Container>
   );
 });
 
-export const WaveBottom = memo(function WaveBottom({ svgHeight }: Props) {
-  const svgHeightMerged = { ...DEFAULT_SVG_HEIGHT, ...svgHeight };
+export const WaveTop = memo(function WaveTop() {
+  return <Wave position="top" />;
+});
 
-  return (
-    <Container aria-hidden="true" svgHeight={svgHeightMerged}>
-      <WaveBottomSvg />
-    </Container>
-  );
+export const WaveBottom = memo(function WaveBottom() {
+  return <Wave position="bottom" />;
 });
 
 const Container = styled.div<Props>`
   display: flex;
   overflow: hidden;
   pointer-events: none;
+  user-select: none;
 
-  svg {
-    position: relative;
+  img {
     z-index: -1;
-    width: 100vw;
-    height: ${({ svgHeight }) => `${svgHeight.desktop}px`};
-    pointer-events: none;
-    fill: var(--component-backgrounds-3);
-    stroke: none;
+    width: auto;
+    ${({ position }) => position === 'bottom' && `transform: rotate(180deg);`}
 
     ${isMobile} {
-      flex: 1 0 0;
-      height: ${({ svgHeight }) => `${svgHeight.mobile}px`};
-      margin: 0;
+      max-width: unset;
     }
   }
 `;

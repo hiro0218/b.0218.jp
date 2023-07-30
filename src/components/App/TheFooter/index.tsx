@@ -15,7 +15,7 @@ const Links = [
 export default memo(function TheFooter() {
   return (
     <Root>
-      <WaveBottom svgHeight={{ desktop: 100, mobile: 40 }} />
+      <WaveBottom />
       <Footer>
         <Container>
           <List>
@@ -35,6 +35,8 @@ export default memo(function TheFooter() {
 });
 
 const Root = styled.footer`
+  display: flex;
+  flex-direction: column;
   margin-top: var(--space-6);
 `;
 
