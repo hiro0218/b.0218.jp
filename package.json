@@ -71,7 +71,7 @@
     "@types/hast": "^3.0.0",
     "@types/jsdom": "^21.1.1",
     "@types/node": "^20.4.5",
-    "@types/react": "^18.2.17",
+    "@types/react": "^18.2.18",
     "@types/react-dom": "^18.2.7",
     "@types/twitter-for-web": "^0.0.2",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
