@@ -2,9 +2,9 @@ import dynamic from 'next/dynamic';
 import { useCallback, useId } from 'react';
 
 import { Stack } from '@/components/UI/Layout';
+import { Toast } from '@/components/UI/Toast';
 import { Tooltip } from '@/components/UI/Tooltip';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
-import useToast from '@/hooks/useToast';
 import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, TwitterLogoIcon } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { css, styled } from '@/ui/styled';
@@ -21,11 +21,13 @@ interface Props {
 function PostShare({ title, url }: Props) {
   const labelledbyId = useId();
   const [, copy] = useCopyToClipboard();
-  const toast = useToast('記事のURLをコピーしました');
+  const { Component: ToastComponent, showToast } = Toast('記事のURLをコピーしました');
 
   const onClickCopyPermalink = useCallback(() => {
-    copy(url).then(() => toast());
-  }, [copy, toast, url]);
+    copy(url).then(() => {
+      showToast();
+    });
+  }, [copy, showToast, url]);
 
   return (
     <aside aria-labelledby={labelledbyId}>
@@ -48,6 +50,7 @@ function PostShare({ title, url }: Props) {
           <Link2Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </Button>
       </Stack>
+      {ToastComponent}
     </aside>
   );
 }

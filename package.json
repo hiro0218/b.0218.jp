@@ -54,7 +54,6 @@
     "postcss-sort-media-queries": "^5.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-simple-toasts": "^5.5.0",
     "shokika.css": "^1.7.1"
   },
   "devDependencies": {
