@@ -29,7 +29,7 @@ export const Toast = (message: string) => {
 
 const ToastComponent = forwardRef(function ToastComponent({ message, onHideToast }: Props, ref: RefProps) {
   return (
-    <Container aria-hidden="false" onClick={onHideToast} ref={ref}>
+    <Container aria-hidden="false" onClick={onHideToast} ref={ref} role="tooltip">
       {message}
     </Container>
   );
