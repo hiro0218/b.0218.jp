@@ -9,7 +9,7 @@ import type { Result } from './type';
 const analyticsDataClient = new BetaAnalyticsDataClient({
   credentials: {
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL,
-    private_key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY,
+    private_key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY.split(String.raw`\n`).join('\n'),
   },
 });
 
