@@ -41,7 +41,7 @@ function sortResultsByBookmarkCount(result: Record<string, number>): Record<stri
     }, {});
 }
 
-export const run = async () => {
+export const getBookmarkArticles = async () => {
   const urls = postList.map((post) => `${SITE_URL}/${post.slug}.html`);
   const chunkedUrls = chunkUrls(urls, MAX_URLS);
   const hatenaApiUrls = createHatenaApiUrls(chunkedUrls);
