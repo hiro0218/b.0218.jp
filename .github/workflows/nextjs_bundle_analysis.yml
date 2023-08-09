@@ -7,13 +7,6 @@ on:
       - master # change this if your default branch is named differently
   workflow_dispatch:
 
-env:
-  TZ: Asia/Tokyo
-  NEXT_TELEMETRY_DISABLED: 1
-  GA_PROPERTY_ID: ${{ vars.GA_PROPERTY_ID }}
-  GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL: ${{ vars.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL }}
-  GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ vars.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -70,9 +63,14 @@ jobs:
       - name: Build next.js app
         # change this if your site requires a custom build command
         run: |
+          touch .env
+          echo "TZ=Asia/Tokyo" >> .env
+          echo "NEXT_TELEMETRY_DISABLED=1" >> .env
+          echo "GA_PROPERTY_ID=${{ vars.GA_PROPERTY_ID }}" >> .env
+          echo "GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL=${{ vars.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL }}" >> .env
+          echo "GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY=${{ vars.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}" >> .env
+
           npm run prebuild && ./node_modules/.bin/next build
-        #  touch .env
-        #  echo "GITHUB_GRAPHQL_TOKEN=${{ secrets.GIT_GRAPHQL_TOKEN }}" >> .env
 
       # Here's the first place where next-bundle-analysis' own script is used
       # This step pulls the raw bundle stats for the current bundle
