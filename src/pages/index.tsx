@@ -39,9 +39,10 @@ export default function Index() {
 
         <Stack as="section">
           <TitleSection href="/archive" text="記事" />
-          <PostSection posts={recentPosts} title="最新記事" titleTagName="h3" />
-          <PostSection posts={updatesPosts} title="更新記事" titleTagName="h3" />
-          <PostSection posts={popularPosts} title="注目記事" titleTagName="h3" />
+          <PostSection posts={recentPosts} title="最新記事" titleTagName="h4" />
+          <PostSection posts={updatesPosts} title="更新記事" titleTagName="h4" />
+          <TitleSection href="/archive" text="注目記事" />
+          <PostSection posts={popularPosts} title="注目記事" titleTagName="h4" />
         </Stack>
 
         <Stack as="section">
