@@ -25,7 +25,11 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     env:
+      TZ: Asia/Tokyo
       NEXT_TELEMETRY_DISABLED: 1
+      GA_PROPERTY_ID: ${{ vars.GA_PROPERTY_ID }}
+      GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL: ${{ vars.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL }}
+      GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ vars.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
     steps:
       - uses: actions/checkout@v3
         with:
