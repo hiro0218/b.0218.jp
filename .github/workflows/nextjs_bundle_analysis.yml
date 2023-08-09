@@ -61,16 +61,17 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}
 
       - name: Build next.js app
+        env:
+          GA_PROPERTY_ID: ${{ secrets.GA_PROPERTY_ID }}
+          GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL }}
+          GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
         # change this if your site requires a custom build command
         run: |
-          touch .env
-          echo "TZ=Asia/Tokyo" >> .env
-          echo "NEXT_TELEMETRY_DISABLED=1" >> .env
-          echo "GA_PROPERTY_ID=${{ vars.GA_PROPERTY_ID }}" >> .env
-          echo "GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL=${{ vars.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL }}" >> .env
-          echo "GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY=${{ vars.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}" >> .env
-
           npm run prebuild && ./node_modules/.bin/next build
+
+      # touch .env
+      # echo "TZ=Asia/Tokyo" >> .env
+      # echo "NEXT_TELEMETRY_DISABLED=1" >> .env
 
       # Here's the first place where next-bundle-analysis' own script is used
       # This step pulls the raw bundle stats for the current bundle
