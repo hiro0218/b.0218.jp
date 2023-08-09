@@ -57,6 +57,7 @@
     "shokika.css": "^1.7.1"
   },
   "devDependencies": {
+    "@google-analytics/data": "^4.0.0",
     "@markuplint/jsx-parser": "^3.9.0",
     "@markuplint/react-spec": "^3.10.0",
     "@next/bundle-analyzer": "^13.4.13",

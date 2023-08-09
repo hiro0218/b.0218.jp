@@ -1,6 +1,7 @@
 import { readJSONSync } from 'fs-extra';
 
 import { SITE_URL } from '@/constant';
+import * as Log from '@/lib/Log';
 
 const PATH_DIST = `${process.cwd()}/dist`;
 const HATENA_API_URL = 'https://bookmark.hatenaapis.com/count/entries';
@@ -29,18 +30,6 @@ function createHatenaApiUrls(chunkedUrls: string[][]): string[] {
   return chunkedUrls.map((chunkedUrl) => `${HATENA_API_URL}?url=${chunkedUrl.join('&url=')}`);
 }
 
-/**
- * SlugからURLを変換し、ブックマークの数をキーとしてソート
- */
-function sortResultsByBookmarkCount(result: Record<string, number>): Record<string, number> {
-  return Object.entries(result)
-    .sort(([, a], [, b]) => b - a)
-    .reduce((acc, [key, value]) => {
-      acc[key] = value;
-      return acc;
-    }, {});
-}
-
 export const getBookmarkArticles = async () => {
   const urls = postList.map((post) => `${SITE_URL}/${post.slug}.html`);
   const chunkedUrls = chunkUrls(urls, MAX_URLS);
@@ -65,5 +54,7 @@ export const getBookmarkArticles = async () => {
     return acc;
   }, {});
 
-  return sortResultsByBookmarkCount(hatenaApiResultWithSlug);
+  Log.info('Get bookmarked articles from Hatena Bookmark');
+
+  return hatenaApiResultWithSlug;
 };
