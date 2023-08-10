@@ -16,7 +16,15 @@ export const PostSection = ({ posts, title, titleTagName = 'h3', isColumn = true
     return (
       <Stack space="½">
         {posts.map(({ date, slug, tags, title, updated }) => (
-          <LinkCard date={date} key={slug} link={`${slug}.html`} tags={tags} title={title} updated={updated} />
+          <LinkCard
+            date={date}
+            key={slug}
+            link={`${slug}.html`}
+            tags={tags}
+            title={title}
+            titleTagName="h4"
+            updated={updated}
+          />
         ))}
       </Stack>
     );
