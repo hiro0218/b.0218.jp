@@ -11,6 +11,7 @@ type PostDateProps = ComponentProps<typeof PostDate>;
 type Props = {
   link: string;
   title: string;
+  titleTagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   excerpt?: ReactNode | string;
   date: PostDateProps['date'];
   updated: PostDateProps['updated'];
@@ -18,12 +19,12 @@ type Props = {
   role?: AriaRole;
 };
 
-function LinkCard({ link, title, date, updated, excerpt, tags, role }: Props) {
+function LinkCard({ link, title, date, updated, excerpt, tags, role, titleTagName = 'h3' }: Props) {
   return (
     <Container role={role}>
       <PostDate date={date} updated={updated} />
       <Anchor href={link} passHref prefetch={false}>
-        <Title>{title}</Title>
+        <Title as={titleTagName}>{title}</Title>
       </Anchor>
       {!!excerpt && <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>{excerpt}</Paragraph>}
       {!!tags && (
