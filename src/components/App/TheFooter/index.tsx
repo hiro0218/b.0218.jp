@@ -9,6 +9,7 @@ import { styled } from '@/ui/styled';
 const Links = [
   { title: 'about', href: '/about' },
   { title: 'tags', href: '/tags' },
+  { title: 'popular', href: '/popular' },
   { title: 'archive', href: '/archive' },
 ] as const;
 
