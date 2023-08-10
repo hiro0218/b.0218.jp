@@ -1,6 +1,6 @@
 import { getPostsListJson, getTagsWithCount } from '@/lib/posts';
 
-import { getPopularPost } from './getPopularPost';
+import { getPopularPost } from '../_common/getPopularPost';
 
 const POST_DISPLAY_LIMIT = 5;
 

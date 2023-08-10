@@ -23,8 +23,7 @@ type Props = {
 
 export const SearchDialog = forwardRef(function SearchDialog({ isActive, closeDialog }: Props, ref: RefProps) {
   const isClient = useIsClient();
-  const labelledbyId = useId();
-  const describedbyId = useId();
+  const id = useId();
 
   if (!isClient) {
     return null;
@@ -32,9 +31,9 @@ export const SearchDialog = forwardRef(function SearchDialog({ isActive, closeDi
 
   return createPortal(
     <>
-      <Dialog aria-describedby={describedbyId} aria-labelledby={labelledbyId} aria-modal ref={ref}>
-        <SrOnly as="h2" id={labelledbyId} text="記事検索" />
-        <SrOnly as="p" id={describedbyId} text="記事のタイトルから検索することができます" />
+      <Dialog aria-describedby={`${id}-described`} aria-labelledby={`${id}-labelled`} aria-modal ref={ref}>
+        <SrOnly as="h2" id={`${id}-labelled`} text="記事検索" />
+        <SrOnly as="p" id={`${id}-described`} text="記事のタイトルから検索することができます" />
         <SearchPanel closeDialog={closeDialog} />
       </Dialog>
       <Overlay isActive={isActive} onClick={closeDialog} />

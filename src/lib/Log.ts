@@ -1,9 +1,9 @@
-import chalk from 'chalk';
+import { cyan, red, yellow } from 'picocolors';
 
 export const prefixes = {
-  error: `${chalk.red('error')} -`,
-  warn: `${chalk.yellow('warn')}  -`,
-  info: `${chalk.cyan('info')}  -`,
+  error: `${red('error')} -`,
+  warn: `${yellow('warn')}  -`,
+  info: `${cyan('info')}  -`,
 };
 
 export function error(...message: string[]) {

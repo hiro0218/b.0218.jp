@@ -24,8 +24,6 @@ permissions:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-    env:
-      NEXT_TELEMETRY_DISABLED: 1
     steps:
       - uses: actions/checkout@v3
         with:
@@ -63,11 +61,17 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}
 
       - name: Build next.js app
+        env:
+          GA_PROPERTY_ID: ${{ secrets.GA_PROPERTY_ID }}
+          GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL }}
+          GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
         # change this if your site requires a custom build command
         run: |
           npm run prebuild && ./node_modules/.bin/next build
-        #  touch .env
-        #  echo "GITHUB_GRAPHQL_TOKEN=${{ secrets.GIT_GRAPHQL_TOKEN }}" >> .env
+
+      # touch .env
+      # echo "TZ=Asia/Tokyo" >> .env
+      # echo "NEXT_TELEMETRY_DISABLED=1" >> .env
 
       # Here's the first place where next-bundle-analysis' own script is used
       # This step pulls the raw bundle stats for the current bundle
