@@ -12,6 +12,8 @@ import TableScroll from './TableScroll';
 const IconExternalLink = SvgComponentToDataUrlScheme(<ExternalLinkIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />);
 
 const PostContentStyle = css`
+  color: var(--text-11);
+
   & > * {
     margin-top: var(--space-2);
     margin-bottom: var(--space-3);
