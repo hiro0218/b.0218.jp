@@ -130,7 +130,7 @@
     "stylelint-declaration-block-no-ignored-properties": "^2.7.0",
     "stylelint-no-unsupported-browser-features": "^7.0.0",
     "typescript": "^5.1.6",
-    "unified": "^11.0.0",
+    "unified": "^10.1.2",
     "unist-util-visit": "^5.0.0"
   },
   "overrides": {
