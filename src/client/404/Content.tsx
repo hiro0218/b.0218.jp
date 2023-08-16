@@ -6,7 +6,7 @@ import { styled } from '@/ui/styled';
 
 export default function Content() {
   return (
-    <Container space="3">
+    <Container align="center" direction="vertical" justify="center" space="3">
       <Title heading="Page not found" paragraph="ページが見つかりませんでした" />
       <p>アクセスしようとしたページは、削除もしくはURLが変更され利用できない可能性があります。</p>
       <Anchor href="/">Home へ戻る</Anchor>
@@ -15,10 +15,6 @@ export default function Content() {
 }
 
 const Container = styled(Stack)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   height: 100%;
   text-align: center;
 `;
