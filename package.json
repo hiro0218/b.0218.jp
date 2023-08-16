@@ -106,7 +106,7 @@
     "picocolors": "^1.0.0",
     "playwright": "^1.37.0",
     "postcss-styled-syntax": "^0.4.0",
-    "prettier": "^3.0.0",
+    "prettier": "^3.0.2",
     "reading-time": "^1.5.0",
     "rehype-external-links": "^2.1.0",
     "rehype-highlight": "^6.0.0",
