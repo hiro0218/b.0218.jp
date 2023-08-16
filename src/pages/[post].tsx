@@ -13,6 +13,7 @@ import {
   SimilarTag,
 } from '@/client/post';
 import { Adsense } from '@/components/UI/Adsense';
+import { Avatar } from '@/components/UI/Avatar';
 import { Stack } from '@/components/UI/Layout';
 import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
@@ -75,7 +76,12 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
           title={segmentedTitle}
           updated={updated}
         />
-        {ShareComponent}
+        <Stack align="center" direction="horizontal" justify="space-between">
+          <Stack>
+            <Avatar />
+          </Stack>
+          <Stack>{ShareComponent}</Stack>
+        </Stack>
         <PostNote note={note} />
         <PostContent content={content} />
         <Adsense />
