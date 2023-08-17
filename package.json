@@ -64,7 +64,7 @@
     "@svgr/webpack": "^8.1.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
-    "@total-typescript/ts-reset": "^0.4.2",
+    "@total-typescript/ts-reset": "^0.5.1",
     "@types/css-font-loading-module": "^0.0.8",
     "@types/fs-extra": "^11.0.1",
     "@types/gtag.js": "^0.0.13",
