@@ -89,7 +89,7 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-strict-dependencies": "^1.2.1",
     "eslint-plugin-tree-shakable": "^1.0.0",
-    "eslint-plugin-unused-imports": "^2.0.0",
+    "eslint-plugin-unused-imports": "^3.0.0",
     "feed": "^4.2.2",
     "fs-extra": "^11.1.1",
     "gray-matter": "^4.0.3",
