@@ -38,10 +38,19 @@ export default function Index() {
         </Stack>
 
         <Stack as="section">
-          <TitleSection text="記事" />
-          <PostSection posts={recentPosts} title="最新記事🌟" titleTagName="h3" />
-          <PostSection posts={updatesPosts} title="更新記事💫" titleTagName="h3" />
-          <PostSection posts={popularPosts} title="注目記事🔥" titleTagName="h3" />
+          <TitleSection href="/archive" text="記事" />
+          <Stack>
+            <TitleSection as="h3" isBold={false} text="最新記事" />
+            <PostSection posts={recentPosts} />
+          </Stack>
+          <Stack>
+            <TitleSection as="h3" isBold={false} text="更新記事" />
+            <PostSection posts={updatesPosts} />
+          </Stack>
+          <Stack>
+            <TitleSection as="h3" href="/popular" isBold={false} text="注目記事" />
+            <PostSection posts={popularPosts} />
+          </Stack>
         </Stack>
 
         <Stack as="section">
