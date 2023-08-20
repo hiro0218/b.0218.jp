@@ -37,9 +37,9 @@ export default function Index() {
           <Hero />
         </Stack>
 
-        <Stack as="section">
-          <TitleSection href="/archive" text="記事" />
+        <Stack as="section" space="4">
           <Stack>
+            <TitleSection href="/archive" text="記事" />
             <TitleSection as="h3" isBold={false} text="最新記事" />
             <PostSection posts={recentPosts} />
           </Stack>
