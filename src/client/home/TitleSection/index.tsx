@@ -1,8 +1,13 @@
-import type { ComponentProps } from 'react';
+import dynamic from 'next/dynamic';
+import { type ComponentProps, useMemo } from 'react';
 
 import Heading from '@/components/UI/Heading';
 
 import { LinkMore } from '../LinkMore';
+
+const SrOnly = dynamic(() =>
+  import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),
+);
 
 type Props = {
   text: string;
@@ -12,7 +17,21 @@ type Props = {
 };
 
 export const TitleSection = ({ as = 'h2', text, href, isBold = true }: Props) => {
-  return (
-    <Heading as={as} isWeightNormal={isBold} text={text} textSide={!!href && <LinkMore href={href} text="一覧" />} />
+  const Link = useMemo(
+    () =>
+      !!href ? (
+        <LinkMore
+          href={href}
+          text={
+            <>
+              <SrOnly text={text} />
+              一覧
+            </>
+          }
+        />
+      ) : undefined,
+    [href, text],
   );
+
+  return <Heading as={as} isWeightNormal={isBold} text={text} textSide={Link} />;
 };
