@@ -1,3 +1,3 @@
-export { default as Columns } from './Columns';
-export { default as SimpleGrid } from './SimpleGrid';
-export { default as Stack } from './Stack';
+export { Columns } from './Columns';
+export { SimpleGrid } from './SimpleGrid';
+export { Stack } from './Stack';

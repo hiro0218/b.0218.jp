@@ -11,7 +11,7 @@ interface ContainerProps {
   children?: ReactNode;
 }
 
-const Columns = memo(function Columns({ title, titleTagName = 'h2', children, ...others }: ContainerProps) {
+export const Columns = memo(function Columns({ title, titleTagName = 'h2', children, ...others }: ContainerProps) {
   return (
     <Root {...others}>
       <ColumnTitle>{!!title && <TitleText as={titleTagName}>{title}</TitleText>}</ColumnTitle>
@@ -19,8 +19,6 @@ const Columns = memo(function Columns({ title, titleTagName = 'h2', children, ..
     </Root>
   );
 });
-
-export default Columns;
 
 const Root = styled.section`
   display: flex;

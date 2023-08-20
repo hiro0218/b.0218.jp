@@ -41,7 +41,7 @@ const StackRoot = styled.div<StackRootProps>`
   }
 `;
 
-const Stack = memo(function Stack({ as = 'div', children, ...props }: Props) {
+export const Stack = memo(function Stack({ as = 'div', children, ...props }: Props) {
   const MemoizedStackRoot = useMemo(() => StackRoot.withComponent(as), [as]);
   const { direction, ...rest } = props;
 
@@ -51,5 +51,3 @@ const Stack = memo(function Stack({ as = 'div', children, ...props }: Props) {
     </MemoizedStackRoot>
   );
 });
-
-export default Stack;
