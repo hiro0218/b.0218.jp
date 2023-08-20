@@ -1,6 +1,7 @@
 import { memo } from 'react';
 
 import AvatarIcon from '@/assets/hiro0218.svg';
+import { Stack } from '@/components/UI/Layout';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
@@ -9,7 +10,7 @@ const ICON_SIZE_SHRINK = ICON_SIZE * 0.85;
 
 export const Hero = memo(function Hero() {
   return (
-    <Container>
+    <Stack direction="horizontal" space="2">
       <Avatar>
         <AvatarIcon height="100" width="100" />
       </Avatar>
@@ -17,14 +18,9 @@ export const Hero = memo(function Hero() {
         <Heading>Hi, I&rsquo;m hiro.</Heading>
         <P>Web Developer (Frontend) with experience in Backend, iOS App, and Windows App development.</P>
       </header>
-    </Container>
+    </Stack>
   );
 });
-
-const Container = styled.div`
-  display: flex;
-  gap: var(--space-2);
-`;
 
 const Avatar = styled.div`
   flex-shrink: 0;

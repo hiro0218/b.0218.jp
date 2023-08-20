@@ -39,6 +39,12 @@ const Root = styled.footer`
   display: flex;
   flex-direction: column;
   margin-top: var(--space-6);
+
+  small {
+    ${isMobile} {
+      font-size: var(--font-size-sm);
+    }
+  }
 `;
 
 const Footer = styled.div`
@@ -75,6 +81,10 @@ const List = styled.ul`
   gap: var(--space-2);
   align-items: center;
   justify-content: center;
+
+  ${isMobile} {
+    gap: var(--space-1);
+  }
 `;
 
 const ListItem = styled.li`
@@ -95,6 +105,6 @@ const Anchor = styled(_Anchor)`
   text-align: center;
 
   ${isMobile} {
-    padding: var(--space-2) var(--space-3);
+    padding: var(--space-1) var(--space-2);
   }
 `;

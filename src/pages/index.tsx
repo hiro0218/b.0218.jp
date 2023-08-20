@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 
 import { Hero, PostSection, TitleSection } from '@/client/home';
-import { Grid, Stack } from '@/components/UI/Layout';
+import { SimpleGrid, Stack } from '@/components/UI/Layout';
 import PostTag from '@/components/UI/Tag';
 import { AUTHOR_ICON, SITE_URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
@@ -37,18 +37,27 @@ export default function Index() {
           <Hero />
         </Stack>
 
-        <Stack as="section">
-          <TitleSection text="記事" />
-          <PostSection posts={recentPosts} title="最新記事🌟" titleTagName="h3" />
-          <PostSection posts={updatesPosts} title="更新記事💫" titleTagName="h3" />
-          <PostSection posts={popularPosts} title="注目記事🔥" titleTagName="h3" />
+        <Stack as="section" space="4">
+          <Stack>
+            <TitleSection href="/archive" text="記事" />
+            <TitleSection as="h3" isBold={false} text="最新記事" />
+            <PostSection posts={recentPosts} />
+          </Stack>
+          <Stack>
+            <TitleSection as="h3" isBold={false} text="更新記事" />
+            <PostSection posts={updatesPosts} />
+          </Stack>
+          <Stack>
+            <TitleSection as="h3" href="/popular" isBold={false} text="注目記事" />
+            <PostSection posts={popularPosts} />
+          </Stack>
         </Stack>
 
         <Stack as="section">
           <TitleSection href="/tags" text="タグ" />
-          <Grid>
+          <SimpleGrid>
             <PostTag tags={tags} />
-          </Grid>
+          </SimpleGrid>
         </Stack>
       </Stack>
     </>

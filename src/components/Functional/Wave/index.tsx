@@ -24,10 +24,14 @@ export const WaveBottom = memo(function WaveBottom() {
 });
 
 const Container = styled.div<Props>`
+  position: relative;
+  z-index: -1;
   display: flex;
   overflow: hidden;
   pointer-events: none;
   user-select: none;
+
+  ${({ position }) => position === 'bottom' && `top: 2px;`}
 
   img {
     z-index: -1;

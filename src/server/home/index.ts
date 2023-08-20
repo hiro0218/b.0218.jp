@@ -2,7 +2,7 @@ import { getPostsListJson, getTagsWithCount } from '@/lib/posts';
 
 import { getPopularPost } from '../_common/getPopularPost';
 
-const POST_DISPLAY_LIMIT = 5;
+const POST_DISPLAY_LIMIT = 4;
 
 const posts = getPostsListJson();
 const tagsWithCount = getTagsWithCount();
