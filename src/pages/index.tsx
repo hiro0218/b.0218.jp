@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 
 import { Hero, PostSection, TitleSection } from '@/client/home';
-import { Grid, Stack } from '@/components/UI/Layout';
+import { SimpleGrid, Stack } from '@/components/UI/Layout';
 import PostTag from '@/components/UI/Tag';
 import { AUTHOR_ICON, SITE_URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
@@ -46,9 +46,9 @@ export default function Index() {
 
         <Stack as="section">
           <TitleSection href="/tags" text="タグ" />
-          <Grid>
+          <SimpleGrid>
             <PostTag tags={tags} />
-          </Grid>
+          </SimpleGrid>
         </Stack>
       </Stack>
     </>

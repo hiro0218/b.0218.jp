@@ -30,7 +30,7 @@ const GridRoot = styled.div<Props>`
   }};
 `;
 
-const Grid = memo(function Grid({ as = 'div', children, ...props }: Props) {
+const SimpleGrid = memo(function Grid({ as = 'div', children, ...props }: Props) {
   const MemoizedGridRoot = useMemo(() => GridRoot.withComponent(as), [as]);
 
   return (
@@ -40,4 +40,4 @@ const Grid = memo(function Grid({ as = 'div', children, ...props }: Props) {
   );
 });
 
-export default Grid;
+export default SimpleGrid;

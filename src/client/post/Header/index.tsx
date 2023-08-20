@@ -1,5 +1,5 @@
 import PostDate from '@/components/UI/Date';
-import { Grid, Stack } from '@/components/UI/Layout';
+import { SimpleGrid, Stack } from '@/components/UI/Layout';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag from '@/components/UI/Tag';
 import { READ_TIME_SUFFIX } from '@/constant';
@@ -21,9 +21,9 @@ function PostHeader({ title, date, updated, readingTime, tagsWithCount }: Props)
           <span>{`${readingTime || 1} ${READ_TIME_SUFFIX}`}</span>
         </Item>
         <Item>
-          <Grid isWide={false}>
+          <SimpleGrid isWide={false}>
             <PostTag tags={tagsWithCount} />
-          </Grid>
+          </SimpleGrid>
         </Item>
       </Stack>
     </Stack>

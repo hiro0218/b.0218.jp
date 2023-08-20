@@ -1,7 +1,7 @@
 import { useId } from 'react';
 
 import Heading from '@/components/UI/Heading';
-import { Grid, Stack } from '@/components/UI/Layout';
+import { SimpleGrid, Stack } from '@/components/UI/Layout';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag from '@/components/UI/Tag';
 
@@ -20,9 +20,9 @@ function TagSimilar({ tags }: Props) {
     <Stack aria-labelledby={labelledbyId} as="aside" space="2">
       <Heading as="h2" id={labelledbyId} text="関連タグ" />
       <Stack>
-        <Grid isWide={false}>
+        <SimpleGrid isWide={false}>
           <PostTag tags={tags} />
-        </Grid>
+        </SimpleGrid>
       </Stack>
     </Stack>
   );
