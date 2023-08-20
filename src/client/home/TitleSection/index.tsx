@@ -8,8 +8,11 @@ type Props = {
   text: string;
   as?: ComponentProps<typeof Heading>['as'];
   href?: ComponentProps<typeof LinkMore>['href'];
+  isBold?: ComponentProps<typeof Heading>['isWeightNormal'];
 };
 
-export const TitleSection = ({ as = 'h2', text, href }: Props) => {
-  return <Heading as={as} text={text} textSide={!!href && <LinkMore href={href} text="一覧" />} />;
+export const TitleSection = ({ as = 'h2', text, href, isBold = true }: Props) => {
+  return (
+    <Heading as={as} isWeightNormal={isBold} text={text} textSide={!!href && <LinkMore href={href} text="一覧" />} />
+  );
 };
