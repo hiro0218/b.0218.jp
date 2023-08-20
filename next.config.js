@@ -3,6 +3,7 @@ const nextBuildId = require('next-build-id');
 
 const millionConfig = {
   auto: true,
+  mute: true,
 };
 
 const withBundleAnalyzer =
