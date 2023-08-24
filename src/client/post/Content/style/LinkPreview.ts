@@ -1,5 +1,5 @@
 import { isMobile } from '@/ui/lib/mediaQuery';
-import { textEllipsis } from '@/ui/mixin';
+import { lineClamp, textEllipsis } from '@/ui/mixin';
 import { css } from '@/ui/styled';
 
 const LinkPreview = css`
@@ -80,13 +80,12 @@ const LinkPreview = css`
   }
 
   .p-link-preview-body__description {
-    display: -webkit-box;
+    ${lineClamp(2)}
+
     margin-top: var(--space-½);
     overflow: hidden;
     font-size: var(--font-size-sm);
     color: var(--text-11);
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
 
     ${isMobile} {
       display: none;
