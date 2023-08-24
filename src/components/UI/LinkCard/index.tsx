@@ -98,7 +98,7 @@ const Paragraph = styled.p`
 const Tags = styled.div`
   display: flex;
   gap: var(--space-1);
-  margin-top: var(--space-1);
+  margin-top: auto;
 `;
 
 const TagItem = styled.span`
