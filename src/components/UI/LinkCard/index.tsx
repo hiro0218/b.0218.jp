@@ -104,4 +104,6 @@ const Tags = styled.div`
 
 const TagItem = styled.span`
   ${PostTagAnchorStyle}
+
+  font-size: var(--font-size-xs);
 `;
