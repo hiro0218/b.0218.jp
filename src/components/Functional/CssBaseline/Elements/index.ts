@@ -12,6 +12,7 @@ export default css`
 
   body {
     height: 100%;
+    background-color: var(--backgrounds-1);
     font-family: var(--font-family-sans-serif);
     font-weight: var(--font-weight-normal);
     font-feature-settings: 'chws' 1;
