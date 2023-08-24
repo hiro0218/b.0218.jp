@@ -3,7 +3,7 @@ import { type AriaRole, type ComponentProps, type ReactNode } from 'react';
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
 import { PostTagAnchorStyle } from '@/components/UI/Tag';
-import { showHoverBackground, textEllipsis } from '@/ui/mixin';
+import { lineClamp, showHoverBackground, textEllipsis } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 type PostDateProps = ComponentProps<typeof PostDate>;
@@ -80,13 +80,12 @@ const Anchor = styled(_Anchor)`
 `;
 
 const Title = styled.h3`
-  display: -webkit-box;
+  ${lineClamp(2)}
+
   overflow: hidden;
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-bold);
   color: var(--text-12);
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
 `;
 
 const Paragraph = styled.p`

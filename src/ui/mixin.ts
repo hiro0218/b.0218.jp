@@ -59,3 +59,9 @@ export const showHoverBackground = css`
 
   ${outlineLinkStyle}
 `;
+
+export const lineClamp = (lineCount = 2) => css`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: ${lineCount};
+`;
