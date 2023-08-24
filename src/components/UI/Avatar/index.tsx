@@ -11,7 +11,7 @@ export const Avatar = memo(function Avatar() {
         <Icon height="42" width="42" />
       </IconContainer>
       <Stack as="header" space="1">
-        <Text as="b">hiro</Text>
+        <Name>hiro</Name>
         <Text>web developer</Text>
       </Stack>
     </Stack>
@@ -32,4 +32,9 @@ const Text = styled.span`
   font-size: var(--font-size-sm);
   line-height: 1.1;
   color: var(--text-11);
+`;
+
+const Name = styled(Text)`
+  font-weight: var(--font-weight-bold);
+  color: var(--text-12);
 `;
