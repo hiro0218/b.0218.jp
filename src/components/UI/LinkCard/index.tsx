@@ -46,9 +46,11 @@ const Container = styled.article`
   flex-grow: 1;
   gap: var(--space-1);
   padding: var(--space-3);
+  /* stylelint-disable */
   content-visibility: auto;
   contain-intrinsic-size: 0 200px;
   contain: layout style paint;
+  /* stylelint-enable */
   word-break: break-all;
 
   ${showHoverBackground}
