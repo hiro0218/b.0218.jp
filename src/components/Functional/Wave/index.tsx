@@ -10,7 +10,19 @@ type Props = {
 const Wave = memo(function Wave({ position }: Props) {
   return (
     <Container aria-hidden="true" position={position}>
-      <img alt="" decoding="async" height="192" src="/waveAnimation.svg" width="1920" />
+      <img
+        alt=""
+        {...(position === 'top' && {
+          fetchpriority: 'high',
+        })}
+        {...(position === 'bottom' && {
+          loading: 'lazy',
+          decoding: 'async',
+        })}
+        height="192"
+        src="/waveAnimation.svg"
+        width="1920"
+      />
     </Container>
   );
 });
