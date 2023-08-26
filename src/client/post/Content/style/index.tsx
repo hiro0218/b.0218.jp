@@ -160,8 +160,8 @@ const PostContentStyle = css`
 
     &::before {
       font-size: var(--font-size-sm);
-      color: var(--text-12);
-      content: '◇ ◆ ◇';
+      color: var(--text-11);
+      content: '◆◆◆';
     }
   }
 
