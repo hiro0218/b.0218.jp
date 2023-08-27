@@ -1,7 +1,7 @@
 import type { GetStaticProps } from 'next';
 
 import type { Props as PostTagProps } from '@/components/UI/Tag';
-import { getPostsJson, getTagsJson, getTagsWithCount } from '@/lib/posts';
+import { getPostsJson, getTagsWithCount } from '@/lib/posts';
 import type { PostProps, TermsPostListProps } from '@/types/source';
 
 import { getSimilarPost } from './getSimilarPost';
@@ -18,7 +18,6 @@ export type PostPageProps = {
 };
 
 const posts = getPostsJson();
-const tagData = getTagsJson();
 const tagDataWithCount = getTagsWithCount();
 const tagDataWithCountBySlug = Object.fromEntries(tagDataWithCount.map((tag) => [tag.slug, tag]));
 
@@ -45,7 +44,7 @@ export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
 
   // 関連タグ
   const tag = post.tags[0];
-  const similarTags = getSimilarTag(tag, tagData);
+  const similarTags = getSimilarTag(tag);
 
   return {
     props: {
