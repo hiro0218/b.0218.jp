@@ -131,6 +131,7 @@ export default css`
     color: var(--text-12);
     overflow-wrap: break-word;
     border-radius: var(--border-radius-4);
+    background-color: var(--backgrounds-1);
 
     a > & {
       color: inherit;
@@ -142,7 +143,6 @@ export default css`
     overflow: auto;
     font-size: var(--font-size-sm);
     overflow-wrap: break-word;
-    background: var(--backgrounds-1);
     border: 1px solid var(--borders-6);
     border-radius: var(--border-radius-4);
     -webkit-overflow-scrolling: touch;
@@ -153,6 +153,7 @@ export default css`
     & > code {
       display: block;
       padding: var(--space-3);
+      background-color: var(--backgrounds-2);
       font-size: inherit;
     }
   }
