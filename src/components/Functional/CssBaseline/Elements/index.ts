@@ -131,7 +131,7 @@ export default css`
     color: var(--text-12);
     overflow-wrap: break-word;
     border-radius: var(--border-radius-4);
-    background-color: var(--backgrounds-1);
+    background-color: var(--backgrounds-1A);
 
     a > & {
       color: inherit;
@@ -153,7 +153,7 @@ export default css`
     & > code {
       display: block;
       padding: var(--space-3);
-      background-color: var(--backgrounds-2);
+      background-color: var(--backgrounds-2A);
       font-size: inherit;
     }
   }
@@ -187,7 +187,7 @@ export default css`
   }
 
   th {
-    background-color: var(--component-backgrounds-4);
+    background-color: var(--component-backgrounds-4A);
 
     ${['left', 'center', 'right'].map((value) => {
       return css`
@@ -223,7 +223,7 @@ export default css`
     tr {
       transition: background-color 0.3s ease;
       &:hover {
-        background-color: var(--component-backgrounds-3);
+        background-color: var(--component-backgrounds-3A);
       }
     }
   }
