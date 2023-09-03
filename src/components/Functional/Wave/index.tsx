@@ -12,9 +12,6 @@ const Wave = memo(function Wave({ position }: Props) {
     <Container aria-hidden="true" position={position}>
       <img
         alt=""
-        {...(position === 'top' && {
-          fetchpriority: 'high',
-        })}
         {...(position === 'bottom' && {
           loading: 'lazy',
           decoding: 'async',
