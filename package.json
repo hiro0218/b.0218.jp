@@ -145,7 +145,8 @@
     "object.groupby": "npm:@nolyfill/object.groupby@latest",
     "object.hasown": "npm:@nolyfill/object.hasown@latest",
     "object.values": "npm:@nolyfill/object.values@latest",
-    "string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@latest"
+    "string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@latest",
+    "es-iterator-helpers": "npm:@nolyfill/es-iterator-helpers@latest"
   },
   "nextBundleAnalysis": {
     "budget": 358400,
