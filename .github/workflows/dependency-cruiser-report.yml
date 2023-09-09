@@ -45,13 +45,15 @@ jobs:
           if [[ $files != "" ]]; then
             npx depcruise --cache -X "^node_modules" --max-depth 3 -T json --include-only "^src" --reaches $formattedOption $files > _temp.json
 
-            echo -e '\n```mermaid' >> result.md
-            npx depcruise-fmt -T mermaid _temp.json >> result.md
-            echo -e '\n```' >> result.md
-
             echo -e '\n' >> result.md
             npx depcruise-fmt -T markdown _temp.json >> result.md
             echo -e '\n' >> result.md
+
+            echo -e '\n---\n' >> result.md
+
+            echo -e '\n```mermaid' >> result.md
+            npx depcruise-fmt -T mermaid _temp.json >> result.md
+            echo -e '\n```' >> result.md
           fi
 
           echo "files=$files" >> $GITHUB_ENV
