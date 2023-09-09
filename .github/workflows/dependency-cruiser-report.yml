@@ -51,10 +51,12 @@ jobs:
 
             echo -e '\n---\n' >> result.md
 
-            echo -e '\n変更されたファイルの依存関係を可視化します。' >> result.md
+            echo -e '\n<details>' >> result.md
+            echo -e '\n<summary>変更されたファイルの依存関係を可視化します。</summary>' >> result.md
             echo -e '\n```mermaid' >> result.md
             npx depcruise-fmt -T mermaid _temp.json >> result.md
             echo -e '\n```' >> result.md
+            echo -e '\n</details>' >> result.md
           fi
 
           echo "files=$files" >> $GITHUB_ENV
