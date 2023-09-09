@@ -51,6 +51,7 @@ jobs:
 
             echo -e '\n---\n' >> result.md
 
+            echo -e '\n変更されたファイルの依存関係を可視化します。' >> result.md
             echo -e '\n```mermaid' >> result.md
             npx depcruise-fmt -T mermaid _temp.json >> result.md
             echo -e '\n```' >> result.md
@@ -66,12 +67,10 @@ jobs:
 
       - name: Generate Markdown Text
         run: |
-          echo '## 依存関係分析結果（dependency-cruiser）' >> comment.md
+          echo '# 依存関係分析結果（dependency-cruiser）' >> comment.md
           echo '' >> comment.md
 
           if [[ "${{ env.files }}" != "" ]]; then
-            echo '変更されたファイルの依存関係を可視化します。' >> comment.md
-            echo '' >> comment.md
             cat result.md >> comment.md
           else
             echo '依存関係を分析する対象のファイルがありませんでした。' >> comment.md
