@@ -38,8 +38,11 @@ export const showHoverBackground = css`
     background-color: var(--component-backgrounds-3A);
     isolation: isolate;
     border-radius: var(--border-radius-8);
-    transition: transform 0.1s ${easeOut};
-    transform: scale(0);
+    transition:
+      transform 0.1s ${easeOut},
+      opacity 0.2s;
+    transform: scale(0.5);
+    opacity: 0;
     content-visibility: auto;
   }
 
@@ -47,6 +50,7 @@ export const showHoverBackground = css`
   &:focus,
   &:focus-within {
     &::after {
+      opacity: 1;
       transform: scale(1);
     }
   }

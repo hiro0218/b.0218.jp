@@ -1,6 +1,5 @@
 import { memo } from 'react';
 
-import Icon from '@/assets/hiro0218.svg';
 import { Stack } from '@/components/UI/Layout';
 import { styled } from '@/ui/styled';
 
@@ -8,7 +7,7 @@ export const Avatar = memo(function Avatar() {
   return (
     <Stack align="center" direction="horizontal" space="1">
       <IconContainer>
-        <Icon height="42" width="42" />
+        <img alt="" decoding="async" height="42" src="/hiro0218.svg" width="42" />
       </IconContainer>
       <Stack as="header" space="1">
         <Name>hiro</Name>
@@ -23,7 +22,7 @@ const IconContainer = styled.div`
   flex-shrink: 0;
   user-select: none;
 
-  svg {
+  img {
     border-radius: var(--border-radius-full);
   }
 `;

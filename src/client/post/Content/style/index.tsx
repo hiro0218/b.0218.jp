@@ -110,7 +110,10 @@ const PostContentStyle = css`
     color: var(--text-11);
     border-left: 0.25rem solid var(--borders-6);
 
-    p:last-child {
+    p:first-of-type {
+      margin-top: 0;
+    }
+    p:last-of-type {
       margin-bottom: 0;
     }
   }
@@ -160,8 +163,8 @@ const PostContentStyle = css`
 
     &::before {
       font-size: var(--font-size-sm);
-      color: var(--text-12);
-      content: '◇ ◆ ◇';
+      color: var(--text-11);
+      content: '◆◆◆';
     }
   }
 

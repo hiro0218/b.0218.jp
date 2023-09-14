@@ -1,7 +1,10 @@
-export const isValidURL = (url: string) => {
-  const regex =
-    /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-zA-Z0-9]+([-.]{1}[a-zA-Z0-9]+)*\.[a-zA-Z]{2,}(\/.*)?$/;
-  return regex.test(url);
+export const isValidURL = (url: string): boolean => {
+  try {
+    const parsedUrl = new URL(url);
+    return parsedUrl.protocol === 'https:';
+  } catch (e) {
+    return false;
+  }
 };
 
 export const normalizeURL = (url: string) => {

@@ -8,6 +8,8 @@ export const useHeaderScrollHandler = () => {
   const headerHeight = SPACING_BASE_PX * 8;
 
   useEffect(() => {
+    const abortController = new AbortController();
+    const { signal } = abortController;
     let lastScrollY = 0;
 
     const handleScroll = throttle(() => {
@@ -24,8 +26,8 @@ export const useHeaderScrollHandler = () => {
       lastScrollY = currentScrollY;
     });
 
-    document.addEventListener('scroll', handleScroll, { passive: true });
-    return () => document.removeEventListener('scroll', handleScroll);
+    document.addEventListener('scroll', handleScroll, { signal, passive: true });
+    return () => abortController.abort();
   }, [headerHeight]);
 
   return isHeaderShown;

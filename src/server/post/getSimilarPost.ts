@@ -1,15 +1,15 @@
 import { getSimilarPost as getSimilarPosts } from '@/lib/posts';
-import type { PostProps, PostSimilarProps } from '@/types/source';
+import type { PostProps } from '@/types/source';
 
 const similarPosts = getSimilarPosts();
 
-const getSimilarPostBySlug = (similarPosts: PostSimilarProps, key: string) => {
+const getSimilarPostBySlug = (key: string) => {
   const result = similarPosts.find((slug) => slug.hasOwnProperty(key));
   return result ? result[key] : null;
 };
 
 export const getSimilarPost = (posts: Map<PostProps['slug'], PostProps>, slug: string) => {
-  const similarPostSlugs = getSimilarPostBySlug(similarPosts, slug);
+  const similarPostSlugs = getSimilarPostBySlug(slug);
   if (!similarPostSlugs) {
     return [];
   }

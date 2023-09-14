@@ -1,7 +1,7 @@
 import type { MutableRefObject } from 'react';
 import { forwardRef, useMemo } from 'react';
 
-import { fadeIn, fadeOut } from '@/ui/animation';
+import { fadeIn } from '@/ui/animation';
 import { styled } from '@/ui/styled';
 
 import { useToast } from './useToast';
@@ -49,7 +49,6 @@ const Container = styled.div`
   isolation: isolate;
   border-radius: var(--border-radius-4);
   opacity: 0;
-  animation: ${fadeOut} 0.4s linear both;
 
   &[aria-hidden='true'] {
     animation: ${fadeIn} 0.4s linear both;
