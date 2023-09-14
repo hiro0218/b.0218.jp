@@ -19,7 +19,15 @@ export const slideIn = keyframes`
   }
 `;
 
-export const fadeIn = keyframes`
+export const fade = (type: 'in' | 'out') => {
+  if (type === 'in') {
+    return fadeIn;
+  } else if (type === 'out') {
+    return fadeOut;
+  }
+};
+
+const fadeIn = keyframes`
   0% {
     opacity: 0;
   }
@@ -28,7 +36,7 @@ export const fadeIn = keyframes`
   }
 `;
 
-export const fadeOut = keyframes`
+const fadeOut = keyframes`
   0% {
     opacity: 1;
   }

@@ -2,7 +2,7 @@ import { memo, type ReactNode } from 'react';
 
 import { WaveTop } from '@/components/Functional/Wave';
 import useIsMounted from '@/hooks/useIsMounted';
-import { fadeIn, fadeOut } from '@/ui/animation';
+import { fade } from '@/ui/animation';
 import { css, styled } from '@/ui/styled';
 
 import { useHeaderScrollHandler } from './useHeaderScrollHandler';
@@ -48,10 +48,10 @@ const Header = styled.header<{ isMounted: boolean; isShown: boolean }>`
 
     return isShown
       ? css`
-          animation: ${fadeIn} 0.4s linear both;
+          animation: ${fade('in')} 0.4s linear both;
         `
       : css`
-          animation: ${fadeOut} 0.4s linear both;
+          animation: ${fade('out')} 0.4s linear both;
         `;
   }}
 `;
