@@ -18,24 +18,11 @@ jobs:
           persist-credentials: false
           submodules: true
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version-file: '.node-version'
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
-
-      - uses: actions/cache@v3
-        with:
-          # See here for caching with `yarn` https://github.com/actions/cache/blob/main/examples.md#node---yarn or you can leverage caching with actions/setup-node https://github.com/actions/setup-node
-          path: |
-            ~/.npm
-            ${{ github.workspace }}/.next/cache
-          # Generate a new cache whenever packages or source files change.
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          # If source files changed but packages didn't, rebuild from a prior cache.
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+        run: bun install
 
       - name: Run dependency-cruiser
         run: |
@@ -43,10 +30,10 @@ jobs:
           formattedOption=$(echo "^$files" | sed 's/ /|^/g');
 
           if [[ $files != "" ]]; then
-            npx depcruise --cache -X "^node_modules" --max-depth 3 -T json --include-only "^src" --reaches $formattedOption $files > _temp.json
+            bunx depcruise --cache -X "^node_modules" --max-depth 3 -T json --include-only "^src" --reaches $formattedOption $files > _temp.json
 
             echo -e '\n' >> result.md
-            npx depcruise-fmt -T markdown _temp.json >> result.md
+            bunx depcruise-fmt -T markdown _temp.json >> result.md
             echo -e '\n' >> result.md
 
             echo -e '\n---\n' >> result.md
@@ -54,7 +41,7 @@ jobs:
             echo -e '\n<details>' >> result.md
             echo -e '\n<summary>変更されたファイルの依存関係を可視化します。</summary>' >> result.md
             echo -e '\n```mermaid' >> result.md
-            npx depcruise-fmt -T mermaid _temp.json >> result.md
+            bunx depcruise-fmt -T mermaid _temp.json >> result.md
             echo -e '\n```' >> result.md
             echo -e '\n</details>' >> result.md
           fi
