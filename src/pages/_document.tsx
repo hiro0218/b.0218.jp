@@ -73,6 +73,7 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
             crossOrigin="anonymous"
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GOOGLE_ADSENSE.CLIENT}`}
           ></script>
+          <script crossOrigin="anonymous" defer src="https://polyfill.io/v3/polyfill.min.js" />
         </Head>
         <body>
           <Main />
