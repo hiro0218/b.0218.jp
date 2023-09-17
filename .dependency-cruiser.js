@@ -409,7 +409,7 @@ module.exports = {
         // Whether or not to show a title in the report. Defaults to true.
         showTitle: true,
         // The text to show as a title of the report.
-        title: '## dependency-cruiser forbidden dependency check - results',
+        title: '## dependency-cruiser 禁断の依存性チェック - 検索結果',
 
         // Whether or not to show a summary in the report
         showSummary: true,
@@ -428,7 +428,7 @@ module.exports = {
         // Whether or not to give the detailed list of violations a header
         showDetailsHeader: true,
         // The text to show as a header on top of the detailed list of violations
-        detailsHeader: '### All violations',
+        detailsHeader: '### すべての違反',
         // Whether or not to collapse the list of violations in a <details> block
         // especially practical when the list of violations is still large.
         collapseDetails: true,
