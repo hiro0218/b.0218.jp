@@ -17,6 +17,7 @@ const prefetchDomains = [
   '//www.googletagservices.com',
   '//www.googletagmanager.com',
   '//platform.twitter.com',
+  '//polyfill.io',
 ];
 const feeds = [
   { href: '/feed.xml', type: 'application/rss+xml' },
@@ -64,6 +65,7 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
         <Head>
           <MetaLinkDnsPrefetch domains={prefetchDomains} />
           <link href="https://googleads.g.doubleclick.net" rel="preconnect" />
+          <link crossOrigin="anonymous" href="https://polyfill.io" rel="preconnect" />
           <link href="/favicon.ico" rel="icon" type="image/x-icon" />
           <MetaLinkFeed feeds={feeds} />
           <link href="/opensearch.xml" rel="search" type="application/opensearchdescription+xml" />
