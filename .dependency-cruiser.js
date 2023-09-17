@@ -404,6 +404,42 @@ module.exports = {
       text: {
         highlightFocused: true,
       },
+      /** @see https://github.com/sverweij/dependency-cruiser/blob/main/doc/options-reference.md#markdown */
+      markdown: {
+        // Whether or not to show a title in the report. Defaults to true.
+        showTitle: true,
+        // The text to show as a title of the report.
+        title: '## dependency-cruiser forbidden dependency check - results',
+
+        // Whether or not to show a summary in the report
+        showSummary: true,
+        // Whether or not to give the summary a header
+        showSummaryHeader: true,
+        // The text to show as a header on top of the summary
+        summaryHeader: '### Summary',
+        // Whether or not to show high level stats in the summary
+        showStatsSummary: true,
+        // Whether or not to show a list of violated rules in the summary
+        showRulesSummary: true,
+        // Whether or not to show a detailed list of violations
+        showDetails: true,
+        // Whether or not to show ignored violations in the detailed list.
+        includeIgnoredInDetails: true,
+        // Whether or not to give the detailed list of violations a header
+        showDetailsHeader: true,
+        // The text to show as a header on top of the detailed list of violations
+        detailsHeader: '### All violations',
+        // Whether or not to collapse the list of violations in a <details> block
+        // especially practical when the list of violations is still large.
+        collapseDetails: true,
+        // The text to in the <summary> section of the <details> block
+        collapsedMessage: 'Violations found - click to expand',
+        // The text to show when no violations were found
+        noViolationsMessage: 'No violations found',
+
+        // Whether or not to show a footer (with version & run date) at the bottom of the report
+        showFooter: false,
+      },
     },
   },
 };
