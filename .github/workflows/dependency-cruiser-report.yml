@@ -2,6 +2,9 @@ name: 'dependency-cruiser-report'
 
 on:
   pull_request:
+  push:
+    paths:
+      - 'src/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
