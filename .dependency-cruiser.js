@@ -416,7 +416,7 @@ module.exports = {
         // Whether or not to give the summary a header
         showSummaryHeader: true,
         // The text to show as a header on top of the summary
-        summaryHeader: '### Summary',
+        summaryHeader: '### 概要',
         // Whether or not to show high level stats in the summary
         showStatsSummary: true,
         // Whether or not to show a list of violated rules in the summary
@@ -433,9 +433,9 @@ module.exports = {
         // especially practical when the list of violations is still large.
         collapseDetails: true,
         // The text to in the <summary> section of the <details> block
-        collapsedMessage: 'Violations found - click to expand',
+        collapsedMessage: '違反が見つかりました - クリックして拡大',
         // The text to show when no violations were found
-        noViolationsMessage: 'No violations found',
+        noViolationsMessage: '違反は見つかりませんでした。',
 
         // Whether or not to show a footer (with version & run date) at the bottom of the report
         showFooter: false,
