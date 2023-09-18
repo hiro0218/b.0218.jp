@@ -72,7 +72,7 @@
     "@types/jest": "^29.5.5",
     "@types/jsdom": "^21.1.3",
     "@types/node": "^20.6.2",
-    "@types/react": "^18.2.21",
+    "@types/react": "^18.2.22",
     "@types/react-dom": "^18.2.7",
     "@types/twitter-for-web": "^0.0.3",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
