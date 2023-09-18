@@ -3,7 +3,7 @@ import { h } from 'hastscript';
 
 import * as Log from '@/lib/Log';
 
-import { FETCH_TIMEOUT, getHTML, getMeta } from '../dom';
+import { FETCH_TIMEOUT, getHTML, getMeta } from './dom';
 
 type OpgProps = {
   description?: string;
