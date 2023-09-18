@@ -3,12 +3,10 @@ import rehypeHighlight from 'rehype-highlight';
 import rehypePresetMinify from 'rehype-preset-minify';
 import rehypeRaw from 'rehype-raw';
 import rehypeStringify from 'rehype-stringify';
-import rehypeWrap from 'rehype-wrap-all';
 import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
-import remarkUnwrapImages from 'remark-unwrap-images';
 import { unified } from 'unified';
 
 import { SITE_URL } from '@/constant';
@@ -19,7 +17,6 @@ const markdownToHtmlString = async (markdown: string, simple = false) => {
   const commonProcessor = unified()
     .use(remarkParse)
     .use(remarkGfm)
-    .use(remarkUnwrapImages)
     .use(remarkBreaks)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeExternalLinks, {
@@ -37,12 +34,6 @@ const markdownToHtmlString = async (markdown: string, simple = false) => {
           ignoreMissing: true,
         })
         .use(remark0218)
-        .use(rehypeWrap, [
-          {
-            selector: 'table',
-            wrapper: 'div.p-table-scroll',
-          },
-        ])
         .use(rehypeStringify, { allowDangerousHtml: true })
         .process(markdown)
     : await commonProcessor.use(rehypeStringify, { allowDangerousHtml: true }).process(markdown);

@@ -1,4 +1,4 @@
-import type { Element } from 'hast';
+import type { Element, Root } from 'hast';
 import { type Transformer } from 'unified';
 import { visit } from 'unist-util-visit';
 
@@ -6,6 +6,7 @@ import transformCodeblock from './transform/codeblock';
 import transformImage from './transform/image';
 import transformLinkPreview from './transform/linkPreview';
 import { removeEmptyParagraph } from './transform/paragraph';
+import { wrapAll } from './transform/wrapAll';
 
 const remark0218 = (): Transformer => {
   const nodes = new Set<{ node: Element; index: number; parent: Element }>();
@@ -38,6 +39,8 @@ const remark0218 = (): Transformer => {
         await transformLinkPreview(node, index, parent);
       }),
     );
+
+    wrapAll(tree as unknown as Root);
   };
 };
 
