@@ -1,5 +1,4 @@
 import type { Element, Root } from 'hast';
-import { type Transformer } from 'unified';
 import { visit } from 'unist-util-visit';
 
 import transformCodeblock from './transform/codeblock';
@@ -8,12 +7,14 @@ import transformLinkPreview from './transform/linkPreview';
 import { removeEmptyParagraph } from './transform/paragraph';
 import { wrapAll } from './transform/wrapAll';
 
-const remark0218 = (): Transformer => {
+const remark0218 = () => {
   const nodes = new Set<{ node: Element; index: number; parent: Element }>();
   let imageCounter = 0;
 
-  return async (tree) => {
-    visit(tree, 'element', (node: Element, index, parent) => {
+  return async (tree: Root) => {
+    visit(tree, 'element', (node: Element, index, giveParent: Root | Element | null) => {
+      const parent = giveParent as Element;
+
       if (node.tagName === 'a' && node.children.length > 0) {
         if (node.children[0]?.type === 'text') {
           nodes.add({ node, index, parent });
@@ -40,7 +41,7 @@ const remark0218 = (): Transformer => {
       }),
     );
 
-    wrapAll(tree as unknown as Root);
+    wrapAll(tree);
   };
 };
 
