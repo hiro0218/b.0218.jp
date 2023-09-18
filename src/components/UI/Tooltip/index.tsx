@@ -1,5 +1,5 @@
 import { notSrOnly, srOnly } from '@/components/Functional/CssBaseline/Generic';
-import { fadeIn } from '@/ui/animation';
+import { fade } from '@/ui/animation';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -41,7 +41,7 @@ const Container = styled.span`
       pointer-events: none;
       background-color: var(--dark-backgrounds);
       border-radius: var(--border-radius-4);
-      animation: ${fadeIn} 0.6s ease;
+      animation: ${fade('in')} 0.6s ease;
       animation-fill-mode: both;
     }
   }
