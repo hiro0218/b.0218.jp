@@ -3,7 +3,6 @@ import rehypeHighlight from 'rehype-highlight';
 import rehypePresetMinify from 'rehype-preset-minify';
 import rehypeRaw from 'rehype-raw';
 import rehypeStringify from 'rehype-stringify';
-import remarkBreaks from 'remark-breaks';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
@@ -12,6 +11,7 @@ import { unified } from 'unified';
 import { SITE_URL } from '@/constant';
 
 import remark0218 from './remark0218';
+import remarkBreaks from './remarkBreaks';
 
 const markdownToHtmlString = async (markdown: string, simple = false) => {
   const commonProcessor = unified()
