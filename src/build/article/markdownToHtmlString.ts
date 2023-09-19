@@ -30,9 +30,7 @@ const markdownToHtmlString = async (markdown: string, simple = false) => {
 
   const result = !simple
     ? await commonProcessor
-        .use(rehypeHighlight, {
-          ignoreMissing: true,
-        })
+        .use(rehypeHighlight)
         .use(rehype0218)
         .use(rehypeStringify, { allowDangerousHtml: true })
         .process(markdown)
