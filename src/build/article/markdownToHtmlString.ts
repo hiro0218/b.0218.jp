@@ -10,7 +10,7 @@ import { unified } from 'unified';
 
 import { SITE_URL } from '@/constant';
 
-import remark0218 from './remark0218';
+import rehype0218 from './rehype0218';
 import remarkBreaks from './remarkBreaks';
 
 const markdownToHtmlString = async (markdown: string, simple = false) => {
@@ -33,7 +33,7 @@ const markdownToHtmlString = async (markdown: string, simple = false) => {
         .use(rehypeHighlight, {
           ignoreMissing: true,
         })
-        .use(remark0218)
+        .use(rehype0218)
         .use(rehypeStringify, { allowDangerousHtml: true })
         .process(markdown)
     : await commonProcessor.use(rehypeStringify, { allowDangerousHtml: true }).process(markdown);
