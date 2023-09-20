@@ -1,8 +1,7 @@
-import { writeJSONSync } from 'fs-extra';
-
 import { getPopularArticles } from '@/build/popular/ga';
 import { getBookmarkArticles } from '@/build/popular/hatena';
 import { FILENAME_POSTS_POPULAR } from '@/constant';
+import { writeJSONSync } from '@/lib/fs';
 import * as Log from '@/lib/Log';
 
 import type { Result } from './type';

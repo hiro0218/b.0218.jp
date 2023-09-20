@@ -1,7 +1,7 @@
 import { Feed } from 'feed';
-import { writeFile } from 'fs-extra';
 
 import { AUTHOR_ICON, AUTHOR_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
+import { writeFile } from '@/lib/fs';
 import { getDescriptionText } from '@/lib/json-ld';
 import { getPostsJson } from '@/lib/posts';
 import { getPermalink } from '@/lib/url';
