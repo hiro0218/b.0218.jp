@@ -33,7 +33,6 @@ const nextConfiguration = {
     workerThreads: true,
     webpackBuildWorker: true,
     scrollRestoration: true,
-    legacyBrowsers: false,
     fallbackNodePolyfills: false,
   },
 

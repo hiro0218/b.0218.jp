@@ -1,7 +1,7 @@
 import { loadDefaultJapaneseParser } from 'budoux';
-import { ensureDirSync, readFileSync } from 'fs-extra';
 import { type Browser, chromium } from 'playwright';
 
+import { mkdir, readFile } from '@/lib/fs';
 import * as Log from '@/lib/Log';
 import { getPostsListJson } from '@/lib/posts';
 
@@ -11,11 +11,9 @@ const path = {
   dist: `${process.cwd()}/public/images/ogp`,
 };
 
-const template = readFileSync(`${process.cwd()}/src/build/ogp/template.html`, 'utf-8');
-
-ensureDirSync(path.dist);
-
 (async () => {
+  const template = await readFile(`${process.cwd()}/src/build/ogp/template.html`, 'utf-8');
+  await mkdir(path.dist, { recursive: true });
   const posts = getPostsListJson();
   const length = posts.length;
   let browser: Browser;

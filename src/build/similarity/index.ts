@@ -1,6 +1,5 @@
-import { readJSONSync, writeJSONSync } from 'fs-extra';
-
 import { FILENAME_POSTS_SIMILARITY, FILENAME_TAG_SIMILARITY } from '@/constant';
+import { readJSONSync, writeJSONSync } from '@/lib/fs';
 import * as Log from '@/lib/Log';
 
 import { getRelatedPosts } from './post';

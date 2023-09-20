@@ -1,6 +1,5 @@
-import { readJSONSync } from 'fs-extra';
-
 import { SITE_URL } from '@/constant';
+import { readJSONSync } from '@/lib/fs';
 import * as Log from '@/lib/Log';
 
 const PATH_DIST = `${process.cwd()}/dist`;
