@@ -6,7 +6,7 @@ import { getDescriptionText } from '@/lib/json-ld';
 import { getPostsJson } from '@/lib/posts';
 import { getPermalink } from '@/lib/url';
 
-function generatedRssFeed(): void {
+function generatedRssFeed() {
   const feed = new Feed({
     title: SITE_NAME,
     description: SITE_DESCRIPTION,

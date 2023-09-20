@@ -2,7 +2,7 @@ import matter from 'gray-matter';
 import readingTime from 'reading-time';
 
 import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
-import { copy, ensureDirSync, readdirSync, writeJSONSync } from '@/lib/fs';
+import { copy, copyFile, mkdir, readdir, writeJSONSync } from '@/lib/fs';
 import * as Log from '@/lib/Log';
 import type { PageProps, PostProps } from '@/types/source';
 
@@ -15,7 +15,7 @@ const PATH = {
 
 async function buildPost() {
   // md ファイル一覧を取得
-  const files = readdirSync(`${PATH.SRC}/_posts`).filter((file) => file.endsWith('.md'));
+  const files = await readdir(`${PATH.SRC}/_posts`).then((file) => file.filter((file) => file.endsWith('.md')));
   const NUMBER_OF_FILES = files.length;
   const posts: PostProps[] = [];
 
@@ -49,7 +49,7 @@ async function buildPost() {
     return a.date < b.date ? 1 : -1;
   });
 
-  ensureDirSync(`${PATH.DIST}`);
+  await mkdir(`${PATH.DIST}`, { recursive: true });
   writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS}.json`, posts);
   Log.info(`Write dist/${FILENAME_POSTS}.json`);
 
@@ -116,7 +116,7 @@ function buildTerms(posts: Partial<PostProps>[]) {
 
 async function buildPage() {
   // md ファイル一覧を取得
-  const files = readdirSync(`${PATH.SRC}`).filter((file) => file.endsWith('.md'));
+  const files = await readdir(`${PATH.SRC}`).then((file) => file.filter((file) => file.endsWith('.md')));
   const NUMBER_OF_FILES = files.length;
   const pages: PageProps[] = [];
 
@@ -143,10 +143,12 @@ async function buildPage() {
 }
 
 function copyFiles() {
-  copy(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, `public/${FILENAME_POSTS_LIST}.json`).then(() => {
-    Log.info(`Copy dist/${FILENAME_POSTS_LIST}.json`);
-  });
-  copy(`${process.cwd()}/_article/images`, `public/images`).then(() => {
+  copyFile(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, `${process.cwd()}/public/${FILENAME_POSTS_LIST}.json`).then(
+    () => {
+      Log.info(`Copy dist/${FILENAME_POSTS_LIST}.json`);
+    },
+  );
+  copy(`${process.cwd()}/_article/images`, `${process.cwd()}/public/images`).then(() => {
     Log.info('Copy _article/images');
   });
 }
