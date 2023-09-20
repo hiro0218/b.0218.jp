@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 8080",
+    "dev": "next dev -p 8080 --experimental-https",
     "prebuild": "git submodule update --remote && npm run build:article && npm run build:similarity && npm run build:popular && npm run build:feed",
     "build": "next build",
     "postbuild": "npm run build:sitemap && npm run build:ogp",
