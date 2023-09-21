@@ -1,7 +1,7 @@
 import { getPopularArticles } from '@/build/popular/ga';
 import { getBookmarkArticles } from '@/build/popular/hatena';
 import { FILENAME_POSTS_POPULAR } from '@/constant';
-import { writeJSONSync } from '@/lib/fs';
+import { writeJSON } from '@/lib/fs';
 import * as Log from '@/lib/Log';
 
 import type { Result } from './type';
@@ -32,6 +32,6 @@ function sortResultsByCount(result: Record<string, number>): Record<string, numb
     }
   }
 
-  writeJSONSync(`${PATH_DIST}/${FILENAME_POSTS_POPULAR}.json`, sortResultsByCount(result));
+  await writeJSON(`${PATH_DIST}/${FILENAME_POSTS_POPULAR}.json`, sortResultsByCount(result));
   Log.info(`Write dist/${FILENAME_POSTS_POPULAR}.json`);
 })();
