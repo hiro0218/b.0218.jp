@@ -1,12 +1,11 @@
 import { SITE_URL } from '@/constant';
-import { readJSONSync } from '@/lib/fs';
+import { readJSON } from '@/lib/fs';
 import * as Log from '@/lib/Log';
+import type { PostListProps } from '@/types/source';
 
 const PATH_DIST = `${process.cwd()}/dist`;
 const HATENA_API_URL = 'https://bookmark.hatenaapis.com/count/entries';
 const MAX_URLS = 50;
-
-const postList = readJSONSync(`${PATH_DIST}/posts-list.json`);
 
 /**
  * URLをチャンクに分割する
@@ -30,6 +29,7 @@ function createHatenaApiUrls(chunkedUrls: string[][]): string[] {
 }
 
 export const getBookmarkArticles = async () => {
+  const postList = await readJSON<PostListProps[]>(`${PATH_DIST}/posts-list.json`);
   const urls = postList.map((post) => `${SITE_URL}/${post.slug}.html`);
   const chunkedUrls = chunkUrls(urls, MAX_URLS);
   const hatenaApiUrls = createHatenaApiUrls(chunkedUrls);
