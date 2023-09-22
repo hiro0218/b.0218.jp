@@ -2,7 +2,7 @@ import matter from 'gray-matter';
 import readingTime from 'reading-time';
 
 import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
-import { copy, copyFile, mkdir, readdir, writeJSONSync } from '@/lib/fs';
+import { copy, copyFile, mkdir, readdir, writeJSON } from '@/lib/fs';
 import * as Log from '@/lib/Log';
 import type { PageProps, PostProps } from '@/types/source';
 
@@ -50,14 +50,14 @@ async function buildPost() {
   });
 
   await mkdir(`${PATH.DIST}`, { recursive: true });
-  writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS}.json`, posts);
+  await writeJSON(`${PATH.DIST}/${FILENAME_POSTS}.json`, posts);
   Log.info(`Write dist/${FILENAME_POSTS}.json`);
 
   return posts;
 }
 
-function buildPostList(posts: Partial<PostProps>[]) {
-  writeJSONSync(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, removePostsData(posts));
+async function buildPostList(posts: Partial<PostProps>[]) {
+  await writeJSON(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, removePostsData(posts));
   Log.info(`Write dist/${FILENAME_POSTS_LIST}.json`);
 }
 
@@ -74,7 +74,7 @@ function removePostsData(posts: Partial<PostProps>[]) {
   return posts;
 }
 
-function buildTerms(posts: Partial<PostProps>[]) {
+async function buildTerms(posts: Partial<PostProps>[]) {
   const tagsMap: {
     [key: string]: string[];
   } = {};
@@ -98,7 +98,7 @@ function buildTerms(posts: Partial<PostProps>[]) {
     }
   }
 
-  writeJSONSync(`${PATH.DIST}/tags.json`, tagsMap);
+  await writeJSON(`${PATH.DIST}/tags.json`, tagsMap);
   Log.info('Write dist/tags.json');
 
   const tagsWithCount = Object.entries(tagsMap)
@@ -110,7 +110,7 @@ function buildTerms(posts: Partial<PostProps>[]) {
     })
     .sort((a, b) => b.count - a.count); // 件数の多い順にソート
 
-  writeJSONSync(`${PATH.DIST}/tags-with-count.json`, { tagsWithCount });
+  await writeJSON(`${PATH.DIST}/tags-with-count.json`, { tagsWithCount });
   Log.info('Write dist/tags-with-count.json');
 }
 
@@ -138,7 +138,7 @@ async function buildPage() {
     });
   }
 
-  writeJSONSync(`${PATH.DIST}/${FILENAME_PAGES}.json`, pages);
+  await writeJSON(`${PATH.DIST}/${FILENAME_PAGES}.json`, pages);
   Log.info(`Write dist/${FILENAME_PAGES}.json`);
 }
 
@@ -155,8 +155,8 @@ function copyFiles() {
 
 (async () => {
   const posts = await buildPost();
-  buildTerms(posts);
-  buildPostList(posts);
+  await buildTerms(posts);
+  await buildPostList(posts);
   await buildPage();
   copyFiles();
 })();

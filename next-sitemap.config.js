@@ -4,9 +4,9 @@ import { getPostsJson } from '@/lib/posts';
 const posts = getPostsJson();
 
 /** @type {import('next-sitemap').IConfig} */
-module.exports = {
+const config = {
   siteUrl: SITE_URL,
-  outDir: './public',
+  outDir: './out',
   exclude: ['/tags/*'],
   generateIndexSitemap: false,
   transform: async (config, path) => {
@@ -24,3 +24,5 @@ module.exports = {
     };
   },
 };
+
+module.exports = config;
