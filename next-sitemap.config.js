@@ -7,6 +7,7 @@ const posts = getPostsJson();
 module.exports = {
   siteUrl: SITE_URL,
   outDir: './public',
+  output: 'export', // Set static output here
   exclude: ['/tags/*'],
   generateIndexSitemap: false,
   transform: async (config, path) => {
