@@ -7,8 +7,9 @@ const popularPostsSlugs = getPostsPopular();
 export const getPopularPost = (posts: PostListProps[], displayLimit: number) => {
   const popularPosts = Object.keys(popularPostsSlugs)
     .filter((slug) => !IGNORE_SLUGS.includes(slug))
-    .slice(0, displayLimit)
-    .map((slug) => posts.find((post) => post.slug === slug));
+    .map((slug) => posts.find((post) => post.slug === slug))
+    .filter(Boolean)
+    .slice(0, displayLimit);
 
   return popularPosts;
 };
