@@ -2,7 +2,7 @@ import matter from 'gray-matter';
 import readingTime from 'reading-time';
 
 import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
-import { copy, copyFile, mkdir, readdir, writeJSON } from '@/lib/fs';
+import { copyDir, copyFile, mkdir, readdir, writeJSON } from '@/lib/fs';
 import * as Log from '@/lib/Log';
 import type { PageProps, PostProps } from '@/types/source';
 
@@ -148,7 +148,7 @@ function copyFiles() {
       Log.info(`Copy dist/${FILENAME_POSTS_LIST}.json`);
     },
   );
-  copy(`${process.cwd()}/_article/images`, `${process.cwd()}/public/images`).then(() => {
+  copyDir(`${process.cwd()}/_article/images`, `${process.cwd()}/public/images`).then(() => {
     Log.info('Copy _article/images');
   });
 }
