@@ -1,59 +1,30 @@
-import { createReadStream, createWriteStream } from 'node:fs';
-import { mkdir, readdir, stat } from 'node:fs/promises';
+import { copyFile, mkdir, readdir } from 'node:fs/promises';
 import path from 'node:path';
 
 import * as Log from '@/lib/Log';
 
-export const copyDir = async (srcDir: string, distDir: string) => {
-  let results: string[] = [];
-  let list: string[] = [];
-
+export const copyDir = async (src: string, dest: string) => {
   try {
-    list = await readdir(srcDir);
-  } catch (e) {
-    Log.error(`Failed to read directory ${srcDir}: ${e.message}`);
-    return results;
-  }
+    // コピー先ディレクトリが存在しない場合、作成する
+    await mkdir(dest, { recursive: true });
 
-  for (const file of list) {
-    const src = path.join(srcDir, file);
-    const dst = path.join(distDir, file);
-    let fileStatus: Awaited<ReturnType<typeof stat>>;
+    // コピー元のファイル・ディレクトリ一覧を取得する
+    const files = await readdir(src, { withFileTypes: true });
 
-    try {
-      fileStatus = await stat(src);
-    } catch (e) {
-      Log.error(`Failed to get file status for ${src}: ${e.message}`);
-      continue;
-    }
+    // 各エントリに対してコピー操作を実行
+    for (const file of files) {
+      const srcPath = path.join(src, file.name);
+      const destPath = path.join(dest, file.name);
 
-    if (fileStatus.isDirectory()) {
-      try {
-        await mkdir(dst, { recursive: true });
-      } catch (e) {
-        if (e.code !== 'EEXIST') {
-          Log.error(`Failed to create directory ${dst}: ${e.message}`);
-        } else {
-          Log.info(`Directory already exists: ${dst}`);
-        }
+      if (file.isDirectory()) {
+        // ディレクトリの場合、再帰的にコピー
+        await copyDir(srcPath, destPath);
+      } else {
+        // ファイルの場合、単純にコピー
+        await copyFile(srcPath, destPath);
       }
-      results = results.concat(await copyDir(src, dst));
-    } else {
-      try {
-        Log.info(`Copying file: ${dst}`);
-        const readStream = createReadStream(src);
-        const writeStream = createWriteStream(dst);
-        readStream.pipe(writeStream);
-
-        // エラーハンドリングの追加
-        readStream.on('error', (err) => Log.error(`Read stream error: ${err.message}`));
-        writeStream.on('error', (err) => Log.error(`Write stream error: ${err.message}`));
-      } catch (e) {
-        Log.error(`Failed to copy file ${dst}: ${e.message}`);
-      }
-      results.push(src);
     }
+  } catch (error) {
+    Log.error(`Error while copying directory: ${error}`);
   }
-
-  return results;
 };
