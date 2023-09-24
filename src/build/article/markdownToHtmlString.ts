@@ -18,7 +18,7 @@ const markdownToHtmlString = async (markdown: string, simple = false) => {
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkBreaks)
-    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(remarkRehype, { footnoteLabel: '注釈', allowDangerousHtml: true })
     .use(rehypeExternalLinks, {
       target(element) {
         return !(element?.properties?.href as string).includes(SITE_URL) ? '_blank' : undefined;
