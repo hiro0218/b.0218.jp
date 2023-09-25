@@ -1,5 +1,5 @@
 import { Destroy as MokujiJsDestroy, Mokuji as MokujiJs, type MokujiOption } from 'mokuji.js';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import type { RefObject } from 'react';
 import { useEffect, useRef } from 'react';
 
@@ -19,7 +19,7 @@ type ReturnProps = {
 };
 
 export const useMokuji = ({ refContent }: MokujiProps): ReturnProps => {
-  const { asPath } = useRouter();
+  const pathname = usePathname();
   const refMokuji = useRef<HTMLDivElement>(null);
   const refDetailContent = useRef<HTMLDivElement>(null);
   const refFirstRender = useRef(true);
@@ -56,7 +56,7 @@ export const useMokuji = ({ refContent }: MokujiProps): ReturnProps => {
     return () => {
       MokujiJsDestroy();
     };
-  }, [asPath, refContent]);
+  }, [pathname, refContent]);
 
   return { refMokuji, refDetailContent };
 };

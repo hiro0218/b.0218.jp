@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import { type RefObject, useEffect } from 'react';
 
 type Props = {
@@ -6,14 +6,14 @@ type Props = {
 };
 
 function useTwitterWidgetsLoad({ ref }: Props) {
-  const { asPath } = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!ref.current) {
       return;
     }
     window?.twttr?.widgets.load(ref.current);
-  }, [asPath, ref]);
+  }, [pathname, ref]);
 }
 
 export default useTwitterWidgetsLoad;

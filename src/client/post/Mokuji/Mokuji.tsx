@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
 import { DetailsAccordion } from '@/lib/DetailsAccordion';
@@ -9,7 +9,7 @@ import type { MokujiProps } from './type';
 import { useMokuji } from './useMokuji';
 
 function Mokuji({ refContent }: MokujiProps) {
-  const { asPath } = useRouter();
+  const pathname = usePathname();
   const { refMokuji, refDetailContent } = useMokuji({ refContent });
   const refDetails = useRef<HTMLDetailsElement>(null);
 
@@ -23,10 +23,10 @@ function Mokuji({ refContent }: MokujiProps) {
     return () => {
       accordion.removeEventListener();
     };
-  }, [asPath, refDetailContent]);
+  }, [pathname, refDetailContent]);
 
   return (
-    <Root key={asPath} ref={refMokuji}>
+    <Root key={pathname} ref={refMokuji}>
       <Details ref={refDetails}>
         <Summary>
           目次

@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { isMobile } from '@/ui/lib/mediaQuery';
@@ -12,12 +12,12 @@ export const GOOGLE_ADSENSE = {
 } as const;
 
 export function Adsense() {
-  const { asPath } = useRouter();
+  const pathname = usePathname();
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
-  }, [asPath, setIsLoaded]);
+  }, [pathname, setIsLoaded]);
 
   useEffect(() => {
     try {
@@ -27,14 +27,14 @@ export function Adsense() {
     } catch (err) {
       console.log(err);
     }
-  }, [asPath, isLoaded]);
+  }, [pathname, isLoaded]);
 
   /**
    * aria-label
    * @link https://support.google.com/adsense/answer/4533986?hl=ja
    */
   return (
-    <Container aria-label="スポンサーリンク" key={asPath}>
+    <Container aria-label="スポンサーリンク" key={pathname}>
       <Ads>
         <Ins />
       </Ads>
