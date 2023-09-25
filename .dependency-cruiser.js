@@ -149,6 +149,16 @@ module.exports = {
         dependencyTypes: ['npm-peer'],
       },
     },
+    {
+      name: 'no-internal-orphans',
+      from: {
+        path: '^src/',
+      },
+      module: {
+        path: '^src/',
+        numberOfDependentsLessThan: 1,
+      },
+    },
   ],
   options: {
     /* conditions specifying which files not to follow further when encountered:
