@@ -7,7 +7,7 @@ export const textEllipsis = css`
   white-space: nowrap;
 `;
 
-export const outlineLinkStyle = css`
+const outlineLinkStyle = css`
   &:focus-visible {
     outline: 0;
     box-shadow: inset 0 0 0 2px var(--borders-7);
