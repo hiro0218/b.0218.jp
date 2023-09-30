@@ -16,15 +16,12 @@ import tags from '~/dist/tags.json' assert { type: 'json' };
 import tagsSimilarity from '~/dist/tags-similarity.json' assert { type: 'json' };
 import tagsWithCount from '~/dist/tags-with-count.json' assert { type: 'json' };
 
-const postsMap = new Map(posts.map((post) => [post.slug, post]));
-const pagesMap = new Map(pages.map((page) => [page.slug, page]));
-
 export const getTagsJson = (): TagsListProps => {
   return tags;
 };
 
 export const getPostsJson = (): Map<PostProps['slug'], PostProps> => {
-  return postsMap;
+  return new Map(posts.map((post) => [post.slug, post]));
 };
 
 export const getPostsListJson = (): PostListProps[] => {
@@ -32,7 +29,7 @@ export const getPostsListJson = (): PostListProps[] => {
 };
 
 export const getPagesJson = (): Map<PageProps['slug'], PageProps> => {
-  return pagesMap;
+  return new Map(pages.map((page) => [page.slug, page]));
 };
 
 export const getTagsWithCount = () => {
