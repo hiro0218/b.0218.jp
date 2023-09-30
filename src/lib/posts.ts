@@ -7,21 +7,24 @@ import type {
   TagSimilarProps,
   TagsListProps,
 } from '@/types/source';
-import pages from '~/dist/pages.json';
-import posts from '~/dist/posts.json';
-import postsList from '~/dist/posts-list.json';
-import postsPopular from '~/dist/posts-popular.json';
-import postsSimilarity from '~/dist/posts-similarity.json';
-import tags from '~/dist/tags.json';
-import tagsSimilarity from '~/dist/tags-similarity.json';
-import tagsWithCount from '~/dist/tags-with-count.json';
+import pages from '~/dist/pages.json' assert { type: 'json' };
+import posts from '~/dist/posts.json' assert { type: 'json' };
+import postsList from '~/dist/posts-list.json' assert { type: 'json' };
+import postsPopular from '~/dist/posts-popular.json' assert { type: 'json' };
+import postsSimilarity from '~/dist/posts-similarity.json' assert { type: 'json' };
+import tags from '~/dist/tags.json' assert { type: 'json' };
+import tagsSimilarity from '~/dist/tags-similarity.json' assert { type: 'json' };
+import tagsWithCount from '~/dist/tags-with-count.json' assert { type: 'json' };
+
+const postsMap = new Map(posts.map((post) => [post.slug, post]));
+const pagesMap = new Map(pages.map((page) => [page.slug, page]));
 
 export const getTagsJson = (): TagsListProps => {
   return tags;
 };
 
 export const getPostsJson = (): Map<PostProps['slug'], PostProps> => {
-  return new Map(posts.map((post) => [post.slug, post]));
+  return postsMap;
 };
 
 export const getPostsListJson = (): PostListProps[] => {
@@ -29,7 +32,7 @@ export const getPostsListJson = (): PostListProps[] => {
 };
 
 export const getPagesJson = (): Map<PageProps['slug'], PageProps> => {
-  return new Map(pages.map((page) => [page.slug, page]));
+  return pagesMap;
 };
 
 export const getTagsWithCount = () => {
