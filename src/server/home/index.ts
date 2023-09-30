@@ -1,3 +1,4 @@
+import { compareIsoStrings } from '@/lib/compareIsoStrings';
 import { getPostsListJson, getTagsWithCount } from '@/lib/posts';
 
 import { getPopularPost } from '../_common/getPopularPost';
@@ -15,7 +16,7 @@ export const getData = () => {
   const recentPosts = filteredPosts.slice(0, POST_DISPLAY_LIMIT);
   const recentSlugs = new Set(recentPosts.map(({ slug }) => slug));
   const updatesPosts = filteredPosts
-    .sort((a, b) => (a.updated < b.updated ? 1 : -1))
+    .sort((a, b) => compareIsoStrings(b.updated, a.updated))
     .filter((post) => !recentSlugs.has(post.slug) && post.updated && post.date < post.updated)
     .slice(0, POST_DISPLAY_LIMIT);
 
