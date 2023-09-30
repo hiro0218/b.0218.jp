@@ -50,15 +50,17 @@ async function buildPost() {
   });
 
   await mkdir(`${PATH.DIST}`, { recursive: true });
-  await writeJSON(`${PATH.DIST}/${FILENAME_POSTS}.json`, posts);
-  Log.info(`Write dist/${FILENAME_POSTS}.json`);
+  writeJSON(`${PATH.DIST}/${FILENAME_POSTS}.json`, posts).then(() => {
+    Log.info(`Write dist/${FILENAME_POSTS}.json`);
+  });
 
   return posts;
 }
 
 async function buildPostList(posts: Partial<PostProps>[]) {
-  await writeJSON(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, removePostsData(posts));
-  Log.info(`Write dist/${FILENAME_POSTS_LIST}.json`);
+  writeJSON(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, removePostsData(posts)).then(() => {
+    Log.info(`Write dist/${FILENAME_POSTS_LIST}.json`);
+  });
 }
 
 function removePostsData(posts: Partial<PostProps>[]) {
@@ -98,8 +100,9 @@ async function buildTerms(posts: Partial<PostProps>[]) {
     }
   }
 
-  await writeJSON(`${PATH.DIST}/tags.json`, tagsMap);
-  Log.info('Write dist/tags.json');
+  writeJSON(`${PATH.DIST}/tags.json`, tagsMap).then(() => {
+    Log.info('Write dist/tags.json');
+  });
 
   const tagsWithCount = Object.entries(tagsMap)
     .map(([slug, val]) => {
@@ -110,8 +113,9 @@ async function buildTerms(posts: Partial<PostProps>[]) {
     })
     .sort((a, b) => b.count - a.count); // 件数の多い順にソート
 
-  await writeJSON(`${PATH.DIST}/tags-with-count.json`, { tagsWithCount });
-  Log.info('Write dist/tags-with-count.json');
+  writeJSON(`${PATH.DIST}/tags-with-count.json`, { tagsWithCount }).then(() => {
+    Log.info('Write dist/tags-with-count.json');
+  });
 }
 
 async function buildPage() {
@@ -138,8 +142,9 @@ async function buildPage() {
     });
   }
 
-  await writeJSON(`${PATH.DIST}/${FILENAME_PAGES}.json`, pages);
-  Log.info(`Write dist/${FILENAME_PAGES}.json`);
+  writeJSON(`${PATH.DIST}/${FILENAME_PAGES}.json`, pages).then(() => {
+    Log.info(`Write dist/${FILENAME_PAGES}.json`);
+  });
 }
 
 function copyFiles() {
@@ -155,8 +160,8 @@ function copyFiles() {
 
 (async () => {
   const posts = await buildPost();
-  await buildTerms(posts);
-  await buildPostList(posts);
-  await buildPage();
+  buildTerms(posts);
+  buildPostList(posts);
+  buildPage();
   copyFiles();
 })();
