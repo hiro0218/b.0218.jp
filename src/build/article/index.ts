@@ -2,7 +2,6 @@ import matter from 'gray-matter';
 import readingTime from 'reading-time';
 
 import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
-import { compareIsoStrings } from '@/lib/compareIsoStrings';
 import { copyDir, copyFile, mkdir, readdir, writeJSON } from '@/lib/fs';
 import * as Log from '@/lib/Log';
 import type { PageProps, PostProps } from '@/types/source';
@@ -46,9 +45,7 @@ async function buildPost() {
   }
 
   // sort: 日付順
-  posts.sort((a, b) => {
-    return compareIsoStrings(b.date, a.date);
-  });
+  posts.sort((a, b) => b.date.localeCompare(a.date));
 
   await mkdir(`${PATH.DIST}`, { recursive: true });
   writeJSON(`${PATH.DIST}/${FILENAME_POSTS}.json`, posts).then(() => {
