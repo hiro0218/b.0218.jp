@@ -3,7 +3,7 @@ import { type ComponentProps, useMemo } from 'react';
 
 import Heading from '@/components/UI/Heading';
 
-import { LinkMore } from '../LinkMore';
+import { LinkMore } from './LinkMore';
 
 const SrOnly = dynamic(() =>
   import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),

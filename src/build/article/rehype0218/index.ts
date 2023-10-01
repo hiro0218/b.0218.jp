@@ -7,7 +7,7 @@ import transformLinkPreview from './transform/linkPreview';
 import { removeEmptyParagraph } from './transform/paragraph';
 import { wrapAll } from './transform/wrapAll';
 
-const remark0218 = () => {
+const rehype0218 = () => {
   const nodes = new Set<{ node: Element; index: number; parent: Element }>();
   let imageCounter = 0;
 
@@ -45,4 +45,4 @@ const remark0218 = () => {
   };
 };
 
-export default remark0218;
+export default rehype0218;

@@ -3,7 +3,7 @@ const nextBuildId = require('next-build-id');
 
 const millionConfig = {
   auto: true,
-  mute: true,
+  mute: process.env.NODE_ENV === 'production',
 };
 
 const withBundleAnalyzer =

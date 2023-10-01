@@ -29,7 +29,6 @@ module.exports = {
     'strict-dependencies',
     'react-hooks',
     'tree-shakable',
-    'jsx-expressions',
   ],
   rules: {
     /**
@@ -94,12 +93,6 @@ module.exports = {
     'import/no-duplicates': ['error', { considerQueryString: true }],
     // 無関係なパッケージの使用を禁止
     'import/no-extraneous-dependencies': 'error',
-
-    /**
-     * eslint-plugin-jsx-expressions
-     */
-    // 論理「&&」式で、誤っている可能性のある数値や文字列を使用しないように強制する
-    'jsx-expressions/strict-logical-expressions': 'error',
 
     /**
      * eslint-plugin-react
