@@ -145,21 +145,21 @@ async function buildPage() {
   });
 }
 
-function copyFiles() {
+async function copyFiles() {
   copyFile(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, `${process.cwd()}/public/${FILENAME_POSTS_LIST}.json`).then(
     () => {
-      Log.info(`Copy dist/${FILENAME_POSTS_LIST}.json`);
+      Log.info(`Copy dist/${FILENAME_POSTS_LIST}.json -> public`);
     },
   );
   copyDir(`${process.cwd()}/_article/images`, `${process.cwd()}/public/images`).then(() => {
-    Log.info('Copy _article/images');
+    Log.info('Copy _article/images -> public/images');
   });
 }
 
 (async () => {
   const posts = await buildPost();
-  buildTerms(posts);
-  buildPostList(posts);
-  buildPage();
-  copyFiles();
+  await buildTerms(posts);
+  await buildPostList(posts);
+  await buildPage();
+  await copyFiles();
 })();

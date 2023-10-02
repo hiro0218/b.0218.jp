@@ -1,7 +1,7 @@
 import { FILENAME_POSTS_SIMILARITY, FILENAME_TAG_SIMILARITY } from '@/constant';
 import { readJSON, writeJSON } from '@/lib/fs';
 import * as Log from '@/lib/Log';
-import type { PostProps, TagsListProps } from '@/types/source';
+import type { PostListProps, TagsListProps } from '@/types/source';
 
 import { getRelatedPosts } from './post';
 import { getRelatedTags } from './tag';
@@ -9,7 +9,7 @@ import { getRelatedTags } from './tag';
 const PATH_DIST = `${process.cwd()}/dist`;
 
 (async () => {
-  const posts = await readJSON<PostProps[]>(`${PATH_DIST}/posts.json`);
+  const posts = await readJSON<PostListProps[]>(`${PATH_DIST}/posts-list.json`);
   const tags = await readJSON<TagsListProps>(`${PATH_DIST}/tags.json`);
 
   // 関連タグを計算する
