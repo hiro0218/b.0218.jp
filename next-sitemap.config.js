@@ -6,7 +6,6 @@ const posts = getPostsJson();
 /** @type {import('next-sitemap').IConfig} */
 const config = {
   siteUrl: SITE_URL,
-  outDir: './out',
   exclude: ['/tags/*'],
   generateIndexSitemap: false,
   transform: async (config, path) => {
