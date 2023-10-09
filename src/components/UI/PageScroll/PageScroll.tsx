@@ -14,11 +14,8 @@ export const PageScroll = memo(function PageScroll() {
   }, []);
 
   const onScrollBottom = useCallback(() => {
-    const documentElement = document.documentElement;
-    const positionBottom = documentElement.scrollHeight - documentElement.clientHeight;
-
     window.scroll({
-      top: positionBottom,
+      top: document.body.scrollHeight,
       left: 0,
       behavior: 'smooth',
     });
