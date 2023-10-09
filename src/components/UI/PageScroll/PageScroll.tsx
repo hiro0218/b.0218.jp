@@ -1,28 +1,23 @@
-import { memo, useCallback } from 'react';
-
 import { ChevronDownIcon, ChevronUpIcon, ICON_SIZE_SM } from '@/ui/icons';
 import { hoverLinkStyle } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
-export const PageScroll = memo(function PageScroll() {
-  const onScrollTop = useCallback(() => {
+export const PageScroll = () => {
+  const onScrollTop = () => {
     window.scroll({
       top: 0,
       left: 0,
       behavior: 'smooth',
     });
-  }, []);
+  };
 
-  const onScrollBottom = useCallback(() => {
-    const documentElement = document.documentElement;
-    const positionBottom = documentElement.scrollHeight - documentElement.clientHeight;
-
+  const onScrollBottom = () => {
     window.scroll({
-      top: positionBottom,
+      top: document.body.scrollHeight,
       left: 0,
       behavior: 'smooth',
     });
-  }, []);
+  };
 
   return (
     <Container>
@@ -34,7 +29,7 @@ export const PageScroll = memo(function PageScroll() {
       </Button>
     </Container>
   );
-});
+};
 
 const Container = styled.div`
   position: fixed;

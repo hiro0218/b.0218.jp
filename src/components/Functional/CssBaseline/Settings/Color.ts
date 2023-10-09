@@ -1,4 +1,4 @@
-import { blackA, gray } from '@radix-ui/colors';
+import { gray, grayA } from '@radix-ui/colors';
 
 import { css } from '@/ui/styled';
 
@@ -11,26 +11,26 @@ export default css`
    */
   //  1: アプリの背景
   --backgrounds-1: ${gray.gray1};
-  --backgrounds-1A: ${blackA.blackA1};
+  --backgrounds-1A: ${grayA.grayA1};
 
   //  2: 微妙な背景
   --backgrounds-2: ${gray.gray2};
-  --backgrounds-2A: ${blackA.blackA2};
+  --backgrounds-2A: ${grayA.grayA2};
 
   /**
    * Step 3-5: コンポーネントの背景
    */
   //  3: UI要素の背景
   --component-backgrounds-3: ${gray.gray3};
-  --component-backgrounds-3A: ${blackA.blackA3};
+  --component-backgrounds-3A: ${grayA.grayA3};
 
   //  4: ホバーされたUI要素の背景
   --component-backgrounds-4: ${gray.gray4};
-  --component-backgrounds-4A: ${blackA.blackA4};
+  --component-backgrounds-4A: ${grayA.grayA4};
 
   //  5: アクティブ/選択されたUI要素の背景
   --component-backgrounds-5: ${gray.gray5};
-  --component-backgrounds-5A: ${blackA.blackA5};
+  --component-backgrounds-5A: ${grayA.grayA5};
 
   /**
    * Step 6-8: 境界線
@@ -65,11 +65,11 @@ export default css`
   /**
    * その他
    */
-  --overlay-backgrounds: ${blackA.blackA10};
+  --overlay-backgrounds: ${grayA.grayA10};
 
   /**
    * Semantic Color
    */
-  --dark-backgrounds: ${blackA.blackA12};
+  --dark-backgrounds: ${grayA.grayA12};
   --dark-foregrounds: ${gray.gray1};
 `;
