@@ -120,8 +120,12 @@ const PostContentStyle = css`
 
   iframe {
     width: 100%;
-    height: 100%;
-    aspect-ratio: 16 / 9;
+
+    &[src*='youtube'] {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+    }
 
     ${isMobile} {
       min-height: 320px;
