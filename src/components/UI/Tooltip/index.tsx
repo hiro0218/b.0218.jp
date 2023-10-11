@@ -41,7 +41,7 @@ const Container = styled.span`
       pointer-events: none;
       background-color: var(--dark-backgrounds);
       border-radius: var(--border-radius-4);
-      animation: ${fade('in')} 0.6s ease;
+      animation: ${fade('in')} 1s ease;
       animation-fill-mode: both;
     }
   }
