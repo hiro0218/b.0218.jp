@@ -188,6 +188,7 @@ export default css`
 
   th {
     background-color: var(--component-backgrounds-4A);
+    color: var(--text-12);
 
     ${['left', 'center', 'right'].map((value) => {
       return css`
