@@ -5,7 +5,7 @@ import { visit } from 'unist-util-visit';
 
 type PrefixProps = '[!NOTE]' | '[!IMPORTANT]' | '[!WARNING]' | '';
 
-export const remarkGfmAlert: Plugin = () => {
+const remarkGfmAlert: Plugin = () => {
   return (tree) => {
     visit(tree, 'blockquote', (node: Blockquote, index, parent: Parent) => {
       const firstChild = node.children[0];
