@@ -44,9 +44,13 @@ const getHtmlNode = (prefix: PrefixProps, alertLabel: string, value: string) => 
     value: `
       <div class="gfm-alert" data-alert-type="${alertLabel.toLowerCase()}">
         <p>
-          <span class="gfm-alert-title">${alertLabel}</span><br>
+          <span class="gfm-alert-title">${toUpperFirstLetter(alertLabel)}</span><br>
           ${value.replace(prefix, '').trim()}
         </p>
       </div>`.trim(),
   };
+};
+
+const toUpperFirstLetter = (text: string) => {
+  return text.charAt(0).toUpperCase() + text.substring(1).toLowerCase();
 };
