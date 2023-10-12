@@ -28,7 +28,7 @@ export const remarkGfmAlert: Plugin = () => {
 export default remarkGfmAlert;
 
 const getAlertLabel = (prefix: PrefixProps) => {
-  switch (prefix) {
+  switch (prefix.toUpperCase()) {
     case '[!NOTE]':
     case '[!IMPORTANT]':
     case '[!WARNING]':
@@ -42,9 +42,9 @@ const getHtmlNode = (prefix: PrefixProps, alertLabel: string, value: string) => 
   return {
     type: 'html',
     value: `
-      <div class="alert">
+      <div class="gfm-alert" data-alert-type="${alertLabel.toLowerCase()}">
         <p>
-          <span class="alert-title__${alertLabel.toLowerCase()}">${alertLabel}</span><br>
+          <span class="gfm-alert-title">${alertLabel}</span><br>
           ${value.replace(prefix, '').trim()}
         </p>
       </div>`.trim(),
