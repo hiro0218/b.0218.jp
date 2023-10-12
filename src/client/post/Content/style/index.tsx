@@ -4,6 +4,7 @@ import { isMobile } from '@/ui/lib/mediaQuery';
 import { css } from '@/ui/styled';
 
 import Footnotes from './Footnotes';
+import GfmAlert from './GfmAlert';
 import Headings from './Heading';
 import Highlight from './Highlight';
 import LinkPreview from './LinkPreview';
@@ -171,6 +172,8 @@ const PostContentStyle = css`
       content: '◆◆◆';
     }
   }
+
+  ${GfmAlert}
 
   ${TableScroll}
 
