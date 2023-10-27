@@ -79,7 +79,7 @@
     "budoux": "0.5.2",
     "dependency-cruiser": "15.0.0",
     "dotenv": "16.3.1",
-    "esbuild": "0.19.4",
+    "esbuild": "0.19.5",
     "esbuild-register": "3.5.0",
     "eslint": "8.52.0",
     "eslint-config-next": "14.0.0",
@@ -124,7 +124,7 @@
     "stylelint-declaration-block-no-ignored-properties": "2.7.0",
     "stylelint-no-unsupported-browser-features": "7.0.0",
     "typescript": "5.2.2",
-    "unified": "11.0.3",
+    "unified": "11.0.4",
     "unist-util-visit": "5.0.0"
   },
   "overrides": {
