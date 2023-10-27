@@ -143,7 +143,8 @@
     "string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@latest",
     "es-iterator-helpers": "npm:@nolyfill/es-iterator-helpers@latest",
     "has": "npm:@nolyfill/has@latest",
-    "object.groupby": "npm:@nolyfill/object.groupby@latest"
+    "object.groupby": "npm:@nolyfill/object.groupby@latest",
+    "function-bind": "npm:@nolyfill/function-bind@latest"
   },
   "nextBundleAnalysis": {
     "budget": 358400,
