@@ -59,7 +59,7 @@
   "devDependencies": {
     "@google-analytics/data": "4.0.1",
     "@markuplint/jsx-parser": "3.10.0",
-    "@markuplint/react-spec": "3.11.0",
+    "@markuplint/react-spec": "3.12.0",
     "@next/bundle-analyzer": "14.0.1",
     "@svgr/webpack": "8.1.0",
     "@testing-library/jest-dom": "6.1.3",
