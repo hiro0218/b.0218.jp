@@ -12,11 +12,13 @@ import { SITE_URL } from '@/constant';
 
 import rehype0218 from './rehype0218';
 import remarkBreaks from './remarkBreaks';
+import remarkGfmAlert from './remarkGfmAlert';
 
 const markdownToHtmlString = async (markdown: string, simple = false) => {
   const commonProcessor = unified()
     .use(remarkParse)
     .use(remarkGfm)
+    .use(remarkGfmAlert)
     .use(remarkBreaks)
     .use(remarkRehype, { footnoteLabel: '注釈', allowDangerousHtml: true })
     .use(rehypeExternalLinks, {
