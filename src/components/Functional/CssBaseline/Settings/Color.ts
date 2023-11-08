@@ -1,4 +1,4 @@
-import { gray, grayA } from '@radix-ui/colors';
+import { blue, gray, grayA, purple, yellow } from '@radix-ui/colors';
 
 import { css } from '@/ui/styled';
 
@@ -72,4 +72,11 @@ export default css`
    */
   --dark-backgrounds: ${grayA.grayA12};
   --dark-foregrounds: ${gray.gray1};
+
+  /**
+   * Alert Color
+   */
+  --color-alert-note: ${blue.blue11};
+  --color-alert-important: ${purple.purple11};
+  --color-alert-warning: ${yellow.yellow11};
 `;
