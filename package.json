@@ -146,7 +146,9 @@
     "es-iterator-helpers": "npm:@nolyfill/es-iterator-helpers@latest",
     "has": "npm:@nolyfill/has@latest",
     "object.groupby": "npm:@nolyfill/object.groupby@latest",
-    "function-bind": "npm:@nolyfill/function-bind@latest"
+    "function-bind": "npm:@nolyfill/function-bind@latest",
+    "hasown": "npm:@nolyfill/hasown@latest",
+    "isarray": "npm:@nolyfill/isarray@latest"
   },
   "nextBundleAnalysis": {
     "budget": 358400,
