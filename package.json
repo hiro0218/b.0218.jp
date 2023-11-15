@@ -16,6 +16,7 @@
     "build:analyzer": "ANALYZE=true next build",
     "start": "next start",
     "lint": "eslint \"src/**/*{.js,.ts,.tsx}\"",
+    "lint:css": "stylelint \"src/**/*{.css,.tsx}\"",
     "lint:markup": "markuplint \"src/**/*{.jsx,.tsx}\"",
     "test": "jest --forceExit --coverage",
     "nolyfill": "npx nolyfill install",
@@ -128,6 +129,7 @@
     "unist-util-visit": "5.0.0"
   },
   "overrides": {
+    "@typescript-eslint/typescript-estree": "6.7.2",
     "array-includes": "npm:@nolyfill/array-includes@latest",
     "array.prototype.findlastindex": "npm:@nolyfill/array.prototype.findlastindex@latest",
     "array.prototype.flat": "npm:@nolyfill/array.prototype.flat@latest",
