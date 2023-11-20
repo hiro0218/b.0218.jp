@@ -120,7 +120,7 @@
     "schema-dts": "1.1.2",
     "sharp": "0.32.6",
     "stylelint": "15.11.0",
-    "stylelint-config-recess-order": "4.3.0",
+    "stylelint-config-recess-order": "4.4.0",
     "stylelint-config-recommended": "13.0.0",
     "stylelint-declaration-block-no-ignored-properties": "2.7.0",
     "stylelint-no-unsupported-browser-features": "7.0.0",
