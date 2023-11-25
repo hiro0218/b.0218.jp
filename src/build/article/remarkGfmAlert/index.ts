@@ -7,18 +7,21 @@ type PrefixProps = '[!NOTE]' | '[!IMPORTANT]' | '[!WARNING]' | '';
 
 const remarkGfmAlert: Plugin = () => {
   return (tree) => {
-    visit(tree, 'blockquote', (node: Blockquote, index, parent: Parent) => {
-      const firstChild = node.children[0];
+    visit(tree, 'blockquote', function transformBlockquote(blockquote: Blockquote, index, parent: Parent) {
+      const paragraph = blockquote.children[0];
 
-      if (firstChild.type !== 'paragraph' || firstChild.children[0]?.type !== 'text') return;
+      if (paragraph.type !== 'paragraph' || paragraph.children[0]?.type !== 'text') return;
 
-      const { value } = firstChild.children[0];
-      const prefix = `${value.split(']')[0]}]` as PrefixProps;
+      const text = paragraph.children[0];
+
+      const prefix = `${text.value.split(']')[0]}]` as PrefixProps;
       const alertLabel = getAlertLabel(prefix);
 
       if (!alertLabel) return;
 
-      const htmlNode = getHtmlNode(prefix, alertLabel, value);
+      console.log('paragraph.children:', paragraph.children);
+
+      const htmlNode = getHtmlNode(prefix, alertLabel, text.value);
 
       parent.children.splice(index, 1, htmlNode);
     });
