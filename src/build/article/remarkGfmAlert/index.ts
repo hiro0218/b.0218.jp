@@ -1,59 +1,108 @@
-import type { Blockquote } from 'mdast';
+import type { ElementContent } from 'hast';
+import { isElement } from 'hast-util-is-element';
 import type { Plugin } from 'unified';
-import type { Parent } from 'unist';
 import { visit } from 'unist-util-visit';
 
-type PrefixProps = '[!NOTE]' | '[!IMPORTANT]' | '[!WARNING]' | '';
+const PREFIX_REGEX = /\[!(?<kind>[\w]+)\](?<collapsable>-{0,1})\s*(?<title>.*)/g;
+const PREFIX = ['[!NOTE]', '[!IMPORTANT]', '[!WARNING]'];
 
 const remarkGfmAlert: Plugin = () => {
   return (tree) => {
-    visit(tree, 'blockquote', function transformBlockquote(blockquote: Blockquote, index, parent: Parent) {
-      const paragraph = blockquote.children[0];
+    visit(tree, (node) => {
+      // blockquoteだけをパースする
+      if (!isElement(node, 'blockquote')) return;
 
-      if (paragraph.type !== 'paragraph' || paragraph.children[0]?.type !== 'text') return;
+      // 不要なノードを削除する
+      node.children = node.children.filter((c) => !(c.type === 'text' && c.value === '\n'));
 
-      const text = paragraph.children[0];
+      // 空のブロッククオートは対象外
+      if (node.children.length === 0) return;
 
-      const prefix = `${text.value.split(']')[0]}]` as PrefixProps;
-      const alertLabel = getAlertLabel(prefix);
+      // 最初の要素は必ずparagraphである必要がある
+      if (!isElement(node.children[0], 'p')) return;
 
-      if (!alertLabel) return;
+      // 空のparagraphは対象外
+      if (node.children[0].children.length === 0) return;
 
-      console.log('paragraph.children:', paragraph.children);
+      // プレーンテキストで始まらないparagraphは無視する
+      const firstNode = node.children[0].children[0];
+      if (firstNode.type !== 'text') return;
 
-      const htmlNode = getHtmlNode(prefix, alertLabel, text.value);
+      // prefixがない場合は対象外
+      if (!firstNode.value.match(PREFIX_REGEX)) return;
 
-      parent.children.splice(index, 1, htmlNode);
+      const prefix = firstNode.value;
+      const label = getAlertLabel(prefix);
+
+      if (!label) return;
+
+      if (!node.properties) {
+        node.properties = {};
+      }
+
+      node.properties = {
+        className: 'gfm-alert',
+        'data-alert-type': label.toLowerCase(),
+      };
+
+      // @ts-expect-error blockquoteをdivに変更する
+      node.tagName = 'div';
+
+      // Prefixなラベルを付与したので重複した部分を削除する
+      node.children[0].children = removeLabelElement(node.children[0].children);
+
+      node.children = [
+        {
+          type: 'element',
+          tagName: 'span',
+          properties: {
+            className: 'gfm-alert-title',
+          },
+          children: [
+            {
+              type: 'text',
+              value: toUpperFirstLetter(label),
+            },
+          ],
+        },
+        ...node.children,
+      ];
     });
   };
 };
 
 export default remarkGfmAlert;
 
-const getAlertLabel = (prefix: PrefixProps) => {
-  switch (prefix.toUpperCase()) {
-    case '[!NOTE]':
-    case '[!IMPORTANT]':
-    case '[!WARNING]':
-      return prefix.replace('[!', '').replace(']', '');
-    default:
-      return '';
+const getAlertLabel = (prefix: string) => {
+  if (PREFIX.includes(prefix)) {
+    return prefix.replace('[!', '').replace(']', '');
   }
-};
 
-const getHtmlNode = (prefix: PrefixProps, alertLabel: string, value: string) => {
-  return {
-    type: 'html',
-    value: `
-      <div class="gfm-alert" data-alert-type="${alertLabel.toLowerCase()}">
-        <p>
-          <span class="gfm-alert-title">${toUpperFirstLetter(alertLabel)}</span><br>
-          ${value.replace(prefix, '').trim()}
-        </p>
-      </div>`.trim(),
-  };
+  return '';
 };
 
 const toUpperFirstLetter = (text: string) => {
   return text.charAt(0).toUpperCase() + text.substring(1).toLowerCase();
+};
+
+const removeLabelElement = (node: ElementContent[]) => {
+  let breakPosition = 0;
+
+  return node.filter((c, i) => {
+    if (breakPosition === -1) return true;
+
+    // 最初のラベルを取り除く
+    if (c.type === 'text' && PREFIX.includes(c.value)) {
+      breakPosition = i;
+      return false;
+    }
+
+    // ラベルの次の改行を取り除く
+    if (i === breakPosition + 1 && c.type === 'element' && c.tagName === 'br') {
+      breakPosition = -1;
+      return false;
+    }
+
+    return true;
+  });
 };
