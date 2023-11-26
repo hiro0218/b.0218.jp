@@ -4,7 +4,7 @@ import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
 const PREFIX_REGEX = /\[!(?<kind>[\w]+)\](?<collapsable>-{0,1})\s*(?<title>.*)/g;
-const PREFIX = ['[!NOTE]', '[!IMPORTANT]', '[!WARNING]'];
+const PREFIX = ['[!NOTE]', '[!IMPORTANT]', '[!WARNING]', '[!TIP]', '[!CAUTION]'];
 
 const remarkGfmAlert: Plugin = () => {
   return (tree) => {

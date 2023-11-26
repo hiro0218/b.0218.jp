@@ -5,7 +5,8 @@ const GfmAlert = css`
     border-left: var(--space-½) solid;
     padding: 0 var(--space-2);
 
-    &[data-alert-type='note'] {
+    &[data-alert-type='note'],
+    &[data-alert-type='tip'] {
       border-color: var(--color-alert-note);
 
       .gfm-alert-title {
@@ -26,6 +27,14 @@ const GfmAlert = css`
 
       .gfm-alert-title {
         color: var(--color-alert-warning);
+      }
+    }
+
+    &[data-alert-type='caution'] {
+      border-color: var(--color-alert-caution);
+
+      .gfm-alert-title {
+        color: var(--color-alert-caution);
       }
     }
   }
