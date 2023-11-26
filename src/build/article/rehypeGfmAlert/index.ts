@@ -6,7 +6,7 @@ import { visit } from 'unist-util-visit';
 const PREFIX_REGEX = /\[!(?<kind>[\w]+)\](?<collapsable>-{0,1})\s*(?<title>.*)/g;
 const PREFIX = ['[!NOTE]', '[!IMPORTANT]', '[!WARNING]', '[!TIP]', '[!CAUTION]'];
 
-const remarkGfmAlert: Plugin = () => {
+const rehypeGfmAlert: Plugin = () => {
   return (tree) => {
     visit(tree, (node) => {
       // blockquoteだけをパースする
@@ -71,7 +71,7 @@ const remarkGfmAlert: Plugin = () => {
   };
 };
 
-export default remarkGfmAlert;
+export default rehypeGfmAlert;
 
 const getAlertLabel = (prefix: string) => {
   if (PREFIX.includes(prefix)) {

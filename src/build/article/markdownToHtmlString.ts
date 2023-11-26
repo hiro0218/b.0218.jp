@@ -11,8 +11,8 @@ import { unified } from 'unified';
 import { SITE_URL } from '@/constant';
 
 import rehype0218 from './rehype0218';
+import rehypeGfmAlert from './rehypeGfmAlert';
 import remarkBreaks from './remarkBreaks';
-import rehypeGfmAlert from './remarkGfmAlert';
 
 const markdownToHtmlString = async (markdown: string, simple = false) => {
   const commonProcessor = unified()

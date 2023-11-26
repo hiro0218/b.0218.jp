@@ -4,6 +4,7 @@ export default css`
   /* global */
   ::selection {
     background-color: var(--component-backgrounds-5A);
+    color: var(--text-12);
   }
 
   html {
