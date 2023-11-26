@@ -11,16 +11,16 @@ import { unified } from 'unified';
 import { SITE_URL } from '@/constant';
 
 import rehype0218 from './rehype0218';
+import rehypeGfmAlert from './rehypeGfmAlert';
 import remarkBreaks from './remarkBreaks';
-import remarkGfmAlert from './remarkGfmAlert';
 
 const markdownToHtmlString = async (markdown: string, simple = false) => {
   const commonProcessor = unified()
     .use(remarkParse)
     .use(remarkGfm)
-    .use(remarkGfmAlert)
     .use(remarkBreaks)
     .use(remarkRehype, { footnoteLabel: '注釈', allowDangerousHtml: true })
+    .use(rehypeGfmAlert)
     .use(rehypeExternalLinks, {
       target(element) {
         return !(element?.properties?.href as string).includes(SITE_URL) ? '_blank' : undefined;

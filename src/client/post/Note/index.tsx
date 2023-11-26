@@ -3,6 +3,8 @@ import type { PostProps } from '@/types/source';
 import { ICON_SIZE_SM, InfoCircledIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
+import { IconExternalLink } from '../Content/style';
+
 type Props = Pick<PostProps, 'note'>;
 
 function PostNote({ note }: Props) {
@@ -22,7 +24,7 @@ export default PostNote;
 
 const Stack = styled(_Stack)`
   align-items: center;
-  padding: var(--space-2);
+  padding: var(--space-3) var(--space-2);
   font-size: var(--font-size-sm);
   color: var(--text-11);
   background-color: var(--backgrounds-2);
@@ -30,6 +32,14 @@ const Stack = styled(_Stack)`
   border-radius: var(--border-radius-4);
 
   a {
+    &[target='_blank'] {
+      &::after {
+        display: inline-block;
+        margin-left: 0.15em;
+        vertical-align: middle;
+        content: url(${IconExternalLink});
+      }
+    }
     &:hover {
       text-decoration: underline;
     }

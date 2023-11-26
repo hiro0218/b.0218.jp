@@ -2,38 +2,34 @@ import { css } from '@/ui/styled';
 
 const GfmAlert = css`
   .gfm-alert {
+    --alert-color: var(--color-alert-note);
+
     border-left: var(--space-½) solid;
-    padding: 0 var(--space-2);
+    padding: var(--space-½) var(--space-2);
+    border-color: var(--alert-color);
 
-    &[data-alert-type='note'] {
-      border-color: var(--color-alert-note);
+    .gfm-alert-title {
+      display: inline-flex;
+      font-weight: var(--font-weight-bold);
+      color: var(--alert-color);
+    }
 
-      .gfm-alert-title {
-        color: var(--color-alert-note);
-      }
+    &[data-alert-type='note'],
+    &[data-alert-type='tip'] {
+      --alert-color: var(--color-alert-note);
     }
 
     &[data-alert-type='important'] {
-      border-color: var(--color-alert-important);
-
-      .gfm-alert-title {
-        color: var(--color-alert-important);
-      }
+      --alert-color: var(--color-alert-important);
     }
 
     &[data-alert-type='warning'] {
-      border-color: var(--color-alert-warning);
-
-      .gfm-alert-title {
-        color: var(--color-alert-warning);
-      }
+      --alert-color: var(--color-alert-warning);
     }
-  }
 
-  .gfm-alert-title {
-    display: inline-flex;
-    font-weight: var(--font-weight-bold);
-    margin-bottom: var(--space-½);
+    &[data-alert-type='caution'] {
+      --alert-color: var(--color-alert-caution);
+    }
   }
 `;
 
