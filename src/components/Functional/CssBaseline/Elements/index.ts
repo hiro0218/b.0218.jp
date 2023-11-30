@@ -1,3 +1,4 @@
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { css } from '@/ui/styled';
 
 export default css`
@@ -169,7 +170,9 @@ export default css`
 
   /* table */
   table {
-    width: 100%;
+    ${isMobile} {
+      width: 100%;
+    }
 
     caption {
       margin: var(--space-1) 0;
@@ -190,6 +193,7 @@ export default css`
   th {
     background-color: var(--component-backgrounds-4A);
     color: var(--text-12);
+    text-align: left;
 
     ${['left', 'center', 'right'].map((value) => {
       return css`
