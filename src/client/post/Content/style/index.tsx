@@ -21,7 +21,8 @@ const PostContentStyle = css`
     margin-top: var(--space-2);
     margin-bottom: var(--space-3);
 
-    & > p {
+    & > p,
+    & > div {
       margin-top: var(--space-1);
       margin-bottom: var(--space-1);
     }
@@ -112,13 +113,6 @@ const PostContentStyle = css`
     padding: var(--space-3);
     color: var(--text-11);
     border-left: 0.25rem solid var(--borders-6);
-
-    p:first-of-type {
-      margin-top: 0;
-    }
-    p:last-of-type {
-      margin-bottom: 0;
-    }
   }
 
   iframe {
