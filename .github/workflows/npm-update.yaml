@@ -5,8 +5,14 @@ on:
     - cron: '0 9 * * 1'
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   npm-update:
+    env:
+      pr_title: '[Automated] Update NPM dependencies'
     runs-on: ubuntu-latest
 
     steps:
@@ -30,21 +36,15 @@ jobs:
         run: |
           git diff --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
 
-      - name: Commit changes
-        if: ${{ steps.git-check.outputs.changes == 'true' }}
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add package-lock.json
-          git commit -m "Update package-lock.json"
-
       - name: Create Pull Request
         if: ${{ steps.git-check.outputs.changes == 'true' }}
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          base: develop
+          add-paths: package-lock.json
           commit-message: Update npm dependencies
-          title: '[Automated] Update NPM dependencies'
+          title: ${{ env.pr_title }}
           body: 'Automated changes by GitHub Actions'
-          branch: automated-npm-update-${{ github.run_id }}
+          branch: automated-npm-update
           delete-branch: true
