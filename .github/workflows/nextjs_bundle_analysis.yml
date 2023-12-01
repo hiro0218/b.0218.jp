@@ -11,6 +11,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
+permissions:
+  contents: write
+  pull-requests: write
+
 defaults:
   run:
     # change this if your nextjs app does not live at the root of the repo
