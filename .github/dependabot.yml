@@ -12,6 +12,7 @@ updates:
   - package-ecosystem: 'npm' # See documentation for possible values
     directory: '/' # Location of package manifests
     target-branch: 'develop'
+    token: ${{ secrets.BOT_TOKEN }}
     schedule:
       interval: 'monthly'
       time: '09:00'
@@ -20,6 +21,3 @@ updates:
     reviewers:
       - 'hiro0218'
     open-pull-requests-limit: 10
-    ignore:
-      - dependency-name: 'puppeteer'
-        versions: ['5.x.x']
