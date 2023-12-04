@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import matter from 'gray-matter';
 import readingTime from 'reading-time';
 
@@ -27,6 +29,12 @@ async function buildPost() {
     const post = matter.read(`${PATH.SRC}/_posts/${file}`);
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { title, date, updated, note, tags, noindex } = post.data as PostProps;
+
+    // 未来の投稿はスキップ
+    if (!process.env.IS_DEVELOPMENT && new Date(date) > new Date()) {
+      continue;
+    }
+
     const content = (await markdownToHtmlString(post.content)).trim();
     const noteContent = !!note ? await markdownToHtmlString(note, true) : '';
     const { minutes: readingTimeMinutes } = readingTime(content);

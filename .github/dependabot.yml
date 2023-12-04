@@ -20,6 +20,3 @@ updates:
     reviewers:
       - 'hiro0218'
     open-pull-requests-limit: 10
-    ignore:
-      - dependency-name: 'puppeteer'
-        versions: ['5.x.x']
