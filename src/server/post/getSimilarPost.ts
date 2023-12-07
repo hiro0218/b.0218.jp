@@ -1,4 +1,4 @@
-import { getSimilarPost as getSimilarPosts } from '@/lib/posts';
+import { getSimilarPosts } from '@/lib/posts';
 import type { PostProps } from '@/types/source';
 
 const similarPosts = getSimilarPosts();
