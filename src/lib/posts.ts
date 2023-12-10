@@ -40,7 +40,7 @@ export const getSimilarTag = (): TagSimilarProps => {
   return tagsSimilarity;
 };
 
-export const getSimilarPost = (): PostSimilarProps => {
+export const getSimilarPosts = (): PostSimilarProps => {
   return postsSimilarity;
 };
 

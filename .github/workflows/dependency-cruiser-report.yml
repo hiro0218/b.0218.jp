@@ -40,7 +40,7 @@ jobs:
           fi
 
           if [[ $files != "" ]]; then
-            bunx depcruise --cache -X "^node_modules" --max-depth 3 -T json --include-only "^src" --reaches $formattedOption $files > _temp.json
+            bunx depcruise --cache -X "^node_modules" --max-depth 3 -T json --reaches $formattedOption $files > _temp.json
 
             echo -e '\n' >> result.md
             bunx depcruise-fmt -T markdown _temp.json >> result.md
