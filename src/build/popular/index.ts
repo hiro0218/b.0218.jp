@@ -8,30 +8,23 @@ import type { Result } from './type';
 
 const PATH_DIST = `${process.cwd()}/dist`;
 
-function sortResultsByCount(result: Record<string, number>): Record<string, number> {
-  return Object.entries(result)
-    .sort(([, a], [, b]) => b - a)
-    .reduce((acc, [key, value]) => {
-      acc[key] = value;
-      return acc;
-    }, {});
+function sortResultsByNumber(result: Result): Result {
+  return Object.fromEntries(Object.entries(result).sort(([, countA], [, countB]) => countB - countA));
 }
 
 (async () => {
   const bookmark = await getBookmarkArticles();
   const ga = await getPopularArticles();
 
-  const result: Result = { ...bookmark };
-
   // sort by count
-  for (const key in ga) {
-    if (Object.prototype.hasOwnProperty.call(result, key)) {
-      result[key] += ga[key];
-    } else {
-      result[key] = ga[key];
-    }
-  }
+  const result: Result = Object.entries(ga).reduce(
+    (acc, [key, value]) => {
+      acc[key] = (acc[key] || 0) + value;
+      return acc;
+    },
+    { ...bookmark },
+  );
 
-  await writeJSON(`${PATH_DIST}/${FILENAME_POSTS_POPULAR}.json`, sortResultsByCount(result));
+  await writeJSON(`${PATH_DIST}/${FILENAME_POSTS_POPULAR}.json`, sortResultsByNumber(result));
   Log.info(`Write dist/${FILENAME_POSTS_POPULAR}.json`);
 })();
