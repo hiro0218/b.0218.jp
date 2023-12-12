@@ -13,5 +13,3 @@ export {
 
 export const ICON_SIZE_XS = 16;
 export const ICON_SIZE_SM = 24;
-export const ICON_SIZE_MD = 32;
-export const ICON_SIZE_LG = 40;
