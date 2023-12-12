@@ -9,8 +9,10 @@ const getYear = (date: PostProps['date']) => Number(date.slice(0, 4));
 export const divideByYearArchive = (posts: PostsProps): ArchiveListProps => {
   const result: ArchiveListProps = {};
 
-  for (let i = 0; i < posts.length; i++) {
-    const post = posts[i];
+  // slugでsortする
+  const sortedPosts = [...posts].sort((a, b) => b.slug.localeCompare(a.slug));
+
+  for (const post of sortedPosts) {
     const year = getYear(post.date);
 
     if (!result[year]) {
@@ -19,13 +21,6 @@ export const divideByYearArchive = (posts: PostsProps): ArchiveListProps => {
 
     result[year].push(post);
   }
-
-  // result内のobjectをslugでsortする
-  Object.keys(result).forEach((key) => {
-    result[key].sort((a: PostProps, b: PostProps) => {
-      return b.slug.localeCompare(a.slug);
-    });
-  });
 
   return result;
 };
