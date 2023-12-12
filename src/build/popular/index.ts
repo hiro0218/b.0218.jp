@@ -8,10 +8,6 @@ import type { Result } from './type';
 
 const PATH_DIST = `${process.cwd()}/dist`;
 
-function sortResultsByNumber(result: Result): Result {
-  return Object.fromEntries(Object.entries(result).sort(([, countA], [, countB]) => countB - countA));
-}
-
 (async () => {
   const bookmark = await getBookmarkArticles();
   const ga = await getPopularArticles();
@@ -25,6 +21,6 @@ function sortResultsByNumber(result: Result): Result {
     { ...bookmark },
   );
 
-  await writeJSON(`${PATH_DIST}/${FILENAME_POSTS_POPULAR}.json`, sortResultsByNumber(result));
+  await writeJSON(`${PATH_DIST}/${FILENAME_POSTS_POPULAR}.json`, result);
   Log.info(`Write dist/${FILENAME_POSTS_POPULAR}.json`);
 })();
