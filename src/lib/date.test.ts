@@ -2,9 +2,8 @@ import { convertDateToSimpleFormat, isSameDay } from './date';
 
 describe('convertDateToSimpleFormat', () => {
   it('should convert a date string with format "yyyy-mm-ddThh:mm:ss" to "yyyy/mm/dd"', () => {
-    const inputDate = '2022-01-01T10:30:00';
-    const expectedOutput = '2022/01/01';
-    expect(convertDateToSimpleFormat(inputDate)).toBe(expectedOutput);
+    const date = new Date('2022-01-01T10:30:00');
+    expect(convertDateToSimpleFormat(date)).toBe('2022/01/01');
   });
 });
 

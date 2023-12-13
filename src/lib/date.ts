@@ -2,8 +2,12 @@ const isInvalidDate = (date: Date) => {
   return Number.isNaN(date.getTime());
 };
 
-export const convertDateToSimpleFormat = (date: string): string => {
-  return date.split('T')[0].replaceAll('-', '/');
+export const convertDateToSimpleFormat = (date: Date): string => {
+  return date.toLocaleDateString('ja-JP', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
 };
 
 export const isSameDay = (dateA: Date, dateB: Date) => {
