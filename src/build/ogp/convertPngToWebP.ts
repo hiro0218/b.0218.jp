@@ -6,6 +6,7 @@ import sharp from 'sharp';
 import * as Log from '@/lib/Log';
 
 const TARGET_DIRECTORY = path.join(process.cwd(), 'public/images/ogp');
+const CONCURRENCY_LIMIT = 10;
 
 async function convertToWebp(file: string, index: number, total: number) {
   const inputFile = path.join(TARGET_DIRECTORY, file);
@@ -28,7 +29,10 @@ async function main() {
   const pngFiles = files.filter((file) => path.extname(file) === '.png');
   const total = pngFiles.length;
 
-  await Promise.all(pngFiles.map((file, index) => convertToWebp(file, index, total)));
+  for (let i = 0; i < pngFiles.length; i += CONCURRENCY_LIMIT) {
+    const batch = pngFiles.slice(i, i + CONCURRENCY_LIMIT);
+    await Promise.all(batch.map((file, index) => convertToWebp(file, i + index, total)));
+  }
 }
 
 main();
