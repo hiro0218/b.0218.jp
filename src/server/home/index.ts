@@ -14,14 +14,15 @@ export const getData = () => {
 
   const recentPosts = filteredPosts.slice(0, POST_DISPLAY_LIMIT);
   const recentSlugs = new Set(recentPosts.map(({ slug }) => slug));
+
   const updatesPosts = filteredPosts
-    .filter((post) => !!post.updated && post.date < post.updated)
+    .filter((post) => !!post.updated && post.date < post.updated && !recentSlugs.has(post.slug))
     .sort((a, b) => b.updated.localeCompare(a.updated))
-    .filter((post) => !recentSlugs.has(post.slug))
     .slice(0, POST_DISPLAY_LIMIT);
 
   const popularPosts = getPopularPost(filteredPosts, POST_DISPLAY_LIMIT);
-  const tags = tagsWithCount.filter((item, i) => !item.slug.includes(IGNORE_TAG) && item.count >= 10 && i < 25); // 件数が10件以上を25個抽出
+
+  const tags = tagsWithCount.filter(({ slug, count }) => !slug.includes(IGNORE_TAG) && count >= 10).slice(0, 25);
 
   return {
     recentPosts,

@@ -10,30 +10,23 @@ const getSimilarPostBySlug = (key: string) => {
 
 export const getSimilarPost = (posts: Map<PostProps['slug'], PostProps>, slug: string) => {
   const similarPostSlugs = getSimilarPostBySlug(slug);
+
   if (!similarPostSlugs) {
     return [];
   }
-  const similarPost = Object.keys(similarPostSlugs)
-    .map((slug) => {
-      const post = posts.get(slug);
-      if (!post) {
-        return null;
-      }
-      const { title, date, updated } = post;
 
-      return {
-        title,
-        slug,
-        date,
-        updated,
-      };
-    })
-    .filter((post) => post !== null) as PostProps[];
+  const slugs = Object.keys(similarPostSlugs);
 
-  // 奇数の場合は偶数に寄せる
-  if (similarPost.length % 2 !== 0) {
-    similarPost.pop();
+  if (slugs.length % 2 !== 0) {
+    slugs.pop();
   }
+
+  const existingSlugs = slugs.filter((slug) => posts.has(slug));
+
+  const similarPost = existingSlugs.map((slug) => {
+    const { title, date, updated } = posts.get(slug);
+    return { title, slug, date, updated };
+  });
 
   return similarPost;
 };

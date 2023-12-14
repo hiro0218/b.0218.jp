@@ -40,18 +40,13 @@ const path = {
     const concurrency = 10;
 
     // ページインスタンスを生成
-    const pages = await Promise.all(
-      Array(concurrency)
-        .fill(null)
-        .map(async () => {
-          const page = await browser.newPage();
-          await page.setContent(template, {
-            waitUntil: 'networkidle',
-          });
-          await page.setViewportSize({ width: 1200, height: 630 });
-          return page;
-        }),
-    );
+    const setupPage = async (template: string) => {
+      const page = await browser.newPage();
+      await page.setContent(template, { waitUntil: 'networkidle' });
+      await page.setViewportSize({ width: 1200, height: 630 });
+      return page;
+    };
+    const pages = await Promise.all(Array.from({ length: concurrency }, () => setupPage(template)));
 
     for (let i = 0; i < length; i += concurrency) {
       const screenshotPromises = pages.map(async (page, j) => {

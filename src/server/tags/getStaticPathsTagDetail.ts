@@ -5,13 +5,15 @@ import { getTagsWithCount } from '@/lib/posts';
 
 export const getStaticPathsTagDetail: GetStaticPaths = () => {
   const tags = getTagsWithCount();
-  const paths = tags
-    .filter((item) => item.count >= TAG_VIEW_LIMIT) // 件数が10件以上を25個抽出
-    .map((item) => {
-      return {
+  const paths = [];
+
+  for (const item of tags) {
+    if (item.count >= TAG_VIEW_LIMIT) {
+      paths.push({
         params: { slug: item.slug },
-      };
-    });
+      });
+    }
+  }
 
   return { paths, fallback: false };
 };

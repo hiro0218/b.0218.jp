@@ -18,11 +18,11 @@ function PostDate({ date, updated }: Props) {
         }}
         title={`投稿日時: ${date}`}
       >
-        {convertDateToSimpleFormat(date)}
+        {convertDateToSimpleFormat(dateTime)}
       </time>
       {!!hasModified && (
         <time dateTime={updated} title={`更新日時: ${updated}`}>
-          {convertDateToSimpleFormat(updated)}
+          {convertDateToSimpleFormat(updatedTime)}
         </time>
       )}
     </Stack>

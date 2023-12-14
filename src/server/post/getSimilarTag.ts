@@ -6,31 +6,29 @@ const LIMIT_TAG_LIST = 10;
 
 const tagData = getTagsJson();
 const similarTags = getSimilarTags();
+const tagDataMap = new Map(Object.entries(tagData));
 
 const getTagBySlug = (slug: PostTagProps['slug']) => {
-  return Object.entries(tagData).find(([key]) => key === slug);
+  return tagDataMap.get(slug);
 };
 
 export const getSimilarTag = (tag: string) => {
   const similarTagsList = similarTags[tag];
-  const similarTagList = !!similarTagsList
-    ? (Object.entries(similarTagsList)
-        .map(([slug]) => {
-          const tag = getTagBySlug(slug);
-          if (!tag) {
-            return null;
-          }
-          const count = tag.length > 1 ? tag[1].length : 0;
-          return count >= TAG_VIEW_LIMIT ? { slug, count } : null;
-        })
-        .filter((item) => item !== null)
-        .sort((a, b) => {
-          if (a === null) return 1;
-          if (b === null) return -1;
-          return b.count - a.count;
-        })
-        .splice(0, LIMIT_TAG_LIST) as PostTagProps[])
-    : [];
 
-  return similarTagList;
+  if (!similarTagsList) {
+    return [];
+  }
+
+  const similarTagList = [];
+  for (const [slug] of Object.entries(similarTagsList)) {
+    const tag = getTagBySlug(slug);
+    if (tag) {
+      const count = tag.length > 1 ? tag[1].length : 0;
+      if (count >= TAG_VIEW_LIMIT) {
+        similarTagList.push({ slug, count });
+      }
+    }
+  }
+
+  return similarTagList.sort((a, b) => b.count - a.count).splice(0, LIMIT_TAG_LIST) as PostTagProps[];
 };
