@@ -25,7 +25,8 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     steps:
-      - uses: Kesin11/actions-timeline@v2
+      - name: Collect Workflow Telemetry
+        uses: catchpoint/workflow-telemetry-action@v1
 
       - uses: actions/checkout@v4
         with:
