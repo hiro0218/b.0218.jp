@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev -p 8080 --experimental-https",
     "prebuild": "git submodule update --remote && npm run build:article && npm run build:similarity && npm run build:popular",
-    "build": "next build",
+    "build": "TZ='Asia/Tokyo' next build",
     "postbuild": "npm run build:feed && npm run build:sitemap && npm run build:ogp",
     "build:article": "node --require esbuild-register ./src/build/article",
     "build:feed": "node --require esbuild-register ./src/build/feed.ts",
