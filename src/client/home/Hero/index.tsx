@@ -43,6 +43,7 @@ const Avatar = styled.div`
 
 const Heading = styled.h2`
   font-weight: var(--font-weight-bolder);
+  line-height: var(--line-height-sm);
 `;
 
 const P = styled.p`
