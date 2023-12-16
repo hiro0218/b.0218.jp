@@ -29,19 +29,19 @@ function Heading({
     [as, isWeightNormal, id, text],
   );
   return (
-    <Container>
+    <>
       {!!textSub || !!textSide ? (
-        <>
+        <Container>
           <Main>
             {TitleComponent}
             {!!textSub && <HeaderSub>{textSub}</HeaderSub>}
           </Main>
           {!!textSide && <Side>{textSide}</Side>}
-        </>
+        </Container>
       ) : (
         <>{TitleComponent}</>
       )}
-    </Container>
+    </>
   );
 }
 
