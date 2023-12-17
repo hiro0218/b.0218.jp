@@ -43,7 +43,6 @@ export default LinkCard;
 const Container = styled.article`
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
   gap: var(--space-1);
   padding: var(--space-3);
   /* stylelint-disable */
