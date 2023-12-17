@@ -42,8 +42,6 @@ function Mokuji({ refContent }: MokujiProps) {
 export default Mokuji;
 
 const Root = styled.nav`
-  font-size: var(--font-size-sm);
-
   a {
     color: inherit;
 
