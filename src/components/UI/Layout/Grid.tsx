@@ -24,10 +24,14 @@ export const Grid = memo(function Grid({ as = 'div', role, children, ...props }:
 const GridRoot = styled.div<Props>`
   display: grid;
   grid-template-columns: repeat(2, minmax(calc(50% - var(--space-1)), max-content));
-  gap: var(--space-1);
+  gap: ${({ gap }) => {
+    return gap ? `var(--space-${gap})` : undefined;
+  }};
 
   ${isMobile} {
     grid-template-columns: minmax(100%, max-content);
-    gap: var(--space-½);
+    gap: ${({ gap }) => {
+      return gap ? `var(--space-${gap})` : undefined;
+    }};
   }
 `;
