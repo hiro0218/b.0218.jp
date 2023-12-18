@@ -19,16 +19,19 @@ export const getSimilarTag = (tag: string) => {
     return [];
   }
 
-  const similarTagList = [];
+  const similarTagList: PostTagProps[] = [];
+
   for (const [slug] of Object.entries(similarTagsList)) {
     const tag = getTagBySlug(slug);
+
     if (tag) {
-      const count = tag.length > 1 ? tag[1].length : 0;
+      const count = tag.length;
+
       if (count >= TAG_VIEW_LIMIT) {
         similarTagList.push({ slug, count });
       }
     }
   }
 
-  return similarTagList.sort((a, b) => b.count - a.count).splice(0, LIMIT_TAG_LIST) as PostTagProps[];
+  return similarTagList.sort((a, b) => b.count - a.count).splice(0, LIMIT_TAG_LIST);
 };
