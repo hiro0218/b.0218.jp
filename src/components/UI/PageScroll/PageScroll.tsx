@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { floatingFade } from '@/ui/animation';
 import { ArrowUpIcon, ICON_SIZE_SM } from '@/ui/icons';
 import { isMobile } from '@/ui/lib/mediaQuery';
@@ -5,13 +7,13 @@ import { hoverLinkStyle } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 export const PageScroll = () => {
-  const onScrollTop = () => {
+  const onScrollTop = useCallback(() => {
     window.scroll({
       top: 0,
       left: 0,
       behavior: 'smooth',
     });
-  };
+  }, []);
 
   return (
     <Container>
