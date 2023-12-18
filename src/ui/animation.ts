@@ -45,3 +45,25 @@ const fadeOut = keyframes`
     opacity: 0;
   }
 `;
+
+export const floatingFade = keyframes`
+  0% {
+    transform: translateY(0);
+    opacity: 1
+  }
+
+  50% {
+    transform: translateY(-50%);
+    opacity: 0
+  }
+
+  50.1% {
+    transform: translateY(80%);
+    opacity: 0
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1
+  }
+`;
