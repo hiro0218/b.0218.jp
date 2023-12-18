@@ -56,7 +56,7 @@ jobs:
           restore-keys: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
 
       - if: steps.cache-node-modules.outputs.cache-hit != 'true'
-      - name: Install dependencies
+        name: Install dependencies
         run: npm install --ignore-scripts
 
       - name: Restore next build
