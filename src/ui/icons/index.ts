@@ -1,5 +1,6 @@
 export { Hatenabookmark } from './Hatenabookmark';
 export {
+  ArrowUpIcon,
   CaretRightIcon,
   ChevronDownIcon,
   ChevronUpIcon,
