@@ -55,6 +55,7 @@ const Container = styled.article`
   ${showHoverBackground}
 
   time {
+    font-size: var(--font-size-sm);
     line-height: 1.1;
     color: var(--text-11);
   }
@@ -97,6 +98,7 @@ const Tags = styled.div`
   display: flex;
   gap: var(--space-1);
   margin-top: auto;
+  font-size: var(--font-size-sm);
 `;
 
 const TagItem = styled.span`
