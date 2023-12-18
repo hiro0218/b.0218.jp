@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 
 import Footer from '@/components/App/TheFooter';
 import Header from '@/components/App/TheHeader';
+import { Container } from '@/components/UI/Layout';
 import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
@@ -11,17 +12,17 @@ const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((modu
 export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <Container>
+      <Root>
         <Header />
-        <Main>{children}</Main>
+        <Main as="main">{children}</Main>
         <Footer />
-      </Container>
+      </Root>
       <PageScroll />
     </>
   );
 }
 
-const Container = styled.div`
+const Root = styled.div`
   height: 100vh;
 
   ${isDesktop} {
@@ -30,13 +31,10 @@ const Container = styled.div`
   }
 `;
 
-const Main = styled.main`
-  width: var(--container-width);
-  padding: 0 var(--space-4);
+const Main = styled(Container)`
   margin: var(--space-3) auto 0;
 
   ${isMobile} {
-    width: auto;
-    padding: 0 5vw;
+    padding: 0 2rem;
   }
 `;

@@ -1,17 +1,27 @@
+import { pxToRem } from '@/ui/lib/fonts';
 import { css } from '@/ui/styled';
 
 export const SPACING_BASE_PX = 8;
 
+/**
+ * use fibonacci sequence
+ */
+const generateSpace = (n: number): number => {
+  if (n === 1) return 1;
+  if (n === 2) return 2;
+
+  return generateSpace(n - 1) + generateSpace(n - 2);
+};
+
 export default css`
   /**
    * space
-   * 段階はフィボナッチ数列を利用
    */
-  --space-½: ${SPACING_BASE_PX / 2}px; // 4
-  --space-1: ${SPACING_BASE_PX}px; // 8
-  --space-2: ${SPACING_BASE_PX * 2}px; // 16
-  --space-3: ${SPACING_BASE_PX * 3}px; // 24
-  --space-4: ${SPACING_BASE_PX * 5}px; // 40
-  --space-5: ${SPACING_BASE_PX * 8}px; // 64
-  --space-6: ${SPACING_BASE_PX * 13}px; // 104
+  --space-½: ${pxToRem(SPACING_BASE_PX * 0.5)}; // 4
+  --space-1: ${pxToRem(SPACING_BASE_PX * generateSpace(1))}; // 8
+  --space-2: ${pxToRem(SPACING_BASE_PX * generateSpace(2))}; // 16
+  --space-3: ${pxToRem(SPACING_BASE_PX * generateSpace(3))}; // 24
+  --space-4: ${pxToRem(SPACING_BASE_PX * generateSpace(4))}; // 40
+  --space-5: ${pxToRem(SPACING_BASE_PX * generateSpace(5))}; // 64
+  --space-6: ${pxToRem(SPACING_BASE_PX * generateSpace(6))}; // 104
 `;

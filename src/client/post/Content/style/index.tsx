@@ -15,8 +15,6 @@ export const IconExternalLink = SvgComponentToDataUrlScheme(
 );
 
 const PostContentStyle = css`
-  color: var(--text-11);
-
   & > * {
     margin-top: var(--space-2);
     margin-bottom: var(--space-3);

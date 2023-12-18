@@ -43,7 +43,6 @@ export default LinkCard;
 const Container = styled.article`
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
   gap: var(--space-1);
   padding: var(--space-3);
   /* stylelint-disable */
@@ -56,7 +55,6 @@ const Container = styled.article`
   ${showHoverBackground}
 
   time {
-    font-size: var(--font-size-sm);
     line-height: 1.1;
     color: var(--text-11);
   }
@@ -91,7 +89,6 @@ const Title = styled.h3`
 const Paragraph = styled.p`
   ${textEllipsis}
 
-  font-size: var(--font-size-sm);
   color: var(--text-11);
   letter-spacing: var(--letter-spacing-sm);
 `;

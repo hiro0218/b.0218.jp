@@ -4,8 +4,29 @@ const generateHeadingStyles = (headingNumber: number) => {
   const tag = `h${headingNumber}`;
   const nextTagNumber = headingNumber + 1;
   const nextTagSiblingSelector = nextTagNumber <= 6 ? `${tag} + h${nextTagNumber}` : undefined;
-  const marginTop = headingNumber >= 2 ? 'var(--space-5)' : headingNumber >= 5 ? 'var(--space-4)' : 'var(--space-3)';
-  const marginBottom = headingNumber >= 3 ? 'var(--space-3)' : 'var(--space-2)';
+  const marginTop = (() => {
+    switch (headingNumber) {
+      case 1:
+      case 2:
+        return 'var(--space-5)';
+      case 3:
+      case 4:
+      case 5:
+        return 'var(--space-4)';
+      default:
+        return 'var(--space-3)';
+    }
+  })();
+  const marginBottom = (() => {
+    switch (headingNumber) {
+      case 1:
+      case 2:
+      case 3:
+        return 'var(--space-3)';
+      default:
+        return 'var(--space-2)';
+    }
+  })();
 
   const style = {
     marginTop,

@@ -1,4 +1,4 @@
-import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
+import { clampFontSize, pxToRem } from '@/ui/lib/fonts';
 import { css } from '@/ui/styled';
 
 export default css`
@@ -13,31 +13,20 @@ export default css`
   /**
    * Font Size
    */
-  --font-size-xs: 12px;
-  --font-size-sm: 14px;
-  --font-size-md: 16px;
-  --font-size-lg: 18px;
+  --font-size-xs: ${pxToRem(12)};
+  --font-size-sm: ${pxToRem(14)};
+  --font-size-md: ${pxToRem(16)};
+  --font-size-lg: ${pxToRem(18)};
 
   /**
    * Heading Font Size
    */
-  ${isDesktop} {
-    --font-size-h1: 32px;
-    --font-size-h2: 24px;
-    --font-size-h3: 22px;
-    --font-size-h4: 20px;
-    --font-size-h5: 18px;
-    --font-size-h6: 16px;
-  }
-
-  ${isMobile} {
-    --font-size-h1: 24px;
-    --font-size-h2: 22px;
-    --font-size-h3: 20px;
-    --font-size-h4: 18px;
-    --font-size-h5: 16px;
-    --font-size-h6: 16px;
-  }
+  --font-size-h1: ${clampFontSize(36, 32)};
+  --font-size-h2: ${clampFontSize(32, 28)};
+  --font-size-h3: ${clampFontSize(28, 24)};
+  --font-size-h4: ${clampFontSize(24, 20)};
+  --font-size-h5: ${clampFontSize(20, 18)};
+  --font-size-h6: ${clampFontSize(20, 16)};
 
   /**
    * Font Weight
