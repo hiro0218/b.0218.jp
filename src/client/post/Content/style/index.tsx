@@ -157,14 +157,19 @@ const PostContentStyle = css`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: var(--space-5) 0;
+    width: 80%;
+    height: var(--space-1);
+    margin: var(--space-5) auto;
+    color: var(--text-11);
+    background-image: repeating-linear-gradient(
+      -45deg,
+      currentColor,
+      currentColor 0.25px,
+      transparent 0,
+      transparent 50%
+    );
+    background-size: 6px 6px;
     border: 0;
-
-    &::before {
-      font-size: var(--font-size-sm);
-      color: var(--text-11);
-      content: '◆◆◆';
-    }
   }
 
   ${GfmAlert}
