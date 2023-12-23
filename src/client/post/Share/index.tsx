@@ -5,7 +5,7 @@ import { Stack } from '@/components/UI/Layout';
 import { Toast } from '@/components/UI/Toast';
 import { Tooltip } from '@/components/UI/Tooltip';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
-import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, TwitterLogoIcon } from '@/ui/icons';
+import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, X } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { css, styled } from '@/ui/styled';
 
@@ -38,8 +38,8 @@ function PostShare({ title, url }: Props) {
           rel="noopener noreferrer"
           target="_blank"
         >
-          <Tooltip text="Twitterでツイートする" />
-          <TwitterLogoIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+          <Tooltip text="Xでポストする" />
+          <X height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </Anchor>
         <Anchor href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`} rel="noopener noreferrer" target="_blank">
           <Tooltip text="はてなブックマークでブックマークする" />
