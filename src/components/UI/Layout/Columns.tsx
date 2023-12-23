@@ -29,7 +29,7 @@ const Root = styled.section`
   }
 
   & + & {
-    margin-top: var(--space-5);
+    margin-block-start: var(--space-5);
   }
 `;
 
@@ -40,14 +40,14 @@ const TitleText = styled.h2`
 const ColumnTitle = styled.div`
   ${isDesktop} {
     position: sticky;
-    top: calc(${SPACING_BASE_PX * 5}px + 1rem);
-    width: 38.2%;
-    height: 100%;
+    inset-block-start: calc(${SPACING_BASE_PX * 5}px + 1rem);
+    inline-size: 38.2%;
+    block-size: 100%;
   }
 `;
 
 const ColumnMain = styled.div`
   ${isDesktop} {
-    width: 61.8%;
+    inline-size: 61.8%;
   }
 `;

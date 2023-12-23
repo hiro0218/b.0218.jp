@@ -12,7 +12,7 @@ type Props = Pick<PostProps, 'title' | 'date' | 'updated' | 'readingTime'> & {
 
 function PostHeader({ title, date, updated, readingTime, tagsWithCount }: Props) {
   return (
-    <Stack as="header" space="2">
+    <Container as="header" space="2">
       <h1 dangerouslySetInnerHTML={{ __html: title }}></h1>
       <Stack space="1">
         <Item>
@@ -26,11 +26,30 @@ function PostHeader({ title, date, updated, readingTime, tagsWithCount }: Props)
           </SimpleGrid>
         </Item>
       </Stack>
-    </Stack>
+    </Container>
   );
 }
 
 export default PostHeader;
+
+const Container = styled(Stack)`
+  &::after {
+    display: block;
+    width: 100%;
+    height: var(--space-1);
+    margin-top: var(--space-4);
+    color: var(--text-11);
+    content: '';
+    background-image: repeating-linear-gradient(
+      -45deg,
+      currentColor,
+      currentColor 0.25px,
+      transparent 0,
+      transparent 50%
+    );
+    background-size: 6px 6px;
+  }
+`;
 
 const Item = styled.div`
   display: flex;

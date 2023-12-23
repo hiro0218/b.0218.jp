@@ -32,7 +32,7 @@ export default function Index() {
 
       <SrOnly as="h1" text="トップページ" />
 
-      <Stack space="4">
+      <Stack space="5">
         <Stack as="section">
           <Hero />
         </Stack>

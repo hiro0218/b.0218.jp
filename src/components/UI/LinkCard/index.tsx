@@ -98,6 +98,7 @@ const Tags = styled.div`
   display: flex;
   gap: var(--space-1);
   margin-top: auto;
+  overflow: hidden;
   font-size: var(--font-size-sm);
 `;
 
