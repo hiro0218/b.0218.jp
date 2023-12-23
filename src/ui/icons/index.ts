@@ -1,4 +1,5 @@
 export { Hatenabookmark } from './Hatenabookmark';
+export { X } from './X';
 export {
   ArrowUpIcon,
   CaretRightIcon,
@@ -9,7 +10,6 @@ export {
   InfoCircledIcon,
   Link2Icon,
   MagnifyingGlassIcon,
-  TwitterLogoIcon,
 } from '@radix-ui/react-icons';
 
 export const ICON_SIZE_XS = 16;
