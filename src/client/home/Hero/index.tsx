@@ -15,7 +15,9 @@ export const Hero = memo(function Hero() {
         <AvatarIcon height="100" width="100" />
       </Avatar>
       <header>
-        <Heading>Hi, I&rsquo;m hiro.</Heading>
+        <Heading>
+          Hi, I&rsquo;m <strong>hiro</strong>.
+        </Heading>
         <P>Web Developer (Frontend) with experience in Backend, iOS App, and Windows App development.</P>
       </header>
     </Stack>
