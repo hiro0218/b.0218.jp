@@ -6,6 +6,7 @@ import rehypeStringify from 'rehype-stringify';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
+import remarkRemoveComments from 'remark-remove-comments';
 import { unified } from 'unified';
 
 import { SITE_URL } from '@/constant';
@@ -17,6 +18,7 @@ import remarkBreaks from './remarkBreaks';
 const markdownToHtmlString = async (markdown: string, simple = false) => {
   const commonProcessor = unified()
     .use(remarkParse)
+    .use(remarkRemoveComments)
     .use(remarkGfm)
     .use(remarkBreaks)
     .use(remarkRehype, { footnoteLabel: '注釈', allowDangerousHtml: true })
