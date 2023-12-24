@@ -1,11 +1,8 @@
-import { loadDefaultJapaneseParser } from 'budoux';
 import { type Browser, chromium } from 'playwright';
 
 import { mkdir, readFile } from '@/lib/fs';
 import * as Log from '@/lib/Log';
 import { getPostsListJson } from '@/lib/posts';
-
-const parser = loadDefaultJapaneseParser();
 
 const path = {
   dist: `${process.cwd()}/public/images/ogp`,
@@ -33,6 +30,7 @@ const path = {
         '--disable-popup-blocking',
         '--disable-features',
         '--disable-new-tab-first-run',
+        '--enable-experimental-web-platform-features',
       ],
     });
 
@@ -53,11 +51,9 @@ const path = {
         const index = i + j;
         if (index < length) {
           const { title, slug } = posts[index];
-          const pageTitle = parser.translateHTMLString(title.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+          const pageTitle = title.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
           await page.evaluate(async (pageTitle) => {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
             document.getElementById('title').innerHTML = pageTitle;
             await document.fonts.ready;
           }, pageTitle);
@@ -80,8 +76,6 @@ const path = {
   } catch (err) {
     Log.error('Generating OGP Images', err.message);
   } finally {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     await browser?.close();
   }
 })();
