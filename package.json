@@ -79,7 +79,7 @@
     "better-typescript-lib": "2.5.0",
     "dependency-cruiser": "15.5.0",
     "dotenv": "16.3.1",
-    "esbuild": "0.19.9",
+    "esbuild": "0.19.10",
     "esbuild-register": "3.5.0",
     "eslint": "8.56.0",
     "eslint-config-next": "14.0.4",
