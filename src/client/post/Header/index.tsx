@@ -38,15 +38,9 @@ const Container = styled(Stack)`
     width: 100%;
     height: var(--space-1);
     margin-top: var(--space-4);
-    color: var(--text-11);
+    color: var(--borders-6);
     content: '';
-    background-image: repeating-linear-gradient(
-      -45deg,
-      currentColor,
-      currentColor 0.25px,
-      transparent 0,
-      transparent 50%
-    );
+    background-image: repeating-linear-gradient(-45deg, currentColor, currentColor 1px, transparent 0, transparent 50%);
     background-size: 6px 6px;
   }
 `;
