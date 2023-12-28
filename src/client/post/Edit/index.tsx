@@ -1,4 +1,4 @@
-import { GitHubLogoIcon } from '@/ui/icons';
+import { GitHubLogoIcon, ICON_SIZE_SM } from '@/ui/icons';
 import { hoverLinkStyle } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -14,7 +14,7 @@ function PostEdit({ slug }: Props) {
         rel="noreferrer"
         target="_blank"
       >
-        <GitHubLogoIcon />
+        <GitHubLogoIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         Edit on GitHub
       </Anchor>
     </Container>
