@@ -77,5 +77,7 @@ const TagAnchor = styled(Anchor)`
 const DisabledTagAnchor = styled.span`
   ${PostTagAnchorStyle}
 
-  cursor: default;
+  &:hover {
+    cursor: not-allowed;
+  }
 `;
