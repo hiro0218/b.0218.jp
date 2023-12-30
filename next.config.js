@@ -46,7 +46,7 @@ const nextConfiguration = {
       rules: [
         ...rules,
         {
-          test: /src\/components\/.*\/index\.ts/i,
+          test: /src\/(components|ui)\/.*\/index\.ts/i,
           sideEffects: false,
         },
         {

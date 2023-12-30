@@ -1,5 +1,6 @@
 import { notSrOnly, srOnly } from '@/components/Functional/CssBaseline/Generic';
 import { fade } from '@/ui/animation';
+import { easeOutExpo } from '@/ui/foundation/easing';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -26,7 +27,9 @@ const Container = styled.span`
     top: calc(100% + var(--space-½));
     left: 50%;
     font-size: var(--font-size-xs);
+    line-height: var(--line-height-sm);
     transform: translate(-50%, 0%);
+    will-change: opacity;
   }
 
   &:hover {
@@ -41,7 +44,7 @@ const Container = styled.span`
       pointer-events: none;
       background-color: var(--dark-backgrounds);
       border-radius: var(--border-radius-4);
-      animation: ${fade('in')} 1s ease;
+      animation: ${fade('in')} 1s ${easeOutExpo};
       animation-fill-mode: both;
     }
   }

@@ -1,1 +1,1 @@
-export { easeOut, easeOutBack } from 'css-in-js-easing';
+export { easeOut, easeOutBack, easeOutExpo } from 'css-in-js-easing';

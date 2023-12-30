@@ -105,6 +105,10 @@ const SearchResult = styled.div`
   overflow-x: none;
   overflow-y: auto;
 
+  &:not(:empty) {
+    padding: var(--space-½) var(--space-1);
+  }
+
   ${isMobile} {
     max-height: 60vh;
   }
@@ -114,6 +118,7 @@ const Anchor = styled(_Anchor)`
   display: block;
   padding: var(--space-1) var(--space-2);
   font-size: var(--font-size-sm);
+  border-radius: var(--border-radius-8);
 
   &:hover {
     background-color: var(--component-backgrounds-3);
