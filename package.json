@@ -124,7 +124,6 @@
     "stylelint-config-recess-order": "4.4.0",
     "stylelint-config-recommended": "14.0.0",
     "stylelint-declaration-block-no-ignored-properties": "2.8.0",
-    "stylelint-no-unsupported-browser-features": "7.0.0",
     "typescript": "5.2.2",
     "unified": "11.0.4",
     "unist-util-visit": "5.0.0"

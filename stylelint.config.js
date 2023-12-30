@@ -1,6 +1,6 @@
 module.exports = {
   extends: ['stylelint-config-recommended', 'stylelint-config-recess-order'],
-  plugins: ['stylelint-declaration-block-no-ignored-properties', 'stylelint-no-unsupported-browser-features'],
+  plugins: ['stylelint-declaration-block-no-ignored-properties'],
   rules: {
     'at-rule-no-unknown': [
       true,
