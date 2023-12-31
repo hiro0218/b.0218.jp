@@ -14,12 +14,6 @@ module.exports = {
     'no-empty-source': null,
     'plugin/declaration-block-no-ignored-properties': true,
     'selector-pseudo-element-colon-notation': 'double',
-    'plugin/no-unsupported-browser-features': [
-      true,
-      {
-        ignorePartialSupport: true,
-      },
-    ],
   },
   overrides: [
     {
