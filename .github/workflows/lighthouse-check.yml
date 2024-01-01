@@ -1,70 +1,68 @@
-name: Lighthouse CI
+name: Vercel Preview URL Lighthouse Audit
 
 on:
   issue_comment:
-    types: [created, edited]
-
-permissions:
-  issues: write
-  pull-requests: write
-  discussions: write
+    types: [edited]
 
 jobs:
-  lighthouse:
+  generate_lighthouse_audit:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
-    name: Lighthouse Audit and Comment
     steps:
-      - name: get preview url
-        id: capture_preview_url
-        uses: aaimio/vercel-preview-url-action@v2.2.0
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: checkout
-        uses: actions/checkout@v3
-      - name: add comment
+      - name: Add comment to PR
         id: loading_comment_to_pr
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ github.event.issue.number }}
           header: lighthouse
           message: |
-            Lighthouse is running...
-      - name: Lighthouse Audit
+            Running Lighthouse audit...
+      - name: Capture Vercel preview URL
+        id: vercel_preview_url
+        uses: aaron-binary/vercel-preview-url-action@v0.0.3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+      - name: Audit preview URL with Lighthouse
         id: lighthouse_audit
-        uses: treosh/lighthouse-ci-action@v10
+        uses: treosh/lighthouse-ci-action@v3
         with:
           urls: |
-            ${{ steps.capture_preview_url.outputs.vercel_preview_url }}
+            ${{ steps.vercel_preview_url.outputs.vercel_preview_url }}
           uploadArtifacts: true
           temporaryPublicStorage: true
-      - name: Score format
+      - name: Format lighthouse score
         id: format_lighthouse_score
-        uses: actions/github-script@v7
+        uses: actions/github-script@v3
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const result = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary
             const links = ${{ steps.lighthouse_audit.outputs.links }}
+
             const formatResult = (res) => Math.round((res * 100))
             Object.keys(result).forEach(key => result[key] = formatResult(result[key]))
+
             const score = res => res >= 90 ? '🟢' : res >= 50 ? '🟠' : '🔴'
+
             const comment = [
-                `[Lighthouse分析結果](${Object.values(links)[0]}):`,
-                '| 項目 | スコア |',
+                `⚡️ [Lighthouse report](${Object.values(links)[0]}) for the changes in this PR:`,
+                '| Category | Score |',
                 '| --- | --- |',
-                `| ${score(result.performance)} パフォーマンス | ${result.performance} |`,
-                `| ${score(result.accessibility)} アクセシビリティ | ${result.accessibility} |`,
-                `| ${score(result['best-practices'])} ベストプラクティス | ${result['best-practices']} |`,
+                `| ${score(result.performance)} Performance | ${result.performance} |`,
+                `| ${score(result.accessibility)} Accessibility | ${result.accessibility} |`,
+                `| ${score(result['best-practices'])} Best practices | ${result['best-practices']} |`,
                 `| ${score(result.seo)} SEO | ${result.seo} |`,
                 `| ${score(result.pwa)} PWA | ${result.pwa} |`,
                 ' ',
-                `*分析したURL: [${Object.keys(links)[0]}](${Object.keys(links)[0]})*`
+                `*Lighthouse ran on [${Object.keys(links)[0]}](${Object.keys(links)[0]})*`
             ].join('\n')
+
              core.setOutput("comment", comment);
-      - name: Lighthouse Audit Result Comment
+      - name: Add comment to PR
         id: comment_to_pr
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ github.event.issue.number }}
