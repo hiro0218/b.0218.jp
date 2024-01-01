@@ -59,7 +59,7 @@ jobs:
              core.setOutput("comment", comment);
       - name: Lighthouse Audit Result Comment
         id: comment_to_pr
-        uses: marocchino/sticky-pull-request-comment@v1
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ github.event.issue.number }}
