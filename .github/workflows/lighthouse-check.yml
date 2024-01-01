@@ -1,0 +1,68 @@
+name: Lighthouse CI
+
+on:
+  issue_comment:
+    types: [edited]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    name: Lighthouse Audit and Comment
+    steps:
+      - name: get preview url
+        id: capture_preview_url
+        uses: aaimio/vercel-preview-url-action@v2.2.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: add comment
+        id: loading_comment_to_pr
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ github.event.issue.number }}
+          header: lighthouse
+          message: |
+            Lighthouse is running...
+      - name: Lighthouse Audit
+        id: lighthouse_audit
+        uses: treosh/lighthouse-ci-action@v3
+        with:
+          urls: |
+            ${{ steps.capture_preview_url.outputs.vercel_preview_url }}
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+      - name: Score format
+        id: format_lighthouse_score
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const result = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary
+            const links = ${{ steps.lighthouse_audit.outputs.links }}
+            const formatResult = (res) => Math.round((res * 100))
+            Object.keys(result).forEach(key => result[key] = formatResult(result[key]))
+            const score = res => res >= 90 ? '🟢' : res >= 50 ? '🟠' : '🔴'
+            const comment = [
+                `[Lighthouse分析結果](${Object.values(links)[0]}):`,
+                '| 項目 | スコア |',
+                '| --- | --- |',
+                `| ${score(result.performance)} パフォーマンス | ${result.performance} |`,
+                `| ${score(result.accessibility)} アクセシビリティ | ${result.accessibility} |`,
+                `| ${score(result['best-practices'])} ベストプラクティス | ${result['best-practices']} |`,
+                `| ${score(result.seo)} SEO | ${result.seo} |`,
+                `| ${score(result.pwa)} PWA | ${result.pwa} |`,
+                ' ',
+                `*分析したURL: [${Object.keys(links)[0]}](${Object.keys(links)[0]})*`
+            ].join('\n')
+             core.setOutput("comment", comment);
+      - name: Lighthouse Audit Result Comment
+        id: comment_to_pr
+        uses: marocchino/sticky-pull-request-comment@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ github.event.issue.number }}
+          header: lighthouse
+          message: |
+            ${{ steps.format_lighthouse_score.outputs.comment }}
