@@ -1,8 +1,13 @@
 name: Lighthouse CI
 
 on:
-  pull_request:
-    types: [edited]
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  issues: write
+  pull-requests: write
+  discussions: write
 
 jobs:
   lighthouse:
@@ -27,7 +32,7 @@ jobs:
             Lighthouse is running...
       - name: Lighthouse Audit
         id: lighthouse_audit
-        uses: treosh/lighthouse-ci-action@v3
+        uses: treosh/lighthouse-ci-action@v10
         with:
           urls: |
             ${{ steps.capture_preview_url.outputs.vercel_preview_url }}
@@ -35,7 +40,7 @@ jobs:
           temporaryPublicStorage: true
       - name: Score format
         id: format_lighthouse_score
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
@@ -59,7 +64,7 @@ jobs:
              core.setOutput("comment", comment);
       - name: Lighthouse Audit Result Comment
         id: comment_to_pr
-        uses: marocchino/sticky-pull-request-comment@v1
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ github.event.issue.number }}
