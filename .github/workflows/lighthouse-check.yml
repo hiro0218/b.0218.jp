@@ -27,7 +27,7 @@ jobs:
             Lighthouse is running...
       - name: Lighthouse Audit
         id: lighthouse_audit
-        uses: treosh/lighthouse-ci-action@v3
+        uses: treosh/lighthouse-ci-action@v10
         with:
           urls: |
             ${{ steps.capture_preview_url.outputs.vercel_preview_url }}
