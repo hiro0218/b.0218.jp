@@ -1,7 +1,7 @@
 name: Lighthouse CI
 
 on:
-  issue_comment:
+  pull_request:
     types: [edited]
 
 jobs:
