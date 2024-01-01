@@ -1,6 +1,6 @@
 module.exports = {
   extends: ['stylelint-config-recommended', 'stylelint-config-recess-order'],
-  plugins: ['stylelint-declaration-block-no-ignored-properties'],
+  plugins: ['stylelint-declaration-block-no-ignored-properties', 'stylelint-browser-compat'],
   rules: {
     'at-rule-no-unknown': [
       true,
@@ -14,12 +14,7 @@ module.exports = {
     'no-empty-source': null,
     'plugin/declaration-block-no-ignored-properties': true,
     'selector-pseudo-element-colon-notation': 'double',
-    'plugin/no-unsupported-browser-features': [
-      true,
-      {
-        ignorePartialSupport: true,
-      },
-    ],
+    'plugin/browser-compat': true,
   },
   overrides: [
     {
@@ -32,13 +27,6 @@ module.exports = {
         'function-name-case': null,
         'function-no-unknown': null,
         'no-invalid-double-slash-comments': null,
-        'plugin/no-unsupported-browser-features': [
-          true,
-          {
-            ignorePartialSupport: true,
-            ignore: ['css-nesting'],
-          },
-        ],
       },
     },
   ],
