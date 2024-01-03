@@ -18,7 +18,7 @@ jobs:
         id: capture_preview_url
         uses: aaimio/vercel-preview-url-action@v2.2.0
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
 
       - name: add comment
         id: loading_comment_to_pr
