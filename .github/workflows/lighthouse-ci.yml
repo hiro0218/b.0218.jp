@@ -1,9 +1,7 @@
-# GitHub Actions経由でLighthouse CIを実行する
 name: Lighthouse CI
 
 on:
-  pull_request:
-    types: [opened, synchronize, edited]
+  deployment_status
 
 permissions:
   contents: write
@@ -11,7 +9,9 @@ permissions:
 
 jobs:
   lighthouse:
+    if: github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Preview'
     runs-on: ubuntu-latest
+
     name: Lighthouse Audit and Comment
     steps:
       - name: get preview url
