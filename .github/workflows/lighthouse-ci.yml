@@ -19,6 +19,7 @@ jobs:
         uses: aaimio/vercel-preview-url-action@v2.2.0
         with:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+          preview_url_regexp: '\[Visit Preview\]\(((.*).app)\)'
       - name: checkout
         uses: actions/checkout@v4
       - name: add comment
