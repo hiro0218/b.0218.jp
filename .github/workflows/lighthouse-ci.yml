@@ -3,6 +3,7 @@ name: Lighthouse CI
 on:
   issue_comment:
     types: [edited]
+  workflow_dispatch:
 
 jobs:
   lighthouse:
