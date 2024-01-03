@@ -5,6 +5,10 @@ on:
   pull_request:
     types: [opened, synchronize, edited]
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   lighthouse:
     runs-on: ubuntu-latest
