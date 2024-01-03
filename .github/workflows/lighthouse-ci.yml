@@ -1,7 +1,8 @@
 name: Lighthouse CI
 
 on:
-  deployment_status
+  issue_comment:
+    types: [edited]
 
 permissions:
   contents: write
@@ -9,7 +10,6 @@ permissions:
 
 jobs:
   lighthouse:
-    if: github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Preview'
     runs-on: ubuntu-latest
 
     name: Lighthouse Audit and Comment
@@ -18,10 +18,11 @@ jobs:
         id: capture_preview_url
         uses: aaimio/vercel-preview-url-action@v2.2.0
         with:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
-          preview_url_regexp: '\[Visit Preview\]\(((.*).app)\)'
-      - name: checkout
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout
         uses: actions/checkout@v4
+
       - name: add comment
         id: loading_comment_to_pr
         uses: marocchino/sticky-pull-request-comment@v2
@@ -31,6 +32,7 @@ jobs:
           header: lighthouse
           message: |
             Lighthouse is running...
+
       - name: Lighthouse Audit
         id: lighthouse_audit
         uses: treosh/lighthouse-ci-action@v10
@@ -39,6 +41,7 @@ jobs:
             ${{ steps.capture_preview_url.outputs.vercel_preview_url }}
           uploadArtifacts: true
           temporaryPublicStorage: true
+
       - name: Score format
         id: format_lighthouse_score
         uses: actions/github-script@v7
@@ -63,6 +66,7 @@ jobs:
                 `*分析したURL: [${Object.keys(links)[0]}](${Object.keys(links)[0]})*`
             ].join('\n')
              core.setOutput("comment", comment);
+
       - name: Lighthouse Audit Result Comment
         id: comment_to_pr
         uses: marocchino/sticky-pull-request-comment@v2
