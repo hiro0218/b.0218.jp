@@ -31,6 +31,9 @@
     "**/*.{css,tsx}": [
       "stylelint --fix --cache",
       "prettier --write --cache"
+    ],
+    "**/*.{yml,yaml}": [
+      "prettier --write --cache"
     ]
   },
   "browserslist": [
