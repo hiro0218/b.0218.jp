@@ -4,10 +4,6 @@ on:
   issue_comment:
     types: [edited]
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   lighthouse:
     timeout-minutes: 60
@@ -15,14 +11,14 @@ jobs:
 
     name: Lighthouse Audit and Comment
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: get preview url
         id: capture_preview_url
         uses: aaimio/vercel-preview-url-action@v2.2.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Checkout
-        uses: actions/checkout@v4
 
       - name: add comment
         id: loading_comment_to_pr
