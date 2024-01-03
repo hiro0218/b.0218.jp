@@ -1,19 +1,5 @@
-import type { ComponentProps, ReactNode } from 'react';
-
-import { Anchor } from '@/components/UI/Anchor';
 import { hoverLinkStyle } from '@/ui/mixin';
-import { css, styled } from '@/ui/styled';
-
-interface Props {
-  href: ComponentProps<typeof Anchor>['href'];
-  children: ReactNode;
-}
-
-function LinkMenu({ href, children }: Props) {
-  return <Link href={href}>{children}</Link>;
-}
-
-export default LinkMenu;
+import { css } from '@/ui/styled';
 
 export const LinkStyle = css`
   display: inline-flex;
@@ -23,8 +9,4 @@ export const LinkStyle = css`
   border-radius: var(--border-radius-4);
 
   ${hoverLinkStyle}
-`;
-
-const Link = styled(Anchor)`
-  ${LinkStyle}
 `;
