@@ -1,10 +1,10 @@
 import { memo } from 'react';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
-import { Container } from '@/components/UI/Layout';
 import { LinkStyle } from '@/components/UI/LinkMenu';
 import { Logo } from '@/components/UI/Logo';
 import { useSearch } from '@/components/UI/Search';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
 import { HeaderLayout } from './HeaderLayout';
@@ -28,12 +28,17 @@ export default memo(function TheHeader() {
   );
 });
 
-const HeaderContainer = styled(Container)`
+const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 100%;
+  padding: 0 var(--space-6);
   margin: 0 auto;
+
+  ${isMobile} {
+    padding: 0 var(--space-2);
+  }
 `;
 
 const Anchor = styled(_Anchor)`
