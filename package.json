@@ -48,7 +48,7 @@
     "@radix-ui/react-icons": "1.3.0",
     "autoprefixer": "10.4.16",
     "css-in-js-easing": "1.2.0",
-    "cssnano": "6.0.2",
+    "cssnano": "6.0.3",
     "fast-json-stable-stringify": "2.1.0",
     "million": "2.6.4",
     "mokuji.js": "4.4.1",
