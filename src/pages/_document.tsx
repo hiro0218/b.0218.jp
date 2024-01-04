@@ -4,6 +4,7 @@ import type { DocumentContext } from 'next/document';
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 import { Children } from 'react';
 
+import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { MetaLinkDnsPrefetch, MetaLinkFeed, MetaLinkRelMe } from '@/components/Functional/MetaLink';
 import { GOOGLE_ADSENSE } from '@/constant';
 import { processedCss } from '@/lib/processedCss';
@@ -70,11 +71,7 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
           <MetaLinkFeed feeds={feeds} />
           <link href="/opensearch.xml" rel="search" type="application/opensearchdescription+xml" />
           <MetaLinkRelMe />
-          <script
-            async
-            crossOrigin="anonymous"
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GOOGLE_ADSENSE.CLIENT}`}
-          ></script>
+          <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} />
           <script crossOrigin="anonymous" defer src="https://polyfill.io/v3/polyfill.min.js" />
         </Head>
         <body>
