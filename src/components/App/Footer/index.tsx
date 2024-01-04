@@ -13,7 +13,7 @@ const Links = [
   { title: 'archive', href: '/archive' },
 ] as const;
 
-export default memo(function TheFooter() {
+export default memo(function Footer() {
   return (
     <Root>
       <WaveBottom />

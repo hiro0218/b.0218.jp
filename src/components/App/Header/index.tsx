@@ -9,7 +9,7 @@ import { styled } from '@/ui/styled';
 
 import { HeaderLayout } from './HeaderLayout';
 
-export default memo(function TheHeader() {
+export default memo(function Header() {
   const { SearchButton, SearchDialog } = useSearch();
 
   return (
