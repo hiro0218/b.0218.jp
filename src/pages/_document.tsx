@@ -5,7 +5,7 @@ import Document, { Head, Html, Main, NextScript } from 'next/document';
 import { Children } from 'react';
 
 import { MetaLinkDnsPrefetch, MetaLinkFeed, MetaLinkRelMe } from '@/components/Functional/MetaLink';
-import { GOOGLE_ADSENSE } from '@/components/UI/Adsense';
+import { GOOGLE_ADSENSE } from '@/constant';
 import { processedCss } from '@/lib/processedCss';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
 

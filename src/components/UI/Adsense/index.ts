@@ -1,1 +1,1 @@
-export { Adsense, GOOGLE_ADSENSE } from './Adsense';
+export { Adsense } from './Adsense';

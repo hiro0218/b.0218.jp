@@ -29,3 +29,13 @@ export const FILENAME_POSTS_POPULAR = 'posts-popular';
  * タグ一覧を生成するために必要なタグ件数
  */
 export const TAG_VIEW_LIMIT = 3;
+
+/**
+ * Google AdSense
+ */
+export const GOOGLE_ADSENSE = {
+  LAYOUT: 'in-article',
+  FORMAT: 'fluid',
+  CLIENT: 'ca-pub-7651142413133023',
+  SLOT: '4045255408',
+} as const;

@@ -1,15 +1,9 @@
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import { GOOGLE_ADSENSE } from '@/constant';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
-
-export const GOOGLE_ADSENSE = {
-  LAYOUT: 'in-article',
-  FORMAT: 'fluid',
-  CLIENT: 'ca-pub-7651142413133023',
-  SLOT: '4045255408',
-} as const;
 
 export function Adsense() {
   const pathname = usePathname();
