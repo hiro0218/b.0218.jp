@@ -36,6 +36,8 @@ export const TAG_VIEW_LIMIT = 3;
 export const GOOGLE_ADSENSE = {
   LAYOUT: 'in-article',
   FORMAT: 'fluid',
+  /** パブリッシャー ID */
   CLIENT: 'ca-pub-7651142413133023',
+  /** 広告ユニット ID */
   SLOT: '4045255408',
 } as const;
