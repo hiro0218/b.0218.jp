@@ -152,7 +152,9 @@
     "object.groupby": "npm:@nolyfill/object.groupby@latest",
     "function-bind": "npm:@nolyfill/function-bind@latest",
     "hasown": "npm:@nolyfill/hasown@latest",
-    "isarray": "npm:@nolyfill/isarray@latest"
+    "isarray": "npm:@nolyfill/isarray@latest",
+    "array.prototype.at": "npm:@nolyfill/array.prototype.at@latest",
+    "string.prototype.at": "npm:@nolyfill/string.prototype.at@latest"
   },
   "nextBundleAnalysis": {
     "budget": 358400,
