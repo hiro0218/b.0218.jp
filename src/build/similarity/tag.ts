@@ -1,6 +1,6 @@
 import type { PostListProps, TagSimilarProps, TagsListProps } from '@/types/source';
 
-export type OccurrenceMatrixProps = {
+type OccurrenceMatrixProps = {
   [tag: string]: {
     [relatedTag: string]: number;
   };

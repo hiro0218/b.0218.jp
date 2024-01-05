@@ -1,6 +1,5 @@
 export const AUTHOR_NAME = 'hiro';
 export const AUTHOR_ICON = 'https://b.0218.jp/hiro0218.png';
-export const AUTHOR_PROFILE = 'Web Frontend Engineer / ex: Web Backend Engineer, Application Engineer';
 
 export const SITE_NAME = '零弐壱蜂';
 export const SITE_DESCRIPTION = '様々な情報をストックするサイバーメモ帳';
