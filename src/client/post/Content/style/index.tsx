@@ -1,7 +1,6 @@
-import { SvgComponentToDataUrlScheme } from '@/lib/SvgComponentToDataUrlScheme';
-import { ExternalLinkIcon, ICON_SIZE_XS } from '@/ui/icons';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { css } from '@/ui/styled';
+import { IconExternalLinkStyle } from '@/ui/styled/iconSets';
 
 import Footnotes from './Footnotes';
 import GfmAlert from './GfmAlert';
@@ -9,10 +8,6 @@ import Headings from './Heading';
 import Highlight from './Highlight';
 import LinkPreview from './LinkPreview';
 import TableScroll from './TableScroll';
-
-export const IconExternalLink = SvgComponentToDataUrlScheme(
-  <ExternalLinkIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
-);
 
 const PostContentStyle = css`
   & > * {
@@ -41,11 +36,9 @@ const PostContentStyle = css`
 
     :where(&[target='_blank']) {
       &::after {
-        display: inline-block;
-        margin-left: 0.15em;
-        vertical-align: middle;
-        content: url(${IconExternalLink});
+        ${IconExternalLinkStyle}
       }
+
       /* stylelint-disable */
       &:has(img) {
         &::after {

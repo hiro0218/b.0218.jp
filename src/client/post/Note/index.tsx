@@ -2,8 +2,7 @@ import { Stack as _Stack } from '@/components/UI/Layout';
 import type { PostProps } from '@/types/source';
 import { ICON_SIZE_MD, InfoCircledIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled';
-
-import { IconExternalLink } from '../Content/style';
+import { IconExternalLinkStyle } from '@/ui/styled/iconSets';
 
 type Props = Pick<PostProps, 'note'>;
 
@@ -33,10 +32,7 @@ const Stack = styled(_Stack)`
   a {
     &[target='_blank'] {
       &::after {
-        display: inline-block;
-        margin-left: 0.15em;
-        vertical-align: middle;
-        content: url(${IconExternalLink});
+        ${IconExternalLinkStyle}
       }
     }
     &:hover {
