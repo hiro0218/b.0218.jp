@@ -13,24 +13,22 @@ const Links = [
   { title: 'archive', href: '/archive' },
 ] as const;
 
-export default memo(function TheFooter() {
+export default memo(function Footer() {
   return (
     <Root>
       <WaveBottom />
-      <Footer>
-        <Container>
-          <List>
-            {Links.map(({ title, href }) => {
-              return (
-                <ListItem key={href + title}>
-                  <Anchor href={href}>{title}</Anchor>
-                </ListItem>
-              );
-            })}
-          </List>
-          <small>© hiro</small>
-        </Container>
-      </Footer>
+      <Container>
+        <List>
+          {Links.map(({ title, href }) => {
+            return (
+              <ListItem key={href + title}>
+                <Anchor href={href}>{title}</Anchor>
+              </ListItem>
+            );
+          })}
+        </List>
+        <small>© hiro</small>
+      </Container>
     </Root>
   );
 });
@@ -47,32 +45,26 @@ const Root = styled.footer`
   }
 `;
 
-const Footer = styled.div`
-  padding: var(--space-4) 0;
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-4) var(--space-6);
+  margin: 0 auto;
   font-size: var(--font-size-md);
   color: var(--text-12);
   background-color: var(--component-backgrounds-3);
 
   ${isMobile} {
+    flex-direction: column;
+    gap: var(--space-2);
+    justify-content: unset;
     padding: var(--space-3) 0;
   }
 
   small {
     font-size: var(--font-size-md);
-  }
-`;
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: var(--container-width);
-  margin: 0 auto;
-
-  ${isMobile} {
-    flex-direction: column;
-    gap: var(--space-2);
-    justify-content: unset;
   }
 `;
 

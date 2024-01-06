@@ -31,6 +31,9 @@
     "**/*.{css,tsx}": [
       "stylelint --fix --cache",
       "prettier --write --cache"
+    ],
+    "**/*.{yml,yaml}": [
+      "prettier --write --cache"
     ]
   },
   "browserslist": [
@@ -45,13 +48,13 @@
     "@radix-ui/react-icons": "1.3.0",
     "autoprefixer": "10.4.16",
     "css-in-js-easing": "1.2.0",
-    "cssnano": "6.0.2",
+    "cssnano": "6.0.3",
     "fast-json-stable-stringify": "2.1.0",
     "million": "2.6.4",
     "mokuji.js": "4.4.1",
     "next": "14.0.4",
     "nextjs-google-analytics": "2.3.3",
-    "postcss": "8.4.32",
+    "postcss": "8.4.33",
     "postcss-combine-duplicated-selectors": "10.0.3",
     "postcss-sort-media-queries": "5.2.0",
     "react": "18.2.0",
@@ -107,7 +110,7 @@
     "next-sitemap": "4.2.3",
     "picocolors": "1.0.0",
     "playwright": "1.40.1",
-    "postcss-styled-syntax": "0.6.3",
+    "postcss-styled-syntax": "0.6.4",
     "prettier": "3.1.1",
     "reading-time": "1.5.0",
     "rehype-external-links": "3.0.0",
@@ -149,7 +152,9 @@
     "object.groupby": "npm:@nolyfill/object.groupby@latest",
     "function-bind": "npm:@nolyfill/function-bind@latest",
     "hasown": "npm:@nolyfill/hasown@latest",
-    "isarray": "npm:@nolyfill/isarray@latest"
+    "isarray": "npm:@nolyfill/isarray@latest",
+    "array.prototype.at": "npm:@nolyfill/array.prototype.at@latest",
+    "string.prototype.at": "npm:@nolyfill/string.prototype.at@latest"
   },
   "nextBundleAnalysis": {
     "budget": 358400,

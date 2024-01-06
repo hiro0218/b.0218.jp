@@ -1,6 +1,5 @@
 export const AUTHOR_NAME = 'hiro';
 export const AUTHOR_ICON = 'https://b.0218.jp/hiro0218.png';
-export const AUTHOR_PROFILE = 'Web Frontend Engineer / ex: Web Backend Engineer, Application Engineer';
 
 export const SITE_NAME = '零弐壱蜂';
 export const SITE_DESCRIPTION = '様々な情報をストックするサイバーメモ帳';
@@ -29,3 +28,15 @@ export const FILENAME_POSTS_POPULAR = 'posts-popular';
  * タグ一覧を生成するために必要なタグ件数
  */
 export const TAG_VIEW_LIMIT = 3;
+
+/**
+ * Google AdSense
+ */
+export const GOOGLE_ADSENSE = {
+  LAYOUT: 'in-article',
+  FORMAT: 'fluid',
+  /** パブリッシャー ID */
+  CLIENT: 'ca-pub-7651142413133023',
+  /** 広告ユニット ID */
+  SLOT: '4045255408',
+} as const;

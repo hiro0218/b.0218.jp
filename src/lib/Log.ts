@@ -1,6 +1,6 @@
 import { cyan, red, yellow } from 'picocolors';
 
-export const prefixes = {
+const prefixes = {
   error: `${red('error')} -`,
   warn: `${yellow('warn')}  -`,
   info: `${cyan('info')}  -`,

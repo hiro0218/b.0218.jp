@@ -1,8 +1,8 @@
 import dynamic from 'next/dynamic';
 import type { ReactNode } from 'react';
 
-import Footer from '@/components/App/TheFooter';
-import Header from '@/components/App/TheHeader';
+import Footer from '@/components/App/Footer';
+import Header from '@/components/App/Header';
 import { Container } from '@/components/UI/Layout';
 import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';

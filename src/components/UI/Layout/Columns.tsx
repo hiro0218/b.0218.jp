@@ -6,15 +6,17 @@ import { textEllipsis } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 interface ContainerProps {
-  title?: string;
+  title: string;
   titleTagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  children?: ReactNode;
+  children: ReactNode;
 }
 
 export const Columns = memo(function Columns({ title, titleTagName = 'h2', children, ...others }: ContainerProps) {
   return (
     <Root {...others}>
-      <ColumnTitle>{!!title && <TitleText as={titleTagName}>{title}</TitleText>}</ColumnTitle>
+      <ColumnTitle>
+        <TitleText as={titleTagName}>{title}</TitleText>
+      </ColumnTitle>
       <ColumnMain>{children}</ColumnMain>
     </Root>
   );
