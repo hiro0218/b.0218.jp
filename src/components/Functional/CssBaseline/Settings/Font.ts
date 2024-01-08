@@ -18,6 +18,8 @@ export default css`
   --font-size-md: ${pxToRem(16)};
   --font-size-lg: ${pxToRem(18)};
 
+  --font-size-post-content: ${clampFontSize(18, 16)};
+
   /**
    * Heading Font Size
    */
