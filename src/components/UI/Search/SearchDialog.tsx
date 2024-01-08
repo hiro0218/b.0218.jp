@@ -3,7 +3,7 @@ import { forwardRef, type MutableRefObject, useId } from 'react';
 import { createPortal } from 'react-dom';
 
 import useIsClient from '@/hooks/useIsClient';
-import { fade, slideIn } from '@/ui/animation';
+import { fadeIn, slideIn } from '@/ui/animation';
 import { styled } from '@/ui/styled';
 
 import type { onCloseDialogProps } from './type';
@@ -53,7 +53,7 @@ const Dialog = styled.dialog`
     padding: 0;
     border: none;
     animation:
-      ${fade('in')} 0.4s,
+      ${fadeIn} 0.4s,
       ${slideIn} 0.4s linear;
   }
 `;

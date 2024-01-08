@@ -1,7 +1,7 @@
 import type { MutableRefObject } from 'react';
 import { forwardRef, useMemo } from 'react';
 
-import { fade } from '@/ui/animation';
+import { fadeIn } from '@/ui/animation';
 import { styled } from '@/ui/styled';
 
 import { useToast } from './useToast';
@@ -51,6 +51,6 @@ const Container = styled.div`
   opacity: 0;
 
   &[aria-hidden='true'] {
-    animation: ${fade('in')} 0.4s linear both;
+    animation: ${fadeIn} 0.4s linear both;
   }
 `;
