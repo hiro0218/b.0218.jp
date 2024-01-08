@@ -10,6 +10,8 @@ import LinkPreview from './LinkPreview';
 import TableScroll from './TableScroll';
 
 const PostContentStyle = css`
+  font-size: var(--font-size-post-content);
+
   & > * {
     margin-top: var(--space-2);
     margin-bottom: var(--space-3);

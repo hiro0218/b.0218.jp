@@ -1,5 +1,5 @@
 import { notSrOnly, srOnly } from '@/components/Functional/CssBaseline/Generic';
-import { fade } from '@/ui/animation';
+import { fadeIn } from '@/ui/animation';
 import { easeOutExpo } from '@/ui/foundation/easing';
 import { styled } from '@/ui/styled';
 
@@ -44,7 +44,7 @@ const Container = styled.span`
       pointer-events: none;
       background-color: var(--dark-backgrounds);
       border-radius: var(--border-radius-4);
-      animation: ${fade('in')} 1s ${easeOutExpo};
+      animation: ${fadeIn} 1s ${easeOutExpo};
       animation-fill-mode: both;
     }
   }

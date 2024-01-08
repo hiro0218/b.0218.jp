@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
-import { renderToString } from 'react-dom/server';
+import { renderToStaticMarkup } from 'react-dom/server';
 
 export const SvgComponentToDataUrlScheme = (Component: ReactElement) => {
-  const SVG = renderToString(Component);
+  const SVG = renderToStaticMarkup(Component);
   return `data:image/svg+xml,${encodeURIComponent(SVG)}`;
 };
