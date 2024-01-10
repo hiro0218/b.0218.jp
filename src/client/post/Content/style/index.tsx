@@ -1,4 +1,5 @@
 import { isMobile } from '@/ui/lib/mediaQuery';
+import { hoverLinkStyle } from '@/ui/mixin';
 import { css } from '@/ui/styled';
 import { IconExternalLinkStyle } from '@/ui/styled/iconSets';
 
@@ -59,12 +60,19 @@ const PostContentStyle = css`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: var(--space-3);
-    height: 100%;
-    margin: 0;
+    width: 1.5em;
+    height: 1.5em;
+    font-size: 1em;
     color: var(--text-11);
     text-decoration: none;
     user-select: none;
+    border-radius: var(--border-radius-full);
+
+    ${hoverLinkStyle}
+
+    &:hover {
+      color: var(--text-12);
+    }
 
     ${isMobile} {
       position: static;
