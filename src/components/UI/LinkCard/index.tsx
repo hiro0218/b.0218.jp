@@ -3,6 +3,7 @@ import { type AriaRole, type ComponentProps, type ReactNode } from 'react';
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
 import { PostTagAnchorStyle } from '@/components/UI/Tag';
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { lineClamp, showHoverBackground, textEllipsis } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -53,6 +54,10 @@ const Container = styled.article`
   word-break: break-all;
 
   ${showHoverBackground}
+
+  ${isMobile} {
+    padding: var(--space-2);
+  }
 
   time {
     font-size: var(--font-size-sm);
