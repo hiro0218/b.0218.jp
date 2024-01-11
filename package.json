@@ -120,7 +120,7 @@
     "rehype-stringify": "10.0.0",
     "remark-gfm": "4.0.0",
     "remark-parse": "11.0.0",
-    "remark-rehype": "11.0.0",
+    "remark-rehype": "11.1.0",
     "remark-remove-comments": "1.0.1",
     "schema-dts": "1.1.2",
     "sharp": "0.33.1",
