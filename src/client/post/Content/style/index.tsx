@@ -120,7 +120,6 @@ const PostContentStyle = css`
     width: 100%;
 
     &[src*='youtube'] {
-      width: 100%;
       height: auto;
       aspect-ratio: 16 / 9;
     }
