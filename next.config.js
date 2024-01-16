@@ -13,6 +13,8 @@ const withBundleAnalyzer =
 const nextConfiguration = {
   reactStrictMode: true,
 
+  output: 'export',
+
   compiler: {
     emotion: {
       autoLabel: 'dev-only',
