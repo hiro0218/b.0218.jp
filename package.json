@@ -46,7 +46,7 @@
     "@emotion/styled": "11.11.0",
     "@radix-ui/colors": "3.0.0",
     "@radix-ui/react-icons": "1.3.0",
-    "autoprefixer": "10.4.16",
+    "autoprefixer": "10.4.17",
     "css-in-js-easing": "1.2.0",
     "cssnano": "6.0.3",
     "fast-json-stable-stringify": "2.1.0",
