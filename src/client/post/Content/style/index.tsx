@@ -62,6 +62,7 @@ const PostContentStyle = css`
     justify-content: center;
     width: 1.5em;
     height: 1.5em;
+    margin: auto;
     font-size: 1em;
     color: var(--text-11);
     text-decoration: none;
