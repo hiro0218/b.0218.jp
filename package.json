@@ -100,7 +100,7 @@
     "hastscript": "8.0.0",
     "husky": "8.0.3",
     "jest": "29.7.0",
-    "jsdom": "23.2.0",
+    "jsdom": "24.0.0",
     "markuplint": "3.15.0",
     "mdast-util-find-and-replace": "3.0.1",
     "nano-staged": "0.8.0",
