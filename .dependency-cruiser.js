@@ -20,10 +20,10 @@ module.exports = {
       from: {
         orphan: true,
         pathNot: [
-          '(^|/)\\.[^/]+\\.(js|cjs|mjs|ts|json)$', // dot files
-          '\\.d\\.ts$', // TypeScript declaration files
-          '(^|/)tsconfig\\.json$', // TypeScript config
-          '(^|/)(babel|webpack|next|stylelint)\\.config\\.(js|cjs|mjs|ts|json)$', // other configs
+          '(^|/)[.][^/]+[.](js|cjs|mjs|ts|json)$', // dot files
+          '[.]d[.]ts$', // TypeScript declaration files
+          '(^|/)tsconfig[.]json$', // TypeScript config
+          '(^|/)(babel|webpack|next|stylelint)[.]config[.](js|cjs|mjs|ts|json)$', // other configs
         ],
       },
       to: {},
@@ -113,7 +113,7 @@ module.exports = {
       severity: 'error',
       from: {},
       to: {
-        path: '\\.(spec|test)\\.(js|mjs|cjs|ts|ls|coffee|litcoffee|coffee\\.md)$',
+        path: '[.](spec|test)[.](js|mjs|cjs|ts|ls|coffee|litcoffee|coffee[.]md)$',
       },
     },
     {
@@ -123,10 +123,14 @@ module.exports = {
         'このモジュールはpackage.jsonのdevDependenciesセクションにリストされているnpmパッケージに依存していますが、本番環境にデプロイされる可能性があります。package.jsonのdependenciesセクションにのみ記載するようにしてください。',
       from: {
         path: '^(src)',
-        pathNot: '\\.(spec|test)\\.(js|mjs|cjs|ts|ls|coffee|litcoffee|coffee\\.md)$',
+        pathNot: '[.](spec|test)[.](js|mjs|cjs|ts|ls|coffee|litcoffee|coffee[.]md)$',
       },
       to: {
         dependencyTypes: ['npm-dev'],
+        // type only dependencies are not a problem as they don't end up in the
+        // production code or are ignored by the runtime.
+        dependencyTypesNot: ['type-only'],
+        pathNot: ['node_modules/@types/'],
       },
     },
     {
@@ -181,8 +185,17 @@ module.exports = {
     */
     // focus : '',
 
-    /* list of module systems to cruise */
-    // moduleSystems: ['amd', 'cjs', 'es6', 'tsd'],
+    /* List of module systems to cruise.
+       When left out dependency-cruiser will fall back to the list of _all_
+       module systems it knows of. It's the default because it's the safe option
+       It might come at a performance penalty, though.
+       moduleSystems: ['amd', 'cjs', 'es6', 'tsd']
+
+       As in practice only commonjs ('cjs') and ecmascript modules ('es6')
+       are widely used, you can limit the moduleSystems to those.
+     */
+
+    // moduleSystems: ['cjs', 'es6'],
 
     /* prefix for links in html and svg output (e.g. 'https://github.com/you/yourrepo/blob/develop/'
        to open it on your online repo or `vscode://file/${process.cwd()}/` to
@@ -235,9 +248,9 @@ module.exports = {
        for details)
      */
     // webpackConfig: {
-    //  fileName: './webpack.config.js',
+    //  fileName: 'webpack.config.js',
     //  env: {},
-    //  arguments: {},
+    //  arguments: {}
     // },
 
     /* Babel config ('.babelrc', '.babelrc.json', '.babelrc.json5', ...) to use
@@ -247,7 +260,7 @@ module.exports = {
       systems) without dependency-cruiser getting a major version bump.
      */
     // babelConfig: {
-    //   fileName: './.babelrc'
+    //   fileName: '.babelrc',
     // },
 
     /* List of strings you have in use in addition to cjs/ es6 requires
@@ -281,7 +294,7 @@ module.exports = {
         If you have a 'conditionNames' attribute in your webpack config, that one will
         have precedence over the one specified here.
       */
-      conditionNames: ['import', 'require', 'node', 'default'],
+      conditionNames: ['import', 'require', 'node', 'default', 'types'],
       /*
          The extensions, by default are the same as the ones dependency-cruiser
          can access (run `npx depcruise --info` to see which ones that are in
@@ -300,7 +313,17 @@ module.exports = {
          this if you're not sure, but still use TypeScript. In a future version
          of dependency-cruiser this will likely become the default.
        */
-      mainFields: ['main', 'types'],
+      mainFields: ['main', 'types', 'typings'],
+      /*
+         A list of alias fields in manifests (package.jsons).
+         Specify a field, such as browser, to be parsed according to
+         [this specification](https://github.com/defunctzombie/package-browser-field-spec).
+         Also see [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealiasfields)
+         in the webpack docs.
+
+         Defaults to an empty array (don't use any alias fields).
+       */
+      // aliasFields: ["browser"],
     },
     reporterOptions: {
       dot: {
@@ -443,4 +466,4 @@ module.exports = {
     },
   },
 };
-// generated: dependency-cruiser@13.0.2 on 2023-05-30T15:30:55.772Z
+// generated: dependency-cruiser@16.1.0 on 2024-01-27T14:34:43.198Z
