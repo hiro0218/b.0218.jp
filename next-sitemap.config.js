@@ -10,6 +10,7 @@ const config = {
   generateIndexSitemap: false,
   transform: async (config, path) => {
     const slug = path.replace(/^\//, '').replace('.html', '');
+    /** @type {import('./src/types/source').PostProps} */
     const post = posts.get(slug);
     const isPost = !!post;
 
