@@ -40,6 +40,7 @@ export default css`
       opacity 0.2s ease,
       box-shadow 0.2s ease-in-out,
       text-decoration-color 0.3s;
+    overflow-wrap: break-word;
 
     &:focus-visible {
       outline: 0;
