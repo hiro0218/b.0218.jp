@@ -72,6 +72,7 @@ public/feed.xml
 public/atom.xml
 public/feed.json
 public/sitemap*.xml
+public/~partytown
 
 # nuxt.js build output
 .nuxt
