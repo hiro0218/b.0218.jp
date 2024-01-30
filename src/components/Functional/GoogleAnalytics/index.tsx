@@ -1,14 +1,12 @@
 import { Partytown } from '@builder.io/partytown/react';
 
+const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
 export const GoogleAnalytics = () => {
   return (
     <>
       <Partytown forward={['dataLayer.push']} />
-      <script
-        defer
-        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
-        type="text/partytown"
-      />
+      <script defer src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} type="text/partytown" />
       <script
         dangerouslySetInnerHTML={{
           __html: `
@@ -17,7 +15,7 @@ export const GoogleAnalytics = () => {
               dataLayer.push(arguments);
             }
             gtag("js", new Date());
-            gtag("config", '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
+            gtag("config", '${GA_ID}');
           `,
         }}
         defer
