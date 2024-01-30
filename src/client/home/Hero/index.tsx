@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import AvatarIcon from '@/assets/hiro0218.svg';
+// import AvatarIcon from '@/assets/hiro0218.svg';
 import { Stack } from '@/components/UI/Layout';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
@@ -12,7 +12,7 @@ export const Hero = memo(function Hero() {
   return (
     <Stack direction="horizontal" space="2">
       <Avatar>
-        <AvatarIcon height="100" width="100" />
+        <img alt="hiro" height={ICON_SIZE} src="/hiro0218.svg" width={ICON_SIZE} />
       </Avatar>
       <header>
         <Heading>
@@ -33,7 +33,7 @@ const Avatar = styled.div`
     width: ${ICON_SIZE_SHRINK}px;
   }
 
-  svg {
+  img {
     border-radius: var(--border-radius-full);
 
     ${isMobile} {
