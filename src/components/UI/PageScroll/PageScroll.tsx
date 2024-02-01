@@ -10,6 +10,10 @@ const SrOnly = dynamic(() =>
   import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),
 );
 
+/**
+ * Why do you specify # for href?
+ * @see https://html.spec.whatwg.org/multipage/browsing-the-web.html#scroll-to-the-fragment-identifier
+ */
 export const PageScroll = () => {
   return (
     <Container>
