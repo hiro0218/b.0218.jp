@@ -15,7 +15,7 @@ export function Adsense() {
 
   useEffect(() => {
     try {
-      if (isLoaded && process.env.NODE_ENV === 'production') {
+      if (isLoaded) {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
       }
     } catch (err) {
