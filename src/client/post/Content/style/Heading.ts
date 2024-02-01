@@ -1,4 +1,3 @@
-import { isMobile } from '@/ui/lib/mediaQuery';
 import { css } from '@/ui/styled';
 
 const generateHeadingStyles = (headingNumber: number) => {
@@ -61,11 +60,6 @@ const Headings = css`
     font-weight: var(--font-weight-bold);
     line-height: var(--line-height-md);
     letter-spacing: var(--letter-spacing-md);
-
-    ${isMobile} {
-      display: flex;
-      align-items: center;
-    }
 
     & > {
       code {

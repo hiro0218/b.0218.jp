@@ -5,7 +5,7 @@ import Document, { Head, Html, Main, NextScript } from 'next/document';
 import { Children } from 'react';
 
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
-import { MetaLinkDnsPrefetch, MetaLinkFeed, MetaLinkRelMe } from '@/components/Functional/MetaLink';
+import { MetaLinkFeed, MetaLinkRelMe } from '@/components/Functional/MetaLink';
 import { GOOGLE_ADSENSE } from '@/constant';
 import { processedCss } from '@/lib/processedCss';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
@@ -13,13 +13,6 @@ import createEmotionCache from '@/ui/lib/createEmotionCache';
 const HTML_PREFIX_BASE = 'og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#';
 const HTML_PREFIX_ARTICLE = `${HTML_PREFIX_BASE} article: http://ogp.me/ns/article#`;
 
-const prefetchDomains = [
-  '//www.google-analytics.com',
-  '//www.googletagservices.com',
-  '//www.googletagmanager.com',
-  '//platform.twitter.com',
-  '//polyfill.io',
-];
 const feeds = [
   { href: '/feed.xml', type: 'application/rss+xml' },
   { href: '/atom.xml', type: 'application/atom+xml' },
@@ -64,8 +57,6 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
     return (
       <Html lang="ja" prefix={this.props.ogpPrefix}>
         <Head>
-          <MetaLinkDnsPrefetch domains={prefetchDomains} />
-          <link href="https://googleads.g.doubleclick.net" rel="preconnect" />
           <link crossOrigin="anonymous" href="https://polyfill.io" rel="preconnect" />
           <link href="/favicon.ico" rel="icon" type="image/x-icon" />
           <MetaLinkFeed feeds={feeds} />
