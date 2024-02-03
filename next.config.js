@@ -1,10 +1,4 @@
-const million = require('million/compiler');
 const nextBuildId = require('next-build-id');
-
-const millionConfig = {
-  auto: true,
-  mute: process.env.NODE_ENV === 'production',
-};
 
 const withBundleAnalyzer =
   process.env.ANALYZE === 'true' ? require('@next/bundle-analyzer')({ enabled: true }) : (config) => config;
@@ -76,4 +70,4 @@ const nextConfiguration = {
   },
 };
 
-module.exports = million.next(withBundleAnalyzer(nextConfiguration), millionConfig);
+module.exports = withBundleAnalyzer(nextConfiguration);
