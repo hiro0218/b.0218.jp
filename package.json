@@ -20,7 +20,7 @@
     "lint:markup": "markuplint \"src/**/*{.jsx,.tsx}\"",
     "test": "jest --forceExit --coverage",
     "nolyfill": "npx nolyfill install",
-    "prepare": "husky && playwright install && playwright install-deps"
+    "prepare": "husky && playwright install"
   },
   "nano-staged": {
     "**/*.{ts,tsx,js}": [
