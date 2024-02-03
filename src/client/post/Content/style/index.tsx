@@ -98,10 +98,6 @@ const PostContentStyle = css`
   li {
     margin-block-start: var(--space-½);
 
-    &::marker {
-      font-size: var(--font-size-sm);
-    }
-
     &:first-of-type {
       margin-block-start: 0;
     }

@@ -86,6 +86,7 @@ export default css`
   h6 {
     color: var(--text-12);
     font-weight: var(--font-weight-normal);
+    font-feature-settings: 'palt';
   }
 
   h1 {
