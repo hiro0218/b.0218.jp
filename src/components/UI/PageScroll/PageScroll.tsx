@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import dynamic from 'next/dynamic';
 
 import { floatingFade } from '@/ui/animation';
 import { ArrowUpIcon, ICON_SIZE_SM } from '@/ui/icons';
@@ -6,19 +6,20 @@ import { isMobile } from '@/ui/lib/mediaQuery';
 import { hoverLinkStyle } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
-export const PageScroll = () => {
-  const onScrollTop = useCallback(() => {
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }, []);
+const SrOnly = dynamic(() =>
+  import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),
+);
 
+/**
+ * Why do you specify # for href?
+ * @see https://html.spec.whatwg.org/multipage/browsing-the-web.html#scroll-to-the-fragment-identifier
+ */
+export const PageScroll = () => {
   return (
     <Container>
-      <Button aria-label="ページの最上部へスクロールする" onClick={onScrollTop} type="button">
+      <Button href="#">
         <ArrowUpIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+        <SrOnly text="ページの最上部へスクロールする" />
       </Button>
     </Container>
   );
@@ -36,7 +37,7 @@ const Container = styled.div`
   }
 `;
 
-const Button = styled.button`
+const Button = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;

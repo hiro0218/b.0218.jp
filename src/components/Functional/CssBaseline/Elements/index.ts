@@ -22,6 +22,7 @@ export default css`
     color: var(--text-12);
     line-break: strict;
     -webkit-font-smoothing: subpixel-antialiased;
+    scroll-behavior: smooth;
 
     @media only screen and (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
       -webkit-font-smoothing: antialiased;
@@ -85,6 +86,7 @@ export default css`
   h6 {
     color: var(--text-12);
     font-weight: var(--font-weight-normal);
+    font-feature-settings: 'palt';
   }
 
   h1 {
