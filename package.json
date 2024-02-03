@@ -9,7 +9,7 @@
     "postbuild": "npm run build:feed && npm run build:sitemap",
     "build:article": "node --require esbuild-register ./src/build/article",
     "build:feed": "node --require esbuild-register ./src/build/feed.ts",
-    "build:ogp": "npx playwright install-deps && node --require esbuild-register ./src/build/ogp && node --require esbuild-register ./src/build/ogp/convertPngToWebP.ts",
+    "build:ogp": "node --require esbuild-register ./src/build/ogp && node --require esbuild-register ./src/build/ogp/convertPngToWebP.ts",
     "build:sitemap": "node --require esbuild-register node_modules/next-sitemap/bin/next-sitemap",
     "build:similarity": "node --require esbuild-register ./src/build/similarity",
     "build:popular": "node --require esbuild-register ./src/build/popular",
