@@ -109,7 +109,7 @@
     "picocolors": "1.0.0",
     "playwright": "1.41.1",
     "postcss-styled-syntax": "0.6.4",
-    "prettier": "3.2.4",
+    "prettier": "3.2.5",
     "reading-time": "1.5.0",
     "rehype-external-links": "3.0.0",
     "rehype-highlight": "7.0.0",
@@ -153,6 +153,12 @@
     "isarray": "npm:@nolyfill/isarray@latest",
     "array.prototype.at": "npm:@nolyfill/array.prototype.at@latest",
     "string.prototype.at": "npm:@nolyfill/string.prototype.at@latest"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "trailingComma": "all",
+    "singleQuote": true,
+    "semi": true
   },
   "nextBundleAnalysis": {
     "budget": 358400,
