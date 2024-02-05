@@ -5,13 +5,10 @@ import { SearchDialog as Dialog } from './SearchDialog';
 import { useDialog } from './useDialog';
 
 export const useSearch = () => {
-  const { ref, isLocked, openDialog, closeDialog } = useDialog();
+  const { ref, openDialog, closeDialog } = useDialog();
 
   const SearchButton = useMemo(() => <Button openDialog={openDialog} />, [openDialog]);
-  const SearchDialog = useMemo(
-    () => <Dialog closeDialog={closeDialog} isActive={isLocked} ref={ref} />,
-    [ref, isLocked, closeDialog],
-  );
+  const SearchDialog = useMemo(() => <Dialog closeDialog={closeDialog} ref={ref} />, [ref, closeDialog]);
 
   return {
     SearchButton,
