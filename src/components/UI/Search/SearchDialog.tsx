@@ -14,14 +14,13 @@ const SrOnly = dynamic(() =>
   import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),
 );
 const SearchPanel = dynamic(() => import('./SearchPanel').then((module) => module.SearchPanel));
-const Overlay = dynamic(() => import('@/components/UI/Overlay').then((module) => module.Overlay));
+const Overlay = dynamic(() => import('./Overlay').then((module) => module.Overlay));
 
 type Props = {
-  isActive: boolean;
   closeDialog: onCloseDialogProps;
 };
 
-export const SearchDialog = forwardRef(function SearchDialog({ isActive, closeDialog }: Props, ref: RefProps) {
+export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Props, ref: RefProps) {
   const isClient = useIsClient();
   const id = useId();
 
@@ -36,7 +35,7 @@ export const SearchDialog = forwardRef(function SearchDialog({ isActive, closeDi
         <SrOnly as="p" id={`${id}-described`} text="記事のタイトルから検索することができます" />
         <SearchPanel closeDialog={closeDialog} />
       </Dialog>
-      <Overlay isActive={isActive} onClick={closeDialog} />
+      <Overlay onClick={closeDialog} />
     </>,
     document.body,
   );
