@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 8080 --experimental-https",
-    "prebuild": "git submodule update --remote && npm run build:article && npm run build:similarity && npm run build:popular && npm run build:ogp",
+    "prebuild": "git submodule update --remote && npm run build:article && npm run build:similarity && npm run build:popular && npm run build:ogp && npm run partytown",
     "build": "TZ='Asia/Tokyo' next build",
     "postbuild": "npm run build:feed && npm run build:sitemap",
     "build:article": "node --require esbuild-register ./src/build/article",
@@ -14,6 +14,7 @@
     "build:similarity": "node --require esbuild-register ./src/build/similarity",
     "build:popular": "node --require esbuild-register ./src/build/popular",
     "build:analyzer": "ANALYZE=true next build",
+    "partytown": "partytown copylib public/~partytown",
     "start": "next start",
     "lint": "eslint \"src/**/*{.js,.ts,.tsx}\"",
     "lint:css": "stylelint \"src/**/*{.css,.tsx}\"",
@@ -40,6 +41,7 @@
     "last 2 versions and >= 1% in JP and not dead, last 2 Firefox versions"
   ],
   "dependencies": {
+    "@builder.io/partytown": "0.9.1",
     "@emotion/cache": "11.11.0",
     "@emotion/react": "11.11.3",
     "@emotion/server": "11.11.0",
@@ -52,7 +54,6 @@
     "fast-json-stable-stringify": "2.1.0",
     "mokuji.js": "4.4.1",
     "next": "14.1.0",
-    "nextjs-google-analytics": "2.3.3",
     "postcss": "8.4.33",
     "postcss-combine-duplicated-selectors": "10.0.3",
     "postcss-sort-media-queries": "5.2.0",

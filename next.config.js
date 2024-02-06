@@ -26,6 +26,7 @@ const nextConfiguration = {
     webpackBuildWorker: true,
     scrollRestoration: true,
     fallbackNodePolyfills: false,
+    nextScriptWorkers: true,
   },
 
   generateBuildId: () => nextBuildId({ dir: __dirname }),

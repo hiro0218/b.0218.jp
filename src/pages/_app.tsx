@@ -1,10 +1,10 @@
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { GoogleAnalytics } from 'nextjs-google-analytics';
 import type { ReactElement, ReactNode } from 'react';
 
 import CssBaseline from '@/components/Functional/CssBaseline';
+import { GoogleAnalytics } from '@/components/Functional/GoogleAnalytics';
 import AppLayout from '@/components/Layouts/AppLayout';
 import { AUTHOR_ICON, AUTHOR_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
@@ -50,7 +50,7 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
       <CacheProvider value={emotionCache}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <GoogleAnalytics trackPageViews={{ ignoreHashChange: true }} />
+          <GoogleAnalytics />
           <AppLayout>{getLayout(<Component {...pageProps} />)}</AppLayout>
         </ThemeProvider>
       </CacheProvider>
