@@ -6,7 +6,7 @@ import type { ReactElement, ReactNode } from 'react';
 
 import CssBaseline from '@/components/Functional/CssBaseline';
 import AppLayout from '@/components/Layouts/AppLayout';
-import { AUTHOR_ICON, AUTHOR_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
+import { AUTHOR_NAME, SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
 import type { EmotionCache } from '@/ui/styled';
 import { CacheProvider, ThemeProvider } from '@/ui/styled';
@@ -37,7 +37,7 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
         <meta content={SITE_URL} key="og:url" property="og:url" />
         <meta content={SITE_NAME} key="og:title" property="og:title" />
         <meta content={SITE_DESCRIPTION} key="og:description" property="og:description" />
-        <meta content={AUTHOR_ICON} key="og:image" property="og:image" />
+        <meta content={SCREEN_IMAGE} key="og:image" property="og:image" />
         <meta content={SITE_NAME} property="og:site_name" />
         <meta content="ja_JP" property="og:locale" />
         <meta content="summary" key="twitter:card" name="twitter:card" />
