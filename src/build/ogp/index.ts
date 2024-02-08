@@ -1,6 +1,6 @@
 import { type Browser, chromium } from 'playwright';
 
-import { mkdir, readFile } from '@/lib/fs';
+import { mkdir } from '@/lib/fs';
 import * as Log from '@/lib/Log';
 import { getPostsListJson } from '@/lib/posts';
 
@@ -9,7 +9,6 @@ const path = {
 };
 
 (async () => {
-  const template = await readFile(`${process.cwd()}/src/build/ogp/template.html`, 'utf-8');
   await mkdir(path.dist, { recursive: true });
   const posts = getPostsListJson();
   const length = posts.length;
@@ -38,25 +37,24 @@ const path = {
     const concurrency = 10;
 
     // ページインスタンスを生成
-    const setupPage = async (template: string) => {
+    const setupPage = async () => {
       const page = await browser.newPage();
-      await page.setContent(template, { waitUntil: 'networkidle' });
       await page.setViewportSize({ width: 1200, height: 630 });
       return page;
     };
-    const pages = await Promise.all(Array.from({ length: concurrency }, () => setupPage(template)));
+    const pages = await Promise.all(Array.from({ length: concurrency }, setupPage));
 
     for (let i = 0; i < length; i += concurrency) {
       const screenshotPromises = pages.map(async (page, j) => {
         const index = i + j;
         if (index < length) {
           const { title, slug } = posts[index];
-          const pageTitle = title.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          const url = `http://localhost:3000/?title=${encodeURIComponent(title)}`;
 
-          await page.evaluate(async (pageTitle) => {
-            document.getElementById('title').innerHTML = pageTitle;
+          await page.goto(url, { waitUntil: 'networkidle' });
+          await page.evaluate(async () => {
             await document.fonts.ready;
-          }, pageTitle);
+          });
 
           await page.screenshot({
             fullPage: false,
