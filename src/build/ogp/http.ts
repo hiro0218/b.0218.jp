@@ -37,6 +37,7 @@ const server = http.createServer((req, res) => {
 
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Cache-Control', 'public, max-age=31536000');
     res.end(modifiedContent);
   } else if (Object.keys(IMAGE_MIME_TYPES).includes(path.extname(pathname))) {
     // Request processing for image files
@@ -50,6 +51,8 @@ const server = http.createServer((req, res) => {
       } else {
         const ext = path.extname(filePath);
         const contentType: string = IMAGE_MIME_TYPES[ext] || 'application/octet-stream';
+
+        res.setHeader('Cache-Control', 'public, max-age=31536000');
         res.setHeader('Content-Type', contentType);
         res.end(data);
       }
