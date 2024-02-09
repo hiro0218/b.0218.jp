@@ -33,13 +33,15 @@
       }
 
       .container {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: flex-start;
         flex-direction: column;
         height: 100%;
         padding: 40px 60px;
-        background-color: #fff;
+        background-image: url('/hiro0218_screen.png');
+        background-size: contain;
         text-align: center;
         font-family: 'Noto Sans JP', 'Noto Color Emoji', sans-serif;
         font-feature-settings: 'palt';
@@ -49,17 +51,28 @@
         overflow: hidden;
       }
 
+      .container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
       .title-container {
         display: flex;
         align-items: center;
         margin-bottom: 20px;
         height: 100%;
         width: 100%;
+        z-index: 1;
       }
 
       .title {
         margin: 0 auto;
-        color: #202020;
+        color: #eee;
         font-size: 62px;
         font-weight: 900;
         line-height: 1.7;
@@ -75,38 +88,21 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        color: #8d8d8d;
+        color: #eee;
         font-size: 26px;
         font-weight: 900;
         line-height: 1;
         width: 100%;
-      }
-
-      .avatar {
-        display: block;
-        border-radius: 100%;
+        z-index: 1;
       }
     </style>
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mojik@0.5.0/mojik.css" /> -->
   </head>
   <body>
     <div class="container">
       <div class="title-container">
-        <h1 class="title" id="title">
-          {{title}}
-        </h1>
+        <h1 class="title" id="title">{{title}}</h1>
       </div>
-      <div class="footer">
-        b.0218.jp
-        <img
-          class="avatar"
-          decoding="async"
-          alt=""
-          width="80"
-          height="80"
-          src="/hiro0218.png"
-        />
-      </div>
+      <div class="footer">b.0218.jp</div>
     </div>
   </body>
 </html>
