@@ -14,6 +14,9 @@ const IMAGE_MIME_TYPES = {
   '.svg': 'image/svg+xml',
 };
 
+const DUMMY_TITLE =
+  '[Apple] Apple社を築いたSteve Jobsは1954年生まれ。彼は大学には一学期間顔を出しただけで、その後インドを二年間放浪。インドから帰るとOregonの果樹園でリンゴ作りにせいをだし、今度はElectronics仕掛けのリンゴ作りに転向した。';
+
 const publicDirectoryPath = path.resolve(__dirname, '../../../public');
 const template = fs.readFileSync(path.join(__dirname, 'template.html'), 'utf-8');
 
@@ -25,15 +28,7 @@ const server = http.createServer((req, res) => {
   if (pathname === '/') {
     const title = (parsedUrl.query.title as string)?.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     const content = template.toString();
-    let modifiedContent = content;
-
-    if (title) {
-      modifiedContent = content.replace('{{title}}', title);
-    } else {
-      const defaultValue =
-        '[Apple] Apple社を築いたSteve Jobsは1954年生まれ。彼は大学には一学期間顔を出しただけで、その後インドを二年間放浪。インドから帰るとOregonの果樹園でリンゴ作りにせいをだし、今度はElectronics仕掛けのリンゴ作りに転向した。';
-      modifiedContent = content.replace('{{title}}', defaultValue);
-    }
+    const modifiedContent = content.replace('{{title}}', title ?? DUMMY_TITLE);
 
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
