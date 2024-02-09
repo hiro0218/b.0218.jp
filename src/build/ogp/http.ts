@@ -24,40 +24,34 @@ const server = http.createServer((req, res) => {
   const parsedUrl = url.parse(req.url, true);
   const pathname = parsedUrl.pathname;
 
-  // root path request processing
   if (pathname === '/') {
     const title = (parsedUrl.query.title as string)?.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    const content = template.toString();
-    const modifiedContent = content.replace('{{title}}', title ?? DUMMY_TITLE);
+    const modifiedContent = template.replace('{{title}}', title ?? DUMMY_TITLE);
 
-    res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
     res.setHeader('Cache-Control', 'public, max-age=31536000');
+    res.statusCode = 200;
     res.end(modifiedContent);
   } else if (Object.keys(IMAGE_MIME_TYPES).includes(path.extname(pathname))) {
-    // Request processing for image files
-    // Normalize to a safe path to prevent directory traversal attacks
     const safePath = path.normalize(pathname).replace(/^(\.\.[\/\\])+/, '');
     const filePath = path.join(publicDirectoryPath, safePath);
 
-    fs.readFile(filePath, (err, data) => {
-      if (err) {
-        response404(res);
-      } else {
-        const ext = path.extname(filePath);
-        const contentType: string = IMAGE_MIME_TYPES[ext] || 'application/octet-stream';
+    const stream = fs.createReadStream(filePath);
+    const ext = path.extname(filePath);
+    const contentType = IMAGE_MIME_TYPES[ext] || 'application/octet-stream';
 
-        res.setHeader('Cache-Control', 'public, max-age=31536000');
-        res.setHeader('Content-Type', contentType);
-        res.end(data);
-      }
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Cache-Control', 'public, max-age=31536000');
+    stream.pipe(res);
+    stream.on('error', () => {
+      response404(res);
     });
   } else {
     response404(res);
   }
 });
 
-function response404(res: http.ServerResponse<http.IncomingMessage> & { req: http.IncomingMessage }) {
+function response404(res) {
   res.statusCode = 404;
   res.setHeader('Content-Type', 'text/plain');
   res.end('404 Not Found');
