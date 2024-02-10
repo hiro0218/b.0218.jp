@@ -24,10 +24,16 @@ const backgroundImageBuffer = fs.readFileSync(path.join(publicDirectoryPath, 'hi
 
 app.get('/', (c) => {
   c.header('Cache-Control', 'public, max-age=31536000');
+  const title = c.req.query('title');
 
-  const title = c.req.query('title')?.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  const modifiedContent = template.replace('{{title}}', title ?? DUMMY_TITLE);
+  if (!title) {
+    return c.html(template);
+  }
 
+  const modifiedContent = template.replace(
+    '{{title}}',
+    title.replace(/</g, '&lt;').replace(/>/g, '&gt;') ?? DUMMY_TITLE,
+  );
   return c.html(modifiedContent);
 });
 
