@@ -1,6 +1,6 @@
 import { type Browser, chromium } from 'playwright';
 
-import { mkdir, readFile } from '@/lib/fs';
+import { mkdir } from '@/lib/fs';
 import * as Log from '@/lib/Log';
 import { getPostsListJson } from '@/lib/posts';
 
@@ -9,7 +9,6 @@ const path = {
 };
 
 (async () => {
-  const template = await readFile(`${process.cwd()}/src/build/ogp/template.html`, 'utf-8');
   await mkdir(path.dist, { recursive: true });
   const posts = getPostsListJson();
   const length = posts.length;
@@ -38,13 +37,13 @@ const path = {
     const concurrency = 10;
 
     // ページインスタンスを生成
-    const setupPage = async (template: string) => {
+    const setupPage = async () => {
       const page = await browser.newPage();
-      await page.setContent(template, { waitUntil: 'networkidle' });
       await page.setViewportSize({ width: 1200, height: 630 });
+      await page.goto('http://localhost:3000/', { waitUntil: 'networkidle' });
       return page;
     };
-    const pages = await Promise.all(Array.from({ length: concurrency }, () => setupPage(template)));
+    const pages = await Promise.all(Array.from({ length: concurrency }, setupPage));
 
     for (let i = 0; i < length; i += concurrency) {
       const screenshotPromises = pages.map(async (page, j) => {

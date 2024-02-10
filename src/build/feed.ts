@@ -1,6 +1,6 @@
 import { Feed } from 'feed';
 
-import { AUTHOR_ICON, AUTHOR_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
+import { AUTHOR_NAME, SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
 import { writeFile } from '@/lib/fs';
 import { getDescriptionText } from '@/lib/json-ld';
 import { getPostsJson } from '@/lib/posts';
@@ -13,7 +13,7 @@ function generatedRssFeed() {
     id: SITE_URL,
     link: SITE_URL,
     language: 'ja',
-    image: AUTHOR_ICON,
+    image: SCREEN_IMAGE,
     copyright: `© ${AUTHOR_NAME}`,
     updated: new Date(),
     feedLinks: {
