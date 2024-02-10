@@ -40,6 +40,7 @@ const path = {
     const setupPage = async () => {
       const page = await browser.newPage();
       await page.setViewportSize({ width: 1200, height: 630 });
+      await page.goto('http://localhost:3000/', { waitUntil: 'networkidle' });
       return page;
     };
     const pages = await Promise.all(Array.from({ length: concurrency }, setupPage));
@@ -49,12 +50,12 @@ const path = {
         const index = i + j;
         if (index < length) {
           const { title, slug } = posts[index];
-          const url = `http://localhost:3000/?title=${encodeURIComponent(title)}`;
+          const pageTitle = title.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-          await page.goto(url, { waitUntil: 'networkidle' });
-          await page.evaluate(async () => {
+          await page.evaluate(async (pageTitle) => {
+            document.getElementById('title').innerHTML = pageTitle;
             await document.fonts.ready;
-          });
+          }, pageTitle);
 
           await page.screenshot({
             fullPage: false,
