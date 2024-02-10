@@ -1,7 +1,6 @@
 import { floatingFade } from '@/ui/animation';
-import { ArrowUpIcon, ICON_SIZE_SM } from '@/ui/icons';
+import { ArrowUpIcon, ICON_SIZE_LG, ICON_SIZE_MD } from '@/ui/icons';
 import { isMobile } from '@/ui/lib/mediaQuery';
-import { hoverLinkStyle } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 /**
@@ -12,7 +11,7 @@ export const PageScroll = () => {
   return (
     <Container>
       <Button aria-label="ページの最上部へスクロールする" href="#">
-        <ArrowUpIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+        <ArrowUpIcon height={ICON_SIZE_MD} width={ICON_SIZE_MD} />
       </Button>
     </Container>
   );
@@ -34,19 +33,29 @@ const Button = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  block-size: 56px;
+  width: ${ICON_SIZE_LG}px;
+  height: ${ICON_SIZE_LG}px;
   padding: var(--space-2);
-  color: var(--text-11);
-  background-color: #fff;
-  border: 1px solid currentColor;
+  color: var(--text-12);
+  background-color: var(--component-backgrounds-3A);
   border-radius: var(--border-radius-full);
   transition: background-color 0.2s ease;
 
-  ${hoverLinkStyle}
+  svg {
+    flex: 1 1;
+    fill: currentColor;
+  }
 
   &:hover {
+    background-color: var(--component-backgrounds-4A);
+
     svg {
       animation: ${floatingFade} 0.4s linear 0s;
     }
+  }
+
+  &:active {
+    background-color: var(--component-backgrounds-5A);
+    border-color: var(--borders-7);
   }
 `;
