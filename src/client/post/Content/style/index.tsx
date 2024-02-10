@@ -12,6 +12,7 @@ import TableScroll from './TableScroll';
 
 const PostContentStyle = css`
   font-size: var(--font-size-post-content);
+  color: var(--text-11);
 
   & > * {
     margin-top: var(--space-2);
