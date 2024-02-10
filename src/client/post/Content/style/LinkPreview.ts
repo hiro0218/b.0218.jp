@@ -1,10 +1,12 @@
-import { isMobile } from '@/ui/lib/mediaQuery';
+import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
 import { lineClamp, textEllipsis } from '@/ui/mixin';
 import { css } from '@/ui/styled';
 
 const LinkPreview = css`
   .p-link-preview {
     display: flex;
+    align-items: center;
+    height: 120px;
     overflow: hidden;
     color: var(--text-12);
     text-decoration-line: unset;
@@ -13,7 +15,6 @@ const LinkPreview = css`
     border-radius: var(--border-radius-8);
 
     &:hover {
-      background-color: var(--component-backgrounds-4);
       border-color: var(--borders-8);
     }
 
@@ -21,45 +22,16 @@ const LinkPreview = css`
       content: none;
     }
 
-    &[data-card='summary'] {
-      align-items: center;
-      height: 120px;
-
-      .p-link-preview-body {
-        width: calc(100% - 120px);
-        padding-left: var(--space-2);
-      }
-
-      .p-link-preview-body__description {
-        -webkit-line-clamp: 1;
-      }
-
-      .p-link-preview-thumbnail {
-        width: 120px;
-        height: 120px;
-        border-radius: var(--border-radius-8) 0 0 var(--border-radius-8);
-      }
-    }
-
     &[data-card='summary_large_image'] {
-      flex-direction: column;
+      ${isDesktop} {
+        .p-link-preview-body {
+          padding: var(--space-2);
+        }
 
-      .p-link-preview-body {
-        padding: var(--space-2);
-      }
-
-      .p-link-preview-thumbnail {
-        width: calc(var(--container-width) / 320px);
-        height: 320px;
-        border-radius: var(--border-radius-8) var(--border-radius-8) 0 0;
-
-        ${isMobile} {
-          width: 100%;
-          height: auto;
-
-          img {
-            object-fit: contain;
-          }
+        .p-link-preview-thumbnail {
+          width: calc(var(--container-width) / 230px);
+          max-width: 230px;
+          height: 120px;
         }
       }
     }
@@ -67,8 +39,10 @@ const LinkPreview = css`
 
   .p-link-preview-body {
     display: block;
-    flex: 1;
+    flex: 1 1;
+    width: calc(100% - 120px);
     padding: 0 var(--space-2);
+    padding-left: var(--space-2);
   }
 
   .p-link-preview-body__title {
@@ -86,6 +60,7 @@ const LinkPreview = css`
     overflow: hidden;
     font-size: var(--font-size-sm);
     color: var(--text-11);
+    -webkit-line-clamp: 1;
 
     ${isMobile} {
       display: none;
@@ -105,13 +80,16 @@ const LinkPreview = css`
     flex-basis: auto;
     flex-direction: column;
     flex-shrink: 0;
+    width: 120px;
+    height: 120px;
     overflow: hidden;
     user-select: none;
+    border-radius: var(--border-radius-8) 0 0 var(--border-radius-8);
 
     img {
-      object-fit: cover;
       width: 100%;
       height: 100%;
+      object-fit: cover;
     }
   }
 `;
