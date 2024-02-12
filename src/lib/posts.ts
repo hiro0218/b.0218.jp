@@ -21,7 +21,7 @@ export const getTagsJson = (): TagsListProps => {
 };
 
 export const getPostsJson = (): Map<PostProps['slug'], PostProps> => {
-  return new Map(posts.map((post) => [post.slug, post]));
+  return new Map(posts.map((post) => [post.slug, Object.freeze(post)]));
 };
 
 export const getPostsListJson = (): PostListProps[] => {
@@ -29,7 +29,7 @@ export const getPostsListJson = (): PostListProps[] => {
 };
 
 export const getPagesJson = (): Map<PageProps['slug'], PageProps> => {
-  return new Map(pages.map((page) => [page.slug, page]));
+  return new Map(pages.map((page) => [page.slug, Object.freeze(page)]));
 };
 
 export const getTagsWithCount = () => {
