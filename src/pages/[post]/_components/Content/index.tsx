@@ -1,9 +1,9 @@
 import { useRef } from 'react';
 
-import Mokuji from '@/client/post/Mokuji';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import type { PostProps } from '@/types/source';
 
+import Mokuji from '../Mokuji';
 import PostContentStyle from './style';
 
 type Props = {
