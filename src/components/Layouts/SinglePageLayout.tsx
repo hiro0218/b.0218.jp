@@ -5,7 +5,6 @@ import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
-// eslint-disable-next-line strict-dependencies/strict-dependencies
 import { Content as PostContent } from '@/pages/[post]/_components';
 
 type LayoutProps = {
