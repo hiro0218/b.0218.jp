@@ -1,6 +1,5 @@
 import { getPostsListJson } from '@/lib/posts';
-
-import { getPopularPost } from '../_common/getPopularPost';
+import { getPopularPost } from '@/pages/_libs/getPopularPost';
 
 const POST_DISPLAY_LIMIT = 20;
 

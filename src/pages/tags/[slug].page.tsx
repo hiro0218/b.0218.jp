@@ -5,8 +5,9 @@ import { Columns, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME } from '@/constant';
-import { getStaticPathsTagDetail, getStaticPropsTagDetail } from '@/server/tags';
 import type { TermsPostListProps } from '@/types/source';
+
+import { getStaticPathsTagDetail, getStaticPropsTagDetail } from './_libs';
 
 type TermProps = {
   title: string;

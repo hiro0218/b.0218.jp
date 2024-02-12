@@ -18,7 +18,8 @@ import {
   SimilarPost,
   SimilarTag,
 } from '@/pages/[post]/_components';
-import { getStaticPathsPost, getStaticPropsPost, type PostPageProps } from '@/server/post';
+
+import { getStaticPathsPost, getStaticPropsPost, type PostPageProps } from './_libs';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

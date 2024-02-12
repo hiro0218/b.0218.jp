@@ -4,7 +4,8 @@ import { Columns, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
-import { getData } from '@/server/popular';
+
+import { getData } from './_libs';
 
 const data = getData();
 

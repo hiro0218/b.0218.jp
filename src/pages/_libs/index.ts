@@ -1,6 +1,5 @@
 import { getPostsListJson, getTagsWithCount } from '@/lib/posts';
-
-import { getPopularPost } from '../_common/getPopularPost';
+import { getPopularPost } from '@/pages/_libs/getPopularPost';
 
 const POST_DISPLAY_LIMIT = 4;
 const IGNORE_TAG = '名探偵コナン';
