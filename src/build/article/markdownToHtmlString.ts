@@ -12,13 +12,12 @@ import { SITE_URL } from '@/constant';
 
 import rehype0218 from './rehype0218';
 import rehypeGfmAlert from './rehypeGfmAlert';
+import rehypeRemoveComments from './rehypeRemoveComments';
 import remarkBreaks from './remarkBreaks';
-import remarkRemoveComments from './remarkRemoveComments';
 
 const markdownToHtmlString = async (markdown: string, simple = false) => {
   const commonProcessor = unified()
     .use(remarkParse)
-    .use(remarkRemoveComments)
     .use(remarkGfm)
     .use(remarkBreaks)
     .use(remarkRehype, { footnoteLabel: '注釈', allowDangerousHtml: true })
@@ -36,6 +35,7 @@ const markdownToHtmlString = async (markdown: string, simple = false) => {
     ? await commonProcessor
         .use(rehypeHighlight)
         .use(rehype0218)
+        .use(rehypeRemoveComments)
         .use(rehypeStringify, { allowDangerousHtml: true })
         .process(markdown)
     : await commonProcessor.use(rehypeStringify, { allowDangerousHtml: true }).process(markdown);
