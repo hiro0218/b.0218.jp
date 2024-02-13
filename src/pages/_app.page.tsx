@@ -5,12 +5,13 @@ import { GoogleAnalytics } from 'nextjs-google-analytics';
 import type { ReactElement, ReactNode } from 'react';
 
 import CssBaseline from '@/components/Functional/CssBaseline';
-import AppLayout from '@/components/Layouts/AppLayout';
 import { AUTHOR_NAME, SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
 import type { EmotionCache } from '@/ui/styled';
 import { CacheProvider, ThemeProvider } from '@/ui/styled';
 import { theme } from '@/ui/themes';
+
+import AppLayout from './_layouts/AppLayout';
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;

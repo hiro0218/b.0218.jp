@@ -1,4 +1,4 @@
-import { createGetLayout } from '@/components/Layouts/SinglePageLayout';
+import { createGetLayout } from '../_layouts/SinglePageLayout';
 
 export default function About() {
   return null;
