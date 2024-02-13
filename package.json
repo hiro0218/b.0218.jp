@@ -17,9 +17,9 @@
     "build:popular": "node --require esbuild-register ./src/build/popular",
     "build:analyzer": "ANALYZE=true next build",
     "start": "next start",
-    "lint": "eslint \"src/**/*{.js,.ts,.tsx}\"",
-    "lint:css": "stylelint \"src/**/*{.css,.tsx}\"",
-    "lint:markup": "markuplint \"src/**/*{.jsx,.tsx}\"",
+    "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
+    "lint:css": "stylelint \"src/**/*.{css,tsx}\"",
+    "lint:markup": "markuplint \"src/**/*.{jsx,tsx}\"",
     "test": "jest --forceExit --coverage",
     "nolyfill": "npx nolyfill install",
     "prepare": "husky && playwright install"
