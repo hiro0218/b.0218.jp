@@ -26,7 +26,7 @@ const clientSideEmotionCache = createEmotionCache();
 
 export default function App({ Component, emotionCache = clientSideEmotionCache, pageProps }: MyAppProps) {
   // ページレベルで定義されたレイアウトがある場合はそれを使用する
-  const getLayout = Component.getLayout || ((page) => page);
+  const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
     <>
