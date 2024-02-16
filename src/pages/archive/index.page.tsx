@@ -5,7 +5,7 @@ import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPostsListJson } from '@/lib/posts';
-import type { PostProps } from '@/types/source';
+import type { PostListProps } from '@/types/source';
 
 import { divideByYearArchive } from './_libs';
 
@@ -29,7 +29,7 @@ export default function Archive() {
           .map((year) => (
             <Columns key={year} title={`${year}年`}>
               <Stack space="½">
-                {archives[year].map(({ slug, title, date, updated, tags }: PostProps) => (
+                {archives[year].map(({ slug, title, date, updated, tags }: PostListProps) => (
                   <LinkCard date={date} key={slug} link={`/${slug}.html`} tags={tags} title={title} updated={updated} />
                 ))}
               </Stack>
