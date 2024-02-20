@@ -7,11 +7,12 @@ import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPostsListJson } from '@/lib/posts';
 import type { PostListProps } from '@/types/source';
 
+import { Chart } from './_components';
 import { divideByYearArchive } from './_libs';
 
 const posts = getPostsListJson();
 const archives = divideByYearArchive(posts);
-const numberOfPosts = posts.length;
+const totalPosts = posts.length;
 
 export default function Archive() {
   return (
@@ -22,7 +23,9 @@ export default function Archive() {
       </Head>
 
       <Stack as="article" space="4">
-        <Title heading="Archive" paragraph={`${numberOfPosts}件の記事`} />
+        <Title heading="Archive" paragraph={`${totalPosts}件の記事`} />
+
+        <Chart archives={archives} totalPosts={totalPosts} />
 
         {Object.keys(archives)
           .reverse()
