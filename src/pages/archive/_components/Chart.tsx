@@ -1,0 +1,83 @@
+import { Anchor } from '@/components/UI/Anchor';
+import { isMobile } from '@/ui/lib/mediaQuery';
+import { styled } from '@/ui/styled';
+
+import type { divideByYearArchive } from '../_libs';
+
+type Props = {
+  totalPosts: number;
+  archives: ReturnType<typeof divideByYearArchive>;
+};
+
+export const Chart = ({ archives, totalPosts }: Props) => {
+  return (
+    <Container>
+      {Object.keys(archives).map((year) => {
+        const thisPosts = archives[year].length;
+        const percentages = (Math.round((thisPosts / totalPosts) * 100000) / 100).toFixed(2);
+
+        return (
+          <Item
+            href={`#${year}年`}
+            key={year}
+            // @ts-expect-error CSS Custom Properties
+            style={{
+              '--percent': `${percentages}%`,
+            }}
+          >
+            {year}
+          </Item>
+        );
+      })}
+    </Container>
+  );
+};
+
+const Container = styled.div`
+  display: flex;
+  gap: var(--space-½);
+  align-items: end;
+  justify-content: stretch;
+  width: fit-content;
+  height: var(--space-5);
+  overflow: auto;
+
+  ${isMobile} {
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+    height: auto;
+  }
+`;
+
+const Item = styled(Anchor)`
+  --fill: var(--component-backgrounds-3);
+  --direction: to top;
+
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  min-width: 5cap;
+  height: 100%;
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-sm);
+  color: var(--text-11);
+  background: linear-gradient(var(--direction), var(--fill) var(--percent), transparent var(--percent));
+
+  ${isMobile} {
+    --direction: to right;
+    width: 100%;
+
+    padding: var(--space-1) var(--space-½);
+    font-size: var(--font-size-sm);
+  }
+
+  &:hover {
+    --fill: var(--component-backgrounds-4);
+  }
+
+  &:active,
+  &:focus-visible {
+    --fill: var(--component-backgrounds-5);
+  }
+`;
