@@ -5,12 +5,13 @@ import { GoogleAnalytics } from 'nextjs-google-analytics';
 import type { ReactElement, ReactNode } from 'react';
 
 import CssBaseline from '@/components/Functional/CssBaseline';
-import AppLayout from '@/components/Layouts/AppLayout';
 import { AUTHOR_NAME, SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
 import type { EmotionCache } from '@/ui/styled';
 import { CacheProvider, ThemeProvider } from '@/ui/styled';
 import { theme } from '@/ui/themes';
+
+import AppLayout from './_layouts/AppLayout';
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -25,7 +26,7 @@ const clientSideEmotionCache = createEmotionCache();
 
 export default function App({ Component, emotionCache = clientSideEmotionCache, pageProps }: MyAppProps) {
   // ページレベルで定義されたレイアウトがある場合はそれを使用する
-  const getLayout = Component.getLayout || ((page) => page);
+  const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
     <>

@@ -7,6 +7,8 @@ const withBundleAnalyzer =
 const nextConfiguration = {
   reactStrictMode: true,
 
+  pageExtensions: ['page.tsx'],
+
   compiler: {
     emotion: {
       autoLabel: 'dev-only',

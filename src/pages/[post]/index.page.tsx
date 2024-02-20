@@ -3,6 +3,12 @@ import Head from 'next/head';
 import Script from 'next/script';
 import { useMemo } from 'react';
 
+import { Adsense } from '@/components/UI/Adsense';
+import { Avatar } from '@/components/UI/Avatar';
+import { Stack } from '@/components/UI/Layout';
+import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
+import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
+import { getOgpImage, getPermalink } from '@/lib/url';
 import {
   Content as PostContent,
   Edit as PostEdit,
@@ -11,14 +17,9 @@ import {
   Share as PostShare,
   SimilarPost,
   SimilarTag,
-} from '@/client/post';
-import { Adsense } from '@/components/UI/Adsense';
-import { Avatar } from '@/components/UI/Avatar';
-import { Stack } from '@/components/UI/Layout';
-import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
-import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
-import { getOgpImage, getPermalink } from '@/lib/url';
-import { getStaticPathsPost, getStaticPropsPost, type PostPageProps } from '@/server/post';
+} from '@/pages/[post]/_components';
+
+import { getStaticPathsPost, getStaticPropsPost, type PostPageProps } from './_libs';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

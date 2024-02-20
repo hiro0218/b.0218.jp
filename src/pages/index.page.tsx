@@ -1,12 +1,13 @@
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 
-import { Hero, PostSection, TitleSection } from '@/client/home';
 import { SimpleGrid, Stack } from '@/components/UI/Layout';
 import PostTag from '@/components/UI/Tag';
 import { AUTHOR_ICON, SITE_URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
-import { getData } from '@/server/home';
+import { Hero, PostSection, TitleSection } from '@/pages/_components/home';
+
+import { getData } from './_libs';
 
 const SrOnly = dynamic(() =>
   import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),

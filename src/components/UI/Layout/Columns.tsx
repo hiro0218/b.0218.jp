@@ -15,7 +15,9 @@ export const Columns = memo(function Columns({ title, titleTagName = 'h2', child
   return (
     <Root {...others}>
       <ColumnTitle>
-        <TitleText as={titleTagName}>{title}</TitleText>
+        <TitleText as={titleTagName} id={title}>
+          {title}
+        </TitleText>
       </ColumnTitle>
       <ColumnMain>{children}</ColumnMain>
     </Root>

@@ -21,14 +21,7 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.json',
   },
-  plugins: [
-    'import',
-    'simple-import-sort',
-    '@typescript-eslint',
-    'unused-imports',
-    'strict-dependencies',
-    'react-hooks',
-  ],
+  plugins: ['import', 'simple-import-sort', '@typescript-eslint', 'unused-imports', 'react-hooks'],
   rules: {
     /**
      * eslint
@@ -106,26 +99,6 @@ module.exports = {
      */
     'simple-import-sort/imports': 'warn',
     'simple-import-sort/exports': 'warn',
-
-    /**
-     * eslint-plugin-strict-dependencies
-     */
-    // モジュールの依存性ルールを定義する
-    'strict-dependencies/strict-dependencies': [
-      'error',
-      [
-        {
-          module: 'src/client',
-          allowReferenceFrom: ['src/pages'],
-          allowSameModule: true,
-        },
-        {
-          module: 'src/server',
-          allowReferenceFrom: ['src/pages'],
-          allowSameModule: true,
-        },
-      ],
-    ],
 
     /**
      * eslint-plugin-unused-imports

@@ -5,12 +5,14 @@ import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPostsListJson } from '@/lib/posts';
-import { divideByYearArchive } from '@/server/archive';
-import type { PostProps } from '@/types/source';
+import type { PostListProps } from '@/types/source';
+
+import { Chart } from './_components';
+import { divideByYearArchive } from './_libs';
 
 const posts = getPostsListJson();
 const archives = divideByYearArchive(posts);
-const numberOfPosts = posts.length;
+const totalPosts = posts.length;
 
 export default function Archive() {
   return (
@@ -21,14 +23,16 @@ export default function Archive() {
       </Head>
 
       <Stack as="article" space="4">
-        <Title heading="Archive" paragraph={`${numberOfPosts}件の記事`} />
+        <Title heading="Archive" paragraph={`${totalPosts}件の記事`} />
+
+        <Chart archives={archives} totalPosts={totalPosts} />
 
         {Object.keys(archives)
           .reverse()
           .map((year) => (
             <Columns key={year} title={`${year}年`}>
               <Stack space="½">
-                {archives[year].map(({ slug, title, date, updated, tags }: PostProps) => (
+                {archives[year].map(({ slug, title, date, updated, tags }: PostListProps) => (
                   <LinkCard date={date} key={slug} link={`/${slug}.html`} tags={tags} title={title} updated={updated} />
                 ))}
               </Stack>

@@ -1,3 +1,4 @@
+import { deepFreeze } from '@/lib/deepFreeze';
 import type {
   PageProps,
   PostListProps,
@@ -17,11 +18,11 @@ import tagsSimilarity from '~/dist/tags-similarity.json';
 import tagsWithCount from '~/dist/tags-with-count.json';
 
 export const getTagsJson = (): TagsListProps => {
-  return tags;
+  return Object.freeze(tags);
 };
 
 export const getPostsJson = (): Map<PostProps['slug'], PostProps> => {
-  return new Map(posts.map((post) => [post.slug, post]));
+  return new Map(posts.map((post) => [post.slug, Object.freeze(post)]));
 };
 
 export const getPostsListJson = (): PostListProps[] => {
@@ -29,7 +30,7 @@ export const getPostsListJson = (): PostListProps[] => {
 };
 
 export const getPagesJson = (): Map<PageProps['slug'], PageProps> => {
-  return new Map(pages.map((page) => [page.slug, page]));
+  return new Map(pages.map((page) => [page.slug, Object.freeze(page)]));
 };
 
 export const getTagsWithCount = () => {
@@ -37,7 +38,7 @@ export const getTagsWithCount = () => {
 };
 
 export const getSimilarTag = (): TagSimilarProps => {
-  return tagsSimilarity;
+  return deepFreeze(tagsSimilarity);
 };
 
 export const getSimilarPosts = (): PostSimilarProps => {
@@ -45,5 +46,5 @@ export const getSimilarPosts = (): PostSimilarProps => {
 };
 
 export const getPostsPopular = (): PostPopularProps => {
-  return postsPopular;
+  return Object.freeze(postsPopular);
 };
