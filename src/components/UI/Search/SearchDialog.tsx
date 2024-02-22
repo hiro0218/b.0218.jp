@@ -46,6 +46,7 @@ const Dialog = styled.dialog`
   top: 25vh;
   isolation: isolate;
   border-radius: var(--border-radius-12);
+  content-visibility: hidden;
 
   &[open] {
     z-index: var(--zIndex-search);
@@ -54,5 +55,6 @@ const Dialog = styled.dialog`
     animation:
       ${fadeIn} 0.4s,
       ${slideIn} 0.4s linear;
+    content-visibility: visible;
   }
 `;
