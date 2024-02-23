@@ -171,7 +171,6 @@ export default css`
     padding: var(--space-½) var(--space-1);
     margin: 0;
     font-size: var(--font-size-sm);
-    color: inherit;
     background: var(--component-backgrounds-3A);
   }
 
