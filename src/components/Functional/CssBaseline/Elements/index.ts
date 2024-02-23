@@ -183,7 +183,6 @@ export default css`
 
     caption {
       margin: var(--space-1) 0;
-      font-size: var(--font-size-sm);
       color: var(--text-11);
       text-align: center;
     }
@@ -202,17 +201,13 @@ export default css`
     color: var(--text-12);
     text-align: left;
 
-    ${['left', 'center', 'right'].map((value) => {
-      return css`
+    ${['center', 'right'].map(
+      (value) => css`
         &[align='${value}'] {
           text-align: ${value};
         }
-      `;
-    })}
-  }
-
-  td {
-    font-size: var(--font-size-sm);
+      `,
+    )}
   }
 
   thead {
