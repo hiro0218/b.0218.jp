@@ -23,5 +23,6 @@ const Div = styled.div`
   dialog[open] + & {
     visibility: visible;
     opacity: 1;
+    content-visibility: hidden;
   }
 `;
