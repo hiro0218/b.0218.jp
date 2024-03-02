@@ -57,13 +57,11 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
     return (
       <Html lang="ja" prefix={this.props.ogpPrefix}>
         <Head>
-          <link crossOrigin="anonymous" href="https://polyfill.io" rel="preconnect" />
           <link href="/favicon.ico" rel="icon" type="image/x-icon" />
           <MetaLinkFeed feeds={feeds} />
           <link href="/opensearch.xml" rel="search" type="application/opensearchdescription+xml" />
           <MetaLinkRelMe />
           <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} />
-          <script crossOrigin="anonymous" defer src="https://polyfill.io/v3/polyfill.min.js" />
         </Head>
         <body>
           <Main />
