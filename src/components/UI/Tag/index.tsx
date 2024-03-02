@@ -19,35 +19,32 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
     return null;
   }
 
-  return (
-    <>
-      {tags
-        .sort((a, b) => {
-          if (b.count === undefined) return -1;
-          if (a.count === undefined) return 1;
+  return tags
+    .sort((a, b) => {
+      if (b.count === undefined) return -1;
+      if (a.count === undefined) return 1;
 
-          return b.count - a.count;
-        })
-        .map(({ slug, count }) => {
-          const isAnchor = count >= TAG_VIEW_LIMIT;
-          const TagComponent = isAnchor ? TagAnchor : DisabledTagAnchor;
+      return b.count - a.count;
+    })
+    .map(({ slug, count }) => {
+      const isAnchor = count >= TAG_VIEW_LIMIT;
 
-          return (
-            <TagComponent
-              {...(isAnchor && {
-                prefetch: false,
-                passHref: true,
-                href: `/tags/${slug}`,
-                rel: hasRelTag && 'tag',
-              })}
-              key={slug}
-            >
-              {slug}
-            </TagComponent>
-          );
-        })}
-    </>
-  );
+      return isAnchor ? (
+        <TagAnchor
+          href={`/tags/${slug}`}
+          key={slug}
+          passHref={true}
+          title={`${slug} (${count})`}
+          {...(hasRelTag && {
+            rel: 'tag',
+          })}
+        >
+          {slug}
+        </TagAnchor>
+      ) : (
+        <DisabledTagAnchor key={slug}>{slug}</DisabledTagAnchor>
+      );
+    });
 });
 
 export default PostTag;

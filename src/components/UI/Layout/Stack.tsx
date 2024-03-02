@@ -1,5 +1,4 @@
 import type { AriaRole, CSSProperties, ReactNode } from 'react';
-import { memo, useMemo } from 'react';
 
 import { css, styled } from '@/ui/styled';
 
@@ -41,13 +40,12 @@ const StackRoot = styled.div<StackRootProps>`
   }
 `;
 
-export const Stack = memo(function Stack({ as = 'div', children, ...props }: Props) {
-  const MemoizedStackRoot = useMemo(() => StackRoot.withComponent(as), [as]);
+export const Stack = ({ as = 'div', children, ...props }: Props) => {
   const { direction, ...rest } = props;
 
   return (
-    <MemoizedStackRoot as={as} flexDirection={direction} {...rest}>
+    <StackRoot as={as} flexDirection={direction} {...rest}>
       {children}
-    </MemoizedStackRoot>
+    </StackRoot>
   );
-});
+};

@@ -22,7 +22,6 @@ export default function Tags({ title, posts }: Props) {
     <>
       <Head>
         <title key="title">{`${pageTitle}: ${title} - ${SITE_NAME}`}</title>
-        <meta content="noindex" name="robots" />
       </Head>
 
       <Stack as="section" space="4">

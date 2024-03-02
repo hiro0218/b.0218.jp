@@ -11,14 +11,12 @@ const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((modu
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   return (
-    <>
-      <Root>
-        <Header />
-        <Main as="main">{children}</Main>
-        <Footer />
-      </Root>
+    <Root>
+      <Header />
+      <Main as="main">{children}</Main>
       <PageScroll />
-    </>
+      <Footer />
+    </Root>
   );
 }
 
