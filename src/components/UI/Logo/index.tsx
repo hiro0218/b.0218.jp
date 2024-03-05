@@ -1,12 +1,10 @@
-import { memo } from 'react';
-
 import { SITE_NAME } from '@/constant';
 
-export const Logo = memo(function Logo({ width = '256', height = '80' }: { width: string; height: string }) {
+export const Logo = ({ width = '256', height = '80' }: { width: string; height: string }) => {
   return (
     <svg height={height} role="img" viewBox="0 0 1024 259" width={width}>
       <title>{SITE_NAME}</title>
       <path d="M978 252h-68v-23h-26l1 15h-26l-2-15-82 11-2-21 28-4v-43h-24V41h24V7h55v34h16v42h1l3-5 26-63c1-4 3-5 6-5h60l-5 14h44c3 0 4 1 4 4 1 8 0 15-3 23l-17 43 27 12-10 18-23-10h-1c-2 7-6 7-12 7h-89v-19h35c3 0 5-1 6-3l4-11-11-6c-2 9-8 7-14 7h-30v83h-17v36l7-1-2-28h17l3 24c0 5 1 7 7 6h18c3 0 4-1 4-4 1-14 1-14-12-14h-13v-19h25v-14h-30v-20h30l1-9h67l1 9h31v20h-31v14h26v19h-21c-4 0-6 1-6 6 0 12 0 12 12 12h24v19h-36v24zm-166-99h6V60h-6v93zm33 0V60h-7v93h7zM947 44l-11 1-3 2-8 17 11 5 11-25zM543 248v-81c0-6 0-6-6-6h-12c-4 0-4-2-4-5v-45c-1-5 1-7 6-7h228c3 0 4 1 4 4v45h-27l2 13-118 11v20l4 2h124l4 49H543zm72-91 74-7 3-3v-22H588v13l22-1c5 0 6 2 5 6v14zm-108 93h-93c-4 0-5-1-6-5l-16-139-2-18H272c-5 0-6-1-6-5v-9c-1-5 2-6 6-6h115l-7-61h69l7 61h48v17l-4 3h-42l3 24 7 56 2 19c0 3 1 3 4 3h21c2 1 4 2 4 4l7 52 1 4zM237 12v19h-70v10h82v66h-52V61h-43v51h-46V61H65v46H13V41h82V31H25V12h212zm365-5h75v22h78v20h-72c-5 0-6 2-6 6v17h66v20l-5 1H542c-7 0-7 0-7-7V73h67V49h-78V30h78V7zM71 201H23v-19h217v65h-70c-4 0-5-1-7-4l-11-27-2-5h22v-10h-26v51H71v-51zm71-84-2 4h60l9 3 44 36 4 4h-44l-1 7H49v-7H6l4-4a10644 10644 0 0 1 57-43h75zm17 35-27-25-27 25h54zm105 65 129-15v21l-125 16-4-22zm9-92h103c5 0 6 1 6 6 0 4 1 10-1 12-3 3-9 2-13 2h-88c-7 0-7 0-7-7v-13zm3-89V18l3-2h90c5 0 6 1 6 6 0 14 0 14-14 14h-85zM458 9h34c3 0 4 1 4 4l6 44v2h-37l-7-50zM190 94v16h-30V94h30zm-89-25v16H72V69h29zm59 16V71l3-2h26v16h-29zm-59 25H72V94h29v16z" />
     </svg>
   );
-});
+};
