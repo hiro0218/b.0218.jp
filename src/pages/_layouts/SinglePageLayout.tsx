@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import type { ReactElement } from 'react';
 
+import { Container } from '@/components/Functional/Container';
 import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
@@ -28,7 +29,7 @@ function Layout(props: LayoutProps) {
   const { content } = pages.get(props.slug);
 
   return (
-    <>
+    <Container size="small">
       <Head>
         <title key="title">{`${props.title.heading} - ${SITE_NAME}`}</title>
         <link href={`${SITE_URL}/${props.slug}`} rel="canonical" />
@@ -37,6 +38,6 @@ function Layout(props: LayoutProps) {
         <Title heading={props.title.heading} paragraph={props.title.paragraph} />
         <PostContent content={content} enableMokuji={false} />
       </Stack>
-    </>
+    </Container>
   );
 }

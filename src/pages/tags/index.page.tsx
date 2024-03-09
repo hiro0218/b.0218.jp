@@ -6,6 +6,8 @@ import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getTagsWithCount } from '@/lib/posts';
 
+import { createGetLayout } from '../_layouts/ArchivePageLayout';
+
 const tags = getTagsWithCount().filter((tag) => tag.count >= TAG_VIEW_LIMIT);
 
 export default function Tags() {
@@ -27,3 +29,5 @@ export default function Tags() {
     </>
   );
 }
+
+Tags.getLayout = createGetLayout();

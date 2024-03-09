@@ -1,5 +1,6 @@
 import { memo } from 'react';
 
+import { Container } from '@/components/Functional/Container';
 import { WaveBottom } from '@/components/Functional/Wave';
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { LinkStyle } from '@/components/UI/LinkMenu';
@@ -17,18 +18,20 @@ export default memo(function Footer() {
   return (
     <Root>
       <WaveBottom />
-      <Container>
-        <List>
-          {Links.map(({ title, href }) => {
-            return (
-              <ListItem key={href + title}>
-                <Anchor href={href}>{title}</Anchor>
-              </ListItem>
-            );
-          })}
-        </List>
-        <small>© hiro</small>
-      </Container>
+      <FooterContainer>
+        <Container size="large">
+          <List>
+            {Links.map(({ title, href }) => {
+              return (
+                <ListItem key={href + title}>
+                  <Anchor href={href}>{title}</Anchor>
+                </ListItem>
+              );
+            })}
+          </List>
+          <small>© hiro</small>
+        </Container>
+      </FooterContainer>
     </Root>
   );
 });
@@ -45,22 +48,27 @@ const Root = styled.footer`
   }
 `;
 
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+const FooterContainer = styled.div`
   width: 100%;
-  padding: var(--space-4) var(--space-6);
-  margin: 0 auto;
+  padding: var(--space-4) 0;
   font-size: var(--font-size-md);
   color: var(--text-12);
   background-color: var(--component-backgrounds-3);
 
   ${isMobile} {
-    flex-direction: column;
-    gap: var(--space-2);
-    justify-content: unset;
     padding: var(--space-3) 0;
+  }
+
+  & > * {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    ${isMobile} {
+      flex-direction: column;
+      gap: var(--space-2);
+      justify-content: unset;
+    }
   }
 
   small {

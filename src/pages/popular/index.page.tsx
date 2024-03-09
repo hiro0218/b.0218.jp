@@ -5,6 +5,7 @@ import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
 
+import { createGetLayout } from '../_layouts/ArchivePageLayout';
 import { getData } from './_libs';
 
 const data = getData();
@@ -31,3 +32,5 @@ export default function Popular() {
     </>
   );
 }
+
+Popular.getLayout = createGetLayout();

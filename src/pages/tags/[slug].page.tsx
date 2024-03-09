@@ -7,6 +7,7 @@ import { Title } from '@/components/UI/Title';
 import { SITE_NAME } from '@/constant';
 import type { TermsPostListProps } from '@/types/source';
 
+import { createGetLayout } from '../_layouts/ArchivePageLayout';
 import { getStaticPathsTagDetail, getStaticPropsTagDetail } from './_libs';
 
 type TermProps = {
@@ -38,6 +39,8 @@ export default function Tags({ title, posts }: Props) {
     </>
   );
 }
+
+Tags.getLayout = createGetLayout();
 
 export const getStaticPaths: GetStaticPaths = getStaticPathsTagDetail;
 

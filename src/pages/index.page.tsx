@@ -6,6 +6,7 @@ import PostTag from '@/components/UI/Tag';
 import { AUTHOR_ICON, SITE_URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
 import { Hero, PostSection, TitleSection } from '@/pages/_components/home';
+import { createGetLayout } from '@/pages/_layouts/TopPageLayout';
 
 import { getData } from './_libs';
 
@@ -64,3 +65,5 @@ export default function Index() {
     </>
   );
 }
+
+Index.getLayout = createGetLayout();
