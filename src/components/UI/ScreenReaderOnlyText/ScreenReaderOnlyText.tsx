@@ -1,7 +1,7 @@
 import type { HTMLAttributes } from 'react';
 
-import { SrOnlyClassName } from '@/components/Functional/CssBaseline/Generic';
 import { styled } from '@/ui/styled';
+import { SrOnlyClassName } from '@/ui/styled/CssBaseline/Generic';
 
 type Props = {
   as?: keyof JSX.IntrinsicElements;

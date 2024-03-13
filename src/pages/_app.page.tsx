@@ -7,12 +7,11 @@ import type { ReactElement, ReactNode } from 'react';
 
 import Footer from '@/components/App/Footer';
 import Header from '@/components/App/Header';
-import CssBaseline from '@/components/Functional/CssBaseline';
 import { AUTHOR_NAME, SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
 import type { EmotionCache } from '@/ui/styled';
-import { CacheProvider, ThemeProvider } from '@/ui/styled';
-import { theme } from '@/ui/themes';
+import CssBaseline from '@/ui/styled/CssBaseline';
+import { StyledProvider } from '@/ui/styled/Provider';
 
 import { Layout } from './_layouts/AppLayout';
 
@@ -55,17 +54,15 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
 
       <CssBaseline />
 
-      <CacheProvider value={emotionCache}>
-        <ThemeProvider theme={theme}>
-          <GoogleAnalytics trackPageViews={{ ignoreHashChange: true }} />
-          <Layout>
-            <Header />
-            <main>{getLayout(<Component {...pageProps} />)}</main>
-            <PageScroll />
-            <Footer />
-          </Layout>
-        </ThemeProvider>
-      </CacheProvider>
+      <StyledProvider emotionCache={emotionCache}>
+        <GoogleAnalytics trackPageViews={{ ignoreHashChange: true }} />
+        <Layout>
+          <Header />
+          <main>{getLayout(<Component {...pageProps} />)}</main>
+          <PageScroll />
+          <Footer />
+        </Layout>
+      </StyledProvider>
     </>
   );
 }
