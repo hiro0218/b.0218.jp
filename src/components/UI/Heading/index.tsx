@@ -22,7 +22,7 @@ function Heading({
 }: Props) {
   const TitleComponent = useMemo(
     () => (
-      <HeaderTitle id={id} level={as} weight={isWeightNormal}>
+      <HeaderTitle as={as} id={id} level={as} weight={isWeightNormal}>
         {text}
       </HeaderTitle>
     ),
@@ -58,9 +58,10 @@ const Main = styled.div`
 
 const HeaderTitle = styled.h1<{ weight: boolean; level: Props['as'] }>`
   font-size: ${({ level }) => {
-    return level === 'h1' || level === 'h2' || level === 'h3' ? 'var(--font-size-h4)' : 'var(--font-size-h5)';
+    return level === 'h1' || level === 'h2' ? 'var(--font-size-h4)' : 'var(--font-size-h5)';
   }};
   font-weight: ${({ weight }) => (weight ? 'var(--font-weight-bold)' : 'var(--font-weight-normal)')};
+  line-height: var(--line-height-sm);
   color: var(--text-12);
   overflow-wrap: break-word;
 `;
