@@ -1,4 +1,4 @@
-import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import type { InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 import Script from 'next/script';
 import { useMemo } from 'react';
@@ -20,7 +20,7 @@ import {
 } from '@/pages/[post]/_components';
 
 import { createGetLayout } from '../_layouts/PostPageLayout';
-import { getStaticPathsPost, getStaticPropsPost, type PostPageProps } from './_libs';
+import { getStaticPathsPost, getStaticPropsPost } from './_libs';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -100,6 +100,6 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
 
 PostPage.getLayout = createGetLayout();
 
-export const getStaticPaths: GetStaticPaths = getStaticPathsPost;
+export const getStaticPaths = getStaticPathsPost;
 
-export const getStaticProps: GetStaticProps<PostPageProps> = getStaticPropsPost;
+export const getStaticProps = getStaticPropsPost;
