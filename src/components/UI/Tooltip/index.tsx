@@ -1,7 +1,7 @@
 import { fadeIn } from '@/ui/animation';
 import { easeOutExpo } from '@/ui/foundation/easing';
 import { styled } from '@/ui/styled';
-import { notSrOnly, srOnly } from '@/ui/styled/CssBaseline/Generic';
+import { notSrOnly, srOnly } from '@/ui/styled/CssBaseline/Utilities';
 
 type Props = {
   text: string;
