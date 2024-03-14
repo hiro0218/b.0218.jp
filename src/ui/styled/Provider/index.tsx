@@ -1,5 +1,6 @@
+import { CacheProvider, ThemeProvider } from '@emotion/react';
+
 import type createEmotionCache from '@/ui/lib/createEmotionCache';
-import { CacheProvider, ThemeProvider } from '@/ui/styled';
 import { theme } from '@/ui/themes';
 
 type Props = {
