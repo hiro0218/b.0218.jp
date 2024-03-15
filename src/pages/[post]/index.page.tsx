@@ -79,10 +79,8 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
           updated={updated}
         />
         <Stack align="center" direction="horizontal" justify="space-between">
-          <Stack>
-            <Avatar />
-          </Stack>
-          <Stack>{ShareComponent}</Stack>
+          <Avatar />
+          {ShareComponent}
         </Stack>
         <PostNote note={note} />
         <PostContent content={content} />
