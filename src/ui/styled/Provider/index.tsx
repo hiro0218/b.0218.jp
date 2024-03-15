@@ -1,10 +1,11 @@
 import { CacheProvider, ThemeProvider } from '@emotion/react';
+import type { ReactNode } from 'react';
 
 import type createEmotionCache from '@/ui/lib/createEmotionCache';
 import { theme } from '@/ui/themes';
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
   emotionCache: ReturnType<typeof createEmotionCache>;
 };
 
