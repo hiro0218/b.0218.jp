@@ -134,27 +134,8 @@
     "unist-util-visit": "5.0.0"
   },
   "overrides": {
-    "array-includes": "npm:@nolyfill/array-includes@latest",
-    "array.prototype.findlastindex": "npm:@nolyfill/array.prototype.findlastindex@latest",
-    "array.prototype.flat": "npm:@nolyfill/array.prototype.flat@latest",
-    "array.prototype.flatmap": "npm:@nolyfill/array.prototype.flatmap@latest",
-    "array.prototype.tosorted": "npm:@nolyfill/array.prototype.tosorted@latest",
-    "deep-equal": "npm:@nolyfill/deep-equal@latest",
-    "object-keys": "npm:@nolyfill/object-keys@latest",
-    "object.assign": "npm:@nolyfill/object.assign@latest",
-    "object.entries": "npm:@nolyfill/object.entries@latest",
-    "object.fromentries": "npm:@nolyfill/object.fromentries@latest",
-    "object.hasown": "npm:@nolyfill/object.hasown@latest",
-    "object.values": "npm:@nolyfill/object.values@latest",
-    "string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@latest",
-    "es-iterator-helpers": "npm:@nolyfill/es-iterator-helpers@latest",
-    "has": "npm:@nolyfill/has@latest",
-    "object.groupby": "npm:@nolyfill/object.groupby@latest",
-    "function-bind": "npm:@nolyfill/function-bind@latest",
-    "hasown": "npm:@nolyfill/hasown@latest",
-    "isarray": "npm:@nolyfill/isarray@latest",
-    "array.prototype.at": "npm:@nolyfill/array.prototype.at@latest",
-    "string.prototype.at": "npm:@nolyfill/string.prototype.at@latest"
+    "array.prototype.findlast": "npm:@nolyfill/array.prototype.findlast@latest",
+    "array.prototype.toreversed": "npm:@nolyfill/array.prototype.toreversed@latest"
   },
   "prettier": {
     "printWidth": 120,
