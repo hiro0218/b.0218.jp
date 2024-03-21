@@ -36,7 +36,7 @@ const Container = styled(Stack)`
   &::after {
     display: block;
     width: 100%;
-    height: var(--space-1);
+    height: var(--space-½);
     margin-top: var(--space-4);
     color: var(--borders-6);
     content: '';

@@ -1,17 +1,21 @@
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { GoogleAnalytics } from 'nextjs-google-analytics';
 import type { ReactElement, ReactNode } from 'react';
 
-import CssBaseline from '@/components/Functional/CssBaseline';
+import Footer from '@/components/App/Footer';
+import Header from '@/components/App/Header';
 import { AUTHOR_NAME, SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
 import type { EmotionCache } from '@/ui/styled';
-import { CacheProvider, ThemeProvider } from '@/ui/styled';
-import { theme } from '@/ui/themes';
+import CssBaseline from '@/ui/styled/CssBaseline';
+import { StyledProvider } from '@/ui/styled/Provider';
 
-import AppLayout from './_layouts/AppLayout';
+import { Layout } from './_layouts/AppLayout';
+
+const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((module) => module.PageScroll));
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -48,13 +52,17 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
         <meta content={AUTHOR_NAME} name="author" />
       </Head>
 
-      <CacheProvider value={emotionCache}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <GoogleAnalytics trackPageViews={{ ignoreHashChange: true }} />
-          <AppLayout>{getLayout(<Component {...pageProps} />)}</AppLayout>
-        </ThemeProvider>
-      </CacheProvider>
+      <CssBaseline />
+
+      <StyledProvider emotionCache={emotionCache}>
+        <GoogleAnalytics trackPageViews={{ ignoreHashChange: true }} />
+        <Layout>
+          <Header />
+          <main>{getLayout(<Component {...pageProps} />)}</main>
+          <PageScroll />
+          <Footer />
+        </Layout>
+      </StyledProvider>
     </>
   );
 }

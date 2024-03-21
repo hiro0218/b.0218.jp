@@ -1,4 +1,4 @@
-import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import type { InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 import Script from 'next/script';
 import { useMemo } from 'react';
@@ -19,7 +19,8 @@ import {
   SimilarTag,
 } from '@/pages/[post]/_components';
 
-import { getStaticPathsPost, getStaticPropsPost, type PostPageProps } from './_libs';
+import { createGetLayout } from '../_layouts/PostPageLayout';
+import { getStaticPathsPost, getStaticPropsPost } from './_libs';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -78,10 +79,8 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
           updated={updated}
         />
         <Stack align="center" direction="horizontal" justify="space-between">
-          <Stack>
-            <Avatar />
-          </Stack>
-          <Stack>{ShareComponent}</Stack>
+          <Avatar />
+          {ShareComponent}
         </Stack>
         <PostNote note={note} />
         <PostContent content={content} />
@@ -97,6 +96,8 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
   );
 }
 
-export const getStaticPaths: GetStaticPaths = getStaticPathsPost;
+PostPage.getLayout = createGetLayout();
 
-export const getStaticProps: GetStaticProps<PostPageProps> = getStaticPropsPost;
+export const getStaticPaths = getStaticPathsPost;
+
+export const getStaticProps = getStaticPropsPost;

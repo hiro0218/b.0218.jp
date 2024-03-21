@@ -50,7 +50,7 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
 export default PostTag;
 
 export const PostTagAnchorStyle = css`
-  padding: var(--space-1);
+  padding: var(--space-1) var(--space-2);
   line-height: 1;
   color: var(--text-11);
   text-align: center;

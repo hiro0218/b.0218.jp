@@ -1,8 +1,4 @@
-import reset from 'shokika.css/dist/string';
-
 import { css } from '@/ui/styled';
-
-export const SrOnlyClassName = 'sr-only';
 
 /**
  * TailwindCSS の sr-only クラス実装を参考
@@ -32,16 +28,4 @@ export const notSrOnly = css`
   overflow: visible;
   clip: auto;
   white-space: normal;
-`;
-
-export default css`
-  ${reset}
-
-  #__next {
-    min-height: 100%;
-  }
-
-  .${SrOnlyClassName} {
-    ${srOnly}
-  }
 `;

@@ -1,24 +1,11 @@
-import dynamic from 'next/dynamic';
 import type { ReactNode } from 'react';
 
-import Footer from '@/components/App/Footer';
-import Header from '@/components/App/Header';
-import { Container } from '@/components/UI/Layout';
-import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
+import { isDesktop } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
-const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((module) => module.PageScroll));
-
-export default function AppLayout({ children }: { children: ReactNode }) {
-  return (
-    <Root>
-      <Header />
-      <Main as="main">{children}</Main>
-      <PageScroll />
-      <Footer />
-    </Root>
-  );
-}
+export const Layout = ({ children }: { children: ReactNode }) => {
+  return <Root>{children}</Root>;
+};
 
 const Root = styled.div`
   height: 100vh;
@@ -26,13 +13,5 @@ const Root = styled.div`
   ${isDesktop} {
     display: grid;
     grid-template-rows: auto 1fr auto;
-  }
-`;
-
-const Main = styled(Container)`
-  margin: var(--space-3) auto 0;
-
-  ${isMobile} {
-    padding: 0 2rem;
   }
 `;

@@ -7,8 +7,8 @@ import { Children } from 'react';
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { MetaLinkFeed, MetaLinkRelMe } from '@/components/Functional/MetaLink';
 import { GOOGLE_ADSENSE } from '@/constant';
-import { processedCss } from '@/lib/processedCss';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
+import { processedCss } from '@/ui/lib/processedCss';
 
 const HTML_PREFIX_BASE = 'og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#';
 const HTML_PREFIX_ARTICLE = `${HTML_PREFIX_BASE} article: http://ogp.me/ns/article#`;

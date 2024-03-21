@@ -109,4 +109,6 @@ const Tags = styled.div`
 
 const TagItem = styled.span`
   ${PostTagAnchorStyle}
+
+  padding: var(--space-1);
 `;

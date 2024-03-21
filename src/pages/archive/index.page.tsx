@@ -7,6 +7,7 @@ import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPostsListJson } from '@/lib/posts';
 import type { PostListProps } from '@/types/source';
 
+import { createGetLayout } from '../_layouts/ArchivePageLayout';
 import { Chart } from './_components';
 import { divideByYearArchive } from './_libs';
 
@@ -42,3 +43,5 @@ export default function Archive() {
     </>
   );
 }
+
+Archive.getLayout = createGetLayout();

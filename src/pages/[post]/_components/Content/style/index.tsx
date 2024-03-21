@@ -175,6 +175,12 @@ const PostContentStyle = css`
   ${Footnotes}
 
   ${Highlight}
+
+  [data-sandbox] {
+    margin: var(--space-3) auto;
+    border: 1px solid var(--borders-6);
+    border-radius: var(--border-radius-4);
+  }
 `;
 
 export default PostContentStyle;
