@@ -5,7 +5,7 @@ const GfmAlert = css`
     --alert-color: var(--color-alert-note);
 
     border-left: var(--space-½) solid;
-    padding: var(--space-½) var(--space-2);
+    padding: var(--space-1) var(--space-3);
     border-color: var(--alert-color);
 
     .gfm-alert-title {
