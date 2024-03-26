@@ -84,7 +84,7 @@
     "better-typescript-lib": "2.6.0",
     "browserslist": "4.23.0",
     "dependency-cruiser": "16.2.1",
-    "dotenv": "16.3.1",
+    "dotenv": "16.4.5",
     "esbuild": "0.20.2",
     "esbuild-register": "3.5.0",
     "eslint": "8.57.0",
