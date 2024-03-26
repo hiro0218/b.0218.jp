@@ -32,6 +32,15 @@ const nextConfiguration = {
 
   generateBuildId: () => nextBuildId({ dir: __dirname }),
 
+  modularizeImports: {
+    '@radix-ui': {
+      transform: '@radix-ui/{{member}}',
+    },
+    "@emotion": {
+      transform: "@emotion/{{member}}",
+    },
+  },
+
   webpack(config, { webpack, buildId }) {
     // eslint-disable-next-line @next/next/no-assign-module-variable
     const module = config.module || {};
