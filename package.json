@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "@google-analytics/data": "4.4.0",
-    "@hono/node-server": "1.9.0",
+    "@hono/node-server": "1.9.1",
     "@markuplint/jsx-parser": "4.4.0",
     "@markuplint/react-spec": "4.2.0",
     "@next/bundle-analyzer": "14.1.4",
