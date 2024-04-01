@@ -103,7 +103,7 @@
     "husky": "9.0.11",
     "jest": "29.7.0",
     "jsdom": "24.0.0",
-    "markuplint": "4.4.0",
+    "markuplint": "4.5.0",
     "mdast-util-find-and-replace": "3.0.1",
     "nano-staged": "0.8.0",
     "next-build-id": "3.0.0",
