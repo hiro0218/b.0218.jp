@@ -1,4 +1,4 @@
-import type { AriaRole, CSSProperties, ReactNode } from 'react';
+import type { AriaRole, ReactNode } from 'react';
 import { memo, useMemo } from 'react';
 
 import { css, styled } from '@/ui/styled';
@@ -7,7 +7,6 @@ import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
 type Props = {
   as?: keyof JSX.IntrinsicElements;
   gap?: SpaceGap;
-  wrap?: CSSProperties['flexWrap'];
   role?: AriaRole;
   isWide?: boolean;
   children: ReactNode;
@@ -15,8 +14,9 @@ type Props = {
 
 const _Cluster = styled.div<Props>`
   display: flex;
-  flex-wrap: ${({ wrap = 'wrap' }) => wrap};
+  flex-wrap: wrap;
   gap: ${({ gap = '1' }) => `var(--space-${gap})`};
+  justify-content: flex-start;
 
   ${({ isWide = true }) => {
     return (
