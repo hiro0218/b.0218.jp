@@ -5,11 +5,11 @@ import { styled } from '@/ui/styled';
 
 export const Avatar = memo(function Avatar() {
   return (
-    <Stack align="center" direction="horizontal" space="1">
+    <Stack align="center" direction="horizontal" space={1}>
       <IconContainer>
         <img alt="" decoding="async" height="42" src="/hiro0218.svg" width="42" />
       </IconContainer>
-      <Stack as="header" space="1">
+      <Stack as="header" space={1}>
         <Name>hiro</Name>
         <Text>web developer</Text>
       </Stack>

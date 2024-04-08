@@ -12,7 +12,7 @@ function PostNote({ note }: Props) {
   }
 
   return (
-    <Stack as="aside" direction="horizontal" space="2">
+    <Stack as="aside" direction="horizontal" space={2}>
       <InfoCircledIcon height={ICON_SIZE_MD} width={ICON_SIZE_MD} />
       <div dangerouslySetInnerHTML={{ __html: note }} />
     </Stack>

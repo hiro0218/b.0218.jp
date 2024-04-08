@@ -10,7 +10,7 @@ const ICON_SIZE_SHRINK = ICON_SIZE * 0.85;
 
 export const Hero = memo(function Hero() {
   return (
-    <Stack direction="horizontal" space="2">
+    <Stack direction="horizontal" space={2}>
       <Avatar>
         <img alt="hiro" height={ICON_SIZE} src="/hiro0218.svg" width={ICON_SIZE} />
       </Avatar>

@@ -23,7 +23,7 @@ export default function Archive() {
         <link href={`${SITE_URL}/archive`} rel="canonical" />
       </Head>
 
-      <Stack as="article" space="4">
+      <Stack as="article" space={4}>
         <Title heading="Archive" paragraph={`${totalPosts}件の記事`} />
 
         <Chart archives={archives} totalPosts={totalPosts} />

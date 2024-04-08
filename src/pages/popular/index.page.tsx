@@ -19,7 +19,7 @@ export default function Popular() {
         <link href={`${SITE_URL}/popular`} rel="canonical" />
       </Head>
 
-      <Stack as="section" space="4">
+      <Stack as="section" space={4}>
         <Title heading="Popular" paragraph={`${popularPosts.length}件の記事`} />
         <Columns title="注目記事">
           <Stack space="½">

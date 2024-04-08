@@ -12,9 +12,9 @@ type Props = Pick<PostProps, 'title' | 'date' | 'updated' | 'readingTime'> & {
 
 function PostHeader({ title, date, updated, readingTime, tagsWithCount }: Props) {
   return (
-    <Container as="header" space="2">
+    <Container as="header" space={2}>
       <h1 dangerouslySetInnerHTML={{ __html: title }}></h1>
-      <Stack space="1">
+      <Stack space={1}>
         <Item>
           <PostDate date={date} updated={updated} />
           <Separator aria-hidden="true">•</Separator>

@@ -20,7 +20,7 @@ export default function Tags({ title, posts }: Props) {
         <title key="title">{`${pageTitle}: ${title} - ${SITE_NAME}`}</title>
       </Head>
 
-      <Stack as="section" space="4">
+      <Stack as="section" space={4}>
         <Title heading={pageTitle} paragraph={`${posts.length}件の記事`} />
 
         <Columns title={title}>

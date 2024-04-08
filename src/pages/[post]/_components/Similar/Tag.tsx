@@ -13,7 +13,7 @@ function TagSimilar({ tags }: Props) {
   }
 
   return (
-    <Stack as="aside" space="2">
+    <Stack as="aside" space={2}>
       <Heading as="h2" text="関連タグ" />
       <Stack>
         <SimpleGrid isWide={false}>

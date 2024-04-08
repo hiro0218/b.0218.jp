@@ -2,10 +2,11 @@ import type { AriaRole, CSSProperties, ReactNode } from 'react';
 import { memo, useMemo } from 'react';
 
 import { css, styled } from '@/ui/styled';
+import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
 
 type Props = {
   as?: keyof JSX.IntrinsicElements;
-  gap?: '½' | '1' | '2' | '3' | '4' | '5' | '6';
+  gap?: SpaceGap;
   wrap?: CSSProperties['flexWrap'];
   role?: AriaRole;
   isWide?: boolean;

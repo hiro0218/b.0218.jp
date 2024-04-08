@@ -3,10 +3,11 @@ import { memo, useMemo } from 'react';
 
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
+import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
 
 type Props = {
   as?: keyof JSX.IntrinsicElements;
-  gap?: '½' | '1' | '2' | '3' | '4' | '5' | '6';
+  gap?: SpaceGap;
   role?: AriaRole;
   children: ReactNode;
 };

@@ -35,12 +35,12 @@ export default function Index() {
 
       <SrOnly as="h1" text="トップページ" />
 
-      <Stack space="5">
+      <Stack space={5}>
         <Stack as="section">
           <Hero />
         </Stack>
 
-        <Stack as="section" space="4">
+        <Stack as="section" space={4}>
           <Stack>
             <TitleSection href="/archive" text="記事" />
             <TitleSection as="h3" isBold={false} text="最新記事" />

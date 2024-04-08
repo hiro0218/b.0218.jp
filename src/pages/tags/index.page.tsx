@@ -18,7 +18,7 @@ export default function Tags() {
         <link href={`${SITE_URL}/tags`} rel="canonical" />
       </Head>
 
-      <Stack space="4">
+      <Stack space={4}>
         <Title heading="Tags" paragraph={`${tags.length}件のタグ`} />
         <Stack>
           <SimpleGrid>
