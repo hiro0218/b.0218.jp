@@ -13,7 +13,7 @@ type Props = {
   children: ReactNode;
 };
 
-const GridRoot = styled.div<Props>`
+const _Cluster = styled.div<Props>`
   display: flex;
   flex-wrap: ${({ wrap = 'wrap' }) => wrap};
   gap: ${({ gap = '1' }) => `var(--space-${gap})`};
@@ -31,12 +31,12 @@ const GridRoot = styled.div<Props>`
   }};
 `;
 
-export const SimpleGrid = memo(function Grid({ as = 'div', children, ...props }: Props) {
-  const MemoizedGridRoot = useMemo(() => GridRoot.withComponent(as), [as]);
+export const Cluster = memo(function Grid({ as = 'div', children, ...props }: Props) {
+  const MemoizedCluster = useMemo(() => _Cluster.withComponent(as), [as]);
 
   return (
-    <MemoizedGridRoot as={as} {...props}>
+    <MemoizedCluster as={as} {...props}>
       {children}
-    </MemoizedGridRoot>
+    </MemoizedCluster>
   );
 });

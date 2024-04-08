@@ -1,5 +1,5 @@
 import Heading from '@/components/UI/Heading';
-import { SimpleGrid, Stack } from '@/components/UI/Layout';
+import { Cluster, Stack } from '@/components/UI/Layout';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag from '@/components/UI/Tag';
 
@@ -16,9 +16,9 @@ function TagSimilar({ tags }: Props) {
     <Stack as="aside" space={2}>
       <Heading as="h2" text="関連タグ" />
       <Stack>
-        <SimpleGrid isWide={false}>
+        <Cluster isWide={false}>
           <PostTag tags={tags} />
-        </SimpleGrid>
+        </Cluster>
       </Stack>
     </Stack>
   );
