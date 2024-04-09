@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import { Columns, Stack } from '@/components/UI/Layout';
+import { Sidebar, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
@@ -21,13 +21,14 @@ export default function Popular() {
 
       <Stack as="section" space={4}>
         <Title heading="Popular" paragraph={`${popularPosts.length}件の記事`} />
-        <Columns title="注目記事">
+        <Sidebar>
+          <Sidebar.title>注目記事</Sidebar.title>
           <Stack space="½">
             {popularPosts.map(({ date, slug, tags, title, updated }) => (
               <LinkCard date={date} key={slug} link={`${slug}.html`} tags={tags} title={title} updated={updated} />
             ))}
           </Stack>
-        </Columns>
+        </Sidebar>
       </Stack>
     </>
   );

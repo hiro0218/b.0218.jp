@@ -1,7 +1,7 @@
 import type { InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
 
-import { Columns, Stack } from '@/components/UI/Layout';
+import { Sidebar, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME } from '@/constant';
@@ -23,13 +23,14 @@ export default function Tags({ title, posts }: Props) {
       <Stack as="section" space={4}>
         <Title heading={pageTitle} paragraph={`${posts.length}件の記事`} />
 
-        <Columns title={title}>
+        <Sidebar>
+          <Sidebar.title>{title}</Sidebar.title>
           <Stack space="½">
             {posts.map(({ date, slug, title, updated }) => (
               <LinkCard date={date} key={slug} link={`/${slug}.html`} title={title} updated={updated} />
             ))}
           </Stack>
-        </Columns>
+        </Sidebar>
       </Stack>
     </>
   );
