@@ -30,16 +30,26 @@ export default function Archive() {
 
         {Object.keys(archives)
           .reverse()
-          .map((year) => (
-            <Sidebar key={year}>
-              <Sidebar.title>{`${year}年`}</Sidebar.title>
-              <Stack space="½">
-                {archives[year].map(({ slug, title, date, updated, tags }: PostListProps) => (
-                  <LinkCard date={date} key={slug} link={`/${slug}.html`} tags={tags} title={title} updated={updated} />
-                ))}
-              </Stack>
-            </Sidebar>
-          ))}
+          .map((year) => {
+            const currentYear = `${year}年`;
+            return (
+              <Sidebar key={year}>
+                <Sidebar.title id={currentYear}>{currentYear}</Sidebar.title>
+                <Stack space="½">
+                  {archives[year].map(({ slug, title, date, updated, tags }: PostListProps) => (
+                    <LinkCard
+                      date={date}
+                      key={slug}
+                      link={`/${slug}.html`}
+                      tags={tags}
+                      title={title}
+                      updated={updated}
+                    />
+                  ))}
+                </Stack>
+              </Sidebar>
+            );
+          })}
       </Stack>
     </>
   );

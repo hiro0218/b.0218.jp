@@ -11,6 +11,7 @@ type Props = {
 };
 
 type TitleProps = {
+  id?: string;
   tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   children: ReactNode;
 };
@@ -60,10 +61,12 @@ const SidebarHeading = styled.h2<Props>`
 /**
  * Used with the sidebar
  */
-Sidebar.title = ({ tag = 'h2', children }: TitleProps) => {
+Sidebar.title = ({ id, tag = 'h2', children }: TitleProps) => {
   return (
     <SidebarTitleContainer>
-      <SidebarHeading as={tag}>{children}</SidebarHeading>
+      <SidebarHeading as={tag} id={id}>
+        {children}
+      </SidebarHeading>
     </SidebarTitleContainer>
   );
 };
