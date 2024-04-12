@@ -3,10 +3,11 @@ import { memo, useMemo } from 'react';
 
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
+import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
 
 type Props = {
   as?: keyof JSX.IntrinsicElements;
-  gap?: '½' | '1' | '2' | '3' | '4' | '5' | '6';
+  gap?: SpaceGap;
   role?: AriaRole;
   children: ReactNode;
 };
@@ -24,14 +25,10 @@ export const Grid = memo(function Grid({ as = 'div', role, children, ...props }:
 const GridRoot = styled.div<Props>`
   display: grid;
   grid-template-columns: repeat(2, minmax(calc(50% - var(--space-1)), max-content));
-  gap: ${({ gap }) => {
-    return gap ? `var(--space-${gap})` : undefined;
-  }};
+  gap: ${({ gap }) => gap && `var(--space-${gap})`};
 
   ${isMobile} {
     grid-template-columns: minmax(100%, max-content);
-    gap: ${({ gap }) => {
-      return gap ? `var(--space-${gap})` : undefined;
-    }};
+    gap: ${({ gap }) => gap && `var(--space-${gap})`};
   }
 `;

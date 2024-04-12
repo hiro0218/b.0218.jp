@@ -32,7 +32,7 @@ function PostShare({ title, url }: Props) {
   return (
     <aside aria-labelledby={labelledbyId}>
       <SrOnly as="h2" id={labelledbyId} text="このページをシェアする" />
-      <Stack direction="horizontal" space="1">
+      <Stack direction="horizontal" space={1}>
         <Anchor
           href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}`}
           rel="noopener noreferrer"

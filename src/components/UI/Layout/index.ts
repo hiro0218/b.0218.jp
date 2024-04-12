@@ -1,4 +1,4 @@
-export { Columns } from './Columns';
+export { Cluster } from './Cluster';
 export { Grid } from './Grid';
-export { SimpleGrid } from './SimpleGrid';
+export { Sidebar } from './Sidebar';
 export { Stack } from './Stack';

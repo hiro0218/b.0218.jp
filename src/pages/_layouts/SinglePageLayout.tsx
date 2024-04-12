@@ -34,7 +34,7 @@ function Layout({ slug, title }: LayoutProps) {
         <title key="title">{`${heading} - ${SITE_NAME}`}</title>
         <link href={`${SITE_URL}/${slug}`} rel="canonical" />
       </Head>
-      <Stack as="article" space="4">
+      <Stack as="article" space={4}>
         <Title heading={heading} paragraph={paragraph} />
         <PostContent content={content} enableMokuji={false} />
       </Stack>

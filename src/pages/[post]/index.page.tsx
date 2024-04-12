@@ -1,4 +1,5 @@
 import type { InferGetStaticPropsType } from 'next';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Script from 'next/script';
 import { useMemo } from 'react';
@@ -14,13 +15,14 @@ import {
   Edit as PostEdit,
   Header as PostHeader,
   Note as PostNote,
-  Share as PostShare,
-  SimilarPost,
-  SimilarTag,
 } from '@/pages/[post]/_components';
 
 import { createGetLayout } from '../_layouts/PostPageLayout';
 import { getStaticPathsPost, getStaticPropsPost } from './_libs';
+
+const PostShare = dynamic(() => import('@/pages/[post]/_components/Share').then((module) => module.default));
+const SimilarPost = dynamic(() => import('@/pages/[post]/_components/Similar').then((module) => module.Post));
+const SimilarTag = dynamic(() => import('@/pages/[post]/_components/Similar').then((module) => module.Tag));
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -70,7 +72,7 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
         />
       </Head>
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
-      <Stack as="article" space="4">
+      <Stack as="article" space={4}>
         <PostHeader
           date={date}
           readingTime={readingTime}

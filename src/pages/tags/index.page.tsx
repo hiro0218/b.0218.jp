@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import { SimpleGrid, Stack } from '@/components/UI/Layout';
+import { Cluster, Stack } from '@/components/UI/Layout';
 import PostTag from '@/components/UI/Tag';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
@@ -18,12 +18,12 @@ export default function Tags() {
         <link href={`${SITE_URL}/tags`} rel="canonical" />
       </Head>
 
-      <Stack space="4">
+      <Stack space={4}>
         <Title heading="Tags" paragraph={`${tags.length}件のタグ`} />
         <Stack>
-          <SimpleGrid>
+          <Cluster>
             <PostTag hasRelTag={false} tags={tags} />
-          </SimpleGrid>
+          </Cluster>
         </Stack>
       </Stack>
     </>

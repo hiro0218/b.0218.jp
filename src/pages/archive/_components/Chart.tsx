@@ -66,8 +66,8 @@ const Item = styled(Anchor)`
 
   ${isMobile} {
     --direction: to right;
-    width: 100%;
 
+    width: 100%;
     padding: var(--space-1) var(--space-½);
     font-size: var(--font-size-sm);
   }

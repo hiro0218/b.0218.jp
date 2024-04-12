@@ -5,5 +5,5 @@ export const getPermalink = (slug: string) => {
 };
 
 export const getOgpImage = (slug: string) => {
-  return `${SITE_URL}/images/ogp/${slug}.webp`;
+  return `${SITE_URL}/images/ogp/${slug}.png`;
 };

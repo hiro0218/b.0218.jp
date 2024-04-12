@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import { Columns, Stack } from '@/components/UI/Layout';
+import { Sidebar, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
@@ -23,22 +23,33 @@ export default function Archive() {
         <link href={`${SITE_URL}/archive`} rel="canonical" />
       </Head>
 
-      <Stack as="article" space="4">
+      <Stack as="article" space={4}>
         <Title heading="Archive" paragraph={`${totalPosts}件の記事`} />
 
         <Chart archives={archives} totalPosts={totalPosts} />
 
         {Object.keys(archives)
           .reverse()
-          .map((year) => (
-            <Columns key={year} title={`${year}年`}>
-              <Stack space="½">
-                {archives[year].map(({ slug, title, date, updated, tags }: PostListProps) => (
-                  <LinkCard date={date} key={slug} link={`/${slug}.html`} tags={tags} title={title} updated={updated} />
-                ))}
-              </Stack>
-            </Columns>
-          ))}
+          .map((year) => {
+            const currentYear = `${year}年`;
+            return (
+              <Sidebar key={year}>
+                <Sidebar.Title id={currentYear}>{currentYear}</Sidebar.Title>
+                <Stack space="½">
+                  {archives[year].map(({ slug, title, date, updated, tags }: PostListProps) => (
+                    <LinkCard
+                      date={date}
+                      key={slug}
+                      link={`/${slug}.html`}
+                      tags={tags}
+                      title={title}
+                      updated={updated}
+                    />
+                  ))}
+                </Stack>
+              </Sidebar>
+            );
+          })}
       </Stack>
     </>
   );

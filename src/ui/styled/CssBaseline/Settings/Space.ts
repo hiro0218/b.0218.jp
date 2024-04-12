@@ -3,6 +3,20 @@ import { css } from '@/ui/styled';
 
 export const SPACING_BASE_PX = 8;
 
+export type SpaceGap = '½' | 1 | 2 | 3 | 4 | 5 | 6;
+type SpaceKey = `--space-${SpaceGap}`;
+type SpaceValue = `${number}rem`;
+
+const SPACE_KEYS: SpaceKey[] = [
+  '--space-½',
+  '--space-1',
+  '--space-2',
+  '--space-3',
+  '--space-4',
+  '--space-5',
+  '--space-6',
+] as const;
+
 /**
  * use fibonacci sequence
  */
@@ -13,15 +27,19 @@ const generateSpace = (n: number): number => {
   return generateSpace(n - 1) + generateSpace(n - 2);
 };
 
+/**
+ * space
+ * 4, 8, 16, 24, 40, 64, 104
+ * @example { '--space-½': '0.25rem', '--space-1': '0.5rem', ... }
+ */
+export const SPACE_STEPS: Record<SpaceKey, SpaceValue> = Object.fromEntries(
+  SPACE_KEYS.map((space, index) => {
+    const radix = index === 0 ? 0.5 : generateSpace(index);
+    const value = pxToRem(SPACING_BASE_PX * radix);
+    return [space, value];
+  }),
+);
+
 export default css`
-  /**
-   * space
-   */
-  --space-½: ${pxToRem(SPACING_BASE_PX * 0.5)}; // 4
-  --space-1: ${pxToRem(SPACING_BASE_PX * generateSpace(1))}; // 8
-  --space-2: ${pxToRem(SPACING_BASE_PX * generateSpace(2))}; // 16
-  --space-3: ${pxToRem(SPACING_BASE_PX * generateSpace(3))}; // 24
-  --space-4: ${pxToRem(SPACING_BASE_PX * generateSpace(4))}; // 40
-  --space-5: ${pxToRem(SPACING_BASE_PX * generateSpace(5))}; // 64
-  --space-6: ${pxToRem(SPACING_BASE_PX * generateSpace(6))}; // 104
+  ${Object.entries(SPACE_STEPS).map(([key, value]: [SpaceKey, SpaceValue]) => `${key}: ${value};`)}
 `;

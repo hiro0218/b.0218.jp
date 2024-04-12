@@ -5,7 +5,13 @@ import { GOOGLE_ADSENSE } from '@/constant';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
-export function Adsense() {
+type Size = {
+  adsWidth?: number;
+  adsHeight?: number;
+};
+type Props = Size;
+
+export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
   const pathname = usePathname();
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -29,7 +35,7 @@ export function Adsense() {
    */
   return (
     <Container aria-label="スポンサーリンク" key={pathname}>
-      <Ads>
+      <Ads adsHeight={adsHeight} adsWidth={adsWidth}>
         <Ins />
       </Ads>
     </Container>
@@ -61,9 +67,9 @@ const Container = styled.aside`
   }
 `;
 
-const Ads = styled.div`
-  min-width: 336px;
-  height: 280px;
+const Ads = styled.div<Size>`
+  min-width: ${({ adsWidth }) => adsWidth}px;
+  height: ${({ adsHeight }) => adsHeight}px;
   background-color: ${() => process.env.NODE_ENV === 'development' && 'var(--component-backgrounds-3)'};
 
   ${isMobile} {

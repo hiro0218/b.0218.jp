@@ -1,14 +1,15 @@
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 
-import { SimpleGrid, Stack } from '@/components/UI/Layout';
-import PostTag from '@/components/UI/Tag';
+import { Cluster, Stack } from '@/components/UI/Layout';
 import { AUTHOR_ICON, SITE_URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
 import { Hero, PostSection, TitleSection } from '@/pages/_components/home';
 import { createGetLayout } from '@/pages/_layouts/TopPageLayout';
 
 import { getData } from './_libs';
+
+const PostTag = dynamic(() => import('@/components/UI/Tag').then((module) => module.default));
 
 const SrOnly = dynamic(() =>
   import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),
@@ -34,12 +35,12 @@ export default function Index() {
 
       <SrOnly as="h1" text="トップページ" />
 
-      <Stack space="5">
+      <Stack space={5}>
         <Stack as="section">
           <Hero />
         </Stack>
 
-        <Stack as="section" space="4">
+        <Stack as="section" space={4}>
           <Stack>
             <TitleSection href="/archive" text="記事" />
             <TitleSection as="h3" isBold={false} text="最新記事" />
@@ -57,9 +58,9 @@ export default function Index() {
 
         <Stack as="section">
           <TitleSection href="/tags" text="タグ" />
-          <SimpleGrid>
+          <Cluster>
             <PostTag tags={tags} />
-          </SimpleGrid>
+          </Cluster>
         </Stack>
       </Stack>
     </>

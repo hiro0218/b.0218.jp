@@ -2,7 +2,7 @@ import { BREAKPOINT as MAX_VIEWPORT } from '@/constant';
 
 const BASE_FONT_SIZE = 16;
 
-export const pxToRem = (px: `${number}px` | number) => {
+export const pxToRem = (px: `${number}px` | number): `${number}rem` => {
   const pxNumber = typeof px === 'string' ? Number(px.replace('px', '')) : px;
   return `${pxNumber / BASE_FONT_SIZE}rem`;
 };
