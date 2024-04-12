@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { NamedExoticComponent, ReactNode } from 'react';
 import { Children } from 'react';
 
 import { textEllipsis } from '@/ui/mixin';
@@ -38,7 +38,17 @@ const Container = styled.div<Props>`
   }
 `;
 
-export const Sidebar = ({ children, space }: Props) => {
+const Title = ({ id, tag = 'h2', children }: TitleProps) => {
+  return (
+    <SidebarTitleContainer>
+      <SidebarHeading as={tag} id={id}>
+        {children}
+      </SidebarHeading>
+    </SidebarTitleContainer>
+  );
+};
+
+export const Sidebar = (({ children, space }: Props) => {
   return (
     <Container space={space}>
       {Children.toArray(children).map((child) => {
@@ -46,6 +56,8 @@ export const Sidebar = ({ children, space }: Props) => {
       })}
     </Container>
   );
+}) as NamedExoticComponent<Props> & {
+  Title: typeof Title;
 };
 
 const SidebarTitleContainer = styled.div`
@@ -61,12 +73,4 @@ const SidebarHeading = styled.h2<Props>`
 /**
  * Used with the sidebar
  */
-Sidebar.title = ({ id, tag = 'h2', children }: TitleProps) => {
-  return (
-    <SidebarTitleContainer>
-      <SidebarHeading as={tag} id={id}>
-        {children}
-      </SidebarHeading>
-    </SidebarTitleContainer>
-  );
-};
+Sidebar.Title = Title;

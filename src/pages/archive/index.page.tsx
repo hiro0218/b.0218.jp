@@ -34,7 +34,7 @@ export default function Archive() {
             const currentYear = `${year}年`;
             return (
               <Sidebar key={year}>
-                <Sidebar.title id={currentYear}>{currentYear}</Sidebar.title>
+                <Sidebar.Title id={currentYear}>{currentYear}</Sidebar.Title>
                 <Stack space="½">
                   {archives[year].map(({ slug, title, date, updated, tags }: PostListProps) => (
                     <LinkCard

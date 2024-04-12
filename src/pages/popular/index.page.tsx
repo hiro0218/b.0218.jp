@@ -22,7 +22,7 @@ export default function Popular() {
       <Stack as="section" space={4}>
         <Title heading="Popular" paragraph={`${popularPosts.length}件の記事`} />
         <Sidebar>
-          <Sidebar.title>注目記事</Sidebar.title>
+          <Sidebar.Title>注目記事</Sidebar.Title>
           <Stack space="½">
             {popularPosts.map(({ date, slug, tags, title, updated }) => (
               <LinkCard date={date} key={slug} link={`${slug}.html`} tags={tags} title={title} updated={updated} />

@@ -24,7 +24,7 @@ export default function Tags({ title, posts }: Props) {
         <Title heading={pageTitle} paragraph={`${posts.length}件の記事`} />
 
         <Sidebar>
-          <Sidebar.title>{title}</Sidebar.title>
+          <Sidebar.Title>{title}</Sidebar.Title>
           <Stack space="½">
             {posts.map(({ date, slug, title, updated }) => (
               <LinkCard date={date} key={slug} link={`/${slug}.html`} title={title} updated={updated} />
