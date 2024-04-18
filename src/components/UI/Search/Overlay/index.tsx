@@ -20,7 +20,7 @@ const Div = styled.div`
     opacity 0.4s ease,
     visibility 0.4s ease;
 
-  dialog[open] + & {
+  dialog[open] ~ & {
     visibility: visible;
     opacity: 1;
     content-visibility: hidden;
