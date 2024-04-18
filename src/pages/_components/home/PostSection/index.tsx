@@ -8,7 +8,7 @@ type Props = {
 
 export const PostSection = ({ posts }: Props) => {
   return (
-    <Grid gap={1}>
+    <Grid>
       {posts.map(({ date, slug, tags, title, updated }) => (
         <LinkCard
           date={date}
