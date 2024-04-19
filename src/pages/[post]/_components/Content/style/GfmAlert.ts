@@ -7,6 +7,7 @@ const GfmAlert = css`
     border-left: var(--space-½) solid;
     padding: var(--space-1) var(--space-3);
     border-color: var(--alert-color);
+    line-height: var(--line-height-md);
 
     .gfm-alert-title {
       display: inline-flex;
