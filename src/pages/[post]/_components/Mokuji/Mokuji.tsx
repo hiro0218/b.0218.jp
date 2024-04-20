@@ -14,9 +14,8 @@ function Mokuji({ refContent }: MokujiProps) {
   const refDetails = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {
-    if (!refDetails.current || !refDetailContent.current) {
-      return;
-    }
+    if (!refDetails.current) return;
+    if (!refDetailContent.current) return;
 
     const accordion = new DetailsAccordion(refDetails.current, refDetailContent.current);
 

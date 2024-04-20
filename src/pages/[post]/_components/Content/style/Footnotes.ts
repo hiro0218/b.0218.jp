@@ -8,6 +8,20 @@ const Footnotes = css`
     color: var(--text-11);
     border-top: 1px solid var(--borders-6);
 
+    li {
+      counter-increment: steps;
+      padding-left: var(--space-½);
+
+      &::marker {
+        letter-spacing: 1px;
+        content: '[' counter(steps) ']';
+      }
+
+      & + li {
+        margin-top: var(--space-1);
+      }
+    }
+
     p,
     h2 {
       margin: auto;
