@@ -30,6 +30,7 @@ export default css`
 
     &:has(dialog[open]) {
       overflow: hidden;
+      padding-inline-end: var(--scrollbar-width, 0); // workaround for scrollbar gutter
     }
   }
 
