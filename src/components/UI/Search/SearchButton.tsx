@@ -10,7 +10,7 @@ type Props = {
 
 export function SearchButton({ openDialog }: Props) {
   return (
-    <Button aria-label="Search" onClick={openDialog} type="button">
+    <Button aria-haspopup="dialog" aria-label="Search" onClick={openDialog} type="button">
       <MagnifyingGlassIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
     </Button>
   );
