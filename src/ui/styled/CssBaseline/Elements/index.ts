@@ -22,7 +22,6 @@ export default css`
     color: var(--text-12);
     line-break: strict;
     -webkit-font-smoothing: subpixel-antialiased;
-    scroll-behavior: smooth;
 
     @media only screen and (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
       -webkit-font-smoothing: antialiased;
