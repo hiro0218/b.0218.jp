@@ -8,7 +8,8 @@ module.exports = {
   },
   extends: [
     'next/core-web-vitals',
-    'plugin:import/recommended',
+    'plugin:import-x/recommended',
+    'plugin:import-x/typescript',
     'plugin:@typescript-eslint/recommended',
     'eslint-config-prettier',
   ],
@@ -22,6 +23,13 @@ module.exports = {
     project: './tsconfig.json',
   },
   plugins: ['import', 'simple-import-sort', '@typescript-eslint', 'unused-imports', 'react-hooks'],
+  settings: {
+    // @see https://github.com/import-js/eslint-import-resolver-typescript#configuration
+    'import-x/resolver': {
+      typescript: true,
+      node: true,
+    },
+  },
   rules: {
     /**
      * eslint
@@ -65,26 +73,26 @@ module.exports = {
     '@typescript-eslint/prefer-string-starts-ends-with': 'error',
 
     /**
-     * eslint-plugin-import
+     * eslint-plugin-import-x
      */
     // インポートがファイルの先頭にあることを確認する
-    'import/first': 'error',
+    'import-x/first': 'error',
     // すべてのインポートがファイルの先頭にあることを確認する
-    'import/newline-after-import': 'error',
+    'import-x/newline-after-import': 'error',
     // 未割り当てのインポートを禁止する
-    'import/no-unassigned-import': 'off',
+    'import-x/no-unassigned-import': 'off',
     // デフォルトエクスポートを禁止する
-    'import/no-default-export': 'off',
+    'import-x/no-default-export': 'off',
     // モジュールが自身への依存パスを持つモジュールをインポートすることを禁止する
-    'import/no-cycle': 'off',
+    'import-x/no-cycle': 'off',
     // ファイルパス内でのファイル拡張子の使用を一貫させる
-    'import/extensions': 'off',
+    'import-x/extensions': 'off',
     // モジュールが単一の名前または複数の名前をエクスポートする場合は、デフォルトエクスポートを優先する
-    'import/prefer-default-export': 'off',
+    'import-x/prefer-default-export': 'off',
     // 同じモジュールの複数箇所での繰り返しインポートを禁止する
-    'import/no-duplicates': ['error', { considerQueryString: true }],
+    'import-x/no-duplicates': ['error', { considerQueryString: true }],
     // 無関係なパッケージの使用を禁止
-    'import/no-extraneous-dependencies': 'error',
+    'import-x/no-extraneous-dependencies': 'error',
 
     /**
      * eslint-plugin-react

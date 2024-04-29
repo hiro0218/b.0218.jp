@@ -8,6 +8,9 @@ import type { ReactElement, ReactNode } from 'react';
 import Footer from '@/components/App/Footer';
 import Header from '@/components/App/Header';
 import { AUTHOR_NAME, SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
+import debounce from '@/lib/debounce';
+import observeScrollbarWidth from '@/lib/observeScrollbarWidth';
+import smoothScroll from '@/lib/smoothScroll';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
 import type { EmotionCache } from '@/ui/styled';
 import CssBaseline from '@/ui/styled/CssBaseline';
@@ -25,6 +28,12 @@ type MyAppProps = AppProps & {
   emotionCache?: EmotionCache;
   Component: NextPageWithLayout;
 };
+
+if (typeof window !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => smoothScroll());
+  window.addEventListener('load', observeScrollbarWidth);
+  window.addEventListener('resize', debounce(observeScrollbarWidth));
+}
 
 const clientSideEmotionCache = createEmotionCache();
 
