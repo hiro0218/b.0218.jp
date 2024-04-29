@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import matter from 'gray-matter';
+import { read as matterRead } from 'gray-matter';
 import readingTime from 'reading-time';
 
 import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
@@ -26,7 +26,7 @@ async function buildPost() {
     const file = files[i];
 
     // front matter を取得
-    const post = matter.read(`${PATH.SRC}/_posts/${file}`);
+    const post = matterRead(`${PATH.SRC}/_posts/${file}`);
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { title, date, updated, note, tags, noindex } = post.data as PostProps;
 
@@ -135,7 +135,7 @@ async function buildPage() {
     const file = files[i];
 
     // front matter を取得
-    const page = matter.read(`${PATH.SRC}/${file}`);
+    const page = matterRead(`${PATH.SRC}/${file}`);
     const { title, date, updated } = page.data as PageProps;
     const content = await markdownToHtmlString(page.content);
 
