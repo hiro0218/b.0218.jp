@@ -3,6 +3,9 @@ name: Weekly NPM Update
 on:
   schedule:
     - cron: '0 9 * * 1'
+  push:
+    branches:
+      - automated-npm-update
   workflow_dispatch:
 
 permissions:
