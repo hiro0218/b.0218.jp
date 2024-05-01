@@ -1,9 +1,7 @@
-const postcss = require('postcss');
-
 /**
  * :hoverを含むセレクタを`@media (hover: hover)`でラップする
  *
- * @typedef {Object} PluginOptions
+ * @type {import('postcss').PluginCreator}
  * @returns {Object} - PostCSS plugin object.
  */
 module.exports = () => {
@@ -11,8 +9,9 @@ module.exports = () => {
     postcssPlugin: 'postcss-media-hover-any-hover',
     /**
      * @param {import('postcss').Root} root - PostCSS root node.
+     * @param {import('postcss').Result} postcss - PostCSS result object.
      */
-    Once(root) {
+    Once(root, { AtRule }) {
       /** @param {import('postcss').Rule} rule - PostCSS rule node. */
       root.walkRules((rule) => {
         const { selectors } = rule;
@@ -39,7 +38,7 @@ module.exports = () => {
         }
 
         // hoverセレクタをラップする@mediaルールを作成
-        const atRule = postcss.atRule({ name: 'media', params: '(hover: hover)' });
+        const atRule = new AtRule({ name: 'media', params: '(hover: hover)' });
 
         // 非hoverセレクタがある場合、ルールを複製してhover @mediaを前に追加
         // それ以外の場合、ルールを@mediaブロックで置き換える
