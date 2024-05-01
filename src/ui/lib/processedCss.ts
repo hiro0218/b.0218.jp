@@ -5,6 +5,8 @@ import postcssSortMediaQueries from 'postcss-sort-media-queries';
 
 import packageJson from '@/../package.json';
 
+import postcssMediaHoverAnyHover from './postcss-media-hover-any-hover';
+
 export const processedCss = (css: string) => {
   const result = postcss([
     postcssLightningcss({
@@ -19,6 +21,7 @@ export const processedCss = (css: string) => {
     }),
     postcssSortMediaQueries(),
     combineSelectors({ removeDuplicatedProperties: true }),
+    postcssMediaHoverAnyHover(),
   ]).process(css).css;
 
   return result;
