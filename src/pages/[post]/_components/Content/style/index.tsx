@@ -112,6 +112,13 @@ const PostContentStyle = css`
     padding: var(--space-3);
     color: var(--text-11);
     border-left: 0.25rem solid var(--borders-6);
+
+    cite {
+      display: block;
+      font-size: var(--font-size-xs);
+      line-height: var(--line-height-sm);
+      color: var(--text-11);
+    }
   }
 
   iframe {
