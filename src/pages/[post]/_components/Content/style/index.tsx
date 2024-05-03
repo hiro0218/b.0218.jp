@@ -83,6 +83,19 @@ const PostContentStyle = css`
 
   ${Headings}
 
+  blockquote {
+    padding: var(--space-3);
+    color: var(--text-11);
+    border-left: 0.25rem solid var(--borders-6);
+
+    cite {
+      display: block;
+      font-size: var(--font-size-xs);
+      line-height: var(--line-height-sm);
+      color: var(--text-11);
+    }
+  }
+
   ul,
   ol {
     padding-inline-start: var(--space-3);
@@ -103,21 +116,12 @@ const PostContentStyle = css`
       margin-block-start: 0;
     }
 
+    blockquote {
+      margin-top: var(--space-1);
+    }
+
     ul:last-of-type {
       margin-block-end: var(--space-1);
-    }
-  }
-
-  blockquote {
-    padding: var(--space-3);
-    color: var(--text-11);
-    border-left: 0.25rem solid var(--borders-6);
-
-    cite {
-      display: block;
-      font-size: var(--font-size-xs);
-      line-height: var(--line-height-sm);
-      color: var(--text-11);
     }
   }
 
