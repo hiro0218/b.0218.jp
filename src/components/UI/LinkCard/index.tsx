@@ -24,7 +24,7 @@ function LinkCard({ link, title, date, updated, excerpt, tags, role, titleTagNam
   return (
     <Container role={role}>
       <PostDate date={date} updated={updated} />
-      <Anchor href={link} passHref prefetch={false}>
+      <Anchor href={link} prefetch={false}>
         <Title as={titleTagName}>{title}</Title>
       </Anchor>
       {!!excerpt && <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>{excerpt}</Paragraph>}

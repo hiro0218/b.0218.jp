@@ -33,7 +33,6 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
         <TagAnchor
           href={`/tags/${slug}`}
           key={slug}
-          passHref={true}
           title={`${slug} (${count})`}
           {...(hasRelTag && {
             rel: 'tag',
