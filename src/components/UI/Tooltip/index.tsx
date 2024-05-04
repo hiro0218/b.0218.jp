@@ -17,7 +17,7 @@ export const Tooltip = ({ text }: Props) => {
 
 const Container = styled.span`
   position: absolute;
-  z-index: 1;
+  z-index: var(--zIndex-base);
   width: 100%;
   height: 100%;
   user-select: none;
