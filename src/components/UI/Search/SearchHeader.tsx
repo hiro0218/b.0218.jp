@@ -61,7 +61,7 @@ const SubmitButton = styled.button`
   right: var(--space-1);
   padding: var(--space-½) var(--space-1);
   font-size: var(--font-size-xs);
-  line-height: 1;
+  line-height: var(--line-height-xs);
   color: var(--text-11);
   white-space: nowrap;
   background-color: var(--component-backgrounds-3);

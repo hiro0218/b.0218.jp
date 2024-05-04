@@ -61,7 +61,7 @@ const Container = styled.article`
 
   time {
     font-size: var(--font-size-sm);
-    line-height: 1.1;
+    line-height: var(--line-height-xs);
     color: var(--text-11);
   }
 `;

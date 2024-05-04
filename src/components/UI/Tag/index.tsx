@@ -50,7 +50,7 @@ export default PostTag;
 
 export const PostTagAnchorStyle = css`
   padding: var(--space-1) var(--space-2);
-  line-height: 1;
+  line-height: var(--line-height-xs);
   color: var(--text-11);
   text-align: center;
   white-space: nowrap;

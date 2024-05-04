@@ -39,7 +39,7 @@ const Container = styled.span`
 
       position: absolute;
       padding: var(--space-½) var(--space-1);
-      line-height: 1.5;
+      line-height: var(--line-height-md);
       color: var(--dark-foregrounds);
       white-space: nowrap;
       pointer-events: none;
