@@ -17,7 +17,7 @@ export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
 
   return (
     <Underline>
-      <Header isMounted={isMounted} isShown={isHeaderShown}>
+      <Header data-floating isMounted={isMounted} isShown={isHeaderShown}>
         {children}
       </Header>
       <WaveTop />

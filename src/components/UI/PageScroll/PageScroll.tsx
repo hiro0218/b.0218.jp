@@ -9,7 +9,7 @@ import { styled } from '@/ui/styled';
  */
 export const PageScroll = () => {
   return (
-    <Container>
+    <Container data-floating>
       <Button aria-label="ページの最上部へスクロールする" href="#">
         <ArrowUpIcon height={ICON_SIZE_MD} width={ICON_SIZE_MD} />
       </Button>
