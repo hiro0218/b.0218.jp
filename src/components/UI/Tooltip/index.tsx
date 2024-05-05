@@ -17,7 +17,7 @@ export const Tooltip = ({ text }: Props) => {
 
 const Container = styled.span`
   position: absolute;
-  z-index: 1;
+  z-index: var(--zIndex-base);
   width: 100%;
   height: 100%;
   user-select: none;
@@ -39,7 +39,7 @@ const Container = styled.span`
 
       position: absolute;
       padding: var(--space-½) var(--space-1);
-      line-height: 1.5;
+      line-height: var(--line-height-md);
       color: var(--dark-foregrounds);
       white-space: nowrap;
       pointer-events: none;

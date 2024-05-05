@@ -37,7 +37,6 @@ const Result = memo(function Result({
             dangerouslySetInnerHTML={{ __html: markedTitles[index] }}
             href={`/${slug}.html`}
             key={slug}
-            passHref
             prefetch
           />
         );

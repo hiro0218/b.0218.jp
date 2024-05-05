@@ -9,7 +9,7 @@ import { styled } from '@/ui/styled';
  */
 export const PageScroll = () => {
   return (
-    <Container>
+    <Container data-floating>
       <Button aria-label="ページの最上部へスクロールする" href="#">
         <ArrowUpIcon height={ICON_SIZE_MD} width={ICON_SIZE_MD} />
       </Button>
@@ -21,7 +21,7 @@ const Container = styled.div`
   position: fixed;
   right: var(--space-2);
   bottom: var(--space-2);
-  z-index: 1;
+  z-index: var(--zIndex-base);
 
   ${isMobile} {
     right: var(--space-1);

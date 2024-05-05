@@ -19,9 +19,9 @@ type Props = {
 } & LinkProps &
   ContentProp;
 
-export function Anchor({ href, prefetch = false, passHref, title = undefined, children, ...rest }: Props) {
+export function Anchor({ href, prefetch = false, title = undefined, children, ...rest }: Props) {
   return (
-    <Link href={href} {...(!prefetch && { prefetch: false })} passHref={passHref} title={title} {...rest}>
+    <Link href={href} {...(!prefetch && { prefetch: false })} title={title} {...rest}>
       {children}
     </Link>
   );

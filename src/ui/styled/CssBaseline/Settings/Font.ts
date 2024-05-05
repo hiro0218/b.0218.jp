@@ -40,6 +40,7 @@ export default css`
   /**
    * Line Height
    */
+  --line-height-xs: 1.2;
   --line-height-sm: 1.4;
   --line-height-md: 1.6;
   --line-height-lg: 1.8;

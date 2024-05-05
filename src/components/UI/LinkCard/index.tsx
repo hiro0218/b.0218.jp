@@ -24,7 +24,7 @@ function LinkCard({ link, title, date, updated, excerpt, tags, role, titleTagNam
   return (
     <Container role={role}>
       <PostDate date={date} updated={updated} />
-      <Anchor href={link} passHref prefetch={false}>
+      <Anchor href={link} prefetch={false}>
         <Title as={titleTagName}>{title}</Title>
       </Anchor>
       {!!excerpt && <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>{excerpt}</Paragraph>}
@@ -61,7 +61,7 @@ const Container = styled.article`
 
   time {
     font-size: var(--font-size-sm);
-    line-height: 1.1;
+    line-height: var(--line-height-xs);
     color: var(--text-11);
   }
 `;
@@ -71,7 +71,7 @@ const Anchor = styled(_Anchor)`
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: var(--zIndex-base);
     width: 100%;
     height: 100%;
     cursor: pointer;
