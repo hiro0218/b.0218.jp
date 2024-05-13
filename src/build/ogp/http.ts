@@ -19,22 +19,15 @@ const DUMMY_TITLE =
 
 const publicDirectoryPath = path.resolve(__dirname, '../../../public');
 
+const templateStyle = fs.readFileSync(path.join(__dirname, 'template.css'), 'utf-8');
 const template = fs.readFileSync(path.join(__dirname, 'template.html'), 'utf-8');
 const backgroundImageBuffer = fs.readFileSync(path.join(publicDirectoryPath, 'hiro0218_screen.png'));
 
 app.get('/', (c) => {
   c.header('Cache-Control', 'public, max-age=31536000');
-  const title = c.req.query('title');
+  const title = c.req.query('title') ?? DUMMY_TITLE;
 
-  if (!title) {
-    return c.html(template);
-  }
-
-  const modifiedContent = template.replace(
-    '{{title}}',
-    title.replace(/</g, '&lt;').replace(/>/g, '&gt;') ?? DUMMY_TITLE,
-  );
-  return c.html(modifiedContent);
+  return c.html(template.replace('{{title}}', title.replace(/</g, '&lt;').replace(/>/g, '&gt;')));
 });
 
 app.get('/hiro0218_screen.png', (c) => {
@@ -42,6 +35,13 @@ app.get('/hiro0218_screen.png', (c) => {
   c.header('Cache-Control', 'public, max-age=31536000');
 
   return c.body(backgroundImageBuffer);
+});
+
+app.get('/template.css', (c) => {
+  c.header('Content-Type', 'text/css');
+  c.header('Cache-Control', 'public, max-age=31536000');
+
+  return c.body(templateStyle);
 });
 
 serve(app, (info) => {
