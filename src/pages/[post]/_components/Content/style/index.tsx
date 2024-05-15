@@ -146,7 +146,8 @@ const PostContentStyle = css`
       border-radius: var(--border-radius-4);
 
       & ~ * {
-        margin: var(--space-1) var(--space-2);
+        margin: 0 var(--space-2) var(--space-2);
+        font-size: var(--font-size-sm);
 
         > *:first-of-type {
           margin-top: auto;

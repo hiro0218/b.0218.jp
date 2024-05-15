@@ -100,15 +100,18 @@ const Paragraph = styled.p`
 `;
 
 const Tags = styled.div`
-  display: flex;
-  gap: var(--space-1);
   margin-top: auto;
   overflow: hidden;
   font-size: var(--font-size-sm);
+
+  > * + * {
+    margin-left: var(--space-1);
+  }
 `;
 
 const TagItem = styled.span`
   ${PostTagAnchorStyle}
 
   padding: var(--space-1);
+  border-radius: var(--border-radius-2);
 `;

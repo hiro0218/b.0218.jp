@@ -1,7 +1,6 @@
 import { memo } from 'react';
 
-import { Container } from '@/components/Functional/Container';
-import { WaveBottom } from '@/components/Functional/Wave';
+import { Container as _Container } from '@/components/Functional/Container';
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { LinkStyle } from '@/components/UI/LinkMenu';
 import { isMobile } from '@/ui/lib/mediaQuery';
@@ -17,46 +16,42 @@ const Links = [
 export default memo(function Footer() {
   return (
     <Root>
-      <WaveBottom />
-      <FooterContainer>
-        <Container size="large">
-          <List>
-            {Links.map(({ title, href }) => {
-              return (
-                <ListItem key={href + title}>
-                  <Anchor href={href}>{title}</Anchor>
-                </ListItem>
-              );
-            })}
-          </List>
-          <small>© hiro</small>
-        </Container>
-      </FooterContainer>
+      <Container size="default">
+        <Nav>
+          {Links.map(({ title, href }) => (
+            <Anchor href={href} key={href + title}>
+              {title}
+            </Anchor>
+          ))}
+        </Nav>
+        <small>© hiro</small>
+      </Container>
     </Root>
   );
 });
 
 const Root = styled.footer`
-  display: flex;
-  flex-direction: column;
+  padding: var(--space-5) 0;
   margin-top: var(--space-6);
+  background-color: var(--component-backgrounds-3);
 
   small {
-    ${isMobile} {
-      font-size: var(--font-size-sm);
-    }
+    font-size: var(--font-size-sm);
   }
 `;
 
-const FooterContainer = styled.div`
-  width: 100%;
-  padding: var(--space-4) 0;
+const Container = styled(_Container)`
+  display: flex;
+  flex-direction: row-reverse;
+  gap: var(--space-3);
+  justify-content: space-between;
+  margin: auto;
   font-size: var(--font-size-md);
   color: var(--text-12);
-  background-color: var(--component-backgrounds-3);
 
   ${isMobile} {
-    padding: var(--space-3) 0;
+    flex-direction: column;
+    align-items: center;
   }
 
   & > * {
@@ -65,18 +60,19 @@ const FooterContainer = styled.div`
     justify-content: space-between;
 
     ${isMobile} {
-      flex-direction: column;
       gap: var(--space-2);
       justify-content: unset;
     }
   }
 
   small {
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-11);
   }
 `;
 
-const List = styled.ul`
+const Nav = styled.nav`
   display: inline-flex;
   gap: var(--space-2);
   align-items: center;
@@ -84,15 +80,6 @@ const List = styled.ul`
 
   ${isMobile} {
     gap: var(--space-1);
-  }
-`;
-
-const ListItem = styled.li`
-  display: inline-flex;
-  justify-content: center;
-
-  ${isMobile} {
-    width: calc(100% / ${Links.length});
   }
 `;
 
