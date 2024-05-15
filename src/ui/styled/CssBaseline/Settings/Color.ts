@@ -3,7 +3,7 @@ import { blue, gray, grayA, purple, red, yellow } from '@radix-ui/colors';
 import { css } from '@/ui/styled';
 
 /**
- * @see https://www.radix-ui.com/docs/colors/palette-composition/understanding-the-scale
+ * @see https://www.radix-ui.com/colors/docs/palette-composition/understanding-the-scale
  */
 export default css`
   /**
