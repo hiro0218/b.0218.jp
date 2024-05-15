@@ -110,7 +110,7 @@
     "next-build-id": "3.0.0",
     "next-compose-plugins": "2.2.1",
     "next-sitemap": "4.2.3",
-    "picocolors": "1.0.0",
+    "picocolors": "1.0.1",
     "playwright": "1.43.1",
     "postcss-media-hover-any-hover": "0.2.0",
     "postcss-styled-syntax": "0.6.4",
