@@ -68,6 +68,8 @@ const SidebarTitleContainer = styled.div`
 
 const SidebarHeading = styled.h2<Props>`
   ${textEllipsis}
+
+  font-size: var(--font-size-h3);
 `;
 
 /**
