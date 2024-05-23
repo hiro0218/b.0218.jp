@@ -56,7 +56,7 @@ const Container = styled.article`
   ${showHoverBackground}
 
   ${isMobile} {
-    padding: var(--space-2);
+    padding: calc(var(--space-3) * 0.85);
   }
 
   time {
@@ -100,8 +100,8 @@ const Paragraph = styled.p`
 `;
 
 const Tags = styled.div`
+  display: flex;
   margin-top: auto;
-  overflow: hidden;
   font-size: var(--font-size-sm);
 
   > * + * {
@@ -113,5 +113,4 @@ const TagItem = styled.span`
   ${PostTagAnchorStyle}
 
   padding: var(--space-1);
-  border-radius: var(--border-radius-2);
 `;
