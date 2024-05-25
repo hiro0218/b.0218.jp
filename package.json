@@ -52,14 +52,14 @@
     "fast-json-stable-stringify": "2.1.0",
     "lightningcss": "1.25.0",
     "mokuji.js": "4.4.1",
-    "next": "14.2.3",
+    "next": "15.0.0-rc.0",
     "nextjs-google-analytics": "2.3.3",
     "postcss": "8.4.38",
     "postcss-combine-duplicated-selectors": "10.0.3",
     "postcss-lightningcss": "1.0.0",
     "postcss-sort-media-queries": "5.2.0",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
+    "react": "19.0.0-rc-935180c7e0-20240524",
+    "react-dom": "19.0.0-rc-935180c7e0-20240524",
     "shokika.css": "1.7.1"
   },
   "devDependencies": {
