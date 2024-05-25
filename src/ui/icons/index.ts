@@ -2,6 +2,7 @@ export { Hatenabookmark } from './Hatenabookmark';
 export { X } from './X';
 export {
   ArrowUpIcon,
+  CaretLeftIcon,
   CaretRightIcon,
   ChevronDownIcon,
   ChevronUpIcon,
