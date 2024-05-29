@@ -17,7 +17,7 @@ function PostSimilar({ heading = '関連記事', posts }: Props) {
 
   return (
     <Stack as="aside" space={2}>
-      <Heading as="h2" isWeightNormal={false} text={heading} />
+      <Heading as="h2" text={heading} />
       <Container>
         {posts.map(({ date, slug, title, updated }) => (
           <LinkCard date={date} key={slug} link={`${slug}.html`} title={title} updated={updated} />
