@@ -14,7 +14,7 @@ function TagSimilar({ tags }: Props) {
 
   return (
     <Stack as="aside" space={2}>
-      <Heading as="h2" text="関連タグ" />
+      <Heading as="h2" isWeightNormal={false} text="関連タグ" />
       <Stack>
         <Cluster isWide={false}>
           <PostTag tags={tags} />
