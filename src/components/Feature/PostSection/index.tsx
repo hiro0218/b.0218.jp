@@ -1,14 +1,15 @@
 import Heading from '@/components/UI/Heading';
 import { Grid, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
+import { LinkMore } from '@/pages/_components/home';
 import type { PostListProps, TermsPostListProps } from '@/types/source';
-import { styled } from '@/ui/styled';
 
 type Props = {
   heading?: string;
   headingLevel?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   headingWeight?: 'bold' | 'normal';
   posts: PostListProps[] | TermsPostListProps[];
+  href?: string;
   as?: keyof JSX.IntrinsicElements;
 };
 
@@ -17,6 +18,7 @@ export const PostSection = ({
   heading,
   headingLevel = 'h2',
   headingWeight = 'normal',
+  href,
   posts,
 }: Props) => {
   if (posts.length === 0) {
@@ -25,7 +27,14 @@ export const PostSection = ({
 
   return (
     <Stack as={as} space={2}>
-      {!!heading && <Heading as={headingLevel} isWeightNormal={headingWeight === 'normal'} text={heading} />}
+      {!!heading && (
+        <Heading
+          as={headingLevel}
+          isWeightNormal={headingWeight === 'normal'}
+          text={heading}
+          textSide={href && <LinkMore href={href} text="すべて見る" />}
+        />
+      )}
       <Grid>
         {posts.map(({ date, slug, tags, title, updated }) => (
           <LinkCard
@@ -42,7 +51,3 @@ export const PostSection = ({
     </Stack>
   );
 };
-
-export const PostSectionFooter = styled.div`
-  text-align: center;
-`;
