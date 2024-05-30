@@ -4,6 +4,8 @@ import Head from 'next/head';
 import Script from 'next/script';
 import { useMemo } from 'react';
 
+import { PostSection } from '@/components/Feature/PostSection/index';
+import { TagSection } from '@/components/Feature/TagSection/index';
 import { Adsense } from '@/components/UI/Adsense';
 import { Avatar } from '@/components/UI/Avatar';
 import { Stack } from '@/components/UI/Layout';
@@ -21,8 +23,6 @@ import { createGetLayout } from '../_layouts/PostPageLayout';
 import { getStaticPathsPost, getStaticPropsPost } from './_libs';
 
 const PostShare = dynamic(() => import('@/pages/[post]/_components/Share').then((module) => module.default));
-const SimilarPost = dynamic(() => import('@/pages/[post]/_components/Similar').then((module) => module.Post));
-const SimilarTag = dynamic(() => import('@/pages/[post]/_components/Similar').then((module) => module.Tag));
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -91,8 +91,15 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
         <footer>
           <PostEdit slug={slug} />
         </footer>
-        <SimilarTag tags={similarTags} />
-        <SimilarPost posts={similarPost} />
+        <TagSection
+          as="aside"
+          heading="関連タグ"
+          headingLevel="h2"
+          headingWeight="normal"
+          isWideCluster={false}
+          tags={similarTags}
+        />
+        <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
       </Stack>
     </>
   );

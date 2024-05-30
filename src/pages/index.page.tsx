@@ -1,15 +1,16 @@
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 
-import { Cluster, Stack } from '@/components/UI/Layout';
+import { PostSection } from '@/components/Feature/PostSection';
+import { TagSection } from '@/components/Feature/TagSection/index';
+import Heading from '@/components/UI/Heading';
+import { Stack } from '@/components/UI/Layout';
 import { AUTHOR_ICON, SITE_URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
-import { Hero, PostSection, TitleSection } from '@/pages/_components/home';
+import { Hero } from '@/pages/_components/home';
 import { createGetLayout } from '@/pages/_layouts/TopPageLayout';
 
 import { getData } from './_libs';
-
-const PostTag = dynamic(() => import('@/components/UI/Tag').then((module) => module.default));
 
 const SrOnly = dynamic(() =>
   import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),
@@ -40,27 +41,33 @@ export default function Index() {
           <Hero />
         </Stack>
 
-        <Stack as="section" space={4}>
-          <Stack>
-            <TitleSection href="/archive" text="記事" />
-            <TitleSection as="h3" isBold={false} text="最新記事" />
-            <PostSection posts={recentPosts} />
+        <Stack space={4}>
+          <Stack as="section">
+            <Heading as="h2" text="記事" />
+            <PostSection
+              heading="最新記事"
+              headingLevel="h3"
+              headingWeight="normal"
+              href="/archive"
+              posts={recentPosts}
+            />
           </Stack>
-          <Stack>
-            <TitleSection as="h3" href="/popular" isBold={false} text="注目記事" />
-            <PostSection posts={popularPosts} />
+          <Stack as="section">
+            <PostSection
+              heading="注目記事"
+              headingLevel="h3"
+              headingWeight="normal"
+              href="/popular"
+              posts={popularPosts}
+            />
           </Stack>
-          <Stack>
-            <TitleSection as="h3" isBold={false} text="更新記事" />
-            <PostSection posts={updatesPosts} />
+          <Stack as="section">
+            <PostSection heading="更新記事" headingLevel="h3" headingWeight="normal" posts={updatesPosts} />
           </Stack>
         </Stack>
 
         <Stack as="section">
-          <TitleSection href="/tags" text="タグ" />
-          <Cluster>
-            <PostTag tags={tags} />
-          </Cluster>
+          <TagSection heading="タグ" headingLevel="h2" headingWeight="normal" href="/tags" tags={tags} />
         </Stack>
       </Stack>
     </>
