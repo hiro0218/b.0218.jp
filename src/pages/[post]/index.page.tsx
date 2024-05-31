@@ -4,8 +4,8 @@ import Head from 'next/head';
 import Script from 'next/script';
 import { useMemo } from 'react';
 
-import { PostSection } from '@/components/Feature/PostSection/index';
-import { TagSection } from '@/components/Feature/TagSection/index';
+import { PostSection } from '@/components/Feature/PostSection';
+import { TagSection } from '@/components/Feature/TagSection';
 import { Adsense } from '@/components/UI/Adsense';
 import { Avatar } from '@/components/UI/Avatar';
 import { Stack } from '@/components/UI/Layout';
