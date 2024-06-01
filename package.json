@@ -83,7 +83,7 @@
     "@typescript-eslint/eslint-plugin": "7.0.0",
     "better-typescript-lib": "2.7.0",
     "browserslist": "4.23.0",
-    "dependency-cruiser": "16.3.1",
+    "dependency-cruiser": "16.3.2",
     "dotenv": "16.4.5",
     "esbuild": "0.21.4",
     "esbuild-register": "3.5.0",
