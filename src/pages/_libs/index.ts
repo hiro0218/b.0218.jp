@@ -1,15 +1,16 @@
 import { getPostsListJson, getTagsWithCount } from '@/lib/posts';
 import { getPopularPost } from '@/pages/_libs/getPopularPost';
 
+import { IGNORE_TAGS } from './ignores';
+
 const POST_DISPLAY_LIMIT = 4;
-const IGNORE_TAG = '名探偵コナン';
 
 const posts = getPostsListJson();
 const tagsWithCount = getTagsWithCount();
 
 export const getData = () => {
   // 特定のタグを除外
-  const filteredPosts = posts.filter((post) => !post.tags.includes(IGNORE_TAG));
+  const filteredPosts = posts.filter((post) => !post.tags.some((tag) => IGNORE_TAGS.has(tag)));
 
   const recentPosts = filteredPosts.slice(0, POST_DISPLAY_LIMIT);
   const recentSlugs = new Set(recentPosts.map(({ slug }) => slug));
@@ -21,7 +22,7 @@ export const getData = () => {
 
   const popularPosts = getPopularPost(filteredPosts, POST_DISPLAY_LIMIT);
 
-  const tags = tagsWithCount.filter(({ slug, count }) => !slug.includes(IGNORE_TAG) && count >= 10).slice(0, 25);
+  const tags = tagsWithCount.filter(({ slug, count }) => !IGNORE_TAGS.has(slug) && count >= 10).slice(0, 25);
 
   return {
     recentPosts,

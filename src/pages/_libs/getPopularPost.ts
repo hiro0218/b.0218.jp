@@ -1,7 +1,8 @@
 import { getPostsPopular } from '@/lib/posts';
 import type { PostListProps } from '@/types/source';
 
-const IGNORE_SLUGS = new Set(['20141105125846', '20171223014544']);
+import { IGNORE_SLUGS } from './ignores';
+
 const popularPostsSlugs = getPostsPopular();
 
 export const getPopularPost = (posts: PostListProps[], displayLimit: number) => {
