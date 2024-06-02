@@ -1,7 +1,7 @@
 import { getPostsPopular } from '@/lib/posts';
 import type { PostListProps } from '@/types/source';
 
-import { IGNORE_SLUGS } from './ignores';
+import { IGNORE_SLUGS } from './constant';
 
 const popularPostsSlugs = getPostsPopular();
 
