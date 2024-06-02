@@ -112,7 +112,7 @@
     "next-sitemap": "4.2.3",
     "picocolors": "1.0.1",
     "playwright": "1.44.1",
-    "postcss-media-hover-any-hover": "0.2.0",
+    "postcss-media-hover-any-hover": "0.2.1",
     "postcss-styled-syntax": "0.6.4",
     "prettier": "3.3.0",
     "reading-time": "1.5.0",
