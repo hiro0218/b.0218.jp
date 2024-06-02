@@ -10,8 +10,10 @@ const path = {
 
 (async () => {
   await mkdir(path.dist, { recursive: true });
-  const posts = getPostsListJson();
-  const length = posts.length;
+  const postsMap = getPostsListJson();
+  const length = postsMap.size;
+  const posts = [...postsMap.values()];
+
   let browser: Browser;
 
   try {
