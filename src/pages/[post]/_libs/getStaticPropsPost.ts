@@ -2,7 +2,8 @@ import type { GetStaticProps } from 'next';
 
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import { getPostsJson, getTagsWithCount } from '@/lib/posts';
-import type { PostProps, TermsPostListProps } from '@/types/source';
+import { getRecentAndUpdatedPosts } from '@/pages/_libs/getRecentAndUpdatedPosts';
+import type { PostListProps, PostProps, TermsPostListProps } from '@/types/source';
 
 import { getSimilarPost } from './getSimilarPost';
 import { getSimilarTag } from './getSimilarTag';
@@ -15,6 +16,7 @@ export type PostPageProps = {
   };
   similarPost: TermsPostListProps[];
   similarTags: PostTagProps[];
+  recentPosts: PostListProps[];
 };
 
 const posts = getPostsJson();
@@ -46,11 +48,17 @@ export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
   const tag = post.tags[0];
   const similarTags = getSimilarTag(tag);
 
+  // 最新記事
+  const { recentPosts } = getRecentAndUpdatedPosts({
+    posts: Array.from(posts.values()),
+  });
+
   return {
     props: {
       post: { ...post, tagsWithCount, segmentedTitle },
       similarPost,
       similarTags,
+      recentPosts,
     },
   };
 };

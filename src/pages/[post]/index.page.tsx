@@ -26,7 +26,7 @@ const PostShare = dynamic(() => import('@/pages/[post]/_components/Share').then(
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-export default function PostPage({ post, similarPost, similarTags }: Props) {
+export default function PostPage({ post, similarPost, similarTags, recentPosts }: Props) {
   const {
     title,
     date,
@@ -100,6 +100,7 @@ export default function PostPage({ post, similarPost, similarTags }: Props) {
           tags={similarTags}
         />
         <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
+        <PostSection as="aside" heading="最新記事" headingLevel="h2" href="/archive" posts={recentPosts} />
       </Stack>
     </>
   );
