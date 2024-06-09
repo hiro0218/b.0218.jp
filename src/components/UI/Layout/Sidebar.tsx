@@ -1,5 +1,5 @@
 import type { NamedExoticComponent, ReactNode } from 'react';
-import { Children } from 'react';
+import { Children, Fragment } from 'react';
 
 import { textEllipsis } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
@@ -51,8 +51,8 @@ const Title = ({ id, tag = 'h2', children }: TitleProps) => {
 export const Sidebar = (({ children, space }: Props) => {
   return (
     <Container space={space}>
-      {Children.toArray(children).map((child) => {
-        return child;
+      {Children.toArray(children).map((child, i) => {
+        return <Fragment key={i}>{child}</Fragment>;
       })}
     </Container>
   );

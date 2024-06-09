@@ -13,7 +13,7 @@ import { divideByYearArchive } from './_libs';
 
 const posts = getPostsListJson();
 const archives = divideByYearArchive(posts);
-const totalPosts = posts.length;
+const totalPosts = posts.size;
 
 export default function Archive() {
   return (

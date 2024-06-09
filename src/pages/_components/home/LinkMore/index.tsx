@@ -9,22 +9,13 @@ export function LinkMore({ href, text }: { href: string; text: string | ReactNod
   return (
     <Anchor href={href}>
       {text}
-      <Icon aria-hidden="true">
-        <CaretRightIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
-      </Icon>
+      <CaretRightIcon aria-hidden="true" fill="currentColor" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
     </Anchor>
   );
 }
 
-const Icon = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: var(--space-½);
-  color: var(--text-11);
-`;
-
 const Anchor = styled(_Anchor)`
   ${LinkStyle}
 
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-sm);
 `;

@@ -5,10 +5,9 @@ export default css`
   /**
    * Font Family
    */
-  --font-family-sans-serif: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'BIZ UDPGothic',
-    'Noto Sans JP', 'Noto Sans Japanese', Meiryo, sans-serif;
-  --font-family-monospace: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace, Apple Color Emoji,
-    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans',
+    'BIZ UDPGothic', Meiryo, sans-serif, 'Segoe UI Emoji';
+  --font-family-monospace: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace, 'Segoe UI Emoji';
 
   /**
    * Font Size
@@ -34,8 +33,8 @@ export default css`
    * Font Weight
    */
   --font-weight-normal: 400;
-  --font-weight-bold: 700;
-  --font-weight-bolder: 900;
+  --font-weight-bold: 600;
+  --font-weight-bolder: 600;
 
   /**
    * Line Height

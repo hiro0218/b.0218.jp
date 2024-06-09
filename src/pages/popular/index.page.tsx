@@ -20,7 +20,7 @@ export default function Popular() {
       </Head>
 
       <Stack as="section" space={4}>
-        <Title heading="Popular" paragraph={`${popularPosts.length}件の記事`} />
+        <Title heading="Popular" paragraph={`${popularPosts.length}件の記事（過去7日間）`} />
         <Sidebar>
           <Sidebar.Title>注目記事</Sidebar.Title>
           <Stack space="½">

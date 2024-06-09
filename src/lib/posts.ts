@@ -25,8 +25,8 @@ export const getPostsJson = (): Map<PostProps['slug'], PostProps> => {
   return new Map(posts.map((post) => [post.slug, Object.freeze(post)]));
 };
 
-export const getPostsListJson = (): PostListProps[] => {
-  return postsList;
+export const getPostsListJson = (): Map<PostListProps['slug'], PostListProps> => {
+  return new Map(postsList.map((post) => [post.slug, Object.freeze(post)]));
 };
 
 export const getPagesJson = (): Map<PageProps['slug'], PageProps> => {

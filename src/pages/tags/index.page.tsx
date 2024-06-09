@@ -1,7 +1,7 @@
 import Head from 'next/head';
 
-import { Cluster, Stack } from '@/components/UI/Layout';
-import PostTag from '@/components/UI/Tag';
+import { TagSection } from '@/components/Feature/TagSection';
+import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getTagsWithCount } from '@/lib/posts';
@@ -20,11 +20,7 @@ export default function Tags() {
 
       <Stack space={4}>
         <Title heading="Tags" paragraph={`${tags.length}件のタグ`} />
-        <Stack>
-          <Cluster>
-            <PostTag hasRelTag={false} tags={tags} />
-          </Cluster>
-        </Stack>
+        <TagSection tags={tags} />
       </Stack>
     </>
   );
