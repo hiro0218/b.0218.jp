@@ -42,7 +42,7 @@ export default function Index() {
         </Stack>
 
         <Stack space={4}>
-          <Stack as="section">
+          <Stack>
             <Heading as="h2" text="記事" />
             <PostSection
               heading="最新記事"
@@ -52,7 +52,7 @@ export default function Index() {
               posts={recentPosts}
             />
           </Stack>
-          <Stack as="section">
+          <Stack>
             <PostSection
               heading="注目記事"
               headingLevel="h3"
@@ -61,7 +61,7 @@ export default function Index() {
               posts={popularPosts}
             />
           </Stack>
-          <Stack as="section">
+          <Stack>
             <PostSection heading="更新記事" headingLevel="h3" headingWeight="normal" posts={updatesPosts} />
           </Stack>
         </Stack>
