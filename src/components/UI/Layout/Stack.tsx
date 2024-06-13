@@ -2,10 +2,11 @@ import type { AriaRole, CSSProperties, ReactNode } from 'react';
 
 import { css, styled } from '@/ui/styled';
 import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
+import { SPACE_KEYS } from '@/ui/styled/CssBaseline/Settings/Space';
 
 type Props = {
   as?: keyof JSX.IntrinsicElements;
-  space?: SpaceGap;
+  space?: SpaceGap | 0;
   direction?: 'vertical' | 'horizontal';
   align?: CSSProperties['alignItems'];
   justify?: CSSProperties['justifyContent'];
@@ -42,10 +43,11 @@ const StackRoot = styled.div<StackRootProps>`
 `;
 
 export const Stack = ({ as = 'div', children, ...props }: Props) => {
-  const { direction, ...rest } = props;
+  const { direction, space, ...rest } = props;
+  const spaceGap = SPACE_KEYS.includes(`--space-${space}`) ? space : space === 0 ? null : 2;
 
   return (
-    <StackRoot as={as} flexDirection={direction} {...rest}>
+    <StackRoot as={as} flexDirection={direction} space={spaceGap} {...rest}>
       {children}
     </StackRoot>
   );
