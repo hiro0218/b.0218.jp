@@ -20,6 +20,7 @@
     },
     "incremental": true,
     "jsxImportSource": "@emotion/react",
+    "types": ["@emotion/react/types/css-prop"],
     "noErrorTruncation": true,
     "plugins": [
       {
