@@ -1,7 +1,10 @@
 import { css } from '@/ui/styled';
 
-const generateHeadingStyles = (headingNumber: number) => {
-  const tag = `h${headingNumber}`;
+type HeadingTagNumber = 1 | 2 | 3 | 4 | 5 | 6;
+type HeadingTag = `h${HeadingTagNumber}`;
+
+const generateHeadingStyles = (headingNumber: HeadingTagNumber) => {
+  const tag: HeadingTag = `h${headingNumber}`;
   const nextTagNumber = headingNumber + 1;
   const nextTagSiblingSelector = nextTagNumber <= 6 ? `${tag} + h${nextTagNumber}` : undefined;
   const marginTop = (() => {
@@ -72,7 +75,7 @@ const Headings = css`
     }
   }
 
-  ${[2, 3, 4, 5, 6].map((number) => generateHeadingStyles(number))}
+  ${[2, 3, 4, 5, 6].map((number: HeadingTagNumber) => generateHeadingStyles(number))}
 `;
 
 export default Headings;
