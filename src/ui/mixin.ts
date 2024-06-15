@@ -1,4 +1,4 @@
-import { easeOut } from '@/ui/foundation/easing';
+import { easeOutExpo } from '@/ui/foundation/easing';
 import { css } from '@/ui/styled';
 
 export const textEllipsis = css`
@@ -37,10 +37,10 @@ export const showHoverBackground = css`
     content: '';
     background-color: var(--component-backgrounds-3A);
     isolation: isolate;
-    border-radius: var(--border-radius-8);
+    border-radius: var(--border-radius-4);
     transition:
-      transform 0.1s ${easeOut},
-      opacity 0.2s;
+      transform 0.2s ${easeOutExpo},
+      opacity 0.1s;
     transform: scale(0.5);
     opacity: 0;
     content-visibility: auto;
