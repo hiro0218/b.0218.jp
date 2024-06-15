@@ -14,14 +14,11 @@ const allTags = getTagsJson();
 export const getStaticPropsTagDetail: GetStaticProps<TermProps> = (context: GetStaticPropsContext) => {
   const slug = context.params?.slug as string;
   const tag = allTags[slug];
-  const tagsPosts = [];
+  const tagsPosts: TermsPostListProps[] = [];
 
   for (const postSlug of tag) {
-    const post = allPosts.get(postSlug);
-    if (post) {
-      const { title, date, updated } = post;
-      tagsPosts.push({ title, slug: postSlug, date, updated });
-    }
+    const { title, date, updated } = allPosts.get(postSlug);
+    tagsPosts.push({ title, slug: postSlug, date, updated });
   }
 
   return {
