@@ -32,7 +32,7 @@ const Pagination = memo(function Pagination({ currentPage, displayCount, pageNum
   );
 
   return (
-    <PagerComponent aria-label="ページネーション" as="nav" gap={2}>
+    <PagerComponent aria-label="ページネーション" as="nav" gap={2} role="navigation">
       <ArrowButton disabled={currentPage === 1} onClick={() => handlePageChange(currentPage - 1)} type="button">
         <CaretLeftIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
       </ArrowButton>
@@ -53,7 +53,7 @@ const Pagination = memo(function Pagination({ currentPage, displayCount, pageNum
               ...
             </Ellipsis>
           ) : (
-            <PageNumberLabel key={key}>
+            <PageNumberLabel key={key} tabIndex={1}>
               <input
                 checked={currentNumber === currentPage}
                 hidden
