@@ -7,7 +7,7 @@ import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME } from '@/constant';
 
-import { createGetLayout } from '../_layouts/ArchivePageLayout';
+import { createGetLayout } from '../../_layouts/ArchivePageLayout';
 import { DATA_TARGET_POST_LIST_CONTAINER_KEY, PAGE_RANGE, PaginationContainer } from './_components/Pagination';
 import { getStaticPathsTagDetail, getStaticPropsTagDetail } from './_libs';
 
