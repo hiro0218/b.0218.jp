@@ -6,6 +6,9 @@ interface IconProps extends SVGAttributes<SVGElement> {
   color?: string;
 }
 
+/**
+ * @see https://heroicons.com/mini
+ */
 export const ExclamationCircle = forwardRef<SVGSVGElement, IconProps>(function ExclamationTriangle(
   { color = 'currentColor', ...props },
   forwardedRef,
