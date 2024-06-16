@@ -18,8 +18,8 @@ export {
   MagnifyingGlassIcon,
 } from '@radix-ui/react-icons';
 
-export const ICON_SIZE_XS = 16;
-export const ICON_SIZE_SM = 24;
-export const ICON_SIZE_MD = 32;
+export const ICON_SIZE_XS = 15;
+export const ICON_SIZE_SM = 20;
+export const ICON_SIZE_MD = 30;
 
-export const ICON_SIZE_LG = 48;
+export const ICON_SIZE_LG = 45;
