@@ -1,10 +1,6 @@
-import type { SVGAttributes } from 'react';
 import { forwardRef } from 'react';
 
-interface IconProps extends SVGAttributes<SVGElement> {
-  children?: never;
-  color?: string;
-}
+import type { IconProps } from './type';
 
 /**
  * @see https://heroicons.com/mini
