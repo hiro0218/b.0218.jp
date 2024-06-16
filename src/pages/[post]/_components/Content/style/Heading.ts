@@ -1,4 +1,5 @@
 import { css } from '@/ui/styled';
+import { SPACE_KEYS } from '@/ui/styled/CssBaseline/Settings/Space';
 
 type HeadingTagNumber = 1 | 2 | 3 | 4 | 5 | 6;
 type HeadingTag = `h${HeadingTagNumber}`;
@@ -11,13 +12,13 @@ const generateHeadingStyles = (headingNumber: HeadingTagNumber) => {
     switch (headingNumber) {
       case 1:
       case 2:
-        return 'var(--space-5)';
+        return SPACE_KEYS[5];
       case 3:
       case 4:
       case 5:
-        return 'var(--space-4)';
+        return SPACE_KEYS[4];
       default:
-        return 'var(--space-3)';
+        return SPACE_KEYS[3];
     }
   })();
   const marginBottom = (() => {
@@ -25,15 +26,15 @@ const generateHeadingStyles = (headingNumber: HeadingTagNumber) => {
       case 1:
       case 2:
       case 3:
-        return 'var(--space-3)';
+        return SPACE_KEYS[3];
       default:
-        return 'var(--space-2)';
+        return SPACE_KEYS[2];
     }
   })();
 
   const style = {
-    marginTop,
-    marginBottom,
+    marginTop: `var(${marginTop})`,
+    marginBottom: `var(${marginBottom})`,
     lineHeight: 'var(--line-height-md)',
   };
 
