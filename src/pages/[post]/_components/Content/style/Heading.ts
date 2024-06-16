@@ -60,7 +60,6 @@ const Headings = css`
   h6 {
     position: relative;
     scroll-margin-top: 1em;
-    font-weight: var(--font-weight-bold);
     line-height: var(--line-height-md);
     letter-spacing: var(--letter-spacing-md);
 

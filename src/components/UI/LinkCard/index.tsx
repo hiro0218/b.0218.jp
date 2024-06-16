@@ -88,7 +88,6 @@ const Title = styled.h3`
 
   overflow: hidden;
   font-size: var(--font-size-md);
-  font-weight: var(--font-weight-bold);
   color: var(--text-12);
 `;
 
@@ -101,12 +100,9 @@ const Paragraph = styled.p`
 
 const Tags = styled.div`
   display: flex;
+  gap: var(--space-1);
   margin-top: auto;
   font-size: var(--font-size-sm);
-
-  > * + * {
-    margin-left: var(--space-1);
-  }
 `;
 
 const TagItem = styled.span`
