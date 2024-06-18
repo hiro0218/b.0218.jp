@@ -9,19 +9,24 @@ import {
 } from '@/ui/icons';
 import { css } from '@/ui/styled';
 
-const IconChatBubbleLeft = SvgComponentToDataUrlScheme(<ChatBubbleLeft />);
-const IconExclamationCircle = SvgComponentToDataUrlScheme(<ExclamationCircle />);
-const IconExclamationTriangle = SvgComponentToDataUrlScheme(<ExclamationTriangle />);
-const IconInformationCircle = SvgComponentToDataUrlScheme(<InformationCircle />);
-const IconLightBulb = SvgComponentToDataUrlScheme(<LightBulb />);
+const IconChatBubbleLeft = SvgComponentToDataUrlScheme(<ChatBubbleLeft height={ICON_SIZE_XS} width={ICON_SIZE_XS} />);
+const IconExclamationCircle = SvgComponentToDataUrlScheme(
+  <ExclamationCircle height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
+);
+const IconExclamationTriangle = SvgComponentToDataUrlScheme(
+  <ExclamationTriangle height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
+);
+const IconInformationCircle = SvgComponentToDataUrlScheme(
+  <InformationCircle height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
+);
+const IconLightBulb = SvgComponentToDataUrlScheme(<LightBulb height={ICON_SIZE_XS} width={ICON_SIZE_XS} />);
 
 const GfmAlert = css`
   .gfm-alert {
     --alert-color: var(--color-alert-note);
-    padding: var(--space-1) var(--space-3);
-    border-color: var(--alert-color);
 
-    border-left: var(--space-½) solid;
+    padding: var(--space-1) var(--space-3);
+    border-left: var(--space-½) solid var(--alert-color);
 
     .gfm-alert-title {
       display: inline-flex;
