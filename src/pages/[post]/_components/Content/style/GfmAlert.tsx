@@ -41,13 +41,12 @@ const GfmAlert = css`
         margin-right: 0.5em;
         content: '';
         background-color: var(--alert-color);
+        mask-repeat: no-repeat;
       }
     }
 
     &[data-alert-type='note'],
     &[data-alert-type='tip'] {
-      --alert-color: var(--color-alert-note);
-
       .gfm-alert-title::before {
         mask-image: url(${IconInformationCircle});
       }
