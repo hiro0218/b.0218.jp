@@ -1,4 +1,3 @@
-import { isMobile } from '@/ui/lib/mediaQuery';
 import { css } from '@/ui/styled';
 
 export default css`
@@ -180,9 +179,10 @@ export default css`
 
   /* table */
   table {
-    ${isMobile} {
-      width: 100%;
-    }
+    display: block flow;
+    overflow: auto;
+    overscroll-behavior-inline: contain;
+    max-inline-size: 100%;
 
     caption {
       margin: var(--space-1) 0;

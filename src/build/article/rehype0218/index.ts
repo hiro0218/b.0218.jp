@@ -5,7 +5,7 @@ import transformCodeblock from './transform/codeblock';
 import transformImage from './transform/image';
 import transformLinkPreview from './transform/linkPreview';
 import { removeEmptyParagraph } from './transform/paragraph';
-import { wrapAll } from './transform/wrapAll';
+// import { wrapAll } from './transform/wrapAll';
 
 const rehype0218 = () => {
   const nodes = new Set<{ node: Element; index: number; parent: Element }>();
@@ -41,7 +41,7 @@ const rehype0218 = () => {
       }),
     );
 
-    wrapAll(tree);
+    // wrapAll(tree);
   };
 };
 

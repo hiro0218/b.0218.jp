@@ -8,7 +8,6 @@ import GfmAlert from './GfmAlert';
 import Headings from './Heading';
 import Highlight from './Highlight';
 import LinkPreview from './LinkPreview';
-import TableScroll from './TableScroll';
 
 const PostContentStyle = css`
   font-size: var(--font-size-post-content);
@@ -179,8 +178,6 @@ const PostContentStyle = css`
   }
 
   ${GfmAlert}
-
-  ${TableScroll}
 
   ${LinkPreview}
 
