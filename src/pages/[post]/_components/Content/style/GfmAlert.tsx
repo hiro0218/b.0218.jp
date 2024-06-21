@@ -36,8 +36,8 @@ const GfmAlert = css`
 
       &::before {
         display: block;
-        width: ${ICON_SIZE_XS};
-        height: ${ICON_SIZE_XS};
+        width: ${ICON_SIZE_XS}px;
+        height: ${ICON_SIZE_XS}px;
         margin-right: 0.5em;
         content: '';
         background-color: var(--alert-color);
