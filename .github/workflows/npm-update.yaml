@@ -5,6 +5,7 @@ on:
     - cron: '0 9 * * 1'
   push:
     branches:
+      - develop
       - automated-npm-update
   workflow_dispatch:
 
