@@ -251,9 +251,11 @@ export default css`
     font-size: var(--font-size-sm);
     color: var(--text-11);
 
-    &::before {
-      display: inline-block;
-      content: '（' attr(datetime) ' 削除）';
+    &[datetime] {
+      &::before {
+        display: inline-block;
+        content: '（' attr(datetime) ' 削除）';
+      }
     }
   }
 `;
