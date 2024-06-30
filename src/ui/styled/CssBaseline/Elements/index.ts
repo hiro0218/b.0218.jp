@@ -1,4 +1,5 @@
 import { css } from '@/ui/styled';
+import { IconExternalLinkStyle } from '@/ui/styled/iconSets';
 
 export default css`
   /* global */
@@ -49,6 +50,17 @@ export default css`
       box-shadow 0.2s ease-in-out,
       text-decoration-color 0.3s;
     overflow-wrap: break-word;
+
+    &[target='_blank'] {
+      &::after {
+        ${IconExternalLinkStyle}
+      }
+      &:has(img) {
+        &::after {
+          content: none;
+        }
+      }
+    }
 
     &:focus-visible {
       outline: 0;

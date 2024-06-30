@@ -1,7 +1,6 @@
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { hoverLinkStyle } from '@/ui/mixin';
 import { css } from '@/ui/styled';
-import { IconExternalLinkStyle } from '@/ui/styled/iconSets';
 
 import Footnotes from './Footnotes';
 import GfmAlert from './GfmAlert';
@@ -35,20 +34,6 @@ const PostContentStyle = css`
 
     &:hover {
       text-decoration-color: var(--text-11);
-    }
-
-    :where(&[target='_blank']) {
-      &::after {
-        ${IconExternalLinkStyle}
-      }
-
-      /* stylelint-disable */
-      &:has(img) {
-        &::after {
-          content: none;
-        }
-      }
-      /* stylelint-enable */
     }
   }
 
