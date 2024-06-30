@@ -64,7 +64,7 @@ async function buildPost() {
 }
 
 async function buildPostList(posts: Partial<PostProps>[]) {
-  writeJSON(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, removePostsData(posts)).then(() => {
+  await writeJSON(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, removePostsData(posts)).then(() => {
     Log.info(`Write dist/${FILENAME_POSTS_LIST}.json`);
   });
 }

@@ -1,14 +1,12 @@
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { hoverLinkStyle } from '@/ui/mixin';
 import { css } from '@/ui/styled';
-import { IconExternalLinkStyle } from '@/ui/styled/iconSets';
 
 import Footnotes from './Footnotes';
 import GfmAlert from './GfmAlert';
 import Headings from './Heading';
 import Highlight from './Highlight';
 import LinkPreview from './LinkPreview';
-import TableScroll from './TableScroll';
 
 const PostContentStyle = css`
   font-size: var(--font-size-post-content);
@@ -36,20 +34,6 @@ const PostContentStyle = css`
 
     &:hover {
       text-decoration-color: var(--text-11);
-    }
-
-    :where(&[target='_blank']) {
-      &::after {
-        ${IconExternalLinkStyle}
-      }
-
-      /* stylelint-disable */
-      &:has(img) {
-        &::after {
-          content: none;
-        }
-      }
-      /* stylelint-enable */
     }
   }
 
@@ -179,8 +163,6 @@ const PostContentStyle = css`
   }
 
   ${GfmAlert}
-
-  ${TableScroll}
 
   ${LinkPreview}
 

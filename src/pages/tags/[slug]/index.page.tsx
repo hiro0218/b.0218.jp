@@ -7,7 +7,7 @@ import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME } from '@/constant';
 
-import { createGetLayout } from '../_layouts/ArchivePageLayout';
+import { createGetLayout } from '../../_layouts/ArchivePageLayout';
 import { DATA_TARGET_POST_LIST_CONTAINER_KEY, PAGE_RANGE, PaginationContainer } from './_components/Pagination';
 import { getStaticPathsTagDetail, getStaticPropsTagDetail } from './_libs';
 
@@ -28,7 +28,7 @@ export default function Tags({ title, posts }: Props) {
         <Title heading={pageTitle} paragraph={`${posts.length}件の記事`} />
         <Sidebar>
           <Sidebar.Title>{title}</Sidebar.Title>
-          <Stack space="½" {...{ [`${DATA_TARGET_POST_LIST_CONTAINER_KEY}`]: '' }}>
+          <Stack space={0} {...{ [`${DATA_TARGET_POST_LIST_CONTAINER_KEY}`]: '' }}>
             {posts.map(({ date, slug, title, updated }) => (
               <LinkCard date={date} key={slug} link={`/${slug}.html`} title={title} updated={updated} />
             ))}

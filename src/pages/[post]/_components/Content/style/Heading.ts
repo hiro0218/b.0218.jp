@@ -1,20 +1,24 @@
 import { css } from '@/ui/styled';
+import { SPACE_KEYS } from '@/ui/styled/CssBaseline/Settings/Space';
 
-const generateHeadingStyles = (headingNumber: number) => {
-  const tag = `h${headingNumber}`;
+type HeadingTagNumber = 1 | 2 | 3 | 4 | 5 | 6;
+type HeadingTag = `h${HeadingTagNumber}`;
+
+const generateHeadingStyles = (headingNumber: HeadingTagNumber) => {
+  const tag: HeadingTag = `h${headingNumber}`;
   const nextTagNumber = headingNumber + 1;
   const nextTagSiblingSelector = nextTagNumber <= 6 ? `${tag} + h${nextTagNumber}` : undefined;
   const marginTop = (() => {
     switch (headingNumber) {
       case 1:
       case 2:
-        return 'var(--space-5)';
+        return SPACE_KEYS[5];
       case 3:
       case 4:
       case 5:
-        return 'var(--space-4)';
+        return SPACE_KEYS[4];
       default:
-        return 'var(--space-3)';
+        return SPACE_KEYS[3];
     }
   })();
   const marginBottom = (() => {
@@ -22,15 +26,15 @@ const generateHeadingStyles = (headingNumber: number) => {
       case 1:
       case 2:
       case 3:
-        return 'var(--space-3)';
+        return SPACE_KEYS[3];
       default:
-        return 'var(--space-2)';
+        return SPACE_KEYS[2];
     }
   })();
 
   const style = {
-    marginTop,
-    marginBottom,
+    marginTop: `var(${marginTop})`,
+    marginBottom: `var(${marginBottom})`,
     lineHeight: 'var(--line-height-md)',
   };
 
@@ -57,7 +61,6 @@ const Headings = css`
   h6 {
     position: relative;
     scroll-margin-top: 1em;
-    font-weight: var(--font-weight-bold);
     line-height: var(--line-height-md);
     letter-spacing: var(--letter-spacing-md);
 
@@ -72,7 +75,7 @@ const Headings = css`
     }
   }
 
-  ${[2, 3, 4, 5, 6].map((number) => generateHeadingStyles(number))}
+  ${[2, 3, 4, 5, 6].map((number: HeadingTagNumber) => generateHeadingStyles(number))}
 `;
 
 export default Headings;

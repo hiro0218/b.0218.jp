@@ -41,7 +41,9 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
           {slug}
         </TagAnchor>
       ) : (
-        <DisabledTagAnchor key={slug}>{slug}</DisabledTagAnchor>
+        <DisabledTagAnchor aria-hidden="true" key={slug}>
+          {slug}
+        </DisabledTagAnchor>
       );
     });
 });

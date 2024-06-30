@@ -1,5 +1,5 @@
-import { isMobile } from '@/ui/lib/mediaQuery';
 import { css } from '@/ui/styled';
+import { IconExternalLinkStyle } from '@/ui/styled/iconSets';
 
 export default css`
   /* global */
@@ -50,6 +50,17 @@ export default css`
       box-shadow 0.2s ease-in-out,
       text-decoration-color 0.3s;
     overflow-wrap: break-word;
+
+    &[target='_blank'] {
+      &::after {
+        ${IconExternalLinkStyle}
+      }
+      &:has(img) {
+        &::after {
+          content: none;
+        }
+      }
+    }
 
     &:focus-visible {
       outline: 0;
@@ -180,9 +191,10 @@ export default css`
 
   /* table */
   table {
-    ${isMobile} {
-      width: 100%;
-    }
+    display: block flow;
+    overflow: auto;
+    overscroll-behavior-inline: contain;
+    max-inline-size: 100%;
 
     caption {
       margin: var(--space-1) 0;
@@ -251,9 +263,11 @@ export default css`
     font-size: var(--font-size-sm);
     color: var(--text-11);
 
-    &::before {
-      display: inline-block;
-      content: '（' attr(datetime) ' 削除）';
+    &[datetime] {
+      &::before {
+        display: inline-block;
+        content: '（' attr(datetime) ' 削除）';
+      }
     }
   }
 `;

@@ -7,7 +7,7 @@ export type SpaceGap = '½' | 1 | 2 | 3 | 4 | 5 | 6;
 type SpaceKey = `--space-${SpaceGap}`;
 type SpaceValue = `${number}rem`;
 
-const SPACE_KEYS: SpaceKey[] = [
+export const SPACE_KEYS: SpaceKey[] = [
   '--space-½',
   '--space-1',
   '--space-2',

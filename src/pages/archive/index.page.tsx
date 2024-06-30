@@ -35,7 +35,7 @@ export default function Archive() {
             return (
               <Sidebar key={year}>
                 <Sidebar.Title id={currentYear}>{currentYear}</Sidebar.Title>
-                <Stack space="½">
+                <Stack space={0}>
                   {archives[year].map(({ slug, title, date, updated, tags }: PostListProps) => (
                     <LinkCard
                       date={date}
