@@ -52,12 +52,10 @@ export default css`
     overflow-wrap: break-word;
 
     &[target='_blank'] {
-      &::after {
-        ${IconExternalLinkStyle}
-      }
-      &:has(img) {
+      // img,svg が含まれていない a 要素には外部リンクアイコンを付与
+      &:not(:has(:is(img, svg))) {
         &::after {
-          content: none;
+          ${IconExternalLinkStyle}
         }
       }
     }
