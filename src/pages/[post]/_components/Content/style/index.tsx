@@ -9,6 +9,7 @@ import Highlight from './Highlight';
 import LinkPreview from './LinkPreview';
 
 const PostContentStyle = css`
+  padding-top: var(--space-5);
   font-size: var(--font-size-post-content);
   color: var(--text-11);
 
