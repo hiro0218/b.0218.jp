@@ -80,7 +80,7 @@
     "@types/twitter-for-web": "0.0.6",
     "@typescript-eslint/eslint-plugin": "7.0.0",
     "better-typescript-lib": "2.7.0",
-    "browserslist": "4.23.1",
+    "browserslist": "4.23.2",
     "dependency-cruiser": "16.3.6",
     "dotenv": "16.4.5",
     "esbuild": "0.23.0",
