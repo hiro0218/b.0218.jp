@@ -12,13 +12,13 @@ const generateHeadingStyles = (headingNumber: HeadingTagNumber) => {
     switch (headingNumber) {
       case 1:
       case 2:
-        return SPACE_KEYS[5];
+        return SPACE_KEYS[6];
       case 3:
       case 4:
       case 5:
-        return SPACE_KEYS[4];
+        return SPACE_KEYS[5];
       default:
-        return SPACE_KEYS[3];
+        return SPACE_KEYS[4];
     }
   })();
   const marginBottom = (() => {
@@ -76,6 +76,10 @@ const Headings = css`
   }
 
   ${[2, 3, 4, 5, 6].map((number: HeadingTagNumber) => generateHeadingStyles(number))}
+
+  h2:first-child {
+    margin-top: auto;
+  }
 `;
 
 export default Headings;
