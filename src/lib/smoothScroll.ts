@@ -1,4 +1,4 @@
-const isSSR = typeof window === 'undefined';
+import { isSSR } from '@/lib/isSSR';
 
 /** Determine if the user has set a reduced motion effect */
 const isPrefersReduced = !isSSR ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;

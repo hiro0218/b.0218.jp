@@ -1,8 +1,8 @@
 import createCache from '@emotion/cache';
 
-export default function createEmotionCache() {
-  const isSSR = typeof document === 'undefined';
+import { isSSR } from '@/lib/isSSR';
 
+export default function createEmotionCache() {
   return createCache({
     key: '-',
     stylisPlugins: [],
