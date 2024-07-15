@@ -21,8 +21,9 @@ export default function Content({ enableMokuji = true, content }: Props) {
   return (
     <>
       {enableMokuji && <Mokuji refContent={ref} />}
-      <section css={PostContentStyle} ref={ref}>
+      <section ref={ref}>
         <div
+          css={PostContentStyle}
           dangerouslySetInnerHTML={{
             __html: before,
           }}
@@ -30,6 +31,7 @@ export default function Content({ enableMokuji = true, content }: Props) {
         {!!after && <Adsense />}
         {!!after && (
           <div
+            css={PostContentStyle}
             dangerouslySetInnerHTML={{
               __html: after,
             }}
