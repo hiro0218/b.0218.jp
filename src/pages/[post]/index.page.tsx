@@ -6,7 +6,6 @@ import { useMemo } from 'react';
 
 import { PostSection } from '@/components/Feature/PostSection';
 import { TagSection } from '@/components/Feature/TagSection';
-import { Adsense } from '@/components/UI/Adsense';
 import { Avatar } from '@/components/UI/Avatar';
 import { Stack } from '@/components/UI/Layout';
 import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
@@ -86,7 +85,6 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
         </Stack>
         <PostNote note={note} />
         <PostContent content={content} />
-        <Adsense />
         {ShareComponent}
         <footer>
           <PostEdit slug={slug} />
