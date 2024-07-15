@@ -1,10 +1,15 @@
 import { cwd } from 'node:process';
 
-import { type Browser, chromium } from 'playwright';
+import chromium from '@sparticuz/chromium';
+import type { Browser } from 'playwright-core';
+// eslint-disable-next-line import-x/default
+import playwright from 'playwright-core';
 
 import { mkdir } from '@/lib/fs';
 import * as Log from '@/lib/Log';
 import { getPostsListJson } from '@/lib/posts';
+
+const executablePath = await chromium.executablePath();
 
 const path = {
   dist: `${cwd()}/public/images/ogp`,
@@ -19,7 +24,8 @@ const path = {
   let browser: Browser;
 
   try {
-    browser = await chromium.launch({
+    browser = await playwright.chromium.launch({
+      executablePath,
       args: [
         '--disable-extensions',
         '--disable-gpu',
