@@ -1,3 +1,5 @@
+import { cwd } from 'node:process';
+
 import { type Browser, chromium } from 'playwright';
 
 import { mkdir } from '@/lib/fs';
@@ -5,7 +7,7 @@ import * as Log from '@/lib/Log';
 import { getPostsListJson } from '@/lib/posts';
 
 const path = {
-  dist: `${process.cwd()}/public/images/ogp`,
+  dist: `${cwd()}/public/images/ogp`,
 };
 
 (async () => {
