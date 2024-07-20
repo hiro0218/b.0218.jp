@@ -77,8 +77,13 @@ const Headings = css`
 
   ${[2, 3, 4, 5, 6].map((number: HeadingTagNumber) => generateHeadingStyles(number))}
 
-  h2:first-child {
-    margin-top: auto;
+  h2 {
+    padding-bottom: var(--space-½);
+    border-bottom: 1px solid var(--borders-6);
+
+    &:first-child {
+      margin-top: auto;
+    }
   }
 `;
 
