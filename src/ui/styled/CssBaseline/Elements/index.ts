@@ -18,6 +18,7 @@ export default css`
     font-family: var(--font-family-sans-serif);
     font-weight: var(--font-weight-normal);
     font-feature-settings: 'chws' 1;
+    kerning: none;
     line-height: 1.875;
     color: var(--text-12);
     line-break: strict;

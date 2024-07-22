@@ -60,9 +60,13 @@ const Headings = css`
   h5,
   h6 {
     position: relative;
-    scroll-margin-top: 1em;
+    font-feature-settings: 'palt';
+    font-kerning: normal;
     line-height: var(--line-height-md);
+    text-wrap: pretty;
     letter-spacing: var(--letter-spacing-md);
+    word-break: auto-phrase;
+    scroll-margin-top: 1em; // left -> pretty, center -> balance
 
     & > {
       code {
