@@ -1,5 +1,6 @@
 import 'dotenv/config';
 
+import { fdir } from 'fdir';
 import { read as matterRead } from 'gray-matter';
 import readingTime from 'reading-time';
 
@@ -15,9 +16,10 @@ const PATH = {
   DIST: `${process.cwd()}/dist`,
 } as const;
 
+const files = new fdir().withFullPaths().crawl(`${PATH.SRC}/_posts`).sync();
+
 async function buildPost() {
   // md ファイル一覧を取得
-  const files = await readdir(`${PATH.SRC}/_posts`).then((file) => file.filter((file) => file.endsWith('.md')));
   const NUMBER_OF_FILES = files.length;
   const posts: PostProps[] = [];
 
@@ -25,8 +27,12 @@ async function buildPost() {
   for (let i = 0; i < NUMBER_OF_FILES; i++) {
     const file = files[i];
 
+    if (!file.endsWith('.md')) {
+      continue;
+    }
+
     // front matter を取得
-    const post = matterRead(`${PATH.SRC}/_posts/${file}`);
+    const post = matterRead(file);
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { title, date, updated, note, tags, noindex } = post.data as PostProps;
 
