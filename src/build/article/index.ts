@@ -16,7 +16,7 @@ const PATH = {
   DIST: `${process.cwd()}/dist`,
 } as const;
 
-const files = new fdir().withFullPaths().crawl(`${PATH.SRC}/_posts`).sync();
+const files = new fdir().crawl(`${PATH.SRC}/_posts`).sync();
 
 async function buildPost() {
   // md ファイル一覧を取得
@@ -30,9 +30,10 @@ async function buildPost() {
     if (!file.endsWith('.md')) {
       continue;
     }
+    console.log(file);
 
     // front matter を取得
-    const post = matterRead(file);
+    const post = matterRead(`${PATH.SRC}/_posts/${file}`);
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { title, date, updated, note, tags, noindex } = post.data as PostProps;
 
