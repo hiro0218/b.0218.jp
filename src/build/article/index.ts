@@ -30,7 +30,6 @@ async function buildPost() {
     if (!file.endsWith('.md')) {
       continue;
     }
-    console.log(file);
 
     // front matter を取得
     const post = matterRead(`${PATH.SRC}/_posts/${file}`);
