@@ -153,14 +153,25 @@ const PostContentStyle = css`
   hr {
     display: flex;
     align-items: center;
-    justify-content: center;
     width: 80%;
-    height: var(--space-1);
     margin: var(--space-5) auto;
-    color: var(--borders-6);
-    background-image: repeating-linear-gradient(-45deg, currentColor, currentColor 1px, transparent 0, transparent 50%);
-    background-size: 6px 6px;
     border: 0;
+
+    &::after {
+      display: block;
+      width: 100%;
+      height: var(--space-1);
+      color: var(--borders-6);
+      content: '';
+      background-image: repeating-linear-gradient(
+        -45deg,
+        currentColor,
+        currentColor 1px,
+        transparent 0,
+        transparent 50%
+      );
+      background-size: 6px 6px;
+    }
   }
 
   ${GfmAlert}
