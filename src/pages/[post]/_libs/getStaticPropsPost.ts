@@ -7,12 +7,10 @@ import type { PostListProps, PostProps, TermsPostListProps } from '@/types/sourc
 
 import { getSimilarPost } from './getSimilarPost';
 import { getSimilarTag } from './getSimilarTag';
-import { textSegmenter } from './textSegmenter';
 
 export type PostPageProps = {
   post: PostProps & {
     tagsWithCount: PostTagProps[];
-    segmentedTitle: string;
   };
   similarPost: TermsPostListProps[];
   similarTags: PostTagProps[];
@@ -38,9 +36,6 @@ export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
   // tagsに件数を追加
   const tagsWithCount = post.tags.map((slug) => tagDataWithCountBySlug[slug]).filter((tag) => tag !== undefined);
 
-  // タイトルの文字組み
-  const segmentedTitle = textSegmenter(post.title);
-
   // 関連記事
   const similarPost = getSimilarPost(posts, slug);
 
@@ -55,7 +50,7 @@ export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
 
   return {
     props: {
-      post: { ...post, tagsWithCount, segmentedTitle },
+      post: { ...post, tagsWithCount },
       similarPost,
       similarTags,
       recentPosts,
