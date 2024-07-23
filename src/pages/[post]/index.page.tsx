@@ -26,18 +26,7 @@ const PostShare = dynamic(() => import('@/pages/[post]/_components/Share').then(
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export default function PostPage({ post, similarPost, similarTags, recentPosts }: Props) {
-  const {
-    title,
-    date,
-    updated,
-    slug,
-    readingTime,
-    note,
-    segmentedTitle,
-    noindex: isNoindex,
-    content,
-    tagsWithCount,
-  } = post;
+  const { title, date, updated, slug, readingTime, note, noindex: isNoindex, content, tagsWithCount } = post;
   const hasTweet = content.includes('twitter-tweet');
   const permalink = getPermalink(slug);
   const description = getDescriptionText(content);
@@ -76,7 +65,7 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
           date={date}
           readingTime={readingTime}
           tagsWithCount={tagsWithCount}
-          title={segmentedTitle}
+          title={title}
           updated={updated}
         />
         <Stack align="center" direction="horizontal" justify="space-between">

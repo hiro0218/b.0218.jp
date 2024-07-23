@@ -13,7 +13,7 @@ type Props = Pick<PostProps, 'title' | 'date' | 'updated' | 'readingTime'> & {
 function PostHeader({ title, date, updated, readingTime, tagsWithCount }: Props) {
   return (
     <Container as="header" space={2}>
-      <h1 dangerouslySetInnerHTML={{ __html: title }}></h1>
+      <Heading>{title}</Heading>
       <Stack space={1}>
         <Item>
           <PostDate date={date} updated={updated} />
@@ -43,6 +43,14 @@ const Container = styled(Stack)`
     background-image: repeating-linear-gradient(-45deg, currentColor, currentColor 1px, transparent 0, transparent 50%);
     background-size: 6px 6px;
   }
+`;
+
+const Heading = styled.h1`
+  font-feature-settings: 'palt';
+  font-kerning: normal;
+  line-height: var(--line-height-lg);
+  text-wrap: pretty;
+  word-break: auto-phrase;
 `;
 
 const Item = styled.div`
