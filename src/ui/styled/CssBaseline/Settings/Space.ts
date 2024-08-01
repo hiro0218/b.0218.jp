@@ -1,7 +1,6 @@
 import { pxToRem } from '@/ui/lib/fonts';
 import { css } from '@/ui/styled';
-
-export const SPACING_BASE_PX = 8;
+import { SPACING_BASE_PX } from '@/ui/styled/CssBaseline/constant';
 
 export type SpaceGap = '½' | 1 | 2 | 3 | 4 | 5 | 6;
 type SpaceKey = `--space-${SpaceGap}`;
