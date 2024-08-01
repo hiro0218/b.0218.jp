@@ -10,6 +10,10 @@ export const pxToRem = (px: `${number}px` | number): `${number}rem` => {
 const MIN_VIEWPORT = 430;
 
 export const clampFontSize = (maxValue: number, minValue: number) => {
+  if (maxValue === minValue) {
+    return `${maxValue}px`;
+  }
+
   const slope = `${(maxValue - minValue) / (MAX_VIEWPORT - MIN_VIEWPORT)}`;
   const fluidFontSize = `calc(${slope} * (100vw - ${MIN_VIEWPORT}px) + ${minValue}px)`;
 
