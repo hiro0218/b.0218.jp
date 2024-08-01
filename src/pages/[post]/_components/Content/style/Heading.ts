@@ -65,8 +65,8 @@ const Headings = css`
     line-height: var(--line-height-md);
     text-wrap: pretty;
     letter-spacing: var(--letter-spacing-md);
-    word-break: auto-phrase;
-    scroll-margin-top: 1em; // left -> pretty, center -> balance
+    word-break: auto-phrase; // left -> pretty, center -> balance
+    scroll-margin-top: 1em;
 
     & > {
       code {
