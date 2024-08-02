@@ -1,5 +1,24 @@
 import { clampFontSize, pxToRem } from '@/ui/lib/fonts';
 import { css } from '@/ui/styled';
+import { SPACING_BASE_PX } from '@/ui/styled/CssBaseline/constant';
+
+/**
+ * 調和を生成する
+ * 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3...
+ */
+const getStep = (n: number): number => {
+  if (n < 0) return 1;
+  if (n === 0) return 1.25;
+  if (n === 1) return 1.5;
+  if (n === 2) return 1.75;
+
+  return getStep(n - 1) + 0.25;
+};
+
+/**
+ * ステップに応じたフォントサイズを取得する
+ */
+const getFontSizeStep = (n: number): number => SPACING_BASE_PX * getStep(n);
 
 export default css`
   /**
@@ -12,22 +31,22 @@ export default css`
   /**
    * Font Size
    */
-  --font-size-xs: ${pxToRem(12)};
-  --font-size-sm: ${pxToRem(14)};
-  --font-size-md: ${pxToRem(16)};
-  --font-size-lg: ${pxToRem(18)};
+  --font-size-xs: ${pxToRem(getFontSizeStep(1))};
+  --font-size-sm: ${pxToRem(getFontSizeStep(2))};
+  --font-size-md: ${pxToRem(getFontSizeStep(3))};
+  --font-size-lg: ${pxToRem(getFontSizeStep(4))};
 
-  --font-size-post-content: ${clampFontSize(18, 16)};
+  --font-size-post-content: ${clampFontSize(getFontSizeStep(4), getFontSizeStep(3))};
 
   /**
    * Heading Font Size
    */
-  --font-size-h1: ${clampFontSize(36, 32)};
-  --font-size-h2: ${clampFontSize(32, 28)};
-  --font-size-h3: ${clampFontSize(28, 24)};
-  --font-size-h4: ${clampFontSize(24, 20)};
-  --font-size-h5: ${clampFontSize(20, 18)};
-  --font-size-h6: ${clampFontSize(20, 16)};
+  --font-size-h1: ${clampFontSize(getFontSizeStep(12), getFontSizeStep(10))};
+  --font-size-h2: ${clampFontSize(getFontSizeStep(10), getFontSizeStep(8))};
+  --font-size-h3: ${clampFontSize(getFontSizeStep(8), getFontSizeStep(6))};
+  --font-size-h4: ${clampFontSize(getFontSizeStep(6), getFontSizeStep(4))};
+  --font-size-h5: ${clampFontSize(getFontSizeStep(4), getFontSizeStep(2))};
+  --font-size-h6: ${clampFontSize(getFontSizeStep(3), getFontSizeStep(3))};
 
   /**
    * Font Weight
@@ -39,10 +58,10 @@ export default css`
   /**
    * Line Height
    */
-  --line-height-xs: 1.2;
-  --line-height-sm: 1.4;
-  --line-height-md: 1.6;
-  --line-height-lg: 1.8;
+  --line-height-xs: ${getStep(0)};
+  --line-height-sm: ${getStep(1)};
+  --line-height-md: ${getStep(2)};
+  --line-height-lg: ${getStep(3)};
 
   /**
    * Letter Spacing

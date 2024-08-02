@@ -31,11 +31,21 @@ const generateHeadingStyles = (headingNumber: HeadingTagNumber) => {
         return SPACE_KEYS[2];
     }
   })();
+  const lineHeight = (() => {
+    switch (headingNumber) {
+      case 1:
+        return '--line-height-lg';
+      case 2:
+        return '--line-height-md';
+      default:
+        return '--line-height-sm';
+    }
+  })();
 
   const style = {
     marginTop: `var(${marginTop})`,
     marginBottom: `var(${marginBottom})`,
-    lineHeight: 'var(--line-height-md)',
+    lineHeight: `var(${lineHeight})`,
   };
 
   const cancelMarginStyle = {
@@ -65,8 +75,8 @@ const Headings = css`
     line-height: var(--line-height-md);
     text-wrap: pretty;
     letter-spacing: var(--letter-spacing-md);
-    word-break: auto-phrase;
-    scroll-margin-top: 1em; // left -> pretty, center -> balance
+    word-break: auto-phrase; // left -> pretty, center -> balance
+    scroll-margin-top: 1em;
 
     & > {
       code {
@@ -82,11 +92,12 @@ const Headings = css`
   ${[2, 3, 4, 5, 6].map((number: HeadingTagNumber) => generateHeadingStyles(number))}
 
   h2 {
-    padding-bottom: var(--space-½);
-    border-bottom: 1px solid var(--borders-6);
-
     &:first-child {
       margin-top: auto;
+    }
+
+    &:not(:has(+ h3)) {
+      border-bottom: 1px solid var(--borders-6);
     }
   }
 `;
