@@ -6,10 +6,9 @@ import { useEffect, useRef } from 'react';
 import type { MokujiProps } from './type';
 
 const MOKUJI_OPTION: MokujiOption = {
-  anchorType: true,
+  anchorType: false,
   anchorLink: true,
   anchorLinkSymbol: '#',
-  anchorLinkBefore: false,
   anchorContainerTagName: 'ol',
 } as const;
 
