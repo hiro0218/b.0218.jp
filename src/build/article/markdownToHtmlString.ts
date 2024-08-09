@@ -15,22 +15,22 @@ import rehypeGfmAlert from './rehypeGfmAlert';
 import rehypeRemoveComments from './rehypeRemoveComments';
 import remarkBreaks from './remarkBreaks';
 
-const markdownToHtmlString = async (markdown: string, isSimple = false) => {
-  const processor = unified()
-    .use(remarkParse)
-    .use(remarkGfm)
-    .use(remarkBreaks)
-    .use(remarkRehype, { footnoteLabel: '注釈', allowDangerousHtml: true })
-    .use(rehypeGfmAlert)
-    .use(rehypeExternalLinks, {
-      target(element) {
-        return !(element?.properties?.href as string).includes(SITE_URL) ? '_blank' : undefined;
-      },
-      rel: ['nofollow'],
-    })
-    .use(rehypePresetMinify)
-    .use(rehypeRaw);
+const processor = unified()
+  .use(remarkParse)
+  .use(remarkGfm)
+  .use(remarkBreaks)
+  .use(remarkRehype, { footnoteLabel: '注釈', allowDangerousHtml: true })
+  .use(rehypeGfmAlert)
+  .use(rehypeExternalLinks, {
+    target(element) {
+      return !(element?.properties?.href as string).includes(SITE_URL) ? '_blank' : undefined;
+    },
+    rel: ['nofollow'],
+  })
+  .use(rehypePresetMinify)
+  .use(rehypeRaw);
 
+const markdownToHtmlString = async (markdown: string, isSimple = false) => {
   const result = isSimple
     ? await processor.use(rehypeStringify, { allowDangerousHtml: true }).process(markdown)
     : await processor
