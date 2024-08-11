@@ -14,7 +14,7 @@ export default css`
 
   body {
     height: 100%;
-    background-color: var(--backgrounds-1);
+    background-color: var(--body-background);
     font-family: var(--font-family-sans-serif);
     font-weight: var(--font-weight-normal);
     font-feature-settings: 'chws' 1;
@@ -36,6 +36,19 @@ export default css`
       [data-floating] {
         padding-inline-end: var(--scrollbar-width, 0); // workaround for scrollbar gutter
       }
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      height: calc(var(--space-6) * 2);
+      width: 100%;
+      z-index: calc(var(--zIndex-base) * -1);
+      isolation: isolate;
+      background-image: linear-gradient(to top, var(--body-background) 0, hsla(0, 0%, 100%, 0) 100%),
+        linear-gradient(to right, var(--background-accent-gradient-from) 0, var(--background-accent-gradient-to) 100%);
     }
   }
 

@@ -1,6 +1,5 @@
 import { memo, type ReactNode } from 'react';
 
-import { WaveTop } from '@/components/Functional/Wave';
 import useIsMounted from '@/hooks/useIsMounted';
 import { fadeIn, fadeOut } from '@/ui/animation';
 import { css, styled } from '@/ui/styled';
@@ -20,7 +19,6 @@ export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
       <Header data-floating isMounted={isMounted} isShown={isHeaderShown}>
         {children}
       </Header>
-      <WaveTop />
     </Underline>
   );
 });

@@ -18,6 +18,8 @@ const PATH = {
 
 const files = new fdir().crawl(`${PATH.SRC}/_posts`).sync();
 
+const getSlug = (file: string) => file.replace('.md', '');
+
 async function buildPost() {
   // md ファイル一覧を取得
   const NUMBER_OF_FILES = files.length;
@@ -47,7 +49,7 @@ async function buildPost() {
 
     posts.push({
       title: title.trim(),
-      slug: file.replace('.md', ''),
+      slug: getSlug(file),
       date: new Date(date).toISOString(),
       updated: updated ? new Date(updated).toISOString() : '',
       ...(noteContent && { note: noteContent }),
@@ -147,7 +149,7 @@ async function buildPage() {
 
     pages.push({
       title,
-      slug: file.replace('.md', ''),
+      slug: getSlug(file),
       date,
       updated,
       content,
