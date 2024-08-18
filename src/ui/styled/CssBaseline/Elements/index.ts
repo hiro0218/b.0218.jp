@@ -8,6 +8,10 @@ export default css`
     color: var(--text-12);
   }
 
+  * {
+    scrollbar-width: thin;
+  }
+
   html {
     height: 100%;
   }
