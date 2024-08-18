@@ -79,7 +79,7 @@
     "@types/react-dom": "18.3.0",
     "@types/twitter-for-web": "0.0.6",
     "@typescript-eslint/eslint-plugin": "7.0.0",
-    "better-typescript-lib": "2.7.0",
+    "better-typescript-lib": "2.8.0",
     "browserslist": "4.23.3",
     "dependency-cruiser": "16.4.0",
     "dotenv": "16.4.5",
