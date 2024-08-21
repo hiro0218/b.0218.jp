@@ -126,7 +126,7 @@
     "schema-dts": "1.1.2",
     "stylelint": "16.8.2",
     "stylelint-browser-compat": "1.0.0-beta.133",
-    "stylelint-config-recess-order": "5.0.1",
+    "stylelint-config-recess-order": "5.1.0",
     "stylelint-config-recommended": "14.0.1",
     "stylelint-declaration-block-no-ignored-properties": "2.8.0",
     "typescript": "5.3.3",
