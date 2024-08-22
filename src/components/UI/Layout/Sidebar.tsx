@@ -24,6 +24,7 @@ const Container = styled.div<Props>`
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
+  padding-bottom: calc(var(--space-2) / 2);
   overflow: clip;
 
   & > * {
