@@ -6,7 +6,6 @@ import { useMemo } from 'react';
 
 import { PostSection } from '@/components/Feature/PostSection';
 import { TagSection } from '@/components/Feature/TagSection';
-import { Avatar } from '@/components/UI/Avatar';
 import { Stack } from '@/components/UI/Layout';
 import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
@@ -64,14 +63,11 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
         <PostHeader
           date={date}
           readingTime={readingTime}
+          render={ShareComponent}
           tagsWithCount={tagsWithCount}
           title={title}
           updated={updated}
         />
-        <Stack align="center" direction="horizontal" justify="space-between">
-          <Avatar />
-          {ShareComponent}
-        </Stack>
         <PostNote note={note} />
         <PostContent content={content} />
         {ShareComponent}
