@@ -4,6 +4,7 @@ import { useCallback, useId } from 'react';
 import { Stack } from '@/components/UI/Layout';
 import { Toast } from '@/components/UI/Toast';
 import { Tooltip } from '@/components/UI/Tooltip';
+import { X_ACCOUNT } from '@/constant';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, X } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
@@ -34,7 +35,7 @@ function PostShare({ title, url }: Props) {
       <SrOnly as="h2" id={labelledbyId} text="このページをシェアする" />
       <Stack direction="horizontal" space={1}>
         <Anchor
-          href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}`}
+          href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}&via=${X_ACCOUNT}`}
           rel="noopener noreferrer"
           target="_blank"
         >
