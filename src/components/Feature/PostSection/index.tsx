@@ -35,7 +35,7 @@ export const PostSection = ({
           textSide={href && <LinkMore href={href} text="すべて見る" />}
         />
       )}
-      <Grid gap={0}>
+      <Grid gap={2}>
         {posts.map(({ date, slug, tags, title, updated }) => (
           <LinkCard
             date={date}

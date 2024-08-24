@@ -3,8 +3,9 @@ import { type AriaRole, type ComponentProps, type ReactNode } from 'react';
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
 import { PostTagAnchorStyle } from '@/components/UI/Tag';
+import { easeOutExpo } from '@/ui/foundation/easing';
 import { isMobile } from '@/ui/lib/mediaQuery';
-import { lineClamp, showHoverBackground, textEllipsis } from '@/ui/mixin';
+import { lineClamp, textEllipsis } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 type PostDateProps = ComponentProps<typeof PostDate>;
@@ -46,17 +47,26 @@ const Container = styled.article`
   flex-direction: column;
   gap: var(--space-1);
   padding: var(--space-3);
-  /* stylelint-disable */
   content-visibility: auto;
   contain-intrinsic-size: 0 200px;
   contain: layout style paint;
-  /* stylelint-enable */
   word-break: break-all;
-
-  ${showHoverBackground}
+  background-color: var(--white);
+  border-radius: var(--border-radius-8);
+  box-shadow: inset var(--shadow-3);
+  transition: box-shadow 0.4s ${easeOutExpo};
 
   ${isMobile} {
     padding: calc(var(--space-3) * 0.85);
+  }
+
+  &:hover,
+  &:focus-visible {
+    box-shadow: inset var(--shadow-4);
+  }
+
+  &:active {
+    box-shadow: inset var(--shadow-3);
   }
 
   time {
@@ -78,6 +88,13 @@ const Anchor = styled(_Anchor)`
     content: '';
   }
 
+  &:hover,
+  &:focus-visible {
+    text-decoration-line: underline;
+    text-decoration-color: var(--borders-8);
+    text-underline-offset: 4%;
+  }
+
   &:focus-within {
     box-shadow: none;
   }
@@ -87,7 +104,9 @@ const Title = styled.h3`
   ${lineClamp(2)}
 
   overflow: hidden;
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-md);
   color: var(--text-12);
 `;
 
@@ -102,11 +121,11 @@ const Tags = styled.div`
   display: flex;
   gap: var(--space-1);
   margin-top: auto;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
 `;
 
 const TagItem = styled.span`
   ${PostTagAnchorStyle}
 
-  padding: var(--space-1);
+  padding:  var(--space-½) var(--space-1);
 `;

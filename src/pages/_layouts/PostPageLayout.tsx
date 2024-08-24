@@ -7,7 +7,7 @@ type LayoutProps = {
 };
 
 const Layout = ({ children }: LayoutProps) => {
-  return <Container size="small">{children}</Container>;
+  return <Container size="default">{children}</Container>;
 };
 
 export const createGetLayout = (layoutProps?: LayoutProps): ((page: ReactElement) => ReactNode) => {

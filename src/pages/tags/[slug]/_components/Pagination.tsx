@@ -148,7 +148,7 @@ const ArrowButton = styled.button`
 const PageNumberLabel = styled.label`
   ${PaginationButtonStyle}
 
-  :has(input[type='radio']:checked) {
+  &:has(input[type='radio']:checked) {
     color: var(--text-12);
     pointer-events: none;
     background-color: var(--component-backgrounds-5);

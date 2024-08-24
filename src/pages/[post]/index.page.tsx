@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 
 import { PostSection } from '@/components/Feature/PostSection';
 import { TagSection } from '@/components/Feature/TagSection';
-import { Avatar } from '@/components/UI/Avatar';
+import { Container } from '@/components/Functional/Container';
 import { Stack } from '@/components/UI/Layout';
 import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
@@ -60,24 +60,23 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
         />
       </Head>
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
-      <Stack as="article" space={4}>
-        <PostHeader
-          date={date}
-          readingTime={readingTime}
-          tagsWithCount={tagsWithCount}
-          title={title}
-          updated={updated}
-        />
-        <Stack align="center" direction="horizontal" justify="space-between">
-          <Avatar />
+      <Container size="small">
+        <Stack as="article" space={4}>
+          <PostHeader
+            date={date}
+            readingTime={readingTime}
+            render={ShareComponent}
+            tagsWithCount={tagsWithCount}
+            title={title}
+            updated={updated}
+          />
+          <PostNote note={note} />
+          <PostContent content={content} />
           {ShareComponent}
         </Stack>
-        <PostNote note={note} />
-        <PostContent content={content} />
-        {ShareComponent}
-        <footer>
-          <PostEdit slug={slug} />
-        </footer>
+      </Container>
+      <Stack as="footer" space={5}>
+        <PostEdit slug={slug} />
         <TagSection
           as="aside"
           heading="関連タグ"

@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 import PostDate from '@/components/UI/Date';
 import { Cluster, Stack } from '@/components/UI/Layout';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
@@ -8,9 +10,10 @@ import { styled } from '@/ui/styled';
 
 type Props = Pick<PostProps, 'title' | 'date' | 'updated' | 'readingTime'> & {
   tagsWithCount: PostTagProps[];
+  render?: ReactNode;
 };
 
-function PostHeader({ title, date, updated, readingTime, tagsWithCount }: Props) {
+function PostHeader({ title, date, updated, readingTime, tagsWithCount, render }: Props) {
   return (
     <Container as="header" space={2}>
       <Heading>{title}</Heading>
@@ -26,6 +29,7 @@ function PostHeader({ title, date, updated, readingTime, tagsWithCount }: Props)
           </Cluster>
         </Item>
       </Stack>
+      {render}
     </Container>
   );
 }

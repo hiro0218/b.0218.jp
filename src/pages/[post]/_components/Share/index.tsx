@@ -4,6 +4,7 @@ import { useCallback, useId } from 'react';
 import { Stack } from '@/components/UI/Layout';
 import { Toast } from '@/components/UI/Toast';
 import { Tooltip } from '@/components/UI/Tooltip';
+import { X_ACCOUNT } from '@/constant';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, X } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
@@ -34,14 +35,14 @@ function PostShare({ title, url }: Props) {
       <SrOnly as="h2" id={labelledbyId} text="このページをシェアする" />
       <Stack direction="horizontal" space={1}>
         <Anchor
-          href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}`}
-          rel="noopener noreferrer"
+          href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}&via=${X_ACCOUNT}`}
+          rel="noreferrer"
           target="_blank"
         >
           <Tooltip text="Xでポストする" />
           <X height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </Anchor>
-        <Anchor href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`} rel="noopener noreferrer" target="_blank">
+        <Anchor href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`} rel="noreferrer" target="_blank">
           <Tooltip text="はてなブックマークでブックマークする" />
           <Hatenabookmark height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </Anchor>

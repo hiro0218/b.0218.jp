@@ -1,5 +1,4 @@
 import { GitHubLogoIcon, ICON_SIZE_SM } from '@/ui/icons';
-import { hoverLinkStyle } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -31,12 +30,12 @@ const Container = styled.div`
 const Anchor = styled.a`
   display: inline-flex;
   align-items: center;
-  padding: var(--space-1);
   line-height: var(--line-height-sm);
   color: var(--text-12);
-  border-radius: var(--border-radius-4);
 
-  ${hoverLinkStyle}
+  &:hover {
+    text-decoration: underline;
+  }
 
   svg {
     margin-right: var(--space-½);
