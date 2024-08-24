@@ -49,7 +49,7 @@ const Footer = memo(function Footer({ resultNumber }: { resultNumber: number }) 
   return (
     <SearchFooter>
       <span>Result: {resultNumber} posts</span>
-      <a href="https://www.google.com/search?q=site:b.0218.jp" rel="noopener noreferrer" target="_blank">
+      <a href="https://www.google.com/search?q=site:b.0218.jp" rel="noreferrer" target="_blank">
         Google 検索
       </a>
     </SearchFooter>

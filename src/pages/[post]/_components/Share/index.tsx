@@ -36,13 +36,13 @@ function PostShare({ title, url }: Props) {
       <Stack direction="horizontal" space={1}>
         <Anchor
           href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}&via=${X_ACCOUNT}`}
-          rel="noopener noreferrer"
+          rel="noreferrer"
           target="_blank"
         >
           <Tooltip text="Xでポストする" />
           <X height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </Anchor>
-        <Anchor href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`} rel="noopener noreferrer" target="_blank">
+        <Anchor href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`} rel="noreferrer" target="_blank">
           <Tooltip text="はてなブックマークでブックマークする" />
           <Hatenabookmark height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </Anchor>
