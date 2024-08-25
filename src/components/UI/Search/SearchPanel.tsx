@@ -84,7 +84,7 @@ const SearchMain = styled.div`
   width: 50vw;
   margin: auto;
   overflow: hidden;
-  background: #fff;
+  background-color: var(--white);
   isolation: isolate;
   border-radius: var(--border-radius-4);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
