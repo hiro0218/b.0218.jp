@@ -57,7 +57,7 @@ jobs:
 
       - if: steps.cache-node-modules.outputs.cache-hit != 'true'
         name: Install dependencies
-        run: npm install --ignore-scripts
+        run: npm ci --ignore-scripts
 
       - name: Restore next build
         uses: actions/cache@v4
