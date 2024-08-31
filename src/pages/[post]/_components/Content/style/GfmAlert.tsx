@@ -1,4 +1,4 @@
-import { SvgComponentToDataUrlScheme } from '@/lib/SvgComponentToDataUrlScheme';
+import { svgComponentToDataUrlScheme } from '@/lib/svgComponentToDataUrlScheme';
 import {
   ChatBubbleLeft,
   ExclamationCircle,
@@ -9,17 +9,17 @@ import {
 } from '@/ui/icons';
 import { css } from '@/ui/styled';
 
-const IconChatBubbleLeft = SvgComponentToDataUrlScheme(<ChatBubbleLeft height={ICON_SIZE_XS} width={ICON_SIZE_XS} />);
-const IconExclamationCircle = SvgComponentToDataUrlScheme(
+const IconChatBubbleLeft = svgComponentToDataUrlScheme(<ChatBubbleLeft height={ICON_SIZE_XS} width={ICON_SIZE_XS} />);
+const IconExclamationCircle = svgComponentToDataUrlScheme(
   <ExclamationCircle height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
 );
-const IconExclamationTriangle = SvgComponentToDataUrlScheme(
+const IconExclamationTriangle = svgComponentToDataUrlScheme(
   <ExclamationTriangle height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
 );
-const IconInformationCircle = SvgComponentToDataUrlScheme(
+const IconInformationCircle = svgComponentToDataUrlScheme(
   <InformationCircle height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
 );
-const IconLightBulb = SvgComponentToDataUrlScheme(<LightBulb height={ICON_SIZE_XS} width={ICON_SIZE_XS} />);
+const IconLightBulb = svgComponentToDataUrlScheme(<LightBulb height={ICON_SIZE_XS} width={ICON_SIZE_XS} />);
 
 const GfmAlert = css`
   .gfm-alert {
