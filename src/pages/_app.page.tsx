@@ -61,9 +61,8 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
         <meta content={AUTHOR_NAME} name="author" />
       </Head>
 
-      <CssBaseline />
-
       <StyledProvider emotionCache={emotionCache}>
+        <CssBaseline />
         <GoogleAnalytics trackPageViews={{ ignoreHashChange: true }} />
         <Layout>
           <Header />
