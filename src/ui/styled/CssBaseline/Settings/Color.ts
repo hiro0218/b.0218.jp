@@ -107,11 +107,11 @@ export default css`
   /**
    * Shadow
    */
+  --_shadow-base: 0 0 0 1px color-mix(in oklab, ${grayA.grayA3}, ${grayA.grayA3} 25%);
   --shadow-1: inset 0 0 0 1px ${grayA.grayA5}, inset 0 1.5px 2px 0 ${grayA.grayA2}, inset 0 1.5px 2px 0 ${grayA.grayA2};
-  --shadow-2: 0 0 0 1px color-mix(in oklab, ${grayA.grayA3}, ${gray.gray3} 25%), 0 0 0 0.5px ${grayA.grayA1},
-    0 1px 1px 0 ${grayA.grayA2}, 0 2px 1px -1px ${grayA.grayA1}, 0 1px 3px 0 ${grayA.grayA1};
-  --shadow-3: 0 0 0 1px color-mix(in oklab, ${grayA.grayA3}, ${grayA.grayA3} 25%), 0 2px 3px -2px ${grayA.grayA3},
-    0 3px 12px -4px ${grayA.grayA2}, 0 4px 16px -8px ${grayA.grayA2};
-  --shadow-4: 0 0 0 1px color-mix(in oklab, ${grayA.grayA3}, ${gray.gray3} 25%), 0 8px 40px ${grayA.grayA1},
-    0 12px 32px -16px ${grayA.grayA3};
+  --shadow-2: var(--_shadow-base), 0 0 0 0.5px ${grayA.grayA1}, 0 1px 1px 0 ${grayA.grayA2},
+    0 2px 1px -1px ${grayA.grayA1}, 0 1px 3px 0 ${grayA.grayA1};
+  --shadow-3: var(--_shadow-base), 0 2px 3px -2px ${grayA.grayA3}, 0 3px 12px -4px ${grayA.grayA2},
+    0 4px 16px -8px ${grayA.grayA2};
+  --shadow-4: var(--_shadow-base), 0 8px 40px ${grayA.grayA2}, 0 12px 32px -16px ${grayA.grayA3};
 `;
