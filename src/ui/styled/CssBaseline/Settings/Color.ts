@@ -83,14 +83,6 @@ export default css`
   --text-inverse-12: ${grayDark.gray12};
 
   /**
-   * その他
-   */
-  --overlay-backgrounds: ${grayA.grayA10};
-  --body-background: ${gray.gray1};
-  --background-accent-gradient-from: ${blue.blue4};
-  --background-accent-gradient-to: ${red.red3};
-
-  /**
    * Semantic Color
    */
   --dark-backgrounds: ${grayA.grayA12};
@@ -114,4 +106,15 @@ export default css`
   --shadow-3: var(--_shadow-base), 0 2px 3px -2px ${grayA.grayA3}, 0 3px 12px -4px ${grayA.grayA2},
     0 4px 16px -8px ${grayA.grayA2};
   --shadow-4: var(--_shadow-base), 0 8px 40px ${grayA.grayA2}, 0 12px 32px -16px ${grayA.grayA3};
+
+  /**
+   * その他
+   */
+  --overlay-backgrounds: ${grayA.grayA10};
+  --body-background: ${gray.gray1};
+  --background-accent-gradient-from: ${blue.blue4};
+  --background-accent-gradient-to: ${red.red3};
+  --table-shadow-color: ${grayA.grayA3};
+  --table-shadow-size: var(--space-1);
+  --table-shadow-spread: calc(var(--table-shadow-size) * -0.5);
 `;
