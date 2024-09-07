@@ -1,6 +1,8 @@
 import { css } from '@/ui/styled';
 import { IconExternalLinkStyle } from '@/ui/styled/iconSets';
 
+import { table } from './_table';
+
 export default css`
   /* global */
   ::selection {
@@ -205,67 +207,7 @@ export default css`
     background: var(--component-backgrounds-3A);
   }
 
-  /* table */
-  table {
-    display: block flow;
-    overflow: auto;
-    overscroll-behavior-inline: contain;
-    max-inline-size: 100%;
-
-    caption {
-      margin: var(--space-1) 0;
-      color: var(--text-11);
-      text-align: center;
-    }
-  }
-
-  th,
-  td {
-    padding: var(--space-1) var(--space-2);
-    white-space: nowrap;
-    vertical-align: top;
-    border-top: 1px solid var(--borders-6);
-  }
-
-  th {
-    background-color: var(--component-backgrounds-4A);
-    color: var(--text-12);
-    text-align: left;
-
-    ${['center', 'right'].map(
-      (value) => css`
-        &[align='${value}'] {
-          text-align: ${value};
-        }
-      `,
-    )}
-  }
-
-  thead {
-    th {
-      white-space: nowrap;
-      vertical-align: bottom;
-      border-top: none;
-      border-bottom: 2px solid var(--borders-6);
-    }
-  }
-
-  tbody {
-    & + tbody {
-      border-top: 2px solid var(--borders-6);
-    }
-
-    &:last-child {
-      border-bottom: 1px solid var(--borders-6);
-    }
-
-    tr {
-      transition: background-color 0.3s ease;
-      &:hover {
-        background-color: var(--component-backgrounds-3A);
-      }
-    }
-  }
+  ${table}
 
   button {
     padding: 0;

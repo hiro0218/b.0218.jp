@@ -56,10 +56,10 @@ h1 {
   overflow: hidden;
   font-size: 56px;
   line-height: 1.7;
+  -webkit-line-clamp: 3;
   letter-spacing: 0.0025em;
   word-break: auto-phrase;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
 }
 
 footer {
