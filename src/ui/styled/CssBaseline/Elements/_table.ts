@@ -26,7 +26,7 @@ export const table = css`
   /* table */
   table {
     display: block flow;
-    overflow-y: auto;
+    overflow-x: auto;
     overscroll-behavior-inline: contain;
     max-inline-size: 100%;
     animation: scroll-table-shadow-inset linear;
