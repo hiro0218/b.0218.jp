@@ -36,8 +36,8 @@ const nextConfiguration = {
     '@radix-ui': {
       transform: '@radix-ui/{{member}}',
     },
-    "@emotion": {
-      transform: "@emotion/{{member}}",
+    '@emotion': {
+      transform: '@emotion/{{member}}',
     },
   },
 
@@ -51,7 +51,7 @@ const nextConfiguration = {
       rules: [
         ...rules,
         {
-          test: /src\/(components|ui)\/.*\/index\.ts/i,
+          test: /src\/.*\/index\.ts?$/,
           sideEffects: false,
         },
         {
