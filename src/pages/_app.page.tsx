@@ -26,6 +26,7 @@ type NextPageWithLayout = NextPage & {
 
 type MyAppProps = AppProps & {
   emotionCache?: EmotionCache;
+  // biome-ignore lint/style/useNamingConvention:
   Component: NextPageWithLayout;
 };
 

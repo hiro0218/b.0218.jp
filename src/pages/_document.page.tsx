@@ -28,7 +28,7 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
 
     ctx.renderPage = (): RenderPageResult | Promise<RenderPageResult> =>
       originalRenderPage({
-        // eslint-disable-next-line react/display-name, @typescript-eslint/no-explicit-any
+        // biome-ignore lint/suspicious/noExplicitAny:
         enhanceApp: (App: any) => (props) => <App emotionCache={cache} {...props} />,
       });
 
