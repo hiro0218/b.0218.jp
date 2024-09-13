@@ -30,6 +30,7 @@
       "bash -c 'tsc --noEmit --skipLibCheck'"
     ],
     "**/*.{css,tsx}": [
+      "npx @biomejs/biome lint --write",
       "stylelint --fix --cache"
     ],
     "**/*.{yml,yaml}": [
