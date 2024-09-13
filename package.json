@@ -125,5 +125,12 @@
     "budgetPercentIncreaseRed": 20,
     "minimumChangeThreshold": 0,
     "showDetails": true
+  },
+  "overrides": {
+    "array.prototype.at": "npm:@nolyfill/array.prototype.at@^1",
+    "is-core-module": "npm:@nolyfill/is-core-module@^1",
+    "isarray": "npm:@nolyfill/isarray@^1",
+    "object-keys": "npm:@nolyfill/object-keys@^1",
+    "string.prototype.at": "npm:@nolyfill/string.prototype.at@^1"
   }
 }
