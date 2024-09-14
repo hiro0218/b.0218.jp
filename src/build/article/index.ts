@@ -12,7 +12,9 @@ import type { PageProps, PostProps } from '@/types/source';
 import markdownToHtmlString from './markdownToHtmlString';
 
 const PATH = {
+  // biome-ignore lint/style/useNamingConvention:
   SRC: `${process.cwd()}/_article`,
+  // biome-ignore lint/style/useNamingConvention:
   DIST: `${process.cwd()}/dist`,
 } as const;
 
@@ -22,11 +24,11 @@ const getSlug = (file: string) => file.replace('.md', '');
 
 async function buildPost() {
   // md ファイル一覧を取得
-  const NUMBER_OF_FILES = files.length;
+  const numberOfFiles = files.length;
   const posts: PostProps[] = [];
 
   // 記事一覧
-  for (let i = 0; i < NUMBER_OF_FILES; i++) {
+  for (let i = 0; i < numberOfFiles; i++) {
     const file = files[i];
 
     if (!file.endsWith('.md')) {
@@ -135,11 +137,11 @@ async function buildTerms(posts: Partial<PostProps>[]) {
 async function buildPage() {
   // md ファイル一覧を取得
   const files = await readdir(`${PATH.SRC}`).then((file) => file.filter((file) => file.endsWith('.md')));
-  const NUMBER_OF_FILES = files.length;
+  const numberOfFiles = files.length;
   const pages: PageProps[] = [];
 
   // 記事一覧
-  for (let i = 0; i < NUMBER_OF_FILES; i++) {
+  for (let i = 0; i < numberOfFiles; i++) {
     const file = files[i];
 
     // front matter を取得
