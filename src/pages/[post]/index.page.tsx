@@ -32,6 +32,10 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
   const description = getDescriptionText(content);
 
   const ShareComponent = useMemo(() => <PostShare title={title} url={permalink} />, [permalink, title]);
+  const RecentPostSection = useMemo(
+    () => <PostSection as="aside" heading="最新記事" headingLevel="h2" href="/archive" posts={recentPosts} />,
+    [recentPosts],
+  );
 
   return (
     <>
@@ -70,7 +74,7 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
             title={title}
             updated={updated}
           />
-          <PostNote note={note} />
+          {!note && <PostNote note={note} />}
           <PostContent content={content} />
           {ShareComponent}
           <PostEdit slug={slug} />
@@ -86,7 +90,7 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
           tags={similarTags}
         />
         <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
-        <PostSection as="aside" heading="最新記事" headingLevel="h2" href="/archive" posts={recentPosts} />
+        {RecentPostSection}
       </Stack>
     </>
   );
