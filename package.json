@@ -52,7 +52,7 @@
     "fast-json-stable-stringify": "2.1.0",
     "lightningcss": "1.26.0",
     "mokuji.js": "4.5.1",
-    "next": "14.2.8",
+    "next": "14.2.12",
     "nextjs-google-analytics": "2.3.7",
     "postcss": "8.4.44",
     "postcss-combine-duplicated-selectors": "10.0.3",
