@@ -74,7 +74,7 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
             title={title}
             updated={updated}
           />
-          {!note && <PostNote note={note} />}
+          {!!note && <PostNote note={note} />}
           <PostContent content={content} />
           {ShareComponent}
           <PostEdit slug={slug} />
