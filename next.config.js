@@ -42,7 +42,6 @@ const nextConfiguration = {
   },
 
   webpack(config, { webpack, buildId }) {
-    // eslint-disable-next-line @next/next/no-assign-module-variable
     const module = config.module || {};
     const rules = module.rules || {};
 

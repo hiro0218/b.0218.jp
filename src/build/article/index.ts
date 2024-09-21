@@ -37,7 +37,6 @@ async function buildPost() {
 
     // front matter を取得
     const post = matterRead(`${PATH.SRC}/_posts/${file}`);
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { title, date, updated, note, tags, noindex } = post.data as PostProps;
 
     // 未来の投稿はスキップ

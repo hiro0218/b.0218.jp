@@ -1,9 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { type HttpBindings, serve } from '@hono/node-server';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Hono } from 'hono';
 
 type Bindings = HttpBindings & {
@@ -12,6 +10,7 @@ type Bindings = HttpBindings & {
   };
 };
 
+// biome-ignore lint/style/useNamingConvention: <explanation>
 const app = new Hono<{ Bindings: Bindings }>();
 
 const DUMMY_TITLE =

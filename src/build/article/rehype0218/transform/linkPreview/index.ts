@@ -15,12 +15,19 @@ type OgpKey = keyof OpgProps;
 
 const PREVIEW_LINK_BLOCK_CLASS_NAME = 'p-link-preview';
 const PREVIEW_LINK_CLASS_NAMES = {
+  // biome-ignore lint/style/useNamingConvention: <explanation>
   BLOCK: PREVIEW_LINK_BLOCK_CLASS_NAME,
+  // biome-ignore lint/style/useNamingConvention: <explanation>
   THUMBNAIL: `${PREVIEW_LINK_BLOCK_CLASS_NAME}-thumbnail`,
+  // biome-ignore lint/style/useNamingConvention: <explanation>
   BODY: {
+    // biome-ignore lint/style/useNamingConvention: <explanation>
     BLOCK: `${PREVIEW_LINK_BLOCK_CLASS_NAME}-body`,
+    // biome-ignore lint/style/useNamingConvention: <explanation>
     URL: `${PREVIEW_LINK_BLOCK_CLASS_NAME}-body__url`,
+    // biome-ignore lint/style/useNamingConvention: <explanation>
     TITLE: `${PREVIEW_LINK_BLOCK_CLASS_NAME}-body__title`,
+    // biome-ignore lint/style/useNamingConvention: <explanation>
     DESCRIPTION: `${PREVIEW_LINK_BLOCK_CLASS_NAME}-body__description`,
   },
 };
@@ -52,7 +59,6 @@ const setPreviewLinkNodes = (node: Element, index: number, parent: Element, doma
   parent.children.splice(index, 1, ...node.children);
 };
 
-// eslint-disable-next-line complexity
 const canTransformLinkPreview = (node: Element, index: number, parent: Element) => {
   // a要素ではない
   if (node.type !== 'element' && node.tagName !== 'a') {
@@ -94,7 +100,7 @@ const checkBreakNode = (node: boolean | ElementContent) => {
 
   try {
     return (node.type === 'element' && node.tagName === 'br') || !!node;
-  } catch (e) {
+  } catch (_e) {
     return false;
   }
 };
