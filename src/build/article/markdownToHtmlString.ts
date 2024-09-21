@@ -1,4 +1,3 @@
-import rehypeExternalLinks from 'rehype-external-links';
 import rehypeHighlight from 'rehype-highlight';
 import rehypePresetMinify from 'rehype-preset-minify';
 import rehypeRaw from 'rehype-raw';
@@ -7,8 +6,6 @@ import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
-
-import { SITE_URL } from '@/constant';
 
 import rehype0218 from './rehype0218';
 import rehypeGfmAlert from './rehypeGfmAlert';
@@ -22,23 +19,17 @@ const markdownToHtmlString = async (markdown: string, isSimple = false) => {
     .use(remarkBreaks)
     .use(remarkRehype, { footnoteLabel: '注釈', allowDangerousHtml: true })
     .use(rehypeGfmAlert)
-    .use(rehypeExternalLinks, {
-      target(element) {
-        return !(element?.properties?.href as string).includes(SITE_URL) ? '_blank' : undefined;
-      },
-      rel: ['nofollow'],
-    })
     .use(rehypePresetMinify)
     .use(rehypeRaw);
 
   const result = isSimple
     ? await processor.use(rehypeStringify, { allowDangerousHtml: true }).process(markdown)
     : await processor
-        .use(rehypeHighlight)
-        .use(rehype0218)
-        .use(rehypeRemoveComments)
-        .use(rehypeStringify, { allowDangerousHtml: true })
-        .process(markdown);
+      .use(rehypeHighlight)
+      .use(rehype0218)
+      .use(rehypeRemoveComments)
+      .use(rehypeStringify, { allowDangerousHtml: true })
+      .process(markdown);
 
   return result.toString();
 };
