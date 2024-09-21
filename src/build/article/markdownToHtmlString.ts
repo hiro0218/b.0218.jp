@@ -1,11 +1,11 @@
 import rehypeHighlight from 'rehype-highlight';
-import rehypePresetMinify from 'rehype-preset-minify';
 import rehypeRaw from 'rehype-raw';
 import rehypeStringify from 'rehype-stringify';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
+import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
 
 import rehype0218 from './rehype0218';
 import rehypeGfmAlert from './rehypeGfmAlert';
@@ -19,7 +19,7 @@ const markdownToHtmlString = async (markdown: string, isSimple = false) => {
     .use(remarkBreaks)
     .use(remarkRehype, { footnoteLabel: '注釈', allowDangerousHtml: true })
     .use(rehypeGfmAlert)
-    .use(rehypePresetMinify)
+    .use(rehypeMinifyWhitespace)
     .use(rehypeRaw);
 
   const result = isSimple
