@@ -10,6 +10,7 @@ import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
 import rehype0218 from './rehype0218';
 import rehypeGfmAlert from './rehypeGfmAlert';
 import rehypeRemoveComments from './rehypeRemoveComments';
+import rehypeExternalLink from './rehypeExternalLink';
 import remarkBreaks from './remarkBreaks';
 
 const markdownToHtmlString = async (markdown: string, isSimple = false) => {
@@ -18,13 +19,14 @@ const markdownToHtmlString = async (markdown: string, isSimple = false) => {
     .use(remarkGfm)
     .use(remarkBreaks)
     .use(remarkRehype, { footnoteLabel: '注釈', allowDangerousHtml: true })
-    .use(rehypeGfmAlert)
+    .use(rehypeExternalLink)
     .use(rehypeMinifyWhitespace)
     .use(rehypeRaw);
 
   const result = isSimple
     ? await processor.use(rehypeStringify, { allowDangerousHtml: true }).process(markdown)
     : await processor
+      .use(rehypeGfmAlert)
       .use(rehypeHighlight)
       .use(rehype0218)
       .use(rehypeRemoveComments)

@@ -1,6 +1,5 @@
 import type { Element, Root } from 'hast';
 import { visit } from 'unist-util-visit';
-import { SITE_URL } from '@/constant';
 
 import transformCodeblock from './transform/codeblock';
 import transformImage from './transform/image';
@@ -20,15 +19,6 @@ const rehype0218 = () => {
         if (node.children[0]?.type === 'text') {
           nodes.add({ node, index, parent });
         }
-      }
-
-      // Add target blank to external links
-      if (
-        node.tagName === 'a' &&
-        typeof node.properties.href === 'string' &&
-        !node.properties.href.includes(SITE_URL)
-      ) {
-        node.properties.target = '_blank';
       }
 
       if (node.tagName === 'img') {
