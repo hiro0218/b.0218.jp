@@ -2,7 +2,7 @@ type ArticleBaseProps = {
   title: string;
   slug: string;
   date: string;
-  updated: string;
+  updated?: string | undefined;
   content: string;
 };
 

@@ -25,7 +25,12 @@ export const getSimilarPost = (posts: Map<PostProps['slug'], PostProps>, slug: s
 
   const similarPost = existingSlugs.map((slug) => {
     const { title, date, updated } = posts.get(slug);
-    return { title, slug, date, updated };
+    return {
+      title,
+      slug,
+      date,
+      ...(updated && { updated }),
+    };
   });
 
   return similarPost;

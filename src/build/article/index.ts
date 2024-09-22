@@ -52,7 +52,7 @@ async function buildPost() {
       title: title.trim(),
       slug: getSlug(file),
       date: new Date(date).toISOString(),
-      updated: updated ? new Date(updated).toISOString() : '',
+      ...(updated && { updated: new Date(updated).toISOString() }),
       ...(noteContent && { note: noteContent }),
       content: content,
       tags,
