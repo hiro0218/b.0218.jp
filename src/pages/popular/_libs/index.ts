@@ -6,8 +6,7 @@ const POST_DISPLAY_LIMIT = 20;
 const postsMap = getPostsListJson();
 
 export const getData = () => {
-  const posts = Array.from(postsMap.values());
-  const popularPosts = getPopularPost(posts, POST_DISPLAY_LIMIT);
+  const popularPosts = getPopularPost(postsMap, POST_DISPLAY_LIMIT);
 
   return {
     popularPosts,
