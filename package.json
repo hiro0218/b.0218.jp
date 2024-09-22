@@ -64,7 +64,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.2",
     "@google-analytics/data": "4.7.0",
-    "@hono/node-server": "1.13.0",
+    "@hono/node-server": "1.13.1",
     "@markuplint/jsx-parser": "4.7.6",
     "@markuplint/react-spec": "4.5.6",
     "@next/bundle-analyzer": "14.2.13",
