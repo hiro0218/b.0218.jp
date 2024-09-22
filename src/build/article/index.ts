@@ -152,7 +152,7 @@ async function buildPage() {
       title,
       slug: getSlug(file),
       date,
-      updated,
+      ...(updated && { updated: new Date(updated).toISOString() }),
       content,
     });
   }
