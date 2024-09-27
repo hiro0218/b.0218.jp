@@ -18,7 +18,12 @@ export const getStaticPropsTagDetail: GetStaticProps<TermProps> = (context: GetS
 
   for (const postSlug of tag) {
     const { title, date, updated } = allPosts.get(postSlug);
-    tagsPosts.push({ title, slug: postSlug, date, updated });
+    tagsPosts.push({
+      title,
+      slug: postSlug,
+      date,
+      ...(updated && { updated }),
+    });
   }
 
   return {

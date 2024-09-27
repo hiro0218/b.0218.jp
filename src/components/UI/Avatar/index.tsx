@@ -1,9 +1,7 @@
-import { memo } from 'react';
-
 import { Stack } from '@/components/UI/Layout';
 import { styled } from '@/ui/styled';
 
-export const Avatar = memo(function Avatar() {
+export const Avatar = function Avatar() {
   return (
     <Stack align="center" direction="horizontal" space={1}>
       <IconContainer>
@@ -15,7 +13,7 @@ export const Avatar = memo(function Avatar() {
       </Stack>
     </Stack>
   );
-});
+};
 
 const IconContainer = styled.div`
   display: flex;

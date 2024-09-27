@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { type DOMAttributes, useRef } from 'react';
 
 import { Adsense } from '@/components/UI/Adsense';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
@@ -13,6 +13,15 @@ type Props = {
   content: PostProps['content'];
 };
 
+const ContentSection = ({ html }: { html: DOMAttributes<HTMLDivElement>['dangerouslySetInnerHTML']['__html'] }) => (
+  <div
+    css={PostContentStyle}
+    dangerouslySetInnerHTML={{
+      __html: html,
+    }}
+  />
+);
+
 export default function Content({ enableMokuji = true, content }: Props) {
   const { before, after } = splitHtml(content);
   const ref = useRef<HTMLDivElement>(null);
@@ -22,20 +31,12 @@ export default function Content({ enableMokuji = true, content }: Props) {
     <>
       {enableMokuji && <Mokuji refContent={ref} />}
       <section ref={ref}>
-        <div
-          css={PostContentStyle}
-          dangerouslySetInnerHTML={{
-            __html: before,
-          }}
-        />
-        {!!after && <Adsense />}
+        <ContentSection html={before} />
         {!!after && (
-          <div
-            css={PostContentStyle}
-            dangerouslySetInnerHTML={{
-              __html: after,
-            }}
-          />
+          <>
+            <Adsense />
+            <ContentSection html={after} />
+          </>
         )}
       </section>
       <Adsense />

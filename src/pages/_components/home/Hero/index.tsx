@@ -1,5 +1,3 @@
-import { memo } from 'react';
-
 // import AvatarIcon from '@/assets/hiro0218.svg';
 import { Stack } from '@/components/UI/Layout';
 import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
@@ -8,7 +6,7 @@ import { styled } from '@/ui/styled';
 const ICON_SIZE = 100;
 const ICON_SIZE_SHRINK = ICON_SIZE * 0.85;
 
-export const Hero = memo(function Hero() {
+export const Hero = function Hero() {
   return (
     <Container align="center" space={2}>
       <Avatar>
@@ -20,7 +18,7 @@ export const Hero = memo(function Hero() {
       </Stack>
     </Container>
   );
-});
+};
 
 const Container = styled(Stack)`
   margin-inline: auto;

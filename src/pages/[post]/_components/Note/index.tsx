@@ -6,10 +6,6 @@ import { styled } from '@/ui/styled';
 type Props = Pick<PostProps, 'note'>;
 
 function PostNote({ note }: Props) {
-  if (!note) {
-    return null;
-  }
-
   return (
     <Stack as="aside" direction="horizontal" space={2}>
       <InfoCircledIcon height={ICON_SIZE_MD} width={ICON_SIZE_MD} />

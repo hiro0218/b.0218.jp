@@ -8,6 +8,7 @@ type Props = {
 function useTwitterWidgetsLoad({ ref }: Props) {
   const pathname = usePathname();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     if (!ref.current) {
       return;

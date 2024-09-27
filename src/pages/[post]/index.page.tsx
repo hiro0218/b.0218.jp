@@ -32,6 +32,10 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
   const description = getDescriptionText(content);
 
   const ShareComponent = useMemo(() => <PostShare title={title} url={permalink} />, [permalink, title]);
+  const RecentPostSection = useMemo(
+    () => <PostSection as="aside" heading="最新記事" headingLevel="h2" href="/archive" posts={recentPosts} />,
+    [recentPosts],
+  );
 
   return (
     <>
@@ -60,33 +64,35 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
         />
       </Head>
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
-      <Container size="small">
-        <Stack as="article" space={4}>
-          <PostHeader
-            date={date}
-            readingTime={readingTime}
-            render={ShareComponent}
-            tagsWithCount={tagsWithCount}
-            title={title}
-            updated={updated}
+      <Stack space={6}>
+        <Container size="small" space={false}>
+          <Stack as="article" space={4}>
+            <PostHeader
+              date={date}
+              readingTime={readingTime}
+              render={ShareComponent}
+              tagsWithCount={tagsWithCount}
+              title={title}
+              updated={updated}
+            />
+            {!!note && <PostNote note={note} />}
+            <PostContent content={content} />
+            {ShareComponent}
+            <PostEdit slug={slug} />
+          </Stack>
+        </Container>
+        <Stack as="footer" space={4}>
+          <TagSection
+            as="aside"
+            heading="関連タグ"
+            headingLevel="h2"
+            headingWeight="normal"
+            isWideCluster={false}
+            tags={similarTags}
           />
-          <PostNote note={note} />
-          <PostContent content={content} />
-          {ShareComponent}
-          <PostEdit slug={slug} />
+          <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
+          {RecentPostSection}
         </Stack>
-      </Container>
-      <Stack as="footer" space={5}>
-        <TagSection
-          as="aside"
-          heading="関連タグ"
-          headingLevel="h2"
-          headingWeight="normal"
-          isWideCluster={false}
-          tags={similarTags}
-        />
-        <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
-        <PostSection as="aside" heading="最新記事" headingLevel="h2" href="/archive" posts={recentPosts} />
       </Stack>
     </>
   );

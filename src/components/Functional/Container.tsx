@@ -3,6 +3,7 @@ import { styled } from '@/ui/styled';
 
 type Props = {
   size?: 'small' | 'default' | 'large';
+  space?: boolean;
 };
 
 const getSize = (size: Props['size']) => {
@@ -22,10 +23,10 @@ const getSize = (size: Props['size']) => {
 
 export const Container = styled.div<Props>`
   max-width: ${({ size }) => `calc(var(--space-1) * ${getSize(size)})`};
-  padding-inline: var(--space-3);
+  padding-inline: ${({ space = true }) => space && 'var(--space-3)'};
   margin: var(--space-3) auto 0;
 
   ${isMobile} {
-    padding: 0 var(--space-3);
+    padding: ${({ space = true }) => space && '0 var(--space-3)'};
   }
 `;

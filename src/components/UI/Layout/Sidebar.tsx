@@ -28,12 +28,12 @@ const Container = styled.div<Props>`
   overflow: clip;
 
   & > * {
-    flex-basis: var(--side-width);
     flex-grow: 1;
+    flex-basis: var(--side-width);
 
     &:last-child {
-      flex-basis: 0;
       flex-grow: 999;
+      flex-basis: 0;
       min-width: calc(var(--content-min) - var(--space));
     }
   }
@@ -58,6 +58,7 @@ export const Sidebar = (({ children, space }: Props) => {
     </Container>
   );
 }) as NamedExoticComponent<Props> & {
+  // biome-ignore lint/style/useNamingConvention: <explanation>
   Title: typeof Title;
 };
 

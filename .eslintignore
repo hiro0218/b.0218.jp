@@ -1,7 +1,0 @@
-/.next
-/build
-/public
-/out
-/next-env.d.ts
-.eslintrc.js
-*.config.js

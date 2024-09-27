@@ -36,13 +36,12 @@ const nextConfiguration = {
     '@radix-ui': {
       transform: '@radix-ui/{{member}}',
     },
-    "@emotion": {
-      transform: "@emotion/{{member}}",
+    '@emotion': {
+      transform: '@emotion/{{member}}',
     },
   },
 
   webpack(config, { webpack, buildId }) {
-    // eslint-disable-next-line @next/next/no-assign-module-variable
     const module = config.module || {};
     const rules = module.rules || {};
 
@@ -51,7 +50,7 @@ const nextConfiguration = {
       rules: [
         ...rules,
         {
-          test: /src\/(components|ui)\/.*\/index\.ts/i,
+          test: /src\/.*\/index\.ts?$/,
           sideEffects: false,
         },
         {

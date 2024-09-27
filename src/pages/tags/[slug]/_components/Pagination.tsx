@@ -83,6 +83,7 @@ export const PaginationContainer = ({ displayCount, children }: { displayCount: 
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const pageNumbers = useMemo(() => Array.from({ length: displayCount }).map((_, i) => i + 1), [displayCount]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const paginationProps = useMemo(
     () => ({ displayCount, currentPage, pageNumbers, setCurrentPage }),
     [displayCount, currentPage, pageNumbers, setCurrentPage],
@@ -112,9 +113,9 @@ export const PaginationContainer = ({ displayCount, children }: { displayCount: 
 
 const PaginationButtonStyle = css`
   display: flex;
-  flex-basis: ${ICON_SIZE_LG}px;
   flex-grow: 0;
   flex-shrink: 0;
+  flex-basis: ${ICON_SIZE_LG}px;
   align-items: center;
   justify-content: center;
   width: ${ICON_SIZE_LG}px;

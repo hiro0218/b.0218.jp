@@ -1,5 +1,3 @@
-import { memo } from 'react';
-
 import { Container as _Container } from '@/components/Functional/Container';
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { LinkStyle } from '@/components/UI/LinkMenu';
@@ -13,7 +11,7 @@ const Links = [
   { title: 'archive', href: '/archive' },
 ] as const;
 
-export default memo(function Footer() {
+export default function Footer() {
   return (
     <Root>
       <Container size="default">
@@ -28,7 +26,7 @@ export default memo(function Footer() {
       </Container>
     </Root>
   );
-});
+}
 
 const Root = styled.footer`
   padding: var(--space-5) 0;

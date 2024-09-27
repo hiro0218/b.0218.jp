@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { findAndReplace, type ReplaceFunction } from 'mdast-util-find-and-replace';
 
 type Nodes = Parameters<typeof findAndReplace>[0];
