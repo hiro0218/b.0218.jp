@@ -2,6 +2,7 @@ import { SITE_URL } from '@/constant';
 import { readJSON } from '@/lib/fs';
 import * as Log from '@/lib/Log';
 import type { PostListProps } from '@/types/source';
+import type { HatenaResult } from './type';
 
 const PATH_DIST = `${process.cwd()}/dist`;
 const HATENA_API_URL = 'https://bookmark.hatenaapis.com/count/entries';
@@ -34,7 +35,7 @@ export const getBookmarkArticles = async () => {
   const chunkedUrls = chunkUrls(urls, MAX_URLS);
   const hatenaApiUrls = createHatenaApiUrls(chunkedUrls);
 
-  let hatenaApiResult = {};
+  let hatenaApiResult: HatenaResult = {};
 
   await Promise.all(
     hatenaApiUrls.map(async (url) => {
