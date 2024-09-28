@@ -33,7 +33,7 @@ type MyAppProps = AppProps & {
 if (typeof window !== 'undefined') {
   document.addEventListener('DOMContentLoaded', () => smoothScroll());
   window.addEventListener('load', observeScrollbarWidth);
-  window.addEventListener('resize', debounce(observeScrollbarWidth));
+  window.addEventListener('resize', () => debounce(observeScrollbarWidth));
 }
 
 const clientSideEmotionCache = createEmotionCache();
