@@ -15,7 +15,9 @@ const { DOMParser } = new JSDOM(`<!DOCTYPE html><body></body>`, { virtualConsole
 export const getMeta = (html: string) => {
   const head = html.match(/<head[^>]*>[\s\S]*?<\/head>/i);
 
-  if (head?.length === 0) return [];
+  if (head?.length === 0) {
+    return null;
+  }
 
   const document = new DOMParser().parseFromString(head[0], 'text/html');
   const meta = document.head.querySelectorAll('meta');
