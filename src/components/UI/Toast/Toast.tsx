@@ -1,4 +1,4 @@
-import type { MutableRefObject } from 'react';
+import type { ForwardedRef } from 'react';
 import { forwardRef, useMemo } from 'react';
 
 import { fadeIn } from '@/ui/animation';
@@ -6,7 +6,6 @@ import { styled } from '@/ui/styled';
 
 import { useToast } from './useToast';
 
-type RefProps = MutableRefObject<HTMLDivElement>;
 type Props = {
   message: string;
   onHideToast: () => void;
@@ -27,7 +26,10 @@ export const Toast = (message: string) => {
   };
 };
 
-const ToastComponent = forwardRef(function ToastComponent({ message, onHideToast }: Props, ref: RefProps) {
+const ToastComponent = forwardRef(function ToastComponent(
+  { message, onHideToast }: Props,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
   return (
     <Container aria-hidden="false" onClick={onHideToast} ref={ref} role="tooltip">
       {message}
