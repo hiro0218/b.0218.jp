@@ -8,7 +8,7 @@ type Props = {
   heading?: string;
   headingLevel?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   headingWeight?: 'bold' | 'normal';
-  posts: PostListProps[] | TermsPostListProps[];
+  posts: PostListProps[] | (TermsPostListProps & { tags?: string[] })[];
   href?: string;
   as?: keyof JSX.IntrinsicElements;
 };
