@@ -40,5 +40,5 @@ export const SPACE_STEPS = Object.fromEntries(
 ) as Record<SpaceKey, SpaceValue>;
 
 export default css`
-  ${Object.entries(SPACE_STEPS).map(([key, value]: [SpaceKey, SpaceValue]) => `${key}: ${value};`)}
+  ${Object.entries(SPACE_STEPS).map(([key, value]) => `${key}: ${value};`)}
 `;
