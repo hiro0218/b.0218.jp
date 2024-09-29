@@ -1,10 +1,8 @@
 import type { Element, ElementContent } from 'hast';
 import { h } from 'hastscript';
 
-import * as Log from '@/lib/Log';
-
-import { FETCH_TIMEOUT, getHTML, getMeta } from './dom';
-import { handleError } from '@/build/article/rehype0218/transform/linkPreview/handleError';
+import { getHTML, getMeta } from './dom';
+import { handleError } from './handleError';
 
 type OpgProps = {
   description?: string;
@@ -136,7 +134,7 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
     if (!result) return;
 
     const meta = getMeta(result);
-    if (!meta) return
+    if (!meta) return;
 
     const ogp = getOgpProps(Array.from(meta));
     const domain = new URL(href).hostname;
