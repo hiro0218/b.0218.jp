@@ -5,9 +5,10 @@ import { read as matterRead } from 'gray-matter';
 import readingTime from 'reading-time';
 
 import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
-import { copyDir, copyFile, mkdir, readdir, writeJSON } from '@/lib/fs';
 import * as Log from '@/lib/Log';
+import { copyDir, copyFile, mkdir, readdir, writeJSON } from '@/lib/fs';
 import type { PageProps, PostProps } from '@/types/source';
+import { removePostsData } from './post/removePostData';
 
 import markdownToHtmlString from './markdownToHtmlString';
 
@@ -76,19 +77,6 @@ async function buildPostList(posts: Partial<PostProps>[]) {
   await writeJSON(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, removePostsData(posts)).then(() => {
     Log.info(`Write dist/${FILENAME_POSTS_LIST}.json`);
   });
-}
-
-function removePostsData(posts: Partial<PostProps>[]) {
-  const length = posts.length;
-
-  for (let i = 0; i < length; i++) {
-    const post = posts[i];
-    delete post.note;
-    delete post.content;
-    delete post.readingTime;
-  }
-
-  return posts;
 }
 
 async function buildTerms(posts: Partial<PostProps>[]) {
