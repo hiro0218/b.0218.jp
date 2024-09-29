@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { forwardRef, type MutableRefObject, useId } from 'react';
+import { forwardRef, useId, type ForwardedRef } from 'react';
 import { createPortal } from 'react-dom';
 
 import useIsClient from '@/hooks/useIsClient';
@@ -7,8 +7,6 @@ import { fadeIn, slideIn } from '@/ui/animation';
 import { styled } from '@/ui/styled';
 
 import type { onCloseDialogProps } from './type';
-
-type RefProps = MutableRefObject<HTMLDialogElement>;
 
 const SrOnly = dynamic(() =>
   import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),
@@ -20,7 +18,10 @@ type Props = {
   closeDialog: onCloseDialogProps;
 };
 
-export const SearchDialog = forwardRef(function SearchDialog({ closeDialog }: Props, ref: RefProps) {
+export const SearchDialog = forwardRef(function SearchDialog(
+  { closeDialog }: Props,
+  ref: ForwardedRef<HTMLDialogElement>,
+) {
   const isClient = useIsClient();
   const id = useId();
 

@@ -89,7 +89,11 @@ const Headings = css`
     }
   }
 
-  ${[2, 3, 4, 5, 6].map((number: HeadingTagNumber) => generateHeadingStyles(number))}
+  ${generateHeadingStyles(2)}
+  ${generateHeadingStyles(3)}
+  ${generateHeadingStyles(4)}
+  ${generateHeadingStyles(5)}
+  ${generateHeadingStyles(6)}
 
   h2 {
     &:first-child {

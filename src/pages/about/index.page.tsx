@@ -1,6 +1,7 @@
+import type { NextPage } from 'next';
 import { createGetLayout } from '../_layouts/SinglePageLayout';
 
-export default function About() {
+export default function About(): NextPage {
   return null;
 }
 

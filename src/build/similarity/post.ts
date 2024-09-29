@@ -43,7 +43,7 @@ export function getRelatedPosts(targetPosts: PostListProps[], posts: PostListPro
       .filter((post) => post !== undefined)
       .sort((a, b) => b.similarityScore - a.similarityScore)
       .slice(0, LIMIT)
-      .reduce((acc, post) => {
+      .reduce((acc: Record<string, number>, post) => {
         acc[post.slug] = post.similarityScore;
         return acc;
       }, {});

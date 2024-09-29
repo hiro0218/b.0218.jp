@@ -1,6 +1,7 @@
+import type { NextPage } from 'next';
 import { createGetLayout } from '../_layouts/SinglePageLayout';
 
-export default function Privacy() {
+export default function Privacy(): NextPage {
   return null;
 }
 

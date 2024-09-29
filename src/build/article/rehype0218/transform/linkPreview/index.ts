@@ -1,9 +1,8 @@
 import type { Element, ElementContent } from 'hast';
 import { h } from 'hastscript';
 
-import * as Log from '@/lib/Log';
-
-import { FETCH_TIMEOUT, getHTML, getMeta } from './dom';
+import { getHTML, getMeta } from './dom';
+import { handleError } from './handleError';
 
 type OpgProps = {
   description?: string;
@@ -135,20 +134,14 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
     if (!result) return;
 
     const meta = getMeta(result);
+    if (!meta) return;
+
     const ogp = getOgpProps(Array.from(meta));
     const domain = new URL(href).hostname;
 
     setPreviewLinkNodes(node, index, parent, domain, ogp);
   } catch (error) {
-    if (error.name === 'TimeoutError') {
-      Log.error(`Timeout: It took more than ${FETCH_TIMEOUT} ms to retrieve the result.`, href);
-    } else if (error.name === 'AbortError') {
-      Log.error('Fetch aborted by user action.', href);
-    } else if (error.name === 'TypeError') {
-      Log.error('AbortSignal.timeout() method is not supported', href);
-    } else {
-      Log.error('Unexpected error occurred', error, href);
-    }
+    handleError(error, href);
   }
 };
 

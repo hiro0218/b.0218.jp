@@ -26,11 +26,11 @@
   },
   "nano-staged": {
     "**/*.{ts,tsx,js}": [
-      "npx @biomejs/biome lint --write",
+      "npx @biomejs/biome check --write",
       "bash -c 'tsc --noEmit --skipLibCheck'"
     ],
     "**/*.{css,tsx}": [
-      "npx @biomejs/biome lint --write",
+      "npx @biomejs/biome check --write",
       "stylelint --fix --cache"
     ],
     "**/*.{yml,yaml}": [

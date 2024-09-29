@@ -77,7 +77,7 @@ const path = {
       await Promise.all(screenshotPromises);
     }
   } catch (err) {
-    Log.error('Generating OGP Images', err.message);
+    Log.error('Generating OGP Images', err.toString());
   } finally {
     await browser?.close();
   }

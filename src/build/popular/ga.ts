@@ -8,7 +8,9 @@ import type { Result } from './type';
 
 const analyticsDataClient = new BetaAnalyticsDataClient({
   credentials: {
+    // biome-ignore lint/style/useNamingConvention: <explanation>
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL,
+    // biome-ignore lint/style/useNamingConvention: <explanation>
     private_key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY.split(String.raw`\n`).join('\n'),
   },
 });

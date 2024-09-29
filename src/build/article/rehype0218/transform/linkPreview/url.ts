@@ -1,8 +1,11 @@
+import { handleError } from './handleError';
+
 export const isValidURL = (url: string): boolean => {
   try {
     const parsedUrl = new URL(url);
     return parsedUrl.protocol === 'https:';
   } catch (e) {
+    handleError(e, url);
     return false;
   }
 };

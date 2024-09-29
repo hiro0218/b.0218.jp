@@ -72,7 +72,7 @@ function sortTagRelations(tagRelations: TagSimilarProps) {
 
   for (let i = 0, tagRelationsKeysLen = tagRelationsKeys.length; i < tagRelationsKeysLen; i++) {
     const tag = tagRelationsKeys[i];
-    const sortedRelatedTags = {};
+    const sortedRelatedTags: Record<string, number> = {};
     const relatedTagEntries = Object.entries(tagRelations[tag]);
     relatedTagEntries.sort((a, b) => b[1] - a[1]);
 
