@@ -21,6 +21,7 @@ const PATH = {
 
 const files = new fdir().crawl(`${PATH.SRC}/_posts`).sync();
 
+const isMarkdown = (file: string) => file.endsWith('.md');
 const getSlug = (file: string) => file.replace('.md', '');
 
 async function buildPost() {
@@ -32,7 +33,7 @@ async function buildPost() {
   for (let i = 0; i < numberOfFiles; i++) {
     const file = files[i];
 
-    if (!file.endsWith('.md')) {
+    if (!isMarkdown(file)) {
       continue;
     }
 
@@ -123,7 +124,7 @@ async function buildTerms(posts: Partial<PostProps>[]) {
 
 async function buildPage() {
   // md ファイル一覧を取得
-  const files = await readdir(`${PATH.SRC}`).then((file) => file.filter((file) => file.endsWith('.md')));
+  const files = await readdir(`${PATH.SRC}`).then((file) => file.filter((file) => isMarkdown(file)));
   const numberOfFiles = files.length;
   const pages: PageProps[] = [];
 
