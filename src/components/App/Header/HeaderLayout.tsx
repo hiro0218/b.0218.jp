@@ -1,4 +1,4 @@
-import { memo, type ReactNode } from 'react';
+import { type ReactNode, memo } from 'react';
 
 import useIsMounted from '@/hooks/useIsMounted';
 import { fadeIn, fadeOut } from '@/ui/animation';

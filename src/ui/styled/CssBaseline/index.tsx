@@ -1,4 +1,4 @@
-import { css, Global } from '@/ui/styled';
+import { Global, css } from '@/ui/styled';
 import { SrOnlyClassName } from '@/ui/styled/constant';
 
 import elementStyle from './Elements';

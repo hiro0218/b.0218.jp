@@ -19,7 +19,7 @@ export function handleError(error: unknown, message?: string): void {
   } else if (error instanceof NetworkError) {
     Log.error('Network Error:', error.message, message);
   } else if (error instanceof SyntaxError) {
-    Log.error('JSON Error:', error.message, message);;
+    Log.error('JSON Error:', error.message, message);
   } else {
     Log.error('Occurred unexpected error:', error.toString(), message);
   }

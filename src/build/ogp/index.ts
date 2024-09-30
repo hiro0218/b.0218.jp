@@ -2,8 +2,8 @@ import { cwd } from 'node:process';
 
 import { type Browser, chromium } from 'playwright';
 
-import { mkdir } from '@/lib/fs';
 import * as Log from '@/lib/Log';
+import { mkdir } from '@/lib/fs';
 import { getPostsListJson } from '@/lib/posts';
 
 const path = {

@@ -1,4 +1,4 @@
-import { getPostsPopular, type getPostsListJson } from '@/lib/posts';
+import { type getPostsListJson, getPostsPopular } from '@/lib/posts';
 
 import { IGNORE_SLUGS } from './constant';
 

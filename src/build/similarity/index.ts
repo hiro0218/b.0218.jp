@@ -1,6 +1,6 @@
 import { FILENAME_POSTS_SIMILARITY, FILENAME_TAG_SIMILARITY } from '@/constant';
-import { readJSON, writeJSON } from '@/lib/fs';
 import * as Log from '@/lib/Log';
+import { readJSON, writeJSON } from '@/lib/fs';
 import type { PostListProps, TagsListProps } from '@/types/source';
 
 import { getRelatedPosts } from './post';
