@@ -1,5 +1,4 @@
 import type { InferGetStaticPropsType } from 'next';
-import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Script from 'next/script';
 import { useMemo } from 'react';
@@ -16,12 +15,11 @@ import {
   Edit as PostEdit,
   Header as PostHeader,
   Note as PostNote,
+  Share as PostShare,
 } from '@/pages/[post]/_components';
 
 import { createGetLayout } from '../_layouts/PostPageLayout';
 import { getStaticPathsPost, getStaticPropsPost } from './_libs';
-
-const PostShare = dynamic(() => import('@/pages/[post]/_components/Share').then((module) => module.default));
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -30,12 +28,7 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
   const hasTweet = content.includes('twitter-tweet');
   const permalink = getPermalink(slug);
   const description = getDescriptionText(content);
-
   const ShareComponent = useMemo(() => <PostShare title={title} url={permalink} />, [permalink, title]);
-  const RecentPostSection = useMemo(
-    () => <PostSection as="aside" heading="最新記事" headingLevel="h2" href="/archive" posts={recentPosts} />,
-    [recentPosts],
-  );
 
   return (
     <>
@@ -91,7 +84,7 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
             tags={similarTags}
           />
           <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
-          {RecentPostSection}
+          <PostSection as="aside" heading="最新記事" headingLevel="h2" href="/archive" posts={recentPosts} />
         </Stack>
       </Stack>
     </>

@@ -8,6 +8,7 @@ export default function rehypeRemoveComments() {
       if (
         node.tagName === 'a' &&
         typeof node.properties.href === 'string' &&
+        !node.properties.href.startsWith('#') &&
         !node.properties.href.includes(SITE_URL)
       ) {
         node.properties.target = '_blank';
