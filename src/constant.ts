@@ -8,10 +8,15 @@ export const SITE_DESCRIPTION = '様々な情報をストックするサイバ�
 export const SITE_URL = 'https://b.0218.jp';
 
 export const URL = {
+  // biome-ignore lint/style/useNamingConvention: <explanation>
   TWITTER: 'https://twitter.com/hiro0218',
+  // biome-ignore lint/style/useNamingConvention: <explanation>
   GITHUB: 'https://github.com/hiro0218',
+  // biome-ignore lint/style/useNamingConvention: <explanation>
   NPM: 'https://www.npmjs.com/~hiro0218',
+  // biome-ignore lint/style/useNamingConvention: <explanation>
   QIITA: 'https://qiita.com/hiro0218',
+  // biome-ignore lint/style/useNamingConvention: <explanation>
   ZENN: 'https://zenn.dev/hiro',
 } as const;
 
@@ -37,10 +42,14 @@ export const TAG_VIEW_LIMIT = 3;
  * Google AdSense
  */
 export const GOOGLE_ADSENSE = {
+  // biome-ignore lint/style/useNamingConvention: <explanation>
   LAYOUT: 'in-article',
+  // biome-ignore lint/style/useNamingConvention: <explanation>
   FORMAT: 'fluid',
   /** パブリッシャー ID */
+  // biome-ignore lint/style/useNamingConvention: <explanation>
   CLIENT: 'ca-pub-7651142413133023',
   /** 広告ユニット ID */
+  // biome-ignore lint/style/useNamingConvention: <explanation>
   SLOT: '4045255408',
 } as const;
