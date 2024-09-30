@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { forwardRef, useId, type ForwardedRef } from 'react';
+import { type ForwardedRef, forwardRef, useId } from 'react';
 import { createPortal } from 'react-dom';
 
 import useIsClient from '@/hooks/useIsClient';

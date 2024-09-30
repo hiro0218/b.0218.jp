@@ -1,4 +1,4 @@
-import { Destroy as MokujiJsDestroy, Mokuji as MokujiJs, type MokujiOption } from 'mokuji.js';
+import { Mokuji as MokujiJs, Destroy as MokujiJsDestroy, type MokujiOption } from 'mokuji.js';
 import { usePathname } from 'next/navigation';
 import type { RefObject } from 'react';
 import { useEffect, useRef } from 'react';

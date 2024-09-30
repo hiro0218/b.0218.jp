@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import type { onCloseDialogProps, onKeyupEventProps, SearchProps } from './type';
+import type { SearchProps, onCloseDialogProps, onKeyupEventProps } from './type';
 
 type DataProps = {
   keyword: string;

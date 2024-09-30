@@ -7,7 +7,7 @@ import { fadeIn } from '@/ui/animation';
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
 
-import type { onCloseDialogProps, SearchProps } from './type';
+import type { SearchProps, onCloseDialogProps } from './type';
 import { useSearchHeader } from './useSearchHeader';
 
 type Props = {

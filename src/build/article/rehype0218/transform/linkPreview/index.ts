@@ -12,6 +12,8 @@ type OpgProps = {
 };
 type OgpKey = keyof OpgProps;
 
+const SKIP_DOMAINS: string[] = [];
+
 const PREVIEW_LINK_BLOCK_CLASS_NAME = 'p-link-preview';
 const PREVIEW_LINK_CLASS_NAMES = {
   // biome-ignore lint/style/useNamingConvention: <explanation>
@@ -139,9 +141,12 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
     const ogp = getOgpProps(Array.from(meta));
     const domain = new URL(href).hostname;
 
+    if (SKIP_DOMAINS.includes(domain)) return;
+
     setPreviewLinkNodes(node, index, parent, domain, ogp);
   } catch (error) {
     handleError(error, href);
+    SKIP_DOMAINS.push(new URL(href).hostname);
   }
 };
 

@@ -5,38 +5,35 @@ import { read as matterRead } from 'gray-matter';
 import readingTime from 'reading-time';
 
 import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
-import { copyDir, copyFile, mkdir, readdir, writeJSON } from '@/lib/fs';
 import * as Log from '@/lib/Log';
+import { copyDir, copyFile, mkdir, writeJSON } from '@/lib/fs';
 import type { PageProps, PostProps } from '@/types/source';
+import { removePostsData } from './post/removePostData';
 
 import markdownToHtmlString from './markdownToHtmlString';
 
 const PATH = {
-  // biome-ignore lint/style/useNamingConvention:
-  SRC: `${process.cwd()}/_article`,
-  // biome-ignore lint/style/useNamingConvention:
-  DIST: `${process.cwd()}/dist`,
+  from: `${process.cwd()}/_article`,
+  to: `${process.cwd()}/dist`,
 } as const;
 
-const files = new fdir().crawl(`${PATH.SRC}/_posts`).sync();
-
+const isMarkdown = (file: string) => file.endsWith('.md');
 const getSlug = (file: string) => file.replace('.md', '');
 
 async function buildPost() {
   // md ファイル一覧を取得
-  const numberOfFiles = files.length;
+  const files = new fdir()
+    .filter((path) => isMarkdown(path))
+    .crawl(`${PATH.from}/_posts`)
+    .sync();
   const posts: PostProps[] = [];
 
   // 記事一覧
-  for (let i = 0; i < numberOfFiles; i++) {
+  for (let i = 0; i < files.length; i++) {
     const file = files[i];
 
-    if (!file.endsWith('.md')) {
-      continue;
-    }
-
     // front matter を取得
-    const post = matterRead(`${PATH.SRC}/_posts/${file}`);
+    const post = matterRead(`${PATH.from}/_posts/${file}`);
     const { title, date, updated, note, tags, noindex } = post.data as PostProps;
 
     // 未来の投稿はスキップ
@@ -64,8 +61,8 @@ async function buildPost() {
   // sort: 日付順
   posts.sort((a, b) => b.date.localeCompare(a.date));
 
-  await mkdir(`${PATH.DIST}`, { recursive: true });
-  writeJSON(`${PATH.DIST}/${FILENAME_POSTS}.json`, posts).then(() => {
+  await mkdir(`${PATH.to}`, { recursive: true });
+  writeJSON(`${PATH.to}/${FILENAME_POSTS}.json`, posts).then(() => {
     Log.info(`Write dist/${FILENAME_POSTS}.json`);
   });
 
@@ -73,22 +70,9 @@ async function buildPost() {
 }
 
 async function buildPostList(posts: Partial<PostProps>[]) {
-  await writeJSON(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, removePostsData(posts)).then(() => {
+  await writeJSON(`${PATH.to}/${FILENAME_POSTS_LIST}.json`, removePostsData(posts)).then(() => {
     Log.info(`Write dist/${FILENAME_POSTS_LIST}.json`);
   });
-}
-
-function removePostsData(posts: Partial<PostProps>[]) {
-  const length = posts.length;
-
-  for (let i = 0; i < length; i++) {
-    const post = posts[i];
-    delete post.note;
-    delete post.content;
-    delete post.readingTime;
-  }
-
-  return posts;
 }
 
 async function buildTerms(posts: Partial<PostProps>[]) {
@@ -115,7 +99,7 @@ async function buildTerms(posts: Partial<PostProps>[]) {
     }
   }
 
-  writeJSON(`${PATH.DIST}/tags.json`, tagsMap).then(() => {
+  writeJSON(`${PATH.to}/tags.json`, tagsMap).then(() => {
     Log.info('Write dist/tags.json');
   });
 
@@ -128,23 +112,26 @@ async function buildTerms(posts: Partial<PostProps>[]) {
     })
     .sort((a, b) => b.count - a.count); // 件数の多い順にソート
 
-  writeJSON(`${PATH.DIST}/tags-with-count.json`, { tagsWithCount }).then(() => {
+  writeJSON(`${PATH.to}/tags-with-count.json`, { tagsWithCount }).then(() => {
     Log.info('Write dist/tags-with-count.json');
   });
 }
 
 async function buildPage() {
   // md ファイル一覧を取得
-  const files = await readdir(`${PATH.SRC}`).then((file) => file.filter((file) => file.endsWith('.md')));
-  const numberOfFiles = files.length;
+  const files = new fdir()
+    .withMaxDepth(0)
+    .filter((path) => isMarkdown(path))
+    .crawl(PATH.from)
+    .sync();
   const pages: PageProps[] = [];
 
   // 記事一覧
-  for (let i = 0; i < numberOfFiles; i++) {
+  for (let i = 0; i < files.length; i++) {
     const file = files[i];
 
     // front matter を取得
-    const page = matterRead(`${PATH.SRC}/${file}`);
+    const page = matterRead(`${PATH.from}/${file}`);
     const { title, date, updated } = page.data as PageProps;
     const content = await markdownToHtmlString(page.content);
 
@@ -157,17 +144,15 @@ async function buildPage() {
     });
   }
 
-  writeJSON(`${PATH.DIST}/${FILENAME_PAGES}.json`, pages).then(() => {
+  writeJSON(`${PATH.to}/${FILENAME_PAGES}.json`, pages).then(() => {
     Log.info(`Write dist/${FILENAME_PAGES}.json`);
   });
 }
 
 async function copyFiles() {
-  copyFile(`${PATH.DIST}/${FILENAME_POSTS_LIST}.json`, `${process.cwd()}/public/${FILENAME_POSTS_LIST}.json`).then(
-    () => {
-      Log.info(`Copy dist/${FILENAME_POSTS_LIST}.json -> public`);
-    },
-  );
+  copyFile(`${PATH.to}/${FILENAME_POSTS_LIST}.json`, `${process.cwd()}/public/${FILENAME_POSTS_LIST}.json`).then(() => {
+    Log.info(`Copy dist/${FILENAME_POSTS_LIST}.json -> public`);
+  });
   copyDir(`${process.cwd()}/_article/images`, `${process.cwd()}/public/images`).then(() => {
     Log.info('Copy _article/images -> public/images');
   });

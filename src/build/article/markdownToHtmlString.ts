@@ -1,16 +1,16 @@
 import rehypeHighlight from 'rehype-highlight';
+import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
 import rehypeRaw from 'rehype-raw';
 import rehypeStringify from 'rehype-stringify';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
-import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
 
 import rehype0218 from './rehype0218';
+import rehypeExternalLink from './rehypeExternalLink';
 import rehypeGfmAlert from './rehypeGfmAlert';
 import rehypeRemoveComments from './rehypeRemoveComments';
-import rehypeExternalLink from './rehypeExternalLink';
 import remarkBreaks from './remarkBreaks';
 
 const markdownToHtmlString = async (markdown: string, isSimple = false) => {
@@ -26,12 +26,12 @@ const markdownToHtmlString = async (markdown: string, isSimple = false) => {
   const result = isSimple
     ? await processor.use(rehypeStringify, { allowDangerousHtml: true }).process(markdown)
     : await processor
-      .use(rehypeGfmAlert)
-      .use(rehypeHighlight)
-      .use(rehype0218)
-      .use(rehypeRemoveComments)
-      .use(rehypeStringify, { allowDangerousHtml: true })
-      .process(markdown);
+        .use(rehypeGfmAlert)
+        .use(rehypeHighlight)
+        .use(rehype0218)
+        .use(rehypeRemoveComments)
+        .use(rehypeStringify, { allowDangerousHtml: true })
+        .process(markdown);
 
   return result.toString();
 };

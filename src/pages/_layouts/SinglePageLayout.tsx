@@ -6,7 +6,7 @@ import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
-import { Content as PostContent } from '@/pages/[post]/_components';
+import PostContentStyle from '@/pages/[post]/_components/Content/style';
 
 type LayoutProps = {
   slug: 'about' | 'privacy';
@@ -34,9 +34,16 @@ function Layout({ slug, title }: LayoutProps) {
         <title key="title">{`${heading} - ${SITE_NAME}`}</title>
         <link href={`${SITE_URL}/${slug}`} rel="canonical" />
       </Head>
-      <Stack as="article" space={4}>
+      <Stack space={4}>
         <Title heading={heading} paragraph={paragraph} />
-        <PostContent content={content} enableMokuji={false} />
+        <Stack as="article" space={2}>
+          <div
+            css={PostContentStyle}
+            dangerouslySetInnerHTML={{
+              __html: content,
+            }}
+          />
+        </Stack>
       </Stack>
     </Container>
   );
