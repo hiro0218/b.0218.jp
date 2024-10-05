@@ -22,10 +22,10 @@ const getSlug = (file: string) => file.replace('.md', '');
 
 async function buildPost() {
   // md ファイル一覧を取得
-  const files = new fdir()
+  const files = await new fdir()
     .filter((path) => isMarkdown(path))
     .crawl(`${PATH.from}/_posts`)
-    .sync();
+    .withPromise();
   const posts: PostProps[] = [];
 
   // 記事一覧
@@ -119,11 +119,11 @@ async function buildTerms(posts: Partial<PostProps>[]) {
 
 async function buildPage() {
   // md ファイル一覧を取得
-  const files = new fdir()
+  const files = await new fdir()
     .withMaxDepth(0)
     .filter((path) => isMarkdown(path))
     .crawl(PATH.from)
-    .sync();
+    .withPromise();
   const pages: PageProps[] = [];
 
   // 記事一覧
