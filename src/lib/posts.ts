@@ -33,7 +33,7 @@ export const getPagesJson = (): Map<PageProps['slug'], PageProps> => {
 };
 
 export const getTagsWithCount = () => {
-  return tagsWithCount.tagsWithCount;
+  return tagsWithCount;
 };
 
 export const getSimilarTag = (): TagSimilarProps => {

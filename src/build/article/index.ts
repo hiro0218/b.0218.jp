@@ -112,7 +112,7 @@ async function buildTerms(posts: Partial<PostProps>[]) {
     })
     .sort((a, b) => b.count - a.count); // 件数の多い順にソート
 
-  writeJSON(`${PATH.to}/tags-with-count.json`, { tagsWithCount }).then(() => {
+  writeJSON(`${PATH.to}/tags-with-count.json`, [...tagsWithCount]).then(() => {
     Log.info('Write dist/tags-with-count.json');
   });
 }
