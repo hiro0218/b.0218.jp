@@ -1,4 +1,3 @@
-import { deepFreeze } from '@/lib/deepFreeze';
 import type {
   PageProps,
   PostListProps,
@@ -18,19 +17,19 @@ import tagsWithCount from '~/dist/tags-with-count.json';
 import tags from '~/dist/tags.json';
 
 export const getTagsJson = (): TagsListProps => {
-  return Object.freeze(tags);
+  return tags;
 };
 
 export const getPostsJson = (): Map<PostProps['slug'], PostProps> => {
-  return new Map(posts.map((post) => [post.slug, Object.freeze(post)]));
+  return new Map(posts.map((post) => [post.slug, post]));
 };
 
-export const getPostsListJson = (): Map<PostListProps['slug'], PostListProps> => {
-  return new Map(postsList.map((post) => [post.slug, Object.freeze(post)]));
+export const getPostsListJson = (): PostListProps[] => {
+  return postsList;
 };
 
 export const getPagesJson = (): Map<PageProps['slug'], PageProps> => {
-  return new Map(pages.map((page) => [page.slug, Object.freeze(page)]));
+  return new Map(pages.map((page) => [page.slug, page]));
 };
 
 export const getTagsWithCount = () => {
@@ -38,7 +37,7 @@ export const getTagsWithCount = () => {
 };
 
 export const getSimilarTag = (): TagSimilarProps => {
-  return deepFreeze(tagsSimilarity);
+  return tagsSimilarity;
 };
 
 export const getSimilarPosts = (): PostSimilarProps => {
@@ -46,5 +45,5 @@ export const getSimilarPosts = (): PostSimilarProps => {
 };
 
 export const getPostsPopular = (): PostPopularProps => {
-  return Object.freeze(postsPopular);
+  return postsPopular;
 };
