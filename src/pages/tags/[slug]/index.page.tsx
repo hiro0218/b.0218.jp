@@ -9,13 +9,14 @@ import { SITE_NAME } from '@/constant';
 
 import { createGetLayout } from '../../_layouts/ArchivePageLayout';
 import { DATA_TARGET_POST_LIST_CONTAINER_KEY, PAGE_RANGE, PaginationContainer } from './_components/Pagination';
-import { getStaticPathsTagDetail, getStaticPropsTagDetail } from './_libs';
+import { getData, getStaticPathsTagDetail, getStaticPropsTagDetail } from './_libs';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 const pageTitle = 'Tag';
 
-export default function Tags({ title, posts }: Props) {
+export default function Tags({ slug }: Props) {
+  const { title, posts } = getData(slug);
   const displayCount = useMemo(() => Math.ceil(posts.length / PAGE_RANGE), [posts]);
 
   return (

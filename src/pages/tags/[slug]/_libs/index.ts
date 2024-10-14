@@ -1,2 +1,2 @@
 export { getStaticPathsTagDetail } from './getStaticPathsTagDetail';
-export { getStaticPropsTagDetail } from './getStaticPropsTagDetail';
+export { getData, getStaticPropsTagDetail } from './getStaticPropsTagDetail';
