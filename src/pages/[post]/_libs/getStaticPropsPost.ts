@@ -21,19 +21,17 @@ const posts = getPostsJson();
 const tagDataWithCount = getTagsWithCount();
 const tagDataWithCountBySlug = Object.fromEntries(tagDataWithCount.map((tag) => [tag.slug, tag]));
 
-export const getStaticPropsPost: GetStaticProps<{ slug: string }> = (context) => {
+export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
   const slug = (context.params?.post as string).replace('.html', '');
 
-  return {
-    props: {
-      slug,
-    },
-  };
-};
-
-export const getData = (slug: string): PostPageProps => {
   // slug に一致する post を取得
   const post = posts.get(slug);
+
+  if (!post) {
+    return {
+      notFound: true,
+    };
+  }
 
   // tagsに件数を追加
   const tagsWithCount = post.tags.map((slug) => tagDataWithCountBySlug[slug]).filter((tag) => tag !== undefined);
@@ -51,9 +49,11 @@ export const getData = (slug: string): PostPageProps => {
   });
 
   return {
-    post: { ...post, tagsWithCount },
-    similarPost,
-    similarTags,
-    recentPosts,
+    props: {
+      post: { ...post, tagsWithCount },
+      similarPost,
+      similarTags,
+      recentPosts,
+    },
   };
 };
