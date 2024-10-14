@@ -19,12 +19,13 @@ import {
 } from '@/pages/[post]/_components';
 
 import { createGetLayout } from '../_layouts/PostPageLayout';
-import { getStaticPathsPost, getStaticPropsPost } from './_libs';
+import { getData, getStaticPathsPost, getStaticPropsPost } from './_libs';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-export default function PostPage({ post, similarPost, similarTags, recentPosts }: Props) {
-  const { title, date, updated, slug, readingTime, note, noindex: isNoindex, content, tagsWithCount } = post;
+export default function PostPage({ slug }: Props) {
+  const { post, similarPost, similarTags, recentPosts } = getData(slug);
+  const { title, date, updated, readingTime, note, noindex: isNoindex, content, tagsWithCount } = post;
   const hasTweet = content.includes('twitter-tweet');
   const permalink = getPermalink(slug);
   const description = getDescriptionText(content);
