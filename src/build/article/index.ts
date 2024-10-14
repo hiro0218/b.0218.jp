@@ -22,10 +22,10 @@ const getSlug = (file: string) => file.replace('.md', '');
 
 async function buildPost() {
   // md ファイル一覧を取得
-  const files = new fdir()
+  const files = await new fdir()
     .filter((path) => isMarkdown(path))
     .crawl(`${PATH.from}/_posts`)
-    .sync();
+    .withPromise();
   const posts: PostProps[] = [];
 
   // 記事一覧
@@ -112,18 +112,18 @@ async function buildTerms(posts: Partial<PostProps>[]) {
     })
     .sort((a, b) => b.count - a.count); // 件数の多い順にソート
 
-  writeJSON(`${PATH.to}/tags-with-count.json`, { tagsWithCount }).then(() => {
+  writeJSON(`${PATH.to}/tags-with-count.json`, [...tagsWithCount]).then(() => {
     Log.info('Write dist/tags-with-count.json');
   });
 }
 
 async function buildPage() {
   // md ファイル一覧を取得
-  const files = new fdir()
+  const files = await new fdir()
     .withMaxDepth(0)
     .filter((path) => isMarkdown(path))
     .crawl(PATH.from)
-    .sync();
+    .withPromise();
   const pages: PageProps[] = [];
 
   // 記事一覧

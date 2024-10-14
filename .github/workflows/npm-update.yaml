@@ -29,8 +29,14 @@ jobs:
           node-version-file: '.node-version'
           cache: 'npm'
 
+      - name: Run git pull --rebase
+        run: git pull --rebase
+
       - name: Install dependencies
         run: npm ci
+
+      - name: Run nolyfill
+        run: npm run nolyfill
 
       - name: Update packages
         run: npm update

@@ -9,7 +9,7 @@ export const divideByYearArchive = (posts: ReturnType<typeof getPostsListJson>):
   const result: ArchiveListProps = {};
 
   // slugでsortする
-  const sortedPosts = Array.from(posts.values()).sort((a, b) => b.slug.localeCompare(a.slug));
+  const sortedPosts = posts.sort((a, b) => b.slug.localeCompare(a.slug));
 
   for (const post of sortedPosts) {
     const year = getYear(post.date);

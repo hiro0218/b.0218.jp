@@ -12,9 +12,9 @@ export const getStaticPathsPost: GetStaticPaths = () => {
   const posts = getPostsListJson();
   const paths: PostParams[] = [];
 
-  for (const post of posts.values()) {
+  for (let i = 0; i < posts.length; i++) {
     paths.push({
-      params: { post: `${post.slug}.html` },
+      params: { post: `${posts[i].slug}.html` },
     });
   }
 

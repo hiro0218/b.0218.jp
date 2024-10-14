@@ -4,6 +4,7 @@ import { Adsense } from '@/components/UI/Adsense';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import type { PostProps } from '@/types/source';
 
+import { styled } from '@/ui/styled';
 import { splitHtml } from '../../_libs/splitHtml';
 import Mokuji from '../Mokuji';
 import PostContentStyle from './style';
@@ -34,12 +35,21 @@ export default function Content({ enableMokuji = true, content }: Props) {
         <ContentSection html={before} />
         {!!after && (
           <>
-            <Adsense />
+            <AdsenseContainer>
+              <Adsense />
+            </AdsenseContainer>
             <ContentSection html={after} />
           </>
         )}
       </section>
-      <Adsense />
+      <AdsenseContainer>
+        <Adsense />
+      </AdsenseContainer>
     </>
   );
 }
+
+const AdsenseContainer = styled.div`
+  margin: var(--space-4) 0;
+  text-align: center;
+`;

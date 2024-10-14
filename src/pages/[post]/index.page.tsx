@@ -57,8 +57,8 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
         />
       </Head>
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
-      <Stack space={6}>
-        <Container size="small" space={false}>
+      <Container size="small" space={false}>
+        <Stack space={6}>
           <Stack as="article" space={4}>
             <PostHeader
               date={date}
@@ -73,20 +73,20 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
             {ShareComponent}
             <PostEdit slug={slug} />
           </Stack>
-        </Container>
-        <Stack as="footer" space={4}>
-          <TagSection
-            as="aside"
-            heading="関連タグ"
-            headingLevel="h2"
-            headingWeight="normal"
-            isWideCluster={false}
-            tags={similarTags}
-          />
-          <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
-          <PostSection as="aside" heading="最新記事" headingLevel="h2" href="/archive" posts={recentPosts} />
+          <Stack as="footer" space={4}>
+            <TagSection
+              as="aside"
+              heading="関連タグ"
+              headingLevel="h2"
+              headingWeight="normal"
+              isWideCluster={false}
+              tags={similarTags}
+            />
+            <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
+            <PostSection as="aside" heading="最新記事" headingLevel="h2" href="/archive" posts={recentPosts} />
+          </Stack>
         </Stack>
-      </Stack>
+      </Container>
     </>
   );
 }

@@ -12,7 +12,10 @@ export const getPopularPost = (posts: ReturnType<typeof getPostsListJson>, displ
 
   const popularPosts = sortedSlugs
     .filter((slug) => !IGNORE_SLUGS.has(slug))
-    .map((slug) => posts.get(slug))
+    .map((slug) => {
+      // posts から slug に一致するものを取得
+      return posts.find((post) => post.slug === slug);
+    })
     .filter((post) => post !== undefined)
     .slice(0, displayLimit);
 
