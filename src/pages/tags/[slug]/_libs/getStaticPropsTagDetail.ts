@@ -11,17 +11,8 @@ type TermProps = {
 const allPosts = getPostsJson();
 const allTags = getTagsJson();
 
-export const getStaticPropsTagDetail: GetStaticProps<{ slug: string }> = (context: GetStaticPropsContext) => {
+export const getStaticPropsTagDetail: GetStaticProps<TermProps> = (context: GetStaticPropsContext) => {
   const slug = context.params?.slug as string;
-
-  return {
-    props: {
-      slug,
-    },
-  };
-};
-
-export const getData = (slug: string): TermProps => {
   const tag = allTags[slug];
   const tagsPosts: TermsPostListProps[] = [];
 
@@ -36,7 +27,9 @@ export const getData = (slug: string): TermProps => {
   }
 
   return {
-    title: slug,
-    posts: tagsPosts,
+    props: {
+      title: slug,
+      posts: tagsPosts,
+    },
   };
 };
