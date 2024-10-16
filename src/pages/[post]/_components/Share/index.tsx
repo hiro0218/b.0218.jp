@@ -11,7 +11,9 @@ import { showHoverBackground } from '@/ui/mixin';
 import { css, styled } from '@/ui/styled';
 
 const SrOnly = dynamic(() =>
-  import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),
+  import('@/components/UI/ScreenReaderOnlyText').then((module) => ({
+    default: module.ScreenReaderOnlyText,
+  })),
 );
 
 interface Props {

@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, JSX } from 'react';
 
 import { styled } from '@/ui/styled';
 import { SrOnlyClassName } from '@/ui/styled/constant';

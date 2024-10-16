@@ -13,8 +13,8 @@ const MOKUJI_OPTION: MokujiOption = {
 } as const;
 
 type ReturnProps = {
-  refMokuji: RefObject<HTMLDivElement>;
-  refDetailContent: RefObject<HTMLDivElement>;
+  refMokuji: RefObject<HTMLDivElement | null>;
+  refDetailContent: RefObject<HTMLDivElement | null>;
 };
 
 export const useMokuji = ({ refContent }: MokujiProps): ReturnProps => {

@@ -1,4 +1,4 @@
-import type { AriaRole, ReactNode } from 'react';
+import type { AriaRole, JSX, ReactNode } from 'react';
 import { memo, useMemo } from 'react';
 
 import { isMobile } from '@/ui/lib/mediaQuery';

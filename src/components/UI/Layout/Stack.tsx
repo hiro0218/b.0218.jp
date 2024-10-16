@@ -1,4 +1,4 @@
-import type { AriaRole, CSSProperties, ReactNode } from 'react';
+import type { AriaRole, CSSProperties, JSX, ReactNode } from 'react';
 
 import { css, styled } from '@/ui/styled';
 import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';

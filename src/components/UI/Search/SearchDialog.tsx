@@ -9,10 +9,20 @@ import { styled } from '@/ui/styled';
 import type { onCloseDialogProps } from './type';
 
 const SrOnly = dynamic(() =>
-  import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),
+  import('@/components/UI/ScreenReaderOnlyText').then((module) => ({
+    default: module.ScreenReaderOnlyText,
+  })),
 );
-const SearchPanel = dynamic(() => import('./SearchPanel').then((module) => module.SearchPanel));
-const Overlay = dynamic(() => import('./Overlay').then((module) => module.Overlay));
+const SearchPanel = dynamic(() =>
+  import('./SearchPanel').then((module) => ({
+    default: module.SearchPanel,
+  })),
+);
+const Overlay = dynamic(() =>
+  import('./Overlay').then((module) => ({
+    default: module.Overlay,
+  })),
+);
 
 type Props = {
   closeDialog: onCloseDialogProps;

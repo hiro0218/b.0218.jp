@@ -13,7 +13,9 @@ import { createGetLayout } from '@/pages/_layouts/TopPageLayout';
 import { getData } from './_libs';
 
 const SrOnly = dynamic(() =>
-  import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),
+  import('@/components/UI/ScreenReaderOnlyText').then((module) => ({
+    default: module.ScreenReaderOnlyText,
+  })),
 );
 
 const data = getData();

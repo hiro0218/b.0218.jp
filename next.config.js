@@ -24,10 +24,8 @@ const nextConfiguration = {
   },
 
   experimental: {
-    workerThreads: true,
     webpackBuildWorker: true,
     scrollRestoration: true,
-    fallbackNodePolyfills: false,
   },
 
   generateBuildId: () => nextBuildId({ dir: __dirname }),

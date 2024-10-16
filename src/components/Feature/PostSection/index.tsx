@@ -4,6 +4,8 @@ import LinkCard from '@/components/UI/LinkCard';
 import { LinkMore } from '@/pages/_components/home';
 import type { PostListProps, TermsPostListProps } from '@/types/source';
 
+import type { JSX } from 'react';
+
 type Props = {
   heading?: string;
   headingLevel?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6';

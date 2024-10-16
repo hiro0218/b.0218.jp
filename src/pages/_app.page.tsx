@@ -18,7 +18,11 @@ import { StyledProvider } from '@/ui/styled/Provider';
 
 import { Layout } from './_layouts/AppLayout';
 
-const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((module) => module.PageScroll));
+const PageScroll = dynamic(() =>
+  import('@/components/UI/PageScroll').then((module) => ({
+    default: module.PageScroll,
+  })),
+);
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;

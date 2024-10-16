@@ -2,7 +2,7 @@ import { usePathname } from 'next/navigation';
 import { type RefObject, useEffect } from 'react';
 
 type Props = {
-  ref: RefObject<HTMLDivElement>;
+  ref: RefObject<HTMLDivElement | null>;
 };
 
 function useTwitterWidgetsLoad({ ref }: Props) {
