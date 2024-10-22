@@ -20,6 +20,10 @@ export type PostPageProps = {
 const posts = getPostsJson();
 const tagDataWithCount = getTagsWithCount();
 const tagDataWithCountBySlug = Object.fromEntries(tagDataWithCount.map((tag) => [tag.slug, tag]));
+// 最新記事
+const { recentPosts } = getRecentAndUpdatedPosts({
+  posts: Array.from(posts.values()),
+});
 
 export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
   const slug = (context.params?.post as string).replace('.html', '');
@@ -42,11 +46,6 @@ export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
   // 関連タグ
   const tag = post.tags[0];
   const similarTags = getSimilarTag(tag);
-
-  // 最新記事
-  const { recentPosts } = getRecentAndUpdatedPosts({
-    posts: Array.from(posts.values()),
-  });
 
   return {
     props: {
