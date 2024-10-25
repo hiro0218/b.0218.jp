@@ -82,7 +82,6 @@
     "dotenv": "16.4.5",
     "esbuild": "0.24.0",
     "esbuild-register": "3.6.0",
-    "fast-json-stable-stringify": "2.1.0",
     "fdir": "6.4.2",
     "feed": "4.2.2",
     "gray-matter": "4.0.3",
