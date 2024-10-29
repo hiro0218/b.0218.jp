@@ -1,12 +1,12 @@
 import Head from 'next/head';
-import { type ReactElement, useEffect, useState } from 'react';
+import type { ReactElement } from 'react';
 
 import { Container } from '@/components/Functional/Container';
 import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
+import { getPagesJson } from '@/lib/posts';
 import PostContentStyle from '@/pages/[post]/_components/Content/style';
-import type { PageProps } from '@/types/source';
 
 type LayoutProps = {
   slug: 'about' | 'privacy';
@@ -16,6 +16,8 @@ type LayoutProps = {
   };
 };
 
+const pages = getPagesJson();
+
 export const createGetLayout = (layoutProps: LayoutProps): (() => ReactElement) => {
   return function getLayout() {
     return <Layout {...layoutProps} />;
@@ -23,20 +25,8 @@ export const createGetLayout = (layoutProps: LayoutProps): (() => ReactElement) 
 };
 
 function Layout({ slug, title }: LayoutProps) {
+  const { content } = pages.get(slug);
   const { heading, paragraph } = title;
-  const [data, setData] = useState<PageProps>(null);
-
-  useEffect(() => {
-    (async () => {
-      await fetch(`/api/pages?slug=${slug}`)
-        .then((res) => res.json())
-        .then((data: PageProps) => setData(data));
-    })();
-  }, [slug]);
-
-  if (!data) {
-    return <></>;
-  }
 
   return (
     <Container size="small">
@@ -50,7 +40,7 @@ function Layout({ slug, title }: LayoutProps) {
           <div
             css={PostContentStyle}
             dangerouslySetInnerHTML={{
-              __html: data.content,
+              __html: content,
             }}
           />
         </Stack>
