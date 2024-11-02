@@ -101,10 +101,11 @@ export default css`
         margin-left: auto;
         border: 1px solid var(--borders-6);
       }
+    }
 
-      figcaption {
-        color: var(--text-11);
-      }
+    figcaption {
+      color: var(--text-11);
+      font-size: var(--font-size-sm);
     }
   }
 
