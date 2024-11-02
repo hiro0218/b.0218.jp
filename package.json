@@ -139,6 +139,8 @@
     "is-core-module": "npm:@nolyfill/is-core-module@^1",
     "isarray": "npm:@nolyfill/isarray@^1",
     "object-keys": "npm:@nolyfill/object-keys@^1",
-    "string.prototype.at": "npm:@nolyfill/string.prototype.at@^1"
+    "string.prototype.at": "npm:@nolyfill/string.prototype.at@^1",
+    "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
+    "safer-buffer": "npm:@nolyfill/safer-buffer@^1"
   }
 }
