@@ -8,11 +8,7 @@ import { SPACING_BASE_PX } from '@/ui/styled/CssBaseline/constant';
  */
 const getStep = (n: number): number => {
   if (n < 0) return 1;
-  if (n === 0) return 1.25;
-  if (n === 1) return 1.5;
-  if (n === 2) return 1.75;
-
-  return getStep(n - 1) + 0.25;
+  return 1.25 + Math.max(0, n) * 0.25;
 };
 
 /**
