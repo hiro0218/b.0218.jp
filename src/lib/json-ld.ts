@@ -6,18 +6,12 @@ import type { PostProps } from '@/types/source';
 import { getOgpImage, getPermalink } from './url';
 
 export const getDescriptionText = (postContent: string): string => {
-  return (
-    postContent
-      // strip line break
-      .replace(/(?:\r\n|\r|\n)/g, '')
-      // strip tag
-      .replace(/<\/?[^>]+(>|$)/g, '')
-      // delete consecutive spaces
-      .trim()
-      .replace(/\s{2,}/gu, ' ')
-      // character extraction
-      .substring(0, 140)
-  );
+  return postContent
+    .replace(/(?:\r\n|\r|\n)/g, ' ') // 改行をスペースに置換
+    .replace(/<\/?[^>]+(>|$)/g, '') // HTMLタグを削除
+    .replace(/\s+/g, ' ') // 連続するスペースを1つのスペースに置換
+    .trim() // 先頭と末尾のスペースを削除
+    .substring(0, 140); // 140文字に切り詰め
 };
 
 export const getBlogPostingStructured = (post: PostProps): WithContext<BlogPosting> => {

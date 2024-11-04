@@ -7,10 +7,10 @@ export const getStaticPathsTagDetail: GetStaticPaths = () => {
   const tags = getTagsWithCount();
   const paths = [];
 
-  for (const item of tags) {
-    if (item.count >= TAG_VIEW_LIMIT) {
+  for (let i = 0; i < tags.length; i++) {
+    if (tags[i].count >= TAG_VIEW_LIMIT) {
       paths.push({
-        params: { slug: item.slug },
+        params: { slug: tags[i].slug },
       });
     }
   }

@@ -87,22 +87,25 @@ export default css`
   }
 
   figure {
-    text-align: center;
-    font-size: var(--font-size-sm);
+    &:has(img) {
+      text-align: center;
+      font-size: var(--font-size-sm);
 
-    > * + * {
-      margin-top: var(--space-1);
-    }
+      > * + * {
+        margin-top: var(--space-1);
+      }
 
-    img {
-      display: block;
-      margin-right: auto;
-      margin-left: auto;
-      border: 1px solid var(--borders-6);
+      img {
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        border: 1px solid var(--borders-6);
+      }
     }
 
     figcaption {
       color: var(--text-11);
+      font-size: var(--font-size-sm);
     }
   }
 

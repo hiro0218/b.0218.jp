@@ -8,17 +8,20 @@ import type { Result } from './type';
 
 const PATH_DIST = `${process.cwd()}/dist`;
 
+const sortByValue = (obj: Result): Result => Object.fromEntries(Object.entries(obj).sort(([, a], [, b]) => b - a));
+
 (async () => {
   const bookmark = await getBookmarkArticles();
   const ga = await getPopularArticles();
 
-  // sort by count
-  const result: Result = Object.entries(ga).reduce(
-    (acc, [key, value]) => {
-      acc[key] = (acc[key] || 0) + value;
-      return acc;
-    },
-    { ...bookmark },
+  const result: Result = sortByValue(
+    Object.entries(ga).reduce(
+      (acc, [key, value]) => {
+        acc[key] = (acc[key] || 0) + value;
+        return acc;
+      },
+      { ...bookmark },
+    ),
   );
 
   await writeJSON(`${PATH_DIST}/${FILENAME_POSTS_POPULAR}.json`, result);
