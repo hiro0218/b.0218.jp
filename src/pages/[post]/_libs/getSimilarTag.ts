@@ -18,7 +18,9 @@ export const getSimilarTag = (tag: string) => {
 
   const similarTagList: PostTagProps[] = [];
 
-  for (const [slug] of Object.entries(similarTagsList)) {
+  const entries = Object.entries(similarTagsList);
+  for (let i = 0; i < entries.length; i++) {
+    const [slug] = entries[i];
     const tag = getTagBySlug(slug);
 
     if (tag && tag.length >= TAG_VIEW_LIMIT) {

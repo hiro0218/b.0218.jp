@@ -11,7 +11,8 @@ export const divideByYearArchive = (posts: ReturnType<typeof getPostsListJson>):
   // slugでsortする
   const sortedPosts = posts.sort((a, b) => b.slug.localeCompare(a.slug));
 
-  for (const post of sortedPosts) {
+  for (let i = 0; i < sortedPosts.length; i++) {
+    const post = sortedPosts[i];
     const year = getYear(post.date);
 
     // 年ごとの配列が未定義であれば初期化する
