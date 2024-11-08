@@ -2,9 +2,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { type HttpBindings, serve } from '@hono/node-server';
-import { Hono } from 'hono';
 import { cache } from 'hono/cache';
 import { compress } from 'hono/compress';
+import { Hono } from 'hono/tiny';
 
 type Bindings = HttpBindings & {
   query: {
