@@ -63,7 +63,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@google-analytics/data": "4.9.0",
-    "@hono/node-server": "1.13.4",
+    "@hono/node-server": "1.13.5",
     "@markuplint/jsx-parser": "4.7.12",
     "@markuplint/react-spec": "4.5.12",
     "@next/bundle-analyzer": "14.2.15",
@@ -89,7 +89,7 @@
     "hast-util-parse-selector": "4.0.0",
     "hast-util-select": "6.0.3",
     "hastscript": "9.0.0",
-    "hono": "4.6.8",
+    "hono": "4.6.9",
     "husky": "9.1.6",
     "jest": "29.7.0",
     "jsdom": "25.0.1",
