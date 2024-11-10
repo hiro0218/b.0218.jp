@@ -1,7 +1,8 @@
 import { SITE_URL } from '@/constant';
-import { getPostsJson } from '@/lib/posts';
+import { getPostsListJson } from '@/lib/posts';
 
-const posts = getPostsJson();
+/** @type {import('./src/types/source').PostListProps[]} */
+const posts = getPostsListJson();
 
 /** @type {import('next-sitemap').IConfig} */
 const config = {
@@ -10,8 +11,7 @@ const config = {
   generateIndexSitemap: false,
   transform: async (config, path) => {
     const slug = path.replace(/^\//, '').replace('.html', '');
-    /** @type {import('./src/types/source').PostProps} */
-    const post = posts.get(slug);
+    const post = posts.find((post) => post.slug === slug);
     const isPost = !!post;
 
     /**
