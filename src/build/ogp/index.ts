@@ -1,6 +1,6 @@
 import { cwd } from 'node:process';
 
-import { type Browser, chromium } from 'playwright';
+import { type Browser, type Page, chromium } from 'playwright';
 
 import * as Log from '@/lib/Log';
 import { mkdir } from '@/lib/fs';
@@ -36,16 +36,18 @@ const path = {
       ],
     });
 
-    // 並行処理の数
+    // Concurrency
     const concurrency = 10;
 
-    // ページインスタンスを生成
-    const setupPage = async () => {
+    // Setup page
+    const setupPage = async (): Promise<Page> => {
       const page = await browser.newPage();
       await page.setViewportSize({ width: 1200, height: 630 });
       await page.goto('http://localhost:3000/', { waitUntil: 'networkidle' });
       return page;
     };
+
+    // Reuse pages to reduce overhead
     const pages = await Promise.all(Array.from({ length: concurrency }, setupPage));
 
     for (let i = 0; i < length; i += concurrency) {
@@ -72,7 +74,7 @@ const path = {
         }
       });
 
-      // 並行してスクリーンショットを撮影
+      // Take screenshots in parallel
       await Promise.all(screenshotPromises);
     }
   } catch (err) {
