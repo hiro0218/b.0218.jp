@@ -19,7 +19,7 @@ const PATH_DIST = `${process.cwd()}/dist`;
   Log.info(`Write dist/${FILENAME_TAG_SIMILARITY}.json`);
 
   // 関連記事を計算する
-  const relatedPosts = getRelatedPosts(posts, posts, relatedTags);
+  const relatedPosts = getRelatedPosts(posts, relatedTags);
 
   await writeJSON(`${PATH_DIST}/${FILENAME_POSTS_SIMILARITY}.json`, relatedPosts);
   Log.info(`Write dist/${FILENAME_POSTS_SIMILARITY}.json`);
