@@ -35,9 +35,9 @@ app.get(
 );
 
 app.get('/', (c) => {
-  const title = c.req.query('title') ?? DUMMY_TITLE;
+  const title = (c.req.query('title') ?? DUMMY_TITLE).replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-  return c.html(<Template title={title.replace(/</g, '&lt;').replace(/>/g, '&gt;')} />);
+  return c.html(<Template title={title} />);
 });
 
 app.get('/hiro0218_screen.png', (c) => {
