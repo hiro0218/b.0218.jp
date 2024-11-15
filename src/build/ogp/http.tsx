@@ -6,6 +6,8 @@ import { cache } from 'hono/cache';
 import { compress } from 'hono/compress';
 import { Hono } from 'hono/tiny';
 
+import { Template } from './template';
+
 type Bindings = HttpBindings & {
   query: {
     title: string;
@@ -20,8 +22,6 @@ const DUMMY_TITLE =
 
 const publicDirectoryPath = path.resolve(__dirname, '../../../public');
 
-const templateStyle = fs.readFileSync(path.join(__dirname, 'template.css'), 'utf-8');
-const template = fs.readFileSync(path.join(__dirname, 'template.html'), 'utf-8');
 const backgroundImageBuffer = fs.readFileSync(path.join(publicDirectoryPath, 'hiro0218_screen.png'));
 
 app.use(compress());
@@ -37,19 +37,13 @@ app.get(
 app.get('/', (c) => {
   const title = c.req.query('title') ?? DUMMY_TITLE;
 
-  return c.html(template.replace('{{title}}', title.replace(/</g, '&lt;').replace(/>/g, '&gt;')));
+  return c.html(<Template title={title.replace(/</g, '&lt;').replace(/>/g, '&gt;')} />);
 });
 
 app.get('/hiro0218_screen.png', (c) => {
   c.header('Content-Type', 'image/png');
 
   return c.body(backgroundImageBuffer);
-});
-
-app.get('/template.css', (c) => {
-  c.header('Content-Type', 'text/css');
-
-  return c.body(templateStyle);
 });
 
 serve(app, (info) => {
