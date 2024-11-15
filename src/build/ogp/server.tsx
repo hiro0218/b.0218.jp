@@ -35,7 +35,7 @@ app.get(
 );
 
 app.get('/', (c) => {
-  const title = (c.req.query('title') ?? DUMMY_TITLE).replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const title = (c.req.query('title') || DUMMY_TITLE).replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
   return c.html(<Template title={title} />);
 });
