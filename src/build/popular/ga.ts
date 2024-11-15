@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
 
-import * as Log from '@/lib/Log';
+import * as Log from '@/shared/Log';
 
 import type { Result } from './type';
 

@@ -1,4 +1,4 @@
-import * as Log from '@/lib/Log';
+import * as Log from '@/shared/Log';
 
 class NetworkError extends Error {
   constructor(message: string) {

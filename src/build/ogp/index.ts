@@ -2,9 +2,9 @@ import { cwd } from 'node:process';
 
 import { type Browser, type Page, chromium } from 'playwright';
 
-import * as Log from '@/lib/Log';
-import { mkdir } from '@/lib/fs';
 import { getPostsListJson } from '@/lib/posts';
+import * as Log from '@/shared/Log';
+import { mkdir } from '@/shared/fs';
 
 const path = {
   dist: `${cwd()}/public/images/ogp`,

@@ -1,10 +1,10 @@
 import { Feed } from 'feed';
 
 import { AUTHOR_NAME, SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
-import { writeFile } from '@/lib/fs';
 import { getDescriptionText } from '@/lib/json-ld';
 import { getPostsJson } from '@/lib/posts';
 import { getPermalink } from '@/lib/url';
+import { writeFile } from '@/shared/fs';
 
 function generatedRssFeed() {
   const feed = new Feed({
