@@ -1,7 +1,6 @@
 import { cwd } from 'node:process';
 
-import { launchChromium } from 'playwright-aws-lambda';
-import type { Browser, Page } from 'playwright-core';
+import { type Browser, type Page, chromium } from 'playwright';
 
 import * as Log from '@/lib/Log';
 import { mkdir } from '@/lib/fs';
@@ -19,8 +18,7 @@ const path = {
   let browser: Browser;
 
   try {
-    browser = await launchChromium({
-      headless: true,
+    browser = await chromium.launch({
       args: [
         '--disable-extensions',
         '--disable-gpu',
