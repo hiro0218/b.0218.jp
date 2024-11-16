@@ -10,6 +10,8 @@ const path = {
   dist: `${cwd()}/public/images/ogp`,
 };
 
+const CONCURRENCY = 10;
+
 (async () => {
   await mkdir(path.dist, { recursive: true });
   const posts = getPostsListJson();
@@ -36,9 +38,6 @@ const path = {
       ],
     });
 
-    // Concurrency
-    const concurrency = 10;
-
     // Setup page
     const setupPage = async (): Promise<Page> => {
       const page = await browser.newPage();
@@ -48,9 +47,9 @@ const path = {
     };
 
     // Reuse pages to reduce overhead
-    const pages = await Promise.all(Array.from({ length: concurrency }, setupPage));
+    const pages = await Promise.all(Array.from({ length: CONCURRENCY }, setupPage));
 
-    for (let i = 0; i < length; i += concurrency) {
+    for (let i = 0; i < length; i += CONCURRENCY) {
       const screenshotPromises = pages.map(async (page, j) => {
         const index = i + j;
         if (index < length) {
