@@ -10,7 +10,7 @@
     "build:article": "node --require esbuild-register ./src/build/article",
     "build:feed": "node --require esbuild-register ./src/build/feed.ts",
     "prebuild:ogp": "nohup node --require esbuild-register ./src/build/ogp/server.tsx  > /dev/null 2>&1 &",
-    "build:ogp": "node --require esbuild-register ./src/build/ogp",
+    "build:ogp": "node --require esbuild-register ./src/build/ogp/screenshot.ts",
     "postbuild:ogp": "ps ax | grep 'server.ts' | grep -v grep | awk '{print $1}' | xargs kill",
     "build:sitemap": "node --require esbuild-register node_modules/next-sitemap/bin/next-sitemap",
     "build:similarity": "node --require esbuild-register ./src/build/similarity",
