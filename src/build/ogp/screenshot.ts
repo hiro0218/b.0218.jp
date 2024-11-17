@@ -1,6 +1,6 @@
 import { cwd } from 'node:process';
 
-import { type Browser, type Page, chromium } from 'playwright';
+import { type Browser, type Page, chromium } from 'playwright-chromium';
 
 import { getPostsListJson } from '@/lib/posts';
 import * as Log from '@/shared/Log';
