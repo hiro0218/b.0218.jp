@@ -50,7 +50,7 @@
     "css-in-js-easing": "1.2.0",
     "lightningcss": "1.28.1",
     "mokuji.js": "4.5.1",
-    "next": "14.2.15",
+    "next": "15.0.3",
     "nextjs-google-analytics": "2.3.7",
     "postcss": "8.4.49",
     "postcss-combine-duplicated-selectors": "10.0.3",
@@ -66,7 +66,7 @@
     "@hono/node-server": "1.13.7",
     "@markuplint/jsx-parser": "4.7.13",
     "@markuplint/react-spec": "4.5.13",
-    "@next/bundle-analyzer": "14.2.15",
+    "@next/bundle-analyzer": "15.0.3",
     "@svgr/webpack": "8.1.0",
     "@total-typescript/ts-reset": "0.6.1",
     "@types/gtag.js": "0.0.20",
@@ -141,6 +141,8 @@
     "object-keys": "npm:@nolyfill/object-keys@^1",
     "string.prototype.at": "npm:@nolyfill/string.prototype.at@^1",
     "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
-    "safer-buffer": "npm:@nolyfill/safer-buffer@^1"
+    "safer-buffer": "npm:@nolyfill/safer-buffer@^1",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1"
   }
 }
