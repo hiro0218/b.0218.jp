@@ -22,7 +22,7 @@
     "lint:markup": "markuplint \"src/**/*.{jsx,tsx}\"",
     "test": "jest --forceExit --coverage",
     "nolyfill": "npx nolyfill install",
-    "prepare": "husky && playwright install"
+    "prepare": "husky && playwright install --only-shell"
   },
   "nano-staged": {
     "**/*.{ts,tsx,js}": [
@@ -100,7 +100,7 @@
     "next-compose-plugins": "2.2.1",
     "next-sitemap": "4.2.3",
     "picocolors": "1.1.1",
-    "playwright-chromium": "1.43.1",
+    "playwright-chromium": "1.49.0",
     "postcss-media-hover-any-hover": "0.2.1",
     "postcss-styled-syntax": "0.7.0",
     "prettier": "3.3.3",
