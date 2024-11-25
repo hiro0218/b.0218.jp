@@ -1,4 +1,4 @@
-import { blue, gray, grayA, grayDark, grayDarkA, purple, red, yellow } from '@radix-ui/colors';
+import { blue, grass, gray, grayA, grayDark, grayDarkA, purple, red, yellow } from '@radix-ui/colors';
 
 import { css } from '@/ui/styled';
 
@@ -87,6 +87,14 @@ export default css`
    */
   --dark-backgrounds: ${grayA.grayA12};
   --dark-foregrounds: ${gray.gray1};
+
+
+  /**
+   * Post Note
+   */
+  --color-post-note: ${blue.blue11};
+  --background-post-note: ${blue.blue3};
+  --icon-post-note: ${grass.grass11};
 
   /**
    * Alert Color
