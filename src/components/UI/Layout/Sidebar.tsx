@@ -2,11 +2,12 @@ import type { NamedExoticComponent, ReactNode } from 'react';
 import { Children, Fragment } from 'react';
 
 import { textEllipsis } from '@/ui/mixin';
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
 
 type Props = {
   space?: SpaceGap;
+  isMainColumnLast?: boolean;
   children: ReactNode;
 };
 
@@ -16,10 +17,22 @@ type TitleProps = {
   children: ReactNode;
 };
 
+const calculateWidthsInPercent = () => {
+  const phi = (1 + Math.sqrt(5)) / 2;
+  const main = (1 / phi) * 100;
+  const side = 100 - main;
+
+  return {
+    mainWidth: main,
+    sideWidth: side,
+  };
+};
+const { mainWidth, sideWidth } = calculateWidthsInPercent();
+
 const Container = styled.div<Props>`
   --space: ${({ space = 2 }) => `var(--space-${space})`};
-  --side-width: 15rem;
-  --content-min: 61.8%;
+  --side-width: ${sideWidth}%;
+  --content-min: ${mainWidth}%;
 
   display: flex;
   flex-wrap: wrap;
@@ -30,28 +43,34 @@ const Container = styled.div<Props>`
   & > * {
     flex-grow: 1;
     flex-basis: var(--side-width);
+    min-width: var(--side-width);
 
-    &:last-child {
-      flex-grow: 999;
-      flex-basis: 0;
-      min-width: calc(var(--content-min) - var(--space));
-    }
+    ${({ isMainColumnLast = true }) => {
+      const selector = isMainColumnLast ? '&:last-child' : '&:first-child';
+      return css`
+        ${selector} {
+          flex-grow: 999;
+          flex-basis: 0;
+          min-width: calc(var(--content-min) - var(--space));
+        }
+      `;
+    }}
   }
 `;
 
 const Title = ({ id, tag = 'h2', children }: TitleProps) => {
   return (
-    <SidebarTitleContainer>
+    <StickyContainer>
       <SidebarHeading as={tag} id={id}>
         {children}
       </SidebarHeading>
-    </SidebarTitleContainer>
+    </StickyContainer>
   );
 };
 
-export const Sidebar = (({ children, space }: Props) => {
+export const Sidebar = (({ children, space, isMainColumnLast }: Props) => {
   return (
-    <Container space={space}>
+    <Container space={space} isMainColumnLast={isMainColumnLast}>
       {Children.toArray(children).map((child, i) => {
         return <Fragment key={i}>{child}</Fragment>;
       })}
@@ -62,7 +81,7 @@ export const Sidebar = (({ children, space }: Props) => {
   Title: typeof Title;
 };
 
-const SidebarTitleContainer = styled.div`
+const StickyContainer = styled.div`
   position: sticky;
   top: 0;
   block-size: 100%;
