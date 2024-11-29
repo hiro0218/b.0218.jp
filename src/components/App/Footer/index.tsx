@@ -1,4 +1,4 @@
-import { Container as _Container } from '@/components/Functional/Container';
+import { Container as _Container, getSize } from '@/components/Functional/Container';
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { LinkStyle } from '@/components/UI/LinkMenu';
 import { isMobile } from '@/ui/lib/mediaQuery';
@@ -12,9 +12,10 @@ const Links = [
 ] as const;
 
 export default function Footer() {
+  const size = getSize('default');
   return (
     <Root>
-      <Container size="default">
+      <Container size={size}>
         <Nav>
           {Links.map(({ title, href }) => (
             <Anchor href={href} key={href + title}>

@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 
 import { PostSection } from '@/components/Feature/PostSection';
 import { TagSection } from '@/components/Feature/TagSection';
-import { Container } from '@/components/Functional/Container';
+import { Container, getSize } from '@/components/Functional/Container';
 import { Stack } from '@/components/UI/Layout';
 import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
@@ -29,6 +29,7 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
   const permalink = getPermalink(slug);
   const description = getDescriptionText(content);
   const ShareComponent = useMemo(() => <PostShare title={title} url={permalink} />, [permalink, title]);
+  const size = getSize('small');
 
   return (
     <>
@@ -57,7 +58,7 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
         />
       </Head>
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
-      <Container size="small" space={false}>
+      <Container size={size} space={false}>
         <Stack space={6}>
           <Stack as="article" space={4}>
             <PostHeader
