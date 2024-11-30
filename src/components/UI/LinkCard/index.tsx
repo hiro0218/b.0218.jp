@@ -43,6 +43,7 @@ function LinkCard({ link, title, date, updated, excerpt, tags, role, titleTagNam
 export default LinkCard;
 
 const Container = styled.article`
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
@@ -54,7 +55,9 @@ const Container = styled.article`
   background-color: var(--white);
   border-radius: var(--border-radius-8);
   box-shadow: inset var(--shadow-3);
-  transition: box-shadow 0.4s ${easeOutExpo};
+  transition:
+    box-shadow 0.4s ${easeOutExpo},
+    padding 0.4s ${easeOutExpo};
 
   ${isContainer['@3xl']} {
     padding: var(--space-3);
