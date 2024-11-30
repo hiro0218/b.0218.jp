@@ -149,6 +149,10 @@ const PostContentStyle = css`
     }
   }
 
+  figure {
+    margin: var(--space-3) auto;
+  }
+
   hr {
     display: flex;
     align-items: center;

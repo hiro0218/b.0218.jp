@@ -1,7 +1,7 @@
 import { copyFile, mkdir, readdir } from 'node:fs/promises';
 import path from 'node:path';
 
-import * as Log from '@/lib/Log';
+import * as Log from '@/shared/Log';
 
 export const copyDir = async (src: string, dest: string) => {
   try {

@@ -5,8 +5,8 @@ import { read as matterRead } from 'gray-matter';
 import readingTime from 'reading-time';
 
 import { FILENAME_PAGES, FILENAME_POSTS, FILENAME_POSTS_LIST } from '@/constant';
-import * as Log from '@/lib/Log';
-import { copyDir, copyFile, mkdir, writeJSON } from '@/lib/fs';
+import * as Log from '@/shared/Log';
+import { copyDir, copyFile, mkdir, writeJSON } from '@/shared/fs';
 import type { PageProps, PostProps } from '@/types/source';
 import { removePostsData } from './post/removePostData';
 

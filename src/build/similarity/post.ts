@@ -1,6 +1,7 @@
 import type { PostListProps, TagSimilarProps } from '@/types/source';
 
 const LIMIT = 6;
+const THRESHOLD = 0.5;
 
 function calculatePostSimilarity(
   post: PostListProps,
@@ -8,48 +9,66 @@ function calculatePostSimilarity(
   sortedTags: TagSimilarProps,
 ) {
   let similarityScore = 0;
+  let commonTagsCount = 0;
+  const postTags = post.tags;
 
-  for (let i = 0; i < targetPostTags.length; i++) {
-    const tag = targetPostTags[i];
-    if (sortedTags[tag]) {
-      for (let j = 0; j < post.tags.length; j++) {
-        const relatedTag = post.tags[j];
-        if (sortedTags[tag][relatedTag]) {
-          similarityScore += sortedTags[tag][relatedTag];
-        }
+  // タグの集合を事前に作成して重複を排除
+  const uniqueTags = new Set([...targetPostTags, ...postTags]);
+  const totalTags = uniqueTags.size;
+
+  // タグの比較回数を減らすため、存在するタグのみを処理
+  const validTargetTags = targetPostTags.filter((tag) => sortedTags[tag]);
+
+  for (const tag of validTargetTags) {
+    const tagRelevance = sortedTags[tag];
+
+    for (const relatedTag of postTags) {
+      const relevance = tagRelevance[relatedTag];
+
+      if (relevance && relevance >= THRESHOLD) {
+        similarityScore += relevance;
+        commonTagsCount++;
       }
     }
   }
 
-  // 小数点第4位で四捨五入
-  similarityScore = Math.round(similarityScore * 10000) / 10000;
+  // ジャッカード類似度による正規化
+  const normalizedScore = commonTagsCount > 0 ? (commonTagsCount / totalTags) * similarityScore : 0;
 
-  return similarityScore;
+  // 小数点第4位で四捨五入
+  return Math.round(normalizedScore * 10000) / 10000;
 }
 
-export function getRelatedPosts(targetPosts: PostListProps[], posts: PostListProps[], sortedTags: TagSimilarProps) {
-  return targetPosts.map((targetPost) => {
-    const targetPostTags = targetPost.tags;
+export function getRelatedPosts(posts: PostListProps[], sortedTags: TagSimilarProps) {
+  return posts
+    .map((targetPost) => {
+      const targetPostTags = targetPost.tags;
 
-    const scoredArticles = posts
-      .map((post) => {
-        if (post.slug !== targetPost.slug) {
+      // 類似度計算が必要な投稿のみをフィルタリング
+      const relatedPosts = posts
+        .filter((post) => post.slug !== targetPost.slug)
+        .map((post) => {
           const similarityScore = calculatePostSimilarity(post, targetPostTags, sortedTags);
-          if (similarityScore > 0) {
-            return { slug: post.slug, similarityScore };
-          }
-        }
-      })
-      .filter((post) => post !== undefined)
-      .sort((a, b) => b.similarityScore - a.similarityScore)
-      .slice(0, LIMIT)
-      .reduce((acc: Record<string, number>, post) => {
+          return similarityScore > 0 ? { slug: post.slug, similarityScore } : null;
+        })
+        .filter((post): post is { slug: string; similarityScore: number } => post !== null)
+        .sort((a, b) => b.similarityScore - a.similarityScore)
+        .slice(0, LIMIT);
+
+      // 結果が空の場合はスキップするためにnullを返す
+      if (relatedPosts.length === 0) {
+        return null;
+      }
+
+      // 最終的なオブジェクトの形式に変換
+      const scoredArticles = relatedPosts.reduce<Record<string, number>>((acc, post) => {
         acc[post.slug] = post.similarityScore;
         return acc;
       }, {});
 
-    return {
-      [targetPost.slug]: scoredArticles,
-    };
-  });
+      return {
+        [targetPost.slug]: scoredArticles,
+      };
+    })
+    .filter((result): result is { [key: string]: Record<string, number> } => result !== null);
 }

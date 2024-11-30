@@ -1,14 +1,16 @@
 import { cwd } from 'node:process';
 
-import { type Browser, chromium } from 'playwright';
+import { type Browser, type Page, chromium } from 'playwright-chromium';
 
-import * as Log from '@/lib/Log';
-import { mkdir } from '@/lib/fs';
 import { getPostsListJson } from '@/lib/posts';
+import * as Log from '@/shared/Log';
+import { mkdir } from '@/shared/fs';
 
 const path = {
   dist: `${cwd()}/public/images/ogp`,
 };
+
+const CONCURRENCY = 10;
 
 (async () => {
   await mkdir(path.dist, { recursive: true });
@@ -36,19 +38,18 @@ const path = {
       ],
     });
 
-    // 並行処理の数
-    const concurrency = 10;
-
-    // ページインスタンスを生成
-    const setupPage = async () => {
+    // Setup page
+    const setupPage = async (): Promise<Page> => {
       const page = await browser.newPage();
       await page.setViewportSize({ width: 1200, height: 630 });
       await page.goto('http://localhost:3000/', { waitUntil: 'networkidle' });
       return page;
     };
-    const pages = await Promise.all(Array.from({ length: concurrency }, setupPage));
 
-    for (let i = 0; i < length; i += concurrency) {
+    // Reuse pages to reduce overhead
+    const pages = await Promise.all(Array.from({ length: CONCURRENCY }, setupPage));
+
+    for (let i = 0; i < length; i += CONCURRENCY) {
       const screenshotPromises = pages.map(async (page, j) => {
         const index = i + j;
         if (index < length) {
@@ -72,7 +73,7 @@ const path = {
         }
       });
 
-      // 並行してスクリーンショットを撮影
+      // Take screenshots in parallel
       await Promise.all(screenshotPromises);
     }
   } catch (err) {

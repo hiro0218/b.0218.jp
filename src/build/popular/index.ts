@@ -1,8 +1,8 @@
 import { getPopularArticles } from '@/build/popular/ga';
 import { getBookmarkArticles } from '@/build/popular/hatena';
 import { FILENAME_POSTS_POPULAR } from '@/constant';
-import * as Log from '@/lib/Log';
-import { writeJSON } from '@/lib/fs';
+import * as Log from '@/shared/Log';
+import { writeJSON } from '@/shared/fs';
 
 import type { Result } from './type';
 

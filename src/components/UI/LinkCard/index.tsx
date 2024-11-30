@@ -4,7 +4,7 @@ import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
 import { PostTagAnchorStyle } from '@/components/UI/Tag';
 import { easeOutExpo } from '@/ui/foundation/easing';
-import { isMobile } from '@/ui/lib/mediaQuery';
+import { isContainer } from '@/ui/lib/mediaQuery';
 import { lineClamp, textEllipsis } from '@/ui/mixin';
 import { styled } from '@/ui/styled';
 
@@ -43,10 +43,11 @@ function LinkCard({ link, title, date, updated, excerpt, tags, role, titleTagNam
 export default LinkCard;
 
 const Container = styled.article`
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  padding: var(--space-3);
+  padding: calc(var(--space-3) * 0.85);
   content-visibility: auto;
   contain-intrinsic-size: 0 200px;
   contain: layout style paint;
@@ -54,10 +55,12 @@ const Container = styled.article`
   background-color: var(--white);
   border-radius: var(--border-radius-8);
   box-shadow: inset var(--shadow-3);
-  transition: box-shadow 0.4s ${easeOutExpo};
+  transition:
+    box-shadow 0.4s ${easeOutExpo},
+    padding 0.4s ${easeOutExpo};
 
-  ${isMobile} {
-    padding: calc(var(--space-3) * 0.85);
+  ${isContainer['@3xl']} {
+    padding: var(--space-3);
   }
 
   &:hover,
@@ -121,6 +124,7 @@ const Tags = styled.div`
   display: flex;
   gap: var(--space-1);
   margin-top: auto;
+  overflow: clip;
   font-size: var(--font-size-xs);
 `;
 
