@@ -25,6 +25,7 @@ export const Grid = memo(function Grid({ as = 'div', role, children, gap, ...pro
 });
 
 const GridRoot = styled.div<Props>`
+  container-type: inline-size;
   display: grid;
   grid-template-columns: repeat(2, minmax(calc(50% - var(--space-1)), max-content));
   gap: ${({ gap = 1 }) => gap && `var(--space-${gap})`};
