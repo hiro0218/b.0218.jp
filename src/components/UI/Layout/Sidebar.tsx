@@ -1,6 +1,7 @@
 import type { NamedExoticComponent, ReactNode } from 'react';
 import { Children, Fragment } from 'react';
 
+import { isMobile } from '@/ui/lib/mediaQuery';
 import { textEllipsis } from '@/ui/mixin';
 import { css, styled } from '@/ui/styled';
 import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
@@ -8,6 +9,7 @@ import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
 type Props = {
   space?: SpaceGap;
   isMainColumnLast?: boolean;
+  containerMinWidth?: string;
   children: ReactNode;
 };
 
@@ -19,7 +21,7 @@ type TitleProps = {
 
 const calculateWidthsInPercent = () => {
   const phi = (1 + Math.sqrt(5)) / 2;
-  const main = (1 / phi) * 100;
+  const main = Math.round((1 / phi) * 100 * 100) / 100;
   const side = 100 - main;
 
   return {
@@ -30,28 +32,33 @@ const calculateWidthsInPercent = () => {
 const { mainWidth, sideWidth } = calculateWidthsInPercent();
 
 const Container = styled.div<Props>`
-  --space: ${({ space = 2 }) => `var(--space-${space})`};
+  --space: ${({ space = 3 }) => `var(--space-${space})`};
   --side-width: ${sideWidth}%;
-  --content-min: ${mainWidth}%;
+  --main-width: ${({ containerMinWidth }) => {
+    return containerMinWidth ? `calc(${mainWidth}% - var(--side-width))` : `${mainWidth}%`;
+  }};
 
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
+  gap: var(--space);
   padding-bottom: calc(var(--space-2) / 2);
   overflow: clip;
 
   & > * {
     flex-grow: 1;
     flex-basis: var(--side-width);
-    min-width: var(--side-width);
+
+    ${isMobile} {
+      flex-basis: 100%;
+      max-width: 100%;
+    }
 
     ${({ isMainColumnLast = true }) => {
-      const selector = isMainColumnLast ? '&:last-child' : '&:first-child';
+      const selector = isMainColumnLast ? ':last-child' : ':first-child';
       return css`
         ${selector} {
-          flex-grow: 999;
           flex-basis: 0;
-          min-width: calc(var(--content-min) - var(--space));
+          min-width: calc(var(--main-width) - var(--space));
         }
       `;
     }}
@@ -68,9 +75,9 @@ const Title = ({ id, tag = 'h2', children }: TitleProps) => {
   );
 };
 
-export const Sidebar = (({ children, space, isMainColumnLast }: Props) => {
+export const Sidebar = (({ children, space, isMainColumnLast, containerMinWidth }: Props) => {
   return (
-    <Container space={space} isMainColumnLast={isMainColumnLast}>
+    <Container space={space} isMainColumnLast={isMainColumnLast} containerMinWidth={containerMinWidth}>
       {Children.toArray(children).map((child, i) => {
         return <Fragment key={i}>{child}</Fragment>;
       })}
