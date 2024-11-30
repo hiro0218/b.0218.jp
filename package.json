@@ -17,7 +17,7 @@
     "build:popular": "node --require esbuild-register ./src/build/popular",
     "build:analyzer": "ANALYZE=true next build",
     "start": "next start",
-    "lint": "npx @biomejs/biome lint src/**/*.{js,ts,tsx}",
+    "lint": "npx @biomejs/biome lint src/**/*.{ts,tsx}",
     "lint:css": "stylelint \"src/**/*.{css,tsx}\"",
     "lint:markup": "markuplint \"src/**/*.{jsx,tsx}\"",
     "test": "jest --forceExit --coverage",
