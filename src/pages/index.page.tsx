@@ -4,12 +4,13 @@ import Head from 'next/head';
 import { PostSection } from '@/components/Feature/PostSection';
 import { TagSection } from '@/components/Feature/TagSection';
 import Heading from '@/components/UI/Heading';
-import { Stack } from '@/components/UI/Layout';
+import { Sidebar, Stack } from '@/components/UI/Layout';
 import { AUTHOR_ICON, SITE_URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
 import { Hero } from '@/pages/_components/home';
 import { createGetLayout } from '@/pages/_layouts/TopPageLayout';
 
+import { getSize } from '@/components/Functional/Container';
 import { getData } from './_libs';
 
 const SrOnly = dynamic(() =>
@@ -20,6 +21,7 @@ const data = getData();
 
 export default function Index() {
   const { recentPosts, updatesPosts, popularPosts, tags } = data;
+  const sidebarSize = getSize('default');
 
   return (
     <>
@@ -40,35 +42,36 @@ export default function Index() {
         <Stack as="section">
           <Hero />
         </Stack>
+        <Sidebar isMainColumnLast={true} containerMinWidth={sidebarSize}>
+          <Stack space={4}>
+            <Stack>
+              <Heading as="h2" text="記事" />
+              <PostSection
+                heading="最新記事"
+                headingLevel="h3"
+                headingWeight="normal"
+                href="/archive"
+                posts={recentPosts}
+              />
+            </Stack>
+            <Stack>
+              <PostSection
+                heading="注目記事"
+                headingLevel="h3"
+                headingWeight="normal"
+                href="/popular"
+                posts={popularPosts}
+              />
+            </Stack>
+            <Stack>
+              <PostSection heading="更新記事" headingLevel="h3" headingWeight="normal" posts={updatesPosts} />
+            </Stack>
+          </Stack>
 
-        <Stack space={4}>
-          <Stack>
-            <Heading as="h2" text="記事" />
-            <PostSection
-              heading="最新記事"
-              headingLevel="h3"
-              headingWeight="normal"
-              href="/archive"
-              posts={recentPosts}
-            />
+          <Stack as="section">
+            <TagSection heading="タグ" headingLevel="h2" headingWeight="normal" href="/tags" tags={tags} />
           </Stack>
-          <Stack>
-            <PostSection
-              heading="注目記事"
-              headingLevel="h3"
-              headingWeight="normal"
-              href="/popular"
-              posts={popularPosts}
-            />
-          </Stack>
-          <Stack>
-            <PostSection heading="更新記事" headingLevel="h3" headingWeight="normal" posts={updatesPosts} />
-          </Stack>
-        </Stack>
-
-        <Stack as="section">
-          <TagSection heading="タグ" headingLevel="h2" headingWeight="normal" href="/tags" tags={tags} />
-        </Stack>
+        </Sidebar>
       </Stack>
     </>
   );
