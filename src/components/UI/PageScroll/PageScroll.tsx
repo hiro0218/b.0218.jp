@@ -1,7 +1,7 @@
 import { floatingFade } from '@/ui/animation';
 import { ArrowUpIcon, ICON_SIZE_LG, ICON_SIZE_MD } from '@/ui/icons';
 import { isMobile } from '@/ui/lib/mediaQuery';
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
 /**
  * Why do you specify # for href?
@@ -11,7 +11,7 @@ export const PageScroll = () => {
   return (
     <Container data-floating>
       <Button aria-label="ページの最上部へスクロールする" href="#">
-        <ArrowUpIcon height={ICON_SIZE_MD} width={ICON_SIZE_MD} />
+        <ArrowUpIcon />
       </Button>
     </Container>
   );
@@ -20,21 +20,16 @@ export const PageScroll = () => {
 const Container = styled.div`
   position: fixed;
   right: var(--space-2);
-  bottom: var(--space-2);
+  bottom: var(--space-3);
   z-index: var(--zIndex-base);
-
-  ${isMobile} {
-    right: var(--space-1);
-    bottom: var(--space-1);
-  }
+  aspect-ratio: 1/1;
+  isolation: isolate;
 `;
 
 const Button = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${ICON_SIZE_LG}px;
-  height: ${ICON_SIZE_LG}px;
   padding: var(--space-2);
   color: var(--text-12);
   background-color: var(--component-backgrounds-3A);
@@ -44,6 +39,21 @@ const Button = styled.a`
   svg {
     flex: 1 1;
     fill: currentColor;
+
+    ${() => {
+      const desktopSize = ICON_SIZE_MD * 0.5;
+      const mobileSize = ICON_SIZE_LG * 0.5;
+
+      return css`
+        width: ${desktopSize}px;
+        height: ${desktopSize}px;
+
+        ${isMobile} {
+          width: ${mobileSize}px;
+          height: ${mobileSize}px;
+        }
+      `;
+    }}
   }
 
   &:hover {
