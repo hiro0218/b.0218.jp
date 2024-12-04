@@ -1,6 +1,6 @@
 import type { PostListProps, PostProps } from '@/types/source';
 
-import { POST_DISPLAY_LIMIT } from './constant';
+import { POST_DISPLAY_LIMIT, UPDATED_POST_DISPLAY_LIMIT } from './constant';
 
 type Props = {
   posts: (PostListProps | PostProps)[];
@@ -29,7 +29,7 @@ export const getRecentAndUpdatedPosts = ({ posts, options }: Props) => {
     posts: posts
       .filter((post) => !!post.updated && post.date < post.updated && !recentSlugs.has(post.slug))
       .sort((a, b) => b.updated.localeCompare(a.updated))
-      .slice(0, POST_DISPLAY_LIMIT),
+      .slice(0, UPDATED_POST_DISPLAY_LIMIT),
     options,
   });
 
