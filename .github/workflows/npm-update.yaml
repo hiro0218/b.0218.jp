@@ -32,13 +32,24 @@ jobs:
       - name: Run git pull --rebase
         run: git pull --rebase
 
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+        with:
+          files: |
+            - package.json
+            - package-lock.json
+
       - name: Install dependencies
+        if: steps.changed-files.outputs.any_changed == 'true'
         run: npm ci
 
       - name: Run nolyfill
+        if: steps.changed-files.outputs.any_changed == 'true'
         run: npm run nolyfill
 
       - name: Update packages
+        if: steps.changed-files.outputs.any_changed == 'true'
         run: npm update
 
       - name: Check for changes
