@@ -106,7 +106,6 @@ const Anchor = styled(_Anchor)`
 const Title = styled.h3`
   ${lineClamp(2)}
 
-  overflow: hidden;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-md);

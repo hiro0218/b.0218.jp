@@ -2,7 +2,7 @@ import { easeOutExpo } from '@/ui/foundation/easing';
 import { css } from '@/ui/styled';
 
 export const textEllipsis = css`
-  overflow: hidden;
+  overflow: clip;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
@@ -68,4 +68,5 @@ export const lineClamp = (lineCount = 2) => css`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: ${lineCount};
+  overflow-y: clip;
 `;
