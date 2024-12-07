@@ -42,7 +42,6 @@ const Container = styled.div<Props>`
   flex-wrap: wrap;
   gap: var(--space);
   padding-bottom: calc(var(--space-2) / 2);
-  overflow: clip;
 
   & > * {
     flex-grow: 1;

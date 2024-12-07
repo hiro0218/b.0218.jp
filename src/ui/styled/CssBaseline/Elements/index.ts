@@ -36,7 +36,7 @@ export default css`
     }
 
     &:has(dialog[open]) {
-      overflow: hidden;
+      overflow: clip;
 
       &,
       [data-floating] {
