@@ -42,7 +42,7 @@ const Container = styled(Stack)`
     width: 100%;
     height: var(--space-½);
     margin-top: var(--space-4);
-    color: var(--borders-6);
+    color: var(--color-gray-6);
     content: '';
     background-image: repeating-linear-gradient(-45deg, currentColor, currentColor 1px, transparent 0, transparent 50%);
     background-size: 6px 6px;
@@ -59,7 +59,7 @@ const Heading = styled.h1`
 
 const Item = styled.div`
   display: flex;
-  color: var(--text-11);
+  color: var(--color-gray-11);
 `;
 
 const Separator = styled.span`

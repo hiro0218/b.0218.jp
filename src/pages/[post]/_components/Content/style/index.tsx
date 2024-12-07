@@ -10,7 +10,7 @@ import LinkPreview from './LinkPreview';
 
 const PostContentStyle = css`
   font-size: var(--font-size-post-content);
-  color: var(--text-11);
+  color: var(--color-gray-11);
 
   & > * {
     margin-top: var(--space-2);
@@ -33,7 +33,7 @@ const PostContentStyle = css`
     text-decoration-line: underline;
 
     &:hover {
-      text-decoration-color: var(--text-11);
+      text-decoration-color: var(--color-gray-11);
     }
   }
 
@@ -49,7 +49,7 @@ const PostContentStyle = css`
     height: 1.5em;
     margin: auto;
     font-size: 1em;
-    color: var(--text-11);
+    color: var(--color-gray-11);
     text-decoration: none;
     user-select: none;
     border-radius: var(--border-radius-full);
@@ -57,7 +57,7 @@ const PostContentStyle = css`
     ${hoverLinkStyle}
 
     &:hover {
-      color: var(--text-12);
+      color: var(--color-gray-12);
     }
 
     ${isMobile} {
@@ -69,14 +69,14 @@ const PostContentStyle = css`
 
   blockquote {
     padding: var(--space-3);
-    color: var(--text-11);
-    border-left: 0.25rem solid var(--borders-6);
+    color: var(--color-gray-11);
+    border-left: 0.25rem solid var(--color-gray-6);
 
     cite {
       display: block;
       font-size: var(--font-size-xs);
       line-height: var(--line-height-sm);
-      color: var(--text-11);
+      color: var(--color-gray-11);
     }
   }
 
@@ -126,7 +126,7 @@ const PostContentStyle = css`
     summary {
       padding: var(--space-1) var(--space-2);
       font-size: var(--font-size-sm);
-      border: 1px solid var(--borders-6);
+      border: 1px solid var(--color-gray-6);
       border-radius: var(--border-radius-4);
 
       & ~ * {
@@ -140,7 +140,7 @@ const PostContentStyle = css`
     }
 
     &[open] {
-      border: 1px solid var(--borders-7);
+      border: 1px solid var(--color-gray-7);
       border-radius: var(--border-radius-4);
 
       summary {
@@ -164,7 +164,7 @@ const PostContentStyle = css`
       display: block;
       width: 100%;
       height: var(--space-1);
-      color: var(--borders-6);
+      color: var(--color-gray-6);
       content: '';
       background-image: repeating-linear-gradient(
         -45deg,
@@ -187,7 +187,7 @@ const PostContentStyle = css`
 
   [data-sandbox] {
     margin: var(--space-3) auto;
-    border: 1px solid var(--borders-6);
+    border: 1px solid var(--color-gray-6);
     border-radius: var(--border-radius-4);
   }
 `;

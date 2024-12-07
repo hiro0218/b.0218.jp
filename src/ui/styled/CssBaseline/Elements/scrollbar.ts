@@ -4,7 +4,7 @@ export const Scrollbar = css`
   // Firefox
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--solid-backgrounds-9) var(--component-backgrounds-3A);
+    scrollbar-color: var(--color-gray-9) var(--color-gray-3A);
   }
 
   // Chrome, Edge and Safari
@@ -13,30 +13,30 @@ export const Scrollbar = css`
   }
 
   *::-webkit-scrollbar-track {
-    background-color: var(--component-backgrounds-3A);
+    background-color: var(--color-gray-3A);
     border-radius: 4px;
   }
 
   *::-webkit-scrollbar-track:hover {
-    background-color: var(--component-backgrounds-4A);
+    background-color: var(--color-gray-4A);
   }
 
   *::-webkit-scrollbar-track:active {
-    background-color: var(--component-backgrounds-5A);
+    background-color: var(--color-gray-5A);
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: var(--solid-backgrounds-9);
+    background-color: var(--color-gray-9);
     background-clip: content-box;
     border: 1px solid transparent;
     border-radius: 4px;
   }
 
   *::-webkit-scrollbar-thumb:hover {
-    background-color: var(--solid-backgrounds-10);
+    background-color: var(--color-gray-10);
   }
 
   *::-webkit-scrollbar-thumb:active {
-    background-color: var(--solid-backgrounds-10);
+    background-color: var(--color-gray-10);
   }
 `;

@@ -10,17 +10,17 @@ export const textEllipsis = css`
 const outlineLinkStyle = css`
   &:focus-visible {
     outline: 0;
-    box-shadow: inset 0 0 0 2px var(--borders-7);
+    box-shadow: inset 0 0 0 2px var(--color-gray-7);
   }
 `;
 
 export const hoverLinkStyle = css`
   &:hover {
-    background-color: var(--component-backgrounds-3A);
+    background-color: var(--color-gray-3A);
   }
 
   &:active {
-    background-color: var(--component-backgrounds-4A);
+    background-color: var(--color-gray-4A);
   }
 
   ${outlineLinkStyle}
@@ -35,7 +35,7 @@ export const showHoverBackground = css`
     display: block;
     pointer-events: none;
     content: '';
-    background-color: var(--component-backgrounds-3A);
+    background-color: var(--color-gray-3A);
     isolation: isolate;
     border-radius: var(--border-radius-4);
     transition:
@@ -57,7 +57,7 @@ export const showHoverBackground = css`
 
   &:active {
     &::after {
-      background-color: var(--component-backgrounds-4A);
+      background-color: var(--color-gray-4A);
     }
   }
 

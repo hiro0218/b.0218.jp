@@ -53,10 +53,10 @@ export default PostTag;
 export const PostTagAnchorStyle = css`
   padding: var(--space-1) var(--space-2);
   line-height: var(--line-height-xs);
-  color: var(--text-11);
+  color: var(--color-gray-11);
   text-align: center;
   white-space: nowrap;
-  background-color: var(--component-backgrounds-3A);
+  background-color: var(--color-gray-3A);
   border-radius: var(--border-radius-4);
 `;
 
@@ -64,11 +64,11 @@ const TagAnchor = styled(Anchor)`
   ${PostTagAnchorStyle}
 
   &:hover {
-    background-color: var(--component-backgrounds-4A);
+    background-color: var(--color-gray-4A);
   }
 
   &:active {
-    background-color: var(--component-backgrounds-5A);
+    background-color: var(--color-gray-5A);
   }
 `;
 

@@ -55,6 +55,6 @@ const Heading = styled.h2`
 const P = styled.p`
   margin-top: var(--space-1);
   font-size: var(--font-size-md);
-  color: var(--text-11);
+  color: var(--color-gray-11);
   text-align: center;
 `;
