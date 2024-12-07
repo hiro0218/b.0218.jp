@@ -101,7 +101,7 @@ const Headings = css`
     }
 
     &:not(:has(+ h3)) {
-      border-bottom: 1px solid var(--borders-6);
+      border-bottom: 1px solid var(--color-gray-6);
     }
   }
 `;

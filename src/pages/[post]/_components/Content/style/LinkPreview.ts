@@ -8,14 +8,14 @@ const LinkPreview = css`
     align-items: center;
     height: 120px;
     overflow: hidden;
-    color: var(--text-12);
+    color: var(--color-gray-12);
     text-decoration-line: unset;
-    background-color: var(--backgrounds-1);
-    border: 1px solid var(--borders-7);
+    background-color: var(--color-gray-1);
+    border: 1px solid var(--color-gray-7);
     border-radius: var(--border-radius-8);
 
     &:hover {
-      border-color: var(--borders-8);
+      border-color: var(--color-gray-8);
     }
 
     &[target='_blank']::after {
@@ -58,7 +58,7 @@ const LinkPreview = css`
 
     margin-top: var(--space-½);
     font-size: var(--font-size-sm);
-    color: var(--text-11);
+    color: var(--color-gray-11);
     -webkit-line-clamp: 1;
 
     ${isMobile} {
@@ -71,7 +71,7 @@ const LinkPreview = css`
 
     display: block;
     font-size: var(--font-size-sm);
-    color: var(--text-11);
+    color: var(--color-gray-11);
   }
 
   .p-link-preview-thumbnail {

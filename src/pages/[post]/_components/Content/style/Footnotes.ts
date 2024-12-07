@@ -5,8 +5,8 @@ const Footnotes = css`
     padding-top: var(--space-3);
     margin-top: var(--space-6);
     font-size: var(--font-size-sm);
-    color: var(--text-11);
-    border-top: 1px solid var(--borders-6);
+    color: var(--color-gray-11);
+    border-top: 1px solid var(--color-gray-6);
 
     li {
       counter-increment: steps;

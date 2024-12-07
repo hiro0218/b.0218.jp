@@ -46,7 +46,7 @@ export const SearchHeader = ({ onKeyup }: { onKeyup: onKeyupProps }) => {
 const Header = styled.div`
   position: relative;
   display: flex;
-  border-bottom: 1px solid var(--borders-6);
+  border-bottom: 1px solid var(--color-gray-6);
 `;
 
 const HeaderIcon = styled.label`
@@ -62,20 +62,20 @@ const SubmitButton = styled.button`
   padding: var(--space-½) var(--space-1);
   font-size: var(--font-size-xs);
   line-height: var(--line-height-xs);
-  color: var(--text-11);
+  color: var(--color-gray-11);
   white-space: nowrap;
-  background-color: var(--component-backgrounds-3);
-  border: 1px solid var(--borders-6);
+  background-color: var(--color-gray-3);
+  border: 1px solid var(--color-gray-6);
   border-radius: var(--border-radius-2);
 
   &:hover {
-    background-color: var(--component-backgrounds-4);
+    background-color: var(--color-gray-4);
   }
 
   &:focus,
   &:active {
-    background-color: var(--component-backgrounds-5);
-    border-color: var(--borders-7);
+    background-color: var(--color-gray-5);
+    border-color: var(--color-gray-7);
     outline: none;
   }
 `;
@@ -89,7 +89,7 @@ const SearchInput = styled.input`
 
   &::placeholder {
     font-size: var(--font-size-sm);
-    color: var(--text-11);
+    color: var(--color-gray-11);
   }
 
   &:placeholder-shown + ${SubmitButton} {

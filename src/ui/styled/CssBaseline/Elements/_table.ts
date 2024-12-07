@@ -34,7 +34,7 @@ export const table = css`
 
     caption {
       margin: var(--space-1) 0;
-      color: var(--text-11);
+      color: var(--color-gray-11);
       text-align: center;
     }
   }
@@ -44,12 +44,12 @@ export const table = css`
     padding: var(--space-1) var(--space-2);
     white-space: nowrap;
     vertical-align: top;
-    border-top: 1px solid var(--borders-6);
+    border-top: 1px solid var(--color-gray-6);
   }
 
   th {
-    background-color: var(--component-backgrounds-4A);
-    color: var(--text-12);
+    background-color: var(--color-gray-4A);
+    color: var(--color-gray-12);
     text-align: left;
 
     ${['center', 'right'].map(
@@ -66,23 +66,23 @@ export const table = css`
       white-space: nowrap;
       vertical-align: bottom;
       border-top: none;
-      border-bottom: 2px solid var(--borders-6);
+      border-bottom: 2px solid var(--color-gray-6);
     }
   }
 
   tbody {
     & + tbody {
-      border-top: 2px solid var(--borders-6);
+      border-top: 2px solid var(--color-gray-6);
     }
 
     &:last-child {
-      border-bottom: 1px solid var(--borders-6);
+      border-bottom: 1px solid var(--color-gray-6);
     }
 
     tr {
       transition: background-color 0.3s ease;
       &:hover {
-        background-color: var(--component-backgrounds-3A);
+        background-color: var(--color-gray-3A);
       }
     }
   }

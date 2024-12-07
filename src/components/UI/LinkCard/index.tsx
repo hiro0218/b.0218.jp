@@ -75,7 +75,7 @@ const Container = styled.article`
   time {
     font-size: var(--font-size-sm);
     line-height: var(--line-height-xs);
-    color: var(--text-11);
+    color: var(--color-gray-11);
   }
 `;
 
@@ -94,7 +94,7 @@ const Anchor = styled(_Anchor)`
   &:hover,
   &:focus-visible {
     text-decoration-line: underline;
-    text-decoration-color: var(--borders-8);
+    text-decoration-color: var(--color-gray-8);
     text-underline-offset: 4%;
   }
 
@@ -109,13 +109,13 @@ const Title = styled.h3`
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-md);
-  color: var(--text-12);
+  color: var(--color-gray-12);
 `;
 
 const Paragraph = styled.p`
   ${textEllipsis}
 
-  color: var(--text-11);
+  color: var(--color-gray-11);
   letter-spacing: var(--letter-spacing-sm);
 `;
 

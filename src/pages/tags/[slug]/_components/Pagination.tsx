@@ -122,7 +122,7 @@ const PaginationButtonStyle = css`
   height: ${ICON_SIZE_LG}px;
   aspect-ratio: 1;
   font-size: var(--font-size-sm);
-  color: var(--text-11);
+  color: var(--color-gray-11);
   cursor: pointer;
   border-radius: var(--border-radius-full);
   transition: background-color 0.1s ${easeOut};
@@ -133,11 +133,11 @@ const PaginationButtonStyle = css`
 
   &:not([disabled]) {
     &:hover {
-      background-color: var(--component-backgrounds-4);
+      background-color: var(--color-gray-4);
     }
     &:active,
     &:focus-visible {
-      background-color: var(--component-backgrounds-5);
+      background-color: var(--color-gray-5);
     }
   }
 `;
@@ -150,9 +150,9 @@ const PageNumberLabel = styled.label`
   ${PaginationButtonStyle}
 
   &:has(input[type='radio']:checked) {
-    color: var(--text-12);
+    color: var(--color-gray-12);
     pointer-events: none;
-    background-color: var(--component-backgrounds-5);
+    background-color: var(--color-gray-5);
   }
 `;
 
@@ -167,7 +167,7 @@ const PageProgressNumber = styled.div`
   align-items: center;
   justify-content: center;
   font-size: var(--font-size-sm);
-  color: var(--text-11);
+  color: var(--color-gray-11);
 
   ${isDesktop} {
     display: none;

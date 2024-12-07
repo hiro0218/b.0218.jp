@@ -36,6 +36,6 @@ const Button = styled.button`
   }
 
   svg {
-    color: var(--text-12);
+    color: var(--color-gray-12);
   }
 `;

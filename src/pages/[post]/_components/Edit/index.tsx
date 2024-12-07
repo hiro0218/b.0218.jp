@@ -31,7 +31,7 @@ const Anchor = styled.a`
   display: inline-flex;
   align-items: center;
   line-height: var(--line-height-sm);
-  color: var(--text-12);
+  color: var(--color-gray-12);
 
   &:hover {
     text-decoration: underline;
