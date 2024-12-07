@@ -1,10 +1,10 @@
-import type { HTMLAttributes } from 'react';
+import type { ElementType, HTMLAttributes } from 'react';
 
 import { styled } from '@/ui/styled';
 import { SrOnlyClassName } from '@/ui/styled/constant';
 
 type Props = {
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
   text: string;
 } & HTMLAttributes<HTMLSpanElement>;
 
