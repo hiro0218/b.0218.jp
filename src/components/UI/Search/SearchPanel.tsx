@@ -120,11 +120,11 @@ const Anchor = styled(_Anchor)`
   border-radius: var(--border-radius-8);
 
   &:hover {
-    background-color: var(--component-backgrounds-3);
+    background-color: var(--color-gray-3);
   }
 
   &:active {
-    background-color: var(--component-backgrounds-4);
+    background-color: var(--color-gray-4);
   }
 `;
 
@@ -133,8 +133,8 @@ const SearchFooter = styled.div`
   justify-content: space-between;
   padding: var(--space-½) var(--space-1);
   font-size: var(--font-size-xs);
-  color: var(--text-11);
-  border-top: 1px solid var(--borders-6);
+  color: var(--color-gray-11);
+  border-top: 1px solid var(--color-gray-6);
 
   a {
     &:hover {

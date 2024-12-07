@@ -21,8 +21,8 @@ const Stack = styled(_Stack)`
   padding: var(--space-2);
   font-size: var(--font-size-sm);
   line-height: var(--line-height-sm);
-  color: var(--color-post-note);
-  background-color: var(--background-post-note);
+  color: var(--color-accent-11);
+  background-color: var(--color-accent-3);
   border-radius: var(--border-radius-8);
 
   a {

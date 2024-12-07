@@ -6,8 +6,8 @@ import { table } from './_table';
 export default css`
   /* global */
   ::selection {
-    background-color: var(--component-backgrounds-5A);
-    color: var(--text-12);
+    background-color: var(--color-gray-5A);
+    color: var(--color-gray-12);
   }
 
   * {
@@ -26,7 +26,7 @@ export default css`
     font-feature-settings: 'chws' 1;
     kerning: none;
     line-height: 1.875;
-    color: var(--text-12);
+    color: var(--color-gray-12);
     line-break: strict;
     -webkit-font-smoothing: subpixel-antialiased;
 
@@ -36,7 +36,7 @@ export default css`
     }
 
     &:has(dialog[open]) {
-      overflow: hidden;
+      overflow: clip;
 
       &,
       [data-floating] {
@@ -59,9 +59,9 @@ export default css`
   }
 
   a {
-    color: var(--text-12);
+    color: var(--color-gray-12);
     text-decoration: none;
-    text-decoration-color: var(--borders-8);
+    text-decoration-color: var(--color-gray-8);
     text-underline-position: under;
     text-underline-offset: 2%;
     transition:
@@ -82,7 +82,7 @@ export default css`
 
     &:focus-visible {
       outline: 0;
-      box-shadow: 0 0 0 2px var(--borders-7);
+      box-shadow: 0 0 0 2px var(--color-gray-7);
     }
   }
 
@@ -99,12 +99,12 @@ export default css`
         display: block;
         margin-right: auto;
         margin-left: auto;
-        border: 1px solid var(--borders-6);
+        border: 1px solid var(--color-gray-6);
       }
     }
 
     figcaption {
-      color: var(--text-11);
+      color: var(--color-gray-11);
       font-size: var(--font-size-sm);
     }
   }
@@ -124,7 +124,7 @@ export default css`
   h4,
   h5,
   h6 {
-    color: var(--text-12);
+    color: var(--color-gray-12);
     font-weight: var(--font-weight-normal);
     font-feature-settings: 'palt';
   }
@@ -156,13 +156,13 @@ export default css`
 
   b,
   strong {
-    color: var(--text-12);
+    color: var(--color-gray-12);
     font-weight: var(--font-weight-bold);
   }
 
   mark {
     padding: 1px 2px;
-    background-color: var(--component-backgrounds-5A);
+    background-color: var(--color-gray-5A);
     border-radius: var(--border-radius-4);
   }
 
@@ -173,10 +173,10 @@ export default css`
   }
 
   code {
-    color: var(--text-12);
+    color: var(--color-gray-12);
     overflow-wrap: break-word;
     border-radius: var(--border-radius-4);
-    background-color: var(--backgrounds-1A);
+    background-color: var(--color-gray-1A);
 
     a > & {
       color: inherit;
@@ -188,7 +188,7 @@ export default css`
     overflow: auto;
     font-size: var(--font-size-sm);
     overflow-wrap: break-word;
-    border: 1px solid var(--borders-6);
+    border: 1px solid var(--color-gray-6);
     border-radius: var(--border-radius-4);
     -webkit-overflow-scrolling: touch;
     /* stylelint-disable */
@@ -198,7 +198,7 @@ export default css`
     & > code {
       display: block;
       padding: var(--space-3);
-      background-color: var(--backgrounds-2A);
+      background-color: var(--color-gray-2A);
       font-size: inherit;
     }
   }
@@ -207,7 +207,7 @@ export default css`
     padding: var(--space-½) var(--space-1);
     margin: 0;
     font-size: var(--font-size-sm);
-    background: var(--component-backgrounds-3A);
+    background: var(--color-gray-3A);
   }
 
   ${table}
@@ -222,7 +222,7 @@ export default css`
 
   del {
     font-size: var(--font-size-sm);
-    color: var(--text-11);
+    color: var(--color-gray-11);
 
     &[datetime] {
       &::before {

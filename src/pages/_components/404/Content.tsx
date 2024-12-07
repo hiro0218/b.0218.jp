@@ -30,7 +30,7 @@ const Header = styled.header`
 
   p {
     font-size: var(--font-size-sm);
-    color: var(--text-11);
+    color: var(--color-gray-11);
   }
 `;
 
@@ -39,10 +39,10 @@ const Anchor = styled(_Anchor)`
   padding: var(--space-1) var(--space-2);
   margin-inline: auto;
   font-size: var(--font-size-sm);
-  background-color: var(--component-backgrounds-3);
+  background-color: var(--color-gray-3);
   border-radius: var(--border-radius-4);
 
   &:hover {
-    background-color: var(--component-backgrounds-4);
+    background-color: var(--color-gray-4);
   }
 `;

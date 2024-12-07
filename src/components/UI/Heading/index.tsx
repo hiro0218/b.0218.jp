@@ -62,17 +62,17 @@ const HeaderTitle = styled.h1<{ isWeightNormal: boolean; level: Props['as'] }>`
   }};
   font-weight: ${({ isWeightNormal }) => (isWeightNormal ? 'var(--font-weight-normal)' : 'var(--font-weight-bold)')};
   line-height: var(--line-height-sm);
-  color: var(--text-12);
+  color: var(--color-gray-12);
   overflow-wrap: break-word;
 `;
 
 const Side = styled.div`
-  color: var(--text-11);
+  color: var(--color-gray-11);
 `;
 
 const HeaderSub = styled.div`
   margin-top: var(--space-1);
   font-weight: var(--font-weight-normal);
-  color: var(--text-11);
+  color: var(--color-gray-11);
   overflow-wrap: break-word;
 `;

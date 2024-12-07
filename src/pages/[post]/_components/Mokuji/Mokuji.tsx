@@ -51,16 +51,16 @@ const Root = styled.nav`
 `;
 
 const Details = styled.details`
-  background-color: var(--component-backgrounds-3);
+  background-color: var(--color-gray-3);
   border-radius: var(--border-radius-8);
   transition: background-color 0.2s ease;
 
   &:not([open]) {
     &:hover {
-      background-color: var(--component-backgrounds-4);
+      background-color: var(--color-gray-4);
     }
     &:active {
-      background-color: var(--component-backgrounds-5);
+      background-color: var(--color-gray-5);
     }
   }
 

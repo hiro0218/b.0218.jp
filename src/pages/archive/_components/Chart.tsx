@@ -51,7 +51,7 @@ const Container = styled.div`
 `;
 
 const Item = styled(Anchor)`
-  --fill: var(--component-backgrounds-3);
+  --fill: var(--color-gray-3);
   --direction: to top;
 
   display: flex;
@@ -61,7 +61,7 @@ const Item = styled(Anchor)`
   height: 100%;
   font-size: var(--font-size-xs);
   line-height: var(--line-height-sm);
-  color: var(--text-11);
+  color: var(--color-gray-11);
   background: linear-gradient(var(--direction), var(--fill) var(--percent), transparent var(--percent));
 
   ${isMobile} {
@@ -73,11 +73,11 @@ const Item = styled(Anchor)`
   }
 
   &:hover {
-    --fill: var(--component-backgrounds-4);
+    --fill: var(--color-gray-4);
   }
 
   &:active,
   &:focus-visible {
-    --fill: var(--component-backgrounds-5);
+    --fill: var(--color-gray-5);
   }
 `;

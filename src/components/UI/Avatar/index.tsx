@@ -28,10 +28,10 @@ const IconContainer = styled.div`
 const Text = styled.span`
   font-size: var(--font-size-sm);
   line-height: var(--line-height-xs);
-  color: var(--text-11);
+  color: var(--color-gray-11);
 `;
 
 const Name = styled(Text)`
   font-weight: var(--font-weight-bold);
-  color: var(--text-12);
+  color: var(--color-gray-12);
 `;

@@ -12,12 +12,12 @@ const TableScroll = css`
     }
 
     &::-webkit-scrollbar-track {
-      background-color: var(--backgrounds-2);
+      background-color: var(--color-gray-2);
       border-radius: var(--border-radius-4);
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: var(--solid-backgrounds-9);
+      background-color: var(--color-gray-9);
       border-radius: var(--border-radius-4);
     }
   }

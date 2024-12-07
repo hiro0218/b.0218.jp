@@ -96,12 +96,12 @@ const Headings = css`
   ${generateHeadingStyles(6)}
 
   h2 {
-    &:first-child {
+    &:first-of-type {
       margin-top: auto;
     }
 
     &:not(:has(+ h3)) {
-      border-bottom: 1px solid var(--borders-6);
+      border-bottom: 1px solid var(--color-gray-6);
     }
   }
 `;

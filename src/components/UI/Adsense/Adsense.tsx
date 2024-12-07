@@ -72,7 +72,7 @@ const Container = styled.aside`
 const Ads = styled.div<Size>`
   min-width: ${({ adsWidth }) => adsWidth}px;
   height: ${({ adsHeight }) => adsHeight}px;
-  background-color: ${() => process.env.NODE_ENV === 'development' && 'var(--component-backgrounds-3)'};
+  background-color: ${() => process.env.NODE_ENV === 'development' && 'var(--color-gray-3)'};
 
   ${isMobile} {
     min-width: 250px;

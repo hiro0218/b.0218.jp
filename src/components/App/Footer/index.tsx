@@ -32,7 +32,7 @@ export default function Footer() {
 const Root = styled.footer`
   padding: var(--space-5) 0;
   margin-top: var(--space-6);
-  background-color: var(--component-backgrounds-3);
+  background-color: var(--color-gray-3);
 
   small {
     font-size: var(--font-size-sm);
@@ -46,7 +46,7 @@ const Container = styled(_Container)`
   justify-content: space-between;
   margin: auto;
   font-size: var(--font-size-md);
-  color: var(--text-12);
+  color: var(--color-gray-12);
 
   ${isMobile} {
     flex-direction: column;
@@ -67,7 +67,7 @@ const Container = styled(_Container)`
   small {
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-bold);
-    color: var(--text-11);
+    color: var(--color-gray-11);
   }
 `;
 
