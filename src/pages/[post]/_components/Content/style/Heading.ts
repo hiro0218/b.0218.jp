@@ -96,7 +96,7 @@ const Headings = css`
   ${generateHeadingStyles(6)}
 
   h2 {
-    &:first-child {
+    &:first-of-type {
       margin-top: auto;
     }
 
