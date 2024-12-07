@@ -54,7 +54,7 @@ const Container = styled.article`
   word-break: break-all;
   background-color: var(--white);
   border-radius: var(--border-radius-8);
-  box-shadow: inset var(--shadow-3);
+  box-shadow: var(--shadows-sm);
   transition:
     box-shadow 0.4s ${easeOutExpo},
     padding 0.4s ${easeOutExpo};
@@ -65,11 +65,11 @@ const Container = styled.article`
 
   &:hover,
   &:focus-visible {
-    box-shadow: inset var(--shadow-4);
+    box-shadow: var(--shadows-md);
   }
 
   &:active {
-    box-shadow: inset var(--shadow-3);
+    box-shadow: var(--shadows-sm);
   }
 
   time {
@@ -80,6 +80,8 @@ const Container = styled.article`
 `;
 
 const Anchor = styled(_Anchor)`
+  transition: text-decoration-line 0.4s linear;
+
   &::before {
     position: absolute;
     top: 0;
@@ -89,12 +91,14 @@ const Anchor = styled(_Anchor)`
     height: 100%;
     cursor: pointer;
     content: '';
+    isolation: isolate;
   }
 
   &:hover,
   &:focus-visible {
     text-decoration-line: underline;
-    text-decoration-color: var(--color-gray-8);
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--color-gray-7);
     text-underline-offset: 4%;
   }
 

@@ -60,11 +60,13 @@ export default css`
    */
   //  6: 微妙な境界線と区切り文字
   --color-gray-6: ${gray.gray6};
+  --color-gray-6A: ${grayA.grayA6};
   --color-accent-6: ${blue.blue6};
   --color-gray-inverse-6: ${grayDark.gray6};
 
   //  7: UI要素の境界線とフォーカスリング
   --color-gray-7: ${gray.gray7};
+  --color-gray-7A: ${grayA.grayA7};
   --color-accent-7: ${blue.blue7};
   --color-gray-inverse-7: ${grayDark.gray7};
 
@@ -118,17 +120,6 @@ export default css`
   --color-alert-important: ${purple.purple11};
   --color-alert-warning: ${yellow.yellow11};
   --color-alert-caution: ${red.red11};
-
-  /**
-   * Shadow
-   */
-  --_shadow-base: 0 0 0 1px color-mix(in oklab, ${grayA.grayA3}, ${grayA.grayA3} 25%);
-  --shadow-1: inset 0 0 0 1px ${grayA.grayA5}, inset 0 1.5px 2px 0 ${grayA.grayA2}, inset 0 1.5px 2px 0 ${grayA.grayA2};
-  --shadow-2: var(--_shadow-base), 0 0 0 0.5px ${grayA.grayA1}, 0 1px 1px 0 ${grayA.grayA2},
-    0 2px 1px -1px ${grayA.grayA1}, 0 1px 3px 0 ${grayA.grayA1};
-  --shadow-3: var(--_shadow-base), 0 2px 3px -2px ${grayA.grayA3}, 0 3px 12px -4px ${grayA.grayA2},
-    0 4px 16px -8px ${grayA.grayA2};
-  --shadow-4: var(--_shadow-base), 0 8px 40px ${grayA.grayA2}, 0 12px 32px -16px ${grayA.grayA3};
 
   /**
    * その他
