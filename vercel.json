@@ -3,5 +3,6 @@
   "redirects": [],
   "github": {
     "autoJobCancelation": true
-  }
+  },
+  "installCommand": "npm install && dnf install -y nss nspr mesa-libgbm"
 }
