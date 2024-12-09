@@ -7,7 +7,7 @@
     "prebuild": "git submodule update --remote && npm run build:article && npm run build:similarity && npm run build:popular && npm run build:ogp",
     "build": "TZ='Asia/Tokyo' next build",
     "postbuild": "npm run build:feed && npm run build:sitemap",
-    "build:article": "node --require esbuild-register ./src/build/article",
+    "build:article": "NODE_OPTIONS='--disable-warning=ExperimentalWarning' node --require esbuild-register ./src/build/article",
     "build:feed": "node --require esbuild-register ./src/build/feed.ts",
     "prebuild:ogp": "nohup node --require esbuild-register ./src/build/ogp/server.tsx  > /dev/null 2>&1 &",
     "build:ogp": "node --require esbuild-register ./src/build/ogp/screenshot.ts",
