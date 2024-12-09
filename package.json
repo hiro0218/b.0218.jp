@@ -24,9 +24,6 @@
     "nolyfill": "npx nolyfill install",
     "prepare": "husky && playwright install --only-shell"
   },
-  "engines": {
-    "node": "20.11.0"
-  },
   "nano-staged": {
     "**/*.{ts,tsx,js}": [
       "npx @biomejs/biome check --write",
