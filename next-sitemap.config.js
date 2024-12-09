@@ -1,5 +1,5 @@
-import { SITE_URL } from '@/constant';
-import { getPostsListJson } from '@/lib/posts';
+const { SITE_URL } = require('@/constant');
+const { getPostsListJson } = require('@/lib/posts');
 
 /** @type {import('./src/types/source').PostListProps[]} */
 const posts = getPostsListJson();
