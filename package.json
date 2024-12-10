@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@google-analytics/data": "4.9.0",
+    "@google-analytics/data": "4.11.0",
     "@hono/node-server": "1.13.7",
     "@markuplint/jsx-parser": "4.7.14",
     "@markuplint/react-spec": "4.5.14",
@@ -100,7 +100,7 @@
     "next-compose-plugins": "2.2.1",
     "next-sitemap": "4.2.3",
     "picocolors": "1.1.1",
-    "playwright-chromium": "1.49.0",
+    "playwright-chromium": "1.49.1",
     "postcss-media-hover-any-hover": "0.2.2",
     "postcss-styled-syntax": "0.7.0",
     "prettier": "3.4.2",
