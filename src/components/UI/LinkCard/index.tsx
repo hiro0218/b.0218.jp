@@ -128,11 +128,11 @@ const Tags = styled.div`
   gap: var(--space-1);
   margin-top: auto;
   overflow: clip;
-  font-size: var(--font-size-xs);
 `;
 
 const TagItem = styled.span`
   ${PostTagAnchorStyle}
 
-  padding:  var(--space-½) var(--space-1);
+  padding: var(--space-½) var(--space-1);
+  font-size: var(--font-size-xs);
 `;

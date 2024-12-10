@@ -123,6 +123,8 @@ const PostContentStyle = css`
   }
 
   details {
+    background-color: var(--white);
+
     summary {
       padding: var(--space-1) var(--space-2);
       font-size: var(--font-size-sm);

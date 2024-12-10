@@ -33,12 +33,12 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
         <TagAnchor
           href={`/tags/${slug}`}
           key={slug}
-          title={`${slug} (${count})`}
           {...(hasRelTag && {
             rel: 'tag',
           })}
         >
           {slug}
+          <Count aria-hidden="true">{count}</Count>
         </TagAnchor>
       ) : (
         <DisabledTagAnchor aria-hidden="true" key={slug}>
@@ -52,10 +52,23 @@ export default PostTag;
 
 export const PostTagAnchorStyle = css`
   padding: var(--space-1) var(--space-2);
+  font-size: var(--font-size-md);
   line-height: var(--line-height-xs);
   color: var(--color-gray-11);
   text-align: center;
   white-space: nowrap;
+  background-color: var(--color-gray-3A);
+  border-radius: var(--border-radius-4);
+`;
+
+const Count = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-½);
+  margin-left: var(--space-1);
+  font-size: var(--font-size-xs);
+  line-height: 1;
   background-color: var(--color-gray-3A);
   border-radius: var(--border-radius-4);
 `;
