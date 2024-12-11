@@ -41,7 +41,6 @@ const Container = styled.div<Props>`
   display: flex;
   flex-wrap: wrap;
   gap: var(--space);
-  padding-bottom: calc(var(--space-2) / 2);
 
   & > * {
     flex-grow: 1;
