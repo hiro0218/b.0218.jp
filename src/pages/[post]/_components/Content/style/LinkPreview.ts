@@ -13,6 +13,7 @@ const LinkPreview = css`
     background-color: var(--color-gray-1);
     border: 1px solid var(--color-gray-7);
     border-radius: var(--border-radius-8);
+    margin: var(--space-3) 0;
 
     &:hover {
       border-color: var(--color-gray-8);
