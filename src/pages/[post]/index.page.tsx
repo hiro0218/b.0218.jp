@@ -74,7 +74,7 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
             {ShareComponent}
             <PostEdit slug={slug} />
           </Stack>
-          <Stack as="footer" space={4}>
+          <Stack as="footer" space={5}>
             <TagSection
               as="aside"
               heading="関連タグ"
