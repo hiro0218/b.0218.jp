@@ -1,0 +1,99 @@
+import { ICON_SIZE_SM } from '@/ui/icons';
+import { showHoverBackground } from '@/ui/mixin';
+import { css, styled } from '@/ui/styled';
+import { type ReactNode, useCallback, useId, useRef, useState } from 'react';
+
+type Props = {
+  title: ReactNode;
+  children: ReactNode;
+  menuHorizontalPosition?: 'left' | 'right';
+};
+
+export const Popover = ({ title, children, menuHorizontalPosition = 'right' }: Props) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const id = useId();
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  const togglePopoverContent = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, [setIsOpen]);
+
+  return (
+    <Container>
+      <Trigger
+        type="button"
+        aria-haspopup="menu"
+        aria-controls={id}
+        aria-expanded={isOpen}
+        onClick={togglePopoverContent}
+      >
+        {title}
+      </Trigger>
+      <Content ref={contentRef} id={id} role="menu" aria-expanded={isOpen} position={menuHorizontalPosition}>
+        {children}
+      </Content>
+    </Container>
+  );
+};
+
+const Container = styled.div`
+  position: relative;
+  display: flex;
+`;
+
+const Trigger = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${ICON_SIZE_SM * 2}px;
+  height: ${ICON_SIZE_SM * 2}px;
+
+  ${showHoverBackground}
+
+  &:has(+ [aria-expanded="true"]) {
+    &::after {
+      background-color: var(--color-gray-4A);
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+`;
+
+const Content = styled.div<{
+  position: Props['menuHorizontalPosition'];
+}>`
+  position: absolute;
+  top: 100%;
+  z-index: var(--zIndex-base);
+  min-width: max-content;
+  height: fit-content;
+  padding: var(--space-½);
+  visibility: hidden;
+  background-color: var(--white);
+  border: 1px solid var(--color-gray-6A);
+  border-radius: var(--border-radius-4);
+  box-shadow: var(--shadows-md);
+  opacity: 0;
+  transition: transform 0.15s ease;
+  transform: scale(0);
+
+  ${({ position }) =>
+    position === 'left'
+      ? css`
+          left: 0;
+        `
+      : css`
+          right: 0;
+        `}
+
+  &[aria-expanded='true'] {
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1);
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+`;
