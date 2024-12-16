@@ -71,8 +71,10 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
             />
             {!!note && <PostNote note={note} />}
             <PostContent content={content} />
-            {ShareComponent}
-            <PostEdit slug={slug} />
+            <Stack direction="horizontal" justify="space-between">
+              {ShareComponent}
+              <PostEdit slug={slug} />
+            </Stack>
           </Stack>
           <Stack as="footer" space={5}>
             <TagSection
