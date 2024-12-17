@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useRef } from 'react';
+import { useCallback, useId, useRef } from 'react';
 
 import { ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled';
@@ -18,10 +18,6 @@ export const SearchHeader = ({ onKeyup }: { onKeyup: onKeyupProps }) => {
     refInput?.current?.dispatchEvent(keyupEvent);
   }, []);
 
-  useEffect(() => {
-    refInput?.current?.focus();
-  }, []);
-
   return (
     <Header>
       <HeaderIcon htmlFor={searchInputId}>
@@ -32,7 +28,10 @@ export const SearchHeader = ({ onKeyup }: { onKeyup: onKeyupProps }) => {
         id={searchInputId}
         onKeyUp={onKeyup}
         placeholder="記事タイトルやタグから検索する（Enterで検索結果表示）"
-        ref={refInput}
+        ref={(el) => {
+          refInput.current = el;
+          refInput?.current?.focus();
+        }}
         role="searchbox"
         type="text"
       />
