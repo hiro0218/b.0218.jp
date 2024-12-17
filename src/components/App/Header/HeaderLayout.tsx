@@ -16,7 +16,7 @@ export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
 
   return (
     <Underline>
-      <Header aria-hidden={!isHeaderShown} data-floating isMounted={isMounted()}>
+      <Header data-is-hide={!isHeaderShown} data-floating isMounted={isMounted()}>
         {children}
       </Header>
     </Underline>
@@ -47,7 +47,7 @@ const Header = styled.header<{ isMounted: boolean }>`
     return css`
       animation: ${fadeIn} 0.4s linear both;
 
-      &[aria-hidden='true'] {
+      &[data-is-hide='true'] {
         animation: ${fadeOut} 0.4s linear both;
       }
     `;
