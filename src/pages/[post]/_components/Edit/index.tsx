@@ -1,4 +1,4 @@
-import { Popover } from '@/components/UI/Popover/index';
+import { DropdownMenu } from '@/components/UI/DropdownMenu/index';
 import { GitHubLogoIcon, ICON_SIZE_SM } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 import dynamic from 'next/dynamic';
@@ -14,7 +14,7 @@ type Props = {
 function PostEdit({ slug }: Props) {
   return (
     <aside>
-      <Popover
+      <DropdownMenu
         title={
           <>
             <SrOnly text="Feedback" />
@@ -30,7 +30,7 @@ function PostEdit({ slug }: Props) {
         >
           Edit on GitHub
         </Anchor>
-      </Popover>
+      </DropdownMenu>
     </aside>
   );
 }

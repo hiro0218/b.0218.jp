@@ -9,13 +9,13 @@ type Props = {
   menuHorizontalPosition?: 'left' | 'right';
 };
 
-export const Popover = ({ title, children, menuHorizontalPosition = 'right' }: Props) => {
+export const DropdownMenu = ({ title, children, menuHorizontalPosition = 'right' }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const id = useId();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:
-  const togglePopoverContent = useCallback(() => {
+  const toggleDropdownMenuContent = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, [setIsOpen]);
 
@@ -26,7 +26,7 @@ export const Popover = ({ title, children, menuHorizontalPosition = 'right' }: P
         aria-haspopup="menu"
         aria-controls={id}
         aria-expanded={isOpen}
-        onClick={togglePopoverContent}
+        onClick={toggleDropdownMenuContent}
       >
         {title}
       </Trigger>
