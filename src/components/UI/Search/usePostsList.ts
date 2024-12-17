@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { FILENAME_POSTS_LIST } from '@/constant';
 import { parseJSON } from '@/lib/parseJSON';
-import type { PostProps } from '@/types/source';
+import type { PostListProps } from '@/types/source';
 
 import type { SearchProps } from './type';
 
@@ -32,7 +32,7 @@ export const usePostsList = () => {
         const response = await fetch(`/${FILENAME_POSTS_LIST}.json`, {
           signal: abortController.signal,
         });
-        const json = (await response.json()) as PostProps[];
+        const json = (await response.json()) as PostListProps[];
 
         // 必要なプロパティだけを抽出
         const data = json.map(({ title, tags, slug }) => {
