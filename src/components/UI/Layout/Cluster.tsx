@@ -1,11 +1,11 @@
 import type { AriaRole, ReactNode } from 'react';
-import { memo, useMemo } from 'react';
+import { type ElementType, memo } from 'react';
 
 import { css, styled } from '@/ui/styled';
 import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
 
 type Props = {
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
   gap?: SpaceGap;
   role?: AriaRole;
   isWide?: boolean;
@@ -32,11 +32,9 @@ const _Cluster = styled.div<Props>`
 `;
 
 export const Cluster = memo(function Grid({ as = 'div', children, ...props }: Props) {
-  const MemoizedCluster = useMemo(() => _Cluster.withComponent(as), [as]);
-
   return (
-    <MemoizedCluster as={as} {...props}>
+    <_Cluster as={as} {...props}>
       {children}
-    </MemoizedCluster>
+    </_Cluster>
   );
 });
