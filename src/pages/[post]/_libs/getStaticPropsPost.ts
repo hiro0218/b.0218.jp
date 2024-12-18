@@ -48,7 +48,7 @@ export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
   // 関連記事
   let similarPost = getSimilarPost(posts, slug);
   // 関連記事がない場合は同一タグから記事を取得
-  if (similarPost.length === 0) {
+  if (similarPost.length === 0 && !!tag) {
     similarPost = getTagPosts(tag).slice(0, UPDATED_POST_DISPLAY_LIMIT);
   }
 
