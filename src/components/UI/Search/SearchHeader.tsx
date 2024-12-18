@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useRef } from 'react';
+import { useId, useRef } from 'react';
 
 import { ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled';
@@ -9,19 +9,6 @@ export const SearchHeader = ({ onKeyup }: { onKeyup: onKeyupProps }) => {
   const refInput = useRef<HTMLInputElement>(null);
   const searchInputId = useId();
 
-  const onClick = useCallback(() => {
-    const keyupEvent = new KeyboardEvent('keyup', {
-      key: 'Enter',
-      bubbles: true,
-      cancelable: true,
-    });
-    refInput?.current?.dispatchEvent(keyupEvent);
-  }, []);
-
-  useEffect(() => {
-    refInput?.current?.focus();
-  }, []);
-
   return (
     <Header>
       <HeaderIcon htmlFor={searchInputId}>
@@ -31,14 +18,14 @@ export const SearchHeader = ({ onKeyup }: { onKeyup: onKeyupProps }) => {
         autoComplete="off"
         id={searchInputId}
         onKeyUp={onKeyup}
-        placeholder="記事タイトルやタグから検索する（Enterで検索結果表示）"
-        ref={refInput}
+        placeholder="記事タイトルやタグから検索する"
+        ref={(el) => {
+          refInput.current = el;
+          refInput?.current?.focus();
+        }}
         role="searchbox"
         type="text"
       />
-      <SubmitButton onClick={onClick} type="button">
-        Enterで検索
-      </SubmitButton>
     </Header>
   );
 };
@@ -55,31 +42,6 @@ const HeaderIcon = styled.label`
   padding: 0 var(--space-1) 0 var(--space-2);
 `;
 
-const SubmitButton = styled.button`
-  position: absolute;
-  top: 25%;
-  right: var(--space-1);
-  padding: var(--space-½) var(--space-1);
-  font-size: var(--font-size-xs);
-  line-height: var(--line-height-xs);
-  color: var(--color-gray-11);
-  white-space: nowrap;
-  background-color: var(--color-gray-3);
-  border: 1px solid var(--color-gray-6);
-  border-radius: var(--border-radius-2);
-
-  &:hover {
-    background-color: var(--color-gray-4);
-  }
-
-  &:focus,
-  &:active {
-    background-color: var(--color-gray-5);
-    border-color: var(--color-gray-7);
-    outline: none;
-  }
-`;
-
 const SearchInput = styled.input`
   width: 100%;
   height: var(--space-4);
@@ -90,10 +52,6 @@ const SearchInput = styled.input`
   &::placeholder {
     font-size: var(--font-size-sm);
     color: var(--color-gray-11);
-  }
-
-  &:placeholder-shown + ${SubmitButton} {
-    display: none;
   }
 
   &:focus {

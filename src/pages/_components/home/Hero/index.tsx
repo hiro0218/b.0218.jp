@@ -10,7 +10,7 @@ export const Hero = function Hero() {
   return (
     <Container align="center" space={2}>
       <Avatar>
-        <img alt="hiro" height={ICON_SIZE} src="/hiro0218.svg" width={ICON_SIZE} />
+        <img alt="hiro" height={ICON_SIZE} src="/hiro0218.svg" width={ICON_SIZE} fetchPriority="high" />
       </Avatar>
       <Stack align="center" space={1}>
         <Heading>hiro</Heading>
