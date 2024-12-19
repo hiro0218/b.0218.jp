@@ -6,6 +6,7 @@ export default css`
   ${reset}
 
   #__next {
+    isolation: isolate;
     min-height: 100%;
   }
 `;

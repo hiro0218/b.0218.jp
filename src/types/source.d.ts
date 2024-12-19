@@ -8,7 +8,7 @@ type ArticleBaseProps = {
 
 export type PageProps = ArticleBaseProps;
 
-export type TermsPostListProps = Omit<ArticleBaseProps, 'content'>;
+export type TermsPostListProps = Optional<Omit<ArticleBaseProps, 'content'>, 'updated'>;
 
 export type PostProps = ArticleBaseProps & {
   note?: string;

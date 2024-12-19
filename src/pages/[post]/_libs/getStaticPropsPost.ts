@@ -2,9 +2,10 @@ import type { GetStaticProps } from 'next';
 
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import { getPostsJson, getTagsWithCount } from '@/lib/posts';
+import { UPDATED_POST_DISPLAY_LIMIT } from '@/pages/_libs/constant';
 import { getRecentAndUpdatedPosts } from '@/pages/_libs/getRecentAndUpdatedPosts';
+import { getTagPosts } from '@/pages/_libs/getTagPosts';
 import type { PostListProps, PostProps, TermsPostListProps } from '@/types/source';
-
 import { getSimilarPost } from './getSimilarPost';
 import { getSimilarTag } from './getSimilarTag';
 
@@ -40,12 +41,16 @@ export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
   // tagsに件数を追加
   const tagsWithCount = post.tags.map((slug) => tagDataWithCountBySlug[slug]).filter((tag) => tag !== undefined);
 
-  // 関連記事
-  const similarPost = getSimilarPost(posts, slug);
-
   // 関連タグ
   const tag = post.tags[0];
   const similarTags = getSimilarTag(tag);
+
+  // 関連記事
+  let similarPost = getSimilarPost(posts, slug);
+  // 関連記事がない場合は同一タグから記事を取得
+  if (similarPost.length === 0 && !!tag) {
+    similarPost = getTagPosts(tag).slice(0, UPDATED_POST_DISPLAY_LIMIT);
+  }
 
   return {
     props: {
