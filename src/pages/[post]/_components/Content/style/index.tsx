@@ -128,8 +128,10 @@ const PostContentStyle = css`
     summary {
       padding: var(--space-1) var(--space-2);
       font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
       border: 1px solid var(--color-gray-6);
       border-radius: var(--border-radius-4);
+      transition: background-color 0.2s ease;
 
       & ~ * {
         margin: 0 var(--space-2) var(--space-2);
@@ -147,6 +149,14 @@ const PostContentStyle = css`
 
       summary {
         border: none;
+      }
+    }
+
+    &:not([open]) {
+      summary {
+        &:hover {
+          background-color: var(--color-gray-4);
+        }
       }
     }
   }
