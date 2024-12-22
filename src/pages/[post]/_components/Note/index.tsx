@@ -20,7 +20,7 @@ const Stack = styled(_Stack)`
   align-items: center;
   padding: var(--space-2);
   font-size: var(--font-size-sm);
-  line-height: var(--line-height-sm);
+  line-height: var(--line-height-md);
   color: var(--color-accent-11);
   background-color: var(--color-accent-3);
   border-radius: var(--border-radius-8);
