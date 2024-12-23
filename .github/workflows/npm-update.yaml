@@ -22,6 +22,11 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            package.json
+            package-lock.json
+            .node-version
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
