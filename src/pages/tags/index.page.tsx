@@ -1,10 +1,10 @@
 import Head from 'next/head';
 
-import { TagSection } from '@/components/Feature/TagSection';
 import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getTagsWithCount } from '@/lib/posts';
+import { TagSection } from '@/pages/_components/TagSection';
 
 import { createGetLayout } from '../_layouts/ArchivePageLayout';
 
