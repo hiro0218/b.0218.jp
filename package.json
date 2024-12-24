@@ -24,22 +24,6 @@
     "nolyfill": "npx nolyfill install",
     "prepare": "husky && playwright install --only-shell"
   },
-  "nano-staged": {
-    "**/*.{ts,tsx,js}": [
-      "npx @biomejs/biome check --write",
-      "bash -c 'tsc --noEmit --skipLibCheck'"
-    ],
-    "**/*.{css,tsx}": [
-      "npx @biomejs/biome check --write",
-      "stylelint --fix --cache"
-    ],
-    "**/*.{yml,yaml}": [
-      "prettier --write --cache"
-    ]
-  },
-  "browserslist": [
-    "last 2 versions and >= 1% in JP and not dead, last 2 Firefox versions"
-  ],
   "dependencies": {
     "@emotion/cache": "11.14.0",
     "@emotion/react": "11.14.0",
@@ -121,6 +105,33 @@
     "unified": "11.0.5",
     "unist-util-visit": "5.0.0"
   },
+  "overrides": {
+    "array.prototype.at": "npm:@nolyfill/array.prototype.at@^1",
+    "is-core-module": "npm:@nolyfill/is-core-module@^1",
+    "isarray": "npm:@nolyfill/isarray@^1",
+    "object-keys": "npm:@nolyfill/object-keys@^1",
+    "string.prototype.at": "npm:@nolyfill/string.prototype.at@^1",
+    "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
+    "safer-buffer": "npm:@nolyfill/safer-buffer@^1",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1"
+  },
+  "nano-staged": {
+    "**/*.{ts,tsx,js}": [
+      "npx @biomejs/biome check --write",
+      "bash -c 'tsc --noEmit --skipLibCheck'"
+    ],
+    "**/*.{css,tsx}": [
+      "npx @biomejs/biome check --write",
+      "stylelint --fix --cache"
+    ],
+    "**/*.{yml,yaml}": [
+      "prettier --write --cache"
+    ]
+  },
+  "browserslist": [
+    "last 2 versions and >= 1% in JP and not dead, last 2 Firefox versions"
+  ],
   "prettier": {
     "printWidth": 120,
     "trailingComma": "all",
@@ -132,16 +143,5 @@
     "budgetPercentIncreaseRed": 20,
     "minimumChangeThreshold": 0,
     "showDetails": true
-  },
-  "overrides": {
-    "array.prototype.at": "npm:@nolyfill/array.prototype.at@^1",
-    "is-core-module": "npm:@nolyfill/is-core-module@^1",
-    "isarray": "npm:@nolyfill/isarray@^1",
-    "object-keys": "npm:@nolyfill/object-keys@^1",
-    "string.prototype.at": "npm:@nolyfill/string.prototype.at@^1",
-    "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
-    "safer-buffer": "npm:@nolyfill/safer-buffer@^1",
-    "@types/react": "18.3.12",
-    "@types/react-dom": "18.3.1"
   }
 }
