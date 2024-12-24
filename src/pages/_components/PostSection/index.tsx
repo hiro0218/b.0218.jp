@@ -3,6 +3,7 @@ import { Grid, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { LinkMore } from '@/pages/_components/home';
 import type { PostListProps, TermsPostListProps } from '@/types/source';
+import type { ElementType } from 'react';
 
 type Props = {
   heading?: string;
@@ -10,7 +11,7 @@ type Props = {
   headingWeight?: 'bold' | 'normal';
   posts: PostListProps[] | (TermsPostListProps & { tags?: string[] })[];
   href?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
 };
 
 export const PostSection = ({
