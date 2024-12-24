@@ -3,8 +3,6 @@ import Head from 'next/head';
 import Script from 'next/script';
 import { useMemo } from 'react';
 
-import { PostSection } from '@/components/Feature/PostSection';
-import { TagSection } from '@/components/Feature/TagSection';
 import { Container, getSize } from '@/components/Functional/Container';
 import { Stack } from '@/components/UI/Layout';
 import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
@@ -17,6 +15,8 @@ import {
   Note as PostNote,
   Share as PostShare,
 } from '@/pages/[post]/_components';
+import { PostSection } from '@/pages/_components/PostSection';
+import { TagSection } from '@/pages/_components/TagSection';
 
 import { createGetLayout } from '../_layouts/PostPageLayout';
 import { getStaticPathsPost, getStaticPropsPost } from './_libs';

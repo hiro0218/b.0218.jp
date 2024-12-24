@@ -1,5 +1,4 @@
-import 'dotenv/config';
-
+import { loadEnvConfig } from '@next/env';
 import { fdir } from 'fdir';
 import { read as matterRead } from 'gray-matter';
 import readingTime from 'reading-time';
@@ -11,6 +10,8 @@ import type { PageProps, PostProps } from '@/types/source';
 import { removePostsData } from './post/removePostData';
 
 import markdownToHtmlString from './markdownToHtmlString';
+
+loadEnvConfig(process.cwd());
 
 const PATH = {
   from: `${process.cwd()}/_article`,
