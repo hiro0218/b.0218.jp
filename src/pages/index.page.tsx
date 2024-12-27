@@ -52,6 +52,7 @@ export default function Index() {
                 headingWeight="normal"
                 href="/archive"
                 posts={recentPosts}
+                updateTarget="date"
               />
             </Stack>
             <Stack>
