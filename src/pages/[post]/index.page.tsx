@@ -85,8 +85,15 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
               isWideCluster={false}
               tags={similarTags}
             />
-            <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
-            <PostSection as="aside" heading="最新記事" headingLevel="h2" href="/archive" posts={recentPosts} />
+            <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} updateTarget="date" />
+            <PostSection
+              as="aside"
+              heading="最新記事"
+              headingLevel="h2"
+              href="/archive"
+              posts={recentPosts}
+              updateTarget="date"
+            />
           </Stack>
         </Stack>
       </Container>
