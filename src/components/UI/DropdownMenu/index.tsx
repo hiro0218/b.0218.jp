@@ -90,8 +90,8 @@ const Content = styled.div<{
   border-radius: var(--border-radius-4);
   box-shadow: var(--shadows-md);
   opacity: 0;
-  transition: transform 0.15s ease;
-  transform: scale(0);
+  transition: transform 0.1s;
+  transform: scale(0.8);
 
   ${({ position }) =>
     position === 'left'
