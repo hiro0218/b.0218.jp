@@ -6,7 +6,7 @@ import { PostTagAnchorStyle } from '@/components/UI/Tag';
 import { easeOutExpo } from '@/ui/foundation/easing';
 import { isContainer } from '@/ui/lib/mediaQuery';
 import { lineClamp, textEllipsis } from '@/ui/mixin';
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
 type PostDateProps = ComponentProps<typeof PostDate>;
 
@@ -19,11 +19,22 @@ type Props = {
   updated: PostDateProps['updated'];
   tags?: string[];
   role?: AriaRole;
+  showNewLabel?: boolean;
 };
 
-function LinkCard({ link, title, date, updated, excerpt, tags, role, titleTagName = 'h3' }: Props) {
+function LinkCard({
+  link,
+  title,
+  date,
+  updated,
+  excerpt,
+  tags,
+  role,
+  titleTagName = 'h3',
+  showNewLabel = false,
+}: Props) {
   return (
-    <Container role={role}>
+    <Container role={role} showNewLabel={showNewLabel}>
       <PostDate date={date} updated={updated} />
       <Anchor href={link} prefetch={false}>
         <Title as={titleTagName}>{title}</Title>
@@ -42,7 +53,7 @@ function LinkCard({ link, title, date, updated, excerpt, tags, role, titleTagNam
 
 export default LinkCard;
 
-const Container = styled.article`
+const Container = styled.article<Pick<Props, 'showNewLabel'>>`
   container-type: inline-size;
   display: flex;
   flex-direction: column;
@@ -50,7 +61,7 @@ const Container = styled.article`
   padding: calc(var(--space-3) * 0.85);
   content-visibility: auto;
   contain-intrinsic-size: 0 200px;
-  contain: layout style paint;
+  contain: layout style;
   word-break: break-all;
   background-color: var(--white);
   border-radius: var(--border-radius-8);
@@ -62,6 +73,27 @@ const Container = styled.article`
   ${isContainer['@3xl']} {
     padding: var(--space-3);
   }
+
+  ${({ showNewLabel }) =>
+    showNewLabel &&
+    css`
+      &::before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: grid;
+        place-content: center;
+        padding: var(--space-½) var(--space-1);
+        font-size: var(--font-size-xs);
+        font-weight: var(--font-weight-bold);
+        line-height: 1;
+        color: var(--white);
+        content: 'NEW';
+        background-color: var(--color-gray-12);
+        isolation: isolate;
+        border-bottom-left-radius: var(--border-radius-8);
+      }
+    `}
 
   &:hover,
   &:focus-visible {

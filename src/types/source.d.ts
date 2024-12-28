@@ -1,3 +1,5 @@
+type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
 type ArticleBaseProps = {
   title: string;
   slug: string;
@@ -31,7 +33,7 @@ export type PostSimilarProps = {
   };
 }[];
 
-export type PostListProps = Pick<PostProps, 'title' | 'slug' | 'date' | 'updated' | 'tags'>;
+export type PostListProps = Optional<Pick<PostProps, 'title' | 'slug' | 'date' | 'updated' | 'tags'>, 'updated'>;
 
 export type PostPopularProps = {
   [slug: string]: number;

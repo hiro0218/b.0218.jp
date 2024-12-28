@@ -1,10 +1,9 @@
-import 'dotenv/config';
-
-import { BetaAnalyticsDataClient } from '@google-analytics/data';
-
 import * as Log from '@/shared/Log';
-
+import { BetaAnalyticsDataClient } from '@google-analytics/data';
+import { loadEnvConfig } from '@next/env';
 import type { Result } from './type';
+
+loadEnvConfig(process.cwd());
 
 const analyticsDataClient = new BetaAnalyticsDataClient({
   credentials: {
