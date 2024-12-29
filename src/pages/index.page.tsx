@@ -52,6 +52,7 @@ export default function Index() {
                 headingWeight="normal"
                 href="/archive"
                 posts={recentPosts}
+                updateTarget="date"
               />
             </Stack>
             <Stack>
@@ -64,7 +65,13 @@ export default function Index() {
               />
             </Stack>
             <Stack>
-              <PostSection heading="更新記事" headingLevel="h3" headingWeight="normal" posts={updatesPosts} />
+              <PostSection
+                heading="更新記事"
+                headingLevel="h3"
+                headingWeight="normal"
+                posts={updatesPosts}
+                updateTarget="updated"
+              />
             </Stack>
           </Stack>
 

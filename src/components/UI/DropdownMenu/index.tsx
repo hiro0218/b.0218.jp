@@ -1,7 +1,7 @@
 import { ICON_SIZE_SM } from '@/ui/icons';
 import { showHoverBackground } from '@/ui/mixin';
 import { css, styled } from '@/ui/styled';
-import { type ReactNode, useCallback, useId, useRef, useState } from 'react';
+import { type ReactNode, useCallback, useEffect, useId, useRef, useState } from 'react';
 
 type Props = {
   title: ReactNode;
@@ -11,6 +11,7 @@ type Props = {
 
 export const DropdownMenu = ({ title, children, menuHorizontalPosition = 'right' }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const id = useId();
 
@@ -19,8 +20,22 @@ export const DropdownMenu = ({ title, children, menuHorizontalPosition = 'right'
     setIsOpen((prev) => !prev);
   }, [setIsOpen]);
 
+  const handleClickOutside = useCallback((event: MouseEvent) => {
+    if (ref.current && !ref.current.contains(event.target as Node)) {
+      setIsOpen(false);
+    }
+  }, []);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   return (
-    <Container>
+    <Container ref={ref}>
       <Trigger
         type="button"
         aria-haspopup="menu"
@@ -75,8 +90,8 @@ const Content = styled.div<{
   border-radius: var(--border-radius-4);
   box-shadow: var(--shadows-md);
   opacity: 0;
-  transition: transform 0.15s ease;
-  transform: scale(0);
+  transition: transform 0.1s;
+  transform: scale(0.8);
 
   ${({ position }) =>
     position === 'left'

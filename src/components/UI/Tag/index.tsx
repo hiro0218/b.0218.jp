@@ -71,7 +71,7 @@ const Count = styled.span`
   line-height: 1;
   user-select: none;
   background-color: var(--color-gray-3A);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--border-radius-8);
 `;
 
 const TagAnchor = styled(Anchor)`
