@@ -51,9 +51,11 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
 export default PostTag;
 
 export const PostTagAnchorStyle = css`
-  padding: var(--space-1) var(--space-2);
-  font-size: var(--font-size-md);
-  line-height: var(--line-height-sm);
+  display: inline-flex;
+  justify-content: center;
+  padding: var(--space-½) var(--space-2);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-md);
   color: var(--color-gray-11);
   text-align: center;
   white-space: nowrap;
@@ -65,8 +67,10 @@ const Count = styled.span`
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  aspect-ratio: 1/1;
   padding: var(--space-½);
   margin-left: var(--space-1);
+  font-family: var(--font-family-monospace);
   font-size: var(--font-size-xs);
   line-height: var(--line-height-sm);
   user-select: none;
