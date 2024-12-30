@@ -167,4 +167,5 @@ const TagItem = styled.span`
 
   padding: var(--space-½) var(--space-1);
   font-size: var(--font-size-xs);
+  border-radius: var(--border-radius-4);
 `;
