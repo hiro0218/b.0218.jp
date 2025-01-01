@@ -1,6 +1,6 @@
 import { Container as _Container, getSize } from '@/components/Functional/Container';
-import { Anchor as _Anchor } from '@/components/UI/Anchor';
-import { SITE_NAME } from '@/constant';
+import { Anchor } from '@/components/UI/Anchor';
+import { Logo } from '@/components/UI/Logo';
 import { styled } from '@/ui/styled';
 
 const Links = [
@@ -15,7 +15,9 @@ export default function Footer() {
   return (
     <Root>
       <Container size={size}>
-        <img src="/logo.v2.svg" alt={SITE_NAME} height="25" width="80" />
+        <LogoContainer>
+          <Logo />
+        </LogoContainer>
         <Nav>
           {Links.map(({ title, href }) => (
             <Anchor href={href} key={href + title}>
@@ -37,7 +39,7 @@ const Root = styled.footer`
 
 const Container = styled(_Container)`
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-2);
   margin: auto;
   font-size: var(--font-size-md);
   color: var(--color-gray-12);
@@ -49,17 +51,23 @@ const Container = styled(_Container)`
   }
 `;
 
+const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: calc(var(--space-1) * -1);
+`;
+
 const Nav = styled.nav`
   display: inline-flex;
   gap: var(--space-2);
   align-items: center;
-`;
 
-const Anchor = styled(_Anchor)`
-  &:hover,
-  &:focus-visible {
-    text-decoration-line: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 4%;
+  a {
+    &:hover,
+    &:focus-visible {
+      text-decoration-line: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 4%;
+    }
   }
 `;
