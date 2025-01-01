@@ -67,7 +67,6 @@ const Nav = styled.nav`
     &:focus-visible {
       text-decoration-line: underline;
       text-decoration-thickness: 2px;
-      text-underline-offset: 4%;
     }
   }
 `;

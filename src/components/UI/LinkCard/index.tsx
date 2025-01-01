@@ -131,7 +131,6 @@ const Anchor = styled(_Anchor)`
     text-decoration-line: underline;
     text-decoration-thickness: 2px;
     text-decoration-color: var(--color-gray-7);
-    text-underline-offset: 4%;
   }
 
   &:focus-within {

@@ -63,7 +63,7 @@ export default css`
     text-decoration: none;
     text-decoration-color: var(--color-gray-8);
     text-underline-position: under;
-    text-underline-offset: 2%;
+    text-underline-offset: 4%;
     transition:
       background-color 0.2s ease,
       opacity 0.2s ease,
