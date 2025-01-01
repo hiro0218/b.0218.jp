@@ -59,7 +59,7 @@ const LogoContainer = styled.div`
 
 const Nav = styled.nav`
   display: inline-flex;
-  gap: var(--space-2);
+  gap: var(--space-3);
   align-items: center;
 
   a {
