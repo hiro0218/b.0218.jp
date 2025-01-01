@@ -75,9 +75,11 @@ export default function Index() {
             </Stack>
           </Stack>
 
-          <Stack as="section">
-            <TagSection heading="タグ" headingLevel="h2" headingWeight="normal" href="/tags" tags={tags} />
-          </Stack>
+          <Sidebar.StickyContainer>
+            <Stack as="section">
+              <TagSection heading="タグ" headingLevel="h2" headingWeight="normal" href="/tags" tags={tags} />
+            </Stack>
+          </Sidebar.StickyContainer>
         </Sidebar>
       </Stack>
     </>
