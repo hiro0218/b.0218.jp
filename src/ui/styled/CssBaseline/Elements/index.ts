@@ -198,7 +198,7 @@ export default css`
     & > code {
       display: block;
       padding: var(--space-3);
-      background-color: var(--color-gray-2A);
+      background-color: var(--color-gray-2);
       font-size: inherit;
     }
   }
