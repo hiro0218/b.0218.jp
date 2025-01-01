@@ -68,7 +68,7 @@ const Count = styled.span`
   align-items: center;
   justify-content: center;
   aspect-ratio: 1/1;
-  padding: var(--space-½);
+  padding: 0 var(--space-½);
   margin-left: var(--space-1);
   font-family: var(--font-family-monospace);
   font-size: var(--font-size-xs);
