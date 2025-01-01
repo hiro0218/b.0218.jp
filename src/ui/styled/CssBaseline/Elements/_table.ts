@@ -39,12 +39,13 @@ export const table = css`
     }
   }
 
-  th,
-  td {
+  :where(th, td) {
     padding: var(--space-1) var(--space-2);
     white-space: nowrap;
     vertical-align: top;
     border-top: 1px solid var(--color-gray-6);
+    background-color: var(--white);
+    transition: background-color 0.3s ease;
   }
 
   th {
@@ -80,9 +81,10 @@ export const table = css`
     }
 
     tr {
-      transition: background-color 0.3s ease;
       &:hover {
-        background-color: var(--color-gray-3A);
+        td {
+          background-color: var(--color-gray-3A);
+        }
       }
     }
   }
