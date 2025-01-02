@@ -1,11 +1,11 @@
-import type { AriaRole, CSSProperties, ReactNode } from 'react';
+import type { AriaRole, CSSProperties, ElementType, ReactNode } from 'react';
 
 import { css, styled } from '@/ui/styled';
 import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
 import { SPACE_KEYS } from '@/ui/styled/CssBaseline/Settings/Space';
 
 type Props = {
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
   space?: SpaceGap | 0;
   direction?: 'vertical' | 'horizontal';
   align?: CSSProperties['alignItems'];
