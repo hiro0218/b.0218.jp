@@ -87,8 +87,9 @@ export default css`
   }
 
   figure {
+    text-align: center;
+
     &:has(img) {
-      text-align: center;
       font-size: var(--font-size-sm);
 
       > * + * {
