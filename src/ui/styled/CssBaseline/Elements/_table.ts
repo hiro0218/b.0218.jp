@@ -31,6 +31,7 @@ export const table = css`
     max-inline-size: 100%;
     animation: scroll-table-shadow-inset linear;
     animation-timeline: scroll(self x);
+    background-color: var(--white);
 
     caption {
       margin: var(--space-1) 0;

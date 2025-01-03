@@ -2,19 +2,24 @@
 import { Stack } from '@/components/UI/Layout';
 import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
 import { styled } from '@/ui/styled';
+import Link from 'next/link';
 
 const ICON_SIZE = 100;
 const ICON_SIZE_SHRINK = ICON_SIZE * 0.85;
 
 export const Hero = function Hero() {
+  const intro = `I'm a web software developer from Japan. I spent 5 years in back-end development, 2 years on iOS and Windows applications, and started my front-end engineering career in 2017.`;
+
   return (
-    <Container align="center" space={2}>
+    <Container align="start" space={2} direction="horizontal">
       <Avatar>
-        <img alt="hiro" height={ICON_SIZE} src="/hiro0218.svg" width={ICON_SIZE} />
+        <img alt="hiro (black cat icon)" height={ICON_SIZE} src="/hiro0218.svg" width={ICON_SIZE} />
       </Avatar>
-      <Stack align="center" space={1}>
-        <Heading>hiro</Heading>
-        <P>Web Developer (Frontend) with experience in Backend, iOS App, and Windows App development.</P>
+      <Stack space={2}>
+        <Heading>
+          Hi, I'm <Link href="/about">hiro</Link>
+        </Heading>
+        <p>{intro}</p>
       </Stack>
     </Container>
   );
@@ -22,9 +27,11 @@ export const Hero = function Hero() {
 
 const Container = styled(Stack)`
   margin-inline: auto;
+  font-size: var(--font-size-md);
+  color: var(--color-gray-11);
 
   ${isDesktop} {
-    max-width: 50%;
+    max-width: 85%;
   }
 `;
 
@@ -38,23 +45,25 @@ const Avatar = styled.div`
   }
 
   img {
+    aspect-ratio: 1/1;
     border-radius: var(--border-radius-full);
-
-    ${isMobile} {
-      width: ${ICON_SIZE_SHRINK}px;
-      height: ${ICON_SIZE_SHRINK}px;
-    }
   }
 `;
 
 const Heading = styled.h2`
+  font-size: var(--font-size-h3);
   font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-xs);
-`;
+  line-height: var(--line-height-sm);
+  letter-spacing: 0.04em;
 
-const P = styled.p`
-  margin-top: var(--space-1);
-  font-size: var(--font-size-md);
-  color: var(--color-gray-11);
-  text-align: center;
+  a {
+    text-decoration-line: underline;
+    text-decoration-thickness: 4px;
+    text-decoration-color: var(--color-gray-8);
+    text-underline-offset: 2%;
+
+    &:hover {
+      text-decoration-color: var(--color-gray-9);
+    }
+  }
 `;

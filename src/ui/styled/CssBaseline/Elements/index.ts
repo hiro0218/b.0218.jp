@@ -63,7 +63,7 @@ export default css`
     text-decoration: none;
     text-decoration-color: var(--color-gray-8);
     text-underline-position: under;
-    text-underline-offset: 2%;
+    text-underline-offset: 4%;
     transition:
       background-color 0.2s ease,
       opacity 0.2s ease,
@@ -87,8 +87,9 @@ export default css`
   }
 
   figure {
+    text-align: center;
+
     &:has(img) {
-      text-align: center;
       font-size: var(--font-size-sm);
 
       > * + * {
@@ -198,7 +199,7 @@ export default css`
     & > code {
       display: block;
       padding: var(--space-3);
-      background-color: var(--color-gray-2A);
+      background-color: var(--color-gray-2);
       font-size: inherit;
     }
   }

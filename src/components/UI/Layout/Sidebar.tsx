@@ -84,11 +84,13 @@ export const Sidebar = (({ children, space, isMainColumnLast, containerMinWidth 
 }) as NamedExoticComponent<Props> & {
   // biome-ignore lint/style/useNamingConvention: <explanation>
   Title: typeof Title;
+  // biome-ignore lint/style/useNamingConvention: <explanation>
+  StickyContainer: typeof StickyContainer;
 };
 
 const StickyContainer = styled.div`
   position: sticky;
-  top: 0;
+  top: var(--space-1);
   block-size: 100%;
 `;
 
@@ -102,3 +104,4 @@ const SidebarHeading = styled.h2<Props>`
  * Used with the sidebar
  */
 Sidebar.Title = Title;
+Sidebar.StickyContainer = StickyContainer;
