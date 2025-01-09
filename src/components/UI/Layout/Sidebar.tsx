@@ -2,8 +2,8 @@ import type { NamedExoticComponent, ReactNode } from 'react';
 import { Children, Fragment } from 'react';
 
 import { isMobile } from '@/ui/lib/mediaQuery';
-import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
 import { css, styled } from '@/ui/styled/dynamic';
+import type { SpaceGap } from '@/ui/styled/variables/Space';
 
 type Props = {
   space?: SpaceGap;

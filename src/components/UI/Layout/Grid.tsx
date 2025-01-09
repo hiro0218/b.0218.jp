@@ -2,9 +2,9 @@ import type { AriaRole, ReactNode } from 'react';
 import { memo, useMemo } from 'react';
 
 import { isMobile } from '@/ui/lib/mediaQuery';
-import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
-import { SPACE_KEYS } from '@/ui/styled/CssBaseline/Settings/Space';
 import { styled } from '@/ui/styled/dynamic';
+import type { SpaceGap } from '@/ui/styled/variables/Space';
+import { SPACE_KEYS } from '@/ui/styled/variables/Space';
 
 type Props = {
   as?: keyof JSX.IntrinsicElements;

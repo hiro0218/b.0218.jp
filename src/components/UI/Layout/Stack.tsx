@@ -1,8 +1,8 @@
 import type { AriaRole, CSSProperties, ReactNode } from 'react';
 
-import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
-import { SPACE_KEYS } from '@/ui/styled/CssBaseline/Settings/Space';
 import { css, styled } from '@/ui/styled/dynamic';
+import type { SpaceGap } from '@/ui/styled/variables/Space';
+import { SPACE_KEYS } from '@/ui/styled/variables/Space';
 
 type Props = {
   as?: keyof JSX.IntrinsicElements;

@@ -1,5 +1,5 @@
-import { SPACE_KEYS } from '@/ui/styled/CssBaseline/Settings/Space';
 import { css } from '@/ui/styled/dynamic';
+import { SPACE_KEYS } from '@/ui/styled/variables/Space';
 
 type HeadingTagNumber = 1 | 2 | 3 | 4 | 5 | 6;
 type HeadingTag = `h${HeadingTagNumber}`;
