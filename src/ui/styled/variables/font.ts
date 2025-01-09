@@ -1,5 +1,5 @@
 import { clampFontSize, pxToRem } from '@/ui/lib/fonts';
-import { SPACING_BASE_PX } from '@/ui/styled/CssBaseline/constant';
+import { SPACING_BASE_PX } from '@/ui/styled/constant';
 
 /**
  * 調和を生成する
