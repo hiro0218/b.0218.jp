@@ -1,4 +1,4 @@
-import { css } from '@/ui/styled';
+import { css } from '@/ui/styled/dynamic';
 
 import hljsStyle from './hljs';
 

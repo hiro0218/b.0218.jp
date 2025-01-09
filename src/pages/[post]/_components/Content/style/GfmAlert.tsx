@@ -7,7 +7,7 @@ import {
   InformationCircle,
   LightBulb,
 } from '@/ui/icons';
-import { css } from '@/ui/styled';
+import { css } from '@/ui/styled/dynamic';
 
 const IconChatBubbleLeft = svgComponentToDataUrlScheme(<ChatBubbleLeft height={ICON_SIZE_XS} width={ICON_SIZE_XS} />);
 const IconExclamationCircle = svgComponentToDataUrlScheme(
