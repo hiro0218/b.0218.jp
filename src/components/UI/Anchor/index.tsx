@@ -16,12 +16,13 @@ type ContentProp =
 
 type Props = {
   title?: string;
+  className?: string;
 } & LinkProps &
   ContentProp;
 
-export function Anchor({ href, prefetch = false, title = undefined, children, ...rest }: Props) {
+export function Anchor({ href, className, prefetch = false, title = undefined, children, ...rest }: Props) {
   return (
-    <Link href={href} {...(!prefetch && { prefetch: false })} title={title} {...rest}>
+    <Link href={href} className={className} {...(!prefetch && { prefetch: false })} title={title} {...rest}>
       {children}
     </Link>
   );
