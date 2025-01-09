@@ -3,7 +3,7 @@ import { Children, Fragment } from 'react';
 
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { css, styled } from '@/ui/styled/dynamic';
-import type { SpaceGap } from '@/ui/styled/variables/Space';
+import type { SpaceGap } from '@/ui/styled/variables/space';
 
 type Props = {
   space?: SpaceGap;
