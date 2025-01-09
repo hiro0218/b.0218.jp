@@ -2,11 +2,9 @@ import type { AriaRole, ComponentProps, ReactNode } from 'react';
 
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
-import { PostTagAnchorStyle } from '@/components/UI/Tag';
-import { easeOutExpo } from '@/ui/foundation/easing';
 import { isContainer } from '@/ui/lib/mediaQuery';
-import { lineClamp, textEllipsis } from '@/ui/mixin';
-import { css, styled } from '@/ui/styled';
+import { lineClamp } from '@/ui/mixin';
+import { css, styled } from '@/ui/styled/dynamic';
 
 type PostDateProps = ComponentProps<typeof PostDate>;
 
@@ -39,11 +37,17 @@ function LinkCard({
       <Anchor href={link} prefetch={false}>
         <Title as={titleTagName}>{title}</Title>
       </Anchor>
-      {!!excerpt && <Paragraph {...(typeof excerpt !== 'string' && { as: 'div' })}>{excerpt}</Paragraph>}
+      {!!excerpt && (
+        <Paragraph className="text-ellipsis" {...(typeof excerpt !== 'string' && { as: 'div' })}>
+          {excerpt}
+        </Paragraph>
+      )}
       {!!tags && (
         <Tags>
           {tags.map((tag) => (
-            <TagItem key={tag}>{tag}</TagItem>
+            <TagItem className="post-tag-anchor" key={tag}>
+              {tag}
+            </TagItem>
           ))}
         </Tags>
       )}
@@ -67,8 +71,8 @@ const Container = styled.article<Pick<Props, 'showNewLabel'>>`
   border-radius: var(--border-radius-8);
   box-shadow: var(--shadows-sm);
   transition:
-    box-shadow 0.4s ${easeOutExpo},
-    padding 0.4s ${easeOutExpo};
+    box-shadow 0.4s var(--easing-ease-out-expo),
+    padding 0.4s var(--easing-ease-out-expo);
 
   ${isContainer['@3xl']} {
     padding: var(--space-3);
@@ -148,8 +152,6 @@ const Title = styled.h3`
 `;
 
 const Paragraph = styled.p`
-  ${textEllipsis}
-
   color: var(--color-gray-11);
   letter-spacing: var(--letter-spacing-sm);
 `;
@@ -162,8 +164,6 @@ const Tags = styled.div`
 `;
 
 const TagItem = styled.span`
-  ${PostTagAnchorStyle}
-
   padding: var(--space-½) var(--space-1);
   font-size: var(--font-size-xs);
   border-radius: var(--border-radius-4);

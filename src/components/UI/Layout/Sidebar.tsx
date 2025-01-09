@@ -2,9 +2,8 @@ import type { NamedExoticComponent, ReactNode } from 'react';
 import { Children, Fragment } from 'react';
 
 import { isMobile } from '@/ui/lib/mediaQuery';
-import { textEllipsis } from '@/ui/mixin';
-import { css, styled } from '@/ui/styled';
 import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
+import { css, styled } from '@/ui/styled/dynamic';
 
 type Props = {
   space?: SpaceGap;
@@ -66,7 +65,7 @@ const Container = styled.div<Props>`
 const Title = ({ id, tag = 'h2', children }: TitleProps) => {
   return (
     <StickyContainer>
-      <SidebarHeading as={tag} id={id}>
+      <SidebarHeading className="text-ellipsis" as={tag} id={id}>
         {children}
       </SidebarHeading>
     </StickyContainer>
@@ -95,8 +94,6 @@ const StickyContainer = styled.div`
 `;
 
 const SidebarHeading = styled.h2<Props>`
-  ${textEllipsis}
-
   font-size: var(--font-size-h3);
 `;
 
