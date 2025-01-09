@@ -1,6 +1,5 @@
-import { easeOutExpo } from '@/ui/foundation/easing';
-import { styled } from '@/ui/styled';
 import { notSrOnly, srOnly } from '@/ui/styled/CssBaseline/Utilities';
+import { styled } from '@/ui/styled/dynamic';
 
 type Props = {
   text: string;
@@ -28,7 +27,7 @@ const Container = styled.span`
     left: 50%;
     font-size: var(--font-size-xs);
     line-height: var(--line-height-sm);
-    transition: transform 0.2s ${easeOutExpo};
+    transition: transform 0.2s var(--easing-ease-out-expo);
     transform: translate(-50%, -100%);
     will-change: opacity, transform;
   }

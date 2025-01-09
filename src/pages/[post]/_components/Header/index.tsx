@@ -6,7 +6,7 @@ import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag from '@/components/UI/Tag';
 import { READ_TIME_SUFFIX } from '@/constant';
 import type { PostProps } from '@/types/source';
-import { styled } from '@/ui/styled';
+import { styled } from '@/ui/styled/dynamic';
 
 type Props = Pick<PostProps, 'title' | 'date' | 'updated' | 'readingTime'> & {
   tagsWithCount: PostTagProps[];

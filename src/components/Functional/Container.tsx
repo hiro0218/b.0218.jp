@@ -1,6 +1,6 @@
 import { isMobile } from '@/ui/lib/mediaQuery';
-import { styled } from '@/ui/styled';
 import { SPACE_STEPS } from '@/ui/styled/CssBaseline/Settings/Space';
+import { styled } from '@/ui/styled/dynamic';
 
 type Props = {
   size?: 'small' | 'default' | 'large' | string;

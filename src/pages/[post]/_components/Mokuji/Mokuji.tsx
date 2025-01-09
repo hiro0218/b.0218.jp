@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 
 import { DetailsAccordion } from '@/lib/DetailsAccordion';
 import { ChevronDownIcon, ChevronUpIcon, ICON_SIZE_XS } from '@/ui/icons';
-import { styled } from '@/ui/styled';
+import { styled } from '@/ui/styled/dynamic';
 
 import type { MokujiProps } from './type';
 import { useMokuji } from './useMokuji';

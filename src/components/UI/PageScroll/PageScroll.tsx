@@ -1,7 +1,6 @@
-import { floatingFade } from '@/ui/animation';
 import { ArrowUpIcon, ICON_SIZE_LG, ICON_SIZE_MD } from '@/ui/icons';
 import { isMobile } from '@/ui/lib/mediaQuery';
-import { css, styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled/dynamic';
 
 /**
  * Why do you specify # for href?
@@ -60,7 +59,7 @@ const Button = styled.a`
     background-color: var(--color-gray-4A);
 
     svg {
-      animation: ${floatingFade} 0.4s linear 0s;
+      animation: floatingFade 0.4s linear 0s;
     }
   }
 

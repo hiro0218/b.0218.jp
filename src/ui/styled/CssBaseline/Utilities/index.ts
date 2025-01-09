@@ -1,4 +1,4 @@
-import { css } from '@/ui/styled';
+import { css } from '@/ui/styled/dynamic';
 
 /**
  * TailwindCSS の sr-only クラス実装を参考

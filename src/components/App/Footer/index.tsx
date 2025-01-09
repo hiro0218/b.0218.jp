@@ -1,7 +1,7 @@
 import { Container as _Container, getSize } from '@/components/Functional/Container';
 import { Anchor } from '@/components/UI/Anchor';
 import { Logo } from '@/components/UI/Logo';
-import { styled } from '@/ui/styled';
+import { styled } from '@/ui/styled/dynamic';
 
 const Links = [
   { title: 'about', href: '/about' },

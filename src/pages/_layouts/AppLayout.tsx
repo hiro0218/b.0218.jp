@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import { isDesktop } from '@/ui/lib/mediaQuery';
-import { styled } from '@/ui/styled';
+import { styled } from '@/ui/styled/dynamic';
 
 export const Layout = ({ children }: { children: ReactNode }) => {
   return <Root>{children}</Root>;

@@ -1,6 +1,5 @@
 import { ICON_SIZE_SM } from '@/ui/icons';
-import { showHoverBackground } from '@/ui/mixin';
-import { css, styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled/dynamic';
 import { type ReactNode, useCallback, useEffect, useId, useRef, useState } from 'react';
 
 type Props = {
@@ -37,6 +36,7 @@ export const DropdownMenu = ({ title, children, menuHorizontalPosition = 'right'
   return (
     <Container ref={ref}>
       <Trigger
+        className="link-style--hover-effect"
         type="button"
         aria-haspopup="menu"
         aria-controls={id}
@@ -64,9 +64,7 @@ const Trigger = styled.button`
   width: ${ICON_SIZE_SM * 2}px;
   height: ${ICON_SIZE_SM * 2}px;
 
-  ${showHoverBackground}
-
-  &:has(+ [aria-expanded="true"]) {
+  &:has(+ [aria-expanded='true']) {
     &::after {
       background-color: var(--color-gray-4A);
       opacity: 1;

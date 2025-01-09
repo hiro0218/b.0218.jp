@@ -1,6 +1,6 @@
 import { Anchor } from '@/components/UI/Anchor';
 import { isMobile } from '@/ui/lib/mediaQuery';
-import { styled } from '@/ui/styled';
+import { styled } from '@/ui/styled/dynamic';
 
 import type { divideByYearArchive } from '../_libs';
 

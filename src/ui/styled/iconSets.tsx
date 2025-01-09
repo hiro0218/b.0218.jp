@@ -1,6 +1,6 @@
 import { svgComponentToDataUrlScheme } from '@/lib/svgComponentToDataUrlScheme';
 import { ExternalLinkIcon } from '@/ui/icons';
-import { css } from '@/ui/styled';
+import { css } from '@/ui/styled/dynamic';
 
 const IconExternalLink = svgComponentToDataUrlScheme(<ExternalLinkIcon />);
 
