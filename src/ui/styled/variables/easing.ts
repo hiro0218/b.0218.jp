@@ -1,4 +1,4 @@
-import { easeOut, easeOutExpo } from '@/ui/foundation/easing';
+import { easeOut, easeOutExpo } from 'css-in-js-easing';
 
 export const easingVariables = {
   '--easing-ease-out': easeOut,
