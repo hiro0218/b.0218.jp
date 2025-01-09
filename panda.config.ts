@@ -11,7 +11,8 @@ export default defineConfig({
   jsxFramework: 'react',
 
   // Where to look for your css declarations
-  include: ['./src/**/*.{ts,tsx}'],
+  include: ['./src/components/**/*.{ts,tsx}', './src/pages/**/*.{ts,tsx}', './src/ui/**/*.{ts,tsx}'],
+  exclude: [],
 
   lightningcss: true,
   logLevel: 'debug',
@@ -27,9 +28,6 @@ export default defineConfig({
 
   // Removing default utilities
   eject: true,
-
-  // Files to exclude
-  exclude: ['./src/build/**/*.{ts,tsx}'],
 
   // Global variables
   globalVars: {
