@@ -1,11 +1,6 @@
 import { DropdownMenu } from '@/components/UI/DropdownMenu/index';
 import { GitHubLogoIcon, ICON_SIZE_SM } from '@/ui/icons';
-import { styled } from '@/ui/styled';
-import dynamic from 'next/dynamic';
-
-const SrOnly = dynamic(() =>
-  import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),
-);
+import { styled } from '@/ui/styled/static';
 
 type Props = {
   slug: string;
@@ -17,7 +12,7 @@ function PostEdit({ slug }: Props) {
       <DropdownMenu
         title={
           <>
-            <SrOnly text="Feedback" />
+            <span className="sr-only">Feedback</span>
             <GitHubLogoIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
           </>
         }
