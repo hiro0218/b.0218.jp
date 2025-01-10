@@ -4,7 +4,7 @@ import { Adsense } from '@/components/UI/Adsense';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import type { PostProps } from '@/types/source';
 
-import { styled } from '@/ui/styled/dynamic';
+import { styled } from '@/ui/styled/static';
 import { splitHtml } from '../../_libs/splitHtml';
 import Mokuji from '../Mokuji';
 import PostContentStyle from './style';

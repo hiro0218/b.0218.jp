@@ -1,4 +1,4 @@
-import { styled } from '@/ui/styled/dynamic';
+import { styled } from '@/ui/styled/static';
 
 type Props = {
   onClick: () => void;

@@ -1,7 +1,7 @@
 import type { ForwardedRef } from 'react';
 import { forwardRef, useMemo } from 'react';
 
-import { styled } from '@/ui/styled/dynamic';
+import { styled } from '@/ui/styled/static';
 
 import { useToast } from './useToast';
 
