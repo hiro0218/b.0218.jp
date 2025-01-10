@@ -6,7 +6,6 @@ import { LinkStyle } from '@/components/UI/LinkMenu';
 import { Logo } from '@/components/UI/Logo';
 import { useSearch } from '@/components/UI/Search';
 import { styled } from '@/ui/styled';
-
 import { HeaderLayout } from './HeaderLayout';
 
 export default memo(function Header() {
@@ -17,9 +16,7 @@ export default memo(function Header() {
     <>
       <HeaderLayout>
         <HeaderContainer size={size}>
-          <Anchor href="/" prefetch={false}>
-            <Logo height="25" width="80" />
-          </Anchor>
+          <Logo />
           {SearchButton}
         </HeaderContainer>
       </HeaderLayout>
@@ -37,7 +34,7 @@ const HeaderContainer = styled(Container)`
   margin: 0 auto;
 `;
 
-const Anchor = styled(_Anchor)`
+export const Anchor = styled(_Anchor)`
   display: flex;
   align-items: center;
   height: 70%;
