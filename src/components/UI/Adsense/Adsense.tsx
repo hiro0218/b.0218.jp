@@ -40,8 +40,8 @@ export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
    * @link https://support.google.com/adsense/answer/4533986?hl=ja
    */
   return (
-    <Container aria-label="スポンサーリンク" key={pathname} style={style}>
-      <Ads adsHeight={adsHeight} adsWidth={adsWidth}>
+    <Container aria-label="スポンサーリンク" key={pathname}>
+      <Ads adsHeight={adsHeight} adsWidth={adsWidth} style={style}>
         <Ins />
       </Ads>
     </Container>
