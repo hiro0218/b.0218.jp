@@ -1,11 +1,16 @@
-import { Anchor as _Anchor } from '@/components/UI/Anchor';
+import { Anchor } from '@/components/UI/Anchor';
 import { SITE_NAME } from '@/constant';
-import { styled } from '@/ui/styled/dynamic';
+import { css, cx } from '@/ui/styled/static';
 
 export const Logo = () => {
   return (
     <Anchor
-      className="link-style link-style--hover-effect pointer-events_auto padding_var(--space-1)"
+      className={cx(
+        'link-style link-style--hover-effect pointer-events_auto',
+        css`
+          padding: var(--space-1);
+        `,
+      )}
       href="/"
       prefetch={false}
     >
@@ -13,7 +18,3 @@ export const Logo = () => {
     </Anchor>
   );
 };
-
-const Anchor = styled(_Anchor)`
-  padding: var(--space-1);
-`;
