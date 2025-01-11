@@ -6,9 +6,10 @@ export const Logo = () => {
   return (
     <Anchor
       className={cx(
-        'link-style link-style--hover-effect pointer-events_auto',
+        'link-style link-style--hover-effect',
         css`
           padding: var(--space-1);
+          pointer-events: auto;
         `,
       )}
       href="/"
