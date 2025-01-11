@@ -15,7 +15,7 @@ export default defineConfig({
   exclude: [],
 
   lightningcss: true,
-  logLevel: 'debug',
+  logLevel: process.env.NODE_ENV === 'production' ? 'warn' : 'debug',
   minify: true,
   hash: process.env.NODE_ENV === 'production' ? true : false,
 
