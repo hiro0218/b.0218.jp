@@ -12,6 +12,7 @@ type Props = {
   justify?: CSSProperties['justifyContent'];
   wrap?: CSSProperties['flexWrap'];
   role?: AriaRole;
+  className?: string;
   children: ReactNode;
 };
 
