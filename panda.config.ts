@@ -1,5 +1,5 @@
 import { keyframes } from '@/ui/styled/animations';
-import { colorVariables, easingVariables, fontVariables, spaceVariables } from '@/ui/styled/variables';
+import { colorVariables, easingVariables, fontVariables, iconVariables, spaceVariables } from '@/ui/styled/variables';
 import { defineConfig } from '@pandacss/dev';
 
 export default defineConfig({
@@ -35,6 +35,7 @@ export default defineConfig({
     ...spaceVariables,
     ...colorVariables,
     ...easingVariables,
+    ...iconVariables,
   },
 
   theme: {
