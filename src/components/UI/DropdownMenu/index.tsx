@@ -111,4 +111,8 @@ const Content = styled.div<{
       opacity: 0;
     }
   }
+
+  & > * {
+    display: block;
+  }
 `;
