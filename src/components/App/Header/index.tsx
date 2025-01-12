@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { Container, getSize } from '@/components/Functional/Container';
 import { Logo } from '@/components/UI/Logo';
 import { useSearch } from '@/components/UI/Search';
-import { styled } from '@/ui/styled/dynamic';
+import { css } from '@/ui/styled/static';
 import { HeaderLayout } from './HeaderLayout';
 
 export default memo(function Header() {
@@ -13,10 +13,10 @@ export default memo(function Header() {
   return (
     <>
       <HeaderLayout>
-        <HeaderContainer size={size}>
+        <Container className={HeaderContainerStyle} size={size}>
           <Logo />
           {SearchButton}
-        </HeaderContainer>
+        </Container>
       </HeaderLayout>
 
       {SearchDialog}
@@ -24,7 +24,7 @@ export default memo(function Header() {
   );
 });
 
-const HeaderContainer = styled(Container)`
+const HeaderContainerStyle = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
