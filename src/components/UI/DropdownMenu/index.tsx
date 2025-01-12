@@ -1,4 +1,3 @@
-import { ICON_SIZE_SM } from '@/ui/icons';
 import { css, styled } from '@/ui/styled/dynamic';
 import { type ReactNode, useCallback, useEffect, useId, useRef, useState } from 'react';
 
@@ -61,8 +60,8 @@ const Trigger = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${ICON_SIZE_SM * 2}px;
-  height: ${ICON_SIZE_SM * 2}px;
+  width: calc(var(--icon-size-sm) * 2);
+  height: calc(var(--icon-size-sm) * 2);
 
   &:has(+ [aria-expanded='true']) {
     &::after {
