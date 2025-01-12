@@ -40,16 +40,16 @@ const Button = styled.a`
     fill: currentColor;
 
     ${() => {
-      const desktopSize = ICON_SIZE_MD * 0.5;
-      const mobileSize = ICON_SIZE_LG * 0.5;
-
       return css`
-        width: ${desktopSize}px;
-        height: ${desktopSize}px;
+        --desktop-size: ${ICON_SIZE_MD * 0.5}px;
+        --mobile-size: ${ICON_SIZE_LG * 0.5}px;
+
+        width: var(--desktop-size);
+        height: var(--desktop-size);
 
         ${isMobile} {
-          width: ${mobileSize}px;
-          height: ${mobileSize}px;
+          width: var(--mobile-size);
+          height: var(--mobile-size);
         }
       `;
     }}
