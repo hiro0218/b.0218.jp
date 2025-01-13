@@ -24,6 +24,15 @@
     "plugins": [
       {
         "name": "next"
+      },
+      // for vscode-styled-components
+      {
+        "name": "@styled/typescript-styled-plugin",
+        "lint": {
+          "validProperties": ["container-type", "container-name", "text-wrap"],
+          "unknownAtRules": "ignore",
+          "validate": false,
+        }
       }
     ],
     "strictNullChecks": false,
