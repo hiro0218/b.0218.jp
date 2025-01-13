@@ -21,4 +21,21 @@ export const keyframes = defineKeyframes({
     '50.1%': { transform: 'translateY(80%)', opacity: '0' },
     '100%': { transform: 'translateY(0)', opacity: '1' },
   },
+  'scroll-table-shadow-inset': {
+    '0%': {
+      boxShadow: `inset calc(var(--table-shadow-size) * -2) 0 var(--table-shadow-size) var(--table-shadow-spread)
+          var(--table-shadow-color),
+        inset 0 0 var(--table-shadow-size) var(--table-shadow-spread) var(--table-shadow-color)`,
+    },
+    '10%,90%': {
+      boxShadow: `inset calc(var(--table-shadow-size) * -1) 0 var(--table-shadow-size) var(--table-shadow-spread)
+          var(--table-shadow-color),
+        inset var(--table-shadow-size) 0 var(--table-shadow-size) var(--table-shadow-spread) var(--table-shadow-color)`,
+    },
+    '100%': {
+      boxShadow: `inset 0 0 var(--table-shadow-size) var(--table-shadow-spread) var(--table-shadow-color),
+        inset calc(var(--table-shadow-size) * 2) 0 var(--table-shadow-size) var(--table-shadow-spread)
+          var(--table-shadow-color)`,
+    },
+  },
 });
