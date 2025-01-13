@@ -9,8 +9,8 @@ const Footnotes = css`
     border-top: 1px solid var(--color-gray-6);
 
     li {
-      counter-increment: steps;
       padding-left: var(--space-½);
+      counter-increment: steps;
 
       &::marker {
         letter-spacing: 1px;

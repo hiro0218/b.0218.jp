@@ -60,11 +60,13 @@ export default css`
     color: ${blue.blue11};
   }
 
+  /* stylelint-disable */
   .hljs-keyword,
   .hljs-selector-tag,
   .hljs-selector-pseudo {
     color: ${purple.purple11};
   }
+  /* stylelint-enable */
 
   .hljs-emphasis {
     font-style: italic;

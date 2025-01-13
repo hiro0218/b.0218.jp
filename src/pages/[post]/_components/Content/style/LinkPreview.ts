@@ -7,13 +7,13 @@ const LinkPreview = css`
     display: flex;
     align-items: center;
     height: 120px;
+    margin: var(--space-3) 0;
     overflow: hidden;
     color: var(--color-gray-12);
     text-decoration-line: unset;
     background-color: var(--color-gray-1);
     border: 1px solid var(--color-gray-7);
     border-radius: var(--border-radius-8);
-    margin: var(--space-3) 0;
 
     &:hover {
       border-color: var(--color-gray-8);
@@ -77,9 +77,9 @@ const LinkPreview = css`
 
   .p-link-preview-thumbnail {
     display: flex;
+    flex-shrink: 0;
     flex-basis: auto;
     flex-direction: column;
-    flex-shrink: 0;
     width: 120px;
     height: 120px;
     overflow: hidden;
