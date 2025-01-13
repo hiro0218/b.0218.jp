@@ -1,0 +1,4 @@
+#__next {
+  min-height: 100%;
+  isolation: isolate;
+}
