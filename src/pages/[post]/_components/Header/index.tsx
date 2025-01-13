@@ -6,7 +6,7 @@ import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag from '@/components/UI/Tag';
 import { READ_TIME_SUFFIX } from '@/constant';
 import type { PostProps } from '@/types/source';
-import { styled } from '@/ui/styled/dynamic';
+import { css, styled } from '@/ui/styled/static';
 
 type Props = Pick<PostProps, 'title' | 'date' | 'updated' | 'readingTime'> & {
   tagsWithCount: PostTagProps[];
@@ -15,7 +15,7 @@ type Props = Pick<PostProps, 'title' | 'date' | 'updated' | 'readingTime'> & {
 
 function PostHeader({ title, date, updated, readingTime, tagsWithCount, render }: Props) {
   return (
-    <Container as="header" space={2}>
+    <Stack as="header" space={2} className={ContainerStyle}>
       <Heading>{title}</Heading>
       <Stack space={1}>
         <Item>
@@ -30,13 +30,13 @@ function PostHeader({ title, date, updated, readingTime, tagsWithCount, render }
         </Item>
       </Stack>
       {render}
-    </Container>
+    </Stack>
   );
 }
 
 export default PostHeader;
 
-const Container = styled(Stack)`
+const ContainerStyle = css`
   &::after {
     display: block;
     width: 100%;
