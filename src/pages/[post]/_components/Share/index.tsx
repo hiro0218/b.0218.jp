@@ -6,7 +6,7 @@ import { Tooltip } from '@/components/UI/Tooltip';
 import { X_ACCOUNT } from '@/constant';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, X } from '@/ui/icons';
-import { css, styled } from '@/ui/styled/dynamic';
+import { css, cx } from '@/ui/styled/static';
 
 interface Props {
   title: string;
@@ -30,28 +30,32 @@ function PostShare({ title, url }: Props) {
         このページをシェアする
       </h2>
       <Stack direction="horizontal" space={1}>
-        <Anchor
-          className="link-style--hover-effect"
+        <a
+          className={cx('link-style--hover-effect', ShareButtonStyle)}
           href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}&via=${X_ACCOUNT}`}
           rel="noreferrer"
           target="_blank"
         >
           <Tooltip text="Xでポストする" />
           <X height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-        </Anchor>
-        <Anchor
-          className="link-style--hover-effect"
+        </a>
+        <a
+          className={cx('link-style--hover-effect', ShareButtonStyle)}
           href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`}
           rel="noreferrer"
           target="_blank"
         >
           <Tooltip text="はてなブックマークでブックマークする" />
           <Hatenabookmark height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-        </Anchor>
-        <Button className="link-style--hover-effect" onClick={onClickCopyPermalink} type="button">
+        </a>
+        <button
+          className={cx('link-style--hover-effect', ShareButtonStyle)}
+          onClick={onClickCopyPermalink}
+          type="button"
+        >
           <Tooltip text="このページのURLをコピーする" />
           <Link2Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-        </Button>
+        </button>
       </Stack>
       {ToastComponent}
     </aside>
@@ -68,14 +72,6 @@ const ShareButtonStyle = css`
   &::after {
     border-radius: var(--border-radius-full);
   }
-`;
-
-const Anchor = styled.a`
-  ${ShareButtonStyle}
-`;
-
-const Button = styled.button`
-  ${ShareButtonStyle}
 `;
 
 export default PostShare;
