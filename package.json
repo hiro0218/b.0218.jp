@@ -18,7 +18,7 @@
     "build:analyzer": "ANALYZE=true next build",
     "start": "next start",
     "lint": "npx @biomejs/biome lint src/**/*.{ts,tsx}",
-    "lint:css": "stylelint \"src/**/*.{css,tsx}\"",
+    "lint:css": "stylelint \"src/**/*.{css,ts,tsx}\"",
     "lint:markup": "markuplint \"src/**/*.{jsx,tsx}\"",
     "test": "jest --forceExit --coverage",
     "nolyfill": "npx nolyfill install",
