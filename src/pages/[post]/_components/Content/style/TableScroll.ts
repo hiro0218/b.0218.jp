@@ -1,4 +1,4 @@
-import { css } from '@/ui/styled';
+import { css } from '@/ui/styled/dynamic';
 
 const TableScroll = css`
   .p-table-scroll {

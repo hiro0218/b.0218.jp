@@ -12,11 +12,11 @@ import debounce from '@/lib/debounce';
 import observeScrollbarWidth from '@/lib/observeScrollbarWidth';
 import smoothScroll from '@/lib/smoothScroll';
 import createEmotionCache from '@/ui/lib/createEmotionCache';
-import type { EmotionCache } from '@/ui/styled';
-import CssBaseline from '@/ui/styled/CssBaseline';
 import { StyledProvider } from '@/ui/styled/Provider';
+import type { EmotionCache } from '@/ui/styled/dynamic';
 
 import { Layout } from './_layouts/AppLayout';
+import '@/styles/globals.css';
 
 const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((module) => module.PageScroll));
 
@@ -63,7 +63,6 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
       </Head>
 
       <StyledProvider emotionCache={emotionCache}>
-        <CssBaseline />
         <GoogleAnalytics trackPageViews={{ ignoreHashChange: true }} />
         <Layout>
           <Header />

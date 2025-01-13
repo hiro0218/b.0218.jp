@@ -1,6 +1,6 @@
 import { isMobile } from '@/ui/lib/mediaQuery';
 import { hoverLinkStyle } from '@/ui/mixin';
-import { css } from '@/ui/styled';
+import { css } from '@/ui/styled/dynamic';
 
 import Footnotes from './Footnotes';
 import GfmAlert from './GfmAlert';

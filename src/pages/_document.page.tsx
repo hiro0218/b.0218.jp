@@ -37,7 +37,9 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
     const emotionStyleTags = emotionStyles.styles.map(({ css, key, ids }) => {
       return (
         <style
-          dangerouslySetInnerHTML={{ __html: processedCss(css) }}
+          dangerouslySetInnerHTML={{
+            __html: `@layer emotion { ${processedCss(css)} }`,
+          }}
           data-emotion={`${key} ${ids.join(' ')}`}
           key={key}
         />

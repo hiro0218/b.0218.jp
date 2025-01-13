@@ -1,0 +1,32 @@
+:root {
+  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans',
+    'BIZ UDPGothic', Meiryo, sans-serif, 'Segoe UI Emoji';
+  --font-family-monospace: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace, 'Segoe UI Emoji';
+
+  --font-weight-normal: 400;
+  --font-weight-bold: 600;
+  --font-weight-bolder: 600;
+
+  --letter-spacing-sm: 0.02em;
+  --letter-spacing-md: 0.04em;
+
+  --container-width: 800px;
+
+  --shadow-base: color-mix(in oklab, var(--color-gray-3A), var(--color-gray-3A) 25%);
+  --shadows-xs: 0 1px 2px var(--shadow-base), 0 0 1px var(--color-gray-7A);
+  --shadows-sm: 0 2px 4px var(--shadow-base), 0 0 1px var(--color-gray-7A);
+  --shadows-md: 0 4px 8px var(--shadow-base), 0 0 1px var(--color-gray-7A);
+  --shadows-lg: 0 8px 16px var(--shadow-base), 0 0 1px var(--color-gray-7A);
+  --shadows-xl: 0 16px 24px var(--shadow-base), 0 0 1px var(--color-gray-7A);
+  --shadows-2xl: 0 24px 40px var(--shadow-base), 0 0 1px var(--color-gray-7A);
+
+  --border-radius-2: 2px;
+  --border-radius-4: 4px;
+  --border-radius-8: 8px;
+  --border-radius-12: 12px;
+  --border-radius-full: 100%;
+
+  --zIndex-base: 1;
+  --zIndex-header: 10;
+  --zIndex-search: 12;
+}

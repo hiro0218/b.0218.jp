@@ -1,7 +1,7 @@
 // import AvatarIcon from '@/assets/hiro0218.svg';
 import { Stack } from '@/components/UI/Layout';
 import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
-import { styled } from '@/ui/styled';
+import { styled } from '@/ui/styled/dynamic';
 import Link from 'next/link';
 
 const ICON_SIZE = 100;

@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic';
 import { useCallback, useId } from 'react';
 
 import { Stack } from '@/components/UI/Layout';
@@ -7,12 +6,7 @@ import { Tooltip } from '@/components/UI/Tooltip';
 import { X_ACCOUNT } from '@/constant';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, X } from '@/ui/icons';
-import { showHoverBackground } from '@/ui/mixin';
-import { css, styled } from '@/ui/styled';
-
-const SrOnly = dynamic(() =>
-  import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),
-);
+import { css, cx } from '@/ui/styled/static';
 
 interface Props {
   title: string;
@@ -32,24 +26,36 @@ function PostShare({ title, url }: Props) {
 
   return (
     <aside aria-labelledby={labelledbyId}>
-      <SrOnly as="h2" id={labelledbyId} text="このページをシェアする" />
+      <h2 className="sr-only" id={labelledbyId}>
+        このページをシェアする
+      </h2>
       <Stack direction="horizontal" space={1}>
-        <Anchor
+        <a
+          className={cx('link-style--hover-effect', ShareButtonStyle)}
           href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}&via=${X_ACCOUNT}`}
           rel="noreferrer"
           target="_blank"
         >
           <Tooltip text="Xでポストする" />
           <X height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-        </Anchor>
-        <Anchor href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`} rel="noreferrer" target="_blank">
+        </a>
+        <a
+          className={cx('link-style--hover-effect', ShareButtonStyle)}
+          href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`}
+          rel="noreferrer"
+          target="_blank"
+        >
           <Tooltip text="はてなブックマークでブックマークする" />
           <Hatenabookmark height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-        </Anchor>
-        <Button onClick={onClickCopyPermalink} type="button">
+        </a>
+        <button
+          className={cx('link-style--hover-effect', ShareButtonStyle)}
+          onClick={onClickCopyPermalink}
+          type="button"
+        >
           <Tooltip text="このページのURLをコピーする" />
           <Link2Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-        </Button>
+        </button>
       </Stack>
       {ToastComponent}
     </aside>
@@ -60,22 +66,12 @@ const ShareButtonStyle = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${ICON_SIZE_SM * 2}px;
-  height: ${ICON_SIZE_SM * 2}px;
-
-  ${showHoverBackground}
+  width: calc(var(--icon-size-sm) * 2);
+  height: calc(var(--icon-size-sm) * 2);
 
   &::after {
     border-radius: var(--border-radius-full);
   }
-`;
-
-const Anchor = styled.a`
-  ${ShareButtonStyle}
-`;
-
-const Button = styled.button`
-  ${ShareButtonStyle}
 `;
 
 export default PostShare;

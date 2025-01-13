@@ -1,7 +1,6 @@
-import { floatingFade } from '@/ui/animation';
-import { ArrowUpIcon, ICON_SIZE_LG, ICON_SIZE_MD } from '@/ui/icons';
+import { ArrowUpIcon } from '@/ui/icons';
 import { isMobile } from '@/ui/lib/mediaQuery';
-import { css, styled } from '@/ui/styled';
+import { styled } from '@/ui/styled/dynamic';
 
 /**
  * Why do you specify # for href?
@@ -37,30 +36,25 @@ const Button = styled.a`
   transition: background-color 0.2s ease;
 
   svg {
+    --desktop-size: calc(var(--icon-size-md) * 0.5);
+    --mobile-size: calc(var(--icon-size-lg) * 0.5);
+
     flex: 1 1;
+    width: var(--desktop-size);
+    height: var(--desktop-size);
     fill: currentColor;
 
-    ${() => {
-      const desktopSize = ICON_SIZE_MD * 0.5;
-      const mobileSize = ICON_SIZE_LG * 0.5;
-
-      return css`
-        width: ${desktopSize}px;
-        height: ${desktopSize}px;
-
-        ${isMobile} {
-          width: ${mobileSize}px;
-          height: ${mobileSize}px;
-        }
-      `;
-    }}
+    ${isMobile} {
+      width: var(--mobile-size);
+      height: var(--mobile-size);
+    }
   }
 
   &:hover {
     background-color: var(--color-gray-4A);
 
     svg {
-      animation: ${floatingFade} 0.4s linear 0s;
+      animation: floatingFade 0.4s linear 0s;
     }
   }
 

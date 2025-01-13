@@ -1,6 +1,6 @@
 import { blue, gray, green, orange, purple, red } from '@radix-ui/colors';
 
-import { css } from '@/ui/styled';
+import { css } from '@/ui/styled/dynamic';
 
 export default css`
   .hljs-comment,

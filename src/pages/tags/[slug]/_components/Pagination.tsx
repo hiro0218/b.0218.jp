@@ -3,10 +3,9 @@ import type { ReactNode } from 'react';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Cluster, Stack } from '@/components/UI/Layout';
-import { easeOut } from '@/ui/foundation/easing';
-import { CaretLeftIcon, CaretRightIcon, ICON_SIZE_LG, ICON_SIZE_XS } from '@/ui/icons';
+import { CaretLeftIcon, CaretRightIcon, ICON_SIZE_XS } from '@/ui/icons';
 import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
-import { css, styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled/dynamic';
 
 type Props = {
   displayCount: number;
@@ -115,17 +114,17 @@ const PaginationButtonStyle = css`
   display: flex;
   flex-grow: 0;
   flex-shrink: 0;
-  flex-basis: ${ICON_SIZE_LG}px;
+  flex-basis: var(--icon-size-lg);
   align-items: center;
   justify-content: center;
-  width: ${ICON_SIZE_LG}px;
-  height: ${ICON_SIZE_LG}px;
+  width: var(--icon-size-lg);
+  height: var(--icon-size-lg);
   aspect-ratio: 1;
   font-size: var(--font-size-sm);
   color: var(--color-gray-11);
   cursor: pointer;
   border-radius: var(--border-radius-full);
-  transition: background-color 0.1s ${easeOut};
+  transition: background-color 0.1s var(--easing-ease-out);
 
   &[disabled] {
     cursor: not-allowed;

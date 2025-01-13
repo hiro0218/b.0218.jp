@@ -1,6 +1,6 @@
 import { isDesktop, isMobile } from '@/ui/lib/mediaQuery';
 import { lineClamp, textEllipsis } from '@/ui/mixin';
-import { css } from '@/ui/styled';
+import { css } from '@/ui/styled/dynamic';
 
 const LinkPreview = css`
   .p-link-preview {
