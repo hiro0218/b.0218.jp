@@ -2,7 +2,7 @@ import { memo } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
 import { TAG_VIEW_LIMIT } from '@/constant';
-import { styled } from '@/ui/styled/static';
+import { css, cx, styled } from '@/ui/styled/static';
 
 export type Props = {
   slug: string;
@@ -30,8 +30,8 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
       const isAnchor = count >= TAG_VIEW_LIMIT;
 
       return isAnchor ? (
-        <TagAnchor
-          className="post-tag-anchor"
+        <Anchor
+          className={cx('post-tag-anchor', TagAnchorStyle)}
           href={`/tags/${slug}`}
           key={slug}
           {...(hasRelTag && {
@@ -40,7 +40,7 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
         >
           {slug}
           <Count aria-hidden="true">{count}</Count>
-        </TagAnchor>
+        </Anchor>
       ) : (
         <DisabledTagAnchor className="post-tag-anchor" aria-hidden="true" key={slug}>
           {slug}
@@ -66,7 +66,7 @@ const Count = styled.span`
   border-radius: var(--border-radius-8);
 `;
 
-const TagAnchor = styled(Anchor)`
+const TagAnchorStyle = css`
   &:hover {
     background-color: var(--color-gray-4A);
   }
