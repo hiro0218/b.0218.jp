@@ -1,5 +1,5 @@
 import { keyframes } from '@/ui/styled/animations';
-import { colorVariables, easingVariables, fontVariables, iconVariables, spaceVariables } from '@/ui/styled/variables';
+import globalVars from '@/ui/styled/variables';
 import { defineConfig } from '@pandacss/dev';
 
 export default defineConfig({
@@ -30,13 +30,7 @@ export default defineConfig({
   eject: true,
 
   // Global variables
-  globalVars: {
-    ...fontVariables,
-    ...spaceVariables,
-    ...colorVariables,
-    ...easingVariables,
-    ...iconVariables,
-  },
+  globalVars,
 
   theme: {
     extend: {
