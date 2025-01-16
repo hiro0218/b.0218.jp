@@ -1,6 +1,5 @@
 import { Anchor } from '@/components/UI/Anchor';
-import { isMobile } from '@/ui/lib/mediaQuery';
-import { styled } from '@/ui/styled/dynamic';
+import { styled } from '@/ui/styled/static';
 
 import type { divideByYearArchive } from '../_libs';
 
@@ -42,7 +41,7 @@ const Container = styled.div`
   height: var(--space-5);
   overflow: auto;
 
-  ${isMobile} {
+  @media (--isMobile) {
     flex-direction: column;
     align-items: start;
     width: 100%;
@@ -64,7 +63,7 @@ const Item = styled(Anchor)`
   color: var(--color-gray-11);
   background: linear-gradient(var(--direction), var(--fill) var(--percent), transparent var(--percent));
 
-  ${isMobile} {
+  @media (--isMobile) {
     --direction: to right;
 
     width: 100%;
