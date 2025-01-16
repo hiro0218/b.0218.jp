@@ -1,6 +1,5 @@
 import { ArrowUpIcon } from '@/ui/icons';
-import { isMobile } from '@/ui/lib/mediaQuery';
-import { styled } from '@/ui/styled/dynamic';
+import { styled } from '@/ui/styled/static';
 
 /**
  * Why do you specify # for href?
@@ -44,7 +43,7 @@ const Button = styled.a`
     height: var(--desktop-size);
     fill: currentColor;
 
-    ${isMobile} {
+    @media (--isMobile) {
       width: var(--mobile-size);
       height: var(--mobile-size);
     }
