@@ -3,8 +3,7 @@ import { memo, useMemo } from 'react';
 import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import { useRouteChangeComplete } from '@/hooks/useRouteChangeComplete';
 import escapeHTML from '@/lib/escapeHTML';
-import { isMobile } from '@/ui/lib/mediaQuery';
-import { styled } from '@/ui/styled/dynamic';
+import { styled } from '@/ui/styled/static';
 
 import type { SearchProps, onCloseDialogProps } from './type';
 import { useSearchHeader } from './useSearchHeader';
@@ -91,7 +90,7 @@ const SearchMain = styled.div`
   animation: fadeIn 0.8s ease;
   animation-fill-mode: both;
 
-  ${isMobile} {
+  @media (--isMobile) {
     width: 80vw;
   }
 `;
@@ -107,7 +106,7 @@ const SearchResult = styled.div`
     padding: var(--space-½) var(--space-1);
   }
 
-  ${isMobile} {
+  @media (--isMobile) {
     max-height: 60vh;
   }
 `;
