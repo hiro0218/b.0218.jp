@@ -12,7 +12,13 @@ export const Hero = function Hero() {
 
   return (
     <Container align="start" space={2} direction="horizontal">
-      <Avatar>
+      <Avatar
+        style={{
+          // @ts-expect-error CSS Custom Properties
+          '--size': `${ICON_SIZE}px`,
+          '--size-shrink': `${ICON_SIZE_SHRINK}px`,
+        }}
+      >
         <img alt="hiro (black cat icon)" height={ICON_SIZE} src="/hiro0218.svg" width={ICON_SIZE} />
       </Avatar>
       <Stack space={2}>
@@ -37,11 +43,11 @@ const Container = styled(Stack)`
 
 const Avatar = styled.div`
   flex-shrink: 0;
-  width: ${ICON_SIZE}px;
+  width: var(--size);
   user-select: none;
 
   ${isMobile} {
-    width: ${ICON_SIZE_SHRINK}px;
+    width: var(--size-shrink);
   }
 
   img {
