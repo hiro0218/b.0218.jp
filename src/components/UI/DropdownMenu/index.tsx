@@ -1,4 +1,4 @@
-import { css, styled } from '@/ui/styled/dynamic';
+import { styled } from '@/ui/styled/static';
 import { type ReactNode, useCallback, useEffect, useId, useRef, useState } from 'react';
 
 type Props = {
@@ -44,7 +44,7 @@ export const DropdownMenu = ({ title, children, menuHorizontalPosition = 'right'
       >
         {title}
       </Trigger>
-      <Content ref={contentRef} id={id} role="menu" aria-expanded={isOpen} position={menuHorizontalPosition}>
+      <Content ref={contentRef} id={id} role="menu" aria-expanded={isOpen} data-position={menuHorizontalPosition}>
         {children}
       </Content>
     </Container>
@@ -72,9 +72,7 @@ const Trigger = styled.button`
   }
 `;
 
-const Content = styled.div<{
-  position: Props['menuHorizontalPosition'];
-}>`
+const Content = styled.div`
   position: absolute;
   top: 100%;
   z-index: var(--zIndex-base);
@@ -90,14 +88,13 @@ const Content = styled.div<{
   transition: transform 0.1s;
   transform: scale(0.8);
 
-  ${({ position }) =>
-    position === 'left'
-      ? css`
-          left: 0;
-        `
-      : css`
-          right: 0;
-        `}
+  &[data-position='left'] {
+    left: 0;
+  }
+
+  &[data-position='right'] {
+    right: 0;
+  }
 
   &[aria-expanded='true'] {
     visibility: visible;
