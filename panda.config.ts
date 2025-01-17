@@ -17,6 +17,7 @@ export default defineConfig({
   lightningcss: true,
   logLevel: process.env.NODE_ENV === 'production' ? 'warn' : 'debug',
   minify: true,
+  hash: true,
 
   importMap: {
     css: '@/ui/styled/static',
