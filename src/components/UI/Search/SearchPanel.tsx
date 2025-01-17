@@ -1,9 +1,9 @@
 import { memo, useMemo } from 'react';
 
-import { Anchor as _Anchor } from '@/components/UI/Anchor';
+import { Anchor } from '@/components/UI/Anchor';
 import { useRouteChangeComplete } from '@/hooks/useRouteChangeComplete';
 import escapeHTML from '@/lib/escapeHTML';
-import { styled } from '@/ui/styled/static';
+import { css, styled } from '@/ui/styled/static';
 
 import type { SearchProps, onCloseDialogProps } from './type';
 import { useSearchHeader } from './useSearchHeader';
@@ -32,6 +32,7 @@ const Result = memo(function Result({
       {suggestions.map(({ slug }, index) => {
         return (
           <Anchor
+            className={AnchorStyle}
             dangerouslySetInnerHTML={{ __html: markedTitles[index] }}
             href={`/${slug}.html`}
             key={slug}
@@ -111,7 +112,7 @@ const SearchResult = styled.div`
   }
 `;
 
-const Anchor = styled(_Anchor)`
+const AnchorStyle = css`
   display: block;
   padding: var(--space-1) var(--space-2);
   font-size: var(--font-size-sm);
