@@ -5,19 +5,5 @@
 @import './reset' layer(reset);
 @import './variables.css' layer(tokens);
 @import './base' layer(base);
+@import './components' layer(components);
 @import './utilities' layer(utilities);
-
-@layer components {
-  .post-tag-anchor {
-    display: inline-flex;
-    justify-content: center;
-    padding: var(--space-½) var(--space-2);
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-md);
-    color: var(--color-gray-11);
-    text-align: center;
-    white-space: nowrap;
-    background-color: var(--color-gray-3A);
-    border-radius: var(--border-radius-8);
-  }
-}
