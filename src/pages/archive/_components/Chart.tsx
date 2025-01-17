@@ -1,5 +1,5 @@
 import { Anchor } from '@/components/UI/Anchor';
-import { styled } from '@/ui/styled/static';
+import { css, styled } from '@/ui/styled/static';
 
 import type { divideByYearArchive } from '../_libs';
 
@@ -16,7 +16,8 @@ export const Chart = ({ archives, totalPosts }: Props) => {
         const percentages = (Math.round((thisPosts / totalPosts) * 100000) / 100).toFixed(2);
 
         return (
-          <Item
+          <Anchor
+            className={AnchorStyle}
             href={`#${year}年`}
             key={year}
             // @ts-expect-error CSS Custom Properties
@@ -25,7 +26,7 @@ export const Chart = ({ archives, totalPosts }: Props) => {
             }}
           >
             {year}
-          </Item>
+          </Anchor>
         );
       })}
     </Container>
@@ -49,7 +50,7 @@ const Container = styled.div`
   }
 `;
 
-const Item = styled(Anchor)`
+const AnchorStyle = css`
   --fill: var(--color-gray-3);
   --direction: to top;
 
