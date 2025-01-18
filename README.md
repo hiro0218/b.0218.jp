@@ -43,3 +43,10 @@ To execute the Next.js build for production, run the following command:
 ```
 npm run build
 ```
+
+---
+
+## Repository Stats
+
+![Alt](https://repobeats.axiom.co/api/embed/b00d97f83f44e270e58b711cbf5ead377bee099c.svg "Repobeats analytics image")
+
