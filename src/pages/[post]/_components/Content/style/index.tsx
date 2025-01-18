@@ -6,7 +6,6 @@ import Footnotes from './Footnotes';
 import GfmAlert from './GfmAlert';
 import Headings from './Heading';
 import Highlight from './Highlight';
-import LinkPreview from './LinkPreview';
 
 const PostContentStyle = css`
   font-size: var(--font-size-post-content);
@@ -29,7 +28,7 @@ const PostContentStyle = css`
     word-wrap: break-word;
   }
 
-  a {
+  a:where(:not(:has([class]))) {
     text-decoration-line: underline;
 
     &:hover {
@@ -190,8 +189,6 @@ const PostContentStyle = css`
   }
 
   ${GfmAlert}
-
-  ${LinkPreview}
 
   ${Footnotes}
 

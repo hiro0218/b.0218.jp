@@ -1,11 +1,5 @@
 import { css } from '@/ui/styled/dynamic';
 
-export const textEllipsis = css`
-  overflow: clip;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-
 export const hoverLinkStyle = css`
   &:hover {
     background-color: var(--color-gray-3A);
