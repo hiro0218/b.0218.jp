@@ -84,9 +84,9 @@ const SearchMain = styled.div`
   margin: auto;
   overflow: hidden;
   background-color: var(--white);
-  isolation: isolate;
   border-radius: var(--border-radius-4);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  isolation: isolate;
   opacity: 0;
   animation: fadeIn 0.8s ease;
   animation-fill-mode: both;

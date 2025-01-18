@@ -64,9 +64,9 @@ const cssHeading = css`
   display: -webkit-box;
   margin: 0 auto;
   overflow: hidden;
+  -webkit-line-clamp: 3;
   font-size: 56px;
   line-height: 1.7;
-  -webkit-line-clamp: 3;
   letter-spacing: 0.0025em;
   word-break: auto-phrase;
   -webkit-box-orient: vertical;

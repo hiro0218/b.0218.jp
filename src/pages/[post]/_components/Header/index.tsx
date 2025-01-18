@@ -53,8 +53,8 @@ const Heading = styled.h1`
   font-feature-settings: 'palt';
   font-kerning: normal;
   line-height: var(--line-height-lg);
-  text-wrap: pretty;
   word-break: auto-phrase;
+  text-wrap: pretty;
 `;
 
 const Item = styled.div`

@@ -6,9 +6,9 @@
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+  clip: rect(0, 0, 0, 0);
 }
 
 .text-ellipsis {
@@ -35,13 +35,13 @@
     pointer-events: none;
     content: '';
     background-color: var(--color-gray-3A);
-    isolation: isolate;
     border-radius: var(--border-radius-4);
+    isolation: isolate;
     opacity: 0;
+    transform: scale(0.5);
     transition:
       transform 0.2s var(--easing-ease-out-expo),
       opacity 0.1s;
-    transform: scale(0.5);
     content-visibility: auto;
   }
 

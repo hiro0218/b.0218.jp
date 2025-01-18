@@ -45,8 +45,8 @@ export const SearchDialog = forwardRef(function SearchDialog(
 const Dialog = styled.dialog`
   position: fixed;
   top: 25vh;
-  isolation: isolate;
   border-radius: var(--border-radius-12);
+  isolation: isolate;
   content-visibility: hidden;
 
   &[open] {

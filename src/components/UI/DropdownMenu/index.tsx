@@ -76,17 +76,17 @@ const Content = styled.div`
   position: absolute;
   top: 100%;
   z-index: var(--zIndex-base);
+  visibility: hidden;
   min-width: max-content;
   height: fit-content;
   padding: var(--space-½);
-  visibility: hidden;
   background-color: var(--white);
   border: 1px solid var(--color-gray-6A);
   border-radius: var(--border-radius-4);
   box-shadow: var(--shadows-md);
   opacity: 0;
-  transition: transform 0.1s;
   transform: scale(0.8);
+  transition: transform 0.1s;
 
   &[data-position='left'] {
     left: 0;

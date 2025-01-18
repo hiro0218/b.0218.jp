@@ -94,8 +94,8 @@ const Container = styled.article<Pick<Props, 'showNewLabel'>>`
         color: var(--white);
         content: 'NEW';
         background-color: var(--color-gray-12);
-        isolation: isolate;
         border-bottom-left-radius: var(--border-radius-8);
+        isolation: isolate;
       }
     `}
 
