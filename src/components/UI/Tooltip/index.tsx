@@ -27,8 +27,8 @@ const Container = styled.span`
     left: 50%;
     font-size: var(--font-size-xs);
     line-height: var(--line-height-sm);
-    transition: transform 0.2s var(--easing-ease-out-expo);
     transform: translate(-50%, -100%);
+    transition: transform 0.2s var(--easing-ease-out-expo);
     will-change: opacity, transform;
   }
 

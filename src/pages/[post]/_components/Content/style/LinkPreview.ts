@@ -58,9 +58,9 @@ const LinkPreview = css`
     ${lineClamp(2)}
 
     margin-top: var(--space-½);
+    -webkit-line-clamp: 1;
     font-size: var(--font-size-sm);
     color: var(--color-gray-11);
-    -webkit-line-clamp: 1;
 
     ${isMobile} {
       display: none;
