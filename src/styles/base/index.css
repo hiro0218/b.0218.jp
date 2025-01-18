@@ -215,7 +215,6 @@ table {
   max-inline-size: 100%;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
-  background-color: var(--white);
   animation: scroll-table-shadow-inset linear;
   animation-timeline: scroll(self x);
 
