@@ -4,7 +4,7 @@ import { Anchor as _Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
 import { isContainer } from '@/ui/lib/mediaQuery';
 import { lineClamp } from '@/ui/mixin';
-import { css, styled } from '@/ui/styled/dynamic';
+import { styled } from '@/ui/styled/dynamic';
 
 type PostDateProps = ComponentProps<typeof PostDate>;
 
@@ -32,7 +32,7 @@ function LinkCard({
   showNewLabel = false,
 }: Props) {
   return (
-    <Container role={role} showNewLabel={showNewLabel}>
+    <Container role={role} data-is-new={showNewLabel}>
       <PostDate date={date} updated={updated} />
       <Anchor href={link} prefetch={false}>
         <Title as={titleTagName}>{title}</Title>
@@ -57,7 +57,7 @@ function LinkCard({
 
 export default LinkCard;
 
-const Container = styled.article<Pick<Props, 'showNewLabel'>>`
+const Container = styled.article`
   container-type: inline-size;
   display: flex;
   flex-direction: column;
@@ -78,26 +78,24 @@ const Container = styled.article<Pick<Props, 'showNewLabel'>>`
     padding: var(--space-3);
   }
 
-  ${({ showNewLabel }) =>
-    showNewLabel &&
-    css`
-      &::before {
-        position: absolute;
-        top: 0;
-        right: 0;
-        display: grid;
-        place-content: center;
-        padding: var(--space-½) var(--space-1);
-        font-size: var(--font-size-xs);
-        font-weight: var(--font-weight-bold);
-        line-height: 1;
-        color: var(--white);
-        content: 'NEW';
-        background-color: var(--color-gray-12);
-        border-bottom-left-radius: var(--border-radius-8);
-        isolation: isolate;
-      }
-    `}
+  &[data-is-new='true'] {
+    &::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: grid;
+      place-content: center;
+      padding: var(--space-½) var(--space-1);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      line-height: 1;
+      color: var(--white);
+      content: 'NEW';
+      background-color: var(--color-gray-12);
+      border-bottom-left-radius: var(--border-radius-8);
+      isolation: isolate;
+    }
+  }
 
   &:hover,
   &:focus-visible {
