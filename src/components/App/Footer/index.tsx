@@ -1,7 +1,7 @@
-import { Container as _Container, getSize } from '@/components/Functional/Container';
+import { Container, getSize } from '@/components/Functional/Container';
 import { Anchor } from '@/components/UI/Anchor';
 import { Logo } from '@/components/UI/Logo';
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled/static';
 
 const Links = [
   { title: 'about', href: '/about' },
@@ -14,7 +14,7 @@ export default function Footer() {
   const size = getSize('default');
   return (
     <Root>
-      <Container size={size}>
+      <Container size={size} className={ContainerStyle}>
         <LogoContainer>
           <Logo />
         </LogoContainer>
@@ -25,7 +25,15 @@ export default function Footer() {
             </Anchor>
           ))}
         </Nav>
-        <small>© hiro</small>
+        <small
+          className={css`
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-11);
+          `}
+        >
+          © hiro
+        </small>
       </Container>
     </Root>
   );
@@ -37,23 +45,16 @@ const Root = styled.footer`
   background-color: var(--color-gray-3);
 `;
 
-const Container = styled(_Container)`
+const ContainerStyle = css`
   display: grid;
   gap: var(--space-2);
   margin: auto;
   font-size: var(--font-size-md);
   color: var(--color-gray-12);
-
-  small {
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-gray-11);
-  }
 `;
 
 const LogoContainer = styled.div`
   display: flex;
-  align-items: center;
   margin-left: calc(var(--space-1) * -1);
 `;
 

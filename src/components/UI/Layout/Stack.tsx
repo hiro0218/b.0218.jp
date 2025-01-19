@@ -1,8 +1,8 @@
 import type { AriaRole, CSSProperties, ElementType, ReactNode } from 'react';
 
-import { css, styled } from '@/ui/styled';
-import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
-import { SPACE_KEYS } from '@/ui/styled/CssBaseline/Settings/Space';
+import { css, styled } from '@/ui/styled/dynamic';
+import type { SpaceGap } from '@/ui/styled/variables/space';
+import { SPACE_KEYS } from '@/ui/styled/variables/space';
 
 type Props = {
   as?: ElementType;
@@ -12,6 +12,7 @@ type Props = {
   justify?: CSSProperties['justifyContent'];
   wrap?: CSSProperties['flexWrap'];
   role?: AriaRole;
+  className?: string;
   children: ReactNode;
 };
 

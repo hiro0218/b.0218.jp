@@ -1,15 +1,5 @@
 import { URL } from '@/constant';
 
-export function MetaLinkDnsPrefetch({ domains }: { domains: string[] }) {
-  return (
-    <>
-      {domains.map((href) => (
-        <link href={href} key={href} rel="dns-prefetch" />
-      ))}
-    </>
-  );
-}
-
 export function MetaLinkFeed({
   feeds,
 }: {

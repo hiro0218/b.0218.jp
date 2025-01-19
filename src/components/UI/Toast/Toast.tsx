@@ -1,8 +1,7 @@
 import type { ForwardedRef } from 'react';
 import { forwardRef, useMemo } from 'react';
 
-import { fadeIn } from '@/ui/animation';
-import { styled } from '@/ui/styled';
+import { styled } from '@/ui/styled/static';
 
 import { useToast } from './useToast';
 
@@ -48,11 +47,11 @@ const Container = styled.div`
   white-space: nowrap;
   user-select: none;
   background-color: var(--dark-backgrounds);
-  isolation: isolate;
   border-radius: var(--border-radius-4);
+  isolation: isolate;
   opacity: 0;
 
   &[aria-hidden='true'] {
-    animation: ${fadeIn} 0.4s linear both;
+    animation: fadeIn 0.4s linear both;
   }
 `;

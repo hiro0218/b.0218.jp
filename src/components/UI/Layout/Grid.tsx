@@ -2,9 +2,9 @@ import type { AriaRole, ReactNode } from 'react';
 import { type ElementType, memo } from 'react';
 
 import { isMobile } from '@/ui/lib/mediaQuery';
-import { styled } from '@/ui/styled';
-import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
-import { SPACE_KEYS } from '@/ui/styled/CssBaseline/Settings/Space';
+import { styled } from '@/ui/styled/dynamic';
+import type { SpaceGap } from '@/ui/styled/variables/space';
+import { SPACE_KEYS } from '@/ui/styled/variables/space';
 
 type Props = {
   as?: ElementType;

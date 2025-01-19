@@ -5,7 +5,7 @@ module.exports = {
     'at-rule-no-unknown': [
       true,
       {
-        ignoreAtRules: ['extend'],
+        ignoreAtRules: ['extend', 'mixin', 'define-mixin'],
       },
     ],
     'color-hex-length': 'short',

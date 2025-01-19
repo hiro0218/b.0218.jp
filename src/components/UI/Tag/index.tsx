@@ -2,7 +2,7 @@ import { memo } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
 import { TAG_VIEW_LIMIT } from '@/constant';
-import { css, styled } from '@/ui/styled';
+import { css, cx, styled } from '@/ui/styled/static';
 
 export type Props = {
   slug: string;
@@ -30,7 +30,8 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
       const isAnchor = count >= TAG_VIEW_LIMIT;
 
       return isAnchor ? (
-        <TagAnchor
+        <Anchor
+          className={cx('post-tag-anchor', TagAnchorStyle)}
           href={`/tags/${slug}`}
           key={slug}
           {...(hasRelTag && {
@@ -39,9 +40,9 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
         >
           {slug}
           <Count aria-hidden="true">{count}</Count>
-        </TagAnchor>
+        </Anchor>
       ) : (
-        <DisabledTagAnchor aria-hidden="true" key={slug}>
+        <DisabledTagAnchor className="post-tag-anchor" aria-hidden="true" key={slug}>
           {slug}
         </DisabledTagAnchor>
       );
@@ -49,19 +50,6 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
 });
 
 export default PostTag;
-
-export const PostTagAnchorStyle = css`
-  display: inline-flex;
-  justify-content: center;
-  padding: var(--space-½) var(--space-2);
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-md);
-  color: var(--color-gray-11);
-  text-align: center;
-  white-space: nowrap;
-  background-color: var(--color-gray-3A);
-  border-radius: var(--border-radius-8);
-`;
 
 const Count = styled.span`
   display: inline-flex;
@@ -78,9 +66,7 @@ const Count = styled.span`
   border-radius: var(--border-radius-8);
 `;
 
-const TagAnchor = styled(Anchor)`
-  ${PostTagAnchorStyle}
-
+const TagAnchorStyle = css`
   &:hover {
     background-color: var(--color-gray-4A);
   }
@@ -91,8 +77,6 @@ const TagAnchor = styled(Anchor)`
 `;
 
 const DisabledTagAnchor = styled.span`
-  ${PostTagAnchorStyle}
-
   &:hover {
     cursor: not-allowed;
   }

@@ -1,0 +1,10 @@
+@layer reset, tools, base, tokens, components, emotion, recipes, utilities;
+
+@import 'shokika.css' layer(reset);
+
+@import './reset' layer(reset);
+@import './tools' layer(tools);
+@import './variables.css' layer(tokens);
+@import './base' layer(base);
+@import './components' layer(components);
+@import './utilities' layer(utilities);

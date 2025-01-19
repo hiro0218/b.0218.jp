@@ -1,8 +1,8 @@
 import type { AriaRole, ReactNode } from 'react';
 import { type ElementType, memo } from 'react';
 
-import { css, styled } from '@/ui/styled';
-import type { SpaceGap } from '@/ui/styled/CssBaseline/Settings/Space';
+import { css, styled } from '@/ui/styled/dynamic';
+import type { SpaceGap } from '@/ui/styled/variables/space';
 
 type Props = {
   as?: ElementType;

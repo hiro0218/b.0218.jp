@@ -13,10 +13,10 @@ const nextConfiguration = {
     emotion: {
       autoLabel: 'dev-only',
       importMap: {
-        ['@/ui/styled']: {
+        ['@/ui/styled/dynamic']: {
           ['styled']: {
             canonicalImport: ['@emotion/styled', 'default'],
-            styledBaseImport: ['@/ui/styled', 'styled'],
+            styledBaseImport: ['@/ui/styled/dynamic', 'styled'],
           },
         },
       },

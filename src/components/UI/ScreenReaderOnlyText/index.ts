@@ -1,1 +1,0 @@
-export { ScreenReaderOnlyText } from './ScreenReaderOnlyText';

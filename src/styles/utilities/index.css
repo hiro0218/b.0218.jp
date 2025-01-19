@@ -1,0 +1,26 @@
+/* tmp: Workaround */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border-width: 0;
+  clip: rect(0, 0, 0, 0);
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link-style {
+  @mixin link-style;
+}
+
+.link-style--hover-effect {
+  @mixin link-style--hover-effect;
+}

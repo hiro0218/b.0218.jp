@@ -1,7 +1,6 @@
 import { Tooltip } from '@/components/UI/Tooltip';
 import { ICON_SIZE_SM, MagnifyingGlassIcon } from '@/ui/icons';
-import { showHoverBackground } from '@/ui/mixin';
-import { styled } from '@/ui/styled';
+import { styled } from '@/ui/styled/static';
 import type { onCloseDialogProps } from './type';
 
 type Props = {
@@ -10,7 +9,7 @@ type Props = {
 
 export function SearchButton({ openDialog }: Props) {
   return (
-    <Button aria-haspopup="dialog" onClick={openDialog} type="button">
+    <Button className="link-style--hover-effect" aria-haspopup="dialog" onClick={openDialog} type="button">
       <Tooltip text="記事検索" />
       <MagnifyingGlassIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
     </Button>
@@ -29,8 +28,6 @@ const Button = styled.button`
   border: none;
   border-radius: var(--border-radius-full);
   transition: background-color 0.2s ease;
-
-  ${showHoverBackground}
 
   &::after {
     border-radius: var(--border-radius-full);
