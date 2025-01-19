@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic';
 import Head from 'next/head';
 
 import Heading from '@/components/UI/Heading';
@@ -12,10 +11,6 @@ import { createGetLayout } from '@/pages/_layouts/TopPageLayout';
 
 import { getSize } from '@/components/Functional/Container';
 import { getData } from './_libs';
-
-const SrOnly = dynamic(() =>
-  import('@/components/UI/ScreenReaderOnlyText').then((module) => module.ScreenReaderOnlyText),
-);
 
 const data = getData();
 
@@ -36,7 +31,7 @@ export default function Index() {
         ></script>
       </Head>
 
-      <SrOnly as="h1" text="トップページ" />
+      <h1 className="sr-only">トップページ</h1>
 
       <Stack space={5}>
         <Stack as="section">

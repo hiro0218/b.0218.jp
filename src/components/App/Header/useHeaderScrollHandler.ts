@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import throttle from '@/lib/throttle';
-import { SPACING_BASE_PX } from '@/ui/styled/CssBaseline/constant';
+import { SPACING_BASE_PX } from '@/ui/styled/constant';
 
 export const useHeaderScrollHandler = () => {
   const [isHeaderShown, setIsHeaderShown] = useState<boolean | null>(null);

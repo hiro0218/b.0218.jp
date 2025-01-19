@@ -1,5 +1,5 @@
-import { css } from '@/ui/styled';
-import { SPACE_KEYS } from '@/ui/styled/CssBaseline/Settings/Space';
+import { css } from '@/ui/styled/dynamic';
+import { SPACE_KEYS } from '@/ui/styled/variables/space';
 
 type HeadingTagNumber = 1 | 2 | 3 | 4 | 5 | 6;
 type HeadingTag = `h${HeadingTagNumber}`;
@@ -73,9 +73,9 @@ const Headings = css`
     font-feature-settings: 'palt';
     font-kerning: normal;
     line-height: var(--line-height-md);
-    text-wrap: pretty;
     letter-spacing: var(--letter-spacing-md);
-    word-break: auto-phrase; // left -> pretty, center -> balance
+    word-break: auto-phrase; /* left -> pretty, center -> balance */
+    text-wrap: pretty;
     scroll-margin-top: 1em;
 
     & > {
@@ -96,12 +96,12 @@ const Headings = css`
   ${generateHeadingStyles(6)}
 
   h2 {
-    &:first-of-type {
-      margin-top: auto;
-    }
-
     &:not(:has(+ h3)) {
       border-bottom: 1px solid var(--color-gray-6);
+    }
+
+    &:first-of-type {
+      margin-top: auto;
     }
   }
 `;

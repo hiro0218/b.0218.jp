@@ -1,6 +1,4 @@
-import { ICON_SIZE_SM } from '@/ui/icons';
-import { showHoverBackground } from '@/ui/mixin';
-import { css, styled } from '@/ui/styled';
+import { styled } from '@/ui/styled/static';
 import { type ReactNode, useCallback, useEffect, useId, useRef, useState } from 'react';
 
 type Props = {
@@ -37,6 +35,7 @@ export const DropdownMenu = ({ title, children, menuHorizontalPosition = 'right'
   return (
     <Container ref={ref}>
       <Trigger
+        className="link-style--hover-effect"
         type="button"
         aria-haspopup="menu"
         aria-controls={id}
@@ -45,7 +44,7 @@ export const DropdownMenu = ({ title, children, menuHorizontalPosition = 'right'
       >
         {title}
       </Trigger>
-      <Content ref={contentRef} id={id} role="menu" aria-expanded={isOpen} position={menuHorizontalPosition}>
+      <Content ref={contentRef} id={id} role="menu" aria-expanded={isOpen} data-position={menuHorizontalPosition}>
         {children}
       </Content>
     </Container>
@@ -61,12 +60,10 @@ const Trigger = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${ICON_SIZE_SM * 2}px;
-  height: ${ICON_SIZE_SM * 2}px;
+  width: calc(var(--icon-size-sm) * 2);
+  height: calc(var(--icon-size-sm) * 2);
 
-  ${showHoverBackground}
-
-  &:has(+ [aria-expanded="true"]) {
+  &:has(+ [aria-expanded='true']) {
     &::after {
       background-color: var(--color-gray-4A);
       opacity: 1;
@@ -75,32 +72,29 @@ const Trigger = styled.button`
   }
 `;
 
-const Content = styled.div<{
-  position: Props['menuHorizontalPosition'];
-}>`
+const Content = styled.div`
   position: absolute;
   top: 100%;
   z-index: var(--zIndex-base);
+  visibility: hidden;
   min-width: max-content;
   height: fit-content;
   padding: var(--space-½);
-  visibility: hidden;
   background-color: var(--white);
   border: 1px solid var(--color-gray-6A);
   border-radius: var(--border-radius-4);
   box-shadow: var(--shadows-md);
   opacity: 0;
-  transition: transform 0.1s;
   transform: scale(0.8);
+  transition: transform 0.1s;
 
-  ${({ position }) =>
-    position === 'left'
-      ? css`
-          left: 0;
-        `
-      : css`
-          right: 0;
-        `}
+  &[data-position='left'] {
+    left: 0;
+  }
+
+  &[data-position='right'] {
+    right: 0;
+  }
 
   &[aria-expanded='true'] {
     visibility: visible;

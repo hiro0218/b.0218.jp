@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 
 import { DetailsAccordion } from '@/lib/DetailsAccordion';
 import { ChevronDownIcon, ChevronUpIcon, ICON_SIZE_XS } from '@/ui/icons';
-import { styled } from '@/ui/styled';
+import { styled } from '@/ui/styled/static';
 
 import type { MokujiProps } from './type';
 import { useMokuji } from './useMokuji';
@@ -84,7 +84,7 @@ const Summary = styled.summary`
   cursor: pointer;
   user-select: none;
 
-  // for Safari
+  /* for Safari */
   &::-webkit-details-marker {
     display: none;
   }

@@ -39,6 +39,7 @@ function Layout({ slug, title }: LayoutProps) {
         <Title heading={heading} paragraph={paragraph} />
         <Stack as="article" space={2}>
           <div
+            className="post-content"
             css={PostContentStyle}
             dangerouslySetInnerHTML={{
               __html: content,

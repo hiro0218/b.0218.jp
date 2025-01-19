@@ -1,11 +1,9 @@
 import { memo, useMemo } from 'react';
 
-import { Anchor as _Anchor } from '@/components/UI/Anchor';
+import { Anchor } from '@/components/UI/Anchor';
 import { useRouteChangeComplete } from '@/hooks/useRouteChangeComplete';
 import escapeHTML from '@/lib/escapeHTML';
-import { fadeIn } from '@/ui/animation';
-import { isMobile } from '@/ui/lib/mediaQuery';
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled/static';
 
 import type { SearchProps, onCloseDialogProps } from './type';
 import { useSearchHeader } from './useSearchHeader';
@@ -34,6 +32,7 @@ const Result = memo(function Result({
       {suggestions.map(({ slug }, index) => {
         return (
           <Anchor
+            className={AnchorStyle}
             dangerouslySetInnerHTML={{ __html: markedTitles[index] }}
             href={`/${slug}.html`}
             key={slug}
@@ -85,14 +84,14 @@ const SearchMain = styled.div`
   margin: auto;
   overflow: hidden;
   background-color: var(--white);
-  isolation: isolate;
   border-radius: var(--border-radius-4);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  isolation: isolate;
   opacity: 0;
-  animation: ${fadeIn} 0.8s ease;
+  animation: fadeIn 0.8s ease;
   animation-fill-mode: both;
 
-  ${isMobile} {
+  @media (--isMobile) {
     width: 80vw;
   }
 `;
@@ -108,12 +107,12 @@ const SearchResult = styled.div`
     padding: var(--space-½) var(--space-1);
   }
 
-  ${isMobile} {
+  @media (--isMobile) {
     max-height: 60vh;
   }
 `;
 
-const Anchor = styled(_Anchor)`
+const AnchorStyle = css`
   display: block;
   padding: var(--space-1) var(--space-2);
   font-size: var(--font-size-sm);

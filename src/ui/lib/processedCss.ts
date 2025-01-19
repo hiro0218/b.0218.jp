@@ -1,9 +1,9 @@
-import packageJson from '@/../package.json';
 import postcss from 'postcss';
 import combineSelectors from 'postcss-combine-duplicated-selectors';
 import postcssLightningcss from 'postcss-lightningcss';
 import postcssMediaHoverAnyHover from 'postcss-media-hover-any-hover';
 import postcssSortMediaQueries from 'postcss-sort-media-queries';
+import packageJson from '~/package.json';
 
 const lightningCss = postcssLightningcss({
   browsers: packageJson.browserslist,

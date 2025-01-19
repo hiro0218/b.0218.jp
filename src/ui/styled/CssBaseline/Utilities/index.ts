@@ -1,4 +1,4 @@
-import { css } from '@/ui/styled';
+import { css } from '@/ui/styled/dynamic';
 
 /**
  * TailwindCSS の sr-only クラス実装を参考
@@ -11,9 +11,9 @@ export const srOnly = css`
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+  clip: rect(0, 0, 0, 0);
 `;
 
 /**
@@ -26,6 +26,6 @@ export const notSrOnly = css`
   padding: 0;
   margin: 0;
   overflow: visible;
-  clip: auto;
   white-space: normal;
+  clip: auto;
 `;

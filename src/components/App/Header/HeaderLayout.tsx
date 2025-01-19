@@ -1,8 +1,7 @@
 import { type ReactNode, memo } from 'react';
 
 import useIsMounted from '@/hooks/useIsMounted';
-import { fadeIn, fadeOut } from '@/ui/animation';
-import { css, styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled/dynamic';
 
 import { useHeaderScrollHandler } from './useHeaderScrollHandler';
 
@@ -45,10 +44,10 @@ const Header = styled.header<{ isMounted: boolean }>`
     }
 
     return css`
-      animation: ${fadeIn} 0.4s linear both;
+      animation: fadeIn 0.4s linear both;
 
       &[data-is-hide='true'] {
-        animation: ${fadeOut} 0.4s linear both;
+        animation: fadeOut 0.4s linear both;
       }
     `;
   }}

@@ -1,6 +1,6 @@
 import { blue, gray, green, orange, purple, red } from '@radix-ui/colors';
 
-import { css } from '@/ui/styled';
+import { css } from '@/ui/styled/dynamic';
 
 export default css`
   .hljs-comment,
@@ -60,11 +60,13 @@ export default css`
     color: ${blue.blue11};
   }
 
+  /* stylelint-disable */
   .hljs-keyword,
   .hljs-selector-tag,
   .hljs-selector-pseudo {
     color: ${purple.purple11};
   }
+  /* stylelint-enable */
 
   .hljs-emphasis {
     font-style: italic;

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import { styled } from '@/ui/styled';
+import { styled } from '@/ui/styled/static';
 
 type Props = {
   heading: string;

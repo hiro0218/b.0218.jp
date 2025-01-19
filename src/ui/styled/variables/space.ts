@@ -1,8 +1,8 @@
 import { pxToRem } from '@/ui/lib/fonts';
-import { css } from '@/ui/styled';
-import { SPACING_BASE_PX } from '@/ui/styled/CssBaseline/constant';
+import { SPACING_BASE_PX } from '@/ui/styled/constant';
 
-export type SpaceGap = '½' | 1 | 2 | 3 | 4 | 5 | 6;
+export const Spaces = ['½', 1, 2, 3, 4, 5, 6];
+export type SpaceGap = (typeof Spaces)[number];
 type SpaceKey = `--space-${SpaceGap}`;
 type SpaceValue = `${number}rem`;
 
@@ -39,6 +39,6 @@ export const SPACE_STEPS = Object.fromEntries(
   }),
 ) as Record<SpaceKey, SpaceValue>;
 
-export default css`
-  ${Object.entries(SPACE_STEPS).map(([key, value]) => `${key}: ${value};`)}
-`;
+export const spaceVariables = {
+  ...SPACE_STEPS,
+} as const;
