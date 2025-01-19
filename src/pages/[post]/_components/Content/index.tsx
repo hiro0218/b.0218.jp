@@ -16,6 +16,7 @@ type Props = {
 
 const ContentSection = ({ html }: { html: DOMAttributes<HTMLDivElement>['dangerouslySetInnerHTML']['__html'] }) => (
   <div
+    className="post-content"
     css={PostContentStyle}
     dangerouslySetInnerHTML={{
       __html: html,
