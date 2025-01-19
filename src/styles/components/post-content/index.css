@@ -19,7 +19,8 @@
     word-wrap: break-word;
   }
 
-  a:where(:not(:has([class]))) {
+  /* workaround */
+  a:where(:not(:has([class]), [data-mokuji-anchor])) {
     text-decoration-line: underline;
 
     &:hover {
