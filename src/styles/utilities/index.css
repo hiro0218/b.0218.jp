@@ -24,3 +24,7 @@
 .link-style--hover-effect {
   @mixin link-style--hover-effect;
 }
+
+.line-clamp-2 {
+  @mixin line-clamp 2;
+}
