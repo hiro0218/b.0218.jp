@@ -1,3 +1,5 @@
+const pkg = require('./package.json');
+
 module.exports = {
   plugins: {
     'postcss-import': {},
@@ -8,6 +10,12 @@ module.exports = {
     },
     'postcss-custom-media': {},
     'postcss-media-hover-any-hover': {},
+    'postcss-lightningcss': {
+      browsers: pkg.browserslist,
+      lightningcssOptions: {
+        minify: true,
+      },
+    },
     '@pandacss/dev/postcss': {},
   },
 };
