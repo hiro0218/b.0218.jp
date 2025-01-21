@@ -15,7 +15,9 @@
 
   > :where(p) {
     letter-spacing: var(--letter-spacing-md);
+    /* stylelint-disable */
     word-break: break-word;
+    /* stylelint-enable */
     word-wrap: break-word;
   }
 
