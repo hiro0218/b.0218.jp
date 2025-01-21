@@ -1,0 +1,39 @@
+[data-mokuji-anchor] {
+  @mixin link-style;
+  @mixin link-style--hover-effect;
+
+  position: absolute;
+  top: 0;
+  right: 100%;
+  bottom: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5em;
+  height: 1.5em;
+  margin: auto;
+  font-size: 1em;
+  color: var(--color-gray-11);
+  text-decoration: none;
+  user-select: none;
+
+  &::after {
+    border-radius: var(--border-radius-full);
+  }
+
+  &:hover,
+  &:focus,
+  &:focus-within {
+    &::after {
+      border-radius: var(--border-radius-full);
+    }
+  }
+
+  &:hover {
+    color: var(--color-gray-12);
+  }
+
+  @media (--isMobile) {
+    position: static;
+  }
+}

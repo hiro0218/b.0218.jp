@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { useMemo } from 'react';
 
-import { styled } from '@/ui/styled/dynamic';
+import { css, styled } from '@/ui/styled/static';
 
 type Props = {
   id?: HTMLHeadingElement['id'];
@@ -20,13 +20,22 @@ function Heading({
   textSub = undefined,
   isWeightNormal = true,
 }: Props) {
+  const TitleTag = as;
   const TitleComponent = useMemo(
     () => (
-      <HeaderTitle as={as} id={id} isWeightNormal={isWeightNormal} level={as}>
+      <TitleTag
+        id={id}
+        className={headerTitleStyle}
+        style={{
+          // @ts-expect-error CSS Custom Properties
+          '--font-size': TitleTag === 'h1' || TitleTag === 'h2' ? 'var(--font-size-h4)' : 'var(--font-size-h5)',
+          ...(!isWeightNormal && { '--font-weight': 'var(--font-weight-bold)' }),
+        }}
+      >
         {text}
-      </HeaderTitle>
+      </TitleTag>
     ),
-    [as, isWeightNormal, id, text],
+    [isWeightNormal, id, text],
   );
   return (
     <>
@@ -56,11 +65,9 @@ const Main = styled.div`
   flex: 1 1;
 `;
 
-const HeaderTitle = styled.h1<{ isWeightNormal: boolean; level: Props['as'] }>`
-  font-size: ${({ level }) => {
-    return level === 'h1' || level === 'h2' ? 'var(--font-size-h4)' : 'var(--font-size-h5)';
-  }};
-  font-weight: ${({ isWeightNormal }) => (isWeightNormal ? 'var(--font-weight-normal)' : 'var(--font-weight-bold)')};
+const headerTitleStyle = css`
+  font-size: var(--font-size);
+  font-weight: var(--font-weight, --font-weight-normal);
   line-height: var(--line-height-sm);
   color: var(--color-gray-12);
   overflow-wrap: break-word;
