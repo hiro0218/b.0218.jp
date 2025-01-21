@@ -58,7 +58,6 @@ function LinkCard({
 export default LinkCard;
 
 const Container = styled.article`
-  container-type: inline-size;
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
