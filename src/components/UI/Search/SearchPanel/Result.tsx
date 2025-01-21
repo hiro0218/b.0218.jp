@@ -31,7 +31,7 @@ const Container = styled.div`
   max-height: 50vh;
   padding: 0;
   margin: 0;
-  overflow-x: none;
+  overflow-x: clip;
   overflow-y: auto;
 
   &:not(:empty) {

@@ -20,7 +20,6 @@ body {
   line-height: 1.875;
   color: var(--color-gray-12);
   background-color: var(--body-background);
-  kerning: none;
   line-break: strict;
   -webkit-font-smoothing: subpixel-antialiased;
 

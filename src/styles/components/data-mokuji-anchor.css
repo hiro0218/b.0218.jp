@@ -35,5 +35,9 @@
 
   @media (--isMobile) {
     position: static;
+
+    &::after {
+      display: none;
+    }
   }
 }
