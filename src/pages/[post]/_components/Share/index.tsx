@@ -36,7 +36,7 @@ function PostShare({ title, url }: Props) {
           rel="noreferrer"
           target="_blank"
         >
-          <Tooltip text="Xでポストする" />
+          <Tooltip text="Xでポスト" />
           <X height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </a>
         <a
@@ -45,7 +45,7 @@ function PostShare({ title, url }: Props) {
           rel="noreferrer"
           target="_blank"
         >
-          <Tooltip text="はてなブックマークでブックマークする" />
+          <Tooltip text="はてなブックマークでブックマーク" />
           <Hatenabookmark height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </a>
         <button
@@ -53,7 +53,7 @@ function PostShare({ title, url }: Props) {
           onClick={onClickCopyPermalink}
           type="button"
         >
-          <Tooltip text="このページのURLをコピーする" />
+          <Tooltip text="ページのURLをコピー" />
           <Link2Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </button>
       </Stack>
