@@ -1,6 +1,6 @@
+import { Tooltip } from '@/components/UI/Tooltip';
 import { ArrowUpIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled/static';
-
 /**
  * Why do you specify # for href?
  * @see https://html.spec.whatwg.org/multipage/browsing-the-web.html#scroll-to-the-fragment-identifier
@@ -8,8 +8,9 @@ import { styled } from '@/ui/styled/static';
 export const PageScroll = () => {
   return (
     <Container data-floating>
-      <Button aria-label="ページの最上部へスクロールする" href="#">
+      <Button href="#">
         <ArrowUpIcon />
+        <Tooltip text="ページトップへ" position="top" />
       </Button>
     </Container>
   );
@@ -17,7 +18,7 @@ export const PageScroll = () => {
 
 const Container = styled.div`
   position: fixed;
-  right: var(--space-2);
+  right: var(--space-3);
   bottom: var(--space-3);
   z-index: var(--zIndex-base);
   aspect-ratio: 1/1;
