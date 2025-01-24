@@ -76,7 +76,7 @@ const Content = styled.div`
   position: absolute;
   top: 100%;
   z-index: var(--zIndex-base);
-  visibility: hidden;
+  content-visibility: hidden;
   min-width: max-content;
   height: fit-content;
   padding: var(--space-½);
@@ -97,7 +97,7 @@ const Content = styled.div`
   }
 
   &[aria-expanded='true'] {
-    visibility: visible;
+    content-visibility: visible;
     opacity: 1;
     transform: scale(1);
 
