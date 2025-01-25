@@ -177,9 +177,14 @@ const PagerComponent = styled(Cluster)`
   margin-inline: auto;
 `;
 
-const Ellipsis = styled.label`
-  ${PaginationButtonStyle}
-
+const Ellipsis = styled.span`
+  display: grid;
+  place-content: center;
+  width: var(--icon-size-lg);
+  height: var(--icon-size-lg);
+  aspect-ratio: 1;
+  line-height: 1;
+  color: var(--color-gray-11);
   pointer-events: none;
   user-select: none;
   background-color: transparent;
@@ -197,7 +202,7 @@ const PostList = styled(Stack)<{ pageNumbers: number[] }>`
       const hide = `-n+${currentNumber * PAGE_RANGE}`;
 
       return css`
-        :has(input[value='${currentNumber}']:checked) {
+        &:has(input[value='${currentNumber}']:checked) {
           [${DATA_TARGET_POST_LIST_CONTAINER_KEY}] > *:not(:nth-of-type(${show}):nth-of-type(${hide})) {
             display: none;
           }
