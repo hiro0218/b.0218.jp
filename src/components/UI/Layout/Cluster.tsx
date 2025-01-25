@@ -1,7 +1,7 @@
 import type { AriaRole, ReactNode } from 'react';
 import { memo, useMemo } from 'react';
 
-import { css, styled } from '@/ui/styled/dynamic';
+import { styled } from '@/ui/styled/dynamic';
 import type { SpaceGap } from '@/ui/styled/variables/space';
 
 type Props = {
@@ -18,24 +18,19 @@ const _Cluster = styled.div<Props>`
   gap: ${({ gap = '1' }) => `var(--space-${gap})`};
   justify-content: flex-start;
 
-  ${({ isWide = true }) => {
-    return (
-      isWide &&
-      css`
-        align-content: start;
-        & > * {
-          flex: 1 1 auto;
-        }
-      `
-    );
-  }};
+  &[data-is-wide='true'] {
+    align-content: start;
+    & > * {
+      flex: 1 1 auto;
+    }
+  }
 `;
 
-export const Cluster = memo(function Grid({ as = 'div', children, ...props }: Props) {
+export const Cluster = memo(function Grid({ as = 'div', children, isWide, ...props }: Props) {
   const MemoizedCluster = useMemo(() => _Cluster.withComponent(as), [as]);
 
   return (
-    <MemoizedCluster as={as} {...props}>
+    <MemoizedCluster data-is-wide={isWide} as={as} {...props}>
       {children}
     </MemoizedCluster>
   );
