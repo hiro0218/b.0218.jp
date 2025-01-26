@@ -24,7 +24,11 @@ export default function Tags({ title, posts }: Props) {
   const { query } = router;
   const currentPer = query[QUERY_PAGE_PER_KEY] ? Number(query[QUERY_PAGE_PER_KEY]) : 1;
   const [currentPage, setCurrentPage] = useState(currentPer);
-  const [postsToDisplay, setPostsToDisplay] = useState(posts);
+  const postsToDisplay = useMemo(() => {
+    const start = (currentPage - 1) * PER_PAGE;
+    const end = start + PER_PAGE;
+    return posts.slice(start, end);
+  }, [currentPage, posts]);
   const totalItems = posts.length;
 
   const handlePageChange = (page: number) => {
@@ -32,13 +36,6 @@ export default function Tags({ title, posts }: Props) {
     router.push({ query: { ...query, [QUERY_PAGE_PER_KEY]: page } }, undefined, { scroll: false });
     setCurrentPage(page);
   };
-
-  useEffect(() => {
-    // currentPageが1の場合は最初の5件を表示する。範囲とは5件ずつ表示する。
-    const start = (currentPage - 1) * PER_PAGE;
-    const end = start + PER_PAGE;
-    setPostsToDisplay(posts.slice(start, end));
-  }, [currentPage, posts]);
 
   // currentPerに応じてページネーションの表示を変更する
   useEffect(() => {
