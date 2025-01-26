@@ -145,8 +145,8 @@ const buttonStyle = css`
   &[disabled] {
     color: var(--color-gray-12);
     pointer-events: none;
-    background-color: var(--color-gray-5);
     cursor: not-allowed;
+    background-color: var(--color-gray-5);
 
     &[data-arrow-button] {
       color: var(--color-gray-11);
@@ -182,7 +182,7 @@ const Progress = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 var(--space-1);
   font-size: var(--font-size-sm);
   color: var(--color-gray-11);
-  padding: 0 var(--space-1);
 `;
