@@ -39,12 +39,16 @@ body {
   }
 
   &::before {
+    --height: calc(var(--space-6) * 2);
+
     position: absolute;
     top: 0;
     z-index: calc(var(--zIndex-base) * -1);
     display: block;
     width: 100%;
-    height: calc(var(--space-6) * 2);
+    height: var(--height);
+    contain-intrinsic-size: 100% var(--height);
+    contain: strict;
     content: '';
     background-image: linear-gradient(to top, var(--body-background) 0, hsla(0, 0%, 100%, 0) 100%),
       linear-gradient(to right, var(--background-accent-gradient-from) 0, var(--background-accent-gradient-to) 100%);

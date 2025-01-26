@@ -1,7 +1,7 @@
 import { type ReactNode, memo } from 'react';
 
 import useIsMounted from '@/hooks/useIsMounted';
-import { css, styled } from '@/ui/styled/dynamic';
+import { styled } from '@/ui/styled/static';
 
 import { useHeaderScrollHandler } from './useHeaderScrollHandler';
 
@@ -15,7 +15,7 @@ export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
 
   return (
     <Underline>
-      <Header data-is-hide={!isHeaderShown} data-floating isMounted={isMounted()}>
+      <Header data-is-hide={!isHeaderShown} data-floating data-is-mounted={isMounted()}>
         {children}
       </Header>
     </Underline>
@@ -26,7 +26,7 @@ const Underline = styled.div`
   height: var(--space-5);
 `;
 
-const Header = styled.header<{ isMounted: boolean }>`
+const Header = styled.header`
   position: fixed;
   top: 0;
   right: 0;
@@ -38,17 +38,11 @@ const Header = styled.header<{ isMounted: boolean }>`
   isolation: isolate;
   will-change: opacity;
 
-  ${({ isMounted }) => {
-    if (!isMounted) {
-      return '';
+  &[data-is-mounted='true'] {
+    animation: fadeIn 0.4s linear both;
+
+    &[data-is-hide='true'] {
+      animation: fadeOut 0.4s linear both;
     }
-
-    return css`
-      animation: fadeIn 0.4s linear both;
-
-      &[data-is-hide='true'] {
-        animation: fadeOut 0.4s linear both;
-      }
-    `;
-  }}
+  }
 `;

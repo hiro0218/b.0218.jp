@@ -91,6 +91,10 @@ const StickyContainer = styled.div`
   position: sticky;
   top: var(--space-1);
   block-size: 100%;
+
+  ${isMobile} {
+    position: static;
+  }
 `;
 
 const SidebarHeading = styled.h2<Props>`
