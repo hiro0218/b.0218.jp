@@ -28,7 +28,7 @@ export const useHeaderScrollHandler = () => {
 
     document.addEventListener('scroll', handleScroll, { signal, passive: true });
     return () => abortController.abort();
-  }, [headerHeight, previousYPosition]);
+  }, [headerHeight]);
 
   return isHeaderShown;
 };
