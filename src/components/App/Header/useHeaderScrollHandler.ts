@@ -1,13 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import throttle from '@/lib/throttle';
 import { SPACING_BASE_PX } from '@/ui/styled/constant';
 
 export const useHeaderScrollHandler = () => {
   const [isHeaderShown, setIsHeaderShown] = useState<boolean | null>(null);
-  const [previousYPosition, setPreviousYPosition] = useState<number>(
-    typeof window !== 'undefined' ? window.scrollY : 0,
-  );
+  const previousYPosition = useRef<number>(typeof window !== 'undefined' ? window.scrollY : 0);
   const headerHeight = SPACING_BASE_PX * 8;
 
   useEffect(() => {
@@ -18,14 +16,14 @@ export const useHeaderScrollHandler = () => {
       const currentScrollY = window.scrollY;
 
       // 指定の高さを超えた場合
-      if (currentScrollY < previousYPosition) {
+      if (currentScrollY < previousYPosition.current) {
         setIsHeaderShown(true);
-      } else if (currentScrollY > headerHeight && currentScrollY > previousYPosition) {
+      } else if (currentScrollY > headerHeight && currentScrollY > previousYPosition.current) {
         setIsHeaderShown(false);
       }
 
       // 今回のスクロール位置を残す
-      setPreviousYPosition(currentScrollY);
+      previousYPosition.current = currentScrollY;
     });
 
     document.addEventListener('scroll', handleScroll, { signal, passive: true });
