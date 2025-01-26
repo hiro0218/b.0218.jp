@@ -2,10 +2,7 @@ import { useMemo } from 'react';
 
 export const DOTS = '...';
 
-const range = (start: number, end: number) => {
-  const length = end - start + 1;
-  return Array.from({ length }, (_, idx) => idx + start);
-};
+const range = (start: number, end: number) => Array.from({ length: end - start + 1 }, (_, idx) => idx + start);
 
 type Props = {
   totalCount: number;
@@ -15,8 +12,13 @@ type Props = {
 };
 
 export const usePagination = ({ totalCount, pageSize, siblingCount = 1, currentPage }: Props) => {
+  const totalPageCount = useMemo(() => Math.ceil(totalCount / pageSize), [totalCount, pageSize]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies:
   const paginationRange = useMemo(() => {
-    const totalPageCount = Math.ceil(totalCount / pageSize);
+    if (totalCount === 0 || pageSize === 0) {
+      return [];
+    }
     const totalPageNumbers = siblingCount + 5;
 
     if (totalPageNumbers >= totalPageCount) {
