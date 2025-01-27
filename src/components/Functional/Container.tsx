@@ -32,7 +32,7 @@ export const getSize = (size: Props['size']) => {
 
 const Root = styled.div`
   max-width: var(--container-size);
-  margin: var(--space-3) auto 0;
+  margin-inline: auto;
 
   &[data-has-space='true'] {
     padding-inline: var(--space-3);
