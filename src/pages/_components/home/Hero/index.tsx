@@ -13,7 +13,7 @@ export const Hero = function Hero() {
     <Stack className={ContainerStyle} align="start" space={2} direction="horizontal">
       <Avatar
         style={{
-          // @ts-expect-error CSS Custom Properties
+          // @ts-ignore CSS Custom Properties
           '--hero-size': `${ICON_SIZE}px`,
           '--hero-size-shrink': `${ICON_SIZE_SHRINK}px`,
         }}
