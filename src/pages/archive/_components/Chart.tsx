@@ -1,6 +1,7 @@
 import { Anchor } from '@/components/UI/Anchor';
 import { css, styled } from '@/ui/styled/static';
 
+import { useHash } from '@/lib/useHash';
 import type { divideByYearArchive } from '../_libs';
 
 type Props = {
@@ -9,6 +10,8 @@ type Props = {
 };
 
 export const Chart = ({ archives, totalPosts }: Props) => {
+  const [hash, setHash] = useHash();
+
   return (
     <Container>
       {Object.keys(archives).map((year) => {
@@ -24,6 +27,8 @@ export const Chart = ({ archives, totalPosts }: Props) => {
             style={{
               '--percent': `${percentages}%`,
             }}
+            data-current={hash === year || (hash === '' && year === '2006')}
+            onClick={() => setHash(year)}
           >
             {year}
           </Anchor>
@@ -68,6 +73,18 @@ const AnchorStyle = css`
     width: 100%;
     padding: var(--space-1) var(--space-½);
     font-size: var(--font-size-sm);
+  }
+
+  &[data-current='true'] {
+    --fill: var(--color-gray-6);
+
+    font-weight: var(--font-weight-bold);
+
+    &:hover,
+    &:active,
+    &:focus-visible {
+      --fill: var(--color-gray-6);
+    }
   }
 
   &:hover {
