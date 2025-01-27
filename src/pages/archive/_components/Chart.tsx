@@ -36,11 +36,8 @@ export const Chart = ({ archives, totalPosts }: Props) => {
 const Container = styled.div`
   display: flex;
   gap: var(--space-½);
-  align-items: end;
-  justify-content: stretch;
-  width: fit-content;
   height: var(--space-5);
-  overflow: auto;
+  overflow-x: scroll;
 
   @media (--isMobile) {
     flex-direction: column;
@@ -54,6 +51,7 @@ const AnchorStyle = css`
   --fill: var(--color-gray-3);
   --direction: to top;
 
+  position: relative;
   display: flex;
   align-items: end;
   justify-content: center;
