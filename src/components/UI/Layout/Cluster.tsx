@@ -1,7 +1,7 @@
 import type { AriaRole, ReactNode } from 'react';
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 
-import { styled } from '@/ui/styled/dynamic';
+import { css } from '@/ui/styled/static';
 import type { SpaceGap } from '@/ui/styled/variables/space';
 
 type Props = {
@@ -12,10 +12,10 @@ type Props = {
   children: ReactNode;
 };
 
-const _Cluster = styled.div<Props>`
+const clusterStyle = css`
   display: flex;
   flex-wrap: wrap;
-  gap: ${({ gap = '1' }) => `var(--space-${gap})`};
+  gap: var(--cluster-space, --space-1);
   justify-content: flex-start;
 
   &[data-is-wide='true'] {
@@ -26,12 +26,20 @@ const _Cluster = styled.div<Props>`
   }
 `;
 
-export const Cluster = memo(function Grid({ as = 'div', children, isWide, ...props }: Props) {
-  const MemoizedCluster = useMemo(() => _Cluster.withComponent(as), [as]);
+export const Cluster = memo(function Grid({ as = 'div', children, isWide, gap = 1, ...props }: Props) {
+  const Tag = as;
 
   return (
-    <MemoizedCluster data-is-wide={isWide} as={as} {...props}>
+    <Tag
+      className={clusterStyle}
+      data-is-wide={isWide}
+      {...props}
+      style={{
+        // @ts-expect-error CSS custom property
+        '--cluster-space': `var(--space-${gap})`,
+      }}
+    >
       {children}
-    </MemoizedCluster>
+    </Tag>
   );
 });
