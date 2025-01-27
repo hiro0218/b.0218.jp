@@ -30,7 +30,7 @@ export const Grid = ({ as = 'div', role, children, gap, ...props }: Props) => {
       {...props}
       className={gridStyle}
       style={{
-        // @ts-expect-error CSS Custom Properties
+        // @ts-ignore CSS Custom Properties
         '--grid-gap': spaceGap,
       }}
     >

@@ -23,7 +23,7 @@ export const Chart = ({ archives, totalPosts }: Props) => {
             className={AnchorStyle}
             href={`#${year}年`}
             key={year}
-            // @ts-expect-error CSS Custom Properties
+            // @ts-ignore CSS Custom Properties
             style={{
               '--percent': `${percentages}%`,
             }}

@@ -27,7 +27,7 @@ function Heading({
         id={id}
         className={headerTitleStyle}
         style={{
-          // @ts-expect-error CSS Custom Properties
+          // @ts-ignore CSS Custom Properties
           '--font-size': TitleTag === 'h1' || TitleTag === 'h2' ? 'var(--font-size-h4)' : 'var(--font-size-h5)',
           ...(!isWeightNormal && { '--font-weight': 'var(--font-weight-bold)' }),
         }}

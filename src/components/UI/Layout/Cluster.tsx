@@ -35,7 +35,7 @@ export const Cluster = memo(function Grid({ as = 'div', children, isWide, gap = 
       data-is-wide={isWide}
       {...props}
       style={{
-        // @ts-expect-error CSS custom property
+        // @ts-ignore CSS custom property
         '--cluster-space': `var(--space-${gap})`,
       }}
     >
