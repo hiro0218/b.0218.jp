@@ -45,7 +45,7 @@ const rehypeGfmAlert: Plugin = () => {
         'data-alert-type': label.toLowerCase(),
       };
 
-      // @ts-expect-error blockquoteをdivに変更する
+      // @ts-ignore blockquoteをdivに変更する
       node.tagName = 'div';
 
       // Prefixなラベルを付与したので重複した部分を削除する

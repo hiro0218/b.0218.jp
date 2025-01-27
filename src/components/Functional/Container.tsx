@@ -1,4 +1,4 @@
-import { styled } from '@/ui/styled/dynamic';
+import { styled } from '@/ui/styled/static';
 import { SPACE_STEPS } from '@/ui/styled/variables/space';
 import type { ReactNode } from 'react';
 
@@ -30,9 +30,9 @@ export const getSize = (size: Props['size']) => {
   return `calc(${sizeValue} * ${space1})`;
 };
 
-const _Container = styled.div<Props>`
-  max-width: ${({ size }) => size};
-  margin: var(--space-3) auto 0;
+const Root = styled.div`
+  max-width: var(--container-size);
+  margin-inline: auto;
 
   &[data-has-space='true'] {
     padding-inline: var(--space-3);
@@ -45,8 +45,15 @@ const _Container = styled.div<Props>`
 
 export const Container = ({ space = true, size, children, className }: Props) => {
   return (
-    <_Container className={className} data-has-space={space} size={size}>
+    <Root
+      className={className}
+      data-has-space={space}
+      style={{
+        // @ts-ignore CSS custom property
+        '--container-size': size,
+      }}
+    >
       {children}
-    </_Container>
+    </Root>
   );
 };
