@@ -31,7 +31,7 @@ export const getSize = (size: Props['size']) => {
 };
 
 const Root = styled.div`
-  max-width: var(--size);
+  max-width: var(--container-size);
   margin: var(--space-3) auto 0;
 
   &[data-has-space='true'] {
@@ -50,7 +50,7 @@ export const Container = ({ space = true, size, children, className }: Props) =>
       data-has-space={space}
       style={{
         // @ts-expect-error CSS custom property
-        '--size': size,
+        '--container-size': size,
       }}
     >
       {children}

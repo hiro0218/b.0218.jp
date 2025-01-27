@@ -14,8 +14,8 @@ export const Hero = function Hero() {
       <Avatar
         style={{
           // @ts-expect-error CSS Custom Properties
-          '--size': `${ICON_SIZE}px`,
-          '--size-shrink': `${ICON_SIZE_SHRINK}px`,
+          '--hero-size': `${ICON_SIZE}px`,
+          '--hero-size-shrink': `${ICON_SIZE_SHRINK}px`,
         }}
       >
         <img alt="hiro (black cat icon)" height={ICON_SIZE} src="/hiro0218.svg" width={ICON_SIZE} />
@@ -42,11 +42,11 @@ const ContainerStyle = css`
 
 const Avatar = styled.div`
   flex-shrink: 0;
-  width: var(--size);
+  width: var(--hero-size);
   user-select: none;
 
   @media (--isMobile) {
-    width: var(--size-shrink);
+    width: var(--hero-size-shrink);
   }
 
   img {

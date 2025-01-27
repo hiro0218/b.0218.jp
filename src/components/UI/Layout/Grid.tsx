@@ -13,7 +13,7 @@ type Props = {
 const gridStyle = css`
   display: grid;
   grid-template-columns: repeat(2, minmax(calc(50% - var(--space-1)), max-content));
-  gap: var(--gap);
+  gap: var(--grid-gap);
 
   @media (--isMobile) {
     grid-template-columns: minmax(100%, max-content);
@@ -31,7 +31,7 @@ export const Grid = ({ as = 'div', role, children, gap, ...props }: Props) => {
       className={gridStyle}
       style={{
         // @ts-expect-error CSS Custom Properties
-        '--gap': spaceGap,
+        '--grid-gap': spaceGap,
       }}
     >
       {children}
