@@ -1,10 +1,8 @@
 import type { AriaRole, ComponentProps, ReactNode } from 'react';
 
-import { Anchor as _Anchor } from '@/components/UI/Anchor';
+import { Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
-import { isContainer } from '@/ui/lib/mediaQuery';
-import { lineClamp } from '@/ui/mixin';
-import { styled } from '@/ui/styled/dynamic';
+import { css, cx, styled } from '@/ui/styled/static';
 
 type PostDateProps = ComponentProps<typeof PostDate>;
 
@@ -31,11 +29,13 @@ function LinkCard({
   titleTagName = 'h3',
   showNewLabel = false,
 }: Props) {
+  const Title = titleTagName;
+
   return (
     <Container role={role} data-is-new={showNewLabel}>
       <PostDate date={date} updated={updated} />
-      <Anchor href={link} prefetch={false}>
-        <Title as={titleTagName}>{title}</Title>
+      <Anchor className={anchorStyle} href={link} prefetch={false}>
+        <Title className={cx('line-clamp-2', titleStyle)}>{title}</Title>
       </Anchor>
       {!!excerpt && (
         <Paragraph className="text-ellipsis" {...(typeof excerpt !== 'string' && { as: 'div' })}>
@@ -58,7 +58,6 @@ function LinkCard({
 export default LinkCard;
 
 const Container = styled.article`
-  container-type: inline-size;
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
@@ -73,10 +72,6 @@ const Container = styled.article`
   transition:
     box-shadow 0.4s var(--easing-ease-out-expo),
     padding 0.4s var(--easing-ease-out-expo);
-
-  ${isContainer['@3xl']} {
-    padding: var(--space-3);
-  }
 
   &[data-is-new='true'] {
     &::before {
@@ -113,7 +108,7 @@ const Container = styled.article`
   }
 `;
 
-const Anchor = styled(_Anchor)`
+const anchorStyle = css`
   transition: text-decoration-line 0.4s linear;
 
   &::before {
@@ -140,9 +135,7 @@ const Anchor = styled(_Anchor)`
   }
 `;
 
-const Title = styled.h3`
-  ${lineClamp(2)}
-
+const titleStyle = css`
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-md);

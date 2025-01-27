@@ -1,10 +1,7 @@
-import type { AriaRole, ReactNode } from 'react';
-import { type ElementType, memo } from 'react';
-
-import { isMobile } from '@/ui/lib/mediaQuery';
-import { styled } from '@/ui/styled/dynamic';
+import { css } from '@/ui/styled/static';
 import type { SpaceGap } from '@/ui/styled/variables/space';
 import { SPACE_KEYS } from '@/ui/styled/variables/space';
+import type { AriaRole, ElementType, ReactNode } from 'react';
 
 type Props = {
   as?: ElementType;
@@ -13,24 +10,31 @@ type Props = {
   children: ReactNode;
 };
 
-export const Grid = memo(function Grid({ as = 'div', role, children, gap, ...props }: Props) {
-  const spaceGap = SPACE_KEYS.includes(`--space-${gap}`) ? gap : gap === 0 ? null : 1;
-
-  return (
-    <GridRoot as={as} gap={spaceGap} role={role} {...props}>
-      {children}
-    </GridRoot>
-  );
-});
-
-const GridRoot = styled.div<Props>`
-  container-type: inline-size;
+const gridStyle = css`
   display: grid;
   grid-template-columns: repeat(2, minmax(calc(50% - var(--space-1)), max-content));
-  gap: ${({ gap = 1 }) => gap && `var(--space-${gap})`};
+  gap: var(--grid-gap);
 
-  ${isMobile} {
+  @media (--isMobile) {
     grid-template-columns: minmax(100%, max-content);
-    gap: ${({ gap = 1 }) => gap && `var(--space-${gap})`};
   }
 `;
+
+export const Grid = ({ as = 'div', role, children, gap, ...props }: Props) => {
+  const GridTag = as;
+  const spaceGap = SPACE_KEYS.includes(`--space-${gap}`) ? `var(--space-${gap})` : gap === 0 ? null : `var(--space-1)`;
+
+  return (
+    <GridTag
+      role={role}
+      {...props}
+      className={gridStyle}
+      style={{
+        // @ts-expect-error CSS Custom Properties
+        '--grid-gap': spaceGap,
+      }}
+    >
+      {children}
+    </GridTag>
+  );
+};

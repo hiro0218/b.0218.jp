@@ -66,7 +66,7 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
         <GoogleAnalytics trackPageViews={{ ignoreHashChange: true }} />
         <Layout>
           <Header />
-          <main>{getLayout(<Component {...pageProps} />)}</main>
+          {getLayout(<Component {...pageProps} />)}
           <PageScroll />
           <Footer />
         </Layout>

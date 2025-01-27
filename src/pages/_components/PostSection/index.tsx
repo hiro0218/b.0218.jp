@@ -37,6 +37,9 @@ export const PostSection = ({
       .map((post: PostListProps) => getYMD(updateTarget === 'updated' ? post.updated : post.date))
       .sort((a, b) => b.localeCompare(a))[0];
 
+  // 次のheadingLevelを取得
+  const nextHeadingLevel = `h${Number(headingLevel[1]) + 1}` as Props['headingLevel'];
+
   return (
     <Stack as={as} space={2}>
       {!!heading && (
@@ -59,7 +62,7 @@ export const PostSection = ({
               link={`${slug}.html`}
               tags={tags}
               title={title}
-              titleTagName="h4"
+              titleTagName={nextHeadingLevel}
               updated={updated}
               showNewLabel={showNewLabel}
             />
