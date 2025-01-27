@@ -1,4 +1,4 @@
-import { styled } from '@/ui/styled/dynamic';
+import { styled } from '@/ui/styled/static';
 import { SPACE_STEPS } from '@/ui/styled/variables/space';
 import type { ReactNode } from 'react';
 
@@ -30,8 +30,8 @@ export const getSize = (size: Props['size']) => {
   return `calc(${sizeValue} * ${space1})`;
 };
 
-const _Container = styled.div<Props>`
-  max-width: ${({ size }) => size};
+const Root = styled.div`
+  max-width: var(--size);
   margin: var(--space-3) auto 0;
 
   &[data-has-space='true'] {
@@ -45,8 +45,15 @@ const _Container = styled.div<Props>`
 
 export const Container = ({ space = true, size, children, className }: Props) => {
   return (
-    <_Container className={className} data-has-space={space} size={size}>
+    <Root
+      className={className}
+      data-has-space={space}
+      style={{
+        // @ts-expect-error CSS custom property
+        '--size': size,
+      }}
+    >
       {children}
-    </_Container>
+    </Root>
   );
 };
