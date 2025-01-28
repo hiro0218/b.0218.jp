@@ -1,11 +1,11 @@
-import type { AriaRole, ReactNode } from 'react';
+import type { AriaRole, ElementType, ReactNode } from 'react';
 import { memo } from 'react';
 
 import { css } from '@/ui/styled/static';
 import type { SpaceGap } from '@/ui/styled/variables/space';
 
 type Props = {
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
   gap?: SpaceGap;
   role?: AriaRole;
   isWide?: boolean;
