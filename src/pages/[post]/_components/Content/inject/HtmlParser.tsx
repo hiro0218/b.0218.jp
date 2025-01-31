@@ -1,11 +1,11 @@
 import { parseJSON } from '@/lib/parseJSON';
-import { Alert } from '@/pages/[post]/_components/Alert';
+import { Alert, type AlertType } from '@/pages/[post]/_components/Alert';
 import reactHtmlParser, { type HTMLReactParserOptions, Element, domToReact, type DOMNode } from 'html-react-parser';
 
 type AlertDataProps = {
   type: 'alert';
   data: {
-    type: 'note' | 'tip' | 'important' | 'warning' | 'caution';
+    type: AlertType;
     text: string;
   };
 };

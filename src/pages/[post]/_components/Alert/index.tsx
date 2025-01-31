@@ -8,8 +8,10 @@ import {
 } from '@/ui/icons';
 import { styled } from '@/ui/styled/static';
 
+export type AlertType = 'note' | 'tip' | 'important' | 'warning' | 'caution';
+
 type Props = {
-  type: 'note' | 'tip' | 'important' | 'warning' | 'caution';
+  type: AlertType;
   text: string;
 };
 
