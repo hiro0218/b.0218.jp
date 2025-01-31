@@ -11,9 +11,13 @@ type AlertDataProps = {
 };
 
 const reactHtmlParserOptions: HTMLReactParserOptions = {
-  replace: (domNode: DOMNode) => {
+  replace: (domNode) => {
+    if (!(domNode instanceof Element && domNode.attribs)) {
+      return domNode;
+    }
+
     // Alert
-    if (domNode instanceof Element && domNode.attribs && domNode.attribs.class === 'gfm-alert') {
+    if (domNode.attribs.class === 'gfm-alert') {
       const json = parseJSON<AlertDataProps>(domToReact(domNode.children as DOMNode[]) as string);
 
       return <Alert type={json.data.type} text={json.data.text} />;
