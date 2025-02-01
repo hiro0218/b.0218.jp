@@ -1,5 +1,4 @@
 import type { Element, ElementContent } from 'hast';
-import { h } from 'hastscript';
 
 import { getHTML, getMeta } from './dom';
 import { handleError } from './handleError';
@@ -14,50 +13,38 @@ type OgpKey = keyof OpgProps;
 
 const SKIP_DOMAINS: string[] = [];
 
-const PREVIEW_LINK_BLOCK_CLASS_NAME = 'p-link-preview';
-const PREVIEW_LINK_CLASS_NAMES = {
-  // biome-ignore lint/style/useNamingConvention: <explanation>
-  BLOCK: PREVIEW_LINK_BLOCK_CLASS_NAME,
-  // biome-ignore lint/style/useNamingConvention: <explanation>
-  THUMBNAIL: `${PREVIEW_LINK_BLOCK_CLASS_NAME}-thumbnail`,
-  // biome-ignore lint/style/useNamingConvention: <explanation>
-  BODY: {
-    // biome-ignore lint/style/useNamingConvention: <explanation>
-    BLOCK: `${PREVIEW_LINK_BLOCK_CLASS_NAME}-body`,
-    // biome-ignore lint/style/useNamingConvention: <explanation>
-    URL: `${PREVIEW_LINK_BLOCK_CLASS_NAME}-body__url`,
-    // biome-ignore lint/style/useNamingConvention: <explanation>
-    TITLE: `${PREVIEW_LINK_BLOCK_CLASS_NAME}-body__title`,
-    // biome-ignore lint/style/useNamingConvention: <explanation>
-    DESCRIPTION: `${PREVIEW_LINK_BLOCK_CLASS_NAME}-body__description`,
-  },
-};
-
-const setPreviewLinkNodes = (node: Element, index: number, parent: Element, domain: string, ogp: OpgProps) => {
+const setPreviewLinkNodes = (node: Element, domain: string, ogp: OpgProps) => {
   if (Object.keys(ogp).length === 0) return;
   if (!ogp.title) return;
 
-  const properties = node.properties;
+  const href = node.properties.href as string;
 
-  node.properties = {};
-  node.tagName = 'p';
-  const template = h(
-    'a',
-    { ...properties, class: PREVIEW_LINK_CLASS_NAMES.BLOCK, 'data-card': ogp?.card || 'summary' },
-    [
-      h('span', { class: PREVIEW_LINK_CLASS_NAMES.THUMBNAIL }, [
-        h('img', { src: ogp.image, alt: '', loading: 'lazy', decoding: 'async' }),
-      ]),
-      h('span', { class: PREVIEW_LINK_CLASS_NAMES.BODY.BLOCK }, [
-        h('span', { class: PREVIEW_LINK_CLASS_NAMES.BODY.URL }, domain),
-        h('span', { class: PREVIEW_LINK_CLASS_NAMES.BODY.TITLE }, ogp.title),
-        ogp.description && h('span', { class: PREVIEW_LINK_CLASS_NAMES.BODY.DESCRIPTION }, ogp.description),
-      ]),
-    ],
-  );
-  node.children = [template] as ElementContent[];
+  try {
+    node.properties = {
+      className: 'link-preview',
+    };
+    node.tagName = 'script';
+    node.properties.type = 'application/json';
 
-  parent.children.splice(index, 1, ...node.children);
+    const data = {
+      type: 'text',
+      value: JSON.stringify({
+        type: 'link-preview',
+        data: {
+          card: ogp?.card || 'summary',
+          link: href,
+          thumbnail: ogp.image,
+          title: ogp.title,
+          description: ogp.description ? ogp.description.substring(0, 50) : '',
+          domain: domain,
+        },
+      }),
+    };
+
+    node.children = [data] as ElementContent[];
+  } catch (error) {
+    handleError(error, href);
+  }
 };
 
 const canTransformLinkPreview = (node: Element, index: number, parent: Element) => {
@@ -143,7 +130,7 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
 
     if (SKIP_DOMAINS.includes(domain)) return;
 
-    setPreviewLinkNodes(node, index, parent, domain, ogp);
+    setPreviewLinkNodes(node, domain, ogp);
   } catch (error) {
     handleError(error, href);
     SKIP_DOMAINS.push(new URL(href).hostname);

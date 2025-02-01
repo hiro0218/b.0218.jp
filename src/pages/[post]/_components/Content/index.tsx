@@ -1,12 +1,12 @@
-import { type DOMAttributes, useRef } from 'react';
+import { useRef } from 'react';
 
 import { Adsense } from '@/components/UI/Adsense';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
+import { splitReactNode } from '@/pages/[post]/_libs/splitHtml';
 import type { PostProps } from '@/types/source';
-
 import { styled } from '@/ui/styled/static';
-import { splitHtml } from '../../_libs/splitHtml';
 import Mokuji from '../Mokuji';
+import { parser } from './inject';
 import PostContentStyle from './style';
 
 type Props = {
@@ -14,18 +14,9 @@ type Props = {
   content: PostProps['content'];
 };
 
-const ContentSection = ({ html }: { html: DOMAttributes<HTMLDivElement>['dangerouslySetInnerHTML']['__html'] }) => (
-  <div
-    className="post-content"
-    css={PostContentStyle}
-    dangerouslySetInnerHTML={{
-      __html: html,
-    }}
-  />
-);
-
 export default function Content({ enableMokuji = true, content }: Props) {
-  const { before, after } = splitHtml(content);
+  const reactNodeContent = parser(content);
+  const { before, after } = splitReactNode(reactNodeContent);
   const ref = useRef<HTMLDivElement>(null);
   useTwitterWidgetsLoad({ ref });
 
@@ -33,13 +24,17 @@ export default function Content({ enableMokuji = true, content }: Props) {
     <>
       {enableMokuji && <Mokuji refContent={ref} />}
       <section ref={ref}>
-        <ContentSection html={before} />
+        <div className="post-content" css={PostContentStyle}>
+          {before}
+        </div>
         {!!after && (
           <>
             <AdsenseContainer>
               <Adsense />
             </AdsenseContainer>
-            <ContentSection html={after} />
+            <div className="post-content" css={PostContentStyle}>
+              {after}
+            </div>
           </>
         )}
       </section>

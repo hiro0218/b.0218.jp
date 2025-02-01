@@ -6,6 +6,21 @@ import { visit } from 'unist-util-visit';
 const PREFIX_REGEX = /\[!(?<kind>[\w]+)\](?<collapsable>-{0,1})\s*(?<title>.*)/g;
 const PREFIX = ['[!NOTE]', '[!IMPORTANT]', '[!WARNING]', '[!TIP]', '[!CAUTION]'];
 
+/**
+ *
+ * @example
+ * ```html
+ * <script type="application/json">
+ * {
+ *   "type": "alert",
+ *   "data": {
+ *     "type": "note",
+ *     "text": "This is a note."
+ *   }
+ * }
+ * </script>
+ * ```
+ */
 const rehypeGfmAlert: Plugin = () => {
   return (tree) => {
     visit(tree, (node) => {
@@ -45,27 +60,63 @@ const rehypeGfmAlert: Plugin = () => {
         'data-alert-type': label.toLowerCase(),
       };
 
-      // @ts-ignore blockquoteをdivに変更する
-      node.tagName = 'div';
+      // @ts-ignore blockquoteを<script type="application/json">に変更する
+      node.tagName = 'script';
+      node.properties.type = 'application/json';
 
-      // Prefixなラベルを付与したので重複した部分を削除する
-      node.children[0].children = removeLabelElement(node.children[0].children);
+      const text = node.children
+        .map((c) => {
+          if (c.type === 'element') {
+            return removeLabelElement(c.children)
+              .map((cc) => {
+                if (cc.type === 'text') {
+                  return cc.value;
+                }
+
+                if (cc.type === 'element') {
+                  const childrenText = cc.children
+                    .map((ccc) => {
+                      if (ccc.type === 'text') {
+                        return ccc.value;
+                      }
+                      return '';
+                    })
+                    .join('');
+
+                  switch (cc.tagName) {
+                    case 'a':
+                      return `<a href="${cc.properties.href}">${childrenText}</a>`;
+                    case 'img':
+                      return `<img src="${cc.properties.src}" alt="${cc.properties.alt}" />`;
+                    case 'br':
+                      return '<br />';
+                    case 'strong':
+                      return `<strong>${childrenText}</strong>`;
+                    case 'code':
+                      return `<code>${childrenText}</code>`;
+                    default:
+                      return childrenText;
+                  }
+                }
+
+                return '';
+              })
+              .join('');
+          }
+        })
+        .join('');
 
       node.children = [
         {
-          type: 'element',
-          tagName: 'span',
-          properties: {
-            className: 'gfm-alert-title',
-          },
-          children: [
-            {
-              type: 'text',
-              value: toUpperFirstLetter(label),
+          type: 'text',
+          value: JSON.stringify({
+            type: 'alert',
+            data: {
+              type: label.toLowerCase(),
+              text: text,
             },
-          ],
+          }),
         },
-        ...node.children,
       ];
     });
   };
@@ -79,10 +130,6 @@ const getAlertLabel = (prefix: string) => {
   }
 
   return '';
-};
-
-const toUpperFirstLetter = (text: string) => {
-  return text.charAt(0).toUpperCase() + text.substring(1).toLowerCase();
 };
 
 const removeLabelElement = (node: ElementContent[]) => {
