@@ -12,7 +12,7 @@ export const LinkPreview = ({ link, card, thumbnail, title, domain, description 
     <a href={link} target="_blank" className="p-link-preview" data-card={card}>
       <span className="p-link-preview-body">
         <span className="p-link-preview-body__title">{title}</span>
-        <span className="p-link-preview-body__description">{description}</span>
+        {description && <span className="p-link-preview-body__description">{description}</span>}
         <span className="p-link-preview-body__url">{domain}</span>
       </span>
       <span className="p-link-preview-thumbnail">
