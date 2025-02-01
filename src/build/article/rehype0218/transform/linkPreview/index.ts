@@ -34,7 +34,7 @@ const setPreviewLinkNodes = (node: Element, domain: string, ogp: OpgProps) => {
         link: href,
         thumbnail: ogp.image,
         title: ogp.title,
-        description: ogp.description,
+        description: ogp.description.substring(0, 50),
         domain: domain,
       },
     }),
