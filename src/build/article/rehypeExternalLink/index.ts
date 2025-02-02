@@ -2,7 +2,7 @@ import { SITE_URL } from '@/constant';
 import type { Element, Root } from 'hast';
 import { visit } from 'unist-util-visit';
 
-export default function rehypeRemoveComments() {
+export default function rehypeExternalLink() {
   return function (tree: Root) {
     visit(tree, 'element', function (node: Element) {
       if (
