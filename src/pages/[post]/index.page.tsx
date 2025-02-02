@@ -49,6 +49,7 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
         <meta content={AUTHOR_NAME} name="twitter:data1" />
         <meta content="Reading time" name="twitter:label2" />
         <meta content={`${readingTime} ${READ_TIME_SUFFIX}`} name="twitter:data2" />
+        <meta name="robots" content="max-image-preview:large" />
         {isNoindex ? <meta content="noindex" name="robots" /> : <link href={permalink} rel="canonical" />}
         <script
           dangerouslySetInnerHTML={{
