@@ -6,6 +6,7 @@ import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
+import { parser } from '@/pages/[post]/_components/Content/inject';
 import PostContentStyle from '@/pages/[post]/_components/Content/style';
 import { MainContainer } from '@/pages/_components/MainContainer';
 
@@ -27,6 +28,7 @@ export const createGetLayout = (layoutProps: LayoutProps): (() => ReactElement) 
 
 function Layout({ slug, title }: LayoutProps) {
   const { content } = pages.get(slug);
+  const reactNodeContent = parser(content);
   const { heading, paragraph } = title;
   const size = getSize('small');
 
@@ -40,13 +42,9 @@ function Layout({ slug, title }: LayoutProps) {
         <Stack space={4}>
           <Title heading={heading} paragraph={paragraph} />
           <Stack as="article" space={2}>
-            <div
-              className="post-content"
-              css={PostContentStyle}
-              dangerouslySetInnerHTML={{
-                __html: content,
-              }}
-            />
+            <div className="post-content" css={PostContentStyle}>
+              {reactNodeContent}
+            </div>
           </Stack>
         </Stack>
       </Container>

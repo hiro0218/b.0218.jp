@@ -1,6 +1,7 @@
 import type { Element, Root } from 'hast';
 import { visit } from 'unist-util-visit';
 
+import { SITE_URL } from '@/constant';
 import transformCodeblock from './transform/codeblock';
 import transformImage from './transform/image';
 import transformLinkPreview from './transform/linkPreview';
@@ -16,6 +17,12 @@ const rehype0218 = () => {
       const parent = giveParent as Element;
 
       if (node.tagName === 'a' && node.children.length > 0) {
+        // 同サイトのリンクは絶対パスに変換する
+        if (typeof node.properties.href === 'string' && node.properties.href.includes(SITE_URL)) {
+          const href = node.properties.href.replace(SITE_URL, '');
+          node.properties.href = href;
+        }
+
         if (node.children[0]?.type === 'text') {
           nodes.add({ node, index, parent });
         }

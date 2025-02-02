@@ -17,30 +17,34 @@ const setPreviewLinkNodes = (node: Element, domain: string, ogp: OpgProps) => {
   if (Object.keys(ogp).length === 0) return;
   if (!ogp.title) return;
 
-  const href = node.properties.href;
+  const href = node.properties.href as string;
 
-  node.properties = {
-    className: 'link-preview',
-  };
-  node.tagName = 'script';
-  node.properties.type = 'application/json';
+  try {
+    node.properties = {
+      className: 'link-preview',
+    };
+    node.tagName = 'script';
+    node.properties.type = 'application/json';
 
-  const data = {
-    type: 'text',
-    value: JSON.stringify({
-      type: 'link-preview',
-      data: {
-        card: ogp?.card || 'summary',
-        link: href,
-        thumbnail: ogp.image,
-        title: ogp.title,
-        description: ogp.description,
-        domain: domain,
-      },
-    }),
-  };
+    const data = {
+      type: 'text',
+      value: JSON.stringify({
+        type: 'link-preview',
+        data: {
+          card: ogp?.card || 'summary',
+          link: href,
+          thumbnail: ogp.image,
+          title: ogp.title,
+          description: ogp.description ? ogp.description.substring(0, 50) : '',
+          domain: domain,
+        },
+      }),
+    };
 
-  node.children = [data] as ElementContent[];
+    node.children = [data] as ElementContent[];
+  } catch (error) {
+    handleError(error, href);
+  }
 };
 
 const canTransformLinkPreview = (node: Element, index: number, parent: Element) => {

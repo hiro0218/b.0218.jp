@@ -2,7 +2,7 @@ import {
   ChatBubbleLeft,
   ExclamationCircle,
   ExclamationTriangle,
-  ICON_SIZE_XS,
+  ICON_SIZE_SM,
   InformationCircle,
   LightBulb,
 } from '@/ui/icons';
@@ -20,15 +20,15 @@ export const Alert = ({ type, text }: Props) => {
     switch (type) {
       case 'note':
       case 'tip':
-        return <InformationCircle height={ICON_SIZE_XS} width={ICON_SIZE_XS} />;
+        return <InformationCircle height={ICON_SIZE_SM} width={ICON_SIZE_SM} />;
       case 'important':
-        return <LightBulb height={ICON_SIZE_XS} width={ICON_SIZE_XS} />;
+        return <LightBulb height={ICON_SIZE_SM} width={ICON_SIZE_SM} />;
       case 'warning':
-        return <ExclamationTriangle height={ICON_SIZE_XS} width={ICON_SIZE_XS} />;
+        return <ExclamationTriangle height={ICON_SIZE_SM} width={ICON_SIZE_SM} />;
       case 'caution':
-        return <ExclamationCircle height={ICON_SIZE_XS} width={ICON_SIZE_XS} />;
+        return <ExclamationCircle height={ICON_SIZE_SM} width={ICON_SIZE_SM} />;
       default:
-        return <ChatBubbleLeft height={ICON_SIZE_XS} width={ICON_SIZE_XS} />;
+        return <ChatBubbleLeft height={ICON_SIZE_SM} width={ICON_SIZE_SM} />;
     }
   })();
 
@@ -49,6 +49,9 @@ export const Alert = ({ type, text }: Props) => {
 const Container = styled.div`
   --alert-color: var(--color-alert-note);
 
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
   padding: var(--space-1) var(--space-3);
   border-left: var(--space-½) solid var(--alert-color);
 
@@ -68,14 +71,19 @@ const Container = styled.div`
     --alert-color: var(--color-alert-caution);
   }
 
+  & > :where(*) {
+    margin: 0;
+  }
+
   p {
     font-size: var(--font-size-sm);
   }
 `;
 
 const Title = styled.div`
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  font-size: var(--font-size-md);
   font-weight: var(--font-weight-bold);
   color: var(--alert-color);
   text-transform: capitalize;
