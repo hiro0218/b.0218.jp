@@ -34,19 +34,23 @@ export default function Archive() {
             const currentYear = `${year}年`;
             return (
               <Sidebar key={year}>
-                <Sidebar.Title id={currentYear}>{currentYear}</Sidebar.Title>
-                <Stack space={2}>
-                  {archives[year].map(({ slug, title, date, updated, tags }: PostListProps) => (
-                    <LinkCard
-                      date={date}
-                      key={slug}
-                      link={`/${slug}.html`}
-                      tags={tags}
-                      title={title}
-                      updated={updated}
-                    />
-                  ))}
-                </Stack>
+                <Sidebar.Side>
+                  <Sidebar.Title id={currentYear}>{currentYear}</Sidebar.Title>
+                </Sidebar.Side>
+                <Sidebar.Main>
+                  <Stack space={2}>
+                    {archives[year].map(({ slug, title, date, updated, tags }: PostListProps) => (
+                      <LinkCard
+                        date={date}
+                        key={slug}
+                        link={`/${slug}.html`}
+                        tags={tags}
+                        title={title}
+                        updated={updated}
+                      />
+                    ))}
+                  </Stack>
+                </Sidebar.Main>
               </Sidebar>
             );
           })}

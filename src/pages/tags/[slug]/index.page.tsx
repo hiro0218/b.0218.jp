@@ -57,8 +57,12 @@ export default function Tags({ title, posts }: Props) {
       <Stack as="section" space={4}>
         <Title heading={pageTitle} paragraph={`${totalItems}件の記事`} />
         <Sidebar>
-          <Sidebar.Title>{title}</Sidebar.Title>
-          <Stack space={2}>{paginationPosts}</Stack>
+          <Sidebar.Side>
+            <Sidebar.Title>{title}</Sidebar.Title>
+          </Sidebar.Side>
+          <Sidebar.Main>
+            <Stack space={2}>{paginationPosts}</Stack>
+          </Sidebar.Main>
         </Sidebar>
         <Pagination
           onPageChange={handlePageChange}
