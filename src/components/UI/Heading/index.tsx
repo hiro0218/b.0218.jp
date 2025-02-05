@@ -56,7 +56,7 @@ function Heading({
 
 export default Heading;
 
-const Container = styled.div`
+const Container = styled.hgroup`
   display: flex;
   align-items: center;
 `;
