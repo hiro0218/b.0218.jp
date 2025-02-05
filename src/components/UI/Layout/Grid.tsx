@@ -1,4 +1,4 @@
-import { css } from '@/ui/styled/static';
+import { css, cx } from '@/ui/styled/static';
 import type { SpaceGap } from '@/ui/styled/variables/space';
 import { SPACE_KEYS } from '@/ui/styled/variables/space';
 import type { AriaRole, ReactNode } from 'react';
@@ -7,6 +7,7 @@ type Props = {
   as?: keyof JSX.IntrinsicElements;
   gap?: SpaceGap | 0;
   role?: AriaRole;
+  className?: string;
   children: ReactNode;
 };
 
@@ -20,7 +21,7 @@ const gridStyle = css`
   }
 `;
 
-export const Grid = ({ as = 'div', role, children, gap, ...props }: Props) => {
+export const Grid = ({ as = 'div', role, children, gap, className, ...props }: Props) => {
   const GridTag = as;
   const spaceGap = SPACE_KEYS.includes(`--space-${gap}`) ? `var(--space-${gap})` : gap === 0 ? null : `var(--space-1)`;
 
@@ -28,7 +29,7 @@ export const Grid = ({ as = 'div', role, children, gap, ...props }: Props) => {
     <GridTag
       role={role}
       {...props}
-      className={gridStyle}
+      className={cx(className, gridStyle)}
       style={{
         // @ts-ignore CSS Custom Properties
         '--grid-gap': spaceGap,
