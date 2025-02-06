@@ -32,9 +32,9 @@ export default function Index() {
       <h1 className="sr-only">トップページ</h1>
 
       <Stack space={5}>
-        <Stack as="section">
+        <section>
           <Hero />
-        </Stack>
+        </section>
         <Sidebar>
           <Sidebar.Main>
             <Stack space={4}>
