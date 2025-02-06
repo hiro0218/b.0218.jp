@@ -28,7 +28,7 @@ export const TagSection = ({
   }
 
   return (
-    <Stack as={as} space={2}>
+    <Stack as={as}>
       {!!heading && (
         <Heading
           as={headingLevel}

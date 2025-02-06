@@ -41,7 +41,7 @@ function Layout({ slug, title }: LayoutProps) {
         </Head>
         <Stack space={4}>
           <Title heading={heading} paragraph={paragraph} />
-          <Stack as="article" space={2}>
+          <Stack as="article">
             <div className="post-content" css={PostContentStyle}>
               {reactNodeContent}
             </div>

@@ -61,7 +61,7 @@ export default function Tags({ title, posts }: Props) {
             <Sidebar.Title>{title}</Sidebar.Title>
           </Sidebar.Side>
           <Sidebar.Main>
-            <Stack space={2}>{paginationPosts}</Stack>
+            <Stack>{paginationPosts}</Stack>
           </Sidebar.Main>
         </Sidebar>
         <Pagination
