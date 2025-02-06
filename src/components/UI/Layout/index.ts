@@ -1,3 +1,4 @@
+export { Box } from './Box';
 export { Cluster } from './Cluster';
 export { Grid } from './Grid';
 export { Sidebar } from './Sidebar';
