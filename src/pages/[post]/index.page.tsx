@@ -65,12 +65,16 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
             <PostHeader
               date={date}
               readingTime={readingTime}
-              render={ShareComponent}
+              render={
+                <>
+                  {ShareComponent}
+                  {!!note && <PostNote note={note} />}
+                </>
+              }
               tagsWithCount={tagsWithCount}
               title={title}
               updated={updated}
             />
-            {!!note && <PostNote note={note} />}
             <PostContent content={content} />
             <Stack direction="horizontal" justify="space-between">
               {ShareComponent}
