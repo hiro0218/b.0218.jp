@@ -1,6 +1,7 @@
 import { Stack } from '@/components/UI/Layout';
 import { convertDateToSimpleFormat, isSameDay } from '@/lib/date';
 import type { PostProps } from '@/types/source';
+import { css } from '@/ui/styled/static';
 
 type Props = Pick<PostProps, 'date' | 'updated'>;
 
@@ -12,10 +13,13 @@ function PostDate({ date, updated }: Props) {
   return (
     <Stack direction="horizontal" space={1}>
       <time
+        className={
+          hasModified &&
+          css`
+            text-decoration: line-through;
+          `
+        }
         dateTime={date}
-        style={{
-          ...(hasModified && { textDecoration: 'line-through' }),
-        }}
         title={`投稿日時: ${date}`}
       >
         {convertDateToSimpleFormat(dateTime)}
