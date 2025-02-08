@@ -67,7 +67,8 @@ const reactHtmlParserOptions: HTMLReactParserOptions = {
     // iframe: CodePen
     if (
       domNode.tagName === 'iframe' &&
-      domNode.attribs.src.includes('https://codepen.io') &&
+      typeof domNode.attribs?.src === 'string' &&
+      domNode.attribs.src.includes('//codepen.io') &&
       domNode.children[0] instanceof Text
     ) {
       // ハイドレーション時にエスケープ文字が不一致しない場合があるため埋める
