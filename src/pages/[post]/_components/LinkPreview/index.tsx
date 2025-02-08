@@ -16,7 +16,7 @@ export const LinkPreview = ({ link, card, thumbnail, title, domain, description 
         <span className="p-link-preview-body__url">{domain}</span>
       </span>
       <span className="p-link-preview-thumbnail">
-        <img src={thumbnail} alt="" loading="lazy" decoding="async" />
+        <img src={thumbnail} alt="" width="120" height="120" loading="lazy" decoding="async" />
       </span>
     </a>
   );
