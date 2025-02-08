@@ -14,10 +14,11 @@ function PostDate({ date, updated }: Props) {
     <Stack direction="horizontal" space={1}>
       <time
         className={
-          hasModified &&
-          css`
-            text-decoration: line-through;
-          `
+          hasModified
+            ? css`
+                text-decoration: line-through;
+              `
+            : ''
         }
         dateTime={date}
         title={`投稿日時: ${date}`}
