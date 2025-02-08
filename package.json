@@ -65,7 +65,7 @@
     "@types/twitter-for-web": "0.0.6",
     "browserslist": "4.24.4",
     "dependency-cruiser": "16.9.0",
-    "esbuild": "0.24.2",
+    "esbuild": "0.25.0",
     "esbuild-register": "3.6.0",
     "fdir": "6.4.3",
     "feed": "4.2.2",
