@@ -27,7 +27,7 @@ const clusterStyle = css`
   }
 `;
 
-export const Cluster = memo(function Grid({ as = 'div', children, isWide, gap = 1, className, ...props }: Props) {
+export const Cluster = memo(function Grid({ as = 'div', children = '', isWide, gap = 1, className, ...props }: Props) {
   const Tag = as;
 
   return (

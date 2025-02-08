@@ -49,7 +49,7 @@ export const Stack = ({
   align,
   justify = 'flex-start',
   wrap,
-  className,
+  className = '',
   ...props
 }: Props) => {
   const Tag = as;
