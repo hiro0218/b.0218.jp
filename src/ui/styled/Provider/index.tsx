@@ -2,7 +2,6 @@ import { CacheProvider, ThemeProvider } from '@emotion/react';
 import type { ReactNode } from 'react';
 
 import type createEmotionCache from '@/ui/lib/createEmotionCache';
-import { theme } from '@/ui/themes';
 
 type Props = {
   children: ReactNode;
@@ -12,7 +11,7 @@ type Props = {
 export const StyledProvider = ({ emotionCache, children }: Props) => {
   return (
     <CacheProvider value={emotionCache}>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      <ThemeProvider theme={{}}>{children}</ThemeProvider>
     </CacheProvider>
   );
 };
