@@ -33,7 +33,7 @@ export const Cluster = memo(function Grid({ as = 'div', children = '', isWide, g
   return (
     <Tag
       className={cx(className, clusterStyle)}
-      data-is-wide={isWide}
+      {...(isWide && { 'data-is-wide': isWide })}
       {...props}
       style={{
         // @ts-ignore CSS custom property

@@ -32,7 +32,7 @@ function LinkCard({
   const Title = titleTagName;
 
   return (
-    <Container role={role} data-is-new={showNewLabel}>
+    <Container role={role} {...(showNewLabel && { 'data-is-new': showNewLabel })}>
       <PostDate date={date} updated={updated} />
       <Anchor className={anchorStyle} href={link} prefetch={false}>
         <Title className={cx('line-clamp-2', titleStyle)}>{title}</Title>
