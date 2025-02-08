@@ -45,9 +45,10 @@ export const PostSection = ({
         <Heading
           as={headingLevel}
           isWeightNormal={headingWeight === 'normal'}
-          text={heading}
           textSide={href && <LinkMore href={href} text="すべて見る" />}
-        />
+        >
+          {heading}
+        </Heading>
       )}
       <Box mt={2}>
         <Grid gap={2}>

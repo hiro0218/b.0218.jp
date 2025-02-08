@@ -6,7 +6,7 @@ import { css, styled } from '@/ui/styled/static';
 type Props = {
   id?: HTMLHeadingElement['id'];
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  text?: ReactNode;
+  children: ReactNode;
   textSide?: ReactNode;
   textSub?: ReactNode;
   isWeightNormal?: boolean;
@@ -15,7 +15,7 @@ type Props = {
 function Heading({
   id = undefined,
   as = 'h1',
-  text = undefined,
+  children,
   textSide = undefined,
   textSub = undefined,
   isWeightNormal = true,
@@ -32,10 +32,10 @@ function Heading({
           ...(!isWeightNormal && { '--font-weight': 'var(--font-weight-bold)' }),
         }}
       >
-        {text}
+        {children}
       </TitleTag>
     ),
-    [isWeightNormal, id, text],
+    [isWeightNormal, id],
   );
   return (
     <>

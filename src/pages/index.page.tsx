@@ -37,7 +37,7 @@ export default function Index() {
         </section>
         <Sidebar>
           <Sidebar.Main>
-            <Heading as="h2" text="記事" />
+            <Heading as="h2">記事</Heading>
             <Box mt={2}>
               <Stack space={4}>
                 <PostSection
