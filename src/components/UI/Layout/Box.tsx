@@ -39,11 +39,11 @@ const boxStyle = css`
   }
 `;
 
-export const Box = ({ as = 'div', mt, className, children, ...props }: Props) => {
+export const Box = ({ as = 'div', mt = undefined, className = '', children, ...props }: Props) => {
   const Tag = as;
 
   return (
-    <Tag data-mt={mt} className={cx(boxStyle, className)} {...props}>
+    <Tag {...(mt && { 'data-mt': mt })} className={cx(boxStyle, className)} {...props}>
       {children}
     </Tag>
   );
