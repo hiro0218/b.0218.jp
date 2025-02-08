@@ -2,7 +2,13 @@ import { Anchor } from '@/components/UI/Anchor';
 import { parseJSON } from '@/lib/parseJSON';
 import { Alert, type AlertType } from '@/pages/[post]/_components/Alert';
 import { LinkPreview } from '@/pages/[post]/_components/LinkPreview';
-import reactHtmlParser, { type HTMLReactParserOptions, Element, domToReact, type DOMNode } from 'html-react-parser';
+import reactHtmlParser, {
+  type HTMLReactParserOptions,
+  Element,
+  domToReact,
+  type DOMNode,
+  Text,
+} from 'html-react-parser';
 
 type AlertDataProps = {
   type: 'alert';
@@ -56,6 +62,16 @@ const reactHtmlParserOptions: HTMLReactParserOptions = {
           domain={json.data.domain}
         />
       );
+    }
+
+    // iframe: CodePen
+    if (
+      domNode.tagName === 'iframe' &&
+      domNode.attribs.src.includes('https://codepen.io') &&
+      domNode.children[0] instanceof Text
+    ) {
+      // ハイドレーション時にエスケープ文字が不一致しない場合があるため埋める
+      domNode.children[0].data = 'CodePen';
     }
 
     return domNode;
