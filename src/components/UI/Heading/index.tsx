@@ -14,13 +14,12 @@ type Props = {
 
 function Heading({
   id = undefined,
-  as = 'h1',
+  as: TitleTag = 'h1',
   children,
   textSide = undefined,
   textSub = undefined,
   isWeightNormal = true,
 }: Props) {
-  const TitleTag = as;
   const TitleComponent = useMemo(
     () => (
       <TitleTag
