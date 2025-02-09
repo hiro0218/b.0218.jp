@@ -1,6 +1,7 @@
 :root {
-  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans',
-    'BIZ UDPGothic', Meiryo, sans-serif, 'Segoe UI Emoji';
+  --font-family-sans-serif:
+    -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'BIZ UDPGothic', Meiryo,
+    sans-serif, 'Segoe UI Emoji';
   --font-family-monospace: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace, 'Segoe UI Emoji';
 
   --font-weight-normal: 400;

@@ -90,7 +90,7 @@
     "postcss-media-hover-any-hover": "0.2.2",
     "postcss-mixins": "11.0.3",
     "postcss-styled-syntax": "0.7.1",
-    "prettier": "3.4.2",
+    "prettier": "3.5.0",
     "reading-time": "1.5.0",
     "rehype-highlight": "7.0.2",
     "rehype-minify-whitespace": "6.0.2",
