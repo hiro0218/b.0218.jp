@@ -39,9 +39,7 @@ const boxStyle = css`
   }
 `;
 
-export const Box = ({ as = 'div', mt = undefined, className = '', children, ...props }: Props) => {
-  const Tag = as;
-
+export const Box = ({ as: Tag = 'div', mt = undefined, className = '', children, ...props }: Props) => {
   return (
     <Tag {...(mt && { 'data-mt': mt })} className={cx(boxStyle, className)} {...props}>
       {children}
