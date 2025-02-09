@@ -50,7 +50,8 @@ body {
     contain-intrinsic-size: 100% var(--height);
     contain: strict;
     content: '';
-    background-image: linear-gradient(to top, var(--body-background) 0, hsla(0, 0%, 100%, 0) 100%),
+    background-image:
+      linear-gradient(to top, var(--body-background) 0, hsla(0, 0%, 100%, 0) 100%),
       linear-gradient(to right, var(--background-accent-gradient-from) 0, var(--background-accent-gradient-to) 100%);
     isolation: isolate;
   }

@@ -13,6 +13,66 @@
     }
   }
 
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    position: relative;
+    font-feature-settings: 'palt';
+    font-kerning: normal;
+    line-height: var(--line-height-md);
+    letter-spacing: var(--letter-spacing-md);
+    word-break: auto-phrase; /* left -> pretty, center -> balance */
+    text-wrap: pretty;
+    scroll-margin-top: 1em;
+
+    & > code {
+      font-size: 1em;
+    }
+
+    & + :where(*) {
+      margin-top: auto;
+    }
+
+    & + :is(h2, h3, h4, h5, h6) {
+      margin-top: 0;
+    }
+  }
+
+  h2 {
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-3);
+    line-height: var(--line-height-md);
+
+    &:not(:has(+ h3)) {
+      border-bottom: 1px solid var(--color-gray-6);
+    }
+
+    &:first-of-type {
+      margin-top: auto;
+    }
+  }
+
+  h3 {
+    margin-top: var(--space-5);
+    margin-bottom: var(--space-3);
+    line-height: var(--line-height-sm);
+  }
+
+  h4,
+  h5 {
+    margin-top: var(--space-5);
+    margin-bottom: var(--space-2);
+    line-height: var(--line-height-sm);
+  }
+
+  h6 {
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-2);
+    line-height: var(--line-height-sm);
+  }
+
   > :where(p) {
     letter-spacing: var(--letter-spacing-md);
     /* stylelint-disable */

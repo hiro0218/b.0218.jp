@@ -1,7 +1,7 @@
 import Head from 'next/head';
 
 import Heading from '@/components/UI/Heading';
-import { Sidebar, Stack } from '@/components/UI/Layout';
+import { Box, Sidebar, Stack } from '@/components/UI/Layout';
 import { AUTHOR_ICON, SITE_URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
 import { PostSection } from '@/pages/_components/PostSection';
@@ -32,14 +32,14 @@ export default function Index() {
       <h1 className="sr-only">トップページ</h1>
 
       <Stack space={5}>
-        <Stack as="section">
+        <section>
           <Hero />
-        </Stack>
+        </section>
         <Sidebar>
           <Sidebar.Main>
-            <Stack space={4}>
-              <Stack>
-                <Heading as="h2" text="記事" />
+            <Heading as="h2">記事</Heading>
+            <Box mt={2}>
+              <Stack space={4}>
                 <PostSection
                   heading="最新記事"
                   headingLevel="h3"
@@ -48,8 +48,6 @@ export default function Index() {
                   posts={recentPosts}
                   updateTarget="date"
                 />
-              </Stack>
-              <Stack>
                 <PostSection
                   heading="注目記事"
                   headingLevel="h3"
@@ -57,8 +55,6 @@ export default function Index() {
                   href="/popular"
                   posts={popularPosts}
                 />
-              </Stack>
-              <Stack>
                 <PostSection
                   heading="更新記事"
                   headingLevel="h3"
@@ -67,10 +63,12 @@ export default function Index() {
                   updateTarget="updated"
                 />
               </Stack>
-            </Stack>
+            </Box>
           </Sidebar.Main>
           <Sidebar.Side>
-            <TagSection heading="タグ" headingLevel="h2" headingWeight="normal" href="/tags" tags={tags} />
+            <Stack space={4}>
+              <TagSection heading="タグ" headingLevel="h2" headingWeight="normal" href="/tags" tags={tags} />
+            </Stack>
           </Sidebar.Side>
         </Sidebar>
       </Stack>

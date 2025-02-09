@@ -10,7 +10,7 @@ export const Hero = function Hero() {
   const intro = `I'm a web software developer from Japan. I spent 5 years in back-end development, 2 years on iOS and Windows applications, and started my front-end engineering career in 2017.`;
 
   return (
-    <Stack className={ContainerStyle} align="start" space={2} direction="horizontal">
+    <Stack className={ContainerStyle} align="start" direction="horizontal">
       <Avatar
         style={{
           // @ts-ignore CSS Custom Properties
@@ -20,7 +20,7 @@ export const Hero = function Hero() {
       >
         <img alt="hiro (black cat icon)" height={ICON_SIZE} src="/hiro0218.svg" width={ICON_SIZE} />
       </Avatar>
-      <Stack space={2}>
+      <Stack>
         <Heading>
           Hi, I'm <Link href="/about">hiro</Link>
         </Heading>

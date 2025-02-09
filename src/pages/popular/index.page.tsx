@@ -26,7 +26,7 @@ export default function Popular() {
             <Sidebar.Title>注目記事</Sidebar.Title>
           </Sidebar.Side>
           <Sidebar.Main>
-            <Stack space={2}>
+            <Stack>
               {popularPosts.map(({ date, slug, tags, title, updated }) => (
                 <LinkCard date={date} key={slug} link={`${slug}.html`} tags={tags} title={title} updated={updated} />
               ))}

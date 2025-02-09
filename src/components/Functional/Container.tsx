@@ -47,7 +47,7 @@ export const Container = ({ space = true, size, children, className }: Props) =>
   return (
     <Root
       className={className}
-      data-has-space={space}
+      {...(space && { 'data-has-space': space })}
       style={{
         // @ts-ignore CSS custom property
         '--container-size': size,

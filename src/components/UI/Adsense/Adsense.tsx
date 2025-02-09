@@ -2,8 +2,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/constant';
-import { isMobile } from '@/ui/lib/mediaQuery';
-import { styled } from '@/ui/styled/dynamic';
+import { styled } from '@/ui/styled/static';
 
 type Size = {
   adsWidth?: number;
@@ -31,17 +30,20 @@ export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
     }
   }, [pathname, isLoaded]);
 
-  const style = {
-    backgroundColor: process.env.NODE_ENV === 'development' && 'var(--color-gray-3)',
-  };
-
   /**
    * aria-label
    * @link https://support.google.com/adsense/answer/4533986?hl=ja
    */
   return (
     <Container aria-label="スポンサーリンク" key={pathname}>
-      <Ads adsHeight={adsHeight} adsWidth={adsWidth} style={style}>
+      <Ads
+        style={{
+          // @ts-ignore CSS Custom Properties
+          '--ads-height': `${adsHeight}px`,
+          '--ads-width': `${adsWidth}px`,
+          backgroundColor: process.env.NODE_ENV === 'development' && 'var(--color-gray-3)',
+        }}
+      >
         <Ins />
       </Ads>
     </Container>
@@ -68,16 +70,16 @@ const Container = styled.aside`
   justify-content: center;
   margin: 0 auto;
 
-  ${isMobile} {
+  @media (--isMobile) {
     flex-direction: column;
   }
 `;
 
-const Ads = styled.div<Size>`
-  min-width: ${({ adsWidth }) => adsWidth}px;
-  height: ${({ adsHeight }) => adsHeight}px;
+const Ads = styled.div`
+  min-width: var(--ads-width);
+  height: var(--ads-height);
 
-  ${isMobile} {
+  @media (--isMobile) {
     min-width: 250px;
   }
 `;

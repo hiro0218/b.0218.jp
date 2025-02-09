@@ -2,13 +2,14 @@ import Head from 'next/head';
 import type { ReactElement } from 'react';
 
 import { Container, getSize } from '@/components/Functional/Container';
-import { Stack } from '@/components/UI/Layout';
+import { Box } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
 import { parser } from '@/pages/[post]/_components/Content/inject';
 import PostContentStyle from '@/pages/[post]/_components/Content/style';
 import { MainContainer } from '@/pages/_components/MainContainer';
+import { cx } from '@/ui/styled/static';
 
 type LayoutProps = {
   slug: 'about' | 'privacy';
@@ -39,14 +40,12 @@ function Layout({ slug, title }: LayoutProps) {
           <title key="title">{`${heading} - ${SITE_NAME}`}</title>
           <link href={`${SITE_URL}/${slug}`} rel="canonical" />
         </Head>
-        <Stack space={4}>
+        <section>
           <Title heading={heading} paragraph={paragraph} />
-          <Stack as="article" space={2}>
-            <div className="post-content" css={PostContentStyle}>
-              {reactNodeContent}
-            </div>
-          </Stack>
-        </Stack>
+          <Box as="article" mt={4} className={cx('post-content')}>
+            <div css={PostContentStyle}>{reactNodeContent}</div>
+          </Box>
+        </section>
       </Container>
     </MainContainer>
   );

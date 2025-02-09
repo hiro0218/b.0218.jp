@@ -1,5 +1,5 @@
 import Heading from '@/components/UI/Heading';
-import { Grid, Stack } from '@/components/UI/Layout';
+import { Box, Grid } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { LinkMore } from '@/pages/_components/home';
 import type { PostListProps, TermsPostListProps } from '@/types/source';
@@ -40,34 +40,37 @@ export const PostSection = ({
   const nextHeadingLevel = `h${Number(headingLevel[1]) + 1}` as Props['headingLevel'];
 
   return (
-    <Stack as={as} space={2}>
+    <Box as={as}>
       {!!heading && (
         <Heading
           as={headingLevel}
           isWeightNormal={headingWeight === 'normal'}
-          text={heading}
           textSide={href && <LinkMore href={href} text="すべて見る" />}
-        />
+        >
+          {heading}
+        </Heading>
       )}
-      <Grid gap={2}>
-        {posts.map(({ date, slug, tags, title, updated }) => {
-          const targetDate = updateTarget === 'updated' ? updated : date;
-          const showNewLabel = updateTarget !== undefined && getYMD(targetDate) === latestUpdated;
+      <Box mt={2}>
+        <Grid gap={2}>
+          {posts.map(({ date, slug, tags, title, updated }) => {
+            const targetDate = updateTarget === 'updated' ? updated : date;
+            const showNewLabel = updateTarget !== undefined && getYMD(targetDate) === latestUpdated;
 
-          return (
-            <LinkCard
-              date={date}
-              key={slug}
-              link={`${slug}.html`}
-              tags={tags}
-              title={title}
-              titleTagName={nextHeadingLevel}
-              updated={updated}
-              showNewLabel={showNewLabel}
-            />
-          );
-        })}
-      </Grid>
-    </Stack>
+            return (
+              <LinkCard
+                date={date}
+                key={slug}
+                link={`${slug}.html`}
+                tags={tags}
+                title={title}
+                titleTagName={nextHeadingLevel}
+                updated={updated}
+                showNewLabel={showNewLabel}
+              />
+            );
+          })}
+        </Grid>
+      </Box>
+    </Box>
   );
 };
