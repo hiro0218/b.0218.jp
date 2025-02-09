@@ -42,7 +42,7 @@ const tagStyle = css`
 `;
 
 export const Stack = ({
-  as = 'div',
+  as: Tag = 'div',
   children,
   direction = 'vertical',
   space = 2,
@@ -52,7 +52,6 @@ export const Stack = ({
   className = '',
   ...props
 }: Props) => {
-  const Tag = as;
   const spaceGap = SPACE_KEYS.includes(`--space-${space}`) ? `var(--space-${space})` : `var(--space-2)`;
 
   return (
