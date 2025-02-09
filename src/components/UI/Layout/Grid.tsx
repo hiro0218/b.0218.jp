@@ -21,8 +21,7 @@ const gridStyle = css`
   }
 `;
 
-export const Grid = ({ as = 'div', role, children, gap, className, ...props }: Props) => {
-  const GridTag = as;
+export const Grid = ({ as: GridTag = 'div', role, children, gap, className, ...props }: Props) => {
   const spaceGap = SPACE_KEYS.includes(`--space-${gap}`) ? `var(--space-${gap})` : gap === 0 ? null : `var(--space-1)`;
 
   return (
