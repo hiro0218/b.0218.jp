@@ -35,14 +35,17 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
     const initialProps = await Document.getInitialProps(ctx);
     const emotionStyles = extractCriticalToChunks(initialProps.html);
     const emotionStyleTags = emotionStyles.styles.map(({ css, key, ids }) => {
+      const style = processedCss(css);
       return (
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `@layer emotion { ${processedCss(css)} }`,
-          }}
-          data-emotion={`${key} ${ids.join(' ')}`}
-          key={key}
-        />
+        style && (
+          <style
+            dangerouslySetInnerHTML={{
+              __html: `@layer emotion { ${style} }`,
+            }}
+            data-emotion={`${key} ${ids.join(' ')}`}
+            key={key}
+          />
+        )
       );
     });
 

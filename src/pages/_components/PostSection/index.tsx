@@ -1,6 +1,7 @@
 import Heading from '@/components/UI/Heading';
 import { Box, Grid } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
+import { convertPostSlugToPath } from '@/lib/url';
 import { LinkMore } from '@/pages/_components/home';
 import type { PostListProps, TermsPostListProps } from '@/types/source';
 
@@ -55,12 +56,13 @@ export const PostSection = ({
           {posts.map(({ date, slug, tags, title, updated }) => {
             const targetDate = updateTarget === 'updated' ? updated : date;
             const showNewLabel = updateTarget !== undefined && getYMD(targetDate) === latestUpdated;
+            const link = convertPostSlugToPath(slug);
 
             return (
               <LinkCard
                 date={date}
                 key={slug}
-                link={`${slug}.html`}
+                link={link}
                 tags={tags}
                 title={title}
                 titleTagName={nextHeadingLevel}
