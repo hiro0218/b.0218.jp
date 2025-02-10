@@ -4,7 +4,7 @@ import { Sidebar, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
-
+import { convertPostSlugToPath } from '@/lib/url';
 import { createGetLayout } from '../_layouts/ArchivePageLayout';
 import { getData } from './_libs';
 
@@ -27,9 +27,10 @@ export default function Popular() {
           </Sidebar.Side>
           <Sidebar.Main>
             <Stack>
-              {popularPosts.map(({ date, slug, tags, title, updated }) => (
-                <LinkCard date={date} key={slug} link={`${slug}.html`} tags={tags} title={title} updated={updated} />
-              ))}
+              {popularPosts.map(({ date, slug, tags, title, updated }) => {
+                const link = convertPostSlugToPath(slug);
+                return <LinkCard date={date} key={slug} link={link} tags={tags} title={title} updated={updated} />;
+              })}
             </Stack>
           </Sidebar.Main>
         </Sidebar>
