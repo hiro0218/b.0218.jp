@@ -1,6 +1,14 @@
 import { SITE_URL } from '@/constant';
 
-import { getOgpImage, getPermalink } from './url';
+import { convertPostSlugToPath, getOgpImage, getPermalink } from './url';
+
+describe('convertPostSlugToPath', () => {
+  it('should return the path for a given slug', () => {
+    const slug = 'example-post';
+    const expectedOutput = `/${slug}.html`;
+    expect(convertPostSlugToPath(slug)).toBe(expectedOutput);
+  });
+});
 
 describe('getPermalink', () => {
   it('should return the permalink for a given slug', () => {
