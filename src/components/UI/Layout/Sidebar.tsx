@@ -35,6 +35,7 @@ const Title = ({ id, tag = 'h2', children }: TitleProps) => {
         'text-ellipsis',
         css`
           font-size: var(--font-size-h3);
+          scroll-margin-top: var(--space-1);
         `,
       )}
       id={id}
