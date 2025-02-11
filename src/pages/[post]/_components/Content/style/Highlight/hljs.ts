@@ -75,28 +75,4 @@ export default css`
   .hljs-strong {
     font-weight: bold;
   }
-
-  @media screen and (-ms-high-contrast: active) {
-    .hljs-addition,
-    .hljs-attribute,
-    .hljs-built_in,
-    .hljs-bullet,
-    .hljs-comment,
-    .hljs-link,
-    .hljs-literal,
-    .hljs-meta,
-    .hljs-number,
-    .hljs-params,
-    .hljs-string,
-    .hljs-symbol,
-    .hljs-type,
-    .hljs-quote {
-      color: highlight;
-    }
-
-    .hljs-keyword,
-    .hljs-selector-tag {
-      font-weight: bold;
-    }
-  }
 `;
