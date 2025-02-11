@@ -37,7 +37,7 @@
     "mokuji.js": "4.7.0",
     "next": "15.1.7",
     "nextjs-google-analytics": "2.3.7",
-    "postcss": "8.5.1",
+    "postcss": "8.5.2",
     "postcss-combine-duplicated-selectors": "10.0.3",
     "postcss-lightningcss": "1.0.1",
     "postcss-sort-media-queries": "5.2.0",
