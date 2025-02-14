@@ -16,7 +16,7 @@ The `_article` directory is a submodule where blog posts are placed. The article
 - React
   - Next.js
 - CSS in JS
-  - Emotion
+  - Panda CSS
 - Linter
   - Biome
   - Stylelint
