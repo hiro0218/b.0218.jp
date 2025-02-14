@@ -7,7 +7,6 @@ import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPagesJson } from '@/lib/posts';
 import { parser } from '@/pages/[post]/_components/Content/inject';
-import PostContentStyle from '@/pages/[post]/_components/Content/style';
 import { MainContainer } from '@/pages/_components/MainContainer';
 import { cx } from '@/ui/styled/static';
 
@@ -43,7 +42,7 @@ function Layout({ slug, title }: LayoutProps) {
         <section>
           <Title heading={heading} paragraph={paragraph} />
           <Box as="article" mt={4} className={cx('post-content')}>
-            <div css={PostContentStyle}>{reactNodeContent}</div>
+            {reactNodeContent}
           </Box>
         </section>
       </Container>
