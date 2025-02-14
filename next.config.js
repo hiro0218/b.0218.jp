@@ -9,20 +9,6 @@ const nextConfiguration = {
 
   pageExtensions: ['page.tsx'],
 
-  compiler: {
-    emotion: {
-      autoLabel: 'dev-only',
-      importMap: {
-        ['@/ui/styled/dynamic']: {
-          ['styled']: {
-            canonicalImport: ['@emotion/styled', 'default'],
-            styledBaseImport: ['@/ui/styled/dynamic', 'styled'],
-          },
-        },
-      },
-    },
-  },
-
   experimental: {
     scrollRestoration: true,
   },
@@ -32,9 +18,6 @@ const nextConfiguration = {
   modularizeImports: {
     '@radix-ui': {
       transform: '@radix-ui/{{member}}',
-    },
-    '@emotion': {
-      transform: '@emotion/{{member}}',
     },
   },
 

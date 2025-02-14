@@ -25,10 +25,6 @@
     "prepare": "husky && playwright install --only-shell && panda codegen"
   },
   "dependencies": {
-    "@emotion/cache": "11.14.0",
-    "@emotion/react": "11.14.0",
-    "@emotion/server": "11.11.0",
-    "@emotion/styled": "11.14.0",
     "@radix-ui/colors": "3.0.0",
     "@radix-ui/react-icons": "1.3.2",
     "css-in-js-easing": "1.2.0",

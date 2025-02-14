@@ -6,7 +6,7 @@ This repository contains the source code for `b.0218.jp`, a web application buil
 
 - [Next.js](https://nextjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
-- [Emotion](https://emotion.sh/)
+- [Panda CSS](https://panda-css.com/)
 
 Article data is managed in a separate repository and loaded via submodule.
 
