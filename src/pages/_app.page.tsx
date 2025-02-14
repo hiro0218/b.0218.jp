@@ -11,9 +11,6 @@ import { AUTHOR_NAME, SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from
 import debounce from '@/lib/debounce';
 import observeScrollbarWidth from '@/lib/observeScrollbarWidth';
 import smoothScroll from '@/lib/smoothScroll';
-import createEmotionCache from '@/ui/lib/createEmotionCache';
-import { StyledProvider } from '@/ui/styled/Provider';
-import type { EmotionCache } from '@/ui/styled/dynamic';
 
 import { Layout } from './_layouts/AppLayout';
 import '@/styles/globals.css';
@@ -25,7 +22,6 @@ type NextPageWithLayout = NextPage & {
 };
 
 type MyAppProps = AppProps & {
-  emotionCache?: EmotionCache;
   // biome-ignore lint/style/useNamingConvention:
   Component: NextPageWithLayout;
 };
@@ -36,9 +32,7 @@ if (typeof window !== 'undefined') {
   window.addEventListener('resize', () => debounce(observeScrollbarWidth));
 }
 
-const clientSideEmotionCache = createEmotionCache();
-
-export default function App({ Component, emotionCache = clientSideEmotionCache, pageProps }: MyAppProps) {
+export default function App({ Component, pageProps }: MyAppProps) {
   // ページレベルで定義されたレイアウトがある場合はそれを使用する
   const getLayout = Component.getLayout ?? ((page) => page);
 
@@ -62,15 +56,13 @@ export default function App({ Component, emotionCache = clientSideEmotionCache, 
         <meta content={AUTHOR_NAME} name="author" />
       </Head>
 
-      <StyledProvider emotionCache={emotionCache}>
-        <GoogleAnalytics trackPageViews={{ ignoreHashChange: true }} />
-        <Layout>
-          <Header />
-          {getLayout(<Component {...pageProps} />)}
-          <PageScroll />
-          <Footer />
-        </Layout>
-      </StyledProvider>
+      <GoogleAnalytics trackPageViews={{ ignoreHashChange: true }} />
+      <Layout>
+        <Header />
+        {getLayout(<Component {...pageProps} />)}
+        <PageScroll />
+        <Footer />
+      </Layout>
     </>
   );
 }

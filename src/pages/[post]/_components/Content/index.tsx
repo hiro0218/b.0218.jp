@@ -7,7 +7,6 @@ import type { PostProps } from '@/types/source';
 import { styled } from '@/ui/styled/static';
 import Mokuji from '../Mokuji';
 import { parser } from './inject';
-import PostContentStyle from './style';
 
 type Props = {
   enableMokuji?: boolean;
@@ -24,17 +23,13 @@ export default function Content({ enableMokuji = true, content }: Props) {
     <>
       {enableMokuji && <Mokuji refContent={ref} />}
       <section ref={ref}>
-        <div className="post-content" css={PostContentStyle}>
-          {before}
-        </div>
+        <div className="post-content">{before}</div>
         {!!after && (
           <>
             <AdsenseContainer>
               <Adsense />
             </AdsenseContainer>
-            <div className="post-content" css={PostContentStyle}>
-              {after}
-            </div>
+            <div className="post-content">{after}</div>
           </>
         )}
       </section>

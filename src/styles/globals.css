@@ -1,4 +1,4 @@
-@layer reset, tools, base, tokens, components, emotion, vendor, recipes, utilities;
+@layer reset, tools, base, tokens, components, vendor, recipes, utilities;
 
 @import 'shokika.css' layer(reset);
 
