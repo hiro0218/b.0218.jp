@@ -12,7 +12,7 @@ const STORAGE_KEY = `${process.env.BUILD_ID}_${FILENAME_POSTS_LIST}`;
  * posts-list.jsonを取得する
  * 複数リクエストをさせないようにlocalStorageへキャッシュ
  */
-export const usePostsList = () => {
+export const usePostsList = (): SearchProps[] => {
   const [archives, setArchives] = useState<SearchProps[]>([]);
 
   const getCachedData = useCallback((): SearchProps[] | null => {
