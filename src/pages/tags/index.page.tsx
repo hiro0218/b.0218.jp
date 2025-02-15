@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import { Stack } from '@/components/UI/Layout';
+import { Box } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getTagsWithCount } from '@/lib/posts';
@@ -18,10 +18,12 @@ export default function Tags() {
         <link href={`${SITE_URL}/tags`} rel="canonical" />
       </Head>
 
-      <Stack space={4}>
+      <section>
         <Title heading="Tags" paragraph={`${tags.length}件のタグ`} />
-        <TagSection tags={tags} />
-      </Stack>
+        <Box mt={4}>
+          <TagSection tags={tags} />
+        </Box>
+      </section>
     </>
   );
 }

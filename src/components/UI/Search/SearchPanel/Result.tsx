@@ -1,5 +1,6 @@
 import { Anchor } from '@/components/UI/Anchor';
 import type { SearchProps } from '@/components/UI/Search/type';
+import { convertPostSlugToPath } from '@/lib/url';
 import { css, styled } from '@/ui/styled/static';
 import { memo, useMemo } from 'react';
 
@@ -12,13 +13,14 @@ export const Result = memo(function Result({
 }) {
   const ResultList = useMemo(() => {
     return suggestions.map(({ slug }, index) => {
+      const link = convertPostSlugToPath(slug);
       return (
         <Anchor
           className={AnchorStyle}
           dangerouslySetInnerHTML={{ __html: markedTitles[index] }}
           key={slug}
           prefetch={false}
-          href={`/${slug}.html`}
+          href={link}
         />
       );
     });

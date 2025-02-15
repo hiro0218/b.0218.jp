@@ -20,7 +20,13 @@ const initialData: DataProps = {
 /**
  * 検索データを返す
  */
-export const useSearchData = (archives: SearchProps[], closeDialog: onCloseDialogProps) => {
+export const useSearchData = (
+  archives: SearchProps[],
+  closeDialog: onCloseDialogProps,
+): {
+  searchData: DataProps;
+  onKeyup: (e: onKeyupEventProps) => void;
+} => {
   const [data, setData] = useState<DataProps>(initialData);
 
   const searchIndex = useMemo(() => {
@@ -82,7 +88,7 @@ export const useSearchData = (archives: SearchProps[], closeDialog: onCloseDialo
   }, [searchIndex]);
 
   const onKeyup = useCallback(
-    (e: onKeyupEventProps) => {
+    (e: onKeyupEventProps): void => {
       if (!(e.currentTarget instanceof HTMLInputElement)) {
         return;
       }

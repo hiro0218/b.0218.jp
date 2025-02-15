@@ -1,14 +1,14 @@
 import type { NamedExoticComponent, ReactNode } from 'react';
-import { Children, Fragment } from 'react';
 
-import { isMobile } from '@/ui/lib/mediaQuery';
-import { css, styled } from '@/ui/styled/dynamic';
+import { css, cx, styled } from '@/ui/styled/static';
 import type { SpaceGap } from '@/ui/styled/variables/space';
 
 type Props = {
   space?: SpaceGap;
-  isMainColumnLast?: boolean;
-  containerMinWidth?: string;
+  children: ReactNode;
+};
+
+type ChildProps = {
   children: ReactNode;
 };
 
@@ -18,91 +18,95 @@ type TitleProps = {
   children: ReactNode;
 };
 
-const calculateWidthsInPercent = () => {
-  const phi = (1 + Math.sqrt(5)) / 2;
-  const main = Math.round((1 / phi) * 100 * 100) / 100;
-  const side = 100 - main;
-
-  return {
-    mainWidth: main,
-    sideWidth: side,
-  };
-};
-const { mainWidth, sideWidth } = calculateWidthsInPercent();
-
-const Container = styled.div<Props>`
-  --space: ${({ space = 3 }) => `var(--space-${space})`};
-  --side-width: ${sideWidth}%;
-  --main-width: ${({ containerMinWidth }) => {
-    return containerMinWidth ? `calc(${mainWidth}% - var(--side-width))` : `${mainWidth}%`;
-  }};
-
+const Container = styled.div`
   display: flex;
-  flex-wrap: wrap;
   gap: var(--space);
 
-  & > * {
-    flex-grow: 1;
-    flex-basis: var(--side-width);
-
-    ${isMobile} {
-      flex-basis: 100%;
-      max-width: 100%;
-    }
-
-    ${({ isMainColumnLast = true }) => {
-      const selector = isMainColumnLast ? ':last-child' : ':first-child';
-      return css`
-        ${selector} {
-          flex-basis: 0;
-          min-width: calc(var(--main-width) - var(--space));
-        }
-      `;
-    }}
+  @media (--isMobile) {
+    flex-direction: column;
   }
 `;
 
 const Title = ({ id, tag = 'h2', children }: TitleProps) => {
+  const SidebarHeading = tag;
   return (
-    <StickyContainer>
-      <SidebarHeading className="text-ellipsis" as={tag} id={id}>
-        {children}
-      </SidebarHeading>
-    </StickyContainer>
+    <SidebarHeading
+      className={cx(
+        'text-ellipsis',
+        css`
+          font-size: var(--font-size-h3);
+          scroll-margin-top: var(--space-1);
+        `,
+      )}
+      id={id}
+    >
+      {children}
+    </SidebarHeading>
   );
 };
 
-export const Sidebar = (({ children, space, isMainColumnLast, containerMinWidth }: Props) => {
+const Main = ({ children }: ChildProps) => {
   return (
-    <Container space={space} isMainColumnLast={isMainColumnLast} containerMinWidth={containerMinWidth}>
-      {Children.toArray(children).map((child, i) => {
-        return <Fragment key={i}>{child}</Fragment>;
-      })}
+    <div
+      className={css`
+        flex: 1.618;
+        min-width: 61.8%;
+      `}
+    >
+      {children}
+    </div>
+  );
+};
+
+const stickyStyle = css`
+  position: sticky;
+  top: var(--space-1);
+  block-size: 100%;
+  isolation: isolate;
+
+  @media (--isMobile) {
+    position: static;
+  }
+`;
+
+const Side = ({ children }: ChildProps) => {
+  return (
+    <div
+      className={cx(
+        css`
+          flex: 1;
+        `,
+        stickyStyle,
+      )}
+    >
+      {children}
+    </div>
+  );
+};
+
+export const Sidebar = (({ children, space = 3 }: Props) => {
+  return (
+    <Container
+      style={{
+        // @ts-ignore CSS Custom Property
+        '--space': `var(--space-${space})`,
+      }}
+    >
+      {children}
     </Container>
   );
 }) as NamedExoticComponent<Props> & {
   // biome-ignore lint/style/useNamingConvention: <explanation>
   Title: typeof Title;
   // biome-ignore lint/style/useNamingConvention: <explanation>
-  StickyContainer: typeof StickyContainer;
+  Main: typeof Main;
+  // biome-ignore lint/style/useNamingConvention: <explanation>
+  Side: typeof Side;
 };
-
-const StickyContainer = styled.div`
-  position: sticky;
-  top: var(--space-1);
-  block-size: 100%;
-
-  ${isMobile} {
-    position: static;
-  }
-`;
-
-const SidebarHeading = styled.h2<Props>`
-  font-size: var(--font-size-h3);
-`;
 
 /**
  * Used with the sidebar
  */
 Sidebar.Title = Title;
-Sidebar.StickyContainer = StickyContainer;
+Sidebar.Main = Main;
+Sidebar.Side = Side;

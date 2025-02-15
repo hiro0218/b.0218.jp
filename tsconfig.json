@@ -19,7 +19,6 @@
       "~/*": ["./*"]
     },
     "incremental": true,
-    "jsxImportSource": "@emotion/react",
     "noErrorTruncation": true,
     "plugins": [
       {

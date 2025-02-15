@@ -1,14 +1,10 @@
-import { css } from '@/ui/styled/static';
+import { Box } from '@/components/UI/Layout';
 import type { ReactNode } from 'react';
 
 export const MainContainer = ({ children }: { children: ReactNode }) => {
   return (
-    <main
-      className={css`
-        margin-top: var(--space-3);
-      `}
-    >
+    <Box as="main" mt={3}>
       {children}
-    </main>
+    </Box>
   );
 };

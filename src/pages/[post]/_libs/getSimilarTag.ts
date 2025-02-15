@@ -9,7 +9,7 @@ const similarTags = getSimilarTags();
 
 const getTagBySlug = (slug: PostTagProps['slug']) => tagData[slug];
 
-export const getSimilarTag = (tag: string) => {
+export const getSimilarTag = (tag: string): PostTagProps[] => {
   const similarTagsList = similarTags[tag];
 
   if (!similarTagsList) {

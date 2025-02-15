@@ -1,9 +1,9 @@
 import Heading from '@/components/UI/Heading';
-import { Cluster, Stack } from '@/components/UI/Layout';
+import { Box, Cluster } from '@/components/UI/Layout';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag from '@/components/UI/Tag';
 import { LinkMore } from '@/pages/_components/home';
-import type { ElementType } from 'react';
+import type { JSX } from 'react';
 
 type Props = {
   heading?: string;
@@ -12,7 +12,7 @@ type Props = {
   isWideCluster?: boolean;
   tags: PostTagProps[];
   href?: string;
-  as?: ElementType;
+  as?: keyof JSX.IntrinsicElements;
 };
 
 export const TagSection = ({
@@ -29,20 +29,21 @@ export const TagSection = ({
   }
 
   return (
-    <Stack as={as} space={2}>
+    <Box as={as}>
       {!!heading && (
         <Heading
           as={headingLevel}
           isWeightNormal={headingWeight === 'normal'}
-          text={heading}
           textSide={href && <LinkMore href={href} text="すべて見る" />}
-        />
+        >
+          {heading}
+        </Heading>
       )}
-      <Stack>
+      <Box mt={2}>
         <Cluster isWide={isWideCluster}>
           <PostTag tags={tags} />
         </Cluster>
-      </Stack>
-    </Stack>
+      </Box>
+    </Box>
   );
 };

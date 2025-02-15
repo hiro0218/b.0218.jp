@@ -1,14 +1,15 @@
-import type { AriaRole, ElementType, ReactNode } from 'react';
+import type { AriaRole, JSX, ReactNode } from 'react';
 import { memo } from 'react';
 
-import { css } from '@/ui/styled/static';
+import { css, cx } from '@/ui/styled/static';
 import type { SpaceGap } from '@/ui/styled/variables/space';
 
 type Props = {
-  as?: ElementType;
+  as?: keyof JSX.IntrinsicElements;
   gap?: SpaceGap;
   role?: AriaRole;
   isWide?: boolean;
+  className?: string;
   children: ReactNode;
 };
 
@@ -26,13 +27,18 @@ const clusterStyle = css`
   }
 `;
 
-export const Cluster = memo(function Grid({ as = 'div', children, isWide, gap = 1, ...props }: Props) {
-  const Tag = as;
-
+export const Cluster = memo(function Grid({
+  as: Tag = 'div',
+  children = '',
+  isWide,
+  gap = 1,
+  className,
+  ...props
+}: Props) {
   return (
     <Tag
-      className={clusterStyle}
-      data-is-wide={isWide}
+      className={cx(className, clusterStyle)}
+      {...(isWide && { 'data-is-wide': isWide })}
       {...props}
       style={{
         // @ts-ignore CSS custom property

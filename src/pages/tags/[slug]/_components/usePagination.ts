@@ -11,7 +11,7 @@ type Props = {
   currentPage: number;
 };
 
-export const usePagination = ({ totalCount, pageSize, siblingCount = 1, currentPage }: Props) => {
+export const usePagination = ({ totalCount, pageSize, siblingCount = 1, currentPage }: Props): (string | number)[] => {
   const totalPageCount = useMemo(() => Math.ceil(totalCount / pageSize), [totalCount, pageSize]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:

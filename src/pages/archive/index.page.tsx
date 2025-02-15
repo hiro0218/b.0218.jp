@@ -7,6 +7,7 @@ import { SITE_NAME, SITE_URL } from '@/constant';
 import { getPostsListJson } from '@/lib/posts';
 import type { PostListProps } from '@/types/source';
 
+import { convertPostSlugToPath } from '@/lib/url';
 import { createGetLayout } from '../_layouts/ArchivePageLayout';
 import { Chart } from './_components';
 import { divideByYearArchive } from './_libs';
@@ -34,19 +35,19 @@ export default function Archive() {
             const currentYear = `${year}年`;
             return (
               <Sidebar key={year}>
-                <Sidebar.Title id={currentYear}>{currentYear}</Sidebar.Title>
-                <Stack space={2}>
-                  {archives[year].map(({ slug, title, date, updated, tags }: PostListProps) => (
-                    <LinkCard
-                      date={date}
-                      key={slug}
-                      link={`/${slug}.html`}
-                      tags={tags}
-                      title={title}
-                      updated={updated}
-                    />
-                  ))}
-                </Stack>
+                <Sidebar.Side>
+                  <Sidebar.Title id={currentYear}>{currentYear}</Sidebar.Title>
+                </Sidebar.Side>
+                <Sidebar.Main>
+                  <Stack>
+                    {archives[year].map(({ slug, title, date, updated, tags }: PostListProps) => {
+                      const link = convertPostSlugToPath(slug);
+                      return (
+                        <LinkCard date={date} key={slug} link={link} tags={tags} title={title} updated={updated} />
+                      );
+                    })}
+                  </Stack>
+                </Sidebar.Main>
               </Sidebar>
             );
           })}

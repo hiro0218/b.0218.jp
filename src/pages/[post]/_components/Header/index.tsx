@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import PostDate from '@/components/UI/Date';
-import { Cluster, Stack } from '@/components/UI/Layout';
+import { Box, Cluster, Stack } from '@/components/UI/Layout';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag from '@/components/UI/Tag';
 import { READ_TIME_SUFFIX } from '@/constant';
@@ -15,20 +15,20 @@ type Props = Pick<PostProps, 'title' | 'date' | 'updated' | 'readingTime'> & {
 
 function PostHeader({ title, date, updated, readingTime, tagsWithCount, render }: Props) {
   return (
-    <Stack as="header" space={2} className={ContainerStyle}>
+    <Stack as="header" space={2} className={headerSeparatorStyle}>
       <Heading>{title}</Heading>
-      <Stack space={1}>
-        <Item>
+      <Box mt={2}>
+        <Box className={itemStyle}>
           <PostDate date={date} updated={updated} />
           <Separator aria-hidden="true">•</Separator>
           <span>{`${readingTime || 1} ${READ_TIME_SUFFIX}`}</span>
-        </Item>
-        <Item>
+        </Box>
+        <Box mt={1} className={itemStyle}>
           <Cluster isWide={false}>
             <PostTag tags={tagsWithCount} />
           </Cluster>
-        </Item>
-      </Stack>
+        </Box>
+      </Box>
       {render}
     </Stack>
   );
@@ -36,7 +36,7 @@ function PostHeader({ title, date, updated, readingTime, tagsWithCount, render }
 
 export default PostHeader;
 
-const ContainerStyle = css`
+const headerSeparatorStyle = css`
   &::after {
     display: block;
     width: 100%;
@@ -57,7 +57,7 @@ const Heading = styled.h1`
   text-wrap: pretty;
 `;
 
-const Item = styled.div`
+const itemStyle = css`
   display: flex;
   color: var(--color-gray-11);
 `;

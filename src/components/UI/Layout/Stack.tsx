@@ -1,12 +1,12 @@
-import type { AriaRole, CSSProperties, ElementType, ReactNode } from 'react';
+import type { AriaRole, CSSProperties, JSX, ReactNode } from 'react';
 
-import { css, styled } from '@/ui/styled/dynamic';
+import { css, cx } from '@/ui/styled/static';
 import type { SpaceGap } from '@/ui/styled/variables/space';
 import { SPACE_KEYS } from '@/ui/styled/variables/space';
 
 type Props = {
-  as?: ElementType;
-  space?: SpaceGap | 0;
+  as?: keyof JSX.IntrinsicElements;
+  space?: SpaceGap;
   direction?: 'vertical' | 'horizontal';
   align?: CSSProperties['alignItems'];
   justify?: CSSProperties['justifyContent'];
@@ -16,40 +16,58 @@ type Props = {
   children: ReactNode;
 };
 
-type StackRootProps = Omit<Props, 'direction'> & {
-  flexDirection?: 'vertical' | 'horizontal';
-};
-
-const StackRoot = styled.div<StackRootProps>`
+const tagStyle = css`
   display: flex;
-  flex-direction: ${({ flexDirection = 'vertical' }) => (flexDirection === 'horizontal' ? 'row' : 'column')};
-  flex-wrap: ${({ wrap }) => wrap};
-  align-items: ${({ align }) => align};
-  justify-content: ${({ justify = 'flex-start' }) => justify};
+  flex-wrap: var(--stack-wrap);
+  align-items: var(--stack-align);
+  justify-content: var(--stack-justify);
 
   & > * {
     margin-block: 0;
   }
 
-  & > * + * {
-    ${({ space = 2, flexDirection = 'vertical' }) =>
-      flexDirection === 'horizontal'
-        ? css`
-            margin-inline-start: var(--space-${space});
-          `
-        : css`
-            margin-block-start: var(--space-${space});
-          `};
+  &[data-direction='horizontal'] {
+    flex-direction: row;
+    & > * + * {
+      margin-inline-start: var(--stack-space);
+    }
+  }
+
+  &[data-direction='vertical'] {
+    flex-direction: column;
+    & > * + * {
+      margin-block-start: var(--stack-space);
+    }
   }
 `;
 
-export const Stack = ({ as = 'div', children, ...props }: Props) => {
-  const { direction, space, ...rest } = props;
-  const spaceGap = SPACE_KEYS.includes(`--space-${space}`) ? space : space === 0 ? null : 2;
+export const Stack = ({
+  as: Tag = 'div',
+  children,
+  direction = 'vertical',
+  space = 2,
+  align,
+  justify = 'flex-start',
+  wrap,
+  className = '',
+  ...props
+}: Props) => {
+  const spaceGap = SPACE_KEYS.includes(`--space-${space}`) ? `var(--space-${space})` : `var(--space-2)`;
 
   return (
-    <StackRoot as={as} flexDirection={direction} space={spaceGap} {...rest}>
+    <Tag
+      className={cx(className, tagStyle)}
+      data-direction={direction}
+      style={{
+        // @ts-ignore CSS Custom Properties
+        '--stack-space': spaceGap,
+        '--stack-align': align,
+        '--stack-justify': justify,
+        '--stack-wrap': wrap,
+      }}
+      {...props}
+    >
       {children}
-    </StackRoot>
+    </Tag>
   );
 };

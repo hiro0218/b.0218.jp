@@ -6,6 +6,7 @@ import { Sidebar, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME } from '@/constant';
+import { convertPostSlugToPath } from '@/lib/url';
 
 import { createGetLayout } from '../../_layouts/ArchivePageLayout';
 import { getStaticPathsTagDetail, getStaticPropsTagDetail } from './_libs';
@@ -43,9 +44,10 @@ export default function Tags({ title, posts }: Props) {
   }, [currentPer]);
 
   const paginationPosts = useMemo(() => {
-    return postsToDisplay.map(({ date, slug, title, updated }) => (
-      <LinkCard date={date} key={slug} link={`/${slug}.html`} title={title} updated={updated} />
-    ));
+    return postsToDisplay.map(({ date, slug, title, updated }) => {
+      const link = convertPostSlugToPath(slug);
+      return <LinkCard date={date} key={slug} link={link} title={title} updated={updated} />;
+    });
   }, [postsToDisplay]);
 
   return (
@@ -57,8 +59,12 @@ export default function Tags({ title, posts }: Props) {
       <Stack as="section" space={4}>
         <Title heading={pageTitle} paragraph={`${totalItems}件の記事`} />
         <Sidebar>
-          <Sidebar.Title>{title}</Sidebar.Title>
-          <Stack space={2}>{paginationPosts}</Stack>
+          <Sidebar.Side>
+            <Sidebar.Title>{title}</Sidebar.Title>
+          </Sidebar.Side>
+          <Sidebar.Main>
+            <Stack>{paginationPosts}</Stack>
+          </Sidebar.Main>
         </Sidebar>
         <Pagination
           onPageChange={handlePageChange}
