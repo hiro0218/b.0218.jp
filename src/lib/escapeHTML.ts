@@ -9,7 +9,7 @@ const escapeMap: { [key: string]: string } = {
 
 const escapeRegExp = /[&<>"'`]/g;
 
-export default function escapeHTML(html: string) {
+export default function escapeHTML(html: string): string {
   if (typeof html !== 'string') {
     return html;
   }
