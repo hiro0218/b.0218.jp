@@ -1,1 +1,1 @@
-export const isSSR = typeof document === 'undefined';
+export const isSSR: boolean = typeof document === 'undefined';

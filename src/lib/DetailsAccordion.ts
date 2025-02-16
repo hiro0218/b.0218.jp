@@ -16,7 +16,7 @@ export class DetailsAccordion {
   constructor(
     detailsElement: HTMLDetailsElement,
     contentElement: HTMLElement,
-    keyframeAnimationOption = DefaultKeyframeAnimationOptions,
+    keyframeAnimationOption: KeyframeAnimationOptions = DefaultKeyframeAnimationOptions,
   ) {
     const summary = detailsElement.querySelector('summary');
 
@@ -35,15 +35,15 @@ export class DetailsAccordion {
     this.addEventListener();
   }
 
-  addEventListener() {
+  addEventListener(): void {
     this.summary.addEventListener('click', this.listener);
   }
 
-  removeEventListener() {
+  removeEventListener(): void {
     this.summary.removeEventListener('click', this.listener);
   }
 
-  onClick(e: MouseEvent) {
+  onClick(e: MouseEvent): void {
     e.preventDefault();
     this.detailsElement.style.overflow = 'hidden';
 
@@ -54,7 +54,7 @@ export class DetailsAccordion {
     }
   }
 
-  animate(startHeight: string, endHeight: string, open: boolean) {
+  animate(startHeight: string, endHeight: string, open: boolean): void {
     if (this.animationQueue) {
       this.animationQueue.cancel();
     }
@@ -73,7 +73,7 @@ export class DetailsAccordion {
     };
   }
 
-  shrink() {
+  shrink(): void {
     this.isClosing = true;
 
     const startHeight = `${this.detailsElement.offsetHeight}px`;
@@ -82,14 +82,14 @@ export class DetailsAccordion {
     this.animate(startHeight, endHeight, false);
   }
 
-  open() {
+  open(): void {
     this.detailsElement.style.height = `${this.detailsElement.offsetHeight}px`;
     this.detailsElement.open = true;
 
     window.requestAnimationFrame(() => this.expand());
   }
 
-  expand() {
+  expand(): void {
     this.isExpanding = true;
 
     const startHeight = `${this.detailsElement.offsetHeight}px`;
@@ -98,7 +98,7 @@ export class DetailsAccordion {
     this.animate(startHeight, endHeight, true);
   }
 
-  onAnimationFinish(open: boolean) {
+  onAnimationFinish(open: boolean): void {
     this.detailsElement.open = open;
     this.animationQueue = null;
     this.isClosing = false;

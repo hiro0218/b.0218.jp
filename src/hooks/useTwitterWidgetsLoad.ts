@@ -5,7 +5,7 @@ type Props = {
   ref: RefObject<HTMLDivElement>;
 };
 
-function useTwitterWidgetsLoad({ ref }: Props) {
+function useTwitterWidgetsLoad({ ref }: Props): void {
   const pathname = usePathname();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:

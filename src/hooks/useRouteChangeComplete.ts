@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 type Props = () => void;
 
-export const useRouteChangeComplete = (callback: Props) => {
+export const useRouteChangeComplete = (callback: Props): void => {
   const router = useRouter();
 
   useEffect(() => {

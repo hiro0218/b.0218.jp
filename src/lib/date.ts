@@ -10,7 +10,7 @@ export const convertDateToSimpleFormat = (date: Date): string => {
   });
 };
 
-export const isSameDay = (dateA: Date, dateB: Date) => {
+export const isSameDay = (dateA: Date, dateB: Date): boolean => {
   if (isInvalidDate(dateB)) {
     return false;
   }

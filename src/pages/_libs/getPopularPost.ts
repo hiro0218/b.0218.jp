@@ -1,12 +1,13 @@
 import { type getPostsListJson, getPostsPopular } from '@/lib/posts';
 
+import type { PostListProps } from '@/types/source';
 import { IGNORE_SLUGS } from './constant';
 
 const popularPostsSlugs = getPostsPopular();
 /** popularPostsSlugsを配列に変換し、数値が多い順にソート */
 const sortedSlugs = Object.entries(popularPostsSlugs).map(([slug]) => slug);
 
-export const getPopularPost = (posts: ReturnType<typeof getPostsListJson>, displayLimit: number) => {
+export const getPopularPost = (posts: ReturnType<typeof getPostsListJson>, displayLimit: number): PostListProps[] => {
   const popularPosts = sortedSlugs
     .filter((slug) => !IGNORE_SLUGS.has(slug))
     .map((slug) => {

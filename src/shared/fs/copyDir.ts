@@ -3,7 +3,7 @@ import path from 'node:path';
 
 import * as Log from '@/shared/Log';
 
-export const copyDir = async (src: string, dest: string) => {
+export const copyDir = async (src: string, dest: string): Promise<void> => {
   try {
     // コピー先ディレクトリが存在しない場合、作成する
     await mkdir(dest, { recursive: true });

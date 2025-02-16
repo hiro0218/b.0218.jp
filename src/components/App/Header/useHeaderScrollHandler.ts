@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import throttle from '@/lib/throttle';
 import { SPACING_BASE_PX } from '@/ui/styled/constant';
 
-export const useHeaderScrollHandler = () => {
+export const useHeaderScrollHandler = (): boolean => {
   const [isHeaderShown, setIsHeaderShown] = useState<boolean | null>(null);
   const previousYPosition = useRef<number>(typeof window !== 'undefined' ? window.scrollY : 0);
   const headerHeight = SPACING_BASE_PX * 8;
