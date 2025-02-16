@@ -1,11 +1,11 @@
 import { Anchor } from '@/components/UI/Anchor';
 import { css, styled } from '@/ui/styled/static';
 
-import type { divideByYearArchive } from '../_libs';
+import type { ArchiveListProps } from '../_libs';
 
 type Props = {
   totalPosts: number;
-  archives: ReturnType<typeof divideByYearArchive>;
+  archives: ArchiveListProps;
 };
 
 export const Chart = ({ archives, totalPosts }: Props) => {

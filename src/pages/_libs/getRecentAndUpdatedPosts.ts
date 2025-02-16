@@ -9,7 +9,7 @@ type Props = {
   };
 };
 
-const filterPosts = ({ posts, options }: Props) => {
+const filterPosts = ({ posts, options }: Props): PostListProps[] => {
   const { withoutContent = true } = options || {};
 
   return posts.map((post) => {

@@ -1,7 +1,7 @@
 import type { getPostsListJson } from '@/lib/posts';
 import type { PostListProps } from '@/types/source';
 
-type ArchiveListProps = Record<string, PostListProps[]>;
+export type ArchiveListProps = Record<string, PostListProps[]>;
 
 const getYear = (date: PostListProps['date']) => Number(date.slice(0, 4));
 
