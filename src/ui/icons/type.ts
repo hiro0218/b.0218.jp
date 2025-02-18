@@ -1,5 +1,8 @@
-import type { SVGAttributes } from 'react';
+import type { RefObject } from 'react';
 
-export interface IconProps extends SVGAttributes<SVGElement> {
+export type IconProps = {
   color?: string;
-}
+  height?: number;
+  width?: number;
+  ref?: RefObject<SVGSVGElement>;
+};

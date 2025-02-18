@@ -1,4 +1,4 @@
-import type { AriaRole, ReactNode } from 'react';
+import type { AriaRole, JSX, ReactNode } from 'react';
 import { memo } from 'react';
 
 import { css, cx } from '@/ui/styled/static';
