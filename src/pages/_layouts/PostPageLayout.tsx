@@ -1,6 +1,6 @@
 import type { ReactElement, ReactNode } from 'react';
 
-import { Container, getSize } from '@/components/Functional/Container';
+import { Container } from '@/components/Functional/Container';
 import { MainContainer } from '@/pages/_components/MainContainer';
 
 type LayoutProps = {
@@ -8,8 +8,7 @@ type LayoutProps = {
 };
 
 const Layout = ({ children }: LayoutProps) => {
-  const size = getSize('default');
-  return <Container size={size}>{children}</Container>;
+  return <Container size="default">{children}</Container>;
 };
 
 export const createGetLayout = (layoutProps?: LayoutProps): ((page: ReactElement) => ReactNode) => {

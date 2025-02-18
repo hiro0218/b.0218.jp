@@ -1,4 +1,4 @@
-import { Container, getSize } from '@/components/Functional/Container';
+import { Container } from '@/components/Functional/Container';
 import { Anchor } from '@/components/UI/Anchor';
 import { Logo } from '@/components/UI/Logo';
 import { css, styled } from '@/ui/styled/static';
@@ -11,10 +11,9 @@ const Links = [
 ] as const;
 
 export default function Footer() {
-  const size = getSize('default');
   return (
     <Root>
-      <Container size={size} className={ContainerStyle}>
+      <Container size="default" className={ContainerStyle}>
         <LogoContainer>
           <Logo />
         </LogoContainer>

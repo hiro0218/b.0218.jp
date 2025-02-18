@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import type { ReactElement } from 'react';
 
-import { Container, getSize } from '@/components/Functional/Container';
+import { Container } from '@/components/Functional/Container';
 import { Box } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL } from '@/constant';
@@ -30,11 +30,10 @@ function Layout({ slug, title }: LayoutProps) {
   const { content } = pages.get(slug);
   const reactNodeContent = parser(content);
   const { heading, paragraph } = title;
-  const size = getSize('small');
 
   return (
     <MainContainer>
-      <Container size={size}>
+      <Container size="small">
         <Head>
           <title key="title">{`${heading} - ${SITE_NAME}`}</title>
           <link href={`${SITE_URL}/${slug}`} rel="canonical" />

@@ -3,13 +3,13 @@ import { SPACE_STEPS } from '@/ui/styled/variables/space';
 import type { ReactNode } from 'react';
 
 type Props = {
-  size?: 'small' | 'default' | 'large' | string;
+  size?: 'small' | 'default' | 'large';
   space?: boolean;
   children: ReactNode;
   className?: string;
 };
 
-export const getSize = (size: Props['size']) => {
+const getSize = (size: Props['size']) => {
   const sizeValue = (() => {
     switch (size) {
       case 'small':
@@ -44,13 +44,14 @@ const Root = styled.div`
 `;
 
 export const Container = ({ space = true, size, children, className }: Props) => {
+  const containerSize = getSize(size);
   return (
     <Root
       className={className}
       {...(space && { 'data-has-space': space })}
       style={{
         // @ts-ignore CSS custom property
-        '--container-size': size,
+        '--container-size': containerSize,
       }}
     >
       {children}
