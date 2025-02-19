@@ -11,7 +11,6 @@ export {
   CaretRightIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  ExternalLinkIcon,
   GitHubLogoIcon,
   InfoCircledIcon,
   Link2Icon,
