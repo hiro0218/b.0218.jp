@@ -35,6 +35,7 @@
       }
     ],
     "strictNullChecks": false,
+    "types": ["vitest/globals"],
   },
   "typeRoots": ["node_modules/@types", "./src/types"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "styled-system"],
