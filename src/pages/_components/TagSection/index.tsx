@@ -3,6 +3,7 @@ import { Box, Cluster } from '@/components/UI/Layout';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag from '@/components/UI/Tag';
 import { LinkMore } from '@/pages/_components/home';
+import type { JSX } from 'react';
 
 type Props = {
   heading?: string;

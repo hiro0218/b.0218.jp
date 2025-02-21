@@ -33,18 +33,6 @@ const nextConfiguration = {
           test: /src\/.*\/index\.ts?$/,
           sideEffects: false,
         },
-        {
-          test: /\.svg$/,
-          use: [
-            {
-              loader: '@svgr/webpack',
-              options: {
-                typescript: true,
-                memo: true,
-              },
-            },
-          ],
-        },
       ],
     };
 
