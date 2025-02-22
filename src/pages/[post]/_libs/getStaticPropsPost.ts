@@ -9,7 +9,7 @@ import type { PostListProps, PostProps, TermsPostListProps } from '@/types/sourc
 import { getSimilarPost } from './getSimilarPost';
 import { getSimilarTag } from './getSimilarTag';
 
-export type PostPageProps = {
+type PostPageProps = {
   post: PostProps & {
     tagsWithCount: PostTagProps[];
   };
