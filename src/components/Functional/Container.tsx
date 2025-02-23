@@ -1,6 +1,6 @@
 import { styled } from '@/ui/styled/static';
 import { SPACE_STEPS } from '@/ui/styled/variables/space';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 type Props = {
   size?: 'small' | 'default' | 'large';
@@ -49,10 +49,11 @@ export const Container = ({ space = true, size, children, className }: Props) =>
     <Root
       className={className}
       {...(space && { 'data-has-space': space })}
-      style={{
-        // @ts-ignore CSS custom property
-        '--container-size': containerSize,
-      }}
+      style={
+        {
+          '--container-size': containerSize,
+        } as CSSProperties
+      }
     >
       {children}
     </Root>

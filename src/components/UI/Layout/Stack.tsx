@@ -58,13 +58,14 @@ export const Stack = ({
     <Tag
       className={cx(className, tagStyle)}
       data-direction={direction}
-      style={{
-        // @ts-ignore CSS Custom Properties
-        '--stack-space': spaceGap,
-        '--stack-align': align,
-        '--stack-justify': justify,
-        '--stack-wrap': wrap,
-      }}
+      style={
+        {
+          '--stack-space': spaceGap,
+          '--stack-align': align,
+          '--stack-justify': justify,
+          '--stack-wrap': wrap,
+        } as CSSProperties
+      }
       {...props}
     >
       {children}
