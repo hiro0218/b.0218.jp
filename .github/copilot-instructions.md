@@ -24,7 +24,7 @@ The `_article` directory is a submodule where blog posts are placed. The article
 - Formatter
   - Prettier
 - Testing
-  - Jest
+  - Vitest
 - CI/CD
   - GitHub Actions
 - Package Manager
