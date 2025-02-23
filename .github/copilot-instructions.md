@@ -29,3 +29,9 @@ The `_article` directory is a submodule where blog posts are placed. The article
   - GitHub Actions
 - Package Manager
   - npm
+
+# Development Guidelines
+
+- Use TypeScript for all files
+- Keep components small and reusable
+- Implement proper error handling
