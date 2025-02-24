@@ -9,7 +9,7 @@ import type { PostListProps, PostProps, TermsPostListProps } from '@/types/sourc
 import { getSimilarPost } from './getSimilarPost';
 import { getSimilarTag } from './getSimilarTag';
 
-export type PostPageProps = {
+type PostPageProps = {
   post: PostProps & {
     tagsWithCount: PostTagProps[];
   };
@@ -46,7 +46,7 @@ export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
   const similarTags = getSimilarTag(tag);
 
   // 関連記事
-  let similarPost = getSimilarPost(posts, slug);
+  let similarPost: ReturnType<typeof getSimilarPost | typeof getTagPosts> = getSimilarPost(posts, slug);
   // 関連記事がない場合は同一タグから記事を取得
   if (similarPost.length === 0 && !!tag) {
     similarPost = getTagPosts(tag)

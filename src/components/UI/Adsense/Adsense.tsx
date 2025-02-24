@@ -1,5 +1,5 @@
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { type CSSProperties, useEffect, useState } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/constant';
 import { styled } from '@/ui/styled/static';
@@ -37,12 +37,13 @@ export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
   return (
     <Container aria-label="スポンサーリンク" key={pathname}>
       <Ads
-        style={{
-          // @ts-ignore CSS Custom Properties
-          '--ads-height': `${adsHeight}px`,
-          '--ads-width': `${adsWidth}px`,
-          backgroundColor: process.env.NODE_ENV === 'development' && 'var(--color-gray-3)',
-        }}
+        style={
+          {
+            '--ads-height': `${adsHeight}px`,
+            '--ads-width': `${adsWidth}px`,
+            backgroundColor: process.env.NODE_ENV === 'development' && 'var(--color-gray-3)',
+          } as CSSProperties
+        }
       >
         <Ins />
       </Ads>

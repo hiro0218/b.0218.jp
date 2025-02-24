@@ -1,4 +1,4 @@
-import type { AriaRole, CSSProperties, ReactNode } from 'react';
+import type { AriaRole, CSSProperties, JSX, ReactNode } from 'react';
 
 import { css, cx } from '@/ui/styled/static';
 import type { SpaceGap } from '@/ui/styled/variables/space';
@@ -58,13 +58,14 @@ export const Stack = ({
     <Tag
       className={cx(className, tagStyle)}
       data-direction={direction}
-      style={{
-        // @ts-ignore CSS Custom Properties
-        '--stack-space': spaceGap,
-        '--stack-align': align,
-        '--stack-justify': justify,
-        '--stack-wrap': wrap,
-      }}
+      style={
+        {
+          '--stack-space': spaceGap,
+          '--stack-align': align,
+          '--stack-justify': justify,
+          '--stack-wrap': wrap,
+        } as CSSProperties
+      }
       {...props}
     >
       {children}

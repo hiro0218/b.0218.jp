@@ -1,7 +1,7 @@
 import { pxToRem } from '@/ui/lib/fonts';
 import { SPACING_BASE_PX } from '@/ui/styled/constant';
 
-export const Spaces = ['½', 1, 2, 3, 4, 5, 6] as const;
+const Spaces = ['½', 1, 2, 3, 4, 5, 6] as const;
 export type SpaceGap = (typeof Spaces)[number];
 type SpaceKey = `--space-${SpaceGap}`;
 type SpaceValue = `${number}rem`;

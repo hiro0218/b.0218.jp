@@ -1,5 +1,5 @@
-import type { AriaRole, ReactNode } from 'react';
-import { memo } from 'react';
+import type { AriaRole, JSX, ReactNode } from 'react';
+import { type CSSProperties, memo } from 'react';
 
 import { css, cx } from '@/ui/styled/static';
 import type { SpaceGap } from '@/ui/styled/variables/space';
@@ -40,10 +40,11 @@ export const Cluster = memo(function Grid({
       className={cx(className, clusterStyle)}
       {...(isWide && { 'data-is-wide': isWide })}
       {...props}
-      style={{
-        // @ts-ignore CSS custom property
-        '--cluster-space': `var(--space-${gap})`,
-      }}
+      style={
+        {
+          '--cluster-space': `var(--space-${gap})`,
+        } as CSSProperties
+      }
     >
       {children}
     </Tag>

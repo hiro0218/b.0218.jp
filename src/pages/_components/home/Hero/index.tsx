@@ -2,6 +2,7 @@
 import { Stack } from '@/components/UI/Layout';
 import { css, styled } from '@/ui/styled/static';
 import Link from 'next/link';
+import type { CSSProperties } from 'react';
 
 const ICON_SIZE = 100;
 const ICON_SIZE_SHRINK = ICON_SIZE * 0.85;
@@ -12,11 +13,12 @@ export const Hero = function Hero() {
   return (
     <Stack className={ContainerStyle} align="start" direction="horizontal">
       <Avatar
-        style={{
-          // @ts-ignore CSS Custom Properties
-          '--hero-size': `${ICON_SIZE}px`,
-          '--hero-size-shrink': `${ICON_SIZE_SHRINK}px`,
-        }}
+        style={
+          {
+            '--hero-size': `${ICON_SIZE}px`,
+            '--hero-size-shrink': `${ICON_SIZE_SHRINK}px`,
+          } as CSSProperties
+        }
       >
         <img alt="hiro (black cat icon)" height={ICON_SIZE} src="/hiro0218.svg" width={ICON_SIZE} />
       </Avatar>

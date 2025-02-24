@@ -7,7 +7,7 @@ const LIMIT_TAG_LIST = 10;
 const tagData = getTagsJson();
 const similarTags = getSimilarTags();
 
-const getTagBySlug = (slug: PostTagProps['slug']) => tagData[slug];
+const getTagBySlug = (slug: PostTagProps['slug']): string[] => tagData[slug];
 
 export const getSimilarTag = (tag: string): PostTagProps[] => {
   const similarTagsList = similarTags[tag];

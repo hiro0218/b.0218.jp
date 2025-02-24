@@ -1,5 +1,5 @@
 import type { ForwardedRef } from 'react';
-import { forwardRef, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { styled } from '@/ui/styled/static';
 
@@ -8,6 +8,7 @@ import { useToast } from './useToast';
 type Props = {
   message: string;
   onHideToast: () => void;
+  ref: ForwardedRef<HTMLDivElement>;
 };
 
 export const Toast = (message: string) => {
@@ -25,16 +26,13 @@ export const Toast = (message: string) => {
   };
 };
 
-const ToastComponent = forwardRef(function ToastComponent(
-  { message, onHideToast }: Props,
-  ref: ForwardedRef<HTMLDivElement>,
-) {
+const ToastComponent = ({ message, onHideToast, ref }: Props) => {
   return (
     <Container aria-hidden="false" onClick={onHideToast} ref={ref} role="tooltip">
       {message}
     </Container>
   );
-});
+};
 
 const Container = styled.div`
   position: fixed;

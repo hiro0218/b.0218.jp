@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { useMemo } from 'react';
+import { type CSSProperties, useMemo } from 'react';
 
 import { css, styled } from '@/ui/styled/static';
 
@@ -25,16 +25,17 @@ function Heading({
       <TitleTag
         id={id}
         className={headerTitleStyle}
-        style={{
-          // @ts-ignore CSS Custom Properties
-          '--font-size': TitleTag === 'h1' || TitleTag === 'h2' ? 'var(--font-size-h4)' : 'var(--font-size-h5)',
-          ...(!isWeightNormal && { '--font-weight': 'var(--font-weight-bold)' }),
-        }}
+        style={
+          {
+            '--font-size': TitleTag === 'h1' || TitleTag === 'h2' ? 'var(--font-size-h4)' : 'var(--font-size-h5)',
+            ...(!isWeightNormal && { '--font-weight': 'var(--font-weight-bold)' }),
+          } as CSSProperties
+        }
       >
         {children}
       </TitleTag>
     ),
-    [isWeightNormal, id],
+    [isWeightNormal, id, TitleTag, children],
   );
   return (
     <>

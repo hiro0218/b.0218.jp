@@ -1,4 +1,4 @@
-import type { NamedExoticComponent, ReactNode } from 'react';
+import type { CSSProperties, NamedExoticComponent, ReactNode } from 'react';
 
 import { css, cx, styled } from '@/ui/styled/static';
 import type { SpaceGap } from '@/ui/styled/variables/space';
@@ -87,10 +87,11 @@ const Side = ({ children }: ChildProps) => {
 export const Sidebar = (({ children, space = 3 }: Props) => {
   return (
     <Container
-      style={{
-        // @ts-ignore CSS Custom Property
-        '--space': `var(--space-${space})`,
-      }}
+      style={
+        {
+          '--space': `var(--space-${space})`,
+        } as CSSProperties
+      }
     >
       {children}
     </Container>

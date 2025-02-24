@@ -4,7 +4,7 @@ import { isIgnoreDomain, isValidURL, normalizeURL } from './url';
 
 const FETCH_HEADERS = { 'User-Agent': 'Twitterbot/1.0' };
 
-export const FETCH_TIMEOUT = 1000;
+const FETCH_TIMEOUT = 1000;
 
 const virtualConsole = new VirtualConsole();
 virtualConsole.on('error', () => {
