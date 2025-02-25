@@ -91,6 +91,7 @@ export const colorVariables = {
    */
   // 11: 低コントラストのテキスト
   '--color-gray-11': gray.gray11,
+  '--color-gray-11A': grayA.grayA11,
   '--color-accent-11': blue.blue11,
   '--color-gray-inverse-11': grayDark.gray11,
 

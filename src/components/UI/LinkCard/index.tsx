@@ -58,47 +58,53 @@ function LinkCard({
 export default LinkCard;
 
 const Container = styled.article`
+  --container-space: var(--space-3);
+
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  padding: calc(var(--space-3) * 0.85);
+  padding: var(--container-space);
+  word-break: break-all;
+  background-color: var(--white);
+  border: 1px solid var(--color-gray-3A);
+  border-radius: var(--border-radius-8);
+  transition: background-color 0.4s var(--easing-ease-out-expo);
   content-visibility: auto;
   contain-intrinsic-size: 0 200px;
   contain: layout style;
-  word-break: break-all;
-  background-color: var(--white);
-  border-radius: var(--border-radius-8);
-  box-shadow: var(--shadows-sm);
-  transition:
-    box-shadow 0.4s var(--easing-ease-out-expo),
-    padding 0.4s var(--easing-ease-out-expo);
+
+  @media (--isMobile) {
+    --container-space: var(--space-2);
+  }
 
   &[data-is-new='true'] {
     &::before {
       position: absolute;
-      top: 0;
-      right: 0;
+      top: var(--container-space);
+      right: var(--container-space);
       display: grid;
       place-content: center;
       padding: var(--space-½) var(--space-1);
       font-size: var(--font-size-xs);
-      font-weight: var(--font-weight-bold);
       line-height: 1;
       color: var(--white);
       content: 'NEW';
-      background-color: var(--color-gray-12);
-      border-bottom-left-radius: var(--border-radius-8);
+      background-color: var(--color-gray-11A);
+      border-radius: var(--border-radius-12);
       isolation: isolate;
     }
   }
 
   &:hover,
-  &:focus-visible {
-    box-shadow: var(--shadows-md);
+  &:focus,
+  &:focus-within {
+    /* box-shadow: var(--shadows-sm); */
+    background-color: var(--color-gray-3A);
   }
 
   &:active {
-    box-shadow: var(--shadows-sm);
+    /* box-shadow: var(--shadows-xs); */
+    background-color: var(--color-gray-4A);
   }
 
   time {
@@ -123,12 +129,12 @@ const anchorStyle = css`
     isolation: isolate;
   }
 
-  &:hover,
+  /* &:hover,
   &:focus-visible {
     text-decoration-line: underline;
     text-decoration-thickness: 2px;
     text-decoration-color: var(--color-gray-7);
-  }
+  } */
 
   &:focus-within {
     box-shadow: none;
