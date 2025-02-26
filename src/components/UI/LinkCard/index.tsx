@@ -98,12 +98,10 @@ const Container = styled.article`
   &:hover,
   &:focus,
   &:focus-within {
-    /* box-shadow: var(--shadows-sm); */
     background-color: var(--color-gray-3A);
   }
 
   &:active {
-    /* box-shadow: var(--shadows-xs); */
     background-color: var(--color-gray-4A);
   }
 
