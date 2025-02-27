@@ -1,4 +1,5 @@
 import { getSimilarPosts } from '@/lib/posts';
+import { getDateAndUpdatedToSimpleFormat } from '@/pages/_libs/getDateAndUpdatedToSimpleFormat';
 import type { PostProps } from '@/types/source';
 
 const similarPosts = getSimilarPosts();
@@ -24,8 +25,7 @@ export const getSimilarPost = (posts: Map<PostProps['slug'], PostProps>, slug: s
     return {
       title,
       slug,
-      date,
-      ...(updated && { updated }),
+      ...getDateAndUpdatedToSimpleFormat(date, updated),
     };
   });
 

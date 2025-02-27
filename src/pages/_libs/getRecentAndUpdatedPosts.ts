@@ -1,3 +1,4 @@
+import { getDateAndUpdatedToSimpleFormat } from '@/pages/_libs/getDateAndUpdatedToSimpleFormat';
 import type { PostListProps, PostProps } from '@/types/source';
 import { POST_DISPLAY_LIMIT, UPDATED_POST_DISPLAY_LIMIT } from './constant';
 
@@ -12,6 +13,11 @@ const filterPosts = ({ posts, options }: Props): PostListProps[] => {
   const { withoutContent = true } = options || {};
 
   return posts.map((post) => {
+    post = {
+      ...post,
+      ...getDateAndUpdatedToSimpleFormat(post.date, post.updated),
+    };
+
     if (withoutContent && 'content' in post) {
       // 'content' プロパティが存在し、withoutContent が true の場合、content, note, readingTime を除外
       const { content, note, readingTime, ...rest } = post;

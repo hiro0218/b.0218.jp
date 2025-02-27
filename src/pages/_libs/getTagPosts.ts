@@ -1,4 +1,5 @@
 import { getPostsJson, getTagsJson } from '@/lib/posts';
+import { getDateAndUpdatedToSimpleFormat } from '@/pages/_libs/getDateAndUpdatedToSimpleFormat';
 import type { PageProps } from '@/types/source';
 
 type ReturnProps = Omit<PageProps, 'content'>;
@@ -13,8 +14,7 @@ export const getTagPosts = (slug: string): ReturnProps[] => {
     return {
       title,
       slug: postSlug,
-      date,
-      ...(updated && { updated }),
+      ...getDateAndUpdatedToSimpleFormat(date, updated),
     };
   });
 

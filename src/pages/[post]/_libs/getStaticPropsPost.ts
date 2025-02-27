@@ -3,6 +3,7 @@ import type { GetStaticProps } from 'next';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import { getPostsJson, getTagsWithCount } from '@/lib/posts';
 import { UPDATED_POST_DISPLAY_LIMIT } from '@/pages/_libs/constant';
+import { getDateAndUpdatedToSimpleFormat } from '@/pages/_libs/getDateAndUpdatedToSimpleFormat';
 import { getRecentAndUpdatedPosts } from '@/pages/_libs/getRecentAndUpdatedPosts';
 import { getTagPosts } from '@/pages/_libs/getTagPosts';
 import type { PostListProps, PostProps, TermsPostListProps } from '@/types/source';
@@ -56,7 +57,11 @@ export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
 
   return {
     props: {
-      post: { ...post, tagsWithCount },
+      post: {
+        ...post,
+        ...getDateAndUpdatedToSimpleFormat(post.date, post.updated),
+        tagsWithCount,
+      },
       similarPost,
       similarTags,
       recentPosts,
