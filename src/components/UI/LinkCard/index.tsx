@@ -98,11 +98,11 @@ const Container = styled.article`
   &:hover,
   &:focus,
   &:focus-within {
-    background-color: var(--color-gray-3A);
+    background-color: var(--color-gray-2A);
   }
 
   &:active {
-    background-color: var(--color-gray-4A);
+    background-color: var(--color-gray-3A);
   }
 
   time {
