@@ -40,11 +40,13 @@ export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
   }
 
   // tagsに件数を追加
-  const tagsWithCount = post.tags.map((slug) => tagDataWithCountBySlug[slug]).filter((tag) => tag !== undefined);
+  const tagsWithCount: PostTagProps[] = post.tags
+    .map((slug) => tagDataWithCountBySlug[slug])
+    .filter((tag) => tag !== undefined);
 
   // 関連タグ
   const tag = post.tags[0];
-  const similarTags = getSimilarTag(tag);
+  const similarTags: PostTagProps[] = getSimilarTag(tag);
 
   // 関連記事
   let similarPost: TermsPostListProps[] = getSimilarPost(posts, slug);
