@@ -17,7 +17,6 @@ import tagsWithCount from '~/dist/tags-with-count.json';
 import tags from '~/dist/tags.json';
 
 type PostMapProps = Map<PostProps['slug'], PostProps>;
-type PageMapProps = Map<PageProps['slug'], PageProps>;
 
 export const getTagsJson = (): TagsListProps => {
   return tags;
@@ -31,8 +30,8 @@ export const getPostsListJson = (): PostListProps[] => {
   return postsList;
 };
 
-export const getPagesJson = (): PageMapProps => {
-  return new Map(pages.map((page) => [page.slug, page]));
+export const getPagesJson = (): PageProps[] => {
+  return pages;
 };
 
 export const getTagsWithCount = () => {

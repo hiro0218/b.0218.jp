@@ -27,7 +27,7 @@ export const createGetLayout = (layoutProps: LayoutProps): (() => ReactElement) 
 };
 
 function Layout({ slug, title }: LayoutProps) {
-  const { content } = pages.get(slug);
+  const { content } = pages.find((page) => slug === page.slug);
   const reactNodeContent = parser(content);
   const { heading, paragraph } = title;
 
