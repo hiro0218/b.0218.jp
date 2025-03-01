@@ -16,14 +16,12 @@ import tagsSimilarity from '~/dist/tags-similarity.json';
 import tagsWithCount from '~/dist/tags-with-count.json';
 import tags from '~/dist/tags.json';
 
-type PostMapProps = Map<PostProps['slug'], PostProps>;
-
 export const getTagsJson = (): TagsListProps => {
   return tags;
 };
 
-export const getPostsJson = (): PostMapProps => {
-  return new Map(posts.map((post) => [post.slug, post]));
+export const getPostsJson = (): PostProps[] => {
+  return posts;
 };
 
 export const getPostsListJson = (): PostListProps[] => {

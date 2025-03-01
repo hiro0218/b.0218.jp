@@ -10,7 +10,7 @@ const allTags = getTagsJson();
 export const getTagPosts = (slug: string): ReturnProps[] => {
   const tag = allTags[slug];
   const tagPosts = tag.map((postSlug: string) => {
-    const { title, date, updated } = allPosts.get(postSlug);
+    const { title, date, updated } = allPosts.find((post) => post.slug === postSlug);
     return {
       title,
       slug: postSlug,

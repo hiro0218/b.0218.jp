@@ -24,14 +24,14 @@ const tagDataWithCount = getTagsWithCount();
 const tagDataWithCountBySlug = Object.fromEntries(tagDataWithCount.map((tag) => [tag.slug, tag]));
 // 最新記事
 const { recentPosts } = getRecentAndUpdatedPosts({
-  posts: Array.from(posts.values()),
+  posts,
 });
 
 export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
   const slug = (context.params?.post as string).replace('.html', '');
 
   // slug に一致する post を取得
-  const post = posts.get(slug);
+  const post = posts.find((post) => post.slug === slug);
 
   if (!post) {
     return {
