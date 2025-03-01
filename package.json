@@ -42,7 +42,7 @@
     "@google-analytics/data": "4.11.0",
     "@hono/node-server": "1.13.8",
     "@markuplint/jsx-parser": "4.7.16",
-    "@markuplint/react-spec": "4.5.16",
+    "@markuplint/react-spec": "4.5.17",
     "@next/bundle-analyzer": "15.2.0",
     "@pandacss/dev": "0.53.0",
     "@total-typescript/ts-reset": "0.6.1",
