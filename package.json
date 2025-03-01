@@ -70,7 +70,7 @@
     "jsdom": "26.0.0",
     "lightningcss": "1.29.1",
     "lowlight": "3.3.0",
-    "markuplint": "4.11.6",
+    "markuplint": "4.11.7",
     "mdast-util-find-and-replace": "3.0.2",
     "nano-staged": "0.8.0",
     "next-build-id": "3.0.0",
