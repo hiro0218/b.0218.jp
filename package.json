@@ -64,7 +64,7 @@
     "gray-matter": "4.0.3",
     "hast-util-is-element": "3.0.0",
     "hast-util-parse-selector": "4.0.0",
-    "hast-util-select": "6.0.3",
+    "hast-util-select": "6.0.4",
     "hono": "4.7.0",
     "husky": "9.1.7",
     "jsdom": "26.0.0",
