@@ -70,18 +70,6 @@ const AnchorStyle = css`
     font-size: var(--font-size-sm);
   }
 
-  &[data-current='true'] {
-    --fill: var(--color-gray-6);
-
-    font-weight: var(--font-weight-bold);
-
-    &:hover,
-    &:active,
-    &:focus-visible {
-      --fill: var(--color-gray-6);
-    }
-  }
-
   &:hover {
     --fill: var(--color-gray-4);
   }
