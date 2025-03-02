@@ -28,7 +28,7 @@ const rehypeGfmAlert: Plugin = () => {
       if (!isElement(node, 'blockquote')) return;
 
       // 不要なノードを削除する
-      node.children = node.children.filter((c) => !(c.type === 'text' && c.value === '\n'));
+      node.children = node.children.filter((child) => !(child.type === 'text' && child.value === '\n'));
 
       // 空のブロッククオートは対象外
       if (node.children.length === 0) return;
@@ -40,16 +40,16 @@ const rehypeGfmAlert: Plugin = () => {
       if (node.children[0].children.length === 0) return;
 
       // プレーンテキストで始まらないparagraphは無視する
-      const firstNode = node.children[0].children[0];
-      if (firstNode.type !== 'text') return;
+      const firstChild = node.children[0].children[0];
+      if (firstChild.type !== 'text') return;
 
       // prefixがない場合は対象外
-      if (!firstNode.value.match(PREFIX_REGEX)) return;
+      if (!firstChild.value.match(PREFIX_REGEX)) return;
 
-      const prefix = firstNode.value;
-      const label = getAlertLabel(prefix);
+      const prefix = firstChild.value;
+      const alertType = getAlertLabel(prefix);
 
-      if (!label) return;
+      if (!alertType) return;
 
       if (!node.properties) {
         node.properties = {};
@@ -57,45 +57,45 @@ const rehypeGfmAlert: Plugin = () => {
 
       node.properties = {
         className: 'gfm-alert',
-        'data-alert-type': label.toLowerCase(),
+        'data-alert-type': alertType.toLowerCase(),
       };
 
       // @ts-ignore blockquoteを<script type="application/json">に変更する
       node.tagName = 'script';
       node.properties.type = 'application/json';
 
-      const text = node.children
-        .map((c) => {
-          if (c.type === 'element') {
-            return removeLabelElement(c.children)
-              .map((cc) => {
-                if (cc.type === 'text') {
-                  return cc.value;
+      const alertText = node.children
+        .map((child) => {
+          if (child.type === 'element') {
+            return removeLabelElement(child.children)
+              .map((grandChild) => {
+                if (grandChild.type === 'text') {
+                  return grandChild.value;
                 }
 
-                if (cc.type === 'element') {
-                  const childrenText = cc.children
-                    .map((ccc) => {
-                      if (ccc.type === 'text') {
-                        return ccc.value;
+                if (grandChild.type === 'element') {
+                  const grandChildText = grandChild.children
+                    .map((greatGrandChild) => {
+                      if (greatGrandChild.type === 'text') {
+                        return greatGrandChild.value;
                       }
                       return '';
                     })
                     .join('');
 
-                  switch (cc.tagName) {
+                  switch (grandChild.tagName) {
                     case 'a':
-                      return `<a href="${cc.properties.href}">${childrenText}</a>`;
+                      return `<a href="${grandChild.properties?.href ?? ''}">${grandChildText}</a>`;
                     case 'img':
-                      return `<img src="${cc.properties.src}" alt="${cc.properties.alt}" />`;
+                      return `<img src="${grandChild.properties?.src ?? ''}" alt="${grandChild.properties?.alt ?? ''}" />`;
                     case 'br':
                       return '<br />';
                     case 'strong':
-                      return `<strong>${childrenText}</strong>`;
+                      return `<strong>${grandChildText}</strong>`;
                     case 'code':
-                      return `<code>${childrenText}</code>`;
+                      return `<code>${grandChildText}</code>`;
                     default:
-                      return childrenText;
+                      return grandChildText;
                   }
                 }
 
@@ -103,6 +103,7 @@ const rehypeGfmAlert: Plugin = () => {
               })
               .join('');
           }
+          return '';
         })
         .join('');
 
@@ -112,8 +113,8 @@ const rehypeGfmAlert: Plugin = () => {
           value: JSON.stringify({
             type: 'alert',
             data: {
-              type: label.toLowerCase(),
-              text: text,
+              type: alertType.toLowerCase(),
+              text: alertText,
             },
           }),
         },
@@ -124,7 +125,7 @@ const rehypeGfmAlert: Plugin = () => {
 
 export default rehypeGfmAlert;
 
-const getAlertLabel = (prefix: string) => {
+const getAlertLabel = (prefix: string): string => {
   if (PREFIX.includes(prefix)) {
     return prefix.replace('[!', '').replace(']', '');
   }
@@ -132,20 +133,20 @@ const getAlertLabel = (prefix: string) => {
   return '';
 };
 
-const removeLabelElement = (node: ElementContent[]) => {
+const removeLabelElement = (nodes: ElementContent[]): ElementContent[] => {
   let breakPosition = 0;
 
-  return node.filter((c, i) => {
+  return nodes.filter((node, index) => {
     if (breakPosition === -1) return true;
 
     // 最初のラベルを取り除く
-    if (c.type === 'text' && PREFIX.includes(c.value)) {
-      breakPosition = i;
+    if (node.type === 'text' && PREFIX.includes(node.value)) {
+      breakPosition = index;
       return false;
     }
 
     // ラベルの次の改行を取り除く
-    if (i === breakPosition + 1 && c.type === 'element' && c.tagName === 'br') {
+    if (index === breakPosition + 1 && node.type === 'element' && node.tagName === 'br') {
       breakPosition = -1;
       return false;
     }
