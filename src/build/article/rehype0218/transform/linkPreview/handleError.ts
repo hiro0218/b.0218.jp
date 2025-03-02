@@ -7,20 +7,46 @@ class NetworkError extends Error {
   }
 }
 
-export function handleError(error: unknown, message?: string): void {
-  if (error instanceof TypeError) {
-    Log.error('Fetch Error:', error.message, message);
-  } else if (error instanceof DOMException) {
-    if (error.name === 'TimeoutError') {
-      Log.error('Timeout Error:', error.message, message);
-    } else {
-      Log.error('Abort Error:', error.message, message);
-    }
-  } else if (error instanceof NetworkError) {
-    Log.error('Network Error:', error.message, message);
-  } else if (error instanceof SyntaxError) {
-    Log.error('JSON Error:', error.message, message);
-  } else {
-    Log.error('Occurred unexpected error:', error.toString(), message);
+class TimeoutError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'TimeoutError';
   }
+}
+
+class AbortError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'AbortError';
+  }
+}
+
+export function handleError(error: unknown, message?: string): void {
+  let errorMessage: string;
+  let errorType: string;
+
+  switch (true) {
+    case error instanceof TypeError:
+      errorType = 'Fetch Error';
+      errorMessage = error.message;
+      break;
+    case error instanceof TimeoutError:
+      errorType = 'Timeout Error';
+      errorMessage = error.message;
+      break;
+    case error instanceof AbortError:
+      errorType = 'Abort Error';
+      errorMessage = error.message;
+      break;
+    case error instanceof NetworkError:
+      errorType = 'Network Error';
+      errorMessage = error.message;
+      break;
+    default:
+      errorType = 'Occurred unexpected error';
+      errorMessage = String(error);
+      break;
+  }
+
+  Log.error(`${errorType}:`, errorMessage, message);
 }
