@@ -103,12 +103,9 @@ function calculateTagSimilarity(tags1: string[], tags2: string[], sortedTags: Ta
 
 /**
  * コンテンツの類似度を計算する
- * 注：実際の実装ではタイトル、説明、本文などからTF-IDFベクトルを作成して
- * コサイン類似度を計算するなどの方法を使用するとよい
  */
 function calculateContentSimilarity(post1: PostListProps, post2: PostListProps): number {
   // ここでは簡易実装として、タイトルの単語の重複度を計算
-  // 実際のアプリケーションでは、より高度なテキスト類似度計算を実装するとよい
   const title1Words = post1.title.toLowerCase().split(/\s+/);
   const title2Words = post2.title.toLowerCase().split(/\s+/);
 
@@ -126,7 +123,7 @@ function calculateContentSimilarity(post1: PostListProps, post2: PostListProps):
  */
 function calculateRecencyBonus(post1: PostListProps, post2: PostListProps): number {
   // 投稿日が近いほどボーナスが高くなる
-  // 注：dateプロパティが存在することを前提としています
+  // 注：dateプロパティが存在することを前提
   if (!post1.date || !post2.date) {
     return 0;
   }
