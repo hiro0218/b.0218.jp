@@ -1,4 +1,4 @@
-const isInvalidDate = (date: Date) => {
+const isInvalidDate = (date: Date): boolean => {
   return Number.isNaN(date.getTime());
 };
 
@@ -11,7 +11,7 @@ export const convertDateToSimpleFormat = (date: Date): string => {
 };
 
 export const isSameDay = (dateA: Date, dateB: Date): boolean => {
-  if (isInvalidDate(dateB)) {
+  if (isInvalidDate(dateA) || isInvalidDate(dateB)) {
     return false;
   }
 
