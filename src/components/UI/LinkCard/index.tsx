@@ -80,8 +80,8 @@ const Container = styled.article`
   &[data-is-new='true'] {
     &::before {
       position: absolute;
-      top: var(--container-space);
-      right: var(--container-space);
+      top: calc(var(--container-space) - var(--space-1));
+      right: calc(var(--container-space) - var(--space-1));
       display: grid;
       place-content: center;
       padding: var(--space-½) var(--space-1);
@@ -89,7 +89,7 @@ const Container = styled.article`
       line-height: 1;
       color: var(--white);
       content: 'NEW';
-      background-color: var(--color-gray-11A);
+      background-color: var(--color-gray-11);
       border-radius: var(--border-radius-12);
       isolation: isolate;
     }
