@@ -21,20 +21,10 @@ export type PostProps = ArticleBaseProps & {
 
 export type TagsListProps = Record<string, string[]>;
 
-export type TagSimilarProps = {
-  [tag: string]: {
-    [relatedTag: string]: number;
-  };
-};
+export type TagSimilarProps = Record<string, Record<string, number>>;
 
-export type PostSimilarProps = {
-  [slug: string]: {
-    [slug: string]: number;
-  };
-}[];
+export type PostSimilarProps = Record<string, Record<string, number>>[];
 
 export type PostListProps = Optional<Pick<PostProps, 'title' | 'slug' | 'date' | 'updated' | 'tags'>, 'updated'>;
 
-export type PostPopularProps = {
-  [slug: string]: number;
-};
+export type PostPopularProps = Record<string, number>;

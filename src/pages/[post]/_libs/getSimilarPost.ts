@@ -1,4 +1,5 @@
 import { getSimilarPosts } from '@/lib/posts';
+import { getDateAndUpdatedToSimpleFormat } from '@/pages/_libs/getDateAndUpdatedToSimpleFormat';
 import type { PostProps } from '@/types/source';
 
 const similarPosts = getSimilarPosts();
@@ -8,7 +9,7 @@ const getSimilarPostBySlug = (key: string) => {
   return result ? result[key] : null;
 };
 
-export const getSimilarPost = (posts: Map<PostProps['slug'], PostProps>, slug: string) => {
+export const getSimilarPost = (posts: PostProps[], slug: string) => {
   const similarPostSlugs = getSimilarPostBySlug(slug);
 
   if (!similarPostSlugs) {
@@ -17,15 +18,14 @@ export const getSimilarPost = (posts: Map<PostProps['slug'], PostProps>, slug: s
 
   const slugs = Object.keys(similarPostSlugs);
 
-  const existingSlugs = slugs.filter((slug) => posts.has(slug));
+  const existingSlugs = slugs.filter((slug) => posts.some((post) => post.slug === slug));
 
   const similarPost = existingSlugs.map((slug) => {
-    const { title, date, updated } = posts.get(slug);
+    const { title, date, updated } = posts.find((post) => post.slug === slug);
     return {
       title,
       slug,
-      date,
-      ...(updated && { updated }),
+      ...getDateAndUpdatedToSimpleFormat(date, updated),
     };
   });
 

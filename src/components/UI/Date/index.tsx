@@ -1,14 +1,12 @@
 import { Stack } from '@/components/UI/Layout';
-import { convertDateToSimpleFormat, isSameDay } from '@/lib/date';
+import { isSameDay } from '@/lib/date';
 import type { PostProps } from '@/types/source';
 import { css } from '@/ui/styled/static';
 
 type Props = Pick<PostProps, 'date' | 'updated'>;
 
 function PostDate({ date, updated }: Props) {
-  const dateTime = new Date(date);
-  const updatedTime = new Date(updated);
-  const hasModified = !!updated && !isSameDay(dateTime, updatedTime);
+  const hasModified = !!updated && !isSameDay(new Date(date), new Date(updated));
 
   return (
     <Stack direction="horizontal" space={1}>
@@ -21,15 +19,10 @@ function PostDate({ date, updated }: Props) {
             : ''
         }
         dateTime={date}
-        title={`投稿日時: ${date}`}
       >
-        {convertDateToSimpleFormat(dateTime)}
+        {date}
       </time>
-      {!!hasModified && (
-        <time dateTime={updated} title={`更新日時: ${updated}`}>
-          {convertDateToSimpleFormat(updatedTime)}
-        </time>
-      )}
+      {!!hasModified && <time dateTime={updated}>{updated}</time>}
     </Stack>
   );
 }

@@ -1,4 +1,4 @@
-import type { NamedExoticComponent, ReactNode } from 'react';
+import type { CSSProperties, NamedExoticComponent, ReactNode } from 'react';
 
 import { css, cx, styled } from '@/ui/styled/static';
 import type { SpaceGap } from '@/ui/styled/variables/space';
@@ -19,6 +19,10 @@ type TitleProps = {
 };
 
 const Container = styled.div`
+  /** https://ja.wikipedia.org/wiki/21:9%E3%82%A2%E3%82%B9%E3%83%9A%E3%82%AF%E3%83%88%E6%AF%94 */
+  --aspect-ratio: calc(21 / 9); /* 21:9 の比率 */
+  --column-ratio: calc(21 / (21 + 9)); /* 片方のカラムの割合 */
+
   display: flex;
   gap: var(--space);
 
@@ -49,8 +53,8 @@ const Main = ({ children }: ChildProps) => {
   return (
     <div
       className={css`
-        flex: 1.618;
-        min-width: 61.8%;
+        flex: var(--column-ratio);
+        min-width: calc(100% * var(--column-ratio));
       `}
     >
       {children}
@@ -74,7 +78,8 @@ const Side = ({ children }: ChildProps) => {
     <div
       className={cx(
         css`
-          flex: 1;
+          flex: calc(1 - var(--column-ratio));
+          min-width: calc(100% * (1 - var(--column-ratio)));
         `,
         stickyStyle,
       )}
@@ -87,10 +92,11 @@ const Side = ({ children }: ChildProps) => {
 export const Sidebar = (({ children, space = 3 }: Props) => {
   return (
     <Container
-      style={{
-        // @ts-ignore CSS Custom Property
-        '--space': `var(--space-${space})`,
-      }}
+      style={
+        {
+          '--space': `var(--space-${space})`,
+        } as CSSProperties
+      }
     >
       {children}
     </Container>

@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { type ForwardedRef, forwardRef, useId } from 'react';
+import { type ForwardedRef, useId } from 'react';
 import { createPortal } from 'react-dom';
 
 import useIsClient from '@/hooks/useIsClient';
@@ -12,12 +12,10 @@ const Overlay = dynamic(() => import('./Overlay').then((module) => module.Overla
 
 type Props = {
   closeDialog: onCloseDialogProps;
+  ref: ForwardedRef<HTMLDialogElement>;
 };
 
-export const SearchDialog = forwardRef(function SearchDialog(
-  { closeDialog }: Props,
-  ref: ForwardedRef<HTMLDialogElement>,
-) {
+export const SearchDialog = ({ closeDialog, ref }: Props) => {
   const isClient = useIsClient();
   const id = useId();
 
@@ -40,7 +38,7 @@ export const SearchDialog = forwardRef(function SearchDialog(
     </>,
     document.body,
   );
-});
+};
 
 const Dialog = styled.dialog`
   position: fixed;
