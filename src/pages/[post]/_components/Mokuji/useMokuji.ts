@@ -24,13 +24,13 @@ export const useMokuji = ({ refContent }: MokujiProps): ReturnProps => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: ルーティング毎に目次を生成するため
   useEffect(() => {
+    if (!refDetailContent.current || !refMokuji.current) {
+      return;
+    }
+
     refDetailContent.current.replaceChildren();
 
     requestAnimationFrame(() => {
-      if (!refDetailContent.current || !refMokuji.current) {
-        return;
-      }
-
       // refDetailContent内にdata-mokuji-listが存在する場合は抜ける
       if (refDetailContent.current.querySelector('[data-mokuji-list]')) {
         return;
@@ -49,7 +49,7 @@ export const useMokuji = ({ refContent }: MokujiProps): ReturnProps => {
     return () => {
       MokujiJsDestroy();
     };
-  }, [pathname, refContent]);
+  }, [pathname, refContent, refMokuji, refDetailContent]);
 
   return { refMokuji, refDetailContent };
 };
