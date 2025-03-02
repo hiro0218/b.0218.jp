@@ -1,7 +1,6 @@
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
-import { DetailsAccordion } from '@/lib/DetailsAccordion';
 import { ChevronDownIcon, ChevronUpIcon, ICON_SIZE_XS } from '@/ui/icons';
 import { styled } from '@/ui/styled/static';
 
@@ -12,17 +11,6 @@ function Mokuji({ refContent }: MokujiProps) {
   const pathname = usePathname();
   const { refMokuji, refDetailContent } = useMokuji({ refContent });
   const refDetails = useRef<HTMLDetailsElement>(null);
-
-  useEffect(() => {
-    if (!refDetails.current) return;
-    if (!refDetailContent.current) return;
-
-    const accordion = new DetailsAccordion(refDetails.current, refDetailContent.current);
-
-    return () => {
-      accordion.removeEventListener();
-    };
-  }, [pathname, refDetailContent]);
 
   return (
     <Root key={pathname} ref={refMokuji}>

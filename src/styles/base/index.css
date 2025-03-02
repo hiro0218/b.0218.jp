@@ -4,6 +4,10 @@
   background-color: var(--color-gray-5A);
 }
 
+:root {
+  interpolate-size: allow-keywords;
+}
+
 * {
   scrollbar-width: thin;
 }
@@ -294,5 +298,19 @@ del {
       display: inline-block;
       content: '（' attr(datetime) ' 削除）';
     }
+  }
+}
+
+@supports (interpolate-size: allow-keywords) {
+  details::details-content {
+    height: 0;
+    overflow: hidden;
+  }
+
+  details[open]::details-content {
+    height: auto;
+    /* stylelint-disable-next-line declaration-property-value-no-unknown */
+    height: calc-size(auto, size);
+    transition: height 0.4s var(--easing-ease-out-expo);
   }
 }
