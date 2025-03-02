@@ -9,6 +9,8 @@ const nextConfiguration = {
 
   pageExtensions: ['page.tsx'],
 
+  devIndicators: false,
+
   experimental: {
     scrollRestoration: true,
   },
