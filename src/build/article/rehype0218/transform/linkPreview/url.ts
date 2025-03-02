@@ -1,5 +1,7 @@
 import { handleError } from './handleError';
 
+const IGNORE_DOMAINS = ['jira.atlassian.com', 'www.ups.com', 'web.archive.org'] as const;
+
 export const isValidURL = (url: string): boolean => {
   try {
     const parsedUrl = new URL(url);
@@ -20,7 +22,5 @@ export const normalizeURL = (url: string) => {
  */
 export const isIgnoreDomain = (url: string) => {
   const parseURL = new URL(url);
-  const ignoreDomains = ['jira.atlassian.com', 'www.ups.com', 'web.archive.org'];
-
-  return ignoreDomains.includes(parseURL.hostname);
+  return IGNORE_DOMAINS.includes(parseURL.hostname);
 };
