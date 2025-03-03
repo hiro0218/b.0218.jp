@@ -127,13 +127,6 @@ const anchorStyle = css`
     isolation: isolate;
   }
 
-  /* &:hover,
-  &:focus-visible {
-    text-decoration-line: underline;
-    text-decoration-thickness: 2px;
-    text-decoration-color: var(--color-gray-7);
-  } */
-
   &:focus-within {
     box-shadow: none;
   }
