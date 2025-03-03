@@ -33,7 +33,7 @@ export const fontVariables = {
   '--font-size-h2': clampFontSize(getFontSizeStep(10), getFontSizeStep(8)),
   '--font-size-h3': clampFontSize(getFontSizeStep(8), getFontSizeStep(6)),
   '--font-size-h4': clampFontSize(getFontSizeStep(6), getFontSizeStep(4)),
-  '--font-size-h5': clampFontSize(getFontSizeStep(4), getFontSizeStep(2)),
+  '--font-size-h5': clampFontSize(getFontSizeStep(4), getFontSizeStep(3)),
   '--font-size-h6': clampFontSize(getFontSizeStep(3), getFontSizeStep(3)),
 
   /**
