@@ -304,7 +304,7 @@ del {
 @supports (interpolate-size: allow-keywords) {
   details::details-content {
     height: 0;
-    overflow: hidden;
+    overflow-y: clip;
   }
 
   details[open]::details-content {
