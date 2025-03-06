@@ -68,7 +68,7 @@
     "hono": "4.7.2",
     "husky": "9.1.7",
     "jsdom": "26.0.0",
-    "lightningcss": "1.29.1",
+    "lightningcss": "1.29.2",
     "lowlight": "3.3.0",
     "markuplint": "4.11.7",
     "mdast-util-find-and-replace": "3.0.2",
