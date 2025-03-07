@@ -1,4 +1,5 @@
 import { css, cx } from '@/ui/styled/static';
+import { containerType } from '@/ui/styled/utilities';
 import type { SpaceGap } from '@/ui/styled/variables/space';
 import { SPACE_KEYS } from '@/ui/styled/variables/space';
 import type { AriaRole, CSSProperties, JSX, ReactNode } from 'react';
@@ -16,8 +17,8 @@ const gridStyle = css`
   grid-template-columns: repeat(2, minmax(calc(50% - var(--space-1)), max-content));
   gap: var(--grid-gap);
 
-  @media (--isMobile) {
-    grid-template-columns: minmax(100%, max-content);
+  @container (max-width: 480px) {
+    grid-template-columns: 1fr;
   }
 `;
 
@@ -28,7 +29,7 @@ export const Grid = ({ as: GridTag = 'div', role, children, gap, className, ...p
     <GridTag
       role={role}
       {...props}
-      className={cx(className, gridStyle)}
+      className={cx(className, gridStyle, containerType)}
       style={
         {
           '--grid-gap': spaceGap,

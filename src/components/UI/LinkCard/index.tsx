@@ -77,7 +77,15 @@ const Container = styled.article`
     --container-space: var(--space-2);
   }
 
+  @container (max-width: 480px) {
+    --container-space: var(--space-2);
+  }
+
   &[data-is-new='true'] {
+    @container (max-width: 480px) {
+      display: none;
+    }
+
     &::before {
       position: absolute;
       top: calc(var(--container-space) - var(--space-1));
@@ -149,6 +157,10 @@ const Tags = styled.div`
   gap: var(--space-1);
   margin-top: auto;
   overflow: clip;
+
+  @container (max-width: 480px) {
+    display: none;
+  }
 `;
 
 const TagItem = styled.span`

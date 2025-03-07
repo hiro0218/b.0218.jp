@@ -1,5 +1,4 @@
 import { styled } from '@/ui/styled/static';
-import { SPACE_STEPS } from '@/ui/styled/variables/space';
 import type { CSSProperties, ReactNode } from 'react';
 
 type Props = {
@@ -10,27 +9,21 @@ type Props = {
 };
 
 const getSize = (size: Props['size']) => {
-  const sizeValue = (() => {
+  return (() => {
     switch (size) {
       case 'small':
-        // 768px
-        return 96;
+        return '768px';
       case 'default':
       default:
-        // 1024px
-        return 128;
+        return '1024px';
       case 'large':
-        // 1280px
-        return 160;
+        return '1280px';
     }
   })();
-
-  const space1 = SPACE_STEPS['--space-1'];
-
-  return `calc(${sizeValue} * ${space1})`;
 };
 
 const Root = styled.div`
+  width: 100%;
   max-width: var(--container-size);
   margin-inline: auto;
 
