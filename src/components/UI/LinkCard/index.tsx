@@ -94,6 +94,7 @@ const Container = styled.article`
       place-content: center;
       padding: var(--space-½) var(--space-1);
       font-size: var(--font-size-xs);
+      font-family: var(--font-family-monospace);
       line-height: 1;
       color: var(--white);
       content: 'NEW';
