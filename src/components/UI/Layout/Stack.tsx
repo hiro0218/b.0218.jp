@@ -19,6 +19,7 @@ type Props = {
 const tagStyle = css`
   display: flex;
   flex-wrap: var(--stack-wrap);
+  gap: var(--stack-space);
   align-items: var(--stack-align);
   justify-content: var(--stack-justify);
 
@@ -28,16 +29,10 @@ const tagStyle = css`
 
   &[data-direction='horizontal'] {
     flex-direction: row;
-    & > * + * {
-      margin-inline-start: var(--stack-space);
-    }
   }
 
   &[data-direction='vertical'] {
     flex-direction: column;
-    & > * + * {
-      margin-block-start: var(--stack-space);
-    }
   }
 `;
 
