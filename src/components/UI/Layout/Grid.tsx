@@ -1,8 +1,7 @@
 import { css, cx } from '@/ui/styled/static';
 import { containerType } from '@/ui/styled/utilities';
 import type { SpaceGap } from '@/ui/styled/variables/space';
-import { SPACE_KEYS } from '@/ui/styled/variables/space';
-import type { AriaRole, CSSProperties, JSX, ReactNode } from 'react';
+import type { AriaRole, JSX, ReactNode } from 'react';
 
 type Props = {
   as?: keyof JSX.IntrinsicElements;
@@ -15,7 +14,6 @@ type Props = {
 const gridStyle = css`
   display: grid;
   grid-template-columns: repeat(2, minmax(calc(50% - var(--space-1)), max-content));
-  gap: var(--grid-gap);
 
   @container (max-width: 480px) {
     grid-template-columns: 1fr;
@@ -23,19 +21,8 @@ const gridStyle = css`
 `;
 
 export const Grid = ({ as: GridTag = 'div', role, children, gap, className, ...props }: Props) => {
-  const spaceGap = SPACE_KEYS.includes(`--space-${gap}`) ? `var(--space-${gap})` : gap === 0 ? null : `var(--space-1)`;
-
   return (
-    <GridTag
-      role={role}
-      {...props}
-      className={cx(className, gridStyle, containerType)}
-      style={
-        {
-          '--grid-gap': spaceGap,
-        } as CSSProperties
-      }
-    >
+    <GridTag role={role} {...props} className={cx(className, gridStyle, containerType)} data-gap={gap}>
       {children}
     </GridTag>
   );

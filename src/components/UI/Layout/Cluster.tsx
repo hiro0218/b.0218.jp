@@ -1,5 +1,5 @@
 import type { AriaRole, JSX, ReactNode } from 'react';
-import { type CSSProperties, memo } from 'react';
+import { memo } from 'react';
 
 import { css, cx } from '@/ui/styled/static';
 import type { SpaceGap } from '@/ui/styled/variables/space';
@@ -16,7 +16,6 @@ type Props = {
 const clusterStyle = css`
   display: flex;
   flex-wrap: wrap;
-  gap: var(--cluster-space, --space-1);
   justify-content: flex-start;
 
   &[data-is-wide='true'] {
@@ -36,16 +35,7 @@ export const Cluster = memo(function Grid({
   ...props
 }: Props) {
   return (
-    <Tag
-      className={cx(className, clusterStyle)}
-      {...(isWide && { 'data-is-wide': isWide })}
-      {...props}
-      style={
-        {
-          '--cluster-space': `var(--space-${gap})`,
-        } as CSSProperties
-      }
-    >
+    <Tag className={cx(className, clusterStyle)} {...(isWide && { 'data-is-wide': isWide })} {...props} data-gap={gap}>
       {children}
     </Tag>
   );

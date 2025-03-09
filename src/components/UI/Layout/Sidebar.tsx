@@ -1,4 +1,4 @@
-import type { CSSProperties, NamedExoticComponent, ReactNode } from 'react';
+import type { NamedExoticComponent, ReactNode } from 'react';
 
 import { css, cx, styled } from '@/ui/styled/static';
 import type { SpaceGap } from '@/ui/styled/variables/space';
@@ -24,7 +24,6 @@ const Container = styled.div`
   --column-ratio: calc(21 / (21 + 9)); /* 片方のカラムの割合 */
 
   display: flex;
-  gap: var(--space);
 
   @media (--isMobile) {
     flex-direction: column;
@@ -90,17 +89,7 @@ const Side = ({ children }: ChildProps) => {
 };
 
 export const Sidebar = (({ children, space = 3 }: Props) => {
-  return (
-    <Container
-      style={
-        {
-          '--space': `var(--space-${space})`,
-        } as CSSProperties
-      }
-    >
-      {children}
-    </Container>
-  );
+  return <Container data-gap={space}>{children}</Container>;
 }) as NamedExoticComponent<Props> & {
   // biome-ignore lint/style/useNamingConvention: <explanation>
   Title: typeof Title;
