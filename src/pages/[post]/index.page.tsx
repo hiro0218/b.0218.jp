@@ -4,7 +4,7 @@ import Script from 'next/script';
 import { useMemo } from 'react';
 
 import { Container } from '@/components/Functional/Container';
-import { Stack } from '@/components/UI/Layout';
+import { Sidebar, Stack } from '@/components/UI/Layout';
 import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { getOgpImage, getPermalink } from '@/lib/url';
@@ -58,48 +58,52 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
         />
       </Head>
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
-      <Container size="small" space={false}>
-        <Stack space={6}>
-          <Stack as="article" space={4}>
-            <PostHeader
-              date={date}
-              readingTime={readingTime}
-              render={
-                <>
-                  {ShareComponent}
-                  {!!note && <PostNote note={note} />}
-                </>
-              }
-              tagsWithCount={tagsWithCount}
-              title={title}
-              updated={updated}
-            />
-            <PostContent content={content} />
-            <Stack direction="horizontal" justify="space-between">
-              {ShareComponent}
-              <PostEdit slug={slug} />
+      <Container size="default" space={false}>
+        <Sidebar space={4}>
+          <Sidebar.Main>
+            <Stack as="article" space={4}>
+              <PostHeader
+                date={date}
+                readingTime={readingTime}
+                render={
+                  <>
+                    {ShareComponent}
+                    {!!note && <PostNote note={note} />}
+                  </>
+                }
+                tagsWithCount={tagsWithCount}
+                title={title}
+                updated={updated}
+              />
+              <PostContent content={content} />
+              <Stack direction="horizontal" justify="space-between">
+                {ShareComponent}
+                <PostEdit slug={slug} />
+              </Stack>
             </Stack>
-          </Stack>
-          <Stack as="footer" space={5}>
-            <TagSection
-              as="aside"
-              heading="関連タグ"
-              headingLevel="h2"
-              headingWeight="normal"
-              isWideCluster={false}
-              tags={similarTags}
-            />
-            <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} updateTarget="date" />
-            <PostSection
-              as="aside"
-              heading="最新記事"
-              headingLevel="h2"
-              href="/archive"
-              posts={recentPosts}
-              updateTarget="date"
-            />
-          </Stack>
-        </Stack>
+          </Sidebar.Main>
+          <Sidebar.Side>
+            <Stack as="footer" space={5}>
+              <TagSection
+                as="aside"
+                heading="関連タグ"
+                headingLevel="h2"
+                headingWeight="normal"
+                isWideCluster={false}
+                tags={similarTags}
+              />
+              <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} updateTarget="date" />
+              <PostSection
+                as="aside"
+                heading="最新記事"
+                headingLevel="h2"
+                href="/archive"
+                posts={recentPosts}
+                updateTarget="date"
+              />
+            </Stack>
+          </Sidebar.Side>
+        </Sidebar>
       </Container>
     </>
   );

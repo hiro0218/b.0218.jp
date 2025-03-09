@@ -77,7 +77,15 @@ const Container = styled.article`
     --container-space: var(--space-2);
   }
 
+  @container (max-width: 480px) {
+    --container-space: var(--space-2);
+  }
+
   &[data-is-new='true'] {
+    @container (max-width: 480px) {
+      display: none;
+    }
+
     &::before {
       position: absolute;
       top: calc(var(--container-space) - var(--space-1));
@@ -86,6 +94,7 @@ const Container = styled.article`
       place-content: center;
       padding: var(--space-½) var(--space-1);
       font-size: var(--font-size-xs);
+      font-family: var(--font-family-monospace);
       line-height: 1;
       color: var(--white);
       content: 'NEW';
@@ -127,13 +136,6 @@ const anchorStyle = css`
     isolation: isolate;
   }
 
-  /* &:hover,
-  &:focus-visible {
-    text-decoration-line: underline;
-    text-decoration-thickness: 2px;
-    text-decoration-color: var(--color-gray-7);
-  } */
-
   &:focus-within {
     box-shadow: none;
   }
@@ -156,6 +158,10 @@ const Tags = styled.div`
   gap: var(--space-1);
   margin-top: auto;
   overflow: clip;
+
+  @container (max-width: 480px) {
+    display: none;
+  }
 `;
 
 const TagItem = styled.span`

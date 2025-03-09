@@ -1,5 +1,5 @@
 import { keyframes } from '@/ui/styled/animations';
-import { hljsCss } from '@/ui/styled/globals';
+import { dataCss, hljsCss } from '@/ui/styled/globals';
 import globalVars from '@/ui/styled/variables';
 import { defineConfig } from '@pandacss/dev';
 
@@ -35,6 +35,7 @@ export default defineConfig({
   globalVars,
 
   globalCss: {
+    ...dataCss,
     ...hljsCss,
   },
 
