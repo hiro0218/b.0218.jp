@@ -4,6 +4,7 @@ import LinkCard from '@/components/UI/LinkCard';
 import { convertPostSlugToPath } from '@/lib/url';
 import { LinkMore } from '@/pages/_components/home';
 import type { PostListProps, TermsPostListProps } from '@/types/source';
+import { containerType } from '@/ui/styled/utilities';
 import type { JSX } from 'react';
 
 type Props = {
@@ -52,7 +53,7 @@ export const PostSection = ({
           {heading}
         </Heading>
       )}
-      <Box mt={2}>
+      <Box mt={2} className={containerType}>
         <Grid gap={2}>
           {posts.map(({ date, slug, tags, title, updated }) => {
             const targetDate = updateTarget === 'updated' ? updated : date;

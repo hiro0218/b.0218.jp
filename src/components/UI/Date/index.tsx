@@ -16,7 +16,7 @@ function PostDate({ date, updated }: Props) {
             ? css`
                 text-decoration: line-through;
               `
-            : ''
+            : undefined
         }
         dateTime={date}
       >

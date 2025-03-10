@@ -2,7 +2,6 @@ import type { AriaRole, CSSProperties, JSX, ReactNode } from 'react';
 
 import { css, cx } from '@/ui/styled/static';
 import type { SpaceGap } from '@/ui/styled/variables/space';
-import { SPACE_KEYS } from '@/ui/styled/variables/space';
 
 type Props = {
   as?: keyof JSX.IntrinsicElements;
@@ -28,16 +27,10 @@ const tagStyle = css`
 
   &[data-direction='horizontal'] {
     flex-direction: row;
-    & > * + * {
-      margin-inline-start: var(--stack-space);
-    }
   }
 
   &[data-direction='vertical'] {
     flex-direction: column;
-    & > * + * {
-      margin-block-start: var(--stack-space);
-    }
   }
 `;
 
@@ -49,18 +42,16 @@ export const Stack = ({
   align,
   justify = 'flex-start',
   wrap,
-  className = '',
+  className = undefined,
   ...props
 }: Props) => {
-  const spaceGap = SPACE_KEYS.includes(`--space-${space}`) ? `var(--space-${space})` : `var(--space-2)`;
-
   return (
     <Tag
       className={cx(className, tagStyle)}
       data-direction={direction}
+      data-gap={space}
       style={
         {
-          '--stack-space': spaceGap,
           '--stack-align': align,
           '--stack-justify': justify,
           '--stack-wrap': wrap,

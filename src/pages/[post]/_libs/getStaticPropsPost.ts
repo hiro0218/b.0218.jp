@@ -13,6 +13,10 @@ import { getSimilarTag } from './getSimilarTag';
 type PostPageProps = {
   post: PostProps & {
     tagsWithCount: PostTagProps[];
+    meta: {
+      publishedTime: string;
+      modifiedTime?: string;
+    };
   };
   similarPost: TermsPostListProps[];
   similarTags: PostTagProps[];
@@ -63,6 +67,10 @@ export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
         ...post,
         ...getDateAndUpdatedToSimpleFormat(post.date, post.updated),
         tagsWithCount,
+        meta: {
+          publishedTime: post.date,
+          ...(post.updated && { modifiedTime: post.updated }),
+        },
       },
       similarPost,
       similarTags,

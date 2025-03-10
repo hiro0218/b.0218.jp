@@ -2,5 +2,9 @@
 User-agent: *
 Allow: /
 
+# MJ12bot
+User-agent: MJ12bot
+Disallow: /
+
 # Sitemaps
 Sitemap: https://b.0218.jp/sitemap.xml
