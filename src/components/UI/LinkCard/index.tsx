@@ -93,8 +93,8 @@ const Container = styled.article`
       display: grid;
       place-content: center;
       padding: var(--space-½) var(--space-1);
-      font-size: var(--font-size-xs);
       font-family: var(--font-family-monospace);
+      font-size: var(--font-size-xs);
       line-height: 1;
       color: var(--white);
       content: 'NEW';
@@ -158,6 +158,7 @@ const Tags = styled.div`
   gap: var(--space-1);
   margin-top: auto;
   overflow: clip;
+  mask-image: linear-gradient(to right, transparent, #000 0, #000 calc(100% - 2em), transparent);
 
   @container (max-width: 480px) {
     display: none;
