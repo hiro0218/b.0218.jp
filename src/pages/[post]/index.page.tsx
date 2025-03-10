@@ -25,6 +25,7 @@ type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
 export default function PostPage({ post, similarPost, similarTags, recentPosts }: Props) {
   const { title, date, updated, slug, readingTime, note, noindex: isNoindex, content, tagsWithCount } = post;
+  const { publishedTime, modifiedTime } = post.meta;
   const hasTweet = content.includes('twitter-tweet');
   const permalink = getPermalink(slug);
   const description = getDescriptionText(content);
@@ -39,9 +40,9 @@ export default function PostPage({ post, similarPost, similarTags, recentPosts }
         <meta content={title} key="og:title" property="og:title" />
         <meta content="article" key="og:type" property="og:type" />
         <meta content={description} key="og:description" property="og:description" />
-        <meta content={updated || date} key="og:updated_time" property="og:updated_time" />
-        <meta content={date} key="article:published_time" property="article:published_time" />
-        <meta content={updated || date} key="article:modified_time" property="article:modified_time" />
+        <meta content={modifiedTime || publishedTime} key="og:updated_time" property="og:updated_time" />
+        <meta content={publishedTime} key="article:published_time" property="article:published_time" />
+        <meta content={modifiedTime || publishedTime} key="article:modified_time" property="article:modified_time" />
         <meta content={`${getOgpImage(slug)}?ts=${process.env.BUILD_ID}`} key="og:image" property="og:image" />
         <meta content="summary_large_image" key="twitter:card" name="twitter:card" />
         <meta content="Written by" name="twitter:label1" />
