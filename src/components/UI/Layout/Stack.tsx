@@ -42,7 +42,7 @@ export const Stack = ({
   align,
   justify = 'flex-start',
   wrap,
-  className = '',
+  className = undefined,
   ...props
 }: Props) => {
   return (

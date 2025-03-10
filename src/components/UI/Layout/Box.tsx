@@ -8,7 +8,7 @@ type Props = {
   children?: ReactNode;
 };
 
-export const Box = ({ as: Tag = 'div', mt = undefined, className = '', children, ...props }: Props) => {
+export const Box = ({ as: Tag = 'div', mt = undefined, className = undefined, children, ...props }: Props) => {
   return (
     <Tag {...(mt && { 'data-mt': mt })} className={className} {...props}>
       {children}
