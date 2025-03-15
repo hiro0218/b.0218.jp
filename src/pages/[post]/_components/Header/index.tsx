@@ -50,6 +50,7 @@ const headerSeparatorStyle = css`
 `;
 
 const Heading = styled.h1`
+  font-weight: var(--font-weight-bolder);
   font-feature-settings: 'palt';
   font-kerning: normal;
   line-height: var(--line-height-lg);
