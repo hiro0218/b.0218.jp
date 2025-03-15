@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect' next dev -p 8080 --experimental-https",
-    "prebuild": "git submodule update --remote && npm run build:article && npm run build:similarity && npm run build:popular && npm run build:ogp",
+    "prebuild": "git submodule update --remote && npm run build:article && npm run build:similarity && npm run build:popular && npm run build:ogp && npm run build:misc",
     "build": "TZ='Asia/Tokyo' next build",
     "postbuild": "npm run build:feed && npm run build:sitemap",
     "build:article": "TZ='Asia/Tokyo' NODE_OPTIONS='--disable-warning=ExperimentalWarning' node --require esbuild-register ./src/build/article",
-    "postbuild:article": "node -r esbuild-register ./src/build/article/extractUniqueChars.ts",
+    "build:misc": "node -r esbuild-register ./src/build/article/extractUniqueChars.ts",
     "build:feed": "node --require esbuild-register ./src/build/feed.ts",
     "prebuild:ogp": "nohup node --require esbuild-register ./src/build/ogp/server.tsx  > /dev/null 2>&1 &",
     "build:ogp": "node --require esbuild-register ./src/build/ogp/screenshot.ts",
