@@ -43,7 +43,12 @@ function extractUniqueChars(data: { title: string; content: string }[]): string 
     processStringAndAddToSet(data[i].content, uniqueCharsSet);
   }
 
-  return Array.from(uniqueCharsSet).join('');
+  // 文字をカテゴリごとに分類
+  const sortedChars = Array.from(uniqueCharsSet).sort((a, b) => {
+    return getCharPriority(a) - getCharPriority(b);
+  });
+
+  return sortedChars.join('');
 }
 
 /** 絵文字を判定する関数 */
@@ -107,6 +112,34 @@ function addCharactersToSet(str: string, charSet: Set<string>): void {
     if (!/\s/.test(char) && !isEmoji(char) && !isAscii(char)) {
       charSet.add(char); // 大文字小文字をそのまま維持
     }
+  }
+}
+
+/**
+ * 文字の優先度を定義
+ */
+function getCharPriority(char: string): number {
+  const codePoint = char.codePointAt(0) ?? 0;
+
+  switch (true) {
+    case /[A-Z]/.test(char):
+      return 1; // 英大文字
+    case /[a-z]/.test(char):
+      return 2; // 英小文字
+    case /[0-9]/.test(char):
+      return 3; // 数字
+    case /[\s]/.test(char):
+      return 4; // スペース
+    case /[\.\,\!\?\(\)\[\]\{\}\<\>]/.test(char):
+      return 5; // ASCII記号
+    case codePoint >= 0x3041 && codePoint <= 0x3096:
+      return 6; // ひらがな
+    case codePoint >= 0x30a1 && codePoint <= 0x30fa:
+      return 7; // カタカナ
+    case codePoint >= 0x4e00 && codePoint <= 0x9fff:
+      return 8; // 漢字
+    default:
+      return 9; // その他
   }
 }
 
