@@ -149,7 +149,7 @@ function getCharPriority(char: string): number {
   const file = `export default ${JSON.stringify(uniqueStrings)};`;
 
   await mkdir(`${PATH.to}`, { recursive: true });
-  writeFile(`${PATH.to}/uniqueChars.ts`, file).then(() => {
+  await writeFile(`${PATH.to}/uniqueChars.ts`, file).then(() => {
     Log.info(`Write dist/uniqueChars.ts`);
   });
 })();
