@@ -6,6 +6,8 @@ import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { MetaLinkFeed, MetaLinkRelMe } from '@/components/Functional/MetaLink';
 import { GOOGLE_ADSENSE } from '@/constant';
 
+import { GoogleFontLinks } from '@/components/Functional/GoogleFontLinks';
+
 const HTML_PREFIX_BASE = 'og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#';
 const HTML_PREFIX_ARTICLE = `${HTML_PREFIX_BASE} article: http://ogp.me/ns/article#`;
 
@@ -32,8 +34,9 @@ class MyDocument extends Document<{ ogpPrefix: string }> {
       <Html lang="ja" prefix={this.props.ogpPrefix}>
         <Head>
           <link href="/favicon.ico" rel="icon" type="image/x-icon" />
-          <MetaLinkFeed feeds={feeds} />
           <link href="/opensearch.xml" rel="search" type="application/opensearchdescription+xml" />
+          <GoogleFontLinks />
+          <MetaLinkFeed feeds={feeds} />
           <MetaLinkRelMe />
           <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} />
         </Head>
