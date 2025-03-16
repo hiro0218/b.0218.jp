@@ -29,6 +29,7 @@ export const GoogleFontLinks = () => {
       {links.map((url, index) => (
         <link key={index} href={url} rel="stylesheet" />
       ))}
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap" rel="stylesheet" />
     </>
   );
 };

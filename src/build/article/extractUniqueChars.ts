@@ -15,19 +15,19 @@ function extractUniqueChars(data: { title: string; content: string }[]): string 
   const uniqueCharsSet = new Set<string>();
 
   // 数字 (0-9): U+0030 - U+0039
-  // addCharRange(0x0030, 0x0039, uniqueCharsSet);
+  addCharRange(0x0030, 0x0039, uniqueCharsSet);
 
   // 英大文字 (A-Z): U+0041 - U+005A
-  // addCharRange(0x0041, 0x005A, uniqueCharsSet);
+  addCharRange(0x0041, 0x005a, uniqueCharsSet);
 
   // 英小文字 (a-z): U+0061 - U+007A
-  // addCharRange(0x0061, 0x007A, uniqueCharsSet);
+  addCharRange(0x0061, 0x007a, uniqueCharsSet);
 
   // ASCII記号: U+0020 - U+002F, U+003A - U+0040, U+005B - U+0060, U+007B - U+007E
-  // addCharRange(0x0021, 0x002F, uniqueCharsSet); // !"#$%&'()*+,-./
-  // addCharRange(0x003A, 0x0040, uniqueCharsSet); // :;<=>?@
-  // addCharRange(0x005B, 0x0060, uniqueCharsSet); // [\]^_`
-  // addCharRange(0x007B, 0x007E, uniqueCharsSet); // {|}~
+  addCharRange(0x0021, 0x002f, uniqueCharsSet); // !"#$%&'()*+,-./
+  addCharRange(0x003a, 0x0040, uniqueCharsSet); // :;<=>?@
+  addCharRange(0x005b, 0x0060, uniqueCharsSet); // [\]^_`
+  addCharRange(0x007b, 0x007e, uniqueCharsSet); // {|}~
 
   // ひらがな: U+3041 - U+3096
   addCharRange(0x3041, 0x3096, uniqueCharsSet);
@@ -55,6 +55,7 @@ function extractUniqueChars(data: { title: string; content: string }[]): string 
 const isEmoji = (char: string): boolean => /\p{Emoji}/u.test(char);
 
 /** アルファベットやASCII記号判定する関数 */
+// biome-ignore lint/correctness/noUnusedVariables: <explanation>
 const isAscii = (char: string): boolean => /^[\x20-\x7E]*$/.test(char);
 
 /**
@@ -109,7 +110,7 @@ function processStringAndAddToSet(str: string, charSet: Set<string>): void {
  */
 function addCharactersToSet(str: string, charSet: Set<string>): void {
   for (const char of str) {
-    if (!/\s/.test(char) && !isEmoji(char) && !isAscii(char)) {
+    if (!/\s/.test(char) && !isEmoji(char)) {
       charSet.add(char); // 大文字小文字をそのまま維持
     }
   }
