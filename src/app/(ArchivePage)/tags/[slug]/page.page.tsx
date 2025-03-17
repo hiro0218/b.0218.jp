@@ -1,26 +1,42 @@
 import { getMetadata } from '@/app/(ArchivePage)/metadata';
-import { SITE_NAME, SITE_URL } from '@/constant';
+import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
+import { getTagsWithCount } from '@/lib/posts';
 import { getTagPosts } from '@/pages/_libs/getTagPosts';
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import TagPage from './components/TagPage';
-import { getStaticPathsTagDetail } from './libs';
 
-export const generateStaticParams = async () => getStaticPathsTagDetail();
+export async function generateStaticParams() {
+  const tags = getTagsWithCount();
+
+  return tags
+    .filter((tag) => tag.count >= TAG_VIEW_LIMIT)
+    .map((tag) => ({
+      // @note https://github.com/vercel/next.js/issues/63002
+      slug: process.env.NODE_ENV === 'production' ? tag.slug : encodeURIComponent(tag.slug),
+    }));
+}
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const { slug } = await params;
+  const decodedSlug = decodeURIComponent(slug);
 
   return getMetadata({
-    title: `Tag: ${slug}`,
-    description: `Tag: ${slug} - ${SITE_NAME}`,
-    url: `${SITE_URL}/tag/${slug}`,
+    title: `Tag: ${decodedSlug}`,
+    description: `Tag: ${decodedSlug} - ${SITE_NAME}`,
+    url: `${SITE_URL}/tags/${slug}`,
   });
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const { slug } = await params;
-  const posts = getTagPosts(slug);
+  const decodedSlug = decodeURIComponent(slug);
+  const posts = getTagPosts(decodedSlug);
   const totalItems = posts.length;
 
-  return <TagPage slug={slug} posts={posts} totalItems={totalItems} />;
+  return (
+    <Suspense>
+      <TagPage slug={decodedSlug} posts={posts} totalItems={totalItems} />
+    </Suspense>
+  );
 }
