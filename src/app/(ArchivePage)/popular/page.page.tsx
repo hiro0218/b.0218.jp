@@ -1,5 +1,5 @@
 import { getMetadata } from '@/app/(ArchivePage)/metadata';
-import { getData } from '@/app/(ArchivePage)/popular/getData';
+import { getData } from '@/app/(ArchivePage)/popular/lib/getData';
 import { Sidebar, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
