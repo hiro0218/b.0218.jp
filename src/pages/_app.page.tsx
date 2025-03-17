@@ -1,8 +1,8 @@
+import { GoogleAnalytics } from '@next/third-parties/google';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { GoogleAnalytics } from 'nextjs-google-analytics';
 import type { ReactElement, ReactNode } from 'react';
 
 import Footer from '@/components/App/Footer';
@@ -56,7 +56,7 @@ export default function App({ Component, pageProps }: MyAppProps) {
         <meta content={AUTHOR_NAME} name="author" />
       </Head>
 
-      <GoogleAnalytics trackPageViews={{ ignoreHashChange: true }} />
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
       <Layout>
         <Header />
         {getLayout(<Component {...pageProps} />)}
