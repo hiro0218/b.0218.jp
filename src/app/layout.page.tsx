@@ -6,6 +6,7 @@ import Header from '@/components/App/Header';
 import { GoogleFontLinks } from '@/components/Functional/GoogleFontLinks';
 import { AUTHOR_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
+import { MainContainer } from '@/pages/_components/MainContainer';
 import { Layout } from '@/pages/_layouts/AppLayout';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import dynamic from 'next/dynamic';
@@ -53,7 +54,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
         <Layout>
           <Header />
-          <main>{children}</main>
+          <MainContainer>{children}</MainContainer>
           <PageScroll />
           <Footer />
         </Layout>
