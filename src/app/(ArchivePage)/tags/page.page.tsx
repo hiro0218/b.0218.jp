@@ -1,4 +1,4 @@
-import { getMetadata } from '@/app/(SinglePage)/metadata';
+import { getMetadata } from '@/app/(ArchivePage)/metadata';
 import { Box } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
