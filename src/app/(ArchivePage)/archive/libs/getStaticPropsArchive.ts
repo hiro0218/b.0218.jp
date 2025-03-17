@@ -1,4 +1,5 @@
 import type { getPostsListJson } from '@/lib/posts';
+import { getDateAndUpdatedToSimpleFormat } from '@/pages/_libs/getDateAndUpdatedToSimpleFormat';
 import type { PostListProps } from '@/types/source';
 
 export type ArchiveListProps = Record<string, PostListProps[]>;
@@ -20,7 +21,10 @@ export const divideByYearArchive = (posts: ReturnType<typeof getPostsListJson>):
       result[year] = [];
     }
 
-    result[year].push(post);
+    result[year].push({
+      ...post,
+      ...getDateAndUpdatedToSimpleFormat(post.date),
+    });
   }
 
   return result;
