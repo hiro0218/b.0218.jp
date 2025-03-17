@@ -5,6 +5,7 @@ import Footer from '@/components/App/Footer';
 import Header from '@/components/App/Header';
 import { GoogleFontLinks } from '@/components/Functional/GoogleFontLinks';
 import { AUTHOR_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
+import { getOrganizationStructured } from '@/lib/json-ld';
 import { Layout } from '@/pages/_layouts/AppLayout';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import dynamic from 'next/dynamic';
@@ -41,6 +42,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <html lang="ja">
       <head>
         <GoogleFontLinks />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getOrganizationStructured()),
+          }}
+          type="application/ld+json"
+        ></script>
       </head>
       <body>
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
