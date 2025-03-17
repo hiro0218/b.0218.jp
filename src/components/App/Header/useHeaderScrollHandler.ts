@@ -1,3 +1,5 @@
+'use client';
+
 import throttle from '@/lib/throttle';
 import { SPACING_BASE_PX } from '@/ui/styled/constant';
 import { useEffect, useRef, useState } from 'react';
