@@ -1,1 +1,0 @@
-export { getStaticPathsTagDetail } from './getStaticPathsTagDetail';
