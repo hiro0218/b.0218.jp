@@ -1,47 +1,27 @@
-import type { GetStaticProps } from 'next';
-
+import { getSimilarPost } from '@/app/(PostPage)/[slug]/lib/getSimilarPost';
+import { getSimilarTag } from '@/app/(PostPage)/[slug]/lib/getSimilarTag';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import { getPostsJson, getTagsWithCount } from '@/lib/posts';
 import { UPDATED_POST_DISPLAY_LIMIT } from '@/pages/_libs/constant';
 import { getDateAndUpdatedToSimpleFormat } from '@/pages/_libs/getDateAndUpdatedToSimpleFormat';
 import { getRecentAndUpdatedPosts } from '@/pages/_libs/getRecentAndUpdatedPosts';
 import { getTagPosts } from '@/pages/_libs/getTagPosts';
-import type { PostListProps, PostProps, TermsPostListProps } from '@/types/source';
-import { getSimilarPost } from './getSimilarPost';
-import { getSimilarTag } from './getSimilarTag';
-
-type PostPageProps = {
-  post: PostProps & {
-    tagsWithCount: PostTagProps[];
-    meta: {
-      publishedTime: string;
-      modifiedTime?: string;
-    };
-  };
-  similarPost: TermsPostListProps[];
-  similarTags: PostTagProps[];
-  recentPosts: PostListProps[];
-};
+import type { TermsPostListProps } from '@/types/source';
 
 const posts = getPostsJson();
 const tagDataWithCount = getTagsWithCount();
 const tagDataWithCountBySlug = Object.fromEntries(tagDataWithCount.map((tag) => [tag.slug, tag]));
-// 最新記事
-const { recentPosts } = getRecentAndUpdatedPosts({
-  posts,
-});
 
-export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
-  const slug = (context.params?.post as string).replace('.html', '');
-
-  // slug に一致する post を取得
-  const post = posts.find((post) => post.slug === slug);
+export const getData = (slug: string) => {
+  const post = posts.find((post) => post.slug === slug.replace('.html', ''));
 
   if (!post) {
-    return {
-      notFound: true,
-    };
+    return null;
   }
+
+  const { recentPosts } = getRecentAndUpdatedPosts({
+    posts,
+  });
 
   // tagsに件数を追加
   const tagsWithCount: PostTagProps[] = post.tags
@@ -62,19 +42,17 @@ export const getStaticPropsPost: GetStaticProps<PostPageProps> = (context) => {
   }
 
   return {
-    props: {
-      post: {
-        ...post,
-        ...getDateAndUpdatedToSimpleFormat(post.date, post.updated),
-        tagsWithCount,
-        meta: {
-          publishedTime: post.date,
-          ...(post.updated && { modifiedTime: post.updated }),
-        },
+    post: {
+      ...post,
+      ...getDateAndUpdatedToSimpleFormat(post.date, post.updated),
+      tagsWithCount,
+      meta: {
+        publishedTime: post.date,
+        ...(post.updated && { modifiedTime: post.updated }),
       },
-      similarPost,
-      similarTags,
-      recentPosts,
     },
+    similarPost,
+    similarTags,
+    recentPosts,
   };
 };

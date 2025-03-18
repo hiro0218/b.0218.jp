@@ -1,8 +1,10 @@
+'use client';
+
 import { useRef } from 'react';
 
+import { splitReactNode } from '@/app/(PostPage)/[slug]/lib/splitHtml';
 import { Adsense } from '@/components/UI/Adsense';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
-import { splitReactNode } from '@/pages/[post]/_libs/splitHtml';
 import type { PostProps } from '@/types/source';
 import { styled } from '@/ui/styled/static';
 import Mokuji from '../Mokuji';

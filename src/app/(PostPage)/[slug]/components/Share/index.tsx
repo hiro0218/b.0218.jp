@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useId } from 'react';
 
 import { Stack } from '@/components/UI/Layout';

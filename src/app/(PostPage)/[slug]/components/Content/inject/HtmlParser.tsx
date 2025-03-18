@@ -1,7 +1,7 @@
+import { Alert, type AlertType } from '@/app/(PostPage)/[slug]/components/Alert';
+import { LinkPreview } from '@/app/(PostPage)/[slug]/components/LinkPreview';
 import { Anchor } from '@/components/UI/Anchor';
 import { parseJSON } from '@/lib/parseJSON';
-import { Alert, type AlertType } from '@/pages/[post]/_components/Alert';
-import { LinkPreview } from '@/pages/[post]/_components/LinkPreview';
 import reactHtmlParser, {
   type HTMLReactParserOptions,
   Element,
