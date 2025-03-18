@@ -17,19 +17,15 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import { getData } from './lib/getData';
 
-const posts = getPostsJson();
+type Params = Promise<{ slug: string }>;
 
-type StaticParamsProp = {
-  params: {
-    slug: string;
-  };
-};
+const posts = getPostsJson();
 
 export const dynamic = 'auto';
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const paths: StaticParamsProp[] = [];
+  const paths = [];
 
   for (let i = 0; i < posts.length; i++) {
     paths.push({
@@ -42,7 +38,7 @@ export async function generateStaticParams() {
   return paths;
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug: _slug } = await params;
   const slug = _slug.replace('.html', '');
   const data = getData(slug);
@@ -88,7 +84,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: { params: Params }) {
   const { slug: _slug } = await params;
   const slug = _slug.replace('.html', '');
   const { post, similarPost, similarTags, recentPosts } = getData(slug);

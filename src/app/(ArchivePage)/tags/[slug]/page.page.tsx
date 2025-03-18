@@ -6,6 +6,8 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import TagPage from './components/TagPage';
 
+type Params = Promise<{ slug: string }>;
+
 export async function generateStaticParams() {
   const tags = getTagsWithCount();
 
@@ -17,7 +19,7 @@ export async function generateStaticParams() {
     }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
   const decodedSlug = decodeURIComponent(slug);
 
@@ -28,7 +30,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   });
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: { params: Params }) {
   const { slug } = await params;
   const decodedSlug = decodeURIComponent(slug);
   const posts = getTagPosts(decodedSlug);
