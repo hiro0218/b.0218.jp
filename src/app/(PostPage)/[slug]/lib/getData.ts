@@ -1,11 +1,11 @@
 import { getSimilarPost } from '@/app/(PostPage)/[slug]/lib/getSimilarPost';
 import { getSimilarTag } from '@/app/(PostPage)/[slug]/lib/getSimilarTag';
+import { UPDATED_POST_DISPLAY_LIMIT } from '@/app/libs/constant';
+import { getDateAndUpdatedToSimpleFormat } from '@/app/libs/getDateAndUpdatedToSimpleFormat';
+import { getRecentAndUpdatedPosts } from '@/app/libs/getRecentAndUpdatedPosts';
+import { getTagPosts } from '@/app/libs/getTagPosts';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import { getPostsJson, getTagsWithCount } from '@/lib/posts';
-import { UPDATED_POST_DISPLAY_LIMIT } from '@/pages/_libs/constant';
-import { getDateAndUpdatedToSimpleFormat } from '@/pages/_libs/getDateAndUpdatedToSimpleFormat';
-import { getRecentAndUpdatedPosts } from '@/pages/_libs/getRecentAndUpdatedPosts';
-import { getTagPosts } from '@/pages/_libs/getTagPosts';
 import type { TermsPostListProps } from '@/types/source';
 
 const posts = getPostsJson();

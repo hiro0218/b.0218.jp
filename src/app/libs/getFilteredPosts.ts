@@ -1,5 +1,5 @@
+import { IGNORE_TAGS } from '@/app/libs/constant';
 import { getPostsListJson } from '@/lib/posts';
-import { IGNORE_TAGS } from '@/pages/_libs/constant';
 import type { PostListProps } from '@/types/source';
 
 const posts = getPostsListJson();

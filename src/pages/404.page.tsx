@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import Content from '@/pages/_components/404/Content';
+import Content from '@/app/components/404/Content';
 
 export default function Custom404() {
   return (

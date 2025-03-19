@@ -1,6 +1,6 @@
 import { type getPostsListJson, getPostsPopular } from '@/lib/posts';
 
-import { getDateAndUpdatedToSimpleFormat } from '@/pages/_libs/getDateAndUpdatedToSimpleFormat';
+import { getDateAndUpdatedToSimpleFormat } from '@/app/libs/getDateAndUpdatedToSimpleFormat';
 import type { PostListProps } from '@/types/source';
 import { IGNORE_SLUGS } from './constant';
 

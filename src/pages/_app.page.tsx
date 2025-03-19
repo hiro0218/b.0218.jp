@@ -12,7 +12,7 @@ import debounce from '@/lib/debounce';
 import observeScrollbarWidth from '@/lib/observeScrollbarWidth';
 import smoothScroll from '@/lib/smoothScroll';
 
-import { Layout } from './_layouts/AppLayout';
+import { Layout } from '@/components/UI/Layout/AppLayout';
 import '@/styles/globals.css';
 
 const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((module) => module.PageScroll));

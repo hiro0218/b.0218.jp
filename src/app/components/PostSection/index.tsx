@@ -1,8 +1,8 @@
+import { LinkMore } from '@/app/components/home';
 import Heading from '@/components/UI/Heading';
 import { Box, Grid } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { convertPostSlugToPath } from '@/lib/url';
-import { LinkMore } from '@/pages/_components/home';
 import type { PostListProps, TermsPostListProps } from '@/types/source';
 import { containerType } from '@/ui/styled/utilities';
 import type { JSX } from 'react';

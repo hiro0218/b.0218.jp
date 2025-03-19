@@ -1,12 +1,12 @@
+import { PostSection } from '@/app/components/PostSection';
+import { TagSection } from '@/app/components/TagSection';
+import { Hero } from '@/app/components/home';
 import { Container } from '@/components/Functional/Container';
 import Heading from '@/components/UI/Heading';
 import { Box, Sidebar, Stack } from '@/components/UI/Layout';
 import { SITE_URL } from '@/constant';
-import { PostSection } from '@/pages/_components/PostSection';
-import { TagSection } from '@/pages/_components/TagSection';
-import { Hero } from '@/pages/_components/home';
-import { getData } from '@/pages/_libs';
 import type { Metadata } from 'next';
+import { getData } from './libs';
 
 const data = getData();
 const { recentPosts, updatesPosts, popularPosts, tags } = data;

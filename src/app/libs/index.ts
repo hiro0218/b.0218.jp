@@ -1,7 +1,7 @@
+import { getFilteredPosts } from '@/app/libs/getFilteredPosts';
+import { getPopularPost } from '@/app/libs/getPopularPost';
+import { getRecentAndUpdatedPosts } from '@/app/libs/getRecentAndUpdatedPosts';
 import { getTagsWithCount } from '@/lib/posts';
-import { getFilteredPosts } from '@/pages/_libs/getFilteredPosts';
-import { getPopularPost } from '@/pages/_libs/getPopularPost';
-import { getRecentAndUpdatedPosts } from '@/pages/_libs/getRecentAndUpdatedPosts';
 
 import { IGNORE_TAGS, POPULAR_POST_DISPLAY_LIMIT } from './constant';
 

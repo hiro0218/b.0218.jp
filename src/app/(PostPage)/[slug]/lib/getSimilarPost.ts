@@ -1,5 +1,5 @@
+import { getDateAndUpdatedToSimpleFormat } from '@/app/libs/getDateAndUpdatedToSimpleFormat';
 import { getSimilarPosts } from '@/lib/posts';
-import { getDateAndUpdatedToSimpleFormat } from '@/pages/_libs/getDateAndUpdatedToSimpleFormat';
 import type { PostProps } from '@/types/source';
 
 const similarPosts = getSimilarPosts();

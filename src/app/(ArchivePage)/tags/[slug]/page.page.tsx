@@ -1,7 +1,7 @@
 import { getMetadata } from '@/app/(ArchivePage)/metadata';
+import { getTagPosts } from '@/app/libs/getTagPosts';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getTagsWithCount } from '@/lib/posts';
-import { getTagPosts } from '@/pages/_libs/getTagPosts';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import TagPage from './components/TagPage';

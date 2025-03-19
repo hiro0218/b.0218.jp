@@ -1,9 +1,9 @@
 import { getMetadata } from '@/app/(ArchivePage)/metadata';
+import { TagSection } from '@/app/components/TagSection';
 import { Box } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getTagsWithCount } from '@/lib/posts';
-import { TagSection } from '@/pages/_components/TagSection';
 import type { Metadata } from 'next/types';
 
 const tags = getTagsWithCount().filter((tag) => tag.count >= TAG_VIEW_LIMIT);
