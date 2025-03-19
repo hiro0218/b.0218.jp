@@ -22,9 +22,6 @@ type Params = Promise<{ slug: string }>;
 
 const posts = getPostsJson();
 
-export const dynamic = 'auto';
-export const dynamicParams = true;
-
 export async function generateStaticParams() {
   const paths = [];
 
