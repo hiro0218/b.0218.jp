@@ -88,7 +88,7 @@ jobs:
       # This step pulls the raw bundle stats for the current bundle
       - name: Analyze bundle
         # run: npx -p nextjs-bundle-analysis report
-        run: node scripts/report-bundle-size.js
+        run: node .github/scripts/report-bundle-size.js
 
       - name: Upload bundle
         uses: actions/upload-artifact@v4
