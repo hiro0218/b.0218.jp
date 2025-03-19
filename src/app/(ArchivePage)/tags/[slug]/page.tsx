@@ -3,6 +3,7 @@ import { getTagPosts } from '@/app/libs/getTagPosts';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getTagsWithCount } from '@/lib/posts';
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import TagPage from './components/TagPage';
 
@@ -34,6 +35,11 @@ export default async function Page({ params }: { params: Params }) {
   const { slug } = await params;
   const decodedSlug = decodeURIComponent(slug);
   const posts = getTagPosts(decodedSlug);
+
+  if (!posts) {
+    return notFound();
+  }
+
   const totalItems = posts.length;
 
   return (

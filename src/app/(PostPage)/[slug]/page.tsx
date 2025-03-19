@@ -14,6 +14,7 @@ import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText }
 import { getPostsJson } from '@/lib/posts';
 import { getOgpImage, getPermalink } from '@/lib/url';
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { getData } from './lib/getData';
 
@@ -87,7 +88,13 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function Page({ params }: { params: Params }) {
   const { slug: _slug } = await params;
   const slug = _slug.replace('.html', '');
-  const { post, similarPost, similarTags, recentPosts } = getData(slug);
+  const data = getData(slug);
+
+  if (!data) {
+    notFound();
+  }
+
+  const { post, similarPost, similarTags, recentPosts } = data;
   const { title, date, updated, readingTime, note, content, tagsWithCount } = post;
   const hasTweet = content.includes('twitter-tweet');
   const permalink = getPermalink(slug);

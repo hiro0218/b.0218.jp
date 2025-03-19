@@ -9,6 +9,11 @@ const allTags = getTagsJson();
 
 export const getTagPosts = (slug: string): ReturnProps[] => {
   const tag = allTags[slug];
+
+  if (!tag) {
+    return null;
+  }
+
   const tagPosts = tag.map((postSlug: string) => {
     const { title, date, updated } = allPosts.find((post) => post.slug === postSlug);
     return {
