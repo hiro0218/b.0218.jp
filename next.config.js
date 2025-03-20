@@ -5,6 +5,8 @@ const withBundleAnalyzer =
 
 /** @type {import('next').NextConfig} */
 const nextConfiguration = {
+  output: 'export',
+
   reactStrictMode: true,
 
   devIndicators: false,
