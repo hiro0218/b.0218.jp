@@ -1,5 +1,5 @@
-import { parser } from '@/app/(PostPage)/[slug]/components/Content/inject';
 import { getMetadata } from '@/app/(SinglePage)/metadata';
+import { parser } from '@/components/Page/Post/Content/inject';
 import { Box } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constant';

@@ -1,13 +1,13 @@
+import { Container } from '@/components/Functional/Container';
 import {
   Content as PostContent,
   Edit as PostEdit,
   Header as PostHeader,
   Note as PostNote,
   Share as PostShare,
-} from '@/app/(PostPage)/[slug]/components';
-import { PostSection } from '@/app/components/PostSection';
-import { TagSection } from '@/app/components/TagSection';
-import { Container } from '@/components/Functional/Container';
+} from '@/components/Page/Post';
+import { PostSection } from '@/components/Page/Share/PostSection';
+import { TagSection } from '@/components/Page/Share/TagSection';
 import { Sidebar, Stack } from '@/components/UI/Layout';
 import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';

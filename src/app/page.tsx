@@ -1,7 +1,7 @@
-import { PostSection } from '@/app/components/PostSection';
-import { TagSection } from '@/app/components/TagSection';
-import { Hero } from '@/app/components/home';
 import { Container } from '@/components/Functional/Container';
+import { Hero } from '@/components/Page/Home';
+import { PostSection } from '@/components/Page/Share/PostSection';
+import { TagSection } from '@/components/Page/Share/TagSection';
 import Heading from '@/components/UI/Heading';
 import { Box, Sidebar, Stack } from '@/components/UI/Layout';
 import { SITE_URL } from '@/constant';

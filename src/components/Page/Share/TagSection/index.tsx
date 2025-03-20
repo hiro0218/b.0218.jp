@@ -1,4 +1,4 @@
-import { LinkMore } from '@/app/components/home';
+import { LinkMore } from '@/components/Page/Home';
 import Heading from '@/components/UI/Heading';
 import { Box, Cluster } from '@/components/UI/Layout';
 import type { Props as PostTagProps } from '@/components/UI/Tag';

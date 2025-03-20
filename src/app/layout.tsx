@@ -1,13 +1,13 @@
 import '@/styles/globals.css';
 
-import { MainContainer } from '@/app/components/MainContainer';
 import { openGraph } from '@/app/metadata';
 import Footer from '@/components/App/Footer';
 import Header from '@/components/App/Header';
+import { Layout } from '@/components/App/Layout/AppLayout';
+import { MainContainer } from '@/components/App/Layout/MainContainer';
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { GoogleFontLinks } from '@/components/Functional/GoogleFontLinks';
 import { MetaLinkFeed, MetaLinkRelMe } from '@/components/Functional/MetaLink';
-import { Layout } from '@/components/UI/Layout/AppLayout';
 import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
 import { GoogleAnalytics } from '@next/third-parties/google';

@@ -1,3 +1,4 @@
+import { Chart } from '@/components/Page/Archive/Chart';
 import { Sidebar, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
@@ -7,7 +8,6 @@ import { convertPostSlugToPath } from '@/lib/url';
 import type { PostListProps } from '@/types/source';
 import type { Metadata } from 'next';
 import { getMetadata } from '../metadata';
-import { Chart } from './components';
 import { divideByYearArchive } from './libs';
 
 const posts = getPostsListJson();

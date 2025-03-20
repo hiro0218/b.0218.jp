@@ -3,12 +3,12 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
+import { Pagination } from '@/components/Page/Archive/Pagination';
 import { Sidebar, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { convertPostSlugToPath } from '@/lib/url';
 import type { TermsPostListProps } from '@/types/source';
-import { Pagination } from './Pagination';
 
 const pageTitle = 'Tag';
 const QUERY_PAGE_PER_KEY = 'p';

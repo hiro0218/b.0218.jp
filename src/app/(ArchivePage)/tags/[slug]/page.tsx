@@ -5,7 +5,7 @@ import { getTagsWithCount } from '@/lib/posts';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import TagPage from './components/TagPage';
+import TagPage from './TagPage';
 
 type Params = Promise<{ slug: string }>;
 

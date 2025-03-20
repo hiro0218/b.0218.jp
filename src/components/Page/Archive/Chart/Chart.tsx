@@ -1,7 +1,7 @@
 import { Anchor } from '@/components/UI/Anchor';
 import { css, styled } from '@/ui/styled/static';
 
-import type { ArchiveListProps } from '../libs';
+import type { ArchiveListProps } from '@/app/(ArchivePage)/archive/libs';
 
 type Props = {
   totalPosts: number;

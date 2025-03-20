@@ -1,5 +1,5 @@
 import { getMetadata } from '@/app/(ArchivePage)/metadata';
-import { TagSection } from '@/app/components/TagSection';
+import { TagSection } from '@/components/Page/Share/TagSection';
 import { Box } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL, TAG_VIEW_LIMIT } from '@/constant';

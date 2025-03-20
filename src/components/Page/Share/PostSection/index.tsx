@@ -1,4 +1,4 @@
-import { LinkMore } from '@/app/components/home';
+import { LinkMore } from '@/components/Page/Home';
 import Heading from '@/components/UI/Heading';
 import { Box, Grid } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
