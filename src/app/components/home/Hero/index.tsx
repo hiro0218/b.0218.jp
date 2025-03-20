@@ -59,7 +59,7 @@ const Avatar = styled.div`
 
 const Heading = styled.h2`
   font-size: var(--font-size-h3);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-bolder);
   line-height: var(--line-height-sm);
   letter-spacing: 0.04em;
 
