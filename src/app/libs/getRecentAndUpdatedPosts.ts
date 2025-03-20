@@ -1,6 +1,6 @@
-import { getDateAndUpdatedToSimpleFormat } from '@/app/libs/getDateAndUpdatedToSimpleFormat';
 import type { PostListProps, PostProps } from '@/types/source';
 import { POST_DISPLAY_LIMIT, UPDATED_POST_DISPLAY_LIMIT } from './constant';
+import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';
 
 type Props = {
   posts: (PostListProps | PostProps)[];

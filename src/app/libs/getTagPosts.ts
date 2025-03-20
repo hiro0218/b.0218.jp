@@ -1,6 +1,6 @@
-import { getDateAndUpdatedToSimpleFormat } from '@/app/libs/getDateAndUpdatedToSimpleFormat';
 import { getPostsJson, getTagsJson } from '@/lib/posts';
 import type { PageProps } from '@/types/source';
+import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';
 
 type ReturnProps = Omit<PageProps, 'content'>;
 

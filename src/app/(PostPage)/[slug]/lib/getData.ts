@@ -1,5 +1,3 @@
-import { getSimilarPost } from '@/app/(PostPage)/[slug]/lib/getSimilarPost';
-import { getSimilarTag } from '@/app/(PostPage)/[slug]/lib/getSimilarTag';
 import { UPDATED_POST_DISPLAY_LIMIT } from '@/app/libs/constant';
 import { getDateAndUpdatedToSimpleFormat } from '@/app/libs/getDateAndUpdatedToSimpleFormat';
 import { getRecentAndUpdatedPosts } from '@/app/libs/getRecentAndUpdatedPosts';
@@ -7,6 +5,8 @@ import { getTagPosts } from '@/app/libs/getTagPosts';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import { getPostsJson, getTagsWithCount } from '@/lib/posts';
 import type { TermsPostListProps } from '@/types/source';
+import { getSimilarPost } from './getSimilarPost';
+import { getSimilarTag } from './getSimilarTag';
 
 const posts = getPostsJson();
 const tagDataWithCount = getTagsWithCount();

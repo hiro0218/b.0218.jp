@@ -1,8 +1,7 @@
 import { type getPostsListJson, getPostsPopular } from '@/lib/posts';
-
-import { getDateAndUpdatedToSimpleFormat } from '@/app/libs/getDateAndUpdatedToSimpleFormat';
 import type { PostListProps } from '@/types/source';
 import { IGNORE_SLUGS } from './constant';
+import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';
 
 const popularPostsSlugs = getPostsPopular();
 /** popularPostsSlugsを配列に変換し、数値が多い順にソート */
