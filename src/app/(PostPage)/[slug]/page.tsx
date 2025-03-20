@@ -27,9 +27,7 @@ export async function generateStaticParams() {
 
   for (let i = 0; i < posts.length; i++) {
     paths.push({
-      params: {
-        slug: `${posts[i].slug}.html`,
-      },
+      slug: `${posts[i].slug}.html`,
     });
   }
 
