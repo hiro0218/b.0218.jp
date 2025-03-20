@@ -27,7 +27,17 @@ export const GoogleFontLinks = () => {
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       {links.map((url, index) => (
-        <link key={index} href={url} rel="stylesheet" />
+        <link
+          key={`preload-${index}`}
+          href={url}
+          rel="preload"
+          as="style"
+          fetchPriority="high"
+          crossOrigin="anonymous"
+        />
+      ))}
+      {links.map((url, index) => (
+        <link key={`stylesheet-${index}`} href={url} rel="stylesheet" />
       ))}
       <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap" rel="stylesheet" />
     </>
