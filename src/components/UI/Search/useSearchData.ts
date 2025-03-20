@@ -1,3 +1,5 @@
+'use client';
+
 import debounce from '@/lib/debounce';
 import { useCallback, useMemo, useState } from 'react';
 import type { SearchProps, onCloseDialogProps, onKeyupEventProps } from './type';

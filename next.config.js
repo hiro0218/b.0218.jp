@@ -7,8 +7,6 @@ const withBundleAnalyzer =
 const nextConfiguration = {
   reactStrictMode: true,
 
-  pageExtensions: ['page.tsx'],
-
   devIndicators: false,
 
   experimental: {
