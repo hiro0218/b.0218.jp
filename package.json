@@ -50,8 +50,8 @@
     "@types/gtag.js": "0.0.20",
     "@types/hast": "3.0.4",
     "@types/jsdom": "21.1.7",
-    "@types/node": "22.9.0",
-    "@types/react": "19.0.10",
+    "@types/node": "22.13.10",
+    "@types/react": "19.0.12",
     "@types/react-dom": "19.0.4",
     "@types/twitter-for-web": "0.0.6",
     "@vitejs/plugin-react": "4.3.4",
@@ -116,7 +116,7 @@
     "string.prototype.at": "npm:@nolyfill/string.prototype.at@^1",
     "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
     "safer-buffer": "npm:@nolyfill/safer-buffer@^1",
-    "@types/react": "19.0.10",
+    "@types/react": "19.0.12",
     "@types/react-dom": "19.0.4"
   },
   "nano-staged": {
