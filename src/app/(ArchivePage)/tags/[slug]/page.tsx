@@ -1,5 +1,7 @@
 import { getMetadata } from '@/app/(ArchivePage)/metadata';
 import { getTagPosts } from '@/app/libs/getTagPosts';
+import { Stack } from '@/components/UI/Layout';
+import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getTagsWithCount } from '@/lib/posts';
 import type { Metadata } from 'next';
@@ -8,6 +10,8 @@ import { Suspense } from 'react';
 import TagPage from './TagPage';
 
 type Params = Promise<{ slug: string }>;
+
+const pageTitle = 'Tag';
 
 export async function generateStaticParams() {
   const tags = getTagsWithCount();
@@ -43,8 +47,11 @@ export default async function Page({ params }: { params: Params }) {
   const totalItems = posts.length;
 
   return (
-    <Suspense>
-      <TagPage slug={decodedSlug} posts={posts} totalItems={totalItems} />
-    </Suspense>
+    <Stack as="section" space={4}>
+      <Title heading={pageTitle} paragraph={`${totalItems}件の記事`} />
+      <Suspense>
+        <TagPage slug={decodedSlug} posts={posts} totalItems={totalItems} />
+      </Suspense>
+    </Stack>
   );
 }

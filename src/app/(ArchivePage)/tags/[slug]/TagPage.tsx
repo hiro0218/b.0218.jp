@@ -6,11 +6,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { Pagination } from '@/components/Page/Archive/Pagination';
 import { Sidebar, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
-import { Title } from '@/components/UI/Title';
 import { convertPostSlugToPath } from '@/lib/url';
 import type { TermsPostListProps } from '@/types/source';
 
-const pageTitle = 'Tag';
 const QUERY_PAGE_PER_KEY = 'p';
 const PER_PAGE = 5;
 
@@ -55,8 +53,7 @@ export default function TagPage({
   }, [postsToDisplay]);
 
   return (
-    <Stack as="section" space={4}>
-      <Title heading={pageTitle} paragraph={`${totalItems}件の記事`} />
+    <>
       <Sidebar>
         <Sidebar.Side>
           <Sidebar.Title>{slug}</Sidebar.Title>
@@ -71,6 +68,6 @@ export default function TagPage({
         currentPage={currentPage}
         pageSize={PER_PAGE}
       />
-    </Stack>
+    </>
   );
 }
