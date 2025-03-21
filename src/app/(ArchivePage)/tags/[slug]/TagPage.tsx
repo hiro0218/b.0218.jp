@@ -9,8 +9,8 @@ import LinkCard from '@/components/UI/LinkCard';
 import { convertPostSlugToPath } from '@/lib/url';
 import type { TermsPostListProps } from '@/types/source';
 
-const QUERY_PAGE_PER_KEY = 'p';
-const PER_PAGE = 5;
+const QUERY_PAGE_KEY = 'p';
+const ITEMS_PER_PAGE = 5;
 
 export default function TagPage({
   slug,
@@ -23,24 +23,24 @@ export default function TagPage({
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const currentPer = searchParams.get(QUERY_PAGE_PER_KEY) ? Number(searchParams.get(QUERY_PAGE_PER_KEY)) : 1;
-  const [currentPage, setCurrentPage] = useState(currentPer);
+  const currentPageFromQuery = searchParams.get(QUERY_PAGE_KEY) ? Number(searchParams.get(QUERY_PAGE_KEY)) : 1;
+  const [currentPage, setCurrentPage] = useState(currentPageFromQuery);
 
   const postsToDisplay = useMemo(() => {
-    const start = (currentPage - 1) * PER_PAGE;
-    const end = start + PER_PAGE;
-    return posts.slice(start, end);
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return posts.slice(startIndex, endIndex);
   }, [currentPage, posts]);
 
-  // currentPerに応じてページネーションの表示を変更する
+  // currentPageFromQueryに応じてページネーションの表示を変更する
   useEffect(() => {
-    setCurrentPage(currentPer);
-  }, [currentPer]);
+    setCurrentPage(currentPageFromQuery);
+  }, [currentPageFromQuery]);
 
   const handlePageChange = (page: number) => {
     // クエリパラメータ（?p=2）を更新する
     const params = new URLSearchParams(searchParams.toString());
-    params.set(QUERY_PAGE_PER_KEY, page.toString());
+    params.set(QUERY_PAGE_KEY, page.toString());
     router.push(`?${params.toString()}`, { scroll: false });
     setCurrentPage(page);
   };
@@ -66,7 +66,7 @@ export default function TagPage({
         onPageChange={handlePageChange}
         totalCount={totalItems}
         currentPage={currentPage}
-        pageSize={PER_PAGE}
+        pageSize={ITEMS_PER_PAGE}
       />
     </>
   );
