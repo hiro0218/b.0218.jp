@@ -34,14 +34,16 @@ export default function TagPage({
 
   // currentPageFromQueryに応じてページネーションの表示を変更する
   useEffect(() => {
-    setCurrentPage(currentPageFromQuery);
-  }, [currentPageFromQuery]);
+    if (currentPage !== currentPageFromQuery) {
+      setCurrentPage(currentPageFromQuery);
+    }
+  }, [currentPageFromQuery, currentPage]);
 
   const handlePageChange = (page: number) => {
     // クエリパラメータ（?p=2）を更新する
     const params = new URLSearchParams(searchParams.toString());
     params.set(QUERY_PAGE_KEY, page.toString());
-    router.push(`?${params.toString()}`, { scroll: false });
+    router.replace(`?${params.toString()}`, { scroll: false });
     setCurrentPage(page);
   };
 
