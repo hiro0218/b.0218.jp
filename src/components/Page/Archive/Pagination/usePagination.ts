@@ -1,8 +1,5 @@
 import { useMemo } from 'react';
-
-export const DOTS = '...';
-
-const range = (start: number, end: number) => Array.from({ length: end - start + 1 }, (_, idx) => idx + start);
+import { DOTS } from './constant';
 
 type Props = {
   totalCount: number;
@@ -10,6 +7,8 @@ type Props = {
   siblingCount?: number;
   currentPage: number;
 };
+
+const range = (start: number, end: number) => Array.from({ length: end - start + 1 }, (_, idx) => idx + start);
 
 export const usePagination = ({ totalCount, pageSize, siblingCount = 1, currentPage }: Props): (string | number)[] => {
   const totalPageCount = useMemo(() => Math.ceil(totalCount / pageSize), [totalCount, pageSize]);

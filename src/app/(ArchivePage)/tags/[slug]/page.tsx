@@ -1,13 +1,13 @@
 import { getMetadata } from '@/app/(ArchivePage)/metadata';
 import { getTagPosts } from '@/app/libs/getTagPosts';
-import { Stack } from '@/components/UI/Layout';
+import { Pagination, PostList } from '@/components/Page/Archive/Pagination';
+import { Sidebar, Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getTagsWithCount } from '@/lib/posts';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import TagPage from './TagPage';
 
 type Params = Promise<{ slug: string }>;
 
@@ -49,8 +49,20 @@ export default async function Page({ params }: { params: Params }) {
   return (
     <Stack as="section" space={4}>
       <Title heading={pageTitle} paragraph={`${totalItems}件の記事`} />
+      <Sidebar>
+        <Sidebar.Side>
+          <Sidebar.Title>{decodedSlug}</Sidebar.Title>
+        </Sidebar.Side>
+        <Sidebar.Main>
+          <Stack>
+            <Suspense>
+              <PostList posts={posts} />
+            </Suspense>
+          </Stack>
+        </Sidebar.Main>
+      </Sidebar>
       <Suspense>
-        <TagPage slug={decodedSlug} posts={posts} totalItems={totalItems} />
+        <Pagination totalItems={totalItems} />
       </Suspense>
     </Stack>
   );
