@@ -45,15 +45,15 @@ const Dialog = styled.dialog`
   top: 25vh;
   border-radius: var(--border-radius-12);
   isolation: isolate;
-  content-visibility: hidden;
+  opacity: 0;
 
   &[open] {
     z-index: var(--zIndex-search);
     padding: 0;
     border: none;
+    opacity: 1;
     animation:
       fadeIn 0.4s,
       slideIn 0.4s linear;
-    content-visibility: visible;
   }
 `;
