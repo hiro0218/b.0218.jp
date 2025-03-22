@@ -1,6 +1,8 @@
 import { clampFontSize, pxToRem } from '@/ui/lib/fonts';
 import { SPACING_BASE_PX } from '@/ui/styled/constant';
 
+export type FontSizeHeadingProps = `--font-size-h${1 | 2 | 3 | 4 | 5 | 6}`;
+
 /**
  * 調和を生成する
  * 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3...
@@ -15,6 +17,18 @@ const getStep = (n: number): number => {
  */
 const getFontSizeStep = (n: number): number => SPACING_BASE_PX * getStep(n);
 
+/**
+ * Heading Font Size
+ */
+export const fontSizeHeading: Record<FontSizeHeadingProps, string> = {
+  '--font-size-h1': clampFontSize(getFontSizeStep(12), getFontSizeStep(10)),
+  '--font-size-h2': clampFontSize(getFontSizeStep(10), getFontSizeStep(8)),
+  '--font-size-h3': clampFontSize(getFontSizeStep(8), getFontSizeStep(6)),
+  '--font-size-h4': clampFontSize(getFontSizeStep(6), getFontSizeStep(4)),
+  '--font-size-h5': clampFontSize(getFontSizeStep(4), getFontSizeStep(3)),
+  '--font-size-h6': clampFontSize(getFontSizeStep(3), getFontSizeStep(3)),
+};
+
 export const fontVariables = {
   /**
    * Font Size
@@ -26,15 +40,7 @@ export const fontVariables = {
 
   '--font-size-post-content': clampFontSize(getFontSizeStep(4), getFontSizeStep(3)),
 
-  /**
-   * Heading Font Size
-   */
-  '--font-size-h1': clampFontSize(getFontSizeStep(12), getFontSizeStep(10)),
-  '--font-size-h2': clampFontSize(getFontSizeStep(10), getFontSizeStep(8)),
-  '--font-size-h3': clampFontSize(getFontSizeStep(8), getFontSizeStep(6)),
-  '--font-size-h4': clampFontSize(getFontSizeStep(6), getFontSizeStep(4)),
-  '--font-size-h5': clampFontSize(getFontSizeStep(4), getFontSizeStep(3)),
-  '--font-size-h6': clampFontSize(getFontSizeStep(3), getFontSizeStep(3)),
+  ...fontSizeHeading,
 
   /**
    * Line Height

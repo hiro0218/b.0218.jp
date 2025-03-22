@@ -22,7 +22,7 @@ type Props = {
 
 export function Anchor({ href, className, prefetch = false, title = undefined, children, ...rest }: Props) {
   return (
-    <Link href={href} className={className} {...(!prefetch && { prefetch: false })} title={title} {...rest}>
+    <Link href={href} className={className} prefetch={prefetch} title={title} {...rest}>
       {children}
     </Link>
   );

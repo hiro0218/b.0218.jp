@@ -1,3 +1,5 @@
+'use client';
+
 import { useId, useRef } from 'react';
 
 import { ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';

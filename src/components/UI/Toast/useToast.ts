@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useRef, useState } from 'react';
 
 export const useToast = (message: string, duration = 2000) => {

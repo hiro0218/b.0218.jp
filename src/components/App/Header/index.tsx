@@ -1,3 +1,5 @@
+'use client';
+
 import { memo } from 'react';
 
 import { Container } from '@/components/Functional/Container';

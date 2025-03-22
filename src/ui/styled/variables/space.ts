@@ -31,7 +31,7 @@ const generateSpace = (n: number): number => {
  * 4, 8, 16, 24, 40, 64, 104
  * @example { '--space-½': '0.25rem', '--space-1': '0.5rem', ... }
  */
-export const SPACE_STEPS = Object.fromEntries(
+const SPACE_STEPS = Object.fromEntries(
   SPACE_KEYS.map((space, index) => {
     const radix = index === 0 ? 0.5 : generateSpace(index);
     const value = pxToRem(SPACING_BASE_PX * radix);

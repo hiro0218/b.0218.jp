@@ -16,6 +16,7 @@ type Props = {
   tags?: string[];
   role?: AriaRole;
   showNewLabel?: boolean;
+  prefetch?: boolean;
 };
 
 function LinkCard({
@@ -28,13 +29,14 @@ function LinkCard({
   role,
   titleTagName = 'h3',
   showNewLabel = false,
+  prefetch = false,
 }: Props) {
   const Title = titleTagName;
 
   return (
     <Container role={role} {...(showNewLabel && { 'data-is-new': showNewLabel })}>
       <PostDate date={date} updated={updated} />
-      <Anchor className={anchorStyle} href={link} prefetch={false}>
+      <Anchor className={anchorStyle} href={link} prefetch={prefetch}>
         <Title className={cx('line-clamp-2', titleStyle)}>{title}</Title>
       </Anchor>
       {!!excerpt && (

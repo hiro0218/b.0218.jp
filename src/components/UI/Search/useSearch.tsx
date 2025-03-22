@@ -1,3 +1,5 @@
+'use client';
+
 import { useMemo } from 'react';
 
 import { SearchButton as Button } from './SearchButton';

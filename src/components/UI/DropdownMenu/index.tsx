@@ -1,3 +1,5 @@
+'use client';
+
 import { styled } from '@/ui/styled/static';
 import { type ReactNode, useCallback, useEffect, useId, useRef, useState } from 'react';
 
