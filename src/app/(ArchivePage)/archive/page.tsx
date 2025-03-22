@@ -27,7 +27,7 @@ export const metadata: Metadata = getMetadata({
 export default async function Page() {
   return (
     <Stack as="article" space={4}>
-      <Title heading="Archive" paragraph={`${totalPosts}件の記事`} />
+      <Title heading={title} paragraph={description} />
 
       <Chart archives={archives} totalPosts={totalPosts} />
 
