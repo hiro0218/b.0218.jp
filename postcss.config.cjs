@@ -14,6 +14,10 @@ module.exports = {
       browsers: pkg.browserslist,
       lightningcssOptions: {
         minify: true,
+        drafts: {
+          nesting: false,
+          customMedia: true,
+        },
       },
     },
     '@pandacss/dev/postcss': {},
