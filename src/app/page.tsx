@@ -39,6 +39,7 @@ export default async function Page() {
                     href="/archive"
                     posts={recentPosts}
                     updateTarget="date"
+                    prefetch={true}
                   />
                   <PostSection
                     heading="注目記事"
@@ -46,6 +47,7 @@ export default async function Page() {
                     headingWeight="normal"
                     href="/popular"
                     posts={popularPosts}
+                    prefetch={true}
                   />
                   <PostSection
                     heading="更新記事"
