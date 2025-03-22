@@ -145,6 +145,7 @@ export default async function Page({ params }: { params: Params }) {
                 href="/archive"
                 posts={recentPosts}
                 updateTarget="date"
+                prefetch={true}
               />
             </Stack>
           </Sidebar.Side>

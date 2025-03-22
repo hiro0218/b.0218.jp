@@ -15,6 +15,7 @@ type Props = {
   href?: string;
   as?: keyof JSX.IntrinsicElements;
   updateTarget?: 'updated' | 'date' | undefined;
+  prefetch?: boolean;
 };
 
 const getYMD = (date?: string) => date?.split('T')[0];
@@ -27,6 +28,7 @@ export const PostSection = ({
   href,
   updateTarget,
   posts,
+  prefetch,
 }: Props) => {
   if (posts.length === 0) {
     return null;
@@ -70,6 +72,7 @@ export const PostSection = ({
                 titleTagName={nextHeadingLevel}
                 updated={updated}
                 showNewLabel={showNewLabel}
+                prefetch={prefetch}
               />
             );
           })}
