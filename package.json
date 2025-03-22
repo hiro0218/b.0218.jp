@@ -1,6 +1,6 @@
 {
   "name": "b.0218.jp",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "private": true,
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect' next dev -p 8080 --experimental-https",
