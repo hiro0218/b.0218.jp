@@ -15,20 +15,25 @@ type Props = {
   text: string;
 };
 
+const SIZE = {
+  height: ICON_SIZE_SM,
+  width: ICON_SIZE_SM,
+};
+
 export const Alert = ({ type, text }: Props) => {
   const Icon = (() => {
     switch (type) {
       case 'note':
       case 'tip':
-        return <InformationCircle height={ICON_SIZE_SM} width={ICON_SIZE_SM} />;
+        return <InformationCircle {...SIZE} />;
       case 'important':
-        return <LightBulb height={ICON_SIZE_SM} width={ICON_SIZE_SM} />;
+        return <LightBulb {...SIZE} />;
       case 'warning':
-        return <ExclamationTriangle height={ICON_SIZE_SM} width={ICON_SIZE_SM} />;
+        return <ExclamationTriangle {...SIZE} />;
       case 'caution':
-        return <ExclamationCircle height={ICON_SIZE_SM} width={ICON_SIZE_SM} />;
+        return <ExclamationCircle {...SIZE} />;
       default:
-        return <ChatBubbleLeft height={ICON_SIZE_SM} width={ICON_SIZE_SM} />;
+        return <ChatBubbleLeft {...SIZE} />;
     }
   })();
 
