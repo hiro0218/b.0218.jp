@@ -198,7 +198,7 @@ pre {
   /* stylelint-disable */
   resize: horizontal;
   /* stylelint-enable */
-  border: 1px solid var(--color-gray-6);
+  border: 1px solid var(--color-gray-4A);
   border-radius: var(--border-radius-4);
   -webkit-overflow-scrolling: touch;
 
@@ -206,7 +206,7 @@ pre {
     display: block;
     padding: var(--space-3);
     font-size: inherit;
-    background-color: var(--color-gray-2);
+    background-color: var(--color-gray-2A);
   }
 }
 
