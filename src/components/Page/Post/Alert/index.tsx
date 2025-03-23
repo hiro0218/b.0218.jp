@@ -57,9 +57,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  padding: var(--space-1) var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  background-color: hwb(from var(--alert-color) h w b / 0.1);
   border-left: var(--space-½) solid var(--alert-color);
 
+  &[data-alert-type='note'],
   &[data-alert-type='tip'] {
     --alert-color: var(--color-alert-note);
   }
