@@ -91,9 +91,11 @@
   }
 
   blockquote {
-    padding: var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-md);
     color: var(--color-gray-11);
-    border-left: 0.25rem solid var(--color-gray-6);
+    background-color: var(--color-gray-1A);
+    border-left: var(--space-½) solid var(--color-gray-6);
 
     cite {
       display: block;
