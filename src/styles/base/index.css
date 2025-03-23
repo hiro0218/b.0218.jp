@@ -223,6 +223,7 @@ table {
   max-inline-size: 100%;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
+  font-size: var(--font-size-md);
   animation: scroll-table-shadow-inset linear;
   animation-timeline: scroll(self x);
 
