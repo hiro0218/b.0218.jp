@@ -13,6 +13,7 @@ import { getOrganizationStructured } from '@/lib/json-ld';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import dynamic from 'next/dynamic';
 import type { Metadata, Viewport } from 'next/types';
+import { unstable_ViewTransition as ViewTransition } from 'react';
 
 const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((module) => module.PageScroll));
 
@@ -67,7 +68,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
         <Layout>
           <Header />
-          <MainContainer>{children}</MainContainer>
+          <ViewTransition name="cross-fade">
+            <MainContainer>{children}</MainContainer>
+          </ViewTransition>
           <PageScroll />
           <Footer />
         </Layout>

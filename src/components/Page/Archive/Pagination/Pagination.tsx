@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { PaginationComponent } from './PaginationComponent';
 import { ITEMS_PER_PAGE, QUERY_PAGE_KEY } from './constant';
@@ -10,7 +10,6 @@ type PaginationProps = {
 };
 
 export function Pagination({ totalItems }: PaginationProps) {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const currentPageFromQuery = searchParams.get(QUERY_PAGE_KEY) ? Number(searchParams.get(QUERY_PAGE_KEY)) : 1;
   const [pageState, setPageState] = useState(currentPageFromQuery);
@@ -26,7 +25,8 @@ export function Pagination({ totalItems }: PaginationProps) {
     // クエリパラメータ（?p=2）を更新する
     const params = new URLSearchParams(searchParams.toString());
     params.set(QUERY_PAGE_KEY, page.toString());
-    router.replace(`?${params.toString()}`, { scroll: true });
+    /** @note ViewTransitionに干渉しないようにネイティブ実装 */
+    window.history.replaceState(null, '', `?${params.toString()}`);
     setPageState(page);
   };
 

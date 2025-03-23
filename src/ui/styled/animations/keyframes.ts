@@ -25,6 +25,26 @@ export const keyframes = defineKeyframes({
     '50.1%': { transform: 'translateY(80%)', opacity: '0' },
     '100%': { transform: 'translateY(0)', opacity: '1' },
   },
+  'view-transition-hide': {
+    '0%': {
+      opacity: '1',
+      filter: 'blur(0)',
+    },
+    '100%': {
+      opacity: '0',
+      filter: 'blur(4px)',
+    },
+  },
+  'view-transition-show': {
+    '0%': {
+      opacity: '0',
+      filter: 'blur(2px)',
+    },
+    '100%': {
+      opacity: '1',
+      filter: 'blur(0)',
+    },
+  },
   'scroll-table-shadow-inset': {
     '0%': {
       boxShadow: `inset calc(var(--table-shadow-size) * -2) 0 var(--table-shadow-size) var(--table-shadow-spread)

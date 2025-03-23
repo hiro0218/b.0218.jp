@@ -12,6 +12,7 @@ const nextConfiguration = {
   devIndicators: false,
 
   experimental: {
+    viewTransition: true,
     scrollRestoration: true,
   },
 
