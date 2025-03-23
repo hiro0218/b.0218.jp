@@ -26,7 +26,7 @@ export function Pagination({ totalItems }: PaginationProps) {
     // クエリパラメータ（?p=2）を更新する
     const params = new URLSearchParams(searchParams.toString());
     params.set(QUERY_PAGE_KEY, page.toString());
-    router.replace(`?${params.toString()}`, { scroll: false });
+    router.replace(`?${params.toString()}`, { scroll: true });
     setPageState(page);
   };
 
