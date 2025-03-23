@@ -15,6 +15,10 @@ export const keyframes = defineKeyframes({
     '0%': { opacity: '1' },
     '100%': { visibility: 'hidden', opacity: '0' },
   },
+  rotate: {
+    '0%': { transform: 'rotate(0deg)' },
+    '100%': { transform: 'rotate(360deg)' },
+  },
   floatingFade: {
     '0%': { transform: 'translateY(0)', opacity: '1' },
     '50%': { transform: 'translateY(-50%)', opacity: '0' },
