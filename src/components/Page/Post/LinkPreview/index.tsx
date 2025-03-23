@@ -87,7 +87,7 @@ const BodyDescription = styled.span`
 
 const BodyUrl = styled.span`
   display: block;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   color: var(--color-gray-11);
 `;
 
