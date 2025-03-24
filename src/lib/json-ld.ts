@@ -53,15 +53,23 @@ export const getAboutPageStructured = ({
 export const getWebPageStructured = ({
   name,
   description,
+  listItem,
 }: {
   name: string;
   description: string;
+  listItem?: ListItem[];
 }): WithContext<WebPage> => {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     name: name,
     description: description,
+    ...(!!listItem && {
+      mainEntity: {
+        '@type': 'ItemList',
+        listItem,
+      },
+    }),
   };
 };
 
