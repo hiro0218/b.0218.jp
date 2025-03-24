@@ -1,4 +1,4 @@
-import { getMetadata } from '@/app/(ArchivePage)/metadata';
+import { getMetadata } from '@/app/(ArchivePage)/_metadata';
 import { TagSection } from '@/components/Page/Share/TagSection';
 import { Box } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';

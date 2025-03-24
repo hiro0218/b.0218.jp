@@ -1,4 +1,4 @@
-import { getMetadata } from '@/app/(ArchivePage)/metadata';
+import { getMetadata } from '@/app/(ArchivePage)/_metadata';
 import { getTagPosts } from '@/app/libs/getTagPosts';
 import { Pagination, PostList } from '@/components/Page/Archive/Pagination';
 import { Sidebar, Stack } from '@/components/UI/Layout';

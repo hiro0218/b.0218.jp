@@ -1,4 +1,4 @@
-import { getMetadata } from '@/app/(SinglePage)/metadata';
+import { getMetadata } from '@/app/(SinglePage)/_metadata';
 import Content from '@/components/Page/Single/Content';
 import { SITE_URL } from '@/constant';
 import { getWebPageStructured } from '@/lib/json-ld';

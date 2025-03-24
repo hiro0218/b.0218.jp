@@ -8,7 +8,7 @@ import { getPostsListJson } from '@/lib/posts';
 import { convertPostSlugToPath } from '@/lib/url';
 import type { PostListProps } from '@/types/source';
 import type { Metadata } from 'next';
-import { getMetadata } from '../metadata';
+import { getMetadata } from '../_metadata';
 import { divideByYearArchive } from './libs';
 
 const posts = getPostsListJson();
