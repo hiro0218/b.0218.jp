@@ -39,7 +39,7 @@ export const TagSection = ({
           {heading}
         </Heading>
       )}
-      <Box mt={2}>
+      <Box {...(!!heading && { mt: 2 })}>
         <Cluster isWide={isWideCluster}>
           <PostTag tags={tags} />
         </Cluster>
