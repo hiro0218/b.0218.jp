@@ -5,6 +5,7 @@ import { Sidebar, Stack } from '@/components/UI/Layout';
 import { Loading } from '@/components/UI/Loading';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
+import { getCollectionPageStructured } from '@/lib/json-ld';
 import { getTagsWithCount } from '@/lib/posts';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -48,23 +49,36 @@ export default async function Page({ params }: { params: Params }) {
   const totalItems = posts.length;
 
   return (
-    <Stack as="section" space={4}>
-      <Title heading={pageTitle} paragraph={`${totalItems}件の記事`} />
-      <Sidebar>
-        <Sidebar.Side>
-          <Sidebar.Title>{decodedSlug}</Sidebar.Title>
-        </Sidebar.Side>
-        <Sidebar.Main>
-          <Stack>
-            <Suspense fallback={<Loading />}>
-              <PostList posts={posts} />
-            </Suspense>
-          </Stack>
-        </Sidebar.Main>
-      </Sidebar>
-      <Suspense>
-        <Pagination totalItems={totalItems} />
-      </Suspense>
-    </Stack>
+    <>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            getCollectionPageStructured({
+              name: `Tag: ${decodedSlug}`,
+              description: `Tag: ${decodedSlug} - ${SITE_NAME}`,
+            }),
+          ]),
+        }}
+        type="application/ld+json"
+      />
+      <Stack as="section" space={4}>
+        <Title heading={pageTitle} paragraph={`${totalItems}件の記事`} />
+        <Sidebar>
+          <Sidebar.Side>
+            <Sidebar.Title>{decodedSlug}</Sidebar.Title>
+          </Sidebar.Side>
+          <Sidebar.Main>
+            <Stack>
+              <Suspense fallback={<Loading />}>
+                <PostList posts={posts} />
+              </Suspense>
+            </Stack>
+          </Sidebar.Main>
+        </Sidebar>
+        <Suspense>
+          <Pagination totalItems={totalItems} />
+        </Suspense>
+      </Stack>
+    </>
   );
 }
