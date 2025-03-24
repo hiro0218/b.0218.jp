@@ -5,13 +5,14 @@ const withBundleAnalyzer =
 
 /** @type {import('next').NextConfig} */
 const nextConfiguration = {
-  reactStrictMode: true,
+  output: 'export',
 
-  pageExtensions: ['page.tsx'],
+  reactStrictMode: true,
 
   devIndicators: false,
 
   experimental: {
+    viewTransition: true,
     scrollRestoration: true,
   },
 

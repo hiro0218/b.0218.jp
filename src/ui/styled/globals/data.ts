@@ -1,3 +1,4 @@
+import { type FontSizeHeadingProps, fontSizeHeading } from '@/ui/styled/variables/font';
 import { SPACE_KEYS, Spaces } from '@/ui/styled/variables/space';
 
 type SpacingDataAttr = `data-${'mt' | 'gap'}='${(typeof Spaces)[number]}'`;
@@ -17,7 +18,21 @@ Spaces.forEach((value, i) => {
   };
 });
 
+type FontSizeHeadingDataAttr = `data-font-size-h='${string}'`;
+type FontSizeHeadingCSSProps = Record<'fontSize', `var(${string})`>;
+type FontSizeHeadingStyleMap = Record<FontSizeHeadingDataAttr, Partial<FontSizeHeadingCSSProps>>;
+
+const mtFontSizeHeading: FontSizeHeadingStyleMap = {};
+
+Object.keys(fontSizeHeading).forEach((key: FontSizeHeadingProps) => {
+  const value = key.replace('--font-size-h', '');
+  mtFontSizeHeading[`[data-font-size-h='${value}']`] = {
+    fontSize: `var(${key})`,
+  };
+});
+
 export const dataCss = {
   ...mtStyles,
   ...gapStyles,
+  ...mtFontSizeHeading,
 };

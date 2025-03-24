@@ -1,6 +1,6 @@
 import { fdir } from 'fdir';
 
-export const isMarkdown = (file: string) => file.endsWith('.md');
+const isMarkdown = (file: string) => file.endsWith('.md');
 
 export const getSlug = (file: string) => file.replace('.md', '');
 

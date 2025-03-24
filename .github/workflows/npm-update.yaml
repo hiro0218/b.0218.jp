@@ -39,11 +39,26 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v45
-        with:
-          files: |
-            - package.json
-            - package-lock.json
+        run: |
+          current_branch=${GITHUB_REF#refs/heads/}
+          default_branch=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
+
+          # 監視対象ファイルリスト
+          files_to_check=("package.json" "package-lock.json")
+          any_changed=false
+
+          # 各ファイルの変更を検知
+          for file in "${files_to_check[@]}"; do
+            if git diff --name-only origin/$default_branch...$current_branch | grep "^$file$"; then
+              echo "${file//-/_}_changed=true" >> $GITHUB_OUTPUT
+              any_changed=true
+            else
+              echo "${file//-/_}_changed=false" >> $GITHUB_OUTPUT
+            fi
+          done
+
+          # いずれかのファイルが変更された場合のフラグ
+          echo "any_changed=$any_changed" >> $GITHUB_OUTPUT
 
       - name: Install dependencies
         if: steps.changed-files.outputs.any_changed == 'true'

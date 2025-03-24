@@ -20,32 +20,41 @@ function Heading({
   textSub = undefined,
   isWeightNormal = true,
 }: Props) {
+  const titleStyle = {
+    ...(!isWeightNormal && { '--font-weight': 'var(--font-weight-bold)' }),
+  } as CSSProperties;
+
+  const fontSizeLevel = (() => {
+    switch (TitleTag) {
+      case 'h1':
+      case 'h2':
+        return 4;
+      default:
+        return 5;
+    }
+  })();
+
   const TitleComponent = useMemo(
     () => (
-      <TitleTag
-        id={id}
-        className={headerTitleStyle}
-        style={
-          {
-            '--font-size': TitleTag === 'h1' || TitleTag === 'h2' ? 'var(--font-size-h4)' : 'var(--font-size-h5)',
-            ...(!isWeightNormal && { '--font-weight': 'var(--font-weight-bold)' }),
-          } as CSSProperties
-        }
-      >
+      <TitleTag id={id} className={headerTitleStyle} data-font-size-h={fontSizeLevel} style={titleStyle}>
         {children}
       </TitleTag>
     ),
-    [isWeightNormal, id, TitleTag, children],
+    [TitleTag, children, id, fontSizeLevel, titleStyle],
   );
+
+  const hasTextSub = !!textSub;
+  const hasTextSide = !!textSide;
+
   return (
     <>
-      {!!textSub || !!textSide ? (
+      {hasTextSub || hasTextSide ? (
         <Container>
           <Main>
             {TitleComponent}
-            {!!textSub && <HeaderSub>{textSub}</HeaderSub>}
+            {hasTextSub && <HeaderSub>{textSub}</HeaderSub>}
           </Main>
-          {!!textSide && <Side>{textSide}</Side>}
+          {hasTextSide && <Side>{textSide}</Side>}
         </Container>
       ) : (
         <>{TitleComponent}</>
@@ -66,7 +75,6 @@ const Main = styled.div`
 `;
 
 const headerTitleStyle = css`
-  font-size: var(--font-size);
   font-weight: var(--font-weight, --font-weight-normal);
   line-height: var(--line-height-sm);
   color: var(--color-gray-12);
