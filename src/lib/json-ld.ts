@@ -1,9 +1,27 @@
-import type { BlogPosting, BreadcrumbList, ListItem, Organization, WithContext } from 'schema-dts';
+import type {
+  AboutPage,
+  BlogPosting,
+  BreadcrumbList,
+  CollectionPage,
+  ListItem,
+  Organization,
+  WebPage,
+  WithContext,
+} from 'schema-dts';
 
 import { AUTHOR_ICON, AUTHOR_NAME, SITE_NAME, SITE_URL, URL } from '@/constant';
 import type { PostProps } from '@/types/source';
 
 import { getOgpImage, getPermalink } from './url';
+
+const AUTHOR = {
+  '@type': 'Person',
+  name: AUTHOR_NAME,
+  image: AUTHOR_ICON,
+  url: SITE_URL,
+  sameAs: [URL.TWITTER, URL.GITHUB, URL.QIITA, URL.ZENN],
+  jobTitle: 'Frontend Developer',
+} as const;
 
 export const getDescriptionText = (postContent: string): string => {
   return postContent
@@ -12,6 +30,47 @@ export const getDescriptionText = (postContent: string): string => {
     .replace(/\s+/g, ' ') // 連続するスペースを1つのスペースに置換
     .trim() // 先頭と末尾のスペースを削除
     .substring(0, 140); // 140文字に切り詰め
+};
+
+export const getAboutPageStructured = ({
+  name,
+  description,
+}: {
+  name: string;
+  description: string;
+}): WithContext<AboutPage> => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: name,
+    description: description,
+    author: {
+      ...AUTHOR,
+    },
+  };
+};
+
+export const getWebPageStructured = ({
+  name,
+  description,
+  listItem,
+}: {
+  name: string;
+  description: string;
+  listItem?: ListItem[];
+}): WithContext<WebPage> => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: name,
+    description: description,
+    ...(!!listItem && {
+      mainEntity: {
+        '@type': 'ItemList',
+        listItem,
+      },
+    }),
+  };
 };
 
 export const getBlogPostingStructured = (post: PostProps): WithContext<BlogPosting> => {
@@ -27,12 +86,7 @@ export const getBlogPostingStructured = (post: PostProps): WithContext<BlogPosti
     dateModified: post.updated || post.date,
     ...(!!post.tags && { keywords: post.tags }),
     author: {
-      '@type': 'Person',
-      name: AUTHOR_NAME,
-      image: AUTHOR_ICON,
-      url: SITE_URL,
-      sameAs: [URL.TWITTER, URL.GITHUB, URL.QIITA, URL.ZENN],
-      jobTitle: 'Frontend Developer',
+      ...AUTHOR,
     },
     description: getDescriptionText(post.content),
     image: [getOgpImage(post.slug)],
@@ -98,5 +152,20 @@ export const getOrganizationStructured = (): WithContext<Organization> => {
     name: SITE_NAME,
     url: SITE_URL,
     logo: AUTHOR_ICON,
+  };
+};
+
+export const getCollectionPageStructured = ({
+  name,
+  description,
+}: {
+  name: string;
+  description: string;
+}): WithContext<CollectionPage> => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: name,
+    description: description,
   };
 };

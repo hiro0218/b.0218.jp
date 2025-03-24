@@ -1,4 +1,4 @@
-import { openGraph } from '@/app/metadata';
+import { openGraph } from '@/app/_metadata';
 import { SITE_NAME } from '@/constant';
 import type { Metadata } from 'next/types';
 

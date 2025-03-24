@@ -85,7 +85,9 @@ const Container = styled.article`
 
   &[data-is-new='true'] {
     @container (max-width: 480px) {
-      display: none;
+      &::before {
+        content: none;
+      }
     }
 
     &::before {

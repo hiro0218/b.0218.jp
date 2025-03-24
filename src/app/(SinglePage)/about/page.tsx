@@ -1,6 +1,7 @@
-import { getMetadata } from '@/app/(SinglePage)/metadata';
+import { getMetadata } from '@/app/(SinglePage)/_metadata';
 import Content from '@/components/Page/Single/Content';
 import { SITE_URL } from '@/constant';
+import { getAboutPageStructured } from '@/lib/json-ld';
 import type { Metadata } from 'next/types';
 
 const slug = 'about';
@@ -14,5 +15,20 @@ export const metadata: Metadata = getMetadata({
 });
 
 export default async function Page() {
-  return <Content title={title} description={description} slug={slug} />;
+  return (
+    <>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            getAboutPageStructured({
+              name: title,
+              description,
+            }),
+          ]),
+        }}
+        type="application/ld+json"
+      />
+      <Content title={title} description={description} slug={slug} />
+    </>
+  );
 }

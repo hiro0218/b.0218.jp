@@ -1,4 +1,4 @@
-import { getMetadata } from '@/app/(ArchivePage)/metadata';
+import { getMetadata } from '@/app/(ArchivePage)/_metadata';
 import { getData } from '@/app/(ArchivePage)/popular/lib/getData';
 import { Sidebar, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';

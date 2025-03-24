@@ -1,6 +1,6 @@
 import '@/styles/globals.css';
 
-import { openGraph } from '@/app/metadata';
+import { openGraph } from '@/app/_metadata';
 import Footer from '@/components/App/Footer';
 import Header from '@/components/App/Header';
 import { Layout } from '@/components/App/Layout/AppLayout';
