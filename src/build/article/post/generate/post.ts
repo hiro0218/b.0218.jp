@@ -48,7 +48,7 @@ export async function buildPost() {
   posts.sort((a, b) => b.date.localeCompare(a.date));
 
   await mkdir(`${PATH.to}`, { recursive: true });
-  writeJSON(`${PATH.to}/${FILENAME_POSTS}.json`, posts).then(() => {
+  await writeJSON(`${PATH.to}/${FILENAME_POSTS}.json`, posts).then(() => {
     Log.info(`Write dist/${FILENAME_POSTS}.json`);
   });
 
