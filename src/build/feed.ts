@@ -1,12 +1,12 @@
-import { Feed } from 'feed';
-
 import { AUTHOR_NAME, SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
 import { getDescriptionText } from '@/lib/json-ld';
 import { getPostsJson } from '@/lib/posts';
 import { getPermalink } from '@/lib/url';
+import * as Log from '@/shared/Log';
 import { writeFile } from '@/shared/fs';
+import { Feed } from 'feed';
 
-function generatedRssFeed() {
+async function generatedRssFeed() {
   const feed = new Feed({
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
@@ -51,9 +51,17 @@ function generatedRssFeed() {
     }
   });
 
-  writeFile('./public/feed.xml', feed.rss2());
-  writeFile('./public/atom.xml', feed.atom1());
-  writeFile('./public/feed.json', feed.json1());
+  await writeFile('./public/feed.xml', feed.rss2()).then(() => {
+    Log.info('Write public/feed.xml');
+  });
+  await writeFile('./public/atom.xml', feed.atom1()).then(() => {
+    Log.info('Write public/atom.xml');
+  });
+  await writeFile('./public/feed.json', feed.json1()).then(() => {
+    Log.info('Write public/feed.json');
+  });
 }
 
-generatedRssFeed();
+(async () => {
+  await generatedRssFeed();
+})();
