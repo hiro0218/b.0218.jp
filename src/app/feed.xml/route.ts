@@ -1,12 +1,12 @@
 import { AUTHOR_NAME, SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
 import { getDescriptionText } from '@/lib/json-ld';
 import { getPostsJson } from '@/lib/posts';
-import { getPermalink } from '@/lib/url';
-import * as Log from '@/shared/Log';
-import { writeFile } from '@/shared/fs';
+import { getOgpImage, getPermalink } from '@/lib/url';
 import { Feed } from 'feed';
 
-async function generatedRssFeed() {
+export const dynamic = 'force-static';
+
+export async function GET() {
   const feed = new Feed({
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
@@ -17,9 +17,7 @@ async function generatedRssFeed() {
     copyright: `© ${AUTHOR_NAME}`,
     updated: new Date(),
     feedLinks: {
-      rss2: `${SITE_URL}/rss/feed.xml`,
-      json: `${SITE_URL}/rss/feed.json`,
-      atom: `${SITE_URL}/rss/atom.xml`,
+      rss2: `${SITE_URL}/feed.xml`,
     },
     author: {
       name: AUTHOR_NAME,
@@ -36,6 +34,7 @@ async function generatedRssFeed() {
     }
 
     if (loopCount < 30) {
+      const ogpImage = `${getOgpImage(post.slug)}`;
       const permalink = getPermalink(post.slug);
 
       feed.addItem({
@@ -45,23 +44,16 @@ async function generatedRssFeed() {
         link: permalink,
         guid: permalink,
         date: new Date(post.date),
+        image: ogpImage,
       });
 
       loopCount++;
     }
   });
 
-  await writeFile('./public/feed.xml', feed.rss2()).then(() => {
-    Log.info('Write public/feed.xml');
-  });
-  await writeFile('./public/atom.xml', feed.atom1()).then(() => {
-    Log.info('Write public/atom.xml');
-  });
-  await writeFile('./public/feed.json', feed.json1()).then(() => {
-    Log.info('Write public/feed.json');
+  return new Response(feed.rss2(), {
+    headers: {
+      'Content-Type': 'application/xml',
+    },
   });
 }
-
-(async () => {
-  await generatedRssFeed();
-})();

@@ -17,11 +17,7 @@ import { unstable_ViewTransition as ViewTransition } from 'react';
 
 const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((module) => module.PageScroll));
 
-const feeds = [
-  { href: '/feed.xml', type: 'application/rss+xml' },
-  { href: '/atom.xml', type: 'application/atom+xml' },
-  { href: '/feed.json', type: 'application/json' },
-];
+const feeds = [{ href: '/feed.xml', type: 'application/rss+xml' }];
 
 export const viewport: Viewport = {
   width: 'device-width',
