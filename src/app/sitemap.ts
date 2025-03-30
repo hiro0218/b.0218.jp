@@ -26,7 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.5,
     };
-  }) as MetadataRoute.Sitemap;
+  });
 
   const postList: MetadataRoute.Sitemap = posts.map((post) => {
     const ogpImage = `${getOgpImage(post.slug)}`;
