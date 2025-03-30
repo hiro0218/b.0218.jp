@@ -1,9 +1,10 @@
 import { SITE_URL } from '@/constant';
-import { getPostsListJson } from '@/lib/posts';
+import { getPostsListJson, getTagsWithCount } from '@/lib/posts';
 import { getOgpImage, getPermalink } from '@/lib/url';
 import type { MetadataRoute } from 'next';
 
 const posts = getPostsListJson();
+const tags = getTagsWithCount();
 
 export const dynamic = 'force-static';
 
@@ -25,7 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.5,
     };
-  }) as MetadataRoute.Sitemap;
+  });
 
   const postList: MetadataRoute.Sitemap = posts.map((post) => {
     const ogpImage = `${getOgpImage(post.slug)}`;
@@ -40,5 +41,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
-  return [...pageList, ...postList];
+  const tagList: MetadataRoute.Sitemap = tags.map(({ slug }) => {
+    const permalink = `${SITE_URL}/tags/${slug}`;
+    return {
+      url: permalink,
+      lastModified: new Date().toISOString(),
+      changeFrequency: 'weekly',
+      priority: 0.5,
+    };
+  });
+
+  return [...pageList, ...postList, ...tagList];
 }
