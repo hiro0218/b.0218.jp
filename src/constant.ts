@@ -8,16 +8,13 @@ export const SITE_DESCRIPTION = '様々な情報をストックするサイバ�
 export const SITE_URL = 'https://b.0218.jp';
 
 export const URL = {
-  // biome-ignore lint/style/useNamingConvention: <explanation>
-  TWITTER: 'https://twitter.com/hiro0218',
-  // biome-ignore lint/style/useNamingConvention: <explanation>
-  GITHUB: 'https://github.com/hiro0218',
-  // biome-ignore lint/style/useNamingConvention: <explanation>
-  NPM: 'https://www.npmjs.com/~hiro0218',
-  // biome-ignore lint/style/useNamingConvention: <explanation>
-  QIITA: 'https://qiita.com/hiro0218',
-  // biome-ignore lint/style/useNamingConvention: <explanation>
-  ZENN: 'https://zenn.dev/hiro',
+  twitter: 'https://twitter.com/hiro0218',
+  github: 'https://github.com/hiro0218',
+  npm: 'https://www.npmjs.com/~hiro0218',
+  qiita: 'https://qiita.com/hiro0218',
+  zenn: 'https://zenn.dev/hiro',
+  codepen: 'https://codepen.io/hiro0218',
+  speakerdeck: 'https://speakerdeck.com/hiro0218',
 } as const;
 
 export const X_ACCOUNT = 'hiro0218';

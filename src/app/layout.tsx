@@ -7,8 +7,7 @@ import { Layout } from '@/components/App/Layout/AppLayout';
 import { MainContainer } from '@/components/App/Layout/MainContainer';
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { GoogleFontLinks } from '@/components/Functional/GoogleFontLinks';
-import { MetaLinkFeed, MetaLinkRelMe } from '@/components/Functional/MetaLink';
-import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
+import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import dynamic from 'next/dynamic';
@@ -16,8 +15,6 @@ import type { Metadata, Viewport } from 'next/types';
 import { unstable_ViewTransition as ViewTransition } from 'react';
 
 const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((module) => module.PageScroll));
-
-const feeds = [{ href: '/feed.xml', type: 'application/rss+xml' }];
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -49,9 +46,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <head>
         <link href="/favicon.ico" rel="icon" type="image/x-icon" />
         <link href="/opensearch.xml" rel="search" type="application/opensearchdescription+xml" />
-        <MetaLinkFeed feeds={feeds} />
+        <link href="/feed.xml" rel="alternate" title="RSSフィード" type="application/rss+xml" />
         <GoogleFontLinks />
-        <MetaLinkRelMe />
+        {
+          /** @see https://developer.mozilla.org/ja/docs/Web/HTML/Attributes/rel/me */
+          Object.entries(URL).map(([key, url]) => (
+            <link href={url} key={key} rel="me" />
+          ))
+        }
         <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} />
         <script
           dangerouslySetInnerHTML={{
