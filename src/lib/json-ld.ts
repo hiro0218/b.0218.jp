@@ -19,7 +19,7 @@ const AUTHOR = {
   name: AUTHOR_NAME,
   image: AUTHOR_ICON,
   url: SITE_URL,
-  sameAs: [URL.TWITTER, URL.GITHUB, URL.QIITA, URL.ZENN],
+  sameAs: [...Object.values(URL)],
   jobTitle: 'Frontend Developer',
 } as const;
 
