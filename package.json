@@ -114,7 +114,8 @@
     "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
     "safer-buffer": "npm:@nolyfill/safer-buffer@^1",
     "@types/react": "19.1.0",
-    "@types/react-dom": "19.1.1"
+    "@types/react-dom": "19.1.1",
+    "es-set-tostringtag": "npm:@nolyfill/es-set-tostringtag@^1"
   },
   "nano-staged": {
     "**/*.{ts,tsx,js}": [
