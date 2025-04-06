@@ -1,6 +1,6 @@
 import uniqueChars from '~/dist/uniqueChars';
 
-/** SafariのURLの最大長は約8,000文字のため超過しないようにする */
+/** Google Fontsが受け付けられる限界文字数があるため8000文字程度に制限する */
 const MAX_URL_LENGTH = 8000;
 const BASE_URL = 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400..900&display=swap';
 
