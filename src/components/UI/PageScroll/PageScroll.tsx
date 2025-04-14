@@ -1,3 +1,5 @@
+'use client';
+
 import { Tooltip } from '@/components/UI/Tooltip';
 import { ArrowUpIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled/static';
@@ -6,9 +8,13 @@ import { styled } from '@/ui/styled/static';
  * @see https://html.spec.whatwg.org/multipage/browsing-the-web.html#scroll-to-the-fragment-identifier
  */
 export const PageScroll = () => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <Container data-floating>
-      <Button href="#">
+      <Button onClick={scrollToTop}>
         <ArrowUpIcon />
         <Tooltip text="ページトップへ" position="top" />
       </Button>
@@ -25,13 +31,15 @@ const Container = styled.div`
   isolation: isolate;
 `;
 
-const Button = styled.a`
+const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
   padding: var(--space-2);
   color: var(--color-gray-12);
+  cursor: pointer;
   background-color: var(--color-gray-3A);
+  border: none;
   border-radius: var(--border-radius-full);
   transition: background-color 0.2s ease;
 
