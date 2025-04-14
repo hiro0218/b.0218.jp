@@ -9,10 +9,10 @@ import { getPostsListJson } from '@/lib/posts';
 import { convertPostSlugToPath } from '@/lib/url';
 import type { PostListProps } from '@/types/source';
 import { getMetadata } from '../_metadata';
-import { divideByYearArchive } from './libs';
+import { getData } from './libs';
 
 const posts = getPostsListJson();
-const archives = divideByYearArchive(posts);
+const archives = getData(posts);
 const totalPosts = posts.length;
 const slug = 'archive';
 const title = 'Archive';
