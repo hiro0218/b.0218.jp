@@ -1,1 +1,1 @@
-export { type ArchiveListProps, getData } from './getStaticPropsArchive';
+export { type ArchiveListProps, getData } from './getData';
