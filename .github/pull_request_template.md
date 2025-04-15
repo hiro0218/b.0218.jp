@@ -4,10 +4,10 @@
 <!--
 レビューする際には、以下のprefix(接頭辞)をつけてください
 [must]  
-[imo] (in my opinion)  
-[nits](nitpick) 
+[imo]  
+[nits]  
 [ask]  
-[fyi]
+[fyi]  
 -->
 <!-- for GitHub Copilot review  rule-->
 

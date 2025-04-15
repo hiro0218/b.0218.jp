@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { PaginationComponent } from './PaginationComponent';
+import { PaginationComponent } from './components/PaginationComponent';
 import { ITEMS_PER_PAGE, QUERY_PAGE_KEY } from './constant';
 
 type PaginationProps = {

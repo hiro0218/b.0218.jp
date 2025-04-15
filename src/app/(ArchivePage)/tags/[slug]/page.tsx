@@ -1,3 +1,6 @@
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { getMetadata } from '@/app/(ArchivePage)/_metadata';
 import { getTagPosts } from '@/app/libs/getTagPosts';
 import { Pagination, PostList } from '@/components/Page/Archive/Pagination';
@@ -7,9 +10,6 @@ import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getCollectionPageStructured } from '@/lib/json-ld';
 import { getTagsWithCount } from '@/lib/posts';
-import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
 
 type Params = Promise<{ slug: string }>;
 

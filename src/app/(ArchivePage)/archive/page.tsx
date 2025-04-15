@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Chart } from '@/components/Page/Archive/Chart';
 import { Sidebar, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
@@ -7,21 +8,21 @@ import { getCollectionPageStructured } from '@/lib/json-ld';
 import { getPostsListJson } from '@/lib/posts';
 import { convertPostSlugToPath } from '@/lib/url';
 import type { PostListProps } from '@/types/source';
-import type { Metadata } from 'next';
 import { getMetadata } from '../_metadata';
-import { divideByYearArchive } from './libs';
+import { getData } from './libs';
 
 const posts = getPostsListJson();
-const archives = divideByYearArchive(posts);
+const archives = getData(posts);
 const totalPosts = posts.length;
 const slug = 'archive';
 const title = 'Archive';
 const pageTitle = '記事一覧';
-const description = `${totalPosts}件の記事`;
+const paragraph = `${totalPosts}件の記事`;
+const description = `${pageTitle} - ${paragraph}`;
 
 export const metadata: Metadata = getMetadata({
   title,
-  description: `${pageTitle} - ${description}`,
+  description,
   url: `${SITE_URL}/${slug}`,
 });
 
@@ -33,7 +34,7 @@ export default async function Page() {
           __html: JSON.stringify([
             getCollectionPageStructured({
               name: pageTitle,
-              description: `${pageTitle} - ${description}`,
+              description,
             }),
           ]),
         }}

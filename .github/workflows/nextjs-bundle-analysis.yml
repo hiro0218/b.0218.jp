@@ -57,7 +57,9 @@ jobs:
 
       - if: steps.cache-node-modules.outputs.cache-hit != 'true'
         name: Install dependencies
-        run: npm ci --ignore-scripts
+        run: |
+          npm ci --ignore-scripts
+          npm install -D mkdirp gzip-size
 
       - name: Restore next build
         uses: actions/cache@v4
@@ -78,7 +80,7 @@ jobs:
           GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
         # change this if your site requires a custom build command
         run: |
-          npx panda codegen && npm run build:article && npm run build:similarity && npm run build:popular && npm run build:misc && ./node_modules/.bin/next build
+          npx panda codegen && npm run build:article && npm run build:similarity && npm run build:popular && ./node_modules/.bin/next build
 
       # touch .env
       # echo "TZ=Asia/Tokyo" >> .env
@@ -88,7 +90,7 @@ jobs:
       # This step pulls the raw bundle stats for the current bundle
       - name: Analyze bundle
         # run: npx -p nextjs-bundle-analysis report
-        run: node -r esbuild-register .github/scripts/report-bundle-size.ts
+        run: node .github/scripts/report-bundle-size.js
 
       - name: Upload bundle
         uses: actions/upload-artifact@v4
