@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect' next dev -p 8080 --experimental-https",
-    "prebuild": "git submodule update --remote && npm run build:article && npm run build:similarity && npm run build:popular && npm run build:ogp && npm run build:misc",
+    "prebuild": "git submodule update --remote && npm run build:article && npm run build:similarity && npm run build:popular && npm run build:ogp",
     "build": "TZ='Asia/Tokyo' next build",
     "build:article": "TZ='Asia/Tokyo' NODE_OPTIONS='--disable-warning=ExperimentalWarning' node --require esbuild-register ./build/article",
     "build:misc": "node -r esbuild-register ./build/article/extractUniqueChars.ts",
