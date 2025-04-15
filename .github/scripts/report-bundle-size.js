@@ -9,7 +9,7 @@
 
 const path = require('path');
 const fs = require('fs');
-const gzSize = require('gzip-size');
+const { gzipSizeSync } = require('gzip-size');
 const mkdirp = require('mkdirp');
 
 // Pull options from `package.json`
@@ -110,7 +110,7 @@ function getScriptSize(scriptPath) {
   } else {
     const textContent = fs.readFileSync(p, encoding);
     rawSize = Buffer.byteLength(textContent, encoding);
-    gzipSize = gzSize.sync(textContent);
+    gzipSize = gzipSizeSync(textContent);
     memoryCache[p] = [rawSize, gzipSize];
   }
 
