@@ -3,6 +3,7 @@ import uniqueChars from '~/dist/uniqueChars';
 /** Google Fontsが受け付けられる限界文字数があるため8000文字程度に制限する */
 const MAX_URL_LENGTH = 8000;
 const BASE_URL = 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400..900&display=swap';
+const NOTO_SANS_MONO_URL = 'https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap';
 
 export const GoogleFontLinks = () => {
   const links: string[] = [];
@@ -39,7 +40,8 @@ export const GoogleFontLinks = () => {
       {links.map((url, index) => (
         <link key={`stylesheet-${index}`} href={url} rel="stylesheet" />
       ))}
-      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap" rel="stylesheet" />
+      <link href={NOTO_SANS_MONO_URL} rel="preload" as="style" fetchPriority="high" crossOrigin="anonymous" />
+      <link href={NOTO_SANS_MONO_URL} rel="stylesheet" />
     </>
   );
 };
