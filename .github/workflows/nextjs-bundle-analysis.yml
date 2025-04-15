@@ -78,7 +78,7 @@ jobs:
           GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
         # change this if your site requires a custom build command
         run: |
-          npx panda codegen && npm run build:article && npm run build:similarity && npm run build:popular && npm run build:misc && ./node_modules/.bin/next build
+          npx panda codegen && npm run build:article && npm run build:similarity && npm run build:popular && ./node_modules/.bin/next build
 
       # touch .env
       # echo "TZ=Asia/Tokyo" >> .env
