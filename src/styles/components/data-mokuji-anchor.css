@@ -2,10 +2,6 @@
   @mixin link-style;
   @mixin link-style--hover-effect;
 
-  position: absolute;
-  top: 0;
-  right: 100%;
-  bottom: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -34,8 +30,6 @@
   }
 
   @media (--isMobile) {
-    position: static;
-
     &::after {
       display: none;
     }
