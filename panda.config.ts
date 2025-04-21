@@ -1,7 +1,7 @@
+import { defineConfig } from '@pandacss/dev';
 import { keyframes } from '@/ui/styled/animations';
 import { dataCss, hljsCss } from '@/ui/styled/globals';
 import globalVars from '@/ui/styled/variables';
-import { defineConfig } from '@pandacss/dev';
 
 export default defineConfig({
   // Whether to use css reset
@@ -18,7 +18,7 @@ export default defineConfig({
     './src/app/**/*.{ts,tsx}',
     './src/ui/**/*.{ts,tsx}',
   ],
-  exclude: [],
+  exclude: ['./src/ui/lib/**/*.{ts,tsx}'],
 
   lightningcss: true,
   logLevel: process.env.NODE_ENV === 'production' ? 'warn' : 'debug',
