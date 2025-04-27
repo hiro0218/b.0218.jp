@@ -19,19 +19,21 @@ jobs:
       - name: Fetch PR diff
         id: fetch_diff
         run: |
-          echo "Base ref: ${{ github.event.pull_request.base.ref }}"
-          echo "Head SHA: ${{ github.event.pull_request.head.sha }}"
+          # Define refs for clarity
+          BASE_REF="origin/${{ github.event.pull_request.base.ref }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
 
+          # Fetch necessary refs - THIS IS CRUCIAL to avoid errors
           git fetch origin ${{ github.event.pull_request.base.ref }}
-          CHANGED_FILES=$(git diff --name-status origin/${{ github.event.pull_request.base.ref }}...${{ github.event.pull_request.head.sha }})
+          git fetch origin ${{ github.event.pull_request.head.ref }} # Fetch head ref too
 
-          echo "--- Raw git diff output ---"
-          echo "$CHANGED_FILES"
-          echo "--- End Raw git diff output ---"
+          # Run git diff
+          CHANGED_FILES=$(git diff --name-status ${BASE_REF}...${HEAD_SHA})
 
+          # Set the output 'files'
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "files<<$EOF" >> $GITHUB_OUTPUT
-          echo "$CHANGED_FILES" >> $GITHUB_OUTPUT
+          echo "files<<$EOF" >> $GITHUB_OUTPUT # Output name is 'files'
+          echo "${CHANGED_FILES}" >> $GITHUB_OUTPUT # Use quotes for safety
           echo "$EOF" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
