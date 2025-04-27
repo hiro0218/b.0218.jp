@@ -22,21 +22,28 @@ jobs:
       - name: Fetch PR diff
         id: fetch_diff
         run: |
-          # Define refs for clarity
           BASE_REF="origin/${{ github.event.pull_request.base.ref }}"
           HEAD_SHA="${{ github.event.pull_request.head.sha }}"
 
-          # Fetch necessary refs - THIS IS CRUCIAL to avoid errors
+          echo "Base ref: ${BASE_REF}"
+          echo "Head SHA: ${HEAD_SHA}"
+
           git fetch origin ${{ github.event.pull_request.base.ref }}
-          git fetch origin ${{ github.event.pull_request.head.ref }} # Fetch head ref too
+          git fetch origin ${{ github.event.pull_request.head.ref }}
 
-          # Run git diff
-          CHANGED_FILES=$(git diff --name-status ${BASE_REF}...${HEAD_SHA})
+          # diffの内容を取得 (--name-status を削除)
+          echo "Running git diff to get content..."
+          DIFF_CONTENT=$(git diff ${BASE_REF}...${HEAD_SHA})
+          if [ $? -ne 0 ]; then
+            echo "Error: git diff command failed."
+            exit 1
+          fi
 
-          # Set the output 'files'
+          # ステップ出力 'diff_content' を設定
+          echo "Setting diff_content output..."
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "files<<$EOF" >> $GITHUB_OUTPUT # Output name is 'files'
-          echo "${CHANGED_FILES}" >> $GITHUB_OUTPUT # Use quotes for safety
+          echo "diff_content<<$EOF" >> $GITHUB_OUTPUT # <-- 出力名を diff_content に変更
+          echo "${DIFF_CONTENT}" >> $GITHUB_OUTPUT
           echo "$EOF" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
