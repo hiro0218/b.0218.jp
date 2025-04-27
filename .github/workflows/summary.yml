@@ -19,11 +19,12 @@ jobs:
       - name: Fetch PR diff
         id: fetch_diff
         run: |
-          DIFF_CONTENT=$(gh pr diff ${{ github.event.pull_request.number }})
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD)
 
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "result<<$EOF" >> $GITHUB_OUTPUT
-          echo "$DIFF_CONTENT" >> $GITHUB_OUTPUT
+          echo "files<<$EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGED_FILES" >> $GITHUB_OUTPUT
           echo "$EOF" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -34,7 +35,7 @@ jobs:
         with:
           prompt: |
             Summarize the following GitHub pull request in one paragraph:
-            PR Diff: ${{ steps.fetch_diff.outputs.result }}
+            PR Diff: ${{ steps.fetch_diff.outputs.files }}
 
       - name: Comment with AI summary
         run: |
