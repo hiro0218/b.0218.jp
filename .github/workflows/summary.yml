@@ -16,14 +16,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Fetch PR diff
+        id: fetch_diff
+        run: gh pr diff ${{ github.event.pull_request.number }}
+
       - name: Run AI inference
         id: inference
         uses: actions/ai-inference@v1
         with:
           prompt: |
             Summarize the following GitHub pull request in one paragraph:
-            Title: ${{ github.event.pull_request.title }}
-            Body: ${{ github.event.pull_request.body }}
+            PR Diff: ${{ steps.fetch_diff }}
 
       - name: Comment with AI summary
         run: |
