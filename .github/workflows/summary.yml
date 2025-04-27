@@ -1,4 +1,4 @@
-name: Summarize new issues
+name: Summarize PR
 
 on:
   pull_request:
@@ -33,13 +33,25 @@ jobs:
         uses: actions/ai-inference@v1
         with:
           prompt: |
-            あなたは開発チームのレビューアシスタントです。以下のプルリクエスト差分（diff）を読み解き、他のレビュアーが変更内容を素早く理解できるように、概要、主な変更点、特筆すべき点を箇条書きを交えて分かりやすく説明してください：
-            PR Diff: ${{ steps.fetch_diff.outputs.files }}
+            以下のGitHubプルリクエストの差分（diff）を分析し、**必ず下記の指定フォーマットと指示に従って**、レビュー概要を日本語で生成してください。
 
-      - name: Comment with AI summary
-        run: |
-          gh pr comment $PR_NUMBER --body '${{ steps.inference.outputs.response }}'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          RESPONSE: ${{ steps.inference.outputs.response }}
+            **指定フォーマットと指示:**
+            ## PRレビュー概要
+
+            ### 主な目的
+            {diffの内容から推測される、この変更が目指している主なゴールや解決しようとしている課題を記述してください。例：バグ修正、機能追加、パフォーマンス改善、ドキュメント更新など。}
+
+            ### 範囲
+            {diffで変更が加えられたファイルの種類や、関連する機能・コンポーネントを記述してください。例：認証部分のバックエンドコード、設定ファイル、UIコンポーネント、ドキュメントファイルなど。}
+
+            ### 影響範囲
+            {この変更によって影響を受ける可能性のあるシステムの動作、ユーザー体験、他の機能、または開発ワークフローなどを記述してください。}
+
+            **分析対象のPR Diff:**
+            ${{ steps.fetch_diff.outputs.files }}
+
+      - name: Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: ai-summary-comment
+          message: ${{ steps.inference.outputs.response }}
