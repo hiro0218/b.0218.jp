@@ -33,7 +33,7 @@ jobs:
         uses: actions/ai-inference@v1
         with:
           prompt: |
-            Summarize the following GitHub pull request in one paragraph:
+            あなたは開発チームのレビューアシスタントです。以下のプルリクエスト差分（diff）を読み解き、他のレビュアーが変更内容を素早く理解できるように、概要、主な変更点、特筆すべき点を箇条書きを交えて分かりやすく説明してください：
             PR Diff: ${{ steps.fetch_diff.outputs.files }}
 
       - name: Comment with AI summary
