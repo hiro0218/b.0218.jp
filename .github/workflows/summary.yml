@@ -2,10 +2,11 @@ name: Summarize PR
 
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [labeled, unlabeled]
 
 jobs:
   summary:
+    if: github.event.label.name == 'ai-summary'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -42,6 +43,7 @@ jobs:
         id: inference
         uses: actions/ai-inference@v1
         with:
+          max-tokens: 500
           prompt: |
             以下のGitHubプルリクエストの差分（diff）を分析し、**必ず下記の指定フォーマットと指示に従って**、レビュー概要を日本語で生成してください。
 
