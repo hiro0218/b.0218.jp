@@ -31,19 +31,23 @@ jobs:
           git fetch origin ${{ github.event.pull_request.base.ref }}
           git fetch origin ${{ github.event.pull_request.head.ref }}
 
-          # diffの内容を取得 (--name-status を削除)
-          echo "Running git diff to get content..."
-          DIFF_CONTENT=$(git diff ${BASE_REF}...${HEAD_SHA})
+          # ファイルリストとステータスを取得
+          echo "Running git diff --name-status..."
+          CHANGED_FILES=$(git diff --name-status ${BASE_REF}...${HEAD_SHA})
           if [ $? -ne 0 ]; then
             echo "Error: git diff command failed."
             exit 1
           fi
 
-          # ステップ出力 'diff_content' を設定
-          echo "Setting diff_content output..."
+          echo "--- Raw git diff output (name-status) ---"
+          echo "${CHANGED_FILES}"
+          echo "--- End Raw git diff output ---"
+
+          # ステップ出力 'files' を設定
+          echo "Setting files output..."
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "diff_content<<$EOF" >> $GITHUB_OUTPUT # <-- 出力名を diff_content に変更
-          echo "${DIFF_CONTENT}" >> $GITHUB_OUTPUT
+          echo "files<<$EOF" >> $GITHUB_OUTPUT # <-- 出力名を 'files' に戻す
+          echo "${CHANGED_FILES}" >> $GITHUB_OUTPUT
           echo "$EOF" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -71,7 +75,7 @@ jobs:
             ```
 
             ```分析対象のPR Diff
-            ${{ steps.fetch_diff.outputs.diff_content }}
+            ${{ steps.fetch_diff.outputs.files }}
             ```
 
       - name: Comment
