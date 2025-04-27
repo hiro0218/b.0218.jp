@@ -19,9 +19,12 @@ jobs:
       - name: Fetch PR diff
         id: fetch_diff
         run: |
-          result=""
-          gh pr diff ${{ github.event.pull_request.number }} > result
-          echo "result=$(cat result)" >> $GITHUB_OUTPUT
+          DIFF_CONTENT=$(gh pr diff ${{ github.event.pull_request.number }})
+
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "result<<$EOF" >> $GITHUB_OUTPUT
+          echo "$DIFF_CONTENT" >> $GITHUB_OUTPUT
+          echo "$EOF" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
