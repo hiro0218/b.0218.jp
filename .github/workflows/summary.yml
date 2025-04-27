@@ -19,7 +19,9 @@ jobs:
       - name: Fetch PR diff
         id: fetch_diff
         run: |
-          gh pr diff ${{ github.event.pull_request.number }} >> $GITHUB_OUTPUT
+          result=""
+          gh pr diff ${{ github.event.pull_request.number }} > result
+          echo "result=$(cat result)" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -29,7 +31,7 @@ jobs:
         with:
           prompt: |
             Summarize the following GitHub pull request in one paragraph:
-            PR Diff: ${{ steps.fetch_diff.outputs }}
+            PR Diff: ${{ steps.fetch_diff.outputs.result }}
 
       - name: Comment with AI summary
         run: |
