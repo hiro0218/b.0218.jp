@@ -28,7 +28,7 @@ jobs:
         with:
           prompt: |
             Summarize the following GitHub pull request in one paragraph:
-            PR Diff: ${{ steps.fetch_diff }}
+            PR Diff: ${{ steps.fetch_diff.outputs }}
 
       - name: Comment with AI summary
         run: |
