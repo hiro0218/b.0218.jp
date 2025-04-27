@@ -19,8 +19,7 @@ jobs:
       - name: Fetch PR diff
         id: fetch_diff
         run: |
-          git fetch origin ${{ github.event.pull_request.base.ref }}
-          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD)
+          CHANGED_FILES=$(gh pr diff --name-only ${{ github.event.pull_request.number }})
 
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           echo "files<<$EOF" >> $GITHUB_OUTPUT
