@@ -1,12 +1,11 @@
 import { pxToRem } from '@/ui/lib/fonts';
 import { SPACING_BASE_PX } from '@/ui/styled/constant';
 
-export const Spaces = ['½', 1, 2, 3, 4, 5, 6] as const;
-export type SpaceGap = (typeof Spaces)[number];
-type SpaceKey = `--space-${SpaceGap}`;
-type SpaceValue = `${number}rem`;
+const FIBONACCI = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584] as const;
+const SPACING_SCALE = [0.5, ...FIBONACCI] as const;
 
-export const SPACE_KEYS: SpaceKey[] = [
+export const Spaces = ['½', 1, 2, 3, 4, 5, 6] as const;
+export const SPACE_KEYS = [
   '--space-½',
   '--space-1',
   '--space-2',
@@ -15,26 +14,15 @@ export const SPACE_KEYS: SpaceKey[] = [
   '--space-5',
   '--space-6',
 ] as const;
+export type SpaceGap = (typeof Spaces)[number];
+type SpaceKey = (typeof SPACE_KEYS)[number];
+type SpaceValue = `${number}rem`;
 
-/**
- * use fibonacci sequence
- */
-const generateSpace = (n: number): number => {
-  if (n === 1) return 1;
-  if (n === 2) return 2;
-
-  return generateSpace(n - 1) + generateSpace(n - 2);
-};
-
-/**
- * space
- * 4, 8, 16, 24, 40, 64, 104
- * @example { '--space-½': '0.25rem', '--space-1': '0.5rem', ... }
- */
 const SPACE_STEPS = Object.fromEntries(
   SPACE_KEYS.map((space, index) => {
-    const radix = index === 0 ? 0.5 : generateSpace(index);
+    const radix = SPACING_SCALE[index];
     const value = pxToRem(SPACING_BASE_PX * radix);
+
     return [space, value];
   }),
 ) as Record<SpaceKey, SpaceValue>;

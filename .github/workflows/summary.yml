@@ -1,0 +1,85 @@
+name: Summarize PR
+
+on:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  summary:
+    if: github.event.label.name == 'ai-summary'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      models: read
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch PR diff
+        id: fetch_diff
+        run: |
+          BASE_REF="origin/${{ github.event.pull_request.base.ref }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+
+          echo "Base ref: ${BASE_REF}"
+          echo "Head SHA: ${HEAD_SHA}"
+
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          git fetch origin ${{ github.event.pull_request.head.ref }}
+
+          # ファイルリストとステータスを取得
+          echo "Running git diff --name-status..."
+          CHANGED_FILES=$(git diff --name-status ${BASE_REF}...${HEAD_SHA})
+          if [ $? -ne 0 ]; then
+            echo "Error: git diff command failed."
+            exit 1
+          fi
+
+          echo "--- Raw git diff output (name-status) ---"
+          echo "${CHANGED_FILES}"
+          echo "--- End Raw git diff output ---"
+
+          # ステップ出力 'files' を設定
+          echo "Setting files output..."
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "files<<$EOF" >> $GITHUB_OUTPUT # <-- 出力名を 'files' に戻す
+          echo "${CHANGED_FILES}" >> $GITHUB_OUTPUT
+          echo "$EOF" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run AI inference
+        id: inference
+        uses: actions/ai-inference@v1
+        with:
+          max-tokens: 500
+          prompt: |
+            PRの差分を分析し、**必ず下記の指定フォーマットに従い概要を日本語で生成してください。**
+            **全体で300トークンを目安に、各項目は最も重要な点に絞って簡潔に記述してください。**
+
+            ```フォーマット
+            ## PRレビュー概要
+
+            ### 主な目的
+            {diffから推測される、この変更の**最も重要な目的やゴール**を1〜2文で記述}
+
+            ### 範囲
+            {変更が加えられた**主要なファイル種別や機能領域**を簡潔に列挙}
+
+            ### 影響範囲
+            {この変更によって特に注意すべき**影響（システム動作、UX、他機能等）**を1〜2点で記述}
+            ```
+
+            ```分析対象のPR Diff
+            ${{ steps.fetch_diff.outputs.files }}
+            ```
+
+      - name: Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: ai-summary-comment
+          message: ${{ steps.inference.outputs.response }}
