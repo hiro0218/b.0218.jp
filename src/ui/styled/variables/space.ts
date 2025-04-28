@@ -21,7 +21,7 @@ type SpaceValue = `${number}rem`;
 const SPACE_STEPS = Object.fromEntries(
   SPACE_KEYS.map((space, index) => {
     const radix = SPACING_SCALE[index];
-    const value = pxToRem(`${SPACING_BASE_PX * radix}px`);
+    const value = pxToRem(SPACING_BASE_PX * radix);
 
     return [space, value];
   }),
