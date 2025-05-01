@@ -29,7 +29,6 @@
 			"recommended": false,
 			"a11y": {
 				"noAriaUnsupportedElements": "warn",
-				"noBlankTarget": "off",
 				"useAltText": "warn",
 				"useAriaPropsForRole": "warn",
 				"useValidAriaProps": "warn",
