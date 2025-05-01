@@ -1,5 +1,8 @@
 import '@/styles/globals.css';
 
+import { GoogleAnalytics } from '@next/third-parties/google';
+import dynamic from 'next/dynamic';
+import type { Metadata, Viewport } from 'next/types';
 import { openGraph } from '@/app/_metadata';
 import Footer from '@/components/App/Footer';
 import Header from '@/components/App/Header';
@@ -9,10 +12,6 @@ import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { GoogleFontLinks } from '@/components/Functional/GoogleFontLinks';
 import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
-import { GoogleAnalytics } from '@next/third-parties/google';
-import dynamic from 'next/dynamic';
-import type { Metadata, Viewport } from 'next/types';
-import { unstable_ViewTransition as ViewTransition } from 'react';
 
 const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((module) => module.PageScroll));
 
@@ -66,9 +65,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
         <Layout>
           <Header />
-          <ViewTransition name="cross-fade">
-            <MainContainer>{children}</MainContainer>
-          </ViewTransition>
+          <MainContainer>{children}</MainContainer>
           <PageScroll />
           <Footer />
         </Layout>
