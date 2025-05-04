@@ -10,7 +10,6 @@ const MOKUJI_OPTION: MokujiOption = {
   anchorLink: true,
   anchorLinkSymbol: '#',
   anchorLinkPosition: 'after',
-  anchorContainerTagName: 'ol',
 } as const;
 
 type ReturnProps = {
@@ -37,10 +36,10 @@ export const useMokuji = ({ refContent }: MokujiProps): ReturnProps => {
         return;
       }
 
-      const mokujiList = MokujiJs(refContent.current, MOKUJI_OPTION);
+      const { list } = MokujiJs(refContent.current, MOKUJI_OPTION);
 
-      if (mokujiList && mokujiList.childNodes.length !== 0) {
-        refDetailContent.current.appendChild(mokujiList);
+      if (list?.children.length !== 0) {
+        refDetailContent.current.appendChild(list);
         refMokuji.current.style.display = 'block';
       } else {
         refMokuji.current.style.display = 'none';
