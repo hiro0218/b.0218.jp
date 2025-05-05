@@ -1,4 +1,4 @@
-import type { AriaRole, ComponentProps, ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
@@ -14,27 +14,14 @@ type Props = {
   date: PostDateProps['date'];
   updated: PostDateProps['updated'];
   tags?: string[];
-  role?: AriaRole;
-  showNewLabel?: boolean;
   prefetch?: boolean;
 };
 
-function LinkCard({
-  link,
-  title,
-  date,
-  updated,
-  excerpt,
-  tags,
-  role,
-  titleTagName = 'h3',
-  showNewLabel = false,
-  prefetch = false,
-}: Props) {
+function LinkCard({ link, title, date, updated, excerpt, tags, titleTagName = 'h3', prefetch = false }: Props) {
   const Title = titleTagName;
 
   return (
-    <Container role={role} {...(showNewLabel && { 'data-is-new': showNewLabel })}>
+    <Container>
       <PostDate date={date} updated={updated} />
       <Anchor className={anchorStyle} href={link} prefetch={prefetch}>
         <Title className={cx('line-clamp-2', titleStyle)}>{title}</Title>
@@ -81,31 +68,6 @@ const Container = styled.article`
 
   @container (max-width: 480px) {
     --container-space: var(--space-2);
-  }
-
-  &[data-is-new='true'] {
-    @container (max-width: 480px) {
-      &::before {
-        content: none;
-      }
-    }
-
-    &::before {
-      position: absolute;
-      top: calc(var(--container-space) - var(--space-1));
-      right: calc(var(--container-space) - var(--space-1));
-      display: grid;
-      place-content: center;
-      padding: var(--space-½) var(--space-1);
-      font-family: var(--font-family-monospace);
-      font-size: var(--font-size-xs);
-      line-height: 1;
-      color: var(--white);
-      content: 'NEW';
-      background-color: var(--color-gray-11);
-      border-radius: var(--border-radius-12);
-      isolation: isolate;
-    }
   }
 
   &:hover,
