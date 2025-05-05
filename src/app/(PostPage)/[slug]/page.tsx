@@ -134,14 +134,13 @@ export default async function Page({ params }: { params: Params }) {
               isWideCluster={false}
               tags={similarTags}
             />
-            <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} updateTarget="date" />
+            <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
             <PostSection
               as="aside"
               heading="最新記事"
               headingLevel="h2"
               href="/archive"
               posts={recentPosts}
-              updateTarget="date"
               prefetch={true}
             />
           </Stack>

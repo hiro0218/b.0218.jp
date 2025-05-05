@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Container } from '@/components/Functional/Container';
 import { Hero } from '@/components/Page/Home';
 import { PostSection } from '@/components/Page/Share/PostSection';
@@ -5,7 +6,6 @@ import { TagSection } from '@/components/Page/Share/TagSection';
 import Heading from '@/components/UI/Heading';
 import { Box, Sidebar, Stack } from '@/components/UI/Layout';
 import { SITE_URL } from '@/constant';
-import type { Metadata } from 'next';
 import { getData } from './libs';
 
 const data = getData();
@@ -38,7 +38,6 @@ export default async function Page() {
                     headingWeight="normal"
                     href="/archive"
                     posts={recentPosts}
-                    updateTarget="date"
                     prefetch={true}
                   />
                   <PostSection
@@ -49,13 +48,7 @@ export default async function Page() {
                     posts={popularPosts}
                     prefetch={true}
                   />
-                  <PostSection
-                    heading="更新記事"
-                    headingLevel="h3"
-                    headingWeight="normal"
-                    posts={updatesPosts}
-                    updateTarget="updated"
-                  />
+                  <PostSection heading="更新記事" headingLevel="h3" headingWeight="normal" posts={updatesPosts} />
                 </Stack>
               </Box>
             </Sidebar.Main>

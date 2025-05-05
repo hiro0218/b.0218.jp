@@ -14,7 +14,6 @@ type Props = {
   posts: (PostListProps | (TermsPostListProps & { tags?: string[] }))[];
   href?: string;
   as?: keyof JSX.IntrinsicElements;
-  updateTarget?: 'updated' | 'date' | undefined;
   prefetch?: boolean;
 };
 
@@ -24,7 +23,6 @@ export const PostSection = ({
   headingLevel = 'h2',
   headingWeight = 'normal',
   href,
-  updateTarget,
   posts,
   prefetch,
 }: Props) => {
