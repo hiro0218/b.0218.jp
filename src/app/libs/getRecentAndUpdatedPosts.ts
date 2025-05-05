@@ -19,8 +19,9 @@ const filterPosts = ({ posts, options }: Props): PostListProps[] => {
     };
 
     if (withoutContent && 'content' in post) {
-      // 'content' プロパティが存在し、withoutContent が true の場合、content, note, readingTime を除外
-      const { content, note, readingTime, ...rest } = post;
+      // 'content' プロパティが存在し、withoutContent が true の場合、content, note を除外
+      // biome-ignore lint/correctness/noUnusedVariables: unused variables
+      const { content, note, ...rest } = post;
       return rest;
     }
 
