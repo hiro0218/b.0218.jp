@@ -108,7 +108,7 @@ function generateComment(currentBundle, baseBundle) {
 // ルーターごとのバンドル比較を行う
 function compareRouterBundles(current, base, routerName) {
   if (!current.__global || !base.__global) {
-    return `- ${routerName}: グローバルバンドル情報がないため比較できません\n`;
+    return `- ${routerName}: global bundle情報がないため比較できません\n`;
   }
 
   const currentGlobalGzip = current.__global.gzip;
@@ -128,7 +128,7 @@ function compareRouterBundles(current, base, routerName) {
 
   // 結果文字列の生成
   let result = `- ${routerName}: ${status} `;
-  result += `グローバルバンドル: ${formatBytes(currentGlobalGzip)}`;
+  result += `global bundle: ${formatBytes(currentGlobalGzip)}`;
 
   if (globalDiff !== 0) {
     const sign = globalDiff > 0 ? '+' : '';
@@ -157,9 +157,9 @@ function generateBundleSizeTable(bundleData) {
     '| :--- | ---: |',
   ];
 
-  // グローバルバンドルを先頭に追加
+  // global bundleを先頭に追加
   if (bundleData.__global) {
-    table.push(`| グローバルバンドル | ${formatBytes(bundleData.__global.gzip)} |`);
+    table.push(`| global bundle | ${formatBytes(bundleData.__global.gzip)} |`);
   }
 
   // ページごとのバンドルサイズを追加（サイズ順）
