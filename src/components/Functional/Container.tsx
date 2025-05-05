@@ -1,5 +1,5 @@
-import { styled } from '@/ui/styled/static';
 import type { CSSProperties, ReactNode } from 'react';
+import { styled } from '@/ui/styled/static';
 
 type Props = {
   size?: 'small' | 'default' | 'large';

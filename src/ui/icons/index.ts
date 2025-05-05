@@ -1,10 +1,3 @@
-export { ChatBubbleLeft } from './ChatBubbleLeft';
-export { ExclamationCircle } from './ExclamationCircle';
-export { ExclamationTriangle } from './ExclamationTriangle';
-export { Hatenabookmark } from './Hatenabookmark';
-export { InformationCircle } from './InformationCircle';
-export { LightBulb } from './LightBulb';
-export { X } from './X';
 export {
   ArrowUpIcon,
   CaretLeftIcon,
@@ -16,6 +9,13 @@ export {
   Link2Icon,
   MagnifyingGlassIcon,
 } from '@radix-ui/react-icons';
+export { ChatBubbleLeft } from './ChatBubbleLeft';
+export { ExclamationCircle } from './ExclamationCircle';
+export { ExclamationTriangle } from './ExclamationTriangle';
+export { Hatenabookmark } from './Hatenabookmark';
+export { InformationCircle } from './InformationCircle';
+export { LightBulb } from './LightBulb';
+export { X } from './X';
 
 const BASE = 15;
 const SCALE = 1.5;

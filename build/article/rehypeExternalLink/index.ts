@@ -1,6 +1,6 @@
-import { SITE_URL } from '@/constant';
 import type { Element, Root } from 'hast';
 import { visit } from 'unist-util-visit';
+import { SITE_URL } from '@/constant';
 
 export default function rehypeExternalLink() {
   return function (tree: Root) {

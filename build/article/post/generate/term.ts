@@ -1,5 +1,5 @@
-import * as Log from '@/shared/Log';
 import { writeJSON } from '@/shared/fs';
+import * as Log from '@/shared/Log';
 import type { PostProps } from '@/types/source';
 import { getPath } from './utils';
 

@@ -1,6 +1,6 @@
+import type { ReactNode } from 'react';
 import { Container } from '@/components/Functional/Container';
 import { Stack } from '@/components/UI/Layout';
-import type { ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;

@@ -1,11 +1,11 @@
 import cluster from 'node:cluster';
 import os from 'node:os';
 import { cwd } from 'node:process';
-import { type Browser, type Page, chromium } from 'playwright-chromium';
+import { type Browser, chromium, type Page } from 'playwright-chromium';
 
 import { getPostsListJson } from '@/lib/posts';
-import * as Log from '@/shared/Log';
 import { mkdir } from '@/shared/fs';
+import * as Log from '@/shared/Log';
 
 type Post = { title: string; slug: string };
 type WorkerMessage = { type: 'completed'; index?: number } | { type: 'error'; error: string };

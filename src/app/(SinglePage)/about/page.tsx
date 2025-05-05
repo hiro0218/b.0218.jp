@@ -1,8 +1,8 @@
+import type { Metadata } from 'next/types';
 import { getMetadata } from '@/app/(SinglePage)/_metadata';
 import Content from '@/components/Page/Single/Content';
 import { SITE_URL } from '@/constant';
 import { getAboutPageStructured } from '@/lib/json-ld';
-import type { Metadata } from 'next/types';
 
 const slug = 'about';
 const title = 'About';

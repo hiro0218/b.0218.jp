@@ -1,5 +1,5 @@
-import { styled } from '@/ui/styled/static';
 import { memo } from 'react';
+import { styled } from '@/ui/styled/static';
 
 export const Footer = memo(function Footer({ resultNumber }: { resultNumber: number }) {
   return (

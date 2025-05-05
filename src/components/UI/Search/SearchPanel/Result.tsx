@@ -1,8 +1,8 @@
+import { memo, useMemo } from 'react';
 import { Anchor } from '@/components/UI/Anchor';
 import type { SearchProps } from '@/components/UI/Search/type';
 import { convertPostSlugToPath } from '@/lib/url';
 import { css, styled } from '@/ui/styled/static';
-import { memo, useMemo } from 'react';
 
 export const Result = memo(function Result({
   suggestions,

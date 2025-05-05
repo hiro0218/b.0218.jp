@@ -1,5 +1,5 @@
-import type { SpaceGap } from '@/ui/styled/variables/space';
 import type { JSX, ReactNode } from 'react';
+import type { SpaceGap } from '@/ui/styled/variables/space';
 
 type Props = {
   as?: keyof JSX.IntrinsicElements;

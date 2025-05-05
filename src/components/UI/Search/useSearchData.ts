@@ -1,8 +1,8 @@
 'use client';
 
-import debounce from '@/lib/debounce';
 import { useCallback, useMemo, useState } from 'react';
-import type { SearchProps, onCloseDialogProps, onKeyupEventProps } from './type';
+import debounce from '@/lib/debounce';
+import type { onCloseDialogProps, onKeyupEventProps, SearchProps } from './type';
 
 type DataProps = {
   keyword: string;

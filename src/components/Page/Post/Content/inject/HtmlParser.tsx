@@ -1,14 +1,14 @@
+import reactHtmlParser, {
+  type DOMNode,
+  domToReact,
+  Element,
+  type HTMLReactParserOptions,
+  Text,
+} from 'html-react-parser';
 import { Alert, type AlertType } from '@/components/Page/Post/Alert';
 import { LinkPreview } from '@/components/Page/Post/LinkPreview';
 import { Anchor } from '@/components/UI/Anchor';
 import { parseJSON } from '@/lib/parseJSON';
-import reactHtmlParser, {
-  type HTMLReactParserOptions,
-  Element,
-  domToReact,
-  type DOMNode,
-  Text,
-} from 'html-react-parser';
 
 type AlertDataProps = {
   type: 'alert';
