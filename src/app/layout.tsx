@@ -1,4 +1,4 @@
-import '@/styles/globals.css';
+import '@/ui/styles/globals.css';
 
 import { GoogleAnalytics } from '@next/third-parties/google';
 import dynamic from 'next/dynamic';

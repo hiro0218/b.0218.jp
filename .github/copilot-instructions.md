@@ -49,7 +49,8 @@ src/
     page.tsx
   components/
   lib/
-  styles/
+  ui/
+    styles/
 public/
 ```
 
