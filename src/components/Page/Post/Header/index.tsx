@@ -4,24 +4,22 @@ import PostDate from '@/components/UI/Date';
 import { Box, Cluster, Stack } from '@/components/UI/Layout';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag from '@/components/UI/Tag';
-import { READ_TIME_SUFFIX } from '@/constant';
 import type { PostProps } from '@/types/source';
 import { css, styled } from '@/ui/styled/static';
 
-type Props = Pick<PostProps, 'title' | 'date' | 'updated' | 'readingTime'> & {
+type Props = Pick<PostProps, 'title' | 'date' | 'updated'> & {
   tagsWithCount: PostTagProps[];
   render?: ReactNode;
 };
 
-function PostHeader({ title, date, updated, readingTime, tagsWithCount, render }: Props) {
+function PostHeader({ title, date, updated, tagsWithCount, render }: Props) {
   return (
     <Stack as="header" space={2} className={headerSeparatorStyle}>
       <Heading>{title}</Heading>
       <Box mt={2}>
         <Box className={itemStyle}>
           <PostDate date={date} updated={updated} />
-          <Separator aria-hidden="true">•</Separator>
-          <span>{`${readingTime || 1} ${READ_TIME_SUFFIX}`}</span>
+          {/* <span aria-hidden="true">•</span> */}
         </Box>
         <Box mt={1} className={itemStyle}>
           <Cluster isWide={false}>
@@ -61,9 +59,4 @@ const Heading = styled.h1`
 const itemStyle = css`
   display: flex;
   color: var(--color-gray-11);
-`;
-
-const Separator = styled.span`
-  margin: 0 var(--space-1);
-  user-select: none;
 `;

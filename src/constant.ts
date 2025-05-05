@@ -19,8 +19,6 @@ export const URL = {
 
 export const X_ACCOUNT = 'hiro0218';
 
-export const READ_TIME_SUFFIX = 'min read';
-
 export const BREAKPOINT = 992;
 
 export const FILENAME_POSTS = 'posts';

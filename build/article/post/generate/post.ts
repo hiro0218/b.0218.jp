@@ -1,9 +1,8 @@
-import { FILENAME_POSTS } from '@/constant';
-import * as Log from '@/shared/Log';
-import { mkdir, writeJSON } from '@/shared/fs';
-import type { PostProps } from '@/types/source';
 import { read as matterRead } from 'gray-matter';
-import readingTime from 'reading-time';
+import { FILENAME_POSTS } from '@/constant';
+import { mkdir, writeJSON } from '@/shared/fs';
+import * as Log from '@/shared/Log';
+import type { PostProps } from '@/types/source';
 import markdownToHtmlString from '../../markdownToHtmlString';
 import { getMarkdownFiles, getPath, getSlug } from './utils';
 
@@ -29,7 +28,6 @@ export async function buildPost() {
 
     const content = (await markdownToHtmlString(post.content)).trim();
     const noteContent = !!note ? await markdownToHtmlString(note, true) : '';
-    const { minutes: readingTimeMinutes } = readingTime(content);
 
     posts.push({
       title: title.trim(),
@@ -39,7 +37,6 @@ export async function buildPost() {
       ...(noteContent && { note: noteContent }),
       content: content,
       tags,
-      readingTime: Math.round(readingTimeMinutes),
       noindex,
     });
   }

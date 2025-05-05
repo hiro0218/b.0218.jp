@@ -12,7 +12,7 @@ import {
 import { PostSection } from '@/components/Page/Share/PostSection';
 import { TagSection } from '@/components/Page/Share/TagSection';
 import { Stack } from '@/components/UI/Layout';
-import { AUTHOR_NAME, READ_TIME_SUFFIX } from '@/constant';
+import { AUTHOR_NAME } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { getPostsJson } from '@/lib/posts';
 import { getOgpImage, getPermalink } from '@/lib/url';
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { slug: _slug } = await params;
   const slug = _slug.replace('.html', '');
   const data = getData(slug);
-  const { title, content, noindex, readingTime, meta } = data.post;
+  const { title, content, noindex, meta } = data.post;
   const { publishedTime, modifiedTime } = meta;
   const permalink = getPermalink(slug);
   const description = getDescriptionText(content);
@@ -63,8 +63,6 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       modified_time: modifiedTime || publishedTime,
       label1: 'Written by',
       data1: AUTHOR_NAME,
-      label2: 'Reading time',
-      data2: `${readingTime} ${READ_TIME_SUFFIX}`,
     },
     twitter: {
       card: 'summary_large_image',
@@ -90,7 +88,7 @@ export default async function Page({ params }: { params: Params }) {
   }
 
   const { post, similarPost, similarTags, recentPosts } = data;
-  const { title, date, updated, readingTime, note, content, tagsWithCount } = post;
+  const { title, date, updated, note, content, tagsWithCount } = post;
   const hasTweet = content.includes('twitter-tweet');
   const permalink = getPermalink(slug);
 
@@ -108,7 +106,6 @@ export default async function Page({ params }: { params: Params }) {
           <Stack as="article" space={4}>
             <PostHeader
               date={date}
-              readingTime={readingTime}
               render={
                 <>
                   <PostShare title={title} url={permalink} />
