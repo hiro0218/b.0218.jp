@@ -1,15 +1,15 @@
 import { isSSR } from '@/lib/isSSR';
 
-/** Determine if the user has set a reduced motion effect */
+/** ユーザーが簡易動作効果を設定しているかどうかを判定する */
 const isPrefersReduced: boolean = !isSSR ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
 
-/** If the setting to reduce the parallax effect is set, set the scroll behavior to 'instant', otherwise set it to 'smooth' */
+/** パララックス効果を簡易化する設定がされている場合はスクロール動作を「instant」に、そうでない場合は「smooth」に設定する */
 const scrollBehavior: ScrollBehavior = isPrefersReduced ? 'instant' : 'smooth';
 
-/** Returns true if the hash is '#top' or '#' */
+/** ハッシュが'#top'または'#'である場合にtrueを返す */
 const isTopHash = (hash: string): boolean => hash === '#top' || hash === '#';
 
-/** Get the target element from the hash part of the anchor link */
+/** アンカーリンクのハッシュ部分から対象の要素を取得する */
 const getTarget = (hash: string): HTMLElement | null => {
   try {
     const targetElementId = decodeURIComponent(hash.slice(1));
@@ -20,7 +20,6 @@ const getTarget = (hash: string): HTMLElement | null => {
   }
 };
 
-/** Scroll to the target element */
 const scrollToTarget = (element: HTMLElement): void => {
   try {
     element.scrollIntoView({ behavior: scrollBehavior });
@@ -29,19 +28,15 @@ const scrollToTarget = (element: HTMLElement): void => {
   }
 };
 
-/** Focus on the target element */
 const focusOnTarget = (element: HTMLElement): void => {
   try {
-    // Set focus on the target element
     element.focus({ preventScroll: true });
 
-    // If the active element is not the target element
+    // アクティブな要素が対象要素でない場合
     if (document.activeElement !== element) {
-      // Temporarily set the tabindex of the target element to -1
+      // tabindexを一時的に設定し、フォーカス後に削除する（非フォーカス可能要素対応）
       element.setAttribute('tabindex', '-1');
-      // Set focus again
       element.focus({ preventScroll: true });
-      // Remove the temporary tabindex
       element.removeAttribute('tabindex');
     }
   } catch (error) {
@@ -49,7 +44,7 @@ const focusOnTarget = (element: HTMLElement): void => {
   }
 };
 
-/** Handle click event for smooth scrolling */
+/** スムーズスクロールのクリックイベントを処理する */
 const handleSmoothScrollClick = (event: MouseEvent): void => {
   const eventTarget = event.target as HTMLElement | null;
   if (!eventTarget) return;
@@ -71,7 +66,7 @@ const handleSmoothScrollClick = (event: MouseEvent): void => {
   }
 };
 
-/** Initialize smooth scroll functionality */
+/** スムーズスクロール機能を初期化する */
 const initializeSmoothScroll = (): void => {
   document.addEventListener('click', handleSmoothScrollClick, { capture: true });
 };
