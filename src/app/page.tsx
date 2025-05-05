@@ -32,23 +32,21 @@ export default async function Page() {
               <Heading as="h2">記事</Heading>
               <Box mt={2}>
                 <Stack space={4}>
-                  <PostSection
-                    heading="最新記事"
-                    headingLevel="h3"
-                    headingWeight="normal"
-                    href="/archive"
-                    posts={recentPosts}
-                    prefetch={true}
-                  />
-                  <PostSection
-                    heading="注目記事"
-                    headingLevel="h3"
-                    headingWeight="normal"
-                    href="/popular"
-                    posts={popularPosts}
-                    prefetch={true}
-                  />
-                  <PostSection heading="更新記事" headingLevel="h3" headingWeight="normal" posts={updatesPosts} />
+                  {[
+                    { heading: '最新記事', href: '/archive', posts: recentPosts },
+                    { heading: '注目記事', href: '/popular', posts: popularPosts },
+                    { heading: '更新記事', posts: updatesPosts },
+                  ].map(({ heading, href, posts }, index) => (
+                    <PostSection
+                      key={index}
+                      heading={heading}
+                      headingLevel="h3"
+                      headingWeight="normal"
+                      href={href}
+                      posts={posts}
+                      prefetch={!!href}
+                    />
+                  ))}
                 </Stack>
               </Box>
             </Sidebar.Main>

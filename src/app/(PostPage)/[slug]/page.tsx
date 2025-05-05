@@ -134,15 +134,20 @@ export default async function Page({ params }: { params: Params }) {
               isWideCluster={false}
               tags={similarTags}
             />
-            <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
-            <PostSection
-              as="aside"
-              heading="最新記事"
-              headingLevel="h2"
-              href="/archive"
-              posts={recentPosts}
-              prefetch={true}
-            />
+            {[
+              {
+                heading: '関連記事',
+                posts: similarPost,
+              },
+              {
+                heading: '最新記事',
+                posts: recentPosts,
+                href: '/archive',
+                prefetch: true,
+              },
+            ].map(({ heading, posts, ...rest }, index) => (
+              <PostSection key={index} as="aside" heading={heading} headingLevel="h2" posts={posts} {...rest} />
+            ))}
           </Stack>
         </Stack>
       </Container>
