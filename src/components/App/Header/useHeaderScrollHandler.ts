@@ -1,8 +1,8 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import throttle from '@/lib/throttle';
 import { SPACING_BASE_PX } from '@/ui/styled/constant';
-import { useEffect, useRef, useState } from 'react';
 
 export const useHeaderScrollHandler = (): boolean => {
   const [isHeaderVisible, setIsHeaderVisible] = useState<boolean | null>(null);

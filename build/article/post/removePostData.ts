@@ -7,7 +7,6 @@ export function removePostsData(posts: Partial<PostProps>[]) {
     const post = posts[i];
     delete post.note;
     delete post.content;
-    delete post.readingTime;
   }
 
   return posts;

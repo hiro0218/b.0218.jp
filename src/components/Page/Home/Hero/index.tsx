@@ -1,8 +1,9 @@
 // import AvatarIcon from '@/assets/hiro0218.svg';
-import { Stack } from '@/components/UI/Layout';
-import { css, styled } from '@/ui/styled/static';
+
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
+import { Stack } from '@/components/UI/Layout';
+import { css, styled } from '@/ui/styled/static';
 
 const ICON_SIZE = 100;
 const ICON_SIZE_SHRINK = ICON_SIZE * 0.85;

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next/types';
 import { getMetadata } from '@/app/(ArchivePage)/_metadata';
 import { getData } from '@/app/(ArchivePage)/popular/lib/getData';
 import { Sidebar, Stack } from '@/components/UI/Layout';
@@ -5,7 +6,6 @@ import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constant';
 import { convertPostSlugToPath } from '@/lib/url';
-import type { Metadata } from 'next/types';
 
 const { popularPosts } = getData();
 const slug = 'popular';

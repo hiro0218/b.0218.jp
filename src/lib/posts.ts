@@ -8,13 +8,13 @@ import type {
   TagsListProps,
 } from '@/types/source';
 import pages from '~/dist/pages.json';
+import posts from '~/dist/posts.json';
 import postsList from '~/dist/posts-list.json';
 import postsPopular from '~/dist/posts-popular.json';
 import postsSimilarity from '~/dist/posts-similarity.json';
-import posts from '~/dist/posts.json';
+import tags from '~/dist/tags.json';
 import tagsSimilarity from '~/dist/tags-similarity.json';
 import tagsWithCount from '~/dist/tags-with-count.json';
-import tags from '~/dist/tags.json';
 
 export const getTagsJson = (): TagsListProps => {
   return tags;

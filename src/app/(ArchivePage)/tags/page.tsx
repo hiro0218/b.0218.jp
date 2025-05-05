@@ -1,10 +1,10 @@
+import type { Metadata } from 'next/types';
 import { getMetadata } from '@/app/(ArchivePage)/_metadata';
 import { TagSection } from '@/components/Page/Share/TagSection';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getWebPageStructured } from '@/lib/json-ld';
 import { getTagsWithCount } from '@/lib/posts';
-import type { Metadata } from 'next/types';
 
 type ListItemProps = Parameters<typeof getWebPageStructured>[0]['listItem'];
 

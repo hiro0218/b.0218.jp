@@ -1,6 +1,6 @@
+import type { Metadata } from 'next/types';
 import { openGraph } from '@/app/_metadata';
 import { SITE_NAME } from '@/constant';
-import type { Metadata } from 'next/types';
 
 type Props = {
   title: string;

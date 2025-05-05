@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Container } from '@/components/Functional/Container';
 import { Hero } from '@/components/Page/Home';
 import { PostSection } from '@/components/Page/Share/PostSection';
@@ -5,7 +6,6 @@ import { TagSection } from '@/components/Page/Share/TagSection';
 import Heading from '@/components/UI/Heading';
 import { Box, Sidebar, Stack } from '@/components/UI/Layout';
 import { SITE_URL } from '@/constant';
-import type { Metadata } from 'next';
 import { getData } from './libs';
 
 const data = getData();
@@ -32,30 +32,21 @@ export default async function Page() {
               <Heading as="h2">記事</Heading>
               <Box mt={2}>
                 <Stack space={4}>
-                  <PostSection
-                    heading="最新記事"
-                    headingLevel="h3"
-                    headingWeight="normal"
-                    href="/archive"
-                    posts={recentPosts}
-                    updateTarget="date"
-                    prefetch={true}
-                  />
-                  <PostSection
-                    heading="注目記事"
-                    headingLevel="h3"
-                    headingWeight="normal"
-                    href="/popular"
-                    posts={popularPosts}
-                    prefetch={true}
-                  />
-                  <PostSection
-                    heading="更新記事"
-                    headingLevel="h3"
-                    headingWeight="normal"
-                    posts={updatesPosts}
-                    updateTarget="updated"
-                  />
+                  {[
+                    { heading: '最新記事', href: '/archive', posts: recentPosts },
+                    { heading: '注目記事', href: '/popular', posts: popularPosts },
+                    { heading: '更新記事', posts: updatesPosts },
+                  ].map(({ heading, href, posts }, index) => (
+                    <PostSection
+                      key={index}
+                      heading={heading}
+                      headingLevel="h3"
+                      headingWeight="normal"
+                      href={href}
+                      posts={posts}
+                      prefetch={!!href}
+                    />
+                  ))}
                 </Stack>
               </Box>
             </Sidebar.Main>

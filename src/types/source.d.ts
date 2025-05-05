@@ -15,7 +15,6 @@ export type TermsPostListProps = Optional<Omit<ArticleBaseProps, 'content'>, 'up
 export type PostProps = ArticleBaseProps & {
   note?: string;
   tags: string[];
-  readingTime: number;
   noindex?: boolean;
 };
 

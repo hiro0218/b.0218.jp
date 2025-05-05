@@ -1,4 +1,4 @@
-import { type ReactNode, memo } from 'react';
+import { memo, type ReactNode } from 'react';
 
 import useIsMounted from '@/hooks/useIsMounted';
 import { styled } from '@/ui/styled/static';

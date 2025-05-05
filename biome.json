@@ -1,110 +1,100 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.0.0-beta.1/schema.json",
-	"vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
-	"files": {
-		"ignoreUnknown": false,
-		"includes": ["**", "!**/.github/scripts/*.js", "!**/.github/scripts/*.ts"]
-	},
-	"formatter": {
-		"enabled": true,
-		"useEditorconfig": true,
-		"formatWithErrors": false,
-		"indentStyle": "space",
-		"indentWidth": 2,
-		"lineEnding": "lf",
-		"lineWidth": 120,
-		"attributePosition": "auto",
-		"bracketSpacing": true
-	},
-	"assist": {
-		"actions": {
-			"source": {
-				"organizeImports": "on"
-			}
-		}
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": false,
-			"a11y": {
-				"noAriaUnsupportedElements": "warn",
-				"noBlankTarget": "off",
-				"useAltText": "warn",
-				"useAriaPropsForRole": "warn",
-				"useValidAriaProps": "warn",
-				"useValidAriaValues": "warn"
-			},
-			"complexity": {
-				"noBannedTypes": "error",
-				"noUselessThisAlias": "error",
-				"noUselessTypeConstraint": "error",
-				"useOptionalChain": "error"
-			},
-			"correctness": {
-				"noChildrenProp": "error",
-				"noPrecisionLoss": "error",
-				"noUnusedImports": "error",
-				"noUnusedVariables": "error",
-				"useArrayLiterals": "off",
-				"useExhaustiveDependencies": "warn",
-				"useHookAtTopLevel": "error",
-				"useJsxKeyInIterable": "error"
-			},
-			"security": { "noDangerouslySetInnerHtmlWithChildren": "error" },
-			"style": {
-				"noNamespace": "error",
-				"useAsConstAssertion": "error",
-				"useBlockStatements": "off",
-				"useConsistentArrayType": "warn",
-				"useExportType": "error",
-				"useImportType": "warn",
-				"useNamingConvention": {
-					"level": "error",
-					"options": { "strictCase": false }
-				},
-				"useTemplate": "error"
-			},
-			"suspicious": {
-				"noCommentText": "error",
-				"noDuplicateJsxProps": "error",
-				"noExplicitAny": "error",
-				"noExtraNonNullAssertion": "error",
-				"noMisleadingInstantiator": "error",
-				"noUnsafeDeclarationMerging": "error"
-			}
-		},
-		"includes": [
-			"**",
-			"!.next",
-			"!build",
-			"!public",
-			"!out",
-			"!next-env.d.ts",
-			"!**/.eslintrc.js",
-			"!**/*.config.js"
-		]
-	},
-	"javascript": {
-		"formatter": {
-			"jsxQuoteStyle": "double",
-			"quoteProperties": "asNeeded",
-			"trailingCommas": "all",
-			"semicolons": "always",
-			"arrowParentheses": "always",
-			"bracketSameLine": false,
-			"quoteStyle": "single",
-			"attributePosition": "auto",
-			"bracketSpacing": true
-		}
-	},
-	"overrides": [
-		{ "includes": ["**/*.js"], "linter": { "rules": {} } },
-		{
-			"includes": ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
-			"linter": {
-				"rules": {
-					"suspicious": {
+  "$schema": "https://biomejs.dev/schemas/2.0.0-beta.1/schema.json",
+  "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": ["**", "!**/.github/scripts/*.js", "!**/.github/scripts/*.ts"]
+  },
+  "formatter": {
+    "enabled": true,
+    "useEditorconfig": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 120,
+    "attributePosition": "auto",
+    "bracketSpacing": true
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": false,
+      "a11y": {
+        "noAriaUnsupportedElements": "warn",
+        "useAltText": "warn",
+        "useAriaPropsForRole": "warn",
+        "useValidAriaProps": "warn",
+        "useValidAriaValues": "warn"
+      },
+      "complexity": {
+        "noBannedTypes": "error",
+        "noUselessThisAlias": "error",
+        "noUselessTypeConstraint": "error",
+        "useOptionalChain": "error"
+      },
+      "correctness": {
+        "noChildrenProp": "error",
+        "noPrecisionLoss": "error",
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error",
+        "useArrayLiterals": "off",
+        "useExhaustiveDependencies": "warn",
+        "useHookAtTopLevel": "error",
+        "useJsxKeyInIterable": "error"
+      },
+      "security": { "noDangerouslySetInnerHtmlWithChildren": "error" },
+      "style": {
+        "noNamespace": "error",
+        "useAsConstAssertion": "error",
+        "useBlockStatements": "off",
+        "useConsistentArrayType": "warn",
+        "useExportType": "error",
+        "useImportType": "warn",
+        "useNamingConvention": {
+          "level": "error",
+          "options": { "strictCase": false }
+        },
+        "useTemplate": "error"
+      },
+      "suspicious": {
+        "noCommentText": "error",
+        "noDuplicateJsxProps": "error",
+        "noExplicitAny": "error",
+        "noExtraNonNullAssertion": "error",
+        "noMisleadingInstantiator": "error",
+        "noUnsafeDeclarationMerging": "error"
+      }
+    },
+    "includes": ["**", "!_article", "!.next", "!build", "!public", "!out", "!next-env.d.ts", "!**/.eslintrc.js", "!**/*.config.js"]
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "all",
+      "semicolons": "always",
+      "arrowParentheses": "always",
+      "bracketSameLine": false,
+      "quoteStyle": "single",
+      "attributePosition": "auto",
+      "bracketSpacing": true
+    }
+  },
+  "overrides": [
+    { "includes": ["**/*.js"], "linter": { "rules": {} } },
+    {
+      "includes": ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
             "noDuplicateClassMembers": "off",
             "noDuplicateObjectKeys": "off",
             "noDuplicateParameters": "off",
@@ -114,7 +104,7 @@
             "noUnsafeNegation": "off",
             "useGetterReturn": "off"
           },
-					"suspicious": {
+          "suspicious": {
             "noDuplicateClassMembers": "off",
             "noDuplicateObjectKeys": "off",
             "noDuplicateParameters": "off",
@@ -124,17 +114,17 @@
             "noUnsafeNegation": "off",
             "useGetterReturn": "off"
           },
-					"suspicious": {
-						"noDuplicateClassMembers": "off",
-						"noDuplicateObjectKeys": "off",
-						"noDuplicateParameters": "off",
-						"noFunctionAssign": "off",
-						"noImportAssign": "off",
-						"noRedeclare": "off",
-						"noUnsafeNegation": "off",
-						"useGetterReturn": "off"
-					},
-					"suspicious": {
+          "suspicious": {
+            "noDuplicateClassMembers": "off",
+            "noDuplicateObjectKeys": "off",
+            "noDuplicateParameters": "off",
+            "noFunctionAssign": "off",
+            "noImportAssign": "off",
+            "noRedeclare": "off",
+            "noUnsafeNegation": "off",
+            "useGetterReturn": "off"
+          },
+          "suspicious": {
             "noDuplicateClassMembers": "off",
             "noDuplicateObjectKeys": "off",
             "noDuplicateParameters": "off",
@@ -144,17 +134,17 @@
             "noUnsafeNegation": "off",
             "useGetterReturn": "off"
           }
-				}
-			}
-		},
-		{ "includes": ["**/*.js"], "linter": { "rules": {} } },
-		{ "includes": ["**/*.js"], "linter": { "rules": {} } },
-		{ "includes": ["**/*.js"], "linter": { "rules": {} } },
-		{
-			"includes": ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
-			"linter": {
-				"rules": {
-					"suspicious": {
+        }
+      }
+    },
+    { "includes": ["**/*.js"], "linter": { "rules": {} } },
+    { "includes": ["**/*.js"], "linter": { "rules": {} } },
+    { "includes": ["**/*.js"], "linter": { "rules": {} } },
+    {
+      "includes": ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
             "noDuplicateClassMembers": "off",
             "noDuplicateObjectKeys": "off",
             "noDuplicateParameters": "off",
@@ -164,7 +154,7 @@
             "noUnsafeNegation": "off",
             "useGetterReturn": "off"
           },
-					"suspicious": {
+          "suspicious": {
             "noDuplicateClassMembers": "off",
             "noDuplicateObjectKeys": "off",
             "noDuplicateParameters": "off",
@@ -174,17 +164,17 @@
             "noUnsafeNegation": "off",
             "useGetterReturn": "off"
           },
-					"suspicious": {
-						"noDuplicateClassMembers": "off",
-						"noDuplicateObjectKeys": "off",
-						"noDuplicateParameters": "off",
-						"noFunctionAssign": "off",
-						"noImportAssign": "off",
-						"noRedeclare": "off",
-						"noUnsafeNegation": "off",
-						"useGetterReturn": "off"
-					},
-					"suspicious": {
+          "suspicious": {
+            "noDuplicateClassMembers": "off",
+            "noDuplicateObjectKeys": "off",
+            "noDuplicateParameters": "off",
+            "noFunctionAssign": "off",
+            "noImportAssign": "off",
+            "noRedeclare": "off",
+            "noUnsafeNegation": "off",
+            "useGetterReturn": "off"
+          },
+          "suspicious": {
             "noDuplicateClassMembers": "off",
             "noDuplicateObjectKeys": "off",
             "noDuplicateParameters": "off",
@@ -194,8 +184,8 @@
             "noUnsafeNegation": "off",
             "useGetterReturn": "off"
           }
-				}
-			}
-		}
-	]
+        }
+      }
+    }
+  ]
 }
