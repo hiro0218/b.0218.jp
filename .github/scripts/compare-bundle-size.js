@@ -20,6 +20,14 @@ const baseBundlePath = path.join(analyzeDir, 'base/bundle/__bundle_analysis.json
 const currentBundlePath = path.join(analyzeDir, '__bundle_analysis.json');
 const outputCommentPath = path.join(analyzeDir, '__bundle_analysis_comment.txt');
 
+// src/appとsrc/pagesディレクトリの存在確認
+const srcDir = path.join(process.cwd(), 'src');
+const appDirExists = fs.existsSync(path.join(srcDir, 'app'));
+const pagesDirExists = fs.existsSync(path.join(srcDir, 'pages'));
+
+// プロジェクト構造情報をログに出力
+console.log(`プロジェクト構造: App Router (src/app): ${appDirExists}, Pages Router (src/pages): ${pagesDirExists}`);
+
 // メイン処理
 async function main() {
   try {
@@ -56,9 +64,35 @@ async function main() {
 function generateComment(currentBundle, baseBundle) {
   let comment = '## 📊 Next.js バンドルサイズ分析\n\n';
 
-  // ルーターの種類を確認
-  const hasAppRouter = currentBundle.app && Object.keys(currentBundle.app).length > 0;
-  const hasPagesRouter = currentBundle.pages && Object.keys(currentBundle.pages).length > 0;
+  // ルーターの種類を確認（バンドル情報とディレクトリ存在の両方を考慮）
+  const hasAppRouter = (currentBundle.app && Object.keys(currentBundle.app).length > 0) && appDirExists;
+  const hasPagesRouter = (currentBundle.pages && Object.keys(currentBundle.pages).length > 0) && pagesDirExists;
+
+  // ルーター情報をコメントに追加
+  comment += `> プロジェクトで使用されているルーター: ${hasAppRouter ? 'App Router' : ''}${hasAppRouter && hasPagesRouter ? ' と ' : ''}${hasPagesRouter ? 'Pages Router' : ''}\n\n`;
+
+  // バジェット検証を追加
+  const budgetResults = checkBudgetViolations(currentBundle, hasAppRouter, hasPagesRouter);
+  if (budgetResults.violations.length > 0) {
+    comment += `### ⚠️ バンドルサイズ予算超過（上限: ${formatBytes(budget)}）\n\n`;
+    comment += '| Page | Size (compressed) | \n';
+    comment += '|---|---|\n';
+
+    budgetResults.violations.forEach(violation => {
+      const sizeExcess = violation.size - budget;
+      const percentageExcess = (sizeExcess / budget) * 100;
+      const indicator = percentageExcess > redStatusPercentage ? '🔴' : '🟡';
+
+      comment += `| ${indicator} \`${violation.router}:${violation.page}\` | \`${formatBytes(violation.size)}\` _(${formatBytes(sizeExcess)} 超過)_ |\n`;
+    });
+
+    comment += '\n';
+  } else if (budgetResults.maxSize > 0) {
+    const headroom = budget - budgetResults.maxSize;
+    const headroomPercentage = (headroom / budget) * 100;
+    comment += `### ✅ バンドルサイズ予算内（上限: ${formatBytes(budget)}）\n\n`;
+    comment += `最大バンドルサイズ: \`${formatBytes(budgetResults.maxSize)}\` (残り ${formatBytes(headroom)}, ${headroomPercentage.toFixed(1)}%)\n\n`;
+  }
 
   // 比較情報の追加
   if (baseBundle) {
@@ -103,6 +137,51 @@ function generateComment(currentBundle, baseBundle) {
   }
 
   return comment;
+}
+
+// バンドルサイズが予算を超えているかチェックする関数
+function checkBudgetViolations(bundle, hasAppRouter, hasPagesRouter) {
+  const violations = [];
+  let maxSize = 0;
+
+  // App Routerのチェック
+  if (hasAppRouter && bundle.app) {
+    for (const page in bundle.app) {
+      const size = bundle.app[page].gzip;
+      maxSize = Math.max(maxSize, size);
+
+      if (size > budget) {
+        violations.push({
+          router: 'App Router',
+          page: page === '' ? '/' : page,
+          size
+        });
+      }
+    }
+  }
+
+  // Pages Routerのチェック
+  if (hasPagesRouter && bundle.pages) {
+    for (const page in bundle.pages) {
+      const size = bundle.pages[page].gzip;
+      maxSize = Math.max(maxSize, size);
+
+      if (size > budget) {
+        violations.push({
+          router: 'Pages Router',
+          page: page === '' ? '/' : page,
+          size
+        });
+      }
+    }
+  }
+
+  // 違反が見つかった場合はサイズの大きい順にソート
+  if (violations.length > 0) {
+    violations.sort((a, b) => b.size - a.size);
+  }
+
+  return { violations, maxSize };
 }
 
 // ステータスインジケーターを生成する関数
