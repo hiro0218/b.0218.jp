@@ -37,14 +37,14 @@ export const TAG_VIEW_LIMIT = 3;
  * Google AdSense
  */
 export const GOOGLE_ADSENSE = {
-  // biome-ignore lint/style/useNamingConvention: <explanation>
+  // biome-ignore lint/style/useNamingConvention: UPPER
   LAYOUT: 'in-article',
-  // biome-ignore lint/style/useNamingConvention: <explanation>
+  // biome-ignore lint/style/useNamingConvention: UPPER
   FORMAT: 'fluid',
   /** パブリッシャー ID */
-  // biome-ignore lint/style/useNamingConvention: <explanation>
+  // biome-ignore lint/style/useNamingConvention: UPPER
   CLIENT: 'ca-pub-7651142413133023',
   /** 広告ユニット ID */
-  // biome-ignore lint/style/useNamingConvention: <explanation>
+  // biome-ignore lint/style/useNamingConvention: UPPER
   SLOT: '4045255408',
 } as const;

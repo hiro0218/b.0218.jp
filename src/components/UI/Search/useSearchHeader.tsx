@@ -15,7 +15,7 @@ export const useSearchHeader = ({ closeDialog }: Props) => {
   const SearchHeaderComponent = useMemo(() => <SearchHeader onKeyup={onKeyup} />, [onKeyup]);
 
   return {
-    // biome-ignore lint/style/useNamingConvention: <explanation>
+    // biome-ignore lint/style/useNamingConvention: ComponentなのでUpperCamelにする
     SearchHeader: SearchHeaderComponent,
     searchData,
   };

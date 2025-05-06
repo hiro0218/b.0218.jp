@@ -67,11 +67,13 @@ jobs:
         env:
           cache-name: cache-next-build
         with:
-          # if you use a custom build directory, replace all instances of `.next` in this file with your build directory
-          # ex: if your app builds to `dist`, replace `.next` with `dist`
-          path: .next/cache
-          # change this if you prefer a more strict cache
-          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          path: |
+            .next
+            !.next/cache/webpack
+          key: ${{ runner.os }}-nextjs-build-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}', 'panda.config.ts', 'next.config.js') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-build-${{ hashFiles('package-lock.json') }}-
+            ${{ runner.os }}-nextjs-build-
 
       - name: Build next.js app
         env:
@@ -81,6 +83,17 @@ jobs:
         # change this if your site requires a custom build command
         run: |
           npx panda codegen && npm run build:article && npm run build:similarity && npm run build:popular && ./node_modules/.bin/next build
+
+      - name: Save next build cache
+        uses: actions/cache/save@v4
+        if: steps.restore-build-cache.outputs.cache-hit != 'true'
+        env:
+          cache-name: cache-next-build
+        with:
+          path: |
+            .next
+            !.next/cache/webpack
+          key: ${{ runner.os }}-nextjs-build-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}', 'panda.config.ts', 'next.config.js') }}
 
       # touch .env
       # echo "TZ=Asia/Tokyo" >> .env
