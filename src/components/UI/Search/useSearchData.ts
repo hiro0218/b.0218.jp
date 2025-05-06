@@ -25,17 +25,17 @@ export const useSearchData = (
   searchData: SearchResultData;
   onKeyup: (e: onKeyupEventProps) => void;
 } => {
-  const [data, setData] = useState<SearchResultData>(initialSearchResult);
+  const [searchResult, setSearchResult] = useState<SearchResultData>(initialSearchResult);
 
-  const performSearch = useMemo(() => {
+  const debouncedSearch = useMemo(() => {
     const search = (value: string) => {
       if (!value) {
-        setData(initialSearchResult);
+        setSearchResult(initialSearchResult);
         return;
       }
 
       const suggestions = executeSearch(archives, value);
-      setData({
+      setSearchResult({
         keyword: value,
         suggestions,
       });
@@ -61,23 +61,23 @@ export const useSearchData = (
         return;
       }
 
-      if (value === data.keyword) {
+      if (value === searchResult.keyword) {
         return;
       }
 
       // Enterキーの場合は即時検索
       if (e.key === 'Enter') {
-        performSearch(value);
+        debouncedSearch(value);
         return;
       }
 
-      performSearch(value);
+      debouncedSearch(value);
     },
-    [closeDialog, data.keyword, performSearch],
+    [closeDialog, searchResult.keyword, debouncedSearch],
   );
 
   return {
-    searchData: data,
+    searchData: searchResult,
     onKeyup,
   };
 };
