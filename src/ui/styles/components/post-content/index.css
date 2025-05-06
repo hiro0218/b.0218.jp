@@ -38,6 +38,16 @@
     & + :is(h2, h3, h4, h5, h6) {
       margin-top: 0;
     }
+
+    /* mokuji */
+    & > [data-mokuji-anchor] {
+      opacity: 0;
+    }
+    &:hover {
+      & > [data-mokuji-anchor] {
+        opacity: 1;
+      }
+    }
   }
 
   h2 {
