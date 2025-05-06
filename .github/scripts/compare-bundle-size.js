@@ -141,7 +141,10 @@ function compareRouterBundles(current, base, routerName) {
     // 差分表示を整形
     let diffText = '';
     if (globalDiff !== 0) {
-      diffText = ` _(${status}${formatBytes(globalDiff)})_`;
+      // 差分の符号を明示（正の場合は+、負の場合は表示なし）
+      const sign = globalDiff > 0 ? '+' : '';
+      // ステータスの後に差分を表示
+      diffText = ` _(${status}${sign}${formatBytes(Math.abs(globalDiff))})_`;
     }
 
     result += `| \`global\` | \`${formatBytes(currentGlobalGzip)}\`${diffText} |\n`;
@@ -198,8 +201,12 @@ function compareRouterBundles(current, base, routerName) {
     changedPages
       .sort((a, b) => Math.abs(b.gzipDiff) - Math.abs(a.gzipDiff))
       .forEach(({ page, currentGzip, gzipDiff, diffPercentage }) => {
+        // ステータスインジケーターを取得
         const status = renderStatusIndicator(diffPercentage);
-        const diffText = ` _(${status}${formatBytes(gzipDiff)})_`;
+        // 差分の符号を明示（正の場合は+、負の場合は表示なし）
+        const sign = gzipDiff > 0 ? '+' : '';
+        // ステータスの後に差分を表示、絶対値を使用
+        const diffText = ` _(${status}${sign}${formatBytes(Math.abs(gzipDiff))})_`;
         result += `| \`${page}\` | \`${formatBytes(currentGzip)}\`${diffText} |\n`;
       });
   }
