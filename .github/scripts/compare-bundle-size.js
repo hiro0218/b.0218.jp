@@ -207,17 +207,27 @@ function compareRouterBundles(current, base, routerName) {
         const sign = gzipDiff > 0 ? '+' : '';
         // ステータスの後に差分を表示、絶対値を使用
         const diffText = ` _(${status}${sign}${formatBytes(Math.abs(gzipDiff))})_`;
-        result += `| \`${page}\` | \`${formatBytes(currentGzip)}\`${diffText} |\n`;
+        // 空のページ名をルートページとして表示
+        const displayPage = page === '' ? '/ (ルートページ)' : page;
+        result += `| \`${displayPage}\` | \`${formatBytes(currentGzip)}\`${diffText} |\n`;
       });
   }
 
-  // テーブル下に追加情報
+  // 新規追加ページ・削除ページも修正
   if (addedPages.length > 0) {
     result += `\n**追加されたページ:** ${addedPages.length}件\n`;
+    addedPages.forEach(({ page, gzip }) => {
+      const displayPage = page === '' ? '/ (ルートページ)' : page;
+      result += `- \`${displayPage}\`: ${formatBytes(gzip)}\n`;
+    });
   }
 
   if (removedPages.length > 0) {
     result += `\n**削除されたページ:** ${removedPages.length}件\n`;
+    removedPages.forEach(({ page, gzip }) => {
+      const displayPage = page === '' ? '/ (ルートページ)' : page;
+      result += `- \`${displayPage}\`: ${formatBytes(gzip)}\n`;
+    });
   }
 
   return result + '\n';
@@ -241,7 +251,9 @@ function generateBundleSizeTable(bundleData) {
 
   for (const page of pages) {
     const size = bundleData[page].gzip;
-    table += `| \`${page}\` | \`${formatBytes(size)}\` |\n`;
+    // 空のページ名をルートページとして表示
+    const displayPage = page === '' ? '/' : page;
+    table += `| \`${displayPage}\` | \`${formatBytes(size)}\` |\n`;
   }
 
   return table + '\n';
