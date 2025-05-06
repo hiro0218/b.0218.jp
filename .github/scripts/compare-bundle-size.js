@@ -105,46 +105,112 @@ function generateComment(currentBundle, baseBundle) {
   return comment;
 }
 
+// ステータスインジケーターを生成する関数
+function renderStatusIndicator(percentageChange) {
+  let res = '';
+  if (percentageChange > 0 && percentageChange < redStatusPercentage) {
+    res += '🟡 +';
+  } else if (percentageChange >= redStatusPercentage) {
+    res += '🔴 +';
+  } else if (percentageChange < 0.01 && percentageChange > -0.01) {
+    res += '';
+  } else {
+    res += '🟢 ';
+  }
+  return res;
+}
+
 // ルーターごとのバンドル比較を行う
 function compareRouterBundles(current, base, routerName) {
-  if (!current.__global || !base.__global) {
-    return `- ${routerName}: global bundle情報がないため比較できません\n`;
-  }
+  let result = `#### ${routerName}\n\n`;
 
-  const currentGlobalGzip = current.__global.gzip;
-  const baseGlobalGzip = base.__global.gzip;
-  const globalDiff = currentGlobalGzip - baseGlobalGzip;
-  const globalDiffPercentage = (globalDiff / baseGlobalGzip) * 100;
+  // テーブルヘッダー
+  result += '| Page | Size (compressed) | \n';
+  result += '|---|---|\n';
 
-  // ステータスの判定（予算超過や増加率に基づく）
-  let status = '🟢'; // デフォルトは良好
-  if (currentGlobalGzip > budget) {
-    status = '🔴'; // 予算超過
-  } else if (globalDiff > 0 && globalDiffPercentage > redStatusPercentage) {
-    status = '🟠'; // 大幅増加
-  } else if (globalDiff > 0) {
-    status = '🟡'; // 小幅増加
-  }
+  // グローバルバンドルの比較
+  if (current.__global && base.__global) {
+    const currentGlobalGzip = current.__global.gzip;
+    const baseGlobalGzip = base.__global.gzip;
+    const globalDiff = currentGlobalGzip - baseGlobalGzip;
+    const globalDiffPercentage = (globalDiff / baseGlobalGzip) * 100;
 
-  // 結果文字列の生成
-  let result = `- ${routerName}: ${status} `;
-  result += `global bundle: ${formatBytes(currentGlobalGzip)}`;
+    // ステータスインジケーターを取得
+    const status = renderStatusIndicator(globalDiffPercentage);
 
-  if (globalDiff !== 0) {
-    const sign = globalDiff > 0 ? '+' : '';
-    result += ` (${sign}${formatBytes(globalDiff)}, ${sign}${globalDiffPercentage.toFixed(2)}%)`;
+    // 差分表示を整形
+    let diffText = '';
+    if (globalDiff !== 0) {
+      diffText = ` _(${status}${formatBytes(globalDiff)})_`;
+    }
+
+    result += `| \`global\` | \`${formatBytes(currentGlobalGzip)}\`${diffText} |\n`;
   } else {
-    result += ' (変更なし)';
+    result += `| \`global\` | 情報がありません |\n`;
   }
 
-  // ページ数の比較
-  const currentPageCount = Object.keys(current).length - 1; // __globalを除く
-  const basePageCount = Object.keys(base).length - 1; // __globalを除く
+  // 変更のあったページの比較
+  const changedPages = [];
+  const addedPages = [];
+  const removedPages = [];
 
-  if (currentPageCount !== basePageCount) {
-    result += `\n  - ページ数: ${currentPageCount}ページ (${currentPageCount - basePageCount > 0 ? '+' : ''}${currentPageCount - basePageCount})`;
-  } else {
-    result += `\n  - ページ数: ${currentPageCount}ページ (変更なし)`;
+  // 全ページを調査
+  for (const page in current) {
+    if (page === '__global') continue;
+
+    if (base[page]) {
+      // 既存ページの変更を検出
+      const currentGzip = current[page].gzip;
+      const baseGzip = base[page].gzip;
+      const gzipDiff = currentGzip - baseGzip;
+
+      if (gzipDiff !== 0) {
+        const diffPercentage = (gzipDiff / baseGzip) * 100;
+        changedPages.push({
+          page,
+          currentGzip,
+          gzipDiff,
+          diffPercentage
+        });
+      }
+    } else {
+      // 新規追加されたページ
+      addedPages.push({
+        page,
+        gzip: current[page].gzip
+      });
+    }
+  }
+
+  // 削除されたページを検出
+  for (const page in base) {
+    if (page === '__global') continue;
+    if (!current[page]) {
+      removedPages.push({
+        page,
+        gzip: base[page].gzip
+      });
+    }
+  }
+
+  // 変更のあったページをテーブルに追加（サイズの変化量順）
+  if (changedPages.length > 0) {
+    changedPages
+      .sort((a, b) => Math.abs(b.gzipDiff) - Math.abs(a.gzipDiff))
+      .forEach(({ page, currentGzip, gzipDiff, diffPercentage }) => {
+        const status = renderStatusIndicator(diffPercentage);
+        const diffText = ` _(${status}${formatBytes(gzipDiff)})_`;
+        result += `| \`${page}\` | \`${formatBytes(currentGzip)}\`${diffText} |\n`;
+      });
+  }
+
+  // テーブル下に追加情報
+  if (addedPages.length > 0) {
+    result += `\n**追加されたページ:** ${addedPages.length}件\n`;
+  }
+
+  if (removedPages.length > 0) {
+    result += `\n**削除されたページ:** ${removedPages.length}件\n`;
   }
 
   return result + '\n';
@@ -152,14 +218,13 @@ function compareRouterBundles(current, base, routerName) {
 
 // バンドルサイズ一覧表の生成
 function generateBundleSizeTable(bundleData) {
-  const table = [
-    '| ページ | サイズ (gzip) |',
-    '| :--- | ---: |',
-  ];
+  // テーブルヘッダー
+  let table = '| Page | Size (compressed) | \n';
+  table += '|---|---|\n';
 
   // global bundleを先頭に追加
   if (bundleData.__global) {
-    table.push(`| global bundle | ${formatBytes(bundleData.__global.gzip)} |`);
+    table += `| \`global\` | \`${formatBytes(bundleData.__global.gzip)}\` |\n`;
   }
 
   // ページごとのバンドルサイズを追加（サイズ順）
@@ -169,19 +234,19 @@ function generateBundleSizeTable(bundleData) {
 
   for (const page of pages) {
     const size = bundleData[page].gzip;
-    table.push(`| \`${page}\` | ${formatBytes(size)} |`);
+    table += `| \`${page}\` | \`${formatBytes(size)}\` |\n`;
   }
 
-  return table.join('\n') + '\n\n';
+  return table + '\n';
 }
 
-// バイト数を人間が読みやすい形式にフォーマット
+// バイト数を読みやすい形式にフォーマット
 function formatBytes(bytes, decimals = 2) {
   if (bytes === 0) return '0 Bytes';
 
   const k = 1024;
   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  const i = Math.floor(Math.log(Math.abs(bytes)) / Math.log(k));
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
 }
@@ -208,5 +273,4 @@ function getOptionsFromPackageJson(pathPrefix = process.cwd()) {
   }
 }
 
-// スクリプト実行
 main();
