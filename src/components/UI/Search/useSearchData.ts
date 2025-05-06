@@ -65,6 +65,12 @@ export const useSearchData = (
         return;
       }
 
+      // Enterキーの場合は即時検索
+      if (e.key === 'Enter') {
+        performSearch(value);
+        return;
+      }
+
       performSearch(value);
     },
     [closeDialog, data.keyword, performSearch],
