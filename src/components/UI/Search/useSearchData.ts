@@ -4,82 +4,273 @@ import { useCallback, useMemo, useState } from 'react';
 import debounce from '@/lib/debounce';
 import type { onCloseDialogProps, onKeyupEventProps, SearchProps } from './type';
 
-type DataProps = {
+type SearchResultData = {
   keyword: string;
   suggestions: SearchProps[];
 };
 
-type IndexItem = {
-  term: string;
+// 検索一致タイプの定義（優先度順）
+type MatchType =
+  | 'EXACT' // 完全一致（最優先）
+  | 'PARTIAL' // 部分一致（スペースあり）
+  | 'EXACT_NO_SPACE' // スペース除去後の完全一致
+  | 'PARTIAL_NO_SPACE' // スペース除去後の部分一致
+  | 'MULTI_TERM_MATCH' // 複数単語のAND条件一致
+  | 'NONE'; // 不一致
+
+// 検索結果アイテムの型定義（優先度情報付き）
+type RankedSearchResult = {
   post: SearchProps;
+  priority: number;
+  matchType: MatchType;
 };
 
-const initialData: DataProps = {
+const initialSearchResult: SearchResultData = {
   keyword: '',
   suggestions: [],
 };
 
 /**
- * 検索データを返す
+ * 文字列を小文字に変換する
+ */
+const toLower = (text: string): string => text.toLowerCase();
+
+/**
+ * 文字列からスペースを除去する
+ */
+const removeSpaces = (text: string): string => text.replace(/\s+/g, '');
+
+/**
+ * 文字列を単語に分割する
+ */
+const splitIntoWords = (text: string): string[] => toLower(text).split(' ').filter(Boolean);
+
+/**
+ * マッチタイプの優先度をスコアに変換する
+ */
+const getMatchTypePriority = (matchType: MatchType): number => {
+  switch (matchType) {
+    case 'EXACT':
+      return 100;
+    case 'PARTIAL':
+      return 80;
+    case 'EXACT_NO_SPACE':
+      return 60;
+    case 'PARTIAL_NO_SPACE':
+      return 40;
+    case 'MULTI_TERM_MATCH':
+      return 50; // AND条件の複合検索は中程度の優先度
+    case 'NONE':
+      return 0;
+    default:
+      return 0;
+  }
+};
+
+/**
+ * 厳密な文字列一致判定を行う（一致タイプを返す）
+ */
+const getTextMatchType = (text: string, query: string): MatchType => {
+  if (!text || !query) {
+    return 'NONE';
+  }
+
+  const lowerText = toLower(text);
+  const lowerQuery = toLower(query);
+
+  // 完全一致（スペースあり）
+  if (lowerText === lowerQuery) {
+    return 'EXACT';
+  }
+
+  // 部分一致（スペースあり）
+  if (lowerText.includes(lowerQuery)) {
+    return 'PARTIAL';
+  }
+
+  // スペースを除去した比較
+  const noSpaceText = removeSpaces(lowerText);
+  const noSpaceQuery = removeSpaces(lowerQuery);
+
+  // スペース除去後の完全一致
+  if (noSpaceText === noSpaceQuery) {
+    return 'EXACT_NO_SPACE';
+  }
+
+  // スペース除去後の部分一致
+  if (noSpaceText.includes(noSpaceQuery)) {
+    return 'PARTIAL_NO_SPACE';
+  }
+
+  return 'NONE';
+};
+
+/**
+ * テキストが検索クエリに一致するか判定する（真偽値）
+ */
+const isTextMatching = (text: string, query: string): boolean => {
+  const matchType = getTextMatchType(text, query);
+  return matchType !== 'NONE';
+};
+
+/**
+ * タグに基づいて検索を実行し、一致タイプを返す
+ */
+const getTagMatchType = (post: SearchProps, searchValue: string): MatchType => {
+  if (!post.tags || post.tags.length === 0) {
+    return 'NONE';
+  }
+
+  let bestMatchType: MatchType = 'NONE';
+
+  for (const tag of post.tags) {
+    const matchType = getTextMatchType(tag, searchValue);
+
+    if (getMatchTypePriority(matchType) > getMatchTypePriority(bestMatchType)) {
+      bestMatchType = matchType;
+
+      if (bestMatchType === 'EXACT') {
+        return bestMatchType;
+      }
+    }
+  }
+
+  return bestMatchType;
+};
+
+/**
+ * タイトルに基づいて検索を実行し、一致タイプを返す
+ */
+const getTitleMatchType = (post: SearchProps, searchValue: string): MatchType => {
+  // titleは必須フィールド
+  return getTextMatchType(post.title, searchValue);
+};
+
+/**
+ * 複数の検索語をAND条件で検索し、一致するかを判定する
+ */
+const isMultiTermMatching = (post: SearchProps, searchTerms: string[]): boolean => {
+  return searchTerms.every((term) => {
+    // タグでの検索
+    if (post.tags && post.tags.length > 0) {
+      const hasSimpleTagMatch = post.tags.some((tag) => toLower(tag).includes(toLower(term)));
+
+      if (hasSimpleTagMatch) {
+        return true;
+      }
+
+      const hasMatchingTag = post.tags.some((tag) => isTextMatching(tag, term));
+      if (hasMatchingTag) {
+        return true;
+      }
+    }
+
+    // タイトルでの検索
+    const lowerTitle = toLower(post.title);
+    const lowerTerm = toLower(term);
+
+    if (lowerTitle.includes(lowerTerm)) {
+      return true;
+    }
+
+    return isTextMatching(post.title, term);
+  });
+};
+
+/**
+ * 最適な検索ロジックを選択し実行する
+ * 投稿データを検索し、優先度情報付きの結果を返す
+ */
+const searchPosts = (archives: SearchProps[], searchValue: string): RankedSearchResult[] => {
+  // 検索ワードが空の場合は空の結果を返す
+  if (!searchValue) {
+    return [];
+  }
+
+  const results: RankedSearchResult[] = [];
+  const searchTerms = splitIntoWords(searchValue);
+  const isMultiTermQuery = searchTerms.length > 1;
+
+  // 各投稿に対して検索を実行
+  archives.forEach((post) => {
+    // 既に結果に追加されたかを管理するフラグ
+    let addedToResults = false;
+
+    // 単一キーワード検索：タグまたはタイトルとの一致
+    const tagMatchType = getTagMatchType(post, searchValue);
+    const titleMatchType = getTitleMatchType(post, searchValue);
+
+    // フレーズ全体での一致（単一キーワード検索）
+    if (tagMatchType !== 'NONE' || titleMatchType !== 'NONE') {
+      // より優先度の高い一致タイプを採用
+      const bestMatchType =
+        getMatchTypePriority(tagMatchType) >= getMatchTypePriority(titleMatchType) ? tagMatchType : titleMatchType;
+
+      results.push({
+        post,
+        matchType: bestMatchType,
+        priority: getMatchTypePriority(bestMatchType),
+      });
+
+      addedToResults = true;
+    }
+
+    // 複数キーワードの場合のAND検索
+    if (isMultiTermQuery && !addedToResults && isMultiTermMatching(post, searchTerms)) {
+      results.push({
+        post,
+        matchType: 'MULTI_TERM_MATCH',
+        priority: getMatchTypePriority('MULTI_TERM_MATCH'),
+      });
+    }
+  });
+
+  return results;
+};
+
+/**
+ * 投稿を検索するロジックを実行する
+ */
+const executeSearch = (archives: SearchProps[], searchValue: string): SearchProps[] => {
+  if (!searchValue) {
+    return [];
+  }
+
+  const rankedResults = searchPosts(archives, searchValue);
+
+  // 優先度順に結果をソート
+  rankedResults.sort((a, b) => {
+    const priorityDiff = b.priority - a.priority;
+    if (priorityDiff !== 0) {
+      return priorityDiff;
+    }
+
+    return (a.post.title || '').localeCompare(b.post.title || '');
+  });
+
+  return rankedResults.map((result) => result.post);
+};
+
+/**
+ * 検索データと入力イベントハンドラを提供するカスタムフック
  */
 export const useSearchData = (
   archives: SearchProps[],
   closeDialog: onCloseDialogProps,
 ): {
-  searchData: DataProps;
+  searchData: SearchResultData;
   onKeyup: (e: onKeyupEventProps) => void;
 } => {
-  const [data, setData] = useState<DataProps>(initialData);
+  const [data, setData] = useState<SearchResultData>(initialSearchResult);
 
-  const searchIndex = useMemo(() => {
-    // タイトルと各タグごとに記事をグループ化
-    const allTerms = archives.flatMap((post) => {
-      const terms = [post.title.toLowerCase()];
-      if (post.tags) {
-        terms.push(...post.tags.map((tag) => tag.toLowerCase()));
-      }
-      return terms.map((term) => ({
-        term,
-        post,
-      }));
-    });
-
-    return Object.groupBy(allTerms, (item: IndexItem) => item.term);
-  }, [archives]);
-
-  // 検索実行関数をメモ化
   const performSearch = useMemo(() => {
     const search = (value: string) => {
-      // 入力値が空
       if (!value) {
-        setData(initialData);
+        setData(initialSearchResult);
         return;
       }
 
-      const searchTerms = value.toLowerCase().split(' ').filter(Boolean);
-
-      // 各検索語に一致する記事を取得
-      const matchesByTerm = searchTerms.map((term) => {
-        const matches = new Set<SearchProps>();
-
-        // 部分一致検索
-        Object.entries(searchIndex).forEach(([indexTerm, items]) => {
-          if (indexTerm.includes(term)) {
-            items.forEach(({ post }) => matches.add(post));
-          }
-        });
-
-        return matches;
-      });
-
-      // 最初の検索語にマッチする記事から開始
-      const firstMatches = matchesByTerm[0] || new Set<SearchProps>();
-
-      // AND検索: 全ての検索語に一致する記事を抽出
-      const suggestions = Array.from(firstMatches).filter((post) =>
-        matchesByTerm.every((termMatches) => termMatches.has(post)),
-      );
-
+      const suggestions = executeSearch(archives, value);
       setData({
         keyword: value,
         suggestions,
@@ -87,7 +278,7 @@ export const useSearchData = (
     };
 
     return debounce<string>((value: string) => search(value), 300);
-  }, [searchIndex]);
+  }, [archives]);
 
   const onKeyup = useCallback(
     (e: onKeyupEventProps): void => {
@@ -107,12 +298,6 @@ export const useSearchData = (
       }
 
       if (value === data.keyword) {
-        return;
-      }
-
-      // Enterキーの場合は即時検索
-      if (e.key === 'Enter') {
-        performSearch(value);
         return;
       }
 
