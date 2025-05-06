@@ -109,9 +109,9 @@ function generateComment(currentBundle, baseBundle) {
 function renderStatusIndicator(percentageChange) {
   let res = '';
   if (percentageChange > 0 && percentageChange < redStatusPercentage) {
-    res += '🟡 +';
+    res += '🟡 ';
   } else if (percentageChange >= redStatusPercentage) {
-    res += '🔴 +';
+    res += '🔴 ';
   } else if (percentageChange < 0.01 && percentageChange > -0.01) {
     res += '';
   } else {
