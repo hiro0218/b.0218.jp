@@ -15,10 +15,9 @@ export const DropdownMenu = ({ title, children, menuHorizontalPosition = 'right'
   const contentRef = useRef<HTMLDivElement>(null);
   const id = useId();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
   const toggleDropdownMenuContent = useCallback(() => {
     setIsOpen((prev) => !prev);
-  }, [setIsOpen]);
+  }, []);
 
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -26,13 +25,12 @@ export const DropdownMenu = ({ title, children, menuHorizontalPosition = 'right'
     }
   }, []);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, []);
+  }, [handleClickOutside]);
 
   return (
     <Container ref={ref}>
@@ -83,12 +81,12 @@ const Content = styled.div`
   height: fit-content;
   padding: var(--space-½);
   background-color: var(--white);
-  border: 1px solid var(--color-gray-6A);
+  border: 1px solid var(--color-gray-4A);
   border-radius: var(--border-radius-4);
   box-shadow: var(--shadows-md);
   opacity: 0;
   transform: scale(0.8);
-  transition: transform 0.1s;
+  transition: transform 0.1s linear;
 
   &[data-position='left'] {
     left: 0;
@@ -108,7 +106,9 @@ const Content = styled.div`
     }
   }
 
-  & > * {
-    display: block;
+  & > a {
+    padding: var(--space-½) var(--space-1);
+    line-height: var(--line-height-lg);
+    border-radius: var(--border-radius-4);
   }
 `;

@@ -18,7 +18,7 @@ function PostEdit({ slug }: Props) {
         }
         menuHorizontalPosition="right"
       >
-        <div>
+        <>
           <Anchor
             href={`https://github.com/hiro0218/article/edit/master/_posts/${slug}.md`}
             rel="noreferrer"
@@ -33,7 +33,7 @@ function PostEdit({ slug }: Props) {
           >
             View raw file on GitHub
           </Anchor>
-        </div>
+        </>
       </DropdownMenu>
     </aside>
   );
