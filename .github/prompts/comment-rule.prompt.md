@@ -39,7 +39,13 @@
     * @returns Organization型の構造化データ
     */
    export const getOrganizationStructured = (): WithContext<Organization> => {
-     // 実装内容
+     return {
+       '@context': 'https://schema.org',
+       '@type': 'Organization',
+       name: 'My Organization',
+       url: 'https://example.com',
+       logo: 'https://example.com/logo.png',
+     };
    };
    ```
 
