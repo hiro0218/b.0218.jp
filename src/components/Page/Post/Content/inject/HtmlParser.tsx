@@ -1,84 +1,41 @@
-import reactHtmlParser, {
-  type DOMNode,
-  domToReact,
-  Element,
-  type HTMLReactParserOptions,
-  Text,
-} from 'html-react-parser';
-import { Alert, type AlertType } from '@/components/Page/Post/Alert';
-import { LinkPreview } from '@/components/Page/Post/LinkPreview';
-import { Anchor } from '@/components/UI/Anchor';
-import { parseJSON } from '@/lib/parseJSON';
+import reactHtmlParser, { Element, type HTMLReactParserOptions } from 'html-react-parser';
+import { handleAlert, handleAnchor, handleCodePen, handleLinkPreview } from './handlers';
 
-type AlertDataProps = {
-  type: 'alert';
-  data: {
-    type: AlertType;
-    text: string;
-  };
+/**
+ * HTML文字列をReactコンポーネントに変換するパーサー
+ * 各種ハンドラーを適用して特定の要素を対応するコンポーネントに変換する
+ */
+
+/**
+ * 複数のハンドラーを順番に適用する関数
+ * @param domNode - 処理対象のDOMノード
+ * @returns 変換後のReactコンポーネントまたはDOMノード
+ */
+const applyHandlers = (domNode: Element) => {
+  // 各ハンドラーを順番に適用し、結果が返された場合はその結果を返す
+  return (
+    handleAnchor(domNode) || handleAlert(domNode) || handleLinkPreview(domNode) || handleCodePen(domNode) || domNode
+  );
 };
 
-type LinkPreviewDataProps = {
-  type: 'link-preview';
-  data: {
-    link: string;
-    card: string;
-    thumbnail: string;
-    title: string;
-    description: string;
-    domain: string;
-  };
-};
-
+/**
+ * パーサーの設定オプション
+ */
 const reactHtmlParserOptions: HTMLReactParserOptions = {
   replace: (domNode) => {
     if (!(domNode instanceof Element && domNode.attribs)) {
       return domNode;
     }
 
-    // Anchor
-    if (domNode.tagName === 'a' && domNode.attribs?.href.startsWith('/')) {
-      return <Anchor href={domNode.attribs.href}>{domToReact(domNode.children as DOMNode[])}</Anchor>;
-    }
-
-    // Alert
-    if (domNode.attribs.class === 'gfm-alert') {
-      const json = parseJSON<AlertDataProps>(domToReact(domNode.children as DOMNode[]) as string);
-
-      return <Alert type={json.data.type} text={json.data.text} />;
-    }
-
-    // Link Preview
-    if (domNode.attribs.class === 'link-preview') {
-      const json = parseJSON<LinkPreviewDataProps>(domToReact(domNode.children as DOMNode[]) as string);
-
-      return (
-        <LinkPreview
-          link={json.data.link}
-          card={json.data.card}
-          thumbnail={json.data.thumbnail}
-          title={json.data.title}
-          description={json.data.description}
-          domain={json.data.domain}
-        />
-      );
-    }
-
-    // iframe: CodePen
-    if (
-      domNode.tagName === 'iframe' &&
-      typeof domNode.attribs?.src === 'string' &&
-      domNode.attribs.src.includes('//codepen.io') &&
-      domNode.children[0] instanceof Text
-    ) {
-      // ハイドレーション時にエスケープ文字が不一致しない場合があるため埋める
-      domNode.children[0].data = 'CodePen';
-    }
-
-    return domNode;
+    return applyHandlers(domNode);
   },
 };
 
+/**
+ * HTML文字列をReactコンポーネントに変換する関数
+ * @param content - 変換対象のHTML文字列
+ * @returns 変換後のReactノード配列
+ */
 export const parser = (content: string) => {
   return reactHtmlParser(content, reactHtmlParserOptions);
 };
