@@ -96,7 +96,7 @@
     "remark-rehype": "11.1.2",
     "schema-dts": "1.1.5",
     "stylelint": "16.19.1",
-    "stylelint-browser-compat": "1.0.0-beta.150",
+    "stylelint-browser-compat": "1.0.0-beta.151",
     "stylelint-config-recess-order": "6.0.0",
     "stylelint-config-recommended": "16.0.0",
     "stylelint-declaration-block-no-ignored-properties": "2.8.0",
