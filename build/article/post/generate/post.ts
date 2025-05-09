@@ -36,7 +36,7 @@ export async function buildPost() {
       ...(updated && { updated: new Date(updated).toISOString() }),
       ...(noteContent && { note: noteContent }),
       content: content,
-      tags,
+      tags: tags || [],
       noindex,
     });
   }

@@ -1,7 +1,17 @@
 import type { Metadata } from 'next';
 import { Chart } from '@/components/Page/Archive/Chart';
-import { Sidebar, Stack } from '@/components/UI/Layout';
-import LinkCard from '@/components/UI/LinkCard';
+import {
+  styleTimelineContainer,
+  styleYearPostAnchor,
+  YearHeader,
+  YearHeaderPostCount,
+  YearHeaderTitle,
+  YearPostDate,
+  YearPostSeparator,
+  YearPosts,
+} from '@/components/Page/Archive/Timeline';
+import { Anchor } from '@/components/UI/Anchor';
+import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constant';
 import { getCollectionPageStructured } from '@/lib/json-ld';
@@ -48,23 +58,28 @@ export default async function Page() {
         {Object.keys(archives)
           .reverse()
           .map((year) => {
-            const currentYear = `${year}年`;
+            const yearArchives = archives[year];
+
             return (
-              <Sidebar key={year}>
-                <Sidebar.Side>
-                  <Sidebar.Title id={currentYear}>{currentYear}</Sidebar.Title>
-                </Sidebar.Side>
-                <Sidebar.Main>
-                  <Stack>
-                    {archives[year].map(({ slug, title, date, updated, tags }: PostListProps) => {
-                      const link = convertPostSlugToPath(slug);
-                      return (
-                        <LinkCard date={date} key={slug} link={link} tags={tags} title={title} updated={updated} />
-                      );
-                    })}
-                  </Stack>
-                </Sidebar.Main>
-              </Sidebar>
+              <div key={year} className={styleTimelineContainer}>
+                <YearHeader>
+                  <YearHeaderTitle id={`${year}年`}>{year}</YearHeaderTitle>
+                  <span />
+                  <YearHeaderPostCount>{yearArchives.length} posts</YearHeaderPostCount>
+                </YearHeader>
+                <YearPosts>
+                  {yearArchives.map(({ slug, title, date }: PostListProps) => {
+                    const link = convertPostSlugToPath(slug);
+                    return (
+                      <Anchor href={link} key={slug} className={styleYearPostAnchor}>
+                        <YearPostDate>{date.replace(`${year}/`, '')}</YearPostDate>
+                        <YearPostSeparator />
+                        <span className="text-ellipsis">{title}</span>
+                      </Anchor>
+                    );
+                  })}
+                </YearPosts>
+              </div>
             );
           })}
       </Stack>
