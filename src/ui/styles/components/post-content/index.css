@@ -102,8 +102,8 @@
   blockquote {
     padding: var(--space-2) var(--space-3);
     font-size: var(--font-size-md);
-    color: var(--color-gray-11);
-    background-color: var(--color-gray-1A);
+    color: var(--color-gray-10);
+    background-color: var(--color-gray-2A);
     border-left: var(--space-½) solid var(--color-gray-6);
 
     cite {
