@@ -28,8 +28,10 @@ export const styleTimelineContainer = css`
     margin-top: var(--vertical-space);
     pointer-events: none;
     content: '';
-    background-color: var(--color-gray-7);
+    color: var(--color-gray-7);
     transform: translateX(-50%);
+    background-image: repeating-linear-gradient(-45deg, currentColor, currentColor 1px, #0000 0 50%);
+    background-size: 6px 6px;
   }
 
   /* circle */
