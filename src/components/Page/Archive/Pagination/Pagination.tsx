@@ -11,18 +11,15 @@ type PaginationProps = {
 
 /**
  * ページネーションコンポーネント
- * 初期表示時にも基本的な構造を表示し、クライアントサイドのハイドレーション後に完全な機能を提供する
  * @param totalItems - 全アイテム数
  */
 export function Pagination({ totalItems }: PaginationProps) {
-  // サーバーサイドレンダリング時のための初期値を設定
   const defaultPage = 1;
   const searchParams = useSearchParams();
-  // クライアントサイドで実行される場合はクエリパラメータから取得、そうでなければデフォルト値を使用
   const pageNumberFromUrl = searchParams?.get(QUERY_PAGE_KEY) ? Number(searchParams.get(QUERY_PAGE_KEY)) : defaultPage;
   const [activePage, setActivePage] = useState(defaultPage);
 
-  // ハイドレーション後にクエリパラメータに基づいてページ状態を更新
+  // pageNumberFromUrlに応じてページネーションの表示を変更する
   useEffect(() => {
     if (activePage !== pageNumberFromUrl) {
       setActivePage(pageNumberFromUrl);
