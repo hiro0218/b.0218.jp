@@ -16,29 +16,27 @@ type PaginationProps = {
  */
 export function Pagination({ totalItems }: PaginationProps) {
   // サーバーサイドレンダリング時のための初期値を設定
-  const initialPage = 1;
+  const defaultPage = 1;
   const searchParams = useSearchParams();
   // クライアントサイドで実行される場合はクエリパラメータから取得、そうでなければデフォルト値を使用
-  const currentPageFromQuery = searchParams?.get(QUERY_PAGE_KEY)
-    ? Number(searchParams.get(QUERY_PAGE_KEY))
-    : initialPage;
-  const [pageState, setPageState] = useState(initialPage);
+  const pageNumberFromUrl = searchParams?.get(QUERY_PAGE_KEY) ? Number(searchParams.get(QUERY_PAGE_KEY)) : defaultPage;
+  const [activePage, setActivePage] = useState(defaultPage);
 
   // ハイドレーション後にクエリパラメータに基づいてページ状態を更新
   useEffect(() => {
-    if (pageState !== currentPageFromQuery) {
-      setPageState(currentPageFromQuery);
+    if (activePage !== pageNumberFromUrl) {
+      setActivePage(pageNumberFromUrl);
     }
-  }, [currentPageFromQuery, pageState]);
+  }, [pageNumberFromUrl, activePage]);
 
   const handlePageChange = (page: number) => {
     // クエリパラメータ（?p=2）を更新する
     if (searchParams) {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(QUERY_PAGE_KEY, page.toString());
+      const urlParams = new URLSearchParams(searchParams.toString());
+      urlParams.set(QUERY_PAGE_KEY, page.toString());
       /** @note ViewTransitionに干渉しないようにネイティブ実装 */
-      window.history.replaceState(null, '', `?${params.toString()}`);
-      setPageState(page);
+      window.history.replaceState(null, '', `?${urlParams.toString()}`);
+      setActivePage(page);
     }
   };
 
@@ -46,7 +44,7 @@ export function Pagination({ totalItems }: PaginationProps) {
     <PaginationComponent
       onPageChange={handlePageChange}
       totalCount={totalItems}
-      currentPage={pageState}
+      currentPage={activePage}
       pageSize={ITEMS_PER_PAGE}
     />
   );
