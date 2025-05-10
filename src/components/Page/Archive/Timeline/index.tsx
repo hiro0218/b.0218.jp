@@ -12,6 +12,10 @@ export const styleTimelineContainer = css`
   --year-post-separator-color: var(--color-gray-7);
   --year-post-separator-border-radius: var(--border-radius-full);
 
+  @media (--isMobile) {
+    --columns-1: 16%;
+  }
+
   position: relative;
 
   /* Separator */
@@ -43,7 +47,7 @@ export const styleTimelineContainer = css`
     border: 4px solid var(--year-heading-circle-color);
     border-radius: var(--border-radius-full);
     transform: translateX(-50%);
-    transition: background-color 0.15s var(--easing-ease-out);
+    transition: border 0.2s var(--easing-ease-out);
   }
 
   &:hover {
