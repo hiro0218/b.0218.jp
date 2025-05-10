@@ -25,7 +25,8 @@ export const PaginationComponent = ({
     pageSize,
   });
 
-  if (currentPage === 0 || paginationRange.length < 2) {
+  // totalCountが0の場合、または生成されたページ範囲が1以下の場合は何も表示しない
+  if (totalCount === 0 || paginationRange.length < 2) {
     return null;
   }
 
