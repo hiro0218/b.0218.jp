@@ -29,10 +29,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
   const decodedSlug = decodeURIComponent(slug);
+  const title = `Tag: ${decodedSlug}`;
 
   return getMetadata({
-    title: `Tag: ${decodedSlug}`,
-    description: `Tag: ${decodedSlug} - ${SITE_NAME}`,
+    title,
+    description: `${title} - ${SITE_NAME}`,
     url: `${SITE_URL}/tags/${slug}`,
   });
 }
