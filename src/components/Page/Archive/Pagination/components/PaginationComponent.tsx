@@ -30,25 +30,25 @@ export const PaginationComponent = ({
     return null;
   }
 
-  const handleNextPage = () => {
+  const goToNextPage = () => {
     onPageChange(currentPage + 1);
   };
 
-  const handlePreviousPage = () => {
+  const goToPreviousPage = () => {
     onPageChange(currentPage - 1);
   };
 
-  const finalPageNumber = paginationRange[paginationRange.length - 1];
+  const lastPageNumber = paginationRange[paginationRange.length - 1];
 
   return (
     <PaginationNav aria-label="ページネーション">
       <ul>
-        <li data-arrow>
+        <li data-paginate="arrow">
           <button
             data-arrow-button
             type="button"
             className={paginationButtonStyle}
-            onClick={handlePreviousPage}
+            onClick={goToPreviousPage}
             disabled={currentPage === 1}
           >
             <CaretLeftIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
@@ -57,14 +57,14 @@ export const PaginationComponent = ({
         {paginationRange.map((pageNumber, index) => {
           if (typeof pageNumber === 'string' && pageNumber === DOTS) {
             return (
-              <li data-ellipsis key={index}>
+              <li data-paginate="ellipsis" key={index}>
                 <EllipsisIndicator className={paginationButtonStyle}>{DOTS}</EllipsisIndicator>
               </li>
             );
           }
 
           return (
-            <li data-page key={index}>
+            <li data-paginate="page" key={index}>
               <button
                 type="button"
                 onClick={() => onPageChange(pageNumber as number)}
@@ -76,18 +76,18 @@ export const PaginationComponent = ({
             </li>
           );
         })}
-        <li data-progress>
+        <li data-paginate="progress">
           <PageCountDisplay>
-            {currentPage} / {finalPageNumber}
+            {currentPage} / {lastPageNumber}
           </PageCountDisplay>
         </li>
-        <li data-arrow>
+        <li data-paginate="arrow">
           <button
             data-arrow-button
             type="button"
             className={paginationButtonStyle}
-            onClick={handleNextPage}
-            disabled={currentPage === finalPageNumber}
+            onClick={goToNextPage}
+            disabled={currentPage === lastPageNumber}
           >
             <CaretRightIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
           </button>
@@ -111,18 +111,18 @@ const PaginationNav = styled.nav`
   }
 
   @media (--isDesktop) {
-    [data-progress] {
+    [data-paginate='progress'] {
       display: none;
     }
   }
 
   @media (--isMobile) {
-    [data-arrow] {
+    [data-paginate='arrow'] {
       display: block;
     }
 
-    [data-page],
-    [data-ellipsis] {
+    [data-paginate='page'],
+    [data-paginate='ellipsis'] {
       display: none;
     }
   }
