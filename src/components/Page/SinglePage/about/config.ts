@@ -1,0 +1,33 @@
+/**
+ * aboutページの設定
+ */
+import type { Metadata } from 'next/types';
+import type { AboutPage, WithContext } from 'schema-dts';
+import { createMetadata } from '@/components/Page/SinglePage/metadata';
+import { AUTHOR } from '@/components/Page/SinglePage/schema';
+import type { PageConfig } from '@/components/Page/SinglePage/Template';
+import { SITE_URL } from '@/constant';
+
+export const pageConfig: PageConfig = {
+  slug: 'about',
+  title: 'About',
+  description: 'サイトと運営者について',
+};
+
+export const createPageMetadata = (): Metadata => {
+  return createMetadata({
+    title: pageConfig.title,
+    description: pageConfig.description,
+    url: `${SITE_URL}/${pageConfig.slug}`,
+  });
+};
+
+export const createStructuredData = (): WithContext<AboutPage> => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: pageConfig.title,
+    description: pageConfig.description,
+    author: AUTHOR,
+  };
+};

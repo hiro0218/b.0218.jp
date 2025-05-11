@@ -1,34 +1,10 @@
-import type { Metadata } from 'next/types';
-import { getMetadata } from '@/app/(SinglePage)/_metadata';
-import Content from '@/components/Page/Single/Content';
-import { SITE_URL } from '@/constant';
-import { getWebPageStructured } from '@/lib/json-ld';
+import { createPageMetadata, createStructuredData, pageConfig } from '@/components/Page/SinglePage/privacy/config';
+import Template from '@/components/Page/SinglePage/Template';
 
-const slug = 'privacy';
-const title = 'Privacy';
-const description = 'プライバシーポリシー';
+export const metadata = createPageMetadata();
 
-export const metadata: Metadata = getMetadata({
-  title,
-  description,
-  url: `${SITE_URL}/${slug}`,
-});
+export default function Page() {
+  const pageStructuredData = createStructuredData();
 
-export default async function Page() {
-  return (
-    <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify([
-            getWebPageStructured({
-              name: title,
-              description,
-            }),
-          ]),
-        }}
-        type="application/ld+json"
-      />
-      <Content title={title} description={description} slug={slug} />
-    </>
-  );
+  return <Template config={pageConfig} structuredData={pageStructuredData} />;
 }

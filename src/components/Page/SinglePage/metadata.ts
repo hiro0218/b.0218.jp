@@ -1,27 +1,30 @@
+/**
+ * シングルページ用のメタデータ生成
+ */
 import type { Metadata } from 'next/types';
 import { openGraph } from '@/app/_metadata';
 import { SITE_NAME } from '@/constant';
 
-type Props = {
+type MetadataParams = {
   title: string;
   description: string;
   url: string;
 };
 
-export const getMetadata = ({ title, description, url }: Props): Metadata => {
+export const createMetadata = ({ title, description, url }: MetadataParams): Metadata => {
   const pageTitle = `${title} - ${SITE_NAME}`;
 
   return {
     title: pageTitle,
-    description: description,
+    description,
     alternates: {
       canonical: url,
     },
     openGraph: {
       ...openGraph,
-      url: url,
+      url,
       title: pageTitle,
-      description: description,
+      description,
     },
   };
 };
