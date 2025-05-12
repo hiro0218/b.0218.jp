@@ -1,5 +1,5 @@
-import { createMetadataFromSlug } from '@/components/Page/SinglePage/metadata';
-import Template from '@/components/Page/SinglePage/Template';
+import { createMetadataFromSlug } from '@/components/Page/Single/metadata';
+import Template from '@/components/Page/Single/Template';
 
 export const metadata = createMetadataFromSlug('about');
 

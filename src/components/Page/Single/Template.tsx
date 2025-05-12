@@ -2,10 +2,10 @@
  * about/privacyページで使用する共通テンプレート
  */
 import type { AboutPage, WebPage, WithContext } from 'schema-dts';
-import Content from '@/components/Page/Single/Content';
-import { PAGE_CONFIGS } from '@/components/Page/SinglePage/metadata';
-import { AUTHOR } from '@/components/Page/SinglePage/schema';
-import type { PageSlug } from '@/components/Page/SinglePage/types';
+import Content from './Content';
+import { PAGE_CONFIGS } from './metadata';
+import { AUTHOR } from './schema';
+import type { PageSlug } from './types';
 
 /**
  * テンプレートコンポーネントのプロパティ型定義

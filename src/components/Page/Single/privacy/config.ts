@@ -2,8 +2,8 @@
  * privacyページの設定
  */
 import type { WebPage, WithContext } from 'schema-dts';
-import { AUTHOR } from '@/components/Page/SinglePage/schema';
-import type { SinglePageConfig } from '@/components/Page/SinglePage/types';
+import { AUTHOR } from '../schema';
+import type { SinglePageConfig } from '../types';
 
 export const pageConfig: SinglePageConfig = {
   slug: 'privacy',

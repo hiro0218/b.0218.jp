@@ -3,8 +3,8 @@
  */
 import type { Metadata } from 'next/types';
 import { openGraph } from '@/app/_metadata';
-import type { PageSlug } from '@/components/Page/SinglePage/types';
 import { SITE_NAME, SITE_URL } from '@/constant';
+import type { PageSlug } from './types';
 
 /**
  * ページ設定情報の型
