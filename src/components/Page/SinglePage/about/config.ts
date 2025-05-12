@@ -1,25 +1,14 @@
 /**
  * aboutページの設定
  */
-import type { Metadata } from 'next/types';
 import type { AboutPage, WithContext } from 'schema-dts';
-import { createMetadata } from '@/components/Page/SinglePage/metadata';
 import { AUTHOR } from '@/components/Page/SinglePage/schema';
-import type { PageConfig } from '@/components/Page/SinglePage/Template';
-import { SITE_URL } from '@/constant';
+import type { SinglePageConfig } from '@/components/Page/SinglePage/types';
 
-export const pageConfig: PageConfig = {
+export const pageConfig: SinglePageConfig = {
   slug: 'about',
   title: 'About',
   description: 'サイトと運営者について',
-};
-
-export const createPageMetadata = (): Metadata => {
-  return createMetadata({
-    title: pageConfig.title,
-    description: pageConfig.description,
-    url: `${SITE_URL}/${pageConfig.slug}`,
-  });
 };
 
 export const createStructuredData = (): WithContext<AboutPage> => {

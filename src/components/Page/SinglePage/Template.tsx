@@ -3,22 +3,66 @@
  */
 import type { AboutPage, WebPage, WithContext } from 'schema-dts';
 import Content from '@/components/Page/Single/Content';
+import { PAGE_CONFIGS } from '@/components/Page/SinglePage/metadata';
+import { AUTHOR } from '@/components/Page/SinglePage/schema';
+import type { PageSlug } from '@/components/Page/SinglePage/types';
 
-export type PageConfig = {
-  slug: 'about' | 'privacy';
+/**
+ * テンプレートコンポーネントのプロパティ型定義
+ */
+type TemplateProps = {
+  slug: PageSlug;
+};
+
+/**
+ * 構造化データを生成する関数の型
+ */
+type StructuredDataGenerator = () => WithContext<AboutPage | WebPage>;
+
+/**
+ * スキーマ付きページ設定情報の型
+ */
+type PageConfigWithSchema = {
   title: string;
   description: string;
+  createStructuredData: StructuredDataGenerator;
 };
 
-type SchemaStructuredData = WithContext<AboutPage | WebPage>;
-
-type TemplateProps = {
-  config: PageConfig;
-  structuredData: SchemaStructuredData;
+/**
+ * ページの設定情報
+ */
+const PAGE_CONFIGS_WITH_SCHEMA: Record<PageSlug, PageConfigWithSchema> = {
+  about: {
+    ...PAGE_CONFIGS.about,
+    createStructuredData: (): WithContext<AboutPage> => ({
+      '@context': 'https://schema.org',
+      '@type': 'AboutPage',
+      name: 'About',
+      description: 'サイトと運営者について',
+      author: AUTHOR,
+    }),
+  },
+  privacy: {
+    ...PAGE_CONFIGS.privacy,
+    createStructuredData: (): WithContext<WebPage> => ({
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: 'Privacy',
+      description: 'プライバシーポリシー',
+      author: AUTHOR,
+    }),
+  },
 };
 
-export default function Template({ config, structuredData }: TemplateProps) {
-  const { slug, title, description } = config;
+/**
+ * シングルページ用の共通テンプレートコンポーネント
+ * about/privacyページで使用する
+ * @param props - スラグを含むプロパティ
+ */
+export default function Template({ slug }: TemplateProps) {
+  const config = PAGE_CONFIGS_WITH_SCHEMA[slug];
+  const { title, description } = config;
+  const structuredData = config.createStructuredData();
 
   return (
     <>

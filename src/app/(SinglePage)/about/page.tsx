@@ -1,10 +1,8 @@
-import { createPageMetadata, createStructuredData, pageConfig } from '@/components/Page/SinglePage/about/config';
+import { createMetadataFromSlug } from '@/components/Page/SinglePage/metadata';
 import Template from '@/components/Page/SinglePage/Template';
 
-export const metadata = createPageMetadata();
+export const metadata = createMetadataFromSlug('about');
 
 export default function Page() {
-  const pageStructuredData = createStructuredData();
-
-  return <Template config={pageConfig} structuredData={pageStructuredData} />;
+  return <Template slug="about" />;
 }
