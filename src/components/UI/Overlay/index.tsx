@@ -20,6 +20,7 @@ const Div = styled.div`
     opacity 0.4s ease,
     visibility 0.4s ease;
 
+  [data-is-zoom-image='true'] ~ &,
   dialog[open] ~ & {
     visibility: visible;
     opacity: 1;

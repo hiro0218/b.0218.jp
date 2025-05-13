@@ -8,7 +8,7 @@ import { styled } from '@/ui/styled/static';
 import type { onCloseDialogProps } from './type';
 
 const SearchPanel = dynamic(() => import('./SearchPanel').then((module) => module.SearchPanel));
-const Overlay = dynamic(() => import('./Overlay').then((module) => module.Overlay));
+const Overlay = dynamic(() => import('@/components/UI/Overlay').then((module) => module.Overlay));
 
 type Props = {
   closeDialog: onCloseDialogProps;
