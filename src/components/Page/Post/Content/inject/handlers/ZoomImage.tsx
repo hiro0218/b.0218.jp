@@ -1,8 +1,8 @@
 import dynamic from 'next/dynamic';
 import type { ImgHTMLAttributes } from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { css, styled } from '@/ui/styled/static';
+import { css } from '@/ui/styled/static';
 
 const Overlay = dynamic(() => import('@/components/UI/Overlay').then((module) => module.Overlay));
 
@@ -11,15 +11,27 @@ const containerStyle = css`
   cursor: zoom-in;
 `;
 
-const ZoomedImg = styled.img`
+const normalImageStyle = css`
+  display: block;
+  max-width: 100%;
+  height: auto;
+`;
+
+const zoomedImageStyle = css`
   position: fixed;
   top: 50%;
   left: 50%;
   z-index: calc(var(--zIndex-overlay) + 1);
   max-width: 90%;
   max-height: 90%;
+  pointer-events: auto;
   cursor: zoom-out;
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%);
+`;
+
+const placeholderStyle = css`
+  display: block;
+  visibility: hidden;
 `;
 
 type ZoomImageProps = ImgHTMLAttributes<HTMLImageElement> & {
@@ -28,9 +40,24 @@ type ZoomImageProps = ImgHTMLAttributes<HTMLImageElement> & {
 
 const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, ...props }) => {
   const [isZoomed, setIsZoomed] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [imgDimensions, setImgDimensions] = useState({ width: 0, height: 0 });
+  const [imageLoaded, setImageLoaded] = useState(false);
 
-  const handleZoomIn = useCallback(() => setIsZoomed(true), []);
-  const handleZoomOut = useCallback(() => setIsZoomed(false), []);
+  const handleZoomIn = useCallback(() => {
+    if (imgRef.current && imageLoaded) {
+      // 現在の画像サイズを保存
+      setImgDimensions({
+        width: imgRef.current.offsetWidth,
+        height: imgRef.current.offsetHeight,
+      });
+      setIsZoomed(true);
+    }
+  }, [imageLoaded]);
+
+  const handleZoomOut = useCallback(() => {
+    setIsZoomed(false);
+  }, []);
 
   // Escapeキーで閉じる
   useEffect(() => {
@@ -58,16 +85,63 @@ const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, ...props }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isZoomed]);
 
+  // 画像の読み込み完了時のハンドラ
+  const handleImageLoad = useCallback(() => {
+    if (imgRef.current) {
+      setImgDimensions({
+        width: imgRef.current.offsetWidth,
+        height: imgRef.current.offsetHeight,
+      });
+      setImageLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (imgRef.current && !imageLoaded) {
+      handleImageLoad();
+    }
+  }, [imageLoaded, handleImageLoad]);
+
   return (
     <>
-      <div className={containerStyle} onClick={handleZoomIn}>
-        {/** biome-ignore lint/nursery/noImgElement: use raw */}
-        <img src={src} alt={alt} {...props} />
-      </div>
+      <span className={containerStyle} onClick={isZoomed ? undefined : handleZoomIn}>
+        {isZoomed ? (
+          // ズーム時はプレースホルダーを表示して元の場所を維持
+          <span
+            className={placeholderStyle}
+            style={{
+              width: `${imgDimensions.width}px`,
+              height: `${imgDimensions.height}px`,
+            }}
+            aria-hidden="true"
+          />
+        ) : (
+          // 通常表示時は元の画像を表示
+          // biome-ignore lint/nursery/noImgElement: use raw
+          <img
+            src={src}
+            alt={alt || ''}
+            {...props}
+            ref={imgRef}
+            className={normalImageStyle}
+            onLoad={handleImageLoad}
+          />
+        )}
+      </span>
+
+      {/* ズーム時のみPortalで拡大画像とオーバーレイを表示 */}
       {isZoomed &&
         createPortal(
           <>
-            <ZoomedImg src={src} alt={alt || ''} loading="lazy" onClick={handleZoomOut} data-is-zoom-image={isZoomed} />
+            {/* biome-ignore lint/nursery/noImgElement: use raw */}
+            <img
+              src={src}
+              alt={alt || ''}
+              className={zoomedImageStyle}
+              onClick={handleZoomOut}
+              loading="lazy"
+              data-is-zoom-image="true"
+            />
             <Overlay onClick={handleZoomOut} />
           </>,
           document.body,
