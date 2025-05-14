@@ -11,12 +11,6 @@ const containerStyle = css`
   cursor: zoom-in;
 `;
 
-const normalImageStyle = css`
-  display: block;
-  max-width: 100%;
-  height: auto;
-`;
-
 const zoomedImageStyle = css`
   position: fixed;
   top: 50%;
@@ -91,10 +85,9 @@ const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, ...props }) => {
     <>
       <span className={containerStyle} onClick={isZoomed ? undefined : handleZoomIn}>
         {/* biome-ignore lint/nursery/noImgElement: use raw */}
-        <img src={src} alt={alt || ''} {...props} ref={imgRef} className={normalImageStyle} onLoad={handleImageLoad} />
+        <img src={src} alt={alt || ''} {...props} ref={imgRef} onLoad={handleImageLoad} />
       </span>
 
-      {/* ズーム時のみPortalで拡大画像とオーバーレイを表示 */}
       {isZoomed &&
         createPortal(
           <>
