@@ -20,7 +20,10 @@ const zoomedImageStyle = css`
   max-height: 90%;
   pointer-events: auto;
   cursor: zoom-out;
+  opacity: 1;
   transform: translate(-50%, -50%);
+  transition: opacity 0.2s ease;
+  will-change: transform, opacity;
 `;
 
 type ZoomImageProps = ImgHTMLAttributes<HTMLImageElement> & {
@@ -42,44 +45,57 @@ const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, ...props }) => {
     setIsZoomed(false);
   }, []);
 
-  /** Escape、Enter、Spaceキーでズーム表示を閉じる */
+  /**
+   * ズーム表示中のイベント処理を設定
+   * - Escape、Enter、Spaceキーでズーム表示を閉じる
+   * - スクロール時にズーム表示を閉じる
+   */
   useEffect(() => {
     if (!isZoomed) return;
 
+    // キーボード操作で閉じる
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' || event.key === 'Enter' || event.key === ' ') {
         setIsZoomed(false);
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isZoomed]);
-
-  // スクロール時にズームを解除
-  useEffect(() => {
-    if (!isZoomed) return;
-
+    // スクロール時に閉じる
     const handleScroll = () => {
       setIsZoomed(false);
     };
 
+    // イベントリスナーを登録
+    document.addEventListener('keydown', handleKeyDown);
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    // クリーンアップ関数
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [isZoomed]);
 
-  // 画像の読み込み完了時のハンドラ
+  /**
+   * 画像の読み込み完了時のハンドラ
+   * 画像参照が設定されたら読み込み状態を更新する
+   */
   const handleImageLoad = useCallback(() => {
-    if (imgRef.current) {
-      setImageLoaded(true);
-    }
+    setImageLoaded(true);
   }, []);
 
+  /**
+   * 画像参照が設定された時に既に読み込まれているか確認
+   */
   useEffect(() => {
-    if (imgRef.current && !imageLoaded) {
-      handleImageLoad();
+    const img = imgRef.current;
+    if (img && !imageLoaded) {
+      // naturalWidth/naturalHeightが存在する場合は既に読み込み完了している
+      if (img.complete && img.naturalWidth) {
+        setImageLoaded(true);
+      }
     }
-  }, [imageLoaded, handleImageLoad]);
+  }, [imageLoaded]);
 
   return (
     <>
