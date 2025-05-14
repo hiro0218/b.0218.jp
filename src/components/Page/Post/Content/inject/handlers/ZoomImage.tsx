@@ -42,12 +42,12 @@ const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, ...props }) => {
     setIsZoomed(false);
   }, []);
 
-  // Escapeキーで閉じる
+  /** Escape、Enter、Spaceキーでズーム表示を閉じる */
   useEffect(() => {
     if (!isZoomed) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (event.key === 'Escape' || event.key === 'Enter' || event.key === ' ') {
         setIsZoomed(false);
       }
     };
