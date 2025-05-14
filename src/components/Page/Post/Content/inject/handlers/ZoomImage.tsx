@@ -1,7 +1,10 @@
+'use client';
+
 import dynamic from 'next/dynamic';
 import type { ImgHTMLAttributes } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { parseStyleStringToObject } from '@/lib/parseStyleStringToObject';
 import { css } from '@/ui/styled/static';
 
 const Overlay = dynamic(() => import('@/components/UI/Overlay').then((module) => module.Overlay));
@@ -30,10 +33,13 @@ type ZoomImageProps = ImgHTMLAttributes<HTMLImageElement> & {
   src: string;
 };
 
-const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, ...props }) => {
+const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, style, ...props }) => {
   const [isZoomed, setIsZoomed] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  // 文字列形式のstyleをオブジェクトに変換
+  const processedStyle = typeof style === 'string' ? parseStyleStringToObject(style) : style;
 
   const handleZoomIn = useCallback(() => {
     if (imgRef.current && imageLoaded) {
@@ -101,7 +107,7 @@ const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, ...props }) => {
     <>
       <span className={containerStyle} onClick={isZoomed ? undefined : handleZoomIn}>
         {/* biome-ignore lint/nursery/noImgElement: use raw */}
-        <img src={src} alt={alt || ''} {...props} ref={imgRef} onLoad={handleImageLoad} />
+        <img src={src} alt={alt || ''} style={processedStyle} {...props} ref={imgRef} onLoad={handleImageLoad} />
       </span>
 
       {isZoomed &&
