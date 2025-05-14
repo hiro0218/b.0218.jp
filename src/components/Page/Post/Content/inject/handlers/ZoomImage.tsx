@@ -29,11 +29,6 @@ const zoomedImageStyle = css`
   transform: translate(-50%, -50%);
 `;
 
-const placeholderStyle = css`
-  display: block;
-  visibility: hidden;
-`;
-
 type ZoomImageProps = ImgHTMLAttributes<HTMLImageElement> & {
   src: string;
 };
@@ -41,16 +36,10 @@ type ZoomImageProps = ImgHTMLAttributes<HTMLImageElement> & {
 const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, ...props }) => {
   const [isZoomed, setIsZoomed] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
-  const [imgDimensions, setImgDimensions] = useState({ width: 0, height: 0 });
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleZoomIn = useCallback(() => {
     if (imgRef.current && imageLoaded) {
-      // 現在の画像サイズを保存
-      setImgDimensions({
-        width: imgRef.current.offsetWidth,
-        height: imgRef.current.offsetHeight,
-      });
       setIsZoomed(true);
     }
   }, [imageLoaded]);
@@ -88,10 +77,6 @@ const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, ...props }) => {
   // 画像の読み込み完了時のハンドラ
   const handleImageLoad = useCallback(() => {
     if (imgRef.current) {
-      setImgDimensions({
-        width: imgRef.current.offsetWidth,
-        height: imgRef.current.offsetHeight,
-      });
       setImageLoaded(true);
     }
   }, []);
@@ -105,28 +90,8 @@ const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, ...props }) => {
   return (
     <>
       <span className={containerStyle} onClick={isZoomed ? undefined : handleZoomIn}>
-        {isZoomed ? (
-          // ズーム時はプレースホルダーを表示して元の場所を維持
-          <span
-            className={placeholderStyle}
-            style={{
-              width: `${imgDimensions.width}px`,
-              height: `${imgDimensions.height}px`,
-            }}
-            aria-hidden="true"
-          />
-        ) : (
-          // 通常表示時は元の画像を表示
-          // biome-ignore lint/nursery/noImgElement: use raw
-          <img
-            src={src}
-            alt={alt || ''}
-            {...props}
-            ref={imgRef}
-            className={normalImageStyle}
-            onLoad={handleImageLoad}
-          />
-        )}
+        {/* biome-ignore lint/nursery/noImgElement: use raw */}
+        <img src={src} alt={alt || ''} {...props} ref={imgRef} className={normalImageStyle} onLoad={handleImageLoad} />
       </span>
 
       {/* ズーム時のみPortalで拡大画像とオーバーレイを表示 */}
