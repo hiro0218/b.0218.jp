@@ -1,5 +1,5 @@
 const pkg = require('./package.json');
-const {  Features } = require('lightningcss');
+const { Features } = require('lightningcss');
 
 module.exports = {
   plugins: {
