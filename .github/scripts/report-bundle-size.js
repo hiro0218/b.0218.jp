@@ -43,31 +43,34 @@ try {
     const buildMeta = require(buildManifestPath);
 
     // Pages Routerでは _app.js がグローバルコンポーネント
+    let globalBundle = [];
     if (buildMeta.pages && buildMeta.pages['/_app']) {
-      const globalBundle = buildMeta.pages['/_app'];
-      const globalBundleSizes = getScriptSizes(globalBundle);
-
-      // Set the global bundle info
-      result.pages = {
-        __global: globalBundleSizes
-      };
-
-      // Calculate page-specific bundle sizes
-      Object.keys(buildMeta.pages).forEach(pagePath => {
-        const scriptPaths = buildMeta.pages[pagePath];
-
-        // Filter out global scripts to get page-specific scripts
-        const pageSpecificScripts = scriptPaths.filter(scriptPath => !globalBundle.includes(scriptPath));
-        if (pageSpecificScripts.length > 0) {
-          const scriptSizes = getScriptSizes(pageSpecificScripts);
-          result.pages[pagePath] = scriptSizes;
-        }
-      });
-
-      console.log(`Pages Router: Analyzed ${Object.keys(result.pages).length - 1} pages plus global bundle`);
+      globalBundle = buildMeta.pages['/_app'];
     } else {
-      console.warn('Pages Router: No _app entry point found in build-manifest.json');
+      // _appがない場合は全ページ共通スクリプトを推定（全ページに共通するスクリプトの交差）
+      const allPages = Object.values(buildMeta.pages || {});
+      if (allPages.length > 0) {
+        globalBundle = allPages.reduce((acc, arr) => acc.filter(x => arr.includes(x)), allPages[0]);
+        console.warn('Pages Router: _appが見つからないため、全ページ共通スクリプトをグローバル扱いとする');
+      }
     }
+    const globalBundleSizes = getScriptSizes(globalBundle);
+    result.pages = { __global: globalBundleSizes };
+
+    // Calculate page-specific bundle sizes
+    Object.keys(buildMeta.pages || {}).forEach(pagePath => {
+      const scriptPaths = buildMeta.pages[pagePath];
+      if (!Array.isArray(scriptPaths)) return;
+      // Filter out global scripts to get page-specific scripts
+      const pageSpecificScripts = scriptPaths.filter(scriptPath => !globalBundle.includes(scriptPath));
+      // 空文字キーはルートページとして扱う
+      const normalizedPath = pagePath === '' ? '/' : pagePath;
+      if (pageSpecificScripts.length > 0) {
+        const scriptSizes = getScriptSizes(pageSpecificScripts);
+        result.pages[normalizedPath] = scriptSizes;
+      }
+    });
+    console.log(`Pages Router: Analyzed ${Object.keys(result.pages).length - 1} pages plus global bundle`);
   } else {
     console.log('Pages Router: build-manifest.json not found, skipping Pages Router analysis');
   }
@@ -91,18 +94,13 @@ try {
       '/layout', // 最優先: 標準的なルートレイアウト
       '/',       // ルートページ
     ];
-
-    // その他のレイアウト候補を追加
     Object.keys(appPages).forEach(key => {
       if (key.includes('layout') || key.includes('__layout')) {
-        // ルートレベルのレイアウトを優先
         if (key.split('/').length <= 2) {
           rootLayoutCandidates.push(key);
         }
       }
     });
-
-    // ルートレイアウトキーを見つける
     let rootLayoutKey = null;
     for (const candidate of rootLayoutCandidates) {
       if (appPages[candidate]) {
@@ -111,43 +109,38 @@ try {
         break;
       }
     }
-
     // rootMainFilesが存在する場合はそれを使用
     let globalAppFiles = [];
-    if (appDirMeta.rootMainFiles && appDirMeta.rootMainFiles.length > 0) {
+    if (Array.isArray(appDirMeta.rootMainFiles) && appDirMeta.rootMainFiles.length > 0) {
       console.log('App Router: Using rootMainFiles as global scripts');
       globalAppFiles = appDirMeta.rootMainFiles;
     } else if (rootLayoutKey) {
       console.log('App Router: Using root layout scripts as global scripts');
       globalAppFiles = appPages[rootLayoutKey];
     }
-
-    // グローバルスクリプトの計算
     const globalAppBundleSizes = getScriptSizes(globalAppFiles);
     result.app['__global'] = globalAppBundleSizes;
 
     // 各ページごとのバンドルサイズを計算
     let pageCount = 0;
     Object.keys(appPages).forEach(pagePath => {
-      // グローバルレイアウト以外のページのみ処理
       if (pagePath !== rootLayoutKey) {
         const scriptPaths = appPages[pagePath];
-
+        if (!Array.isArray(scriptPaths)) return;
         // グローバルスクリプトを除外してページ固有のスクリプトを取得
         const pageSpecificScripts = scriptPaths.filter(
           scriptPath => !globalAppFiles.includes(scriptPath)
         );
-
         if (pageSpecificScripts.length > 0) {
           const scriptSizes = getScriptSizes(pageSpecificScripts);
-          // ページパスを正規化して保存
-          const normalizedPath = pagePath.replace(/\/page$/, '');
+          // /pageで終わるものは/に正規化
+          let normalizedPath = pagePath.replace(/\/page$/, '');
+          if (normalizedPath === '') normalizedPath = '/';
           result.app[normalizedPath] = scriptSizes;
           pageCount++;
         }
       }
     });
-
     console.log(`App Router: Analyzed ${pageCount} pages plus global bundle`);
   } else {
     console.log('App Router: app-build-manifest.json not found, skipping App Router analysis');
@@ -194,7 +187,11 @@ function formatBytes(bytes, decimals = 2) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
 }
 
-// given an array of scripts, return the total of their combined file sizes
+/**
+ * 指定されたスクリプトファイル群の合計サイズを返す
+ * @param {string[]} scriptPaths - スクリプトファイルの相対パス配列
+ * @returns {{ raw: number, gzip: number }} - 合計サイズ（生・gzip）
+ */
 function getScriptSizes(scriptPaths) {
   if (!Array.isArray(scriptPaths)) {
     console.warn(`Expected scriptPaths to be an array, got ${typeof scriptPaths}`);
@@ -218,7 +215,11 @@ function getScriptSizes(scriptPaths) {
   return res;
 }
 
-// given an individual path to a script, return its file size
+/**
+ * 指定されたスクリプトファイルのサイズを返す
+ * @param {string} scriptPath - スクリプトファイルの相対パス
+ * @returns {[number, number]} - [生サイズ, gzipサイズ]
+ */
 function getScriptSize(scriptPath) {
   if (typeof scriptPath !== 'string') {
     console.warn(`Invalid script path: ${scriptPath}, expected string but got ${typeof scriptPath}`);

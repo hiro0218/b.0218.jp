@@ -28,6 +28,35 @@ const pagesDirExists = fs.existsSync(path.join(srcDir, 'pages'));
 // プロジェクト構造情報をログに出力
 console.log(`プロジェクト構造: App Router (src/app): ${appDirExists}, Pages Router (src/pages): ${pagesDirExists}`);
 
+/**
+ * バンドルJSONからApp Router/Pages Routerの有無を判定する
+ * ディレクトリ存在判定よりもバンドル内容を優先する
+ *
+ * @param bundle - バンドルJSONオブジェクト
+ * @returns { hasAppRouter: boolean, hasPagesRouter: boolean }
+ */
+function detectRouters(bundle) {
+  // App Router: appキーが存在し、かつ1ページ以上ある
+  const hasAppRouter = !!(
+    bundle &&
+    bundle.app &&
+    typeof bundle.app === 'object' &&
+    Object.keys(bundle.app).some(
+      (k) => k !== '__global' && typeof bundle.app[k]?.gzip === 'number'
+    )
+  );
+  // Pages Router: pagesキーが存在し、かつ1ページ以上ある
+  const hasPagesRouter = !!(
+    bundle &&
+    bundle.pages &&
+    typeof bundle.pages === 'object' &&
+    Object.keys(bundle.pages).some(
+      (k) => k !== '__global' && typeof bundle.pages[k]?.gzip === 'number'
+    )
+  );
+  return { hasAppRouter, hasPagesRouter };
+}
+
 // メイン処理
 async function main() {
   try {
@@ -36,6 +65,9 @@ async function main() {
     if (!currentBundle) {
       throw new Error(`現在のバンドル情報を読み込めませんでした: ${currentBundlePath}`);
     }
+
+    // ルーター種別を判定
+    const { hasAppRouter, hasPagesRouter } = detectRouters(currentBundle);
 
     // ベースブランチのバンドル情報の読み込み
     let baseBundle;
@@ -49,7 +81,7 @@ async function main() {
     }
 
     // PR用コメントの生成
-    const comment = generateComment(currentBundle, baseBundle);
+    const comment = generateComment(currentBundle, baseBundle, hasAppRouter, hasPagesRouter);
 
     // コメントの出力
     fs.writeFileSync(outputCommentPath, comment);
@@ -60,15 +92,19 @@ async function main() {
   }
 }
 
-// バンドル情報の比較とコメント生成
-function generateComment(currentBundle, baseBundle) {
+/**
+ * generateCommentのJSDocを追加し、引数の意味を明確化
+ *
+ * @param currentBundle - 現在のバンドルJSON
+ * @param baseBundle - 比較対象のバンドルJSON（null可）
+ * @param hasAppRouter - App Routerが有効か
+ * @param hasPagesRouter - Pages Routerが有効か
+ * @returns PR用コメント文字列
+ */
+function generateComment(currentBundle, baseBundle, hasAppRouter, hasPagesRouter) {
   let comment = '## 📊 Next.js バンドルサイズ分析\n\n';
 
-  // ルーターの種類を確認（バンドル情報とディレクトリ存在の両方を考慮）
-  const hasAppRouter = (currentBundle.app && Object.keys(currentBundle.app).length > 0) && appDirExists;
-  const hasPagesRouter = (currentBundle.pages && Object.keys(currentBundle.pages).length > 0) && pagesDirExists;
-
-  // ルーター情報をコメントに追加
+  // ルーターの種類をコメントに追加
   comment += `> プロジェクトで使用されているルーター: ${hasAppRouter ? 'App Router' : ''}${hasAppRouter && hasPagesRouter ? ' と ' : ''}${hasPagesRouter ? 'Pages Router' : ''}\n\n`;
 
   // バジェット検証を追加
@@ -147,9 +183,10 @@ function checkBudgetViolations(bundle, hasAppRouter, hasPagesRouter) {
   // App Routerのチェック
   if (hasAppRouter && bundle.app) {
     for (const page in bundle.app) {
-      const size = bundle.app[page].gzip;
+      if (page === '__global') continue; // __globalは除外
+      const size = bundle.app[page]?.gzip;
+      if (typeof size !== 'number') continue;
       maxSize = Math.max(maxSize, size);
-
       if (size > budget) {
         violations.push({
           router: 'App Router',
@@ -163,9 +200,10 @@ function checkBudgetViolations(bundle, hasAppRouter, hasPagesRouter) {
   // Pages Routerのチェック
   if (hasPagesRouter && bundle.pages) {
     for (const page in bundle.pages) {
-      const size = bundle.pages[page].gzip;
+      if (page === '__global') continue;
+      const size = bundle.pages[page]?.gzip;
+      if (typeof size !== 'number') continue;
       maxSize = Math.max(maxSize, size);
-
       if (size > budget) {
         violations.push({
           router: 'Pages Router',
@@ -319,13 +357,13 @@ function generateBundleSizeTable(bundleData) {
   table += '|---|---|\n';
 
   // global bundleを先頭に追加
-  if (bundleData.__global) {
+  if (bundleData.__global && typeof bundleData.__global.gzip === 'number') {
     table += `| \`global\` | \`${formatBytes(bundleData.__global.gzip)}\` |\n`;
   }
 
   // ページごとのバンドルサイズを追加（サイズ順）
   const pages = Object.keys(bundleData)
-    .filter(key => key !== '__global')
+    .filter(key => key !== '__global' && typeof bundleData[key]?.gzip === 'number')
     .sort((a, b) => bundleData[b].gzip - bundleData[a].gzip);
 
   for (const page of pages) {
@@ -350,8 +388,17 @@ function formatBytes(bytes, decimals = 2) {
 }
 
 // JSONファイルの読み込み
+/**
+ * JSONファイルを読み込む（存在しない・不正な場合はnullを返す）
+ * @param filePath - ファイルパス
+ * @returns パース済みオブジェクト or null
+ */
 function readJsonFile(filePath) {
   try {
+    if (!fs.existsSync(filePath)) {
+      console.error(`ファイルが存在しません: ${filePath}`);
+      return null;
+    }
     const content = fs.readFileSync(filePath, 'utf8');
     return JSON.parse(content);
   } catch (error) {
