@@ -101,7 +101,7 @@ jobs:
 
       # カスタムスクリプトを使用してバンドルサイズを分析
       - name: Analyze bundle
-        run: node .github/scripts/report-bundle-size.js
+        run: node .github/scripts/report.js
 
       - name: Upload bundle
         uses: actions/upload-artifact@v4
@@ -122,10 +122,7 @@ jobs:
       - name: Compare with base branch bundle
         if: success() && github.event.number
         run: |
-          ls -laR .next/analyze/base || true
-          # カスタム比較スクリプトを実行
-          chmod +x .github/scripts/compare-bundle-size.js
-          node .github/scripts/compare-bundle-size.js
+          ls -laR .next/analyze/base && node .github/scripts/compare.js
 
       - name: Get Comment Body
         id: get-comment-body
