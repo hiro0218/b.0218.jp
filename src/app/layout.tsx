@@ -9,7 +9,6 @@ import Header from '@/components/App/Header';
 import { Layout } from '@/components/App/Layout/AppLayout';
 import { MainContainer } from '@/components/App/Layout/MainContainer';
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
-import { GoogleFontLinks } from '@/components/Functional/GoogleFontLinks';
 import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constant';
 import { getOrganizationStructured } from '@/lib/json-ld';
 
@@ -46,7 +45,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <link href="/favicon.ico" rel="icon" type="image/x-icon" />
         <link href="/opensearch.xml" rel="search" type="application/opensearchdescription+xml" />
         <link href="/feed.xml" rel="alternate" title="RSSフィード" type="application/rss+xml" />
-        <GoogleFontLinks />
         {
           /** @see https://developer.mozilla.org/ja/docs/Web/HTML/Attributes/rel/me */
           Object.entries(URL).map(([key, url]) => (
