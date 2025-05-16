@@ -11,19 +11,24 @@ type PostListProps = {
   posts: TermsPostListProps[];
 };
 
+/**
+ * 投稿リストをページごとに分割して表示する
+ * @param posts - 全投稿リスト
+ * @returns ページネーションされた投稿カード群
+ */
 export function PostList({ posts }: PostListProps) {
   const searchParams = useSearchParams();
-  const currentPage = searchParams.get(QUERY_PAGE_KEY) ? Number(searchParams.get(QUERY_PAGE_KEY)) : 1;
+  const currentPageNumber = searchParams.get(QUERY_PAGE_KEY) ? Number(searchParams.get(QUERY_PAGE_KEY)) : 1;
 
-  const postsToDisplay = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedPosts = useMemo(() => {
+    const startIndex = (currentPageNumber - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
     return posts.slice(startIndex, endIndex);
-  }, [currentPage, posts]);
+  }, [currentPageNumber, posts]);
 
   return (
     <>
-      {postsToDisplay.map(({ date, slug, title, updated }) => {
+      {paginatedPosts.map(({ date, slug, title, updated }) => {
         const link = convertPostSlugToPath(slug);
         return <LinkCard date={date} key={slug} link={link} title={title} updated={updated} />;
       })}

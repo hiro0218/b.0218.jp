@@ -5,13 +5,13 @@ type Props = {
 };
 
 export function Overlay({ onClick }: Props) {
-  return <Div onClick={onClick} />;
+  return <Div tabIndex={-1} onClick={onClick} />;
 }
 
 const Div = styled.div`
   position: fixed;
   inset: 0;
-  z-index: calc(var(--zIndex-search) - 1);
+  z-index: var(--zIndex-overlay);
   visibility: hidden;
   background-color: var(--overlay-backgrounds);
   isolation: isolate;
@@ -19,7 +19,9 @@ const Div = styled.div`
   transition:
     opacity 0.4s ease,
     visibility 0.4s ease;
+  animation: fadeIn 0.4s ease;
 
+  [data-is-zoom-image='true'] ~ &,
   dialog[open] ~ & {
     visibility: visible;
     opacity: 1;

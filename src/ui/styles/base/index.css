@@ -32,7 +32,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
   }
 
-  &:has(dialog[open]) {
+  :is(&):has(dialog[open]) {
     overflow: clip;
 
     &,

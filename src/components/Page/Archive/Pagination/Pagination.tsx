@@ -9,32 +9,39 @@ type PaginationProps = {
   totalItems: number;
 };
 
+/**
+ * ページネーションコンポーネント
+ * @param totalItems - 全アイテム数
+ */
 export function Pagination({ totalItems }: PaginationProps) {
+  const defaultPage = 1;
   const searchParams = useSearchParams();
-  const currentPageFromQuery = searchParams.get(QUERY_PAGE_KEY) ? Number(searchParams.get(QUERY_PAGE_KEY)) : 1;
-  const [pageState, setPageState] = useState(currentPageFromQuery);
+  const pageNumberFromUrl = searchParams?.get(QUERY_PAGE_KEY) ? Number(searchParams.get(QUERY_PAGE_KEY)) : defaultPage;
+  const [activePage, setActivePage] = useState(defaultPage);
 
-  // currentPageFromQueryに応じてページネーションの表示を変更する
+  // pageNumberFromUrlに応じてページネーションの表示を変更する
   useEffect(() => {
-    if (pageState !== currentPageFromQuery) {
-      setPageState(currentPageFromQuery);
+    if (activePage !== pageNumberFromUrl) {
+      setActivePage(pageNumberFromUrl);
     }
-  }, [currentPageFromQuery, pageState]);
+  }, [pageNumberFromUrl, activePage]);
 
   const handlePageChange = (page: number) => {
     // クエリパラメータ（?p=2）を更新する
-    const params = new URLSearchParams(searchParams.toString());
-    params.set(QUERY_PAGE_KEY, page.toString());
-    /** @note ViewTransitionに干渉しないようにネイティブ実装 */
-    window.history.replaceState(null, '', `?${params.toString()}`);
-    setPageState(page);
+    if (searchParams) {
+      const urlParams = new URLSearchParams(searchParams.toString());
+      urlParams.set(QUERY_PAGE_KEY, page.toString());
+      /** @note ViewTransitionに干渉しないようにネイティブ実装 */
+      window.history.replaceState(null, '', `?${urlParams.toString()}`);
+      setActivePage(page);
+    }
   };
 
   return (
     <PaginationComponent
       onPageChange={handlePageChange}
       totalCount={totalItems}
-      currentPage={pageState}
+      currentPage={activePage}
       pageSize={ITEMS_PER_PAGE}
     />
   );

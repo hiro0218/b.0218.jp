@@ -12,6 +12,10 @@ export const styleTimelineContainer = css`
   --year-post-separator-color: var(--color-gray-7);
   --year-post-separator-border-radius: var(--border-radius-full);
 
+  @media (--isMobile) {
+    --columns-1: 16%;
+  }
+
   position: relative;
 
   /* Separator */
@@ -24,8 +28,10 @@ export const styleTimelineContainer = css`
     margin-top: var(--vertical-space);
     pointer-events: none;
     content: '';
-    background-color: var(--color-gray-7);
+    color: var(--color-gray-7);
     transform: translateX(-50%);
+    background-image: repeating-linear-gradient(-45deg, currentColor, currentColor 1px, #0000 0 50%);
+    background-size: 6px 6px;
   }
 
   /* circle */
@@ -43,7 +49,7 @@ export const styleTimelineContainer = css`
     border: 4px solid var(--year-heading-circle-color);
     border-radius: var(--border-radius-full);
     transform: translateX(-50%);
-    transition: background-color 0.15s var(--easing-ease-out);
+    transition: border 0.2s var(--easing-ease-out);
   }
 
   &:hover {

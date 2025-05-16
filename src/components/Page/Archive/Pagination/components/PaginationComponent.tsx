@@ -3,7 +3,7 @@ import { css, styled } from '@/ui/styled/static';
 import { DOTS } from '../constant';
 import { usePagination } from '../hooks/usePagination';
 
-type PaginationProps = {
+type PaginationComponentProps = {
   onPageChange: (page: number) => void;
   totalCount: number;
   siblingCount?: number;
@@ -17,7 +17,7 @@ export const PaginationComponent = ({
   siblingCount = 1,
   currentPage,
   pageSize,
-}: PaginationProps) => {
+}: PaginationComponentProps) => {
   const paginationRange = usePagination({
     currentPage,
     totalCount,
@@ -25,29 +25,30 @@ export const PaginationComponent = ({
     pageSize,
   });
 
-  if (currentPage === 0 || paginationRange.length < 2) {
+  // 表示するものがない場合は何も表示しない
+  if (totalCount === 0 || paginationRange.length < 2) {
     return null;
   }
 
-  const onNext = () => {
+  const goToNextPage = () => {
     onPageChange(currentPage + 1);
   };
 
-  const onPrevious = () => {
+  const goToPreviousPage = () => {
     onPageChange(currentPage - 1);
   };
 
-  const lastPage = paginationRange[paginationRange.length - 1];
+  const lastPageNumber = paginationRange[paginationRange.length - 1];
 
   return (
-    <Nav aria-label="ページネーション">
+    <PaginationNav aria-label="ページネーション">
       <ul>
-        <li data-arrow>
+        <li data-paginate="arrow">
           <button
             data-arrow-button
             type="button"
-            className={buttonStyle}
-            onClick={onPrevious}
+            className={paginationButtonStyle}
+            onClick={goToPreviousPage}
             disabled={currentPage === 1}
           >
             <CaretLeftIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
@@ -56,47 +57,47 @@ export const PaginationComponent = ({
         {paginationRange.map((pageNumber, index) => {
           if (typeof pageNumber === 'string' && pageNumber === DOTS) {
             return (
-              <li data-ellipsis key={index}>
-                <Ellipsis className={buttonStyle}>{DOTS}</Ellipsis>
+              <li data-paginate="ellipsis" key={index}>
+                <EllipsisIndicator className={paginationButtonStyle}>{DOTS}</EllipsisIndicator>
               </li>
             );
           }
 
           return (
-            <li data-page key={index}>
+            <li data-paginate="page" key={index}>
               <button
                 type="button"
                 onClick={() => onPageChange(pageNumber as number)}
                 disabled={pageNumber === currentPage}
-                className={buttonStyle}
+                className={paginationButtonStyle}
               >
                 {pageNumber}
               </button>
             </li>
           );
         })}
-        <li data-progress>
-          <Progress>
-            {currentPage} / {lastPage}
-          </Progress>
+        <li data-paginate="progress">
+          <PageCountDisplay>
+            {currentPage} / {lastPageNumber}
+          </PageCountDisplay>
         </li>
-        <li data-arrow>
+        <li data-paginate="arrow">
           <button
             data-arrow-button
             type="button"
-            className={buttonStyle}
-            onClick={onNext}
-            disabled={currentPage === lastPage}
+            className={paginationButtonStyle}
+            onClick={goToNextPage}
+            disabled={currentPage === lastPageNumber}
           >
             <CaretRightIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
           </button>
         </li>
       </ul>
-    </Nav>
+    </PaginationNav>
   );
 };
 
-const Nav = styled.nav`
+const PaginationNav = styled.nav`
   margin-inline: auto;
 
   ul {
@@ -110,24 +111,24 @@ const Nav = styled.nav`
   }
 
   @media (--isDesktop) {
-    [data-progress] {
+    [data-paginate='progress'] {
       display: none;
     }
   }
 
   @media (--isMobile) {
-    [data-arrow] {
+    [data-paginate='arrow'] {
       display: block;
     }
 
-    [data-page],
-    [data-ellipsis] {
+    [data-paginate='page'],
+    [data-paginate='ellipsis'] {
       display: none;
     }
   }
 `;
 
-const buttonStyle = css`
+const paginationButtonStyle = css`
   display: flex;
   flex-grow: 0;
   flex-shrink: 0;
@@ -166,7 +167,7 @@ const buttonStyle = css`
   }
 `;
 
-const Ellipsis = styled.span`
+const EllipsisIndicator = styled.span`
   display: grid;
   place-content: center;
   width: var(--icon-size-lg);
@@ -179,7 +180,7 @@ const Ellipsis = styled.span`
   background-color: transparent;
 `;
 
-const Progress = styled.span`
+const PageCountDisplay = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
