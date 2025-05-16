@@ -70,7 +70,7 @@ jobs:
           path: |
             .next
             !.next/cache/webpack
-          key: ${{ runner.os }}-nextjs-build-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}', 'panda.config.ts', 'next.config.js') }}
+          key: ${{ runner.os }}-nextjs-build-${{ hashFiles('package-lock.json') }}-${{ hashFiles('.github/**/*.{js,jsx,ts,tsx}', 'src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}', 'panda.config.ts', 'next.config.js') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-build-${{ hashFiles('package-lock.json') }}-
             ${{ runner.os }}-nextjs-build-
