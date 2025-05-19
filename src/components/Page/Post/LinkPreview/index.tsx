@@ -18,6 +18,7 @@ export const LinkPreview = ({ link, card, thumbnail, title, domain, description 
         <BodyUrl className="text-ellipsis">{domain}</BodyUrl>
       </Body>
       <Thumbnail>
+        {/** biome-ignore lint/nursery/noImgElement: use raw img */}
         <img src={thumbnail} alt="" width="120" height="120" loading="lazy" decoding="async" />
       </Thumbnail>
     </Anchor>
