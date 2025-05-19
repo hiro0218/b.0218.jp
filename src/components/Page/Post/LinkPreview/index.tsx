@@ -10,17 +10,20 @@ type Props = {
 };
 
 export const LinkPreview = ({ link, card, thumbnail, title, domain, description }: Props) => {
+  const decodedTitle = title.replaceAll('&amp;', '&').replaceAll('&lt;', '<').replaceAll('&gt;', '>');
   return (
     <Anchor href={link} target="_blank" data-card={card}>
       <Body>
-        <BodyTitle className="text-ellipsis">{title}</BodyTitle>
+        <BodyTitle className="text-ellipsis">{decodedTitle}</BodyTitle>
         {description && <BodyDescription data-line-clamp="1">{description}</BodyDescription>}
         <BodyUrl className="text-ellipsis">{domain}</BodyUrl>
       </Body>
-      <Thumbnail>
-        {/** biome-ignore lint/nursery/noImgElement: use raw img */}
-        <img src={thumbnail} alt="" width="120" height="120" loading="lazy" decoding="async" />
-      </Thumbnail>
+      {thumbnail && (
+        <Thumbnail>
+          {/** biome-ignore lint/nursery/noImgElement: use raw img */}
+          <img src={thumbnail} alt="" width="120" height="120" loading="lazy" decoding="async" />
+        </Thumbnail>
+      )}
     </Anchor>
   );
 };
