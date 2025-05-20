@@ -5,7 +5,7 @@ type Props = {
 };
 
 export function Overlay({ onClick }: Props) {
-  return <Div tabIndex={-1} onClick={onClick} />;
+  return <Div onClick={onClick} tabIndex={-1} />;
 }
 
 const Div = styled.div`

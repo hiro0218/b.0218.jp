@@ -15,7 +15,7 @@ export const Logo = () => {
       href="/"
       prefetch={false}
     >
-      <img src="/logo.v2.svg" alt={SITE_NAME} height="25" width="80" />
+      <img alt={SITE_NAME} height="25" src="/logo.v2.svg" width="80" />
     </Anchor>
   );
 };

@@ -44,7 +44,7 @@ export const PostSection = ({
           {heading}
         </Heading>
       )}
-      <Box mt={2} className={containerType}>
+      <Box className={containerType} mt={2}>
         <Grid gap={2}>
           {posts.map(({ date, slug, tags, title, updated }) => {
             const link = convertPostSlugToPath(slug);
@@ -54,11 +54,11 @@ export const PostSection = ({
                 date={date}
                 key={slug}
                 link={link}
+                prefetch={prefetch}
                 tags={tags}
                 title={title}
                 titleTagName={nextHeadingLevel}
                 updated={updated}
-                prefetch={prefetch}
               />
             );
           })}

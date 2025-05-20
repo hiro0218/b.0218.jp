@@ -39,10 +39,10 @@ export function Pagination({ totalItems }: PaginationProps) {
 
   return (
     <PaginationComponent
-      onPageChange={handlePageChange}
-      totalCount={totalItems}
       currentPage={activePage}
+      onPageChange={handlePageChange}
       pageSize={ITEMS_PER_PAGE}
+      totalCount={totalItems}
     />
   );
 }

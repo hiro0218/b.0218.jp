@@ -36,7 +36,7 @@ function Heading({
 
   const TitleComponent = useMemo(
     () => (
-      <TitleTag id={id} className={headerTitleStyle} data-font-size-h={fontSizeLevel} style={titleStyle}>
+      <TitleTag className={headerTitleStyle} data-font-size-h={fontSizeLevel} id={id} style={titleStyle}>
         {children}
       </TitleTag>
     ),

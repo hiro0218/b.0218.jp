@@ -42,7 +42,7 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
           <Count aria-hidden="true">{count}</Count>
         </Anchor>
       ) : (
-        <DisabledTagAnchor className="post-tag-anchor" aria-hidden="true" key={slug}>
+        <DisabledTagAnchor aria-hidden="true" className="post-tag-anchor" key={slug}>
           {slug}
         </DisabledTagAnchor>
       );

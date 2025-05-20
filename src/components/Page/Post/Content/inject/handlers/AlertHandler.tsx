@@ -13,7 +13,7 @@ export const handleAlert: HandlerFunction = (domNode) => {
   // class="gfm-alert"の要素を処理する
   if (domNode.attribs?.class === 'gfm-alert') {
     const json = parseJSON<AlertDataProps>(domToReact(domNode.children as DOMNode[]) as string);
-    return <Alert type={json.data.type} text={json.data.text} />;
+    return <Alert text={json.data.text} type={json.data.type} />;
   }
 
   return undefined;

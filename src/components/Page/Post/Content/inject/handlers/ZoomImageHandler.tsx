@@ -22,7 +22,7 @@ export const handleZoomImage: HandlerFunction = (domNode) => {
       return undefined;
     }
 
-    return <ZoomImage src={src} alt={alt} {...rest} />;
+    return <ZoomImage alt={alt} src={src} {...rest} />;
   }
 
   return undefined;

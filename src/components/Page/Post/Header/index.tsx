@@ -14,14 +14,14 @@ type Props = Pick<PostProps, 'title' | 'date' | 'updated'> & {
 
 function PostHeader({ title, date, updated, tagsWithCount, render }: Props) {
   return (
-    <Stack as="header" space={2} className={headerSeparatorStyle}>
+    <Stack as="header" className={headerSeparatorStyle} space={2}>
       <Heading>{title}</Heading>
       <Box mt={2}>
         <Box className={itemStyle}>
           <PostDate date={date} updated={updated} />
           {/* <span aria-hidden="true">•</span> */}
         </Box>
-        <Box mt={1} className={itemStyle}>
+        <Box className={itemStyle} mt={1}>
           <Cluster isWide={false}>
             <PostTag tags={tagsWithCount} />
           </Cluster>
