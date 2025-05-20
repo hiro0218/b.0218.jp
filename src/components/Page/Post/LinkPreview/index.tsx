@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const LinkPreview = ({ link, card, thumbnail, title, domain, description }: Props) => {
-  const decodedTitle = title.replaceAll('&amp;', '&').replaceAll('&lt;', '<').replaceAll('&gt;', '>');
+  const decodedTitle = title.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
   return (
     <Anchor data-card={card} href={link} target="_blank">
       <Body>
