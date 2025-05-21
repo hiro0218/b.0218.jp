@@ -2,7 +2,7 @@ import { memo } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
 import { TAG_VIEW_LIMIT } from '@/constant';
-import { css, cx, styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled/static';
 
 export type Props = {
   slug: string;
@@ -31,7 +31,7 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
 
       return isAnchor ? (
         <Anchor
-          className={cx('post-tag-anchor', TagAnchorStyle)}
+          className="post-tag-anchor"
           href={`/tags/${slug}`}
           key={slug}
           {...(hasRelTag && {
@@ -64,16 +64,6 @@ const Count = styled.span`
   user-select: none;
   background-color: var(--color-gray-3A);
   border-radius: var(--border-radius-8);
-`;
-
-const TagAnchorStyle = css`
-  &:hover {
-    background-color: var(--color-gray-4A);
-  }
-
-  &:active {
-    background-color: var(--color-gray-5A);
-  }
 `;
 
 const DisabledTagAnchor = styled.span`
