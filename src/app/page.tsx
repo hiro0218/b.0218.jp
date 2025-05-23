@@ -38,11 +38,11 @@ export default async function Page() {
                     { heading: '更新記事', posts: updatesPosts },
                   ].map(({ heading, href, posts }, index) => (
                     <PostSection
-                      key={index}
                       heading={heading}
                       headingLevel="h3"
                       headingWeight="normal"
                       href={href}
+                      key={index}
                       posts={posts}
                       prefetch={!!href}
                     />

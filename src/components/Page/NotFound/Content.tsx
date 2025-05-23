@@ -4,7 +4,7 @@ import { css, styled } from '@/ui/styled/static';
 
 export default function Content() {
   return (
-    <Stack className={ContainerStyle} align="center" direction="vertical" justify="center" space={3}>
+    <Stack align="center" className={ContainerStyle} direction="vertical" justify="center" space={3}>
       <Header>
         <h1>Page not found</h1>
         <p>ページが見つかりませんでした</p>

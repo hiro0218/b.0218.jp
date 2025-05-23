@@ -10,13 +10,13 @@ function PostEdit({ slug }: Props) {
   return (
     <aside>
       <DropdownMenu
+        menuHorizontalPosition="right"
         title={
           <>
             <span className="sr-only">Feedback</span>
             <GitHubLogoIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
           </>
         }
-        menuHorizontalPosition="right"
       >
         <>
           <Anchor

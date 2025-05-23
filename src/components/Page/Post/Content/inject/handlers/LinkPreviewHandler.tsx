@@ -16,12 +16,12 @@ export const handleLinkPreview: HandlerFunction = (domNode) => {
 
     return (
       <LinkPreview
-        link={json.data.link}
         card={json.data.card}
-        thumbnail={json.data.thumbnail}
-        title={json.data.title}
         description={json.data.description}
         domain={json.data.domain}
+        link={json.data.link}
+        thumbnail={json.data.thumbnail}
+        title={json.data.title}
       />
     );
   }

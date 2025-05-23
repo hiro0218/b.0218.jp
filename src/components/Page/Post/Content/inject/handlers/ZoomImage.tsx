@@ -107,7 +107,7 @@ const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, style, ...props }) => {
     <>
       <span className={containerStyle} onClick={isZoomed ? undefined : handleZoomIn}>
         {/* biome-ignore lint/nursery/noImgElement: use raw */}
-        <img src={src} alt={alt || ''} style={processedStyle} {...props} ref={imgRef} onLoad={handleImageLoad} />
+        <img alt={alt || ''} src={src} style={processedStyle} {...props} onLoad={handleImageLoad} ref={imgRef} />
       </span>
 
       {isZoomed &&
@@ -115,12 +115,12 @@ const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, style, ...props }) => {
           <>
             {/* biome-ignore lint/nursery/noImgElement: use raw */}
             <img
-              src={src}
               alt={alt || ''}
               className={zoomedImageStyle}
-              onClick={handleZoomOut}
-              loading="lazy"
               data-is-zoom-image="true"
+              loading="lazy"
+              onClick={handleZoomOut}
+              src={src}
             />
             <Overlay onClick={handleZoomOut} />
           </>,

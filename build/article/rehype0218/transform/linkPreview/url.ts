@@ -12,9 +12,14 @@ export const isValidURL = (url: string): boolean => {
   }
 };
 
+/**
+ * URLを正規化する
+ * @param url - 正規化対象のURL文字列
+ * @returns 正規化されたURL
+ */
 export const normalizeURL = (url: string) => {
   const parseURL = new URL(url);
-  return `${parseURL.protocol}//${parseURL.hostname}${parseURL.pathname}`;
+  return `${parseURL.protocol}//${parseURL.hostname}${parseURL.pathname}${parseURL.search}`;
 };
 
 /**

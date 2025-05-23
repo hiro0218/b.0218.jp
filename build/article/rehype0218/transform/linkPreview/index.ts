@@ -1,5 +1,4 @@
 import type { Element, ElementContent } from 'hast';
-
 import { getHTML, getMeta } from './dom';
 import { handleError } from './handleError';
 
@@ -117,23 +116,30 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
 
   const href = node.properties?.href as string;
 
-  try {
-    const result = await getHTML(href);
+  // URLが有効かつHTTPで始まる外部リンクのみを処理
+  if (!href || !href.startsWith('http')) return;
 
+  try {
+    const domain = new URL(href).hostname;
+    if (SKIP_DOMAINS.includes(domain)) return;
+
+    const result = await getHTML(href);
     if (!result) return;
 
     const meta = getMeta(result);
     if (!meta) return;
 
     const ogp = getOgpProps(Array.from(meta));
-    const domain = new URL(href).hostname;
-
-    if (SKIP_DOMAINS.includes(domain)) return;
 
     setPreviewLinkNodes(node, domain, ogp);
   } catch (error) {
-    handleError(error, href);
-    SKIP_DOMAINS.push(new URL(href).hostname);
+    // エラー発生時はドメインをスキップリストに追加
+    handleError(error, `Failed to transform link preview for: ${href}`);
+    try {
+      SKIP_DOMAINS.push(new URL(href).hostname);
+    } catch (_) {
+      // URL解析に失敗した場合は無視
+    }
   }
 };
 

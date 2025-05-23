@@ -9,7 +9,7 @@ type Props = {
 
 export function SearchButton({ openDialog }: Props) {
   return (
-    <Button className="link-style--hover-effect" aria-haspopup="dialog" onClick={openDialog} type="button">
+    <Button aria-haspopup="dialog" className="link-style--hover-effect" onClick={openDialog} type="button">
       <Tooltip text="記事検索" />
       <MagnifyingGlassIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
     </Button>

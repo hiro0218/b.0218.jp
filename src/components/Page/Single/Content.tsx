@@ -18,7 +18,7 @@ export default function Content({ title, description, slug }: Props) {
   return (
     <>
       <Title heading={title} paragraph={description} />
-      <Box as="article" mt={4} className={'post-content'}>
+      <Box as="article" className={'post-content'} mt={4}>
         {reactContent}
       </Box>
     </>

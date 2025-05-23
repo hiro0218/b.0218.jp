@@ -61,7 +61,7 @@ export default async function Page() {
             const yearArchives = archives[year];
 
             return (
-              <div key={year} className={styleTimelineContainer}>
+              <div className={styleTimelineContainer} key={year}>
                 <YearHeader>
                   <YearHeaderTitle id={`${year}年`}>{year}</YearHeaderTitle>
                   <span />
@@ -71,7 +71,7 @@ export default async function Page() {
                   {yearArchives.map(({ slug, title, date }: PostListProps) => {
                     const link = convertPostSlugToPath(slug);
                     return (
-                      <Anchor href={link} key={slug} className={styleYearPostAnchor}>
+                      <Anchor className={styleYearPostAnchor} href={link} key={slug}>
                         <YearPostDate>{date.replace(`${year}/`, '')}</YearPostDate>
                         <YearPostSeparator />
                         <span className="text-ellipsis">{title}</span>

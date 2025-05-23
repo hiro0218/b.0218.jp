@@ -45,11 +45,11 @@ export const PaginationComponent = ({
       <ul>
         <li data-paginate="arrow">
           <button
-            data-arrow-button
-            type="button"
             className={paginationButtonStyle}
-            onClick={goToPreviousPage}
+            data-arrow-button
             disabled={currentPage === 1}
+            onClick={goToPreviousPage}
+            type="button"
           >
             <CaretLeftIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
           </button>
@@ -66,10 +66,10 @@ export const PaginationComponent = ({
           return (
             <li data-paginate="page" key={index}>
               <button
-                type="button"
-                onClick={() => onPageChange(pageNumber as number)}
-                disabled={pageNumber === currentPage}
                 className={paginationButtonStyle}
+                disabled={pageNumber === currentPage}
+                onClick={() => onPageChange(pageNumber as number)}
+                type="button"
               >
                 {pageNumber}
               </button>
@@ -83,11 +83,11 @@ export const PaginationComponent = ({
         </li>
         <li data-paginate="arrow">
           <button
-            data-arrow-button
-            type="button"
             className={paginationButtonStyle}
-            onClick={goToNextPage}
+            data-arrow-button
             disabled={currentPage === lastPageNumber}
+            onClick={goToNextPage}
+            type="button"
           >
             <CaretRightIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
           </button>

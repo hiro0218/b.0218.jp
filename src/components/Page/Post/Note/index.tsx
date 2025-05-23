@@ -7,7 +7,7 @@ type Props = Pick<PostProps, 'note'>;
 
 function PostNote({ note }: Props) {
   return (
-    <Stack className={ContainerStyle} as="aside" direction="horizontal" space={1}>
+    <Stack as="aside" className={ContainerStyle} direction="horizontal" space={1}>
       <InfoCircledIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
       <div dangerouslySetInnerHTML={{ __html: note }} />
     </Stack>

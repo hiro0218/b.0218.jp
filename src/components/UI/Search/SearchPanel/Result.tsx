@@ -18,9 +18,9 @@ export const Result = memo(function Result({
         <Anchor
           className={AnchorStyle}
           dangerouslySetInnerHTML={{ __html: markedTitles[index] }}
+          href={link}
           key={slug}
           prefetch={false}
-          href={link}
         />
       );
     });

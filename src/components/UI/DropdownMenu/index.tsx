@@ -35,16 +35,16 @@ export const DropdownMenu = ({ title, children, menuHorizontalPosition = 'right'
   return (
     <Container ref={ref}>
       <Trigger
-        className="link-style--hover-effect"
-        type="button"
-        aria-haspopup="menu"
         aria-controls={id}
         aria-expanded={isOpen}
+        aria-haspopup="menu"
+        className="link-style--hover-effect"
         onClick={toggleDropdownMenuContent}
+        type="button"
       >
         {title}
       </Trigger>
-      <Content ref={contentRef} id={id} role="menu" aria-expanded={isOpen} data-position={menuHorizontalPosition}>
+      <Content aria-expanded={isOpen} data-position={menuHorizontalPosition} id={id} ref={contentRef} role="menu">
         {children}
       </Content>
     </Container>

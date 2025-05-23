@@ -72,7 +72,7 @@ export default function Template({ slug }: TemplateProps) {
         }}
         type="application/ld+json"
       />
-      <Content title={title} description={description} slug={slug} />
+      <Content description={description} slug={slug} title={title} />
     </>
   );
 }
