@@ -1,0 +1,33 @@
+{
+  "editor.codeActionsOnSave": {},
+  "github.copilot.chat.codeGeneration.instructions": [
+    {
+      "file": "./.github/prompts/comment-rule.prompt.md"
+    },
+    {
+      "file": "./.github/prompts/styling-rule.prompt.md"
+    },
+    {
+      "file": "./.github/prompt/codeGeneration.md"
+    },
+    {
+      "file": "./.github/prompt/testGeneration.md"
+    }
+  ],
+  "github.copilot.chat.reviewSelection.instructions": [
+    {
+      "file": "./.github/prompt/codeReview.md"
+    }
+  ],
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "file": "./.github/prompt/commitMessageGeneration.md"
+    }
+  ],
+  "github.copilot.chat.pullRequestDescriptionGeneration.instructions": [
+    {
+      "file": "./.github/prompt/pullRequestDescriptionGeneration.md"
+    }
+  ],
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true
+}

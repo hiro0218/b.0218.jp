@@ -143,7 +143,7 @@ export default async function Page({ params }: { params: Params }) {
                 prefetch: true,
               },
             ].map(({ heading, posts, ...rest }, index) => (
-              <PostSection key={index} as="aside" heading={heading} headingLevel="h2" posts={posts} {...rest} />
+              <PostSection as="aside" heading={heading} headingLevel="h2" key={index} posts={posts} {...rest} />
             ))}
           </Stack>
         </Stack>

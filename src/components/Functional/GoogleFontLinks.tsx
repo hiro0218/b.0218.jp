@@ -3,9 +3,9 @@ const NOTO_SANS_MONO_URL = 'https://fonts.googleapis.com/css2?family=Noto+Sans+M
 export const GoogleFontLinks = () => {
   return (
     <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link href={NOTO_SANS_MONO_URL} rel="preload" as="style" fetchPriority="high" crossOrigin="anonymous" />
+      <link href="https://fonts.googleapis.com" rel="preconnect" />
+      <link crossOrigin="anonymous" href="https://fonts.gstatic.com" rel="preconnect" />
+      <link as="style" crossOrigin="anonymous" fetchPriority="high" href={NOTO_SANS_MONO_URL} rel="preload" />
       <link href={NOTO_SANS_MONO_URL} rel="stylesheet" />
     </>
   );

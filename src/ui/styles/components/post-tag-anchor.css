@@ -10,4 +10,12 @@
   white-space: nowrap;
   background-color: var(--color-gray-3A);
   border-radius: var(--border-radius-8);
+
+  &:hover {
+    background-color: var(--color-gray-4A);
+  }
+
+  &:active {
+    background-color: var(--color-gray-5A);
+  }
 }

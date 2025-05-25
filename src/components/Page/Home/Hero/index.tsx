@@ -12,7 +12,7 @@ export const Hero = function Hero() {
   const intro = `I'm a web software developer from Japan. I spent 5 years in back-end development, 2 years on iOS and Windows applications, and started my front-end engineering career in 2017.`;
 
   return (
-    <Stack className={ContainerStyle} align="start" direction="horizontal">
+    <Stack align="start" className={ContainerStyle} direction="horizontal">
       <Avatar
         style={
           {

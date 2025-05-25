@@ -13,7 +13,7 @@ const Links = [
 export default function Footer() {
   return (
     <Root>
-      <Container size="default" className={ContainerStyle}>
+      <Container className={ContainerStyle} size="default">
         <LogoContainer>
           <Logo />
         </LogoContainer>

@@ -26,12 +26,12 @@ export const styleTimelineContainer = css`
     z-index: -1;
     width: 2px;
     margin-top: var(--vertical-space);
+    color: var(--color-gray-7);
     pointer-events: none;
     content: '';
-    color: var(--color-gray-7);
-    transform: translateX(-50%);
     background-image: repeating-linear-gradient(-45deg, currentColor, currentColor 1px, #0000 0 50%);
     background-size: 6px 6px;
+    transform: translateX(-50%);
   }
 
   /* circle */
@@ -53,7 +53,7 @@ export const styleTimelineContainer = css`
   }
 
   &:hover {
-    --year-heading-circle-color: var(--color-accent-10);
+    --year-heading-circle-color: var(--color-accent-8);
   }
 `;
 
@@ -95,7 +95,7 @@ export const styleYearPostAnchor = css`
 
     --year-post-separator-size-h: var(--space-3);
     --year-post-separator-size-w: var(--space-1);
-    --year-post-separator-color: var(--color-accent-10);
+    --year-post-separator-color: var(--color-accent-8);
     --year-post-separator-border-radius: var(--border-radius-8);
   }
 
