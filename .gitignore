@@ -93,8 +93,6 @@ sw.*
 
 tsconfig.tsbuildinfo
 
-.vscode/settings.json
-!.vscode/launch.json
 .stylelintcache
 
 certificates
