@@ -31,7 +31,8 @@ jobs:
       - name: Run dependency-cruiser
         run: |
           files="$(git diff --name-only --diff-filter=AM origin/${{ github.base_ref }}...HEAD | grep -E "src/.*\.(js|cjs|mjs|jsx|ts|tsx)$" | tr '\n' ' ' | xargs)";
-          formattedOption=$(echo "^$files" | sed 's/ /|^/g');
+          # 修正ファイル同士の依存関係のみ抽出するための正規表現を生成
+          includeOnlyOption=$(echo "$files" | sed 's/ /|/g');
           echo $files;
 
           if [[ $files == "" ]]; then
@@ -40,7 +41,8 @@ jobs:
           fi
 
           if [[ $files != "" ]]; then
-            bunx depcruise --cache -X "^node_modules" --max-depth 3 -T json --reaches $formattedOption $files > _temp.json
+            # --include-only で修正ファイル同士の依存関係だけを抽出
+            bunx depcruise --cache -X "^node_modules" --max-depth 3 -T json --include-only "$includeOnlyOption" $files > _temp.json
 
             echo -e '\n' >> result.md
             bunx depcruise-fmt -T markdown _temp.json >> result.md
