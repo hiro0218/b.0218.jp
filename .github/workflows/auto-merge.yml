@@ -19,9 +19,7 @@ jobs:
           fi
 
       - name: Approve PR
-        uses: hmarr/auto-approve-action@v4
+        run: gh pr review "${{ github.event.pull_request.html_url }}" --approve
 
       - name: Auto Merge
-        uses: pascalgn/automerge-action@v0.16.0
-        env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+        run: gh pr merge --merge --auto "${{ github.event.pull_request.html_url }}"
