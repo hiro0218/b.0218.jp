@@ -157,27 +157,27 @@
   }
 
   details {
-    background-color: var(--white);
-
     summary {
       padding: var(--space-1) var(--space-2);
       font-size: var(--font-size-sm);
       font-weight: var(--font-weight-bold);
+      background-color: var(--white);
       border: 1px solid var(--color-gray-6);
       border-radius: var(--border-radius-4);
       transition: background-color 0.2s ease;
+    }
 
-      & ~ * {
-        margin: var(--space-2);
-        font-size: var(--font-size-sm);
+    &::details-content {
+      margin: var(--space-2);
+      font-size: var(--font-size-sm);
 
-        > *:first-of-type {
-          margin-top: auto;
-        }
+      > *:first-of-type {
+        margin-top: auto;
       }
     }
 
     &[open] {
+      background-color: var(--white);
       border: 1px solid var(--color-gray-6);
       border-radius: var(--border-radius-4);
 
