@@ -1,6 +1,6 @@
 'use client';
 
-import { type ReactNode, useCallback, useEffect, useId, useRef, useState } from 'react';
+import { type ReactNode, useEffect, useId, useRef, useState } from 'react';
 import { styled } from '@/ui/styled/static';
 
 type Props = {
@@ -9,28 +9,37 @@ type Props = {
   menuHorizontalPosition?: 'left' | 'right';
 };
 
+/**
+ * クリック操作で開閉するドロップダウンメニューコンポーネント
+ * メニュー外のクリックで自動的に閉じる機能を持つ
+ *
+ * @param {Props} props - コンポーネントのプロパティ
+ * @returns {JSX.Element} ドロップダウンメニューコンポーネント
+ */
 export const DropdownMenu = ({ title, children, menuHorizontalPosition = 'right' }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
   const id = useId();
 
-  const toggleDropdownMenuContent = useCallback(() => {
+  // メニューの開閉を切り替える関数
+  const toggleDropdownMenuContent = () => {
     setIsOpen((prev) => !prev);
-  }, []);
+  };
 
-  const handleClickOutside = useCallback((event: MouseEvent) => {
-    if (ref.current && !ref.current.contains(event.target as Node)) {
-      setIsOpen(false);
-    }
-  }, []);
-
+  // 外部クリックイベントのセットアップ
   useEffect(() => {
+    // メニュー外のクリックを検知して閉じる関数
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [handleClickOutside]);
+  }, []);
 
   return (
     <Container ref={ref}>
@@ -44,18 +53,26 @@ export const DropdownMenu = ({ title, children, menuHorizontalPosition = 'right'
       >
         {title}
       </Trigger>
-      <Content aria-expanded={isOpen} data-position={menuHorizontalPosition} id={id} ref={contentRef} role="menu">
+      <Content aria-expanded={isOpen} data-position={menuHorizontalPosition} id={id} role="menu">
         {children}
       </Content>
     </Container>
   );
 };
 
+/**
+ * ドロップダウンメニューのコンテナ要素
+ * 相対位置を指定し、メニューの位置の基準点となる
+ */
 const Container = styled.div`
   position: relative;
   display: flex;
 `;
 
+/**
+ * ドロップダウンメニューのトリガーボタン
+ * クリックするとメニューが開閉する
+ */
 const Trigger = styled.button`
   display: flex;
   align-items: center;
@@ -72,6 +89,10 @@ const Trigger = styled.button`
   }
 `;
 
+/**
+ * ドロップダウンメニューのコンテンツ部分
+ * aria-expanded属性によって表示/非表示が切り替わる
+ */
 const Content = styled.div`
   position: absolute;
   top: 100%;

@@ -18,4 +18,12 @@
   &:active {
     background-color: var(--color-gray-5A);
   }
+
+  /* 要素がspanの場合 */
+  &:is(span) {
+    &:hover {
+      cursor: not-allowed;
+      background-color: var(--color-gray-3A);
+    }
+  }
 }

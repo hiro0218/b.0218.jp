@@ -42,9 +42,9 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
           <Count aria-hidden="true">{count}</Count>
         </Anchor>
       ) : (
-        <DisabledTagAnchor aria-hidden="true" className="post-tag-anchor" key={slug}>
+        <span aria-hidden="true" className="post-tag-anchor" key={slug}>
           {slug}
-        </DisabledTagAnchor>
+        </span>
       );
     });
 });
@@ -64,10 +64,4 @@ const Count = styled.span`
   user-select: none;
   background-color: var(--color-gray-3A);
   border-radius: var(--border-radius-8);
-`;
-
-const DisabledTagAnchor = styled.span`
-  &:hover {
-    cursor: not-allowed;
-  }
 `;
