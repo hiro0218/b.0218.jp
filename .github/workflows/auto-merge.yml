@@ -11,6 +11,9 @@ permissions:
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: Check if PR is labeled with 'auto merge'
         run: |
