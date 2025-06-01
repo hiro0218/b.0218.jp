@@ -8,6 +8,7 @@ export {
   InfoCircledIcon,
   Link2Icon,
   MagnifyingGlassIcon,
+  Share1Icon,
 } from '@radix-ui/react-icons';
 export { ChatBubbleLeft } from './ChatBubbleLeft';
 export { ExclamationCircle } from './ExclamationCircle';
