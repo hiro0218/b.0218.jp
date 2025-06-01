@@ -1,13 +1,13 @@
 'use client';
 
-import { useCallback, useId } from 'react';
+import { useCallback, useEffect, useId, useState } from 'react';
 
 import { Stack } from '@/components/UI/Layout';
 import { Toast } from '@/components/UI/Toast';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { X_ACCOUNT } from '@/constant';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
-import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, X } from '@/ui/icons';
+import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, Share1Icon, X } from '@/ui/icons';
 import { css, cx } from '@/ui/styled/static';
 
 interface Props {
@@ -17,14 +17,35 @@ interface Props {
 
 function PostShare({ title, url }: Props) {
   const labelledbyId = useId();
+  const [isShareSupported, setIsShareSupported] = useState(false);
   const [, copy] = useCopyToClipboard();
   const { Component: ToastComponent, showToast } = Toast('記事のURLをコピーしました');
+
+  useEffect(() => {
+    setIsShareSupported(typeof navigator !== 'undefined' && !!navigator.share);
+  }, []);
 
   const onClickCopyPermalink = useCallback(() => {
     copy(url).then(() => {
       showToast();
     });
   }, [copy, showToast, url]);
+
+  const onClickShare = useCallback(() => {
+    if (!isShareSupported) return;
+
+    navigator
+      .share({
+        title,
+        url,
+        text: title,
+      })
+      .catch((error: unknown) => {
+        if (error instanceof Error && error.name !== 'AbortError') {
+          console.error('Error sharing:', error);
+        }
+      });
+  }, [isShareSupported, title, url]);
 
   return (
     <aside aria-labelledby={labelledbyId}>
@@ -58,6 +79,12 @@ function PostShare({ title, url }: Props) {
           <Tooltip text="ページのURLをコピー" />
           <Link2Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </button>
+        {isShareSupported && (
+          <button className={cx('link-style--hover-effect', ShareButtonStyle)} onClick={onClickShare} type="button">
+            <Tooltip text="その他：共有" />
+            <Share1Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+          </button>
+        )}
       </Stack>
       {ToastComponent}
     </aside>
