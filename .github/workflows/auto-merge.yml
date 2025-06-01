@@ -16,13 +16,19 @@ jobs:
 
     steps:
       - name: Check if PR is labeled with 'auto merge'
+        id: check_label
         run: |
-          if [[ "${{ github.event.label.name }}" != "auto merge" ]]; then
-            exit 1
+          if [[ "${{ github.event.label.name }}" == "auto merge" ]]; then
+            echo "is_auto_merge=true" >> $GITHUB_OUTPUT
+          else
+            echo "is_auto_merge=false" >> $GITHUB_OUTPUT
+            echo "ラベルが 'auto merge' ではないため、自動マージをスキップします"
           fi
 
       - name: Approve PR
+        if: steps.check_label.outputs.is_auto_merge == 'true'
         run: gh pr review "${{ github.event.pull_request.html_url }}" --approve
 
       - name: Auto Merge
+        if: steps.check_label.outputs.is_auto_merge == 'true'
         run: gh pr merge --merge --auto "${{ github.event.pull_request.html_url }}"
