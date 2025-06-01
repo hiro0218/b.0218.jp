@@ -17,8 +17,10 @@ function Mokuji({ refContent }: MokujiProps) {
       <Details ref={refDetails}>
         <Summary>
           目次
-          <ChevronDownIcon data-disclosure="closed" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
-          <ChevronUpIcon data-disclosure="open" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
+          <IconContainer>
+            <ChevronDownIcon data-disclosure="closed" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
+            <ChevronUpIcon data-disclosure="open" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
+          </IconContainer>
         </Summary>
         <DetailsContent ref={refDetailContent} />
       </Details>
@@ -30,7 +32,7 @@ export default Mokuji;
 
 const Root = styled.nav`
   a {
-    color: inherit;
+    color: var(--color-gray-12);
 
     &:hover {
       text-decoration: underline;
@@ -39,16 +41,16 @@ const Root = styled.nav`
 `;
 
 const Details = styled.details`
-  background-color: var(--color-gray-3);
+  background-color: var(--color-gray-3A);
   border-radius: var(--border-radius-8);
   transition: background-color 0.2s ease;
 
   &:not([open]) {
     &:hover {
-      background-color: var(--color-gray-4);
+      background-color: var(--color-gray-4A);
     }
     &:active {
-      background-color: var(--color-gray-5);
+      background-color: var(--color-gray-5A);
     }
   }
 
@@ -60,6 +62,15 @@ const Details = styled.details`
   &[open] [data-disclosure='open'] {
     display: block;
   }
+`;
+
+const IconContainer = styled.div`
+  display: grid;
+  place-items: center;
+  width: var(--icon-size-md);
+  height: var(--icon-size-md);
+  background-color: var(--color-gray-3A);
+  border-radius: var(--border-radius-full);
 `;
 
 const Summary = styled.summary`
@@ -101,7 +112,7 @@ const DetailsContent = styled.div`
         margin-bottom: var(--space-1);
       }
 
-      &::before {
+      a::before {
         content: counters(number, '-') '. ';
         counter-increment: number;
       }
