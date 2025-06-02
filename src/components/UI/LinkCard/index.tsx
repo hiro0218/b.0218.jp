@@ -54,7 +54,7 @@ const Container = styled.article`
   gap: var(--space-1);
   padding: var(--container-space);
   word-break: break-all;
-  background-color: var(--white);
+  background-color: var(--color-white-12A);
   border: 1px solid var(--color-gray-3A);
   border-radius: var(--border-radius-8);
   transition: background-color 0.4s var(--easing-ease-out-expo);
