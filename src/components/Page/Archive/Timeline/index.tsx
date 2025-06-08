@@ -16,7 +16,7 @@ export const Timeline = ({ posts, year }: Props) => {
         <span />
         <PostCount>{posts.length} posts</PostCount>
       </Header>
-      <Container>
+      <div>
         {posts.map(({ slug, title, date }: PostListProps) => {
           const link = convertPostSlugToPath(slug);
           return (
@@ -27,7 +27,7 @@ export const Timeline = ({ posts, year }: Props) => {
             </Anchor>
           );
         })}
-      </Container>
+      </div>
     </Section>
   );
 };
@@ -49,6 +49,7 @@ const Section = styled.section`
   }
 
   position: relative;
+  gap: var(--space-1);
 
   /* Separator */
   &::before {
@@ -106,14 +107,6 @@ const PostCount = styled.span`
   font-size: var(--font-size-sm);
   color: var(--color-gray-10);
   text-align: right;
-`;
-
-const Container = styled.div`
-  margin-top: var(--space-1);
-
-  &:has(> a:hover) > a:not(:hover) {
-    opacity: 0.5;
-  }
 `;
 
 const Date = styled.span`
