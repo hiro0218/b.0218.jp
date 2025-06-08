@@ -36,7 +36,6 @@
     transition:
       transform 0.2s var(--easing-ease-out-expo),
       opacity 0.1s;
-    content-visibility: auto;
   }
 
   &:hover,

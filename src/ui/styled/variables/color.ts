@@ -1,4 +1,4 @@
-import { blue, blueA, grass, gray, grayA, grayDark, grayDarkA, purple, red, yellow } from '@radix-ui/colors';
+import { blue, blueA, grass, gray, grayA, grayDark, grayDarkA, purple, red, whiteA, yellow } from '@radix-ui/colors';
 
 /**
  * @see https://www.radix-ui.com/colors/docs/palette-composition/understanding-the-scale
@@ -99,6 +99,7 @@ export const colorVariables = {
   '--color-gray-12': gray.gray12,
   '--color-accent-12': blue.blue12,
   '--color-gray-inverse-12': grayDark.gray12,
+  '--color-white-12A': whiteA.whiteA12,
 
   /**
    * Semantic Color

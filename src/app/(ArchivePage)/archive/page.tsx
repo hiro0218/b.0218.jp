@@ -1,23 +1,11 @@
 import type { Metadata } from 'next';
 import { Chart } from '@/components/Page/Archive/Chart';
-import {
-  styleTimelineContainer,
-  styleYearPostAnchor,
-  YearHeader,
-  YearHeaderPostCount,
-  YearHeaderTitle,
-  YearPostDate,
-  YearPostSeparator,
-  YearPosts,
-} from '@/components/Page/Archive/Timeline';
-import { Anchor } from '@/components/UI/Anchor';
+import { Timeline } from '@/components/Page/Archive/Timeline';
 import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constant';
 import { getCollectionPageStructured } from '@/lib/json-ld';
 import { getPostsListJson } from '@/lib/posts';
-import { convertPostSlugToPath } from '@/lib/url';
-import type { PostListProps } from '@/types/source';
 import { getMetadata } from '../_metadata';
 import { getData } from './libs';
 
@@ -60,27 +48,7 @@ export default async function Page() {
           .map((year) => {
             const yearArchives = archives[year];
 
-            return (
-              <div className={styleTimelineContainer} key={year}>
-                <YearHeader>
-                  <YearHeaderTitle id={`${year}年`}>{year}</YearHeaderTitle>
-                  <span />
-                  <YearHeaderPostCount>{yearArchives.length} posts</YearHeaderPostCount>
-                </YearHeader>
-                <YearPosts>
-                  {yearArchives.map(({ slug, title, date }: PostListProps) => {
-                    const link = convertPostSlugToPath(slug);
-                    return (
-                      <Anchor className={styleYearPostAnchor} href={link} key={slug}>
-                        <YearPostDate>{date.replace(`${year}/`, '')}</YearPostDate>
-                        <YearPostSeparator />
-                        <span className="text-ellipsis">{title}</span>
-                      </Anchor>
-                    );
-                  })}
-                </YearPosts>
-              </div>
-            );
+            return <Timeline key={year} posts={yearArchives} year={year} />;
           })}
       </Stack>
     </>

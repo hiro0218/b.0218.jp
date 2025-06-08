@@ -2,17 +2,16 @@
 
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
-import { Stack } from '@/components/UI/Layout';
 import { css, styled } from '@/ui/styled/static';
 
 const ICON_SIZE = 100;
 const ICON_SIZE_SHRINK = ICON_SIZE * 0.85;
 
 export const Hero = function Hero() {
-  const intro = `I'm a web software developer from Japan. I spent 5 years in back-end development, 2 years on iOS and Windows applications, and started my front-end engineering career in 2017.`;
+  const intro = `I’m just following the path I believe in. The results will come later.`;
 
   return (
-    <Stack align="start" className={ContainerStyle} direction="horizontal">
+    <div className={ContainerStyle}>
       <Avatar
         style={
           {
@@ -21,19 +20,22 @@ export const Hero = function Hero() {
           } as CSSProperties
         }
       >
+        {/** biome-ignore lint/performance/noImgElement: use raw img */}
         <img alt="hiro (black cat icon)" height={ICON_SIZE} src="/hiro0218.svg" width={ICON_SIZE} />
       </Avatar>
-      <Stack>
-        <Heading>
-          Hi, I'm <Link href="/about">hiro</Link>
-        </Heading>
-        <p>{intro}</p>
-      </Stack>
-    </Stack>
+      <Heading>
+        Hi, I'm <Link href="/about">hiro</Link>.
+      </Heading>
+      <Paragraph>{intro}</Paragraph>
+    </div>
   );
 };
 
 const ContainerStyle = css`
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: auto 1fr;
+  gap: 0 var(--space-2);
   margin-inline: auto;
   font-size: var(--font-size-md);
   color: var(--color-gray-11);
@@ -45,6 +47,8 @@ const ContainerStyle = css`
 
 const Avatar = styled.div`
   flex-shrink: 0;
+  grid-row: 1 / span 2;
+  grid-column: 1 / 2;
   width: var(--hero-size);
   user-select: none;
 
@@ -59,9 +63,10 @@ const Avatar = styled.div`
 `;
 
 const Heading = styled.h2`
+  grid-row: 1 / 2;
+  grid-column: 2 / 3;
   font-size: var(--font-size-h3);
   font-weight: var(--font-weight-bolder);
-  line-height: var(--line-height-sm);
   letter-spacing: 0.04em;
 
   a {
@@ -74,4 +79,9 @@ const Heading = styled.h2`
       text-decoration-color: var(--color-gray-9);
     }
   }
+`;
+
+const Paragraph = styled.p`
+  grid-row: 2 / 3;
+  grid-column: 2 / 3;
 `;
