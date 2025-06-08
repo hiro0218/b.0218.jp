@@ -1,6 +1,38 @@
+import { Anchor } from '@/components/UI/Anchor';
+import { convertPostSlugToPath } from '@/lib/url';
+import type { PostListProps } from '@/types/source';
 import { css, styled } from '@/ui/styled/static';
 
-export const styleTimelineContainer = css`
+type Props = {
+  posts: PostListProps[];
+  year: string;
+};
+
+export const Timeline = ({ posts, year }: Props) => {
+  return (
+    <Section>
+      <Header>
+        <Title id={`${year}年`}>{year}</Title>
+        <span />
+        <PostCount>{posts.length} posts</PostCount>
+      </Header>
+      <Container>
+        {posts.map(({ slug, title, date }: PostListProps) => {
+          const link = convertPostSlugToPath(slug);
+          return (
+            <Anchor className={styleAnchor} href={link} key={slug}>
+              <Date>{date.replace(`${year}/`, '')}</Date>
+              <Separator />
+              <span className="text-ellipsis">{title}</span>
+            </Anchor>
+          );
+        })}
+      </Container>
+    </Section>
+  );
+};
+
+const Section = styled.section`
   --vertical-space: var(--space-3);
   --columns-1: 12%;
   --columns-2: 8%;
@@ -57,7 +89,7 @@ export const styleTimelineContainer = css`
   }
 `;
 
-export const YearHeader = styled.div`
+const Header = styled.header`
   display: grid;
   grid-template-rows: repeat(1, 1fr);
   grid-template-columns: var(--columns-1) var(--columns-2) 1fr;
@@ -65,22 +97,41 @@ export const YearHeader = styled.div`
   height: var(--year-heading-height);
 `;
 
-export const YearHeaderTitle = styled.h2`
+const Title = styled.h2`
   padding-left: var(--space-1);
   font-size: var(--font-size-h3);
 `;
 
-export const YearHeaderPostCount = styled.span`
+const PostCount = styled.span`
   font-size: var(--font-size-sm);
   color: var(--color-gray-10);
   text-align: right;
 `;
 
-export const YearPosts = styled.div`
+const Container = styled.div`
   margin-top: var(--space-1);
+
+  &:has(> a:hover) > a:not(:hover) {
+    opacity: 0.5;
+  }
 `;
 
-export const styleYearPostAnchor = css`
+const Date = styled.span`
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-10);
+  text-align: center;
+`;
+
+const Separator = styled.span`
+  width: var(--year-post-separator-size-w);
+  height: var(--year-post-separator-size-h);
+  margin: auto;
+  background-color: var(--year-post-separator-color);
+  border-radius: var(--year-post-separator-border-radius);
+  transition: all 0.15s var(--easing-ease-out);
+`;
+
+const styleAnchor = css`
   position: relative;
   display: grid;
   grid-template-rows: repeat(1, 1fr);
@@ -102,19 +153,4 @@ export const styleYearPostAnchor = css`
   &:active {
     background-color: var(--color-gray-4A);
   }
-`;
-
-export const YearPostDate = styled.span`
-  font-size: var(--font-size-sm);
-  color: var(--color-gray-10);
-  text-align: center;
-`;
-
-export const YearPostSeparator = styled.span`
-  width: var(--year-post-separator-size-w);
-  height: var(--year-post-separator-size-h);
-  margin: auto;
-  background-color: var(--year-post-separator-color);
-  border-radius: var(--year-post-separator-border-radius);
-  transition: all 0.15s var(--easing-ease-out);
 `;
