@@ -14,7 +14,7 @@ export default memo(function Header() {
   return (
     <>
       <HeaderLayout>
-        <Container className={HeaderContainerStyle} size={'large'}>
+        <Container className={HeaderContainerStyle} size={'large'} space={false}>
           <Logo />
           {SearchButton}
         </Container>
@@ -30,5 +30,10 @@ const HeaderContainerStyle = css`
   align-items: center;
   justify-content: space-between;
   height: 100%;
+  padding: var(--space-4);
   margin: 0 auto;
+
+  @media (--isMobile) {
+    padding: 0 var(--space-3);
+  }
 `;

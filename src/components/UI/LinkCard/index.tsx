@@ -48,16 +48,17 @@ export default LinkCard;
 
 const Container = styled.article`
   --container-space: var(--space-3);
+  --hover-color: var(--color-accent-10);
 
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
   padding: var(--container-space);
   word-break: break-all;
-  background-color: var(--color-white-12A);
-  border: 1px solid var(--color-gray-3A);
-  border-radius: var(--border-radius-8);
-  transition: background-color 0.4s var(--easing-ease-out-expo);
+  background-color: var(--white);
+  border-radius: var(--border-radius-4);
+  box-shadow: 0 0 0 1px var(--color-gray-4);
+  transition: box-shadow 0.2s;
   content-visibility: auto;
   contain-intrinsic-size: 0 200px;
   contain: layout style;
@@ -73,33 +74,36 @@ const Container = styled.article`
   &:hover,
   &:focus,
   &:focus-within {
-    background-color: var(--color-gray-2A);
+    box-shadow: 0 0 0 1px var(--hover-color);
   }
 
   &:active {
-    background-color: var(--color-gray-3A);
+    box-shadow: 0 0 0 2px var(--hover-color);
   }
 
   time {
     font-size: var(--font-size-sm);
     line-height: var(--line-height-xs);
-    color: var(--color-gray-11);
+    color: var(--color-gray-10);
   }
 `;
 
 const anchorStyle = css`
-  transition: text-decoration-line 0.4s linear;
-
   &::before {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     z-index: var(--zIndex-base);
     width: 100%;
     height: 100%;
     cursor: pointer;
     content: '';
     isolation: isolate;
+  }
+
+  &:hover {
+    & > * {
+      color: var(--hover-color);
+    }
   }
 
   &:focus-within {
@@ -112,6 +116,7 @@ const titleStyle = css`
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-md);
   color: var(--color-gray-12);
+  transition: color 0.4s;
 `;
 
 const Paragraph = styled.p`

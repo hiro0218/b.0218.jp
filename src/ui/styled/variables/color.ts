@@ -124,7 +124,7 @@ export const colorVariables = {
    * その他
    */
   '--overlay-backgrounds': grayA.grayA10,
-  '--body-background': gray.gray2,
+  '--body-background': gray.gray1,
   '--background-accent-gradient-from': blue.blue4,
   '--background-accent-gradient-to': red.red3,
   '--table-shadow-color': grayA.grayA3,
