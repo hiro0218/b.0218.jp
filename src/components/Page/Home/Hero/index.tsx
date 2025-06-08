@@ -9,7 +9,7 @@ const ICON_SIZE = 100;
 const ICON_SIZE_SHRINK = ICON_SIZE * 0.85;
 
 export const Hero = function Hero() {
-  const intro = `I'm a web software developer from Japan. I spent 5 years in back-end development, 2 years on iOS and Windows applications, and started my front-end engineering career in 2017.`;
+  const intro = `I’m just following the path I believe in. The results will come later.`;
 
   return (
     <Stack align="start" className={ContainerStyle} direction="horizontal">
@@ -21,11 +21,12 @@ export const Hero = function Hero() {
           } as CSSProperties
         }
       >
+        {/** biome-ignore lint/performance/noImgElement: use raw img */}
         <img alt="hiro (black cat icon)" height={ICON_SIZE} src="/hiro0218.svg" width={ICON_SIZE} />
       </Avatar>
       <Stack>
         <Heading>
-          Hi, I'm <Link href="/about">hiro</Link>
+          Hi, I'm <Link href="/about">hiro</Link>.
         </Heading>
         <p>{intro}</p>
       </Stack>
