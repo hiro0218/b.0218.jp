@@ -29,7 +29,7 @@ export async function GET() {
   let loopCount = 0;
 
   posts.forEach((post) => {
-    if (post.noindex == true || post.tags.includes('名探偵コナン')) {
+    if (post.noindex == true) {
       return;
     }
 

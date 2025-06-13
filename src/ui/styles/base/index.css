@@ -32,7 +32,8 @@ body {
     -moz-osx-font-smoothing: grayscale;
   }
 
-  &::before {
+  &::before,
+  &::after {
     position: absolute;
     inset: 0;
     z-index: -1;
@@ -42,6 +43,10 @@ body {
     content: '';
     background-color: var(--color-gray-3A);
     clip-path: polygon(0% 0%, 100% 0%, 0 max(10vw, 80px), 0% 100%);
+  }
+
+  &::after {
+    clip-path: polygon(0% 0%, 100% 0%, 100% max(20vw, 300px));
   }
 
   :is(&):has(dialog[open]) {

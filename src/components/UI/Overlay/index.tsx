@@ -24,7 +24,7 @@ const Div = styled.div`
   [data-is-zoom-image='true'] ~ &,
   dialog[open] ~ & {
     visibility: visible;
-    opacity: 1;
     content-visibility: hidden;
+    opacity: 1;
   }
 `;

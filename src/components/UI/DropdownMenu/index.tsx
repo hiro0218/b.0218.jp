@@ -97,10 +97,10 @@ const Content = styled.div`
   position: absolute;
   top: 100%;
   z-index: var(--zIndex-base);
-  content-visibility: hidden;
   min-width: max-content;
   height: fit-content;
   padding: var(--space-½);
+  content-visibility: hidden;
   background-color: var(--white);
   border: 1px solid var(--color-gray-4A);
   border-radius: var(--border-radius-4);

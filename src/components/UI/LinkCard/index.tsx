@@ -53,15 +53,15 @@ const Container = styled.article`
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+  contain-intrinsic-size: 0 200px;
   padding: var(--container-space);
+  contain: layout style;
+  content-visibility: auto;
   word-break: break-all;
   background-color: var(--white);
   border-radius: var(--border-radius-4);
   box-shadow: 0 0 0 1px var(--color-gray-4);
   transition: box-shadow 0.2s;
-  content-visibility: auto;
-  contain-intrinsic-size: 0 200px;
-  contain: layout style;
 
   @media (--isMobile) {
     --container-space: var(--space-2);
