@@ -97,7 +97,6 @@ const anchorStyle = css`
     height: 100%;
     cursor: pointer;
     content: '';
-    isolation: isolate;
   }
 
   &:hover {

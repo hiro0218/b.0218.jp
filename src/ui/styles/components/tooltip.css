@@ -5,6 +5,7 @@
   height: 100%;
   text-align: center;
   user-select: none;
+  isolation: isolate;
 
   .tooltip__text {
     @mixin sr-only;
