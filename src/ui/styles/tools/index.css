@@ -30,7 +30,6 @@
     content: '';
     background-color: var(--color-gray-3A);
     border-radius: var(--border-radius-4);
-    isolation: isolate;
     opacity: 0;
     transform: scale(0.5);
     transition:
