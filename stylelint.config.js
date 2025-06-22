@@ -19,7 +19,8 @@ module.exports = {
     'plugin/declaration-block-no-ignored-properties': true,
     'selector-pseudo-element-colon-notation': 'double',
     'plugin/browser-compat': true,
-    'isolate-on-stack/isolation-for-position-zindex': true,
+    'stylelint-plugin-isolate-on-stack/no-redundant-declaration': true,
+    'stylelint-plugin-isolate-on-stack/ineffective-on-background-blend': true,
   },
   overrides: [
     {
