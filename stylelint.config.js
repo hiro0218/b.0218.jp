@@ -1,6 +1,10 @@
 module.exports = {
   extends: ['stylelint-config-recommended', 'stylelint-config-recess-order'],
-  plugins: ['stylelint-declaration-block-no-ignored-properties', 'stylelint-browser-compat'],
+  plugins: [
+    'stylelint-plugin-isolate-on-stack',
+    'stylelint-declaration-block-no-ignored-properties',
+    'stylelint-browser-compat',
+  ],
   rules: {
     'at-rule-no-unknown': [
       true,
@@ -15,6 +19,8 @@ module.exports = {
     'plugin/declaration-block-no-ignored-properties': true,
     'selector-pseudo-element-colon-notation': 'double',
     'plugin/browser-compat': true,
+    'stylelint-plugin-isolate-on-stack/no-redundant-declaration': true,
+    'stylelint-plugin-isolate-on-stack/ineffective-on-background-blend': true,
   },
   overrides: [
     {
