@@ -75,7 +75,7 @@
     "next-build-id": "3.0.0",
     "next-compose-plugins": "2.2.1",
     "picocolors": "1.1.1",
-    "playwright-chromium": "1.53.0",
+    "playwright-chromium": "1.53.2",
     "postcss": "8.5.6",
     "postcss-combine-duplicated-selectors": "10.0.3",
     "postcss-custom-media": "11.0.6",
