@@ -86,7 +86,7 @@
     "postcss-mixins": "11.0.3",
     "postcss-sort-media-queries": "5.2.0",
     "postcss-styled-syntax": "0.7.1",
-    "prettier": "3.5.3",
+    "prettier": "3.6.2",
     "rehype-highlight": "7.0.2",
     "rehype-minify-whitespace": "6.0.2",
     "rehype-raw": "7.0.0",
