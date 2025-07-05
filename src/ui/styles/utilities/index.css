@@ -13,11 +13,11 @@
   white-space: nowrap;
 }
 
-[data-line-clamp="1"] {
+[data-line-clamp='1'] {
   @mixin line-clamp 1;
 }
 
-[data-line-clamp="2"] {
+[data-line-clamp='2'] {
   @mixin line-clamp 2;
 }
 

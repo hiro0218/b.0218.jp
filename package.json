@@ -43,6 +43,7 @@
     "@markuplint/react-spec": "4.5.19",
     "@next/bundle-analyzer": "15.3.4",
     "@pandacss/dev": "0.54.0",
+    "@prettier/plugin-oxc": "0.0.4",
     "@total-typescript/ts-reset": "0.6.1",
     "@types/gtag.js": "0.0.20",
     "@types/hast": "3.0.4",
@@ -86,7 +87,7 @@
     "postcss-mixins": "11.0.3",
     "postcss-sort-media-queries": "5.2.0",
     "postcss-styled-syntax": "0.7.1",
-    "prettier": "3.5.3",
+    "prettier": "3.6.2",
     "rehype-highlight": "7.0.2",
     "rehype-minify-whitespace": "6.0.2",
     "rehype-raw": "7.0.0",
@@ -125,11 +126,11 @@
       "stylelint --fix --cache"
     ],
     "**/*.css": [
-      "prettier --write --cache",
+      "prettier --write --cache --experimental-cli",
       "stylelint --fix --cache"
     ],
     "**/*.{yml,yaml}": [
-      "prettier --write --cache"
+      "prettier --write --cache --experimental-cli"
     ]
   },
   "browserslist": [
@@ -139,7 +140,10 @@
     "printWidth": 120,
     "trailingComma": "all",
     "singleQuote": true,
-    "semi": true
+    "semi": true,
+    "plugins": [
+      "@prettier/plugin-oxc"
+    ]
   },
   "nextBundleAnalysis": {
     "budget": 358400,
