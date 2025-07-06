@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { DOTS } from '../constant';
+import { DOTS } from './constant';
 
 /**
  * ページネーション機能のProps型定義
