@@ -1,6 +1,6 @@
 import { CaretLeftIcon, CaretRightIcon, ICON_SIZE_XS } from '@/ui/icons';
 import { css, styled } from '@/ui/styled/static';
-import { DOTS } from '../constant';
+import { DOTS } from '../hooks/constant';
 import { usePagination } from '../hooks/usePagination';
 
 type PaginationComponentProps = {

@@ -3,7 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { PaginationComponent } from './components/PaginationComponent';
-import { ITEMS_PER_PAGE, QUERY_PAGE_KEY } from './constant';
+import { ITEMS_PER_PAGE, QUERY_PAGE_KEY } from './hooks/constant';
 
 type PaginationProps = {
   totalItems: number;
