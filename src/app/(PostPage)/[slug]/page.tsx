@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
+import { getMetadata } from '@/app/_metadata';
 import { Container } from '@/components/Functional/Container';
+import { JsonLdScript } from '@/components/Functional/JsonLdScript';
 import {
   Content as PostContent,
   Edit as PostEdit,
@@ -44,13 +46,11 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const description = getDescriptionText(content);
   const ogpImage = `${getOgpImage(slug)}?ts=${process.env.BUILD_ID}`;
 
-  return {
+  return getMetadata({
     title,
     description,
+    url: permalink,
     openGraph: {
-      url: permalink,
-      title,
-      description,
       type: 'article',
       images: [{ url: ogpImage }],
     },
@@ -72,10 +72,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       ['max-image-preview']: 'large',
       ...(noindex === true && { index: true }),
     },
-    alternates: {
-      canonical: permalink,
-    },
-  };
+  });
 }
 
 export default async function Page({ params }: { params: Params }) {
@@ -94,12 +91,7 @@ export default async function Page({ params }: { params: Params }) {
 
   return (
     <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify([getBlogPostingStructured(post), getBreadcrumbStructured(post)]),
-        }}
-        type="application/ld+json"
-      />
+      <JsonLdScript jsonLd={[getBlogPostingStructured(post), getBreadcrumbStructured(post)]} />
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
       <Container size="small" space={false}>
         <Stack space={6}>
