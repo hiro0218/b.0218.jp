@@ -18,61 +18,45 @@ const path = {
   dist: `${cwd()}/public/images/ogp`,
 };
 
-/**
- * Promiseベースのセマフォ実装
- * 複数の非同期リソース（ページ）への同時アクセス数を制御する
- */
-class PromiseSemaphore {
-  private queue: Array<() => void> = [];
-  private available: number;
-  constructor(count: number) {
-    this.available = count;
-  }
-  async acquire(): Promise<() => void> {
-    if (this.available > 0) {
-      this.available--;
-      return this.release.bind(this);
-    }
-    return new Promise((resolve) => {
-      this.queue.push(() => {
-        this.available--;
-        resolve(this.release.bind(this));
-      });
-    });
-  }
-  private release(): void {
-    this.available++;
-    const next = this.queue.shift();
-    if (next) next();
-  }
-}
+// マルチプロセスとマルチスレッドの両方を活用
+const WORKER_COUNT = Math.min(os.cpus().length, 4); // Workerプロセス数
+const PAGES_PER_WORKER = Math.min(Math.ceil(os.cpus().length / WORKER_COUNT) * 2, 8); // Workerあたりのページ数
 
-const WORKER_COUNT = Math.min(os.cpus().length, 2);
-const PAGES_PER_WORKER = Math.min(Math.ceil(os.cpus().length / WORKER_COUNT) * 2, 8);
-
+// メインプロセスの場合
 if (cluster.isPrimary) {
   (async () => {
     await mkdir(path.dist, { recursive: true });
     const posts = getPostsListJson();
     const length = posts.length;
+
     Log.info(
       'Starting OGP Generation',
       `Total: ${length}, Workers: ${WORKER_COUNT}, Pages per worker: ${PAGES_PER_WORKER}`,
     );
+
+    // タスクを各Workerに分散
     const postsPerWorker = Math.ceil(length / WORKER_COUNT);
     const worker = cluster.worker;
     const workers: { worker: typeof worker; posts: typeof posts; completed: number }[] = [];
+
+    // Workerの起動とタスク割り当て
     for (let i = 0; i < WORKER_COUNT; i++) {
       const start = i * postsPerWorker;
       const end = Math.min(start + postsPerWorker, length);
       const workerPosts = posts.slice(start, end);
+
       const worker = cluster.fork();
       workers.push({ worker, posts: workerPosts, completed: 0 });
+
+      // Workerからのメッセージ処理
       worker.on('message', (msg: WorkerMessage) => {
         const workerInfo = workers.find((w) => w.worker === worker);
+
         if (msg.type === 'completed' && typeof msg.index === 'number') {
           if (workerInfo) {
             workerInfo.completed++;
+
+            // 進捗状況の報告
             const totalCompleted = workers.reduce((sum, w) => sum + w.completed, 0);
             if (totalCompleted === 1 || totalCompleted % 100 === 0 || totalCompleted === length) {
               Log.info('Generating OGP Images', `(${totalCompleted}/${length})`);
@@ -82,13 +66,18 @@ if (cluster.isPrimary) {
           Log.error('Worker Error', msg.error || 'Unknown error');
         }
       });
+
+      // タスク割り当て
       worker.send({ type: 'posts', posts: workerPosts });
     }
+
+    // すべてのWorkerの完了を待機
     process.on('exit', () => {
       workers.forEach(({ worker }) => {
         worker.kill();
       });
     });
+
     cluster.on('exit', (worker, code) => {
       const workerInfo = workers.find((w) => w.worker === worker);
       if (workerInfo) {
@@ -97,15 +86,21 @@ if (cluster.isPrimary) {
           Log.warn(`Worker exited with code ${code}, ${remaining} tasks incomplete`);
         }
       }
+
+      // すべてのWorkerが終了したか確認
       if (workers.every((w) => !w.worker.isConnected())) {
         Log.info('OGP Images Generation', 'All workers completed');
         process.exit(0);
       }
     });
   })();
-} else {
+}
+// Workerプロセスの場合
+else {
   let browser: Browser | null = null;
   const pagePool: Page[] = [];
+
+  // Worker内でスクリーンショットを処理
   process.on('message', async (msg: WorkerTaskMessage) => {
     if (msg.type === 'posts' && Array.isArray(msg.posts)) {
       try {
@@ -120,8 +115,10 @@ if (cluster.isPrimary) {
       }
     }
   });
+
   async function processImages(posts: Post[]): Promise<void> {
     try {
+      // 軽量化されたブラウザ設定
       browser = await chromium.launch({
         args: [
           '--disable-extensions',
@@ -132,55 +129,94 @@ if (cluster.isPrimary) {
         ],
         handleSIGINT: false,
       });
+
+      // ページプールの初期化
       for (let i = 0; i < PAGES_PER_WORKER; i++) {
         const page = await browser.newPage({
-          bypassCSP: true,
+          bypassCSP: true, // CSPを無視して高速化
           viewport: { width: 1200, height: 630 },
         });
+
+        // 初期ページ読み込み
         await page.goto(HOST, PAGE_GOTO_OPTIONS);
+
+        // キャッシュを温めるために初期レンダリング
         await page.evaluate(() => {
           document.getElementById('title').innerHTML = 'Cache Warming';
         });
+
         pagePool.push(page);
       }
-      const semaphore = new PromiseSemaphore(PAGES_PER_WORKER);
+
+      // 並列処理用のセマフォ
+      const semaphore = new Array(PAGES_PER_WORKER).fill(false);
+
+      // 利用可能なページを取得
+      const acquirePage = async (): Promise<{ page: Page; index: number }> => {
+        while (true) {
+          const index = semaphore.findIndex((inUse) => !inUse);
+          if (index >= 0) {
+            semaphore[index] = true;
+            return { page: pagePool[index], index };
+          }
+          // 少し待機して再試行
+          await new Promise((r) => setTimeout(r, 10));
+        }
+      };
+
+      // ページを解放
+      const releasePage = (index: number): void => {
+        semaphore[index] = false;
+      };
+
+      // バッチ処理用のプールサイズ
       const batchSize = Math.min(posts.length, PAGES_PER_WORKER * 3);
+      // biome-ignore lint/correctness/noUnusedVariables:
+      let active = 0;
       let completed = 0;
       let index = 0;
+
+      // キューを処理する関数
       const processQueue = async () => {
         if (index >= posts.length) return;
+
+        active++;
         const currentIndex = index++;
         const post = posts[currentIndex];
-        const release = await semaphore.acquire();
-        let page: Page | undefined;
-        let pageIndex = -1;
+
+        // ページを取得
+        const { page, index: pageIndex } = await acquirePage();
+
         try {
-          pageIndex = pagePool.findIndex((p) => !p.isClosed());
-          if (pageIndex === -1) throw new Error('No available page');
-          page = pagePool[pageIndex];
           const { title, slug } = post;
           const pageTitle = title.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+          // 高速なDOM更新
           await page.evaluate(async (title) => {
             document.getElementById('title').innerHTML = title;
+            // フォント読み込みの最適化
             const fontPromise = document.fonts.ready;
             const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 250));
             await Promise.race([fontPromise, timeoutPromise]);
           }, pageTitle);
+
           await page.screenshot({
             fullPage: false,
             path: `${path.dist}/${slug}.jpg`,
             type: 'jpeg',
-            quality: 90,
           });
+
           completed++;
           process.send?.({ type: 'completed', index: currentIndex });
         } catch (err) {
+          // エラー処理 - ページをリセット
           try {
-            if (page) await page.reload({ timeout: 5000 });
+            await page.reload({ timeout: 5000 });
           } catch (_) {
+            // リロードに失敗した場合、新しいページを作成
             try {
-              if (page) await page.close();
-              pagePool[pageIndex] = await browser!.newPage({
+              await page.close();
+              pagePool[pageIndex] = await browser.newPage({
                 bypassCSP: true,
                 viewport: { width: 1200, height: 630 },
               });
@@ -189,16 +225,25 @@ if (cluster.isPrimary) {
               console.error('Failed to create new page:', newPageErr);
             }
           }
+
           process.send?.({ type: 'error', error: `Error processing ${post.slug}: ${err.toString()}` });
         } finally {
-          release();
+          // ページを解放して次のタスクを開始
+          releasePage(pageIndex);
+          active--;
+
+          // 次の処理を開始
           processQueue();
         }
       };
+
+      // 初期バッチを開始
       const initialTasks = Math.min(batchSize, posts.length);
       for (let i = 0; i < initialTasks; i++) {
         processQueue();
       }
+
+      // すべての処理が完了するまで待機
       while (completed < posts.length) {
         await new Promise((r) => setTimeout(r, 100));
       }
