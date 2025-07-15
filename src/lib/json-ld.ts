@@ -14,7 +14,7 @@ import type { PostProps } from '@/types/source';
 
 import { getOgpImage, getPermalink } from './url';
 
-export const AUTHOR = {
+const AUTHOR = {
   '@type': 'Person',
   name: AUTHOR_NAME,
   image: AUTHOR_ICON,

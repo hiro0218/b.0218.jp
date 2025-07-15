@@ -40,7 +40,7 @@ export type MatchType =
   | 'NONE'; // 不一致
 
 // 検索結果アイテムの型定義（優先度情報付き）
-export type RankedSearchResult = {
+type RankedSearchResult = {
   post: SearchProps;
   priority: number;
   matchType: MatchType;
