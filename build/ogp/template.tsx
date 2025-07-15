@@ -86,12 +86,15 @@ const Base: FC = (props) => {
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
         <title>OGP Image</title>
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
           rel="preload"
           href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Noto+Sans+JP:wght@900&display=swap"
           as="style"
+          onload="this.onload=null;this.rel='stylesheet'"
         />
         <link
           href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Noto+Sans+JP:wght@900&display=swap"
@@ -110,7 +113,7 @@ export const Template: FC = (props: Props) => {
       <Style>{cssGlobal}</Style>
       <main className={cssMain}>
         <header className={cssHeader}>
-          <h1 id="title" className={cssHeading}>
+          <h1 className={cssHeading} id="title">
             {props.title}
           </h1>
         </header>
