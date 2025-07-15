@@ -176,65 +176,63 @@ if (cluster.isPrimary) {
         pagePool.push(page);
       }
       const semaphore = new PromiseSemaphore(PAGES_PER_WORKER);
-      const chunkSize = 50;
-      const chunkArray = <T>(arr: T[], size: number): T[][] => {
-        const res: T[][] = [];
-        for (let i = 0; i < arr.length; i += size) {
-          res.push(arr.slice(i, i + size));
-        }
-        return res;
-      };
-      const chunks = chunkArray(posts, chunkSize);
+      const batchSize = Math.min(posts.length, PAGES_PER_WORKER * 3);
       let completed = 0;
-      for (const chunk of chunks) {
-        await Promise.all(
-          chunk.map(async (post, i) => {
-            const currentIndex = completed + i;
-            const release = await semaphore.acquire();
-            let page: Page | undefined;
-            let pageIndex = -1;
+      let index = 0;
+      const processQueue = async () => {
+        if (index >= posts.length) return;
+        const currentIndex = index++;
+        const post = posts[currentIndex];
+        const release = await semaphore.acquire();
+        let page: Page | undefined;
+        let pageIndex = -1;
+        try {
+          pageIndex = pagePool.findIndex((p) => !p.isClosed());
+          if (pageIndex === -1) throw new Error('No available page');
+          page = pagePool[pageIndex];
+          const { title, slug } = post;
+          const pageTitle = title.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          await page.evaluate(async (title) => {
+            document.getElementById('title').innerHTML = title;
+            const fontPromise = document.fonts.ready;
+            const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 250));
+            await Promise.race([fontPromise, timeoutPromise]);
+          }, pageTitle);
+          await page.screenshot({
+            fullPage: false,
+            path: `${path.dist}/${slug}.jpg`,
+            type: 'jpeg',
+            quality: 90,
+          });
+          completed++;
+          process.send?.({ type: 'completed', index: currentIndex });
+        } catch (err) {
+          try {
+            if (page) await page.reload({ timeout: 5000 });
+          } catch (_) {
             try {
-              pageIndex = pagePool.findIndex((p) => !p.isClosed());
-              if (pageIndex === -1) throw new Error('No available page');
-              page = pagePool[pageIndex];
-              const { title, slug } = post;
-              const pageTitle = title.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-              await page.evaluate(async (title) => {
-                document.getElementById('title').innerHTML = title;
-                const fontPromise = document.fonts.ready;
-                const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 250));
-                await Promise.race([fontPromise, timeoutPromise]);
-              }, pageTitle);
-              await page.screenshot({
-                fullPage: false,
-                path: `${path.dist}/${slug}.jpg`,
-                type: 'jpeg',
-                quality: 90,
+              if (page) await page.close();
+              pagePool[pageIndex] = await browser!.newPage({
+                bypassCSP: true,
+                viewport: { width: 1200, height: 630 },
               });
-              process.send?.({ type: 'completed', index: currentIndex });
-            } catch (err) {
-              try {
-                if (page) await page.reload({ timeout: 5000 });
-              } catch (_) {
-                try {
-                  if (page) await page.close();
-                  pagePool[pageIndex] = await browser!.newPage({
-                    bypassCSP: true,
-                    viewport: { width: 1200, height: 630 },
-                  });
-                  await pagePool[pageIndex].goto(HOST, PAGE_GOTO_OPTIONS);
-                } catch (newPageErr) {
-                  console.error('Failed to create new page:', newPageErr);
-                }
-              }
-              process.send?.({ type: 'error', error: `Error processing ${post.slug}: ${err.toString()}` });
-            } finally {
-              release();
+              await pagePool[pageIndex].goto(HOST, PAGE_GOTO_OPTIONS);
+            } catch (newPageErr) {
+              console.error('Failed to create new page:', newPageErr);
             }
-          }),
-        );
-        completed += chunk.length;
-        if (global.gc) global.gc();
+          }
+          process.send?.({ type: 'error', error: `Error processing ${post.slug}: ${err.toString()}` });
+        } finally {
+          release();
+          processQueue();
+        }
+      };
+      const initialTasks = Math.min(batchSize, posts.length);
+      for (let i = 0; i < initialTasks; i++) {
+        processQueue();
+      }
+      while (completed < posts.length) {
+        await new Promise((r) => setTimeout(r, 100));
       }
     } catch (err) {
       process.send?.({ type: 'error', error: `Worker error: ${err.toString()}` });
