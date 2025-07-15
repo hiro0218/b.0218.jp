@@ -83,61 +83,44 @@ const WORKER_COUNT = getOptimalWorkerCount();
 const PAGES_PER_WORKER = Math.min(Math.ceil(os.cpus().length / WORKER_COUNT) * 2, 8);
 
 if (cluster.isPrimary) {
-  /**
-   * ワーカープロセスの情報を管理する型
-   */
-  type WorkerInfo = { worker: typeof cluster.worker; posts: Post[]; completed: number };
-
-  /**
-   * ワーカープロセスを生成し、管理配列に追加する
-   * @param i - ワーカー番号
-   * @param posts - 全投稿データ
-   * @param postsPerWorker - 1ワーカーあたりの投稿数
-   * @param length - 投稿総数
-   * @param workers - 管理配列
-   */
-  function createWorker(i: number, posts: Post[], postsPerWorker: number, length: number, workers: WorkerInfo[]): void {
-    const start = i * postsPerWorker;
-    const end = Math.min(start + postsPerWorker, length);
-    const workerPosts = posts.slice(start, end);
-    const worker = cluster.fork();
-    workers.push({ worker, posts: workerPosts, completed: 0 });
-    worker.on('message', (msg: WorkerMessage) => handleWorkerMessage(msg, worker, workers, length));
-    worker.send({ type: 'posts', posts: workerPosts });
-  }
-
-  /**
-   * ワーカープロセスからのメッセージを処理する
-   * @param msg - ワーカーからのメッセージ
-   * @param worker - 対象ワーカー
-   * @param workers - 管理配列
-   * @param length - 投稿総数
-   */
-  function handleWorkerMessage(
-    msg: WorkerMessage,
-    worker: typeof cluster.worker,
-    workers: WorkerInfo[],
-    length: number,
-  ): void {
-    const workerInfo = workers.find((w) => w.worker === worker);
-    if (msg.type === 'completed' && typeof msg.index === 'number') {
-      if (workerInfo) {
-        workerInfo.completed++;
-        const totalCompleted = workers.reduce((sum, w) => sum + w.completed, 0);
-        if (totalCompleted === 1 || totalCompleted % 100 === 0 || totalCompleted === length) {
-          Log.info('Generating OGP Images', `(${totalCompleted}/${length})`);
+  (async () => {
+    await mkdir(path.dist, { recursive: true });
+    const posts = getPostsListJson();
+    const length = posts.length;
+    Log.info(
+      'Starting OGP Generation',
+      `Total: ${length}, Workers: ${WORKER_COUNT}, Pages per worker: ${PAGES_PER_WORKER}`,
+    );
+    const postsPerWorker = Math.ceil(length / WORKER_COUNT);
+    const worker = cluster.worker;
+    const workers: { worker: typeof worker; posts: typeof posts; completed: number }[] = [];
+    for (let i = 0; i < WORKER_COUNT; i++) {
+      const start = i * postsPerWorker;
+      const end = Math.min(start + postsPerWorker, length);
+      const workerPosts = posts.slice(start, end);
+      const worker = cluster.fork();
+      workers.push({ worker, posts: workerPosts, completed: 0 });
+      worker.on('message', (msg: WorkerMessage) => {
+        const workerInfo = workers.find((w) => w.worker === worker);
+        if (msg.type === 'completed' && typeof msg.index === 'number') {
+          if (workerInfo) {
+            workerInfo.completed++;
+            const totalCompleted = workers.reduce((sum, w) => sum + w.completed, 0);
+            if (totalCompleted === 1 || totalCompleted % 100 === 0 || totalCompleted === length) {
+              Log.info('Generating OGP Images', `(${totalCompleted}/${length})`);
+            }
+          }
+        } else if (msg.type === 'error') {
+          Log.error('Worker Error', msg.error || 'Unknown error');
         }
-      }
-    } else if (msg.type === 'error') {
-      Log.error('Worker Error', msg.error || 'Unknown error');
+      });
+      worker.send({ type: 'posts', posts: workerPosts });
     }
-  }
-
-  /**
-   * 全ワーカーの終了を監視し、未完了タスクや全体完了をログ出力する
-   * @param workers - 管理配列
-   */
-  function setupClusterExitHandler(workers: WorkerInfo[]): void {
+    process.on('exit', () => {
+      workers.forEach(({ worker }) => {
+        worker.kill();
+      });
+    });
     cluster.on('exit', (worker, code) => {
       const workerInfo = workers.find((w) => w.worker === worker);
       if (workerInfo) {
@@ -151,41 +134,7 @@ if (cluster.isPrimary) {
         process.exit(0);
       }
     });
-  }
-
-  /**
-   * プロセス終了時に全ワーカーをkillする
-   * @param workers - 管理配列
-   */
-  function setupProcessExitHandler(workers: WorkerInfo[]): void {
-    process.on('exit', () => {
-      workers.forEach(({ worker }) => {
-        worker.kill();
-      });
-    });
-  }
-
-  /**
-   * メイン（プライマリ）プロセスのエントリポイント
-   */
-  async function runPrimaryProcess(): Promise<void> {
-    await mkdir(path.dist, { recursive: true });
-    const posts = getPostsListJson();
-    const length = posts.length;
-    Log.info(
-      'Starting OGP Generation',
-      `Total: ${length}, Workers: ${WORKER_COUNT}, Pages per worker: ${PAGES_PER_WORKER}`,
-    );
-    const postsPerWorker = Math.ceil(length / WORKER_COUNT);
-    const workers: WorkerInfo[] = [];
-    for (let i = 0; i < WORKER_COUNT; i++) {
-      createWorker(i, posts, postsPerWorker, length, workers);
-    }
-    setupProcessExitHandler(workers);
-    setupClusterExitHandler(workers);
-  }
-
-  runPrimaryProcess();
+  })();
 } else {
   let browser: Browser | null = null;
   const pagePool: Page[] = [];
