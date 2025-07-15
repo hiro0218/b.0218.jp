@@ -203,26 +203,18 @@ if (cluster.isPrimary) {
       }
     }
   });
-  /**
-   * Playwright ChromiumをCI向けに最適なオプションで起動する
-   * @returns 起動済みBrowserインスタンス
-   */
-  async function launchChromiumForCI(): Promise<Browser> {
-    return chromium.launch({
-      headless: true,
-      args: [
-        '--disable-extensions',
-        '--disable-gpu',
-        '--disable-dev-shm-usage',
-        '--no-sandbox',
-        '--js-flags=--expose-gc',
-        '--disable-software-rasterizer',
-      ],
-    });
-  }
   async function processImages(posts: Post[]): Promise<void> {
     try {
-      browser = await launchChromiumForCI();
+      browser = await chromium.launch({
+        args: [
+          '--disable-extensions',
+          '--disable-gpu',
+          '--disable-dev-shm-usage',
+          '--no-sandbox',
+          '--js-flags=--expose-gc',
+        ],
+        handleSIGINT: false,
+      });
       for (let i = 0; i < PAGES_PER_WORKER; i++) {
         const page = await browser.newPage({
           bypassCSP: true,
