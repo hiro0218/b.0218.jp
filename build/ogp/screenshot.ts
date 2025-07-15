@@ -47,39 +47,7 @@ class PromiseSemaphore {
   }
 }
 
-/**
- * CI環境かどうかを判定する
- * - 一般的なCIサービスの環境変数を網羅的にチェック
- */
-function isCIEnvironment(): boolean {
-  return Boolean(
-    process.env.GITHUB_ACTIONS ||
-      process.env.GITLAB_CI ||
-      process.env.CI ||
-      process.env.VERCEL === '1' ||
-      process.env.VERCEL === 'true',
-  );
-}
-
-/**
- * 実行環境に応じて最適なワーカー数を返す
- * - CI環境や物理コア数、メモリ量を考慮
- * - デフォルトは2、最大は論理CPU数の半分または4まで
- */
-function getOptimalWorkerCount(): number {
-  const cpuCount = os.cpus().length;
-  const memGB = os.totalmem() / 1024 ** 3;
-  // CI環境では2コア/7GB程度
-  if (isCIEnvironment()) {
-    if (memGB < 4) return 1;
-    if (cpuCount >= 4 && memGB >= 7) return 2;
-    return 1;
-  }
-  // ローカルや大容量サーバーでは最大4まで
-  return Math.max(1, Math.min(4, Math.floor(cpuCount / 2)));
-}
-
-const WORKER_COUNT = getOptimalWorkerCount();
+const WORKER_COUNT = Math.min(os.cpus().length, 2);
 const PAGES_PER_WORKER = Math.min(Math.ceil(os.cpus().length / WORKER_COUNT) * 2, 8);
 
 if (cluster.isPrimary) {
