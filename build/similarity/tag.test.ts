@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { getRelatedTags } from './tag';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { PostProps, TagsListProps } from '@/types/source';
+import { getRelatedTags } from './tag';
 
 // モックのセットアップ
 vi.mock('./tag');
@@ -37,13 +37,13 @@ describe('getRelatedTags', () => {
       const result = {};
       const tags = Object.keys(tagsList);
 
-      tags.forEach(tag => {
+      tags.forEach((tag) => {
         const relatedTags = {};
-        tags.forEach(otherTag => {
-          if (tag !== otherTag && tagsList[tag].some(slug => tagsList[otherTag].includes(slug))) {
+        tags.forEach((otherTag) => {
+          if (tag !== otherTag && tagsList[tag].some((slug: string) => tagsList[otherTag].includes(slug))) {
             // 共通の記事があれば関連性スコアを設定
             // スコアが降順でソートされるかを確認するため、反復可能な値を生成
-            relatedTags[otherTag] = 0.9 - (0.1 * Object.keys(relatedTags).length);
+            relatedTags[otherTag] = 0.9 - 0.1 * Object.keys(relatedTags).length;
           }
         });
         if (Object.keys(relatedTags).length > 0) {
@@ -182,7 +182,7 @@ describe('getRelatedTags', () => {
    */
   it('無効な入力の場合は空オブジェクトを返すこと', () => {
     // 警告ログのモック
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => { });
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
     // 空の投稿配列
     expect(getRelatedTags([], createMockTagsList())).toEqual({});
@@ -208,7 +208,7 @@ describe('getRelatedTags', () => {
     // rare1とrare2のタグが除外されるようにモック設定
     mockGetRelatedTags.mockReturnValueOnce({
       common: { frequent: 0.7 },
-      frequent: { common: 0.7 }
+      frequent: { common: 0.7 },
     });
 
     // 最小共起頻度と最小タグ頻度をテストするために、出現回数の少ないタグを含むデータを作成

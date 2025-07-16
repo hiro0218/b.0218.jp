@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import * as fs from '@/shared/fs';
 import * as Log from '@/shared/Log';
 import { getRelatedPosts } from './post';
@@ -10,7 +10,9 @@ vi.mock('@/shared/Log');
 vi.mock('./post');
 vi.mock('./tag');
 vi.mock('@/constant', () => ({
+  // biome-ignore lint/style/useNamingConvention: モックにはオリジナルの命名規則を維持
   FILENAME_POSTS_SIMILARITY: 'posts-similarity',
+  // biome-ignore lint/style/useNamingConvention: モックにはオリジナルの命名規則を維持
   FILENAME_TAG_SIMILARITY: 'tag-similarity',
 }));
 
@@ -51,11 +53,9 @@ describe('similarity index module', () => {
     tag3: { tag2: 0.7 },
   };
 
-  const mockRelatedPosts = [
-    { test1: { test2: 0.75 } },
-    { test2: { test1: 0.75 } },
-  ];
+  const mockRelatedPosts = [{ test1: { test2: 0.75 } }, { test2: { test1: 0.75 } }];
 
+  // biome-ignore lint/style/useNamingConvention: テストの定数にはオリジナルの命名規則を維持
   const PATH_DIST = `${process.cwd()}/dist`;
 
   /**
@@ -77,7 +77,7 @@ describe('similarity index module', () => {
     vi.mocked(fs.writeJSON).mockResolvedValue(undefined);
     vi.mocked(getRelatedTags).mockReturnValue(mockRelatedTags);
     vi.mocked(getRelatedPosts).mockResolvedValue(mockRelatedPosts);
-    vi.mocked(Log.info).mockImplementation(() => { });
+    vi.mocked(Log.info).mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -118,10 +118,7 @@ describe('similarity index module', () => {
     expect(getRelatedTags).toHaveBeenCalledWith(mockPostsData, mockTagsData);
 
     // タグの関連度データが書き込まれたことを確認
-    expect(fs.writeJSON).toHaveBeenCalledWith(
-      `${PATH_DIST}/tag-similarity.json`,
-      mockRelatedTags,
-    );
+    expect(fs.writeJSON).toHaveBeenCalledWith(`${PATH_DIST}/tag-similarity.json`, mockRelatedTags);
 
     // ログが出力されたことを確認
     expect(Log.info).toHaveBeenCalledWith(`Write dist/tag-similarity.json`);
@@ -130,10 +127,7 @@ describe('similarity index module', () => {
     expect(getRelatedPosts).toHaveBeenCalledWith(mockPostsData, mockRelatedTags);
 
     // 記事の類似度データが書き込まれたことを確認
-    expect(fs.writeJSON).toHaveBeenCalledWith(
-      `${PATH_DIST}/posts-similarity.json`,
-      mockRelatedPosts,
-    );
+    expect(fs.writeJSON).toHaveBeenCalledWith(`${PATH_DIST}/posts-similarity.json`, mockRelatedPosts);
 
     // ログが出力されたことを確認
     expect(Log.info).toHaveBeenCalledWith(`Write dist/posts-similarity.json`);
@@ -148,7 +142,7 @@ describe('similarity index module', () => {
     vi.mocked(fs.readJSON).mockRejectedValueOnce(new Error('読み込みエラー'));
 
     // エラーをキャッチするためにconsole.errorをモック
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     // インデックスモジュールのメインロジックを模倣する関数
     const runIndexLogic = async () => {

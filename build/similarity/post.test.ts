@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { getRelatedPosts } from './post';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { PostListProps, PostProps, TagSimilarProps } from '@/types/source';
+import { getRelatedPosts } from './post';
 
 // モックのセットアップ
 vi.mock('./post');
@@ -13,7 +13,9 @@ vi.mock('kuromoji', () => ({
             // 簡易的な形態素解析の結果を返す
             return text.split(/\s+/).map((word) => ({
               pos: word.length > 3 ? '名詞' : '助詞',
+              // biome-ignore lint/style/useNamingConvention: APIプロパティ名を維持
               pos_detail_1: '',
+              // biome-ignore lint/style/useNamingConvention: APIプロパティ名を維持
               basic_form: word,
             }));
           },
@@ -52,14 +54,15 @@ describe('getRelatedPosts', () => {
         let counter = 0;
 
         // 他の投稿との類似度を計算
-        posts.forEach(otherPost => {
+        posts.forEach((otherPost) => {
           if (!otherPost.slug || otherPost.slug === post.slug) return;
 
           // スコアが降順でソートされるように値を設定
-          const score = 0.9 - (counter * 0.1);
+          const score = 0.9 - counter * 0.1;
           counter += 1;
 
-          if (score > 0.2) { // 一定の閾値を超えるもののみ関連として扱う
+          if (score > 0.2) {
+            // 一定の閾値を超えるもののみ関連として扱う
             relatedPosts[otherPost.slug] = Math.round(score * 10000) / 10000; // 小数点以下4桁に丸める
           }
         });
@@ -197,9 +200,9 @@ describe('getRelatedPosts', () => {
         'react-intro': {
           'typescript-react': 0.8,
           'nextjs-ssr': 0.7,
-          'css-variables': 0.5
-        }
-      }
+          'css-variables': 0.5,
+        },
+      },
     ]);
 
     const results = await getRelatedPosts(posts, sortedTags);
@@ -217,7 +220,7 @@ describe('getRelatedPosts', () => {
 
   it('無効な入力の場合は空配列を返すこと', async () => {
     // 警告ログのモック
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => { });
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
     // デフォルトの実装で警告ログを出力するように設定
     mockGetRelatedPosts.mockImplementation(async (posts, sortedTags) => {
@@ -245,7 +248,7 @@ describe('getRelatedPosts', () => {
   });
 
   it('トークナイザの初期化に失敗した場合は空配列を返すこと', async () => {
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     // エラーの場合は空配列を返すようにモック
     mockGetRelatedPosts.mockResolvedValueOnce([]);
@@ -293,11 +296,11 @@ describe('getRelatedPosts', () => {
     // テスト用のカスタム実装
     mockGetRelatedPosts.mockResolvedValueOnce([
       {
-        'test1': {
-          'test3': 0.8, // タグが同じなので高スコア
-          'test2': 0.7, // コンテンツが同じなので高スコア
-        }
-      }
+        test1: {
+          test3: 0.8, // タグが同じなので高スコア
+          test2: 0.7, // コンテンツが同じなので高スコア
+        },
+      },
     ]);
 
     const results = await getRelatedPosts(specialPosts, specialTagSimilarity);
