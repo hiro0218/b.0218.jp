@@ -8,8 +8,9 @@ export type Result<T, E> = Success<T, E> | Failure<T, E>;
 
 /**
  * 成功状態を表すインターフェース
+ * @internal このインターフェースは内部実装用であり、直接使用すべきではない
  */
-export interface Success<T, E> {
+interface Success<T, E> {
   readonly type: 'success';
   readonly value: T;
 
@@ -26,8 +27,9 @@ export interface Success<T, E> {
 
 /**
  * 失敗状態を表すインターフェース
+ * @internal このインターフェースは内部実装用であり、直接使用すべきではない
  */
-export interface Failure<T, E> {
+interface Failure<T, E> {
   readonly type: 'failure';
   readonly error: E;
 
