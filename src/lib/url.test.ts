@@ -21,7 +21,7 @@ describe('getPermalink', () => {
 describe('getOgpImage', () => {
   it('should return the OGP image URL for a given slug', () => {
     const slug = 'example-post';
-    const expectedOutput = `${SITE_URL}/images/ogp/${slug}.png`;
+    const expectedOutput = `${SITE_URL}/images/ogp/${slug}.jpg`;
     expect(getOgpImage(slug)).toBe(expectedOutput);
   });
 });
