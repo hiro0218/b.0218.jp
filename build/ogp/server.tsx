@@ -52,11 +52,11 @@ app.get(
 const sanitizeTitle = (title: string): string => {
   return title
     .slice(0, MAX_TITLE_LENGTH)
+    .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;')
-    .replace(/&/g, '&amp;');
+    .replace(/'/g, '&#x27;');
 };
 
 app.get('/', (c) => {
