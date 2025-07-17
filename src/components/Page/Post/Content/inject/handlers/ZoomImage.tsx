@@ -106,14 +106,12 @@ const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, style, ...props }) => {
   return (
     <>
       <span className={containerStyle} onClick={isZoomed ? undefined : handleZoomIn}>
-        {/* biome-ignore lint/nursery/noImgElement: use raw */}
         <img alt={alt || ''} src={src} style={processedStyle} {...props} onLoad={handleImageLoad} ref={imgRef} />
       </span>
 
       {isZoomed &&
         createPortal(
           <>
-            {/* biome-ignore lint/nursery/noImgElement: use raw */}
             <img
               alt={alt || ''}
               className={zoomedImageStyle}

@@ -9,5 +9,5 @@ export const getPermalink = (slug: string) => {
 };
 
 export const getOgpImage = (slug: string) => {
-  return `${SITE_URL}/images/ogp/${slug}.png` as const;
+  return `${SITE_URL}/images/ogp/${slug}.jpg` as const;
 };

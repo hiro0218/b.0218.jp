@@ -202,8 +202,8 @@ else {
 
           await page.screenshot({
             fullPage: false,
-            path: `${path.dist}/${slug}.png`,
-            type: 'png',
+            path: `${path.dist}/${slug}.jpg`,
+            type: 'jpeg',
           });
 
           completed++;

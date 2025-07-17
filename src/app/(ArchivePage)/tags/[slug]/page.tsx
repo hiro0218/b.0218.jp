@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import { getMetadata } from '@/app/(ArchivePage)/_metadata';
+import { getMetadata } from '@/app/_metadata';
 import { getTagPosts } from '@/app/libs/getTagPosts';
+import { JsonLdScript } from '@/components/Functional/JsonLdScript';
 import { Pagination, PostList } from '@/components/Page/Archive/Pagination';
 import { Sidebar, Stack } from '@/components/UI/Layout';
 import { Loading } from '@/components/UI/Loading';
@@ -51,16 +52,11 @@ export default async function Page({ params }: { params: Params }) {
 
   return (
     <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify([
-            getCollectionPageStructured({
-              name: `Tag: ${decodedSlug}`,
-              description: `Tag: ${decodedSlug} - ${SITE_NAME}`,
-            }),
-          ]),
-        }}
-        type="application/ld+json"
+      <JsonLdScript
+        jsonLd={getCollectionPageStructured({
+          name: `Tag: ${decodedSlug}`,
+          description: `Tag: ${decodedSlug} - ${SITE_NAME}`,
+        })}
       />
       <Stack as="section" space={4}>
         <Title heading={pageTitle} paragraph={`${totalItems}件の記事`} />

@@ -20,6 +20,7 @@ export const Toast = (message: string) => {
   );
 
   return {
+    // biome-ignore lint/style/useNamingConvention: temp
     Component,
     showToast,
     hideToast,

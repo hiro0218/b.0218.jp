@@ -1,10 +1,11 @@
 /**
  * about/privacyページで使用する共通テンプレート
  */
-import type { AboutPage, WebPage, WithContext } from 'schema-dts';
+import type { Thing, WithContext } from 'schema-dts';
+import { PAGE_CONFIGS } from '@/app/_metadata';
+import { JsonLdScript } from '@/components/Functional/JsonLdScript';
+import { getAboutPageStructured, getWebPageStructured } from '@/lib/json-ld';
 import Content from './Content';
-import { PAGE_CONFIGS } from './metadata';
-import { AUTHOR } from './schema';
 import type { PageSlug } from './types';
 
 /**
@@ -15,63 +16,32 @@ type TemplateProps = {
 };
 
 /**
- * 構造化データを生成する関数の型
- */
-type StructuredDataGenerator = () => WithContext<AboutPage | WebPage>;
-
-/**
- * スキーマ付きページ設定情報の型
- */
-type PageConfigWithSchema = {
-  title: string;
-  description: string;
-  createStructuredData: StructuredDataGenerator;
-};
-
-/**
- * ページの設定情報
- */
-const PAGE_CONFIGS_WITH_SCHEMA: Record<PageSlug, PageConfigWithSchema> = {
-  about: {
-    ...PAGE_CONFIGS.about,
-    createStructuredData: (): WithContext<AboutPage> => ({
-      '@context': 'https://schema.org',
-      '@type': 'AboutPage',
-      name: 'About',
-      description: 'サイトと運営者について',
-      author: AUTHOR,
-    }),
-  },
-  privacy: {
-    ...PAGE_CONFIGS.privacy,
-    createStructuredData: (): WithContext<WebPage> => ({
-      '@context': 'https://schema.org',
-      '@type': 'WebPage',
-      name: 'Privacy',
-      description: 'プライバシーポリシー',
-      author: AUTHOR,
-    }),
-  },
-};
-
-/**
  * シングルページ用の共通テンプレートコンポーネント
  * about/privacyページで使用する
  * @param props - スラグを含むプロパティ
  */
 export default function Template({ slug }: TemplateProps) {
-  const config = PAGE_CONFIGS_WITH_SCHEMA[slug];
-  const { title, description } = config;
-  const structuredData = config.createStructuredData();
+  const { title, description } = PAGE_CONFIGS[slug];
+  const jsonLd = (() => {
+    switch (slug) {
+      case 'about':
+        return getAboutPageStructured({
+          name: 'About',
+          description: 'サイトと運営者について',
+        });
+      case 'privacy':
+        return getWebPageStructured({
+          name: 'Privacy',
+          description: 'プライバシーポリシー',
+        });
+      default:
+        return null;
+    }
+  })() as WithContext<Thing> | WithContext<Thing>[] | null;
 
   return (
     <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify([structuredData]),
-        }}
-        type="application/ld+json"
-      />
+      <JsonLdScript jsonLd={jsonLd} />
       <Content description={description} slug={slug} title={title} />
     </>
   );

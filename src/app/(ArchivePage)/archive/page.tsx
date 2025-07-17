@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { getMetadata } from '@/app/_metadata';
+import { JsonLdScript } from '@/components/Functional/JsonLdScript';
 import { Chart } from '@/components/Page/Archive/Chart';
 import { Timeline } from '@/components/Page/Archive/Timeline';
 import { Stack } from '@/components/UI/Layout';
@@ -6,7 +8,6 @@ import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constant';
 import { getCollectionPageStructured } from '@/lib/json-ld';
 import { getPostsListJson } from '@/lib/posts';
-import { getMetadata } from '../_metadata';
 import { getData } from './libs';
 
 const posts = getPostsListJson();
@@ -27,16 +28,11 @@ export const metadata: Metadata = getMetadata({
 export default async function Page() {
   return (
     <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify([
-            getCollectionPageStructured({
-              name: pageTitle,
-              description,
-            }),
-          ]),
-        }}
-        type="application/ld+json"
+      <JsonLdScript
+        jsonLd={getCollectionPageStructured({
+          name: pageTitle,
+          description,
+        })}
       />
       <Stack as="article" space={4}>
         <Title heading={title} paragraph={description} />

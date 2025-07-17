@@ -13,7 +13,9 @@ export const useSearch = () => {
   const SearchDialog = useMemo(() => <Dialog closeDialog={closeDialog} ref={ref} />, [ref, closeDialog]);
 
   return {
+    // biome-ignore lint/style/useNamingConvention: temp
     SearchButton,
+    // biome-ignore lint/style/useNamingConvention: temp
     SearchDialog,
   };
 };
