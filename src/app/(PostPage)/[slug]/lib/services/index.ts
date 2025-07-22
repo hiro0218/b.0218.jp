@@ -1,0 +1,1 @@
+export { getPostPageData } from './getPostPageData';

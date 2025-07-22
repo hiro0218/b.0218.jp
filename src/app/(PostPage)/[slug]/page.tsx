@@ -18,7 +18,7 @@ import { AUTHOR_NAME } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { getPostsJson } from '@/lib/posts';
 import { getOgpImage, getPermalink } from '@/lib/url';
-import { getData } from './lib/getData';
+import { getPostPageData } from './lib/services';
 
 type Params = Promise<{ slug: string }>;
 
@@ -39,7 +39,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug: _slug } = await params;
   const slug = _slug.replace('.html', '');
-  const data = getData(slug);
+  const data = getPostPageData(slug);
   const { title, content, noindex, meta } = data.post;
   const { publishedTime, modifiedTime } = meta;
   const permalink = getPermalink(slug);
@@ -78,8 +78,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function Page({ params }: { params: Params }) {
   const { slug: _slug } = await params;
   const slug = _slug.replace('.html', '');
-  const data = getData(slug);
+  const data = getPostPageData(slug);
 
+  // 投稿が存在しない場合は404ページを表示
   if (!data) {
     notFound();
   }
@@ -123,20 +124,15 @@ export default async function Page({ params }: { params: Params }) {
               isWideCluster={false}
               tags={similarTags}
             />
-            {[
-              {
-                heading: '関連記事',
-                posts: similarPost,
-              },
-              {
-                heading: '最新記事',
-                posts: recentPosts,
-                href: '/archive',
-                prefetch: true,
-              },
-            ].map(({ heading, posts, ...rest }, index) => (
-              <PostSection as="aside" heading={heading} headingLevel="h2" key={index} posts={posts} {...rest} />
-            ))}
+            <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
+            <PostSection
+              as="aside"
+              heading="最新記事"
+              headingLevel="h2"
+              href="/archive"
+              posts={recentPosts}
+              prefetch={true}
+            />
           </Stack>
         </Stack>
       </Container>
