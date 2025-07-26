@@ -84,7 +84,7 @@
     "postcss-import": "16.1.1",
     "postcss-lightningcss": "1.0.1",
     "postcss-media-hover-any-hover": "0.4.0",
-    "postcss-mixins": "12.0.0",
+    "postcss-mixins": "12.1.2",
     "postcss-sort-media-queries": "5.2.0",
     "postcss-styled-syntax": "0.7.1",
     "prettier": "3.6.2",
