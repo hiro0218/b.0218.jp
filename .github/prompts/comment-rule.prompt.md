@@ -1,392 +1,203 @@
-# コードコメントの記述ルール
+# コードコメント記述ルール
 
 ## 基本方針
 
-本プロジェクトにおけるJS/TS/JSX/TSXファイルのコメント記述に関するルールを定義する。コード品質の向上と開発者間での理解促進を目的としている。今後はJSDocを積極的に活用し、コードの自己文書化を推進する。
+本プロジェクトのJS/TS/JSX/TSXファイルにおける、必要十分なコメント記述ルールを定義します。コードの自己説明性を高めつつ、必要な箇所にのみ価値のあるコメントを追加することで、コード品質向上と開発者間の理解促進を目指します。
 
-## 実用的なコメント方式の採用
+## 実効性のあるコメント原則
 
-コードは可能な限り自己説明的であるべきだが、複雑なロジックや意図が明確でない場合はコメントで補足する。JSDocコメントを優先的に使用し、関数やクラスの目的・使用方法・パラメータなどを明確に文書化する。
+- コードが自己説明的な場合はコメントを省略する
+- 複雑なロジックや非自明な意図がある場合のみコメントを追加する
+- TypeScriptの型情報と重複する説明は避ける
+- JSDocを使用し、コードから読み取れない付加情報を提供する
+- コメントは「WHAT（何をしているか）」よりも「WHY（なぜそうしているか）」を重視する
+- 具体的で明確な記述を心がける。曖昧な表現やコメントの必要がないほど明確なコードを目指す
 
 ### コメント記述の基本ルール
 
-1. 関数・メソッド・クラスはJSDocコメントで文書化する
+1. 関数・メソッド・クラスに簡潔なJSDocコメントを付与する
 
    ```typescript
    /**
-    * HTML文字列から140文字の説明文を生成する
-    * @param postContent - HTML形式のコンテンツ文字列
+    * HTML文字列から説明文を生成する
+    * @param postContent - コンテンツ文字列
     * @returns 整形された140文字以内の説明文
-    * @example
-    * const description = getDescriptionText("<p>長いHTML文字列</p>");
     */
    export const getDescriptionText = (postContent: string): string => {
-     return postContent
-       .replace(/(?:\r\n|\r|\n)/g, ' ') // 改行をスペースに置換
-       .replace(/<\/?[^>]+(>|$)/g, '') // HTMLタグを削除
-       .replace(/\s+/g, ' ') // 連続するスペースを1つに置換
-       .trim() // 先頭と末尾のスペースを削除
-       .substring(0, 140); // 140文字に切り詰め
+     // 実装...
    };
    ```
 
-2. 外部情報や仕様への参照を明示する場合はJSDocの`@see`タグを使用する
+2. 外部情報や仕様への参照はJSDocの`@see`タグで示す
 
    ```typescript
    /**
-    * Organization型の構造化データを生成する
-    * @see https://developers.google.com/search/docs/appearance/structured-data/logo?hl=ja
+    * 構造化データを生成する
+    * @see https://developers.google.com/search/docs/appearance/structured-data/logo
     * @returns Organization型の構造化データ
     */
-   export const getOrganizationStructured = (): WithContext<Organization> => {
-     return {
-       '@context': 'https://schema.org',
-       '@type': 'Organization',
-       name: 'My Organization',
-       url: 'https://example.com',
-       logo: 'https://example.com/logo.png',
-     };
-   };
    ```
 
-3. 複雑な正規表現やロジックには何をしているのかを説明するコメントを追加する
+3. 「WHY」を説明するコメントを優先する
 
    ```typescript
-   // 改行をスペースに置換
-   .replace(/(?:\r\n|\r|\n)/g, ' ')
-   // HTMLタグを削除
-   .replace(/<\/?[^>]+(>|$)/g, '')
+   // 悪い例: WHATのみ
+   // HTMLタグを削除する
+
+   // 良い例: WHYを含む
+   // HTMLタグはプレーンテキストの説明文には不要なため削除
    ```
 
-## JSDocの積極的な活用とコメント粒度
+4. プロジェクト固有の注意点や制約を記述する
 
-すべての要素に対してJSDocを使用することを基本としつつ、コードの複雑さや重要度に応じてコメントの詳細度（粒度）を調整する。これにより、冗長性を避けながらも必要な情報を提供できる。
+   ```typescript
+   /**
+    * 記事データを取得する
+    * @note プリビルド時に生成されたJSONから読み込みを行うため、ランタイムでは変更されない
+    */
+   ```
+
+## JSDocの使用と粒度
+
+コードの複雑さに応じてコメントの詳細度を調整し、冗長性を避ける。
 
 ### JSDocを使用する対象
 
-1. 関数・メソッド・クラス（エクスポートの有無に関わらず）
-2. インターフェース・型定義
-3. 定数・変数（特に複雑なオブジェクト構造の場合）
-
-### JSDocの基本的な使用パターン
-
-#### 関数・メソッド向けJSDoc
-
-```typescript
-/**
- * 関数の簡潔な説明（一行）
- * 必要に応じて詳細な説明を追加（複数行可）
- *
- * @param paramName - パラメータの説明
- * @param [optionalParam] - 省略可能なパラメータの説明
- * @returns 戻り値の説明
- * @throws エラーが発生する条件の説明
- * @example
- * // 使用例
- * const result = myFunction('input');
- */
-```
-
-#### クラス・インターフェース向けJSDoc
-
-```typescript
-/**
- * クラスの簡潔な説明
- * 必要に応じて詳細な説明を追加
- *
- * @implements インターフェース名
- * @example
- * const instance = new MyClass();
- * instance.method();
- */
-```
-
-#### 変数・定数向けJSDoc
-
-```typescript
-/**
- * 定数の説明（TypeScriptの型情報と重複しない内容）
- */
-const MY_CONSTANT = 'value';
-
-// 複雑な型や特別な制約がある場合のみ型情報を追加
-/**
- * 環境設定に関する定数
- * @type {Record<string, string>} - 環境変数の名前と値のマッピング
- */
-const ENV_CONFIG = { ... };
-```
-
-### 主要なJSDocタグの使用ガイドライン
-
-| タグ          | 使用目的                                               | 例                                                  |
-| ------------- | ------------------------------------------------------ | --------------------------------------------------- |
-| `@param`      | パラメータの説明                                       | `@param name - ユーザー名`                          |
-| `@returns`    | 戻り値の説明                                           | `@returns 整形されたURL文字列`                      |
-| `@example`    | 使用例の提示                                           | `@example const url = getPermalink('slug');`        |
-| `@see`        | 参考情報へのリンク                                     | `@see https://example.com/spec`                     |
-| `@throws`     | 例外が発生する条件                                     | `@throws 引数が無効な場合にエラーを投げる`          |
-| `@deprecated` | 非推奨機能の明示                                       | `@deprecated v2.0.0以降は代わりにnewFunctionを使用` |
-| `@private`    | 内部使用目的の関数                                     | `@private`                                          |
-| `@type`       | 型情報の指定（TypeScriptの型注釈と重複しない場合のみ） | `@type {string[]}`                                  |
+- 関数・メソッド・クラス（特に公開APIや複雑なロジックを含む場合）
+- インターフェース・型定義（制約条件や使用方法が明確でない場合）
+- 定数・変数（複雑なオブジェクト構造や特殊な値の場合）
 
 ## コメントの粒度と冗長性の回避
 
-コメントは情報価値のバランスを重視し、適切な粒度で記述する。目的は「コードを理解するための最小限の情報提供」であり、冗長なコメントはかえって可読性を下げる可能性がある。
+コメントは最小限の情報提供を目指し、コードの複雑さに応じて詳細度を調整する。
 
-### 適切なコメント粒度の選定基準
+### コメント粒度の選定基準
 
-1. **高粒度（詳細）コメントが必要な場合**：
+- **高粒度**：ドメイン固有のロジック、複雑なアルゴリズム、特殊な実装
+- **中粒度**：ユーティリティ関数、共通コンポーネント
+- **低粒度**：自己説明的な関数、シンプルなメソッド
 
-   - ドメイン固有のビジネスロジック
-   - 複雑なアルゴリズムや計算式
-   - 非直感的なワークアラウンドやハック
-   - セキュリティに関わる処理
-   - パフォーマンス最適化のための特殊な実装
+## TypeScriptとJSDocの使い分け
 
-   ```typescript
-   /**
-    * ブログ記事から構造化データを生成する
-    * 以下の処理を行う：
-    * 1. メタデータの正規化
-    * 2. 記事コンテンツから説明文の抽出（最大140文字）
-    * 3. 著者情報の付与
-    * 4. 画像URLの正規化
-    *
-    * @param post - 記事データ
-    * @returns BlogPosting型の構造化データ
-    * @see https://developers.google.com/search/docs/data-types/article
-    */
-   ```
-
-2. **中粒度コメントが適切な場合**：
-
-   - ライブラリやフレームワークの拡張
-   - 汎用的なユーティリティ関数
-   - 複数の場所から参照される共通コンポーネント
-
-   ```typescript
-   /**
-    * 日付を「YYYY-MM-DD」形式に変換する
-    * @param date - 変換対象の日付
-    * @returns 整形された日付文字列
-    */
-   ```
-
-3. **低粒度（最小限）コメントで十分な場合**：
-
-   - ゲッター/セッター
-   - 単純なラッパー関数
-   - 自己説明的な名前を持つシンプルな関数
-
-   ```typescript
-   /**
-    * 日付が同じ日かどうかを判定する
-    * @param dateA - 比較対象の日付
-    * @param dateB - 比較対象の日付
-    */
-   function isSameDay(dateA: Date, dateB: Date): boolean {
-     // 実装
-   }
-   ```
-
-## TypeScriptとJSDocの適切な使い分け
-
-TypeScriptは強力な型システムを提供し、コードの安全性と自己文書化に貢献する。JSDocはTypeScriptを補完し、型だけでは表現できない意図や使用方法を説明する。両者の特性を理解して適切に使い分けることで、冗長性を避けつつ高品質なドキュメントが実現できる。
+TypeScriptの型システムとJSDocを適切に組み合わせ、冗長性を避けます。
 
 ### 情報の重複を避ける原則
 
 1. **型情報の重複を避ける**
 
    ```typescript
-   // 避けるべき冗長な例
+   // 悪い例：型情報を重複して記述
    /**
     * @param user - User型のユーザーオブジェクト
-    * @param id - number型のID
     * @returns boolean型の結果
     */
-   function isAuthorized(user: User, id: number): boolean {
-     // 実装
-   }
+   function hasAccess(user: User): boolean { /* 実装 */ }
 
-   // 望ましい例
+   // 良い例：型と重複しない意味のコメント
    /**
-    * ユーザーが指定されたリソースにアクセス権を持っているか確認する
+    * ユーザーが指定リソースへのアクセス権を持つか確認する
     * @param user - 検証対象のユーザー
-    * @param id - アクセス対象のリソースID
     * @returns アクセス権がある場合はtrue
     */
-   function isAuthorized(user: User, id: number): boolean {
-     // 実装
-   }
+   function hasAccess(user: User): boolean { /* 実装 */ }
    ```
 
-2. **TypeScriptが既に表現している情報を繰り返さない**
+2. **TypeScriptが表現している情報を繰り返さない**
 
    ```typescript
-   // 避けるべき冗長な例
+   // 悪い例：型情報の反復
    /**
     * ユーザーのリスト配列を取得する関数
     * @returns User型の配列
     */
-   function getUsers(): User[] {
-     // 実装
-   }
+   function getUsers(): User[] { /* 実装 */ }
 
-   // 望ましい例
+   // 良い例：コンテキストと意味を追加
    /**
-    * システムに登録された全アクティブユーザーを取得する
-    * 管理者ユーザーは含まれない
+    * システムに登録された全アクティブユーザーを取得する（管理者除く）
     * @returns アクティブな一般ユーザーのリスト
     */
-   function getUsers(): User[] {
-     // 実装
-   }
+   function getUsers(): User[] { /* 実装 */ }
    ```
 
-3. **複雑な型に対しては、型の構造ではなく意味を説明する**
-
-   ```typescript
-   // 避けるべき冗長な例
-   /**
-    * @param config - {apiKey: string, timeout: number, retries: number}の形式のオブジェクト
-    */
-   function initializeAPI(config: APIConfig): void {
-     // 実装
-   }
-
-   // 望ましい例
-   /**
-    * API接続を初期化する
-    * @param config - API設定。timeoutは秒単位、retriesは再試行回数
-    */
-   function initializeAPI(config: APIConfig): void {
-     // 実装
-   }
-   ```
-
-### TypeScriptでは表現しきれない情報をJSDocで補う
+### TypeScriptでは表現できない情報をJSDocで補う
 
 1. **値の制約条件や有効範囲**
+2. **副作用や挙動の説明**
+3. **実装の判断理由や背景**
+4. **パフォーマンスや副作用に関する注意点**
 
-   ```typescript
-   /**
-    * ページネーションのためのデータを取得する
-    * @param page - ページ番号（1以上の整数）
-    * @param limit - 1ページあたりの件数（最大100）
-    * @throws pageが1未満の場合はエラーを投げる
-    */
-   function fetchPage(page: number, limit: number): Promise<PageData> {
-     // 実装
-   }
-   ```
-
-2. **非同期処理の副作用や挙動の説明**
-
-   ```typescript
-   /**
-    * ユーザー情報を取得し、最終アクセス日時を更新する
-    * 副作用: ユーザーの最終アクセス日時がDBで更新される
-    * @param userId - ユーザーID
-    */
-   async function getUserAndUpdateLastAccess(userId: string): Promise<User> {
-     // 実装
-   }
-   ```
-
-3. **ビジネスロジックや計算の意味**
-
-   ```typescript
-   /**
-    * 商品の税込価格を計算する
-    * 計算式: 本体価格 + (本体価格 × 税率)
-    * 端数は切り捨てられる
-    * @param price - 本体価格
-    * @param taxRate - 税率（例: 0.1 = 10%）
-    */
-   function calculatePriceWithTax(price: number, taxRate: number): number {
-     // 実装
-   }
-   ```
-
-### ドキュメントジェネレータとの連携を考慮する
-
-1. **公開APIには完全なJSDocを記述する**
-
-   ```typescript
-   /**
-    * ブログ記事のメタデータから構造化データを生成する
-    * 構造化データはJSON-LDフォーマットで返される
-    *
-    * @param post - 記事データ
-    * @returns JSON-LD形式の構造化データ
-    * @example
-    * const post = { title: 'タイトル', date: '2023-01-01', ... };
-    * const jsonLd = getBlogPostingStructured(post);
-    * // <script type="application/ld+json">{ ... }</script>
-    */
-   export function getBlogPostingStructured(post: PostProps): WithContext<BlogPosting> {
-     // 実装
-   }
-   ```
-
-2. **内部実装の詳細はコード内での理解を優先する**
-
-   ```typescript
-   /**
-    * 記事リストをフィルタリングして返す内部ヘルパー関数
-    * @private
-    */
-   function filterPostsByTag(posts: PostProps[], tag: string): PostProps[] {
-     // 実装
-   }
-   ```
-
-### まとめ: TypeScriptとJSDocの役割分担
-
-| 情報の種類       | TypeScript                  | JSDoc                   | 推奨アプローチ                             |
-| ---------------- | --------------------------- | ----------------------- | ------------------------------------------ |
-| 型情報           | ✅ 型注釈で表現             | ❌ 重複させない         | `function process(data: UserData): Result` |
-| 関数の目的       | ❌ 表現できない             | ✅ 説明に記述           | `/** ユーザーデータを処理する */`          |
-| パラメータ名と型 | ✅ 型注釈で表現             | ❌ 型情報は重複させない | `@param data - 処理対象のデータ`           |
-| 制約条件         | ❌ 限定的にしか表現できない | ✅ 詳細に記述           | `@param id - 正の整数のみ許容`             |
-| 副作用           | ❌ 表現できない             | ✅ 説明に記述           | `副作用: DBが更新される`                   |
-| 使用例           | ❌ 表現できない             | ✅ @exampleで示す       | `@example const result = process(data);`   |
-
-## TODOコメント
-
-TODOコメントは一時的な性質を持つ特殊なコメントであり、後で対応が必要な項目を記録するために使用する。具体的な情報を含め、対応期限がある場合は明記する。
+例：
 
 ```typescript
 /**
- * @todo 2025-06-10: パフォーマンス最適化が必要。useCallback+useMemoの導入を検討する
- * 現在、大量のリストをレンダリングする際に遅延が発生している
+ * ページネーションデータを取得する
+ * @param page - ページ番号（1以上の整数）
+ * @param limit - 1ページあたりの件数（最大100）
+ */
+function getPaginatedData(page: number, limit: number): Promise<PaginatedResult> { /* 実装 */ }
+
+/**
+ * 商品の在庫数を計算する
+ * @note 予約在庫も含めて計算するため、実際に出荷可能な数より大きくなる場合がある
+ * @param productId - 商品ID
+ * @returns 在庫数（予約分を含む）
+ */
+function calculateInventory(productId: string): number { /* 実装 */ }
+
+/**
+ * ユーザーセッションを無効化する
+ * @warning この操作は元に戻せません。ユーザーは再ログインが必要になります。
+ */
+function invalidateSession(userId: string): void { /* 実装 */ }
+```
+
+## TODOコメント
+
+期限と具体的情報を含めたTODOコメントを使用します。
+
+```typescript
+/** 
+ * @todo 2025-06-10: パフォーマンス最適化。useCallbackの導入を検討
+ * @assignee yourname
+ */
+function expensiveCalculation() { /* 実装 */ }
+```
+
+## 拘案事項と影響を記述する
+
+```typescript
+/**
+ * @workaround 現在のNext.jsの仕様により、クライアント側でのメタデータ取得ができないため、静的プロパティとして渡しています
+ */
+
+/**
+ * @performance キャッシュを使用してAPI呼び出し回数を削減
  */
 ```
 
-## インラインコメントの使用
-
-シンプルな説明や、コードの特定部分の意図を示す場合はインラインコメントを使用する：
-
-```typescript
-// 無効なDateオブジェクトかどうかを確認
-const isInvalidDate = (date: Date): boolean => {
-  return Number.isNaN(date.getTime());
-};
-```
-
-## コメントの更新
-
-コードを変更する際は、関連するJSDocコメントも必ず更新する。古いコメントは誤解を招く可能性があるため、コードと一致していることを確認する。特にパラメータや戻り値の型が変更された場合は、JSDocの説明も更新する。
-
 ## まとめ
 
-本プロジェクトでは実用性を重視しつつ、JSDocを積極的に活用し、以下の原則に従ってコメントを記述する：
+本プロジェクトでは以下の原則に従ってコメントを記述します：
 
-- すべての公開関数・クラス・インターフェースにはJSDocを付与する
-- 内部関数でも複雑なロジックを含む場合はJSDocを付与する
-- JSDocでは最低限、機能の概要・パラメータ・戻り値を説明する
-- 外部仕様や参考情報への参照は`@see`タグを使用する
-- 使用例があると有用な場合は`@example`タグを活用する
-- 型情報はTypeScriptの型注釈で表現し、JSDocでは型の意味や制約を説明する
-- コメント粒度はコードの複雑さや重要度に応じて調整し、冗長性を避ける
+- コードが自己説明的な場合はコメントを省略する
+- 公開関数・クラス・インターフェースにはJSDocを付与する
+- 複雑なロジックを含む内部関数にもJSDocを付与する
+- TypeScriptの型情報と重複する説明は避ける
+- コードの複雑さに応じて適切なコメント粒度を選択する
+- 必要最小限の説明にとどめ、冗長性を避ける
+- コメントでは「何をしているか」より「なぜそうしているか」を重視する
+- 特殊な仕様や注意点は明確にタグ付けして記述する
+
+## 推奨されるJSDocタグ
+
+- `@param` - パラメータの説明
+- `@returns` - 戻り値の説明
+- `@throws` - スローする可能性のある例外
+- `@see` - 関連情報への参照
+- `@example` - 使用例
+- `@note` - 付加情報や解説
+- `@todo` - 今後の課題
+- `@deprecated` - 非推奨/廃止予定のコード
+- `@private` - 非公開メソッド/プロパティ
+- `@warning` - 警告事項

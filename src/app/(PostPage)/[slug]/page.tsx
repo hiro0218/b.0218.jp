@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
+import { getMetadata } from '@/app/_metadata';
 import { Container } from '@/components/Functional/Container';
+import { JsonLdScript } from '@/components/Functional/JsonLdScript';
 import {
   Content as PostContent,
   Edit as PostEdit,
@@ -16,7 +18,7 @@ import { AUTHOR_NAME } from '@/constant';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
 import { getPostsJson } from '@/lib/posts';
 import { getOgpImage, getPermalink } from '@/lib/url';
-import { getData } from './lib/getData';
+import { getPostPageData } from './lib/services';
 
 type Params = Promise<{ slug: string }>;
 
@@ -37,20 +39,18 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug: _slug } = await params;
   const slug = _slug.replace('.html', '');
-  const data = getData(slug);
+  const data = getPostPageData(slug);
   const { title, content, noindex, meta } = data.post;
   const { publishedTime, modifiedTime } = meta;
   const permalink = getPermalink(slug);
   const description = getDescriptionText(content);
   const ogpImage = `${getOgpImage(slug)}?ts=${process.env.BUILD_ID}`;
 
-  return {
+  return getMetadata({
     title,
     description,
+    url: permalink,
     openGraph: {
-      url: permalink,
-      title,
-      description,
       type: 'article',
       images: [{ url: ogpImage }],
     },
@@ -72,17 +72,15 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       ['max-image-preview']: 'large',
       ...(noindex === true && { index: true }),
     },
-    alternates: {
-      canonical: permalink,
-    },
-  };
+  });
 }
 
 export default async function Page({ params }: { params: Params }) {
   const { slug: _slug } = await params;
   const slug = _slug.replace('.html', '');
-  const data = getData(slug);
+  const data = getPostPageData(slug);
 
+  // 投稿が存在しない場合は404ページを表示
   if (!data) {
     notFound();
   }
@@ -94,12 +92,7 @@ export default async function Page({ params }: { params: Params }) {
 
   return (
     <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify([getBlogPostingStructured(post), getBreadcrumbStructured(post)]),
-        }}
-        type="application/ld+json"
-      />
+      <JsonLdScript jsonLd={[getBlogPostingStructured(post), getBreadcrumbStructured(post)]} />
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
       <Container size="small" space={false}>
         <Stack space={6}>
@@ -131,20 +124,15 @@ export default async function Page({ params }: { params: Params }) {
               isWideCluster={false}
               tags={similarTags}
             />
-            {[
-              {
-                heading: '関連記事',
-                posts: similarPost,
-              },
-              {
-                heading: '最新記事',
-                posts: recentPosts,
-                href: '/archive',
-                prefetch: true,
-              },
-            ].map(({ heading, posts, ...rest }, index) => (
-              <PostSection as="aside" heading={heading} headingLevel="h2" key={index} posts={posts} {...rest} />
-            ))}
+            <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
+            <PostSection
+              as="aside"
+              heading="最新記事"
+              headingLevel="h2"
+              href="/archive"
+              posts={recentPosts}
+              prefetch={true}
+            />
           </Stack>
         </Stack>
       </Container>

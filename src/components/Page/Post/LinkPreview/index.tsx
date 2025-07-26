@@ -20,7 +20,6 @@ export const LinkPreview = ({ link, card, thumbnail, title, domain, description 
       </Body>
       {thumbnail && (
         <Thumbnail>
-          {/** biome-ignore lint/nursery/noImgElement: use raw img */}
           <img alt="" decoding="async" height="120" loading="lazy" src={thumbnail} width="120" />
         </Thumbnail>
       )}

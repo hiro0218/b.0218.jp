@@ -8,7 +8,7 @@ type Props = {
 function useTwitterWidgetsLoad({ ref }: Props): void {
   const pathname = usePathname();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  // biome-ignore lint/correctness/useExhaustiveDependencies: This effect should re-run when the pathname changes to load Twitter widgets for the new page.
   useEffect(() => {
     if (!ref.current) {
       return;
