@@ -20,7 +20,6 @@ export const Hero = function Hero() {
           } as CSSProperties
         }
       >
-        {/** biome-ignore lint/performance/noImgElement: use raw img */}
         <img alt="hiro (black cat icon)" height={ICON_SIZE} src="/hiro0218.svg" width={ICON_SIZE} />
       </Avatar>
       <Heading>
