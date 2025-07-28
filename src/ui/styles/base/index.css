@@ -168,7 +168,7 @@ strong {
 
 mark {
   padding: 1px 2px;
-  background-color: var(--color-gray-5A);
+  background-color: var(--color-accent-5A);
   border-radius: var(--border-radius-4);
 }
 
