@@ -11,12 +11,13 @@ type Props = {
 
 export const useSearchHeader = ({ closeDialog }: Props) => {
   const archives = usePostsList();
-  const { searchData, onKeyup } = useSearchData(archives, closeDialog);
-  const SearchHeaderComponent = useMemo(() => <SearchHeader onKeyup={onKeyup} />, [onKeyup]);
+  const { searchData, onKeyup, setResultRef } = useSearchData(archives, closeDialog);
+  const SearchHeaderComponent = useMemo(() => <SearchHeader onKeyupAction={onKeyup} />, [onKeyup]);
 
   return {
     // biome-ignore lint/style/useNamingConvention: ComponentなのでUpperCamelにする
     SearchHeader: SearchHeaderComponent,
     searchData,
+    setResultRef,
   };
 };

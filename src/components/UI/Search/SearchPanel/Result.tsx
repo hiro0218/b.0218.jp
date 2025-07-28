@@ -1,35 +1,92 @@
-import { memo, useMemo } from 'react';
+import { forwardRef, memo, useMemo } from 'react';
 import { Anchor } from '@/components/UI/Anchor';
 import type { SearchProps } from '@/components/UI/Search/type';
 import { convertPostSlugToPath } from '@/lib/url';
-import { css, styled } from '@/ui/styled/static';
+import { css, cx, styled } from '@/ui/styled/static';
+
+const NavigableLink = forwardRef<
+  HTMLDivElement,
+  {
+    slug: string;
+    title: string;
+    isFocused: boolean;
+    onClick: () => void;
+  }
+>(({ slug, title, isFocused, onClick }, ref) => {
+  const link = convertPostSlugToPath(slug);
+
+  return (
+    <div
+      className={isFocused ? cx(LinkContainerStyle, FocusedContainerStyle) : LinkContainerStyle}
+      onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      ref={ref}
+      tabIndex={isFocused ? 0 : -1}
+    >
+      <Anchor className={AnchorStyle} dangerouslySetInnerHTML={{ __html: title }} href={link} prefetch={false} />
+    </div>
+  );
+});
+
+NavigableLink.displayName = 'NavigableLink';
 
 export const Result = memo(function Result({
   suggestions,
   markedTitles,
+  focusedIndex,
+  setResultRef,
+  keyword = '',
 }: {
   suggestions: SearchProps[];
   markedTitles: string[];
+  focusedIndex: number;
+  setResultRef: (index: number, element: HTMLDivElement | null) => void;
+  keyword?: string;
 }) {
   const ResultList = useMemo(() => {
     return suggestions.map(({ slug }, index) => {
-      const link = convertPostSlugToPath(slug);
+      const isFocused = focusedIndex === index;
+
       return (
-        <Anchor
-          className={AnchorStyle}
-          dangerouslySetInnerHTML={{ __html: markedTitles[index] }}
-          href={link}
+        <NavigableLink
+          isFocused={isFocused}
           key={slug}
-          prefetch={false}
+          onClick={() => {
+            const link = convertPostSlugToPath(slug);
+            window.location.href = link;
+          }}
+          ref={(el) => setResultRef(index, el)}
+          slug={slug}
+          title={markedTitles[index]}
         />
       );
     });
-  }, [suggestions, markedTitles]);
+  }, [suggestions, markedTitles, focusedIndex, setResultRef]);
 
-  return <Container>{ResultList}</Container>;
+  return (
+    <Container aria-labelledby="search-results-heading" data-search-results>
+      <Message id="search-results-heading">
+        {suggestions.length > 0
+          ? keyword
+            ? `「${keyword}」の検索結果: ${suggestions.length}件`
+            : `検索結果: ${suggestions.length}件`
+          : keyword
+            ? `「${keyword}」に一致する記事は見つかりませんでした。`
+            : '検索キーワードを入力してください。'}
+      </Message>
+      {ResultList.length > 0 && <div>{ResultList}</div>}
+    </Container>
+  );
 });
 
 const Container = styled.div`
+  display: grid;
+  gap: var(--space-1);
   max-height: 50vh;
   padding: 0;
   margin: 0;
@@ -45,17 +102,46 @@ const Container = styled.div`
   }
 `;
 
-const AnchorStyle = css`
-  display: block;
-  padding: var(--space-1) var(--space-2);
-  font-size: var(--font-size-sm);
+const LinkContainerStyle = css`
+  cursor: pointer;
   border-radius: var(--border-radius-8);
 
   &:hover {
     background-color: var(--color-gray-3);
   }
 
+  &:focus {
+    outline: none;
+  }
+`;
+
+const FocusedContainerStyle = css`
+  outline: 2px solid var(--color-blue-9);
+  outline-offset: -2px;
+  background-color: var(--color-gray-3);
+`;
+
+const AnchorStyle = css`
+  display: block;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--font-size-sm);
+  pointer-events: none;
+  border-radius: var(--border-radius-8);
+
   &:active {
     background-color: var(--color-gray-4);
   }
+
+  &:focus {
+    outline: none;
+    background-color: transparent;
+  }
+`;
+
+const Message = styled.div`
+  padding: var(--space-½);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-xs);
+  color: var(--color-gray-9);
 `;
