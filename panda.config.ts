@@ -3,6 +3,7 @@ import { keyframes } from '@/ui/styled/animations';
 import { dataCss, hljsCss } from '@/ui/styled/globals';
 import globalVars from '@/ui/styled/variables';
 import colorTokens from '@/ui/styled/variables/color';
+import semanticColorTokens from '@/ui/styled/variables/semanticColor';
 
 export default defineConfig({
   // Whether to use css reset
@@ -46,11 +47,14 @@ export default defineConfig({
   },
 
   theme: {
+    tokens: {
+      colors: colorTokens,
+    },
+    semanticTokens: {
+      colors: semanticColorTokens,
+    },
     extend: {
       keyframes,
-      tokens: {
-        colors: colorTokens,
-      },
     },
   },
 

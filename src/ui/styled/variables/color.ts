@@ -105,19 +105,6 @@ const colorValues = {
   },
 
   /**
-   * セマンティックカラー
-   */
-  semantic: {
-    darkBackgrounds: grayA.grayA12,
-    darkForegrounds: gray.gray1,
-    overlayBackgrounds: grayA.grayA10,
-    bodyBackground: gray.gray1,
-    backgroundAccentGradientFrom: blue.blue4,
-    backgroundAccentGradientTo: red.red3,
-    tableShadowColor: grayA.grayA3,
-  },
-
-  /**
    * アラートカラー
    */
   alert: {
@@ -173,9 +160,6 @@ const colorTokens = {
 
   // White alpha colors
   whiteA: Object.fromEntries(Object.entries(colorValues.whiteA).map(([key, value]) => [key, { value }])),
-
-  // Semantic colors
-  semantic: Object.fromEntries(Object.entries(colorValues.semantic).map(([key, value]) => [key, { value }])),
 };
 
 export default colorTokens;
