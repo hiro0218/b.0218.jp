@@ -14,7 +14,7 @@
     line-height: var(--line-height-md);
     color: var(--dark-foregrounds);
     pointer-events: none;
-    background-color: var(--dark-backgrounds);
+    background-color: var(--colors-semantic-dark-backgrounds);
     border-radius: var(--border-radius-4);
     opacity: 0;
     transition:

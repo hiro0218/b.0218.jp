@@ -13,13 +13,13 @@
 
   --container-width: 800px;
 
-  --shadow-base: color-mix(in oklab, var(--color-gray-3A), var(--color-gray-3A) 25%);
-  --shadows-xs: 0 1px 2px var(--shadow-base), 0 0 1px var(--color-gray-7A);
-  --shadows-sm: 0 2px 4px var(--shadow-base), 0 0 1px var(--color-gray-7A);
-  --shadows-md: 0 4px 8px var(--shadow-base), 0 0 1px var(--color-gray-7A);
-  --shadows-lg: 0 8px 16px var(--shadow-base), 0 0 1px var(--color-gray-7A);
-  --shadows-xl: 0 16px 24px var(--shadow-base), 0 0 1px var(--color-gray-7A);
-  --shadows-2xl: 0 24px 40px var(--shadow-base), 0 0 1px var(--color-gray-7A);
+  --shadow-base: color-mix(in oklab, var(--colors-gray-3A), var(--colors-gray-3A) 25%);
+  --shadows-xs: 0 1px 2px var(--shadow-base), 0 0 1px var(--colors-gray-a-7);
+  --shadows-sm: 0 2px 4px var(--shadow-base), 0 0 1px var(--colors-gray-a-7);
+  --shadows-md: 0 4px 8px var(--shadow-base), 0 0 1px var(--colors-gray-a-7);
+  --shadows-lg: 0 8px 16px var(--shadow-base), 0 0 1px var(--colors-gray-a-7);
+  --shadows-xl: 0 16px 24px var(--shadow-base), 0 0 1px var(--colors-gray-a-7);
+  --shadows-2xl: 0 24px 40px var(--shadow-base), 0 0 1px var(--colors-gray-a-7);
 
   --border-radius-2: 2px;
   --border-radius-4: 4px;

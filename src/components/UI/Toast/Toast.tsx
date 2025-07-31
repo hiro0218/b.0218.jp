@@ -45,7 +45,7 @@ const Container = styled.div`
   color: var(--dark-foregrounds);
   white-space: nowrap;
   user-select: none;
-  background-color: var(--dark-backgrounds);
+  background-color: var(--colors-semantic-dark-backgrounds);
   border-radius: var(--border-radius-4);
   isolation: isolate;
   opacity: 0;

@@ -15,7 +15,7 @@
   display: inline-flex;
   align-items: center;
   padding: var(--space-½) var(--space-1);
-  color: var(--color-gray-12);
+  color: var(--colors-gray-12);
   border-radius: var(--border-radius-4);
 }
 
@@ -28,7 +28,7 @@
     display: block;
     pointer-events: none;
     content: '';
-    background-color: var(--color-gray-3A);
+    background-color: var(--colors-gray-a-3);
     border-radius: var(--border-radius-4);
     opacity: 0;
     transform: scale(0.5);
@@ -48,13 +48,13 @@
 
   &:active {
     &::after {
-      background-color: var(--color-gray-4A);
+      background-color: var(--colors-gray-a-4);
     }
   }
 
   &:focus-visible {
     outline: 0;
-    box-shadow: inset 0 0 0 2px var(--color-gray-7);
+    box-shadow: inset 0 0 0 2px var(--colors-gray-7);
   }
 }
 

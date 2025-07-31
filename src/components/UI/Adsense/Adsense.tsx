@@ -41,7 +41,7 @@ export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
           {
             '--ads-height': `${adsHeight}px`,
             '--ads-width': `${adsWidth}px`,
-            backgroundColor: process.env.NODE_ENV === 'development' && 'var(--color-gray-3)',
+            backgroundColor: process.env.NODE_ENV === 'development' && 'var(--colors-gray-3)',
           } as CSSProperties
         }
       >

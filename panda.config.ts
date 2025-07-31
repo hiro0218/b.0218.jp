@@ -2,6 +2,7 @@ import { defineConfig } from '@pandacss/dev';
 import { keyframes } from '@/ui/styled/animations';
 import { dataCss, hljsCss } from '@/ui/styled/globals';
 import globalVars from '@/ui/styled/variables';
+import colorTokens from '@/ui/styled/variables/color';
 
 export default defineConfig({
   // Whether to use css reset
@@ -47,6 +48,9 @@ export default defineConfig({
   theme: {
     extend: {
       keyframes,
+      tokens: {
+        colors: colorTokens,
+      },
     },
   },
 

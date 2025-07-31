@@ -22,7 +22,7 @@ export const Trigger = styled.button`
 
   &:has(+ [aria-expanded='true']) {
     &::after {
-      background-color: var(--color-gray-4A);
+      background-color: var(--colors-gray-a-4);
       opacity: 1;
       transform: scale(1);
     }
@@ -41,8 +41,8 @@ export const Content = styled.div`
   height: fit-content;
   padding: var(--space-½);
   content-visibility: hidden;
-  background-color: var(--white);
-  border: 1px solid var(--color-gray-4A);
+  background-color: var(--colors-white);
+  border: 1px solid var(--colors-gray-a-4);
   border-radius: var(--border-radius-4);
   box-shadow: var(--shadows-md);
   opacity: 0;

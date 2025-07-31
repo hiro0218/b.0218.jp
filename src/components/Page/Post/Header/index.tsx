@@ -40,7 +40,7 @@ const headerSeparatorStyle = css`
     width: 100%;
     height: var(--space-½);
     margin-top: var(--space-4);
-    color: var(--color-gray-6);
+    color: var(--colors-gray-6);
     content: '';
     background-image: repeating-linear-gradient(-45deg, currentColor, currentColor 1px, transparent 0, transparent 50%);
     background-size: 6px 6px;
@@ -58,5 +58,5 @@ const Heading = styled.h1`
 
 const itemStyle = css`
   display: flex;
-  color: var(--color-gray-11);
+  color: var(--colors-gray-11);
 `;

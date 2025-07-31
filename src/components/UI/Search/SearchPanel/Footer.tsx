@@ -16,8 +16,8 @@ const SearchFooter = styled.div`
   justify-content: flex-end;
   padding: var(--space-½) var(--space-1);
   font-size: var(--font-size-xs);
-  color: var(--color-gray-11);
-  border-top: 1px solid var(--color-gray-6);
+  color: var(--colors-gray-11);
+  border-top: 1px solid var(--colors-gray-6);
 
   a {
     &:hover {

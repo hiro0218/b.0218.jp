@@ -13,7 +13,7 @@ const Div = styled.div`
   inset: 0;
   z-index: var(--zIndex-overlay);
   visibility: hidden;
-  background-color: var(--overlay-backgrounds);
+  background-color: var(--colors-semantic-overlay-backgrounds);
   isolation: isolate;
   opacity: 0;
   transition:
