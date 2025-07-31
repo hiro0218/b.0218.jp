@@ -1,9 +1,9 @@
 import { defineConfig } from '@pandacss/dev';
 import { keyframes } from '@/ui/styled/animations';
 import { dataCss, hljsCss } from '@/ui/styled/globals';
+import colorTokens from '@/ui/styled/tokens/colors';
+import semanticColorTokens from '@/ui/styled/tokens/semanticColors';
 import globalVars from '@/ui/styled/variables';
-import colorTokens from '@/ui/styled/variables/color';
-import semanticColorTokens from '@/ui/styled/variables/semanticColor';
 
 export default defineConfig({
   // Whether to use css reset
@@ -25,7 +25,7 @@ export default defineConfig({
   lightningcss: true,
   logLevel: process.env.NODE_ENV === 'production' ? 'warn' : 'debug',
   minify: process.env.NODE_ENV === 'production' ? true : false,
-  hash: true,
+  hash: false, // workaround: 変数がhash化されると指定できない問題
 
   importMap: {
     css: '@/ui/styled/static',
