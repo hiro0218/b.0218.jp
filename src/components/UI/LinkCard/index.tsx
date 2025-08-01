@@ -48,7 +48,7 @@ export default LinkCard;
 
 const Container = styled.article`
   --container-space: var(--space-3);
-  --hover-color: var(--color-accent-10);
+  --hover-color: var(--colors-accent-10);
 
   display: flex;
   flex-direction: column;
@@ -58,9 +58,9 @@ const Container = styled.article`
   contain: layout style;
   content-visibility: auto;
   word-break: break-all;
-  background-color: var(--white);
+  background-color: var(--colors-white);
   border-radius: var(--border-radius-4);
-  box-shadow: 0 0 0 1px var(--color-gray-4);
+  box-shadow: 0 0 0 1px var(--colors-gray-4);
   transition: box-shadow 0.2s;
 
   @media (--isMobile) {
@@ -84,7 +84,7 @@ const Container = styled.article`
   time {
     font-size: var(--font-size-sm);
     line-height: var(--line-height-xs);
-    color: var(--color-gray-10);
+    color: var(--colors-gray-10);
   }
 `;
 
@@ -114,12 +114,12 @@ const titleStyle = css`
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-md);
-  color: var(--color-gray-12);
+  color: var(--colors-gray-12);
   transition: color 0.4s;
 `;
 
 const Paragraph = styled.p`
-  color: var(--color-gray-11);
+  color: var(--colors-gray-11);
   letter-spacing: var(--letter-spacing-sm);
 `;
 

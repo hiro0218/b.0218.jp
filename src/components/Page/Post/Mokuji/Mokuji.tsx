@@ -32,7 +32,7 @@ export default Mokuji;
 
 const Root = styled.nav`
   a {
-    color: var(--color-gray-12);
+    color: var(--colors-gray-12);
 
     &:hover {
       text-decoration: underline;
@@ -41,16 +41,16 @@ const Root = styled.nav`
 `;
 
 const Details = styled.details`
-  background-color: var(--color-gray-3A);
+  background-color: var(--colors-gray-a-3);
   border-radius: var(--border-radius-8);
   transition: background-color 0.2s ease;
 
   &:not([open]) {
     &:hover {
-      background-color: var(--color-gray-4A);
+      background-color: var(--colors-gray-a-4);
     }
     &:active {
-      background-color: var(--color-gray-5A);
+      background-color: var(--colors-gray-a-5);
     }
   }
 
@@ -69,7 +69,7 @@ const IconContainer = styled.div`
   place-items: center;
   width: var(--icon-size-md);
   height: var(--icon-size-md);
-  background-color: var(--color-gray-3A);
+  background-color: var(--colors-gray-a-3);
   border-radius: var(--border-radius-full);
 `;
 

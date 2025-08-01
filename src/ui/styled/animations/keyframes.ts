@@ -47,19 +47,19 @@ export const keyframes = defineKeyframes({
   },
   'scroll-table-shadow-inset': {
     '0%': {
-      boxShadow: `inset calc(var(--table-shadow-size) * -2) 0 var(--table-shadow-size) var(--table-shadow-spread)
-          var(--table-shadow-color),
-        inset 0 0 var(--table-shadow-size) var(--table-shadow-spread) var(--table-shadow-color)`,
+      boxShadow: `inset calc(var(--colors-table-shadow-size) * -2) 0 var(--colors-table-shadow-size) var(--colors-table-shadow-spread)
+          var(--colors-table-shadow-color),
+        inset 0 0 var(--colors-table-shadow-size) var(--colors-table-shadow-spread) var(--colors-table-shadow-color)`,
     },
     '10%,90%': {
-      boxShadow: `inset calc(var(--table-shadow-size) * -1) 0 var(--table-shadow-size) var(--table-shadow-spread)
-          var(--table-shadow-color),
-        inset var(--table-shadow-size) 0 var(--table-shadow-size) var(--table-shadow-spread) var(--table-shadow-color)`,
+      boxShadow: `inset calc(var(--colors-table-shadow-size) * -1) 0 var(--colors-table-shadow-size) var(--colors-table-shadow-spread)
+          var(--colors-table-shadow-color),
+        inset var(--colors-table-shadow-size) 0 var(--colors-table-shadow-size) var(--colors-table-shadow-spread) var(--colors-table-shadow-color)`,
     },
     '100%': {
-      boxShadow: `inset 0 0 var(--table-shadow-size) var(--table-shadow-spread) var(--table-shadow-color),
-        inset calc(var(--table-shadow-size) * 2) 0 var(--table-shadow-size) var(--table-shadow-spread)
-          var(--table-shadow-color)`,
+      boxShadow: `inset 0 0 var(--colors-table-shadow-size) var(--colors-table-shadow-spread) var(--colors-table-shadow-color),
+        inset calc(var(--colors-table-shadow-size) * 2) 0 var(--colors-table-shadow-size) var(--colors-table-shadow-spread)
+          var(--colors-table-shadow-color)`,
     },
   },
 });

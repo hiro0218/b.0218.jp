@@ -47,7 +47,7 @@ const Container = styled.div`
 `;
 
 const AnchorStyle = css`
-  --fill: var(--color-gray-3);
+  --fill: var(--colors-gray-3);
   --direction: to top;
 
   position: relative;
@@ -58,7 +58,7 @@ const AnchorStyle = css`
   height: 100%;
   font-size: var(--font-size-xs);
   line-height: var(--line-height-sm);
-  color: var(--color-gray-11);
+  color: var(--colors-gray-11);
   background: linear-gradient(var(--direction), var(--fill) var(--percent), transparent var(--percent));
 
   @media (--isMobile) {
@@ -70,11 +70,11 @@ const AnchorStyle = css`
   }
 
   &:hover {
-    --fill: var(--color-gray-4);
+    --fill: var(--colors-gray-4);
   }
 
   &:active,
   &:focus-visible {
-    --fill: var(--color-gray-5);
+    --fill: var(--colors-gray-5);
   }
 `;

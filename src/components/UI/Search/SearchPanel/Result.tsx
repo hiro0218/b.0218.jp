@@ -107,7 +107,7 @@ const LinkContainerStyle = css`
   border-radius: var(--border-radius-8);
 
   &:hover {
-    background-color: var(--color-gray-3);
+    background-color: var(--colors-gray-3);
   }
 
   &:focus {
@@ -116,9 +116,9 @@ const LinkContainerStyle = css`
 `;
 
 const FocusedContainerStyle = css`
-  outline: 2px solid var(--color-blue-9);
+  outline: 2px solid var(--colors-blue-9);
   outline-offset: -2px;
-  background-color: var(--color-gray-3);
+  background-color: var(--colors-gray-3);
 `;
 
 const AnchorStyle = css`
@@ -129,7 +129,7 @@ const AnchorStyle = css`
   border-radius: var(--border-radius-8);
 
   &:active {
-    background-color: var(--color-gray-4);
+    background-color: var(--colors-gray-4);
   }
 
   &:focus {
@@ -143,5 +143,5 @@ const Message = styled.div`
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-xs);
-  color: var(--color-gray-9);
+  color: var(--colors-gray-9);
 `;

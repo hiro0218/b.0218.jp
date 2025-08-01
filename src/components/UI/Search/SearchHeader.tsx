@@ -37,7 +37,7 @@ export const SearchHeader = ({ onKeyupAction }: { onKeyupAction: onKeyupProps })
 const Header = styled.div`
   position: relative;
   display: flex;
-  border-bottom: 1px solid var(--color-gray-6);
+  border-bottom: 1px solid var(--colors-gray-6);
 `;
 
 const HeaderIcon = styled.label`
@@ -55,7 +55,7 @@ const SearchInput = styled.input`
 
   &::placeholder {
     font-size: var(--font-size-sm);
-    color: var(--color-gray-11);
+    color: var(--colors-gray-11);
   }
 
   &:focus {

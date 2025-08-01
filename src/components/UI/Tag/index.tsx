@@ -62,6 +62,6 @@ const Count = styled.span`
   font-size: var(--font-size-xs);
   line-height: var(--line-height-sm);
   user-select: none;
-  background-color: var(--color-gray-3A);
+  background-color: var(--colors-gray-a-3);
   border-radius: var(--border-radius-8);
 `;

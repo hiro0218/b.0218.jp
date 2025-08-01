@@ -12,9 +12,9 @@
     left: 50%;
     font-size: var(--font-size-xs);
     line-height: var(--line-height-md);
-    color: var(--dark-foregrounds);
+    color: var(--colors-dark-foregrounds);
     pointer-events: none;
-    background-color: var(--dark-backgrounds);
+    background-color: var(--colors-dark-backgrounds);
     border-radius: var(--border-radius-4);
     opacity: 0;
     transition:
