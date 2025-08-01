@@ -2,7 +2,7 @@ name: Auto Approve PR based on Labels
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize, labeled]
+    types: [labeled]
 
 jobs:
   auto-approve:
