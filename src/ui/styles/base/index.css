@@ -23,7 +23,7 @@ body {
   font-feature-settings: 'chws' 1;
   line-height: 1.875;
   color: var(--colors-gray-12);
-  background-color: var(--colors-semantic-body-background);
+  background-color: var(--colors-body-background);
   line-break: strict;
   -webkit-font-smoothing: subpixel-antialiased;
 
