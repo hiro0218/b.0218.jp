@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect } from 'react';
 import { convertPostSlugToPath } from '@/lib/url';
-import type { KeyboardNavigationReturn } from '../type';
+import type { KeyboardNavigationReturn, SearchResultData } from '../type';
 import type { useSearchDOMRefs } from './useSearchDOMRefs';
 
 type KeyboardNavigationParams = {
@@ -38,14 +38,17 @@ export const useKeyboardNavigation = ({
    */
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
+      // ダイアログが存在しない場合は参照を更新し、それでも存在しなければ処理を中断
       if (!domRefs.dialogRef.current) {
         domRefs.updateDOMRefs();
         if (!domRefs.dialogRef.current) return;
       }
 
+      // 下矢印キー: 次の検索結果項目にフォーカスを移動
       if (e.key === 'ArrowDown') {
         e.preventDefault();
-        setSearchResult((prev) => {
+        setSearchResult((prev: SearchResultData) => {
+          // 最後の項目でなければフォーカスインデックスを1つ増加
           if (prev.focusedIndex < prev.suggestions.length - 1) {
             return {
               ...prev,
@@ -57,9 +60,11 @@ export const useKeyboardNavigation = ({
         return;
       }
 
+      // 上矢印キー: 前の検索結果項目にフォーカスを移動（入力フィールドに戻る場合も含む）
       if (e.key === 'ArrowUp') {
         e.preventDefault();
-        setSearchResult((prev) => {
+        setSearchResult((prev: SearchResultData) => {
+          // フォーカスインデックスが-1より大きければ1つ減少（-1は入力フィールドのフォーカス状態）
           if (prev.focusedIndex > -1) {
             return {
               ...prev,
@@ -71,8 +76,10 @@ export const useKeyboardNavigation = ({
         return;
       }
 
+      // Enterキー: フォーカスされている検索結果項目に移動
       if (e.key === 'Enter') {
-        setSearchResult((prev) => {
+        setSearchResult((prev: SearchResultData) => {
+          // 有効な範囲内でフォーカスされている項目があれば、その記事ページに遷移
           if (prev.focusedIndex >= 0 && prev.focusedIndex < prev.suggestions.length) {
             const suggestion = prev.suggestions[prev.focusedIndex];
             if (suggestion) {
@@ -86,6 +93,7 @@ export const useKeyboardNavigation = ({
         return;
       }
 
+      // Escapeキー: 検索ダイアログを閉じる
       if (e.key === 'Escape' || e.key === 'Esc') {
         closeDialog();
         return;
@@ -94,13 +102,38 @@ export const useKeyboardNavigation = ({
     [domRefs, setSearchResult, closeDialog],
   );
 
-  // キーボードイベントリスナーの登録・削除
+  // グローバルキーボードイベントリスナーの登録・削除
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleKeyDown]);
+
+  // 入力フォームのフォーカス時に検索結果項目のフォーカスを外す
+  useEffect(() => {
+    const inputElement = domRefs.inputRef.current;
+
+    const handleFocus = () => {
+      // 検索結果項目のフォーカスを外す（focusedIndexを-1に設定して入力フィールドにフォーカス状態を戻す）
+      setSearchResult((prev: SearchResultData) => ({
+        ...prev,
+        focusedIndex: -1,
+      }));
+    };
+
+    // 入力要素が存在する場合のみイベントリスナーを登録
+    if (inputElement) {
+      inputElement.addEventListener('focus', handleFocus);
+    }
+
+    return () => {
+      // クリーンアップ: イベントリスナーを削除
+      if (inputElement) {
+        inputElement.removeEventListener('focus', handleFocus);
+      }
+    };
+  }, [domRefs.inputRef, setSearchResult]);
 
   return {
     handleKeyDown,
