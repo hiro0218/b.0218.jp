@@ -41,8 +41,8 @@ jobs:
           fi
 
           if [[ $files != "" ]]; then
-            # --include-only で修正ファイル同士の依存関係だけを抽出
-            bunx depcruise --cache -X "^node_modules" --max-depth 3 -T json --include-only "$includeOnlyOption" $files > _temp.json
+            # 修正ファイルとその依存先を抽出（より完全なグラフ）
+            bunx depcruise --cache -X "^node_modules" --max-depth 3 -T json --focus "$includeOnlyOption" $files > _temp.json
 
             echo -e '\n' >> result.md
             bunx depcruise-fmt -T markdown _temp.json >> result.md
@@ -51,7 +51,7 @@ jobs:
             echo -e '\n---\n' >> result.md
 
             echo -e '\n<details>' >> result.md
-            echo -e '\n<summary>変更されたファイルの依存関係を可視化します。</summary>' >> result.md
+            echo -e '\n<summary>変更されたファイルとその依存先の関係を可視化します。</summary>' >> result.md
             echo -e '\n```mermaid' >> result.md
             bunx depcruise-fmt -T mermaid _temp.json >> result.md
             echo -e '\n```' >> result.md
