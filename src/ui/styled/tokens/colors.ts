@@ -1,4 +1,4 @@
-import { blue, blueA, grass, gray, grayA, grayDark, grayDarkA, purple, red, whiteA, yellow } from '@radix-ui/colors';
+import { blue, blueA, gray, grayA, grayDark, grayDarkA, whiteA } from '@radix-ui/colors';
 
 /**
  * @see https://www.radix-ui.com/colors/docs/palette-composition/understanding-the-scale
@@ -8,7 +8,6 @@ const colorValues = {
   black: '#000',
 
   /**
-   * Step 1-12: グレースケール
    * 1-2: 背景
    * 3-5: コンポーネントの背景
    * 6-8: 境界線
@@ -105,23 +104,6 @@ const colorValues = {
   },
 
   /**
-   * アラートカラー
-   */
-  alert: {
-    note: blue.blue11,
-    important: purple.purple11,
-    warning: yellow.yellow11,
-    caution: red.red11,
-  },
-
-  /**
-   * Post Note
-   */
-  postNote: {
-    icon: grass.grass11,
-  },
-
-  /**
    * 透明度のある白
    */
   whiteA: {
@@ -151,12 +133,6 @@ const colorTokens = {
 
   // Gray inverse alpha colors
   grayInverseA: Object.fromEntries(Object.entries(colorValues.grayInverseA).map(([key, value]) => [key, { value }])),
-
-  // Alert colors
-  alert: Object.fromEntries(Object.entries(colorValues.alert).map(([key, value]) => [key, { value }])),
-
-  // Post note colors
-  postNote: Object.fromEntries(Object.entries(colorValues.postNote).map(([key, value]) => [key, { value }])),
 
   // White alpha colors
   whiteA: Object.fromEntries(Object.entries(colorValues.whiteA).map(([key, value]) => [key, { value }])),

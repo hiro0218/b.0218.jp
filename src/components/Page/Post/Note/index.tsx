@@ -34,7 +34,7 @@ const ContainerStyle = css`
   svg {
     flex-shrink: 0;
     path {
-      fill: var(--colors-icon-post-note);
+      fill: var(--colors-post-note-icon);
     }
   }
 `;
