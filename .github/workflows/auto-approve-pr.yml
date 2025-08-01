@@ -50,15 +50,7 @@ jobs:
               repo,
               pull_number: number,
               event: 'APPROVE',
-              body: 'This pull request has been approved based on the auto-approve label.'
+              body: 'Approved!'
             });
 
             console.log('PR has been automatically approved');
-
-            // PRにコメントを追加
-            await github.rest.issues.createComment({
-              owner,
-              repo,
-              issue_number: number,
-              body: '🤖 Auto-approval based on labels has been completed'
-            });
