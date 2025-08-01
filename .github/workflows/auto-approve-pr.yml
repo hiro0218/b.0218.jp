@@ -1,0 +1,64 @@
+name: Auto Approve PR based on Labels
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled]
+
+jobs:
+  auto-approve:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Check for auto-approve label
+        id: check-label
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo, number } = context.issue;
+            const { data: pullRequest } = await github.rest.pulls.get({
+              owner,
+              repo,
+              pull_number: number,
+            });
+
+            const labels = pullRequest.labels.map(label => label.name);
+            console.log('PR Labels:', labels);
+
+            // 承認対象となるラベル
+            const approveLabels = ['auto-approve'];
+
+            // ラベルの存在チェック
+            const hasApproveLabel = labels.some(label => approveLabels.includes(label));
+            console.log('Has approve label:', hasApproveLabel);
+
+            return hasApproveLabel;
+
+      - name: Approve Pull Request
+        if: ${{ steps.check-label.outputs.result == 'true' }}
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo, number } = context.issue;
+
+            // PRを承認
+            await github.rest.pulls.createReview({
+              owner,
+              repo,
+              pull_number: number,
+              event: 'APPROVE',
+              body: 'This pull request has been approved based on the auto-approve label.'
+            });
+
+            console.log('PR has been automatically approved');
+
+            // PRにコメントを追加
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: number,
+              body: '🤖 Auto-approval based on labels has been completed'
+            });
