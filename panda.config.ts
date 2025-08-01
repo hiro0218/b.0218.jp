@@ -25,7 +25,10 @@ export default defineConfig({
   lightningcss: true,
   logLevel: process.env.NODE_ENV === 'production' ? 'warn' : 'debug',
   minify: process.env.NODE_ENV === 'production' ? true : false,
-  hash: false, // workaround: 変数がhash化されると指定できない問題
+  hash: {
+    cssVar: false,
+    className: true,
+  },
 
   importMap: {
     css: '@/ui/styled/static',
