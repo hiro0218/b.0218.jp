@@ -15,7 +15,10 @@ type KeyboardNavigationParams = {
 
 /**
  * 検索ダイアログでのキーボードナビゲーション機能を提供するフック
- * @param params - 検索結果、状態更新関数、ダイアログ制御関数、DOM参照
+ * @note アクセシビリティ向上のため、矢印キーでの項目移動とEnterキーでの選択を実装
+ * @param setSearchResult - 検索結果状態の更新関数
+ * @param closeDialog - ダイアログを閉じる関数
+ * @param domRefs - 入力フィールドとダイアログのDOM参照
  * @returns キーボードイベントハンドラーとナビゲーションキー判定関数
  */
 export const useKeyboardNavigation = ({
@@ -25,8 +28,7 @@ export const useKeyboardNavigation = ({
 }: KeyboardNavigationParams): KeyboardNavigationReturn => {
   /**
    * ナビゲーションキーかどうかを判定する
-   * @param key - キーボードイベントのキー値
-   * @returns ナビゲーションキーの場合はtrue
+   * @note 検索入力での不要なイベント処理を回避するために使用
    */
   const isNavigationKey = useCallback((key: string): boolean => {
     return key === 'ArrowDown' || key === 'ArrowUp' || key === 'Enter' || key === 'Escape' || key === 'Esc';
@@ -34,21 +36,19 @@ export const useKeyboardNavigation = ({
 
   /**
    * グローバルキーボードイベントを処理し、検索結果間のナビゲーションを制御する
-   * @note DOM参照の無効化を検出し、必要に応じて参照を更新
+   * @note DOM参照の無効化を検出し、必要に応じて参照を更新してイベント処理の継続性を保つ
    */
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      // ダイアログが存在しない場合は参照を更新し、それでも存在しなければ処理を中断
+      // DOM参照が無効化された場合の復旧処理（React StrictModeでの再マウント対応）
       if (!domRefs.dialogRef.current) {
         domRefs.updateDOMRefs();
         if (!domRefs.dialogRef.current) return;
       }
 
-      // 下矢印キー: 次の検索結果項目にフォーカスを移動
       if (e.key === 'ArrowDown') {
         e.preventDefault();
         setSearchResult((prev: SearchResultData) => {
-          // 最後の項目でなければフォーカスインデックスを1つ増加
           if (prev.focusedIndex < prev.suggestions.length - 1) {
             return {
               ...prev,
@@ -60,11 +60,10 @@ export const useKeyboardNavigation = ({
         return;
       }
 
-      // 上矢印キー: 前の検索結果項目にフォーカスを移動（入力フィールドに戻る場合も含む）
       if (e.key === 'ArrowUp') {
         e.preventDefault();
         setSearchResult((prev: SearchResultData) => {
-          // フォーカスインデックスが-1より大きければ1つ減少（-1は入力フィールドのフォーカス状態）
+          // -1は入力フィールドのフォーカス状態を表す
           if (prev.focusedIndex > -1) {
             return {
               ...prev,
@@ -76,15 +75,14 @@ export const useKeyboardNavigation = ({
         return;
       }
 
-      // Enterキー: フォーカスされている検索結果項目に移動
       if (e.key === 'Enter') {
         setSearchResult((prev: SearchResultData) => {
-          // 有効な範囲内でフォーカスされている項目があれば、その記事ページに遷移
           if (prev.focusedIndex >= 0 && prev.focusedIndex < prev.suggestions.length) {
             const suggestion = prev.suggestions[prev.focusedIndex];
             if (suggestion) {
               closeDialog();
               const link = convertPostSlugToPath(suggestion.slug);
+              // Next.js App Routerでの確実なページ遷移のためwindow.location.hrefを使用
               window.location.href = link;
             }
           }
@@ -93,7 +91,6 @@ export const useKeyboardNavigation = ({
         return;
       }
 
-      // Escapeキー: 検索ダイアログを閉じる
       if (e.key === 'Escape' || e.key === 'Esc') {
         closeDialog();
         return;
@@ -102,7 +99,6 @@ export const useKeyboardNavigation = ({
     [domRefs, setSearchResult, closeDialog],
   );
 
-  // グローバルキーボードイベントリスナーの登録・削除
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
     return () => {
@@ -110,25 +106,26 @@ export const useKeyboardNavigation = ({
     };
   }, [handleKeyDown]);
 
-  // 入力フォームのフォーカス時に検索結果項目のフォーカスを外す
+  /**
+   * 入力フィールドにフォーカスが戻った際の状態リセット処理
+   * @note ユーザーが検索語を変更する際に、以前の選択状態を引き継がないようにする
+   */
   useEffect(() => {
     const inputElement = domRefs.inputRef.current;
 
     const handleFocus = () => {
-      // 検索結果項目のフォーカスを外す（focusedIndexを-1に設定して入力フィールドにフォーカス状態を戻す）
+      // focusedIndexを-1にリセットして入力フィールドのフォーカス状態を示す
       setSearchResult((prev: SearchResultData) => ({
         ...prev,
         focusedIndex: -1,
       }));
     };
 
-    // 入力要素が存在する場合のみイベントリスナーを登録
     if (inputElement) {
       inputElement.addEventListener('focus', handleFocus);
     }
 
     return () => {
-      // クリーンアップ: イベントリスナーを削除
       if (inputElement) {
         inputElement.removeEventListener('focus', handleFocus);
       }
