@@ -58,9 +58,7 @@ export default defineConfig({
     semanticTokens: {
       colors: semanticColorTokens,
     },
-    extend: {
-      keyframes,
-    },
+    keyframes,
   },
 
   // The output directory for your css system
