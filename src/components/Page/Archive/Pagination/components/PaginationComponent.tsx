@@ -142,7 +142,7 @@ const paginationButtonStyle = css`
   color: var(--colors-gray-11);
   cursor: pointer;
   border-radius: var(--border-radius-full);
-  transition: background-color 0.1s var(--easing-ease-out);
+  transition: background-color 0.1s var(--easings-ease-out);
 
   &[disabled] {
     color: var(--colors-gray-12);

@@ -307,7 +307,7 @@ del {
     overflow-y: clip;
     opacity: 0;
     transition:
-      height 0.8s var(--easing-ease-out-expo),
+      height 0.8s var(--easings-ease-out-expo),
       opacity 0.4s linear,
       content-visibility 0.8s ease allow-discrete;
   }
@@ -323,12 +323,12 @@ del {
 @supports (view-transition-name: none) {
   @media not (prefers-reduced-motion: reduce) {
     ::view-transition-old(cross-fade) {
-      animation: view-transition-hide 0.4s var(--easing-ease-in-out-circ) forwards;
+      animation: view-transition-hide 0.4s var(--easings-ease-in-out-circ) forwards;
     }
 
     ::view-transition-new(cross-fade) {
       opacity: 0;
-      animation: view-transition-show 0.6s var(--easing-ease-out) 0.2s forwards;
+      animation: view-transition-show 0.6s var(--easings-ease-out) 0.2s forwards;
     }
   }
 }
