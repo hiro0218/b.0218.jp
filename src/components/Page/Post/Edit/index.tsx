@@ -46,7 +46,7 @@ const Anchor = styled.a`
   align-items: center;
   padding: var(--space-½) var(--space-1);
   font-size: var(--font-size-sm);
-  line-height: var(--line-height-sm);
+  line-height: var(--line-heights-sm);
   color: var(--colors-gray-12);
   border-radius: var(--border-radius-2);
 

@@ -57,7 +57,7 @@ const AnchorStyle = css`
   min-width: 5cap;
   height: 100%;
   font-size: var(--font-size-xs);
-  line-height: var(--line-height-sm);
+  line-height: var(--line-heights-sm);
   color: var(--colors-gray-11);
   background: linear-gradient(var(--direction), var(--fill) var(--percent), transparent var(--percent));
 

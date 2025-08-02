@@ -11,7 +11,7 @@
 
     left: 50%;
     font-size: var(--font-size-xs);
-    line-height: var(--line-height-md);
+    line-height: var(--line-heights-md);
     color: var(--colors-dark-foregrounds);
     pointer-events: none;
     background-color: var(--colors-dark-backgrounds);

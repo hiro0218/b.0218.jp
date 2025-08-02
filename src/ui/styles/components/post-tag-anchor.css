@@ -4,7 +4,7 @@
   justify-content: center;
   padding: var(--space-½) var(--space-2);
   font-size: var(--font-size-sm);
-  line-height: var(--line-height-sm);
+  line-height: var(--line-heights-sm);
   color: var(--colors-gray-11);
   text-align: center;
   white-space: nowrap;

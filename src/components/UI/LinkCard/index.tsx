@@ -83,7 +83,7 @@ const Container = styled.article`
 
   time {
     font-size: var(--font-size-sm);
-    line-height: var(--line-height-xs);
+    line-height: var(--line-heights-xs);
     color: var(--colors-gray-10);
   }
 `;
@@ -113,7 +113,7 @@ const anchorStyle = css`
 const titleStyle = css`
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-md);
+  line-height: var(--line-heights-md);
   color: var(--colors-gray-12);
   transition: color 0.4s;
 `;

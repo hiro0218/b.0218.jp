@@ -20,7 +20,7 @@
     position: relative;
     font-feature-settings: 'palt';
     font-kerning: normal;
-    line-height: var(--line-height-md);
+    line-height: var(--line-heights-md);
     letter-spacing: var(--letter-spacing-md);
     word-break: auto-phrase; /* left -> pretty, center -> balance */
     text-wrap: pretty;
@@ -52,7 +52,7 @@
   h2 {
     margin-top: var(--space-6);
     margin-bottom: var(--space-3);
-    line-height: var(--line-height-md);
+    line-height: var(--line-heights-md);
 
     &:not(:has(+ h3)) {
       border-bottom: 1px solid var(--colors-gray-6);
@@ -66,20 +66,20 @@
   h3 {
     margin-top: var(--space-5);
     margin-bottom: var(--space-3);
-    line-height: var(--line-height-sm);
+    line-height: var(--line-heights-sm);
   }
 
   h4,
   h5 {
     margin-top: var(--space-5);
     margin-bottom: var(--space-2);
-    line-height: var(--line-height-sm);
+    line-height: var(--line-heights-sm);
   }
 
   h6 {
     margin-top: var(--space-4);
     margin-bottom: var(--space-2);
-    line-height: var(--line-height-sm);
+    line-height: var(--line-heights-sm);
   }
 
   > :where(p) {
@@ -109,7 +109,7 @@
     cite {
       display: block;
       font-size: var(--font-size-xs);
-      line-height: var(--line-height-sm);
+      line-height: var(--line-heights-sm);
       color: var(--colors-gray-11);
     }
   }

@@ -69,7 +69,7 @@ export const Content = styled.div`
 
   & > a {
     padding: var(--space-½) var(--space-1);
-    line-height: var(--line-height-lg);
+    line-height: var(--line-heights-lg);
     border-radius: var(--border-radius-4);
   }
 `;

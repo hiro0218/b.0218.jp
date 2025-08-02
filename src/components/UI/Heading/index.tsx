@@ -76,7 +76,7 @@ const Main = styled.div`
 
 const headerTitleStyle = css`
   font-weight: var(--font-weight, --font-weight-normal);
-  line-height: var(--line-height-sm);
+  line-height: var(--line-heights-sm);
   color: var(--colors-gray-12);
   overflow-wrap: break-word;
 `;

@@ -60,7 +60,7 @@ const Count = styled.span`
   margin-left: var(--space-1);
   font-family: var(--font-family-monospace);
   font-size: var(--font-size-xs);
-  line-height: var(--line-height-sm);
+  line-height: var(--line-heights-sm);
   user-select: none;
   background-color: var(--colors-gray-a-3);
   border-radius: var(--border-radius-8);
