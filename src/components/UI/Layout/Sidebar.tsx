@@ -91,11 +91,11 @@ const Side = ({ children }: ChildProps) => {
 export const Sidebar = (({ children, space = 3 }: Props) => {
   return <Container data-gap={space}>{children}</Container>;
 }) as NamedExoticComponent<Props> & {
-  // biome-ignore lint/style/useNamingConvention: <explanation>
+  // biome-ignore lint/style/useNamingConvention: compound component pattern requires PascalCase
   Title: typeof Title;
-  // biome-ignore lint/style/useNamingConvention: <explanation>
+  // biome-ignore lint/style/useNamingConvention: compound component pattern requires PascalCase
   Main: typeof Main;
-  // biome-ignore lint/style/useNamingConvention: <explanation>
+  // biome-ignore lint/style/useNamingConvention: compound component pattern requires PascalCase
   Side: typeof Side;
 };
 

@@ -52,7 +52,7 @@ export const Alert = ({ type, text }: Props) => {
 };
 
 const Container = styled.div`
-  --alert-color: var(--color-alert-note);
+  --alert-color: var(--colors-alert-note);
 
   display: flex;
   flex-direction: column;
@@ -63,19 +63,19 @@ const Container = styled.div`
 
   &[data-alert-type='note'],
   &[data-alert-type='tip'] {
-    --alert-color: var(--color-alert-note);
+    --alert-color: var(--colors-alert-note);
   }
 
   &[data-alert-type='important'] {
-    --alert-color: var(--color-alert-important);
+    --alert-color: var(--colors-alert-important);
   }
 
   &[data-alert-type='warning'] {
-    --alert-color: var(--color-alert-warning);
+    --alert-color: var(--colors-alert-warning);
   }
 
   &[data-alert-type='caution'] {
-    --alert-color: var(--color-alert-caution);
+    --alert-color: var(--colors-alert-caution);
   }
 
   & > :where(*) {

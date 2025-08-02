@@ -42,10 +42,10 @@ const Container = styled.div`
   z-index: var(--zIndex-base);
   padding: var(--space-1) var(--space-2);
   font-size: var(--font-size-xs);
-  color: var(--dark-foregrounds);
+  color: var(--colors-dark-foregrounds);
   white-space: nowrap;
   user-select: none;
-  background-color: var(--dark-backgrounds);
+  background-color: var(--colors-dark-backgrounds);
   border-radius: var(--border-radius-4);
   isolation: isolate;
   opacity: 0;

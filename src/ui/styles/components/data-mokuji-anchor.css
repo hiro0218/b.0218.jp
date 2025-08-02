@@ -9,7 +9,7 @@
   height: 1.5em;
   margin: auto;
   font-size: 1em;
-  color: var(--color-gray-11A);
+  color: var(--colors-gray-a-11);
   text-decoration: none;
   user-select: none;
 
@@ -26,7 +26,7 @@
   }
 
   &:hover {
-    color: var(--color-gray-12);
+    color: var(--colors-gray-12);
   }
 
   @media (--isMobile) {

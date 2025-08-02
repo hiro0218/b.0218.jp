@@ -4,26 +4,26 @@
   justify-content: center;
   padding: var(--space-½) var(--space-2);
   font-size: var(--font-size-sm);
-  line-height: var(--line-height-sm);
-  color: var(--color-gray-11);
+  line-height: var(--line-heights-sm);
+  color: var(--colors-gray-11);
   text-align: center;
   white-space: nowrap;
-  background-color: var(--color-gray-3A);
+  background-color: var(--colors-gray-a-3);
   border-radius: var(--border-radius-8);
 
   &:hover {
-    background-color: var(--color-gray-4A);
+    background-color: var(--colors-gray-a-4);
   }
 
   &:active {
-    background-color: var(--color-gray-5A);
+    background-color: var(--colors-gray-a-5);
   }
 
   /* 要素がspanの場合 */
   &:is(span) {
     &:hover {
       cursor: not-allowed;
-      background-color: var(--color-gray-3A);
+      background-color: var(--colors-gray-a-3);
     }
   }
 }

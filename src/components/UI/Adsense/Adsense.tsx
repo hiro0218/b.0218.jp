@@ -14,12 +14,12 @@ export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
   const pathname = usePathname();
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally including setIsLoaded for pathname change
   useEffect(() => {
     setIsLoaded(true);
   }, [pathname, setIsLoaded]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally depending on isLoaded state only
   useEffect(() => {
     try {
       if (isLoaded) {
@@ -41,7 +41,7 @@ export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
           {
             '--ads-height': `${adsHeight}px`,
             '--ads-width': `${adsWidth}px`,
-            backgroundColor: process.env.NODE_ENV === 'development' && 'var(--color-gray-3)',
+            backgroundColor: process.env.NODE_ENV === 'development' && 'var(--colors-gray-3)',
           } as CSSProperties
         }
       >

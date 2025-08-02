@@ -28,6 +28,7 @@
  * - 検索結果は優先度順にソートされる
  */
 
+import { useMemo } from 'react';
 import type { SearchProps } from '@/components/UI/Search/type';
 
 // 検索一致タイプの定義（優先度順）
@@ -252,6 +253,9 @@ export const executeSearch = (archives: SearchProps[], searchValue: string): Sea
     return [];
   }
 
+  // 検索結果は最大100件に制限
+  const MaxResults = 100;
+
   const rankedResults = searchPosts(archives, searchValue);
 
   // 優先度順に結果をソート
@@ -264,5 +268,40 @@ export const executeSearch = (archives: SearchProps[], searchValue: string): Sea
     return (a.post.title || '').localeCompare(b.post.title || '');
   });
 
-  return rankedResults.map((result) => result.post);
+  // 結果を最大件数に制限
+  return rankedResults.slice(0, MaxResults).map((result) => result.post);
+};
+
+/**
+ * 検索機能にmemoizationを適用するフック
+ */
+export const useSearchWithCache = () => {
+  const cache = useMemo(() => new Map<string, SearchProps[]>(), []);
+
+  return useMemo(() => {
+    return (archives: SearchProps[], searchValue: string): SearchProps[] => {
+      // 空の検索文字列は早期リターン
+      if (!searchValue) return [];
+
+      // キャッシュキーの作成（検索値とデータサイズのハッシュ）
+      const cacheKey = `${searchValue}-${archives.length}`;
+
+      // キャッシュヒット時はキャッシュから返す
+      if (cache.has(cacheKey)) {
+        return cache.get(cacheKey)!;
+      }
+
+      // 検索実行
+      const results = executeSearch(archives, searchValue);
+
+      // 結果をキャッシュに保存（キャッシュサイズ制限）
+      if (cache.size > 50) {
+        // LRUの代わりに単純にキャッシュをクリア
+        cache.clear();
+      }
+      cache.set(cacheKey, results);
+
+      return results;
+    };
+  }, [cache]);
 };

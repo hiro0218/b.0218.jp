@@ -8,7 +8,7 @@ export const useToast = (message: string, duration = 2000) => {
 
   const hideToast = useCallback(() => {
     ref.current?.setAttribute('aria-hidden', 'false');
-  }, [ref]);
+  }, []);
 
   const showToast = useCallback(() => {
     ref.current?.setAttribute('aria-hidden', 'true');
@@ -16,7 +16,7 @@ export const useToast = (message: string, duration = 2000) => {
     setTimeout(() => {
       hideToast();
     }, duration);
-  }, [ref, hideToast, duration]);
+  }, [hideToast, duration]);
 
   return { ref, showToast, hideToast, toastMessage };
 };

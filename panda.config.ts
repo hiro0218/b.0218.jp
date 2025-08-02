@@ -1,6 +1,10 @@
 import { defineConfig } from '@pandacss/dev';
 import { keyframes } from '@/ui/styled/animations';
 import { dataCss, hljsCss } from '@/ui/styled/globals';
+import colorTokens from '@/ui/styled/tokens/colors';
+import easingTokens from '@/ui/styled/tokens/easings';
+import lineHeightTokens from '@/ui/styled/tokens/lineHeights';
+import semanticColorTokens from '@/ui/styled/tokens/semanticColors';
 import globalVars from '@/ui/styled/variables';
 
 export default defineConfig({
@@ -23,7 +27,10 @@ export default defineConfig({
   lightningcss: true,
   logLevel: process.env.NODE_ENV === 'production' ? 'warn' : 'debug',
   minify: process.env.NODE_ENV === 'production' ? true : false,
-  hash: true,
+  hash: {
+    cssVar: false,
+    className: true,
+  },
 
   importMap: {
     css: '@/ui/styled/static',
@@ -45,9 +52,15 @@ export default defineConfig({
   },
 
   theme: {
-    extend: {
-      keyframes,
+    tokens: {
+      colors: colorTokens,
+      easings: easingTokens,
+      lineHeights: lineHeightTokens,
     },
+    semanticTokens: {
+      colors: semanticColorTokens,
+    },
+    keyframes,
   },
 
   // The output directory for your css system

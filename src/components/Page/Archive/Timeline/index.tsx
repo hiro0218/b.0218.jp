@@ -37,11 +37,11 @@ const Section = styled.section`
   --columns-1: 12%;
   --columns-2: 8%;
   --year-heading-height: var(--space-5);
-  --year-heading-circle-color: var(--color-gray-8);
+  --year-heading-circle-color: var(--colors-gray-8);
   --year-heading-separator-size: var(--space-2);
   --year-post-separator-size-h: var(--space-1);
   --year-post-separator-size-w: var(--space-1);
-  --year-post-separator-color: var(--color-gray-7);
+  --year-post-separator-color: var(--colors-gray-7);
   --year-post-separator-border-radius: var(--border-radius-full);
 
   @media (--isMobile) {
@@ -59,7 +59,7 @@ const Section = styled.section`
     z-index: -1;
     width: 2px;
     margin-top: var(--vertical-space);
-    color: var(--color-gray-7);
+    color: var(--colors-gray-7);
     pointer-events: none;
     content: '';
     background-image: repeating-linear-gradient(-45deg, currentColor, currentColor 1px, #0000 0 50%);
@@ -78,15 +78,15 @@ const Section = styled.section`
     width: var(--year-heading-separator-size);
     height: var(--year-heading-separator-size);
     content: '';
-    background-color: var(--white);
+    background-color: var(--colors-white);
     border: 4px solid var(--year-heading-circle-color);
     border-radius: var(--border-radius-full);
     transform: translateX(-50%);
-    transition: border 0.2s var(--easing-ease-out);
+    transition: border 0.2s var(--easings-ease-out);
   }
 
   &:hover {
-    --year-heading-circle-color: var(--color-accent-8);
+    --year-heading-circle-color: var(--colors-accent-8);
   }
 `;
 
@@ -105,13 +105,13 @@ const Title = styled.h2`
 
 const PostCount = styled.span`
   font-size: var(--font-size-sm);
-  color: var(--color-gray-10);
+  color: var(--colors-gray-10);
   text-align: right;
 `;
 
 const Date = styled.span`
   font-size: var(--font-size-sm);
-  color: var(--color-gray-10);
+  color: var(--colors-gray-10);
   text-align: center;
 `;
 
@@ -121,7 +121,7 @@ const Separator = styled.span`
   margin: auto;
   background-color: var(--year-post-separator-color);
   border-radius: var(--year-post-separator-border-radius);
-  transition: all 0.15s var(--easing-ease-out);
+  transition: all 0.15s var(--easings-ease-out);
 `;
 
 const styleAnchor = css`
@@ -135,15 +135,15 @@ const styleAnchor = css`
   border-radius: var(--border-radius-8);
 
   &:hover {
-    background-color: var(--color-gray-3A);
+    background-color: var(--colors-gray-a-3);
 
     --year-post-separator-size-h: var(--space-3);
     --year-post-separator-size-w: var(--space-1);
-    --year-post-separator-color: var(--color-accent-8);
+    --year-post-separator-color: var(--colors-accent-8);
     --year-post-separator-border-radius: var(--border-radius-8);
   }
 
   &:active {
-    background-color: var(--color-gray-4A);
+    background-color: var(--colors-gray-a-4);
   }
 `;

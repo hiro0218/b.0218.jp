@@ -16,7 +16,7 @@ module.exports = {
       name: 'no-orphans',
       comment:
         'このモジュールは孤立しており、恐らくもはや使用されていない可能性があります。使用するか削除するか、あるいは依存関係の設定でこのモジュールに対する例外を追加してください。このルールはデフォルトでは、いくつかの特定のファイル（例：.eslintrc.jsやtsconfig.json）には適用されません。',
-      severity: 'warn',
+      severity: 'info',
       from: {
         orphan: true,
         pathNot: [
@@ -24,6 +24,8 @@ module.exports = {
           '[.]d[.]ts$', // TypeScript declaration files
           '(^|/)tsconfig[.]json$', // TypeScript config
           '(^|/)(babel|webpack|next|stylelint)[.]config[.](js|cjs|mjs|ts|json)$', // other configs
+          '^src/pages', // Next.js pages
+          '^src/app', // Next.js App Router
         ],
       },
       to: {},
@@ -207,7 +209,7 @@ module.exports = {
        true: also detect dependencies that only exist before typescript-to-javascript compilation
        "specify": for each dependency identify whether it only exists before compilation or also after
      */
-    tsPreCompilationDeps: true,
+    tsPreCompilationDeps: 'specify',
 
     /*
        list of extensions to scan that aren't javascript or compile-to-javascript.
@@ -304,7 +306,7 @@ module.exports = {
          [".js", ".jsx"]). This can speed up the most expensive step in
          dependency cruising (module resolution) quite a bit.
        */
-      // extensions: [".js", ".jsx", ".ts", ".tsx", ".d.ts"],
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.d.ts'],
       /*
          If your TypeScript project makes use of types specified in 'types'
          fields in package.jsons of external dependencies, specify "types"

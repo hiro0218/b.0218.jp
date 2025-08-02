@@ -46,15 +46,15 @@ const Anchor = styled.a`
   align-items: center;
   padding: var(--space-½) var(--space-1);
   font-size: var(--font-size-sm);
-  line-height: var(--line-height-sm);
-  color: var(--color-gray-12);
+  line-height: var(--line-heights-sm);
+  color: var(--colors-gray-12);
   border-radius: var(--border-radius-2);
 
   &:hover {
-    background-color: var(--color-gray-3A);
+    background-color: var(--colors-gray-a-3);
   }
 
   &:active {
-    background-color: var(--color-gray-4A);
+    background-color: var(--colors-gray-a-4);
   }
 `;

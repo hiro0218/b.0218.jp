@@ -7,7 +7,7 @@ import { styled } from '@/ui/styled/static';
 
 import type { onKeyupProps } from './type';
 
-export const SearchHeader = ({ onKeyup }: { onKeyup: onKeyupProps }) => {
+export const SearchHeader = ({ onKeyupAction }: { onKeyupAction: onKeyupProps }) => {
   const refInput = useRef<HTMLInputElement>(null);
   const searchInputId = useId();
 
@@ -17,15 +17,17 @@ export const SearchHeader = ({ onKeyup }: { onKeyup: onKeyupProps }) => {
         <MagnifyingGlassIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
       </HeaderIcon>
       <SearchInput
+        aria-autocomplete="list"
+        aria-controls="search-results-heading"
+        aria-label="検索キーワード"
         autoComplete="off"
         id={searchInputId}
-        onKeyUp={onKeyup}
+        onKeyUp={onKeyupAction}
         placeholder="記事タイトルやタグから検索する"
         ref={(el) => {
           refInput.current = el;
           refInput?.current?.focus();
         }}
-        role="searchbox"
         type="text"
       />
     </Header>
@@ -35,7 +37,7 @@ export const SearchHeader = ({ onKeyup }: { onKeyup: onKeyupProps }) => {
 const Header = styled.div`
   position: relative;
   display: flex;
-  border-bottom: 1px solid var(--color-gray-6);
+  border-bottom: 1px solid var(--colors-gray-6);
 `;
 
 const HeaderIcon = styled.label`
@@ -53,7 +55,7 @@ const SearchInput = styled.input`
 
   &::placeholder {
     font-size: var(--font-size-sm);
-    color: var(--color-gray-11);
+    color: var(--colors-gray-11);
   }
 
   &:focus {

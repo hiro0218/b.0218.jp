@@ -5,7 +5,10 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: { '@': join(__dirname, 'src') },
+    alias: {
+      '@': join(__dirname, 'src'),
+      '~': join(__dirname, ''),
+    },
   },
   test: {
     globals: true,
