@@ -16,9 +16,4 @@
   --shadows-lg: 0 8px 16px var(--shadow-base), 0 0 1px var(--colors-gray-a-7);
   --shadows-xl: 0 16px 24px var(--shadow-base), 0 0 1px var(--colors-gray-a-7);
   --shadows-2xl: 0 24px 40px var(--shadow-base), 0 0 1px var(--colors-gray-a-7);
-
-  --zIndex-base: 1;
-  --zIndex-header: 10;
-  --zIndex-overlay: 11;
-  --zIndex-search: 12;
 }

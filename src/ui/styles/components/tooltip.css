@@ -1,6 +1,6 @@
 .tooltip {
   position: absolute;
-  z-index: var(--zIndex-base);
+  z-index: var(--z-index-base);
   width: 100%;
   height: 100%;
   text-align: center;
