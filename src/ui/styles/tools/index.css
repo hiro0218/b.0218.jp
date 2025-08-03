@@ -1,3 +1,5 @@
+/* stylelint-disable nesting-selector-no-missing-scoping-root */
+
 @define-mixin text-ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -8,6 +10,7 @@
   display: -webkit-box;
   overflow-y: hidden;
   -webkit-line-clamp: $lines;
+  /* stylelint-disable-next-line property-no-deprecated */
   -webkit-box-orient: vertical;
 }
 
@@ -71,7 +74,7 @@
   overflow: hidden;
   white-space: nowrap;
   border-width: 0;
-  clip: rect(0, 0, 0, 0);
+  clip-path: rect(0, 0, 0, 0);
 }
 
 /**
@@ -85,5 +88,5 @@
   margin: 0;
   overflow: visible;
   white-space: normal;
-  clip: auto;
+  clip-path: auto;
 }

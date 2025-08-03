@@ -87,7 +87,7 @@
     /* stylelint-disable */
     word-break: break-word;
     /* stylelint-enable */
-    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   /* workaround */
