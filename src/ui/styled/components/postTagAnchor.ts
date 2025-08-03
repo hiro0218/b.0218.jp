@@ -11,7 +11,7 @@ export const postTagAnchor = css`
   text-align: center;
   white-space: nowrap;
   background-color: var(--colors-gray-a-3);
-  border-radius: var(--border-radius-8);
+  border-radius: var(--radii-8);
 
   &:hover {
     background-color: var(--colors-gray-a-4);

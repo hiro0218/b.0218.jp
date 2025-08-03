@@ -104,7 +104,7 @@ const Container = styled.div`
 
 const LinkContainerStyle = css`
   cursor: pointer;
-  border-radius: var(--border-radius-8);
+  border-radius: var(--radii-8);
 
   &:hover {
     background-color: var(--colors-gray-3);
@@ -126,7 +126,7 @@ const AnchorStyle = css`
   padding: var(--space-1) var(--space-2);
   font-size: var(--font-size-sm);
   pointer-events: none;
-  border-radius: var(--border-radius-8);
+  border-radius: var(--radii-8);
 
   &:active {
     background-color: var(--colors-gray-4);

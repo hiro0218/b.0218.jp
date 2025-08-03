@@ -42,7 +42,7 @@ const Root = styled.nav`
 
 const Details = styled.details`
   background-color: var(--colors-gray-a-3);
-  border-radius: var(--border-radius-8);
+  border-radius: var(--radii-8);
   transition: background-color 0.2s ease;
 
   &:not([open]) {
@@ -70,7 +70,7 @@ const IconContainer = styled.div`
   width: var(--icon-size-md);
   height: var(--icon-size-md);
   background-color: var(--colors-gray-a-3);
-  border-radius: var(--border-radius-full);
+  border-radius: var(--radii-full);
 `;
 
 const Summary = styled.summary`

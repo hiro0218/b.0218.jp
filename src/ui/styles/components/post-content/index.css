@@ -167,7 +167,7 @@
       font-weight: var(--font-weight-bold);
       background-color: var(--colors-white);
       border: 1px solid var(--colors-gray-6);
-      border-radius: var(--border-radius-4);
+      border-radius: var(--radii-4);
       transition: background-color 0.2s ease;
     }
 
@@ -183,7 +183,7 @@
     &[open] {
       background-color: var(--colors-white);
       border: 1px solid var(--colors-gray-6);
-      border-radius: var(--border-radius-4);
+      border-radius: var(--radii-4);
 
       summary {
         background-color: var(--colors-gray-3);

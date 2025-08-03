@@ -15,7 +15,7 @@
     color: var(--colors-dark-foregrounds);
     pointer-events: none;
     background-color: var(--colors-dark-backgrounds);
-    border-radius: var(--border-radius-4);
+    border-radius: var(--radii-4);
     opacity: 0;
     transition:
       transform 0.1s linear,

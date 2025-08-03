@@ -46,7 +46,7 @@ const Container = styled.div`
   white-space: nowrap;
   user-select: none;
   background-color: var(--colors-dark-backgrounds);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--radii-4);
   isolation: isolate;
   opacity: 0;
 

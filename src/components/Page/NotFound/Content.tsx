@@ -42,7 +42,7 @@ const AnchorStyle = css`
   margin-inline: auto;
   font-size: var(--font-size-sm);
   background-color: var(--colors-gray-3);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--radii-4);
 
   &:hover {
     background-color: var(--colors-gray-4);

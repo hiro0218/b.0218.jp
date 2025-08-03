@@ -43,7 +43,7 @@ export const Content = styled.div`
   content-visibility: hidden;
   background-color: var(--colors-white);
   border: 1px solid var(--colors-gray-a-4);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--radii-4);
   box-shadow: var(--shadows-md);
   opacity: 0;
   transform: scale(0.8);
@@ -70,6 +70,6 @@ export const Content = styled.div`
   & > a {
     padding: var(--space-½) var(--space-1);
     line-height: var(--line-heights-lg);
-    border-radius: var(--border-radius-4);
+    border-radius: var(--radii-4);
   }
 `;

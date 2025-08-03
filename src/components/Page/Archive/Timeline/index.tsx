@@ -42,7 +42,7 @@ const Section = styled.section`
   --year-post-separator-size-h: var(--space-1);
   --year-post-separator-size-w: var(--space-1);
   --year-post-separator-color: var(--colors-gray-7);
-  --year-post-separator-border-radius: var(--border-radius-full);
+  --year-post-separator-border-radius: var(--radii-full);
 
   @media (--isMobile) {
     --columns-1: 16%;
@@ -80,7 +80,7 @@ const Section = styled.section`
     content: '';
     background-color: var(--colors-white);
     border: 4px solid var(--year-heading-circle-color);
-    border-radius: var(--border-radius-full);
+    border-radius: var(--radii-full);
     transform: translateX(-50%);
     transition: border 0.2s var(--easings-ease-out);
   }
@@ -132,7 +132,7 @@ const styleAnchor = css`
   align-items: center;
   width: 100%;
   padding-block: var(--space-1);
-  border-radius: var(--border-radius-8);
+  border-radius: var(--radii-8);
 
   &:hover {
     background-color: var(--colors-gray-a-3);
@@ -140,7 +140,7 @@ const styleAnchor = css`
     --year-post-separator-size-h: var(--space-3);
     --year-post-separator-size-w: var(--space-1);
     --year-post-separator-color: var(--colors-accent-8);
-    --year-post-separator-border-radius: var(--border-radius-8);
+    --year-post-separator-border-radius: var(--radii-8);
   }
 
   &:active {

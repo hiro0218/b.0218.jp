@@ -43,7 +43,7 @@ export const SearchDialog = ({ closeDialog, ref }: Props) => {
 const Dialog = styled.dialog`
   position: fixed;
   top: 25vh;
-  border-radius: var(--border-radius-12);
+  border-radius: var(--radii-12);
   isolation: isolate;
   opacity: 0;
 

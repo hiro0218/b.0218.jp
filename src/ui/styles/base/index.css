@@ -169,7 +169,7 @@ strong {
 mark {
   padding: 1px 2px;
   background-color: var(--colors-accent-a-5);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--radii-4);
 }
 
 /* code */
@@ -182,7 +182,7 @@ code {
   color: var(--colors-gray-12);
   overflow-wrap: break-word;
   background-color: var(--colors-gray-a-1);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--radii-4);
 
   a > & {
     color: inherit;
@@ -198,7 +198,7 @@ pre {
   resize: horizontal;
   /* stylelint-enable */
   border: 1px solid var(--colors-gray-a-4);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--radii-4);
   -webkit-overflow-scrolling: touch;
 
   & > code {

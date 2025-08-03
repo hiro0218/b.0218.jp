@@ -40,7 +40,7 @@ const Button = styled.button`
   cursor: pointer;
   background-color: var(--colors-gray-a-3);
   border: none;
-  border-radius: var(--border-radius-full);
+  border-radius: var(--radii-full);
   transition: background-color 0.2s ease;
 
   svg {

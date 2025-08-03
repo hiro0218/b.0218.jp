@@ -99,7 +99,7 @@ const ShareButtonStyle = css`
   height: calc(var(--icon-size-sm) * 2);
 
   &::after {
-    border-radius: var(--border-radius-full);
+    border-radius: var(--radii-full);
   }
 `;
 

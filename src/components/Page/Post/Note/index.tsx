@@ -23,7 +23,7 @@ const ContainerStyle = css`
   line-height: var(--line-heights-md);
   color: var(--colors-accent-11);
   background-color: var(--colors-accent-3);
-  border-radius: var(--border-radius-8);
+  border-radius: var(--radii-8);
 
   a {
     &:hover {

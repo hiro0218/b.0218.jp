@@ -60,7 +60,7 @@ const Container = styled.article`
   content-visibility: auto;
   word-break: break-all;
   background-color: var(--colors-white);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--radii-4);
   box-shadow: 0 0 0 1px var(--colors-gray-4);
   transition: box-shadow 0.2s;
 
@@ -139,5 +139,5 @@ const Tags = styled.div`
 const TagItem = styled.span`
   padding: var(--space-½) var(--space-1);
   font-size: var(--font-size-xs);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--radii-4);
 `;

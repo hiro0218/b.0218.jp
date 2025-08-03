@@ -21,12 +21,6 @@
   --shadows-xl: 0 16px 24px var(--shadow-base), 0 0 1px var(--colors-gray-a-7);
   --shadows-2xl: 0 24px 40px var(--shadow-base), 0 0 1px var(--colors-gray-a-7);
 
-  --border-radius-2: 2px;
-  --border-radius-4: 4px;
-  --border-radius-8: 8px;
-  --border-radius-12: 12px;
-  --border-radius-full: 100%;
-
   --zIndex-base: 1;
   --zIndex-header: 10;
   --zIndex-overlay: 11;

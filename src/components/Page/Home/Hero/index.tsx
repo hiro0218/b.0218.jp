@@ -57,7 +57,7 @@ const Avatar = styled.div`
 
   img {
     aspect-ratio: 1/1;
-    border-radius: var(--border-radius-full);
+    border-radius: var(--radii-full);
   }
 `;
 
