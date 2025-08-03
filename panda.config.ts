@@ -4,6 +4,7 @@ import { dataCss, hljsCss } from '@/ui/styled/globals';
 import colorTokens from '@/ui/styled/tokens/colors';
 import easingTokens from '@/ui/styled/tokens/easings';
 import lineHeightTokens from '@/ui/styled/tokens/lineHeights';
+import radiiTokens from '@/ui/styled/tokens/radii';
 import semanticColorTokens from '@/ui/styled/tokens/semanticColors';
 import globalVars from '@/ui/styled/variables';
 
@@ -56,6 +57,7 @@ export default defineConfig({
       colors: colorTokens,
       easings: easingTokens,
       lineHeights: lineHeightTokens,
+      radii: radiiTokens,
     },
     semanticTokens: {
       colors: semanticColorTokens,
