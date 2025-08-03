@@ -57,7 +57,7 @@ export function SearchPanel({ closeDialog }: Props) {
 }
 
 const SearchMain = styled.div`
-  z-index: var(--zIndex-search);
+  z-index: var(--z-index-search);
   display: block;
   width: 50vw;
   margin: auto;

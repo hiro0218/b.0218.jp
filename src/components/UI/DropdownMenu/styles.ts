@@ -36,7 +36,7 @@ export const Trigger = styled.button`
 export const Content = styled.div`
   position: absolute;
   top: 100%;
-  z-index: var(--zIndex-base);
+  z-index: var(--z-index-base);
   min-width: max-content;
   height: fit-content;
   padding: var(--space-½);

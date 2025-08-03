@@ -93,7 +93,7 @@ const anchorStyle = css`
   &::before {
     position: absolute;
     inset: 0;
-    z-index: var(--zIndex-base);
+    z-index: var(--z-index-base);
     width: 100%;
     height: 100%;
     cursor: pointer;

@@ -26,7 +26,7 @@ const Container = styled.div`
   position: fixed;
   right: var(--space-3);
   bottom: var(--space-3);
-  z-index: var(--zIndex-base);
+  z-index: var(--z-index-base);
   aspect-ratio: 1/1;
   isolation: isolate;
 `;

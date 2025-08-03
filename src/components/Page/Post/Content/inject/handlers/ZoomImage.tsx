@@ -18,7 +18,7 @@ const zoomedImageStyle = css`
   position: fixed;
   top: 50%;
   left: 50%;
-  z-index: calc(var(--zIndex-overlay) + 1);
+  z-index: calc(var(--z-index-overlay) + 1);
   max-width: 90%;
   max-height: 90%;
   pointer-events: auto;

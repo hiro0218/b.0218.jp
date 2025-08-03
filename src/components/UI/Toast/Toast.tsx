@@ -39,7 +39,7 @@ const Container = styled.div`
   position: fixed;
   bottom: var(--space-1);
   left: var(--space-1);
-  z-index: var(--zIndex-base);
+  z-index: var(--z-index-base);
   padding: var(--space-1) var(--space-2);
   font-size: var(--font-size-xs);
   color: var(--colors-dark-foregrounds);

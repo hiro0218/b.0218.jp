@@ -48,7 +48,7 @@ const Dialog = styled.dialog`
   opacity: 0;
 
   &[open] {
-    z-index: var(--zIndex-search);
+    z-index: var(--z-index-search);
     padding: 0;
     border: none;
     opacity: 1;
