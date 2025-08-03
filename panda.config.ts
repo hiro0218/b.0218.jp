@@ -1,13 +1,8 @@
 import { defineConfig } from '@pandacss/dev';
 import { keyframes } from '@/ui/styled/animations';
 import { dataCss, hljsCss } from '@/ui/styled/globals';
-import colorTokens from '@/ui/styled/tokens/colors';
-import easingTokens from '@/ui/styled/tokens/easings';
-import fontWeightsTokens from '@/ui/styled/tokens/fontWeights';
-import lineHeightTokens from '@/ui/styled/tokens/lineHeights';
-import radiiTokens from '@/ui/styled/tokens/radii';
+import { tokens } from '@/ui/styled/tokens';
 import semanticColorTokens from '@/ui/styled/tokens/semanticColors';
-import zIndexTokens from '@/ui/styled/tokens/zIndex';
 import globalVars from '@/ui/styled/variables';
 
 export default defineConfig({
@@ -55,14 +50,7 @@ export default defineConfig({
   },
 
   theme: {
-    tokens: {
-      colors: colorTokens,
-      easings: easingTokens,
-      fontWeights: fontWeightsTokens,
-      lineHeights: lineHeightTokens,
-      radii: radiiTokens,
-      zIndex: zIndexTokens,
-    },
+    tokens,
     semanticTokens: {
       colors: semanticColorTokens,
     },
