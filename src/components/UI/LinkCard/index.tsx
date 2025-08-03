@@ -2,6 +2,7 @@ import type { ComponentProps, ReactNode } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
+import { postTagAnchor } from '@/ui/styled/components';
 import { css, cx, styled } from '@/ui/styled/static';
 
 type PostDateProps = ComponentProps<typeof PostDate>;
@@ -34,7 +35,7 @@ function LinkCard({ link, title, date, updated, excerpt, tags, titleTagName = 'h
       {!!tags && (
         <Tags>
           {tags.map((tag) => (
-            <TagItem className="post-tag-anchor" key={tag}>
+            <TagItem className={postTagAnchor} key={tag}>
               {tag}
             </TagItem>
           ))}

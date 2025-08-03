@@ -1,0 +1,1 @@
+export { postTagAnchor } from './postTagAnchor';

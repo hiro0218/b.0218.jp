@@ -1,4 +1,6 @@
-.post-tag-anchor {
+import { css } from '@/ui/styled/static';
+
+export const postTagAnchor = css`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -26,4 +28,4 @@
       background-color: var(--colors-gray-a-3);
     }
   }
-}
+`;
