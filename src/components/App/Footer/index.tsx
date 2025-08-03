@@ -72,6 +72,6 @@ const Nav = styled.nav`
 
 const Copyright = styled.small`
   font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weights-bold);
   color: var(--colors-gray-11);
 `;

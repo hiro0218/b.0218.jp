@@ -4,10 +4,6 @@
     SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
     Noto Color Emoji, monospace;
 
-  --font-weight-normal: 400;
-  --font-weight-bold: 600;
-  --font-weight-bolder: 900;
-
   --letter-spacing-sm: 0.02em;
   --letter-spacing-md: 0.04em;
 

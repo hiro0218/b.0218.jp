@@ -164,7 +164,7 @@
     summary {
       padding: var(--space-1) var(--space-2);
       font-size: var(--font-size-sm);
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weights-bold);
       background-color: var(--colors-white);
       border: 1px solid var(--colors-gray-6);
       border-radius: var(--radii-4);

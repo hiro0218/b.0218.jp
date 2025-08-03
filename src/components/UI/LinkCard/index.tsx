@@ -113,7 +113,7 @@ const anchorStyle = css`
 
 const titleStyle = css`
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-md);
   color: var(--colors-gray-12);
   transition: color 0.4s;

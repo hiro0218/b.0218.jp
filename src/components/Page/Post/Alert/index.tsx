@@ -91,7 +91,7 @@ const Title = styled.div`
   display: flex;
   align-items: center;
   font-size: var(--font-size-md);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weights-bold);
   color: var(--alert-color);
   text-transform: capitalize;
 `;

@@ -75,7 +75,7 @@ const Body = styled.span`
 const BodyTitle = styled.span`
   display: block;
   font-size: var(--font-size-md);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weights-bold);
 `;
 
 const BodyDescription = styled.span`

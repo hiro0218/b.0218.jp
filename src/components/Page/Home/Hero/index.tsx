@@ -65,7 +65,7 @@ const Heading = styled.h2`
   grid-row: 1 / 2;
   grid-column: 2 / 3;
   font-size: var(--font-size-h3);
-  font-weight: var(--font-weight-bolder);
+  font-weight: var(--font-weights-bolder);
   letter-spacing: 0.04em;
 
   a {

@@ -141,7 +141,7 @@ const AnchorStyle = css`
 const Message = styled.div`
   padding: var(--space-½);
   font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-xs);
   color: var(--colors-gray-9);
 `;

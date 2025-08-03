@@ -79,7 +79,7 @@ const Summary = styled.summary`
   justify-content: space-between;
   padding: var(--space-2) var(--space-3);
   font-size: var(--font-size-md);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weights-bold);
   cursor: pointer;
   user-select: none;
 
@@ -97,7 +97,7 @@ const DetailsContent = styled.div`
     margin: 0;
 
     > li > a {
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weights-bold);
     }
   }
 
