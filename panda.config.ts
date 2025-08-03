@@ -3,6 +3,7 @@ import { keyframes } from '@/ui/styled/animations';
 import { dataCss, hljsCss } from '@/ui/styled/globals';
 import colorTokens from '@/ui/styled/tokens/colors';
 import easingTokens from '@/ui/styled/tokens/easings';
+import fontWeightsTokens from '@/ui/styled/tokens/fontWeights';
 import lineHeightTokens from '@/ui/styled/tokens/lineHeights';
 import radiiTokens from '@/ui/styled/tokens/radii';
 import semanticColorTokens from '@/ui/styled/tokens/semanticColors';
@@ -56,6 +57,7 @@ export default defineConfig({
     tokens: {
       colors: colorTokens,
       easings: easingTokens,
+      fontWeights: fontWeightsTokens,
       lineHeights: lineHeightTokens,
       radii: radiiTokens,
     },
