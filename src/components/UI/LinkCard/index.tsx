@@ -121,7 +121,7 @@ const titleStyle = css`
 
 const Paragraph = styled.p`
   color: var(--colors-gray-11);
-  letter-spacing: var(--letter-spacing-sm);
+  letter-spacing: var(--letter-spacings-sm);
 `;
 
 const Tags = styled.div`

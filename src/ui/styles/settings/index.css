@@ -4,9 +4,6 @@
     SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
     Noto Color Emoji, monospace;
 
-  --letter-spacing-sm: 0.02em;
-  --letter-spacing-md: 0.04em;
-
   --container-width: 800px;
 
   --shadow-base: color-mix(in oklab, var(--colors-gray-3A), var(--colors-gray-3A) 25%);
