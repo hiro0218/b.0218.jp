@@ -18,7 +18,7 @@ html {
 
 body {
   height: 100%;
-  font-family: var(--font-family-sans-serif);
+  font-family: var(--fonts-family-sans-serif);
   font-weight: var(--font-weights-normal);
   font-feature-settings: 'chws' 1;
   line-height: 1.875;
@@ -175,7 +175,7 @@ mark {
 /* code */
 pre,
 code {
-  font-family: var(--font-family-monospace);
+  font-family: var(--fonts-family-monospace);
 }
 
 code {

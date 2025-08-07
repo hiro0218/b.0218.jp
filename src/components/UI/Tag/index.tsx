@@ -59,7 +59,7 @@ const Count = styled.span`
   aspect-ratio: 1/1;
   padding: 0 var(--space-½);
   margin-left: var(--space-1);
-  font-family: var(--font-family-monospace);
+  font-family: var(--fonts-family-monospace);
   font-size: var(--font-size-xs);
   line-height: var(--line-heights-sm);
   user-select: none;
