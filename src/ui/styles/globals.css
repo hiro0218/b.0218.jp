@@ -4,7 +4,6 @@
 
 @import './reset' layer(reset);
 @import './tools' layer(tools);
-@import './settings' layer(tokens);
 @import './base' layer(base);
 @import './components' layer(components);
 @import './vendor' layer(vendor);
