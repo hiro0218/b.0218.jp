@@ -36,7 +36,7 @@ const ContainerStyle = css`
   grid-template-columns: auto 1fr;
   gap: 0 var(--space-2);
   margin-inline: auto;
-  font-size: var(--font-size-md);
+  font-size: var(--font-sizes-md);
   color: var(--colors-gray-11);
 
   @media (--isDesktop) {
@@ -64,7 +64,7 @@ const Avatar = styled.div`
 const Heading = styled.h2`
   grid-row: 1 / 2;
   grid-column: 2 / 3;
-  font-size: var(--font-size-h3);
+  font-size: var(--font-sizes-h3);
   font-weight: var(--font-weights-bolder);
   letter-spacing: 0.04em;
 

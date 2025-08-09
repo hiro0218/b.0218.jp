@@ -56,7 +56,7 @@ const AnchorStyle = css`
   justify-content: center;
   min-width: 5cap;
   height: 100%;
-  font-size: var(--font-size-xs);
+  font-size: var(--font-sizes-xs);
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-11);
   background: linear-gradient(var(--direction), var(--fill) var(--percent), transparent var(--percent));
@@ -66,7 +66,7 @@ const AnchorStyle = css`
 
     width: 100%;
     padding: var(--space-1) var(--space-½);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-sizes-sm);
   }
 
   &:hover {

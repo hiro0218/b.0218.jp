@@ -78,7 +78,7 @@ const Summary = styled.summary`
   align-items: center;
   justify-content: space-between;
   padding: var(--space-2) var(--space-3);
-  font-size: var(--font-size-md);
+  font-size: var(--font-sizes-md);
   font-weight: var(--font-weights-bold);
   cursor: pointer;
   user-select: none;

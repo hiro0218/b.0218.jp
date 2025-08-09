@@ -2,6 +2,7 @@ import type { Theme } from '@pandacss/types';
 
 import colors from './colors';
 import easings from './easings';
+import fontSizes from './fontSizes';
 import fonts from './fonts';
 import fontWeights from './fontWeights';
 import letterSpacings from './letterSpacings';
@@ -14,6 +15,7 @@ export const tokens: Theme['tokens'] = {
   colors,
   easings,
   fonts,
+  fontSizes,
   fontWeights,
   letterSpacings,
   lineHeights,

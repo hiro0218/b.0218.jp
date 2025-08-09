@@ -5,7 +5,7 @@ export const postTagAnchor = css`
   align-items: center;
   justify-content: center;
   padding: var(--space-½) var(--space-2);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-11);
   text-align: center;

@@ -95,7 +95,7 @@ figure {
   text-align: center;
 
   &:has(img) {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-sizes-sm);
 
     > * + * {
       margin-top: var(--space-1);
@@ -110,7 +110,7 @@ figure {
   }
 
   figcaption {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-sizes-sm);
     color: var(--colors-gray-11);
   }
 }
@@ -136,28 +136,28 @@ h6 {
 }
 
 h1 {
-  font-size: var(--font-size-h1);
+  font-size: var(--font-sizes-h1);
   font-weight: var(--font-weights-bolder);
 }
 
 h2 {
-  font-size: var(--font-size-h2);
+  font-size: var(--font-sizes-h2);
 }
 
 h3 {
-  font-size: var(--font-size-h3);
+  font-size: var(--font-sizes-h3);
 }
 
 h4 {
-  font-size: var(--font-size-h4);
+  font-size: var(--font-sizes-h4);
 }
 
 h5 {
-  font-size: var(--font-size-h5);
+  font-size: var(--font-sizes-h5);
 }
 
 h6 {
-  font-size: var(--font-size-h6);
+  font-size: var(--font-sizes-h6);
 }
 
 b,
@@ -192,7 +192,7 @@ code {
 pre {
   display: block;
   overflow: auto;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   overflow-wrap: break-word;
   /* stylelint-disable */
   resize: horizontal;
@@ -212,7 +212,7 @@ pre {
 :not(pre) > code {
   padding: var(--space-½) var(--space-1);
   margin: 0;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   background: var(--colors-gray-a-3);
 }
 
@@ -222,7 +222,7 @@ table {
   max-inline-size: 100%;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
-  font-size: var(--font-size-md);
+  font-size: var(--font-sizes-md);
   animation: scroll-table-shadow-inset linear;
   animation-timeline: scroll(self x);
 
@@ -290,7 +290,7 @@ button {
 }
 
 del {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   color: var(--colors-gray-11);
 
   &[datetime] {

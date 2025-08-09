@@ -10,7 +10,7 @@ export function LinkMore({ href, text }: { href: string; text: string | ReactNod
       className={cx(
         'link-style link-style--hover-effect',
         css`
-          font-size: var(--font-size-sm);
+          font-size: var(--font-sizes-sm);
         `,
       )}
       href={href}

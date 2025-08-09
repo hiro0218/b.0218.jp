@@ -41,7 +41,7 @@ const Container = styled.div`
   left: var(--space-1);
   z-index: var(--z-index-base);
   padding: var(--space-1) var(--space-2);
-  font-size: var(--font-size-xs);
+  font-size: var(--font-sizes-xs);
   color: var(--colors-dark-foregrounds);
   white-space: nowrap;
   user-select: none;

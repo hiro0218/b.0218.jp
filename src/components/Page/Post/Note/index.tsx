@@ -19,7 +19,7 @@ export default PostNote;
 const ContainerStyle = css`
   align-items: center;
   padding: var(--space-2);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-md);
   color: var(--colors-accent-11);
   background-color: var(--colors-accent-3);

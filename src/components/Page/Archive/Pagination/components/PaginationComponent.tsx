@@ -138,7 +138,7 @@ const paginationButtonStyle = css`
   width: var(--icon-size-lg);
   height: var(--icon-size-lg);
   aspect-ratio: 1;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   color: var(--colors-gray-11);
   cursor: pointer;
   border-radius: var(--radii-full);
@@ -185,6 +185,6 @@ const PageCountDisplay = styled.span`
   align-items: center;
   justify-content: center;
   padding: 0 var(--space-1);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   color: var(--colors-gray-11);
 `;

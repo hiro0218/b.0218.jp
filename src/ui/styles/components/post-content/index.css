@@ -1,5 +1,5 @@
 .post-content {
-  font-size: var(--font-size-post-content);
+  font-size: var(--font-sizes-post-content);
   color: var(--colors-gray-11);
 
   & > * {
@@ -101,14 +101,14 @@
 
   blockquote {
     padding: var(--space-2) var(--space-3);
-    font-size: var(--font-size-md);
+    font-size: var(--font-sizes-md);
     color: var(--colors-gray-10);
     background-color: var(--colors-gray-a-2);
     border-left: var(--space-½) solid var(--colors-gray-6);
 
     cite {
       display: block;
-      font-size: var(--font-size-xs);
+      font-size: var(--font-sizes-xs);
       line-height: var(--line-heights-sm);
       color: var(--colors-gray-11);
     }
@@ -163,7 +163,7 @@
 
     summary {
       padding: var(--space-1) var(--space-2);
-      font-size: var(--font-size-sm);
+      font-size: var(--font-sizes-sm);
       font-weight: var(--font-weights-bold);
       background-color: var(--colors-white);
       border: 1px solid var(--colors-gray-6);
@@ -173,7 +173,7 @@
 
     &::details-content {
       margin: var(--space-2);
-      font-size: var(--font-size-sm);
+      font-size: var(--font-sizes-sm);
 
       > *:first-of-type {
         margin-top: auto;

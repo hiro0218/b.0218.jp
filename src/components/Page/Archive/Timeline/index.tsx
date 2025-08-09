@@ -100,17 +100,17 @@ const Header = styled.header`
 
 const Title = styled.h2`
   padding-left: var(--space-1);
-  font-size: var(--font-size-h3);
+  font-size: var(--font-sizes-h3);
 `;
 
 const PostCount = styled.span`
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   color: var(--colors-gray-10);
   text-align: right;
 `;
 
 const Date = styled.span`
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   color: var(--colors-gray-10);
   text-align: center;
 `;

@@ -83,7 +83,7 @@ const Container = styled.article`
   }
 
   time {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-sizes-sm);
     line-height: var(--line-heights-xs);
     color: var(--colors-gray-10);
   }
@@ -112,7 +112,7 @@ const anchorStyle = css`
 `;
 
 const titleStyle = css`
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-md);
   color: var(--colors-gray-12);
@@ -138,6 +138,6 @@ const Tags = styled.div`
 
 const TagItem = styled.span`
   padding: var(--space-½) var(--space-1);
-  font-size: var(--font-size-xs);
+  font-size: var(--font-sizes-xs);
   border-radius: var(--radii-4);
 `;

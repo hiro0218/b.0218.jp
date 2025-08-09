@@ -53,7 +53,7 @@ const ContainerStyle = css`
   display: grid;
   gap: var(--space-2);
   margin: auto;
-  font-size: var(--font-size-md);
+  font-size: var(--font-sizes-md);
   color: var(--colors-gray-12);
 `;
 
@@ -67,11 +67,11 @@ const Nav = styled.nav`
   gap: var(--space-3);
   align-items: center;
   margin-left: calc(var(--space-1) * -1);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
 `;
 
 const Copyright = styled.small`
-  font-size: var(--font-size-xs);
+  font-size: var(--font-sizes-xs);
   font-weight: var(--font-weights-bold);
   color: var(--colors-gray-11);
 `;

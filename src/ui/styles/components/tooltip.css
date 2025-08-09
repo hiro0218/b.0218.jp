@@ -10,7 +10,7 @@
     @mixin sr-only;
 
     left: 50%;
-    font-size: var(--font-size-xs);
+    font-size: var(--font-sizes-xs);
     line-height: var(--line-heights-md);
     color: var(--colors-dark-foregrounds);
     pointer-events: none;

@@ -27,11 +27,11 @@ const ContainerStyle = css`
 
 const Header = styled.header`
   h1 {
-    font-size: var(--font-size-h1);
+    font-size: var(--font-sizes-h1);
   }
 
   p {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-sizes-sm);
     color: var(--colors-gray-11);
   }
 `;
@@ -40,7 +40,7 @@ const AnchorStyle = css`
   width: 120px;
   padding: var(--space-1) var(--space-2);
   margin-inline: auto;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   background-color: var(--colors-gray-3);
   border-radius: var(--radii-4);
 

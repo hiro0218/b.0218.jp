@@ -1,4 +1,4 @@
-import { getStep } from '@/ui/styled/variables/font/utils';
+import { getStep } from '@/ui/styled/tokens/fontSizes/utils';
 
 const lineHeightsValues = {
   xs: { value: String(getStep(0)) },

@@ -1,7 +1,7 @@
 [data-footnotes] {
   padding-top: var(--space-3);
   margin-top: var(--space-6);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   color: var(--colors-gray-11);
   border-top: 1px solid var(--colors-gray-6);
 
