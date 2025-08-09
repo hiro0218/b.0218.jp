@@ -14,12 +14,7 @@ export default defineConfig({
   jsxFramework: 'react',
 
   // Where to look for your css declarations
-  include: [
-    './src/components/**/*.{ts,tsx}',
-    './src/pages/**/*.{ts,tsx}',
-    './src/app/**/*.{ts,tsx}',
-    './src/ui/**/*.{ts,tsx}',
-  ],
+  include: ['./src/{app,components,ui}/**/*.{ts,tsx}'],
   exclude: ['./src/ui/lib/**/*.{ts,tsx}'],
 
   lightningcss: true,
