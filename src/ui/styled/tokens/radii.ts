@@ -1,4 +1,6 @@
-const radiiValues = {
+import type { TokenValues } from './types';
+
+const radiiValues: TokenValues<'radii'> = {
   '2': { value: '2px' },
   '4': { value: '4px' },
   '8': { value: '8px' },

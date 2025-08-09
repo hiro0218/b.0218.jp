@@ -1,4 +1,6 @@
-const fontsValues = {
+import type { TokenValues } from './types';
+
+const fontsValues: TokenValues<'fonts'> = {
   'family-sans-serif': {
     value: ['Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', 'sans-serif'],
   },

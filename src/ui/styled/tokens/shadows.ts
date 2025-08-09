@@ -1,4 +1,6 @@
-const shadows = {
+import type { TokenValues } from './types';
+
+const shadows: TokenValues<'shadows'> = {
   base: { value: 'color-mix(in oklab, var(--colors-gray-a-3), var(--colors-gray-a-3) 25%)' },
   xs: { value: '0 1px 2px var(--shadows-base), 0 0 1px var(--colors-gray-a-7)' },
   sm: { value: '0 2px 4px var(--shadows-base), 0 0 1px var(--colors-gray-a-7)' },

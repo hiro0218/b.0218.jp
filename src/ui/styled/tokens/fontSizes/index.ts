@@ -1,7 +1,8 @@
 import { clampFontSize, pxToRem } from '@/ui/lib/fonts';
+import type { TokenValues } from '../types';
 import { getFontSizeStep } from './utils';
 
-export const fontSizesHeading = {
+export const fontSizesHeading: TokenValues<'fontSizes'> = {
   h1: { value: clampFontSize(getFontSizeStep(12), getFontSizeStep(10)) },
   h2: { value: clampFontSize(getFontSizeStep(10), getFontSizeStep(8)) },
   h3: { value: clampFontSize(getFontSizeStep(8), getFontSizeStep(6)) },
@@ -10,7 +11,7 @@ export const fontSizesHeading = {
   h6: { value: clampFontSize(getFontSizeStep(3), getFontSizeStep(3)) },
 };
 
-const fontSizesValues = {
+const fontSizesValues: TokenValues<'fontSizes'> = {
   // heading
   ...fontSizesHeading,
   // size
