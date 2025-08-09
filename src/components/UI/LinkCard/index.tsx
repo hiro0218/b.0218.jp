@@ -2,6 +2,7 @@ import type { ComponentProps, ReactNode } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
+import { postTagAnchor } from '@/ui/styled/components';
 import { css, cx, styled } from '@/ui/styled/static';
 
 type PostDateProps = ComponentProps<typeof PostDate>;
@@ -34,7 +35,7 @@ function LinkCard({ link, title, date, updated, excerpt, tags, titleTagName = 'h
       {!!tags && (
         <Tags>
           {tags.map((tag) => (
-            <TagItem className="post-tag-anchor" key={tag}>
+            <TagItem className={postTagAnchor} key={tag}>
               {tag}
             </TagItem>
           ))}
@@ -59,7 +60,7 @@ const Container = styled.article`
   content-visibility: auto;
   word-break: break-all;
   background-color: var(--colors-white);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--radii-4);
   box-shadow: 0 0 0 1px var(--colors-gray-4);
   transition: box-shadow 0.2s;
 
@@ -82,7 +83,7 @@ const Container = styled.article`
   }
 
   time {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-sizes-sm);
     line-height: var(--line-heights-xs);
     color: var(--colors-gray-10);
   }
@@ -92,7 +93,7 @@ const anchorStyle = css`
   &::before {
     position: absolute;
     inset: 0;
-    z-index: var(--zIndex-base);
+    z-index: var(--z-index-base);
     width: 100%;
     height: 100%;
     cursor: pointer;
@@ -111,8 +112,8 @@ const anchorStyle = css`
 `;
 
 const titleStyle = css`
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-sizes-sm);
+  font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-md);
   color: var(--colors-gray-12);
   transition: color 0.4s;
@@ -120,7 +121,7 @@ const titleStyle = css`
 
 const Paragraph = styled.p`
   color: var(--colors-gray-11);
-  letter-spacing: var(--letter-spacing-sm);
+  letter-spacing: var(--letter-spacings-sm);
 `;
 
 const Tags = styled.div`
@@ -137,6 +138,6 @@ const Tags = styled.div`
 
 const TagItem = styled.span`
   padding: var(--space-½) var(--space-1);
-  font-size: var(--font-size-xs);
-  border-radius: var(--border-radius-4);
+  font-size: var(--font-sizes-xs);
+  border-radius: var(--radii-4);
 `;

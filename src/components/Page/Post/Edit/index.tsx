@@ -45,10 +45,10 @@ const Anchor = styled.a`
   display: flex;
   align-items: center;
   padding: var(--space-½) var(--space-1);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-12);
-  border-radius: var(--border-radius-2);
+  border-radius: var(--radii-2);
 
   &:hover {
     background-color: var(--colors-gray-a-3);

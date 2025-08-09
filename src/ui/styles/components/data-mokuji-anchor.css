@@ -14,14 +14,14 @@
   user-select: none;
 
   &::after {
-    border-radius: var(--border-radius-full);
+    border-radius: var(--radii-full);
   }
 
   &:hover,
   &:focus,
   &:focus-within {
     &::after {
-      border-radius: var(--border-radius-full);
+      border-radius: var(--radii-full);
     }
   }
 

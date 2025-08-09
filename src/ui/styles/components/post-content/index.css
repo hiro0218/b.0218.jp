@@ -1,5 +1,5 @@
 .post-content {
-  font-size: var(--font-size-post-content);
+  font-size: var(--font-sizes-post-content);
   color: var(--colors-gray-11);
 
   & > * {
@@ -21,7 +21,7 @@
     font-feature-settings: 'palt';
     font-kerning: normal;
     line-height: var(--line-heights-md);
-    letter-spacing: var(--letter-spacing-md);
+    letter-spacing: var(--letter-spacings-md);
     word-break: auto-phrase; /* left -> pretty, center -> balance */
     text-wrap: pretty;
     scroll-margin-top: 1em;
@@ -83,11 +83,11 @@
   }
 
   > :where(p) {
-    letter-spacing: var(--letter-spacing-md);
+    letter-spacing: var(--letter-spacings-md);
     /* stylelint-disable */
     word-break: break-word;
     /* stylelint-enable */
-    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   /* workaround */
@@ -101,14 +101,14 @@
 
   blockquote {
     padding: var(--space-2) var(--space-3);
-    font-size: var(--font-size-md);
+    font-size: var(--font-sizes-md);
     color: var(--colors-gray-10);
     background-color: var(--colors-gray-a-2);
     border-left: var(--space-½) solid var(--colors-gray-6);
 
     cite {
       display: block;
-      font-size: var(--font-size-xs);
+      font-size: var(--font-sizes-xs);
       line-height: var(--line-heights-sm);
       color: var(--colors-gray-11);
     }
@@ -163,17 +163,17 @@
 
     summary {
       padding: var(--space-1) var(--space-2);
-      font-size: var(--font-size-sm);
-      font-weight: var(--font-weight-bold);
+      font-size: var(--font-sizes-sm);
+      font-weight: var(--font-weights-bold);
       background-color: var(--colors-white);
       border: 1px solid var(--colors-gray-6);
-      border-radius: var(--border-radius-4);
+      border-radius: var(--radii-4);
       transition: background-color 0.2s ease;
     }
 
     &::details-content {
       margin: var(--space-2);
-      font-size: var(--font-size-sm);
+      font-size: var(--font-sizes-sm);
 
       > *:first-of-type {
         margin-top: auto;
@@ -183,7 +183,7 @@
     &[open] {
       background-color: var(--colors-white);
       border: 1px solid var(--colors-gray-6);
-      border-radius: var(--border-radius-4);
+      border-radius: var(--radii-4);
 
       summary {
         background-color: var(--colors-gray-3);

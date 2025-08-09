@@ -38,7 +38,7 @@ const Anchor = styled.a`
   text-decoration-line: unset;
   background-color: var(--colors-white);
   border: 1px solid var(--colors-gray-7);
-  border-radius: var(--border-radius-8);
+  border-radius: var(--radii-8);
 
   &:hover {
     background-color: var(--colors-gray-2);
@@ -74,13 +74,13 @@ const Body = styled.span`
 
 const BodyTitle = styled.span`
   display: block;
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-sizes-md);
+  font-weight: var(--font-weights-bold);
 `;
 
 const BodyDescription = styled.span`
   margin-top: var(--space-½);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   color: var(--colors-gray-11);
 
   @media (--isMobile) {
@@ -90,7 +90,7 @@ const BodyDescription = styled.span`
 
 const BodyUrl = styled.span`
   display: block;
-  font-size: var(--font-size-xs);
+  font-size: var(--font-sizes-xs);
   color: var(--colors-gray-11);
 `;
 

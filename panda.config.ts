@@ -1,9 +1,7 @@
 import { defineConfig } from '@pandacss/dev';
 import { keyframes } from '@/ui/styled/animations';
 import { dataCss, hljsCss } from '@/ui/styled/globals';
-import colorTokens from '@/ui/styled/tokens/colors';
-import easingTokens from '@/ui/styled/tokens/easings';
-import lineHeightTokens from '@/ui/styled/tokens/lineHeights';
+import { tokens } from '@/ui/styled/tokens';
 import semanticColorTokens from '@/ui/styled/tokens/semanticColors';
 import globalVars from '@/ui/styled/variables';
 
@@ -16,12 +14,7 @@ export default defineConfig({
   jsxFramework: 'react',
 
   // Where to look for your css declarations
-  include: [
-    './src/components/**/*.{ts,tsx}',
-    './src/pages/**/*.{ts,tsx}',
-    './src/app/**/*.{ts,tsx}',
-    './src/ui/**/*.{ts,tsx}',
-  ],
+  include: ['./src/{app,components,ui}/**/*.{ts,tsx}'],
   exclude: ['./src/ui/lib/**/*.{ts,tsx}'],
 
   lightningcss: true,
@@ -52,11 +45,7 @@ export default defineConfig({
   },
 
   theme: {
-    tokens: {
-      colors: colorTokens,
-      easings: easingTokens,
-      lineHeights: lineHeightTokens,
-    },
+    tokens,
     semanticTokens: {
       colors: semanticColorTokens,
     },

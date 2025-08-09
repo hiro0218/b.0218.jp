@@ -22,6 +22,6 @@ const Container = styled.header`
 
 const P = styled.p`
   margin-top: var(--space-1);
-  font-size: var(--font-size-md);
+  font-size: var(--font-sizes-md);
   color: var(--colors-gray-11);
 `;

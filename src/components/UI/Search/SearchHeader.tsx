@@ -50,11 +50,11 @@ const SearchInput = styled.input`
   width: 100%;
   height: var(--space-4);
   padding: 0;
-  font-size: var(--font-size-md);
+  font-size: var(--font-sizes-md);
   border: none;
 
   &::placeholder {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-sizes-sm);
     color: var(--colors-gray-11);
   }
 

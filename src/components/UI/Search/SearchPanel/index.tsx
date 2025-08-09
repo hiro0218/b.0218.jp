@@ -57,13 +57,13 @@ export function SearchPanel({ closeDialog }: Props) {
 }
 
 const SearchMain = styled.div`
-  z-index: var(--zIndex-search);
+  z-index: var(--z-index-search);
   display: block;
   width: 50vw;
   margin: auto;
   overflow: hidden;
   background-color: var(--colors-white);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--radii-4);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
   isolation: isolate;
   opacity: 0;

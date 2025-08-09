@@ -83,15 +83,15 @@ const Container = styled.div`
   }
 
   p {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-sizes-sm);
   }
 `;
 
 const Title = styled.div`
   display: flex;
   align-items: center;
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-sizes-md);
+  font-weight: var(--font-weights-bold);
   color: var(--alert-color);
   text-transform: capitalize;
 `;

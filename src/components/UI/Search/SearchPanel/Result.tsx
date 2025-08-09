@@ -104,7 +104,7 @@ const Container = styled.div`
 
 const LinkContainerStyle = css`
   cursor: pointer;
-  border-radius: var(--border-radius-8);
+  border-radius: var(--radii-8);
 
   &:hover {
     background-color: var(--colors-gray-3);
@@ -124,9 +124,9 @@ const FocusedContainerStyle = css`
 const AnchorStyle = css`
   display: block;
   padding: var(--space-1) var(--space-2);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   pointer-events: none;
-  border-radius: var(--border-radius-8);
+  border-radius: var(--radii-8);
 
   &:active {
     background-color: var(--colors-gray-4);
@@ -140,8 +140,8 @@ const AnchorStyle = css`
 
 const Message = styled.div`
   padding: var(--space-½);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-sizes-xs);
+  font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-xs);
   color: var(--colors-gray-9);
 `;

@@ -31,7 +31,7 @@ const Header = styled.header`
   top: 0;
   right: 0;
   left: 0;
-  z-index: var(--zIndex-header);
+  z-index: var(--z-index-header);
   height: var(--space-5);
   margin: 0 auto;
   pointer-events: none;

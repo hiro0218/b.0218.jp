@@ -26,7 +26,7 @@ const Container = styled.div`
   position: fixed;
   right: var(--space-3);
   bottom: var(--space-3);
-  z-index: var(--zIndex-base);
+  z-index: var(--z-index-base);
   aspect-ratio: 1/1;
   isolation: isolate;
 `;
@@ -40,7 +40,7 @@ const Button = styled.button`
   cursor: pointer;
   background-color: var(--colors-gray-a-3);
   border: none;
-  border-radius: var(--border-radius-full);
+  border-radius: var(--radii-full);
   transition: background-color 0.2s ease;
 
   svg {

@@ -2,6 +2,7 @@ import { memo } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
 import { TAG_VIEW_LIMIT } from '@/constant';
+import { postTagAnchor } from '@/ui/styled/components';
 import { styled } from '@/ui/styled/static';
 
 export type Props = {
@@ -31,7 +32,7 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
 
       return isAnchor ? (
         <Anchor
-          className="post-tag-anchor"
+          className={postTagAnchor}
           href={`/tags/${slug}`}
           key={slug}
           {...(hasRelTag && {
@@ -42,7 +43,7 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
           <Count aria-hidden="true">{count}</Count>
         </Anchor>
       ) : (
-        <span aria-hidden="true" className="post-tag-anchor" key={slug}>
+        <span aria-hidden="true" className={postTagAnchor} key={slug}>
           {slug}
         </span>
       );
@@ -58,10 +59,10 @@ const Count = styled.span`
   aspect-ratio: 1/1;
   padding: 0 var(--space-½);
   margin-left: var(--space-1);
-  font-family: var(--font-family-monospace);
-  font-size: var(--font-size-xs);
+  font-family: var(--fonts-family-monospace);
+  font-size: var(--font-sizes-xs);
   line-height: var(--line-heights-sm);
   user-select: none;
   background-color: var(--colors-gray-a-3);
-  border-radius: var(--border-radius-8);
+  border-radius: var(--radii-8);
 `;
