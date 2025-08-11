@@ -26,8 +26,8 @@ export default defineConfig({
   },
 
   importMap: {
-    css: '@/ui/styled/static',
-    jsx: '@/ui/styled/static',
+    css: '@/ui/styled',
+    jsx: '@/ui/styled',
   },
 
   // Removing default tokens -> []

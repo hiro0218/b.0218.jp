@@ -1,6 +1,6 @@
 import { DropdownMenu } from '@/components/UI/DropdownMenu/index';
 import { GitHubLogoIcon, ICON_SIZE_SM } from '@/ui/icons';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 type Props = {
   slug: string;

@@ -1,5 +1,5 @@
 import { CaretLeftIcon, CaretRightIcon, ICON_SIZE_XS } from '@/ui/icons';
-import { css, styled } from '@/ui/styled/static';
+import { css, styled } from '@/ui/styled';
 import { DOTS } from '../hooks/constant';
 import { usePagination } from '../hooks/usePagination';
 

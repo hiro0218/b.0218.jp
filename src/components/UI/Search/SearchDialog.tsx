@@ -3,7 +3,7 @@ import { type ForwardedRef, useId } from 'react';
 import { createPortal } from 'react-dom';
 
 import useIsClient from '@/hooks/useIsClient';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 import type { onCloseDialogProps } from './type';
 

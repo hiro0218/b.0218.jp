@@ -6,7 +6,7 @@ import {
   InformationCircle,
   LightBulb,
 } from '@/ui/icons';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 export type AlertType = 'note' | 'tip' | 'important' | 'warning' | 'caution';
 

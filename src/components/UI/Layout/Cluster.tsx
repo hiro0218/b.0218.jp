@@ -1,7 +1,7 @@
 import type { AriaRole, JSX, ReactNode } from 'react';
 import { memo } from 'react';
 
-import { css, cx } from '@/ui/styled/static';
+import { css, cx } from '@/ui/styled';
 import type { SpaceGap } from '@/ui/styled/variables/space';
 
 type Props = {

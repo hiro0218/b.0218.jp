@@ -1,7 +1,7 @@
 import { Anchor } from '@/components/UI/Anchor';
 import { convertPostSlugToPath } from '@/lib/url';
 import type { PostListProps } from '@/types/source';
-import { css, styled } from '@/ui/styled/static';
+import { css, styled } from '@/ui/styled';
 
 type Props = {
   posts: PostListProps[];

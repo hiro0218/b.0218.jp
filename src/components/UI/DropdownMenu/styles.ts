@@ -1,4 +1,4 @@
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 /**
  * ドロップダウンメニューのコンテナ要素

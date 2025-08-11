@@ -1,7 +1,7 @@
 import { Stack } from '@/components/UI/Layout';
 import { isSameDay } from '@/lib/date';
 import type { PostProps } from '@/types/source';
-import { css } from '@/ui/styled/static';
+import { css } from '@/ui/styled';
 
 type Props = Pick<PostProps, 'date' | 'updated'>;
 

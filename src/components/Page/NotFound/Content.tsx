@@ -1,6 +1,6 @@
 import { Anchor } from '@/components/UI/Anchor';
 import { Stack } from '@/components/UI/Layout';
-import { css, styled } from '@/ui/styled/static';
+import { css, styled } from '@/ui/styled';
 
 export default function Content() {
   return (

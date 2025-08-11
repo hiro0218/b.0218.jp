@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useRouteChangeComplete } from '@/hooks/useRouteChangeComplete';
 import escapeHTML from '@/lib/escapeHTML';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 import type { onCloseDialogProps } from '../type';
 import { useSearchHeader } from '../useSearchHeader';
 import { Footer } from './Footer';

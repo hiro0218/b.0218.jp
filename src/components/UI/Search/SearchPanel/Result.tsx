@@ -2,7 +2,7 @@ import { forwardRef, memo, useMemo } from 'react';
 import { Anchor } from '@/components/UI/Anchor';
 import type { SearchProps } from '@/components/UI/Search/type';
 import { convertPostSlugToPath } from '@/lib/url';
-import { css, cx, styled } from '@/ui/styled/static';
+import { css, cx, styled } from '@/ui/styled';
 
 const NavigableLink = forwardRef<
   HTMLDivElement,

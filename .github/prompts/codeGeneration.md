@@ -20,7 +20,7 @@
 
 ### PandaCSS
 
-- **プロジェクト統一import**: `import { css, styled } from '@/ui/styled/static'`
+- **プロジェクト統一import**: `import { css, styled } from '@/ui/styled'`
 - **テンプレートリテラル**: `css\`...\`` 構文を使用（推奨）
 - **ゼロマージン**: コンポーネントは外部スペーシングを設定しない
 - **レスポンシブ**: `{ base: 'value', md: 'value' }` 形式
@@ -75,7 +75,7 @@ export const Header = () => {
 ```typescript
 // 原則としてServer Componentがデフォルト（'use client'指定なし）
 import type { PostProps } from '@/types/source';
-import { css } from '@/ui/styled/static';
+import { css } from '@/ui/styled';
 
 interface PostDetailProps {
   post: PostProps;
@@ -107,7 +107,7 @@ export const PostDetail = ({ post }: PostDetailProps) => {
 'use client';
 
 import { useState } from 'react';
-import { css } from '@/ui/styled/static';
+import { css } from '@/ui/styled';
 
 interface ButtonProps {
   children: React.ReactNode;

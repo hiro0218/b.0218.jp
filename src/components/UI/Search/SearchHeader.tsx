@@ -3,7 +3,7 @@
 import { useId, useRef } from 'react';
 
 import { ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 import type { onKeyupProps } from './type';
 

@@ -1,6 +1,6 @@
 import { Tooltip } from '@/components/UI/Tooltip';
 import { ICON_SIZE_SM, MagnifyingGlassIcon } from '@/ui/icons';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 import type { onCloseDialogProps } from './type';
 
 type Props = {

@@ -247,7 +247,7 @@ export const Card = ({ size, variant, children }) => (
 
 ## 11. PandaCSSの推奨パターン
 
-- **静的インポート**: `import { css, styled } from '@/ui/styled/static'` を使用
+- **静的インポート**: `import { css, styled } from '@/ui/styled'` を使用
 - **内部実装の隠蔽**: テーマやトークンの実装詳細を隠蔽し、使いやすいAPIを提供
 - **レスポンシブ設計**: モバイルファーストアプローチと一貫したブレークポイント使用
 - **パターン化**: 繰り返し使用される要素はレシピとして定義

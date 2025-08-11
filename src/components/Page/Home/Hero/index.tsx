@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
-import { css, styled } from '@/ui/styled/static';
+import { css, styled } from '@/ui/styled';
 
 const ICON_SIZE = 100;
 const ICON_SIZE_SHRINK = ICON_SIZE * 0.85;

@@ -6,7 +6,7 @@ import { Adsense } from '@/components/UI/Adsense';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { splitReactNode } from '@/lib/splitHtml';
 import type { PostProps } from '@/types/source';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 import Mokuji from '../Mokuji';
 import { parser } from './inject';
 

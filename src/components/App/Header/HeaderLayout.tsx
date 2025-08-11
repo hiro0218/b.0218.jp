@@ -1,7 +1,7 @@
 import { memo, type ReactNode } from 'react';
 
 import useIsMounted from '@/hooks/useIsMounted';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 import { useHeaderScrollHandler } from './useHeaderScrollHandler';
 

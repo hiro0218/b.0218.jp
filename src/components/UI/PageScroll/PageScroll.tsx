@@ -2,7 +2,7 @@
 
 import { Tooltip } from '@/components/UI/Tooltip';
 import { ArrowUpIcon } from '@/ui/icons';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 /**
  * Why do you specify # for href?
  * @see https://html.spec.whatwg.org/multipage/browsing-the-web.html#scroll-to-the-fragment-identifier

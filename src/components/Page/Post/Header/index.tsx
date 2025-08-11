@@ -5,7 +5,7 @@ import { Box, Cluster, Stack } from '@/components/UI/Layout';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag from '@/components/UI/Tag';
 import type { PostProps } from '@/types/source';
-import { css, styled } from '@/ui/styled/static';
+import { css, styled } from '@/ui/styled';
 
 type Props = Pick<PostProps, 'title' | 'date' | 'updated'> & {
   tagsWithCount: PostTagProps[];

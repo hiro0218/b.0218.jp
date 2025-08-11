@@ -2,8 +2,8 @@ import type { ComponentProps, ReactNode } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
+import { css, cx, styled } from '@/ui/styled';
 import { postTagAnchor } from '@/ui/styled/components';
-import { css, cx, styled } from '@/ui/styled/static';
 
 type PostDateProps = ComponentProps<typeof PostDate>;
 

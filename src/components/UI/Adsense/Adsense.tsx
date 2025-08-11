@@ -2,7 +2,7 @@ import { usePathname } from 'next/navigation';
 import { type CSSProperties, useEffect, useState } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/constant';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 type Size = {
   adsWidth?: number;

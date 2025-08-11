@@ -2,7 +2,7 @@ import { usePathname } from 'next/navigation';
 import { useRef } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon, ICON_SIZE_XS } from '@/ui/icons';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 import type { MokujiProps } from './type';
 import { useMokuji } from './useMokuji';

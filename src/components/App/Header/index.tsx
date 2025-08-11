@@ -5,7 +5,7 @@ import { memo } from 'react';
 import { Container } from '@/components/Functional/Container';
 import { Logo } from '@/components/UI/Logo';
 import { useSearch } from '@/components/UI/Search';
-import { css } from '@/ui/styled/static';
+import { css } from '@/ui/styled';
 import { HeaderLayout } from './HeaderLayout';
 
 export default memo(function Header() {

@@ -2,8 +2,8 @@ import { memo } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
 import { TAG_VIEW_LIMIT } from '@/constant';
+import { styled } from '@/ui/styled';
 import { postTagAnchor } from '@/ui/styled/components';
-import { styled } from '@/ui/styled/static';
 
 export type Props = {
   slug: string;

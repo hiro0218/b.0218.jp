@@ -1,4 +1,4 @@
-import { css } from '@/ui/styled/static';
+import { css } from '@/ui/styled';
 
 export const containerType = css`
   container-type: inline-size;

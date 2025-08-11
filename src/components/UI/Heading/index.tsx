@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { type CSSProperties, useMemo } from 'react';
 
-import { css, styled } from '@/ui/styled/static';
+import { css, styled } from '@/ui/styled';
 
 type Props = {
   id?: HTMLHeadingElement['id'];

@@ -1,7 +1,7 @@
 import { Stack } from '@/components/UI/Layout';
 import type { PostProps } from '@/types/source';
 import { ICON_SIZE_SM, InfoCircledIcon } from '@/ui/icons';
-import { css } from '@/ui/styled/static';
+import { css } from '@/ui/styled';
 
 type Props = Pick<PostProps, 'note'>;
 
