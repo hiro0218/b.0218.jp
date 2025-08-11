@@ -1,8 +1,8 @@
 import { defineConfig } from '@pandacss/dev';
 import { keyframes } from '@/ui/styled/animations';
 import { dataCss, hljsCss } from '@/ui/styled/globals';
+import { semanticTokens } from '@/ui/styled/semanticTokens';
 import { tokens } from '@/ui/styled/tokens';
-import semanticColorTokens from '@/ui/styled/tokens/semanticColors';
 import globalVars from '@/ui/styled/variables';
 
 export default defineConfig({
@@ -46,9 +46,7 @@ export default defineConfig({
 
   theme: {
     tokens,
-    semanticTokens: {
-      colors: semanticColorTokens,
-    },
+    semanticTokens,
     keyframes,
   },
 
