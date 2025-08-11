@@ -1,4 +1,4 @@
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 type Props = {
   link: string;
@@ -31,14 +31,14 @@ const Anchor = styled.a`
   display: flex;
   align-items: center;
   height: 120px;
-  margin: var(--space-3) 0;
+  margin: var(--spacing-3) 0;
   overflow: hidden;
   color: var(--colors-gray-12);
   text-decoration: none;
   text-decoration-line: unset;
   background-color: var(--colors-white);
   border: 1px solid var(--colors-gray-7);
-  border-radius: var(--border-radius-8);
+  border-radius: var(--radii-8);
 
   &:hover {
     background-color: var(--colors-gray-2);
@@ -52,7 +52,7 @@ const Anchor = styled.a`
   &[data-card='summary_large_image'] {
     @media (--isDesktop) {
       .p-link-preview-body {
-        padding: var(--space-2);
+        padding: var(--spacing-2);
       }
 
       .p-link-preview-thumbnail {
@@ -68,19 +68,19 @@ const Body = styled.span`
   display: block;
   flex: 1 1;
   width: calc(100% - 120px);
-  padding: 0 var(--space-2);
-  padding-left: var(--space-2);
+  padding: 0 var(--spacing-2);
+  padding-left: var(--spacing-2);
 `;
 
 const BodyTitle = styled.span`
   display: block;
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-sizes-md);
+  font-weight: var(--font-weights-bold);
 `;
 
 const BodyDescription = styled.span`
-  margin-top: var(--space-½);
-  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-½);
+  font-size: var(--font-sizes-sm);
   color: var(--colors-gray-11);
 
   @media (--isMobile) {
@@ -90,7 +90,7 @@ const BodyDescription = styled.span`
 
 const BodyUrl = styled.span`
   display: block;
-  font-size: var(--font-size-xs);
+  font-size: var(--font-sizes-xs);
   color: var(--colors-gray-11);
 `;
 

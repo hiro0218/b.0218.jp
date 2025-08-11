@@ -1,5 +1,5 @@
-import { type FontSizeHeadingProps, fontSizeHeading } from '@/ui/styled/variables/font';
-import { SPACE_KEYS, Spaces } from '@/ui/styled/variables/space';
+import { fontSizesHeading } from '@/ui/styled/tokens/fontSizes';
+import { SPACE_KEYS, Spaces } from '@/ui/styled/tokens/spacing';
 
 type SpacingDataAttr = `data-${'mt' | 'gap'}='${(typeof Spaces)[number]}'`;
 type SpacingCSSProps = Record<'marginTop' | 'gap', `var(${(typeof SPACE_KEYS)[number]})`>;
@@ -24,10 +24,9 @@ type FontSizeHeadingStyleMap = Record<FontSizeHeadingDataAttr, Partial<FontSizeH
 
 const mtFontSizeHeading: FontSizeHeadingStyleMap = {};
 
-Object.keys(fontSizeHeading).forEach((key: FontSizeHeadingProps) => {
-  const value = key.replace('--font-size-h', '');
-  mtFontSizeHeading[`[data-font-size-h='${value}']`] = {
-    fontSize: `var(${key})`,
+Object.keys(fontSizesHeading).forEach((key, index) => {
+  mtFontSizeHeading[`[data-font-size-h='${index + 1}']`] = {
+    fontSize: `var(--font-sizes-${key})`,
   };
 });
 

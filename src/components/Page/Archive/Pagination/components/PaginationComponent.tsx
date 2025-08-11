@@ -1,5 +1,5 @@
 import { CaretLeftIcon, CaretRightIcon, ICON_SIZE_XS } from '@/ui/icons';
-import { css, styled } from '@/ui/styled/static';
+import { css, styled } from '@/ui/styled';
 import { DOTS } from '../hooks/constant';
 import { usePagination } from '../hooks/usePagination';
 
@@ -102,7 +102,7 @@ const PaginationNav = styled.nav`
 
   ul {
     display: flex;
-    gap: var(--space-1);
+    gap: var(--spacing-1);
     list-style: none;
   }
 
@@ -138,10 +138,10 @@ const paginationButtonStyle = css`
   width: var(--icon-size-lg);
   height: var(--icon-size-lg);
   aspect-ratio: 1;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   color: var(--colors-gray-11);
   cursor: pointer;
-  border-radius: var(--border-radius-full);
+  border-radius: var(--radii-full);
   transition: background-color 0.1s var(--easings-ease-out);
 
   &[disabled] {
@@ -184,7 +184,7 @@ const PageCountDisplay = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 var(--space-1);
-  font-size: var(--font-size-sm);
+  padding: 0 var(--spacing-1);
+  font-size: var(--font-sizes-sm);
   color: var(--colors-gray-11);
 `;

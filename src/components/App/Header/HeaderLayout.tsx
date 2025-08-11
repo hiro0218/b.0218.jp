@@ -1,7 +1,7 @@
 import { memo, type ReactNode } from 'react';
 
 import useIsMounted from '@/hooks/useIsMounted';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 import { useHeaderScrollHandler } from './useHeaderScrollHandler';
 
@@ -23,7 +23,7 @@ export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
 });
 
 const Underline = styled.div`
-  height: var(--space-5);
+  height: var(--spacing-5);
 `;
 
 const Header = styled.header`
@@ -31,8 +31,8 @@ const Header = styled.header`
   top: 0;
   right: 0;
   left: 0;
-  z-index: var(--zIndex-header);
-  height: var(--space-5);
+  z-index: var(--z-index-header);
+  height: var(--spacing-5);
   margin: 0 auto;
   pointer-events: none;
   isolation: isolate;

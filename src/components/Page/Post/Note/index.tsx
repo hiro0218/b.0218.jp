@@ -1,7 +1,7 @@
 import { Stack } from '@/components/UI/Layout';
 import type { PostProps } from '@/types/source';
 import { ICON_SIZE_SM, InfoCircledIcon } from '@/ui/icons';
-import { css } from '@/ui/styled/static';
+import { css } from '@/ui/styled';
 
 type Props = Pick<PostProps, 'note'>;
 
@@ -18,12 +18,12 @@ export default PostNote;
 
 const ContainerStyle = css`
   align-items: center;
-  padding: var(--space-2);
-  font-size: var(--font-size-sm);
+  padding: var(--spacing-2);
+  font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-md);
   color: var(--colors-accent-11);
   background-color: var(--colors-accent-3);
-  border-radius: var(--border-radius-8);
+  border-radius: var(--radii-8);
 
   a {
     &:hover {

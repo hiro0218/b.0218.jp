@@ -1,6 +1,6 @@
 import type { ArchiveListProps } from '@/app/(ArchivePage)/archive/libs';
 import { Anchor } from '@/components/UI/Anchor';
-import { css, styled } from '@/ui/styled/static';
+import { css, styled } from '@/ui/styled';
 
 type Props = {
   totalPosts: number;
@@ -34,8 +34,8 @@ export const Chart = ({ archives, totalPosts }: Props) => {
 
 const Container = styled.div`
   display: flex;
-  gap: var(--space-½);
-  height: var(--space-5);
+  gap: var(--spacing-½);
+  height: var(--spacing-5);
   overflow-x: scroll;
 
   @media (--isMobile) {
@@ -56,7 +56,7 @@ const AnchorStyle = css`
   justify-content: center;
   min-width: 5cap;
   height: 100%;
-  font-size: var(--font-size-xs);
+  font-size: var(--font-sizes-xs);
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-11);
   background: linear-gradient(var(--direction), var(--fill) var(--percent), transparent var(--percent));
@@ -65,8 +65,8 @@ const AnchorStyle = css`
     --direction: to right;
 
     width: 100%;
-    padding: var(--space-1) var(--space-½);
-    font-size: var(--font-size-sm);
+    padding: var(--spacing-1) var(--spacing-½);
+    font-size: var(--font-sizes-sm);
   }
 
   &:hover {

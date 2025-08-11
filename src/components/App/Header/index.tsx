@@ -5,7 +5,7 @@ import { memo } from 'react';
 import { Container } from '@/components/Functional/Container';
 import { Logo } from '@/components/UI/Logo';
 import { useSearch } from '@/components/UI/Search';
-import { css } from '@/ui/styled/static';
+import { css } from '@/ui/styled';
 import { HeaderLayout } from './HeaderLayout';
 
 export default memo(function Header() {
@@ -30,10 +30,10 @@ const HeaderContainerStyle = css`
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: var(--space-4);
+  padding: var(--spacing-4);
   margin: 0 auto;
 
   @media (--isMobile) {
-    padding: 0 var(--space-3);
+    padding: 0 var(--spacing-3);
   }
 `;

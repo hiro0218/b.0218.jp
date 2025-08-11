@@ -1,8 +1,8 @@
 import type { AriaRole, JSX, ReactNode } from 'react';
 import { memo } from 'react';
 
-import { css, cx } from '@/ui/styled/static';
-import type { SpaceGap } from '@/ui/styled/variables/space';
+import { css, cx } from '@/ui/styled';
+import type { SpaceGap } from '@/ui/styled/tokens/spacing';
 
 type Props = {
   as?: keyof JSX.IntrinsicElements;

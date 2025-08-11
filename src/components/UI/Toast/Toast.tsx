@@ -1,7 +1,7 @@
 import type { ForwardedRef } from 'react';
 import { useMemo } from 'react';
 
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 import { useToast } from './useToast';
 
@@ -37,16 +37,16 @@ const ToastComponent = ({ message, onHideToast, ref }: Props) => {
 
 const Container = styled.div`
   position: fixed;
-  bottom: var(--space-1);
-  left: var(--space-1);
-  z-index: var(--zIndex-base);
-  padding: var(--space-1) var(--space-2);
-  font-size: var(--font-size-xs);
+  bottom: var(--spacing-1);
+  left: var(--spacing-1);
+  z-index: var(--z-index-base);
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: var(--font-sizes-xs);
   color: var(--colors-dark-foregrounds);
   white-space: nowrap;
   user-select: none;
   background-color: var(--colors-dark-backgrounds);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--radii-4);
   isolation: isolate;
   opacity: 0;
 

@@ -1,6 +1,6 @@
 import { Anchor } from '@/components/UI/Anchor';
 import { Stack } from '@/components/UI/Layout';
-import { css, styled } from '@/ui/styled/static';
+import { css, styled } from '@/ui/styled';
 
 export default function Content() {
   return (
@@ -21,28 +21,28 @@ export default function Content() {
 
 const ContainerStyle = css`
   height: 100%;
-  padding-inline: var(--space-4);
+  padding-inline: var(--spacing-4);
   text-align: center;
 `;
 
 const Header = styled.header`
   h1 {
-    font-size: var(--font-size-h1);
+    font-size: var(--font-sizes-h1);
   }
 
   p {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-sizes-sm);
     color: var(--colors-gray-11);
   }
 `;
 
 const AnchorStyle = css`
   width: 120px;
-  padding: var(--space-1) var(--space-2);
+  padding: var(--spacing-1) var(--spacing-2);
   margin-inline: auto;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   background-color: var(--colors-gray-3);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--radii-4);
 
   &:hover {
     background-color: var(--colors-gray-4);

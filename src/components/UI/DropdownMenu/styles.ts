@@ -1,4 +1,4 @@
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 /**
  * ドロップダウンメニューのコンテナ要素
@@ -36,14 +36,14 @@ export const Trigger = styled.button`
 export const Content = styled.div`
   position: absolute;
   top: 100%;
-  z-index: var(--zIndex-base);
+  z-index: var(--z-index-base);
   min-width: max-content;
   height: fit-content;
-  padding: var(--space-½);
+  padding: var(--spacing-½);
   content-visibility: hidden;
   background-color: var(--colors-white);
   border: 1px solid var(--colors-gray-a-4);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--radii-4);
   box-shadow: var(--shadows-md);
   opacity: 0;
   transform: scale(0.8);
@@ -68,8 +68,8 @@ export const Content = styled.div`
   }
 
   & > a {
-    padding: var(--space-½) var(--space-1);
+    padding: var(--spacing-½) var(--spacing-1);
     line-height: var(--line-heights-lg);
-    border-radius: var(--border-radius-4);
+    border-radius: var(--radii-4);
   }
 `;

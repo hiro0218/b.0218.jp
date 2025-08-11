@@ -2,7 +2,7 @@ import { usePathname } from 'next/navigation';
 import { type CSSProperties, useEffect, useState } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/constant';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 type Size = {
   adsWidth?: number;
@@ -66,7 +66,7 @@ const Ins = () => {
 
 const Container = styled.aside`
   display: flex;
-  gap: var(--space-2);
+  gap: var(--spacing-2);
   align-items: center;
   justify-content: center;
   margin: 0 auto;

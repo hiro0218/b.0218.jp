@@ -1,4 +1,4 @@
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 type Props = {
   onClick: () => void;
@@ -11,7 +11,7 @@ export function Overlay({ onClick }: Props) {
 const Div = styled.div`
   position: fixed;
   inset: 0;
-  z-index: var(--zIndex-overlay);
+  z-index: var(--z-index-overlay);
   visibility: hidden;
   background-color: var(--colors-overlay-backgrounds);
   isolation: isolate;

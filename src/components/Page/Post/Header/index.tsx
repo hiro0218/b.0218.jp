@@ -5,7 +5,7 @@ import { Box, Cluster, Stack } from '@/components/UI/Layout';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag from '@/components/UI/Tag';
 import type { PostProps } from '@/types/source';
-import { css, styled } from '@/ui/styled/static';
+import { css, styled } from '@/ui/styled';
 
 type Props = Pick<PostProps, 'title' | 'date' | 'updated'> & {
   tagsWithCount: PostTagProps[];
@@ -38,8 +38,8 @@ const headerSeparatorStyle = css`
   &::after {
     display: block;
     width: 100%;
-    height: var(--space-½);
-    margin-top: var(--space-4);
+    height: var(--spacing-½);
+    margin-top: var(--spacing-4);
     color: var(--colors-gray-6);
     content: '';
     background-image: repeating-linear-gradient(-45deg, currentColor, currentColor 1px, transparent 0, transparent 50%);
@@ -48,7 +48,7 @@ const headerSeparatorStyle = css`
 `;
 
 const Heading = styled.h1`
-  font-weight: var(--font-weight-bolder);
+  font-weight: var(--font-weights-bolder);
   font-feature-settings: 'palt';
   font-kerning: normal;
   line-height: var(--line-heights-lg);

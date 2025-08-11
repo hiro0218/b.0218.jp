@@ -5,7 +5,7 @@ import type { ImgHTMLAttributes } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { parseStyleStringToObject } from '@/lib/parseStyleStringToObject';
-import { css } from '@/ui/styled/static';
+import { css } from '@/ui/styled';
 
 const Overlay = dynamic(() => import('@/components/UI/Overlay').then((module) => module.Overlay));
 
@@ -18,7 +18,7 @@ const zoomedImageStyle = css`
   position: fixed;
   top: 50%;
   left: 50%;
-  z-index: calc(var(--zIndex-overlay) + 1);
+  z-index: calc(var(--z-index-overlay) + 1);
   max-width: 90%;
   max-height: 90%;
   pointer-events: auto;

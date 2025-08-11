@@ -2,7 +2,7 @@ import { usePathname } from 'next/navigation';
 import { useRef } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon, ICON_SIZE_XS } from '@/ui/icons';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 import type { MokujiProps } from './type';
 import { useMokuji } from './useMokuji';
@@ -42,7 +42,7 @@ const Root = styled.nav`
 
 const Details = styled.details`
   background-color: var(--colors-gray-a-3);
-  border-radius: var(--border-radius-8);
+  border-radius: var(--radii-8);
   transition: background-color 0.2s ease;
 
   &:not([open]) {
@@ -70,16 +70,16 @@ const IconContainer = styled.div`
   width: var(--icon-size-md);
   height: var(--icon-size-md);
   background-color: var(--colors-gray-a-3);
-  border-radius: var(--border-radius-full);
+  border-radius: var(--radii-full);
 `;
 
 const Summary = styled.summary`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-2) var(--space-3);
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-bold);
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-sizes-md);
+  font-weight: var(--font-weights-bold);
   cursor: pointer;
   user-select: none;
 
@@ -90,14 +90,14 @@ const Summary = styled.summary`
 `;
 
 const DetailsContent = styled.div`
-  padding-top: var(--space-2);
+  padding-top: var(--spacing-2);
 
   > ol {
-    padding: 0 var(--space-4) var(--space-3) var(--space-4);
+    padding: 0 var(--spacing-4) var(--spacing-3) var(--spacing-4);
     margin: 0;
 
     > li > a {
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weights-bold);
     }
   }
 
@@ -109,7 +109,7 @@ const DetailsContent = styled.div`
       list-style: none;
 
       &:not(:last-child) {
-        margin-bottom: var(--space-1);
+        margin-bottom: var(--spacing-1);
       }
 
       a::before {
@@ -119,8 +119,8 @@ const DetailsContent = styled.div`
     }
 
     & ol {
-      padding-left: var(--space-2);
-      margin: var(--space-1) 0;
+      padding-left: var(--spacing-2);
+      margin: var(--spacing-1) 0;
     }
   }
 `;

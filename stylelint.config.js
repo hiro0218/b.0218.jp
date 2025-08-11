@@ -33,6 +33,8 @@ module.exports = {
         'function-name-case': null,
         'function-no-unknown': null,
         'no-invalid-double-slash-comments': null,
+        'no-invalid-position-declaration': null,
+        'nesting-selector-no-missing-scoping-root': null,
       },
     },
   ],

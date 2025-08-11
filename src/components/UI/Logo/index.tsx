@@ -1,6 +1,6 @@
 import { Anchor } from '@/components/UI/Anchor';
 import { SITE_NAME } from '@/constant';
-import { css, cx } from '@/ui/styled/static';
+import { css, cx } from '@/ui/styled';
 
 export const Logo = () => {
   return (
@@ -8,7 +8,7 @@ export const Logo = () => {
       className={cx(
         'link-style link-style--hover-effect',
         css`
-          padding: var(--space-1);
+          padding: var(--spacing-1);
           pointer-events: auto;
         `,
       )}

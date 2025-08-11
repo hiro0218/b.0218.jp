@@ -8,7 +8,7 @@ import { Tooltip } from '@/components/UI/Tooltip';
 import { X_ACCOUNT } from '@/constant';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, Share1Icon, X } from '@/ui/icons';
-import { css, cx } from '@/ui/styled/static';
+import { css, cx } from '@/ui/styled';
 
 interface Props {
   title: string;
@@ -99,7 +99,7 @@ const ShareButtonStyle = css`
   height: calc(var(--icon-size-sm) * 2);
 
   &::after {
-    border-radius: var(--border-radius-full);
+    border-radius: var(--radii-full);
   }
 `;
 

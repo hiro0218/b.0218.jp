@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { type CSSProperties, useMemo } from 'react';
 
-import { css, styled } from '@/ui/styled/static';
+import { css, styled } from '@/ui/styled';
 
 type Props = {
   id?: HTMLHeadingElement['id'];
@@ -21,7 +21,7 @@ function Heading({
   isWeightNormal = true,
 }: Props) {
   const titleStyle = {
-    ...(!isWeightNormal && { '--font-weight': 'var(--font-weight-bold)' }),
+    ...(!isWeightNormal && { '--font-weight': 'var(--font-weights-bold)' }),
   } as CSSProperties;
 
   const fontSizeLevel = (() => {
@@ -75,7 +75,7 @@ const Main = styled.div`
 `;
 
 const headerTitleStyle = css`
-  font-weight: var(--font-weight, --font-weight-normal);
+  font-weight: var(--font-weight, --font-weights-normal);
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-12);
   overflow-wrap: break-word;
@@ -86,8 +86,8 @@ const Side = styled.div`
 `;
 
 const HeaderSub = styled.div`
-  margin-top: var(--space-1);
-  font-weight: var(--font-weight-normal);
+  margin-top: var(--spacing-1);
+  font-weight: var(--font-weights-normal);
   color: var(--colors-gray-11);
   overflow-wrap: break-word;
 `;

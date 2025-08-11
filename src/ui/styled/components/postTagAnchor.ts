@@ -1,15 +1,17 @@
-.post-tag-anchor {
+import { css } from '@/ui/styled';
+
+export const postTagAnchor = css`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-½) var(--space-2);
-  font-size: var(--font-size-sm);
+  padding: var(--spacing-½) var(--spacing-2);
+  font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-11);
   text-align: center;
   white-space: nowrap;
   background-color: var(--colors-gray-a-3);
-  border-radius: var(--border-radius-8);
+  border-radius: var(--radii-8);
 
   &:hover {
     background-color: var(--colors-gray-a-4);
@@ -26,4 +28,4 @@
       background-color: var(--colors-gray-a-3);
     }
   }
-}
+`;

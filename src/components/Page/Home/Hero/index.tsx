@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
-import { css, styled } from '@/ui/styled/static';
+import { css, styled } from '@/ui/styled';
 
 const ICON_SIZE = 100;
 const ICON_SIZE_SHRINK = ICON_SIZE * 0.85;
@@ -34,9 +34,9 @@ const ContainerStyle = css`
   display: grid;
   grid-template-rows: auto auto;
   grid-template-columns: auto 1fr;
-  gap: 0 var(--space-2);
+  gap: 0 var(--spacing-2);
   margin-inline: auto;
-  font-size: var(--font-size-md);
+  font-size: var(--font-sizes-md);
   color: var(--colors-gray-11);
 
   @media (--isDesktop) {
@@ -57,15 +57,15 @@ const Avatar = styled.div`
 
   img {
     aspect-ratio: 1/1;
-    border-radius: var(--border-radius-full);
+    border-radius: var(--radii-full);
   }
 `;
 
 const Heading = styled.h2`
   grid-row: 1 / 2;
   grid-column: 2 / 3;
-  font-size: var(--font-size-h3);
-  font-weight: var(--font-weight-bolder);
+  font-size: var(--font-sizes-h3);
+  font-weight: var(--font-weights-bolder);
   letter-spacing: 0.04em;
 
   a {

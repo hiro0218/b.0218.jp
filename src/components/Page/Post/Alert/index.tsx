@@ -6,7 +6,7 @@ import {
   InformationCircle,
   LightBulb,
 } from '@/ui/icons';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 export type AlertType = 'note' | 'tip' | 'important' | 'warning' | 'caution';
 
@@ -56,10 +56,10 @@ const Container = styled.div`
 
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
-  padding: var(--space-2) var(--space-3);
+  gap: var(--spacing-1);
+  padding: var(--spacing-2) var(--spacing-3);
   background-color: hwb(from var(--alert-color) h w b / 0.1);
-  border-left: var(--space-½) solid var(--alert-color);
+  border-left: var(--spacing-½) solid var(--alert-color);
 
   &[data-alert-type='note'],
   &[data-alert-type='tip'] {
@@ -83,15 +83,15 @@ const Container = styled.div`
   }
 
   p {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-sizes-sm);
   }
 `;
 
 const Title = styled.div`
   display: flex;
   align-items: center;
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-sizes-md);
+  font-weight: var(--font-weights-bold);
   color: var(--alert-color);
   text-transform: capitalize;
 `;

@@ -1,7 +1,7 @@
 import { Anchor } from '@/components/UI/Anchor';
 import { convertPostSlugToPath } from '@/lib/url';
 import type { PostListProps } from '@/types/source';
-import { css, styled } from '@/ui/styled/static';
+import { css, styled } from '@/ui/styled';
 
 type Props = {
   posts: PostListProps[];
@@ -33,23 +33,23 @@ export const Timeline = ({ posts, year }: Props) => {
 };
 
 const Section = styled.section`
-  --vertical-space: var(--space-3);
+  --vertical-space: var(--spacing-3);
   --columns-1: 12%;
   --columns-2: 8%;
-  --year-heading-height: var(--space-5);
+  --year-heading-height: var(--spacing-5);
   --year-heading-circle-color: var(--colors-gray-8);
-  --year-heading-separator-size: var(--space-2);
-  --year-post-separator-size-h: var(--space-1);
-  --year-post-separator-size-w: var(--space-1);
+  --year-heading-separator-size: var(--spacing-2);
+  --year-post-separator-size-h: var(--spacing-1);
+  --year-post-separator-size-w: var(--spacing-1);
   --year-post-separator-color: var(--colors-gray-7);
-  --year-post-separator-border-radius: var(--border-radius-full);
+  --year-post-separator-border-radius: var(--radii-full);
 
   @media (--isMobile) {
     --columns-1: 16%;
   }
 
   position: relative;
-  gap: var(--space-1);
+  gap: var(--spacing-1);
 
   /* Separator */
   &::before {
@@ -80,7 +80,7 @@ const Section = styled.section`
     content: '';
     background-color: var(--colors-white);
     border: 4px solid var(--year-heading-circle-color);
-    border-radius: var(--border-radius-full);
+    border-radius: var(--radii-full);
     transform: translateX(-50%);
     transition: border 0.2s var(--easings-ease-out);
   }
@@ -99,18 +99,18 @@ const Header = styled.header`
 `;
 
 const Title = styled.h2`
-  padding-left: var(--space-1);
-  font-size: var(--font-size-h3);
+  padding-left: var(--spacing-1);
+  font-size: var(--font-sizes-h3);
 `;
 
 const PostCount = styled.span`
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   color: var(--colors-gray-10);
   text-align: right;
 `;
 
 const Date = styled.span`
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   color: var(--colors-gray-10);
   text-align: center;
 `;
@@ -131,16 +131,16 @@ const styleAnchor = css`
   grid-template-columns: var(--columns-1) var(--columns-2) 1fr;
   align-items: center;
   width: 100%;
-  padding-block: var(--space-1);
-  border-radius: var(--border-radius-8);
+  padding-block: var(--spacing-1);
+  border-radius: var(--radii-8);
 
   &:hover {
     background-color: var(--colors-gray-a-3);
 
-    --year-post-separator-size-h: var(--space-3);
-    --year-post-separator-size-w: var(--space-1);
+    --year-post-separator-size-h: var(--spacing-3);
+    --year-post-separator-size-w: var(--spacing-1);
     --year-post-separator-color: var(--colors-accent-8);
-    --year-post-separator-border-radius: var(--border-radius-8);
+    --year-post-separator-border-radius: var(--radii-8);
   }
 
   &:active {

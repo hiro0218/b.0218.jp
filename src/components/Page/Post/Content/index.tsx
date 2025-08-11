@@ -6,7 +6,7 @@ import { Adsense } from '@/components/UI/Adsense';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { splitReactNode } from '@/lib/splitHtml';
 import type { PostProps } from '@/types/source';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 import Mokuji from '../Mokuji';
 import { parser } from './inject';
 
@@ -43,6 +43,6 @@ export default function Content({ enableMokuji = true, content }: Props) {
 }
 
 const AdsenseContainer = styled.div`
-  margin: var(--space-4) 0;
+  margin: var(--spacing-4) 0;
   text-align: center;
 `;

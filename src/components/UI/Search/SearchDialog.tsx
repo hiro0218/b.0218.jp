@@ -3,7 +3,7 @@ import { type ForwardedRef, useId } from 'react';
 import { createPortal } from 'react-dom';
 
 import useIsClient from '@/hooks/useIsClient';
-import { styled } from '@/ui/styled/static';
+import { styled } from '@/ui/styled';
 
 import type { onCloseDialogProps } from './type';
 
@@ -43,12 +43,12 @@ export const SearchDialog = ({ closeDialog, ref }: Props) => {
 const Dialog = styled.dialog`
   position: fixed;
   top: 25vh;
-  border-radius: var(--border-radius-12);
+  border-radius: var(--radii-12);
   isolation: isolate;
   opacity: 0;
 
   &[open] {
-    z-index: var(--zIndex-search);
+    z-index: var(--z-index-search);
     padding: 0;
     border: none;
     opacity: 1;

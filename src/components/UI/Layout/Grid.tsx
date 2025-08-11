@@ -1,7 +1,7 @@
 import type { AriaRole, JSX, ReactNode } from 'react';
-import { css, cx } from '@/ui/styled/static';
+import { css, cx } from '@/ui/styled';
+import type { SpaceGap } from '@/ui/styled/tokens/spacing';
 import { containerType } from '@/ui/styled/utilities';
-import type { SpaceGap } from '@/ui/styled/variables/space';
 
 type Props = {
   as?: keyof JSX.IntrinsicElements;
@@ -13,7 +13,7 @@ type Props = {
 
 const gridStyle = css`
   display: grid;
-  grid-template-columns: repeat(2, minmax(calc(50% - var(--space-1)), max-content));
+  grid-template-columns: repeat(2, minmax(calc(50% - var(--spacing-1)), max-content));
 
   @container (max-width: 480px) {
     grid-template-columns: 1fr;

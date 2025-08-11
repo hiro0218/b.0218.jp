@@ -18,8 +18,8 @@ html {
 
 body {
   height: 100%;
-  font-family: var(--font-family-sans-serif);
-  font-weight: var(--font-weight-normal);
+  font-family: var(--fonts-family-sans-serif);
+  font-weight: var(--font-weights-normal);
   font-feature-settings: 'chws' 1;
   line-height: 1.875;
   color: var(--colors-gray-12);
@@ -95,10 +95,10 @@ figure {
   text-align: center;
 
   &:has(img) {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-sizes-sm);
 
     > * + * {
-      margin-top: var(--space-1);
+      margin-top: var(--spacing-1);
     }
 
     img {
@@ -110,7 +110,7 @@ figure {
   }
 
   figcaption {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-sizes-sm);
     color: var(--colors-gray-11);
   }
 }
@@ -130,59 +130,59 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: var(--font-weight-normal);
+  font-weight: var(--font-weights-normal);
   font-feature-settings: 'palt';
   color: var(--colors-gray-12);
 }
 
 h1 {
-  font-size: var(--font-size-h1);
-  font-weight: var(--font-weight-bolder);
+  font-size: var(--font-sizes-h1);
+  font-weight: var(--font-weights-bolder);
 }
 
 h2 {
-  font-size: var(--font-size-h2);
+  font-size: var(--font-sizes-h2);
 }
 
 h3 {
-  font-size: var(--font-size-h3);
+  font-size: var(--font-sizes-h3);
 }
 
 h4 {
-  font-size: var(--font-size-h4);
+  font-size: var(--font-sizes-h4);
 }
 
 h5 {
-  font-size: var(--font-size-h5);
+  font-size: var(--font-sizes-h5);
 }
 
 h6 {
-  font-size: var(--font-size-h6);
+  font-size: var(--font-sizes-h6);
 }
 
 b,
 strong {
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weights-bold);
   color: var(--colors-gray-12);
 }
 
 mark {
   padding: 1px 2px;
   background-color: var(--colors-accent-a-5);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--radii-4);
 }
 
 /* code */
 pre,
 code {
-  font-family: var(--font-family-monospace);
+  font-family: var(--fonts-family-monospace);
 }
 
 code {
   color: var(--colors-gray-12);
   overflow-wrap: break-word;
   background-color: var(--colors-gray-a-1);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--radii-4);
 
   a > & {
     color: inherit;
@@ -192,27 +192,27 @@ code {
 pre {
   display: block;
   overflow: auto;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   overflow-wrap: break-word;
   /* stylelint-disable */
   resize: horizontal;
   /* stylelint-enable */
   border: 1px solid var(--colors-gray-a-4);
-  border-radius: var(--border-radius-4);
+  border-radius: var(--radii-4);
   -webkit-overflow-scrolling: touch;
 
   & > code {
     display: block;
-    padding: var(--space-3);
+    padding: var(--spacing-3);
     font-size: inherit;
     background-color: var(--colors-gray-a-2);
   }
 }
 
 :not(pre) > code {
-  padding: var(--space-½) var(--space-1);
+  padding: var(--spacing-½) var(--spacing-1);
   margin: 0;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   background: var(--colors-gray-a-3);
 }
 
@@ -222,12 +222,12 @@ table {
   max-inline-size: 100%;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
-  font-size: var(--font-size-md);
+  font-size: var(--font-sizes-md);
   animation: scroll-table-shadow-inset linear;
   animation-timeline: scroll(self x);
 
   caption {
-    margin: var(--space-1) 0;
+    margin: var(--spacing-1) 0;
     color: var(--colors-gray-11);
     text-align: center;
   }
@@ -235,7 +235,7 @@ table {
 
 th,
 td {
-  padding: var(--space-1) var(--space-2);
+  padding: var(--spacing-1) var(--spacing-2);
   vertical-align: top;
   white-space: nowrap;
   border-top: 1px solid var(--colors-gray-6);
@@ -290,7 +290,7 @@ button {
 }
 
 del {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-sizes-sm);
   color: var(--colors-gray-11);
 
   &[datetime] {
