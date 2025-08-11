@@ -37,10 +37,10 @@ const ToastComponent = ({ message, onHideToast, ref }: Props) => {
 
 const Container = styled.div`
   position: fixed;
-  bottom: var(--space-1);
-  left: var(--space-1);
+  bottom: var(--spacing-1);
+  left: var(--spacing-1);
   z-index: var(--z-index-base);
-  padding: var(--space-1) var(--space-2);
+  padding: var(--spacing-1) var(--spacing-2);
   font-size: var(--font-sizes-xs);
   color: var(--colors-dark-foregrounds);
   white-space: nowrap;

@@ -86,7 +86,7 @@ const Side = styled.div`
 `;
 
 const HeaderSub = styled.div`
-  margin-top: var(--space-1);
+  margin-top: var(--spacing-1);
   font-weight: var(--font-weights-normal);
   color: var(--colors-gray-11);
   overflow-wrap: break-word;

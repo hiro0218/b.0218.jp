@@ -3,12 +3,12 @@
   color: var(--colors-gray-11);
 
   & > * {
-    margin-top: var(--space-2);
-    margin-bottom: var(--space-3);
+    margin-top: var(--spacing-2);
+    margin-bottom: var(--spacing-3);
 
     & > :is(p, div) {
-      margin-top: var(--space-1);
-      margin-bottom: var(--space-1);
+      margin-top: var(--spacing-1);
+      margin-bottom: var(--spacing-1);
     }
   }
 
@@ -50,8 +50,8 @@
   }
 
   h2 {
-    margin-top: var(--space-6);
-    margin-bottom: var(--space-3);
+    margin-top: var(--spacing-6);
+    margin-bottom: var(--spacing-3);
     line-height: var(--line-heights-md);
 
     &:not(:has(+ h3)) {
@@ -64,21 +64,21 @@
   }
 
   h3 {
-    margin-top: var(--space-5);
-    margin-bottom: var(--space-3);
+    margin-top: var(--spacing-5);
+    margin-bottom: var(--spacing-3);
     line-height: var(--line-heights-sm);
   }
 
   h4,
   h5 {
-    margin-top: var(--space-5);
-    margin-bottom: var(--space-2);
+    margin-top: var(--spacing-5);
+    margin-bottom: var(--spacing-2);
     line-height: var(--line-heights-sm);
   }
 
   h6 {
-    margin-top: var(--space-4);
-    margin-bottom: var(--space-2);
+    margin-top: var(--spacing-4);
+    margin-bottom: var(--spacing-2);
     line-height: var(--line-heights-sm);
   }
 
@@ -100,11 +100,11 @@
   }
 
   blockquote {
-    padding: var(--space-2) var(--space-3);
+    padding: var(--spacing-2) var(--spacing-3);
     font-size: var(--font-sizes-md);
     color: var(--colors-gray-10);
     background-color: var(--colors-gray-a-2);
-    border-left: var(--space-½) solid var(--colors-gray-6);
+    border-left: var(--spacing-½) solid var(--colors-gray-6);
 
     cite {
       display: block;
@@ -116,10 +116,10 @@
 
   ul,
   ol {
-    padding-inline-start: var(--space-3);
+    padding-inline-start: var(--spacing-3);
 
     & + pre {
-      margin-inline-start: var(--space-3);
+      margin-inline-start: var(--spacing-3);
     }
   }
 
@@ -128,18 +128,18 @@
   }
 
   li {
-    margin-block-start: var(--space-½);
+    margin-block-start: var(--spacing-½);
 
     &:first-of-type {
       margin-block-start: 0;
     }
 
     blockquote {
-      margin-top: var(--space-1);
+      margin-top: var(--spacing-1);
     }
 
     ul:last-of-type {
-      margin-block-end: var(--space-1);
+      margin-block-end: var(--spacing-1);
     }
   }
 
@@ -162,7 +162,7 @@
     }
 
     summary {
-      padding: var(--space-1) var(--space-2);
+      padding: var(--spacing-1) var(--spacing-2);
       font-size: var(--font-sizes-sm);
       font-weight: var(--font-weights-bold);
       background-color: var(--colors-white);
@@ -172,7 +172,7 @@
     }
 
     &::details-content {
-      margin: var(--space-2);
+      margin: var(--spacing-2);
       font-size: var(--font-sizes-sm);
 
       > *:first-of-type {
@@ -202,20 +202,20 @@
   }
 
   figure {
-    margin: var(--space-3) auto;
+    margin: var(--spacing-3) auto;
   }
 
   hr {
     display: flex;
     align-items: center;
     width: 80%;
-    margin: var(--space-5) auto;
+    margin: var(--spacing-5) auto;
     border: 0;
 
     &::after {
       display: block;
       width: 100%;
-      height: var(--space-1);
+      height: var(--spacing-1);
       color: var(--colors-gray-6);
       content: '';
       background-image: repeating-linear-gradient(

@@ -34,7 +34,7 @@ const ContainerStyle = css`
   display: grid;
   grid-template-rows: auto auto;
   grid-template-columns: auto 1fr;
-  gap: 0 var(--space-2);
+  gap: 0 var(--spacing-2);
   margin-inline: auto;
   font-size: var(--font-sizes-md);
   color: var(--colors-gray-11);

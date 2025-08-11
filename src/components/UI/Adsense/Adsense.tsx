@@ -66,7 +66,7 @@ const Ins = () => {
 
 const Container = styled.aside`
   display: flex;
-  gap: var(--space-2);
+  gap: var(--spacing-2);
   align-items: center;
   justify-content: center;
   margin: 0 auto;

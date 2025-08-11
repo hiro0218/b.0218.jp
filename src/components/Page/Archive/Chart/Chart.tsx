@@ -34,8 +34,8 @@ export const Chart = ({ archives, totalPosts }: Props) => {
 
 const Container = styled.div`
   display: flex;
-  gap: var(--space-½);
-  height: var(--space-5);
+  gap: var(--spacing-½);
+  height: var(--spacing-5);
   overflow-x: scroll;
 
   @media (--isMobile) {
@@ -65,7 +65,7 @@ const AnchorStyle = css`
     --direction: to right;
 
     width: 100%;
-    padding: var(--space-1) var(--space-½);
+    padding: var(--spacing-1) var(--spacing-½);
     font-size: var(--font-sizes-sm);
   }
 

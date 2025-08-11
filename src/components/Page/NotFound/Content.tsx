@@ -21,7 +21,7 @@ export default function Content() {
 
 const ContainerStyle = css`
   height: 100%;
-  padding-inline: var(--space-4);
+  padding-inline: var(--spacing-4);
   text-align: center;
 `;
 
@@ -38,7 +38,7 @@ const Header = styled.header`
 
 const AnchorStyle = css`
   width: 120px;
-  padding: var(--space-1) var(--space-2);
+  padding: var(--spacing-1) var(--spacing-2);
   margin-inline: auto;
   font-size: var(--font-sizes-sm);
   background-color: var(--colors-gray-3);

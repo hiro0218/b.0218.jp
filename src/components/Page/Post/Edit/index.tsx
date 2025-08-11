@@ -44,7 +44,7 @@ export default PostEdit;
 const Anchor = styled.a`
   display: flex;
   align-items: center;
-  padding: var(--space-½) var(--space-1);
+  padding: var(--spacing-½) var(--spacing-1);
   font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-12);

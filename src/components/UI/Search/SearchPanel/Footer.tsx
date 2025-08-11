@@ -14,7 +14,7 @@ export const Footer = memo(function Footer({ resultNumber }: { resultNumber: num
 const SearchFooter = styled.div`
   display: flex;
   justify-content: flex-end;
-  padding: var(--space-½) var(--space-1);
+  padding: var(--spacing-½) var(--spacing-1);
   font-size: var(--font-sizes-xs);
   color: var(--colors-gray-11);
   border-top: 1px solid var(--colors-gray-6);

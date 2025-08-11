@@ -38,8 +38,8 @@ const headerSeparatorStyle = css`
   &::after {
     display: block;
     width: 100%;
-    height: var(--space-½);
-    margin-top: var(--space-4);
+    height: var(--spacing-½);
+    margin-top: var(--spacing-4);
     color: var(--colors-gray-6);
     content: '';
     background-image: repeating-linear-gradient(-45deg, currentColor, currentColor 1px, transparent 0, transparent 50%);

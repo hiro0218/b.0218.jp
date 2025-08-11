@@ -98,7 +98,7 @@ figure {
     font-size: var(--font-sizes-sm);
 
     > * + * {
-      margin-top: var(--space-1);
+      margin-top: var(--spacing-1);
     }
 
     img {
@@ -203,14 +203,14 @@ pre {
 
   & > code {
     display: block;
-    padding: var(--space-3);
+    padding: var(--spacing-3);
     font-size: inherit;
     background-color: var(--colors-gray-a-2);
   }
 }
 
 :not(pre) > code {
-  padding: var(--space-½) var(--space-1);
+  padding: var(--spacing-½) var(--spacing-1);
   margin: 0;
   font-size: var(--font-sizes-sm);
   background: var(--colors-gray-a-3);
@@ -227,7 +227,7 @@ table {
   animation-timeline: scroll(self x);
 
   caption {
-    margin: var(--space-1) 0;
+    margin: var(--spacing-1) 0;
     color: var(--colors-gray-11);
     text-align: center;
   }
@@ -235,7 +235,7 @@ table {
 
 th,
 td {
-  padding: var(--space-1) var(--space-2);
+  padding: var(--spacing-1) var(--spacing-2);
   vertical-align: top;
   white-space: nowrap;
   border-top: 1px solid var(--colors-gray-6);

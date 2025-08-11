@@ -86,7 +86,7 @@ export const Result = memo(function Result({
 
 const Container = styled.div`
   display: grid;
-  gap: var(--space-1);
+  gap: var(--spacing-1);
   max-height: 50vh;
   padding: 0;
   margin: 0;
@@ -94,7 +94,7 @@ const Container = styled.div`
   overflow-y: auto;
 
   &:not(:empty) {
-    padding: var(--space-½) var(--space-1);
+    padding: var(--spacing-½) var(--spacing-1);
   }
 
   @media (--isMobile) {
@@ -123,7 +123,7 @@ const FocusedContainerStyle = css`
 
 const AnchorStyle = css`
   display: block;
-  padding: var(--space-1) var(--space-2);
+  padding: var(--spacing-1) var(--spacing-2);
   font-size: var(--font-sizes-sm);
   pointer-events: none;
   border-radius: var(--radii-8);
@@ -139,7 +139,7 @@ const AnchorStyle = css`
 `;
 
 const Message = styled.div`
-  padding: var(--space-½);
+  padding: var(--spacing-½);
   font-size: var(--font-sizes-xs);
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-xs);

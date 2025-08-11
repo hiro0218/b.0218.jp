@@ -23,7 +23,7 @@ export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
 });
 
 const Underline = styled.div`
-  height: var(--space-5);
+  height: var(--spacing-5);
 `;
 
 const Header = styled.header`
@@ -32,7 +32,7 @@ const Header = styled.header`
   right: 0;
   left: 0;
   z-index: var(--z-index-header);
-  height: var(--space-5);
+  height: var(--spacing-5);
   margin: 0 auto;
   pointer-events: none;
   isolation: isolate;

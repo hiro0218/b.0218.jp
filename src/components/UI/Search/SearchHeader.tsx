@@ -43,12 +43,12 @@ const Header = styled.div`
 const HeaderIcon = styled.label`
   display: flex;
   align-items: center;
-  padding: 0 var(--space-1) 0 var(--space-2);
+  padding: 0 var(--spacing-1) 0 var(--spacing-2);
 `;
 
 const SearchInput = styled.input`
   width: 100%;
-  height: var(--space-4);
+  height: var(--spacing-4);
   padding: 0;
   font-size: var(--font-sizes-md);
   border: none;

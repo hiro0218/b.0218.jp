@@ -28,10 +28,10 @@ const Root = styled.div`
   margin-inline: auto;
 
   &[data-has-space='true'] {
-    padding-inline: var(--space-3);
+    padding-inline: var(--spacing-3);
 
     @media (--isMobile) {
-      padding: 0 var(--space-3);
+      padding: 0 var(--spacing-3);
     }
   }
 `;

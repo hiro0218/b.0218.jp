@@ -39,7 +39,7 @@ export const Content = styled.div`
   z-index: var(--z-index-base);
   min-width: max-content;
   height: fit-content;
-  padding: var(--space-½);
+  padding: var(--spacing-½);
   content-visibility: hidden;
   background-color: var(--colors-white);
   border: 1px solid var(--colors-gray-a-4);
@@ -68,7 +68,7 @@ export const Content = styled.div`
   }
 
   & > a {
-    padding: var(--space-½) var(--space-1);
+    padding: var(--spacing-½) var(--spacing-1);
     line-height: var(--line-heights-lg);
     border-radius: var(--radii-4);
   }

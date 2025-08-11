@@ -17,7 +17,7 @@
 @define-mixin link-style {
   display: inline-flex;
   align-items: center;
-  padding: var(--space-½) var(--space-1);
+  padding: var(--spacing-½) var(--spacing-1);
   color: var(--colors-gray-12);
   border-radius: var(--radii-4);
 }

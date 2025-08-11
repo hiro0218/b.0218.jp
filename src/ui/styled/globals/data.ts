@@ -1,5 +1,5 @@
 import { fontSizesHeading } from '@/ui/styled/tokens/fontSizes';
-import { SPACE_KEYS, Spaces } from '@/ui/styled/variables/space';
+import { SPACE_KEYS, Spaces } from '@/ui/styled/tokens/spacing';
 
 type SpacingDataAttr = `data-${'mt' | 'gap'}='${(typeof Spaces)[number]}'`;
 type SpacingCSSProps = Record<'marginTop' | 'gap', `var(${(typeof SPACE_KEYS)[number]})`>;

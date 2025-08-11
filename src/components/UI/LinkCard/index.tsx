@@ -48,12 +48,12 @@ function LinkCard({ link, title, date, updated, excerpt, tags, titleTagName = 'h
 export default LinkCard;
 
 const Container = styled.article`
-  --container-space: var(--space-3);
+  --container-space: var(--spacing-3);
   --hover-color: var(--colors-accent-10);
 
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: var(--spacing-1);
   contain-intrinsic-size: 0 200px;
   padding: var(--container-space);
   contain: layout style;
@@ -65,11 +65,11 @@ const Container = styled.article`
   transition: box-shadow 0.2s;
 
   @media (--isMobile) {
-    --container-space: var(--space-2);
+    --container-space: var(--spacing-2);
   }
 
   @container (max-width: 480px) {
-    --container-space: var(--space-2);
+    --container-space: var(--spacing-2);
   }
 
   &:hover,
@@ -126,7 +126,7 @@ const Paragraph = styled.p`
 
 const Tags = styled.div`
   display: flex;
-  gap: var(--space-1);
+  gap: var(--spacing-1);
   margin-top: auto;
   overflow: clip;
   mask-image: linear-gradient(to right, transparent, #000 0, #000 calc(100% - 2em), transparent);
@@ -137,7 +137,7 @@ const Tags = styled.div`
 `;
 
 const TagItem = styled.span`
-  padding: var(--space-½) var(--space-1);
+  padding: var(--spacing-½) var(--spacing-1);
   font-size: var(--font-sizes-xs);
   border-radius: var(--radii-4);
 `;

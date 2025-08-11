@@ -43,6 +43,6 @@ export default function Content({ enableMokuji = true, content }: Props) {
 }
 
 const AdsenseContainer = styled.div`
-  margin: var(--space-4) 0;
+  margin: var(--spacing-4) 0;
   text-align: center;
 `;

@@ -22,12 +22,12 @@
       opacity 0.2s linear;
 
     &[data-position='top'] {
-      bottom: calc(100% + var(--space-½));
+      bottom: calc(100% + var(--spacing-½));
       transform: translate(-50%, 100%);
     }
 
     &[data-position='bottom'] {
-      top: calc(100% + var(--space-½));
+      top: calc(100% + var(--spacing-½));
       transform: translate(-50%, -100%);
     }
   }
@@ -37,7 +37,7 @@
       @mixin not-sr-only;
 
       position: absolute;
-      padding: var(--space-½) var(--space-1);
+      padding: var(--spacing-½) var(--spacing-1);
       white-space: nowrap;
       opacity: 1;
       transform: translate(-50%, 0%);

@@ -1,6 +1,6 @@
 /* highlight.js */
 pre code.hljs {
-  padding: var(--space-3);
+  padding: var(--spacing-3);
   overflow-x: auto;
 }
 

@@ -31,7 +31,7 @@ const Anchor = styled.a`
   display: flex;
   align-items: center;
   height: 120px;
-  margin: var(--space-3) 0;
+  margin: var(--spacing-3) 0;
   overflow: hidden;
   color: var(--colors-gray-12);
   text-decoration: none;
@@ -52,7 +52,7 @@ const Anchor = styled.a`
   &[data-card='summary_large_image'] {
     @media (--isDesktop) {
       .p-link-preview-body {
-        padding: var(--space-2);
+        padding: var(--spacing-2);
       }
 
       .p-link-preview-thumbnail {
@@ -68,8 +68,8 @@ const Body = styled.span`
   display: block;
   flex: 1 1;
   width: calc(100% - 120px);
-  padding: 0 var(--space-2);
-  padding-left: var(--space-2);
+  padding: 0 var(--spacing-2);
+  padding-left: var(--spacing-2);
 `;
 
 const BodyTitle = styled.span`
@@ -79,7 +79,7 @@ const BodyTitle = styled.span`
 `;
 
 const BodyDescription = styled.span`
-  margin-top: var(--space-½);
+  margin-top: var(--spacing-½);
   font-size: var(--font-sizes-sm);
   color: var(--colors-gray-11);
 

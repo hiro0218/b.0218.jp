@@ -9,6 +9,7 @@ import letterSpacings from './letterSpacings';
 import lineHeights from './lineHeights';
 import radii from './radii';
 import shadows from './shadows';
+import spacing from './spacing';
 import zIndex from './zIndex';
 
 export const tokens: Theme['tokens'] = {
@@ -21,5 +22,6 @@ export const tokens: Theme['tokens'] = {
   lineHeights,
   radii,
   shadows,
+  spacing,
   zIndex,
 };

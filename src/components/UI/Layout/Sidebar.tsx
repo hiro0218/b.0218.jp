@@ -1,7 +1,7 @@
 import type { NamedExoticComponent, ReactNode } from 'react';
 
 import { css, cx, styled } from '@/ui/styled';
-import type { SpaceGap } from '@/ui/styled/variables/space';
+import type { SpaceGap } from '@/ui/styled/tokens/spacing';
 
 type Props = {
   space?: SpaceGap;
@@ -37,7 +37,7 @@ const Title = ({ id, tag = 'h2', children }: TitleProps) => {
       className={cx(
         'text-ellipsis',
         css`
-          scroll-margin-top: var(--space-1);
+          scroll-margin-top: var(--spacing-1);
         `,
       )}
       data-font-size-h="3"
@@ -63,7 +63,7 @@ const Main = ({ children }: ChildProps) => {
 
 const stickyStyle = css`
   position: sticky;
-  top: var(--space-1);
+  top: var(--spacing-1);
   block-size: 100%;
   isolation: isolate;
 

@@ -32,8 +32,8 @@ export default function Footer() {
 
 const Root = styled.footer`
   position: relative;
-  padding: var(--space-5) 0;
-  margin-top: var(--space-6);
+  padding: var(--spacing-5) 0;
+  margin-top: var(--spacing-6);
   isolation: isolate;
 
   &::before {
@@ -51,7 +51,7 @@ const Root = styled.footer`
 
 const ContainerStyle = css`
   display: grid;
-  gap: var(--space-2);
+  gap: var(--spacing-2);
   margin: auto;
   font-size: var(--font-sizes-md);
   color: var(--colors-gray-12);
@@ -59,14 +59,14 @@ const ContainerStyle = css`
 
 const LogoContainer = styled.div`
   display: flex;
-  margin-left: calc(var(--space-1) * -1);
+  margin-left: calc(var(--spacing-1) * -1);
 `;
 
 const Nav = styled.nav`
   display: inline-flex;
-  gap: var(--space-3);
+  gap: var(--spacing-3);
   align-items: center;
-  margin-left: calc(var(--space-1) * -1);
+  margin-left: calc(var(--spacing-1) * -1);
   font-size: var(--font-sizes-sm);
 `;
 
