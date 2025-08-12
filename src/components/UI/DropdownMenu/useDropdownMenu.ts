@@ -1,11 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 
-/**
- * ドロップダウンメニューの状態管理とイベントハンドリングを行うカスタムフック
- * メニューの開閉状態、外部クリックイベントの処理を担当する
- *
- * @returns ドロップダウンメニューの状態とハンドラー
- */
 export const useDropdownMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
