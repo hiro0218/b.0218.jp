@@ -132,11 +132,11 @@ const paginationButtonStyle = css`
   display: flex;
   flex-grow: 0;
   flex-shrink: 0;
-  flex-basis: var(--icon-size-lg);
+  flex-basis: var(--sizes-icon-lg);
   align-items: center;
   justify-content: center;
-  width: var(--icon-size-lg);
-  height: var(--icon-size-lg);
+  width: var(--sizes-icon-lg);
+  height: var(--sizes-icon-lg);
   aspect-ratio: 1;
   font-size: var(--font-sizes-sm);
   color: var(--colors-gray-11);
@@ -170,8 +170,8 @@ const paginationButtonStyle = css`
 const EllipsisIndicator = styled.span`
   display: grid;
   place-content: center;
-  width: var(--icon-size-lg);
-  height: var(--icon-size-lg);
+  width: var(--sizes-icon-lg);
+  height: var(--sizes-icon-lg);
   aspect-ratio: 1;
   line-height: 1;
   color: var(--colors-gray-11);

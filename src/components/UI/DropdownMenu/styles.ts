@@ -17,8 +17,8 @@ export const Trigger = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: calc(var(--icon-size-sm) * 2);
-  height: calc(var(--icon-size-sm) * 2);
+  width: calc(var(--sizes-icon-sm) * 2);
+  height: calc(var(--sizes-icon-sm) * 2);
 
   &:has(+ [aria-expanded='true']) {
     &::after {
