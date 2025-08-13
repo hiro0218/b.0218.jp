@@ -1,9 +1,10 @@
+import { useCallback, useEffect, useRef } from 'react';
 import { CaretLeftIcon, CaretRightIcon, ICON_SIZE_XS } from '@/ui/icons';
 import { css, styled } from '@/ui/styled';
 import { DOTS } from '../hooks/constant';
 import { usePagination } from '../hooks/usePagination';
 
-type PaginationComponentProps = {
+type PaginationViewProps = {
   onPageChange: (page: number) => void;
   totalCount: number;
   siblingCount?: number;
@@ -11,21 +12,65 @@ type PaginationComponentProps = {
   pageSize: number;
 };
 
-export const PaginationComponent = ({
+export const PaginationView = ({
   onPageChange,
   totalCount,
   siblingCount = 1,
   currentPage,
   pageSize,
-}: PaginationComponentProps) => {
-  const paginationRange = usePagination({
+}: PaginationViewProps) => {
+  const { paginationRange, lastPageNumber } = usePagination({
     currentPage,
     totalCount,
     siblingCount,
     pageSize,
   });
 
-  // 表示するものがない場合は何も表示しない
+  // Create unique ID for this pagination instance
+  const paginationId = `pagination-${Math.random().toString(36).substr(2, 9)}`;
+  const navRef = useRef<HTMLElement>(null);
+
+  // Keyboard navigation handler
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      // Only handle keyboard events when pagination is focused
+      if (!navRef.current?.contains(event.target as Node)) return;
+
+      switch (event.key) {
+        case 'ArrowLeft':
+          event.preventDefault();
+          if (currentPage > 1) {
+            onPageChange(currentPage - 1);
+          }
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          if (currentPage < lastPageNumber) {
+            onPageChange(currentPage + 1);
+          }
+          break;
+        case 'Home':
+          event.preventDefault();
+          onPageChange(1);
+          break;
+        case 'End':
+          event.preventDefault();
+          onPageChange(lastPageNumber);
+          break;
+      }
+    },
+    [currentPage, lastPageNumber, onPageChange],
+  );
+
+  // Add keyboard event listener
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown]);
+
+  // Return nothing if there's nothing to display
   if (totalCount === 0 || paginationRange.length < 2) {
     return null;
   }
@@ -38,36 +83,50 @@ export const PaginationComponent = ({
     onPageChange(currentPage - 1);
   };
 
-  const lastPageNumber = paginationRange[paginationRange.length - 1];
-
   return (
-    <PaginationNav aria-label="ページネーション">
-      <ul>
+    <PaginationNav
+      aria-describedby={`${paginationId}-status`}
+      aria-label="Pagination navigation"
+      ref={navRef}
+      role="navigation"
+    >
+      {/* Screen reader live region for page changes */}
+      <div aria-atomic="true" aria-live="polite" className="sr-only" id={`${paginationId}-status`}>
+        Page {currentPage} of {lastPageNumber}
+      </div>
+
+      <ul role="list">
         <li data-paginate="arrow">
           <button
+            aria-label={`Go to previous page, currently on page ${currentPage}`}
             className={paginationButtonStyle}
             data-arrow-button
             disabled={currentPage === 1}
             onClick={goToPreviousPage}
             type="button"
           >
-            <CaretLeftIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
+            <CaretLeftIcon aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
           </button>
         </li>
         {paginationRange.map((pageNumber, index) => {
           if (typeof pageNumber === 'string' && pageNumber === DOTS) {
             return (
               <li data-paginate="ellipsis" key={index}>
-                <EllipsisIndicator className={paginationButtonStyle}>{DOTS}</EllipsisIndicator>
+                <EllipsisIndicator aria-hidden="true" className={paginationButtonStyle}>
+                  {DOTS}
+                </EllipsisIndicator>
               </li>
             );
           }
 
+          const isCurrentPage = pageNumber === currentPage;
           return (
             <li data-paginate="page" key={index}>
               <button
+                aria-current={isCurrentPage ? 'page' : undefined}
+                aria-label={isCurrentPage ? `Current page, page ${pageNumber}` : `Go to page ${pageNumber}`}
                 className={paginationButtonStyle}
-                disabled={pageNumber === currentPage}
+                disabled={isCurrentPage}
                 onClick={() => onPageChange(pageNumber as number)}
                 type="button"
               >
@@ -77,19 +136,20 @@ export const PaginationComponent = ({
           );
         })}
         <li data-paginate="progress">
-          <PageCountDisplay>
+          <PageCountDisplay aria-label={`Page ${currentPage} of ${lastPageNumber}`}>
             {currentPage} / {lastPageNumber}
           </PageCountDisplay>
         </li>
         <li data-paginate="arrow">
           <button
+            aria-label={`Go to next page, currently on page ${currentPage}`}
             className={paginationButtonStyle}
             data-arrow-button
             disabled={currentPage === lastPageNumber}
             onClick={goToNextPage}
             type="button"
           >
-            <CaretRightIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
+            <CaretRightIcon aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
           </button>
         </li>
       </ul>
@@ -109,6 +169,7 @@ const PaginationNav = styled.nav`
   li {
     display: flex;
   }
+
 
   @media (--isDesktop) {
     [data-paginate='progress'] {
@@ -158,10 +219,17 @@ const paginationButtonStyle = css`
 
   &:not([disabled]) {
     &:hover {
+      color: var(--colors-gray-12);
       background-color: var(--colors-gray-4);
     }
-    &:active,
+    &:active {
+      color: var(--colors-gray-12);
+      background-color: var(--colors-gray-5);
+    }
     &:focus-visible {
+      color: var(--colors-gray-12);
+      outline: 2px solid var(--colors-gray-8);
+      outline-offset: 2px;
       background-color: var(--colors-gray-5);
     }
   }
