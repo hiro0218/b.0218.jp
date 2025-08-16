@@ -44,8 +44,8 @@ const Button = styled.button`
   transition: background-color 0.2s ease;
 
   svg {
-    --desktop-size: calc(var(--icon-size-md) * 0.5);
-    --mobile-size: calc(var(--icon-size-lg) * 0.5);
+    --desktop-size: calc(var(--sizes-icon-md) * 0.5);
+    --mobile-size: calc(var(--sizes-icon-lg) * 0.5);
 
     flex: 1 1;
     width: var(--desktop-size);

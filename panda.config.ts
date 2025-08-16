@@ -1,6 +1,6 @@
 import { defineConfig } from '@pandacss/dev';
 import { keyframes } from '@/ui/styled/animations';
-import { dataCss, hljsCss } from '@/ui/styled/globals';
+import { dataCss, hljsCss } from '@/ui/styled/globalCss';
 import { semanticTokens } from '@/ui/styled/semanticTokens';
 import { tokens } from '@/ui/styled/tokens';
 import globalVars from '@/ui/styled/variables';

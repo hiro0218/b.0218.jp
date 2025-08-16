@@ -95,8 +95,8 @@ const ShareButtonStyle = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: calc(var(--icon-size-sm) * 2);
-  height: calc(var(--icon-size-sm) * 2);
+  width: calc(var(--sizes-icon-sm) * 2);
+  height: calc(var(--sizes-icon-sm) * 2);
 
   &::after {
     border-radius: var(--radii-full);
