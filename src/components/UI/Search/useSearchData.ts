@@ -30,7 +30,6 @@ export const useSearchData = (
   const resultRefs = useRef<(HTMLDivElement | null)[]>([]);
   const domRefs = useSearchDOMRefs();
   const { isNavigationKey } = useKeyboardNavigation({
-    searchResult,
     setSearchResult,
     closeDialog,
     domRefs,

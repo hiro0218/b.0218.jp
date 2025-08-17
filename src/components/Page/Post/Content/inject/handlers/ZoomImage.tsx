@@ -1,13 +1,16 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import type { ImgHTMLAttributes } from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import type { CSSProperties, FC, ImgHTMLAttributes } from 'react';
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useModalKeyboard } from '@/hooks/keyboard';
 import { parseStyleStringToObject } from '@/lib/parseStyleStringToObject';
 import { css } from '@/ui/styled';
 
 const Overlay = dynamic(() => import('@/components/UI/Overlay').then((module) => module.Overlay));
+
+const MIN_IMAGE_SIZE = 100;
 
 const containerStyle = css`
   position: relative;
@@ -33,75 +36,74 @@ type ZoomImageProps = ImgHTMLAttributes<HTMLImageElement> & {
   src: string;
 };
 
-const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, style, ...props }) => {
+const ZoomImage: FC<ZoomImageProps> = ({ alt, src, style, ...props }) => {
   const [isZoomed, setIsZoomed] = useState(false);
-  const imgRef = useRef<HTMLImageElement>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
 
-  // 文字列形式のstyleをオブジェクトに変換
-  const processedStyle = typeof style === 'string' ? parseStyleStringToObject(style) : style;
+  const processedStyle = useMemo(
+    () => (style && typeof style === 'string' ? parseStyleStringToObject(style) : style),
+    [style],
+  );
+
+  const hasObjectFit = useMemo(() => {
+    if (!processedStyle) return false;
+    // CSSPropertiesまたはRecord<string, string>として型安全にチェック
+    const styleObj = processedStyle as CSSProperties | Record<string, string>;
+    return 'objectFit' in styleObj && styleObj.objectFit !== undefined;
+  }, [processedStyle]);
 
   const handleZoomIn = useCallback(() => {
-    if (imgRef.current && imageLoaded) {
-      setIsZoomed(true);
-    }
-  }, [imageLoaded]);
+    // object-fitは画像の表示領域調整を行うため、ズーム表示が不適切になる
+    if (hasObjectFit) return;
 
-  const handleZoomOut = useCallback(() => {
-    setIsZoomed(false);
-  }, []);
+    if (!imageLoaded || !imgRef.current) return;
 
-  /**
-   * ズーム表示中のイベント処理を設定
-   * - Escape、Enter、Spaceキーでズーム表示を閉じる
-   * - スクロール時にズーム表示を閉じる
-   */
+    const { naturalWidth, naturalHeight } = imgRef.current;
+    if (naturalWidth < MIN_IMAGE_SIZE && naturalHeight < MIN_IMAGE_SIZE) return;
+
+    setIsZoomed(true);
+  }, [hasObjectFit, imageLoaded]);
+
+  const handleZoomOut = useCallback(() => setIsZoomed(false), []);
+
+  const modalKeyboardOptions = useMemo(
+    () => ({
+      onClose: handleZoomOut,
+      onConfirm: handleZoomOut,
+      isEnabled: isZoomed,
+      isGlobal: true,
+      closeOnEscape: true,
+      confirmOnEnter: true,
+    }),
+    [isZoomed, handleZoomOut],
+  );
+
+  // Portalでレンダリングされるためグローバルイベントリスナー
+  useModalKeyboard(modalKeyboardOptions);
+
   useEffect(() => {
     if (!isZoomed) return;
 
-    // キーボード操作で閉じる
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' || event.key === 'Enter' || event.key === ' ') {
-        setIsZoomed(false);
-      }
-    };
-
-    // スクロール時に閉じる
     const handleScroll = () => {
       setIsZoomed(false);
     };
 
-    // イベントリスナーを登録
-    document.addEventListener('keydown', handleKeyDown);
     window.addEventListener('scroll', handleScroll, { passive: true });
-
-    // クリーンアップ関数
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('scroll', handleScroll);
     };
   }, [isZoomed]);
 
-  /**
-   * 画像の読み込み完了時のハンドラ
-   * 画像参照が設定されたら読み込み状態を更新する
-   */
-  const handleImageLoad = useCallback(() => {
-    setImageLoaded(true);
-  }, []);
+  const handleImageLoad = () => setImageLoaded(true);
 
-  /**
-   * 画像参照が設定された時に既に読み込まれているか確認
-   */
-  useEffect(() => {
+  useLayoutEffect(() => {
     const img = imgRef.current;
-    if (img && !imageLoaded) {
-      // naturalWidth/naturalHeightが存在する場合は既に読み込み完了している
-      if (img.complete && img.naturalWidth) {
-        setImageLoaded(true);
-      }
+    if (img && !imageLoaded && img.complete && img.naturalWidth) {
+      // キャッシュ済み画像の場合、completeがtrueでnaturalWidthが存在する
+      setImageLoaded(true);
     }
-  }, [imageLoaded]);
+  });
 
   return (
     <>
@@ -128,4 +130,4 @@ const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, style, ...props }) => {
   );
 };
 
-export default ZoomImage;
+export default memo(ZoomImage);

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useId } from 'react';
 import { CaretLeftIcon, CaretRightIcon, ICON_SIZE_XS } from '@/ui/icons';
 import { css, styled } from '@/ui/styled';
 import { DOTS } from '../hooks/constant';
@@ -26,71 +26,18 @@ export const PaginationView = ({
     pageSize,
   });
 
-  // Create unique ID for this pagination instance
-  const paginationId = `pagination-${Math.random().toString(36).substr(2, 9)}`;
-  const navRef = useRef<HTMLElement>(null);
+  const id = useId();
+  const paginationId = `pagination-${id}`;
 
-  // Keyboard navigation handler
-  const handleKeyDown = useCallback(
-    (event: KeyboardEvent) => {
-      // Only handle keyboard events when pagination is focused
-      if (!navRef.current?.contains(event.target as Node)) return;
-
-      switch (event.key) {
-        case 'ArrowLeft':
-          event.preventDefault();
-          if (currentPage > 1) {
-            onPageChange(currentPage - 1);
-          }
-          break;
-        case 'ArrowRight':
-          event.preventDefault();
-          if (currentPage < lastPageNumber) {
-            onPageChange(currentPage + 1);
-          }
-          break;
-        case 'Home':
-          event.preventDefault();
-          onPageChange(1);
-          break;
-        case 'End':
-          event.preventDefault();
-          onPageChange(lastPageNumber);
-          break;
-      }
-    },
-    [currentPage, lastPageNumber, onPageChange],
-  );
-
-  // Add keyboard event listener
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleKeyDown]);
-
-  // Return nothing if there's nothing to display
   if (totalCount === 0 || paginationRange.length < 2) {
     return null;
   }
 
-  const goToNextPage = () => {
-    onPageChange(currentPage + 1);
-  };
-
-  const goToPreviousPage = () => {
-    onPageChange(currentPage - 1);
-  };
+  const canGoPrevious = currentPage > 1;
+  const canGoNext = currentPage < lastPageNumber;
 
   return (
-    <PaginationNav
-      aria-describedby={`${paginationId}-status`}
-      aria-label="Pagination navigation"
-      ref={navRef}
-      role="navigation"
-    >
-      {/* Screen reader live region for page changes */}
+    <PaginationNav aria-describedby={`${paginationId}-status`} aria-label="Pagination navigation" role="navigation">
       <div aria-atomic="true" aria-live="polite" className="sr-only" id={`${paginationId}-status`}>
         Page {currentPage} of {lastPageNumber}
       </div>
@@ -101,8 +48,8 @@ export const PaginationView = ({
             aria-label={`Go to previous page, currently on page ${currentPage}`}
             className={paginationButtonStyle}
             data-arrow-button
-            disabled={currentPage === 1}
-            onClick={goToPreviousPage}
+            disabled={!canGoPrevious}
+            onClick={() => onPageChange(currentPage - 1)}
             type="button"
           >
             <CaretLeftIcon aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
@@ -145,8 +92,8 @@ export const PaginationView = ({
             aria-label={`Go to next page, currently on page ${currentPage}`}
             className={paginationButtonStyle}
             data-arrow-button
-            disabled={currentPage === lastPageNumber}
-            onClick={goToNextPage}
+            disabled={!canGoNext}
+            onClick={() => onPageChange(currentPage + 1)}
             type="button"
           >
             <CaretRightIcon aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
