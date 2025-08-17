@@ -1,18 +1,26 @@
 import { type DOMNode, domToReact } from 'html-react-parser';
 import { LinkPreview } from '@/components/Page/Post/LinkPreview';
 import { parseJSON } from '@/lib/parseJSON';
-import type { HandlerFunction, LinkPreviewDataProps } from '../types';
+import type { HandlerFunction } from './types';
+
+interface LinkPreviewData {
+  type: 'link-preview';
+  data: {
+    link: string;
+    card: string;
+    thumbnail: string;
+    title: string;
+    description: string;
+    domain: string;
+  };
+}
 
 /**
- * リンクプレビューのハンドラー
  * class="link-preview"を持つ要素をLinkPreviewコンポーネントに変換する
- * @param domNode - 処理対象のDOMノード
- * @returns LinkPreviewコンポーネントまたはundefined
  */
 export const handleLinkPreview: HandlerFunction = (domNode) => {
-  // class="link-preview"の要素を処理する
   if (domNode.attribs?.class === 'link-preview') {
-    const json = parseJSON<LinkPreviewDataProps>(domToReact(domNode.children as DOMNode[]) as string);
+    const json = parseJSON<LinkPreviewData>(domToReact(domNode.children as DOMNode[]) as string);
 
     return (
       <LinkPreview

@@ -8,14 +8,14 @@ import { splitReactNode } from '@/lib/splitHtml';
 import type { PostProps } from '@/types/source';
 import { styled } from '@/ui/styled';
 import Mokuji from '../Mokuji';
-import { parser } from './inject';
+import { parser } from './parser/HTMLParser';
 
-type Props = {
+export interface ContentProps {
   enableMokuji?: boolean;
   content: PostProps['content'];
-};
+}
 
-export default function Content({ enableMokuji = true, content }: Props) {
+export default function Content({ enableMokuji = true, content }: ContentProps) {
   const reactNodeContent = parser(content);
   const { before, after } = splitReactNode(reactNodeContent);
   const ref = useRef<HTMLDivElement>(null);

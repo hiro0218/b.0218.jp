@@ -1,12 +1,9 @@
 import type { Element } from 'html-react-parser';
 import type { HandlerFunction } from '../types';
-import ZoomImage from './ZoomImage';
+import ZoomImageModal from './ZoomImageModal';
 
 /**
- * 画像要素をZoomImage処理するハンドラー
  * リンク（aタグ）内の画像は処理しない
- * @param domNode - 処理対象のDOMノード
- * @returns ZoomImageコンポーネントまたはundefined
  */
 export const handleZoomImage: HandlerFunction = (domNode) => {
   if (domNode.tagName === 'img') {
@@ -22,17 +19,12 @@ export const handleZoomImage: HandlerFunction = (domNode) => {
       return undefined;
     }
 
-    return <ZoomImage alt={alt} src={src} {...rest} />;
+    return <ZoomImageModal alt={alt} src={src} {...rest} />;
   }
 
   return undefined;
 };
 
-/**
- * 要素がアンカータグ内にあるかどうかを判定する
- * @param element - 確認対象の要素
- * @returns アンカータグ内にある場合はtrue、そうでない場合はfalse
- */
 function isInsideAnchor(element: Element): boolean {
   // parent属性がある場合
   if ('parent' in element && element.parent) {
