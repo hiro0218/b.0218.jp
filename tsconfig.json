@@ -31,12 +31,12 @@
         "lint": {
           "validProperties": ["container-type", "container-name", "text-wrap"],
           "unknownAtRules": "ignore",
-          "validate": false,
+          "validate": false
         }
       }
     ],
     "strictNullChecks": false,
-    "types": ["vitest/globals"],
+    "types": ["vitest/globals"]
   },
   "typeRoots": ["node_modules/@types", "./src/types"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "styled-system"],
