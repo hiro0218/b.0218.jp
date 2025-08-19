@@ -67,8 +67,8 @@ const Details = styled.details`
 const IconContainer = styled.div`
   display: grid;
   place-items: center;
-  width: var(--icon-size-md);
-  height: var(--icon-size-md);
+  width: var(--sizes-icon-md);
+  height: var(--sizes-icon-md);
   background-color: var(--colors-gray-a-3);
   border-radius: var(--radii-full);
 `;

@@ -1,102 +1,106 @@
-'use client';
-
+import type { SetStateAction } from 'react';
 import { useCallback, useEffect } from 'react';
+import { isEscapeKey, isVerticalArrowKey } from '@/hooks/keyboard';
 import { convertPostSlugToPath } from '@/lib/url';
 import type { KeyboardNavigationReturn, SearchResultData } from '../type';
 import type { useSearchDOMRefs } from './useSearchDOMRefs';
 
+// パフォーマンス最適化：純粋関数を外部定義
+const isNavigationKey = (key: string): boolean => {
+  return isVerticalArrowKey(key) || key === 'Enter' || isEscapeKey(key);
+};
+
+// キーボードイベント定数
+const KEY = {
+  arrowDown: 'ArrowDown',
+  arrowUp: 'ArrowUp',
+  enter: 'Enter',
+} as const;
+
 type KeyboardNavigationParams = {
-  searchResult: SearchResultData;
-  // biome-ignore lint/suspicious/noExplicitAny: legacy callback type needs refactoring
-  setSearchResult: any;
-  // biome-ignore lint/suspicious/noExplicitAny: legacy callback type needs refactoring
-  closeDialog: any;
+  setSearchResult: (value: SetStateAction<SearchResultData>) => void;
+  closeDialog: () => void;
   domRefs: ReturnType<typeof useSearchDOMRefs>;
 };
 
 /**
  * 検索ダイアログでのキーボードナビゲーション機能を提供するフック
- * @param params - 検索結果、状態更新関数、ダイアログ制御関数、DOM参照
+ * @param params - 状態更新関数、ダイアログ制御関数、DOM参照
  * @returns キーボードイベントハンドラーとナビゲーションキー判定関数
  */
 export const useKeyboardNavigation = ({
-  searchResult,
   setSearchResult,
   closeDialog,
   domRefs,
 }: KeyboardNavigationParams): KeyboardNavigationReturn => {
-  /**
-   * ナビゲーションキーかどうかを判定する
-   * @param key - キーボードイベントのキー値
-   * @returns ナビゲーションキーの場合はtrue
-   */
-  const isNavigationKey = useCallback((key: string): boolean => {
-    return key === 'ArrowDown' || key === 'ArrowUp' || key === 'Enter' || key === 'Escape' || key === 'Esc';
-  }, []);
-
-  /**
-   * グローバルキーボードイベントを処理し、検索結果間のナビゲーションを制御する
-   * @note DOM参照の無効化を検出し、必要に応じて参照を更新
-   */
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
+      // 最も頻繁に発生するEscapeキーを最初にチェックする
+      if (isEscapeKey(e.key)) {
+        closeDialog();
+        return;
+      }
+
+      // React StrictModeでのコンポーネント再マウント時にDOM参照が無効化される場合がある
       if (!domRefs.dialogRef.current) {
         domRefs.updateDOMRefs();
         if (!domRefs.dialogRef.current) return;
       }
 
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        setSearchResult((prev) => {
-          if (prev.focusedIndex < prev.suggestions.length - 1) {
+      switch (e.key) {
+        case KEY.arrowDown:
+          e.preventDefault();
+          setSearchResult((prev: SearchResultData) => {
+            const nextIndex = prev.focusedIndex + 1;
+            // 変更がない場合は新しいオブジェクトを作らない
+            if (nextIndex >= prev.suggestions.length) return prev;
             return {
               ...prev,
-              focusedIndex: prev.focusedIndex + 1,
+              focusedIndex: nextIndex,
             };
-          }
-          return prev;
-        });
-        return;
-      }
+          });
+          break;
 
-      if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        setSearchResult((prev) => {
-          if (prev.focusedIndex > -1) {
+        case KEY.arrowUp:
+          e.preventDefault();
+          setSearchResult((prev: SearchResultData) => {
+            // -1は入力フィールドのフォーカス状態を表し、検索結果とは別扱いにする
+            const nextIndex = prev.focusedIndex - 1;
+            // 変更がない場合は新しいオブジェクトを作らない
+            if (nextIndex < -1) return prev;
             return {
               ...prev,
-              focusedIndex: prev.focusedIndex - 1,
+              focusedIndex: nextIndex,
             };
-          }
-          return prev;
-        });
-        return;
-      }
+          });
+          break;
 
-      if (e.key === 'Enter') {
-        setSearchResult((prev) => {
-          if (prev.focusedIndex >= 0 && prev.focusedIndex < prev.suggestions.length) {
-            const suggestion = prev.suggestions[prev.focusedIndex];
-            if (suggestion) {
-              closeDialog();
-              const link = convertPostSlugToPath(suggestion.slug);
-              window.location.href = link;
+        case KEY.enter:
+          setSearchResult((prev: SearchResultData) => {
+            if (prev.focusedIndex >= 0 && prev.focusedIndex < prev.suggestions.length) {
+              const suggestion = prev.suggestions[prev.focusedIndex];
+              if (suggestion) {
+                // 非同期処理で重い処理を遅延実行
+                requestAnimationFrame(() => {
+                  closeDialog();
+                  const link = convertPostSlugToPath(suggestion.slug);
+                  // Next.js App RouterのクライアントサイドナビゲーションがSSRコンテンツで不安定な場合がある
+                  window.location.href = link;
+                });
+              }
             }
-          }
-          return prev;
-        });
-        return;
-      }
+            return prev;
+          });
+          break;
 
-      if (e.key === 'Escape' || e.key === 'Esc') {
-        closeDialog();
-        return;
+        default:
+          // 処理なし
+          break;
       }
     },
     [domRefs, setSearchResult, closeDialog],
   );
 
-  // キーボードイベントリスナーの登録・削除
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
     return () => {
@@ -104,8 +108,32 @@ export const useKeyboardNavigation = ({
     };
   }, [handleKeyDown]);
 
+  const handleFocus = useCallback(() => {
+    setSearchResult((prev: SearchResultData) => {
+      // 既に-1の場合は更新しない
+      if (prev.focusedIndex === -1) return prev;
+      return {
+        ...prev,
+        focusedIndex: -1,
+      };
+    });
+  }, [setSearchResult]);
+
+  useEffect(() => {
+    const inputElement = domRefs.inputRef.current;
+
+    if (inputElement) {
+      inputElement.addEventListener('focus', handleFocus);
+    }
+
+    return () => {
+      if (inputElement) {
+        inputElement.removeEventListener('focus', handleFocus);
+      }
+    };
+  }, [domRefs.inputRef, handleFocus]);
+
   return {
-    handleKeyDown,
     isNavigationKey,
   };
 };

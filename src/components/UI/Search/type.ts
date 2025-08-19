@@ -35,8 +35,6 @@ export type SearchDOMRefsReturn = {
  * キーボードナビゲーションフックの戻り値型
  */
 export type KeyboardNavigationReturn = {
-  // biome-ignore lint/suspicious/noExplicitAny: legacy event handler type needs refactoring
-  handleKeyDown: any;
   isNavigationKey: (key: string) => boolean;
 };
 

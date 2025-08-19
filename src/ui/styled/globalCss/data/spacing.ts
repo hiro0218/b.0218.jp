@@ -1,4 +1,4 @@
-import { fontSizesHeading } from '@/ui/styled/tokens/fontSizes';
+import type { GlobalStyleObject } from '@pandacss/types';
 import { SPACE_KEYS, Spaces } from '@/ui/styled/tokens/spacing';
 
 type SpacingDataAttr = `data-${'mt' | 'gap'}='${(typeof Spaces)[number]}'`;
@@ -18,20 +18,7 @@ Spaces.forEach((value, i) => {
   };
 });
 
-type FontSizeHeadingDataAttr = `data-font-size-h='${string}'`;
-type FontSizeHeadingCSSProps = Record<'fontSize', `var(${string})`>;
-type FontSizeHeadingStyleMap = Record<FontSizeHeadingDataAttr, Partial<FontSizeHeadingCSSProps>>;
-
-const mtFontSizeHeading: FontSizeHeadingStyleMap = {};
-
-Object.keys(fontSizesHeading).forEach((key, index) => {
-  mtFontSizeHeading[`[data-font-size-h='${index + 1}']`] = {
-    fontSize: `var(--font-sizes-${key})`,
-  };
-});
-
-export const dataCss = {
+export const spacingDataStyles: GlobalStyleObject = {
   ...mtStyles,
   ...gapStyles,
-  ...mtFontSizeHeading,
 };

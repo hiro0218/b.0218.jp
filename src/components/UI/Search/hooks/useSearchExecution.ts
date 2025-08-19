@@ -1,5 +1,3 @@
-'use client';
-
 import { useCallback, useMemo } from 'react';
 import debounce from '@/lib/debounce';
 import type { SearchExecutionReturn, SearchProps, SearchResultData } from '../type';

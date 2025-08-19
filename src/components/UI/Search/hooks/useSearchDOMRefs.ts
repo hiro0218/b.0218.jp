@@ -1,5 +1,3 @@
-'use client';
-
 import { useCallback, useRef } from 'react';
 import type { SearchDOMRefsReturn } from '../type';
 
