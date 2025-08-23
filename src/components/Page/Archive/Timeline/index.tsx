@@ -2,6 +2,7 @@ import { Anchor } from '@/components/UI/Anchor';
 import { convertPostSlugToPath } from '@/lib/url';
 import type { PostListProps } from '@/types/source';
 import { css, styled } from '@/ui/styled';
+import { textEllipsis } from '@/ui/styled/utilities';
 
 type Props = {
   posts: PostListProps[];
@@ -23,7 +24,7 @@ export const Timeline = ({ posts, year }: Props) => {
             <Anchor className={styleAnchor} href={link} key={slug}>
               <Date>{date.replace(`${year}/`, '')}</Date>
               <Separator />
-              <span className="text-ellipsis">{title}</span>
+              <span className={textEllipsis}>{title}</span>
             </Anchor>
           );
         })}
