@@ -7,13 +7,16 @@ const popularPostsSlugs = getPostsPopular();
 /** popularPostsSlugsを配列に変換し、数値が多い順にソート */
 const sortedSlugs = Object.entries(popularPostsSlugs).map(([slug]) => slug);
 
+const createPostsMap = (posts: ReturnType<typeof getPostsListJson>) => {
+  return new Map(posts.map((post) => [post.slug, post]));
+};
+
 export const getPopularPost = (posts: ReturnType<typeof getPostsListJson>, displayLimit: number): PostListProps[] => {
+  const postsMap = createPostsMap(posts);
+
   const popularPosts = sortedSlugs
     .filter((slug) => !IGNORE_SLUGS.has(slug))
-    .map((slug) => {
-      // posts から slug に一致するものを取得
-      return posts.find((post) => post.slug === slug);
-    })
+    .map((slug) => postsMap.get(slug)) // O(1)での検索
     .filter((post) => post !== undefined)
     .map((post) => {
       return {
