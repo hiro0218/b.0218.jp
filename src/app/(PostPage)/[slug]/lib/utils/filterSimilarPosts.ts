@@ -1,11 +1,11 @@
 import { UPDATED_POST_DISPLAY_LIMIT } from '@/app/libs/constant';
 import { getDateAndUpdatedToSimpleFormat } from '@/app/libs/getDateAndUpdatedToSimpleFormat';
 import { getTagPosts } from '@/app/libs/getTagPosts';
-import type { TermsPostListProps } from '@/types/source';
+import type { ArticleSummary } from '@/types/source';
 
 /** 代替記事のメモリキャッシュ */
-const alternativePostsCache = new Map<string, TermsPostListProps[]>();
-const formattedPostsCache = new Map<string, TermsPostListProps>();
+const alternativePostsCache = new Map<string, ArticleSummary[]>();
+const formattedPostsCache = new Map<string, ArticleSummary>();
 
 /**
  * 類似記事が不足している場合に同一タグから代替記事を取得する
@@ -16,10 +16,10 @@ const formattedPostsCache = new Map<string, TermsPostListProps>();
  * @returns 類似記事または代替記事の配列
  */
 export function getAlternativePosts(
-  similarPosts: TermsPostListProps[],
+  similarPosts: ArticleSummary[],
   tag: string,
   currentSlug: string,
-): TermsPostListProps[] {
+): ArticleSummary[] {
   // 既に類似記事がある場合や、タグがない場合は元の配列をそのまま返す
   if (similarPosts.length > 0 || !tag) {
     return similarPosts;
@@ -46,13 +46,13 @@ export function getAlternativePosts(
   return result;
 }
 
-export function formatSimilarPosts(posts: TermsPostListProps[]): TermsPostListProps[] {
+export function formatSimilarPosts(posts: ArticleSummary[]): ArticleSummary[] {
   if (!posts || posts.length === 0) {
     return [];
   }
 
   // 結果配列の初期化
-  const result: TermsPostListProps[] = [];
+  const result: ArticleSummary[] = [];
 
   for (const post of posts) {
     const { slug, date, updated } = post;
@@ -60,7 +60,7 @@ export function formatSimilarPosts(posts: TermsPostListProps[]): TermsPostListPr
 
     // キャッシュから取得
     if (formattedPostsCache.has(cacheKey)) {
-      result.push(formattedPostsCache.get(cacheKey) as TermsPostListProps);
+      result.push(formattedPostsCache.get(cacheKey) as ArticleSummary);
       continue;
     }
 

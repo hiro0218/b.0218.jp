@@ -1,5 +1,5 @@
 import { type getPostsListJson, getPostsPopular } from '@/lib/posts';
-import type { PostListProps } from '@/types/source';
+import type { PostSummary } from '@/types/source';
 import { IGNORE_SLUGS } from './constant';
 import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';
 
@@ -11,7 +11,7 @@ const createPostsMap = (posts: ReturnType<typeof getPostsListJson>) => {
   return new Map(posts.map((post) => [post.slug, post]));
 };
 
-export const getPopularPost = (posts: ReturnType<typeof getPostsListJson>, displayLimit: number): PostListProps[] => {
+export const getPopularPost = (posts: ReturnType<typeof getPostsListJson>, displayLimit: number): PostSummary[] => {
   const postsMap = createPostsMap(posts);
 
   const popularPosts = sortedSlugs

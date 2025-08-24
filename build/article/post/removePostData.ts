@@ -1,6 +1,6 @@
-import type { PostProps } from '@/types/source';
+import type { Post } from '@/types/source';
 
-export function removePostsData(posts: Partial<PostProps>[]) {
+export function removePostsData(posts: Partial<Post>[]) {
   const length = posts.length;
 
   for (let i = 0; i < length; i++) {

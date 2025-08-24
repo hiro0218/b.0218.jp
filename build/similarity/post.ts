@@ -1,5 +1,5 @@
 import kuromoji, { type IpadicFeatures, type Tokenizer } from 'kuromoji';
-import type { PostProps, TagSimilarProps } from '@/types/source';
+import type { Post, TagSimilarityScores } from '@/types/source';
 import { LRUCache } from './lru-cache';
 import { createError, type ErrorInfo, ErrorKind, failure, type Result, success, tryCatch } from './result';
 
@@ -165,7 +165,7 @@ type TfIdfVector = Record<string, number>;
 /**
  * 全記事からIDFスコアを計算
  */
-function calculateIdf(posts: PostProps[], processedContents: string[][]): Result<IdfScores, ErrorInfo> {
+function calculateIdf(posts: Post[], processedContents: string[][]): Result<IdfScores, ErrorInfo> {
   try {
     const idfScores: IdfScores = {};
     const totalDocs = posts.length;
@@ -301,7 +301,7 @@ function calculateContentSimilarity(tfIdfVector1: TfIdfVector, tfIdfVector2: TfI
 function calculateTagSimilarity(
   tags1: string[],
   tags2: string[],
-  sortedTags: TagSimilarProps,
+  sortedTags: TagSimilarityScores,
 ): Result<number, ErrorInfo> {
   try {
     if (!tags1 || !tags2 || tags1.length === 0 || tags2.length === 0 || !sortedTags) {
@@ -356,9 +356,9 @@ function calculateTagSimilarity(
 /**
  * 新鮮度ボーナスを計算（更新日を考慮）
  */
-function calculateRecencyBonus(post1: PostProps, post2: PostProps): Result<number, ErrorInfo> {
+function calculateRecencyBonus(post1: Post, post2: Post): Result<number, ErrorInfo> {
   try {
-    const getEffectiveDate = (post: PostProps): Date | null => {
+    const getEffectiveDate = (post: Post): Date | null => {
       let effectiveDate: Date | null = null;
       let updatedDate: Date | null = null;
       let publishedDate: Date | null = null;
@@ -413,11 +413,11 @@ function calculateRecencyBonus(post1: PostProps, post2: PostProps): Result<numbe
  * 投稿間の類似度を計算（キャッシュを利用）
  */
 async function calculatePostSimilarity(
-  post: PostProps,
-  targetPost: PostProps,
+  post: Post,
+  targetPost: Post,
   postTfIdf: TfIdfVector,
   targetPostTfIdf: TfIdfVector,
-  sortedTags: TagSimilarProps,
+  sortedTags: TagSimilarityScores,
 ): Promise<Result<number, ErrorInfo>> {
   if (!post.slug || !targetPost.slug) {
     return failure(PostError.InvalidInput('スラグを持たない投稿の類似度は計算できません'));
@@ -466,8 +466,8 @@ async function calculatePostSimilarity(
  * タグによる事前フィルタリングによりパフォーマンスを改善
  */
 export async function getRelatedPosts(
-  posts: PostProps[],
-  sortedTags: TagSimilarProps,
+  posts: Post[],
+  sortedTags: TagSimilarityScores,
 ): Promise<{ [key: string]: Record<string, number> }[]> {
   // 入力検証
   if (!Array.isArray(posts) || posts.length === 0 || typeof sortedTags !== 'object' || sortedTags === null) {

@@ -1,6 +1,6 @@
 import { TAG_VIEW_LIMIT } from '@/constant';
 import { getPostsJson, getSimilarPosts as getSimilarPostsJson, getSimilarTag, getTagsJson } from '@/lib/posts';
-import type { TermsPostListProps } from '@/types/source';
+import type { ArticleSummary } from '@/types/source';
 
 const LIMIT_TAG_LIST = 10;
 
@@ -10,7 +10,7 @@ const cachedTagData = getTagsJson();
 const cachedSimilarTags = getSimilarTag();
 
 // 投稿検索のパフォーマンス向上のため、O(n)のfind()をO(1)のMap検索に置き換える
-const postsMap = new Map<string, TermsPostListProps>();
+const postsMap = new Map<string, ArticleSummary>();
 for (let i = 0; i < cachedPosts.length; i++) {
   const post = cachedPosts[i];
   postsMap.set(post.slug, {
@@ -38,14 +38,14 @@ function getSimilarPostMapping(slug: string) {
  * @example
  * const relatedPosts = getSimilarPosts('react-hooks');
  */
-export function getSimilarPosts(slug: string): TermsPostListProps[] {
+export function getSimilarPosts(slug: string): ArticleSummary[] {
   const similarPostSlugs = getSimilarPostMapping(slug);
 
   if (!similarPostSlugs) {
     return [];
   }
 
-  const results: TermsPostListProps[] = [];
+  const results: ArticleSummary[] = [];
   const slugs = Object.keys(similarPostSlugs);
 
   for (let i = 0; i < slugs.length; i++) {

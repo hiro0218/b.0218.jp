@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { FILENAME_POSTS_LIST } from '@/constant';
 import { parseJSON } from '@/lib/parseJSON';
-import type { PostListProps } from '@/types/source';
+import type { PostSummary } from '@/types/source';
 
 import type { SearchProps } from './type';
 
@@ -29,7 +29,7 @@ export const usePostsList = (): SearchProps[] => {
 
   const extractPostList = useMemo(
     () =>
-      (data: PostListProps[]): SearchProps[] => {
+      (data: PostSummary[]): SearchProps[] => {
         return data.map(({ title, tags, slug }) => ({
           title,
           tags,
@@ -72,7 +72,7 @@ export const usePostsList = (): SearchProps[] => {
           throw new Error(`HTTP error: status code is ${response.status}`);
         }
 
-        const json = (await response.json()) as PostListProps[];
+        const json = (await response.json()) as PostSummary[];
         const postList = extractPostList(json);
 
         if (isMounted) {

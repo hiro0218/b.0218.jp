@@ -1,11 +1,11 @@
 import { Anchor } from '@/components/UI/Anchor';
 import { convertPostSlugToPath } from '@/lib/url';
-import type { PostListProps } from '@/types/source';
+import type { PostSummary } from '@/types/source';
 import { css, styled } from '@/ui/styled';
 import { textEllipsis } from '@/ui/styled/utilities';
 
 type Props = {
-  posts: PostListProps[];
+  posts: PostSummary[];
   year: string;
 };
 
@@ -18,7 +18,7 @@ export const Timeline = ({ posts, year }: Props) => {
         <PostCount>{posts.length} posts</PostCount>
       </Header>
       <div>
-        {posts.map(({ slug, title, date }: PostListProps) => {
+        {posts.map(({ slug, title, date }: PostSummary) => {
           const link = convertPostSlugToPath(slug);
           return (
             <Anchor className={styleAnchor} href={link} key={slug}>

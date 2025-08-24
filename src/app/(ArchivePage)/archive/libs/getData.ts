@@ -1,18 +1,18 @@
 import { getDateAndUpdatedToSimpleFormat } from '@/app/libs/getDateAndUpdatedToSimpleFormat';
 import type { getPostsListJson } from '@/lib/posts';
-import type { PostListProps } from '@/types/source';
+import type { PostSummary } from '@/types/source';
 
-export type ArchiveListProps = Record<string, PostListProps[]>;
+export type ArchiveListProps = Record<string, PostSummary[]>;
 
-const getYear = (date: PostListProps['date']) => Number(date.slice(0, 4));
+const getYear = (date: PostSummary['date']) => Number(date.slice(0, 4));
 
 const sortPostsBySlug = (posts: ReturnType<typeof getPostsListJson>) => {
   // ソート処理を最適化
   return posts.slice().sort((a, b) => b.slug.localeCompare(a.slug));
 };
 
-const groupPostsByYear = (posts: PostListProps[]): ArchiveListProps => {
-  const result = new Map<number, PostListProps[]>();
+const groupPostsByYear = (posts: PostSummary[]): ArchiveListProps => {
+  const result = new Map<number, PostSummary[]>();
 
   for (const post of posts) {
     const year = getYear(post.date);

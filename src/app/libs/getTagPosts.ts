@@ -1,8 +1,8 @@
 import { getPostsJson, getTagsJson } from '@/lib/posts';
-import type { PageProps } from '@/types/source';
+import type { Page } from '@/types/source';
 import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';
 
-type ReturnProps = Omit<PageProps, 'content'>;
+type ReturnProps = Omit<Page, 'content'>;
 
 const allPosts = getPostsJson();
 const allTags = getTagsJson();

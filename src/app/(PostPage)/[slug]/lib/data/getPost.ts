@@ -1,5 +1,5 @@
 import { getPostsJson, getTagsWithCount } from '@/lib/posts';
-import type { PostProps } from '@/types/source';
+import type { Post } from '@/types/source';
 
 const posts = getPostsJson();
 const tagDataWithCount = getTagsWithCount();
@@ -15,7 +15,7 @@ const tagDataWithCountBySlug = Object.fromEntries(tagDataWithCount.map((tag) => 
  * // 全投稿を取得
  * const allPosts = getPost();
  */
-export function getPost(slug?: string | null): PostProps | PostProps[] | null {
+export function getPost(slug?: string | null): Post | Post[] | null {
   if (!slug) {
     return posts;
   }
