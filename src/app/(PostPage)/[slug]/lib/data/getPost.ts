@@ -20,7 +20,9 @@ export function getPost(slug?: string | null): Post | Post[] | null {
     return posts;
   }
 
-  return posts.find((post) => post.slug === slug.replace('.html', '')) || null;
+  const normalizedSlug = slug.replace('.html', '');
+
+  return posts.find((post) => post.slug === normalizedSlug) || null;
 }
 
 /**
