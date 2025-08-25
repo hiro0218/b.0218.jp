@@ -30,21 +30,15 @@ type PopularityScore = number;
 export type Article = {
   /** 記事タイトル */
   title: string;
-  /** URLスラッグ（記事の一意識別子） */
+  /** URLスラッグ */
   slug: string;
   /** 公開日（ISO 8601形式: YYYY-MM-DDTHH:mm:ss.sssZ） */
   date: string;
-  /** 更新日（ISO 8601形式、オプショナル） */
+  /** 更新日（ISO 8601形式） */
   updated?: string | undefined;
   /** 記事本文（HTML文字列） */
   content: string;
 };
-
-/**
- * 記事の要約型（リスト表示用）
- * contentフィールドを除外し、updatedをオプショナルにした型
- */
-type ArticleSummaryBase = Optional<Omit<Article, 'content'>, 'updated'>;
 
 // ========================================
 // エンティティ型定義
@@ -59,8 +53,9 @@ export type Page = Article;
 /**
  * 記事要約型
  * アーカイブページなどでタグ情報なしで表示する際に使用
+ * contentフィールドを除外し、updatedをオプショナルにした型
  */
-export type ArticleSummary = ArticleSummaryBase;
+export type ArticleSummary = Optional<Omit<Article, 'content'>, 'updated'>;
 
 /**
  * ブログ投稿の完全型（posts.json）
@@ -80,7 +75,7 @@ export type Post = Article & {
  * 一覧ページやサイドバーなどで使用する軽量な型
  * 実際のデータ形式：[{ title, slug, date, tags }, ...]
  */
-export type PostSummary = ArticleSummaryBase & {
+export type PostSummary = ArticleSummary & {
   /** 記事に紐づくタグの配列 */
   tags: string[];
 };
@@ -108,7 +103,7 @@ export type TagSimilarityScores = Record<string, Record<string, SimilarityScore>
  * 各要素は記事slugをキーとし、他の記事との類似度マップを値とする配列
  * 実際のデータ形式：[{ "slug1": { "slug2": 0.3, ... } }, ...]
  */
-export type PostSimilarityMatrix = Array<Record<string, Record<string, SimilarityScore>>>;
+export type PostSimilarityMatrix = Record<string, Record<string, SimilarityScore>>[];
 
 /**
  * 記事人気度スコア型（posts-popular.json）
@@ -119,7 +114,8 @@ export type PostPopularityScores = Record<string, PopularityScore>;
 
 /**
  * タグカウント型（tags-with-count.json）
- * キー：タグ名、値：そのタグを持つ記事数
- * 実際のデータ形式：{ "タグ名": 10, ... }
  */
-export type TagCounts = Record<string, number>;
+export type TagCounts = {
+  slug: string;
+  count: number;
+};
