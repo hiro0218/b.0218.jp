@@ -1,4 +1,4 @@
-import type { PostProps, TagSimilarProps, TagsListProps } from '@/types/source';
+import type { Post, TagIndex, TagSimilarityScores } from '@/types/source';
 import { LRUCache } from './lru-cache';
 import { createError, type ErrorInfo, ErrorKind, failure, type Result, success } from './result';
 
@@ -11,7 +11,7 @@ type TagRelationsMap = Map<string, Map<string, number>>; // tag1 -> Map<tag2, np
  * タグ関連度計算結果のキャッシュ
  * 同一または類似の入力に対する再計算を避けることでパフォーマンスを向上
  */
-const tagsRelationCache = new LRUCache<string, TagSimilarProps>(20);
+const tagsRelationCache = new LRUCache<string, TagSimilarityScores>(20);
 
 const MIN_CO_OCCURRENCE = 2; // 関連性を計算するための最小共起回数 (ノイズ除去)
 const MIN_TAG_FREQUENCY = 3; // 関連性を計算するタグの最小出現記事数 (低頻度タグ除外)
@@ -24,7 +24,7 @@ const NPMI_THRESHOLD = 0; // 計算結果として保持するNPMIスコアの�
  * @param tagsList タグごとの記事リスト
  * @returns キャッシュキー
  */
-function generateCacheKey(posts: PostProps[], tagsList: TagsListProps): string {
+function generateCacheKey(posts: Post[], tagsList: TagIndex): string {
   // 記事数、タグ数、記事内の最大タグ数を組み合わせたキャッシュキーを生成
   // 完全な入力内容に基づくハッシュ値よりも計算コストが低い
   const tagsCount = Object.keys(tagsList).length;
@@ -58,8 +58,8 @@ export const TagError = {
  * @returns tagDocFrequency と coOccurrenceMatrix を含むオブジェクトのResult
  */
 function buildFrequencyAndCoOccurrence(
-  posts: PostProps[],
-  tagsList: TagsListProps,
+  posts: Post[],
+  tagsList: TagIndex,
 ): Result<
   {
     tagDocFrequency: TagDocFrequency;
@@ -164,7 +164,7 @@ function buildFrequencyAndCoOccurrence(
  * @returns タグ関連度情報 - 値はNPMIスコア [-1, 1] のResult
  */
 function calculateTagRelationsNPMI(
-  tagsList: TagsListProps,
+  tagsList: TagIndex,
   coOccurrenceMatrix: CoOccurrenceMatrix,
   tagDocFrequency: TagDocFrequency,
   totalPosts: number,
@@ -262,12 +262,12 @@ function calculateTagRelationsNPMI(
  * タグ関連度情報を関連度の高い順にソートする (Map入力 -> 通常オブジェクト出力)
  * 最適化されたデータ構造変換と効率的なソート処理
  * @param tagRelationsMap 計算されたタグ関連度情報 (Map)
- * @returns ソート済みのタグ関連度情報 (通常のオブジェクト形式 TagSimilarProps) のResult
+ * @returns ソート済みのタグ関連度情報 (通常のオブジェクト形式 TagSimilarityMap) のResult
  */
-function sortTagRelations(tagRelationsMap: TagRelationsMap): Result<TagSimilarProps, ErrorInfo> {
+function sortTagRelations(tagRelationsMap: TagRelationsMap): Result<TagSimilarityScores, ErrorInfo> {
   try {
     // 結果オブジェクトの事前割り当て - タグ数に基づく適切なサイズ
-    const sortedTags: TagSimilarProps = Object.create(null); // プロトタイプチェーンのないオブジェクト
+    const sortedTags: TagSimilarityScores = Object.create(null); // プロトタイプチェーンのないオブジェクト
 
     // Map エントリを事前に配列化して反復処理を最適化
     const tagEntries = Array.from(tagRelationsMap.entries());
@@ -307,10 +307,10 @@ function sortTagRelations(tagRelationsMap: TagRelationsMap): Result<TagSimilarPr
 /**
  * 関連タグを取得する主要関数 (パフォーマンス改善: LRUCache利用・Map活用・確率事前計算・数値最適化版)
  * @param posts 全記事リスト
- * @param tagsList タグごとの記事リスト (TagsListProps)
- * @returns 計算・ソート済みのタグ関連度情報 (通常のオブジェクト形式 TagSimilarProps) のResult
+ * @param tagsList タグごとの記事リスト (TagIndex)
+ * @returns 計算・ソート済みのタグ関連度情報 (通常のオブジェクト形式 TagSimilarityScores) のResult
  */
-export function getRelatedTags(posts: PostProps[], tagsList: TagsListProps): TagSimilarProps {
+export function getRelatedTags(posts: Post[], tagsList: TagIndex): TagSimilarityScores {
   // 入力チェック
   if (!Array.isArray(posts) || posts.length === 0) {
     console.warn('getRelatedTags: Invalid posts array. Returning empty object.');

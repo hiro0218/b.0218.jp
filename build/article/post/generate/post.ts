@@ -2,7 +2,7 @@ import { read as matterRead } from 'gray-matter';
 import { FILENAME_POSTS } from '@/constant';
 import { mkdir, writeJSON } from '@/shared/fs';
 import * as Log from '@/shared/Log';
-import type { PostProps } from '@/types/source';
+import type { Post } from '@/types/source';
 import markdownToHtmlString from '../../markdownToHtmlString';
 import { getMarkdownFiles, getPath, getSlug } from './utils';
 
@@ -11,7 +11,7 @@ const PATH = getPath();
 export async function buildPost() {
   // md ファイル一覧を取得
   const files = await getMarkdownFiles(`${PATH.from}/_posts`);
-  const posts: PostProps[] = [];
+  const posts: Post[] = [];
 
   // 記事一覧
   for (let i = 0; i < files.length; i++) {
@@ -19,7 +19,7 @@ export async function buildPost() {
 
     // front matter を取得
     const post = matterRead(`${PATH.from}/_posts/${file}`);
-    const { title, date, updated, note, tags, noindex } = post.data as PostProps;
+    const { title, date, updated, note, tags, noindex } = post.data as Post;
 
     // 未来の投稿はスキップ
     if (!process.env.IS_DEVELOPMENT && new Date(date) > new Date()) {

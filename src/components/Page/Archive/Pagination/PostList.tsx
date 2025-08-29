@@ -4,11 +4,11 @@ import { useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
 import LinkCard from '@/components/UI/LinkCard';
 import { convertPostSlugToPath } from '@/lib/url';
-import type { TermsPostListProps } from '@/types/source';
+import type { ArticleSummary } from '@/types/source';
 import { ITEMS_PER_PAGE, QUERY_PAGE_KEY } from './hooks/constant';
 
 type PostListProps = {
-  posts: TermsPostListProps[];
+  posts: ArticleSummary[];
 };
 
 /**

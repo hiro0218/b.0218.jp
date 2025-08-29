@@ -1,14 +1,14 @@
 import { getRecentAndUpdatedPosts } from '@/app/libs/getRecentAndUpdatedPosts';
-import type { PostProps, TermsPostListProps } from '@/types/source';
+import type { ArticleSummary, Post } from '@/types/source';
 import { getPost, getSimilarPosts, getSimilarTags, getTagsWithCountFromSlugs } from '../data';
 import { formatPostData, formatSimilarPosts, getAlternativePosts } from '../utils';
 
 /** 投稿ページの戻り値の型定義 */
 interface PostPageData {
   post: ReturnType<typeof formatPostData>;
-  similarPost: TermsPostListProps[];
+  similarPost: ArticleSummary[];
   similarTags: Array<{ slug: string; count: number }>;
-  recentPosts: TermsPostListProps[];
+  recentPosts: ArticleSummary[];
 }
 
 /**
@@ -22,7 +22,7 @@ export function getPostPageData(slug: string): PostPageData | null {
   const normalizedSlug = slug.replace('.html', '');
 
   // 基本投稿データの取得
-  const post = getPost(normalizedSlug) as PostProps | null;
+  const post = getPost(normalizedSlug) as Post | null;
 
   // 投稿が存在しない場合は早期リターン
   if (!post) {
@@ -36,7 +36,7 @@ export function getPostPageData(slug: string): PostPageData | null {
 
   // 必要なデータを個別に取得
   // 最新記事の取得
-  const allPosts = getPost() as PostProps[];
+  const allPosts = getPost() as Post[];
 
   // 関連タグの取得
   const similarTags = tag ? getSimilarTags(tag) : [];

@@ -4,6 +4,7 @@ import { Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
 import { css, cx, styled } from '@/ui/styled';
 import { postTagAnchor } from '@/ui/styled/components';
+import { textEllipsis } from '@/ui/styled/utilities';
 
 type PostDateProps = ComponentProps<typeof PostDate>;
 
@@ -28,7 +29,7 @@ function LinkCard({ link, title, date, updated, excerpt, tags, titleTagName = 'h
         <Title className={cx('line-clamp-2', titleStyle)}>{title}</Title>
       </Anchor>
       {!!excerpt && (
-        <Paragraph className="text-ellipsis" {...(typeof excerpt !== 'string' && { as: 'div' })}>
+        <Paragraph className={textEllipsis} {...(typeof excerpt !== 'string' && { as: 'div' })}>
           {excerpt}
         </Paragraph>
       )}

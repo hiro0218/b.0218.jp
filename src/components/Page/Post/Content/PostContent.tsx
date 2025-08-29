@@ -5,14 +5,14 @@ import { useRef } from 'react';
 import { Adsense } from '@/components/UI/Adsense';
 import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
 import { splitReactNode } from '@/lib/splitHtml';
-import type { PostProps } from '@/types/source';
+import type { Post } from '@/types/source';
 import { styled } from '@/ui/styled';
 import Mokuji from '../Mokuji';
 import { parser } from './parser/HTMLParser';
 
 export interface ContentProps {
   enableMokuji?: boolean;
-  content: PostProps['content'];
+  content: Post['content'];
 }
 
 export default function Content({ enableMokuji = true, content }: ContentProps) {
