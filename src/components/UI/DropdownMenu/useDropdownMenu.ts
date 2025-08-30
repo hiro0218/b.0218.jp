@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
+import { useClickOutside } from '@/hooks/useClickOutside';
 
 export const useDropdownMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,21 +13,13 @@ export const useDropdownMenu = () => {
   };
 
   /**
-   * 外部クリックイベントのセットアップ
-   * メニュー外がクリックされた場合にメニューを閉じる
+   * 外部クリックでメニューを閉じる
    */
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
+  const handleClickOutside = useCallback(() => {
+    setIsOpen(false);
   }, []);
+
+  useClickOutside(ref, handleClickOutside);
 
   return {
     isOpen,
