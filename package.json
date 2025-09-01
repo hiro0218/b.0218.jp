@@ -41,7 +41,7 @@
     "@google-analytics/data": "5.1.0",
     "@hono/node-server": "1.19.0",
     "@markuplint/jsx-parser": "4.7.20",
-    "@markuplint/react-spec": "4.5.20",
+    "@markuplint/react-spec": "4.5.21",
     "@next/bundle-analyzer": "15.5.2",
     "@pandacss/dev": "1.2.0",
     "@prettier/plugin-oxc": "0.0.4",
