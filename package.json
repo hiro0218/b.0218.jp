@@ -40,7 +40,7 @@
     "@biomejs/biome": "2.2.2",
     "@google-analytics/data": "5.1.0",
     "@hono/node-server": "1.19.0",
-    "@markuplint/jsx-parser": "4.7.20",
+    "@markuplint/jsx-parser": "4.7.21",
     "@markuplint/react-spec": "4.5.20",
     "@next/bundle-analyzer": "15.5.2",
     "@pandacss/dev": "1.2.0",
