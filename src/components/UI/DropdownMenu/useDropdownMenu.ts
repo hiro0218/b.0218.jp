@@ -1,5 +1,5 @@
-import { useCallback, useRef, useState } from 'react';
-import { useClickOutside } from '@/hooks/useClickOutside';
+import { useRef, useState } from 'react';
+import { useInteractOutside } from 'react-aria';
 
 export const useDropdownMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,14 +12,14 @@ export const useDropdownMenu = () => {
     setIsOpen((prev) => !prev);
   };
 
-  /**
-   * 外部クリックでメニューを閉じる
-   */
-  const handleClickOutside = useCallback(() => {
-    setIsOpen(false);
-  }, []);
-
-  useClickOutside(ref, handleClickOutside);
+  useInteractOutside({
+    ref: ref,
+    onInteractOutside: () => {
+      if (isOpen) {
+        setIsOpen(false);
+      }
+    },
+  });
 
   return {
     isOpen,
