@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import type { SearchProps } from '@/components/UI/Search/type';
+import type { SearchProps } from '../types';
 import {
   executeSearch,
   getMatchTypePriority,

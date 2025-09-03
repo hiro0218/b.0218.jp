@@ -29,7 +29,8 @@
  */
 
 import { useMemo } from 'react';
-import type { SearchProps } from '@/components/UI/Search/type';
+import type { SearchProps } from '../types';
+import { isEmptyQuery } from './validation';
 
 // 検索一致タイプの定義（優先度順）
 export type MatchType =
@@ -47,23 +48,15 @@ type RankedSearchResult = {
   matchType: MatchType;
 };
 
-/**
- * 文字列を小文字に変換する
- */
 export const toLower = (text: string): string => text.toLowerCase();
 
-/**
- * 文字列からスペースを除去する
- */
 export const removeSpaces = (text: string): string => text.replace(/\s+/g, '');
 
-/**
- * 文字列を単語に分割する
- */
 export const splitIntoWords = (text: string): string[] => toLower(text).split(' ').filter(Boolean);
 
 /**
- * マッチタイプの優先度をスコアに変換する
+ * 検索結果の表示順序を決めるため、マッチタイプに応じた優先度スコアを返す
+ * 完全一致を最優先とし、部分一致、複合条件の順で優先度を設定
  */
 export const getMatchTypePriority = (matchType: MatchType): number => {
   switch (matchType) {
@@ -85,7 +78,8 @@ export const getMatchTypePriority = (matchType: MatchType): number => {
 };
 
 /**
- * 厳密な文字列一致判定を行う（一致タイプを返す）
+ * 検索クエリとテキストの一致パターンを判定し、最も適切なマッチタイプを返す
+ * 完全一致から部分一致まで複数のパターンを順次検証
  */
 export const getTextMatchType = (text: string, query: string): MatchType => {
   if (!text || !query) {
@@ -123,7 +117,7 @@ export const getTextMatchType = (text: string, query: string): MatchType => {
 };
 
 /**
- * テキストが検索クエリに一致するか判定する（真偽値）
+ * 検索結果のフィルタリング処理で使用するため、マッチタイプをbooleanに変換
  */
 export const isTextMatching = (text: string, query: string): boolean => {
   const matchType = getTextMatchType(text, query);
@@ -131,7 +125,8 @@ export const isTextMatching = (text: string, query: string): boolean => {
 };
 
 /**
- * タグに基づいて検索を実行し、一致タイプを返す
+ * 記事のタグ情報から最適なマッチタイプを取得する
+ * 複数タグがある場合は最も優先度の高い一致を採用し、完全一致が見つかれば即座返す
  */
 export const getTagMatchType = (post: SearchProps, searchValue: string): MatchType => {
   if (!post.tags || post.tags.length === 0) {
@@ -156,7 +151,8 @@ export const getTagMatchType = (post: SearchProps, searchValue: string): MatchTy
 };
 
 /**
- * タイトルに基づいて検索を実行し、一致タイプを返す
+ * 記事タイトルからマッチタイプを取得する
+ * タイトルは検索で最も重要な要素のため、単純なテキストマッチングを実行
  */
 export const getTitleMatchType = (post: SearchProps, searchValue: string): MatchType => {
   // titleは必須フィールド
@@ -164,7 +160,8 @@ export const getTitleMatchType = (post: SearchProps, searchValue: string): Match
 };
 
 /**
- * 複数の検索語をAND条件で検索し、一致するかを判定する
+ * スペース区切りの検索クエリをAND条件で処理するため、全てのキーワードを含む記事のみを結果に含める
+ * タグとタイトルの両方で検索し、いずれかで一致したキーワードは条件を満たす
  */
 export const isMultiTermMatching = (post: SearchProps, searchTerms: string[]): boolean => {
   return searchTerms.every((term) => {
@@ -195,12 +192,12 @@ export const isMultiTermMatching = (post: SearchProps, searchTerms: string[]): b
 };
 
 /**
- * 最適な検索ロジックを選択し実行する
- * 投稿データを検索し、優先度情報付きの結果を返す
+ * 検索クエリの形式に応じて最適なアルゴリズムを選択し、ユーザーの意図に最も近い結果を优先表示する
+ * 単一キーワードでは完全一致優先、複数キーワードではAND条件で結果を絞り込み
  */
 export const searchPosts = (archives: SearchProps[], searchValue: string): RankedSearchResult[] => {
   // 検索ワードが空の場合は空の結果を返す
-  if (!searchValue) {
+  if (isEmptyQuery(searchValue)) {
     return [];
   }
 
@@ -246,34 +243,48 @@ export const searchPosts = (archives: SearchProps[], searchValue: string): Ranke
 };
 
 /**
- * 投稿を検索するロジックを実行する
+ * 検索結果をソートして件数制限を適用する
+ * @param results - ランク付けされた検索結果
+ * @param maxResults - 最大結果件数（デフォルト: 100）
+ * @returns ソート済みの検索結果配列
  */
-export const executeSearch = (archives: SearchProps[], searchValue: string): SearchProps[] => {
-  if (!searchValue) {
-    return [];
-  }
-
-  // 検索結果は最大100件に制限
-  const MaxResults = 100;
-
-  const rankedResults = searchPosts(archives, searchValue);
-
+const sortAndLimitResults = (results: RankedSearchResult[], maxResults = 100): SearchProps[] => {
   // 優先度順に結果をソート
-  rankedResults.sort((a, b) => {
+  const sorted = [...results].sort((a, b) => {
     const priorityDiff = b.priority - a.priority;
     if (priorityDiff !== 0) {
       return priorityDiff;
     }
-
+    // 優先度が同じ場合はタイトルでソート
     return (a.post.title || '').localeCompare(b.post.title || '');
   });
 
-  // 結果を最大件数に制限
-  return rankedResults.slice(0, MaxResults).map((result) => result.post);
+  // 結果を最大件数に制限してpostのみを抽出
+  return sorted.slice(0, maxResults).map((result) => result.post);
 };
 
 /**
- * 検索機能にmemoizationを適用するフック
+ * UIコンポーネントが直接使用するためのラッパー関数
+ * 検索結果を上位100件に制限し、優先度順にソートした結果を返す
+ * @param archives - 検索対象の投稿配列
+ * @param searchValue - 検索クエリ文字列
+ * @returns 検索結果の投稿配列
+ */
+export const executeSearch = (archives: SearchProps[], searchValue: string): SearchProps[] => {
+  if (isEmptyQuery(searchValue)) {
+    return [];
+  }
+
+  // 検索実行
+  const rankedResults = searchPosts(archives, searchValue);
+
+  // ソートと件数制限を適用
+  return sortAndLimitResults(rankedResults);
+};
+
+/**
+ * 検索処理のパフォーマンス向上のため、同じクエリの結果をメモリにキャッシュする
+ * 連続する同じ検索やバックスペースでの削除時に高速化を実現
  */
 export const useSearchWithCache = () => {
   const cache = useMemo(() => new Map<string, SearchProps[]>(), []);

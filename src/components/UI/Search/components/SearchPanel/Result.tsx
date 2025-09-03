@@ -1,8 +1,8 @@
-import { forwardRef, memo, useMemo } from 'react';
+import { forwardRef, memo, useId, useMemo } from 'react';
 import { Anchor } from '@/components/UI/Anchor';
-import type { SearchProps } from '@/components/UI/Search/type';
 import { convertPostSlugToPath } from '@/lib/url';
 import { css, cx, styled } from '@/ui/styled';
+import type { SearchProps } from '../../types';
 
 const NavigableLink = forwardRef<
   HTMLDivElement,
@@ -48,6 +48,7 @@ export const Result = memo(function Result({
   setResultRef: (index: number, element: HTMLDivElement | null) => void;
   keyword?: string;
 }) {
+  const headingId = useId();
   const ResultList = useMemo(() => {
     return suggestions.map(({ slug }, index) => {
       const isFocused = focusedIndex === index;
@@ -69,17 +70,19 @@ export const Result = memo(function Result({
   }, [suggestions, markedTitles, focusedIndex, setResultRef]);
 
   return (
-    <Container aria-labelledby="search-results-heading" data-search-results>
-      <Message id="search-results-heading">
-        {suggestions.length > 0
-          ? keyword
-            ? `「${keyword}」の検索結果: ${suggestions.length}件`
-            : `検索結果: ${suggestions.length}件`
-          : keyword
-            ? `「${keyword}」に一致する記事は見つかりませんでした。`
-            : '検索キーワードを入力してください。'}
-      </Message>
-      {ResultList.length > 0 && <div>{ResultList}</div>}
+    <Container aria-labelledby={headingId} data-search-results>
+      <>
+        <Message id={headingId}>
+          {suggestions.length > 0
+            ? keyword
+              ? `「${keyword}」の検索結果: ${suggestions.length}件`
+              : `検索結果: ${suggestions.length}件`
+            : keyword
+              ? `「${keyword}」に一致する記事は見つかりませんでした。`
+              : '検索キーワードを入力してください。'}
+        </Message>
+        {ResultList.length > 0 && <div>{ResultList}</div>}
+      </>
     </Container>
   );
 });

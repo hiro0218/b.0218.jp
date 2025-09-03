@@ -6,13 +6,13 @@ import { FILENAME_POSTS_LIST } from '@/constant';
 import { parseJSON } from '@/lib/parseJSON';
 import type { PostSummary } from '@/types/source';
 
-import type { SearchProps } from './type';
+import type { SearchProps } from '../types';
 
 const STORAGE_KEY = `${process.env.BUILD_ID}_${FILENAME_POSTS_LIST}`;
 
 /**
- * posts-list.jsonを取得する
- * 複数リクエストをさせないようにlocalStorageへキャッシュ
+ * 検索機能の応答性向上とサーバー負荷軽減のため、記事一覧データをlocalStorageにキャッシュして管理する
+ * ビルドIDベースのキーで古いキャッシュを無効化し、デプロイ後の即座な更新を保証
  */
 export const usePostsList = (): SearchProps[] => {
   const [archives, setArchives] = useState<SearchProps[]>([]);

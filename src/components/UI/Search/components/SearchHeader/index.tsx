@@ -1,13 +1,20 @@
 'use client';
 
-import { useId, useRef } from 'react';
+import { memo, useId, useRef } from 'react';
 
 import { ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
-import type { onKeyupProps } from './type';
+interface SearchHeaderProps {
+  onKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  searchQuery: string;
+}
 
-export const SearchHeader = ({ onKeyupAction }: { onKeyupAction: onKeyupProps }) => {
+/**
+ * 検索入力ヘッダーコンポーネント
+ */
+export const SearchHeader = memo(function SearchHeader({ onKeyUp, onKeyDown, searchQuery }: SearchHeaderProps) {
   const refInput = useRef<HTMLInputElement>(null);
   const searchInputId = useId();
 
@@ -18,21 +25,23 @@ export const SearchHeader = ({ onKeyupAction }: { onKeyupAction: onKeyupProps })
       </HeaderIcon>
       <SearchInput
         aria-autocomplete="list"
-        aria-controls="search-results-heading"
         aria-label="検索キーワード"
         autoComplete="off"
+        defaultValue={searchQuery}
         id={searchInputId}
-        onKeyUp={onKeyupAction}
+        onKeyDown={onKeyDown}
+        onKeyUp={onKeyUp}
         placeholder="記事タイトルやタグから検索する"
         ref={(el) => {
           refInput.current = el;
           refInput?.current?.focus();
         }}
+        role="searchbox"
         type="text"
       />
     </Header>
   );
-};
+});
 
 const Header = styled.div`
   position: relative;

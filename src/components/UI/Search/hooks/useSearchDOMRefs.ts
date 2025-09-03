@@ -1,8 +1,8 @@
 import { useCallback, useRef } from 'react';
-import type { SearchDOMRefsReturn } from '../type';
+import type { SearchDOMRefsReturn } from '../types';
 
 /**
- * 検索ダイアログのDOM参照管理とフォーカス制御を提供するフック
+ * キーボードナビゲーションとモーダル状態管理のため、検索ダイアログのDOM要素への安定したアクセスを実現する
  * @returns DOM参照の更新、フォーカス制御、スクロール制御の関数と参照オブジェクト
  */
 export const useSearchDOMRefs = (): SearchDOMRefsReturn => {
@@ -10,7 +10,7 @@ export const useSearchDOMRefs = (): SearchDOMRefsReturn => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   /**
-   * ダイアログとインプット要素のDOM参照を更新する
+   * モーダルの動的な性質とReactのレンダリングタイミングの問題を解決するため、現在表示中の要素を取得
    * @note 検索ダイアログが開いている状態でのみ有効な参照を取得
    */
   const updateDOMRefs = useCallback(() => {
@@ -22,7 +22,7 @@ export const useSearchDOMRefs = (): SearchDOMRefsReturn => {
   }, []);
 
   /**
-   * インプットフィールドにフォーカスを戻し、検索結果リストを先頭にスクロールする
+   * キーボードナビゲーション後のユーザーエクスペリエンス向上のため、一貫した状態にリセットする
    * @note キャッシュされた参照を優先し、無効時のみDOM検索を実行
    */
   const focusInput = useCallback(() => {
@@ -36,7 +36,7 @@ export const useSearchDOMRefs = (): SearchDOMRefsReturn => {
   }, []);
 
   /**
-   * フォーカスされた要素が画面内に見えるようにスムーズスクロールを実行する
+   * アクセシビリティとユーザビリティ向上のため、キーボードフォーカス位置を常に視認可能状態に保つ
    * @param targetElement - スクロール対象の要素
    * @note 要素が表示範囲外にある場合のみスクロールを実行し、8pxのマージンを確保
    */
