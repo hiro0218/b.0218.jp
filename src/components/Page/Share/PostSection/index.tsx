@@ -4,14 +4,14 @@ import Heading from '@/components/UI/Heading';
 import { Box, Grid } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { convertPostSlugToPath } from '@/lib/url';
-import type { PostListProps, TermsPostListProps } from '@/types/source';
+import type { ArticleSummary, PostSummary } from '@/types/source';
 import { containerType } from '@/ui/styled/utilities';
 
 type Props = {
   heading?: string;
   headingLevel?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   headingWeight?: 'bold' | 'normal';
-  posts: (PostListProps | (TermsPostListProps & { tags?: string[] }))[];
+  posts: (PostSummary | (ArticleSummary & { tags?: string[] }))[];
   href?: string;
   as?: keyof JSX.IntrinsicElements;
   prefetch?: boolean;

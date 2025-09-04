@@ -1,15 +1,15 @@
-import type { PostListProps, PostProps } from '@/types/source';
+import type { Post, PostSummary } from '@/types/source';
 import { POST_DISPLAY_LIMIT, UPDATED_POST_DISPLAY_LIMIT } from './constant';
 import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';
 
 type Props = {
-  posts: (PostListProps | PostProps)[];
+  posts: (PostSummary | Post)[];
   options?: {
     withoutContent?: boolean;
   };
 };
 
-const filterPosts = ({ posts, options }: Props): PostListProps[] => {
+const filterPosts = ({ posts, options }: Props): PostSummary[] => {
   const { withoutContent = true } = options || {};
 
   return posts.map((post) => {

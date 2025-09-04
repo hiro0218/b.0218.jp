@@ -1,7 +1,7 @@
 import { SITE_URL } from '@/constant';
 import { readJSON } from '@/shared/fs';
 import * as Log from '@/shared/Log';
-import type { PostListProps } from '@/types/source';
+import type { PostSummary } from '@/types/source';
 import type { HatenaResult } from './type';
 
 const PATH_DIST = `${process.cwd()}/dist`;
@@ -30,7 +30,7 @@ function createHatenaApiUrls(chunkedUrls: string[][]): string[] {
 }
 
 export const getBookmarkArticles = async () => {
-  const postList = await readJSON<PostListProps[]>(`${PATH_DIST}/posts-list.json`);
+  const postList = await readJSON<PostSummary[]>(`${PATH_DIST}/posts-list.json`);
   const urls = postList.map((post) => `${SITE_URL}/${post.slug}.html`);
   const chunkedUrls = chunkUrls(urls, MAX_URLS);
   const hatenaApiUrls = createHatenaApiUrls(chunkedUrls);

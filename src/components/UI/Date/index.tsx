@@ -1,9 +1,9 @@
 import { Stack } from '@/components/UI/Layout';
 import { isSameDay } from '@/lib/date';
-import type { PostProps } from '@/types/source';
+import type { Post } from '@/types/source';
 import { css } from '@/ui/styled';
 
-type Props = Pick<PostProps, 'date' | 'updated'>;
+type Props = Pick<Post, 'date' | 'updated'>;
 
 function PostDate({ date, updated }: Props) {
   const hasModified = !!updated && !isSameDay(new Date(date), new Date(updated));

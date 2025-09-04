@@ -1,11 +1,5 @@
 /* stylelint-disable nesting-selector-no-missing-scoping-root */
 
-@define-mixin text-ellipsis {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 @define-mixin line-clamp $lines {
   display: -webkit-box;
   overflow-y: hidden;

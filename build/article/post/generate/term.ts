@@ -1,11 +1,11 @@
 import { writeJSON } from '@/shared/fs';
 import * as Log from '@/shared/Log';
-import type { PostProps } from '@/types/source';
+import type { Post } from '@/types/source';
 import { getPath } from './utils';
 
 const PATH = getPath();
 
-export async function buildTerm(posts: Partial<PostProps>[]) {
+export async function buildTerm(posts: Partial<Post>[]) {
   const tagsMap: {
     [key: string]: string[];
   } = {};

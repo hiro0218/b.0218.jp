@@ -10,7 +10,7 @@ import type {
 } from 'schema-dts';
 
 import { AUTHOR_ICON, AUTHOR_NAME, SITE_NAME, SITE_URL, URL } from '@/constant';
-import type { PostProps } from '@/types/source';
+import type { Post } from '@/types/source';
 
 import { getOgpImage, getPermalink } from './url';
 
@@ -73,7 +73,7 @@ export const getWebPageStructured = ({
   };
 };
 
-export const getBlogPostingStructured = (post: PostProps): WithContext<BlogPosting> => {
+export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> => {
   return {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -103,7 +103,7 @@ export const getBlogPostingStructured = (post: PostProps): WithContext<BlogPosti
   };
 };
 
-export const getBreadcrumbStructured = (post: PostProps) => {
+export const getBreadcrumbStructured = (post: Post) => {
   const itemListElement: ListItem[] = [
     {
       '@type': 'ListItem',

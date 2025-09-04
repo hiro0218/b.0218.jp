@@ -1,4 +1,5 @@
 import { styled } from '@/ui/styled';
+import { textEllipsis } from '@/ui/styled/utilities';
 
 type Props = {
   link: string;
@@ -14,9 +15,9 @@ export const LinkPreview = ({ link, card, thumbnail, title, domain, description 
   return (
     <Anchor data-card={card} href={link} target="_blank">
       <Body>
-        <BodyTitle className="text-ellipsis">{decodedTitle}</BodyTitle>
+        <BodyTitle className={textEllipsis}>{decodedTitle}</BodyTitle>
         {description && <BodyDescription data-line-clamp="1">{description}</BodyDescription>}
-        <BodyUrl className="text-ellipsis">{domain}</BodyUrl>
+        <BodyUrl className={textEllipsis}>{domain}</BodyUrl>
       </Body>
       {thumbnail && (
         <Thumbnail>

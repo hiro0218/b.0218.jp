@@ -5,11 +5,11 @@ import { parseJSON } from '@/lib/parseJSON';
 export async function readJSON<T>(file: string): Promise<T> {
   try {
     const fileData = await readFile(file, 'utf8');
-    const parsedJSON = parseJSON<T>(fileData);
-
-    return parsedJSON;
+    return parseJSON(fileData) as T;
   } catch (e) {
-    console.error(e);
-    return null;
+    if (e instanceof Error) {
+      throw new Error(`Failed to read JSON file: ${file}: ${e.message}`);
+    }
+    throw e;
   }
 }

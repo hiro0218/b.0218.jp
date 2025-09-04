@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { PostProps, TagsListProps } from '@/types/source';
+import type { Post, TagIndex } from '@/types/source';
 import { getRelatedTags } from './tag';
 
 // モックのセットアップ
@@ -58,7 +58,7 @@ describe('getRelatedTags', () => {
    * テスト用の記事データを生成
    * タグの関連性を計算するための現実的なサンプルデータを提供する
    */
-  const createMockPosts = (): PostProps[] => [
+  const createMockPosts = (): Post[] => [
     {
       title: 'React入門',
       slug: 'react-intro',
@@ -114,7 +114,7 @@ describe('getRelatedTags', () => {
    * テスト用のタグリストを生成
    * 各タグがどの記事に含まれるかの逆引きマップを提供する
    */
-  const createMockTagsList = (): TagsListProps => ({
+  const createMockTagsList = (): TagIndex => ({
     javascript: ['react-intro', 'nextjs-ssr', 'typescript-react', 'typescript-inference', 'nextjs-typescript'],
     react: ['react-intro', 'nextjs-ssr', 'typescript-react'],
     frontend: ['react-intro', 'css-variables'],
@@ -212,7 +212,7 @@ describe('getRelatedTags', () => {
     });
 
     // 最小共起頻度と最小タグ頻度をテストするために、出現回数の少ないタグを含むデータを作成
-    const posts: PostProps[] = [
+    const posts: Post[] = [
       {
         title: 'テスト記事1',
         slug: 'test1',
@@ -250,7 +250,7 @@ describe('getRelatedTags', () => {
       },
     ];
 
-    const tagsList: TagsListProps = {
+    const tagsList: TagIndex = {
       common: ['test1', 'test2', 'test3', 'test4', 'test5'],
       rare1: ['test1'],
       rare2: ['test2'],

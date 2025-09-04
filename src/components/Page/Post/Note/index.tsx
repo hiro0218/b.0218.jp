@@ -1,9 +1,9 @@
 import { Stack } from '@/components/UI/Layout';
-import type { PostProps } from '@/types/source';
+import type { Post } from '@/types/source';
 import { ICON_SIZE_SM, InfoCircledIcon } from '@/ui/icons';
 import { css } from '@/ui/styled';
 
-type Props = Pick<PostProps, 'note'>;
+type Props = Pick<Post, 'note'>;
 
 function PostNote({ note }: Props) {
   return (

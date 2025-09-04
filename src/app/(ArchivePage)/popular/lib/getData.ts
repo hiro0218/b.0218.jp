@@ -1,13 +1,13 @@
 import { getPopularPost } from '@/app/libs/getPopularPost';
 import { getPostsListJson } from '@/lib/posts';
-import type { PostListProps } from '@/types/source';
+import type { PostSummary } from '@/types/source';
 
 const POST_DISPLAY_LIMIT = 20;
 
 const posts = getPostsListJson();
 
 type ReturnType = {
-  popularPosts: PostListProps[];
+  popularPosts: PostSummary[];
 };
 
 export const getData = (): ReturnType => {
