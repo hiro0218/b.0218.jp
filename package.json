@@ -58,7 +58,6 @@
     "@vitejs/plugin-react": "4.5.2",
     "@vitest/coverage-v8": "3.2.4",
     "browserslist": "4.25.3",
-    "critters": "0.0.23",
     "dependency-cruiser": "17.0.1",
     "esbuild": "0.25.9",
     "esbuild-register": "3.6.0",
