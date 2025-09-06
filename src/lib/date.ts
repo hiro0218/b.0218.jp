@@ -3,6 +3,10 @@ const isInvalidDate = (date: Date): boolean => {
 };
 
 export const convertDateToSimpleFormat = (date: Date): string => {
+  if (isInvalidDate(date)) {
+    return 'Invalid Date';
+  }
+
   /**
    * @workaround パフォーマンスコストが高い場合があるため、toLocaleDateStringの使用を避けている
    * ```typescript
