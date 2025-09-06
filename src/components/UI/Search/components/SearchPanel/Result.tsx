@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { forwardRef, memo, useId, useMemo } from 'react';
 import { Anchor } from '@/components/UI/Anchor';
 import { convertPostSlugToPath } from '@/lib/url';
@@ -49,6 +50,7 @@ export const Result = memo(function Result({
   keyword?: string;
 }) {
   const headingId = useId();
+  const router = useRouter();
   const ResultList = useMemo(() => {
     return suggestions.map(({ slug }, index) => {
       const isFocused = focusedIndex === index;
@@ -59,7 +61,7 @@ export const Result = memo(function Result({
           key={slug}
           onClick={() => {
             const link = convertPostSlugToPath(slug);
-            window.location.href = link;
+            router.push(link);
           }}
           ref={(el) => setResultRef(index, el)}
           slug={slug}
