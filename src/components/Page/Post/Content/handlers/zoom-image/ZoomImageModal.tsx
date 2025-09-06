@@ -3,8 +3,8 @@
 import dynamic from 'next/dynamic';
 import type { CSSProperties, FC, ImgHTMLAttributes } from 'react';
 import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useKeyboard } from 'react-aria';
 import { createPortal } from 'react-dom';
-import { useModalKeyboard } from '@/hooks/keyboard';
 import { parseStyleStringToObject } from '@/lib/parseStyleStringToObject';
 import { css } from '@/ui/styled';
 
@@ -67,20 +67,40 @@ const ZoomImage: FC<ZoomImageProps> = ({ alt, src, style, ...props }) => {
 
   const handleZoomOut = useCallback(() => setIsZoomed(false), []);
 
-  const modalKeyboardOptions = useMemo(
-    () => ({
-      onClose: handleZoomOut,
-      onConfirm: handleZoomOut,
-      isEnabled: isZoomed,
-      isGlobal: true,
-      closeOnEscape: true,
-      confirmOnEnter: true,
-    }),
-    [isZoomed, handleZoomOut],
-  );
+  // React Ariaのキーボードフックを使用
+  const { keyboardProps } = useKeyboard({
+    onKeyDown: useCallback(
+      (e) => {
+        if (!isZoomed) return;
 
-  // Portalでレンダリングされるためグローバルイベントリスナー
-  useModalKeyboard(modalKeyboardOptions);
+        // ESCキーまたはEnterキーでズームを解除
+        if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          e.stopPropagation();
+          handleZoomOut();
+        }
+      },
+      [isZoomed, handleZoomOut],
+    ),
+  });
+
+  // グローバルキーボードイベントの処理
+  useEffect(() => {
+    if (!isZoomed) return;
+
+    const handleGlobalKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' || event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        event.stopPropagation();
+        handleZoomOut();
+      }
+    };
+
+    document.addEventListener('keydown', handleGlobalKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleGlobalKeyDown);
+    };
+  }, [isZoomed, handleZoomOut]);
 
   useEffect(() => {
     if (!isZoomed) return;
@@ -121,6 +141,7 @@ const ZoomImage: FC<ZoomImageProps> = ({ alt, src, style, ...props }) => {
               loading="lazy"
               onClick={handleZoomOut}
               src={src}
+              {...keyboardProps}
             />
             <Overlay onClick={handleZoomOut} />
           </>,
