@@ -5,16 +5,16 @@ import { useEffect, useState } from 'react';
 import { PaginationView } from './components/PaginationView';
 import { ITEMS_PER_PAGE, QUERY_PAGE_KEY } from './hooks/constant';
 
-type PaginationContainerProps = {
+type PaginationCoreProps = {
   totalItems: number;
 };
 
 /**
- * ページネーションコンテナコンポーネント
+ * ページネーションコンポーネント
  * URL状態管理とページ変更ハンドリングを担当
  * @param totalItems - 全アイテム数
  */
-export function PaginationContainer({ totalItems }: PaginationContainerProps) {
+export function PaginationCore({ totalItems }: PaginationCoreProps) {
   const defaultPage = 1;
   const searchParams = useSearchParams();
   const pageNumberFromUrl = searchParams?.get(QUERY_PAGE_KEY) ? Number(searchParams.get(QUERY_PAGE_KEY)) : defaultPage;
