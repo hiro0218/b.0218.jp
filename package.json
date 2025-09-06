@@ -39,7 +39,7 @@
     "shokika.css": "1.8.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.2",
+    "@biomejs/biome": "2.2.3",
     "@google-analytics/data": "5.1.0",
     "@hono/node-server": "1.19.0",
     "@markuplint/jsx-parser": "4.7.20",
