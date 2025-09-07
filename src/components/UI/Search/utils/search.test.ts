@@ -9,10 +9,7 @@ import {
   isMultiTermMatching,
   isTextMatching,
   type MatchType,
-  removeSpaces,
   searchPosts,
-  splitIntoWords,
-  toLower,
 } from './search';
 
 // テスト用のモックデータ
@@ -70,27 +67,6 @@ const mockPosts: SearchProps[] = [
 ];
 
 describe('基本ユーティリティ関数', () => {
-  test('toLower - 文字列を小文字に変換する', () => {
-    expect(toLower('React')).toBe('react');
-    expect(toLower('JAVASCRIPT')).toBe('javascript');
-    expect(toLower('TypeScript')).toBe('typescript');
-    expect(toLower('')).toBe('');
-  });
-
-  test('removeSpaces - 文字列からスペースを除去する', () => {
-    expect(removeSpaces('React 入門')).toBe('React入門');
-    expect(removeSpaces('Type Script')).toBe('TypeScript');
-    expect(removeSpaces('Next  js')).toBe('Nextjs');
-    expect(removeSpaces('')).toBe('');
-  });
-
-  test('splitIntoWords - 文字列を単語に分割する', () => {
-    expect(splitIntoWords('React 入門')).toEqual(['react', '入門']);
-    expect(splitIntoWords('JavaScript TypeScript')).toEqual(['javascript', 'typescript']);
-    expect(splitIntoWords('  Next  js  ')).toEqual(['next', 'js']);
-    expect(splitIntoWords('')).toEqual([]);
-  });
-
   test('getMatchTypePriority - マッチタイプの優先度をスコアに変換する', () => {
     expect(getMatchTypePriority('EXACT')).toBe(100);
     expect(getMatchTypePriority('PARTIAL')).toBe(80);
