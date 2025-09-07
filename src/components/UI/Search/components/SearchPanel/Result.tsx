@@ -1,40 +1,7 @@
-import { useRouter } from 'next/navigation';
-import { forwardRef, memo, useId, useMemo } from 'react';
-import { Anchor } from '@/components/UI/Anchor';
-import { convertPostSlugToPath } from '@/lib/url';
-import { css, cx, styled } from '@/ui/styled';
+import { memo, useId, useMemo } from 'react';
+import { css, styled } from '@/ui/styled';
 import type { SearchProps } from '../../types';
-
-const NavigableLink = forwardRef<
-  HTMLDivElement,
-  {
-    slug: string;
-    title: string;
-    isFocused: boolean;
-    onClick: () => void;
-  }
->(({ slug, title, isFocused, onClick }, ref) => {
-  const link = convertPostSlugToPath(slug);
-
-  return (
-    <div
-      className={isFocused ? cx(LinkContainerStyle, FocusedContainerStyle) : LinkContainerStyle}
-      onClick={onClick}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onClick();
-        }
-      }}
-      ref={ref}
-      tabIndex={isFocused ? 0 : -1}
-    >
-      <Anchor className={AnchorStyle} dangerouslySetInnerHTML={{ __html: title }} href={link} prefetch={false} />
-    </div>
-  );
-});
-
-NavigableLink.displayName = 'NavigableLink';
+import { NavigableLink } from './NavigableLink';
 
 export const Result = memo(function Result({
   suggestions,
@@ -50,7 +17,6 @@ export const Result = memo(function Result({
   keyword?: string;
 }) {
   const headingId = useId();
-  const router = useRouter();
   const ResultList = useMemo(() => {
     return suggestions.map(({ slug }, index) => {
       const isFocused = focusedIndex === index;
@@ -59,10 +25,6 @@ export const Result = memo(function Result({
         <NavigableLink
           isFocused={isFocused}
           key={slug}
-          onClick={() => {
-            const link = convertPostSlugToPath(slug);
-            router.push(link);
-          }}
           ref={(el) => setResultRef(index, el)}
           slug={slug}
           title={markedTitles[index]}
@@ -73,18 +35,16 @@ export const Result = memo(function Result({
 
   return (
     <Container aria-labelledby={headingId} data-search-results>
-      <>
-        <Message id={headingId}>
-          {suggestions.length > 0
-            ? keyword
-              ? `「${keyword}」の検索結果: ${suggestions.length}件`
-              : `検索結果: ${suggestions.length}件`
-            : keyword
-              ? `「${keyword}」に一致する記事は見つかりませんでした。`
-              : '検索キーワードを入力してください。'}
-        </Message>
-        {ResultList.length > 0 && <div>{ResultList}</div>}
-      </>
+      <Message id={headingId}>
+        {suggestions.length > 0
+          ? keyword
+            ? `「${keyword}」の検索結果: ${suggestions.length}件`
+            : `検索結果: ${suggestions.length}件`
+          : keyword
+            ? `「${keyword}」に一致する記事は見つかりませんでした。`
+            : '検索キーワードを入力してください。'}
+      </Message>
+      {ResultList.length > 0 && <div>{ResultList}</div>}
     </Container>
   );
 });
@@ -107,34 +67,34 @@ const Container = styled.div`
   }
 `;
 
-const LinkContainerStyle = css`
+export const LinkContainerStyle = css`
   cursor: pointer;
+  user-select: none;
   border-radius: var(--radii-8);
 
-  &:hover {
-    background-color: var(--colors-gray-3);
-  }
-
-  &:focus {
-    outline: none;
+  &:not([tabindex='-1']):hover {
+    background-color: var(--colors-gray-a-3);
   }
 `;
 
-const FocusedContainerStyle = css`
+export const FocusedContainerStyle = css`
   outline: 2px solid var(--colors-blue-9);
   outline-offset: -2px;
   background-color: var(--colors-gray-3);
 `;
 
-const AnchorStyle = css`
+export const AnchorStyle = css`
   display: block;
   padding: var(--spacing-1) var(--spacing-2);
   font-size: var(--font-sizes-sm);
-  pointer-events: none;
   border-radius: var(--radii-8);
 
+  &:hover {
+    background-color: var(--colors-gray-a-3);
+  }
+
   &:active {
-    background-color: var(--colors-gray-4);
+    background-color: var(--colors-gray-a-4);
   }
 
   &:focus {
