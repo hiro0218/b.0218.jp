@@ -1,5 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { convertPostSlugToPath } from '@/lib/url';
 import { usePostsList } from './usePostsList';
 import { useSearchDOMRefs } from './useSearchDOMRefs';
 import { useSearchManager } from './useSearchManager';
@@ -142,7 +143,7 @@ export const useSearchIntegration = ({ closeDialog }: UseSearchIntegrationProps)
             e.preventDefault();
             const result = currentState.results[currentFocusedIndex];
             if (result) {
-              router.push(`/${result.slug}`);
+              router.push(convertPostSlugToPath(result.slug));
               closeDialog();
             }
           }
