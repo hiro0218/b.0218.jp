@@ -10,6 +10,10 @@ type NavigableLinkProps = {
   isFocused: boolean;
 };
 
+/**
+ * 検索結果の個別リンクを表示する表示専用コンポーネント
+ * キーボードナビゲーションと画面遷移ロジックはuseSearchIntegrationで中央管理
+ */
 export const NavigableLink = forwardRef<HTMLDivElement, NavigableLinkProps>(({ slug, title, isFocused }, ref) => {
   const link = convertPostSlugToPath(slug);
 
