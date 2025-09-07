@@ -6,8 +6,6 @@ import { isSSR } from '@/lib/isSSR';
  *
  * ブラウザのaddEventListenerのオプションに対応し、パフォーマンス最適化や
  * イベント処理のカスタマイズが可能。SSR環境では自動的に無効化される。
- *
- * @performance パッシブリスナーの使用でスクロール性能が向上
  */
 type UseEventListenerOptions = {
   /**
