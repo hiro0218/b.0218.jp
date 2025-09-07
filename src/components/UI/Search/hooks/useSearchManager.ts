@@ -17,6 +17,7 @@ export const useSearchManager = ({ archives, debounceDelay = 300 }: UseSearchMan
   const { state, setResults, reset } = useSearchState();
   const searchWithCache = useSearchWithCache();
 
+  /** 即座実行が必要な場合はこれを直接使用 */
   const executeSearch = useCallback(
     (query: string) => {
       const trimmedQuery = query.trim();
@@ -41,18 +42,10 @@ export const useSearchManager = ({ archives, debounceDelay = 300 }: UseSearchMan
   // デバウンス処理された検索関数
   const debouncedSearch = useMemo(() => debounce(executeSearch, debounceDelay), [executeSearch, debounceDelay]);
 
-  // 即座実行が必要な場合の検索関数
-  const immediateSearch = useCallback(
-    (query: string) => {
-      executeSearch(query);
-    },
-    [executeSearch],
-  );
-
   return {
     state,
     debouncedSearch,
-    immediateSearch,
+    executeSearch,
     reset,
   };
 };

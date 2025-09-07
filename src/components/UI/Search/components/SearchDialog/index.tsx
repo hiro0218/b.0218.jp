@@ -20,7 +20,7 @@ type Props = {
 export const SearchDialog = ({ closeDialog, ref }: Props) => {
   const isClient = useIsClient();
   const id = useId();
-  const { searchPanelProps, searchHeaderProps } = useSearchIntegration({ closeDialog });
+  const { results, query, focusedIndex, onSearchInput, setResultRef } = useSearchIntegration({ closeDialog });
 
   if (!isClient) {
     return null;
@@ -35,8 +35,14 @@ export const SearchDialog = ({ closeDialog, ref }: Props) => {
         <p className="sr-only" id={`${id}-described`}>
           {SEARCH_LABELS.searchDescription}
         </p>
-        <SearchHeader {...searchHeaderProps} />
-        <SearchPanel {...searchPanelProps} />
+        <SearchHeader onKeyUp={onSearchInput} searchQuery={query} />
+        <SearchPanel
+          closeDialog={closeDialog}
+          focusedIndex={focusedIndex}
+          results={results}
+          searchQuery={query}
+          setResultRef={setResultRef}
+        />
       </Dialog>
       <Overlay onClick={closeDialog} />
     </>,

@@ -1,188 +1,145 @@
-import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { convertPostSlugToPath } from '@/lib/url';
+import { useKeyboardNavigation } from './useKeyboardNavigation';
+import { useLatestRef } from './useLatestRef';
 import { usePostsList } from './usePostsList';
 import { useSearchDOMRefs } from './useSearchDOMRefs';
 import { useSearchManager } from './useSearchManager';
 
-interface UseSearchIntegrationProps {
+// パフォーマンス最適化: ナビゲーションキーをSetで管理
+const NAV_KEYS = new Set(['ArrowDown', 'ArrowUp', 'Enter', 'Escape']);
+
+type UseSearchIntegrationProps = {
   closeDialog: () => void;
-}
+};
 
 /**
  * 検索機能の全体的な統合を管理し、各フックの協調動作を実現する
  * 状態管理、API呼び出し、UIインタラクションを統一されたインターフェースで提供
+ * @param props - ダイアログ閉じ関数を含む設定オブジェクト
+ * @param props.closeDialog - 検索ダイアログを閉じる関数
+ * @returns 検索状態、イベントハンドラー、参照設定関数を含む統合オブジェクト
+ * @performance デバウンス処理により過度なAPI呼び出しを防止し、Mapベースの参照管理でメモリ効率を最適化
  */
 export const useSearchIntegration = ({ closeDialog }: UseSearchIntegrationProps) => {
-  const router = useRouter();
   const archives = usePostsList();
-  const { state, debouncedSearch, immediateSearch, reset } = useSearchManager({ archives });
+  const { state, debouncedSearch, executeSearch, reset } = useSearchManager({ archives });
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const domRefs = useSearchDOMRefs();
 
-  // refを使って最新の値を参照できるようにする
-  const focusedIndexRef = useRef(focusedIndex);
-  const stateRef = useRef(state);
+  // 最新の値を常に参照できるref（クロージャー問題を回避）
+  const focusedIndexRef = useLatestRef(focusedIndex);
+  const stateRef = useLatestRef(state.results);
 
-  // refを更新
-  useEffect(() => {
-    focusedIndexRef.current = focusedIndex;
-  }, [focusedIndex]);
+  // 検索結果要素への参照をMapで管理（メモリ効率向上）
+  const resultRefs = useRef(new Map<number, HTMLDivElement>());
 
-  useEffect(() => {
-    stateRef.current = state;
-  }, [state]);
-
-  // ナビゲーションキーかどうかを判定
-  const isNavigationKey = useCallback((key: string): boolean => {
-    return ['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Home', 'End', 'PageUp', 'PageDown'].includes(key);
+  const setResultRef = useCallback((index: number, element: HTMLDivElement | null) => {
+    if (element) {
+      resultRefs.current.set(index, element);
+    } else {
+      resultRefs.current.delete(index);
+    }
   }, []);
 
-  // キーアップイベントの処理
-  const handleKeyUp = useCallback(
+  // ナビゲーション処理（最適化: 依存配列なし）
+  const navigateToIndex = useCallback(
+    (index: number) => {
+      setFocusedIndex((prev) => {
+        // stateRefから最新の長さを取得
+        const maxIndex = stateRef.current.length - 1;
+        if (index >= -1 && index <= maxIndex) {
+          return index;
+        }
+        return prev;
+      });
+    },
+    [stateRef.current.length],
+  ); // 依存配列なし - 再生成を防止
+
+  // キーボードナビゲーションの統合
+  useKeyboardNavigation({
+    onNavigate: navigateToIndex,
+    onClose: closeDialog,
+    focusedIndexRef,
+    resultsRef: stateRef,
+  });
+
+  // 入力値の変更を検知してデバウンス検索を実行（旧handleKeyUpから統合して命名を改善）
+  const handleSearchInput = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (!(e.currentTarget instanceof HTMLInputElement)) {
+      if (!(e.currentTarget instanceof HTMLInputElement) || e.nativeEvent.isComposing) {
         return;
       }
 
       const value = e.currentTarget.value.trim();
-
-      if (e.nativeEvent.isComposing) {
-        return;
-      }
-
       if (value === state.query) {
         return;
       }
 
-      // フォーカスがinputにある場合のEnterキーは即時検索
+      // Enterキーで即時検索（フォーカスがinputにある場合）
       if (e.key === 'Enter' && focusedIndex === -1) {
-        immediateSearch(value);
+        executeSearch(value);
         return;
       }
 
-      if (!isNavigationKey(e.key)) {
+      // ナビゲーションキー以外の場合はデバウンス検索（Set使用で高速化）
+      if (!NAV_KEYS.has(e.key)) {
         debouncedSearch(value);
       }
     },
-    [state.query, focusedIndex, immediateSearch, debouncedSearch, isNavigationKey],
+    [state.query, focusedIndex, executeSearch, debouncedSearch],
   );
 
-  // 検索結果要素への参照を管理
-  const resultRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  const setResultRef = useCallback((index: number, element: HTMLDivElement | null) => {
-    resultRefs.current[index] = element;
-  }, []);
-
-  // DOM参照更新とref配列初期化（配列長変更時のみ再作成）
+  // DOM参照更新と結果Mapの最適化されたクリーンアップ
   useEffect(() => {
     domRefs.updateDOMRefs();
 
-    const currentLength = resultRefs.current.length;
-    const newLength = state.results.length;
+    // パフォーマンス最適化: 必要な分だけMapから削除
+    const prevSize = resultRefs.current.size;
+    const newSize = state.results.length;
 
-    if (currentLength !== newLength) {
-      resultRefs.current = new Array(newLength).fill(null);
+    // 結果が減った場合のみ、余分な要素を削除
+    if (prevSize > newSize) {
+      for (let i = newSize; i < prevSize; i++) {
+        resultRefs.current.delete(i);
+      }
     }
-  }, [state.results.length, domRefs]);
 
-  // フォーカス制御とスクロール処理
+    // クリーンアップ: コンポーネントアンマウント時のみ全クリア
+    return () => {
+      // アンマウント時のチェック（resultsが空の場合）
+      if (state.results.length === 0) {
+        resultRefs.current.clear();
+      }
+    };
+  }, [state.results.length, domRefs]); // resultsではなくlengthのみ監視
+
+  // フォーカス制御とスクロール処理の統合
   useEffect(() => {
     if (focusedIndex === -1) {
       domRefs.focusInput();
-    } else if (focusedIndex >= 0 && focusedIndex < state.results.length) {
-      const targetElement = resultRefs.current[focusedIndex];
-      if (targetElement) {
-        targetElement.focus();
-        domRefs.scrollToFocusedElement(targetElement);
-      }
+      return;
     }
-  }, [focusedIndex, state.results.length, domRefs]);
 
-  // グローバルキーダウンイベントの処理
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // 検索ダイアログが開いていて、inputまたは検索結果にフォーカスがある場合のみ処理
-      const target = e.target as HTMLElement;
-      const isSearchInput = target.tagName === 'INPUT' && target.getAttribute('role') === 'searchbox';
-      const isSearchResult = target.closest('[data-search-results]') !== null;
+    const targetElement = resultRefs.current.get(focusedIndex);
+    if (targetElement) {
+      targetElement.focus();
+      domRefs.scrollToFocusedElement(targetElement);
+    }
+  }, [focusedIndex, domRefs]);
 
-      if (!isSearchInput && !isSearchResult) {
-        return;
-      }
-
-      // 最新の値を取得
-      const currentFocusedIndex = focusedIndexRef.current;
-      const currentState = stateRef.current;
-      const resultsCount = currentState.results.length;
-
-      switch (e.key) {
-        case 'ArrowDown':
-          e.preventDefault();
-          if (resultsCount > 0) {
-            // インプットから最初の結果、または次の結果へ移動
-            const nextIndex = currentFocusedIndex + 1;
-            if (nextIndex < resultsCount) {
-              setFocusedIndex(nextIndex);
-            }
-          }
-          break;
-
-        case 'ArrowUp':
-          e.preventDefault();
-          // 前の結果、またはインプットへ戻る
-          const prevIndex = currentFocusedIndex - 1;
-          if (prevIndex >= -1) {
-            setFocusedIndex(prevIndex);
-          }
-          break;
-
-        case 'Enter':
-          if (currentFocusedIndex >= 0 && currentFocusedIndex < resultsCount) {
-            e.preventDefault();
-            const result = currentState.results[currentFocusedIndex];
-            if (result) {
-              router.push(convertPostSlugToPath(result.slug));
-              closeDialog();
-            }
-          }
-          break;
-
-        case 'Escape':
-          e.preventDefault();
-          closeDialog();
-          break;
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [router, closeDialog]); // 依存配列を最小限に
-
-  // フォーカスインデックスのリセット（新しい検索時）
-  useEffect(() => {
-    setFocusedIndex(-1);
-  }, []);
-
+  // クリーンなAPIを提供（後方互換を削除）
   return {
-    // SearchPanel用のProps
-    searchPanelProps: {
-      results: state.results,
-      searchQuery: state.query,
-      focusedIndex,
-      closeDialog,
-      setResultRef,
-    },
-    // SearchHeader用のProps
-    searchHeaderProps: {
-      onKeyUp: handleKeyUp,
-      searchQuery: state.query,
-    },
-    // その他の関数
+    // 状態
+    results: state.results,
+    query: state.query,
+    focusedIndex,
+
+    // アクション
+    onSearchInput: handleSearchInput,
     setFocusedIndex,
+    setResultRef,
+    closeDialog,
     reset,
   };
 };

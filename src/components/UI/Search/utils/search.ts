@@ -315,6 +315,7 @@ export const executeSearch = (archives: SearchProps[], searchValue: string): Sea
 /**
  * 検索処理のパフォーマンス向上のため、同じクエリの結果をメモリにキャッシュする
  * 連続する同じ検索やバックスペースでの削除時に高速化を実現
+ * LRU風の実装で古いエントリーから削除し、メモリ効率を最適化
  */
 export const useSearchWithCache = () => {
   const cache = useMemo(() => new Map<string, SearchProps[]>(), []);
@@ -327,18 +328,24 @@ export const useSearchWithCache = () => {
       // キャッシュキーの作成（検索値とデータサイズのハッシュ）
       const cacheKey = `${searchValue}-${archives.length}`;
 
-      // キャッシュヒット時はキャッシュから返す
+      // キャッシュヒット時は最新として更新（LRU）
       if (cache.has(cacheKey)) {
-        return cache.get(cacheKey)!;
+        const result = cache.get(cacheKey)!;
+        // MapはLRU風に動作：削除して再追加で最新に
+        cache.delete(cacheKey);
+        cache.set(cacheKey, result);
+        return result;
       }
 
       // 検索実行
       const results = executeSearch(archives, searchValue);
 
-      // 結果をキャッシュに保存（キャッシュサイズ制限）
-      if (cache.size > CACHE_SIZE_LIMIT) {
-        cache.clear();
+      // キャッシュサイズ制限：最も古いエントリーを削除
+      if (cache.size >= CACHE_SIZE_LIMIT) {
+        const firstKey = cache.keys().next().value;
+        cache.delete(firstKey);
       }
+
       cache.set(cacheKey, results);
 
       return results;
