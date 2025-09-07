@@ -1,49 +1,75 @@
+import { isPostArray, isPostSummaryArray } from '@/types/guards';
 import type {
   Page,
   Post,
   PostPopularityScores,
   PostSimilarityMatrix,
   PostSummary,
+  TagCounts,
   TagIndex,
   TagSimilarityScores,
 } from '@/types/source';
-import pages from '~/dist/pages.json';
-import posts from '~/dist/posts.json';
-import postsList from '~/dist/posts-list.json';
-import postsPopular from '~/dist/posts-popular.json';
-import postsSimilarity from '~/dist/posts-similarity.json';
-import tags from '~/dist/tags.json';
-import tagsSimilarity from '~/dist/tags-similarity.json';
-import tagsWithCount from '~/dist/tags-with-count.json';
+import pagesData from '~/dist/pages.json';
+import postsData from '~/dist/posts.json';
+import postsListData from '~/dist/posts-list.json';
+import postsPopularData from '~/dist/posts-popular.json';
+import postsSimilarityData from '~/dist/posts-similarity.json';
+import tagsData from '~/dist/tags.json';
+import tagsSimilarityData from '~/dist/tags-similarity.json';
+import tagsWithCountData from '~/dist/tags-with-count.json';
 
-export const getTagsJson = (): TagIndex => {
-  return tags;
+// JSONデータの型検証と初期化
+const validatePostsData = (): Post[] => {
+  if (process.env.NODE_ENV !== 'production') {
+    if (!isPostArray(postsData)) {
+      console.error('[posts.ts] Invalid posts data structure from dist/posts.json');
+      return [];
+    }
+  }
+
+  return postsData as Post[];
 };
 
-export const getPostsJson = (): Post[] => {
-  return posts;
+const validatePostsListData = (): PostSummary[] => {
+  if (process.env.NODE_ENV !== 'production') {
+    if (!isPostSummaryArray(postsListData)) {
+      console.error('[posts.ts] Invalid posts list data structure from dist/posts-list.json');
+      return [];
+    }
+  }
+
+  return postsListData as PostSummary[];
 };
 
-export const getPostsListJson = (): PostSummary[] => {
-  return postsList;
-};
+const posts = validatePostsData();
+const postsList = validatePostsListData();
+const pages = pagesData as Page[];
+const postsPopular = postsPopularData as PostPopularityScores;
+const postsSimilarity = postsSimilarityData as PostSimilarityMatrix;
+const tags = tagsData as TagIndex;
+const tagsSimilarity = tagsSimilarityData as TagSimilarityScores;
+const tagsWithCount = tagsWithCountData as TagCounts[];
 
-export const getPagesJson = (): Page[] => {
-  return pages;
-};
+/** タグデータを取得 */
+export const getTagsJson = (): TagIndex => tags;
 
-export const getTagsWithCount = () => {
-  return tagsWithCount;
-};
+/** 全記事データを取得 */
+export const getPostsJson = (): Post[] => posts;
 
-export const getSimilarTag = (): TagSimilarityScores => {
-  return tagsSimilarity;
-};
+/** 記事リスト（サマリー）を取得 */
+export const getPostsListJson = (): PostSummary[] => postsList;
 
-export const getSimilarPosts = (): PostSimilarityMatrix => {
-  return postsSimilarity;
-};
+/** ページデータを取得 */
+export const getPagesJson = (): Page[] => pages;
 
-export const getPostsPopular = (): PostPopularityScores => {
-  return postsPopular;
-};
+/** タグとカウントデータを取得 */
+export const getTagsWithCount = (): TagCounts[] => tagsWithCount;
+
+/** タグ類似度データを取得 */
+export const getSimilarTag = (): TagSimilarityScores => tagsSimilarity;
+
+/** 記事類似度データを取得 */
+export const getSimilarPosts = (): PostSimilarityMatrix => postsSimilarity;
+
+/** 人気記事データを取得 */
+export const getPostsPopular = (): PostPopularityScores => postsPopular;
