@@ -1,26 +1,35 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useCallback, useRef } from 'react';
 
 import { Container } from '@/components/Functional/Container';
 import { Logo } from '@/components/UI/Logo';
-import { useSearch } from '@/components/UI/Search';
+import { SearchButton } from '@/components/UI/Search/components/SearchButton';
+import { SearchDialog } from '@/components/UI/Search/components/SearchDialog';
 import { css } from '@/ui/styled';
 import { HeaderLayout } from './HeaderLayout';
 
 export default memo(function Header() {
-  const { SearchButton, SearchDialog } = useSearch();
+  const ref = useRef<HTMLDialogElement>(null);
+
+  const openDialog = useCallback(() => {
+    ref.current?.show?.();
+  }, []);
+
+  const closeDialog = useCallback(() => {
+    ref.current?.close?.();
+  }, []);
 
   return (
     <>
       <HeaderLayout>
         <Container className={HeaderContainerStyle} size={'large'} space={false}>
           <Logo />
-          {SearchButton}
+          <SearchButton openDialog={openDialog} />
         </Container>
       </HeaderLayout>
 
-      {SearchDialog}
+      <SearchDialog closeDialog={closeDialog} ref={ref} />
     </>
   );
 });
