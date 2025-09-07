@@ -76,7 +76,7 @@ type RankedSearchResult = {
 
 // テキスト正規化のユーティリティ
 const normalizeText = (text: string): NormalizedText => {
-  const standard = text.toLowerCase();
+  const standard = text.toLowerCase().trim();
   return {
     standard,
     compact: standard.replace(/\s+/g, ''),
