@@ -1,35 +1,68 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEventListener } from '@/hooks/useEventListener';
+import { isSSR } from '@/lib/isSSR';
 import throttle from '@/lib/throttle';
 import { SPACING_BASE_PX } from '@/ui/styled/constant';
 
+const SCROLL_THRESHOLD = SPACING_BASE_PX * 8;
+/** スクロールイベントの過剰な発火によるパフォーマンス劣化を防ぐため微小な変化を無視 */
+const MIN_SCROLL_DELTA = 5;
+
+/**
+ * スクロール方向に基づいてヘッダーの表示状態を管理する
+ *
+ * スクロール時のパフォーマンス最適化のためスロットリング処理を実装し、微小なスクロール変化は無視してイベント発火頻度を制御する。
+ * 下方向スクロール時は画面領域を最大化するためヘッダーを非表示にし、上方向スクロール時はナビゲーション改善のためヘッダーを表示する。
+ *
+ * @returns ヘッダーの表示状態（true: 表示、false: 非表示）
+ */
 export const useHeaderScrollHandler = (): boolean => {
-  const [isHeaderVisible, setIsHeaderVisible] = useState<boolean | null>(null);
-  const previousScrollY = useRef<number>(typeof window !== 'undefined' ? window.scrollY : 0);
-  const headerThreshold = useRef<number>(SPACING_BASE_PX * 8);
+  const [isHeaderVisible, setIsHeaderVisible] = useState<boolean>(true);
+  const previousScrollY = useRef<number>(0);
+  const isFirstRender = useRef<boolean>(true);
 
   useEffect(() => {
-    const abortController = new AbortController();
-    const { signal } = abortController;
-
-    const handleScroll = throttle(() => {
-      const currentScrollY = window.scrollY;
-
-      // 指定の高さを超えた場合
-      if (currentScrollY < previousScrollY.current) {
-        setIsHeaderVisible(true);
-      } else if (currentScrollY > headerThreshold.current && currentScrollY > previousScrollY.current) {
+    // クライアントサイドでは初期スクロール位置を設定
+    if (!isSSR && isFirstRender.current) {
+      previousScrollY.current = window.scrollY;
+      // 初期位置が閾値を超えている場合はヘッダーを非表示
+      if (window.scrollY > SCROLL_THRESHOLD) {
         setIsHeaderVisible(false);
       }
-
-      // 今回のスクロール位置を保存
-      previousScrollY.current = currentScrollY;
-    });
-
-    document.addEventListener('scroll', handleScroll, { signal, passive: true });
-    return () => abortController.abort();
+      isFirstRender.current = false;
+    }
   }, []);
+
+  const handleScroll = useCallback(() => {
+    const currentScrollY = window.scrollY;
+    const scrollDelta = currentScrollY - previousScrollY.current;
+
+    // スクロールイベントの過剰な発火によるパフォーマンス劣化を防ぐため微小な変化を無視
+    if (Math.abs(scrollDelta) < MIN_SCROLL_DELTA) {
+      return;
+    }
+
+    if (scrollDelta < 0) {
+      // ナビゲーション改善のため上方向スクロール時はヘッダー表示
+      setIsHeaderVisible(true);
+    } else if (scrollDelta > 0 && currentScrollY > SCROLL_THRESHOLD) {
+      // 画面領域最大化のため下方向スクロールかつ閾値超過時はヘッダー非表示
+      setIsHeaderVisible(false);
+    }
+
+    previousScrollY.current = currentScrollY;
+  }, []);
+
+  // パフォーマンス劣化を防ぐためスロットリング処理
+  const throttledHandleScroll = useRef(throttle(handleScroll));
+
+  useEffect(() => {
+    throttledHandleScroll.current = throttle(handleScroll);
+  }, [handleScroll]);
+
+  useEventListener('scroll', throttledHandleScroll.current, { passive: true });
 
   return isHeaderVisible;
 };
