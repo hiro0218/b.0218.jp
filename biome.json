@@ -99,6 +99,19 @@
     }
   },
   "overrides": [
+    {
+      "includes": ["src/app/**/*.{ts,tsx}"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "off",
+              "options": {}
+            }
+          }
+        }
+      }
+    },
     { "includes": ["**/*.js"], "linter": { "rules": {} } },
     {
       "includes": ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
@@ -113,6 +126,87 @@
             "noRedeclare": "off",
             "noUnsafeNegation": "off",
             "useGetterReturn": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/components/UI/**/*.{ts,tsx}"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@/components/App/*": "UI層からApp層への依存は禁止されています",
+                  "@/components/Page/*": "UI層からPage層への依存は禁止されています",
+                  "@/components/Functional/*": "UI層からFunctional層への依存は禁止されています"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/components/Functional/**/*.{ts,tsx}"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@/components/App/*": "Functional層からApp層への依存は禁止されています",
+                  "@/components/Page/*": "Functional層からPage層への依存は禁止されています",
+                  "@/components/UI/*": "Functional層からUI層への依存は禁止されています"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/components/Page/_shared/**/*.{ts,tsx}"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@/components/App/*": "Page/_shared層からApp層への依存は禁止されています",
+                  "@/components/Page/Archive/*": "Page/_shared層から個別Page層への依存は禁止されています",
+                  "@/components/Page/Home/*": "Page/_shared層から個別Page層への依存は禁止されています",
+                  "@/components/Page/Post/*": "Page/_shared層から個別Page層への依存は禁止されています",
+                  "@/components/Page/Single/*": "Page/_shared層から個別Page層への依存は禁止されています"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "src/components/Page/Archive/**/*.{ts,tsx}",
+        "src/components/Page/Home/**/*.{ts,tsx}",
+        "src/components/Page/Post/**/*.{ts,tsx}",
+        "src/components/Page/Single/**/*.{ts,tsx}"
+      ],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@/components/App/*": "Page層からApp層への依存は禁止されています"
+                }
+              }
+            }
           }
         }
       }
