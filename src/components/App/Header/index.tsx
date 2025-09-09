@@ -2,7 +2,7 @@
 
 import { memo, useCallback, useRef } from 'react';
 
-import { Container } from '@/components/Functional/Container';
+import { Container } from '@/components/UI/Layout/Container';
 import { Logo } from '@/components/UI/Logo';
 import { SearchButton } from '@/components/UI/Search/components/SearchButton';
 import { SearchDialog } from '@/components/UI/Search/components/SearchDialog';

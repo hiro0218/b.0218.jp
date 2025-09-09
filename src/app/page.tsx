@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
-import { Container } from '@/components/Functional/Container';
 import { Hero } from '@/components/Page/Home';
 import { PostSection } from '@/components/Page/Share/PostSection';
 import { TagSection } from '@/components/Page/Share/TagSection';
 import Heading from '@/components/UI/Heading';
 import { Box, Sidebar, Stack } from '@/components/UI/Layout';
+import { Container } from '@/components/UI/Layout/Container';
 import { SITE_URL } from '@/constant';
 import { getData } from './libs';
 

@@ -1,5 +1,5 @@
-import { Container } from '@/components/Functional/Container';
 import { Anchor } from '@/components/UI/Anchor';
+import { Container } from '@/components/UI/Layout/Container';
 import { Logo } from '@/components/UI/Logo';
 import { css, styled } from '@/ui/styled';
 
