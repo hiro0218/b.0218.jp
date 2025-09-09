@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { getMetadata } from '@/app/_metadata';
 import { JsonLdScript } from '@/components/Functional/JsonLdScript';
+import { PostSection } from '@/components/Page/_shared/PostSection';
+import { TagSection } from '@/components/Page/_shared/TagSection';
 import {
   Content as PostContent,
   Edit as PostEdit,
@@ -10,8 +12,6 @@ import {
   Note as PostNote,
   Share as PostShare,
 } from '@/components/Page/Post';
-import { PostSection } from '@/components/Page/Share/PostSection';
-import { TagSection } from '@/components/Page/Share/TagSection';
 import { Stack } from '@/components/UI/Layout';
 import { Container } from '@/components/UI/Layout/Container';
 import { AUTHOR_NAME } from '@/constant';
