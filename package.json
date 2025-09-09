@@ -99,7 +99,7 @@
     "remark-parse": "11.0.0",
     "remark-rehype": "11.1.2",
     "schema-dts": "1.1.5",
-    "stylelint": "16.23.1",
+    "stylelint": "16.24.0",
     "stylelint-browser-compat": "1.0.0-beta.173",
     "stylelint-config-recess-order": "7.3.0",
     "stylelint-config-recommended": "17.0.0",
