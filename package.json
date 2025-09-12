@@ -41,7 +41,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
     "@google-analytics/data": "5.1.0",
-    "@hono/node-server": "1.19.1",
+    "@hono/node-server": "1.19.2",
     "@markuplint/jsx-parser": "4.7.20",
     "@markuplint/react-spec": "4.5.20",
     "@next/bundle-analyzer": "15.5.3",
@@ -67,7 +67,7 @@
     "hast-util-is-element": "3.0.0",
     "hast-util-parse-selector": "4.0.0",
     "hast-util-select": "6.0.4",
-    "hono": "4.9.6",
+    "hono": "4.9.7",
     "husky": "9.1.7",
     "jsdom": "26.1.0",
     "kuromoji": "0.1.2",
