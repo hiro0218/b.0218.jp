@@ -139,6 +139,31 @@ import { Result } from '@/build/similarity/result';
 3. **Environment**: `TZ=Asia/Tokyo` for consistent timestamps
 4. **Pre-commit**: Husky hooks with nano-staged configured
 
+## Quick Verification
+
+For rapid feedback after code changes, use these targeted commands:
+
+```bash
+# Type-check specific file only (fastest)
+npx tsc --noEmit --skipLibCheck src/components/MyComponent.tsx
+
+# Lint specific file only
+npx @biomejs/biome check src/hooks/useDialog.ts
+
+# Test specific file/pattern only
+npm test -- useDialog        # Tests matching "useDialog"
+npm test -- src/hooks/       # All tests in hooks directory
+
+# Build without linting (faster build)
+npx next build --no-lint
+
+# Build specific page only (experimental)
+npx next build --experimental-build-mode=compile
+
+# Hot reload already running (port 8080)
+# Just save the file - Next.js dev server auto-reloads
+```
+
 ## Quick Reference
 
 | Task              | Command                             |
