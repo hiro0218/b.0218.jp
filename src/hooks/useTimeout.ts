@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef } from 'react';
+import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
 
 /**
  * useTimeoutフックの戻り値型定義
@@ -29,14 +30,14 @@ export const useTimeout = (callback: () => void, delay: number | null): UseTimeo
   const callbackRef = useRef(callback);
   const delayRef = useRef(delay);
 
-  // useEffectの依存配列でcallbackが変わるたび再実行されるため、
+  // useIsomorphicLayoutEffectで同期的にrefを更新し、
   // 最新の関数を保持してタイマー実行時の古い値参照を防ぐ
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     callbackRef.current = callback;
   }, [callback]);
 
   // delayが動的に変更される場合でも最新値を参照するため
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     delayRef.current = delay;
   }, [delay]);
 
