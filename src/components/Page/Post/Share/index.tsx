@@ -1,11 +1,12 @@
 'use client';
 
-import { useCallback, useEffect, useId, useState } from 'react';
+import { useCallback, useEffect, useId } from 'react';
 
 import { Stack } from '@/components/UI/Layout';
 import { Toast } from '@/components/UI/Toast';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { X_ACCOUNT } from '@/constant';
+import { useBoolean } from '@/hooks/useBoolean';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, Share1Icon, X } from '@/ui/icons';
 import { css, cx } from '@/ui/styled';
@@ -17,14 +18,16 @@ interface Props {
 
 function PostShare({ title, url }: Props) {
   const labelledbyId = useId();
-  const [isShareSupported, setIsShareSupported] = useState(false);
+  const { value: isShareSupported, setTrue: setShareSupported } = useBoolean(false);
   const [, copy] = useCopyToClipboard();
   const { Component: ToastComponent, showToast } = Toast('記事のURLをコピーしました');
   const classNames = cx('link-style--hover-effect', ShareButtonStyle);
 
   useEffect(() => {
-    setIsShareSupported(typeof navigator !== 'undefined' && !!navigator.share);
-  }, []);
+    if (typeof navigator !== 'undefined' && !!navigator.share) {
+      setShareSupported();
+    }
+  }, [setShareSupported]);
 
   const onClickCopyPermalink = useCallback(() => {
     copy(url).then(() => {

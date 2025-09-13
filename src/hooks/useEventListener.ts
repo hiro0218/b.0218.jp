@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { isSSR } from '@/lib/isSSR';
+import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
 
 /**
  * useEventListenerフックで使用するイベントリスナーのオプション設定
@@ -114,8 +115,10 @@ export function useEventListener(
 
   const { enabled = true, capture = false, once = false, passive = false } = actualOptions;
 
-  // ハンドラー参照を最新に保つ
-  savedHandler.current = handler;
+  // useIsomorphicLayoutEffectで同期的にハンドラー参照を更新
+  useIsomorphicLayoutEffect(() => {
+    savedHandler.current = handler;
+  }, [handler]);
 
   useEffect(() => {
     if (!enabled || !element) {
