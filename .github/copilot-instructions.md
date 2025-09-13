@@ -1,5 +1,7 @@
 # AI Assistant Instructions
 
+> **Note**: This file is the source for symlinks `AGENTS.md` and `CLAUDE.md`. They are not duplicates but references to this single source of truth, ensuring consistency across AI assistants.
+
 ## Project Overview
 
 Next.js 15.x blog with TypeScript, React 19.x, and Panda CSS. Japanese content focus with ML-powered features.
