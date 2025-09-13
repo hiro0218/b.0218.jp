@@ -8,19 +8,27 @@ import { useSearchIntegration } from '../../hooks/useSearchIntegration';
 import type { OnCloseDialogProps } from '../../types';
 import { SEARCH_LABELS } from '../../utils/constants';
 
-const SearchPanel = dynamic(() => import('../SearchPanel').then((module) => ({ default: module.SearchPanel })));
-const SearchHeader = dynamic(() => import('../SearchHeader').then((module) => ({ default: module.SearchHeader })));
-const Overlay = dynamic(() => import('@/components/UI/Overlay').then((module) => module.Overlay));
+const SearchPanel = dynamic(() => import('../SearchPanel').then((mod) => ({ default: mod.SearchPanel })), {
+  ssr: false,
+});
+const SearchHeader = dynamic(() => import('../SearchHeader').then((mod) => ({ default: mod.SearchHeader })), {
+  ssr: false,
+});
+const Overlay = dynamic(() => import('@/components/UI/Overlay').then((mod) => mod.Overlay), { ssr: false });
 
 type Props = {
   closeDialog: OnCloseDialogProps;
+  isClosing?: boolean;
   ref: ForwardedRef<HTMLDialogElement>;
 };
 
-export const SearchDialog = ({ closeDialog, ref }: Props) => {
+export const SearchDialog = ({ closeDialog, isClosing, ref }: Props) => {
   const isClient = useIsClient();
   const id = useId();
-  const { results, query, focusedIndex, onSearchInput, setResultRef } = useSearchIntegration({ closeDialog });
+
+  const { results, query, focusedIndex, onSearchInput, setResultRef } = useSearchIntegration({
+    closeDialog,
+  });
 
   if (!isClient) {
     return null;
@@ -28,7 +36,12 @@ export const SearchDialog = ({ closeDialog, ref }: Props) => {
 
   return createPortal(
     <>
-      <Dialog aria-describedby={`${id}-described`} aria-labelledby={`${id}-labelled`} aria-modal ref={ref}>
+      <Dialog
+        aria-describedby={`${id}-described`}
+        aria-labelledby={`${id}-labelled`}
+        data-closing={isClosing}
+        ref={ref}
+      >
         <h2 className="sr-only" id={`${id}-labelled`}>
           {SEARCH_LABELS.searchTitle}
         </h2>
@@ -63,8 +76,10 @@ const Dialog = styled.dialog`
     padding: 0;
     border: none;
     opacity: 1;
-    animation:
-      fadeIn 0.4s,
-      slideIn 0.4s linear;
+    animation: zoomIn 0.2s;
+  }
+
+  &[open][data-closing='true'] {
+    animation: zoomOut 0.2s forwards;
   }
 `;

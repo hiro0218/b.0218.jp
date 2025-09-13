@@ -22,7 +22,7 @@ export default memo(function Header() {
         </Container>
       </HeaderLayout>
 
-      <SearchDialog closeDialog={searchDialog.close} ref={searchDialog.ref} />
+      <SearchDialog closeDialog={searchDialog.close} isClosing={searchDialog.isClosing} ref={searchDialog.ref} />
     </>
   );
 });

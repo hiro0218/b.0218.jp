@@ -56,4 +56,29 @@ export const keyframes = defineKeyframes({
       boxShadow: `inset 0 0 var(--spacing-1) var(--colors-table-shadow-spread) var(--colors-table-shadow-color), inset calc(var(--spacing-1) * 2) 0 var(--spacing-1) var(--colors-table-shadow-spread) var(--colors-table-shadow-color)`,
     },
   },
+  zoomIn: {
+    '0%': {
+      opacity: '0',
+      transform: 'scale3d(0.3, 0.3, 0.3)',
+    },
+    '50%': {
+      opacity: '1',
+    },
+    '100%': {
+      opacity: '1',
+      transform: 'scale3d(1, 1, 1)',
+    },
+  },
+  zoomOut: {
+    '0%': {
+      opacity: '1',
+    },
+    '50%': {
+      opacity: '0',
+      transform: 'scale3d(0.3, 0.3, 0.3)',
+    },
+    '100%': {
+      opacity: '0',
+    },
+  },
 });
