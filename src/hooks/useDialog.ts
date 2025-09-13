@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { useBoolean } from './useBoolean';
+
 interface UseDialogOptions {
   animated?: boolean;
   duration?: number;
@@ -8,7 +10,7 @@ interface UseDialogOptions {
 export const useDialog = <T extends HTMLDialogElement>(options?: UseDialogOptions) => {
   const { animated = true, duration: baseDuration = 200 } = options ?? {};
   const ref = useRef<T>(null);
-  const [isClosing, setIsClosing] = useState(false);
+  const { value: isClosing, setTrue: setClosing, setFalse: setNotClosing } = useBoolean(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const [duration, setDuration] = useState(baseDuration);
 
@@ -45,16 +47,16 @@ export const useDialog = <T extends HTMLDialogElement>(options?: UseDialogOption
     }
 
     if (animated && duration > 0) {
-      setIsClosing(true);
+      setClosing();
       timerRef.current = setTimeout(() => {
         ref.current?.close?.();
-        setIsClosing(false);
+        setNotClosing();
         timerRef.current = undefined;
       }, duration);
     } else {
       ref.current?.close?.();
     }
-  }, [animated, duration]);
+  }, [animated, duration, setClosing, setNotClosing]);
 
   useEffect(() => {
     return () => {

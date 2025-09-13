@@ -1,5 +1,7 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import { useKeyboard } from 'react-aria';
+
+import { useBoolean } from './useBoolean';
 
 interface UseImageZoomOptions {
   hasObjectFit?: boolean;
@@ -19,8 +21,8 @@ interface UseImageZoomReturn {
 export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomReturn => {
   const { hasObjectFit = false, minImageSize = 100 } = options;
 
-  const [isZoomed, setIsZoomed] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const { value: isZoomed, setTrue: setZoomed, setFalse: setUnzoomed } = useBoolean(false);
+  const { value: imageLoaded, setTrue: setImageLoaded } = useBoolean(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
   const zoomIn = useCallback(() => {
@@ -30,12 +32,12 @@ export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomRet
     const { naturalWidth, naturalHeight } = imgRef.current;
     if (naturalWidth < minImageSize && naturalHeight < minImageSize) return;
 
-    setIsZoomed(true);
-  }, [hasObjectFit, imageLoaded, minImageSize]);
+    setZoomed();
+  }, [hasObjectFit, imageLoaded, minImageSize, setZoomed]);
 
-  const zoomOut = useCallback(() => setIsZoomed(false), []);
+  const zoomOut = useCallback(() => setUnzoomed(), [setUnzoomed]);
 
-  const handleImageLoad = useCallback(() => setImageLoaded(true), []);
+  const handleImageLoad = useCallback(() => setImageLoaded(), [setImageLoaded]);
 
   // React Ariaのキーボードフックを使用
   const { keyboardProps } = useKeyboard({
@@ -76,20 +78,20 @@ export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomRet
     if (!isZoomed) return;
 
     const handleScroll = () => {
-      setIsZoomed(false);
+      setUnzoomed();
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [isZoomed]);
+  }, [isZoomed, setUnzoomed]);
 
   // キャッシュ済み画像のロード状態チェック
   useLayoutEffect(() => {
     const img = imgRef.current;
     if (img && !imageLoaded && img.complete && img.naturalWidth) {
-      setImageLoaded(true);
+      setImageLoaded();
     }
   });
 

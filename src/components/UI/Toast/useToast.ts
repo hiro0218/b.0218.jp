@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useState } from 'react';
 
+import { useBoolean } from '@/hooks/useBoolean';
 import { useTimeout } from '@/hooks/useTimeout';
 
 /**
@@ -18,12 +19,12 @@ import { useTimeout } from '@/hooks/useTimeout';
 export const useToast = (initialMessage: string, duration = 2000) => {
   const ref = useRef<HTMLDivElement>(null);
   const [message] = useState(initialMessage);
-  const [isVisible, setIsVisible] = useState(false);
+  const { value: isVisible, setTrue: setVisible, setFalse: setInvisible } = useBoolean(false);
 
   // 再レンダリング時に関数参照が変わることでuseEffectが不要に再実行されるのを防ぐ
   const dismiss = useCallback(() => {
-    setIsVisible(false);
-  }, []);
+    setInvisible();
+  }, [setInvisible]);
 
   // トースト表示中のみタイマーを有効化し、非表示時は無駄なタイマーを防ぐ
   const { cancel, reset } = useTimeout(dismiss, isVisible ? duration : null);
@@ -33,10 +34,10 @@ export const useToast = (initialMessage: string, duration = 2000) => {
    * 既に表示中の場合は表示時間をリセットして延長する
    */
   const showToast = useCallback(() => {
-    setIsVisible(true);
+    setVisible();
     // 新しい表示期間を開始するためタイマーをリセット
     reset();
-  }, [reset]);
+  }, [reset, setVisible]);
 
   /**
    * トーストを即座に非表示にして待機中のタイマーをキャンセル
