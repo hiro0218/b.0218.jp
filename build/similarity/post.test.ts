@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { PostListProps, PostProps, TagSimilarProps } from '@/types/source';
+import type { Post, PostSummary, TagSimilarityScores } from '@/types/source';
 import { getRelatedPosts } from './post';
 
 // モックのセットアップ
@@ -38,7 +38,7 @@ describe('getRelatedPosts', () => {
     vi.mocked(getRelatedPosts).mockImplementation(mockGetRelatedPosts);
 
     // デフォルトのモック実装を設定
-    mockGetRelatedPosts.mockImplementation(async (posts: PostListProps[], sortedTags) => {
+    mockGetRelatedPosts.mockImplementation(async (posts: PostSummary[], sortedTags) => {
       if (!Array.isArray(posts) || posts.length === 0 || typeof sortedTags !== 'object' || sortedTags === null) {
         console.warn('getRelatedPosts: Invalid input provided (posts or sortedTags). Returning empty array.');
         return [];
@@ -77,7 +77,7 @@ describe('getRelatedPosts', () => {
   });
 
   // モックデータの作成
-  const createMockPosts = (): PostProps[] => [
+  const createMockPosts = (): Post[] => [
     {
       title: 'React入門',
       slug: 'react-intro',
@@ -115,7 +115,7 @@ describe('getRelatedPosts', () => {
     },
   ];
 
-  const createMockTagSimilarProps = (): TagSimilarProps => ({
+  const createMockTagSimilarityMap = (): TagSimilarityScores => ({
     javascript: {
       react: 0.8,
       typescript: 0.7,
@@ -150,7 +150,7 @@ describe('getRelatedPosts', () => {
 
   it('関連記事が正しく計算されること', async () => {
     const posts = createMockPosts();
-    const sortedTags = createMockTagSimilarProps();
+    const sortedTags = createMockTagSimilarityMap();
 
     const results = await getRelatedPosts(posts, sortedTags);
 
@@ -175,7 +175,7 @@ describe('getRelatedPosts', () => {
 
   it('関連記事がスコアの降順でソートされていること', async () => {
     const posts = createMockPosts();
-    const sortedTags = createMockTagSimilarProps();
+    const sortedTags = createMockTagSimilarityMap();
 
     const results = await getRelatedPosts(posts, sortedTags);
 
@@ -192,7 +192,7 @@ describe('getRelatedPosts', () => {
 
   it('関連度が高いタグを持つ記事が優先的に関連記事として選ばれること', async () => {
     const posts = createMockPosts();
-    const sortedTags = createMockTagSimilarProps();
+    const sortedTags = createMockTagSimilarityMap();
 
     // テスト用のカスタム実装
     mockGetRelatedPosts.mockResolvedValueOnce([
@@ -232,10 +232,10 @@ describe('getRelatedPosts', () => {
     });
 
     // 空の投稿配列
-    expect(await getRelatedPosts([], createMockTagSimilarProps())).toEqual([]);
+    expect(await getRelatedPosts([], createMockTagSimilarityMap())).toEqual([]);
 
     // nullの投稿
-    expect(await getRelatedPosts(null, createMockTagSimilarProps())).toEqual([]);
+    expect(await getRelatedPosts(null, createMockTagSimilarityMap())).toEqual([]);
 
     // nullのタグ類似度
     expect(await getRelatedPosts(createMockPosts(), null)).toEqual([]);
@@ -253,7 +253,7 @@ describe('getRelatedPosts', () => {
     // エラーの場合は空配列を返すようにモック
     mockGetRelatedPosts.mockResolvedValueOnce([]);
 
-    const result = await getRelatedPosts(createMockPosts(), createMockTagSimilarProps());
+    const result = await getRelatedPosts(createMockPosts(), createMockTagSimilarityMap());
     expect(result).toEqual([]);
 
     errorSpy.mockRestore();
@@ -262,7 +262,7 @@ describe('getRelatedPosts', () => {
   it('記事間の類似度計算にコンテンツとタグ両方を考慮すること', async () => {
     // 同じタグを持つが内容が異なる記事と、
     // 異なるタグを持つが内容が似ている記事を用意
-    const specialPosts: PostProps[] = [
+    const specialPosts: Post[] = [
       {
         title: 'テスト記事1',
         slug: 'test1',
@@ -287,7 +287,7 @@ describe('getRelatedPosts', () => {
     ];
 
     // カスタムのタグ類似度
-    const specialTagSimilarity: TagSimilarProps = {
+    const specialTagSimilarity: TagSimilarityScores = {
       react: { javascript: 0.8, vue: 0.3 },
       javascript: { react: 0.8, vue: 0.4 },
       vue: { javascript: 0.4, react: 0.3 },

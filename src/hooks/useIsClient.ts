@@ -1,13 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+
+import { useBoolean } from './useBoolean';
 
 function useIsClient(): boolean {
-  const [isClient, setIsClient] = useState(false);
+  const { value: isClient, setTrue } = useBoolean(false);
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
+    setTrue();
+  }, [setTrue]);
 
   return isClient;
 }

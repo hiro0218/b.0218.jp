@@ -13,6 +13,51 @@ module.exports = {
       },
     },
     {
+      name: 'functional-not-depend-on-other-categories',
+      comment: 'Functional は非可視の機能層です。App/Page/UI への依存は責務逆転を生むため禁止します。',
+      severity: 'error',
+      from: {
+        path: '^src/components/Functional',
+      },
+      to: {
+        path: '^src/components/(App|Page|UI)',
+      },
+    },
+    {
+      name: 'page-not-depend-on-app',
+      comment: 'Page はアプリ全体の枠（App）に依存しません。逆方向（App→Page）も循環の温床となるため禁止推奨です。',
+      severity: 'error',
+      from: {
+        path: '^src/components/Page',
+      },
+      to: {
+        path: '^src/components/App',
+      },
+    },
+    {
+      name: 'app-not-depend-on-page',
+      comment: 'App はグローバルレイアウト層のため、Page（機能ページ）に依存しません。',
+      severity: 'error',
+      from: {
+        path: '^src/components/App',
+      },
+      to: {
+        path: '^src/components/Page',
+      },
+    },
+    {
+      name: 'ui-not-depend-on-other-categories',
+      comment:
+        'UI コンポーネントは他カテゴリ（App/Page/Functional）に依存しない設計です。依存が必要な場合は責務の見直しや配置（UI 配下への移動等）を検討してください。',
+      severity: 'error',
+      from: {
+        path: '^src/components/UI',
+      },
+      to: {
+        path: '^src/components/(App|Page|Functional)',
+      },
+    },
+    {
       name: 'no-orphans',
       comment:
         'このモジュールは孤立しており、恐らくもはや使用されていない可能性があります。使用するか削除するか、あるいは依存関係の設定でこのモジュールに対する例外を追加してください。このルールはデフォルトでは、いくつかの特定のファイル（例：.eslintrc.jsやtsconfig.json）には適用されません。',

@@ -1,32 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
+import { useInteractOutside } from 'react-aria';
+
+import { useBoolean } from '@/hooks/useBoolean';
 
 export const useDropdownMenu = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { value: isOpen, toggle: toggleDropdownMenuContent, setFalse: closeMenu } = useBoolean(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  /**
-   * メニューの開閉を切り替える
-   */
-  const toggleDropdownMenuContent = () => {
-    setIsOpen((prev) => !prev);
-  };
-
-  /**
-   * 外部クリックイベントのセットアップ
-   * メニュー外がクリックされた場合にメニューを閉じる
-   */
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setIsOpen(false);
+  useInteractOutside({
+    ref: ref,
+    onInteractOutside: () => {
+      if (isOpen) {
+        closeMenu();
       }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
+    },
+  });
 
   return {
     isOpen,

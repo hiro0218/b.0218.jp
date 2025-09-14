@@ -1,131 +1,179 @@
-# GitHub Copilot 指示書
+# AI Assistant Instructions
 
-## プロジェクトアーキテクチャ概要
+> **Note**: This file is the source for symlinks `AGENTS.md` and `CLAUDE.md`. They are not duplicates but references to this single source of truth, ensuring consistency across AI assistants.
 
-これは Next.js 15.x App Router で構築された高性能な日本語ブログサイトで、高度なコンテンツ処理と ML 駆動の記事類似度分析機能を備えています。
+## Project Overview
 
-### コアシステム設計
+Next.js 15.x blog with TypeScript, React 19.x, and Panda CSS. Japanese content focus with ML-powered features.
 
-**多段階ビルドパイプライン**: プロジェクトでは開発前に必ず実行すべき複雑なプリビルドプロセス（`npm run prebuild`）が必要です：
-
-1. すべてのブログコンテンツを含む git サブモジュール（`_article/`）を更新
-2. Markdown → JSON 処理（`build:article`）- フロントマターを含む `_article/_posts/*.md` を構造化 JSON に変換
-3. TF-IDF + 日本語形態素解析を使用した記事類似度計算（`build:similarity`）- 日本語テキスト処理に kuromoji を使用
-4. Google Analytics から人気データを生成（`build:popular`）
-5. マルチワーカーアーキテクチャを使用した Playwright による OGP 画像作成（`build:ogp`）- HTML テンプレートサーバーを使ったクラスターベースのワーカープール
-
-**コンテンツアーキテクチャ**: git サブモジュール（`_article/_posts/*.md`）に保存された記事 → ルートディレクトリの複数の JSON 出力に処理 → 静的生成で使用。主要データファイル：`posts.json`、`posts-list.json`、`tags-similarity.json`、`posts-similarity.json`。
-
-### App Router 構造とレイアウトシステム
-
-`src/app/` は特定のレイアウトパターンを使用したルートグループで Next.js 15.x App Router に従っています：
-
-- `(ArchivePage)/`: アーカイブリスト（`archive/`）、人気記事（`popular/`）、タグページ（`tags/`）とページネーション - `Container` サイズ「small」（768px）を使用
-- `(PostPage)/[slug]/`: `.html` サフィックスサポート付きの個別ブログ記事 - `Container` サイズ「default」（1024px）を使用
-- `(SinglePage)/`: 静的ページ（about、privacy）- `Container` サイズ「default」を使用
-
-**レイアウト設計**: `src/components/Functional/Container.tsx` で定義された統一コンテナシステム（small: 768px, default: 1024px, large: 1280px）を使用。各ルートグループには独自の `layout.tsx` があり、適切なコンテナサイズと `Stack` レイアウト（`space={4}`）を設定。
-
-### 重要な開発ワークフロー
-
-**必ずプリビルドを最初に実行**：
+## 🔴 Critical Requirements
 
 ```bash
-npm run prebuild  # dev/build 前に必須 - サブモジュールコンテンツを処理
-npm run dev       # ポート 8080 で HTTPS + Node インスペクター（--inspect フラグ）
+# MUST run before any development/build
+npm run prebuild  # Updates submodules, processes content, generates assets
+npm run dev       # Development server on port 8080
 ```
 
-**開発依存関係**：
+## Architecture
 
-- コンテンツ用 git サブモジュールが必要（`_article/`）
-- Playwright インストールが必要（`playwright install --only-shell`）
-- ビルドスクリプトでの TypeScript 実行に esbuild-register を使用
-- すべてのビルドスクリプトは一貫したタイムスタンプのため `TZ=Asia/Tokyo` で実行
+### Directory Structure
 
-**コンポーネントアーキテクチャ**：
+```
+src/
+├── app/              # Next.js App Router (routes)
+├── components/       # Component hierarchy
+│   ├── App/         # Application shell (Header, Footer, Layout)
+│   ├── Page/        # Page-specific components
+│   │   └── _shared/ # Shared page sections
+│   ├── UI/          # Reusable UI components (zero-margin principle)
+│   └── Functional/  # Utility components (Container, JsonLd)
+├── ui/              # Styling system
+└── types/           # TypeScript definitions
+```
 
-- `src/components/Page/`: ページ固有のコンポーネント（Post、Archive、Single、Share）
-- `src/components/UI/`: 再利用可能な UI コンポーネント - ゼロマージン原則（外部スペーシングなし）
-- `src/components/Functional/`: ユーティリティコンポーネント（Container、GoogleAdSense など）
-- `src/components/App/`: アプリケーションシェルコンポーネント（Header、Footer、Layout コンテナ）
+### Component Principles
 
-**スタイリング原則**: コンポーネントは自身のマージンを設定しません - 親コンテナがすべてのレイアウトスペーシングを制御します。`import { css, styled } from '@/ui/styled/static'` でPanda CSS テンプレートリテラルを使用。
+- **Zero Margin**: Components don't set their own margins - parent controls spacing
+- **Container Sizes**: small (768px), default (1024px), large (1280px)
+- **Layer Dependencies**: src/app → App → Page → UI/Functional (enforced by Biome)
 
-### スタイリングシステム
+## Development Workflow
 
-**PandaCSS 設定**: カスタム Panda CSS セットアップを使用：
+### Essential Commands
 
-- `styled-system/`: 生成された CSS ユーティリティ
-- `src/ui/styled/`: カスタム変数、アニメーション、グローバルスタイル
-- テンプレートリテラル構文専用（`syntax: 'template-literal'`）
-- デフォルトトークンなし（`presets: []`、`eject: true`）でカスタムグローバル変数を使用
-- CSS リセットなし（`preflight: false`）、shokika.css を使用
+```bash
+npm run prebuild     # Required before dev/build
+npm run dev          # Development server
+npm run build        # Production build
+npm run lint         # Biome linting (fast)
+npm test             # Vitest tests
+```
 
-**重要なスタイリングパターン**:
+### Styling System
 
 ```tsx
-// 統一されたimport
-import { css, styled } from '@/ui/styled/static';
+// Panda CSS - Use template literals only
+import { css, styled } from '@/ui/styled';
 
-// テンプレートリテラル使用
 const StyledDiv = styled.div`
-  background-color: var(--color-gray-3A);
-  padding: var(--space-2);
-`;
-
-// CSS変数の使用（カスタムグローバル変数システム）
-const buttonStyle = css`
-  color: var(--color-gray-12);
-  font-size: var(--font-size-md);
-  border-radius: var(--border-radius-4);
+  background: var(--colors-gray-a-3);
+  padding: var(--spacing-2);
 `;
 ```
 
-### ビルドプロセスの詳細
+### Path Aliases
 
-**類似度エンジン**（`build/similarity/`）: 以下を使用した高度な ML パイプライン：
+- `@/*` → `src/*`
+- `~/*` → project root
 
-- 日本語形態素解析（kuromoji）
-- カスタムストップワードを使用した TF-IDF ベクトル化
-- タグ関係性のための NPMI（正規化点相互情報量）
-- 新しさボーナス付きのコンテンツ + タグ類似度スコアリング
-- パフォーマンス向上のための LRU キャッシング
+## Content Architecture
 
-**OGP 生成**（`build/ogp/`）: マルチワーカー Playwright セットアップ：
+1. **Source**: Git submodule `_article/_posts/*.md` (DO NOT edit directly)
+2. **Processing**: `npm run prebuild` generates JSON files
+3. **Consumption**: Static generation uses processed JSON
 
-- 並列画像生成のためのクラスターベースワーカープール
-- ページ再利用とコネクションプーリング
-- HTML テンプレートサーバー + スクリーンショット自動化
+## Coding Standards
 
-### TypeScript 設定
+### TypeScript
 
-**パスマッピング**: `@/*` を `src/*` に、`~/*` をプロジェクトルートに使用
-**モジュールシステム**: バンドラー解決で `"module": "Preserve"`
-**テスト**: jsdom 環境での Vitest（`globals: true`）
-**型定義**: `src/types/source.d.ts` 内のコア型 - `PostProps`、`PageProps`、類似度データ構造
+- Strict mode enabled
+- Explicit types for all public APIs
+- Type-only imports where applicable
 
-### 主要な慣例
+### React/Next.js
 
-**ルート生成**: JSON データからの静的パラメータ（`generateStaticParams`）
-**メタデータ**: OGP 画像、構造化データ（JSON-LD）で SEO 最適化
-**エラーハンドリング**: 関数型エラーハンドリングのための Result 型（`build/similarity/result.ts`）
-**日本語コンテンツ**: 日本語形態素解析のための特別なテキスト処理
-**データフロー**: サブモジュール → ビルドスクリプト → JSON ファイル → 静的生成（JSON ファイルを直接変更しない）
+- App Router patterns (not Pages Router)
+- Server Components by default
+- Client Components only when needed (`'use client'`)
 
-### パフォーマンス最適化
+### Import Order
 
-- バンドル分析（`npm run build:analyzer`）
-- ルートグループによるコード分割
-- ISR ライクなデータ更新を伴う静的生成
-- 最適化された画像処理とキャッシング
-- ESLint の代わりに高速な Biome を使用（`npm run lint`）
-- Stylelint for CSS-in-JS（`npm run lint:css`）とMarkuplint（`npm run lint:markup`）
+1. External libraries
+2. Internal utilities (`@/lib`, `@/utils`)
+3. Components (`@/components`)
+4. Types (`@/types`)
+5. Styles and constants
 
-### 開発環境固有事項
+### File Naming
 
-**必要なツール**: `playwright install --only-shell`、ビルドスクリプト用の esbuild-register
-**ポート設定**: 開発サーバーはポート 8080 で実験的 HTTPS サポートと共に動作
-**環境変数**: 一貫したタイムスタンプ処理のため `TZ=Asia/Tokyo` が必要
-**Git ワークフロー**: プリビルドによるサブモジュール自動更新、コンテンツファイルを手動編集しない
+- Components: PascalCase (`PostContent.tsx`)
+- Utilities: camelCase (`getPostData.ts`)
+- Constants: UPPER_SNAKE (`MAX_POSTS`)
 
-このコードベースで作業する際は、日本語コンテンツのコンテキスト、多段階ビルド要件、パフォーマンス重視の類似度計算を必ず考慮してください。
+## Performance Optimization
+
+- Static generation with ISR-like updates
+- Code splitting via route groups
+- Image optimization with Next.js Image
+- Bundle analysis: `npm run build:analyzer`
+
+## Testing Strategy
+
+- Unit tests for utilities and hooks
+- Integration tests for critical paths
+- Coverage target: 80%
+
+## Common Patterns
+
+### Data Fetching
+
+```typescript
+// Use in Server Components
+async function getData() {
+  const posts = await import('@/posts.json');
+  return posts.default;
+}
+```
+
+### Error Handling
+
+```typescript
+// Result type for functional error handling
+import { Result } from '@/build/similarity/result';
+```
+
+## Important Notes
+
+1. **Japanese Content**: Special text processing for Japanese morphological analysis
+2. **Build Dependencies**: Playwright required (`playwright install --only-shell`)
+3. **Environment**: `TZ=Asia/Tokyo` for consistent timestamps
+4. **Pre-commit**: Husky hooks with nano-staged configured
+
+## Quick Verification
+
+For rapid feedback after code changes, use these targeted commands:
+
+```bash
+# Type-check specific file only (fastest)
+npx tsc --noEmit --skipLibCheck src/components/MyComponent.tsx
+
+# Lint specific file only
+npx @biomejs/biome check src/hooks/useDialog.ts
+
+# Test specific file/pattern only
+npm test -- useDialog        # Tests matching "useDialog"
+npm test -- src/hooks/       # All tests in hooks directory
+
+# Build without linting (faster build)
+npx next build --no-lint
+
+# Build specific page only (experimental)
+npx next build --experimental-build-mode=compile
+
+# Hot reload already running (port 8080)
+# Just save the file - Next.js dev server auto-reloads
+```
+
+## Quick Reference
+
+| Task              | Command                             |
+| ----------------- | ----------------------------------- |
+| Start development | `npm run prebuild && npm run dev`   |
+| Run tests         | `npm test`                          |
+| Check types       | `tsc --noEmit --skipLibCheck`       |
+| Lint code         | `npm run lint`                      |
+| Build production  | `npm run prebuild && npm run build` |
+
+---
+
+_Generated for GitHub Copilot, Cursor, and other AI assistants. Keep concise and actionable._

@@ -29,7 +29,8 @@
  */
 
 import { useMemo } from 'react';
-import type { SearchProps } from '@/components/UI/Search/type';
+import type { SearchProps } from '../types';
+import { isEmptyQuery } from './validation';
 
 // 検索一致タイプの定義（優先度順）
 export type MatchType =
@@ -40,6 +41,32 @@ export type MatchType =
   | 'MULTI_TERM_MATCH' // 複数単語のAND条件一致
   | 'NONE'; // 不一致
 
+// 優先度定数の定義
+const MATCH_PRIORITY: Record<MatchType, number> = {
+  // biome-ignore lint/style/useNamingConvention: MatchType列挙値のキー名
+  EXACT: 100,
+  // biome-ignore lint/style/useNamingConvention: MatchType列挙値のキー名
+  PARTIAL: 80,
+  // biome-ignore lint/style/useNamingConvention: MatchType列挙値のキー名
+  EXACT_NO_SPACE: 60,
+  // biome-ignore lint/style/useNamingConvention: MatchType列挙値のキー名
+  MULTI_TERM_MATCH: 50,
+  // biome-ignore lint/style/useNamingConvention: MatchType列挙値のキー名
+  PARTIAL_NO_SPACE: 40,
+  // biome-ignore lint/style/useNamingConvention: MatchType列挙値のキー名
+  NONE: 0,
+} as const;
+
+// キャッシュ設定
+const CACHE_SIZE_LIMIT = 50;
+const MAX_SEARCH_RESULTS = 100;
+
+// 正規化されたテキストの型定義
+type NormalizedText = {
+  standard: string; // 小文字化+トリム
+  compact: string; // スペース除去版
+};
+
 // 検索結果アイテムの型定義（優先度情報付き）
 type RankedSearchResult = {
   post: SearchProps;
@@ -47,91 +74,65 @@ type RankedSearchResult = {
   matchType: MatchType;
 };
 
-/**
- * 文字列を小文字に変換する
- */
-export const toLower = (text: string): string => text.toLowerCase();
-
-/**
- * 文字列からスペースを除去する
- */
-export const removeSpaces = (text: string): string => text.replace(/\s+/g, '');
-
-/**
- * 文字列を単語に分割する
- */
-export const splitIntoWords = (text: string): string[] => toLower(text).split(' ').filter(Boolean);
-
-/**
- * マッチタイプの優先度をスコアに変換する
- */
-export const getMatchTypePriority = (matchType: MatchType): number => {
-  switch (matchType) {
-    case 'EXACT':
-      return 100;
-    case 'PARTIAL':
-      return 80;
-    case 'EXACT_NO_SPACE':
-      return 60;
-    case 'PARTIAL_NO_SPACE':
-      return 40;
-    case 'MULTI_TERM_MATCH':
-      return 50; // AND条件の複合検索は中程度の優先度
-    case 'NONE':
-      return 0;
-    default:
-      return 0;
-  }
+// テキスト正規化のユーティリティ
+const normalizeText = (text: string): NormalizedText => {
+  const standard = text.toLowerCase().trim();
+  return {
+    standard,
+    compact: standard.replace(/\s+/g, ''),
+  };
 };
 
 /**
- * 厳密な文字列一致判定を行う（一致タイプを返す）
+ * 検索結果の表示順序最適化のため、マッチタイプに応じた優先度スコアを返す
+ * @param matchType - 判定されたマッチタイプ
+ * @returns 優先度数値（高いほど優先表示、完全一致100〜不一致0）
+ */
+export const getMatchTypePriority = (matchType: MatchType): number => MATCH_PRIORITY[matchType] ?? 0;
+
+/**
+ * 検索精度向上のため検索クエリとテキストの一致パターンを判定し最適なマッチタイプを返す
+ * @param text - 検索対象のテキスト
+ * @param query - 検索クエリ
+ * @returns 一致パターンのタイプ
  */
 export const getTextMatchType = (text: string, query: string): MatchType => {
-  if (!text || !query) {
-    return 'NONE';
-  }
+  if (!text || !query) return 'NONE';
 
-  const lowerText = toLower(text);
-  const lowerQuery = toLower(query);
+  const textNorm = normalizeText(text);
+  const queryNorm = normalizeText(query);
 
-  // 完全一致（スペースあり）
-  if (lowerText === lowerQuery) {
-    return 'EXACT';
-  }
+  // マッチタイプを優先度順にチェック
+  const checks: [() => boolean, MatchType][] = [
+    [() => textNorm.standard === queryNorm.standard, 'EXACT'],
+    [() => textNorm.compact === queryNorm.compact, 'EXACT_NO_SPACE'],
+    [() => textNorm.standard.includes(queryNorm.standard), 'PARTIAL'],
+    [() => textNorm.compact.includes(queryNorm.compact), 'PARTIAL_NO_SPACE'],
+  ];
 
-  // 部分一致（スペースあり）
-  if (lowerText.includes(lowerQuery)) {
-    return 'PARTIAL';
-  }
-
-  // スペースを除去した比較
-  const noSpaceText = removeSpaces(lowerText);
-  const noSpaceQuery = removeSpaces(lowerQuery);
-
-  // スペース除去後の完全一致
-  if (noSpaceText === noSpaceQuery) {
-    return 'EXACT_NO_SPACE';
-  }
-
-  // スペース除去後の部分一致
-  if (noSpaceText.includes(noSpaceQuery)) {
-    return 'PARTIAL_NO_SPACE';
+  for (const [check, type] of checks) {
+    if (check()) return type;
   }
 
   return 'NONE';
 };
 
 /**
- * テキストが検索クエリに一致するか判定する（真偽値）
+ * 検索結果のフィルタリング処理効率化のため、マッチタイプをboolean値に変換
+ * @param text - 検索対象のテキスト
+ * @param query - 検索クエリ
+ * @returns 一致する場合true、一致しない場合false
  */
 export const isTextMatching = (text: string, query: string): boolean => {
-  const matchType = getTextMatchType(text, query);
-  return matchType !== 'NONE';
+  return getTextMatchType(text, query) !== 'NONE';
 };
 
 /**
- * タグに基づいて検索を実行し、一致タイプを返す
+ * 記事検索での重要度順位付けのため記事のタグ情報から最適なマッチタイプを取得
+ * @param post - 検索対象の記事データ
+ * @param searchValue - 検索クエリ
+ * @returns タグマッチングで得られた最も優先度の高いマッチタイプ
+ * @note 複数タグがある場合は最も優先度の高い一致を採用し、完全一致が見つかれば即座返す
  */
 export const getTagMatchType = (post: SearchProps, searchValue: string): MatchType => {
   if (!post.tags || post.tags.length === 0) {
@@ -139,16 +140,20 @@ export const getTagMatchType = (post: SearchProps, searchValue: string): MatchTy
   }
 
   let bestMatchType: MatchType = 'NONE';
+  let bestPriority = 0;
 
   for (const tag of post.tags) {
     const matchType = getTextMatchType(tag, searchValue);
+    const priority = getMatchTypePriority(matchType);
 
-    if (getMatchTypePriority(matchType) > getMatchTypePriority(bestMatchType)) {
+    // 早期リターン: 完全一致が見つかったら即座に返す
+    if (matchType === 'EXACT') {
+      return 'EXACT';
+    }
+
+    if (priority > bestPriority) {
       bestMatchType = matchType;
-
-      if (bestMatchType === 'EXACT') {
-        return bestMatchType;
-      }
+      bestPriority = priority;
     }
   }
 
@@ -156,7 +161,11 @@ export const getTagMatchType = (post: SearchProps, searchValue: string): MatchTy
 };
 
 /**
- * タイトルに基づいて検索を実行し、一致タイプを返す
+ * 記事タイトルでの検索優先度確保のため記事タイトルからマッチタイプを取得
+ * @param post - 検索対象の記事データ
+ * @param searchValue - 検索クエリ
+ * @returns タイトルマッチングで得られたマッチタイプ
+ * @note タイトルは検索で最も重要な要素のため、単純なテキストマッチングを実行
  */
 export const getTitleMatchType = (post: SearchProps, searchValue: string): MatchType => {
   // titleは必須フィールド
@@ -164,116 +173,149 @@ export const getTitleMatchType = (post: SearchProps, searchValue: string): Match
 };
 
 /**
- * 複数の検索語をAND条件で検索し、一致するかを判定する
+ * 複数キーワード検索のAND条件実現のため全てのキーワードが含まれるかを判定
+ * @param post - 検索対象の記事データ
+ * @param searchTerms - 検索キーワードの配列
+ * @returns 全てのキーワードが一致する場合true
  */
 export const isMultiTermMatching = (post: SearchProps, searchTerms: string[]): boolean => {
   return searchTerms.every((term) => {
-    // タグでの検索
-    if (post.tags && post.tags.length > 0) {
-      const hasSimpleTagMatch = post.tags.some((tag) => toLower(tag).includes(toLower(term)));
+    const termNorm = normalizeText(term);
+    const titleNorm = normalizeText(post.title);
 
-      if (hasSimpleTagMatch) {
-        return true;
-      }
+    // タイトルマッチを先にチェック（早期リターン）
+    const titleMatch = titleNorm.standard.includes(termNorm.standard) || titleNorm.compact.includes(termNorm.compact);
+    if (titleMatch) return true;
 
-      const hasMatchingTag = post.tags.some((tag) => isTextMatching(tag, term));
-      if (hasMatchingTag) {
-        return true;
-      }
-    }
-
-    // タイトルでの検索
-    const lowerTitle = toLower(post.title);
-    const lowerTerm = toLower(term);
-
-    if (lowerTitle.includes(lowerTerm)) {
-      return true;
-    }
-
-    return isTextMatching(post.title, term);
+    // タグマッチをチェック
+    return (
+      post.tags?.some((tag) => {
+        const tagNorm = normalizeText(tag);
+        return tagNorm.standard.includes(termNorm.standard) || tagNorm.compact.includes(termNorm.compact);
+      }) ?? false
+    );
   });
 };
 
 /**
- * 最適な検索ロジックを選択し実行する
- * 投稿データを検索し、優先度情報付きの結果を返す
+ * 単一キーワードでのマッチングを判定
+ */
+const matchSingleTerm = (post: SearchProps, searchValue: string): RankedSearchResult | null => {
+  const tagMatchType = getTagMatchType(post, searchValue);
+  const titleMatchType = getTitleMatchType(post, searchValue);
+
+  if (tagMatchType === 'NONE' && titleMatchType === 'NONE') {
+    return null;
+  }
+
+  // より優先度の高い一致タイプを採用
+  const bestMatchType =
+    getMatchTypePriority(tagMatchType) >= getMatchTypePriority(titleMatchType) ? tagMatchType : titleMatchType;
+
+  return {
+    post,
+    matchType: bestMatchType,
+    priority: getMatchTypePriority(bestMatchType),
+  };
+};
+
+/**
+ * 複数キーワードでのマッチングを判定
+ */
+const matchMultipleTerms = (post: SearchProps, searchTerms: string[]): RankedSearchResult | null => {
+  if (!isMultiTermMatching(post, searchTerms)) {
+    return null;
+  }
+
+  return {
+    post,
+    matchType: 'MULTI_TERM_MATCH',
+    priority: getMatchTypePriority('MULTI_TERM_MATCH'),
+  };
+};
+
+/**
+ * 高精度検索実現のため最適なアルゴリズムを選択しユーザー意図に最も近い結果を優先表示
+ * @param archives - 検索対象の記事配列
+ * @param searchValue - 検索クエリ文字列
+ * @returns 優先度情報付きの検索結果配列（RankedSearchResult[]）
+ * @note 単一キーワードでは完全一致優先、複数キーワードではAND条件で結果を絞り込み
  */
 export const searchPosts = (archives: SearchProps[], searchValue: string): RankedSearchResult[] => {
   // 検索ワードが空の場合は空の結果を返す
-  if (!searchValue) {
+  if (isEmptyQuery(searchValue)) {
     return [];
   }
 
   const results: RankedSearchResult[] = [];
-  const searchTerms = splitIntoWords(searchValue);
+  const searchTerms = searchValue.toLowerCase().split(' ').filter(Boolean);
   const isMultiTermQuery = searchTerms.length > 1;
 
   // 各投稿に対して検索を実行
-  archives.forEach((post) => {
-    // 既に結果に追加されたかを管理するフラグ
-    let addedToResults = false;
-
-    // 単一キーワード検索：タグまたはタイトルとの一致
-    const tagMatchType = getTagMatchType(post, searchValue);
-    const titleMatchType = getTitleMatchType(post, searchValue);
-
-    // フレーズ全体での一致（単一キーワード検索）
-    if (tagMatchType !== 'NONE' || titleMatchType !== 'NONE') {
-      // より優先度の高い一致タイプを採用
-      const bestMatchType =
-        getMatchTypePriority(tagMatchType) >= getMatchTypePriority(titleMatchType) ? tagMatchType : titleMatchType;
-
-      results.push({
-        post,
-        matchType: bestMatchType,
-        priority: getMatchTypePriority(bestMatchType),
-      });
-
-      addedToResults = true;
+  for (const post of archives) {
+    // 単一キーワード検索
+    const singleMatch = matchSingleTerm(post, searchValue);
+    if (singleMatch) {
+      results.push(singleMatch);
+      continue; // 既にマッチしたら次の投稿へ
     }
 
     // 複数キーワードの場合のAND検索
-    if (isMultiTermQuery && !addedToResults && isMultiTermMatching(post, searchTerms)) {
-      results.push({
-        post,
-        matchType: 'MULTI_TERM_MATCH',
-        priority: getMatchTypePriority('MULTI_TERM_MATCH'),
-      });
+    if (isMultiTermQuery) {
+      const multiMatch = matchMultipleTerms(post, searchTerms);
+      if (multiMatch) {
+        results.push(multiMatch);
+      }
     }
-  });
+  }
 
   return results;
 };
 
 /**
- * 投稿を検索するロジックを実行する
+ * 検索結果をソートして件数制限を適用する
+ * @param results - ランク付けされた検索結果
+ * @param maxResults - 最大結果件数（デフォルト: 100）
+ * @returns ソート済みの検索結果配列
  */
-export const executeSearch = (archives: SearchProps[], searchValue: string): SearchProps[] => {
-  if (!searchValue) {
-    return [];
-  }
-
-  // 検索結果は最大100件に制限
-  const MaxResults = 100;
-
-  const rankedResults = searchPosts(archives, searchValue);
-
+const sortAndLimitResults = (results: RankedSearchResult[], maxResults = 100): SearchProps[] => {
   // 優先度順に結果をソート
-  rankedResults.sort((a, b) => {
+  const sorted = [...results].sort((a, b) => {
     const priorityDiff = b.priority - a.priority;
     if (priorityDiff !== 0) {
       return priorityDiff;
     }
-
+    // 優先度が同じ場合はタイトルでソート
     return (a.post.title || '').localeCompare(b.post.title || '');
   });
 
-  // 結果を最大件数に制限
-  return rankedResults.slice(0, MaxResults).map((result) => result.post);
+  // 結果を最大件数に制限してpostのみを抽出
+  return sorted.slice(0, maxResults).map((result) => result.post);
 };
 
 /**
- * 検索機能にmemoizationを適用するフック
+ * UIコンポーネントでの検索結果表示のため最適化された高速検索APIを提供
+ * @param archives - 検索対象の投稿配列
+ * @param searchValue - 検索クエリ文字列
+ * @returns 優先度順にソートされた検索結果配列（最大100件）
+ * @note UIの応答性確保のため結果件数を100件に制限し、優先度順ソートを適用
+ */
+export const executeSearch = (archives: SearchProps[], searchValue: string): SearchProps[] => {
+  if (isEmptyQuery(searchValue)) {
+    return [];
+  }
+
+  // 検索実行
+  const rankedResults = searchPosts(archives, searchValue);
+
+  // ソートと件数制限を適用
+  return sortAndLimitResults(rankedResults, MAX_SEARCH_RESULTS);
+};
+
+/**
+ * 検索処理のパフォーマンス向上のため、同じクエリの結果をメモリにキャッシュする
+ * 連続する同じ検索やバックスペースでの削除時に高速化を実現
+ * LRU風の実装で古いエントリーから削除し、メモリ効率を最適化
  */
 export const useSearchWithCache = () => {
   const cache = useMemo(() => new Map<string, SearchProps[]>(), []);
@@ -286,19 +328,24 @@ export const useSearchWithCache = () => {
       // キャッシュキーの作成（検索値とデータサイズのハッシュ）
       const cacheKey = `${searchValue}-${archives.length}`;
 
-      // キャッシュヒット時はキャッシュから返す
+      // キャッシュヒット時は最新として更新（LRU）
       if (cache.has(cacheKey)) {
-        return cache.get(cacheKey)!;
+        const result = cache.get(cacheKey)!;
+        // MapはLRU風に動作：削除して再追加で最新に
+        cache.delete(cacheKey);
+        cache.set(cacheKey, result);
+        return result;
       }
 
       // 検索実行
       const results = executeSearch(archives, searchValue);
 
-      // 結果をキャッシュに保存（キャッシュサイズ制限）
-      if (cache.size > 50) {
-        // LRUの代わりに単純にキャッシュをクリア
-        cache.clear();
+      // キャッシュサイズ制限：最も古いエントリーを削除
+      if (cache.size >= CACHE_SIZE_LIMIT) {
+        const firstKey = cache.keys().next().value;
+        cache.delete(firstKey);
       }
+
       cache.set(cacheKey, results);
 
       return results;

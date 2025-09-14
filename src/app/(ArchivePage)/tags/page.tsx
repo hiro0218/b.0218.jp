@@ -1,7 +1,7 @@
 import type { Metadata } from 'next/types';
 import { getMetadata } from '@/app/_metadata';
 import { JsonLdScript } from '@/components/Functional/JsonLdScript';
-import { TagSection } from '@/components/Page/Share/TagSection';
+import { TagSection } from '@/components/Page/_shared/TagSection';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
 import { getWebPageStructured } from '@/lib/json-ld';

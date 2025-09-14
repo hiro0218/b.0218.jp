@@ -4,15 +4,15 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { FILENAME_POSTS_LIST } from '@/constant';
 import { parseJSON } from '@/lib/parseJSON';
-import type { PostListProps } from '@/types/source';
+import type { PostSummary } from '@/types/source';
 
-import type { SearchProps } from './type';
+import type { SearchProps } from '../types';
 
 const STORAGE_KEY = `${process.env.BUILD_ID}_${FILENAME_POSTS_LIST}`;
 
 /**
- * posts-list.jsonを取得する
- * 複数リクエストをさせないようにlocalStorageへキャッシュ
+ * 検索機能の応答性向上とサーバー負荷軽減のため、記事一覧データをlocalStorageにキャッシュして管理する
+ * ビルドIDベースのキーで古いキャッシュを無効化し、デプロイ後の即座な更新を保証
  */
 export const usePostsList = (): SearchProps[] => {
   const [archives, setArchives] = useState<SearchProps[]>([]);
@@ -29,7 +29,7 @@ export const usePostsList = (): SearchProps[] => {
 
   const extractPostList = useMemo(
     () =>
-      (data: PostListProps[]): SearchProps[] => {
+      (data: PostSummary[]): SearchProps[] => {
         return data.map(({ title, tags, slug }) => ({
           title,
           tags,
@@ -72,7 +72,7 @@ export const usePostsList = (): SearchProps[] => {
           throw new Error(`HTTP error: status code is ${response.status}`);
         }
 
-        const json = (await response.json()) as PostListProps[];
+        const json = (await response.json()) as PostSummary[];
         const postList = extractPostList(json);
 
         if (isMounted) {

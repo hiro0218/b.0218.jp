@@ -21,7 +21,24 @@ const cssGlobal = css`
     width: 1200px;
     height: 630px;
     margin: 0;
-    color: #eee;
+    color: #333;
+
+    &::before,
+    &::after {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      content: '';
+      background-color: #0000000f;
+      clip-path: polygon(0% 0%, 100% 0%, 0 max(10vw, 80px), 0% 100%);
+    }
+
+    &::after {
+      clip-path: polygon(0% 0%, 100% 0%, 100% max(20vw, 300px));
+    }
   }
 `;
 
@@ -39,17 +56,6 @@ const cssMain = css`
   font-weight: 900;
   font-feature-settings: 'palt';
   text-align: center;
-  background-image: url('/hiro0218_screen.png');
-  background-size: contain;
-
-  &::before {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    content: '';
-    background-color: rgba(0, 0, 0, 0.5);
-  }
 `;
 
 const cssHeader = css`
@@ -76,6 +82,7 @@ const cssFooter = css`
   z-index: 1;
   width: 100%;
   font-size: 24px;
+  font-weight: 600;
   text-align: left;
 `;
 

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useId, useState } from 'react';
 
 import { Stack } from '@/components/UI/Layout';
+import { Loading } from '@/components/UI/Loading';
 import { Toast } from '@/components/UI/Toast';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { X_ACCOUNT } from '@/constant';
@@ -17,9 +18,10 @@ interface Props {
 
 function PostShare({ title, url }: Props) {
   const labelledbyId = useId();
-  const [isShareSupported, setIsShareSupported] = useState(false);
+  const [isShareSupported, setIsShareSupported] = useState<boolean | undefined>(undefined);
   const [, copy] = useCopyToClipboard();
   const { Component: ToastComponent, showToast } = Toast('記事のURLをコピーしました');
+  const classNames = cx('link-style--hover-effect', ShareButtonStyle);
 
   useEffect(() => {
     setIsShareSupported(typeof navigator !== 'undefined' && !!navigator.share);
@@ -54,7 +56,7 @@ function PostShare({ title, url }: Props) {
       </h2>
       <Stack direction="horizontal" space={1}>
         <a
-          className={cx('link-style--hover-effect', ShareButtonStyle)}
+          className={classNames}
           href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}&via=${X_ACCOUNT}`}
           rel="noreferrer"
           target="_blank"
@@ -63,7 +65,7 @@ function PostShare({ title, url }: Props) {
           <X height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </a>
         <a
-          className={cx('link-style--hover-effect', ShareButtonStyle)}
+          className={classNames}
           href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`}
           rel="noreferrer"
           target="_blank"
@@ -71,20 +73,25 @@ function PostShare({ title, url }: Props) {
           <Tooltip text="はてなブックマークでブックマーク" />
           <Hatenabookmark height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </a>
-        <button
-          className={cx('link-style--hover-effect', ShareButtonStyle)}
-          onClick={onClickCopyPermalink}
-          type="button"
-        >
+        <button className={classNames} onClick={onClickCopyPermalink} type="button">
           <Tooltip text="ページのURLをコピー" />
           <Link2Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </button>
-        {isShareSupported && (
-          <button className={cx('link-style--hover-effect', ShareButtonStyle)} onClick={onClickShare} type="button">
-            <Tooltip text="その他：共有" />
-            <Share1Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-          </button>
-        )}
+        <button
+          className={classNames}
+          disabled={isShareSupported === false}
+          onClick={isShareSupported === false ? undefined : onClickShare}
+          type="button"
+        >
+          {!isShareSupported ? (
+            <Loading size={ICON_SIZE_SM} />
+          ) : (
+            <>
+              <Tooltip text="その他：共有" />
+              <Share1Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+            </>
+          )}
+        </button>
       </Stack>
       {ToastComponent}
     </aside>

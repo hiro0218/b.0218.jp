@@ -1,39 +1,7 @@
-import { forwardRef, memo, useMemo } from 'react';
-import { Anchor } from '@/components/UI/Anchor';
-import type { SearchProps } from '@/components/UI/Search/type';
-import { convertPostSlugToPath } from '@/lib/url';
-import { css, cx, styled } from '@/ui/styled';
-
-const NavigableLink = forwardRef<
-  HTMLDivElement,
-  {
-    slug: string;
-    title: string;
-    isFocused: boolean;
-    onClick: () => void;
-  }
->(({ slug, title, isFocused, onClick }, ref) => {
-  const link = convertPostSlugToPath(slug);
-
-  return (
-    <div
-      className={isFocused ? cx(LinkContainerStyle, FocusedContainerStyle) : LinkContainerStyle}
-      onClick={onClick}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onClick();
-        }
-      }}
-      ref={ref}
-      tabIndex={isFocused ? 0 : -1}
-    >
-      <Anchor className={AnchorStyle} dangerouslySetInnerHTML={{ __html: title }} href={link} prefetch={false} />
-    </div>
-  );
-});
-
-NavigableLink.displayName = 'NavigableLink';
+import { memo, useId, useMemo } from 'react';
+import { css, styled } from '@/ui/styled';
+import type { SearchProps } from '../../types';
+import { NavigableLink } from './NavigableLink';
 
 export const Result = memo(function Result({
   suggestions,
@@ -48,6 +16,7 @@ export const Result = memo(function Result({
   setResultRef: (index: number, element: HTMLDivElement | null) => void;
   keyword?: string;
 }) {
+  const headingId = useId();
   const ResultList = useMemo(() => {
     return suggestions.map(({ slug }, index) => {
       const isFocused = focusedIndex === index;
@@ -56,10 +25,6 @@ export const Result = memo(function Result({
         <NavigableLink
           isFocused={isFocused}
           key={slug}
-          onClick={() => {
-            const link = convertPostSlugToPath(slug);
-            window.location.href = link;
-          }}
           ref={(el) => setResultRef(index, el)}
           slug={slug}
           title={markedTitles[index]}
@@ -69,8 +34,8 @@ export const Result = memo(function Result({
   }, [suggestions, markedTitles, focusedIndex, setResultRef]);
 
   return (
-    <Container aria-labelledby="search-results-heading" data-search-results>
-      <Message id="search-results-heading">
+    <Container aria-labelledby={headingId} data-search-results>
+      <Message id={headingId}>
         {suggestions.length > 0
           ? keyword
             ? `「${keyword}」の検索結果: ${suggestions.length}件`
@@ -102,34 +67,34 @@ const Container = styled.div`
   }
 `;
 
-const LinkContainerStyle = css`
+export const LinkContainerStyle = css`
   cursor: pointer;
+  user-select: none;
   border-radius: var(--radii-8);
 
-  &:hover {
-    background-color: var(--colors-gray-3);
-  }
-
-  &:focus {
-    outline: none;
+  &:not([tabindex='-1']):hover {
+    background-color: var(--colors-gray-a-3);
   }
 `;
 
-const FocusedContainerStyle = css`
+export const FocusedContainerStyle = css`
   outline: 2px solid var(--colors-blue-9);
   outline-offset: -2px;
   background-color: var(--colors-gray-3);
 `;
 
-const AnchorStyle = css`
+export const AnchorStyle = css`
   display: block;
   padding: var(--spacing-1) var(--spacing-2);
   font-size: var(--font-sizes-sm);
-  pointer-events: none;
   border-radius: var(--radii-8);
 
+  &:hover {
+    background-color: var(--colors-gray-a-3);
+  }
+
   &:active {
-    background-color: var(--colors-gray-4);
+    background-color: var(--colors-gray-a-4);
   }
 
   &:focus {

@@ -42,7 +42,7 @@ export const PaginationView = ({
         Page {currentPage} of {lastPageNumber}
       </div>
 
-      <ul role="list">
+      <ul>
         <li data-paginate="arrow">
           <button
             aria-label={`Go to previous page, currently on page ${currentPage}`}

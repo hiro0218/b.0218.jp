@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import type { SearchProps } from '@/components/UI/Search/type';
+import type { SearchProps } from '../types';
 import {
   executeSearch,
   getMatchTypePriority,
@@ -9,10 +9,7 @@ import {
   isMultiTermMatching,
   isTextMatching,
   type MatchType,
-  removeSpaces,
   searchPosts,
-  splitIntoWords,
-  toLower,
 } from './search';
 
 // テスト用のモックデータ
@@ -70,27 +67,6 @@ const mockPosts: SearchProps[] = [
 ];
 
 describe('基本ユーティリティ関数', () => {
-  test('toLower - 文字列を小文字に変換する', () => {
-    expect(toLower('React')).toBe('react');
-    expect(toLower('JAVASCRIPT')).toBe('javascript');
-    expect(toLower('TypeScript')).toBe('typescript');
-    expect(toLower('')).toBe('');
-  });
-
-  test('removeSpaces - 文字列からスペースを除去する', () => {
-    expect(removeSpaces('React 入門')).toBe('React入門');
-    expect(removeSpaces('Type Script')).toBe('TypeScript');
-    expect(removeSpaces('Next  js')).toBe('Nextjs');
-    expect(removeSpaces('')).toBe('');
-  });
-
-  test('splitIntoWords - 文字列を単語に分割する', () => {
-    expect(splitIntoWords('React 入門')).toEqual(['react', '入門']);
-    expect(splitIntoWords('JavaScript TypeScript')).toEqual(['javascript', 'typescript']);
-    expect(splitIntoWords('  Next  js  ')).toEqual(['next', 'js']);
-    expect(splitIntoWords('')).toEqual([]);
-  });
-
   test('getMatchTypePriority - マッチタイプの優先度をスコアに変換する', () => {
     expect(getMatchTypePriority('EXACT')).toBe(100);
     expect(getMatchTypePriority('PARTIAL')).toBe(80);
@@ -106,7 +82,9 @@ describe('一致判定ロジック', () => {
   test('getTextMatchType - 完全一致の判定', () => {
     expect(getTextMatchType('React', 'React')).toBe('EXACT');
     expect(getTextMatchType('react', 'REACT')).toBe('EXACT');
-    expect(getTextMatchType('React', 'React ')).not.toBe('EXACT');
+    // trim()により前後のスペースは除去されるため、完全一致になる
+    expect(getTextMatchType('React', ' React ')).toBe('EXACT');
+    expect(getTextMatchType('React', 'React Native')).not.toBe('EXACT');
   });
 
   test('getTextMatchType - 部分一致の判定', () => {
@@ -292,5 +270,65 @@ describe('特定ワードでの検索', () => {
 
     // 結果には「GitHub Copilot」タグを含む投稿が含まれるべき
     expect(results.some((post) => post.tags?.includes('GitHub Copilot'))).toBe(true);
+  });
+});
+
+describe('日本語検索の問題', () => {
+  test('「方法」で検索したとき「Shift_JISファイルをgrepする方法」がヒットする', () => {
+    const results = executeSearch(mockPosts, '方法');
+
+    // 「方法」を含む投稿が検索結果に含まれるべき
+    expect(results.length).toBeGreaterThan(0);
+
+    // 具体的に「Shift_JISファイルをgrepする方法」が含まれているか確認
+    const expectedPost = results.find((post) => post.slug === '202412281606');
+    expect(expectedPost).toBeDefined();
+    expect(expectedPost?.title).toBe('Shift_JISファイルをgrepする方法');
+  });
+
+  test('「方法」で検索したとき「最新のCSSプロパティにVS Codeのシンタックスハイライトを対応させる方法」もヒットする', () => {
+    const results = executeSearch(mockPosts, '方法');
+
+    // 「方法」を含む投稿が検索結果に含まれるべき
+    const expectedPost = results.find((post) => post.slug === '202501200200');
+    expect(expectedPost).toBeDefined();
+    expect(expectedPost?.title).toContain('方法');
+  });
+
+  test('スペースや前後の文字列を含む「方法」でも検索できる', () => {
+    const results = executeSearch(mockPosts, '方法');
+
+    // 「方法」を含むすべての投稿を確認
+    const methodPosts = mockPosts.filter((post) => post.title.includes('方法'));
+    const foundPosts = results.filter((post) => post.title.includes('方法'));
+
+    // すべての「方法」を含む投稿が見つかるべき
+    expect(foundPosts.length).toBe(methodPosts.length);
+  });
+
+  test('前後にスペースを含む「 方法 」でも正しく検索できる', () => {
+    // 前後にスペースがあってもトリムされて検索される
+    const results = executeSearch(mockPosts, ' 方法 ');
+
+    // 「方法」を含む投稿が検索結果に含まれるべき
+    expect(results.length).toBeGreaterThan(0);
+
+    // 具体的に「Shift_JISファイルをgrepする方法」が含まれているか確認
+    const expectedPost = results.find((post) => post.slug === '202412281606');
+    expect(expectedPost).toBeDefined();
+    expect(expectedPost?.title).toBe('Shift_JISファイルをgrepする方法');
+  });
+
+  test('改行文字やタブを含む検索クエリでも正しく検索できる', () => {
+    const results = executeSearch(mockPosts, '\n\t方法\t\n');
+
+    // 「方法」を含む投稿が検索結果に含まれるべき
+    expect(results.length).toBeGreaterThan(0);
+
+    const methodPosts = mockPosts.filter((post) => post.title.includes('方法'));
+    const foundPosts = results.filter((post) => post.title.includes('方法'));
+
+    // すべての「方法」を含む投稿が見つかるべき
+    expect(foundPosts.length).toBe(methodPosts.length);
   });
 });

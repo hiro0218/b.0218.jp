@@ -2,25 +2,27 @@
 
 import { memo } from 'react';
 
-import { Container } from '@/components/Functional/Container';
+import { Container } from '@/components/UI/Layout/Container';
 import { Logo } from '@/components/UI/Logo';
-import { useSearch } from '@/components/UI/Search';
+import { SearchButton } from '@/components/UI/Search/components/SearchButton';
+import { SearchDialog } from '@/components/UI/Search/components/SearchDialog';
+import { useDialog } from '@/hooks/useDialog';
 import { css } from '@/ui/styled';
 import { HeaderLayout } from './HeaderLayout';
 
 export default memo(function Header() {
-  const { SearchButton, SearchDialog } = useSearch();
+  const searchDialog = useDialog<HTMLDialogElement>();
 
   return (
     <>
       <HeaderLayout>
         <Container className={HeaderContainerStyle} size={'large'} space={false}>
           <Logo />
-          {SearchButton}
+          <SearchButton openDialog={searchDialog.open} />
         </Container>
       </HeaderLayout>
 
-      {SearchDialog}
+      <SearchDialog closeDialog={searchDialog.close} isClosing={searchDialog.isClosing} ref={searchDialog.ref} />
     </>
   );
 });

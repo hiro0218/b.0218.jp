@@ -2,6 +2,7 @@ import type { NamedExoticComponent, ReactNode } from 'react';
 
 import { css, cx, styled } from '@/ui/styled';
 import type { SpaceGap } from '@/ui/styled/tokens/spacing';
+import { textEllipsis } from '@/ui/styled/utilities';
 
 type Props = {
   space?: SpaceGap;
@@ -35,7 +36,7 @@ const Title = ({ id, tag = 'h2', children }: TitleProps) => {
   return (
     <SidebarHeading
       className={cx(
-        'text-ellipsis',
+        textEllipsis,
         css`
           scroll-margin-top: var(--spacing-1);
         `,

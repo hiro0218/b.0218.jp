@@ -80,10 +80,12 @@ export const Content = styled.div`
 
   &[data-position='left'] {
     left: 0;
+    transform-origin: top left;
   }
 
   &[data-position='right'] {
     right: 0;
+    transform-origin: top right;
   }
 
   &[aria-expanded='true'] {
