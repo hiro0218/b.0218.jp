@@ -1,12 +1,12 @@
 'use client';
 
-import { useCallback, useEffect, useId } from 'react';
+import { useCallback, useEffect, useId, useState } from 'react';
 
 import { Stack } from '@/components/UI/Layout';
+import { Loading } from '@/components/UI/Loading';
 import { Toast } from '@/components/UI/Toast';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { X_ACCOUNT } from '@/constant';
-import { useBoolean } from '@/hooks/useBoolean';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, Share1Icon, X } from '@/ui/icons';
 import { css, cx } from '@/ui/styled';
@@ -18,16 +18,14 @@ interface Props {
 
 function PostShare({ title, url }: Props) {
   const labelledbyId = useId();
-  const { value: isShareSupported, setTrue: setShareSupported } = useBoolean(false);
+  const [isShareSupported, setIsShareSupported] = useState<boolean | undefined>(undefined);
   const [, copy] = useCopyToClipboard();
   const { Component: ToastComponent, showToast } = Toast('記事のURLをコピーしました');
   const classNames = cx('link-style--hover-effect', ShareButtonStyle);
 
   useEffect(() => {
-    if (typeof navigator !== 'undefined' && !!navigator.share) {
-      setShareSupported();
-    }
-  }, [setShareSupported]);
+    setIsShareSupported(typeof navigator !== 'undefined' && !!navigator.share);
+  }, []);
 
   const onClickCopyPermalink = useCallback(() => {
     copy(url).then(() => {
@@ -79,12 +77,21 @@ function PostShare({ title, url }: Props) {
           <Tooltip text="ページのURLをコピー" />
           <Link2Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </button>
-        {isShareSupported && (
-          <button className={classNames} onClick={onClickShare} type="button">
-            <Tooltip text="その他：共有" />
-            <Share1Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-          </button>
-        )}
+        <button
+          className={classNames}
+          disabled={isShareSupported === false}
+          onClick={isShareSupported === false ? undefined : onClickShare}
+          type="button"
+        >
+          {!isShareSupported ? (
+            <Loading size={ICON_SIZE_SM} />
+          ) : (
+            <>
+              <Tooltip text="その他：共有" />
+              <Share1Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+            </>
+          )}
+        </button>
       </Stack>
       {ToastComponent}
     </aside>
