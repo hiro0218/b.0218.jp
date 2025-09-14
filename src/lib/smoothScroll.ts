@@ -1,15 +1,13 @@
 import { isSSR } from '@/lib/isSSR';
 
-/** ユーザーが簡易動作効果を設定しているかどうかを判定する */
 const isPrefersReduced: boolean = !isSSR ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
 
-/** パララックス効果を簡易化する設定がされている場合はスクロール動作を「instant」に、そうでない場合は「smooth」に設定する */
 const scrollBehavior: ScrollBehavior = isPrefersReduced ? 'instant' : 'smooth';
 
-/** ハッシュが'#top'または'#'である場合にtrueを返す */
+// ページトップへのリンクを統一的に処理するため
 const isTopHash = (hash: string): boolean => hash === '#top' || hash === '#';
 
-/** アンカーリンクのハッシュ部分から対象の要素を取得する */
+// URLデコードエラーや不正なIDに対する堅牢性を確保
 const getTarget = (hash: string): HTMLElement | null => {
   try {
     const targetElementId = decodeURIComponent(hash.slice(1));
@@ -32,9 +30,9 @@ const focusOnTarget = (element: HTMLElement): void => {
   try {
     element.focus({ preventScroll: true });
 
-    // アクティブな要素が対象要素でない場合
+    // スクリーンリーダーのナビゲーション向上のため
     if (document.activeElement !== element) {
-      // tabindexを一時的に設定し、フォーカス後に削除する（非フォーカス可能要素対応）
+      // 通常フォーカス不可能な要素でもキーボードナビゲーションできるように
       element.setAttribute('tabindex', '-1');
       element.focus({ preventScroll: true });
       element.removeAttribute('tabindex');
@@ -44,7 +42,6 @@ const focusOnTarget = (element: HTMLElement): void => {
   }
 };
 
-/** スムーズスクロールのクリックイベントを処理する */
 const handleSmoothScrollClick = (event: MouseEvent): void => {
   const eventTarget = event.target as HTMLElement | null;
   if (!eventTarget) return;
@@ -61,14 +58,38 @@ const handleSmoothScrollClick = (event: MouseEvent): void => {
   scrollToTarget(target);
   focusOnTarget(target);
 
+  // トップページへの移動時はURL変更を避ける
   if (!isTopHash(hash)) {
     history.pushState({}, '', hash);
   }
 };
 
-/** スムーズスクロール機能を初期化する */
-const initializeSmoothScroll = (): void => {
-  document.addEventListener('click', handleSmoothScrollClick, { capture: true });
+/**
+ * ページ内アンカーリンクのスムーズスクロール機能を初期化
+ * アクセシビリティ対応とメモリリーク防止を考慮した実装
+ * @returns クリーンアップ関数 - コンポーネントのアンマウント時に呼び出す
+ * @example
+ * const cleanup = initializeSmoothScroll();
+ * // コンポーネントのアンマウント時
+ * cleanup();
+ */
+const initializeSmoothScroll = (): (() => void) => {
+  // 重複初期化を防ぐため
+  let isInitialized = false;
+  const abortController = new AbortController();
+
+  if (!isInitialized && !isSSR) {
+    document.addEventListener('click', handleSmoothScrollClick, {
+      capture: true,
+      signal: abortController.signal,
+    });
+    isInitialized = true;
+  }
+
+  return () => {
+    abortController.abort();
+    isInitialized = false;
+  };
 };
 
 export default initializeSmoothScroll;
