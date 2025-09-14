@@ -1,6 +1,6 @@
 'use client';
 
-import { type ReactNode, useLayoutEffect } from 'react';
+import { type ReactNode, useLayoutEffect, useRef } from 'react';
 import debounce from '@/lib/debounce';
 import observeScrollbarWidth from '@/lib/observeScrollbarWidth';
 import smoothScroll from '@/lib/smoothScroll';
@@ -10,20 +10,25 @@ type Props = {
 };
 
 export default function Template({ children }: Props) {
-  const onLoad = () => {
-    smoothScroll();
-    observeScrollbarWidth();
-  };
-  const handleObserveScrollbarWidth = () => debounce(observeScrollbarWidth);
+  const debouncedObserveScrollbarWidth = useRef<() => void>(debounce(observeScrollbarWidth, 250));
+  const smoothScrollCleanupRef = useRef<(() => void) | null>(null);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: This effect should only run once on mount and unmount, and onResize. Adding `onLoad` or `handleObserveScrollbarWidth` to the dependency array would cause infinite loops or unnecessary re-runs.
   useLayoutEffect(() => {
-    window.addEventListener('load', onLoad);
-    window.addEventListener('resize', handleObserveScrollbarWidth);
+    // 同じ参照を使用してリスナーの追加と削除を保証
+    const handleResize = debouncedObserveScrollbarWidth.current;
+
+    // smoothScrollとobserveScrollbarWidthを即座に初期化
+    smoothScrollCleanupRef.current = smoothScroll();
+    observeScrollbarWidth();
+
+    window.addEventListener('resize', handleResize, { passive: true });
 
     return () => {
-      window.removeEventListener('load', onLoad);
-      window.removeEventListener('resize', handleObserveScrollbarWidth);
+      window.removeEventListener('resize', handleResize);
+
+      if (smoothScrollCleanupRef.current) {
+        smoothScrollCleanupRef.current();
+      }
     };
   }, []);
 
