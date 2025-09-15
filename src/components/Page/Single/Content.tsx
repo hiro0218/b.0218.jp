@@ -1,4 +1,4 @@
-import { parser } from '@/components/Page/Post/Content';
+import { parser } from '@/components/Page/Post/Content/parser/HTMLParser';
 import { Box } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { getPagesJson } from '@/lib/posts';

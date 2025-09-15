@@ -5,13 +5,11 @@ import { getMetadata } from '@/app/_metadata';
 import { JsonLdScript } from '@/components/Functional/JsonLdScript';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { TagSection } from '@/components/Page/_shared/TagSection';
-import {
-  Content as PostContent,
-  Edit as PostEdit,
-  Header as PostHeader,
-  Note as PostNote,
-  Share as PostShare,
-} from '@/components/Page/Post';
+import { PostContent } from '@/components/Page/Post/Content';
+import PostEdit from '@/components/Page/Post/Edit';
+import PostHeader from '@/components/Page/Post/Header';
+import PostNote from '@/components/Page/Post/Note';
+import PostShare from '@/components/Page/Post/Share';
 import { Stack } from '@/components/UI/Layout';
 import { Container } from '@/components/UI/Layout/Container';
 import { AUTHOR_NAME } from '@/constant';
