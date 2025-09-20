@@ -1,5 +1,4 @@
 import { usePathname } from 'next/navigation';
-import { useRef } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon, ICON_SIZE_XS } from '@/ui/icons';
 import { styled } from '@/ui/styled';
@@ -9,12 +8,11 @@ import { useMokuji } from './useMokuji';
 
 function Mokuji({ refContent }: MokujiProps) {
   const pathname = usePathname();
-  const { refMokuji, refDetailContent } = useMokuji({ refContent });
-  const refDetails = useRef<HTMLDetailsElement>(null);
+  const { mokujiContainerRef, mokujiListContainerRef } = useMokuji({ refContent });
 
   return (
-    <Root key={pathname} ref={refMokuji}>
-      <Details ref={refDetails}>
+    <Root key={pathname} ref={mokujiContainerRef}>
+      <Details>
         <Summary>
           目次
           <IconContainer>
@@ -22,7 +20,7 @@ function Mokuji({ refContent }: MokujiProps) {
             <ChevronUpIcon data-disclosure="open" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
           </IconContainer>
         </Summary>
-        <DetailsContent ref={refDetailContent} />
+        <DetailsContent ref={mokujiListContainerRef} />
       </Details>
     </Root>
   );
