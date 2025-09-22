@@ -5,26 +5,26 @@ import { useMemo } from 'react';
 import LinkCard from '@/components/UI/LinkCard';
 import { convertPostSlugToPath } from '@/lib/url';
 import type { ArticleSummary } from '@/types/source';
-import { ITEMS_PER_PAGE, QUERY_PAGE_KEY } from './hooks/constant';
+import { ARCHIVE_CONFIG } from './constants';
+import { parsePageNumber } from './utils/parsePageNumber';
 
 type PostListProps = {
   posts: ArticleSummary[];
 };
 
 /**
- * 投稿リストをページごとに分割して表示する
- * @param posts - 全投稿リスト
- * @returns ページネーションされた投稿カード群
+ * 記事リストコンポーネント（ページネーション対応）
+ * @param posts 記事サマリーの配列
  */
 export function PostList({ posts }: PostListProps) {
   const searchParams = useSearchParams();
-  const currentPageNumber = searchParams.get(QUERY_PAGE_KEY) ? Number(searchParams.get(QUERY_PAGE_KEY)) : 1;
+  const currentPage = parsePageNumber(searchParams.get(ARCHIVE_CONFIG.queryKey));
 
   const paginatedPosts = useMemo(() => {
-    const startIndex = (currentPageNumber - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const startIndex = (currentPage - 1) * ARCHIVE_CONFIG.itemsPerPage;
+    const endIndex = startIndex + ARCHIVE_CONFIG.itemsPerPage;
     return posts.slice(startIndex, endIndex);
-  }, [currentPageNumber, posts]);
+  }, [currentPage, posts]);
 
   return (
     <>
