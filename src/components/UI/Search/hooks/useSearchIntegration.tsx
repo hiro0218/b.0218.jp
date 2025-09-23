@@ -27,7 +27,7 @@ export const useSearchIntegration = ({
 }: UseSearchIntegrationProps) => {
   const archives = usePostsList();
   const { state, debouncedSearch, executeSearch, reset } = useSearchManager({ archives });
-  const { saveSearchState, loadSearchState, clearSearchState } = useSearchStatePersistence();
+  const { saveSearchState, loadSearchState } = useSearchStatePersistence();
 
   const focusManager = useSearchFocusManager({
     resultsLength: state.results.length,
@@ -35,6 +35,7 @@ export const useSearchIntegration = ({
   });
 
   // 初回マウント時に保存された状態を復元
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 初回マウント時のみ実行
   useEffect(() => {
     if (!persistSearchState) return;
 
@@ -45,8 +46,7 @@ export const useSearchIntegration = ({
         focusManager.state.setFocusedIndex(savedState.focusedIndex);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // 初回マウント時のみ実行
+  }, []);
 
   // 検索状態が変更されたら保存
   useEffect(() => {
@@ -62,10 +62,6 @@ export const useSearchIntegration = ({
 
   const handleCloseDialog = () => {
     focusManager.state.resetAll();
-    reset();
-    if (persistSearchState) {
-      clearSearchState();
-    }
     closeDialog();
   };
 

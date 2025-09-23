@@ -1,6 +1,7 @@
 'use client';
 
-import { createContext, type ReactNode, useContext } from 'react';
+import { usePathname } from 'next/navigation';
+import { createContext, type ReactNode, useContext, useEffect } from 'react';
 import { useDialog } from '@/hooks/useDialog';
 
 type SearchDialogContextType = {
@@ -15,6 +16,14 @@ const SearchDialogContext = createContext<SearchDialogContextType | undefined>(u
 
 export function SearchDialogProvider({ children }: { children: ReactNode }) {
   const dialog = useDialog<HTMLDialogElement>();
+  const pathname = usePathname();
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathnameの変更時のみ実行
+  useEffect(() => {
+    if (dialog.isOpen) {
+      dialog.close();
+    }
+  }, [pathname]);
 
   const contextValue: SearchDialogContextType = {
     isOpen: dialog.isOpen,
