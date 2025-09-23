@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import debounce from '@/lib/debounce';
 import type { SearchProps } from '../types';
 import { useSearchWithCache } from '../utils/search';
@@ -15,6 +15,7 @@ type UseSearchManagerProps = {
 export const useSearchManager = ({ archives, debounceDelayMs = 300 }: UseSearchManagerProps) => {
   const { state, setResults, reset } = useSearchState();
   const searchWithCache = useSearchWithCache();
+  const lastQueryRef = useRef('');
 
   /** 即座実行が必要な場合はこれを直接使用 */
   const executeSearch = useCallback(
@@ -24,18 +25,20 @@ export const useSearchManager = ({ archives, debounceDelayMs = 300 }: UseSearchM
       // 空文字の場合はリセット
       if (!trimmedQuery) {
         reset();
+        lastQueryRef.current = '';
         return;
       }
 
       // 同じクエリの場合はスキップ
-      if (trimmedQuery === state.query) {
+      if (trimmedQuery === lastQueryRef.current) {
         return;
       }
 
       const results = searchWithCache(archives, trimmedQuery);
       setResults(results, trimmedQuery);
+      lastQueryRef.current = trimmedQuery;
     },
-    [archives, state.query, setResults, reset, searchWithCache],
+    [archives, setResults, reset, searchWithCache],
   );
 
   // デバウンス処理された検索関数

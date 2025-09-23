@@ -46,7 +46,7 @@ export const useSearchIntegration = ({
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [executeSearch, focusManager.state.setFocusedIndex, loadSearchState, persistSearchState]); // 初回マウント時のみ実行
+  }, []); // 初回マウント時のみ実行
 
   // 検索状態が変更されたら保存
   useEffect(() => {
