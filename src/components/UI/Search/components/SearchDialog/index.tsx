@@ -57,14 +57,7 @@ export const SearchDialog = ({ closeDialog, isClosing, ref }: Props) => {
           {SEARCH_LABELS.searchDescription}
         </p>
         <SearchHeader onKeyUp={onSearchInput} searchQuery={query} />
-        <SearchPanel
-          closeDialog={handleCloseDialog}
-          closeOnRouteChange={false}
-          focusedIndex={focusedIndex}
-          results={results}
-          searchQuery={query}
-          setResultRef={setResultRef}
-        />
+        <SearchPanel focusedIndex={focusedIndex} results={results} searchQuery={query} setResultRef={setResultRef} />
       </Dialog>
       <Overlay onClick={handleCloseDialog} />
     </>,
@@ -85,8 +78,8 @@ const Dialog = styled.dialog`
     padding: 0;
     border: none;
     opacity: 1;
-    will-change: transform, opacity;
     animation: zoomIn 0.2s;
+    will-change: transform, opacity;
   }
 
   &[open][data-closing='true'] {
