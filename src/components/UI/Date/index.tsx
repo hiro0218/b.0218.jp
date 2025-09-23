@@ -9,7 +9,7 @@ function PostDate({ date, updated }: Props) {
   const hasModified = !!updated && !isSameDay(new Date(date), new Date(updated));
 
   return (
-    <Stack direction="horizontal" space={1}>
+    <Stack className={timeStyle} direction="horizontal" space={1}>
       <time
         className={
           hasModified
@@ -28,3 +28,7 @@ function PostDate({ date, updated }: Props) {
 }
 
 export default PostDate;
+
+const timeStyle = css`
+  font-variant-numeric: tabular-nums;
+`;

@@ -61,6 +61,7 @@ const Count = styled.span`
   margin-left: var(--spacing-1);
   font-family: var(--fonts-family-monospace);
   font-size: var(--font-sizes-xs);
+  font-variant-numeric: tabular-nums;
   line-height: var(--line-heights-sm);
   user-select: none;
   background-color: var(--colors-gray-a-3);
