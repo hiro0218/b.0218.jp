@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import type { SearchProps } from '../types';
 import {
-  executeSearch,
+  findMatchingPosts,
   getMatchTypePriority,
   getTagMatchType,
   getTextMatchType,
@@ -9,7 +9,7 @@ import {
   isMultiTermMatching,
   isTextMatching,
   type MatchType,
-  searchPosts,
+  performPostSearch,
 } from './search';
 
 // テスト用のモックデータ
@@ -146,12 +146,12 @@ describe('タグとタイトルの検索', () => {
 });
 
 describe('検索ロジック', () => {
-  test('searchPosts - 検索クエリが空の場合は空の配列を返す', () => {
-    expect(searchPosts(mockPosts, '')).toEqual([]);
+  test('findMatchingPosts - 検索クエリが空の場合は空の配列を返す', () => {
+    expect(findMatchingPosts(mockPosts, '')).toEqual([]);
   });
 
-  test('searchPosts - 単一キーワードでの検索', () => {
-    const results = searchPosts(mockPosts, 'GitHub Actions');
+  test('findMatchingPosts - 単一キーワードでの検索', () => {
+    const results = findMatchingPosts(mockPosts, 'GitHub Actions');
 
     // 少なくとも1つの結果が含まれるべき（mockPostsに"GitHub Actions"が含まれる）
     expect(results.length).toBe(1);
@@ -161,16 +161,16 @@ describe('検索ロジック', () => {
     expect(results[0].post.tags?.includes('GitHub Actions')).toBe(true);
   });
 
-  test('searchPosts - 複数キーワードの検索（AND条件）', () => {
-    const results = searchPosts(mockPosts, 'JavaScript TypeScript');
+  test('findMatchingPosts - 複数キーワードの検索（AND条件）', () => {
+    const results = findMatchingPosts(mockPosts, 'JavaScript TypeScript');
 
     // JavaScriptとTypeScriptの両方を含む投稿
     expect(results.length).toBeGreaterThan(0);
     expect(results.some((r) => r.post.slug === '202502090230')).toBe(true);
   });
 
-  test('executeSearch - 優先度順にソートされた結果を返す', () => {
-    const results = executeSearch(mockPosts, 'React');
+  test('performPostSearch - 優先度順にソートされた結果を返す', () => {
+    const results = performPostSearch(mockPosts, 'React');
 
     // 結果はpost.titleのプロパティを持つオブジェクトの配列であるべき
     expect(results.length).toBeGreaterThan(0);
@@ -179,8 +179,8 @@ describe('検索ロジック', () => {
     expect(results[0]).toHaveProperty('slug');
   });
 
-  test('executeSearch - 検索クエリが空の場合は空の配列を返す', () => {
-    expect(executeSearch(mockPosts, '')).toEqual([]);
+  test('performPostSearch - 検索クエリが空の場合は空の配列を返す', () => {
+    expect(performPostSearch(mockPosts, '')).toEqual([]);
   });
 });
 
@@ -201,17 +201,17 @@ describe('エッジケース', () => {
       },
     ];
 
-    const results = executeSearch(postsWithSpecialChars, 'C++');
+    const results = performPostSearch(postsWithSpecialChars, 'C++');
     expect(results.length).toBe(1);
     expect(results[0].slug).toBe('202303191231');
 
-    const cssResults = executeSearch(postsWithSpecialChars, 'CSS3');
+    const cssResults = performPostSearch(postsWithSpecialChars, 'CSS3');
     expect(cssResults.length).toBe(1);
     expect(cssResults[0].slug).toBe('202403220115');
   });
 
   test('大文字小文字を区別せずに検索', () => {
-    const results = executeSearch(mockPosts, 'javascript');
+    const results = performPostSearch(mockPosts, 'javascript');
     expect(results.length).toBeGreaterThan(0);
 
     // 大文字小文字を区別せず、"JavaScript"タグがある投稿が含まれるべき
@@ -229,7 +229,7 @@ describe('エッジケース', () => {
     ];
 
     // タグがなくてもタイトルで検索できる
-    const results = executeSearch(postsWithNoTags, 'タグなし');
+    const results = performPostSearch(postsWithNoTags, 'タグなし');
     expect(results.length).toBe(1);
     expect(results[0].slug).toBe('no-tags');
   });
@@ -238,7 +238,7 @@ describe('エッジケース', () => {
 describe('特定ワードでの検索', () => {
   test('「GitHub Copilot」の検索が正しく機能する', () => {
     // GitHub Copilotに関連する記事が含まれる
-    const results = executeSearch(mockPosts, 'GitHub Copilot');
+    const results = performPostSearch(mockPosts, 'GitHub Copilot');
 
     // 少なくとも1つの結果が含まれるべき
     expect(results.length).toBeGreaterThan(0);
@@ -253,7 +253,7 @@ describe('特定ワードでの検索', () => {
   });
 
   test('「GitHub Copilot」の部分一致検索（「Copilot」）も機能する', () => {
-    const results = executeSearch(mockPosts, 'Copilot');
+    const results = performPostSearch(mockPosts, 'Copilot');
 
     // 少なくとも1つの結果が含まれるべき
     expect(results.length).toBeGreaterThan(0);
@@ -263,7 +263,7 @@ describe('特定ワードでの検索', () => {
   });
 
   test('大文字小文字を区別せず「github copilot」も検索できる', () => {
-    const results = executeSearch(mockPosts, 'github copilot');
+    const results = performPostSearch(mockPosts, 'github copilot');
 
     // 少なくとも1つの結果が含まれるべき
     expect(results.length).toBeGreaterThan(0);
@@ -275,7 +275,7 @@ describe('特定ワードでの検索', () => {
 
 describe('日本語検索の問題', () => {
   test('「方法」で検索したとき「Shift_JISファイルをgrepする方法」がヒットする', () => {
-    const results = executeSearch(mockPosts, '方法');
+    const results = performPostSearch(mockPosts, '方法');
 
     // 「方法」を含む投稿が検索結果に含まれるべき
     expect(results.length).toBeGreaterThan(0);
@@ -287,7 +287,7 @@ describe('日本語検索の問題', () => {
   });
 
   test('「方法」で検索したとき「最新のCSSプロパティにVS Codeのシンタックスハイライトを対応させる方法」もヒットする', () => {
-    const results = executeSearch(mockPosts, '方法');
+    const results = performPostSearch(mockPosts, '方法');
 
     // 「方法」を含む投稿が検索結果に含まれるべき
     const expectedPost = results.find((post) => post.slug === '202501200200');
@@ -296,7 +296,7 @@ describe('日本語検索の問題', () => {
   });
 
   test('スペースや前後の文字列を含む「方法」でも検索できる', () => {
-    const results = executeSearch(mockPosts, '方法');
+    const results = performPostSearch(mockPosts, '方法');
 
     // 「方法」を含むすべての投稿を確認
     const methodPosts = mockPosts.filter((post) => post.title.includes('方法'));
@@ -308,7 +308,7 @@ describe('日本語検索の問題', () => {
 
   test('前後にスペースを含む「 方法 」でも正しく検索できる', () => {
     // 前後にスペースがあってもトリムされて検索される
-    const results = executeSearch(mockPosts, ' 方法 ');
+    const results = performPostSearch(mockPosts, ' 方法 ');
 
     // 「方法」を含む投稿が検索結果に含まれるべき
     expect(results.length).toBeGreaterThan(0);
@@ -320,7 +320,7 @@ describe('日本語検索の問題', () => {
   });
 
   test('改行文字やタブを含む検索クエリでも正しく検索できる', () => {
-    const results = executeSearch(mockPosts, '\n\t方法\t\n');
+    const results = performPostSearch(mockPosts, '\n\t方法\t\n');
 
     // 「方法」を含む投稿が検索結果に含まれるべき
     expect(results.length).toBeGreaterThan(0);

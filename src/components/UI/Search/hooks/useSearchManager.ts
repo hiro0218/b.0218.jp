@@ -4,16 +4,15 @@ import type { SearchProps } from '../types';
 import { useSearchWithCache } from '../utils/search';
 import { useSearchState } from './useSearchState';
 
-interface UseSearchManagerProps {
+type UseSearchManagerProps = {
   archives: SearchProps[];
-  debounceDelay?: number;
-}
+  debounceDelayMs?: number;
+};
 
 /**
  * 検索機能の統合管理を提供
- * デバウンス処理により過剰な検索実行を防ぎ、パフォーマンスを最適化
  */
-export const useSearchManager = ({ archives, debounceDelay = 300 }: UseSearchManagerProps) => {
+export const useSearchManager = ({ archives, debounceDelayMs = 300 }: UseSearchManagerProps) => {
   const { state, setResults, reset } = useSearchState();
   const searchWithCache = useSearchWithCache();
 
@@ -40,7 +39,7 @@ export const useSearchManager = ({ archives, debounceDelay = 300 }: UseSearchMan
   );
 
   // デバウンス処理された検索関数
-  const debouncedSearch = useMemo(() => debounce(executeSearch, debounceDelay), [executeSearch, debounceDelay]);
+  const debouncedSearch = useMemo(() => debounce(executeSearch, debounceDelayMs), [executeSearch, debounceDelayMs]);
 
   return {
     state,

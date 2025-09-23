@@ -10,6 +10,7 @@ import { Layout } from '@/components/App/Layout/AppLayout';
 import { MainContainer } from '@/components/App/Layout/MainContainer';
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constant';
+import { SearchDialogProvider } from '@/contexts/SearchDialogContext';
 import { getOrganizationStructured } from '@/lib/json-ld';
 
 const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((module) => module.PageScroll));
@@ -64,12 +65,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-        <Layout>
-          <Header />
-          <MainContainer>{children}</MainContainer>
-          <PageScroll />
-          <Footer />
-        </Layout>
+        <SearchDialogProvider>
+          <Layout>
+            <Header />
+            <MainContainer>{children}</MainContainer>
+            <PageScroll />
+            <Footer />
+          </Layout>
+        </SearchDialogProvider>
       </body>
     </html>
   );

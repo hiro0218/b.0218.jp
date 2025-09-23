@@ -26,8 +26,16 @@ export const SearchDialog = ({ closeDialog, isClosing, ref }: Props) => {
   const isClient = useIsClient();
   const id = useId();
 
-  const { results, query, focusedIndex, onSearchInput, setResultRef } = useSearchIntegration({
+  const {
+    results,
+    query,
+    focusedIndex,
+    onSearchInput,
+    setResultRef,
+    closeDialog: handleCloseDialog,
+  } = useSearchIntegration({
     closeDialog,
+    dialogRef: ref as React.RefObject<HTMLDialogElement>,
   });
 
   if (!isClient) {
@@ -50,14 +58,15 @@ export const SearchDialog = ({ closeDialog, isClosing, ref }: Props) => {
         </p>
         <SearchHeader onKeyUp={onSearchInput} searchQuery={query} />
         <SearchPanel
-          closeDialog={closeDialog}
+          closeDialog={handleCloseDialog}
+          closeOnRouteChange={false}
           focusedIndex={focusedIndex}
           results={results}
           searchQuery={query}
           setResultRef={setResultRef}
         />
       </Dialog>
-      <Overlay onClick={closeDialog} />
+      <Overlay onClick={handleCloseDialog} />
     </>,
     document.body,
   );
@@ -76,6 +85,7 @@ const Dialog = styled.dialog`
     padding: 0;
     border: none;
     opacity: 1;
+    will-change: transform, opacity;
     animation: zoomIn 0.2s;
   }
 

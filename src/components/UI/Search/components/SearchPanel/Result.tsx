@@ -1,6 +1,7 @@
-import { memo, useId, useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { css, styled } from '@/ui/styled';
 import type { SearchProps } from '../../types';
+import { SearchResultMessage } from './Meta';
 import { NavigableLink } from './NavigableLink';
 
 export const Result = memo(function Result({
@@ -16,7 +17,6 @@ export const Result = memo(function Result({
   setResultRef: (index: number, element: HTMLDivElement | null) => void;
   keyword?: string;
 }) {
-  const headingId = useId();
   const ResultList = useMemo(() => {
     return suggestions.map(({ slug }, index) => {
       const isFocused = focusedIndex === index;
@@ -34,16 +34,8 @@ export const Result = memo(function Result({
   }, [suggestions, markedTitles, focusedIndex, setResultRef]);
 
   return (
-    <Container aria-labelledby={headingId} data-search-results>
-      <Message id={headingId}>
-        {suggestions.length > 0
-          ? keyword
-            ? `「${keyword}」の検索結果: ${suggestions.length}件`
-            : `検索結果: ${suggestions.length}件`
-          : keyword
-            ? `「${keyword}」に一致する記事は見つかりませんでした。`
-            : '検索キーワードを入力してください。'}
-      </Message>
+    <Container data-search-results>
+      <SearchResultMessage resultsCount={suggestions.length} searchQuery={keyword} />
       {ResultList.length > 0 && <div>{ResultList}</div>}
     </Container>
   );
@@ -101,12 +93,4 @@ export const AnchorStyle = css`
     outline: none;
     background-color: transparent;
   }
-`;
-
-const Message = styled.div`
-  padding: var(--spacing-½);
-  font-size: var(--font-sizes-xs);
-  font-weight: var(--font-weights-bold);
-  line-height: var(--line-heights-xs);
-  color: var(--colors-gray-9);
 `;
