@@ -1,9 +1,18 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
   "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!**/.github/scripts/*.js", "!**/.github/scripts/*.ts"]
+    "includes": [
+      "**",
+      "!**/.github/scripts/*.js",
+      "!**/.github/scripts/*.ts",
+      "!.next/**",
+      "!styled-system/**",
+      "!**/*.css",
+      "!dist/**",
+      "!coverage/**"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -45,7 +54,12 @@
         "noChildrenProp": "error",
         "noPrecisionLoss": "error",
         "noUnusedImports": "error",
-        "noUnusedVariables": "error",
+        "noUnusedVariables": {
+          "level": "error",
+          "options": {
+            "ignoreRestSiblings": true
+          }
+        },
         "useExhaustiveDependencies": "warn",
         "useHookAtTopLevel": "error",
         "useJsxKeyInIterable": "error"
@@ -80,6 +94,7 @@
       "!build",
       "!public",
       "!out",
+      "!styled-system",
       "!next-env.d.ts",
       "!**/.eslintrc.js",
       "!**/*.config.js"
