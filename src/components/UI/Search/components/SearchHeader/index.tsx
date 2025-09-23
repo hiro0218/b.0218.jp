@@ -19,10 +19,9 @@ export const SearchHeader = memo(function SearchHeader({ onKeyUp, onKeyDown, sea
   const refInput = useRef<HTMLInputElement>(null);
   const searchInputId = useId();
 
-  // パフォーマンス最適化: 初回マウント時のみfocus
   useEffect(() => {
     refInput.current?.focus();
-  }, []); // 依存配列空で初回のみ実行
+  }, []);
 
   return (
     <Header>
