@@ -34,6 +34,7 @@ export const useSearchStatePersistence = () => {
 
     const storedState: StoredSearchState = {
       ...state,
+      isOpen: state.isOpen ?? true,
       timestamp: Date.now(),
     };
 

@@ -27,7 +27,7 @@ export const useSearchIntegration = ({
 }: UseSearchIntegrationProps) => {
   const archives = usePostsList();
   const { state, debouncedSearch, executeSearch, reset } = useSearchManager({ archives });
-  const { saveSearchState, loadSearchState } = useSearchStatePersistence();
+  const { saveSearchState, loadSearchState, clearSearchState } = useSearchStatePersistence();
 
   const focusManager = useSearchFocusManager({
     resultsLength: state.results.length,
@@ -57,11 +57,16 @@ export const useSearchIntegration = ({
       query: state.query,
       results: state.results,
       focusedIndex: focusManager.state.focusedIndex,
+      isOpen: true, // 検索状態がある場合は常に開いた状態として保存
     });
   }, [persistSearchState, state.query, state.results, focusManager.state.focusedIndex, saveSearchState]);
 
   const handleCloseDialog = () => {
     focusManager.state.resetAll();
+    // ダイアログを閉じる時は検索状態もクリア
+    if (persistSearchState) {
+      clearSearchState();
+    }
     closeDialog();
   };
 
