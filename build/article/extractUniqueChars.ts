@@ -55,7 +55,7 @@ function extractUniqueChars(data: { title: string; content: string }[]): string 
 const isEmoji = (char: string): boolean => /\p{Emoji}/u.test(char);
 
 /** アルファベットやASCII記号判定する関数 */
-// biome-ignore lint/correctness/noUnusedVariables: <explanation>
+// biome-ignore lint/correctness/noUnusedVariables: ASCII判定関数は現在未使用だが将来使用予定
 const isAscii = (char: string): boolean => /^[\x20-\x7E]*$/.test(char);
 
 /**

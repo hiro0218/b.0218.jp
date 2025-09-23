@@ -7,9 +7,9 @@ loadEnvConfig(process.cwd());
 
 const analyticsDataClient = new BetaAnalyticsDataClient({
   credentials: {
-    // biome-ignore lint/style/useNamingConvention: <explanation>
+    // biome-ignore lint/style/useNamingConvention: Google APIの仕様に合わせたスネークケース
     client_email: process.env.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL,
-    // biome-ignore lint/style/useNamingConvention: <explanation>
+    // biome-ignore lint/style/useNamingConvention: Google APIの仕様に合わせたスネークケース
     private_key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY.split(String.raw`\n`).join('\n'),
   },
 });
