@@ -3,19 +3,21 @@ import { type RefObject, useEffect } from 'react';
 
 type Props = {
   ref: RefObject<HTMLDivElement>;
-  enabled?: boolean;
 };
 
-function useTwitterWidgetsLoad({ ref, enabled = true }: Props): void {
+/**
+ * Twitter埋め込みウィジェットを動的に読み込むカスタムフック
+ */
+function useTwitterWidgetsLoad({ ref }: Props): void {
   const pathname = usePathname();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: This effect should re-run when the pathname changes to load Twitter widgets for the new page.
   useEffect(() => {
-    if (!enabled || !ref.current) {
+    if (!ref.current) {
       return;
     }
     window?.twttr?.widgets.load(ref.current);
-  }, [pathname, ref, enabled]);
+  }, [pathname, ref]);
 }
 
 export default useTwitterWidgetsLoad;
