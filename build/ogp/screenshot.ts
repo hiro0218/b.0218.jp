@@ -171,7 +171,7 @@ else {
 
       // バッチ処理用のプールサイズ
       const batchSize = Math.min(posts.length, PAGES_PER_WORKER * 3);
-      // biome-ignore lint/correctness/noUnusedVariables:
+      // biome-ignore lint/correctness/noUnusedVariables: バッチ処理の同時実行数を追跡するために使用
       let active = 0;
       let completed = 0;
       let index = 0;

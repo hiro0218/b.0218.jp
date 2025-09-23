@@ -112,6 +112,7 @@ const PostCount = styled.span`
 
 const Date = styled.span`
   font-size: var(--font-sizes-sm);
+  font-variant-numeric: tabular-nums;
   color: var(--colors-gray-10);
   text-align: center;
 `;

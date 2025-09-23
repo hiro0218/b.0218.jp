@@ -1,21 +1,21 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import debounce from '@/lib/debounce';
 import type { SearchProps } from '../types';
 import { useSearchWithCache } from '../utils/search';
 import { useSearchState } from './useSearchState';
 
-interface UseSearchManagerProps {
+type UseSearchManagerProps = {
   archives: SearchProps[];
-  debounceDelay?: number;
-}
+  debounceDelayMs?: number;
+};
 
 /**
  * 検索機能の統合管理を提供
- * デバウンス処理により過剰な検索実行を防ぎ、パフォーマンスを最適化
  */
-export const useSearchManager = ({ archives, debounceDelay = 300 }: UseSearchManagerProps) => {
+export const useSearchManager = ({ archives, debounceDelayMs = 300 }: UseSearchManagerProps) => {
   const { state, setResults, reset } = useSearchState();
   const searchWithCache = useSearchWithCache();
+  const lastQueryRef = useRef('');
 
   /** 即座実行が必要な場合はこれを直接使用 */
   const executeSearch = useCallback(
@@ -25,27 +25,30 @@ export const useSearchManager = ({ archives, debounceDelay = 300 }: UseSearchMan
       // 空文字の場合はリセット
       if (!trimmedQuery) {
         reset();
+        lastQueryRef.current = '';
         return;
       }
 
       // 同じクエリの場合はスキップ
-      if (trimmedQuery === state.query) {
+      if (trimmedQuery === lastQueryRef.current) {
         return;
       }
 
       const results = searchWithCache(archives, trimmedQuery);
       setResults(results, trimmedQuery);
+      lastQueryRef.current = trimmedQuery;
     },
-    [archives, state.query, setResults, reset, searchWithCache],
+    [archives, setResults, reset, searchWithCache],
   );
 
   // デバウンス処理された検索関数
-  const debouncedSearch = useMemo(() => debounce(executeSearch, debounceDelay), [executeSearch, debounceDelay]);
+  const debouncedSearch = useMemo(() => debounce(executeSearch, debounceDelayMs), [executeSearch, debounceDelayMs]);
 
   return {
     state,
     debouncedSearch,
     executeSearch,
     reset,
+    setResults,
   };
 };

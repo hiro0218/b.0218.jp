@@ -5,6 +5,8 @@ on:
   schedule:
     - cron: '0 0 * * *' # UTC時刻で日本時間の0:00
 
+permissions:
+  contents: read
 jobs:
   build-deploy:
     runs-on: ubuntu-latest

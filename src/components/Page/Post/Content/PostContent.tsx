@@ -1,48 +1,30 @@
 'use client';
 
 import { useRef } from 'react';
-
 import { Adsense } from '@/components/UI/Adsense';
-import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
-import { splitReactNode } from '@/lib/splitHtml';
 import type { Post } from '@/types/source';
-import { styled } from '@/ui/styled';
 import Mokuji from '../Mokuji';
+import { AdsenseContainer, PostAdsenseManager } from './PostAdsenseManager';
+import { PostWidgetManager } from './PostWidgetManager';
 import { parser } from './parser/HTMLParser';
 
-export interface ContentProps {
-  enableMokuji?: boolean;
+type ContentProps = {
   content: Post['content'];
-}
+};
 
-export default function Content({ enableMokuji = true, content }: ContentProps) {
-  const reactNodeContent = parser(content);
-  const { before, after } = splitReactNode(reactNodeContent);
+export default function Content({ content }: ContentProps) {
   const ref = useRef<HTMLDivElement>(null);
-  useTwitterWidgetsLoad({ ref });
+  const parsedContent = parser(content);
 
   return (
     <>
-      {enableMokuji && <Mokuji refContent={ref} />}
-      <section ref={ref}>
-        <div className="post-content">{before}</div>
-        {!!after && (
-          <>
-            <AdsenseContainer>
-              <Adsense />
-            </AdsenseContainer>
-            <div className="post-content">{after}</div>
-          </>
-        )}
-      </section>
+      <Mokuji refContent={ref} />
+      <PostWidgetManager contentRef={ref}>
+        <PostAdsenseManager content={parsedContent} />
+      </PostWidgetManager>
       <AdsenseContainer>
         <Adsense />
       </AdsenseContainer>
     </>
   );
 }
-
-const AdsenseContainer = styled.div`
-  margin: var(--spacing-4) 0;
-  text-align: center;
-`;

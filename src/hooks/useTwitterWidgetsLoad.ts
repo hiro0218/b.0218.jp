@@ -5,6 +5,9 @@ type Props = {
   ref: RefObject<HTMLDivElement>;
 };
 
+/**
+ * Twitter埋め込みウィジェットを動的に読み込むカスタムフック
+ */
 function useTwitterWidgetsLoad({ ref }: Props): void {
   const pathname = usePathname();
 

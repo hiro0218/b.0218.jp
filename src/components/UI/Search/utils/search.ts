@@ -241,7 +241,7 @@ const matchMultipleTerms = (post: SearchProps, searchTerms: string[]): RankedSea
  * @returns 優先度情報付きの検索結果配列（RankedSearchResult[]）
  * @note 単一キーワードでは完全一致優先、複数キーワードではAND条件で結果を絞り込み
  */
-export const searchPosts = (archives: SearchProps[], searchValue: string): RankedSearchResult[] => {
+export const findMatchingPosts = (archives: SearchProps[], searchValue: string): RankedSearchResult[] => {
   // 検索ワードが空の場合は空の結果を返す
   if (isEmptyQuery(searchValue)) {
     return [];
@@ -300,13 +300,13 @@ const sortAndLimitResults = (results: RankedSearchResult[], maxResults = 100): S
  * @returns 優先度順にソートされた検索結果配列（最大100件）
  * @note UIの応答性確保のため結果件数を100件に制限し、優先度順ソートを適用
  */
-export const executeSearch = (archives: SearchProps[], searchValue: string): SearchProps[] => {
+export const performPostSearch = (archives: SearchProps[], searchValue: string): SearchProps[] => {
   if (isEmptyQuery(searchValue)) {
     return [];
   }
 
   // 検索実行
-  const rankedResults = searchPosts(archives, searchValue);
+  const rankedResults = findMatchingPosts(archives, searchValue);
 
   // ソートと件数制限を適用
   return sortAndLimitResults(rankedResults, MAX_SEARCH_RESULTS);
@@ -338,7 +338,7 @@ export const useSearchWithCache = () => {
       }
 
       // 検索実行
-      const results = executeSearch(archives, searchValue);
+      const results = performPostSearch(archives, searchValue);
 
       // キャッシュサイズ制限：最も古いエントリーを削除
       if (cache.size >= CACHE_SIZE_LIMIT) {

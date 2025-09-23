@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useEventListener } from '@/hooks/useEventListener';
 import { isSSR } from '@/lib/isSSR';
 import throttle from '@/lib/throttle';
@@ -56,13 +56,9 @@ export const useHeaderScrollHandler = (): boolean => {
   }, []);
 
   // パフォーマンス劣化を防ぐためスロットリング処理
-  const throttledHandleScroll = useRef(throttle(handleScroll));
+  const throttledHandleScroll = useMemo(() => throttle(handleScroll), [handleScroll]);
 
-  useEffect(() => {
-    throttledHandleScroll.current = throttle(handleScroll);
-  }, [handleScroll]);
-
-  useEventListener('scroll', throttledHandleScroll.current, { passive: true });
+  useEventListener('scroll', throttledHandleScroll, { passive: true });
 
   return isHeaderVisible;
 };
