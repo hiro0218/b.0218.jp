@@ -49,5 +49,6 @@ export const useSearchManager = ({ archives, debounceDelayMs = 300 }: UseSearchM
     debouncedSearch,
     executeSearch,
     reset,
+    setResults,
   };
 };
