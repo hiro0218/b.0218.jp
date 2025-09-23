@@ -2,6 +2,7 @@ name: Pull Request Auto Assign
 on:
   pull_request:
     types: [opened, reopened]
+permissions: write-all
 jobs:
   auto-assign:
     name: Assign author to PR
