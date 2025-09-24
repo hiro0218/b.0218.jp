@@ -56,7 +56,7 @@ export const useHeaderScrollHandler = (): boolean => {
   }, []);
 
   // パフォーマンス劣化を防ぐためスロットリング処理
-  const throttledHandleScroll = useMemo(() => throttle(handleScroll), [handleScroll]);
+  const throttledHandleScroll = useMemo(() => throttle(handleScroll), []);
 
   useEventListener('scroll', throttledHandleScroll, { passive: true });
 
