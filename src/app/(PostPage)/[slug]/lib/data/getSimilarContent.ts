@@ -24,7 +24,7 @@ for (let i = 0; i < cachedPosts.length; i++) {
 function getSimilarPostMapping(slug: string) {
   for (let i = 0; i < cachedSimilarPosts.length; i++) {
     const item = cachedSimilarPosts[i];
-    if (item.hasOwnProperty(slug)) {
+    if (slug in item) {
       return item[slug];
     }
   }
