@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { createContext, type ReactNode, useContext, useEffect } from 'react';
+import { createContext, type ReactNode, useContext, useEffect, useMemo } from 'react';
 import { useDialog } from '@/hooks/useDialog';
 
 type SearchDialogContextType = {
@@ -26,13 +26,16 @@ export function SearchDialogProvider({ children }: { children: ReactNode }) {
     }
   }, [pathname]);
 
-  const contextValue: SearchDialogContextType = {
-    isOpen: dialog.isOpen,
-    isClosing: dialog.isClosing ?? false,
-    open: dialog.open,
-    close: dialog.close,
-    dialogRef: dialog.ref,
-  };
+  const contextValue = useMemo<SearchDialogContextType>(
+    () => ({
+      isOpen: dialog.isOpen,
+      isClosing: dialog.isClosing ?? false,
+      open: dialog.open,
+      close: dialog.close,
+      dialogRef: dialog.ref,
+    }),
+    [dialog.isOpen, dialog.isClosing, dialog.open, dialog.close, dialog.ref],
+  );
 
   return <SearchDialogContext.Provider value={contextValue}>{children}</SearchDialogContext.Provider>;
 }
