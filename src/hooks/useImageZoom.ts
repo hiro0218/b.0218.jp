@@ -93,7 +93,7 @@ export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomRet
     if (img && !imageLoaded && img.complete && img.naturalWidth) {
       setImageLoaded();
     }
-  });
+  }, [imageLoaded, setImageLoaded]);
 
   return {
     imgRef,
