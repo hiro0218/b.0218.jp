@@ -103,16 +103,10 @@ export const getTextMatchType = (text: string, query: string): MatchType => {
   const queryNorm = normalizeText(query);
 
   // マッチタイプを優先度順にチェック
-  const checks: [() => boolean, MatchType][] = [
-    [() => textNorm.standard === queryNorm.standard, 'EXACT'],
-    [() => textNorm.compact === queryNorm.compact, 'EXACT_NO_SPACE'],
-    [() => textNorm.standard.includes(queryNorm.standard), 'PARTIAL'],
-    [() => textNorm.compact.includes(queryNorm.compact), 'PARTIAL_NO_SPACE'],
-  ];
-
-  for (const [check, type] of checks) {
-    if (check()) return type;
-  }
+  if (textNorm.standard === queryNorm.standard) return 'EXACT';
+  if (textNorm.compact === queryNorm.compact) return 'EXACT_NO_SPACE';
+  if (textNorm.standard.includes(queryNorm.standard)) return 'PARTIAL';
+  if (textNorm.compact.includes(queryNorm.compact)) return 'PARTIAL_NO_SPACE';
 
   return 'NONE';
 };
@@ -179,9 +173,10 @@ export const getTitleMatchType = (post: SearchProps, searchValue: string): Match
  * @returns 全てのキーワードが一致する場合true
  */
 export const isMultiTermMatching = (post: SearchProps, searchTerms: string[]): boolean => {
+  const titleNorm = normalizeText(post.title);
+
   return searchTerms.every((term) => {
     const termNorm = normalizeText(term);
-    const titleNorm = normalizeText(post.title);
 
     // タイトルマッチを先にチェック（早期リターン）
     const titleMatch = titleNorm.standard.includes(termNorm.standard) || titleNorm.compact.includes(termNorm.compact);
