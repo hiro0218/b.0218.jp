@@ -81,6 +81,6 @@ export const useDialog = <T extends HTMLDialogElement>(options?: UseDialogOption
     close,
     toggle,
     isOpen: ref.current?.open ?? false,
-    ...(animated && { isClosing }),
+    isClosing: !!(animated && isClosing),
   } as const;
 };
