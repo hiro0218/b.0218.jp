@@ -11,6 +11,12 @@ import { getData } from './libs';
 const data = getData();
 const { recentPosts, updatesPosts, popularPosts, tags } = data;
 
+const postSections = [
+  { heading: '最新記事', href: '/archive', posts: recentPosts },
+  { heading: '注目記事', href: '/popular', posts: popularPosts },
+  { heading: '更新記事', posts: updatesPosts },
+];
+
 export const metadata: Metadata = {
   alternates: {
     canonical: SITE_URL,
@@ -32,11 +38,7 @@ export default async function Page() {
               <Heading as="h2">記事</Heading>
               <Box mt={2}>
                 <Stack space={4}>
-                  {[
-                    { heading: '最新記事', href: '/archive', posts: recentPosts },
-                    { heading: '注目記事', href: '/popular', posts: popularPosts },
-                    { heading: '更新記事', posts: updatesPosts },
-                  ].map(({ heading, href, posts }, index) => (
+                  {postSections.map(({ heading, href, posts }, index) => (
                     <PostSection
                       heading={heading}
                       headingLevel="h3"
