@@ -1,8 +1,7 @@
 /**
  * sessionStorage 専用の型安全なユーティリティ
  *
- * Safari プライベートモードなどストレージアクセス拒否環境では
- * すべての関数が false/null を返します
+ * Safari プライベートモードなどストレージアクセス拒否環境ではすべての関数が false/null を返す
  */
 
 /**
@@ -48,13 +47,15 @@ export const getFromSession = <T>(key: string): T | null => {
     return null;
   }
 
+  let stored: string | null = null;
   try {
-    const stored = sessionStorage.getItem(key);
-    return safeJsonParse<T>(stored);
+    stored = sessionStorage.getItem(key);
   } catch (error) {
     console.error(`Failed to get item from storage (${key}):`, error);
     return null;
   }
+
+  return safeJsonParse<T>(stored);
 };
 
 /**
@@ -75,11 +76,12 @@ export const setToSession = <T>(key: string, value: T): boolean => {
 
   try {
     sessionStorage.setItem(key, serialized);
-    return true;
   } catch (error) {
     console.error(`Failed to set item to storage (${key}):`, error);
     return false;
   }
+
+  return true;
 };
 
 /**
@@ -95,11 +97,13 @@ export const removeFromSession = (key: string): boolean => {
     return false;
   }
 
+  // V8最適化: try-catch範囲を最小化してインライン化を促進
   try {
     sessionStorage.removeItem(key);
-    return true;
   } catch (error) {
     console.error(`Failed to remove item from storage (${key}):`, error);
     return false;
   }
+
+  return true;
 };
