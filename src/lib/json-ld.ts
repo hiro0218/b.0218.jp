@@ -96,8 +96,8 @@ export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> =
       logo: {
         '@type': 'ImageObject',
         url: AUTHOR_ICON,
-        width: '400px',
-        height: '400px',
+        width: '400',
+        height: '400',
       },
     },
   };
