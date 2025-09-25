@@ -1,6 +1,8 @@
 import escapeHTML from '@/lib/escapeHTML';
 
 const HIGHLIGHT_TAG_NAME = 'mark';
+const keywordSplitCache = new Map<string, string[]>();
+const KEYWORD_CACHE_SIZE = 50;
 
 const escapeRegExp = (string: string): string => {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -40,6 +42,19 @@ const markEscapedHTML = (() => {
  * @returns マークアップされたHTML文字列の配列
  */
 export const createMarkedTitles = (suggestions: { title: string }[], keyword: string) => {
-  const splitKeyword = keyword.split(' ').filter((word) => word.trim() !== '');
+  let splitKeyword = keywordSplitCache.get(keyword);
+
+  if (!splitKeyword) {
+    splitKeyword = keyword.split(' ').filter((word) => word.trim() !== '');
+
+    // Mapのサイズ制限を超えた場合、最も古いエントリを削除してメモリ使用量を抑える
+    if (keywordSplitCache.size > KEYWORD_CACHE_SIZE) {
+      const firstKey = keywordSplitCache.keys().next().value;
+      keywordSplitCache.delete(firstKey);
+    }
+
+    keywordSplitCache.set(keyword, splitKeyword);
+  }
+
   return suggestions.map(({ title }) => markEscapedHTML(title, splitKeyword));
 };
