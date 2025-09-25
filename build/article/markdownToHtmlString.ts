@@ -14,7 +14,7 @@ import rehypeRemoveComments from './rehypeRemoveComments';
 import remarkBreaks from './remarkBreaks';
 
 const markdownToHtmlString = async (markdown: string, isSimple = false) => {
-  const processor = unified()
+  const baseProcessor = unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkBreaks)
@@ -23,15 +23,16 @@ const markdownToHtmlString = async (markdown: string, isSimple = false) => {
     .use(rehypeMinifyWhitespace)
     .use(rehypeRaw);
 
-  const result = isSimple
-    ? await processor.use(rehypeStringify, { allowDangerousHtml: true }).process(markdown)
-    : await processor
+  const processor = isSimple
+    ? baseProcessor.use(rehypeStringify, { allowDangerousHtml: true })
+    : baseProcessor
         .use(rehypeGfmAlert)
         .use(rehypeHighlight)
         .use(rehype0218)
         .use(rehypeRemoveComments)
-        .use(rehypeStringify, { allowDangerousHtml: true })
-        .process(markdown);
+        .use(rehypeStringify, { allowDangerousHtml: true });
+
+  const result = await processor.process(markdown);
 
   return result.toString();
 };
