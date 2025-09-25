@@ -19,17 +19,18 @@ type PostListProps = {
 export function PostList({ posts }: PostListProps) {
   const searchParams = useSearchParams();
   const currentPage = parsePageNumber(searchParams.get(ARCHIVE_CONFIG.queryKey));
-
   const paginatedPosts = useMemo(() => {
     const startIndex = (currentPage - 1) * ARCHIVE_CONFIG.itemsPerPage;
     const endIndex = startIndex + ARCHIVE_CONFIG.itemsPerPage;
-    return posts.slice(startIndex, endIndex);
+    return posts.slice(startIndex, endIndex).map((post) => ({
+      ...post,
+      link: convertPostSlugToPath(post.slug),
+    }));
   }, [currentPage, posts]);
 
   return (
     <>
-      {paginatedPosts.map(({ date, slug, title, updated }) => {
-        const link = convertPostSlugToPath(slug);
+      {paginatedPosts.map(({ date, slug, title, updated, link }) => {
         return <LinkCard date={date} key={slug} link={link} title={title} updated={updated} />;
       })}
     </>
