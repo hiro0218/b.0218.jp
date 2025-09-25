@@ -16,7 +16,10 @@ function useTwitterWidgetsLoad({ ref }: Props): void {
     if (!ref.current) {
       return;
     }
-    window?.twttr?.widgets.load(ref.current);
+
+    if ('twttr' in window) {
+      window.twttr?.widgets.load(ref.current);
+    }
   }, [pathname, ref]);
 }
 
