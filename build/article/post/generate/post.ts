@@ -28,17 +28,27 @@ export async function buildPost() {
 
     const content = (await markdownToHtmlString(post.content)).trim();
     const noteContent = !!note ? await markdownToHtmlString(note, true) : '';
+    const dateString = new Date(date).toISOString();
+    const updatedString = updated ? new Date(updated).toISOString() : undefined;
 
-    posts.push({
+    const postData: Post = {
       title: title.trim(),
       slug: getSlug(file),
-      date: new Date(date).toISOString(),
-      ...(updated && { updated: new Date(updated).toISOString() }),
-      ...(noteContent && { note: noteContent }),
+      date: dateString,
       content: content,
       tags: tags || [],
       noindex,
-    });
+    };
+
+    if (updatedString) {
+      postData.updated = updatedString;
+    }
+
+    if (noteContent) {
+      postData.note = noteContent;
+    }
+
+    posts.push(postData);
   }
 
   // sort: 日付順
