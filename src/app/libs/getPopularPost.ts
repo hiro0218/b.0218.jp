@@ -19,9 +19,14 @@ export const getPopularPost = (posts: ReturnType<typeof getPostsListJson>, displ
     .map((slug) => postsMap.get(slug)) // O(1)での検索
     .filter((post) => post !== undefined)
     .map((post) => {
+      const dateFormats = getDateAndUpdatedToSimpleFormat(post.date, post.updated);
+
       return {
-        ...post,
-        ...getDateAndUpdatedToSimpleFormat(post.date, post.updated),
+        title: post.title,
+        slug: post.slug,
+        date: dateFormats.date,
+        updated: dateFormats.updated,
+        tags: post.tags,
       };
     })
     .slice(0, displayLimit);
