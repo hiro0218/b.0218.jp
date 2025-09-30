@@ -1,20 +1,14 @@
-import dynamic from 'next/dynamic';
 import { type ForwardedRef, useId } from 'react';
 import { createPortal } from 'react-dom';
 
+import { Overlay } from '@/components/UI/Overlay';
 import useIsClient from '@/hooks/useIsClient';
 import { styled } from '@/ui/styled';
 import { useSearchIntegration } from '../../hooks/useSearchIntegration';
 import type { OnCloseDialogProps } from '../../types';
 import { SEARCH_LABELS } from '../../utils/constants';
-
-const SearchPanel = dynamic(() => import('../SearchPanel').then((mod) => ({ default: mod.SearchPanel })), {
-  ssr: false,
-});
-const SearchHeader = dynamic(() => import('../SearchHeader').then((mod) => ({ default: mod.SearchHeader })), {
-  ssr: false,
-});
-const Overlay = dynamic(() => import('@/components/UI/Overlay').then((mod) => mod.Overlay), { ssr: false });
+import { SearchHeader } from '../SearchHeader';
+import { SearchPanel } from '../SearchPanel';
 
 type Props = {
   closeDialog: OnCloseDialogProps;

@@ -3,5 +3,7 @@ interface Window {
 
   adsbygoogle?: { [key: string]: unknown }[];
 
-  twttr: Twitter;
+  twttr?: {
+    widgets: TwitterWidgets;
+  };
 }

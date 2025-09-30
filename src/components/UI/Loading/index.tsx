@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { styled } from '@/ui/styled';
 
 interface LoadingProps {
@@ -5,12 +6,14 @@ interface LoadingProps {
 }
 
 export const Loading = ({ size = 50 }: LoadingProps) => {
+  const spinnerStyle = useMemo(() => ({ width: `${size}px`, height: `${size}px` }), [size]);
+
   return (
     <Container>
       <Spinner
         aria-hidden="true"
         fill="none"
-        style={{ width: `${size}px`, height: `${size}px` }}
+        style={spinnerStyle}
         viewBox="0 0 100 101"
         xmlns="http://www.w3.org/2000/svg"
       >

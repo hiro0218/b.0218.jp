@@ -1,5 +1,5 @@
 import { usePathname } from 'next/navigation';
-import { type CSSProperties, useEffect } from 'react';
+import { type CSSProperties, useEffect, useMemo } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/constant';
 import { useBoolean } from '@/hooks/useBoolean';
@@ -31,21 +31,23 @@ export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
     }
   }, [pathname, isLoaded]);
 
+  const adsStyle = useMemo(
+    () =>
+      ({
+        '--ads-height': `${adsHeight}px`,
+        '--ads-width': `${adsWidth}px`,
+        backgroundColor: process.env.NODE_ENV === 'development' ? 'var(--colors-gray-3)' : undefined,
+      }) as CSSProperties,
+    [adsHeight, adsWidth],
+  );
+
   /**
    * aria-label
    * @link https://support.google.com/adsense/answer/4533986?hl=ja
    */
   return (
     <Container aria-label="スポンサーリンク" key={pathname}>
-      <Ads
-        style={
-          {
-            '--ads-height': `${adsHeight}px`,
-            '--ads-width': `${adsWidth}px`,
-            backgroundColor: process.env.NODE_ENV === 'development' && 'var(--colors-gray-3)',
-          } as CSSProperties
-        }
-      >
+      <Ads style={adsStyle}>
         <Ins />
       </Ads>
     </Container>

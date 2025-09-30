@@ -13,18 +13,21 @@ const filterPosts = ({ posts, options }: Props): PostSummary[] => {
   const { withoutContent = true } = options || {};
 
   return posts.map((post) => {
-    post = {
-      ...post,
-      ...getDateAndUpdatedToSimpleFormat(post.date, post.updated),
+    const dateFormats = getDateAndUpdatedToSimpleFormat(post.date, post.updated);
+    const result: PostSummary = {
+      title: post.title,
+      slug: post.slug,
+      date: dateFormats.date,
+      updated: dateFormats.updated,
+      tags: post.tags,
     };
 
-    if (withoutContent && 'content' in post) {
-      // 'content' プロパティが存在し、withoutContent が true の場合、content, note を除外
-      const { content, note, ...rest } = post;
-      return rest;
+    // contentがある場合の処理を分離
+    if (!withoutContent && 'content' in post) {
+      return { ...result, content: post.content, note: post.note };
     }
 
-    return post;
+    return result;
   });
 };
 

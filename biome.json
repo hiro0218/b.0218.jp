@@ -64,6 +64,11 @@
         "useHookAtTopLevel": "error",
         "useJsxKeyInIterable": "error"
       },
+      "performance": {
+        "noAccumulatingSpread": "error",
+        "noDelete": "error",
+        "useTopLevelRegex": "error"
+      },
       "security": { "noDangerouslySetInnerHtmlWithChildren": "error" },
       "style": {
         "noNamespace": "error",

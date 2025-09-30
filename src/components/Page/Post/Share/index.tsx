@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useId, useState } from 'react';
 
 import { Stack } from '@/components/UI/Layout';
-import { Loading } from '@/components/UI/Loading';
 import { Toast } from '@/components/UI/Toast';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { X_ACCOUNT } from '@/constant';
@@ -18,7 +17,7 @@ interface Props {
 
 function PostShare({ title, url }: Props) {
   const labelledbyId = useId();
-  const [isShareSupported, setIsShareSupported] = useState<boolean | undefined>(undefined);
+  const [isShareSupported, setIsShareSupported] = useState(false);
   const [, copy] = useCopyToClipboard();
   const { Component: ToastComponent, showToast } = Toast('記事のURLをコピーしました');
   const classNames = cx('link-style--hover-effect', ShareButtonStyle);
@@ -79,18 +78,12 @@ function PostShare({ title, url }: Props) {
         </button>
         <button
           className={classNames}
-          disabled={isShareSupported === false}
-          onClick={isShareSupported === false ? undefined : onClickShare}
+          disabled={!isShareSupported}
+          onClick={isShareSupported ? onClickShare : undefined}
           type="button"
         >
-          {!isShareSupported ? (
-            <Loading size={ICON_SIZE_SM} />
-          ) : (
-            <>
-              <Tooltip text="その他：共有" />
-              <Share1Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-            </>
-          )}
+          <Tooltip text="その他：共有" />
+          <Share1Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </button>
       </Stack>
       {ToastComponent}

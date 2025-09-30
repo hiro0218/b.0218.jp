@@ -12,10 +12,11 @@ type Props = {
 export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
   const isMounted = useIsMounted();
   const isHeaderShown = useHeaderScrollHandler();
+  const isMountedValue = isMounted();
 
   return (
     <Underline>
-      <Header data-floating data-is-hide={!isHeaderShown} data-is-mounted={isMounted()}>
+      <Header data-floating data-is-hide={!isHeaderShown} data-is-mounted={isMountedValue}>
         {children}
       </Header>
     </Underline>

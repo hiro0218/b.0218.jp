@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { createContext, type ReactNode, useContext, useEffect } from 'react';
+import { createContext, type ReactNode, useContext, useEffect, useMemo, useRef } from 'react';
 import { useDialog } from '@/hooks/useDialog';
 
 type SearchDialogContextType = {
@@ -18,21 +18,39 @@ export function SearchDialogProvider({ children }: { children: ReactNode }) {
   const dialog = useDialog<HTMLDialogElement>();
   const pathname = usePathname();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: pathnameの変更時のみ実行
+  // pathnameの変更を保存するためのref
+  const previousPathnameRef = useRef(pathname);
+  const isInitialMount = useRef(true);
+  const dialogRef = useRef(dialog);
+
+  // dialog への参照を常に最新に保つ
+  dialogRef.current = dialog;
+
   useEffect(() => {
-    // 画面遷移時はダイアログを閉じる（検索状態は保持される）
-    if (dialog.isOpen) {
-      dialog.close();
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    // 画面遷移時、ダイアログが開いている場合のみ閉じる（検索状態は保持される）
+    if (previousPathnameRef.current !== pathname) {
+      if (dialogRef.current.isOpen) {
+        dialogRef.current.close();
+      }
+      previousPathnameRef.current = pathname;
     }
   }, [pathname]);
 
-  const contextValue: SearchDialogContextType = {
-    isOpen: dialog.isOpen,
-    isClosing: dialog.isClosing ?? false,
-    open: dialog.open,
-    close: dialog.close,
-    dialogRef: dialog.ref,
-  };
+  const contextValue = useMemo<SearchDialogContextType>(
+    () => ({
+      isOpen: dialog.isOpen,
+      isClosing: dialog.isClosing ?? false,
+      open: dialog.open,
+      close: dialog.close,
+      dialogRef: dialog.ref,
+    }),
+    [dialog.isOpen, dialog.isClosing, dialog.open, dialog.close, dialog.ref],
+  );
 
   return <SearchDialogContext.Provider value={contextValue}>{children}</SearchDialogContext.Provider>;
 }

@@ -217,6 +217,7 @@ describe('safeSessionStorage', () => {
 
     beforeEach(() => {
       originalWindow = globalThis.window;
+      // biome-ignore lint/performance/noDelete: テスト環境でwindowオブジェクトを削除する必要があるため
       delete globalThis.window;
     });
 

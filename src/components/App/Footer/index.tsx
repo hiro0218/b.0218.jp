@@ -19,7 +19,7 @@ export default function Footer() {
         </LogoContainer>
         <Nav>
           {Links.map(({ title, href }) => (
-            <Anchor className="link-style link-style--hover-effect" href={href} key={href + title}>
+            <Anchor className="link-style link-style--hover-effect" href={href} key={href}>
               {title}
             </Anchor>
           ))}

@@ -9,11 +9,9 @@ export const Spaces = ['½', 1, 2, 3, 4, 5, 6] as const;
 export const SPACE_KEYS = Spaces.map((space) => `--spacing-${space}` as const);
 export type SpaceGap = (typeof Spaces)[number];
 
-const spacingValues: TokenValues<'spacing'> = Object.fromEntries(
-  Spaces.map((space, index) => {
-    const value = pxToRem(SPACING_BASE_PX * SPACING_SCALE[index]);
-    return [space, { value }];
-  }),
-);
+const spacingValues: TokenValues<'spacing'> = {} as TokenValues<'spacing'>;
+Spaces.forEach((space, index) => {
+  spacingValues[space] = { value: pxToRem(SPACING_BASE_PX * SPACING_SCALE[index]) };
+});
 
 export default spacingValues;

@@ -2,7 +2,12 @@ import { getPostsJson, getTagsWithCount } from '@/lib/posts';
 
 const posts = getPostsJson();
 const tagDataWithCount = getTagsWithCount();
-const tagDataWithCountBySlug = Object.fromEntries(tagDataWithCount.map((tag) => [tag.slug, tag]));
+
+const tagDataWithCountBySlug: Record<string, (typeof tagDataWithCount)[number]> = {};
+for (let i = 0; i < tagDataWithCount.length; i++) {
+  const tag = tagDataWithCount[i];
+  tagDataWithCountBySlug[tag.slug] = tag;
+}
 
 /**
  * 投稿データを取得する関数

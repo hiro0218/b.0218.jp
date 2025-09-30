@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
 import { TAG_VIEW_LIMIT } from '@/constant';
@@ -16,38 +16,40 @@ type PostTagProps = {
 };
 
 const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) {
-  if (tags?.length === 0) {
-    return null;
-  }
-
-  return tags
-    .sort((a, b) => {
+  const sortedTags = useMemo(() => {
+    return [...tags].sort((a, b) => {
       if (b.count === undefined) return -1;
       if (a.count === undefined) return 1;
 
       return b.count - a.count;
-    })
-    .map(({ slug, count }) => {
-      const isAnchor = count >= TAG_VIEW_LIMIT;
-
-      return isAnchor ? (
-        <Anchor
-          className={postTagAnchor}
-          href={`/tags/${slug}`}
-          key={slug}
-          {...(hasRelTag && {
-            rel: 'tag',
-          })}
-        >
-          {slug}
-          <Count aria-hidden="true">{count}</Count>
-        </Anchor>
-      ) : (
-        <span aria-hidden="true" className={postTagAnchor} key={slug}>
-          {slug}
-        </span>
-      );
     });
+  }, [tags]);
+
+  if (tags?.length === 0) {
+    return null;
+  }
+
+  return sortedTags.map(({ slug, count }) => {
+    const isAnchor = count >= TAG_VIEW_LIMIT;
+
+    return isAnchor ? (
+      <Anchor
+        className={postTagAnchor}
+        href={`/tags/${slug}`}
+        key={slug}
+        {...(hasRelTag && {
+          rel: 'tag',
+        })}
+      >
+        {slug}
+        <Count aria-hidden="true">{count}</Count>
+      </Anchor>
+    ) : (
+      <span aria-hidden="true" className={postTagAnchor} key={slug}>
+        {slug}
+      </span>
+    );
+  });
 });
 
 export default PostTag;

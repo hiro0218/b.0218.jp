@@ -7,19 +7,17 @@ import { css, styled } from '@/ui/styled';
 const ICON_SIZE = 100;
 const ICON_SIZE_SHRINK = ICON_SIZE * 0.85;
 
+const avatarStyle = {
+  '--hero-size': `${ICON_SIZE}px`,
+  '--hero-size-shrink': `${ICON_SIZE_SHRINK}px`,
+} as CSSProperties;
+
 export const Hero = function Hero() {
-  const intro = `I’m just following the path I believe in. The results will come later.`;
+  const intro = `I'm just following the path I believe in. The results will come later.`;
 
   return (
     <div className={ContainerStyle}>
-      <Avatar
-        style={
-          {
-            '--hero-size': `${ICON_SIZE}px`,
-            '--hero-size-shrink': `${ICON_SIZE_SHRINK}px`,
-          } as CSSProperties
-        }
-      >
+      <Avatar style={avatarStyle}>
         <img alt="hiro (black cat icon)" height={ICON_SIZE} src="/hiro0218.svg" width={ICON_SIZE} />
       </Avatar>
       <Heading>

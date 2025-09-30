@@ -1,5 +1,5 @@
 import Script from 'next/script';
-import type { ReactNode } from 'react';
+import { type ReactNode, useMemo } from 'react';
 import type { Thing, WithContext } from 'schema-dts';
 
 type Props = {
@@ -7,14 +7,19 @@ type Props = {
 };
 
 export const JsonLdScript = ({ jsonLd }: Props): ReactNode => {
-  if (!jsonLd) {
+  const jsonLdString = useMemo(() => {
+    if (!jsonLd) return null;
+    return JSON.stringify(jsonLd);
+  }, [jsonLd]);
+
+  if (!jsonLdString) {
     return null;
   }
 
   return (
     <Script
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(jsonLd),
+        __html: jsonLdString,
       }}
       type="application/ld+json"
     />

@@ -96,8 +96,8 @@ export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> =
       logo: {
         '@type': 'ImageObject',
         url: AUTHOR_ICON,
-        width: '400px',
-        height: '400px',
+        width: '400',
+        height: '400',
       },
     },
   };
@@ -114,20 +114,18 @@ export const getBreadcrumbStructured = (post: Post) => {
   ];
 
   if (post.tags && post.tags.length > 0) {
-    for (let i = 0; i < 1; i++) {
-      const tags = post.tags[i];
-      itemListElement.push({
-        '@type': 'ListItem',
-        position: 2,
-        name: tags,
-        item: `${SITE_URL}/tags/${tags}`,
-      });
-    }
+    const tags = post.tags[0];
+    itemListElement.push({
+      '@type': 'ListItem',
+      position: 2,
+      name: tags,
+      item: `${SITE_URL}/tags/${tags}`,
+    });
   }
 
   itemListElement.push({
     '@type': 'ListItem',
-    position: 3,
+    position: itemListElement.length + 1,
     name: post.title,
     item: getPermalink(post.slug),
   });

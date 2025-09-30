@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import type { ArchiveListProps } from '@/app/(ArchivePage)/archive/libs';
 import { Anchor } from '@/components/UI/Anchor';
 import { css, styled } from '@/ui/styled';
@@ -8,24 +9,26 @@ type Props = {
 };
 
 export const Chart = ({ archives, totalPosts }: Props) => {
+  const yearPercentages = useMemo(() => {
+    const percentages: Record<string, string> = {};
+    for (const year of Object.keys(archives)) {
+      const thisPosts = archives[year].length;
+      percentages[year] = `${(Math.round((thisPosts / totalPosts) * 100000) / 100).toFixed(2)}%`;
+    }
+    return percentages;
+  }, [archives, totalPosts]);
+
   return (
     <Container>
       {Object.keys(archives).map((year) => {
-        const thisPosts = archives[year].length;
-        const percentages = (Math.round((thisPosts / totalPosts) * 100000) / 100).toFixed(2);
+        const percentage = yearPercentages[year];
 
         return (
-          <Anchor
-            className={AnchorStyle}
-            href={`#${year}年`}
-            key={year}
-            // @ts-ignore CSS Custom Properties
-            style={{
-              '--percent': `${percentages}%`,
-            }}
-          >
-            {year}
-          </Anchor>
+          <ChartItem key={year} style={{ '--percent': percentage } as React.CSSProperties}>
+            <Anchor className={AnchorStyle} href={`#${year}年`}>
+              {year}
+            </Anchor>
+          </ChartItem>
         );
       })}
     </Container>
@@ -44,6 +47,11 @@ const Container = styled.div`
     width: 100%;
     height: auto;
   }
+`;
+
+const ChartItem = styled.div`
+  /* V8最適化: CSS変数を保持するラッパー要素 */
+  display: contents;
 `;
 
 const AnchorStyle = css`

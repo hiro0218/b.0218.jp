@@ -29,6 +29,10 @@ function Mokuji({ refContent }: MokujiProps) {
 export default Mokuji;
 
 const Root = styled.nav`
+  &[data-visible='false'] {
+    display: none;
+  }
+
   a {
     color: var(--colors-gray-12);
 

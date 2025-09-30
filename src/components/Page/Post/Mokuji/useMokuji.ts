@@ -67,9 +67,9 @@ export const useMokuji = ({ refContent }: MokujiProps): ReturnProps => {
       const hasMokujiItems = result.list?.children.length > 0;
       if (hasMokujiItems) {
         mokujiListElement.appendChild(result.list);
-        mokujiContainerElement.style.display = 'block';
+        mokujiContainerElement.setAttribute('data-visible', 'true');
       } else {
-        mokujiContainerElement.style.display = 'none';
+        mokujiContainerElement.setAttribute('data-visible', 'false');
       }
     }
 

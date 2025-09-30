@@ -17,6 +17,16 @@ export const Result = memo(function Result({
   setResultRef: (index: number, element: HTMLDivElement | null) => void;
   keyword?: string;
 }) {
+  const resultRefCallbacks = useMemo(
+    () =>
+      suggestions.map((_, refIndex) => {
+        return (element: HTMLDivElement | null) => {
+          setResultRef(refIndex, element);
+        };
+      }),
+    [suggestions, setResultRef],
+  );
+
   const ResultList = useMemo(() => {
     return suggestions.map(({ slug }, index) => {
       const isFocused = focusedIndex === index;
@@ -25,13 +35,13 @@ export const Result = memo(function Result({
         <NavigableLink
           isFocused={isFocused}
           key={slug}
-          ref={(el) => setResultRef(index, el)}
+          ref={resultRefCallbacks[index]}
           slug={slug}
           title={markedTitles[index]}
         />
       );
     });
-  }, [suggestions, markedTitles, focusedIndex, setResultRef]);
+  }, [suggestions, markedTitles, focusedIndex, resultRefCallbacks]);
 
   return (
     <Container data-search-results>

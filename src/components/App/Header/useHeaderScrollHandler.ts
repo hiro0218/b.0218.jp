@@ -26,11 +26,13 @@ export const useHeaderScrollHandler = (): boolean => {
   useEffect(() => {
     // クライアントサイドでは初期スクロール位置を設定
     if (!isSSR && isFirstRender.current) {
-      previousScrollY.current = window.scrollY;
-      // 初期位置が閾値を超えている場合はヘッダーを非表示
-      if (window.scrollY > SCROLL_THRESHOLD) {
-        setIsHeaderVisible(false);
-      }
+      requestAnimationFrame(() => {
+        previousScrollY.current = window.scrollY;
+        // 初期位置が閾値を超えている場合はヘッダーを非表示
+        if (window.scrollY > SCROLL_THRESHOLD) {
+          setIsHeaderVisible(false);
+        }
+      });
       isFirstRender.current = false;
     }
   }, []);
@@ -56,7 +58,8 @@ export const useHeaderScrollHandler = (): boolean => {
   }, []);
 
   // パフォーマンス劣化を防ぐためスロットリング処理
-  const throttledHandleScroll = useMemo(() => throttle(handleScroll), [handleScroll]);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 依存配列は空で固定
+  const throttledHandleScroll = useMemo(() => throttle(handleScroll), []);
 
   useEventListener('scroll', throttledHandleScroll, { passive: true });
 

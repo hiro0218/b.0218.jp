@@ -6,7 +6,9 @@ type Props = {
 export const Tooltip = ({ text, position = 'bottom' }: Props) => {
   return (
     <span className="tooltip">
-      <span className="tooltip__text" dangerouslySetInnerHTML={{ __html: text }} data-position={position} />
+      <span className="tooltip__text" data-position={position}>
+        {text}
+      </span>
     </span>
   );
 };

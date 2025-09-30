@@ -1,24 +1,17 @@
 import type { GlobalStyleObject } from '@pandacss/types';
 import { SPACE_KEYS, Spaces } from '@/ui/styled/tokens/spacing';
 
-type SpacingDataAttr = `data-${'mt' | 'gap'}='${(typeof Spaces)[number]}'`;
-type SpacingCSSProps = Record<'marginTop' | 'gap', `var(${(typeof SPACE_KEYS)[number]})`>;
-type SpacingStyleMap = Record<SpacingDataAttr extends string ? SpacingDataAttr : never, Partial<SpacingCSSProps>>;
-type InitialSpacingStyleMap = Record<SpacingDataAttr, Partial<SpacingCSSProps>>;
+export const spacingDataStyles: GlobalStyleObject = (() => {
+  const styles: GlobalStyleObject = {};
 
-const mtStyles: SpacingStyleMap = {} as InitialSpacingStyleMap;
-const gapStyles: SpacingStyleMap = {} as InitialSpacingStyleMap;
+  Spaces.forEach((value, i) => {
+    styles[`[data-mt='${value}']`] = {
+      marginTop: `var(${SPACE_KEYS[i]})`,
+    };
+    styles[`[data-gap='${value}']`] = {
+      gap: `var(${SPACE_KEYS[i]})`,
+    };
+  });
 
-Spaces.forEach((value, i) => {
-  mtStyles[`[data-mt='${value}']`] = {
-    marginTop: `var(${SPACE_KEYS[i]})`,
-  };
-  gapStyles[`[data-gap='${value}']`] = {
-    gap: `var(${SPACE_KEYS[i]})`,
-  };
-});
-
-export const spacingDataStyles: GlobalStyleObject = {
-  ...mtStyles,
-  ...gapStyles,
-};
+  return styles;
+})();
