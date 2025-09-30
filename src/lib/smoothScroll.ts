@@ -1,8 +1,27 @@
 import { isSSR } from '@/lib/isSSR';
 
-const isPrefersReduced: boolean = !isSSR ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+let cachedScrollBehavior: ScrollBehavior | null = null;
 
-const scrollBehavior: ScrollBehavior = isPrefersReduced ? 'instant' : 'smooth';
+/**
+ * ユーザーのモーション設定に基づいてスクロール動作を決定
+ * - SSR環境: 'instant' を返す
+ * - prefers-reduced-motion: reduce の場合: 'instant' を返す
+ * - それ以外: 'smooth' を返す
+ *
+ * @returns スクロール動作（'instant' または 'smooth'）
+ */
+const getScrollBehavior = (): ScrollBehavior => {
+  if (cachedScrollBehavior === null) {
+    if (isSSR) {
+      cachedScrollBehavior = 'instant';
+    } else {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      cachedScrollBehavior = prefersReducedMotion ? 'instant' : 'smooth';
+    }
+  }
+
+  return cachedScrollBehavior;
+};
 
 // ページトップへのリンクを統一的に処理するため
 const isTopHash = (hash: string): boolean => hash === '#top' || hash === '#';
@@ -20,7 +39,7 @@ const getTarget = (hash: string): HTMLElement | null => {
 
 const scrollToTarget = (element: HTMLElement): void => {
   try {
-    element.scrollIntoView({ behavior: scrollBehavior });
+    element.scrollIntoView({ behavior: getScrollBehavior() });
   } catch (error) {
     console.error('Error scrolling to target:', error);
   }
