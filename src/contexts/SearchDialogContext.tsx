@@ -18,13 +18,12 @@ export function SearchDialogProvider({ children }: { children: ReactNode }) {
   const dialog = useDialog<HTMLDialogElement>();
   const pathname = usePathname();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: pathnameの変更時のみ実行
   useEffect(() => {
     // 画面遷移時はダイアログを閉じる（検索状態は保持される）
     if (dialog.isOpen) {
       dialog.close();
     }
-  }, [pathname]);
+  }, [pathname, dialog.isOpen, dialog.close]);
 
   const contextValue = useMemo<SearchDialogContextType>(
     () => ({
