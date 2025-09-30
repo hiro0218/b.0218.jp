@@ -10,6 +10,7 @@ interface UseDialogOptions {
 export const useDialog = <T extends HTMLDialogElement>(options?: UseDialogOptions) => {
   const { animated = true, duration: baseDuration = 200 } = options ?? {};
   const ref = useRef<T>(null);
+  const { value: isOpen, setTrue: setOpen, setFalse: setClose } = useBoolean(false);
   const { value: isClosing, setTrue: setClosing, setFalse: setNotClosing } = useBoolean(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const [duration, setDuration] = useState(baseDuration);
@@ -37,9 +38,34 @@ export const useDialog = <T extends HTMLDialogElement>(options?: UseDialogOption
     }
   }, [animated, baseDuration]);
 
+  // isOpenが変化したらdialog要素を開閉
+  useEffect(() => {
+    if (!isOpen) return;
+
+    let frameId: number | undefined;
+
+    const checkAndOpen = () => {
+      const dialog = ref.current;
+      if (dialog && !dialog.open) {
+        dialog.show();
+      } else if (!ref.current) {
+        // ref.currentがまだnullの場合、次のフレームで再チェック
+        frameId = requestAnimationFrame(checkAndOpen);
+      }
+    };
+
+    frameId = requestAnimationFrame(checkAndOpen);
+
+    return () => {
+      if (frameId !== undefined) {
+        cancelAnimationFrame(frameId);
+      }
+    };
+  }, [isOpen]);
+
   const open = useCallback(() => {
-    ref.current?.show?.();
-  }, []);
+    setOpen();
+  }, [setOpen]);
 
   const close = useCallback(() => {
     if (timerRef.current) {
@@ -51,12 +77,14 @@ export const useDialog = <T extends HTMLDialogElement>(options?: UseDialogOption
       timerRef.current = setTimeout(() => {
         ref.current?.close?.();
         setNotClosing();
+        setClose();
         timerRef.current = undefined;
       }, duration);
     } else {
       ref.current?.close?.();
+      setClose();
     }
-  }, [animated, duration, setClosing, setNotClosing]);
+  }, [animated, duration, setClosing, setNotClosing, setClose]);
 
   useEffect(() => {
     return () => {
@@ -66,21 +94,11 @@ export const useDialog = <T extends HTMLDialogElement>(options?: UseDialogOption
     };
   }, []);
 
-  const toggle = useCallback(() => {
-    const dialog = ref.current;
-    if (dialog?.open) {
-      close();
-    } else {
-      dialog?.show?.();
-    }
-  }, [close]);
-
   return {
     ref,
     open,
     close,
-    toggle,
-    isOpen: ref.current?.open ?? false,
+    isOpen,
     isClosing: !!(animated && isClosing),
   } as const;
 };
