@@ -46,6 +46,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
       <head>
+        <link crossOrigin="anonymous" href="https://www.googletagmanager.com" rel="preconnect" />
+        <link crossOrigin="anonymous" href="https://www.google.com" rel="preconnect" />
+        <link crossOrigin="anonymous" href="https://googleads.g.doubleclick.net" rel="preconnect" />
+        <link crossOrigin="anonymous" href="https://adtrafficquality.google" rel="dns-prefetch" />
         <link href="/favicon.ico" rel="icon" type="image/x-icon" />
         <link href="/opensearch.xml" rel="search" type="application/opensearchdescription+xml" />
         <link href="/feed.xml" rel="alternate" title="RSSフィード" type="application/rss+xml" />
