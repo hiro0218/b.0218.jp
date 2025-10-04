@@ -26,7 +26,7 @@ export const useSearchIntegration = ({
   persistSearchState = true,
 }: UseSearchIntegrationProps) => {
   const archives = usePostsList();
-  const { state, debouncedSearch, executeSearch, reset, setResults } = useSearchManager({ archives });
+  const { state, debouncedSearch, executeSearch, reset } = useSearchManager({ archives });
   const { saveSearchState, loadSearchState, clearSearchState } = useSearchStatePersistence();
 
   const focusManager = useSearchFocusManager({
@@ -40,9 +40,9 @@ export const useSearchIntegration = ({
     if (!persistSearchState) return;
 
     const savedState = loadSearchState();
-    if (savedState?.query && savedState?.results) {
-      // 保存された検索結果を直接復元（再検索しない）
-      setResults(savedState.results, savedState.query);
+    if (savedState?.query) {
+      // マッチタイプ情報を含めるため、保存されたクエリで再検索を実行
+      executeSearch(savedState.query);
       if (savedState.focusedIndex !== undefined) {
         focusManager.state.setFocusedIndex(savedState.focusedIndex);
       }

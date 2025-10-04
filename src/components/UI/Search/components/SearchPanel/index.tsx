@@ -1,13 +1,13 @@
 import { memo, useMemo } from 'react';
 
 import { styled } from '@/ui/styled';
-import type { SearchProps } from '../../types';
+import type { SearchResultItem } from '../../types';
 import { createMarkedTitles } from './libs/markEscapedHTML';
 import { SearchExternalLink, SearchStatus } from './Meta';
 import { Result } from './Result';
 
 type SearchPanelProps = {
-  results: SearchProps[];
+  results: SearchResultItem[];
   searchQuery: string;
   focusedIndex: number;
   setResultRef: (index: number, element: HTMLDivElement | null) => void;
