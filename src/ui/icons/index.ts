@@ -13,9 +13,11 @@ export {
 export { ChatBubbleLeft } from './ChatBubbleLeft';
 export { ExclamationCircle } from './ExclamationCircle';
 export { ExclamationTriangle } from './ExclamationTriangle';
+export { Hashtag } from './Hashtag';
 export { Hatenabookmark } from './Hatenabookmark';
 export { InformationCircle } from './InformationCircle';
 export { LightBulb } from './LightBulb';
+export { MagnifyingGlass } from './MagnifyingGlass';
 export { X } from './X';
 
 const BASE = 15;
