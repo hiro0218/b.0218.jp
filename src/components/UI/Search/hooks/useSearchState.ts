@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
-import type { SearchProps } from '../types';
+import type { SearchResultItem } from '../types';
 
 export interface SearchState {
-  results: SearchProps[];
+  results: SearchResultItem[];
   query: string;
 }
 
@@ -17,7 +17,7 @@ const initialState: SearchState = {
 export const useSearchState = () => {
   const [state, setState] = useState<SearchState>(initialState);
 
-  const setResults = useCallback((results: SearchProps[], query: string) => {
+  const setResults = useCallback((results: SearchResultItem[], query: string) => {
     setState({
       results,
       query,

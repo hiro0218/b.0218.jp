@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import type { SearchProps } from '../types';
+import type { MatchType, SearchProps } from '../types';
 import {
   findMatchingPosts,
   getMatchTypePriority,
@@ -8,7 +8,6 @@ import {
   getTitleMatchType,
   isMultiTermMatching,
   isTextMatching,
-  type MatchType,
   performPostSearch,
 } from './search';
 

@@ -1,6 +1,6 @@
 import { memo, useMemo } from 'react';
 import { css, styled } from '@/ui/styled';
-import type { SearchProps } from '../../types';
+import type { SearchResultItem } from '../../types';
 import { SearchResultMessage } from './Meta';
 import { NavigableLink } from './NavigableLink';
 
@@ -11,7 +11,7 @@ export const Result = memo(function Result({
   setResultRef,
   keyword = '',
 }: {
-  suggestions: SearchProps[];
+  suggestions: SearchResultItem[];
   markedTitles: string[];
   focusedIndex: number;
   setResultRef: (index: number, element: HTMLDivElement | null) => void;
@@ -28,13 +28,14 @@ export const Result = memo(function Result({
   );
 
   const ResultList = useMemo(() => {
-    return suggestions.map(({ slug }, index) => {
+    return suggestions.map(({ slug, matchedIn }, index) => {
       const isFocused = focusedIndex === index;
 
       return (
         <NavigableLink
           isFocused={isFocused}
           key={slug}
+          matchedIn={matchedIn}
           ref={resultRefCallbacks[index]}
           slug={slug}
           title={markedTitles[index]}
@@ -86,7 +87,9 @@ export const FocusedContainerStyle = css`
 `;
 
 export const AnchorStyle = css`
-  display: block;
+  display: flex;
+  gap: var(--spacing-2);
+  align-items: center;
   padding: var(--spacing-1) var(--spacing-2);
   font-size: var(--font-sizes-sm);
   border-radius: var(--radii-8);
@@ -102,5 +105,10 @@ export const AnchorStyle = css`
   &:focus {
     outline: none;
     background-color: transparent;
+  }
+
+  svg {
+    flex-shrink: 0;
+    fill: var(--colors-gray-11);
   }
 `;

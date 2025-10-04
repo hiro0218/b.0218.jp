@@ -29,17 +29,8 @@
  */
 
 import { useMemo } from 'react';
-import type { SearchProps } from '../types';
+import type { MatchedIn, MatchType, SearchProps, SearchResultItem } from '../types';
 import { isEmptyQuery } from './validation';
-
-// 検索一致タイプの定義（優先度順）
-export type MatchType =
-  | 'EXACT' // 完全一致（最優先）
-  | 'PARTIAL' // 部分一致（スペースあり）
-  | 'EXACT_NO_SPACE' // スペース除去後の完全一致
-  | 'PARTIAL_NO_SPACE' // スペース除去後の部分一致
-  | 'MULTI_TERM_MATCH' // 複数単語のAND条件一致
-  | 'NONE'; // 不一致
 
 // 優先度定数の定義
 const MATCH_PRIORITY: Record<MatchType, number> = {
@@ -72,6 +63,7 @@ type RankedSearchResult = {
   post: SearchProps;
   priority: number;
   matchType: MatchType;
+  matchedIn: MatchedIn;
 };
 
 // テキスト正規化のユーティリティ
@@ -203,6 +195,10 @@ const matchSingleTerm = (post: SearchProps, searchValue: string): RankedSearchRe
     return null;
   }
 
+  // マッチした場所を判定
+  const matchedIn: MatchedIn =
+    tagMatchType !== 'NONE' && titleMatchType !== 'NONE' ? 'both' : tagMatchType !== 'NONE' ? 'tag' : 'title';
+
   // より優先度の高い一致タイプを採用
   const bestMatchType =
     getMatchTypePriority(tagMatchType) >= getMatchTypePriority(titleMatchType) ? tagMatchType : titleMatchType;
@@ -210,6 +206,7 @@ const matchSingleTerm = (post: SearchProps, searchValue: string): RankedSearchRe
   return {
     post,
     matchType: bestMatchType,
+    matchedIn,
     priority: getMatchTypePriority(bestMatchType),
   };
 };
@@ -222,9 +219,13 @@ const matchMultipleTerms = (post: SearchProps, searchTerms: string[]): RankedSea
     return null;
   }
 
+  // 複数単語検索の場合は、タイトルとタグの両方にマッチする可能性が高い
+  const matchedIn: MatchedIn = 'both';
+
   return {
     post,
     matchType: 'MULTI_TERM_MATCH',
+    matchedIn,
     priority: getMatchTypePriority('MULTI_TERM_MATCH'),
   };
 };
@@ -273,7 +274,7 @@ export const findMatchingPosts = (archives: SearchProps[], searchValue: string):
  * @param maxResults - 最大結果件数（デフォルト: 100）
  * @returns ソート済みの検索結果配列
  */
-const sortAndLimitResults = (results: RankedSearchResult[], maxResults = 100): SearchProps[] => {
+const sortAndLimitResults = (results: RankedSearchResult[], maxResults = 100): SearchResultItem[] => {
   // 優先度順に結果をソート
   const sorted = [...results].sort((a, b) => {
     const priorityDiff = b.priority - a.priority;
@@ -284,8 +285,12 @@ const sortAndLimitResults = (results: RankedSearchResult[], maxResults = 100): S
     return (a.post.title || '').localeCompare(b.post.title || '');
   });
 
-  // 結果を最大件数に制限してpostのみを抽出
-  return sorted.slice(0, maxResults).map((result) => result.post);
+  // 結果を最大件数に制限してSearchResultItem形式に変換
+  return sorted.slice(0, maxResults).map((result) => ({
+    ...result.post,
+    matchType: result.matchType,
+    matchedIn: result.matchedIn,
+  }));
 };
 
 /**
@@ -295,7 +300,7 @@ const sortAndLimitResults = (results: RankedSearchResult[], maxResults = 100): S
  * @returns 優先度順にソートされた検索結果配列（最大100件）
  * @note UIの応答性確保のため結果件数を100件に制限し、優先度順ソートを適用
  */
-export const performPostSearch = (archives: SearchProps[], searchValue: string): SearchProps[] => {
+export const performPostSearch = (archives: SearchProps[], searchValue: string): SearchResultItem[] => {
   if (isEmptyQuery(searchValue)) {
     return [];
   }
@@ -313,10 +318,10 @@ export const performPostSearch = (archives: SearchProps[], searchValue: string):
  * LRU風の実装で古いエントリーから削除し、メモリ効率を最適化
  */
 export const useSearchWithCache = () => {
-  const cache = useMemo(() => new Map<string, SearchProps[]>(), []);
+  const cache = useMemo(() => new Map<string, SearchResultItem[]>(), []);
 
   return useMemo(() => {
-    return (archives: SearchProps[], searchValue: string): SearchProps[] => {
+    return (archives: SearchProps[], searchValue: string): SearchResultItem[] => {
       // 空の検索文字列は早期リターン
       if (!searchValue) return [];
 
