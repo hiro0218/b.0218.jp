@@ -1,4 +1,5 @@
 import { type ForwardedRef, useId } from 'react';
+import { FocusScope } from 'react-aria';
 import { createPortal } from 'react-dom';
 
 import { Overlay } from '@/components/UI/Overlay';
@@ -38,21 +39,24 @@ export const SearchDialog = ({ closeDialog, isClosing, ref }: Props) => {
 
   return createPortal(
     <>
-      <Dialog
-        aria-describedby={`${id}-described`}
-        aria-labelledby={`${id}-labelled`}
-        data-closing={isClosing}
-        ref={ref}
-      >
-        <h2 className="sr-only" id={`${id}-labelled`}>
-          {SEARCH_LABELS.searchTitle}
-        </h2>
-        <p className="sr-only" id={`${id}-described`}>
-          {SEARCH_LABELS.searchDescription}
-        </p>
-        <SearchHeader onKeyUp={onSearchInput} searchQuery={query} />
-        <SearchPanel focusedIndex={focusedIndex} results={results} searchQuery={query} setResultRef={setResultRef} />
-      </Dialog>
+      <FocusScope autoFocus contain restoreFocus>
+        <Dialog
+          aria-describedby={`${id}-described`}
+          aria-labelledby={`${id}-labelled`}
+          aria-modal="true"
+          data-closing={isClosing}
+          ref={ref}
+        >
+          <h2 className="sr-only" id={`${id}-labelled`}>
+            {SEARCH_LABELS.searchTitle}
+          </h2>
+          <p className="sr-only" id={`${id}-described`}>
+            {SEARCH_LABELS.searchDescription}
+          </p>
+          <SearchHeader onKeyUp={onSearchInput} searchQuery={query} />
+          <SearchPanel focusedIndex={focusedIndex} results={results} searchQuery={query} setResultRef={setResultRef} />
+        </Dialog>
+      </FocusScope>
       <Overlay onClick={handleCloseDialog} />
     </>,
     document.body,
