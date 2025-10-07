@@ -30,7 +30,7 @@
     opacity: 0;
     transform: scale(0.5);
     transition:
-      transform 0.2s var(--easings-ease-out-expo),
+      transform 0.2s var(--easings-ease-in-out-quint),
       opacity 0.1s;
   }
 
