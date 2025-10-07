@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { Stack } from '@/components/UI/Layout';
 import { styled } from '@/ui/styled';
 import { createSearchResultMessage, createSearchStatusMessage } from './libs/createSearchMessage';
 
@@ -58,9 +59,22 @@ export const SearchExternalLink = memo(function SearchExternalLink({ searchQuery
 
   return (
     <SearchFooter>
-      <a href={searchUrl} rel="noreferrer" target="_blank">
-        {searchQuery ? `Google で「${searchQuery}」を検索` : 'Google 検索'}
-      </a>
+      <Stack direction="horizontal" justify="space-between" space={1}>
+        <Stack align="center" direction="horizontal" justify="space-between" space={1}>
+          <span>
+            <kbd>↑</kbd>
+            <kbd>↓</kbd>選択
+          </span>
+          <span>
+            <kbd>Enter</kbd>移動
+          </span>
+        </Stack>
+        <Stack>
+          <a href={searchUrl} rel="noreferrer" target="_blank">
+            {searchQuery ? `Google で「${searchQuery}」を検索` : 'Google 検索'}
+          </a>
+        </Stack>
+      </Stack>
     </SearchFooter>
   );
 });
@@ -74,8 +88,9 @@ const Message = styled.div`
 `;
 
 const SearchFooter = styled.footer`
-  padding: var(--spacing-1);
+  padding: var(--spacing-1) var(--spacing-1);
   font-size: var(--font-sizes-xs);
+  color: var(--colors-gray-11);
   text-align: right;
   background-color: var(--colors-gray-a-2);
   border-top: 1px solid var(--colors-gray-6);
@@ -87,5 +102,18 @@ const SearchFooter = styled.footer`
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: var(--spacing-½);
+    margin: 0 var(--spacing-½);
+    font-size: var(--font-sizes-xs);
+    background-color: var(--colors-gray-a-3);
+    border-radius: var(--radii-4);
   }
 `;
