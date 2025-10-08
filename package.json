@@ -107,7 +107,7 @@
     "stylelint-declaration-block-no-ignored-properties": "2.8.0",
     "stylelint-order": "7.0.0",
     "stylelint-plugin-isolate-on-stack": "0.7.0",
-    "typescript": "5.8.3",
+    "typescript": "5.9.3",
     "unified": "11.0.5",
     "unist-util-visit": "5.0.0",
     "vitest": "3.2.4"
