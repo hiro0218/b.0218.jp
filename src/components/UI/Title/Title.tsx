@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import { css, styled } from '@/ui/styled';
+import { css } from '@/ui/styled';
 
 type Props = {
   heading: string;
@@ -11,7 +11,7 @@ export function Title({ heading, paragraph = undefined }: Props) {
   return (
     <header className={containerStyle}>
       <h1 dangerouslySetInnerHTML={{ __html: heading }}></h1>
-      {!!paragraph && <P>{paragraph}</P>}
+      {!!paragraph && <p className={paragraphStyle}>{paragraph}</p>}
     </header>
   );
 }
@@ -20,7 +20,7 @@ const containerStyle = css`
   overflow-wrap: break-word;
 `;
 
-const P = styled.p`
+const paragraphStyle = css`
   margin-top: var(--spacing-1);
   font-size: var(--font-sizes-md);
   color: var(--colors-gray-11);

@@ -24,7 +24,7 @@ export default function Footer() {
             </Anchor>
           ))}
         </Nav>
-        <Copyright>© hiro</Copyright>
+        <small className={copyrightStyle}>© hiro</small>
       </Container>
     </Root>
   );
@@ -70,7 +70,7 @@ const Nav = styled.nav`
   font-size: var(--font-sizes-sm);
 `;
 
-const Copyright = styled.small`
+const copyrightStyle = css`
   font-size: var(--font-sizes-xs);
   font-weight: var(--font-weights-bold);
   color: var(--colors-gray-11);
