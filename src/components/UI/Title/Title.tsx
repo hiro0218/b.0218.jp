@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
 type Props = {
   heading: string;
@@ -9,14 +9,14 @@ type Props = {
 
 export function Title({ heading, paragraph = undefined }: Props) {
   return (
-    <Container>
+    <header className={containerStyle}>
       <h1 dangerouslySetInnerHTML={{ __html: heading }}></h1>
       {!!paragraph && <P>{paragraph}</P>}
-    </Container>
+    </header>
   );
 }
 
-const Container = styled.header`
+const containerStyle = css`
   overflow-wrap: break-word;
 `;
 
