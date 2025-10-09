@@ -1,7 +1,7 @@
 import { memo, type ReactNode } from 'react';
 
 import useIsMounted from '@/hooks/useIsMounted';
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
 import { useHeaderScrollHandler } from './useHeaderScrollHandler';
 
@@ -15,15 +15,15 @@ export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
   const isMountedValue = isMounted();
 
   return (
-    <Underline>
+    <div className={underlineStyle}>
       <Header data-floating data-is-hide={!isHeaderShown} data-is-mounted={isMountedValue}>
         {children}
       </Header>
-    </Underline>
+    </div>
   );
 });
 
-const Underline = styled.div`
+const underlineStyle = css`
   height: var(--spacing-5);
 `;
 

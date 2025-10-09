@@ -1,6 +1,8 @@
 import type { Post } from '@/types/source';
 
-export type SearchProps = Pick<Post, 'title' | 'tags' | 'slug'>;
+export type SearchProps = Pick<Post, 'title' | 'tags' | 'slug'> & {
+  score?: number;
+};
 
 /**
  * 検索結果のマッチタイプ

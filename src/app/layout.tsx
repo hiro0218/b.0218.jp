@@ -3,11 +3,13 @@ import '@/ui/styles/globals.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import dynamic from 'next/dynamic';
 import type { Metadata, Viewport } from 'next/types';
+import { Suspense } from 'react';
 import { openGraph } from '@/app/_metadata';
 import Footer from '@/components/App/Footer';
 import Header from '@/components/App/Header';
 import { Layout } from '@/components/App/Layout/AppLayout';
 import { MainContainer } from '@/components/App/Layout/MainContainer';
+import { ClientSideScrollRestorer } from '@/components/Functional/ClientSideScrollRestorer';
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constant';
 import { SearchDialogProvider } from '@/contexts/SearchDialogContext';
@@ -77,6 +79,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <Footer />
           </Layout>
         </SearchDialogProvider>
+        <Suspense>
+          <ClientSideScrollRestorer />
+        </Suspense>
       </body>
     </html>
   );

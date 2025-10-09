@@ -3,7 +3,7 @@
 import { memo, useEffect, useId, useRef } from 'react';
 
 import { ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
 interface SearchHeaderProps {
   onKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -24,10 +24,10 @@ export const SearchHeader = memo(function SearchHeader({ onKeyUp, onKeyDown, sea
   }, []);
 
   return (
-    <Header>
-      <HeaderIcon htmlFor={searchInputId}>
+    <div className={headerStyle}>
+      <label className={headerIconStyle} htmlFor={searchInputId}>
         <MagnifyingGlassIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
-      </HeaderIcon>
+      </label>
       <SearchInput
         aria-autocomplete="list"
         aria-label="検索キーワード"
@@ -41,17 +41,17 @@ export const SearchHeader = memo(function SearchHeader({ onKeyUp, onKeyDown, sea
         role="searchbox"
         type="text"
       />
-    </Header>
+    </div>
   );
 });
 
-const Header = styled.div`
+const headerStyle = css`
   position: relative;
   display: flex;
   border-bottom: 1px solid var(--colors-gray-6);
 `;
 
-const HeaderIcon = styled.label`
+const headerIconStyle = css`
   display: flex;
   align-items: center;
   padding: 0 var(--spacing-1) 0 var(--spacing-2);

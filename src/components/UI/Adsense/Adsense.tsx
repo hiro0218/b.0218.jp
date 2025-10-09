@@ -3,7 +3,7 @@ import { type CSSProperties, useEffect, useMemo } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/constant';
 import { useBoolean } from '@/hooks/useBoolean';
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
 type Size = {
   adsWidth?: number;
@@ -46,11 +46,11 @@ export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
    * @link https://support.google.com/adsense/answer/4533986?hl=ja
    */
   return (
-    <Container aria-label="スポンサーリンク" key={pathname}>
+    <aside aria-label="スポンサーリンク" className={containerStyle} key={pathname}>
       <Ads style={adsStyle}>
         <Ins />
       </Ads>
-    </Container>
+    </aside>
   );
 }
 
@@ -67,7 +67,7 @@ const Ins = () => {
   );
 };
 
-const Container = styled.aside`
+const containerStyle = css`
   display: flex;
   gap: var(--spacing-2);
   align-items: center;

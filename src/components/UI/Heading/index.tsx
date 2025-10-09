@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { type CSSProperties, useMemo } from 'react';
 
-import { css, styled } from '@/ui/styled';
+import { css } from '@/ui/styled';
 
 type Props = {
   id?: HTMLHeadingElement['id'];
@@ -49,13 +49,13 @@ function Heading({
   return (
     <>
       {hasTextSub || hasTextSide ? (
-        <Container>
-          <Main>
+        <hgroup className={containerStyle}>
+          <div className={mainStyle}>
             {TitleComponent}
-            {hasTextSub && <HeaderSub>{textSub}</HeaderSub>}
-          </Main>
-          {hasTextSide && <Side>{textSide}</Side>}
-        </Container>
+            {hasTextSub && <div className={headerSubStyle}>{textSub}</div>}
+          </div>
+          {hasTextSide && <div className={sideStyle}>{textSide}</div>}
+        </hgroup>
       ) : (
         <>{TitleComponent}</>
       )}
@@ -65,12 +65,12 @@ function Heading({
 
 export default Heading;
 
-const Container = styled.hgroup`
+const containerStyle = css`
   display: flex;
   align-items: center;
 `;
 
-const Main = styled.div`
+const mainStyle = css`
   flex: 1 1;
 `;
 
@@ -81,11 +81,11 @@ const headerTitleStyle = css`
   overflow-wrap: break-word;
 `;
 
-const Side = styled.div`
+const sideStyle = css`
   color: var(--colors-gray-11);
 `;
 
-const HeaderSub = styled.div`
+const headerSubStyle = css`
   margin-top: var(--spacing-1);
   font-weight: var(--font-weights-normal);
   color: var(--colors-gray-11);

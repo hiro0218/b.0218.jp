@@ -11,7 +11,7 @@ const nextConfiguration = {
   devIndicators: false,
 
   experimental: {
-    scrollRestoration: true,
+    scrollRestoration: false,
   },
 
   generateBuildId: () => nextBuildId({ dir: __dirname }),

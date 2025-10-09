@@ -23,7 +23,7 @@ export const Hero = function Hero() {
       <Heading>
         Hi, I'm <Link href="/about">hiro</Link>.
       </Heading>
-      <Paragraph>{intro}</Paragraph>
+      <p className={paragraphStyle}>{intro}</p>
     </div>
   );
 };
@@ -78,7 +78,7 @@ const Heading = styled.h2`
   }
 `;
 
-const Paragraph = styled.p`
+const paragraphStyle = css`
   grid-row: 2 / 3;
   grid-column: 2 / 3;
 `;

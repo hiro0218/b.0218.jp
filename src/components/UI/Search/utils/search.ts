@@ -281,8 +281,10 @@ const sortAndLimitResults = (results: RankedSearchResult[], maxResults = 100): S
     if (priorityDiff !== 0) {
       return priorityDiff;
     }
-    // 優先度が同じ場合はタイトルでソート
-    return (a.post.title || '').localeCompare(b.post.title || '');
+    // 優先度が同じ場合はスコアでソート（高い順）
+    const scoreA = a.post.score ?? 0;
+    const scoreB = b.post.score ?? 0;
+    return scoreB - scoreA;
   });
 
   // 結果を最大件数に制限してSearchResultItem形式に変換

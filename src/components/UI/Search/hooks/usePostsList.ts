@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { FILENAME_POSTS_LIST } from '@/constant';
+import { FILENAME_POSTS_LIST, FILENAME_POSTS_POPULAR } from '@/constant';
 import { parseJSON } from '@/lib/parseJSON';
 import type { PostSummary } from '@/types/source';
 
@@ -29,11 +29,12 @@ export const usePostsList = (): SearchProps[] => {
 
   const extractPostList = useMemo(
     () =>
-      (data: PostSummary[]): SearchProps[] => {
+      (data: PostSummary[], popularityScores: Record<string, number> = {}): SearchProps[] => {
         return data.map(({ title, tags, slug }) => ({
           title,
           tags,
           slug,
+          score: popularityScores[slug],
         }));
       },
     [],
@@ -64,16 +65,22 @@ export const usePostsList = (): SearchProps[] => {
           return;
         }
 
-        const response = await fetch(`/${FILENAME_POSTS_LIST}.json`, {
-          signal: abortController.signal,
-        });
+        const [postsResponse, popularResponse] = await Promise.all([
+          fetch(`/${FILENAME_POSTS_LIST}.json`, {
+            signal: abortController.signal,
+          }),
+          fetch(`/${FILENAME_POSTS_POPULAR}.json`, {
+            signal: abortController.signal,
+          }),
+        ]);
 
-        if (!response.ok) {
-          throw new Error(`HTTP error: status code is ${response.status}`);
+        if (!postsResponse.ok) {
+          throw new Error(`HTTP error: status code is ${postsResponse.status}`);
         }
 
-        const json = (await response.json()) as PostSummary[];
-        const postList = extractPostList(json);
+        const postsJson = (await postsResponse.json()) as PostSummary[];
+        const popularJson = popularResponse.ok ? ((await popularResponse.json()) as Record<string, number>) : {};
+        const postList = extractPostList(postsJson, popularJson);
 
         if (isMounted) {
           setArchives(postList);
