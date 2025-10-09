@@ -1,6 +1,6 @@
 import { DropdownMenu } from '@/components/UI/DropdownMenu/index';
 import { GitHubLogoIcon, ICON_SIZE_SM } from '@/ui/icons';
-import { styled } from '@/ui/styled';
+import { css } from '@/ui/styled';
 
 type Props = {
   slug: string;
@@ -19,20 +19,22 @@ function PostEdit({ slug }: Props) {
         }
       >
         <>
-          <Anchor
+          <a
+            className={anchorStyle}
             href={`https://github.com/hiro0218/article/edit/master/_posts/${slug}.md`}
             rel="noreferrer"
             target="_blank"
           >
             Edit on GitHub
-          </Anchor>
-          <Anchor
+          </a>
+          <a
+            className={anchorStyle}
             href={`https://github.com/hiro0218/article/blob/master/_posts/${slug}.md`}
             rel="noreferrer"
             target="_blank"
           >
             View raw file on GitHub
-          </Anchor>
+          </a>
         </>
       </DropdownMenu>
     </aside>
@@ -41,7 +43,7 @@ function PostEdit({ slug }: Props) {
 
 export default PostEdit;
 
-const Anchor = styled.a`
+const anchorStyle = css`
   display: flex;
   align-items: center;
   padding: var(--spacing-½) var(--spacing-1);

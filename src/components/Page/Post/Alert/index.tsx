@@ -6,7 +6,7 @@ import {
   InformationCircle,
   LightBulb,
 } from '@/ui/icons';
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
 export type AlertType = 'note' | 'tip' | 'important' | 'warning' | 'caution';
 
@@ -39,9 +39,9 @@ export const Alert = ({ type, text }: Props) => {
 
   return (
     <Container data-alert-type={type}>
-      <Title>
+      <div className={titleStyle}>
         {Icon}&nbsp;{type}
-      </Title>
+      </div>
       <p
         dangerouslySetInnerHTML={{
           __html: text,
@@ -87,7 +87,7 @@ const Container = styled.div`
   }
 `;
 
-const Title = styled.div`
+const titleStyle = css`
   display: flex;
   align-items: center;
   font-size: var(--font-sizes-md);
