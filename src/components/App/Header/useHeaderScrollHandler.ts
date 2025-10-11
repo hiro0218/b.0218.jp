@@ -1,4 +1,5 @@
 'use client';
+'use no memo';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useEventListener } from '@/hooks/useEventListener';
@@ -58,8 +59,7 @@ export const useHeaderScrollHandler = (): boolean => {
   }, []);
 
   // パフォーマンス劣化を防ぐためスロットリング処理
-  // biome-ignore lint/correctness/useExhaustiveDependencies: 依存配列は空で固定
-  const throttledHandleScroll = useMemo(() => throttle(handleScroll), []);
+  const throttledHandleScroll = useMemo(() => throttle(handleScroll), [handleScroll]);
 
   useEventListener('scroll', throttledHandleScroll, { passive: true });
 

@@ -12,11 +12,10 @@ type Props = {
 export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
   const isMounted = useIsMounted();
   const isHeaderShown = useHeaderScrollHandler();
-  const isMountedValue = isMounted();
 
   return (
     <div className={underlineStyle}>
-      <Header data-floating data-is-hide={!isHeaderShown} data-is-mounted={isMountedValue}>
+      <Header data-floating data-is-hide={!isHeaderShown} data-is-mounted={isMounted}>
         {children}
       </Header>
     </div>
@@ -37,13 +36,18 @@ const Header = styled.header`
   margin: 0 auto;
   pointer-events: none;
   isolation: isolate;
-  will-change: opacity;
+  transition:
+    transform 0.4s ease-out,
+    opacity 0.4s ease-out;
+  will-change: transform, opacity;
 
   &[data-is-mounted='true'] {
-    animation: fadeIn 0.4s linear both;
+    opacity: 1;
+    transform: translateY(0);
 
     &[data-is-hide='true'] {
-      animation: fadeOut 0.4s linear both;
+      opacity: 0;
+      transform: translateY(-100%);
     }
   }
 `;
