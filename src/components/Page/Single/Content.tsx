@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { parser } from '@/components/Page/Post/Content/parser/HTMLParser';
 import { Box } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
@@ -13,7 +14,7 @@ const pages = getPagesJson();
 
 export default function Content({ title, description, slug }: Props) {
   const { content } = pages.find((page) => slug === page.slug);
-  const reactContent = parser(content);
+  const reactContent = useMemo(() => parser(content), [content]);
 
   return (
     <>
