@@ -2,11 +2,11 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import { getFromSession, removeFromSession, setToSession } from '@/lib/safeSessionStorage';
-import type { SearchProps } from '../types';
+import type { SearchResultItem } from '../types';
 
 type SearchState = {
   query: string;
-  results: SearchProps[];
+  results: SearchResultItem[];
   focusedIndex: number;
   isOpen?: boolean;
 };
