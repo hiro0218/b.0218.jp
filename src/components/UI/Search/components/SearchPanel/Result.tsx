@@ -1,10 +1,10 @@
-import { memo, useMemo } from 'react';
+import { useMemo } from 'react';
 import { css, styled } from '@/ui/styled';
 import type { SearchResultItem } from '../../types';
 import { SearchResultMessage } from './Meta';
 import { NavigableLink } from './NavigableLink';
 
-export const Result = memo(function Result({
+export function Result({
   suggestions,
   markedTitles,
   focusedIndex,
@@ -50,7 +50,7 @@ export const Result = memo(function Result({
       {ResultList.length > 0 && <div>{ResultList}</div>}
     </Container>
   );
-});
+}
 
 const Container = styled.div`
   display: grid;

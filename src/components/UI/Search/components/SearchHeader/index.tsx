@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useEffect, useId, useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
 
 import { ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';
 import { css, styled } from '@/ui/styled';
@@ -15,7 +15,7 @@ interface SearchHeaderProps {
  * 検索入力ヘッダーコンポーネント
  * @performance 初回マウント時のみfocusを実行し、不要な再レンダリングを防止
  */
-export const SearchHeader = memo(function SearchHeader({ onKeyUp, onKeyDown, searchQuery }: SearchHeaderProps) {
+export function SearchHeader({ onKeyUp, onKeyDown, searchQuery }: SearchHeaderProps) {
   const refInput = useRef<HTMLInputElement>(null);
   const searchInputId = useId();
 
@@ -43,7 +43,7 @@ export const SearchHeader = memo(function SearchHeader({ onKeyUp, onKeyDown, sea
       />
     </div>
   );
-});
+}
 
 const headerStyle = css`
   position: relative;

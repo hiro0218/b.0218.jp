@@ -1,4 +1,4 @@
-import { memo, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import useIsMounted from '@/hooks/useIsMounted';
 import { css, styled } from '@/ui/styled';
@@ -9,7 +9,7 @@ type Props = {
   children: ReactNode;
 };
 
-export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
+export function HeaderLayout({ children }: Props) {
   const isMounted = useIsMounted();
   const isHeaderShown = useHeaderScrollHandler();
 
@@ -20,7 +20,7 @@ export const HeaderLayout = memo(function HeaderLayout({ children }: Props) {
       </Header>
     </div>
   );
-});
+}
 
 const underlineStyle = css`
   height: var(--spacing-5);

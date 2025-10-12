@@ -1,7 +1,5 @@
 'use client';
 
-import { memo } from 'react';
-
 import { Container } from '@/components/UI/Layout/Container';
 import { Logo } from '@/components/UI/Logo';
 import { SearchButton } from '@/components/UI/Search/components/SearchButton';
@@ -10,7 +8,7 @@ import { useSearchDialog } from '@/contexts/SearchDialogContext';
 import { css } from '@/ui/styled';
 import { HeaderLayout } from './HeaderLayout';
 
-export default memo(function Header() {
+export default function Header() {
   const searchDialog = useSearchDialog();
 
   return (
@@ -31,7 +29,7 @@ export default memo(function Header() {
       )}
     </>
   );
-});
+}
 
 const HeaderContainerStyle = css`
   display: flex;

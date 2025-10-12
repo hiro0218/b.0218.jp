@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { styled } from '@/ui/styled';
 import type { SearchResultItem } from '../../types';
@@ -13,12 +13,7 @@ type SearchPanelProps = {
   setResultRef: (index: number, element: HTMLDivElement | null) => void;
 };
 
-export const SearchPanel = memo(function SearchPanel({
-  results,
-  searchQuery,
-  focusedIndex,
-  setResultRef,
-}: SearchPanelProps) {
+export function SearchPanel({ results, searchQuery, focusedIndex, setResultRef }: SearchPanelProps) {
   const markedTitles = useMemo(() => createMarkedTitles(results, searchQuery), [results, searchQuery]);
 
   return (
@@ -34,7 +29,7 @@ export const SearchPanel = memo(function SearchPanel({
       <SearchExternalLink searchQuery={searchQuery} />
     </SearchMain>
   );
-});
+}
 
 const SearchMain = styled.main`
   width: min(90vw, 640px);
