@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { ICON_SIZE_SM, MagnifyingGlassIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled';
@@ -12,14 +11,14 @@ type Props = {
 /**
  * 検索ボタンコンポーネント
  */
-export const SearchButton = memo(function SearchButton({ openDialog }: Props) {
+export function SearchButton({ openDialog }: Props) {
   return (
     <Button aria-haspopup="dialog" className="link-style--hover-effect" onClick={openDialog} type="button">
       <Tooltip text={SEARCH_LABELS.searchTitle} />
       <MagnifyingGlassIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
     </Button>
   );
-});
+}
 
 const Button = styled.button`
   display: flex;

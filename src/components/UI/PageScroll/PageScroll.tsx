@@ -1,6 +1,5 @@
 'use client';
 
-import { useCallback } from 'react';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { ArrowUpIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled';
@@ -9,9 +8,9 @@ import { styled } from '@/ui/styled';
  * @see https://html.spec.whatwg.org/multipage/browsing-the-web.html#scroll-to-the-fragment-identifier
  */
 export const PageScroll = () => {
-  const scrollToTop = useCallback(() => {
+  const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
+  };
 
   return (
     <Container data-floating>
