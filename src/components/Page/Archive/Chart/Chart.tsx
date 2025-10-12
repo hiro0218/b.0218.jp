@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import type { ArchiveListProps } from '@/app/(ArchivePage)/archive/libs';
 import { Anchor } from '@/components/UI/Anchor';
 import { css, styled } from '@/ui/styled';
@@ -9,14 +8,11 @@ type Props = {
 };
 
 export const Chart = ({ archives, totalPosts }: Props) => {
-  const yearPercentages = useMemo(() => {
-    const percentages: Record<string, string> = {};
-    for (const year of Object.keys(archives)) {
-      const thisPosts = archives[year].length;
-      percentages[year] = `${(Math.round((thisPosts / totalPosts) * 100000) / 100).toFixed(2)}%`;
-    }
-    return percentages;
-  }, [archives, totalPosts]);
+  const yearPercentages: Record<string, string> = {};
+  for (const year of Object.keys(archives)) {
+    const thisPosts = archives[year].length;
+    yearPercentages[year] = `${(Math.round((thisPosts / totalPosts) * 100000) / 100).toFixed(2)}%`;
+  }
 
   return (
     <Container>

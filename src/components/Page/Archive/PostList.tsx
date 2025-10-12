@@ -1,7 +1,6 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useMemo } from 'react';
 import LinkCard from '@/components/UI/LinkCard';
 import { convertPostSlugToPath } from '@/lib/url';
 import type { ArticleSummary } from '@/types/source';
@@ -19,14 +18,12 @@ type PostListProps = {
 export function PostList({ posts }: PostListProps) {
   const searchParams = useSearchParams();
   const currentPage = parsePageNumber(searchParams.get(ARCHIVE_CONFIG.queryKey));
-  const paginatedPosts = useMemo(() => {
-    const startIndex = (currentPage - 1) * ARCHIVE_CONFIG.itemsPerPage;
-    const endIndex = startIndex + ARCHIVE_CONFIG.itemsPerPage;
-    return posts.slice(startIndex, endIndex).map((post) => ({
-      ...post,
-      link: convertPostSlugToPath(post.slug),
-    }));
-  }, [currentPage, posts]);
+  const startIndex = (currentPage - 1) * ARCHIVE_CONFIG.itemsPerPage;
+  const endIndex = startIndex + ARCHIVE_CONFIG.itemsPerPage;
+  const paginatedPosts = posts.slice(startIndex, endIndex).map((post) => ({
+    ...post,
+    link: convertPostSlugToPath(post.slug),
+  }));
 
   return (
     <>

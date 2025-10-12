@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
 import { TAG_VIEW_LIMIT } from '@/constant';
@@ -16,14 +16,12 @@ type PostTagProps = {
 };
 
 const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) {
-  const sortedTags = useMemo(() => {
-    return [...tags].sort((a, b) => {
-      if (b.count === undefined) return -1;
-      if (a.count === undefined) return 1;
+  const sortedTags = [...tags].sort((a, b) => {
+    if (b.count === undefined) return -1;
+    if (a.count === undefined) return 1;
 
-      return b.count - a.count;
-    });
-  }, [tags]);
+    return b.count - a.count;
+  });
 
   if (tags?.length === 0) {
     return null;
