@@ -78,7 +78,6 @@ export default async function Page({ params }: { params: Params }) {
   const slug = _slug.replace('.html', '');
   const data = getPostPageData(slug);
 
-  // 投稿が存在しない場合は404ページを表示
   if (!data) {
     notFound();
   }

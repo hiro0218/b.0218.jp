@@ -14,11 +14,12 @@ type UseSearchIntegrationProps = {
 };
 
 /**
- * 検索機能の統合フック
- * @param closeDialog - ダイアログを閉じる関数
- * @param dialogRef - ダイアログへの参照
- * @param persistSearchState - 検索状態を永続化するかどうか
- * @returns 検索機能に必要なすべての状態と関数
+ * 検索機能の統合フック（検索状態永続化とキーボードナビゲーションを統合）
+ * ビジネス要件：UX向上のため画面遷移時も検索状態を保持する必要がある
+ * @param closeDialog ダイアログ終了処理
+ * @param dialogRef ダイアログ要素への参照
+ * @param persistSearchState 検索状態永続化の有効/無効（デフォルト: true）
+ * @returns 統合された検索機能インターフェース
  */
 export const useSearchIntegration = ({
   closeDialog,
@@ -74,7 +75,6 @@ export const useSearchIntegration = ({
     hasExecutedRestorationRef.current = true;
   }, [archives.length, executeSearch, loadSearchState, persistSearchState, setFocusedIndex, setResults]);
 
-  // 初回マウント時に保存された状態を復元
   // biome-ignore lint/correctness/useExhaustiveDependencies: 初回マウント時のみ実行
   useEffect(() => {
     if (!persistSearchState) return;
@@ -89,7 +89,6 @@ export const useSearchIntegration = ({
     tryRestoreSearchState();
   }, [tryRestoreSearchState]);
 
-  // 検索状態が変更されたら保存
   useEffect(() => {
     if (!persistSearchState) return;
     if (!state.query && state.results.length === 0) return;

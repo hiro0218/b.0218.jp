@@ -58,7 +58,6 @@ type NormalizedText = {
   compact: string; // スペース除去版
 };
 
-// 検索結果アイテムの型定義（優先度情報付き）
 type RankedSearchResult = {
   post: SearchProps;
   priority: number;
@@ -238,7 +237,6 @@ const matchMultipleTerms = (post: SearchProps, searchTerms: string[]): RankedSea
  * @note 単一キーワードでは完全一致優先、複数キーワードではAND条件で結果を絞り込み
  */
 export const findMatchingPosts = (archives: SearchProps[], searchValue: string): RankedSearchResult[] => {
-  // 検索ワードが空の場合は空の結果を返す
   if (isEmptyQuery(searchValue)) {
     return [];
   }
@@ -287,7 +285,6 @@ const sortAndLimitResults = (results: RankedSearchResult[], maxResults = 100): S
     return scoreB - scoreA;
   });
 
-  // 結果を最大件数に制限してSearchResultItem形式に変換
   return sorted.slice(0, maxResults).map((result) => ({
     ...result.post,
     matchType: result.matchType,
@@ -296,28 +293,25 @@ const sortAndLimitResults = (results: RankedSearchResult[], maxResults = 100): S
 };
 
 /**
- * UIコンポーネントでの検索結果表示のため最適化された高速検索APIを提供
- * @param archives - 検索対象の投稿配列
- * @param searchValue - 検索クエリ文字列
- * @returns 優先度順にソートされた検索結果配列（最大100件）
- * @note UIの応答性確保のため結果件数を100件に制限し、優先度順ソートを適用
+ * UIコンポーネント用最適化検索API
+ * @param archives 検索対象の投稿配列
+ * @param searchValue 検索クエリ文字列
+ * @returns 優先度順ソート済み検索結果（最大100件）
  */
 export const performPostSearch = (archives: SearchProps[], searchValue: string): SearchResultItem[] => {
   if (isEmptyQuery(searchValue)) {
     return [];
   }
 
-  // 検索実行
   const rankedResults = findMatchingPosts(archives, searchValue);
-
-  // ソートと件数制限を適用
   return sortAndLimitResults(rankedResults, MAX_SEARCH_RESULTS);
 };
 
 /**
- * 検索処理のパフォーマンス向上のため、同じクエリの結果をメモリにキャッシュする
- * 連続する同じ検索やバックスペースでの削除時に高速化を実現
- * LRU風の実装で古いエントリーから削除し、メモリ効率を最適化
+ * キャッシュ付き検索フック
+ * リアルタイム検索のUX向上のため同一検索語の結果をキャッシュ
+ * パフォーマンス制約：LRU方式で最大50件まで保持（メモリ使用量制限）
+ * @returns キャッシュ機能付き検索実行関数
  */
 export const useSearchWithCache = () => {
   const cache = useMemo(() => new Map<string, SearchResultItem[]>(), []);
@@ -339,10 +333,8 @@ export const useSearchWithCache = () => {
         return result;
       }
 
-      // 検索実行
       const results = performPostSearch(archives, searchValue);
 
-      // キャッシュサイズ制限：最も古いエントリーを削除
       if (cache.size >= CACHE_SIZE_LIMIT) {
         const firstKey = cache.keys().next().value;
         cache.delete(firstKey);
