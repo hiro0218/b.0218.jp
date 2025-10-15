@@ -11,6 +11,7 @@ import { Layout } from '@/components/App/Layout/AppLayout';
 import { MainContainer } from '@/components/App/Layout/MainContainer';
 import { ClientSideScrollRestorer } from '@/components/Functional/ClientSideScrollRestorer';
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
+import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
 import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constant';
 import { SearchDialogProvider } from '@/contexts/SearchDialogContext';
 import { getOrganizationStructured } from '@/lib/json-ld';
@@ -25,7 +26,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: SITE_NAME,
+  title: {
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
+  },
   description: SITE_DESCRIPTION,
   authors: [
     {
@@ -33,6 +37,11 @@ export const metadata: Metadata = {
       url: SITE_URL,
     },
   ],
+  alternates: {
+    types: {
+      'application/rss+xml': '/feed.xml',
+    },
+  },
   openGraph: openGraph,
   twitter: {
     card: 'summary',
@@ -42,33 +51,17 @@ export const metadata: Metadata = {
   formatDetection: {
     telephone: false,
   },
+  icons: {
+    icon: '/favicon.ico',
+  },
+  other: {
+    search: '/opensearch.xml',
+  },
 };
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
-      <head>
-        <link crossOrigin="anonymous" href="https://www.googletagmanager.com" rel="preconnect" />
-        <link crossOrigin="anonymous" href="https://www.google.com" rel="preconnect" />
-        <link crossOrigin="anonymous" href="https://googleads.g.doubleclick.net" rel="preconnect" />
-        <link crossOrigin="anonymous" href="https://adtrafficquality.google" rel="dns-prefetch" />
-        <link href="/favicon.ico" rel="icon" type="image/x-icon" />
-        <link href="/opensearch.xml" rel="search" type="application/opensearchdescription+xml" />
-        <link href="/feed.xml" rel="alternate" title="RSSフィード" type="application/rss+xml" />
-        {
-          /** @see https://developer.mozilla.org/ja/docs/Web/HTML/Attributes/rel/me */
-          Object.entries(URL).map(([key, url]) => (
-            <link href={url} key={key} rel="me" />
-          ))
-        }
-        <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getOrganizationStructured()),
-          }}
-          type="application/ld+json"
-        ></script>
-      </head>
       <body>
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
         <SearchDialogProvider>
@@ -82,6 +75,20 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <Suspense>
           <ClientSideScrollRestorer />
         </Suspense>
+        <PreconnectLinks />
+        {
+          /** @see https://developer.mozilla.org/ja/docs/Web/HTML/Attributes/rel/me */
+          Object.entries(URL).map(([key, url]) => (
+            <link href={url} key={key} rel="me" />
+          ))
+        }
+        <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getOrganizationStructured()),
+          }}
+          type="application/ld+json"
+        />
       </body>
     </html>
   );
