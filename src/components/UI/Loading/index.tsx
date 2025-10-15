@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { styled } from '@/ui/styled';
 
 interface LoadingProps {
@@ -6,7 +5,7 @@ interface LoadingProps {
 }
 
 export const Loading = ({ size = 50 }: LoadingProps) => {
-  const spinnerStyle = useMemo(() => ({ width: `${size}px`, height: `${size}px` }), [size]);
+  const spinnerStyle = { width: `${size}px`, height: `${size}px` };
 
   return (
     <Container>

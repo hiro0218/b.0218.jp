@@ -1,5 +1,4 @@
 import type { CSSProperties, ReactNode } from 'react';
-import { useMemo } from 'react';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -38,13 +37,9 @@ const Root = styled.div`
 export const Container = ({ space = true, size, children, className }: Props) => {
   const containerSize = getSize(size);
 
-  const style = useMemo(
-    () =>
-      ({
-        '--container-size': containerSize,
-      }) as CSSProperties,
-    [containerSize],
-  );
+  const style = {
+    '--container-size': containerSize,
+  } as CSSProperties;
 
   return (
     <Root className={className} {...(space && { 'data-has-space': space })} style={style}>

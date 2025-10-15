@@ -4,7 +4,7 @@
 import { renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as safeSessionStorage from '@/lib/safeSessionStorage';
-import type { SearchProps } from '../types';
+import type { SearchResultItem } from '../types';
 import { useSearchStatePersistence } from './useSearchStatePersistence';
 
 vi.mock('@/lib/safeSessionStorage', () => ({
@@ -17,9 +17,21 @@ describe('useSearchStatePersistence', () => {
   const mockSearchState = {
     query: 'React',
     results: [
-      { title: 'React入門', slug: '202501010000', tags: ['React'] },
-      { title: 'React Hooks', slug: '202501020000', tags: ['React', 'Hooks'] },
-    ] as SearchProps[],
+      {
+        title: 'React入門',
+        slug: '202501010000',
+        tags: ['React'],
+        matchType: 'EXACT' as const,
+        matchedIn: 'title' as const,
+      },
+      {
+        title: 'React Hooks',
+        slug: '202501020000',
+        tags: ['React', 'Hooks'],
+        matchType: 'PARTIAL' as const,
+        matchedIn: 'both' as const,
+      },
+    ] as SearchResultItem[],
     focusedIndex: 0,
   };
 

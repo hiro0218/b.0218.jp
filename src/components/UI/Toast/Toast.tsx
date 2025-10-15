@@ -1,8 +1,6 @@
-import { forwardRef, memo, useMemo } from 'react';
+import { forwardRef, memo } from 'react';
 
 import { styled } from '@/ui/styled';
-
-import { useToast } from './useToast';
 
 interface ToastProps {
   message: string;
@@ -10,23 +8,11 @@ interface ToastProps {
   isVisible: boolean;
 }
 
-export const Toast = (initialMessage: string) => {
-  const { ref, showToast, hideToast, message, isVisible } = useToast(initialMessage);
-
-  const Component = useMemo(
-    () => <ToastView isVisible={isVisible} message={message} onHideToast={hideToast} ref={ref} />,
-    [hideToast, ref, message, isVisible],
-  );
-
-  return {
-    // biome-ignore lint/style/useNamingConvention: temp
-    Component,
-    showToast,
-    hideToast,
-  };
-};
-
-const ToastView = memo(
+/**
+ * トースト通知コンポーネント
+ * 自動消去機能を持つ通知メッセージを表示
+ */
+export const Toast = memo(
   forwardRef<HTMLDivElement, ToastProps>(({ message, onHideToast, isVisible }, ref) => {
     return (
       <Container

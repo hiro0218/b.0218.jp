@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 
 /**
  * 常に最新の値を参照できるrefを提供するカスタムフック
- * useEffectのクロージャー問題を回避し、古い値の参照を防ぐ
+ * useLayoutEffectを使用してDOM更新前に同期的にrefを更新し、古い値の参照を防ぐ
  *
  * @param value 最新の状態を保持したい値
  * @returns 常に最新の値を参照できるref
@@ -10,7 +10,7 @@ import { useEffect, useRef } from 'react';
 export const useLatestRef = <T>(value: T) => {
   const ref = useRef(value);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     ref.current = value;
   }, [value]);
 

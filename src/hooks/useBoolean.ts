@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 type UseBooleanReturn = {
   value: boolean;
@@ -15,17 +15,17 @@ export function useBoolean(defaultValue = false): UseBooleanReturn {
   }
   const [value, setValue] = useState(defaultValue);
 
-  const setTrue = useCallback(() => {
+  const setTrue = () => {
     setValue(true);
-  }, []);
+  };
 
-  const setFalse = useCallback(() => {
+  const setFalse = () => {
     setValue(false);
-  }, []);
+  };
 
-  const toggle = useCallback(() => {
+  const toggle = () => {
     setValue((x) => !x);
-  }, []);
+  };
 
   return { value, setValue, setTrue, setFalse, toggle };
 }

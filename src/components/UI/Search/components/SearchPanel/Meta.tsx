@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import { Stack } from '@/components/UI/Layout';
 import { styled } from '@/ui/styled';
 import { createSearchResultMessage, createSearchStatusMessage } from './libs/createSearchMessage';
@@ -14,7 +13,7 @@ type SearchStatusProps = {
  * @param searchQuery - 検索クエリ
  * @returns アクセシビリティ対応ステータスメッセージ
  */
-export const SearchStatus = memo(function SearchStatus({ resultsCount, searchQuery }: SearchStatusProps) {
+export function SearchStatus({ resultsCount, searchQuery }: SearchStatusProps) {
   const statusMessage = createSearchStatusMessage({ resultsCount, searchQuery });
 
   return (
@@ -22,7 +21,7 @@ export const SearchStatus = memo(function SearchStatus({ resultsCount, searchQue
       {statusMessage}
     </div>
   );
-});
+}
 
 type SearchResultMessageProps = {
   resultsCount: number;
@@ -35,14 +34,11 @@ type SearchResultMessageProps = {
  * @param searchQuery - 検索クエリ
  * @returns 検索結果サマリメッセージ
  */
-export const SearchResultMessage = memo(function SearchResultMessage({
-  resultsCount,
-  searchQuery,
-}: SearchResultMessageProps) {
+export function SearchResultMessage({ resultsCount, searchQuery }: SearchResultMessageProps) {
   const resultMessage = createSearchResultMessage({ resultsCount, searchQuery });
 
   return <Message>{resultMessage}</Message>;
-});
+}
 
 type SearchExternalLinkProps = {
   searchQuery?: string;
@@ -53,7 +49,7 @@ type SearchExternalLinkProps = {
  * @param searchQuery - 検索クエリ（オプション）
  * @returns Google検索へのリンク
  */
-export const SearchExternalLink = memo(function SearchExternalLink({ searchQuery }: SearchExternalLinkProps) {
+export function SearchExternalLink({ searchQuery }: SearchExternalLinkProps) {
   const query = searchQuery ? `site:b.0218.jp ${searchQuery}` : 'site:b.0218.jp';
   const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
 
@@ -77,7 +73,7 @@ export const SearchExternalLink = memo(function SearchExternalLink({ searchQuery
       </Stack>
     </SearchFooter>
   );
-});
+}
 
 const Message = styled.div`
   padding: var(--spacing-½);

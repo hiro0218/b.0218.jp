@@ -1,9 +1,10 @@
 'use client';
+'use no memo';
 
-import { useCallback, useEffect, useId, useState } from 'react';
+import { useCallback, useId, useSyncExternalStore } from 'react';
 
 import { Stack } from '@/components/UI/Layout';
-import { Toast } from '@/components/UI/Toast';
+import { Toast, useToast } from '@/components/UI/Toast';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { X_ACCOUNT } from '@/constant';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
@@ -15,16 +16,17 @@ interface Props {
   url: string;
 }
 
+// React Compiler との互換性のため、subscribe 関数を外部で定義
+const emptySubscribe = () => () => {};
+const getNavigatorShareSnapshot = () => typeof navigator !== 'undefined' && !!navigator.share;
+const getServerSnapshot = () => false;
+
 function PostShare({ title, url }: Props) {
   const labelledbyId = useId();
-  const [isShareSupported, setIsShareSupported] = useState(false);
+  const isShareSupported = useSyncExternalStore(emptySubscribe, getNavigatorShareSnapshot, getServerSnapshot);
   const [, copy] = useCopyToClipboard();
-  const { Component: ToastComponent, showToast } = Toast('記事のURLをコピーしました');
+  const { ref, showToast, hideToast, message, isVisible } = useToast('記事のURLをコピーしました');
   const classNames = cx('link-style--hover-effect', ShareButtonStyle);
-
-  useEffect(() => {
-    setIsShareSupported(typeof navigator !== 'undefined' && !!navigator.share);
-  }, []);
 
   const onClickCopyPermalink = useCallback(() => {
     copy(url).then(() => {
@@ -86,7 +88,7 @@ function PostShare({ title, url }: Props) {
           <Share1Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </button>
       </Stack>
-      {ToastComponent}
+      <Toast isVisible={isVisible} message={message} onHideToast={hideToast} ref={ref} />
     </aside>
   );
 }

@@ -37,10 +37,13 @@ export const getMetadata = ({
   robots,
   other,
 }: GetMetadataProps): Metadata => {
-  const pageTitle = `${title} - ${SITE_NAME}`;
+  /**
+   * layout.tsx の template (%s | ${SITE_NAME}) を使用するため、title のみを返すが、OpenGraph では完全なタイトルを設定
+   */
+  const fullTitle = `${title} | ${SITE_NAME}`;
 
   return {
-    title: pageTitle,
+    title,
     description: description,
     alternates: {
       canonical: url,
@@ -49,7 +52,7 @@ export const getMetadata = ({
     openGraph: {
       ...openGraph,
       url: url,
-      title: pageTitle,
+      title: fullTitle,
       description: description,
       ...customOpenGraph,
     },

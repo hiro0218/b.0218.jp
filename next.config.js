@@ -12,6 +12,7 @@ const nextConfiguration = {
 
   experimental: {
     scrollRestoration: false,
+    reactCompiler: true,
   },
 
   generateBuildId: () => nextBuildId({ dir: __dirname }),

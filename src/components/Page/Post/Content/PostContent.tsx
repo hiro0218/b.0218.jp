@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { Adsense } from '@/components/UI/Adsense';
 import type { Post } from '@/types/source';
 import Mokuji from '../Mokuji';
@@ -14,7 +14,7 @@ type ContentProps = {
 
 export default function Content({ content }: ContentProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const parsedContent = parser(content);
+  const parsedContent = useMemo(() => parser(content), [content]);
 
   return (
     <>

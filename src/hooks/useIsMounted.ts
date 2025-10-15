@@ -1,17 +1,18 @@
 'use client';
+'use no memo';
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function useIsMounted(): () => boolean {
-  const isMountedRef = useRef(false);
+export default function useIsMounted(): boolean {
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    isMountedRef.current = true;
+    setIsMounted(true);
 
     return () => {
-      isMountedRef.current = false;
+      setIsMounted(false);
     };
   }, []);
 
-  return useCallback(() => isMountedRef.current, []);
+  return isMounted;
 }
