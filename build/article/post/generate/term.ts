@@ -6,27 +6,35 @@ import { getPath } from './utils';
 const PATH = getPath();
 
 export async function buildTerm(posts: Partial<Post>[]) {
-  const tagsMap: {
-    [key: string]: string[];
-  } = {};
+  // タグごとに記事slugを集める
+  const tagsMapWithSet = new Map<string, Set<string>>();
 
-  for (let i = 0; i < posts.length; i++) {
-    const { slug, tags } = posts[i];
+  for (const post of posts) {
+    const { slug, tags } = post;
 
     if (!slug || !tags) {
       continue;
     }
 
-    for (let i = 0; i < tags.length; i++) {
-      const tag = tags[i];
-      const mappedTags = tagsMap[tag];
+    for (const tag of tags) {
+      let slugs = tagsMapWithSet.get(tag);
 
-      if (mappedTags) {
-        mappedTags.push(slug);
-      } else {
-        tagsMap[tag] = [slug];
+      if (!slugs) {
+        slugs = new Set<string>();
+        tagsMapWithSet.set(tag, slugs);
       }
+
+      slugs.add(slug);
     }
+  }
+
+  // 出力用のオブジェクトに変換
+  const tagsMap: {
+    [key: string]: string[];
+  } = {};
+
+  for (const [tag, slugs] of tagsMapWithSet) {
+    tagsMap[tag] = Array.from(slugs);
   }
 
   writeJSON(`${PATH.to}/tags.json`, tagsMap).then(() => {
