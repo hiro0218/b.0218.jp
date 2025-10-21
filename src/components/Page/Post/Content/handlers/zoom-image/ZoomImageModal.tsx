@@ -32,9 +32,9 @@ const zoomedImageStyle = css`
   will-change: transform, opacity;
 `;
 
-type ZoomImageProps = ImgHTMLAttributes<HTMLImageElement> & {
+interface ZoomImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
-};
+}
 
 const ZoomImage: FC<ZoomImageProps> = ({ alt, src, style, ...props }) => {
   const processedStyle = useMemo(

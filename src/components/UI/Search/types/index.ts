@@ -1,8 +1,8 @@
 import type { Post } from '@/types/source';
 
-export type SearchProps = Pick<Post, 'title' | 'tags' | 'slug'> & {
+export interface SearchProps extends Pick<Post, 'title' | 'tags' | 'slug'> {
   score?: number;
-};
+}
 
 /**
  * 検索結果のマッチタイプ
@@ -25,12 +25,12 @@ export type MatchedIn = 'title' | 'tag' | 'both';
  * マッチタイプ情報を含む検索結果アイテム
  * SearchPropsを拡張し、どこにマッチしたか（タイトル/タグ）の情報を保持
  */
-export type SearchResultItem = SearchProps & {
+export interface SearchResultItem extends SearchProps {
   /** マッチのタイプ（完全一致、部分一致など） */
   matchType: MatchType;
   /** マッチした場所（タイトル、タグ、または両方） */
   matchedIn: MatchedIn;
-};
+}
 
 export type OnCloseDialogProps = () => void;
 

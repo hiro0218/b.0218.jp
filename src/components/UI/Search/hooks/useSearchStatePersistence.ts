@@ -14,9 +14,9 @@ type SearchState = {
 const STORAGE_KEY = 'search-state';
 const STORAGE_EXPIRY = 30 * 60 * 1000;
 
-type StoredSearchState = SearchState & {
+interface StoredSearchState extends SearchState {
   timestamp: number;
-};
+}
 
 /**
  * 検索状態をsessionStorageで永続化するフック

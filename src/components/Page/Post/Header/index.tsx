@@ -7,10 +7,10 @@ import PostTag from '@/components/UI/Tag';
 import type { Post } from '@/types/source';
 import { css, styled } from '@/ui/styled';
 
-type Props = Pick<Post, 'title' | 'date' | 'updated'> & {
+interface Props extends Pick<Post, 'title' | 'date' | 'updated'> {
   tagsWithCount: PostTagProps[];
   render?: ReactNode;
-};
+}
 
 function PostHeader({ title, date, updated, tagsWithCount, render }: Props) {
   return (
