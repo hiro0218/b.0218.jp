@@ -61,24 +61,24 @@ export type ArticleSummary = Optional<Omit<Article, 'content'>, 'updated'>;
  * ブログ投稿の完全型（posts.json）
  * すべての投稿記事情報を含む型
  */
-export interface Post extends Article {
+export type Post = Article & {
   /** 記事の注釈（オプショナル） */
   note?: string;
   /** 記事に紐づくタグの配列 */
   tags: string[];
   /** 検索エンジンのインデックスを拒否するフラグ */
   noindex?: boolean;
-}
+};
 
 /**
  * ブログ投稿の要約型（posts-list.json）
  * 一覧ページやサイドバーなどで使用する軽量な型
  * 実際のデータ形式：[{ title, slug, date, tags }, ...]
  */
-export interface PostSummary extends ArticleSummary {
+export type PostSummary = ArticleSummary & {
   /** 記事に紐づくタグの配列 */
   tags: string[];
-}
+};
 
 // ========================================
 // インデックス・スコア型定義

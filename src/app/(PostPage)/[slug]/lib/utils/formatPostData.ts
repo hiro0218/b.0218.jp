@@ -2,13 +2,13 @@ import { getDateAndUpdatedToSimpleFormat } from '@/app/libs/getDateAndUpdatedToS
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import type { Post } from '@/types/source';
 
-interface FormattedPostData extends Post {
+type FormattedPostData = Post & {
   tagsWithCount: PostTagProps[];
   meta: {
     publishedTime: string;
     modifiedTime?: string;
   };
-}
+};
 
 export function formatPostData(post: Post, tagsWithCount: PostTagProps[]): FormattedPostData | null {
   if (!post) return null;
