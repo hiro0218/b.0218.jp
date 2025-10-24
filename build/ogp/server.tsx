@@ -7,11 +7,11 @@ import { Hono } from 'hono/tiny';
 
 import { Template } from './template';
 
-type Bindings = HttpBindings & {
+interface Bindings extends HttpBindings {
   query: {
     title: string;
   };
-};
+}
 
 // biome-ignore lint/style/useNamingConvention: Hono Instance
 const app = new Hono<{ Bindings: Bindings }>();

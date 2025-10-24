@@ -4,6 +4,7 @@ import { mkdir, writeJSON } from '@/shared/fs';
 import * as Log from '@/shared/Log';
 import type { Post } from '@/types/source';
 import markdownToHtmlString from '../../markdownToHtmlString';
+import { buildTagNormalizationMap, normalizeTags } from './normalizeTag';
 import { getMarkdownFiles, getPath, getSlug } from './utils';
 
 const PATH = getPath();
@@ -53,6 +54,14 @@ export async function buildPost() {
 
   // sort: 日付順
   posts.sort((a, b) => b.date.localeCompare(a.date));
+
+  // タグを正規化（異なる表記を統一）
+  const normalizationMap = buildTagNormalizationMap(posts);
+  for (const post of posts) {
+    if (post.tags && post.tags.length > 0) {
+      post.tags = normalizeTags(post.tags, normalizationMap);
+    }
+  }
 
   await mkdir(`${PATH.to}`, { recursive: true });
   await writeJSON(`${PATH.to}/${FILENAME_POSTS}.json`, posts).then(() => {
