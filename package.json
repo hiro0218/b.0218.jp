@@ -59,7 +59,7 @@
     "@types/react-dom": "19.2.2",
     "@types/twitter-for-web": "0.0.6",
     "@vitejs/plugin-react": "5.1.0",
-    "@vitest/coverage-v8": "4.0.2",
+    "@vitest/coverage-v8": "4.0.3",
     "browserslist": "4.26.3",
     "dependency-cruiser": "17.1.0",
     "esbuild": "0.25.11",
@@ -112,7 +112,7 @@
     "typescript": "5.9.3",
     "unified": "11.0.5",
     "unist-util-visit": "5.0.0",
-    "vitest": "4.0.2"
+    "vitest": "4.0.3"
   },
   "overrides": {
     "array.prototype.at": "npm:@nolyfill/array.prototype.at@^1",
