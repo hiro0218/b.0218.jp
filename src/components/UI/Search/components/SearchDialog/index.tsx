@@ -77,7 +77,6 @@ const Dialog = styled.dialog`
     border: none;
     opacity: 1;
     animation: zoomIn 0.2s;
-    will-change: transform, opacity;
   }
 
   &[open][data-closing='true'] {
