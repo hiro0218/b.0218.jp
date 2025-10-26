@@ -79,12 +79,13 @@ function PostShare({ title, url }: Props) {
           <Link2Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </button>
         <button
+          aria-label={isShareSupported ? 'その他：共有' : '共有に未対応'}
           className={classNames}
           disabled={!isShareSupported}
           onClick={isShareSupported ? onClickShare : undefined}
           type="button"
         >
-          <Tooltip text="その他：共有" />
+          {isShareSupported && <Tooltip text="その他：共有" />}
           <Share1Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </button>
       </Stack>
