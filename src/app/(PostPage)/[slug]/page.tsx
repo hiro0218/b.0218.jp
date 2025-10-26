@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { getMetadata } from '@/app/_metadata';
 import { JsonLdScript } from '@/components/Functional/JsonLdScript';
+import { ReadingHistoryRecorder } from '@/components/Functional/ReadingHistoryRecorder';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { TagSection } from '@/components/Page/_shared/TagSection';
 import { PostContent } from '@/components/Page/Post/Content';
@@ -86,9 +87,11 @@ export default async function Page({ params }: { params: Params }) {
   const { title, date, updated, note, content, tagsWithCount } = post;
   const hasTweet = content.includes('twitter-tweet');
   const permalink = getPermalink(slug);
+  const tags = tagsWithCount.map((tag) => tag.slug);
 
   return (
     <>
+      <ReadingHistoryRecorder date={date} slug={slug} tags={tags} title={title} />
       <JsonLdScript jsonLd={[getBlogPostingStructured(post), getBreadcrumbStructured(post)]} />
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
       <Container size="small" space={false}>
