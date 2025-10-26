@@ -14,7 +14,7 @@ type Props = {
   titleTagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   excerpt?: ReactNode | string;
   date: PostDateProps['date'];
-  updated: PostDateProps['updated'];
+  updated?: PostDateProps['updated'];
   tags?: string[];
   prefetch?: boolean;
 };
