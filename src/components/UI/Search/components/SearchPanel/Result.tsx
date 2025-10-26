@@ -81,9 +81,8 @@ export const LinkContainerStyle = css`
 `;
 
 export const FocusedContainerStyle = css`
-  outline: 2px solid var(--colors-blue-9);
-  outline-offset: -2px;
   background-color: var(--colors-gray-3);
+  box-shadow: inset 0 0 0 2px var(--colors-blue-9);
 `;
 
 export const AnchorStyle = css`
