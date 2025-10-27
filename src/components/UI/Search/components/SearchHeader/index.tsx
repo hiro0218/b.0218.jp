@@ -20,7 +20,10 @@ export function SearchHeader({ onKeyUp, onKeyDown, searchQuery }: SearchHeaderPr
   const searchInputId = useId();
 
   useEffect(() => {
-    refInput.current?.focus();
+    // タッチデバイスではキーボードが画面を覆うため、自動フォーカスを避ける
+    if (window.matchMedia('(hover: hover)').matches) {
+      refInput.current?.focus();
+    }
   }, []);
 
   return (

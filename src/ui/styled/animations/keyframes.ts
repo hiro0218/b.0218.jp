@@ -59,7 +59,7 @@ export const keyframes = defineKeyframes({
   zoomIn: {
     '0%': {
       opacity: '0',
-      transform: 'scale3d(0.3, 0.3, 0.3)',
+      transform: 'scale3d(0.8, 0.8, 0.8)',
     },
     '50%': {
       opacity: '1',
@@ -75,7 +75,7 @@ export const keyframes = defineKeyframes({
     },
     '50%': {
       opacity: '0',
-      transform: 'scale3d(0.3, 0.3, 0.3)',
+      transform: 'scale3d(0.8, 0.8, 0.8)',
     },
     '100%': {
       opacity: '0',

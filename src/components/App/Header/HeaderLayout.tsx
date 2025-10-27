@@ -39,7 +39,6 @@ const Header = styled.header`
   transition:
     transform 0.4s ease-out,
     opacity 0.4s ease-out;
-  will-change: transform, opacity;
 
   &[data-is-mounted='true'] {
     opacity: 1;

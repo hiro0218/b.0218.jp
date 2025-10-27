@@ -7,6 +7,7 @@ const Links = [
   { title: 'about', href: '/about' },
   { title: 'tags', href: '/tags' },
   { title: 'popular', href: '/popular' },
+  { title: 'history', href: '/history' },
   { title: 'archive', href: '/archive' },
 ] as const;
 

@@ -224,9 +224,8 @@ const paginationButtonStyle = css`
     }
     &:focus-visible {
       color: var(--colors-gray-12);
-      outline: 2px solid var(--colors-gray-8);
-      outline-offset: 2px;
       background-color: var(--colors-gray-5);
+      box-shadow: 0 0 0 2px var(--colors-gray-1), 0 0 0 4px var(--colors-gray-8);
     }
   }
 `;
