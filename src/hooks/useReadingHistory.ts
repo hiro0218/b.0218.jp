@@ -30,7 +30,13 @@ export const useReadingHistory = () => {
       const parsedHistory = parseJSON<ReadingHistoryItem[]>(cachedValue);
       return Array.isArray(parsedHistory) ? parsedHistory : [];
     } catch (e) {
-      console.warn('Failed to parse reading history:', e);
+      console.warn('Failed to parse reading history, resetting storage:', e);
+      // 不正なデータをクリアして初期状態にリセット
+      try {
+        window.localStorage.removeItem(STORAGE_KEY);
+      } catch (removeError) {
+        console.error('Failed to reset reading history storage:', removeError);
+      }
       return [];
     }
   }, []);
