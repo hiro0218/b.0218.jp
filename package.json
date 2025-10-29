@@ -59,9 +59,9 @@
     "@types/react-dom": "19.2.2",
     "@types/twitter-for-web": "0.0.6",
     "@vitejs/plugin-react": "5.1.0",
-    "@vitest/coverage-v8": "4.0.3",
-    "browserslist": "4.26.3",
-    "dependency-cruiser": "17.1.0",
+    "@vitest/coverage-v8": "4.0.5",
+    "browserslist": "4.27.0",
+    "dependency-cruiser": "17.2.0",
     "esbuild": "0.25.11",
     "esbuild-register": "3.6.0",
     "fdir": "6.5.0",
@@ -112,7 +112,7 @@
     "typescript": "5.9.3",
     "unified": "11.0.5",
     "unist-util-visit": "5.0.0",
-    "vitest": "4.0.3"
+    "vitest": "4.0.5"
   },
   "overrides": {
     "array.prototype.at": "npm:@nolyfill/array.prototype.at@^1",
