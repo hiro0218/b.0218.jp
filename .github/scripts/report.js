@@ -19,6 +19,14 @@ const fs = require('fs')
 const gzSize = require('gzip-size')
 const { getBuildOutputDirectory, getOptions } = require('./utils')
 
+// Hash pattern constants for Next.js build outputs
+// Next.js generates content hashes with hexadecimal characters (0-9a-f)
+// Minimum hash length is typically 8 characters, but can be longer
+const HASH_MIN_LENGTH = 8
+const APP_ROUTE_HASH_PATTERN = /-[0-9a-f]+$/  // Matches: -89866720651bb81e
+const CHUNK_FILE_HASH_PATTERN = new RegExp(`[-\\.][0-9a-f]{${HASH_MIN_LENGTH},}\\.js$`)  // Matches: framework-abc123.js or 123.abc123.js
+const NUMERIC_CHUNK_PATTERN = /^([0-9]+)\..*\.js$/  // Matches: 117.hash.js -> captures "117"
+
 // Pull options from `package.json`
 const options = getOptions()
 const BUILD_OUTPUT_DIRECTORY = getBuildOutputDirectory(options)
@@ -97,7 +105,7 @@ if (appPathsManifest) {
           // Map to a readable page path, removing hash
           let pagePath = `/_app/${relativePath.replace(/\\/g, '/').replace(/\.js$/, '')}`
           // Remove hash pattern (e.g., -89866720651bb81e)
-          pagePath = pagePath.replace(/-[0-9a-f]+$/, '')
+          pagePath = pagePath.replace(APP_ROUTE_HASH_PATTERN, '')
 
           allPageSizes[pagePath] = sizes
         }
@@ -119,8 +127,8 @@ if (fs.existsSync(sharedChunksDir)) {
       // Remove hash from filename for consistent tracking
       // Handles patterns like: framework-abc123.js, 123.abc123.js, abc-123.js
       let cleanFileName = file
-        .replace(/[-\.][0-9a-f]{8,}\.js$/, '.js')  // Remove hash with - or . separator
-        .replace(/^([0-9]+)\..*\.js$/, '$1.js')     // For patterns like 117.hash.js -> 117.js
+        .replace(CHUNK_FILE_HASH_PATTERN, '.js')  // Remove hash with - or . separator
+        .replace(NUMERIC_CHUNK_PATTERN, '$1.js')  // For patterns like 117.hash.js -> 117.js
 
       allPageSizes[`/_shared/${cleanFileName}`] = sizes
     }

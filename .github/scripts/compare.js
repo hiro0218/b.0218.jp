@@ -94,7 +94,7 @@ if (
     raw: globalBundleCurrent.raw,
     gzip: globalBundleCurrent.gzip,
     gzipDiff: globalGzipDiff,
-    increase: Math.sign(globalGzipDiff) > 0,
+    isIncrease: Math.sign(globalGzipDiff) > 0,
   }
 }
 
@@ -119,7 +119,7 @@ for (let page in currentBundle) {
     // we push these to their own category for rendering later
     const rawDiff = currentStats.raw - baseStats.raw
     const gzipDiff = currentStats.gzip - baseStats.gzip
-    const increase = Math.sign(gzipDiff) > 0
+    const isIncrease = Math.sign(gzipDiff) > 0
     // only report a page size change if we don't have a minimum change
     // threshold configured, or if the change is greater than the threshold
     if (
@@ -128,7 +128,7 @@ for (let page in currentBundle) {
     ) {
       // Format the page path for display
       const displayPage = formatPagePath(page)
-      changedPages.push({ page: displayPage, originalPath: page, ...currentStats, rawDiff, gzipDiff, increase })
+      changedPages.push({ page: displayPage, originalPath: page, ...currentStats, rawDiff, gzipDiff, isIncrease })
     }
   }
 }
@@ -139,9 +139,9 @@ if (globalBundleChanges) {
   // start with the headline, which will render differently depending on whether
   // there was an increase of decrease.
   output += `### ${
-    globalBundleChanges.increase ? '⚠️' : '🎉'
+    globalBundleChanges.isIncrease ? '⚠️' : '🎉'
   }  Global Bundle Size ${
-    globalBundleChanges.increase ? 'Increased' : 'Decreased'
+    globalBundleChanges.isIncrease ? 'Increased' : 'Decreased'
   }
 
 `
