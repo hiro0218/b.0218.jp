@@ -17,7 +17,6 @@
 const path = require('path')
 const fs = require('fs')
 const gzSize = require('gzip-size')
-const mkdirp = require('mkdirp')
 const { getBuildOutputDirectory, getOptions } = require('./utils')
 
 // Pull options from `package.json`
@@ -144,7 +143,7 @@ console.log(`  - App chunks found: ${fs.existsSync(appChunksDir) ? 'Yes' : 'No'}
 console.log(`  - Shared chunks found: ${fs.existsSync(sharedChunksDir) ? 'Yes' : 'No'}`)
 console.log('================================\n')
 
-mkdirp.sync(path.join(nextMetaRoot, 'analyze/'))
+fs.mkdirSync(path.join(nextMetaRoot, 'analyze/'), { recursive: true })
 fs.writeFileSync(
   path.join(nextMetaRoot, 'analyze/__bundle_analysis.json'),
   rawData

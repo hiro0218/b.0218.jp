@@ -17,7 +17,6 @@
  */
 
 const originalFilesize = require('filesize')
-const numberToWords = require('number-to-words')
 const fs = require('fs')
 const path = require('path')
 const { getBuildOutputDirectory, getOptions } = require('./utils')
@@ -120,7 +119,7 @@ for (let page in currentBundle) {
     // we push these to their own category for rendering later
     const rawDiff = currentStats.raw - baseStats.raw
     const gzipDiff = currentStats.gzip - baseStats.gzip
-    const increase = !!Math.sign(gzipDiff)
+    const increase = Math.sign(gzipDiff) > 0
     // only report a page size change if we don't have a minimum change
     // threshold configured, or if the change is greater than the threshold
     if (
@@ -189,9 +188,7 @@ if (changedPages.length) {
   // - table containing all the resources and info
   // - details section
   const plural = changedPages.length > 1 ? 's' : ''
-  output += `### ${titleCase(
-    numberToWords.toWords(changedPages.length)
-  )} Page${plural} Changed Size
+  output += `### ${changedPages.length} Page${plural} Changed Size
 
 The following page${plural} changed size from the code in this PR compared to its base branch:
 
@@ -288,9 +285,11 @@ ${data
       : 0
 
     // ベースバンドルがない場合は比較情報を表示しない
+    // ベースブランチでのFirst Load = ベースのグローバルバンドル + ベースのページサイズ
+    // ベースのページサイズ = 現在のページサイズ - 差分
     const previousBudgetPercentage = hasBaseBundle && globalBundleBase && d.gzipDiff
         ? (
-            ((globalBundleCurrent.gzip + d.gzip + d.gzipDiff) / BUDGET) *
+            ((globalBundleBase.gzip + (d.gzip - d.gzipDiff)) / BUDGET) *
             100
           ).toFixed(2)
         : 0
@@ -329,7 +328,10 @@ function renderFirstLoad(globalBundleCurrent, firstLoadSize) {
 function renderSize(d, showBudgetDiff) {
   const gzd = d.gzipDiff
   // 差分が無い場合や、ベースバンドルがない場合は0にする
-  const percentChange = (gzd && d.gzip) ? ((gzd / d.gzip) * 100) : 0
+  // ベースサイズに対する変化率を計算: (差分 / ベースサイズ) * 100
+  // ベースサイズ = 現在のサイズ - 差分
+  const baseSize = d.gzip - gzd
+  const percentChange = (gzd && baseSize !== 0) ? ((gzd / baseSize) * 100) : 0
   return ` | \`${filesize(d.gzip)}\`${
     gzd && !showBudgetDiff && hasBaseBundle
       ? ` _(${renderStatusIndicator(percentChange)}${filesize(gzd)})_`
@@ -384,12 +386,6 @@ function renderStatusIndicator(percentageChange) {
   return res
 }
 
-function titleCase(str) {
-  return str.replace(/\w\S*/g, (txt) => {
-    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-  })
-}
-
 /**
  * フォーマットされたページパスを返す関数
  * App RouterとPages Routerのページ表示を適切に整形する
@@ -397,10 +393,15 @@ function titleCase(str) {
  * @returns {string} 表示用に整形されたパス
  */
 function formatPagePath(pagePath) {
-  // App Router用のパスの場合 (/app で始まる場合)
-  if (pagePath.startsWith('/app')) {
-    // /app プレフィックスを削除し、App Routerであることを明示
-    return `[App] ${pagePath.substring(4)}`;
+  // App Router用のパスの場合 (/_app/ で始まる場合)
+  if (pagePath.startsWith('/_app/')) {
+    // /_app/ プレフィックスを削除し、App Routerであることを明示
+    return `[App] ${pagePath.substring(6)}`;
+  }
+
+  // /_shared/ の場合はそのまま返す（共有チャンク）
+  if (pagePath.startsWith('/_shared/')) {
+    return pagePath;
   }
 
   // Pages Router用のパスの場合は、そのまま返す
