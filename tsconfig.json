@@ -1,7 +1,12 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["ESNext", "DOM", "DOM.Iterable", "DOM.AsyncIterable"],
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable",
+      "DOM.AsyncIterable"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -12,11 +17,15 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "~/*": ["./*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "~/*": [
+        "./*"
+      ]
     },
     "incremental": true,
     "noErrorTruncation": true,
@@ -29,16 +38,35 @@
       {
         "name": "@styled/typescript-styled-plugin",
         "lint": {
-          "validProperties": ["container-type", "container-name", "text-wrap"],
+          "validProperties": [
+            "container-type",
+            "container-name",
+            "text-wrap"
+          ],
           "unknownAtRules": "ignore",
           "validate": false
         }
       }
     ],
     "strictNullChecks": false,
-    "types": ["vitest/globals"]
+    "types": [
+      "vitest/globals"
+    ]
   },
-  "typeRoots": ["node_modules/@types", "./src/types"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "styled-system"],
-  "exclude": ["node_modules", "build/ogp"]
+  "typeRoots": [
+    "node_modules/@types",
+    "./src/types"
+  ],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "styled-system",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "build/ogp"
+  ]
 }

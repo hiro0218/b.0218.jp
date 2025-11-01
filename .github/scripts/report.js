@@ -5,27 +5,33 @@
  */
 
 /**
- * Next.jsのバンドルサイズ解析スクリプト
- * Pages RouterとApp Router（Next.js 13以降）の両方に対応
+ * Next.js 16対応バンドルサイズ解析スクリプト
  *
- * 処理概要:
- * 1. Pages RouterとApp Router両方のビルドマニフェストを読み込む
- * 2. グローバルバンドルのサイズを計算（Pages Routerでは/_app、App Routerでは/layout）
- * 3. 各ページのスクリプトサイズを計算し、グローバルバンドルを除外
- * 4. 解析結果をJSONファイルとして保存
+ * Next.js 16の変更点:
+ * - app-build-manifest.jsonが廃止
+ * - build-manifest.jsonにrootMainFilesが追加（グローバルバンドル）
+ * - App Routerのチャンクは.next/static/chunks/app/に配置
+ * - app-paths-manifest.jsonでページパスとファイルをマッピング
  */
 
 const path = require('path')
 const fs = require('fs')
 const gzSize = require('gzip-size')
-const mkdirp = require('mkdirp')
 const { getBuildOutputDirectory, getOptions } = require('./utils')
+
+// Hash pattern constants for Next.js build outputs
+// Next.js generates content hashes with hexadecimal characters (0-9a-f)
+// Minimum hash length is typically 8 characters, but can be longer
+const HASH_MIN_LENGTH = 8
+const APP_ROUTE_HASH_PATTERN = /-[0-9a-f]+$/  // Matches: -89866720651bb81e
+const CHUNK_FILE_HASH_PATTERN = new RegExp(`[-\\.][0-9a-f]{${HASH_MIN_LENGTH},}\\.js$`)  // Matches: framework-abc123.js or 123.abc123.js
+const NUMERIC_CHUNK_PATTERN = /^([0-9]+)\..*\.js$/  // Matches: 117.hash.js -> captures "117"
 
 // Pull options from `package.json`
 const options = getOptions()
 const BUILD_OUTPUT_DIRECTORY = getBuildOutputDirectory(options)
 
-// first we check to make sure that the build output directory exists
+// Check build output directory exists
 const nextMetaRoot = path.join(process.cwd(), BUILD_OUTPUT_DIRECTORY)
 try {
   fs.accessSync(nextMetaRoot, fs.constants.R_OK)
@@ -36,93 +42,128 @@ try {
   process.exit(1)
 }
 
-// import both Pages Router and App Router build manifests
-const buildMeta = require(path.join(nextMetaRoot, 'build-manifest.json'))
-let appBuildMeta = null
-
-// try to load App Router manifest if it exists
-try {
-  appBuildMeta = require(path.join(nextMetaRoot, 'app-build-manifest.json'))
-} catch (err) {
-  // App Router might not be used in this project, which is fine
-  console.log('No App Router manifest found, assuming Pages Router only')
-}
-
-// this memory cache ensures we dont read any script file more than once
-// bundles are often shared between pages
+// Memory cache for file sizes
 const memoryCache = {}
 
-// determine global bundles for both routing systems
-let globalBundle = []
-let globalBundleSizes = { raw: 0, gzip: 0 }
+// Load build manifests
+const buildMeta = require(path.join(nextMetaRoot, 'build-manifest.json'))
+let appPathsManifest = null
 
-// Pages Router: _app is the template that all pages are rendered into
-if (buildMeta.pages && buildMeta.pages['/_app']) {
-  globalBundle = buildMeta.pages['/_app']
-  globalBundleSizes = getScriptSizes(globalBundle)
-}
-// App Router: root layout is the template that all pages are rendered into
-else if (appBuildMeta && appBuildMeta.pages && appBuildMeta.pages['/layout']) {
-  globalBundle = appBuildMeta.pages['/layout']
-  globalBundleSizes = getScriptSizes(globalBundle)
+// Try to load App Router paths manifest
+try {
+  appPathsManifest = require(path.join(nextMetaRoot, 'server/app-paths-manifest.json'))
+} catch (err) {
+  console.log('No App Router paths manifest found')
 }
 
-// process Pages Router pages
+// Calculate global bundle size from rootMainFiles
+let globalBundle = buildMeta.rootMainFiles || []
+let globalBundleSizes = getScriptSizes(globalBundle)
+
+// Add polyfills to global bundle
+if (buildMeta.polyfillFiles && buildMeta.polyfillFiles.length > 0) {
+  const polyfillSizes = getScriptSizes(buildMeta.polyfillFiles)
+  globalBundleSizes.raw += polyfillSizes.raw
+  globalBundleSizes.gzip += polyfillSizes.gzip
+}
+
 let allPageSizes = {}
-if (buildMeta.pages) {
-  allPageSizes = Object.entries(buildMeta.pages).reduce((acc, [pagePath, scriptPaths]) => {
-    // Skip _app as it's handled separately as global bundle
-    if (pagePath === '/_app') return acc
 
-    const scriptSizes = getScriptSizes(
-      scriptPaths.filter((scriptPath) => !globalBundle.includes(scriptPath))
-    )
+// Define directory paths upfront for logging
+const appChunksDir = path.join(nextMetaRoot, 'static/chunks/app')
+const sharedChunksDir = path.join(nextMetaRoot, 'static/chunks')
 
-    acc[pagePath] = scriptSizes
-    return acc
-  }, {})
+// Process App Router pages if they exist
+if (appPathsManifest) {
+  console.log(`Processing ${Object.keys(appPathsManifest).length} App Router pages...`)
+
+  console.log(`\n📂 Checking app chunks directory: ${appChunksDir}`)
+  console.log(`   Exists: ${fs.existsSync(appChunksDir)}`)
+
+  if (fs.existsSync(appChunksDir)) {
+    const topLevelItems = fs.readdirSync(appChunksDir)
+    console.log(`   Top-level items (${topLevelItems.length}): ${topLevelItems.slice(0, 5).join(', ')}${topLevelItems.length > 5 ? '...' : ''}`)
+  }
+
+  if (fs.existsSync(appChunksDir)) {
+    // Scan all JS files in app chunks directory
+    const scanDirectory = (dir, basePath = '') => {
+      const files = fs.readdirSync(dir, { withFileTypes: true })
+
+      files.forEach(file => {
+        const fullPath = path.join(dir, file.name)
+        const relativePath = path.join(basePath, file.name)
+
+        if (file.isDirectory()) {
+          // Recursively scan subdirectories
+          scanDirectory(fullPath, relativePath)
+        } else if (file.isFile() && file.name.endsWith('.js')) {
+          // Calculate size for each JS file
+          const scriptPath = `static/chunks/app/${relativePath}`
+          const sizes = getScriptSizes([scriptPath])
+
+          // Map to a readable page path, removing hash
+          let pagePath = `/_app/${relativePath.replace(/\\/g, '/').replace(/\.js$/, '')}`
+          // Remove hash pattern (e.g., -89866720651bb81e)
+          pagePath = pagePath.replace(APP_ROUTE_HASH_PATTERN, '')
+
+          allPageSizes[pagePath] = sizes
+        }
+      })
+    }
+
+    scanDirectory(appChunksDir)
+  }
 }
 
-// process App Router pages if they exist
-if (appBuildMeta && appBuildMeta.pages) {
-  allPageSizes = Object.entries(appBuildMeta.pages).reduce((acc, [pagePath, scriptPaths]) => {
-    // Skip layout as it's handled separately as global bundle
-    if (pagePath === '/layout') return acc
+// Process shared chunks (non-app specific)
+if (fs.existsSync(sharedChunksDir)) {
+  const files = fs.readdirSync(sharedChunksDir)
 
-    // For App Router, add a prefix to distinguish from Pages Router paths
-    const appPagePath = pagePath.startsWith('/page@')
-      ? `/app${pagePath.replace('/page@', '/')}`
-      : `/app${pagePath}`
+  files.forEach(file => {
+    if (file.endsWith('.js') && !globalBundle.some(gb => gb.includes(file))) {
+      const scriptPath = `static/chunks/${file}`
+      const sizes = getScriptSizes([scriptPath])
+      // Remove hash from filename for consistent tracking
+      // Handles patterns like: framework-abc123.js, 123.abc123.js, abc-123.js
+      let cleanFileName = file
+        .replace(CHUNK_FILE_HASH_PATTERN, '.js')  // Remove hash with - or . separator
+        .replace(NUMERIC_CHUNK_PATTERN, '$1.js')  // For patterns like 117.hash.js -> 117.js
 
-    const scriptSizes = getScriptSizes(
-      scriptPaths.filter((scriptPath) => !globalBundle.includes(scriptPath))
-    )
-
-    acc[appPagePath] = scriptSizes
-    return acc
-  }, allPageSizes)
+      allPageSizes[`/_shared/${cleanFileName}`] = sizes
+    }
+  })
 }
 
-// format and write the output
+// Format and write the output
 const rawData = JSON.stringify({
   ...allPageSizes,
   __global: globalBundleSizes,
 })
 
-// log ouputs to the gh actions panel
-console.log(rawData)
+// Log outputs to the GitHub Actions panel
+console.log('\n=== Bundle Analysis Results ===')
+console.log(`Global bundle: ${formatBytes(globalBundleSizes.raw)} (raw), ${formatBytes(globalBundleSizes.gzip)} (gzip)`)
+console.log(`  - rootMainFiles count: ${globalBundle.length}`)
+console.log(`  - polyfillFiles count: ${buildMeta.polyfillFiles ? buildMeta.polyfillFiles.length : 0}`)
+console.log(`Total pages analyzed: ${Object.keys(allPageSizes).length}`)
+console.log(`  - App chunks found: ${fs.existsSync(appChunksDir) ? 'Yes' : 'No'}`)
+console.log(`  - Shared chunks found: ${fs.existsSync(sharedChunksDir) ? 'Yes' : 'No'}`)
+console.log('================================\n')
 
-mkdirp.sync(path.join(nextMetaRoot, 'analyze/'))
+fs.mkdirSync(path.join(nextMetaRoot, 'analyze/'), { recursive: true })
 fs.writeFileSync(
   path.join(nextMetaRoot, 'analyze/__bundle_analysis.json'),
   rawData
 )
 
+console.log('Bundle analysis saved to:', path.join(nextMetaRoot, 'analyze/__bundle_analysis.json'))
+
 // --------------
 // Util Functions
 // --------------
 
-// given an array of scripts, return the total of their combined file sizes
+// Given an array of scripts, return the total of their combined file sizes
 function getScriptSizes(scriptPaths) {
   const res = scriptPaths.reduce(
     (acc, scriptPath) => {
@@ -136,7 +177,7 @@ function getScriptSizes(scriptPaths) {
   return res
 }
 
-// given an individual path to a script, return its file size
+// Given an individual path to a script, return its file size
 function getScriptSize(scriptPath) {
   const encoding = 'utf8'
   const p = path.join(nextMetaRoot, scriptPath)
@@ -146,11 +187,32 @@ function getScriptSize(scriptPath) {
     rawSize = memoryCache[p][0]
     gzipSize = memoryCache[p][1]
   } else {
-    const textContent = fs.readFileSync(p, encoding)
-    rawSize = Buffer.byteLength(textContent, encoding)
-    gzipSize = gzSize.gzipSizeSync(textContent)
-    memoryCache[p] = [rawSize, gzipSize]
+    try {
+      if (!fs.existsSync(p)) {
+        throw new Error(`File does not exist: ${p}`)
+      }
+      const textContent = fs.readFileSync(p, encoding)
+      rawSize = Buffer.byteLength(textContent, encoding)
+      gzipSize = gzSize.sync(textContent)
+      memoryCache[p] = [rawSize, gzipSize]
+    } catch (err) {
+      console.error(`❌ Error processing file`)
+      console.error(`   Full path: ${p}`)
+      console.error(`   Relative path: ${scriptPath}`)
+      console.error(`   Error: ${err.message}`)
+      rawSize = 0
+      gzipSize = 0
+    }
   }
 
   return [rawSize, gzipSize]
+}
+
+// Format bytes to human-readable format
+function formatBytes(bytes) {
+  if (bytes === 0) return '0 Bytes'
+  const k = 1024
+  const sizes = ['Bytes', 'KB', 'MB', 'GB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i]
 }

@@ -57,9 +57,7 @@ jobs:
 
       - if: steps.cache-node-modules.outputs.cache-hit != 'true'
         name: Install dependencies
-        run: |
-          npm ci --ignore-scripts
-          npm install -D mkdirp gzip-size filesize@7.0.0 number-to-words inquirer
+        run: npm ci --ignore-scripts
 
       - name: Restore next build
         uses: actions/cache@v4
@@ -70,10 +68,9 @@ jobs:
           path: |
             .next
             !.next/cache/webpack
-          key: ${{ runner.os }}-nextjs-build-${{ hashFiles('package-lock.json') }}-${{ hashFiles('.github/**/*.{js,jsx,ts,tsx}', 'src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}', 'panda.config.ts', 'next.config.js') }}
+          key: ${{ runner.os }}-nextjs-v16-build-${{ hashFiles('package-lock.json') }}-${{ hashFiles('.github/**/*.{js,jsx,ts,tsx}', 'src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}', 'panda.config.ts', 'next.config.js') }}
           restore-keys: |
-            ${{ runner.os }}-nextjs-build-${{ hashFiles('package-lock.json') }}-
-            ${{ runner.os }}-nextjs-build-
+            ${{ runner.os }}-nextjs-v16-build-${{ hashFiles('package-lock.json') }}-
 
       - name: Build next.js app
         env:
@@ -82,7 +79,9 @@ jobs:
           GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
         # change this if your site requires a custom build command
         run: |
-          npx panda codegen && npm run build:article && npm run build:similarity && npm run build:popular && ./node_modules/.bin/next build
+          # Clean .next directory to avoid cache conflicts
+          rm -rf .next
+          npx panda codegen && npm run build:article && npm run build:similarity && npm run build:popular && ./node_modules/.bin/next build --webpack
 
       - name: Save next build cache
         uses: actions/cache/save@v4
@@ -93,11 +92,26 @@ jobs:
           path: |
             .next
             !.next/cache/webpack
-          key: ${{ runner.os }}-nextjs-build-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}', 'panda.config.ts', 'next.config.js') }}
+          key: ${{ runner.os }}-nextjs-v16-build-${{ hashFiles('package-lock.json') }}-${{ hashFiles('.github/**/*.{js,jsx,ts,tsx}', 'src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}', 'panda.config.ts', 'next.config.js') }}
 
       # touch .env
       # echo "TZ=Asia/Tokyo" >> .env
       # echo "NEXT_TELEMETRY_DISABLED=1" >> .env
+
+      # ビルド出力の確認
+      - name: Verify build output
+        run: |
+          echo "=== Checking .next directory structure ==="
+          ls -la .next/
+          echo ""
+          echo "=== Checking build-manifest.json ==="
+          cat .next/build-manifest.json | python3 -m json.tool | head -30
+          echo ""
+          echo "=== Checking app chunks directory ==="
+          ls -la .next/static/chunks/app/ | head -20
+          echo ""
+          echo "=== Checking static chunks ==="
+          ls -la .next/static/chunks/ | head -20
 
       # カスタムスクリプトを使用してバンドルサイズを分析
       - name: Analyze bundle

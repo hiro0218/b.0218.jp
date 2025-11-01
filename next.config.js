@@ -10,10 +10,14 @@ const nextConfiguration = {
 
   devIndicators: false,
 
+  reactCompiler: true,
+
   experimental: {
     scrollRestoration: false,
-    reactCompiler: true,
   },
+
+  // Turbopack configuration (empty to acknowledge and silence webpack warning)
+  turbopack: {},
 
   generateBuildId: () => nextBuildId({ dir: __dirname }),
 
