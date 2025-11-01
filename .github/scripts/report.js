@@ -62,12 +62,21 @@ if (buildMeta.polyfillFiles && buildMeta.polyfillFiles.length > 0) {
 
 let allPageSizes = {}
 
+// Define directory paths upfront for logging
+const appChunksDir = path.join(nextMetaRoot, 'static/chunks/app')
+const sharedChunksDir = path.join(nextMetaRoot, 'static/chunks')
+
 // Process App Router pages if they exist
 if (appPathsManifest) {
   console.log(`Processing ${Object.keys(appPathsManifest).length} App Router pages...`)
 
-  // Group chunks by route
-  const appChunksDir = path.join(nextMetaRoot, 'static/chunks/app')
+  console.log(`\n📂 Checking app chunks directory: ${appChunksDir}`)
+  console.log(`   Exists: ${fs.existsSync(appChunksDir)}`)
+
+  if (fs.existsSync(appChunksDir)) {
+    const topLevelItems = fs.readdirSync(appChunksDir)
+    console.log(`   Top-level items (${topLevelItems.length}): ${topLevelItems.slice(0, 5).join(', ')}${topLevelItems.length > 5 ? '...' : ''}`)
+  }
 
   if (fs.existsSync(appChunksDir)) {
     // Scan all JS files in app chunks directory
@@ -99,7 +108,6 @@ if (appPathsManifest) {
 }
 
 // Process shared chunks (non-app specific)
-const sharedChunksDir = path.join(nextMetaRoot, 'static/chunks')
 if (fs.existsSync(sharedChunksDir)) {
   const files = fs.readdirSync(sharedChunksDir)
 
@@ -121,7 +129,11 @@ const rawData = JSON.stringify({
 // Log outputs to the GitHub Actions panel
 console.log('\n=== Bundle Analysis Results ===')
 console.log(`Global bundle: ${formatBytes(globalBundleSizes.raw)} (raw), ${formatBytes(globalBundleSizes.gzip)} (gzip)`)
+console.log(`  - rootMainFiles count: ${globalBundle.length}`)
+console.log(`  - polyfillFiles count: ${buildMeta.polyfillFiles ? buildMeta.polyfillFiles.length : 0}`)
 console.log(`Total pages analyzed: ${Object.keys(allPageSizes).length}`)
+console.log(`  - App chunks found: ${fs.existsSync(appChunksDir) ? 'Yes' : 'No'}`)
+console.log(`  - Shared chunks found: ${fs.existsSync(sharedChunksDir) ? 'Yes' : 'No'}`)
 console.log('================================\n')
 
 mkdirp.sync(path.join(nextMetaRoot, 'analyze/'))
@@ -161,12 +173,18 @@ function getScriptSize(scriptPath) {
     gzipSize = memoryCache[p][1]
   } else {
     try {
+      if (!fs.existsSync(p)) {
+        throw new Error(`File does not exist: ${p}`)
+      }
       const textContent = fs.readFileSync(p, encoding)
       rawSize = Buffer.byteLength(textContent, encoding)
       gzipSize = gzSize.sync(textContent)
       memoryCache[p] = [rawSize, gzipSize]
     } catch (err) {
-      console.warn(`Warning: Could not read file ${p}:`, err.message)
+      console.error(`❌ Error processing file`)
+      console.error(`   Full path: ${p}`)
+      console.error(`   Relative path: ${scriptPath}`)
+      console.error(`   Error: ${err.message}`)
       rawSize = 0
       gzipSize = 0
     }
