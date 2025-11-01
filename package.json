@@ -60,7 +60,7 @@
     "@types/twitter-for-web": "0.0.6",
     "@vitejs/plugin-react": "5.1.0",
     "@vitest/coverage-v8": "4.0.3",
-    "browserslist": "4.26.3",
+    "browserslist": "4.27.0",
     "dependency-cruiser": "17.1.0",
     "esbuild": "0.25.11",
     "esbuild-register": "3.6.0",
