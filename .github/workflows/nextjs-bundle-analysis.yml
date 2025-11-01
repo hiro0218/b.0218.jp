@@ -82,7 +82,7 @@ jobs:
           GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
         # change this if your site requires a custom build command
         run: |
-          npx panda codegen && npm run build:article && npm run build:similarity && npm run build:popular && ./node_modules/.bin/next build
+          npx panda codegen && npm run build:article && npm run build:similarity && npm run build:popular && ./node_modules/.bin/next build --webpack
 
       - name: Save next build cache
         uses: actions/cache/save@v4
