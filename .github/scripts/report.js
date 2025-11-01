@@ -95,8 +95,10 @@ if (appPathsManifest) {
           const scriptPath = `static/chunks/app/${relativePath}`
           const sizes = getScriptSizes([scriptPath])
 
-          // Map to a readable page path
+          // Map to a readable page path, removing hash
           let pagePath = `/_app/${relativePath.replace(/\\/g, '/').replace(/\.js$/, '')}`
+          // Remove hash pattern (e.g., -89866720651bb81e)
+          pagePath = pagePath.replace(/-[0-9a-f]+$/, '')
 
           allPageSizes[pagePath] = sizes
         }
@@ -115,7 +117,13 @@ if (fs.existsSync(sharedChunksDir)) {
     if (file.endsWith('.js') && !globalBundle.some(gb => gb.includes(file))) {
       const scriptPath = `static/chunks/${file}`
       const sizes = getScriptSizes([scriptPath])
-      allPageSizes[`/_shared/${file}`] = sizes
+      // Remove hash from filename for consistent tracking
+      // Handles patterns like: framework-abc123.js, 123.abc123.js, abc-123.js
+      let cleanFileName = file
+        .replace(/[-\.][0-9a-f]{8,}\.js$/, '.js')  // Remove hash with - or . separator
+        .replace(/^([0-9]+)\..*\.js$/, '$1.js')     // For patterns like 117.hash.js -> 117.js
+
+      allPageSizes[`/_shared/${cleanFileName}`] = sizes
     }
   })
 }
