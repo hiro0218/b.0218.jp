@@ -16,8 +16,11 @@
 
 import path from 'path'
 import fs from 'fs'
-import { gzipSizeSync } from 'gzip-size'
+import * as gzipSizeModule from 'gzip-size'
 import { getBuildOutputDirectory, getOptions } from './utils.mjs'
+
+// Support both ESM and potential CommonJS fallback
+const gzipSizeSync = gzipSizeModule.gzipSizeSync || gzipSizeModule.default?.gzipSizeSync
 
 // Hash pattern constants for Next.js build outputs
 // Next.js generates content hashes with hexadecimal characters (0-9a-f)
