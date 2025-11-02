@@ -16,25 +16,10 @@
  * 5. App RouterとPages Routerのページを区別して表示
  */
 
-import * as filesizeModule from 'filesize'
+import { filesize as originalFilesize } from 'filesize'
 import fs from 'fs'
 import path from 'path'
 import { getBuildOutputDirectory, getOptions } from './utils.mjs'
-
-// Support multiple export patterns for filesize
-const originalFilesize =
-  filesizeModule.filesize ||                  // ESM named export (v11.x)
-  filesizeModule.default?.filesize ||         // Default export with property
-  filesizeModule.default ||                   // Direct default export
-  null
-
-if (!originalFilesize || typeof originalFilesize !== 'function') {
-  console.error('Available exports from filesize:', Object.keys(filesizeModule))
-  if (filesizeModule.default) {
-    console.error('Default export keys:', Object.keys(filesizeModule.default))
-  }
-  throw new Error('filesize function not found in filesize module')
-}
 
 // Override default filesize options to display a non-breakable space as a spacer.
 const filesize = (bytes, options) => {
