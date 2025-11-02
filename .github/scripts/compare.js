@@ -16,10 +16,10 @@
  * 5. App RouterとPages Routerのページを区別して表示
  */
 
-const originalFilesize = require('filesize')
-const fs = require('fs')
-const path = require('path')
-const { getBuildOutputDirectory, getOptions } = require('./utils')
+import { filesize as originalFilesize } from 'filesize'
+import fs from 'fs'
+import path from 'path'
+import { getBuildOutputDirectory, getOptions } from './utils.js'
 
 // Override default filesize options to display a non-breakable space as a spacer.
 const filesize = (bytes, options) => {
@@ -42,19 +42,29 @@ const PACKAGE_NAME = options.name
 const SKIP_COMMENT_IF_EMPTY = options.skipCommentIfEmpty
 
 // import the current and base branch bundle stats
-const currentBundle = require(path.join(
-  process.cwd(),
-  BUILD_OUTPUT_DIRECTORY,
-  'analyze/__bundle_analysis.json'
-))
+const currentBundle = JSON.parse(
+  fs.readFileSync(
+    path.join(
+      process.cwd(),
+      BUILD_OUTPUT_DIRECTORY,
+      'analyze/__bundle_analysis.json'
+    ),
+    'utf8'
+  )
+)
 let baseBundle = {}
 let hasBaseBundle = false
 try {
-  baseBundle = require(path.join(
-    process.cwd(),
-    BUILD_OUTPUT_DIRECTORY,
-    'analyze/base/bundle/__bundle_analysis.json'
-  ))
+  baseBundle = JSON.parse(
+    fs.readFileSync(
+      path.join(
+        process.cwd(),
+        BUILD_OUTPUT_DIRECTORY,
+        'analyze/base/bundle/__bundle_analysis.json'
+      ),
+      'utf8'
+    )
+  )
   hasBaseBundle = true
 } catch (err) {
   console.log('No base bundle analysis found or invalid format. Running in single-bundle mode.')

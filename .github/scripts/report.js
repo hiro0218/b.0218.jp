@@ -14,10 +14,10 @@
  * - app-paths-manifest.jsonでページパスとファイルをマッピング
  */
 
-const path = require('path')
-const fs = require('fs')
-const gzSize = require('gzip-size')
-const { getBuildOutputDirectory, getOptions } = require('./utils')
+import path from 'path'
+import fs from 'fs'
+import { gzipSizeSync } from 'gzip-size'
+import { getBuildOutputDirectory, getOptions } from './utils.js'
 
 // Hash pattern constants for Next.js build outputs
 // Next.js generates content hashes with hexadecimal characters (0-9a-f)
@@ -46,12 +46,16 @@ try {
 const memoryCache = {}
 
 // Load build manifests
-const buildMeta = require(path.join(nextMetaRoot, 'build-manifest.json'))
+const buildMeta = JSON.parse(
+  fs.readFileSync(path.join(nextMetaRoot, 'build-manifest.json'), 'utf8')
+)
 let appPathsManifest = null
 
 // Try to load App Router paths manifest
 try {
-  appPathsManifest = require(path.join(nextMetaRoot, 'server/app-paths-manifest.json'))
+  appPathsManifest = JSON.parse(
+    fs.readFileSync(path.join(nextMetaRoot, 'server/app-paths-manifest.json'), 'utf8')
+  )
 } catch (err) {
   console.log('No App Router paths manifest found')
 }
@@ -193,7 +197,7 @@ function getScriptSize(scriptPath) {
       }
       const textContent = fs.readFileSync(p, encoding)
       rawSize = Buffer.byteLength(textContent, encoding)
-      gzipSize = gzSize.sync(textContent)
+      gzipSize = gzipSizeSync(textContent)
       memoryCache[p] = [rawSize, gzipSize]
     } catch (err) {
       console.error(`❌ Error processing file`)

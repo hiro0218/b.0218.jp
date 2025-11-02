@@ -3,13 +3,15 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-const path = require('path')
+import path from 'path'
+import fs from 'fs'
 
 /**
  * Reads options from `package.json`
  */
-const getOptions = (pathPrefix = process.cwd()) => {
-  const pkg = require(path.join(pathPrefix, 'package.json'))
+export const getOptions = (pathPrefix = process.cwd()) => {
+  const pkgPath = path.join(pathPrefix, 'package.json')
+  const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'))
   return { ...pkg.nextBundleAnalysis, name: pkg.name }
 }
 
@@ -19,11 +21,6 @@ const getOptions = (pathPrefix = process.cwd()) => {
  * @param {object} options the options parsed from package.json.nextBundleAnalysis using `getOptions`
  * @returns {string}
  */
-const getBuildOutputDirectory = (options) => {
+export const getBuildOutputDirectory = (options) => {
   return options.buildOutputDirectory || '.next'
-}
-
-module.exports = {
-  getOptions,
-  getBuildOutputDirectory,
 }
