@@ -19,7 +19,7 @@
 import { filesize as originalFilesize } from 'filesize'
 import fs from 'fs'
 import path from 'path'
-import { getBuildOutputDirectory, getOptions } from './utils.js'
+import { getBuildOutputDirectory, getOptions } from './utils.mjs'
 
 // Override default filesize options to display a non-breakable space as a spacer.
 const filesize = (bytes, options) => {
