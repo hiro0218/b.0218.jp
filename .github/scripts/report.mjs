@@ -19,8 +19,22 @@ import fs from 'fs'
 import * as gzipSizeModule from 'gzip-size'
 import { getBuildOutputDirectory, getOptions } from './utils.mjs'
 
-// Support both ESM and potential CommonJS fallback
-const gzipSizeSync = gzipSizeModule.gzipSizeSync || gzipSizeModule.default?.gzipSizeSync
+// Support multiple export patterns for gzip-size
+// Try different import patterns to support various versions and environments
+const gzipSizeSync =
+  gzipSizeModule.gzipSizeSync ||              // ESM named export (v7.x)
+  gzipSizeModule.default?.gzipSizeSync ||     // Default export with property
+  gzipSizeModule.default?.sync ||             // v6.x CommonJS pattern
+  gzipSizeModule.sync ||                      // Direct sync method
+  null
+
+if (!gzipSizeSync || typeof gzipSizeSync !== 'function') {
+  console.error('Available exports from gzip-size:', Object.keys(gzipSizeModule))
+  if (gzipSizeModule.default) {
+    console.error('Default export keys:', Object.keys(gzipSizeModule.default))
+  }
+  throw new Error('gzipSizeSync function not found in gzip-size module')
+}
 
 // Hash pattern constants for Next.js build outputs
 // Next.js generates content hashes with hexadecimal characters (0-9a-f)

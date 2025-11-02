@@ -21,8 +21,20 @@ import fs from 'fs'
 import path from 'path'
 import { getBuildOutputDirectory, getOptions } from './utils.mjs'
 
-// Support both ESM and potential CommonJS fallback
-const originalFilesize = filesizeModule.filesize || filesizeModule.default?.filesize || filesizeModule.default
+// Support multiple export patterns for filesize
+const originalFilesize =
+  filesizeModule.filesize ||                  // ESM named export (v11.x)
+  filesizeModule.default?.filesize ||         // Default export with property
+  filesizeModule.default ||                   // Direct default export
+  null
+
+if (!originalFilesize || typeof originalFilesize !== 'function') {
+  console.error('Available exports from filesize:', Object.keys(filesizeModule))
+  if (filesizeModule.default) {
+    console.error('Default export keys:', Object.keys(filesizeModule.default))
+  }
+  throw new Error('filesize function not found in filesize module')
+}
 
 // Override default filesize options to display a non-breakable space as a spacer.
 const filesize = (bytes, options) => {
