@@ -1,5 +1,5 @@
 import { cyan, red, yellow } from 'picocolors';
-import { error, info, warn } from './Log';
+import { error, info, warn } from './logger';
 
 describe('Log functions', () => {
   it('should log error messages with the correct prefix', () => {

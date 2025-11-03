@@ -1,6 +1,6 @@
 import { getPostsJson } from '@/lib/posts';
-import { mkdir, writeFile } from '@/shared/fs';
-import * as Log from '@/shared/Log';
+import { mkdir, writeFile } from '~/tools/fs';
+import * as Log from '~/tools/logger';
 import { getPath } from './post/generate/utils';
 
 const PATH = getPath();

@@ -1,6 +1,6 @@
 import { SITE_URL } from '@/constant';
-import { readJSON } from '@/shared/fs';
-import * as Log from '@/shared/Log';
+import { readJSON } from '~/tools/fs';
+import * as Log from '~/tools/logger';
 import type { PostSummary } from '@/types/source';
 import type { HatenaResult } from './type';
 
