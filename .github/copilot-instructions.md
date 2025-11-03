@@ -35,7 +35,62 @@ src/
 
 - **Zero Margin**: Components don't set their own margins - parent controls spacing
 - **Container Sizes**: small (768px), default (1024px), large (1280px)
-- **Layer Dependencies**: src/app → App → Page → UI/Functional (enforced by Biome)
+- **Layer Dependencies**:
+
+```mermaid
+graph TD
+    A[src/app] --> B[App/]
+    B --> C[Page/]
+    C --> D[UI/]
+    C --> E[Functional/]
+```
+
+- UI and Functional are **independent layers** with no mutual dependencies
+- All layer dependencies are statically enforced by Biome (see biome.json)
+
+### Layer Responsibilities
+
+#### App/
+- **Purpose**: Application-wide structure and layout
+- **Examples**: Header, Footer, Layout
+- **Characteristics**:
+  - Singleton-like components
+  - Can depend on lower layers only
+  - Defines the overall application shell
+
+#### Page/
+- **Purpose**: Page-specific logic and components
+- **Examples**: Post components, Archive components, Home components
+- **Characteristics**:
+  - Contains business logic
+  - `Page/_shared/` for sections shared across multiple pages
+  - Can depend on UI and Functional layers only
+  - Cannot depend on App layer
+
+#### UI/
+- **Purpose**: Reusable visual presentation components
+- **Examples**: Button, Card, Modal, Tooltip, Alert, LinkMore
+- **Characteristics**:
+  - Follows Zero Margin principle
+  - No dependencies on other component layers
+  - Pure visual components with no business logic
+
+#### Functional/
+- **Purpose**: Functional utility components without visual representation
+- **Examples**: JsonLdScript, PreconnectLinks, ReadingHistoryRecorder
+- **Characteristics**:
+  - No visual output (or minimal)
+  - Handles metadata, optimization, and utility functions
+  - No dependencies on other component layers
+
+### Architecture Rationale
+
+This layered architecture provides:
+- **Clear separation of concerns**: Each layer has a single, well-defined responsibility
+- **Maintainability**: Changes are localized to specific layers
+- **Testability**: Layers can be tested independently
+- **Scalability**: New features can be added without affecting existing layers
+- **Static verification**: Biome enforces all dependency rules at compile time
 
 ## Development Workflow
 
@@ -155,10 +210,10 @@ npm test -- useDialog        # Tests matching "useDialog"
 npm test -- src/hooks/       # All tests in hooks directory
 
 # Build without linting (faster build)
-npx next build --no-lint
+npx next build --no-lint --webpack
 
 # Build specific page only (experimental)
-npx next build --experimental-build-mode=compile
+npx next build --experimental-build-mode=compile --webpack
 
 # Hot reload already running (port 8080)
 # Just save the file - Next.js dev server auto-reloads
