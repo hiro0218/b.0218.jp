@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef } from 'react';
-import { getFromSession, removeFromSession, setToSession } from '@/lib/safeSessionStorage';
+import { getFromSession, removeFromSession, setToSession } from '@/lib/browser/safeSessionStorage';
 import type { SearchResultItem } from '../types';
 
 type SearchState = {

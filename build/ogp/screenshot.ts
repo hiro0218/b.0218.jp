@@ -3,7 +3,7 @@ import os from 'node:os';
 import { cwd } from 'node:process';
 import { type Browser, chromium, type Page } from 'playwright-chromium';
 
-import { getPostsListJson } from '@/lib/posts';
+import { getPostsListJson } from '@/lib/data/posts';
 import { mkdir } from '~/tools/fs';
 import * as Log from '~/tools/logger';
 

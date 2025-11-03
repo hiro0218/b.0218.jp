@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { isSSR } from '@/lib/isSSR';
+import { isSSR } from '@/lib/browser/isSSR';
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
 
 /**

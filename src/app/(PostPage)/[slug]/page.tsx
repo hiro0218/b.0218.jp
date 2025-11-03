@@ -14,9 +14,9 @@ import PostShare from '@/components/Page/Post/Share';
 import { Stack } from '@/components/UI/Layout';
 import { Container } from '@/components/UI/Layout/Container';
 import { AUTHOR_NAME } from '@/constant';
-import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/json-ld';
-import { getPostsJson } from '@/lib/posts';
-import { getOgpImage, getPermalink } from '@/lib/url';
+import { getPostsJson } from '@/lib/data/posts';
+import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/domain/json-ld';
+import { getOgpImage, getPermalink } from '@/lib/utils/url';
 import { getPostPageData } from './lib/services';
 
 type Params = Promise<{ slug: string }>;

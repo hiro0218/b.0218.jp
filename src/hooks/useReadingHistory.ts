@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { parseJSON } from '@/lib/parseJSON';
+import { parseJSON } from '@/lib/utils/parseJSON';
 import type { ReadingHistoryInput, ReadingHistoryItem } from '@/types/source';
 
 const STORAGE_KEY = 'reading-history';

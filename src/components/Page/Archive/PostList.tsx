@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import LinkCard from '@/components/UI/LinkCard';
-import { convertPostSlugToPath } from '@/lib/url';
+import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { ArticleSummary } from '@/types/source';
 import { ARCHIVE_CONFIG } from './constants';
 import { parsePageNumber } from './utils/parsePageNumber';

@@ -8,7 +8,7 @@ import { Loading } from '@/components/UI/Loading';
 import { Title } from '@/components/UI/Title';
 import useIsMounted from '@/hooks/useIsMounted';
 import { useReadingHistory } from '@/hooks/useReadingHistory';
-import { convertPostSlugToPath } from '@/lib/url';
+import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { ReadingHistoryItem } from '@/types/source';
 
 const title = 'History';

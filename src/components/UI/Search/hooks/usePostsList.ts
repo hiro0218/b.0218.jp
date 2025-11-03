@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { FILENAME_POSTS_LIST, FILENAME_POSTS_POPULAR } from '@/constant';
-import { parseJSON } from '@/lib/parseJSON';
+import { parseJSON } from '@/lib/utils/parseJSON';
 import type { PostSummary } from '@/types/source';
 
 import type { SearchProps } from '../types';

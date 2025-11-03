@@ -4,8 +4,8 @@ import { JsonLdScript } from '@/components/Functional/JsonLdScript';
 import { TagSection } from '@/components/Page/_shared/TagSection';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
-import { getWebPageStructured } from '@/lib/json-ld';
-import { getTagsWithCount } from '@/lib/posts';
+import { getTagsWithCount } from '@/lib/data/posts';
+import { getWebPageStructured } from '@/lib/domain/json-ld';
 
 type ListItemProps = Parameters<typeof getWebPageStructured>[0]['listItem'];
 

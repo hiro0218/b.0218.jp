@@ -1,4 +1,4 @@
-import { getPostsJson } from '@/lib/posts';
+import { getPostsJson } from '@/lib/data/posts';
 import { mkdir, writeFile } from '~/tools/fs';
 import * as Log from '~/tools/logger';
 import { getPath } from './post/generate/utils';

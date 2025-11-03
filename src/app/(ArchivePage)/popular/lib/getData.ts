@@ -1,5 +1,5 @@
 import { getPopularPost } from '@/app/libs/getPopularPost';
-import { getPostsListJson } from '@/lib/posts';
+import { getPostsListJson } from '@/lib/data/posts';
 import type { PostSummary } from '@/types/source';
 
 const POST_DISPLAY_LIMIT = 20;

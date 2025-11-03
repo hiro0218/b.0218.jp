@@ -5,7 +5,7 @@ import { Sidebar, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constant';
-import { convertPostSlugToPath } from '@/lib/url';
+import { convertPostSlugToPath } from '@/lib/utils/url';
 
 const { popularPosts } = getData();
 const slug = 'popular';

@@ -1,4 +1,4 @@
-import { getPostsJson, getTagsWithCount } from '@/lib/posts';
+import { getPostsJson, getTagsWithCount } from '@/lib/data/posts';
 
 const posts = getPostsJson();
 const tagDataWithCount = getTagsWithCount();

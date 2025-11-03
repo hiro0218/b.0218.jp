@@ -3,7 +3,7 @@ import Heading from '@/components/UI/Heading';
 import { Box, Grid } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { LinkMore } from '@/components/UI/LinkMore';
-import { convertPostSlugToPath } from '@/lib/url';
+import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { ArticleSummary, PostSummary } from '@/types/source';
 import { containerType } from '@/ui/styled/utilities';
 

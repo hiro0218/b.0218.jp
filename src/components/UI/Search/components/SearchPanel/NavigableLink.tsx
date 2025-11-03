@@ -1,6 +1,6 @@
 import { forwardRef, memo } from 'react';
 import { Anchor } from '@/components/UI/Anchor';
-import { convertPostSlugToPath } from '@/lib/url';
+import { convertPostSlugToPath } from '@/lib/utils/url';
 import { ICON_SIZE_XS } from '@/ui/icons';
 import { Hashtag, MagnifyingGlass } from '@/ui/icons/index';
 import { cx } from '@/ui/styled';

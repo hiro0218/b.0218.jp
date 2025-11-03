@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
-import { convertPostSlugToPath } from '@/lib/url';
+import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { SearchProps } from '../types';
 
 interface UseKeyboardNavigationProps {

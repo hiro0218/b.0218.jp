@@ -1,9 +1,9 @@
 'use client';
 
 import { type ReactNode, useLayoutEffect, useRef } from 'react';
-import debounce from '@/lib/debounce';
-import observeScrollbarWidth from '@/lib/observeScrollbarWidth';
-import smoothScroll from '@/lib/smoothScroll';
+import observeScrollbarWidth from '@/lib/browser/observeScrollbarWidth';
+import smoothScroll from '@/lib/browser/smoothScroll';
+import debounce from '@/lib/utils/debounce';
 
 type Props = {
   children: ReactNode;
