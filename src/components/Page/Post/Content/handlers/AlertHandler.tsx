@@ -1,5 +1,5 @@
 import { type DOMNode, domToReact } from 'html-react-parser';
-import { Alert, type AlertType } from '@/components/Page/Post/Alert';
+import { Alert, type AlertType } from '@/components/UI/Alert';
 import { parseJSON } from '@/lib/parseJSON';
 import type { HandlerFunction } from './types';
 
