@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { parser } from '@/components/Page/Post/Content/parser/HTMLParser';
 import { Box } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
-import { getPagesJson } from '@/lib/posts';
+import { getPagesJson } from '@/lib/data/posts';
 
 type Props = {
   title: string;

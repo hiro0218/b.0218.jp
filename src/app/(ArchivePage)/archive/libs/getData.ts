@@ -1,5 +1,5 @@
 import { getDateAndUpdatedToSimpleFormat } from '@/app/libs/getDateAndUpdatedToSimpleFormat';
-import type { getPostsListJson } from '@/lib/posts';
+import type { getPostsListJson } from '@/lib/data/posts';
 import type { PostSummary } from '@/types/source';
 
 export type ArchiveListProps = Record<string, PostSummary[]>;

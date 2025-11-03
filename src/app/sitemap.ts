@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { SITE_URL } from '@/constant';
-import { getPostsListJson, getTagsWithCount } from '@/lib/posts';
-import { getOgpImage, getPermalink } from '@/lib/url';
+import { getPostsListJson, getTagsWithCount } from '@/lib/data/posts';
+import { getOgpImage, getPermalink } from '@/lib/utils/url';
 
 const posts = getPostsListJson();
 const tags = getTagsWithCount();

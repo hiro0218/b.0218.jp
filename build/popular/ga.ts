@@ -1,6 +1,6 @@
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
 import { loadEnvConfig } from '@next/env';
-import * as Log from '@/shared/Log';
+import * as Log from '~/tools/logger';
 import type { Result } from './type';
 
 loadEnvConfig(process.cwd());

@@ -3,8 +3,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useEventListener } from '@/hooks/useEventListener';
-import { isSSR } from '@/lib/isSSR';
-import throttle from '@/lib/throttle';
+import { isSSR } from '@/lib/browser/isSSR';
+import throttle from '@/lib/utils/throttle';
 import { SPACING_BASE_PX } from '@/ui/styled/constant';
 
 const SCROLL_THRESHOLD = SPACING_BASE_PX * 8;

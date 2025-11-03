@@ -1,5 +1,5 @@
 import { Anchor } from '@/components/UI/Anchor';
-import { convertPostSlugToPath } from '@/lib/url';
+import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { PostSummary } from '@/types/source';
 import { css, styled } from '@/ui/styled';
 import { textEllipsis } from '@/ui/styled/utilities';

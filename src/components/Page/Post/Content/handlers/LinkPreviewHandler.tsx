@@ -1,6 +1,6 @@
 import { type DOMNode, domToReact } from 'html-react-parser';
 import { LinkPreview } from '@/components/Page/Post/LinkPreview';
-import { parseJSON } from '@/lib/parseJSON';
+import { parseJSON } from '@/lib/utils/parseJSON';
 import type { HandlerFunction } from './types';
 
 interface LinkPreviewData {

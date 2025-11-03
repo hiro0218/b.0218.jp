@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { parseJSON } from '@/lib/parseJSON';
+import { parseJSON } from '@/lib/utils/parseJSON';
 import type { ReadingHistoryInput, ReadingHistoryItem } from '@/types/source';
 
 const STORAGE_KEY = 'reading-history';
@@ -47,34 +47,37 @@ export const useReadingHistory = () => {
    * - 新しいアイテムを先頭に追加
    * - 最大件数を超えた場合は古いものを削除
    */
-  const addToHistory = useCallback((item: ReadingHistoryInput) => {
-    if (typeof window === 'undefined' || !('localStorage' in window)) {
-      return;
-    }
+  const addToHistory = useCallback(
+    (item: ReadingHistoryInput) => {
+      if (typeof window === 'undefined' || !('localStorage' in window)) {
+        return;
+      }
 
-    try {
-      const currentHistory = getHistory();
+      try {
+        const currentHistory = getHistory();
 
-      // 同一記事の既存エントリを削除
-      const filteredHistory = currentHistory.filter((entry) => entry.slug !== item.slug);
+        // 同一記事の既存エントリを削除
+        const filteredHistory = currentHistory.filter((entry) => entry.slug !== item.slug);
 
-      // 新しいエントリを先頭に追加
-      const newHistory: ReadingHistoryItem[] = [
-        {
-          ...item,
-          viewedAt: Date.now(),
-        },
-        ...filteredHistory,
-      ];
+        // 新しいエントリを先頭に追加
+        const newHistory: ReadingHistoryItem[] = [
+          {
+            ...item,
+            viewedAt: Date.now(),
+          },
+          ...filteredHistory,
+        ];
 
-      // 最大件数を超えた場合は古いものを削除
-      const trimmedHistory = newHistory.slice(0, MAX_HISTORY_ITEMS);
+        // 最大件数を超えた場合は古いものを削除
+        const trimmedHistory = newHistory.slice(0, MAX_HISTORY_ITEMS);
 
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmedHistory));
-    } catch (e) {
-      console.error('Failed to add to reading history:', e);
-    }
-  }, []);
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(trimmedHistory));
+      } catch (e) {
+        console.error('Failed to add to reading history:', e);
+      }
+    },
+    [getHistory],
+  );
 
   /**
    * 履歴をクリア

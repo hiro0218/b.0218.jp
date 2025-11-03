@@ -1,4 +1,4 @@
-import { convertDateToSimpleFormat } from '@/lib/date';
+import { convertDateToSimpleFormat } from '@/lib/utils/date';
 
 type ReturnType = {
   date: string;

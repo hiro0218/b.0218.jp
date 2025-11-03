@@ -63,6 +63,9 @@ const STOP_WORDS_JA = new Set([
   '数',
 ]);
 
+// 正規表現パターン
+const REGEX_DIGIT_ONLY = /^\d+$/;
+
 // 類似度計算パラメータ
 const SIMILARITY_LIMIT = 6; // 関連投稿の最大数
 const TAG_WEIGHT = 0.6; // タグ類似度の重み
@@ -145,7 +148,7 @@ async function preprocessText(
           if (token.pos === '記号' || STOP_WORDS_JA.has(token.basic_form) || token.basic_form.length <= 1) {
             continue;
           }
-          if (/^\d+$/.test(token.basic_form)) {
+          if (REGEX_DIGIT_ONLY.test(token.basic_form)) {
             continue;
           }
           meaningfulTokens.push(token.basic_form);

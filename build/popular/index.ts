@@ -1,6 +1,6 @@
 import { FILENAME_POSTS_POPULAR } from '@/constant';
-import { writeJSON } from '@/shared/fs';
-import * as Log from '@/shared/Log';
+import { writeJSON } from '~/tools/fs';
+import * as Log from '~/tools/logger';
 import { getPopularArticles } from './ga';
 import { getBookmarkArticles } from './hatena';
 

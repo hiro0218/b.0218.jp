@@ -1,4 +1,4 @@
-import { isSSR } from '@/lib/isSSR';
+import { isSSR } from '@/lib/browser/isSSR';
 
 let cachedScrollBehavior: ScrollBehavior | null = null;
 

@@ -5,8 +5,8 @@ export function removePostsData(posts: Partial<Post>[]) {
 
   for (let i = 0; i < length; i++) {
     const post = posts[i];
-    delete post.note;
-    delete post.content;
+    post.note = undefined;
+    post.content = undefined;
   }
 
   return posts;

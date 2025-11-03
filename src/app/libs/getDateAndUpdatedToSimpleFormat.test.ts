@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { convertDateToSimpleFormat } from '@/lib/date';
+import { convertDateToSimpleFormat } from '@/lib/utils/date';
 import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';
 
 describe('getDateAndUpdatedToSimpleFormat', () => {

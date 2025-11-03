@@ -1,8 +1,8 @@
 import { read as matterRead } from 'gray-matter';
 import { FILENAME_POSTS } from '@/constant';
-import { mkdir, writeJSON } from '@/shared/fs';
-import * as Log from '@/shared/Log';
 import type { Post } from '@/types/source';
+import { mkdir, writeJSON } from '~/tools/fs';
+import * as Log from '~/tools/logger';
 import markdownToHtmlString from '../../markdownToHtmlString';
 import { buildTagNormalizationMap, normalizeTags } from './normalizeTag';
 import { getMarkdownFiles, getPath, getSlug } from './utils';

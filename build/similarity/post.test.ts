@@ -2,6 +2,9 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Post, PostSummary, TagSimilarityScores } from '@/types/source';
 import { getRelatedPosts } from './post';
 
+// 正規表現パターン
+const REGEX_WHITESPACE = /\s+/;
+
 // モックのセットアップ
 vi.mock('./post');
 vi.mock('kuromoji', () => ({
@@ -11,7 +14,7 @@ vi.mock('kuromoji', () => ({
         const mockTokenizer = {
           tokenize: (text: string) => {
             // 簡易的な形態素解析の結果を返す
-            return text.split(/\s+/).map((word) => ({
+            return text.split(REGEX_WHITESPACE).map((word) => ({
               pos: word.length > 3 ? '名詞' : '助詞',
               // biome-ignore lint/style/useNamingConvention: APIプロパティ名を維持
               pos_detail_1: '',

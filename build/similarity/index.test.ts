@@ -1,12 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import * as fs from '@/shared/fs';
-import * as Log from '@/shared/Log';
+import * as fs from '~/tools/fs';
+import * as Log from '~/tools/logger';
 import { getRelatedPosts } from './post';
 import { getRelatedTags } from './tag';
 
 // 依存モジュールのモック
-vi.mock('@/shared/fs');
-vi.mock('@/shared/Log');
+vi.mock('~/tools/fs');
+vi.mock('~/tools/logger');
 vi.mock('./post');
 vi.mock('./tag');
 vi.mock('@/constant', () => ({

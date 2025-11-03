@@ -1,4 +1,4 @@
-import escapeHTML from '@/lib/escapeHTML';
+import escapeHTML from '@/lib/utils/escapeHTML';
 
 const HIGHLIGHT_TAG_NAME = 'mark';
 const keywordSplitCache = new Map<string, string[]>();

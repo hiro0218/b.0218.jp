@@ -14,7 +14,7 @@ import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
 import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constant';
 import { SearchDialogProvider } from '@/contexts/SearchDialogContext';
-import { getOrganizationStructured } from '@/lib/json-ld';
+import { getOrganizationStructured } from '@/lib/domain/json-ld';
 
 const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((module) => module.PageScroll));
 

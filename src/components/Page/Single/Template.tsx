@@ -4,7 +4,7 @@
 import type { Thing, WithContext } from 'schema-dts';
 import { PAGE_CONFIGS } from '@/app/_metadata';
 import { JsonLdScript } from '@/components/Functional/JsonLdScript';
-import { getAboutPageStructured, getWebPageStructured } from '@/lib/json-ld';
+import { getAboutPageStructured, getWebPageStructured } from '@/lib/domain/json-ld';
 import Content from './Content';
 import type { PageSlug } from './types';
 

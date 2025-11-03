@@ -6,8 +6,8 @@ import { Timeline } from '@/components/Page/Archive/Timeline';
 import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constant';
-import { getCollectionPageStructured } from '@/lib/json-ld';
-import { getPostsListJson } from '@/lib/posts';
+import { getPostsListJson } from '@/lib/data/posts';
+import { getCollectionPageStructured } from '@/lib/domain/json-ld';
 import { getData } from './libs';
 
 const posts = getPostsListJson();

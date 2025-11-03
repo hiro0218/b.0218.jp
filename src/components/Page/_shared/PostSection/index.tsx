@@ -1,9 +1,9 @@
 import type { JSX } from 'react';
-import { LinkMore } from '@/components/Page/Home';
 import Heading from '@/components/UI/Heading';
 import { Box, Grid } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
-import { convertPostSlugToPath } from '@/lib/url';
+import { LinkMore } from '@/components/UI/LinkMore';
+import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { ArticleSummary, PostSummary } from '@/types/source';
 import { containerType } from '@/ui/styled/utilities';
 

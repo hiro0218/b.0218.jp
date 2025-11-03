@@ -1,5 +1,5 @@
 import { Stack } from '@/components/UI/Layout';
-import { isSameDay } from '@/lib/date';
+import { isSameDay } from '@/lib/utils/date';
 import type { Post } from '@/types/source';
 import { css } from '@/ui/styled';
 

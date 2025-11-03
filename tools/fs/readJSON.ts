@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 
-import { parseJSON } from '@/lib/parseJSON';
+import { parseJSON } from '@/lib/utils/parseJSON';
 
 export async function readJSON<T>(file: string): Promise<T> {
   try {

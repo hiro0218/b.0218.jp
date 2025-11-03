@@ -1,7 +1,7 @@
 import type { JSX } from 'react';
-import { LinkMore } from '@/components/Page/Home';
 import Heading from '@/components/UI/Heading';
 import { Box, Cluster } from '@/components/UI/Layout';
+import { LinkMore } from '@/components/UI/LinkMore';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag from '@/components/UI/Tag';
 

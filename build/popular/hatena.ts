@@ -1,7 +1,7 @@
 import { SITE_URL } from '@/constant';
-import { readJSON } from '@/shared/fs';
-import * as Log from '@/shared/Log';
 import type { PostSummary } from '@/types/source';
+import { readJSON } from '~/tools/fs';
+import * as Log from '~/tools/logger';
 import type { HatenaResult } from './type';
 
 const PATH_DIST = `${process.cwd()}/dist`;

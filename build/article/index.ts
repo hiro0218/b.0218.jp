@@ -1,8 +1,8 @@
 import { loadEnvConfig } from '@next/env';
 import { FILENAME_POSTS_LIST } from '@/constant';
-import { copyDir, copyFile, writeJSON } from '@/shared/fs';
-import * as Log from '@/shared/Log';
 import type { Post } from '@/types/source';
+import { copyDir, copyFile, writeJSON } from '~/tools/fs';
+import * as Log from '~/tools/logger';
 import { buildPage, buildPost, buildTerm } from './post/generate';
 import { getPath } from './post/generate/utils';
 import { removePostsData } from './post/removePostData';

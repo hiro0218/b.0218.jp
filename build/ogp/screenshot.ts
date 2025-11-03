@@ -3,9 +3,9 @@ import os from 'node:os';
 import { cwd } from 'node:process';
 import { type Browser, chromium, type Page } from 'playwright-chromium';
 
-import { getPostsListJson } from '@/lib/posts';
-import { mkdir } from '@/shared/fs';
-import * as Log from '@/shared/Log';
+import { getPostsListJson } from '@/lib/data/posts';
+import { mkdir } from '~/tools/fs';
+import * as Log from '~/tools/logger';
 
 type Post = { title: string; slug: string };
 type WorkerMessage = { type: 'completed'; index?: number } | { type: 'error'; error: string };

@@ -5,7 +5,7 @@ import type { CSSProperties, FC, ImgHTMLAttributes } from 'react';
 import { memo, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { useImageZoom } from '@/hooks/useImageZoom';
-import { parseStyleStringToObject } from '@/lib/parseStyleStringToObject';
+import { parseStyleStringToObject } from '@/lib/browser/parseStyleStringToObject';
 import { css } from '@/ui/styled';
 
 const Overlay = dynamic(() => import('@/components/UI/Overlay').then((module) => module.Overlay));
