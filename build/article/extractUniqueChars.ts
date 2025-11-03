@@ -6,6 +6,14 @@ import { getPath } from './post/generate/utils';
 const PATH = getPath();
 
 const REGEX_CODE_TAG = /<\/?code\b[^>]*>/gi; // `<code>` または `</code>` を厳密に判定する正規表現
+const REGEX_EMOJI = /\p{Emoji}/u;
+const REGEX_ASCII = /^[\x20-\x7E]*$/;
+const REGEX_WHITESPACE = /\s/;
+const REGEX_UPPERCASE = /[A-Z]/;
+const REGEX_LOWERCASE = /[a-z]/;
+const REGEX_DIGIT = /[0-9]/;
+const REGEX_SPACE = /[\s]/;
+const REGEX_ASCII_SYMBOL = /[\.\,\!\?\(\)\[\]\{\}\<\>]/;
 
 /**
  * titleとcontentの文字列を抽出し、<code>と</code>の間の文字を除外して重複しない文字のみを含む文字列を生成する関数
@@ -52,11 +60,11 @@ function extractUniqueChars(data: { title: string; content: string }[]): string 
 }
 
 /** 絵文字を判定する関数 */
-const isEmoji = (char: string): boolean => /\p{Emoji}/u.test(char);
+const isEmoji = (char: string): boolean => REGEX_EMOJI.test(char);
 
 /** アルファベットやASCII記号判定する関数 */
 // biome-ignore lint/correctness/noUnusedVariables: ASCII判定関数は現在未使用だが将来使用予定
-const isAscii = (char: string): boolean => /^[\x20-\x7E]*$/.test(char);
+const isAscii = (char: string): boolean => REGEX_ASCII.test(char);
 
 /**
  * 指定されたコードポイント範囲の文字をSetに追加する補助関数
@@ -110,7 +118,7 @@ function processStringAndAddToSet(str: string, charSet: Set<string>): void {
  */
 function addCharactersToSet(str: string, charSet: Set<string>): void {
   for (const char of str) {
-    if (!/\s/.test(char) && !isEmoji(char)) {
+    if (!REGEX_WHITESPACE.test(char) && !isEmoji(char)) {
       charSet.add(char); // 大文字小文字をそのまま維持
     }
   }
@@ -123,15 +131,15 @@ function getCharPriority(char: string): number {
   const codePoint = char.codePointAt(0) ?? 0;
 
   switch (true) {
-    case /[A-Z]/.test(char):
+    case REGEX_UPPERCASE.test(char):
       return 1; // 英大文字
-    case /[a-z]/.test(char):
+    case REGEX_LOWERCASE.test(char):
       return 2; // 英小文字
-    case /[0-9]/.test(char):
+    case REGEX_DIGIT.test(char):
       return 3; // 数字
-    case /[\s]/.test(char):
+    case REGEX_SPACE.test(char):
       return 4; // スペース
-    case /[\.\,\!\?\(\)\[\]\{\}\<\>]/.test(char):
+    case REGEX_ASCII_SYMBOL.test(char):
       return 5; // ASCII記号
     case codePoint >= 0x3041 && codePoint <= 0x3096:
       return 6; // ひらがな
