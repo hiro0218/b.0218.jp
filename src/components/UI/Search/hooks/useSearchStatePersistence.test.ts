@@ -7,7 +7,7 @@ import * as safeSessionStorage from '@/lib/browser/safeSessionStorage';
 import type { SearchResultItem } from '../types';
 import { useSearchStatePersistence } from './useSearchStatePersistence';
 
-vi.mock('@/lib/safeSessionStorage', () => ({
+vi.mock('@/lib/browser/safeSessionStorage', () => ({
   getFromSession: vi.fn(),
   setToSession: vi.fn(),
   removeFromSession: vi.fn(),
