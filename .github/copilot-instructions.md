@@ -177,3 +177,5 @@ npx next build --experimental-build-mode=compile
 ---
 
 _Generated for GitHub Copilot, Cursor, and other AI assistants. Keep concise and actionable._
+
+**IMPORTANT**: Do NOT modify files in `_article/` directory (Git submodule)
