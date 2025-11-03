@@ -1,6 +1,6 @@
+import type { Post } from '@/types/source';
 import { writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
-import type { Post } from '@/types/source';
 import { getPath } from './utils';
 
 const PATH = getPath();

@@ -1,8 +1,8 @@
 import { read as matterRead } from 'gray-matter';
 import { FILENAME_PAGES } from '@/constant';
+import type { Page } from '@/types/source';
 import { writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
-import type { Page } from '@/types/source';
 import markdownToHtmlString from '../../markdownToHtmlString';
 import { getMarkdownFiles, getPath, getSlug } from './utils';
 
