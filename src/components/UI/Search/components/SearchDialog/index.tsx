@@ -69,17 +69,17 @@ const Dialog = styled.dialog`
   border-radius: var(--radii-4);
   isolation: isolate;
   opacity: 0;
-  transition: top 0.4s;
+  transition: top 0.4s ease-out;
 
   &[open] {
     z-index: var(--z-index-search);
     padding: 0;
     border: none;
     opacity: 1;
-    animation: zoomIn 0.2s;
+    animation: zoomIn 0.2s ease-out;
   }
 
   &[open][data-closing='true'] {
-    animation: zoomOut 0.2s forwards;
+    animation: zoomOut 0.2s ease-out forwards;
   }
 `;

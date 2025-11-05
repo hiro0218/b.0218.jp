@@ -31,10 +31,16 @@ const Button = styled.button`
   background: none;
   border: none;
   border-radius: var(--radii-full);
-  transition: background-color 0.2s ease;
+  transition:
+    background-color 0.2s ease-out,
+    transform 0.1s ease-out;
 
   &::after {
     border-radius: var(--radii-full);
+  }
+
+  &:active {
+    transform: scale(0.97);
   }
 
   svg {
