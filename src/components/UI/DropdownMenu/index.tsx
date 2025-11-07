@@ -75,8 +75,10 @@ export const Content = styled.div`
   border-radius: var(--radii-4);
   box-shadow: var(--shadows-md);
   opacity: 0;
-  transform: scale(0.8);
-  transition: transform 0.1s linear;
+  transform: scale(0.93);
+  transition:
+    transform 0.1s ease-out,
+    opacity 0.1s ease-out;
 
   &[data-position='left'] {
     left: 0;
