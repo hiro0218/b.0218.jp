@@ -199,7 +199,7 @@ const paginationButtonStyle = css`
   color: var(--colors-gray-11);
   cursor: pointer;
   border-radius: var(--radii-full);
-  transition: background-color 0.1s var(--easings-ease-out);
+  transition: background-color 0.1s ease-out;
 
   &[disabled] {
     color: var(--colors-gray-12);
@@ -225,7 +225,9 @@ const paginationButtonStyle = css`
     &:focus-visible {
       color: var(--colors-gray-12);
       background-color: var(--colors-gray-5);
-      box-shadow: 0 0 0 2px var(--colors-gray-1), 0 0 0 4px var(--colors-gray-8);
+      box-shadow:
+        0 0 0 2px var(--colors-gray-1),
+        0 0 0 4px var(--colors-gray-8);
     }
   }
 `;
