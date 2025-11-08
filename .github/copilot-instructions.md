@@ -77,7 +77,7 @@ graph TD
 
 #### Functional/
 - **Purpose**: Functional utility components without visual representation
-- **Examples**: JsonLdScript, PreconnectLinks, ReadingHistoryRecorder
+- **Examples**: PreconnectLinks, ReadingHistoryRecorder
 - **Characteristics**:
   - No visual output (or minimal)
   - Handles metadata, optimization, and utility functions
