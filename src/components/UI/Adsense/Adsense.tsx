@@ -26,8 +26,8 @@ export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
       if (isLoaded) {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.error('Failed to load AdSense ad:', error);
     }
   }, [pathname, isLoaded]);
 
