@@ -36,17 +36,14 @@ export const usePostsList = (): SearchProps[] => {
 
   useEffect(() => {
     const abortController = new AbortController();
-    let isMounted = true;
 
     const fetchData = async () => {
       try {
         const cachedData = getCachedData();
         if (cachedData) {
-          if (isMounted) {
-            setArchives(cachedData);
-            // 古いビルドIDのキャッシュをクリア
-            clearOldCache(FILENAME_POSTS_LIST, STORAGE_KEY);
-          }
+          setArchives(cachedData);
+          // 古いビルドIDのキャッシュをクリア
+          clearOldCache(FILENAME_POSTS_LIST, STORAGE_KEY);
           return;
         }
 
@@ -67,12 +64,10 @@ export const usePostsList = (): SearchProps[] => {
         const popularJson = popularResponse.ok ? ((await popularResponse.json()) as Record<string, number>) : {};
         const postList = extractPostList(postsJson, popularJson);
 
-        if (isMounted) {
-          setArchives(postList);
-          setLocalStorage(STORAGE_KEY, postList);
-        }
+        setArchives(postList);
+        setLocalStorage(STORAGE_KEY, postList);
       } catch (error) {
-        if (!abortController.signal.aborted && isMounted) {
+        if (!abortController.signal.aborted) {
           console.error('Failed to fetch posts:', error);
         }
       }
@@ -81,7 +76,6 @@ export const usePostsList = (): SearchProps[] => {
     fetchData();
 
     return () => {
-      isMounted = false;
       abortController.abort();
     };
   }, [getCachedData, extractPostList]);
