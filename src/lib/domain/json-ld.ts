@@ -6,6 +6,7 @@ import type {
   ListItem,
   Organization,
   WebPage,
+  WebSite,
   WithContext,
 } from 'schema-dts';
 
@@ -150,6 +151,19 @@ export const getOrganizationStructured = (): WithContext<Organization> => {
     name: SITE_NAME,
     url: SITE_URL,
     logo: AUTHOR_ICON,
+  };
+};
+
+/**
+ * @see https://developers.google.com/search/docs/appearance/site-names?hl=ja
+ */
+export const getWebSiteStructured = (): WithContext<WebSite> => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE_NAME,
+    alternateName: ['b.0218.jp'],
+    url: SITE_URL,
   };
 };
 
