@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { getMetadata } from '@/app/_metadata';
 import { getTagPosts } from '@/app/libs/getTagPosts';
-import { JsonLdScript } from '@/components/Functional/JsonLdScript';
 import { Pagination } from '@/components/Page/Archive/Pagination';
 import { PostList } from '@/components/Page/Archive/PostList';
 import { Sidebar, Stack } from '@/components/UI/Layout';
@@ -53,11 +52,16 @@ export default async function Page({ params }: { params: Params }) {
 
   return (
     <>
-      <JsonLdScript
-        jsonLd={getCollectionPageStructured({
-          name: `Tag: ${decodedSlug}`,
-          description: `Tag: ${decodedSlug} - ${SITE_NAME}`,
-        })}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            getCollectionPageStructured({
+              name: `Tag: ${decodedSlug}`,
+              description: `Tag: ${decodedSlug} - ${SITE_NAME}`,
+            }),
+          ),
+        }}
+        type="application/ld+json"
       />
       <Stack as="section" space={4}>
         <Title heading={pageTitle} paragraph={`${totalItems}件の記事`} />
