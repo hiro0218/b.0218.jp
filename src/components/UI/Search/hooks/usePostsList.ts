@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { FILENAME_POSTS_LIST, FILENAME_POSTS_POPULAR } from '@/constant';
-import { parseJSON } from '@/lib/utils/parseJSON';
+import { clearOldCache, getLocalStorage, setLocalStorage } from '@/lib/browser/safeLocalStorage';
 import type { PostSummary } from '@/types/source';
 
 import type { SearchProps } from '../types';
@@ -18,13 +18,7 @@ export const usePostsList = (): SearchProps[] => {
   const [archives, setArchives] = useState<SearchProps[]>([]);
 
   const getCachedData = useCallback((): SearchProps[] | null => {
-    try {
-      const cachedValue = window.localStorage.getItem(STORAGE_KEY);
-      return cachedValue ? parseJSON<SearchProps[]>(cachedValue) : null;
-    } catch (e) {
-      console.warn('Cache parsing failed:', e);
-      return null;
-    }
+    return getLocalStorage<SearchProps[]>(STORAGE_KEY);
   }, []);
 
   const extractPostList = useMemo(
@@ -40,16 +34,6 @@ export const usePostsList = (): SearchProps[] => {
     [],
   );
 
-  const resetLocalStorage = useCallback((query = FILENAME_POSTS_LIST) => {
-    if (typeof window === 'undefined' || !('localStorage' in window)) return;
-
-    Object.keys(localStorage).forEach((key) => {
-      if ((key !== STORAGE_KEY && key.match(query)) || (!query && typeof key === 'string')) {
-        localStorage.removeItem(key);
-      }
-    });
-  }, []);
-
   useEffect(() => {
     const abortController = new AbortController();
     let isMounted = true;
@@ -60,7 +44,8 @@ export const usePostsList = (): SearchProps[] => {
         if (cachedData) {
           if (isMounted) {
             setArchives(cachedData);
-            resetLocalStorage();
+            // 古いビルドIDのキャッシュをクリア
+            clearOldCache(FILENAME_POSTS_LIST, STORAGE_KEY);
           }
           return;
         }
@@ -84,7 +69,7 @@ export const usePostsList = (): SearchProps[] => {
 
         if (isMounted) {
           setArchives(postList);
-          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(postList));
+          setLocalStorage(STORAGE_KEY, postList);
         }
       } catch (error) {
         if (!abortController.signal.aborted && isMounted) {
@@ -99,7 +84,7 @@ export const usePostsList = (): SearchProps[] => {
       isMounted = false;
       abortController.abort();
     };
-  }, [getCachedData, extractPostList, resetLocalStorage]);
+  }, [getCachedData, extractPostList]);
 
   return archives;
 };
