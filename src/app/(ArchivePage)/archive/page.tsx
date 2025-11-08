@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { getMetadata } from '@/app/_metadata';
-import { JsonLdScript } from '@/components/Functional/JsonLdScript';
 import { Chart } from '@/components/Page/Archive/Chart';
 import { Timeline } from '@/components/Page/Archive/Timeline';
 import { Stack } from '@/components/UI/Layout';
@@ -46,11 +45,16 @@ const renderTimelinesByYear = (archiveData: typeof archives) => {
 export default async function Page() {
   return (
     <>
-      <JsonLdScript
-        jsonLd={getCollectionPageStructured({
-          name: pageTitle,
-          description,
-        })}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            getCollectionPageStructured({
+              name: pageTitle,
+              description,
+            }),
+          ),
+        }}
+        type="application/ld+json"
       />
       <Stack as="article" space={4}>
         <Title heading={title} paragraph={description} />

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { JsonLdScript } from '@/components/Functional/JsonLdScript';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { TagSection } from '@/components/Page/_shared/TagSection';
 import { Hero } from '@/components/Page/Home';
@@ -31,7 +30,12 @@ export default async function Page() {
 
   return (
     <>
-      <JsonLdScript jsonLd={[webSiteStructured, organizationStructured]} />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([webSiteStructured, organizationStructured]),
+        }}
+        type="application/ld+json"
+      />
 
       <h1 className="sr-only">トップページ</h1>
 

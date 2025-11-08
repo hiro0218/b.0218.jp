@@ -1,6 +1,5 @@
 import type { Metadata } from 'next/types';
 import { getMetadata } from '@/app/_metadata';
-import { JsonLdScript } from '@/components/Functional/JsonLdScript';
 import { TagSection } from '@/components/Page/_shared/TagSection';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
@@ -31,12 +30,17 @@ export const metadata: Metadata = getMetadata({
 export default async function Page() {
   return (
     <>
-      <JsonLdScript
-        jsonLd={getWebPageStructured({
-          name: title,
-          description,
-          listItem,
-        })}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            getWebPageStructured({
+              name: title,
+              description,
+              listItem,
+            }),
+          ),
+        }}
+        type="application/ld+json"
       />
       <Title heading={title} paragraph={description} />
       <TagSection tags={tags} />
