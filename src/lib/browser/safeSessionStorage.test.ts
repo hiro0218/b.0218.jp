@@ -1,7 +1,7 @@
 import type { MockInstance } from 'vitest';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { safeJsonParse, safeJsonStringify } from '@/lib/utils/json';
-import { getFromSession, removeFromSession, setToSession } from './safeSessionStorage';
+import { getSessionStorage, removeSessionStorage, setSessionStorage } from './safeSessionStorage';
 
 describe('safeSessionStorage', () => {
   let mockStorage: Record<string, string> = {};
@@ -87,24 +87,24 @@ describe('safeSessionStorage', () => {
     });
   });
 
-  describe('getFromSession', () => {
+  describe('getSessionStorage', () => {
     test('ストレージから値を取得してパースする', () => {
       mockStorage['test-key'] = '{"name":"test","value":123}';
 
-      const result = getFromSession<{ name: string; value: number }>('test-key');
+      const result = getSessionStorage<{ name: string; value: number }>('test-key');
       expect(result).toEqual({ name: 'test', value: 123 });
       expect(sessionStorage.getItem).toHaveBeenCalledWith('test-key');
     });
 
     test('キーが存在しない場合nullを返す', () => {
-      const result = getFromSession('non-existent');
+      const result = getSessionStorage('non-existent');
       expect(result).toBeNull();
     });
 
     test('無効なJSONの場合nullを返す', () => {
       mockStorage['test-key'] = 'invalid json';
 
-      const result = getFromSession('test-key');
+      const result = getSessionStorage('test-key');
       expect(result).toBeNull();
     });
 
@@ -113,16 +113,16 @@ describe('safeSessionStorage', () => {
         throw new Error('Storage error');
       });
 
-      const result = getFromSession('test-key');
+      const result = getSessionStorage('test-key');
       expect(result).toBeNull();
       expect(consoleSpy).toHaveBeenCalledWith('Failed to get item from storage (test-key):', expect.any(Error));
     });
   });
 
-  describe('setToSession', () => {
+  describe('setSessionStorage', () => {
     test('値をシリアライズしてストレージに保存する', () => {
       const data = { name: 'test', value: 123 };
-      const result = setToSession('test-key', data);
+      const result = setSessionStorage('test-key', data);
 
       expect(result).toBe(true);
       expect(sessionStorage.setItem).toHaveBeenCalledWith('test-key', '{"name":"test","value":123}');
@@ -137,7 +137,7 @@ describe('safeSessionStorage', () => {
       const obj: CircularObj = { name: 'test' };
       obj.self = obj;
 
-      const result = setToSession('test-key', obj);
+      const result = setSessionStorage('test-key', obj);
       expect(result).toBe(false);
       expect(sessionStorage.setItem).not.toHaveBeenCalled();
     });
@@ -147,16 +147,16 @@ describe('safeSessionStorage', () => {
         throw new Error('Storage quota exceeded');
       });
 
-      const result = setToSession('test-key', { name: 'test' });
+      const result = setSessionStorage('test-key', { name: 'test' });
       expect(result).toBe(false);
       expect(consoleSpy).toHaveBeenCalledWith('Failed to set item to storage (test-key):', expect.any(Error));
     });
   });
 
-  describe('removeFromSession', () => {
+  describe('removeSessionStorage', () => {
     test('ストレージから値を削除する', () => {
       mockStorage['test-key'] = 'some value';
-      const result = removeFromSession('test-key');
+      const result = removeSessionStorage('test-key');
 
       expect(result).toBe(true);
       expect(sessionStorage.removeItem).toHaveBeenCalledWith('test-key');
@@ -168,7 +168,7 @@ describe('safeSessionStorage', () => {
         throw new Error('Storage error');
       });
 
-      const result = removeFromSession('test-key');
+      const result = removeSessionStorage('test-key');
       expect(result).toBe(false);
       expect(consoleSpy).toHaveBeenCalledWith('Failed to remove item from storage (test-key):', expect.any(Error));
     });
@@ -188,20 +188,20 @@ describe('safeSessionStorage', () => {
       vi.restoreAllMocks();
     });
 
-    test('getFromSession がアクセス拒否時にnullを返す', () => {
-      const result = getFromSession('test-key');
+    test('getSessionStorage がアクセス拒否時にnullを返す', () => {
+      const result = getSessionStorage('test-key');
       expect(result).toBeNull();
       expect(consoleSpy).toHaveBeenCalledWith('Failed to get item from storage (test-key):', expect.any(Error));
     });
 
-    test('setToSession がアクセス拒否時にfalseを返す', () => {
-      const result = setToSession('test-key', { name: 'test' });
+    test('setSessionStorage がアクセス拒否時にfalseを返す', () => {
+      const result = setSessionStorage('test-key', { name: 'test' });
       expect(result).toBe(false);
       expect(consoleSpy).toHaveBeenCalledWith('Failed to set item to storage (test-key):', expect.any(Error));
     });
 
-    test('removeFromSession がアクセス拒否時にfalseを返す', () => {
-      const result = removeFromSession('test-key');
+    test('removeSessionStorage がアクセス拒否時にfalseを返す', () => {
+      const result = removeSessionStorage('test-key');
       expect(result).toBe(false);
       expect(consoleSpy).toHaveBeenCalledWith('Failed to remove item from storage (test-key):', expect.any(Error));
     });
@@ -220,20 +220,20 @@ describe('safeSessionStorage', () => {
       globalThis.window = originalWindow;
     });
 
-    test('getFromSession がサーバーサイドでnullを返す', () => {
-      const result = getFromSession('test-key');
+    test('getSessionStorage がサーバーサイドでnullを返す', () => {
+      const result = getSessionStorage('test-key');
       expect(result).toBeNull();
       expect(consoleSpy).not.toHaveBeenCalled();
     });
 
-    test('setToSession がサーバーサイドでfalseを返す', () => {
-      const result = setToSession('test-key', { name: 'test' });
+    test('setSessionStorage がサーバーサイドでfalseを返す', () => {
+      const result = setSessionStorage('test-key', { name: 'test' });
       expect(result).toBe(false);
       expect(consoleSpy).not.toHaveBeenCalled();
     });
 
-    test('removeFromSession がサーバーサイドでfalseを返す', () => {
-      const result = removeFromSession('test-key');
+    test('removeSessionStorage がサーバーサイドでfalseを返す', () => {
+      const result = removeSessionStorage('test-key');
       expect(result).toBe(false);
       expect(consoleSpy).not.toHaveBeenCalled();
     });
