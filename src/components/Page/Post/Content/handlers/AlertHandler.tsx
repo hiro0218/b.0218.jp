@@ -1,6 +1,6 @@
 import { type DOMNode, domToReact } from 'html-react-parser';
 import { Alert, type AlertType } from '@/components/UI/Alert';
-import { parseJSON } from '@/lib/utils/parseJSON';
+import { safeJsonParse } from '@/lib/utils/json';
 import type { HandlerFunction } from './types';
 
 interface AlertData {
@@ -16,7 +16,12 @@ interface AlertData {
  */
 export const handleAlert: HandlerFunction = (domNode) => {
   if (domNode.attribs?.class === 'gfm-alert') {
-    const json = parseJSON<AlertData>(domToReact(domNode.children as DOMNode[]) as string);
+    const json = safeJsonParse<AlertData>(domToReact(domNode.children as DOMNode[]) as string);
+
+    if (!json) {
+      return undefined;
+    }
+
     return <Alert text={json.data.text} type={json.data.type} />;
   }
 

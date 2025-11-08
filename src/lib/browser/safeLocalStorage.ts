@@ -5,6 +5,8 @@
  * QuotaExceededError（容量超過）に対する自動リトライ機能を提供
  */
 
+import { safeJsonParse, safeJsonStringify } from '@/lib/utils/json';
+
 /**
  * localStorageから値を取得してパース
  * @param key ストレージキー
@@ -20,22 +22,11 @@ export const getLocalStorage = <T>(key: string): T | null => {
     return null;
   }
 
-  let stored: string | null = null;
   try {
-    stored = localStorage.getItem(key);
+    const stored = localStorage.getItem(key);
+    return safeJsonParse<T>(stored);
   } catch (error) {
     console.error(`Failed to get item from localStorage (${key}):`, error);
-    return null;
-  }
-
-  if (!stored) {
-    return null;
-  }
-
-  try {
-    return JSON.parse(stored) as T;
-  } catch (error) {
-    console.error(`Failed to parse JSON from localStorage (${key}):`, error);
     return null;
   }
 };
@@ -67,11 +58,9 @@ export const setLocalStorage = <T>(
     return false;
   }
 
-  let serialized: string;
-  try {
-    serialized = JSON.stringify(value);
-  } catch (error) {
-    console.error(`Failed to stringify value for localStorage (${key}):`, error);
+  const serialized = safeJsonStringify(value);
+  if (serialized === null) {
+    console.error(`Failed to stringify value for localStorage (${key})`);
     return false;
   }
 

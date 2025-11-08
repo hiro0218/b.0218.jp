@@ -1,12 +1,7 @@
 import type { MockInstance } from 'vitest';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import {
-  getFromSession,
-  removeFromSession,
-  safeJsonParse,
-  safeJsonStringify,
-  setToSession,
-} from './safeSessionStorage';
+import { safeJsonParse, safeJsonStringify } from '@/lib/utils/json';
+import { getFromSession, removeFromSession, setToSession } from './safeSessionStorage';
 
 describe('safeSessionStorage', () => {
   let mockStorage: Record<string, string> = {};

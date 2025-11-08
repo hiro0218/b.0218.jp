@@ -4,34 +4,7 @@
  * Safari プライベートモードなどストレージアクセス拒否環境ではすべての関数が false/null を返す
  */
 
-/**
- * JSON.parseを型安全に実行
- * @returns 失敗時はnull
- */
-export const safeJsonParse = <T>(value: string | null): T | null => {
-  if (!value) return null;
-
-  try {
-    return JSON.parse(value) as T;
-  } catch (error) {
-    console.error('Failed to parse JSON:', error);
-    return null;
-  }
-};
-
-/**
- * JSON.stringifyを安全に実行
- * @returns 失敗時はnull
- */
-export const safeJsonStringify = <T>(value: T): string | null => {
-  try {
-    const result = JSON.stringify(value);
-    return result ?? null;
-  } catch (error) {
-    console.error('Failed to stringify JSON:', error);
-    return null;
-  }
-};
+import { safeJsonParse, safeJsonStringify } from '@/lib/utils/json';
 
 /**
  * sessionStorageから値を取得してパース
