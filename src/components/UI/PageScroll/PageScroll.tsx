@@ -41,7 +41,9 @@ const Button = styled.button`
   background-color: var(--colors-gray-a-3);
   border: none;
   border-radius: var(--radii-full);
-  transition: background-color 0.2s ease;
+  transition:
+    background-color 0.2s ease-out,
+    transform 0.1s ease-out;
 
   svg {
     --desktop-size: calc(var(--sizes-icon-md) * 0.5);
@@ -69,5 +71,6 @@ const Button = styled.button`
   &:active {
     background-color: var(--colors-gray-a-5);
     border-color: var(--colors-gray-7);
+    transform: scale(0.97);
   }
 `;

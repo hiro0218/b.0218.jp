@@ -4,45 +4,18 @@
  * Safari プライベートモードなどストレージアクセス拒否環境ではすべての関数が false/null を返す
  */
 
-/**
- * JSON.parseを型安全に実行
- * @returns 失敗時はnull
- */
-export const safeJsonParse = <T>(value: string | null): T | null => {
-  if (!value) return null;
-
-  try {
-    return JSON.parse(value) as T;
-  } catch (error) {
-    console.error('Failed to parse JSON:', error);
-    return null;
-  }
-};
-
-/**
- * JSON.stringifyを安全に実行
- * @returns 失敗時はnull
- */
-export const safeJsonStringify = <T>(value: T): string | null => {
-  try {
-    const result = JSON.stringify(value);
-    return result ?? null;
-  } catch (error) {
-    console.error('Failed to stringify JSON:', error);
-    return null;
-  }
-};
+import { safeJsonParse, safeJsonStringify } from '@/lib/utils/json';
 
 /**
  * sessionStorageから値を取得してパース
  * @returns 失敗時・サーバーサイド・ストレージアクセス拒否時はnull
  * @example
- * const data = getFromSession<MyData>('key');
+ * const data = getSessionStorage<MyData>('key');
  * if (data === null) {
  *   return defaultData;
  * }
  */
-export const getFromSession = <T>(key: string): T | null => {
+export const getSessionStorage = <T>(key: string): T | null => {
   if (typeof window === 'undefined') {
     return null;
   }
@@ -62,11 +35,11 @@ export const getFromSession = <T>(key: string): T | null => {
  * sessionStorageに値を保存
  * @returns サーバーサイド・ストレージアクセス拒否時はfalse
  * @example
- * if (!setToSession('key', data)) {
+ * if (!setSessionStorage('key', data)) {
  *   console.warn('Storage unavailable, using memory cache');
  * }
  */
-export const setToSession = <T>(key: string, value: T): boolean => {
+export const setSessionStorage = <T>(key: string, value: T): boolean => {
   if (typeof window === 'undefined') {
     return false;
   }
@@ -88,11 +61,11 @@ export const setToSession = <T>(key: string, value: T): boolean => {
  * sessionStorageから値を削除
  * @returns サーバーサイド・ストレージアクセス拒否時はfalse
  * @example
- * if (!removeFromSession('key')) {
+ * if (!removeSessionStorage('key')) {
  *   console.info('Storage clear skipped');
  * }
  */
-export const removeFromSession = (key: string): boolean => {
+export const removeSessionStorage = (key: string): boolean => {
   if (typeof window === 'undefined') {
     return false;
   }

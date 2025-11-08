@@ -8,9 +8,9 @@ import type { SearchResultItem } from '../types';
 import { useSearchStatePersistence } from './useSearchStatePersistence';
 
 vi.mock('@/lib/browser/safeSessionStorage', () => ({
-  getFromSession: vi.fn(),
-  setToSession: vi.fn(),
-  removeFromSession: vi.fn(),
+  getSessionStorage: vi.fn(),
+  setSessionStorage: vi.fn(),
+  removeSessionStorage: vi.fn(),
 }));
 
 describe('useSearchStatePersistence', () => {
@@ -59,7 +59,7 @@ describe('useSearchStatePersistence', () => {
 
     result.current.saveSearchState(mockSearchState);
 
-    expect(safeSessionStorage.setToSession).toHaveBeenCalledWith(
+    expect(safeSessionStorage.setSessionStorage).toHaveBeenCalledWith(
       'search-state',
       expect.objectContaining({
         query: 'React',
@@ -71,13 +71,13 @@ describe('useSearchStatePersistence', () => {
   });
 
   test('loadSearchState が有効な状態を返すことを検証', () => {
-    vi.mocked(safeSessionStorage.getFromSession).mockReturnValue(mockStoredState);
+    vi.mocked(safeSessionStorage.getSessionStorage).mockReturnValue(mockStoredState);
 
     const { result } = renderHook(() => useSearchStatePersistence());
 
     const loaded = result.current.loadSearchState();
 
-    expect(safeSessionStorage.getFromSession).toHaveBeenCalledWith('search-state');
+    expect(safeSessionStorage.getSessionStorage).toHaveBeenCalledWith('search-state');
     expect(loaded).toEqual({
       query: 'React',
       results: mockSearchState.results,
@@ -90,18 +90,18 @@ describe('useSearchStatePersistence', () => {
       ...mockStoredState,
       timestamp: Date.now() - 31 * 60 * 1000,
     };
-    vi.mocked(safeSessionStorage.getFromSession).mockReturnValue(expiredState);
+    vi.mocked(safeSessionStorage.getSessionStorage).mockReturnValue(expiredState);
 
     const { result } = renderHook(() => useSearchStatePersistence());
 
     const loaded = result.current.loadSearchState();
 
     expect(loaded).toBeNull();
-    expect(safeSessionStorage.removeFromSession).toHaveBeenCalledWith('search-state');
+    expect(safeSessionStorage.removeSessionStorage).toHaveBeenCalledWith('search-state');
   });
 
   test('loadSearchState が存在しない状態でnullを返すことを検証', () => {
-    vi.mocked(safeSessionStorage.getFromSession).mockReturnValue(null);
+    vi.mocked(safeSessionStorage.getSessionStorage).mockReturnValue(null);
 
     const { result } = renderHook(() => useSearchStatePersistence());
 
@@ -115,6 +115,6 @@ describe('useSearchStatePersistence', () => {
 
     result.current.clearSearchState();
 
-    expect(safeSessionStorage.removeFromSession).toHaveBeenCalledWith('search-state');
+    expect(safeSessionStorage.removeSessionStorage).toHaveBeenCalledWith('search-state');
   });
 });

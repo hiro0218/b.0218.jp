@@ -1,6 +1,6 @@
 import { type DOMNode, domToReact } from 'html-react-parser';
 import { LinkPreview } from '@/components/Page/Post/LinkPreview';
-import { parseJSON } from '@/lib/utils/parseJSON';
+import { safeJsonParse } from '@/lib/utils/json';
 import type { HandlerFunction } from './types';
 
 interface LinkPreviewData {
@@ -20,7 +20,11 @@ interface LinkPreviewData {
  */
 export const handleLinkPreview: HandlerFunction = (domNode) => {
   if (domNode.attribs?.class === 'link-preview') {
-    const json = parseJSON<LinkPreviewData>(domToReact(domNode.children as DOMNode[]) as string);
+    const json = safeJsonParse<LinkPreviewData>(domToReact(domNode.children as DOMNode[]) as string);
+
+    if (!json) {
+      return undefined;
+    }
 
     return (
       <LinkPreview

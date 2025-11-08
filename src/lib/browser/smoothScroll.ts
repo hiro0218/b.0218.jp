@@ -32,7 +32,7 @@ const getTarget = (hash: string): HTMLElement | null => {
     const targetElementId = decodeURIComponent(hash.slice(1));
     return document.getElementById(targetElementId) || (isTopHash(hash) ? document.body : null);
   } catch (error) {
-    console.error('Error decoding hash:', error);
+    console.error('Failed to decode URL hash:', error);
     return null;
   }
 };
@@ -41,7 +41,7 @@ const scrollToTarget = (element: HTMLElement): void => {
   try {
     element.scrollIntoView({ behavior: getScrollBehavior() });
   } catch (error) {
-    console.error('Error scrolling to target:', error);
+    console.error('Failed to scroll to target element:', error);
   }
 };
 
@@ -57,7 +57,7 @@ const focusOnTarget = (element: HTMLElement): void => {
       element.removeAttribute('tabindex');
     }
   } catch (error) {
-    console.error('Error focusing on target:', error);
+    console.error('Failed to focus on target element:', error);
   }
 };
 

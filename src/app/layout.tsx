@@ -14,7 +14,6 @@ import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
 import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constant';
 import { SearchDialogProvider } from '@/contexts/SearchDialogContext';
-import { getOrganizationStructured } from '@/lib/domain/json-ld';
 
 const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((module) => module.PageScroll));
 
@@ -83,12 +82,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           ))
         }
         <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(getOrganizationStructured()),
-          }}
-          type="application/ld+json"
-        />
       </body>
     </html>
   );

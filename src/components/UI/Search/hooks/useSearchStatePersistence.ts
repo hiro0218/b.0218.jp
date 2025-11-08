@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef } from 'react';
-import { getFromSession, removeFromSession, setToSession } from '@/lib/browser/safeSessionStorage';
+import { getSessionStorage, removeSessionStorage, setSessionStorage } from '@/lib/browser/safeSessionStorage';
 import type { SearchResultItem } from '../types';
 
 type SearchState = {
@@ -38,18 +38,18 @@ export const useSearchStatePersistence = () => {
       timestamp: Date.now(),
     };
 
-    setToSession(STORAGE_KEY, storedState);
+    setSessionStorage(STORAGE_KEY, storedState);
   }, []);
 
   const loadSearchState = useCallback((): SearchState | null => {
     if (!isClientRef.current) return null;
 
-    const state = getFromSession<StoredSearchState>(STORAGE_KEY);
+    const state = getSessionStorage<StoredSearchState>(STORAGE_KEY);
     if (!state) return null;
 
     const isExpired = Date.now() - state.timestamp > STORAGE_EXPIRY;
     if (isExpired) {
-      removeFromSession(STORAGE_KEY);
+      removeSessionStorage(STORAGE_KEY);
       return null;
     }
 
@@ -60,7 +60,7 @@ export const useSearchStatePersistence = () => {
   const clearSearchState = useCallback(() => {
     if (!isClientRef.current) return;
 
-    removeFromSession(STORAGE_KEY);
+    removeSessionStorage(STORAGE_KEY);
   }, []);
 
   return {

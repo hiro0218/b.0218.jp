@@ -63,7 +63,7 @@ const Container = styled.article`
   background-color: var(--colors-white);
   border-radius: var(--radii-4);
   box-shadow: 0 0 0 1px var(--colors-gray-4);
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s ease-out;
 
   @media (--isMobile) {
     --container-space: var(--spacing-2);
@@ -117,7 +117,7 @@ const titleStyle = css`
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-md);
   color: var(--colors-gray-12);
-  transition: color 0.4s;
+  transition: color 0.4s ease-out;
 `;
 
 const Paragraph = styled.p`

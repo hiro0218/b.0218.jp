@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { JsonLdScript } from '@/components/Functional/JsonLdScript';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { TagSection } from '@/components/Page/_shared/TagSection';
 import { Hero } from '@/components/Page/Home';
@@ -6,6 +7,7 @@ import Heading from '@/components/UI/Heading';
 import { Box, Sidebar, Stack } from '@/components/UI/Layout';
 import { Container } from '@/components/UI/Layout/Container';
 import { SITE_URL } from '@/constant';
+import { getOrganizationStructured, getWebSiteStructured } from '@/lib/domain/json-ld';
 import { getData } from './libs';
 
 const data = getData();
@@ -24,8 +26,13 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
+  const webSiteStructured = getWebSiteStructured();
+  const organizationStructured = getOrganizationStructured();
+
   return (
     <>
+      <JsonLdScript jsonLd={[webSiteStructured, organizationStructured]} />
+
       <h1 className="sr-only">トップページ</h1>
 
       <Container size="default">
