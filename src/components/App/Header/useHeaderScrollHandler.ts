@@ -1,7 +1,8 @@
 'use client';
 'use no memo';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useBoolean } from '@/hooks/useBoolean';
 import { useEventListener } from '@/hooks/useEventListener';
 import { isSSR } from '@/lib/browser/isSSR';
 import throttle from '@/lib/utils/throttle';
@@ -20,7 +21,7 @@ const MIN_SCROLL_DELTA = 5;
  * @returns ヘッダーの表示状態（true: 表示、false: 非表示）
  */
 export const useHeaderScrollHandler = (): boolean => {
-  const [isHeaderVisible, setIsHeaderVisible] = useState<boolean>(true);
+  const { value: isHeaderVisible, setTrue, setFalse } = useBoolean(true);
   const previousScrollY = useRef<number>(0);
   const isFirstRender = useRef<boolean>(true);
 
@@ -31,12 +32,12 @@ export const useHeaderScrollHandler = (): boolean => {
         previousScrollY.current = window.scrollY;
         // 初期位置が閾値を超えている場合はヘッダーを非表示
         if (window.scrollY > SCROLL_THRESHOLD) {
-          setIsHeaderVisible(false);
+          setFalse();
         }
       });
       isFirstRender.current = false;
     }
-  }, []);
+  }, [setFalse]);
 
   const handleScroll = useCallback(() => {
     const currentScrollY = window.scrollY;
@@ -49,14 +50,14 @@ export const useHeaderScrollHandler = (): boolean => {
 
     if (scrollDelta < 0) {
       // ナビゲーション改善のため上方向スクロール時はヘッダー表示
-      setIsHeaderVisible(true);
+      setTrue();
     } else if (scrollDelta > 0 && currentScrollY > SCROLL_THRESHOLD) {
       // 画面領域最大化のため下方向スクロールかつ閾値超過時はヘッダー非表示
-      setIsHeaderVisible(false);
+      setFalse();
     }
 
     previousScrollY.current = currentScrollY;
-  }, []);
+  }, [setTrue, setFalse]);
 
   // パフォーマンス劣化を防ぐためスロットリング処理
   const throttledHandleScroll = useMemo(() => throttle(handleScroll), [handleScroll]);

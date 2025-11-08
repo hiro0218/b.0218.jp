@@ -1,18 +1,19 @@
 'use client';
 'use no memo';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useBoolean } from './useBoolean';
 
 export default function useIsMounted(): boolean {
-  const [isMounted, setIsMounted] = useState(false);
+  const { value: isMounted, setTrue, setFalse } = useBoolean(false);
 
   useEffect(() => {
-    setIsMounted(true);
+    setTrue();
 
     return () => {
-      setIsMounted(false);
+      setFalse();
     };
-  }, []);
+  }, [setTrue, setFalse]);
 
   return isMounted;
 }
