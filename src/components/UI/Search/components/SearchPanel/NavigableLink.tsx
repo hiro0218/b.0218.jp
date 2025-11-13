@@ -1,4 +1,4 @@
-import { forwardRef, memo } from 'react';
+import { forwardRef, memo, useCallback } from 'react';
 import { Anchor } from '@/components/UI/Anchor';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import { ICON_SIZE_XS } from '@/ui/icons';
@@ -12,6 +12,7 @@ type NavigableLinkProps = {
   title: string;
   isFocused: boolean;
   matchedIn: MatchedIn;
+  onLinkClick?: () => void;
 };
 
 /**
@@ -20,8 +21,13 @@ type NavigableLinkProps = {
  * マッチタイプに応じてバッジを表示し、タグマッチかタイトルマッチかを視覚的に区別
  */
 export const NavigableLink = memo(
-  forwardRef<HTMLDivElement, NavigableLinkProps>(({ slug, title, isFocused, matchedIn }, ref) => {
+  forwardRef<HTMLDivElement, NavigableLinkProps>(({ slug, title, isFocused, matchedIn, onLinkClick }, ref) => {
     const link = convertPostSlugToPath(slug);
+
+    const handleClick = useCallback(() => {
+      // ダイアログを閉じる（遷移はNext.jsのLinkコンポーネントに任せる）
+      onLinkClick?.();
+    }, [onLinkClick]);
 
     return (
       <div
@@ -29,7 +35,7 @@ export const NavigableLink = memo(
         ref={ref}
         tabIndex={isFocused ? 0 : -1}
       >
-        <Anchor className={AnchorStyle} href={link} prefetch={false}>
+        <Anchor className={AnchorStyle} href={link} onClick={handleClick} prefetch={false}>
           {matchedIn === 'tag' ? (
             <Hashtag height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
           ) : (

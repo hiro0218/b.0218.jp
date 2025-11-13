@@ -1,5 +1,7 @@
 import { useRouter } from 'next/navigation';
-import { useEffect, useMemo } from 'react';
+import { useCallback } from 'react';
+import { useKeyboard } from 'react-aria';
+import { isHTMLElement } from '@/lib/browser/typeGuards';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { SearchProps } from '../types';
 
@@ -12,6 +14,7 @@ interface UseKeyboardNavigationProps {
 
 /**
  * キーボードナビゲーション機能を提供するカスタムフック
+ * React Aria の useKeyboard を使用してアクセシビリティを向上
  * 検索結果の上下移動、選択、エスケープ処理を管理
  */
 export const useKeyboardNavigation = ({
@@ -22,63 +25,66 @@ export const useKeyboardNavigation = ({
 }: UseKeyboardNavigationProps) => {
   const router = useRouter();
 
-  // キーボードハンドラーをメモ化
-  const keyHandlers = useMemo(
-    () => ({
-      // biome-ignore lint/style/useNamingConvention: キーボードイベントのkey値と一致させる必要がある
-      ArrowDown: () => {
-        const currentIndex = focusedIndexRef.current;
-        const count = resultsRef.current.length;
-        if (count > 0 && currentIndex < count - 1) {
-          onNavigate(currentIndex + 1);
-        }
-      },
-      // biome-ignore lint/style/useNamingConvention: キーボードイベントのkey値と一致させる必要がある
-      ArrowUp: () => {
-        const currentIndex = focusedIndexRef.current;
-        if (currentIndex >= 0) {
-          onNavigate(currentIndex - 1);
-        }
-      },
-      // biome-ignore lint/style/useNamingConvention: キーボードイベントのkey値と一致させる必要がある
-      Enter: () => {
-        const currentIndex = focusedIndexRef.current;
-        const count = resultsRef.current.length;
-        if (currentIndex >= 0 && currentIndex < count) {
-          const result = resultsRef.current[currentIndex];
-          if (result) {
-            router.push(convertPostSlugToPath(result.slug));
-            onClose();
-          }
-        }
-      },
-      // biome-ignore lint/style/useNamingConvention: キーボードイベントのkey値と一致させる必要がある
-      Escape: onClose,
-    }),
-    [onNavigate, onClose, router, focusedIndexRef, resultsRef],
-  );
+  const handleArrowDown = useCallback(() => {
+    const currentIndex = focusedIndexRef.current;
+    const count = resultsRef.current.length;
+    if (count > 0 && currentIndex < count - 1) {
+      onNavigate(currentIndex + 1);
+    }
+  }, [onNavigate, focusedIndexRef, resultsRef]);
 
-  // キーダウンイベントの処理
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const target = e.target as HTMLElement;
+  const handleArrowUp = useCallback(() => {
+    const currentIndex = focusedIndexRef.current;
+    if (currentIndex >= 0) {
+      onNavigate(currentIndex - 1);
+    }
+  }, [onNavigate, focusedIndexRef]);
+
+  const handleEnter = useCallback(() => {
+    const currentIndex = focusedIndexRef.current;
+    const count = resultsRef.current.length;
+    if (currentIndex >= 0 && currentIndex < count) {
+      const result = resultsRef.current[currentIndex];
+      if (result) {
+        router.push(convertPostSlugToPath(result.slug));
+        onClose();
+      }
+    }
+  }, [onClose, router, focusedIndexRef, resultsRef]);
+
+  const { keyboardProps } = useKeyboard({
+    onKeyDown: (e) => {
+      const target = e.target;
+      if (!isHTMLElement(target)) return;
+
       const isSearchContext =
         (target.tagName === 'INPUT' && target.getAttribute('role') === 'searchbox') ||
         target.closest('[data-search-results]') !== null;
 
       if (!isSearchContext) return;
 
-      const handler = keyHandlers[e.key as keyof typeof keyHandlers];
-      if (handler) {
-        e.preventDefault();
-        handler();
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          handleArrowDown();
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          handleArrowUp();
+          break;
+        case 'Enter':
+          e.preventDefault();
+          handleEnter();
+          break;
+        case 'Escape':
+          e.preventDefault();
+          onClose();
+          break;
       }
-    };
+    },
+  });
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [keyHandlers]);
-
-  // このフックは副作用のみ提供し、値は返却しない
-  return {};
+  return {
+    keyboardProps,
+  };
 };

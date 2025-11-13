@@ -1,3 +1,5 @@
+'use client';
+
 import { type RefObject, useCallback, useEffect, useRef } from 'react';
 import { useKeyboardNavigation } from './useKeyboardNavigation';
 import { useLatestRef } from './useLatestRef';
@@ -108,7 +110,7 @@ export const useSearchIntegration = ({
   const focusedIndexRef = useLatestRef(focusedIndex);
   const stateRef = useLatestRef(state.results);
 
-  useKeyboardNavigation({
+  const { keyboardProps } = useKeyboardNavigation({
     onNavigate: navigateToIndex,
     onClose: handleCloseDialog,
     focusedIndexRef,
@@ -142,5 +144,6 @@ export const useSearchIntegration = ({
     setResultRef,
     closeDialog: handleCloseDialog,
     reset,
+    keyboardProps,
   };
 };
