@@ -30,7 +30,7 @@
     "@radix-ui/react-icons": "1.3.2",
     "babel-plugin-react-compiler": "1.0.0",
     "css-in-js-easing": "1.2.0",
-    "html-react-parser": "5.2.7",
+    "html-react-parser": "5.2.8",
     "mokuji.js": "5.0.0",
     "next": "16.0.3",
     "next-scroll-restorer": "0.10.3",
