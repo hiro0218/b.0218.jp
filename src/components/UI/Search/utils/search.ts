@@ -32,7 +32,36 @@ import { useMemo } from 'react';
 import type { MatchedIn, MatchType, SearchProps, SearchResultItem } from '../types';
 import { isEmptyQuery } from './validation';
 
-// 優先度定数の定義
+/**
+ * マッチタイプ別のスコアリングロジック
+ *
+ * @description
+ * 各 MatchType に対応する優先度スコアを定義。
+ * スコアが高いほど検索結果の上位に表示される。
+ *
+ * - EXACT (100): 完全一致（最優先）
+ *   検索語とタイトル/タグが完全に一致する場合
+ *   例: 検索「React入門」→「React入門」
+ *
+ * - PARTIAL (80): 部分一致（スペースあり）
+ *   検索語がタイトル/タグに含まれる場合
+ *   例: 検索「React」→「React入門」
+ *
+ * - EXACT_NO_SPACE (60): スペース除去後の完全一致
+ *   スペースを除去した後に完全一致する場合
+ *   例: 検索「React 入門」→「React入門」
+ *
+ * - MULTI_TERM_MATCH (50): 複数単語のAND条件一致
+ *   複数の検索語がすべて含まれる場合
+ *   例: 検索「React Hooks」→「React Hooksの基本」
+ *
+ * - PARTIAL_NO_SPACE (40): スペース除去後の部分一致
+ *   スペース除去後に部分一致する場合
+ *   例: 検索「Re act」→「React」
+ *
+ * - NONE (0): 不一致
+ *   検索条件に一致しない場合
+ */
 const MATCH_PRIORITY: Record<MatchType, number> = {
   // biome-ignore lint/style/useNamingConvention: MatchType列挙値のキー名
   EXACT: 100,

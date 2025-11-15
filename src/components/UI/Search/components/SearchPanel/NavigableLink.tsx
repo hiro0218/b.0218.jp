@@ -15,17 +15,11 @@ type NavigableLinkProps = {
   onLinkClick?: () => void;
 };
 
-/**
- * 検索結果の個別リンクを表示する表示専用コンポーネント
- * キーボードナビゲーションと画面遷移ロジックはuseSearchIntegrationで中央管理
- * マッチタイプに応じてバッジを表示し、タグマッチかタイトルマッチかを視覚的に区別
- */
 export const NavigableLink = memo(
   forwardRef<HTMLDivElement, NavigableLinkProps>(({ slug, title, isFocused, matchedIn, onLinkClick }, ref) => {
     const link = convertPostSlugToPath(slug);
 
     const handleClick = useCallback(() => {
-      // ダイアログを閉じる（遷移はNext.jsのLinkコンポーネントに任せる）
       onLinkClick?.();
     }, [onLinkClick]);
 
