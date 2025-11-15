@@ -1,11 +1,28 @@
+'use client';
+
+import { useRef } from 'react';
+import { useOverlay } from 'react-aria';
 import { styled } from '@/ui/styled';
 
 type Props = {
-  onClick: () => void;
+  onCloseAction: () => void;
+  isOpen?: boolean;
 };
 
-export function Overlay({ onClick }: Props) {
-  return <Div onClick={onClick} tabIndex={-1} />;
+export function Overlay({ onCloseAction, isOpen = true }: Props) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const { overlayProps } = useOverlay(
+    {
+      isOpen,
+      onClose: onCloseAction,
+      isDismissable: true,
+      shouldCloseOnBlur: true,
+    },
+    ref,
+  );
+
+  return <Div {...overlayProps} onClick={onCloseAction} ref={ref} />;
 }
 
 const Div = styled.div`

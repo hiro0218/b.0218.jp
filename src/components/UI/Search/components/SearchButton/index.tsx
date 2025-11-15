@@ -5,18 +5,19 @@ import type { OnCloseDialogProps } from '../../types';
 import { SEARCH_LABELS } from '../../utils/constants';
 
 type Props = {
-  openDialog: OnCloseDialogProps;
+  openDialogAction: OnCloseDialogProps;
 };
 
 /**
  * 検索ボタンコンポーネント
  */
-export function SearchButton({ openDialog }: Props) {
+export function SearchButton({ openDialogAction }: Props) {
   return (
-    <Button aria-haspopup="dialog" className="link-style--hover-effect" onClick={openDialog} type="button">
-      <Tooltip text={SEARCH_LABELS.searchTitle} />
-      <MagnifyingGlassIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-    </Button>
+    <Tooltip text={SEARCH_LABELS.searchTitle}>
+      <Button aria-haspopup="dialog" className="link-style--hover-effect" onClick={openDialogAction} type="button">
+        <MagnifyingGlassIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+      </Button>
+    </Tooltip>
   );
 }
 
