@@ -10,22 +10,12 @@ const sortPostsBySlug = (posts: ReturnType<typeof getPostsListJson>) =>
   posts.toSorted((a, b) => b.slug.localeCompare(a.slug));
 
 const groupPostsByYear = (posts: PostSummary[]): ArchiveListProps => {
-  const result = new Map<number, PostSummary[]>();
+  const transformedPosts = posts.map((post) => ({
+    ...post,
+    ...getDateAndUpdatedToSimpleFormat(post.date),
+  }));
 
-  for (const post of posts) {
-    const year = getYear(post.date);
-
-    if (!result.has(year)) {
-      result.set(year, []);
-    }
-
-    result.get(year)!.push({
-      ...post,
-      ...getDateAndUpdatedToSimpleFormat(post.date),
-    });
-  }
-
-  return Object.fromEntries(result);
+  return Object.groupBy(transformedPosts, (post) => String(getYear(post.date))) as ArchiveListProps;
 };
 
 export const getData = (posts: ReturnType<typeof getPostsListJson>): ArchiveListProps => {
