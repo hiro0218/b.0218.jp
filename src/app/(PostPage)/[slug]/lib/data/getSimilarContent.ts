@@ -86,13 +86,12 @@ export function getSimilarTags(tag: string) {
   for (let i = 0; i < tagSlugs.length; i++) {
     const slug = tagSlugs[i];
     const tagPosts = getTagPostsMapping(slug);
-    // 記事数が少ないタグは関連性が低いため除外する
     if (tagPosts.length >= TAG_VIEW_LIMIT) {
       validTags.push({ slug, count: tagPosts.length });
     }
   }
 
-  validTags.sort((a, b) => b.count - a.count);
+  const sortedValidTags = validTags.toSorted((a, b) => b.count - a.count);
 
-  return validTags.slice(0, LIMIT_TAG_LIST);
+  return sortedValidTags.slice(0, LIMIT_TAG_LIST);
 }

@@ -302,13 +302,11 @@ export const findMatchingPosts = (archives: SearchProps[], searchValue: string):
  * @returns ソート済みの検索結果配列
  */
 const sortAndLimitResults = (results: RankedSearchResult[], maxResults = 100): SearchResultItem[] => {
-  // 優先度順に結果をソート
-  const sorted = [...results].sort((a, b) => {
+  const sorted = results.toSorted((a, b) => {
     const priorityDiff = b.priority - a.priority;
     if (priorityDiff !== 0) {
       return priorityDiff;
     }
-    // 優先度が同じ場合はスコアでソート（高い順）
     const scoreA = a.post.score ?? 0;
     const scoreB = b.post.score ?? 0;
     return scoreB - scoreA;

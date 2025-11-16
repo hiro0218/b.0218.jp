@@ -16,7 +16,7 @@ type PostTagProps = {
 };
 
 const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) {
-  const sortedTags = [...tags].sort((a, b) => {
+  const sortedTags = tags.toSorted((a, b) => {
     if (b.count === undefined) return -1;
     if (a.count === undefined) return 1;
 
