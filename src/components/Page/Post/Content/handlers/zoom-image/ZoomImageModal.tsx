@@ -71,7 +71,7 @@ const ZoomImage: FC<ZoomImageProps> = ({ alt, src, style, ...props }) => {
               src={src}
               {...keyboardProps}
             />
-            <Overlay onClick={zoomOut} />
+            <Overlay onCloseAction={zoomOut} />
           </>,
           document.body,
         )}

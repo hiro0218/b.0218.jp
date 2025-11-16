@@ -24,23 +24,10 @@ export const metadata: Metadata = getMetadata({
   url: `${SITE_URL}/${slug}`,
 });
 
-/**
- * 年度別タイムラインを新しい年から順に表示
- * reverse()による中間配列生成を避けるため、インデックスを使った逆順アクセスで直接要素を作成
- */
-const renderTimelinesByYear = (archiveData: typeof archives) => {
-  const years = Object.keys(archiveData);
-  const timelines = [];
-
-  // 新しい年から古い年へ逆順で処理
-  for (let i = years.length - 1; i >= 0; i--) {
-    const year = years[i];
-    const yearArchives = archiveData[year];
-    timelines.push(<Timeline key={year} posts={yearArchives} year={year} />);
-  }
-
-  return timelines;
-};
+const renderTimelinesByYear = (archiveData: typeof archives) =>
+  Object.keys(archiveData)
+    .toReversed()
+    .map((year) => <Timeline key={year} posts={archiveData[year]} year={year} />);
 
 export default async function Page() {
   return (

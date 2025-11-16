@@ -16,14 +16,14 @@ export default function Header() {
       <HeaderLayout>
         <Container className={HeaderContainerStyle} size={'large'} space={false}>
           <Logo />
-          <SearchButton openDialog={searchDialog.open} />
+          <SearchButton openDialogAction={searchDialog.open} />
         </Container>
       </HeaderLayout>
 
       {(searchDialog.isOpen || searchDialog.isClosing) && (
         <SearchDialog
-          closeDialog={searchDialog.close}
           isClosing={searchDialog.isClosing}
+          onCloseAction={searchDialog.close}
           ref={searchDialog.dialogRef}
         />
       )}

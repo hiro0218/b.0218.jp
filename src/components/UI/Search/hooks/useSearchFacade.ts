@@ -1,4 +1,7 @@
-import { type RefObject, useCallback, useEffect, useRef } from 'react';
+'use client';
+
+import { type RefObject, useCallback, useEffect, useMemo, useRef } from 'react';
+import type { UseSearchFacadeOptions, UseSearchFacadeReturn } from '../types';
 import { useKeyboardNavigation } from './useKeyboardNavigation';
 import { useLatestRef } from './useLatestRef';
 import { usePostsList } from './usePostsList';
@@ -7,40 +10,25 @@ import { useSearchInput } from './useSearchInput';
 import { useSearchManager } from './useSearchManager';
 import { useSearchStatePersistence } from './useSearchStatePersistence';
 
-type UseSearchIntegrationProps = {
-  closeDialog: () => void;
-  dialogRef?: RefObject<HTMLDialogElement>;
-  persistSearchState?: boolean;
-};
-
 /**
- * 検索機能の統合フック（検索状態永続化とキーボードナビゲーションを統合）
- * ビジネス要件：UX向上のため画面遷移時も検索状態を保持する必要がある
- * @param closeDialog ダイアログ終了処理
- * @param dialogRef ダイアログ要素への参照
- * @param persistSearchState 検索状態永続化の有効/無効（デフォルト: true）
- * @returns 統合された検索機能インターフェース
+ * Facade Pattern により、複雑な内部実装を隠蔽し、使用側のコードを簡潔にする
  */
-export const useSearchIntegration = ({
-  closeDialog,
+export const useSearchFacade = ({
+  onClose,
   dialogRef,
-  persistSearchState = true,
-}: UseSearchIntegrationProps) => {
+  options = {},
+}: UseSearchFacadeOptions): UseSearchFacadeReturn => {
+  const { persistState = true } = options;
+
   const archives = usePostsList();
-  const {
-    state,
-    debouncedSearch,
-    executeSearch,
-    reset: resetSearchState,
-    setResults,
-  } = useSearchManager({
+  const { state, debouncedSearch, executeSearch, setResults } = useSearchManager({
     archives,
   });
-  const { saveSearchState, loadSearchState, clearSearchState } = useSearchStatePersistence();
+  const { saveSearchState, loadSearchState } = useSearchStatePersistence();
 
   const focusManager = useSearchFocusManager({
     resultsLength: state.results.length,
-    dialogRef,
+    dialogRef: dialogRef as RefObject<HTMLDialogElement>,
   });
   const { focusedIndex, setFocusedIndex, resetAll: resetFocus, navigateToIndex } = focusManager.state;
   const { setResultRef } = focusManager.results;
@@ -49,7 +37,7 @@ export const useSearchIntegration = ({
   const hasExecutedRestorationRef = useRef(false);
 
   const tryRestoreSearchState = useCallback(() => {
-    if (!persistSearchState) return;
+    if (!persistState) return;
 
     const savedState = savedStateRef.current ?? loadSearchState();
     if (!savedState?.query) return;
@@ -73,11 +61,11 @@ export const useSearchIntegration = ({
       setFocusedIndex(savedState.focusedIndex);
     }
     hasExecutedRestorationRef.current = true;
-  }, [archives.length, executeSearch, loadSearchState, persistSearchState, setFocusedIndex, setResults]);
+  }, [archives.length, executeSearch, loadSearchState, persistState, setFocusedIndex, setResults]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: 初回マウント時のみ実行
   useEffect(() => {
-    if (!persistSearchState) return;
+    if (!persistState) return;
 
     savedStateRef.current = loadSearchState();
     hasHydratedResultsRef.current = false;
@@ -90,7 +78,7 @@ export const useSearchIntegration = ({
   }, [tryRestoreSearchState]);
 
   useEffect(() => {
-    if (!persistSearchState) return;
+    if (!persistState) return;
     if (!state.query && state.results.length === 0) return;
 
     saveSearchState({
@@ -98,17 +86,17 @@ export const useSearchIntegration = ({
       results: state.results,
       focusedIndex,
     });
-  }, [persistSearchState, state.query, state.results, focusedIndex, saveSearchState]);
+  }, [persistState, state.query, state.results, focusedIndex, saveSearchState]);
 
-  const handleCloseDialog = () => {
+  const handleCloseDialog = useCallback(() => {
     resetFocus();
-    closeDialog();
-  };
+    onClose();
+  }, [resetFocus, onClose]);
 
   const focusedIndexRef = useLatestRef(focusedIndex);
   const stateRef = useLatestRef(state.results);
 
-  useKeyboardNavigation({
+  const { keyboardProps } = useKeyboardNavigation({
     onNavigate: navigateToIndex,
     onClose: handleCloseDialog,
     focusedIndexRef,
@@ -122,25 +110,29 @@ export const useSearchIntegration = ({
     debouncedSearch,
   });
 
-  const reset = useCallback(() => {
-    resetFocus();
-    resetSearchState();
-    hasHydratedResultsRef.current = false;
-    hasExecutedRestorationRef.current = false;
-    savedStateRef.current = null;
-    if (persistSearchState) {
-      clearSearchState();
-    }
-  }, [clearSearchState, persistSearchState, resetFocus, resetSearchState]);
+  const ui = useMemo(
+    () => ({
+      inputProps: {
+        onKeyUp: handleSearchInput,
+      },
+      containerProps: keyboardProps,
+      setResultRef,
+    }),
+    [handleSearchInput, keyboardProps, setResultRef],
+  );
+
+  const actions = useMemo(
+    () => ({
+      close: handleCloseDialog,
+    }),
+    [handleCloseDialog],
+  );
 
   return {
     results: state.results,
     query: state.query,
     focusedIndex,
-    onSearchInput: handleSearchInput,
-    setFocusedIndex,
-    setResultRef,
-    closeDialog: handleCloseDialog,
-    reset,
+    ui,
+    actions,
   };
 };

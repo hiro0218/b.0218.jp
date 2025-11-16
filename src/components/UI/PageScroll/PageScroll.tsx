@@ -14,10 +14,11 @@ export const PageScroll = () => {
 
   return (
     <Container data-floating>
-      <Button onClick={scrollToTop}>
-        <ArrowUpIcon />
-        <Tooltip position="top" text="ページトップへ" />
-      </Button>
+      <Tooltip position="top" text="ページトップへ">
+        <Button onClick={scrollToTop}>
+          <ArrowUpIcon />
+        </Button>
+      </Tooltip>
     </Container>
   );
 };

@@ -1,104 +1,55 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback } from 'react';
+import type { OverlayTriggerProps } from 'react-stately';
+import { useOverlayTriggerState } from 'react-stately';
+import { useDialogElement } from './useDialogElement';
+import { useMotionPreference } from './useMotionPreference';
 
-import { useBoolean } from './useBoolean';
-
-interface UseDialogOptions {
+interface UseDialogOptions extends Partial<OverlayTriggerProps> {
   animated?: boolean;
   duration?: number;
 }
 
+/**
+ * ダイアログの開閉とアニメーションを管理する統合フック
+ *
+ * 関心の分離により以下のフックを統合：
+ * - useMotionPreference: モーションプリファレンスの監視
+ * - useDialogElement: HTMLDialogElement の制御
+ * - useOverlayTriggerState: 状態管理（React Stately）
+ *
+ * @param options - animated: アニメーション有効化、duration: アニメーション時間、その他 React Stately のオプション
+ * @returns ダイアログ制御のための ref、open/close メソッド、状態
+ */
 export const useDialog = <T extends HTMLDialogElement>(options?: UseDialogOptions) => {
-  const { animated = true, duration: baseDuration = 200 } = options ?? {};
-  const ref = useRef<T>(null);
-  const { value: isOpen, setTrue: setOpen, setFalse: setClose } = useBoolean(false);
-  const { value: isClosing, setTrue: setClosing, setFalse: setNotClosing } = useBoolean(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const [duration, setDuration] = useState(baseDuration);
+  const { animated = true, duration: baseDuration = 200, ...overlayOptions } = options ?? {};
 
-  useEffect(() => {
-    if (!animated) return;
+  const state = useOverlayTriggerState(overlayOptions);
 
-    const checkMotionPreference = () => {
-      const prefersReducedMotion = window?.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const duration = useMotionPreference({
+    enabled: animated,
+    baseDuration,
+  });
 
-      setDuration(prefersReducedMotion ? 0 : baseDuration);
-    };
-
-    checkMotionPreference();
-
-    const mediaQuery = window?.matchMedia('(prefers-reduced-motion: reduce)');
-
-    if (mediaQuery) {
-      const handler = () => checkMotionPreference();
-      mediaQuery.addEventListener('change', handler);
-
-      return () => {
-        mediaQuery.removeEventListener('change', handler);
-      };
-    }
-  }, [animated, baseDuration]);
-
-  // isOpenが変化したらdialog要素を開閉
-  useEffect(() => {
-    if (!isOpen) return;
-
-    let frameId: number | undefined;
-
-    const checkAndOpen = () => {
-      const dialog = ref.current;
-      if (dialog && !dialog.open) {
-        dialog.show();
-      } else if (!ref.current) {
-        // ref.currentがまだnullの場合、次のフレームで再チェック
-        frameId = requestAnimationFrame(checkAndOpen);
-      }
-    };
-
-    frameId = requestAnimationFrame(checkAndOpen);
-
-    return () => {
-      if (frameId !== undefined) {
-        cancelAnimationFrame(frameId);
-      }
-    };
-  }, [isOpen]);
+  const dialogElement = useDialogElement<T>({
+    isOpen: state.isOpen,
+    onClose: state.close,
+    duration: animated ? duration : 0,
+  });
 
   const open = useCallback(() => {
-    setOpen();
-  }, [setOpen]);
+    state.open();
+    dialogElement.open();
+  }, [state, dialogElement]);
 
   const close = useCallback(() => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
-
-    if (animated && duration > 0) {
-      setClosing();
-      timerRef.current = setTimeout(() => {
-        ref.current?.close?.();
-        setNotClosing();
-        setClose();
-        timerRef.current = undefined;
-      }, duration);
-    } else {
-      ref.current?.close?.();
-      setClose();
-    }
-  }, [animated, duration, setClosing, setNotClosing, setClose]);
-
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-    };
-  }, []);
+    dialogElement.close();
+  }, [dialogElement]);
 
   return {
-    ref,
+    ref: dialogElement.ref,
     open,
     close,
-    isOpen,
-    isClosing: !!(animated && isClosing),
+    isOpen: state.isOpen,
+    isClosing: !!(animated && dialogElement.isClosing),
   } as const;
 };

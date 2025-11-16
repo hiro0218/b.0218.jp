@@ -22,7 +22,6 @@ const filterPosts = ({ posts, options }: Props): PostSummary[] => {
       tags: post.tags,
     };
 
-    // contentがある場合の処理を分離
     if (!withoutContent && 'content' in post) {
       return { ...result, content: post.content, note: post.note };
     }
@@ -32,26 +31,19 @@ const filterPosts = ({ posts, options }: Props): PostSummary[] => {
 };
 
 export const getRecentAndUpdatedPosts = ({ posts, options }: Props) => {
-  // 最近の投稿を取得
   const recentPosts = posts.slice(0, POST_DISPLAY_LIMIT);
   const filteredRecentPosts = filterPosts({
     posts: recentPosts,
     options,
   });
 
-  // 最近の投稿のスラッグをセットに追加
   const recentSlugs = new Set(recentPosts.map(({ slug }) => slug));
 
-  // 更新された投稿をフィルタリング
   const updatesPosts = posts
-    .filter((post) => {
-      // 更新日が存在し、作成日より後で、最近の投稿に含まれていない
-      return !!post.updated && post.date < post.updated && !recentSlugs.has(post.slug);
-    })
-    .sort((a, b) => b.updated.localeCompare(a.updated)) // 更新日でソート
+    .filter((post) => !!post.updated && post.date < post.updated && !recentSlugs.has(post.slug))
+    .toSorted((a, b) => b.updated.localeCompare(a.updated))
     .slice(0, UPDATED_POST_DISPLAY_LIMIT);
 
-  // 更新された投稿をフィルタリング
   const filteredUpdatedPosts = filterPosts({
     posts: updatesPosts,
     options,

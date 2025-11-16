@@ -10,12 +10,14 @@ export function Result({
   focusedIndex,
   setResultRef,
   keyword = '',
+  onLinkClick,
 }: {
   suggestions: SearchResultItem[];
   markedTitles: string[];
   focusedIndex: number;
   setResultRef: (index: number, element: HTMLDivElement | null) => void;
   keyword?: string;
+  onLinkClick?: () => void;
 }) {
   const resultRefCallbacks = useMemo(
     () =>
@@ -36,13 +38,14 @@ export function Result({
           isFocused={isFocused}
           key={slug}
           matchedIn={matchedIn}
+          onLinkClick={onLinkClick}
           ref={resultRefCallbacks[index]}
           slug={slug}
           title={markedTitles[index]}
         />
       );
     });
-  }, [suggestions, markedTitles, focusedIndex, resultRefCallbacks]);
+  }, [suggestions, markedTitles, focusedIndex, resultRefCallbacks, onLinkClick]);
 
   return (
     <Container data-search-results>

@@ -11,9 +11,10 @@ type SearchPanelProps = {
   searchQuery: string;
   focusedIndex: number;
   setResultRef: (index: number, element: HTMLDivElement | null) => void;
+  onLinkClick?: () => void;
 };
 
-export function SearchPanel({ results, searchQuery, focusedIndex, setResultRef }: SearchPanelProps) {
+export function SearchPanel({ results, searchQuery, focusedIndex, setResultRef, onLinkClick }: SearchPanelProps) {
   const markedTitles = useMemo(() => createMarkedTitles(results, searchQuery), [results, searchQuery]);
 
   return (
@@ -23,6 +24,7 @@ export function SearchPanel({ results, searchQuery, focusedIndex, setResultRef }
         focusedIndex={focusedIndex}
         keyword={searchQuery}
         markedTitles={markedTitles}
+        onLinkClick={onLinkClick}
         setResultRef={setResultRef}
         suggestions={results}
       />
