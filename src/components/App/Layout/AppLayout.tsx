@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { styled } from '@/ui/styled';
 
 export const Layout = ({ children }: { children: ReactNode }) => {
-  return <Root>{children}</Root>;
+  return <Root data-app-root>{children}</Root>;
 };
 
 const Root = styled.div`
