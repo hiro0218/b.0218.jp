@@ -62,7 +62,7 @@
     "@vitest/coverage-v8": "4.0.9",
     "browserslist": "4.28.0",
     "dependency-cruiser": "17.3.1",
-    "esbuild": "0.25.11",
+    "esbuild": "0.27.0",
     "esbuild-register": "3.6.0",
     "fdir": "6.5.0",
     "feed": "5.1.0",
