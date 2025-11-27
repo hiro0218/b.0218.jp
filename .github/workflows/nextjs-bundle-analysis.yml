@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: Kesin11/actions-timeline@v2
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           submodules: true
 
