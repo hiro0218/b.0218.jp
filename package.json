@@ -46,7 +46,7 @@
     "@hono/node-server": "1.19.6",
     "@markuplint/jsx-parser": "4.7.22",
     "@markuplint/react-spec": "4.5.22",
-    "@next/bundle-analyzer": "16.0.5",
+    "@next/bundle-analyzer": "16.0.6",
     "@pandacss/dev": "1.5.1",
     "@prettier/plugin-oxc": "0.0.5",
     "@testing-library/react": "16.3.0",
