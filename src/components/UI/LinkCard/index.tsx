@@ -48,7 +48,7 @@ function LinkCard({ link, title, date, updated, excerpt, tags, titleTagName = 'h
 
 export default LinkCard;
 
-const Container = styled.article`
+const Container = styled.div`
   --container-space: var(--spacing-3);
   --hover-color: var(--colors-accent-10);
 
