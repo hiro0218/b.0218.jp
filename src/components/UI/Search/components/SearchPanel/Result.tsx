@@ -79,13 +79,13 @@ export const LinkContainerStyle = css`
   border-radius: var(--radii-8);
 
   &:not([tabindex='-1']):hover {
-    background-color: var(--colors-gray-a-3);
+    background-color: var(--colors-gray-a-100);
   }
 `;
 
 export const FocusedContainerStyle = css`
-  background-color: var(--colors-gray-3);
-  box-shadow: inset 0 0 0 2px var(--colors-blue-9);
+  background-color: var(--colors-gray-100);
+  box-shadow: inset 0 0 0 2px var(--colors-blue-1000);
 `;
 
 export const AnchorStyle = css`
@@ -97,11 +97,11 @@ export const AnchorStyle = css`
   border-radius: var(--radii-8);
 
   &:hover {
-    background-color: var(--colors-gray-a-3);
+    background-color: var(--colors-gray-a-100);
   }
 
   &:active {
-    background-color: var(--colors-gray-a-4);
+    background-color: var(--colors-gray-a-200);
   }
 
   &:focus {
@@ -111,6 +111,6 @@ export const AnchorStyle = css`
 
   svg {
     flex-shrink: 0;
-    fill: var(--colors-gray-11);
+    fill: var(--colors-gray-900);
   }
 `;

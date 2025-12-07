@@ -49,14 +49,14 @@ const anchorStyle = css`
   padding: var(--spacing-½) var(--spacing-1);
   font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-sm);
-  color: var(--colors-gray-12);
+  color: var(--colors-gray-1000);
   border-radius: var(--radii-2);
 
   &:hover {
-    background-color: var(--colors-gray-a-3);
+    background-color: var(--colors-gray-a-100);
   }
 
   &:active {
-    background-color: var(--colors-gray-a-4);
+    background-color: var(--colors-gray-a-200);
   }
 `;

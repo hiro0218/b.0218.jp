@@ -35,7 +35,7 @@ const ContainerStyle = css`
   gap: 0 var(--spacing-2);
   margin-inline: auto;
   font-size: var(--font-sizes-md);
-  color: var(--colors-gray-11);
+  color: var(--colors-gray-900);
 
   @media (--isDesktop) {
     max-width: 85%;
@@ -69,11 +69,11 @@ const Heading = styled.h2`
   a {
     text-decoration-line: underline;
     text-decoration-thickness: 4px;
-    text-decoration-color: var(--colors-gray-8);
+    text-decoration-color: var(--colors-gray-800);
     text-underline-offset: 2%;
 
     &:hover {
-      text-decoration-color: var(--colors-gray-9);
+      text-decoration-color: var(--colors-gray-900);
     }
   }
 `;

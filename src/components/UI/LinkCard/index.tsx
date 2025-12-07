@@ -50,7 +50,7 @@ export default LinkCard;
 
 const Container = styled.div`
   --container-space: var(--spacing-3);
-  --hover-color: var(--colors-accent-10);
+  --hover-color: var(--colors-accent-1100);
 
   display: flex;
   flex-direction: column;
@@ -62,7 +62,7 @@ const Container = styled.div`
   word-break: break-all;
   background-color: var(--colors-white);
   border-radius: var(--radii-4);
-  box-shadow: 0 0 0 1px var(--colors-gray-4);
+  box-shadow: 0 0 0 1px var(--colors-gray-200);
   transition: box-shadow 0.2s ease-out;
 
   @media (--isMobile) {
@@ -86,7 +86,7 @@ const Container = styled.div`
   time {
     font-size: var(--font-sizes-sm);
     line-height: var(--line-heights-xs);
-    color: var(--colors-gray-10);
+    color: var(--colors-gray-900);
   }
 `;
 
@@ -116,12 +116,12 @@ const titleStyle = css`
   font-size: var(--font-sizes-sm);
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-md);
-  color: var(--colors-gray-12);
+  color: var(--colors-gray-1000);
   transition: color 0.4s ease-out;
 `;
 
 const Paragraph = styled.p`
-  color: var(--colors-gray-11);
+  color: var(--colors-gray-900);
   letter-spacing: var(--letter-spacings-sm);
 `;
 

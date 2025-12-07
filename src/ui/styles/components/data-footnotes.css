@@ -2,13 +2,14 @@
   padding-top: var(--spacing-3);
   margin-top: var(--spacing-6);
   font-size: var(--font-sizes-sm);
-  color: var(--colors-gray-11);
-  border-top: 1px solid var(--colors-gray-6);
+  color: var(--colors-gray-900);
+  border-top: 1px solid var(--colors-gray-400);
 
   li {
     padding-left: var(--spacing-½);
     counter-increment: steps;
 
+    /* stylelint-disable-next-line */
     &::marker {
       letter-spacing: 1px;
       content: '[' counter(steps) ']';

@@ -37,9 +37,9 @@ const Button = styled.button`
   align-items: center;
   justify-content: center;
   padding: var(--spacing-2);
-  color: var(--colors-gray-12);
+  color: var(--colors-gray-1000);
   cursor: pointer;
-  background-color: var(--colors-gray-a-3);
+  background-color: var(--colors-gray-a-100);
   border: none;
   border-radius: var(--radii-full);
   transition:
@@ -62,7 +62,7 @@ const Button = styled.button`
   }
 
   &:hover {
-    background-color: var(--colors-gray-a-4);
+    background-color: var(--colors-gray-a-200);
 
     svg {
       animation: floatingFade 0.4s linear 0s;
@@ -70,8 +70,8 @@ const Button = styled.button`
   }
 
   &:active {
-    background-color: var(--colors-gray-a-5);
-    border-color: var(--colors-gray-7);
+    background-color: var(--colors-gray-a-300);
+    border-color: var(--colors-gray-700);
     transform: scale(0.97);
   }
 `;

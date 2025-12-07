@@ -23,5 +23,5 @@ const containerStyle = css`
 const paragraphStyle = css`
   margin-top: var(--spacing-1);
   font-size: var(--font-sizes-md);
-  color: var(--colors-gray-11);
+  color: var(--colors-gray-900);
 `;

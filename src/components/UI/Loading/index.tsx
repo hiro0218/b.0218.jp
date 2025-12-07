@@ -38,7 +38,7 @@ const Container = styled.div`
 `;
 
 const Spinner = styled.svg`
-  color: var(--colors-gray-a-6); /* background */
-  fill: var(--colors-gray-a-7); /* spin */
+  color: var(--colors-gray-a-400); /* background */
+  fill: var(--colors-gray-a-700); /* spin */
   animation: rotate 0.8s linear infinite;
 `;

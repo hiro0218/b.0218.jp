@@ -1,141 +1,152 @@
-import { blue, blueA, gray, grayA, grayDark, grayDarkA, whiteA } from '@radix-ui/colors';
+import colorPalette from '@adobe/spectrum-tokens/src/color-palette.json';
 
-/**
- * @see https://www.radix-ui.com/colors/docs/palette-composition/understanding-the-scale
- */
-const colorValues = {
-  white: '#fff',
-  black: '#000',
+// Adobe Spectrum カラーパレットの型定義
+interface ColorValue {
+  sets?: {
+    light?: { value: string };
+    dark?: { value: string };
+  };
+  value?: string | number;
+}
 
-  /**
-   * 1-2: 背景
-   * 3-5: コンポーネントの背景
-   * 6-8: 境界線
-   * 9-10: 無地の背景
-   * 11-12: テキスト
-   */
-  gray: {
-    1: gray.gray1,
-    2: gray.gray2,
-    3: gray.gray3,
-    4: gray.gray4,
-    5: gray.gray5,
-    6: gray.gray6,
-    7: gray.gray7,
-    8: gray.gray8,
-    9: gray.gray9,
-    10: gray.gray10,
-    11: gray.gray11,
-    12: gray.gray12,
-  },
+// Adobe Spectrum スケール定義
+// Adobe Spectrum カラースケールの型定義
+type RegularColorScale =
+  | 100
+  | 200
+  | 300
+  | 400
+  | 500
+  | 600
+  | 700
+  | 800
+  | 900
+  | 1000
+  | 1100
+  | 1200
+  | 1300
+  | 1400
+  | 1500
+  | 1600;
 
-  /**
-   * 透明度のあるグレースケール
-   */
-  grayA: {
-    1: grayA.grayA1,
-    2: grayA.grayA2,
-    3: grayA.grayA3,
-    4: grayA.grayA4,
-    5: grayA.grayA5,
-    6: grayA.grayA6,
-    7: grayA.grayA7,
-    10: grayA.grayA10,
-    11: grayA.grayA11,
-    12: grayA.grayA12,
-  },
+type GrayScale = 25 | 50 | 75 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 1000;
 
-  /**
-   * アクセントカラー
-   */
-  accent: {
-    1: blue.blue1,
-    2: blue.blue2,
-    3: blue.blue3,
-    4: blue.blue4,
-    5: blue.blue5,
-    6: blue.blue6,
-    7: blue.blue7,
-    8: blue.blue8,
-    9: blue.blue9,
-    10: blue.blue10,
-    11: blue.blue11,
-    12: blue.blue12,
-  },
+type TransparentScale = 25 | 50 | 75 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 1000;
 
-  /**
-   * 透明度のあるアクセントカラー
-   */
-  accentA: {
-    1: blueA.blueA1,
-    2: blueA.blueA2,
-    3: blueA.blueA3,
-    4: blueA.blueA4,
-    5: blueA.blueA5,
-  },
+/** Adobe Spectrum カラートークンの値 */
+type ColorToken = { value: string };
 
-  /**
-   * ダークモード用グレースケール
-   */
-  grayInverse: {
-    1: grayDark.gray1,
-    2: grayDark.gray2,
-    3: grayDark.gray3,
-    4: grayDark.gray4,
-    5: grayDark.gray5,
-    6: grayDark.gray6,
-    7: grayDark.gray7,
-    8: grayDark.gray8,
-    9: grayDark.gray9,
-    10: grayDark.gray10,
-    11: grayDark.gray11,
-    12: grayDark.gray12,
-  },
-
-  /**
-   * ダークモード用透明度のあるグレースケール
-   */
-  grayInverseA: {
-    1: grayDarkA.grayA1,
-    2: grayDarkA.grayA2,
-    3: grayDarkA.grayA3,
-    4: grayDarkA.grayA4,
-    5: grayDarkA.grayA5,
-  },
-
-  /**
-   * 透明度のある白
-   */
-  whiteA: {
-    12: whiteA.whiteA12,
-  },
+/** カラースケール型（スケール番号をキーとする） */
+type ColorScale<T extends number> = {
+  [K in T]: ColorToken;
 };
 
-// PandaCSS用のトークン定義
-const colorTokens = {
-  white: { value: colorValues.white },
-  black: { value: colorValues.black },
+/** Adobe Spectrum カラートークン定義の型 */
+type ColorTokens = {
+  // ソリッドカラー
+  blue: ColorScale<RegularColorScale>;
+  gray: ColorScale<GrayScale>;
+  green: ColorScale<RegularColorScale>;
+  orange: ColorScale<RegularColorScale>;
+  pink: ColorScale<RegularColorScale>;
+  purple: ColorScale<RegularColorScale>;
+  red: ColorScale<RegularColorScale>;
+  yellow: ColorScale<RegularColorScale>;
 
-  // Grays
-  gray: Object.fromEntries(Object.entries(colorValues.gray).map(([key, value]) => [key, { value }])),
+  // 別名カラー
+  grass: ColorScale<RegularColorScale>;
+  sky: ColorScale<RegularColorScale>;
+  teal: ColorScale<RegularColorScale>;
+  accent: ColorScale<RegularColorScale>;
 
-  // GrayAs
-  grayA: Object.fromEntries(Object.entries(colorValues.grayA).map(([key, value]) => [key, { value }])),
+  // 透明カラー
+  grayA: ColorScale<TransparentScale>;
+  whiteA: ColorScale<TransparentScale>;
 
-  // Accent colors
-  accent: Object.fromEntries(Object.entries(colorValues.accent).map(([key, value]) => [key, { value }])),
+  // ダークテーマ
+  grayDark: ColorScale<GrayScale>;
+  grayDarkA: ColorScale<TransparentScale>;
+};
 
-  // Accent alpha colors
-  accentA: Object.fromEntries(Object.entries(colorValues.accentA).map(([key, value]) => [key, { value }])),
+const REGULAR_COLOR_SCALES = [
+  100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600,
+] as const;
+const GRAY_SCALES = [25, 50, 75, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000] as const;
+const TRANSPARENT_SCALES = [25, 50, 75, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000] as const;
 
-  // Gray inverse colors
-  grayInverse: Object.fromEntries(Object.entries(colorValues.grayInverse).map(([key, value]) => [key, { value }])),
+// ソリッドカラースケール生成
+function createSolidColorScale<T extends readonly number[]>(colorName: string, scales: T): ColorScale<T[number]> {
+  const scale: Record<string, { value: string }> = {};
 
-  // Gray inverse alpha colors
-  grayInverseA: Object.fromEntries(Object.entries(colorValues.grayInverseA).map(([key, value]) => [key, { value }])),
+  for (const scaleNum of scales) {
+    const key = `${colorName}-${scaleNum}`;
+    const color = (colorPalette as unknown as Record<string, ColorValue>)[key];
 
-  // White alpha colors
-  whiteA: Object.fromEntries(Object.entries(colorValues.whiteA).map(([key, value]) => [key, { value }])),
+    if (color?.sets?.light?.value) {
+      scale[scaleNum] = { value: color.sets.light.value };
+    }
+  }
+
+  return scale as ColorScale<T[number]>;
+}
+
+// 透明カラースケール生成
+function createTransparentColorScale(spectrumPrefix: string): ColorScale<TransparentScale> {
+  const scale: Record<string, { value: string }> = {};
+
+  for (const scaleNum of TRANSPARENT_SCALES) {
+    const key = `${spectrumPrefix}-${scaleNum}`;
+    const color = (colorPalette as unknown as Record<string, ColorValue>)[key];
+
+    if (color?.value && typeof color.value === 'string') {
+      scale[scaleNum] = { value: color.value };
+    }
+  }
+
+  return scale as ColorScale<TransparentScale>;
+}
+
+// ダークテーマカラースケール生成
+function createDarkColorScale(colorName: string): ColorScale<GrayScale> {
+  const scale: Record<string, { value: string }> = {};
+
+  for (const scaleNum of GRAY_SCALES) {
+    const key = `${colorName}-${scaleNum}`;
+    const color = (colorPalette as unknown as Record<string, ColorValue>)[key];
+
+    if (color?.sets?.dark?.value) {
+      scale[scaleNum] = { value: color.sets.dark.value };
+    }
+  }
+
+  return scale as ColorScale<GrayScale>;
+}
+
+// 全カラースケールを生成
+const colorTokens: ColorTokens = {
+  // ソリッドカラー
+  blue: createSolidColorScale('blue', REGULAR_COLOR_SCALES),
+  gray: createSolidColorScale('gray', GRAY_SCALES),
+  green: createSolidColorScale('green', REGULAR_COLOR_SCALES),
+  orange: createSolidColorScale('orange', REGULAR_COLOR_SCALES),
+  pink: createSolidColorScale('pink', REGULAR_COLOR_SCALES),
+  purple: createSolidColorScale('purple', REGULAR_COLOR_SCALES),
+  red: createSolidColorScale('red', REGULAR_COLOR_SCALES),
+  yellow: createSolidColorScale('yellow', REGULAR_COLOR_SCALES),
+
+  // 別名カラー
+  grass: createSolidColorScale('green', REGULAR_COLOR_SCALES),
+  sky: createSolidColorScale('cyan', REGULAR_COLOR_SCALES),
+  teal: createSolidColorScale('magenta', REGULAR_COLOR_SCALES),
+  accent: createSolidColorScale('blue', REGULAR_COLOR_SCALES),
+
+  // 透明カラー
+  grayA: createTransparentColorScale('transparent-black'),
+  whiteA: createTransparentColorScale('transparent-white'),
+
+  // ダークテーマ
+  grayDark: createDarkColorScale('gray'),
+  grayDarkA: createTransparentColorScale('transparent-white'),
 };
 
 export default colorTokens;
