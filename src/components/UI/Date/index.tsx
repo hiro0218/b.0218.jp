@@ -31,4 +31,5 @@ export default PostDate;
 
 const timeStyle = css`
   font-variant-numeric: tabular-nums;
+  color: var(--colors-gray-700);
 `;
