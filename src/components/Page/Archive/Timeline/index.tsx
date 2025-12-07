@@ -38,11 +38,11 @@ const Section = styled.section`
   --columns-1: 12%;
   --columns-2: 8%;
   --year-heading-height: var(--spacing-5);
-  --year-heading-circle-color: var(--colors-gray-8);
+  --year-heading-circle-color: var(--colors-gray-800);
   --year-heading-separator-size: var(--spacing-2);
   --year-post-separator-size-h: var(--spacing-1);
   --year-post-separator-size-w: var(--spacing-1);
-  --year-post-separator-color: var(--colors-gray-7);
+  --year-post-separator-color: var(--colors-gray-700);
   --year-post-separator-border-radius: var(--radii-full);
 
   @media (--isMobile) {
@@ -60,7 +60,7 @@ const Section = styled.section`
     z-index: -1;
     width: 2px;
     margin-top: var(--vertical-space);
-    color: var(--colors-gray-7);
+    color: var(--colors-gray-700);
     pointer-events: none;
     content: '';
     background-image: repeating-linear-gradient(-45deg, currentColor, currentColor 1px, #0000 0 50%);
@@ -87,7 +87,7 @@ const Section = styled.section`
   }
 
   &:hover {
-    --year-heading-circle-color: var(--colors-accent-8);
+    --year-heading-circle-color: var(--colors-accent-900);
   }
 `;
 
@@ -106,14 +106,14 @@ const Title = styled.h2`
 
 const PostCount = styled.span`
   font-size: var(--font-sizes-sm);
-  color: var(--colors-gray-10);
+  color: var(--colors-gray-900);
   text-align: right;
 `;
 
 const Date = styled.span`
   font-size: var(--font-sizes-sm);
   font-variant-numeric: tabular-nums;
-  color: var(--colors-gray-10);
+  color: var(--colors-gray-900);
   text-align: center;
 `;
 
@@ -137,15 +137,15 @@ const styleAnchor = css`
   border-radius: var(--radii-8);
 
   &:hover {
-    background-color: var(--colors-gray-a-3);
+    background-color: var(--colors-gray-a-100);
 
     --year-post-separator-size-h: var(--spacing-3);
     --year-post-separator-size-w: var(--spacing-1);
-    --year-post-separator-color: var(--colors-accent-8);
+    --year-post-separator-color: var(--colors-accent-900);
     --year-post-separator-border-radius: var(--radii-8);
   }
 
   &:active {
-    background-color: var(--colors-gray-a-4);
+    background-color: var(--colors-gray-a-200);
   }
 `;

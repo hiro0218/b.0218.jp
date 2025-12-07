@@ -51,7 +51,7 @@ export function SearchHeader({ onKeyUp, onKeyDown, searchQuery }: SearchHeaderPr
 const headerStyle = css`
   position: relative;
   display: flex;
-  border-bottom: 1px solid var(--colors-gray-6);
+  border-bottom: 1px solid var(--colors-gray-400);
 `;
 
 const headerIconStyle = css`
@@ -69,7 +69,7 @@ const SearchInput = styled.input`
 
   &::placeholder {
     font-size: var(--font-sizes-sm);
-    color: var(--colors-gray-11);
+    color: var(--colors-gray-900);
   }
 
   &:focus {

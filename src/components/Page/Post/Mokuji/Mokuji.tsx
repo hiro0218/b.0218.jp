@@ -34,7 +34,7 @@ const Root = styled.nav`
   }
 
   a {
-    color: var(--colors-gray-12);
+    color: var(--colors-gray-1000);
 
     &:hover {
       text-decoration: underline;
@@ -43,16 +43,16 @@ const Root = styled.nav`
 `;
 
 const Details = styled.details`
-  background-color: var(--colors-gray-a-3);
+  background-color: var(--colors-gray-a-100);
   border-radius: var(--radii-8);
   transition: background-color 0.2s ease-out;
 
   &:not([open]) {
     &:hover {
-      background-color: var(--colors-gray-a-4);
+      background-color: var(--colors-gray-a-200);
     }
     &:active {
-      background-color: var(--colors-gray-a-5);
+      background-color: var(--colors-gray-a-300);
     }
   }
 
@@ -71,7 +71,7 @@ const IconContainer = styled.div`
   place-items: center;
   width: var(--sizes-icon-md);
   height: var(--sizes-icon-md);
-  background-color: var(--colors-gray-a-3);
+  background-color: var(--colors-gray-a-100);
   border-radius: var(--radii-full);
 `;
 

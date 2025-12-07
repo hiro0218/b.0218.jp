@@ -1,6 +1,6 @@
 .post-content {
   font-size: var(--font-sizes-post-content);
-  color: var(--colors-gray-11);
+  color: var(--colors-gray-700);
 
   & > * {
     margin-top: var(--spacing-2);
@@ -55,7 +55,7 @@
     line-height: var(--line-heights-md);
 
     &:not(:has(+ h3)) {
-      border-bottom: 1px solid var(--colors-gray-6);
+      border-bottom: 1px solid var(--colors-gray-400);
     }
 
     &:first-of-type {
@@ -95,22 +95,22 @@
     text-decoration-line: underline;
 
     &:hover {
-      text-decoration-color: var(--colors-gray-11);
+      text-decoration-color: var(--colors-gray-900);
     }
   }
 
   blockquote {
     padding: var(--spacing-2) var(--spacing-3);
     font-size: var(--font-sizes-md);
-    color: var(--colors-gray-10);
-    background-color: var(--colors-gray-a-2);
-    border-left: var(--spacing-½) solid var(--colors-gray-6);
+    color: var(--colors-gray-900);
+    background-color: var(--colors-gray-a-50);
+    border-left: var(--spacing-½) solid var(--colors-gray-500);
 
     cite {
       display: block;
       font-size: var(--font-sizes-xs);
       line-height: var(--line-heights-sm);
-      color: var(--colors-gray-11);
+      color: var(--colors-gray-900);
     }
   }
 
@@ -166,7 +166,7 @@
       font-size: var(--font-sizes-sm);
       font-weight: var(--font-weights-bold);
       background-color: var(--colors-white);
-      border: 1px solid var(--colors-gray-6);
+      border: 1px solid var(--colors-gray-500);
       border-radius: var(--radii-4);
       transition: background-color 0.2s ease-out;
     }
@@ -182,11 +182,11 @@
 
     &[open] {
       background-color: var(--colors-white);
-      border: 1px solid var(--colors-gray-6);
+      border: 1px solid var(--colors-gray-500);
       border-radius: var(--radii-4);
 
       summary {
-        background-color: var(--colors-gray-3);
+        background-color: var(--colors-gray-100);
         border: none;
         border-radius: 0;
       }
@@ -195,7 +195,7 @@
     &:not([open]) {
       summary {
         &:hover {
-          background-color: var(--colors-gray-3);
+          background-color: var(--colors-gray-100);
         }
       }
     }
@@ -216,7 +216,7 @@
       display: block;
       width: 100%;
       height: var(--spacing-1);
-      color: var(--colors-gray-6);
+      color: var(--colors-gray-400);
       content: '';
       background-image: repeating-linear-gradient(
         -45deg,

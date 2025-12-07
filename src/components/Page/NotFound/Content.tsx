@@ -32,7 +32,7 @@ const Header = styled.header`
 
   p {
     font-size: var(--font-sizes-sm);
-    color: var(--colors-gray-11);
+    color: var(--colors-gray-900);
   }
 `;
 
@@ -41,10 +41,10 @@ const AnchorStyle = css`
   padding: var(--spacing-1) var(--spacing-2);
   margin-inline: auto;
   font-size: var(--font-sizes-sm);
-  background-color: var(--colors-gray-3);
+  background-color: var(--colors-gray-100);
   border-radius: var(--radii-4);
 
   &:hover {
-    background-color: var(--colors-gray-4);
+    background-color: var(--colors-gray-200);
   }
 `;

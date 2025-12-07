@@ -45,7 +45,7 @@ const Root = styled.footer`
     height: 100%;
     pointer-events: none;
     content: '';
-    background-color: var(--colors-gray-a-3);
+    background-color: var(--colors-gray-a-100);
     clip-path: polygon(0 max(20vw, 300px), 100% 0, 100% 100%, 0 100%);
   }
 `;
@@ -55,7 +55,7 @@ const ContainerStyle = css`
   gap: var(--spacing-2);
   margin: auto;
   font-size: var(--font-sizes-md);
-  color: var(--colors-gray-12);
+  color: var(--colors-gray-1000);
 `;
 
 const LogoContainer = styled.div`
@@ -74,5 +74,5 @@ const Nav = styled.nav`
 const copyrightStyle = css`
   font-size: var(--font-sizes-xs);
   font-weight: var(--font-weights-bold);
-  color: var(--colors-gray-11);
+  color: var(--colors-gray-900);
 `;

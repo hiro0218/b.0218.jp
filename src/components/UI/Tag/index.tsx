@@ -64,6 +64,6 @@ const Count = styled.span`
   font-variant-numeric: tabular-nums;
   line-height: var(--line-heights-sm);
   user-select: none;
-  background-color: var(--colors-gray-a-3);
+  background-color: var(--colors-gray-a-100);
   border-radius: var(--radii-8);
 `;

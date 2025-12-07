@@ -77,17 +77,17 @@ const mainStyle = css`
 const headerTitleStyle = css`
   font-weight: var(--font-weight, --font-weights-normal);
   line-height: var(--line-heights-sm);
-  color: var(--colors-gray-12);
+  color: var(--colors-gray-1000);
   overflow-wrap: break-word;
 `;
 
 const sideStyle = css`
-  color: var(--colors-gray-11);
+  color: var(--colors-gray-900);
 `;
 
 const headerSubStyle = css`
   margin-top: var(--spacing-1);
   font-weight: var(--font-weights-normal);
-  color: var(--colors-gray-11);
+  color: var(--colors-gray-900);
   overflow-wrap: break-word;
 `;

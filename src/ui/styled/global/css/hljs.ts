@@ -1,5 +1,4 @@
 import { defineGlobalStyles } from '@pandacss/dev';
-import { blue, gray, green, orange, pink, purple, red, sky, teal, yellow } from '@radix-ui/colors';
 
 type StyleProps<T> = {
   key: string;
@@ -98,20 +97,19 @@ function applyHighlights() {
 
 export const hljsCss = defineGlobalStyles({
   [`.${PREFIX}`]: {
-    // variables
-    [`--${PREFIX}-purple`]: purple.purple11,
-    [`--${PREFIX}-red`]: red.red11,
-    [`--${PREFIX}-yellow`]: yellow.yellow11,
-    [`--${PREFIX}-sky`]: sky.sky11,
-    [`--${PREFIX}-teal`]: teal.teal11,
-    [`--${PREFIX}-pink`]: pink.pink11,
-    [`--${PREFIX}-green`]: green.green11,
-    [`--${PREFIX}-blue`]: blue.blue11,
-    [`--${PREFIX}-orange`]: orange.orange11,
-    [`--${PREFIX}-gray11`]: gray.gray11,
-    [`--${PREFIX}-gray10`]: gray.gray10,
-    [`--${PREFIX}-gray9`]: gray.gray9,
-    [`--${PREFIX}-gray8`]: gray.gray8,
+    [`--${PREFIX}-purple`]: '{colors.purple.1200}',
+    [`--${PREFIX}-red`]: '{colors.red.1200}',
+    [`--${PREFIX}-yellow`]: '{colors.yellow.1200}',
+    [`--${PREFIX}-sky`]: '{colors.sky.1200}',
+    [`--${PREFIX}-teal`]: '{colors.teal.1200}',
+    [`--${PREFIX}-pink`]: '{colors.pink.1200}',
+    [`--${PREFIX}-green`]: '{colors.green.1200}',
+    [`--${PREFIX}-blue`]: '{colors.blue.1200}',
+    [`--${PREFIX}-orange`]: '{colors.orange.1200}',
+    [`--${PREFIX}-gray11`]: '{colors.gray.900}', // comment
+    [`--${PREFIX}-gray10`]: '{colors.gray.900}', // comment
+    [`--${PREFIX}-gray9`]: '{colors.gray.800}',
+    [`--${PREFIX}-gray8`]: '{colors.gray.600}',
 
     // styles
     ...applyHighlights(),
