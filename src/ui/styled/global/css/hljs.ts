@@ -97,7 +97,6 @@ function applyHighlights() {
 
 export const hljsCss = defineGlobalStyles({
   [`.${PREFIX}`]: {
-    // variables
     [`--${PREFIX}-purple`]: '{colors.purple.1200}',
     [`--${PREFIX}-red`]: '{colors.red.1200}',
     [`--${PREFIX}-yellow`]: '{colors.yellow.1200}',
@@ -107,10 +106,10 @@ export const hljsCss = defineGlobalStyles({
     [`--${PREFIX}-green`]: '{colors.green.1200}',
     [`--${PREFIX}-blue`]: '{colors.blue.1200}',
     [`--${PREFIX}-orange`]: '{colors.orange.1200}',
-    [`--${PREFIX}-gray11`]: '{colors.gray.900}',
-    [`--${PREFIX}-gray10`]: '{colors.gray.900}',
-    [`--${PREFIX}-gray9`]: '{colors.gray.900}',
-    [`--${PREFIX}-gray8`]: '{colors.gray.800}',
+    [`--${PREFIX}-gray11`]: '{colors.gray.900}', // comment
+    [`--${PREFIX}-gray10`]: '{colors.gray.900}', // comment
+    [`--${PREFIX}-gray9`]: '{colors.gray.800}',
+    [`--${PREFIX}-gray8`]: '{colors.gray.600}',
 
     // styles
     ...applyHighlights(),
