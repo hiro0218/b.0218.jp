@@ -1,9 +1,9 @@
 import { defineConfig } from '@pandacss/dev';
-import { keyframes } from '@/ui/styled/animations';
-import { dataCss, hljsCss } from '@/ui/styled/globalCss';
-import { semanticTokens } from '@/ui/styled/semanticTokens';
-import { tokens } from '@/ui/styled/tokens';
-import globalVars from '@/ui/styled/variables';
+import { dataCss, hljsCss } from '@/ui/styled/global/css';
+import globalVars from '@/ui/styled/global/vars';
+import { keyframes } from '@/ui/styled/theme/keyframes';
+import { semanticTokens } from '@/ui/styled/theme/semanticTokens';
+import { tokens } from '@/ui/styled/theme/tokens';
 
 export default defineConfig({
   // Whether to use css reset

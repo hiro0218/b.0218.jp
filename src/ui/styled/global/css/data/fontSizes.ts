@@ -1,5 +1,5 @@
 import type { GlobalStyleObject } from '@pandacss/types';
-import { fontSizesHeading } from '@/ui/styled/tokens/fontSizes';
+import { fontSizesHeading } from '@/ui/styled/theme/tokens/fontSizes';
 
 type FontSizeHeadingDataAttr = `data-font-size-h='${string}'`;
 type FontSizeHeadingCSSProps = Record<'fontSize', `var(${string})`>;

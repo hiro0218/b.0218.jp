@@ -45,6 +45,6 @@ const Button = styled.button`
   }
 
   svg {
-    color: var(--colors-gray-12);
+    color: var(--colors-gray-1000);
   }
 `;

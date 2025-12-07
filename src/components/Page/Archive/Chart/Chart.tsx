@@ -51,7 +51,7 @@ const ChartItem = styled.div`
 `;
 
 const AnchorStyle = css`
-  --fill: var(--colors-gray-3);
+  --fill: var(--colors-gray-100);
   --direction: to top;
 
   position: relative;
@@ -63,7 +63,7 @@ const AnchorStyle = css`
   font-size: var(--font-sizes-xs);
   font-variant-numeric: tabular-nums;
   line-height: var(--line-heights-sm);
-  color: var(--colors-gray-11);
+  color: var(--colors-gray-900);
   background: linear-gradient(var(--direction), var(--fill) var(--percent), transparent var(--percent));
 
   @media (--isMobile) {
@@ -75,11 +75,11 @@ const AnchorStyle = css`
   }
 
   &:hover {
-    --fill: var(--colors-gray-4);
+    --fill: var(--colors-gray-200);
   }
 
   &:active,
   &:focus-visible {
-    --fill: var(--colors-gray-5);
+    --fill: var(--colors-gray-300);
   }
 `;

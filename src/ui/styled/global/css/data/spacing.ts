@@ -1,5 +1,5 @@
 import type { GlobalStyleObject } from '@pandacss/types';
-import { SPACE_KEYS, Spaces } from '@/ui/styled/tokens/spacing';
+import { SPACE_KEYS, Spaces } from '@/ui/styled/theme/tokens/spacing';
 
 export const spacingDataStyles: GlobalStyleObject = (() => {
   const styles: GlobalStyleObject = {};

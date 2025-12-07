@@ -196,38 +196,38 @@ const paginationButtonStyle = css`
   aspect-ratio: 1;
   font-size: var(--font-sizes-sm);
   font-variant-numeric: tabular-nums;
-  color: var(--colors-gray-11);
+  color: var(--colors-gray-900);
   cursor: pointer;
   border-radius: var(--radii-full);
   transition: background-color 0.1s ease-out;
 
   &[disabled] {
-    color: var(--colors-gray-12);
+    color: var(--colors-gray-1000);
     pointer-events: none;
     cursor: not-allowed;
-    background-color: var(--colors-gray-5);
+    background-color: var(--colors-gray-300);
 
     &[data-arrow-button] {
-      color: var(--colors-gray-11);
+      color: var(--colors-gray-900);
       background-color: transparent;
     }
   }
 
   &:not([disabled]) {
     &:hover {
-      color: var(--colors-gray-12);
-      background-color: var(--colors-gray-4);
+      color: var(--colors-gray-1000);
+      background-color: var(--colors-gray-200);
     }
     &:active {
-      color: var(--colors-gray-12);
-      background-color: var(--colors-gray-5);
+      color: var(--colors-gray-1000);
+      background-color: var(--colors-gray-300);
     }
     &:focus-visible {
-      color: var(--colors-gray-12);
-      background-color: var(--colors-gray-5);
+      color: var(--colors-gray-1000);
+      background-color: var(--colors-gray-300);
       box-shadow:
-        0 0 0 2px var(--colors-gray-1),
-        0 0 0 4px var(--colors-gray-8);
+        0 0 0 2px var(--colors-gray-25),
+        0 0 0 4px var(--colors-gray-800);
     }
   }
 `;
@@ -239,7 +239,7 @@ const EllipsisIndicator = styled.span`
   height: var(--sizes-icon-lg);
   aspect-ratio: 1;
   line-height: 1;
-  color: var(--colors-gray-11);
+  color: var(--colors-gray-900);
   pointer-events: none;
   user-select: none;
   background-color: transparent;
@@ -251,5 +251,5 @@ const PageCountDisplay = styled.span`
   justify-content: center;
   padding: 0 var(--spacing-1);
   font-size: var(--font-sizes-sm);
-  color: var(--colors-gray-11);
+  color: var(--colors-gray-900);
 `;

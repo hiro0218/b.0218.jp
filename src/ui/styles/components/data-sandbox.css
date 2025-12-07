@@ -1,5 +1,5 @@
 [data-sandbox] {
   margin: var(--spacing-3) auto;
-  border: 1px solid var(--colors-gray-6);
+  border: 1px solid var(--colors-gray-400);
   border-radius: var(--radii-4);
 }

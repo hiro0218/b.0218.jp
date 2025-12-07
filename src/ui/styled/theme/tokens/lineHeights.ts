@@ -1,4 +1,4 @@
-import { getStep } from '@/ui/styled/tokens/fontSizes/utils';
+import { getStep } from '@/ui/styled/theme/tokens/fontSizes/utils';
 import type { TokenValues } from './types';
 
 const lineHeightsValues: TokenValues<'lineHeights'> = {

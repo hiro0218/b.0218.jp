@@ -80,19 +80,19 @@ const Message = styled.div`
   font-size: var(--font-sizes-xs);
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-xs);
-  color: var(--colors-gray-9);
+  color: var(--colors-gray-900);
 `;
 
 const SearchFooter = styled.footer`
   padding: var(--spacing-1) var(--spacing-1);
   font-size: var(--font-sizes-xs);
-  color: var(--colors-gray-11);
+  color: var(--colors-gray-900);
   text-align: right;
-  background-color: var(--colors-gray-a-2);
-  border-top: 1px solid var(--colors-gray-6);
+  background-color: var(--colors-gray-a-50);
+  border-top: 1px solid var(--colors-gray-400);
 
   a {
-    color: var(--colors-gray-11);
+    color: var(--colors-gray-900);
     text-decoration: none;
 
     &:hover {
@@ -109,7 +109,7 @@ const SearchFooter = styled.footer`
     padding: var(--spacing-½);
     margin: 0 var(--spacing-½);
     font-size: var(--font-sizes-xs);
-    background-color: var(--colors-gray-a-3);
+    background-color: var(--colors-gray-a-100);
     border-radius: var(--radii-4);
   }
 `;

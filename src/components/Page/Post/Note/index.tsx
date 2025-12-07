@@ -21,8 +21,8 @@ const ContainerStyle = css`
   padding: var(--spacing-2);
   font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-md);
-  color: var(--colors-accent-11);
-  background-color: var(--colors-accent-3);
+  color: var(--colors-accent-1200);
+  background-color: var(--colors-accent-200);
   border-radius: var(--radii-8);
 
   a {

@@ -34,16 +34,16 @@ const Anchor = styled.a`
   height: 120px;
   margin: var(--spacing-3) 0;
   overflow: hidden;
-  color: var(--colors-gray-12);
+  color: var(--colors-gray-1000);
   text-decoration: none;
   text-decoration-line: unset;
   background-color: var(--colors-white);
-  border: 1px solid var(--colors-gray-7);
+  border: 1px solid var(--colors-gray-700);
   border-radius: var(--radii-8);
 
   &:hover {
-    background-color: var(--colors-gray-2);
-    border-color: var(--colors-gray-8);
+    background-color: var(--colors-gray-50);
+    border-color: var(--colors-gray-800);
   }
 
   &[target='_blank']::after {
@@ -82,7 +82,7 @@ const BodyTitle = styled.span`
 const BodyDescription = styled.span`
   margin-top: var(--spacing-½);
   font-size: var(--font-sizes-sm);
-  color: var(--colors-gray-11);
+  color: var(--colors-gray-900);
 
   @media (--isMobile) {
     display: none;
@@ -92,7 +92,7 @@ const BodyDescription = styled.span`
 const BodyUrl = styled.span`
   display: block;
   font-size: var(--font-sizes-xs);
-  color: var(--colors-gray-11);
+  color: var(--colors-gray-900);
 `;
 
 const Thumbnail = styled.span`

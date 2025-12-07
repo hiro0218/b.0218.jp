@@ -1,7 +1,7 @@
 import type { NamedExoticComponent, ReactNode } from 'react';
 
 import { css, cx, styled } from '@/ui/styled';
-import type { SpaceGap } from '@/ui/styled/tokens/spacing';
+import type { SpaceGap } from '@/ui/styled/theme/tokens/spacing';
 import { textEllipsis } from '@/ui/styled/utilities';
 
 type Props = {
