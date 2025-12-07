@@ -1,4 +1,4 @@
-import colorPalette from '@adobe/spectrum-tokens/src/color-palette.json';
+import colorPalette from '@adobe/spectrum-tokens/src/color-palette.json' with { type: 'json' };
 
 // Adobe Spectrum カラーパレットの型定義
 interface ColorValue {
@@ -52,6 +52,8 @@ type ColorTokens = {
   purple: ColorScale<RegularColorScale>;
   red: ColorScale<RegularColorScale>;
   yellow: ColorScale<RegularColorScale>;
+  white: ColorToken;
+  black: ColorToken;
 
   // 別名カラー
   grass: ColorScale<RegularColorScale>;
@@ -133,8 +135,8 @@ const colorTokens: ColorTokens = {
   purple: createSolidColorScale('purple', REGULAR_COLOR_SCALES),
   red: createSolidColorScale('red', REGULAR_COLOR_SCALES),
   yellow: createSolidColorScale('yellow', REGULAR_COLOR_SCALES),
-
-  // 別名カラー
+  white: { value: colorPalette.white.value },
+  black: { value: colorPalette.black.value },
   grass: createSolidColorScale('green', REGULAR_COLOR_SCALES),
   sky: createSolidColorScale('cyan', REGULAR_COLOR_SCALES),
   teal: createSolidColorScale('magenta', REGULAR_COLOR_SCALES),
