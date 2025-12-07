@@ -1,6 +1,5 @@
 import colorPalette from '@adobe/spectrum-tokens/src/color-palette.json' with { type: 'json' };
 
-// Adobe Spectrum カラーパレットの型定義
 interface ColorValue {
   sets?: {
     light?: { value: string };
@@ -9,8 +8,6 @@ interface ColorValue {
   value?: string | number;
 }
 
-// Adobe Spectrum スケール定義
-// Adobe Spectrum カラースケールの型定義
 type RegularColorScale =
   | 100
   | 200
@@ -76,7 +73,6 @@ const REGULAR_COLOR_SCALES = [
 const GRAY_SCALES = [25, 50, 75, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000] as const;
 const TRANSPARENT_SCALES = [25, 50, 75, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000] as const;
 
-// ソリッドカラースケール生成
 function createSolidColorScale<T extends readonly number[]>(colorName: string, scales: T): ColorScale<T[number]> {
   const scale: Record<string, { value: string }> = {};
 
@@ -92,7 +88,6 @@ function createSolidColorScale<T extends readonly number[]>(colorName: string, s
   return scale as ColorScale<T[number]>;
 }
 
-// 透明カラースケール生成
 function createTransparentColorScale(spectrumPrefix: string): ColorScale<TransparentScale> {
   const scale: Record<string, { value: string }> = {};
 
@@ -108,7 +103,6 @@ function createTransparentColorScale(spectrumPrefix: string): ColorScale<Transpa
   return scale as ColorScale<TransparentScale>;
 }
 
-// ダークテーマカラースケール生成
 function createDarkColorScale(colorName: string): ColorScale<GrayScale> {
   const scale: Record<string, { value: string }> = {};
 
@@ -124,7 +118,6 @@ function createDarkColorScale(colorName: string): ColorScale<GrayScale> {
   return scale as ColorScale<GrayScale>;
 }
 
-// 全カラースケールを生成
 const colorTokens: ColorTokens = {
   // ソリッドカラー
   blue: createSolidColorScale('blue', REGULAR_COLOR_SCALES),
