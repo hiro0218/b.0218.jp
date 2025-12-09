@@ -34,7 +34,7 @@ const Root = styled.nav`
   }
 
   a {
-    color: var(--colors-gray-1000);
+    color: var(--colors-gray-900);
 
     &:hover {
       text-decoration: underline;
@@ -71,8 +71,6 @@ const IconContainer = styled.div`
   place-items: center;
   width: var(--sizes-icon-md);
   height: var(--sizes-icon-md);
-  background-color: var(--colors-gray-a-100);
-  border-radius: var(--radii-full);
 `;
 
 const Summary = styled.summary`

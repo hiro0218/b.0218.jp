@@ -9,22 +9,25 @@ const tags = getTagsWithCount();
 export const dynamic = 'force-static';
 
 const pages = [
-  '',
-  'popular',
-  'tags',
-  'archive',
+  { path: '', priority: 1.0, usesLatestPostDate: true, changeFrequency: 'daily' as const },
+  { path: 'popular', priority: 0.8, usesLatestPostDate: true, changeFrequency: 'daily' as const },
+  { path: 'archive', priority: 0.8, usesLatestPostDate: true, changeFrequency: 'daily' as const },
+  { path: 'tags', priority: 0.5, usesLatestPostDate: true, changeFrequency: 'weekly' as const },
   // @todo generate from pages.json
-  'about',
-  'privacy',
+  { path: 'about', priority: 0.5, usesLatestPostDate: false, changeFrequency: 'yearly' as const },
+  { path: 'privacy', priority: 0.5, usesLatestPostDate: false, changeFrequency: 'yearly' as const },
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pageList: MetadataRoute.Sitemap = pages.map((page) => {
+  // 最新記事の日付を取得
+  const latestPostDate = posts.length > 0 ? posts[0].date : undefined;
+
+  const pageList: MetadataRoute.Sitemap = pages.map(({ path, priority, usesLatestPostDate, changeFrequency }) => {
     return {
-      url: `${SITE_URL}/${page}`,
-      lastModified: new Date().toISOString(),
-      changeFrequency: 'weekly',
-      priority: 0.5,
+      url: `${SITE_URL}/${path}`,
+      lastModified: usesLatestPostDate ? latestPostDate : undefined,
+      changeFrequency,
+      priority,
     };
   });
 
@@ -35,17 +38,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     return {
       url: permalink,
       lastModified: post.date,
-      changeFrequency: 'weekly',
-      priority: 0.5,
+      changeFrequency: 'monthly',
+      priority: 0.7,
       images: [ogpImage],
     };
   });
 
   const tagList: MetadataRoute.Sitemap = tags.map(({ slug }) => {
     const permalink = `${SITE_URL}/tags/${slug}`;
+    // このタグを持つ記事の最新日付を取得
+    const tagPosts = posts.filter((post) => post.tags.includes(slug));
+    const latestTagPostDate = tagPosts.length > 0 ? tagPosts[0].date : undefined;
+
     return {
       url: permalink,
-      lastModified: new Date().toISOString(),
+      lastModified: latestTagPostDate,
       changeFrequency: 'weekly',
       priority: 0.5,
     };

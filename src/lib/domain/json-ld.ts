@@ -30,7 +30,7 @@ export const getDescriptionText = (postContent: string): string => {
     .replace(/<\/?[^>]+(>|$)/g, '') // HTMLタグを削除
     .replace(/\s+/g, ' ') // 連続するスペースを1つのスペースに置換
     .trim() // 先頭と末尾のスペースを削除
-    .substring(0, 140); // 140文字に切り詰め
+    .substring(0, 160); // 160文字に切り詰め（Google推奨）
 };
 
 export const getAboutPageStructured = ({

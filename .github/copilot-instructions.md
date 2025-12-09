@@ -35,6 +35,7 @@ src/
 
 - **Zero Margin**: Components don't set their own margins - parent controls spacing
 - **Container Sizes**: small (768px), default (1024px), large (1280px)
+- **UI/UX Guidelines**: See [@docs/ui-ux-guidelines.md](docs/ui-ux-guidelines.md) (principles) and [@docs/ui-ux-implementation.md](docs/ui-ux-implementation.md) (implementation)
 - **Layer Dependencies**:
 
 ```mermaid
