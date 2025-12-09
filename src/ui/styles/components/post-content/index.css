@@ -1,5 +1,6 @@
 .post-content {
   font-size: var(--font-sizes-post-content);
+  line-height: var(--line-heights-lg);
   color: var(--colors-gray-700);
 
   & > * {
@@ -50,13 +51,11 @@
   }
 
   h2 {
+    padding-bottom: var(--spacing-½);
     margin-top: var(--spacing-6);
     margin-bottom: var(--spacing-3);
     line-height: var(--line-heights-md);
-
-    &:not(:has(+ h3)) {
-      border-bottom: 1px solid var(--colors-gray-400);
-    }
+    border-bottom: 1px solid var(--colors-gray-400);
 
     &:first-of-type {
       margin-top: auto;
@@ -101,16 +100,16 @@
 
   blockquote {
     padding: var(--spacing-2) var(--spacing-3);
-    font-size: var(--font-sizes-md);
-    color: var(--colors-gray-900);
+    font-size: var(--font-sizes-sm);
+    color: var(--colors-gray-700);
     background-color: var(--colors-gray-a-50);
-    border-left: var(--spacing-½) solid var(--colors-gray-500);
+    border-left: var(--spacing-½) solid var(--colors-gray-400);
 
     cite {
       display: block;
       font-size: var(--font-sizes-xs);
       line-height: var(--line-heights-sm);
-      color: var(--colors-gray-900);
+      color: var(--colors-gray-600);
     }
   }
 
@@ -166,7 +165,7 @@
       font-size: var(--font-sizes-sm);
       font-weight: var(--font-weights-bold);
       background-color: var(--colors-white);
-      border: 1px solid var(--colors-gray-500);
+      border: 1px solid var(--colors-gray-a-300);
       border-radius: var(--radii-4);
       transition: background-color 0.2s ease-out;
     }
@@ -182,7 +181,7 @@
 
     &[open] {
       background-color: var(--colors-white);
-      border: 1px solid var(--colors-gray-500);
+      border: 1px solid var(--colors-gray-a-400);
       border-radius: var(--radii-4);
 
       summary {
