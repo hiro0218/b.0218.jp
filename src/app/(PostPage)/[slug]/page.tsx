@@ -68,7 +68,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     },
     robots: {
       ['max-image-preview']: 'large',
-      ...(noindex === true && { index: true }),
+      ...(noindex === true && { index: false }),
     },
   });
 }
