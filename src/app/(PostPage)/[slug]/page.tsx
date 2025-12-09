@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { slug: _slug } = await params;
   const slug = _slug.replace('.html', '');
   const data = getPostPageData(slug);
-  const { title, content, noindex, meta } = data.post;
+  const { title, content, noindex, meta, tagsWithCount } = data.post;
   const { publishedTime, modifiedTime } = meta;
   const permalink = getPermalink(slug);
   const description = getDescriptionText(content);
@@ -51,14 +51,12 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     openGraph: {
       type: 'article',
       images: [{ url: ogpImage }],
+      section: tagsWithCount[0]?.slug,
+      tags: tagsWithCount.map((tag) => tag.slug),
+      publishedTime,
+      modifiedTime: modifiedTime || publishedTime,
     },
     other: {
-      // biome-ignore lint/style/useNamingConvention: key names should remain unchanged
-      updated_time: modifiedTime || publishedTime,
-      // biome-ignore lint/style/useNamingConvention: key names should remain unchanged
-      published_time: publishedTime,
-      // biome-ignore lint/style/useNamingConvention: key names should remain unchanged
-      modified_time: modifiedTime || publishedTime,
       label1: 'Written by',
       data1: AUTHOR_NAME,
     },
