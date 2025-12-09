@@ -9,24 +9,24 @@ const tags = getTagsWithCount();
 export const dynamic = 'force-static';
 
 const pages = [
-  { path: '', priority: 1.0, usesLatestPostDate: true },
-  { path: 'popular', priority: 0.8, usesLatestPostDate: true },
-  { path: 'archive', priority: 0.8, usesLatestPostDate: true },
-  { path: 'tags', priority: 0.5, usesLatestPostDate: true },
+  { path: '', priority: 1.0, usesLatestPostDate: true, changeFrequency: 'daily' as const },
+  { path: 'popular', priority: 0.8, usesLatestPostDate: true, changeFrequency: 'daily' as const },
+  { path: 'archive', priority: 0.8, usesLatestPostDate: true, changeFrequency: 'daily' as const },
+  { path: 'tags', priority: 0.5, usesLatestPostDate: true, changeFrequency: 'weekly' as const },
   // @todo generate from pages.json
-  { path: 'about', priority: 0.5, usesLatestPostDate: false },
-  { path: 'privacy', priority: 0.5, usesLatestPostDate: false },
+  { path: 'about', priority: 0.5, usesLatestPostDate: false, changeFrequency: 'yearly' as const },
+  { path: 'privacy', priority: 0.5, usesLatestPostDate: false, changeFrequency: 'yearly' as const },
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // 最新記事の日付を取得
   const latestPostDate = posts.length > 0 ? posts[0].date : undefined;
 
-  const pageList: MetadataRoute.Sitemap = pages.map(({ path, priority, usesLatestPostDate }) => {
+  const pageList: MetadataRoute.Sitemap = pages.map(({ path, priority, usesLatestPostDate, changeFrequency }) => {
     return {
       url: `${SITE_URL}/${path}`,
       lastModified: usesLatestPostDate ? latestPostDate : undefined,
-      changeFrequency: 'weekly',
+      changeFrequency,
       priority,
     };
   });
@@ -38,7 +38,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     return {
       url: permalink,
       lastModified: post.date,
-      changeFrequency: 'weekly',
+      changeFrequency: 'monthly',
       priority: 0.7,
       images: [ogpImage],
     };
