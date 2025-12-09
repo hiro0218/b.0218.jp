@@ -9,20 +9,23 @@ const tags = getTagsWithCount();
 export const dynamic = 'force-static';
 
 const pages = [
-  { path: '', priority: 1.0 },
-  { path: 'popular', priority: 0.8 },
-  { path: 'archive', priority: 0.8 },
-  { path: 'tags', priority: 0.5 },
+  { path: '', priority: 1.0, usesLatestPostDate: true },
+  { path: 'popular', priority: 0.8, usesLatestPostDate: true },
+  { path: 'archive', priority: 0.8, usesLatestPostDate: true },
+  { path: 'tags', priority: 0.5, usesLatestPostDate: true },
   // @todo generate from pages.json
-  { path: 'about', priority: 0.5 },
-  { path: 'privacy', priority: 0.5 },
+  { path: 'about', priority: 0.5, usesLatestPostDate: false },
+  { path: 'privacy', priority: 0.5, usesLatestPostDate: false },
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pageList: MetadataRoute.Sitemap = pages.map(({ path, priority }) => {
+  // 最新記事の日付を取得
+  const latestPostDate = posts.length > 0 ? posts[0].date : undefined;
+
+  const pageList: MetadataRoute.Sitemap = pages.map(({ path, priority, usesLatestPostDate }) => {
     return {
       url: `${SITE_URL}/${path}`,
-      lastModified: new Date().toISOString(),
+      lastModified: usesLatestPostDate ? latestPostDate : undefined,
       changeFrequency: 'weekly',
       priority,
     };
@@ -43,9 +46,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const tagList: MetadataRoute.Sitemap = tags.map(({ slug }) => {
     const permalink = `${SITE_URL}/tags/${slug}`;
+    // このタグを持つ記事の最新日付を取得
+    const tagPosts = posts.filter((post) => post.tags.includes(slug));
+    const latestTagPostDate = tagPosts.length > 0 ? tagPosts[0].date : undefined;
+
     return {
       url: permalink,
-      lastModified: new Date().toISOString(),
+      lastModified: latestTagPostDate,
       changeFrequency: 'weekly',
       priority: 0.5,
     };
