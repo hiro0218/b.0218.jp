@@ -86,7 +86,6 @@ const Container = styled.div`
   time {
     font-size: var(--font-sizes-sm);
     line-height: var(--line-heights-xs);
-    color: var(--colors-gray-900);
   }
 `;
 

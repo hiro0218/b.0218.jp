@@ -14,6 +14,7 @@ function PostDate({ date, updated }: Props) {
         className={
           hasModified
             ? css`
+                color: var(--colors-gray-600);
                 text-decoration: line-through;
               `
             : undefined

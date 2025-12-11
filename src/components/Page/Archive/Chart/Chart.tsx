@@ -8,15 +8,17 @@ type Props = {
 };
 
 export const Chart = ({ archives, totalPosts }: Props) => {
+  const years = Object.keys(archives);
   const yearPercentages: Record<string, string> = {};
-  for (const year of Object.keys(archives)) {
+
+  for (const year of years) {
     const thisPosts = archives[year].length;
     yearPercentages[year] = `${(Math.round((thisPosts / totalPosts) * 100000) / 100).toFixed(2)}%`;
   }
 
   return (
     <Container>
-      {Object.keys(archives).map((year) => {
+      {years.map((year) => {
         const percentage = yearPercentages[year];
 
         return (
