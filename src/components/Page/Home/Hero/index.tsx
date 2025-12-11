@@ -69,7 +69,7 @@ const Heading = styled.h2`
   a {
     text-decoration-line: underline;
     text-decoration-thickness: 4px;
-    text-decoration-color: var(--colors-gray-800);
+    text-decoration-color: var(--colors-gray-700);
     text-underline-offset: 2%;
 
     &:hover {
@@ -81,4 +81,5 @@ const Heading = styled.h2`
 const paragraphStyle = css`
   grid-row: 2 / 3;
   grid-column: 2 / 3;
+  color: var(--colors-gray-600);
 `;
