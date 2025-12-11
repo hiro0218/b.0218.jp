@@ -67,7 +67,7 @@ a {
   color: var(--colors-gray-1000);
   overflow-wrap: break-word;
   text-decoration: none;
-  text-decoration-color: var(--colors-gray-800);
+  text-decoration-color: var(--colors-gray-500);
   text-underline-position: under;
   text-underline-offset: 4%;
   transition:
@@ -114,7 +114,7 @@ figure {
 
   figcaption {
     font-size: var(--font-sizes-sm);
-    color: var(--colors-gray-900);
+    color: var(--colors-gray-600);
   }
 }
 
@@ -182,7 +182,7 @@ code {
 }
 
 code {
-  color: var(--colors-gray-1000);
+  color: var(--colors-gray-800);
   overflow-wrap: break-word;
   background-color: var(--colors-gray-a-25);
   border-radius: var(--radii-4);
