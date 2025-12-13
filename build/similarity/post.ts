@@ -1,6 +1,5 @@
 import kuromoji, { type IpadicFeatures, type Tokenizer } from 'kuromoji';
 import type { Post, TagSimilarityScores } from '@/types/source';
-import { LRUCache } from './lru-cache';
 import { createError, type ErrorInfo, ErrorKind, failure, type Result, success, tryCatch } from './result';
 
 // 形態素解析時に除外する日本語ストップワード
@@ -76,9 +75,6 @@ const TAG_SIMILARITY_BASE_THRESHOLD = 0.5; // タグ類似度閾値
 const TAG_SIMILARITY_JACCARD_WEIGHT = 0.4; // ジャッカード係数重み
 const TAG_SIMILARITY_RELATED_WEIGHT = 0.6; // 関連度スコア重み
 
-// 処理効率化用のキャッシュサイズ
-const CACHE_SIZE = 1000;
-
 // エラー定義
 export const PostError = {
   // biome-ignore lint/style/useNamingConvention: エラー型の命名規則を維持
@@ -120,8 +116,8 @@ async function getTokenizer(): Promise<Result<Tokenizer<IpadicFeatures>, ErrorIn
 }
 
 // キャッシュの初期化
-const similarityCache = new LRUCache<string, number>(CACHE_SIZE);
-const tfIdfCache = new LRUCache<string, Record<string, number>>(CACHE_SIZE);
+const similarityCache = new Map<string, number>();
+const tfIdfCache = new Map<string, Record<string, number>>();
 
 /**
  * テキストを形態素解析し、意味のある単語の基本形配列を返す

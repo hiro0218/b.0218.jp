@@ -1,5 +1,4 @@
 import type { Post, TagIndex, TagSimilarityScores } from '@/types/source';
-import { LRUCache } from './lru-cache';
 import { createError, type ErrorInfo, ErrorKind, failure, type Result, success } from './result';
 
 type CoOccurrenceMatrix = Map<string, Map<string, number>>; // tag1 -> Map<tag2, count>
@@ -11,7 +10,7 @@ type TagRelationsMap = Map<string, Map<string, number>>; // tag1 -> Map<tag2, np
  * タグ関連度計算結果のキャッシュ
  * 同一または類似の入力に対する再計算を避けることでパフォーマンスを向上
  */
-const tagsRelationCache = new LRUCache<string, TagSimilarityScores>(20);
+const tagsRelationCache = new Map<string, TagSimilarityScores>();
 
 const MIN_CO_OCCURRENCE = 2; // 関連性を計算するための最小共起回数 (ノイズ除去)
 const MIN_TAG_FREQUENCY = 3; // 関連性を計算するタグの最小出現記事数 (低頻度タグ除外)
