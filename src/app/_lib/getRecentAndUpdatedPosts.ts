@@ -2,10 +2,6 @@ import type { Post, PostSummary } from '@/types/source';
 import { POST_DISPLAY_LIMIT, UPDATED_POST_DISPLAY_LIMIT } from './constants';
 import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';
 
-type Props = {
-  posts: (PostSummary | Post)[];
-};
-
 const filterPosts = (posts: (PostSummary | Post)[]): PostSummary[] => {
   return posts.map((post) => {
     const dateFormats = getDateAndUpdatedToSimpleFormat(post.date, post.updated);
@@ -19,7 +15,7 @@ const filterPosts = (posts: (PostSummary | Post)[]): PostSummary[] => {
   });
 };
 
-export const getRecentAndUpdatedPosts = ({ posts }: Props) => {
+export const getRecentAndUpdatedPosts = (posts: (PostSummary | Post)[]) => {
   const recentPosts = posts.slice(0, POST_DISPLAY_LIMIT);
   const filteredRecentPosts = filterPosts(recentPosts);
 

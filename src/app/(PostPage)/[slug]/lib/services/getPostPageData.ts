@@ -60,9 +60,7 @@ export function getPostPageData(slug: string): PostPageData | null {
   const rawSimilarPost = getSimilarPosts(normalizedSlug);
 
   // 最新記事の整形
-  const { recentPosts } = getRecentAndUpdatedPosts({
-    posts: allPosts,
-  });
+  const { recentPosts } = getRecentAndUpdatedPosts(allPosts);
 
   // 類似記事の整形
   let similarPost = formatSimilarPosts(rawSimilarPost);
