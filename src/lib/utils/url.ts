@@ -1,4 +1,4 @@
-import { SITE_URL } from '@/constant';
+import { SITE_URL } from '@/constants';
 
 export const convertPostSlugToPath = (slug: string) => {
   return `/${slug}.html` as const;

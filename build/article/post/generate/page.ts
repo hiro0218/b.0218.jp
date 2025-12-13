@@ -1,5 +1,5 @@
 import { read as matterRead } from 'gray-matter';
-import { FILENAME_PAGES } from '@/constant';
+import { FILENAME_PAGES } from '@/constants';
 import type { Page } from '@/types/source';
 import { writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';

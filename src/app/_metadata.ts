@@ -1,6 +1,6 @@
 import type { Metadata } from 'next/types';
 import type { PageSlug } from '@/components/Page/Single/types';
-import { SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
+import { SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constants';
 
 export const openGraph: Metadata['openGraph'] = {
   type: 'website',

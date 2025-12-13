@@ -1,5 +1,5 @@
 import { Anchor } from '@/components/UI/Anchor';
-import { SITE_NAME } from '@/constant';
+import { SITE_NAME } from '@/constants';
 import { css, cx } from '@/ui/styled';
 
 export const Logo = () => {

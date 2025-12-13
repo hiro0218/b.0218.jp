@@ -4,10 +4,10 @@ import { Chart } from '@/components/Page/Archive/Chart';
 import { Timeline } from '@/components/Page/Archive/Timeline';
 import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
-import { SITE_URL } from '@/constant';
+import { SITE_URL } from '@/constants';
 import { getPostsListJson } from '@/lib/data/posts';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
-import { getData } from './libs';
+import { getData } from './_lib';
 
 const posts = getPostsListJson();
 const archives = getData(posts);

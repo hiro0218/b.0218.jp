@@ -1,4 +1,4 @@
-import { FILENAME_POSTS_POPULAR } from '@/constant';
+import { FILENAME_POSTS_POPULAR } from '@/constants';
 import { writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
 import { getPopularArticles } from './ga';

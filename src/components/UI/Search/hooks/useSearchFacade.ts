@@ -3,11 +3,12 @@
 import { type RefObject, useCallback, useEffect, useMemo, useRef } from 'react';
 import type { UseSearchFacadeOptions, UseSearchFacadeReturn } from '../types';
 import { useKeyboardNavigation } from './useKeyboardNavigation';
-import { useLatestRef } from './useLatestRef';
 import { usePostsList } from './usePostsList';
-import { useSearchFocusManager } from './useSearchFocusManager';
+import { useSearchDOM } from './useSearchDOM';
+import { useSearchFocusState } from './useSearchFocusState';
 import { useSearchInput } from './useSearchInput';
 import { useSearchManager } from './useSearchManager';
+import { useSearchResultRefs } from './useSearchResultRefs';
 import { useSearchStatePersistence } from './useSearchStatePersistence';
 
 /**
@@ -26,12 +27,14 @@ export const useSearchFacade = ({
   });
   const { saveSearchState, loadSearchState } = useSearchStatePersistence();
 
-  const focusManager = useSearchFocusManager({
+  const { focusedIndex, setFocusedIndex, navigateToIndex, resetFocus } = useSearchFocusState({
     resultsLength: state.results.length,
+  });
+  const { focusInput, scrollToFocusedElement, updateDOMRefs } = useSearchDOM({
     dialogRef: dialogRef as RefObject<HTMLDialogElement>,
   });
-  const { focusedIndex, setFocusedIndex, resetAll: resetFocus, navigateToIndex } = focusManager.state;
-  const { setResultRef } = focusManager.results;
+  const { setResultRef, getResultRef, clearExcessRefs } = useSearchResultRefs();
+
   const savedStateRef = useRef<ReturnType<typeof loadSearchState>>(null);
   const hasHydratedResultsRef = useRef(false);
   const hasExecutedRestorationRef = useRef(false);
@@ -93,14 +96,19 @@ export const useSearchFacade = ({
     onClose();
   }, [resetFocus, onClose]);
 
-  const focusedIndexRef = useLatestRef(focusedIndex);
-  const stateRef = useLatestRef(state.results);
+  const focusedIndexRef = useRef(focusedIndex);
+  const resultsRef = useRef(state.results);
+
+  useEffect(() => {
+    focusedIndexRef.current = focusedIndex;
+    resultsRef.current = state.results;
+  }, [focusedIndex, state.results]);
 
   const { keyboardProps } = useKeyboardNavigation({
     onNavigate: navigateToIndex,
     onClose: handleCloseDialog,
     focusedIndexRef,
-    resultsRef: stateRef,
+    resultsRef,
   });
 
   const { handleSearchInput } = useSearchInput({
@@ -109,6 +117,24 @@ export const useSearchFacade = ({
     executeSearch,
     debouncedSearch,
   });
+
+  useEffect(() => {
+    if (focusedIndex === -1) {
+      focusInput();
+      return;
+    }
+
+    const targetElement = getResultRef(focusedIndex);
+    if (targetElement) {
+      targetElement.focus();
+      scrollToFocusedElement(targetElement);
+    }
+  }, [focusedIndex, getResultRef, focusInput, scrollToFocusedElement]);
+
+  useEffect(() => {
+    updateDOMRefs();
+    clearExcessRefs(state.results.length);
+  }, [state.results.length, updateDOMRefs, clearExcessRefs]);
 
   const ui = useMemo(
     () => ({

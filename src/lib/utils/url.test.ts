@@ -1,4 +1,4 @@
-import { SITE_URL } from '@/constant';
+import { SITE_URL } from '@/constants';
 
 import { convertPostSlugToPath, getOgpImage, getPermalink } from './url';
 

@@ -1,5 +1,5 @@
 import { read as matterRead } from 'gray-matter';
-import { FILENAME_POSTS } from '@/constant';
+import { FILENAME_POSTS } from '@/constants';
 import type { Post } from '@/types/source';
 import { mkdir, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';

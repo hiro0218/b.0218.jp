@@ -1,18 +1,52 @@
 # AI Assistant Instructions
 
-> **Note**: This file is the source for symlinks `AGENTS.md` and `CLAUDE.md`. They are not duplicates but references to this single source of truth, ensuring consistency across AI assistants.
+> **Note**: This file is the source for symlinks `AGENTS.md` and `CLAUDE.md` to enforce consistency among AI assistants.
+
+## Language Preference
+
+**IMPORTANT: Always respond in Japanese (日本語) unless explicitly asked otherwise.**
+
+- Use Japanese for all explanations, comments, and documentation
+- Technical terms and code may remain in English
+- Maintain professional tone in Japanese (ですます調)
 
 ## Project Overview
 
-Next.js 15.x blog with TypeScript, React 19.x, and Panda CSS. Japanese content focus with ML-powered features.
+- Next.js 16.x blog using TypeScript, React 19.x, and Panda CSS
+- Focused on Japanese content with ML-powered features
 
 ## 🔴 Critical Requirements
 
 ```bash
-# MUST run before any development/build
+# Run before ANY development/build
 npm run prebuild  # Updates submodules, processes content, generates assets
-npm run dev       # Development server on port 8080
+npm run dev       # Development server on port 8080 with HTTPS
 ```
+
+- **Dev Server URL**:
+  - ✅ Use: `https://localhost:8080` (HTTPS only)
+  - ❌ Do NOT use: `http://localhost:8080` (HTTP fails)
+  - Dev server launched with `--experimental-https` and a self-signed certificate
+
+## 🔴 Improvement Proposals: Guidelines
+
+**Project uses SSG (Static Site Generation)**
+
+When suggesting improvements or architectural changes:
+
+### Key Considerations
+
+- **Evidence-based**: When practical, verify current implementation before proposing changes
+- **Context-aware**: Consider SSG characteristics (build-time data loading, static generation)
+- **Appropriate patterns**: Use established approaches or design patterns when suitable for the context
+- **Check existing solutions**: Avoid duplicating existing utilities or patterns
+- **Balanced scope**: Propose changes appropriate to the problem size
+- **SSG-specific**: Remember that data loads at build time, and Client Components are minimal
+
+### What to Avoid
+
+- Over-engineering with patterns designed for dynamic backends or SPAs (e.g., Repository pattern, complex error handling)
+- Runtime solutions for build-time problems
 
 ## Architecture
 
@@ -21,94 +55,66 @@ npm run dev       # Development server on port 8080
 ```
 src/
 ├── app/              # Next.js App Router (routes)
-├── components/       # Component hierarchy
-│   ├── App/         # Application shell (Header, Footer, Layout)
-│   ├── Page/        # Page-specific components
-│   │   └── _shared/ # Shared page sections
-│   ├── UI/          # Reusable UI components (zero-margin principle)
-│   └── Functional/  # Utility components (Container, JsonLd)
-├── ui/              # Styling system
-└── types/           # TypeScript definitions
+├── components/       # Components
+│   ├── App/          # App shell (Header, Footer, Layout)
+│   ├── Page/         # Page-specific components
+│   │   └── _shared/  # Shared sections
+│   ├── UI/           # Reusable UI components (zero-margin)
+│   └── Functional/   # Utility components
+├── ui/               # Styling
+└── types/            # Typescript types
 ```
 
 ### Component Principles
 
-- **Zero Margin**: Components don't set their own margins - parent controls spacing
+- **Zero Margin**: No self-margins; parents control spacing
 - **Container Sizes**: small (768px), default (1024px), large (1280px)
-- **UI/UX Guidelines**: See [@docs/ui-ux-guidelines.md](docs/ui-ux-guidelines.md) (principles) and [@docs/ui-ux-implementation.md](docs/ui-ux-implementation.md) (implementation)
-- **Layer Dependencies**:
-
-```mermaid
-graph TD
-    A[src/app] --> B[App/]
-    B --> C[Page/]
-    C --> D[UI/]
-    C --> E[Functional/]
-```
-
-- UI and Functional are **independent layers** with no mutual dependencies
-- All layer dependencies are statically enforced by Biome (see biome.json)
+- **See**: [docs/ui-ux-guidelines.md](../docs/ui-ux-guidelines.md)
+- **Layer Dependencies**: Enforced by Biome (`biome.json`)
+- UI and Functional are independent layers
 
 ### Layer Responsibilities
 
 #### App/
-- **Purpose**: Application-wide structure and layout
-- **Examples**: Header, Footer, Layout
-- **Characteristics**:
-  - Singleton-like components
-  - Can depend on lower layers only
-  - Defines the overall application shell
+
+- App structure, layout
+- Singleton-like
+- Depends only on lower layers
 
 #### Page/
-- **Purpose**: Page-specific logic and components
-- **Examples**: Post components, Archive components, Home components
-- **Characteristics**:
-  - Contains business logic
-  - `Page/_shared/` for sections shared across multiple pages
-  - Can depend on UI and Functional layers only
-  - Cannot depend on App layer
+
+- Page business logic/components
+- Shared sections in `Page/_shared/`
+- Depends on UI/Functional
+- Does NOT depend on App/
 
 #### UI/
-- **Purpose**: Reusable visual presentation components
-- **Examples**: Button, Card, Modal, Tooltip, Alert, LinkMore
-- **Characteristics**:
-  - Follows Zero Margin principle
-  - No dependencies on other component layers
-  - Pure visual components with no business logic
+
+- Visual, reusable components (Button, Card, Modal, etc.)
+- No business logic
+- Zero margin
+- No dependencies on other component layers
 
 #### Functional/
-- **Purpose**: Functional utility components without visual representation
-- **Examples**: PreconnectLinks, ReadingHistoryRecorder
-- **Characteristics**:
-  - No visual output (or minimal)
-  - Handles metadata, optimization, and utility functions
-  - No dependencies on other component layers
+
+- Non-visual utilities (e.g., PreconnectLinks)
+- Handles metadata, optimization
+- No dependencies on component layers
 
 ### Architecture Rationale
 
-This layered architecture provides:
-- **Clear separation of concerns**: Each layer has a single, well-defined responsibility
-- **Maintainability**: Changes are localized to specific layers
-- **Testability**: Layers can be tested independently
-- **Scalability**: New features can be added without affecting existing layers
-- **Static verification**: Biome enforces all dependency rules at compile time
+- Separation of concerns
+- Maintainability, testability, and scalability
+- Biome enforces static dependencies
 
-## Development Workflow
+## Workflow & Tooling
 
-### Essential Commands
+See "Quick Reference" section below for essential commands.
 
-```bash
-npm run prebuild     # Required before dev/build
-npm run dev          # Development server
-npm run build        # Production build
-npm run lint         # Biome linting (fast)
-npm test             # Vitest tests
-```
-
-### Styling System
+### Styling
 
 ```tsx
-// Panda CSS - Use template literals only
+// Panda CSS example
 import { css, styled } from '@/ui/styled';
 
 const StyledDiv = styled.div`
@@ -124,114 +130,64 @@ const StyledDiv = styled.div`
 
 ## Content Architecture
 
-1. **Source**: Git submodule `_article/_posts/*.md` (DO NOT edit directly)
-2. **Processing**: `npm run prebuild` generates JSON files
-3. **Consumption**: Static generation uses processed JSON
+1. **Source:** `_article/_posts/*.md` Git submodule (DO NOT edit direct)
+2. **Processing:** `npm run prebuild` → JSON
+3. **Consumption:** SSG uses JSON output
 
 ## Coding Standards
 
-### TypeScript
+- TypeScript strict mode, explicit types for public APIs, type-only imports
+- React: App Router, Server Components by default, `'use client'` only if needed
+- Import order: external libs, internal utilities, components, types, styles/constants
+- File naming: PascalCase for components, camelCase for utilities, UPPER_SNAKE for constants
+- **Comments**: Follow @.github/prompts/comment-rule.prompt.md (JSDoc for public APIs only, no redundant comments)
 
-- Strict mode enabled
-- Explicit types for all public APIs
-- Type-only imports where applicable
+## Performance
 
-### React/Next.js
-
-- App Router patterns (not Pages Router)
-- Server Components by default
-- Client Components only when needed (`'use client'`)
-
-### Import Order
-
-1. External libraries
-2. Internal utilities (`@/lib`, `@/utils`)
-3. Components (`@/components`)
-4. Types (`@/types`)
-5. Styles and constants
-
-### File Naming
-
-- Components: PascalCase (`PostContent.tsx`)
-- Utilities: camelCase (`getPostData.ts`)
-- Constants: UPPER_SNAKE (`MAX_POSTS`)
-
-## Performance Optimization
-
-- Static generation with ISR-like updates
-- Code splitting via route groups
-- Image optimization with Next.js Image
+- Static generation with ISR-style rebuilds
+- Route-based code splitting
+- Next.js Image optimization
 - Bundle analysis: `npm run build:analyzer`
 
-## Testing Strategy
+## Testing
 
-- Unit tests for utilities and hooks
-- Integration tests for critical paths
-- Coverage target: 80%
+- Unit tests for utilities/hooks, integration tests for critical paths
+- 80% coverage target
 
-## Common Patterns
+## Patterns
 
 ### Data Fetching
 
 ```typescript
-// Use in Server Components
 async function getData() {
   const posts = await import('@/posts.json');
   return posts.default;
 }
 ```
 
-### Error Handling
-
-```typescript
-// Result type for functional error handling
-import { Result } from '@/build/similarity/result';
-```
-
 ## Important Notes
 
-1. **Japanese Content**: Special text processing for Japanese morphological analysis
-2. **Build Dependencies**: Playwright required (`playwright install --only-shell`)
-3. **Environment**: `TZ=Asia/Tokyo` for consistent timestamps
-4. **Pre-commit**: Husky hooks with nano-staged configured
-
-## Quick Verification
-
-For rapid feedback after code changes, use these targeted commands:
-
-```bash
-# Type-check specific file only (fastest)
-npx tsc --noEmit --skipLibCheck src/components/MyComponent.tsx
-
-# Lint specific file only
-npx @biomejs/biome check src/hooks/useDialog.ts
-
-# Test specific file/pattern only
-npm test -- useDialog        # Tests matching "useDialog"
-npm test -- src/hooks/       # All tests in hooks directory
-
-# Build without linting (faster build)
-npx next build --no-lint --webpack
-
-# Build specific page only (experimental)
-npx next build --experimental-build-mode=compile --webpack
-
-# Hot reload already running (port 8080)
-# Just save the file - Next.js dev server auto-reloads
-```
+1. Japanese content: uses morphological analysis
+2. Build dependencies: Playwright (`playwright install --only-shell`)
+3. Environment: `TZ=Asia/Tokyo` for timestamps
+4. Pre-commit: Husky via nano-staged
 
 ## Quick Reference
 
-| Task              | Command                             |
-| ----------------- | ----------------------------------- |
-| Start development | `npm run prebuild && npm run dev`   |
-| Run tests         | `npm test`                          |
-| Check types       | `tsc --noEmit --skipLibCheck`       |
-| Lint code         | `npm run lint`                      |
-| Build production  | `npm run prebuild && npm run build` |
+| Task              | Command                               |
+| ----------------- | ------------------------------------- |
+| Start development | `npm run prebuild && npm run dev`     |
+| Dev server URL    | `https://localhost:8080` (HTTPS only) |
+| Run tests         | `npm test`                            |
+| Type check file   | `tsc --noEmit --skipLibCheck <file>`  |
+| Lint file         | `npx @biomejs/biome check <file>`     |
+| Lint all          | `npm run lint`                        |
+| Build production  | `npm run prebuild && npm run build`   |
+| Build (no lint)   | `npx next build --no-lint --webpack`  |
+| Bundle analysis   | `npm run build:analyzer`              |
 
 ---
 
-_Generated for GitHub Copilot, Cursor, and other AI assistants. Keep concise and actionable._
+_Generated for Copilot, Claude Code, and other AI assistants. Be concise and actionable._
 
-**IMPORTANT**: Do NOT modify files in `_article/` directory (Git submodule)
+**DO NOT modify files in `_article/` (Git submodule).**
