@@ -33,9 +33,9 @@
     "mokuji.js": "5.0.0",
     "next": "16.0.10",
     "next-scroll-restorer": "0.10.3",
-    "react": "19.2.1",
+    "react": "19.2.3",
     "react-aria": "3.44.0",
-    "react-dom": "19.2.1",
+    "react-dom": "19.2.3",
     "react-stately": "3.42.0",
     "shokika.css": "1.8.0"
   },
