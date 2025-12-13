@@ -1,6 +1,7 @@
-import { useCallback, useRef, useState } from 'react';
+'use client';
 
-import { useTimeout } from '@/hooks/useTimeout';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect';
 
 /**
  * 自動消去機能付きトースト通知の状態管理
@@ -18,13 +19,57 @@ export const useToast = (initialMessage: string, duration = 2000) => {
   const [message] = useState(initialMessage);
   const [isVisible, setIsVisible] = useState(false);
 
-  // 再レンダリング時に関数参照が変わることでuseEffectが不要に再実行されるのを防ぐ
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const delayRef = useRef<number | null>(isVisible ? duration : null);
+
   const dismiss = useCallback(() => {
     setIsVisible(false);
   }, []);
 
-  // トースト表示中のみタイマーを有効化し、非表示時は無駄なタイマーを防ぐ
-  const { cancel, reset } = useTimeout(dismiss, isVisible ? duration : null);
+  const dismissRef = useRef(dismiss);
+
+  useIsomorphicLayoutEffect(() => {
+    dismissRef.current = dismiss;
+  }, [dismiss]);
+
+  useIsomorphicLayoutEffect(() => {
+    delayRef.current = isVisible ? duration : null;
+  }, [isVisible, duration]);
+
+  const cancel = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+
+  const reset = useCallback(() => {
+    cancel();
+    const currentDelay = delayRef.current;
+    if (currentDelay !== null && currentDelay >= 0) {
+      timerRef.current = setTimeout(() => {
+        dismissRef.current();
+      }, currentDelay);
+    }
+  }, [cancel]);
+
+  useEffect(() => {
+    const delay = isVisible ? duration : null;
+
+    if (delay === null || delay < 0) {
+      return;
+    }
+
+    const id = setTimeout(() => {
+      dismissRef.current();
+    }, delay);
+
+    timerRef.current = id;
+
+    return () => {
+      clearTimeout(id);
+    };
+  }, [isVisible, duration]);
 
   /**
    * トーストを表示して自動消去タイマーを開始
@@ -32,7 +77,6 @@ export const useToast = (initialMessage: string, duration = 2000) => {
    */
   const showToast = useCallback(() => {
     setIsVisible(true);
-    // 新しい表示期間を開始するためタイマーをリセット
     reset();
   }, [reset]);
 
@@ -42,7 +86,6 @@ export const useToast = (initialMessage: string, duration = 2000) => {
    */
   const hideToast = useCallback(() => {
     dismiss();
-    // 即座に消去するため待機中のタイマーをキャンセル
     cancel();
   }, [dismiss, cancel]);
 
