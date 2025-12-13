@@ -1,14 +1,6 @@
 import type { Post, PostSummary } from '@/types/source';
 
 /**
- * 日付形式の簡易検証
- */
-export function isValidDate(dateStr: string): boolean {
-  // ISO8601形式の基本パターンのみ
-  return dateStr.length > 0 && dateStr.includes('T');
-}
-
-/**
  * Post型ガード
  */
 export function isPost(value: unknown): value is Post {
@@ -31,7 +23,7 @@ export function isPost(value: unknown): value is Post {
 /**
  * PostSummary型ガード
  */
-export function isPostSummary(value: unknown): value is PostSummary {
+function isPostSummary(value: unknown): value is PostSummary {
   if (typeof value !== 'object' || value === null) {
     return false;
   }

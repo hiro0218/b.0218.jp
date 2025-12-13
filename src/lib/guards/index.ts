@@ -1,1 +1,1 @@
-export { isPost, isPostArray, isPostSummary, isPostSummaryArray } from './source';
+export { isPost, isPostArray, isPostSummaryArray } from './source';
