@@ -4,38 +4,24 @@ import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleForm
 
 type Props = {
   posts: (PostSummary | Post)[];
-  options?: {
-    withoutContent?: boolean;
-  };
 };
 
-const filterPosts = ({ posts, options }: Props): PostSummary[] => {
-  const { withoutContent = true } = options || {};
-
+const filterPosts = (posts: (PostSummary | Post)[]): PostSummary[] => {
   return posts.map((post) => {
     const dateFormats = getDateAndUpdatedToSimpleFormat(post.date, post.updated);
-    const result: PostSummary = {
+    return {
       title: post.title,
       slug: post.slug,
       date: dateFormats.date,
       updated: dateFormats.updated,
       tags: post.tags,
     };
-
-    if (!withoutContent && 'content' in post) {
-      return { ...result, content: post.content, note: post.note };
-    }
-
-    return result;
   });
 };
 
-export const getRecentAndUpdatedPosts = ({ posts, options }: Props) => {
+export const getRecentAndUpdatedPosts = ({ posts }: Props) => {
   const recentPosts = posts.slice(0, POST_DISPLAY_LIMIT);
-  const filteredRecentPosts = filterPosts({
-    posts: recentPosts,
-    options,
-  });
+  const filteredRecentPosts = filterPosts(recentPosts);
 
   const recentSlugs = new Set(recentPosts.map(({ slug }) => slug));
 
@@ -44,10 +30,7 @@ export const getRecentAndUpdatedPosts = ({ posts, options }: Props) => {
     .toSorted((a, b) => b.updated.localeCompare(a.updated))
     .slice(0, UPDATED_POST_DISPLAY_LIMIT);
 
-  const filteredUpdatedPosts = filterPosts({
-    posts: updatesPosts,
-    options,
-  });
+  const filteredUpdatedPosts = filterPosts(updatesPosts);
 
   return {
     recentPosts: filteredRecentPosts,
