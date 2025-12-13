@@ -1,5 +1,5 @@
 import { Feed } from 'feed';
-import { AUTHOR_NAME, SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constant';
+import { AUTHOR_NAME, SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constants';
 import { getPostsJson } from '@/lib/data/posts';
 import { getDescriptionText } from '@/lib/domain/json-ld';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';

@@ -1,5 +1,5 @@
 import type { Post, PostSummary } from '@/types/source';
-import { POST_DISPLAY_LIMIT, UPDATED_POST_DISPLAY_LIMIT } from './constant';
+import { POST_DISPLAY_LIMIT, UPDATED_POST_DISPLAY_LIMIT } from './constants';
 import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';
 
 type Props = {

@@ -6,7 +6,7 @@ import { useCallback, useId, useSyncExternalStore } from 'react';
 import { Stack } from '@/components/UI/Layout';
 import { Toast, useToast } from '@/components/UI/Toast';
 import { Tooltip } from '@/components/UI/Tooltip';
-import { X_ACCOUNT } from '@/constant';
+import { X_ACCOUNT } from '@/constants';
 import useCopyToClipboard from '@/hooks/useCopyToClipboard';
 import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, Share1Icon, X } from '@/ui/icons';
 import { css, cx } from '@/ui/styled';

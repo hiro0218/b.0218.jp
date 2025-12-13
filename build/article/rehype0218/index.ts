@@ -1,7 +1,7 @@
 import type { Element, Root } from 'hast';
 import { visit } from 'unist-util-visit';
 
-import { SITE_URL } from '@/constant';
+import { SITE_URL } from '@/constants';
 import transformCodeblock from './transform/codeblock';
 import transformImage from './transform/image';
 import transformLinkPreview from './transform/linkPreview';

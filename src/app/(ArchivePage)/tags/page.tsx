@@ -2,7 +2,7 @@ import type { Metadata } from 'next/types';
 import { getMetadata } from '@/app/_metadata';
 import { TagSection } from '@/components/Page/_shared/TagSection';
 import { Title } from '@/components/UI/Title';
-import { SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
+import { SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
 import { getTagsWithCount } from '@/lib/data/posts';
 import { getWebPageStructured } from '@/lib/domain/json-ld';
 

@@ -4,7 +4,7 @@ import { getData } from '@/app/(ArchivePage)/popular/lib/getData';
 import { Sidebar, Stack } from '@/components/UI/Layout';
 import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
-import { SITE_URL } from '@/constant';
+import { SITE_URL } from '@/constants';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 
 const { popularPosts } = getData();

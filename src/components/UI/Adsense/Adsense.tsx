@@ -1,7 +1,7 @@
 import { usePathname } from 'next/navigation';
 import { type CSSProperties, useEffect } from 'react';
 
-import { GOOGLE_ADSENSE } from '@/constant';
+import { GOOGLE_ADSENSE } from '@/constants';
 import { useBoolean } from '@/hooks/useBoolean';
 import { css, styled } from '@/ui/styled';
 

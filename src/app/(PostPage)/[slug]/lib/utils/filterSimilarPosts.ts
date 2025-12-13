@@ -1,6 +1,6 @@
-import { UPDATED_POST_DISPLAY_LIMIT } from '@/app/libs/constant';
-import { getDateAndUpdatedToSimpleFormat } from '@/app/libs/getDateAndUpdatedToSimpleFormat';
-import { getTagPosts } from '@/app/libs/getTagPosts';
+import { UPDATED_POST_DISPLAY_LIMIT } from '@/app/_lib/constants';
+import { getDateAndUpdatedToSimpleFormat } from '@/app/_lib/getDateAndUpdatedToSimpleFormat';
+import { getTagPosts } from '@/app/_lib/getTagPosts';
 import type { ArticleSummary } from '@/types/source';
 
 /** 代替記事のメモリキャッシュ */

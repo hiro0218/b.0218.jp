@@ -1,6 +1,6 @@
 import { getMetadata, PAGE_CONFIGS } from '@/app/_metadata';
 import Template from '@/components/Page/Single/Template';
-import { SITE_URL } from '@/constant';
+import { SITE_URL } from '@/constants';
 
 export const metadata = getMetadata({
   title: PAGE_CONFIGS.about.title,

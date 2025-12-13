@@ -1,4 +1,4 @@
-import { getPopularPost } from '@/app/libs/getPopularPost';
+import { getPopularPost } from '@/app/_lib/getPopularPost';
 import { getPostsListJson } from '@/lib/data/posts';
 import type { PostSummary } from '@/types/source';
 

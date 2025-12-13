@@ -1,9 +1,9 @@
-import { getFilteredPosts } from '@/app/libs/getFilteredPosts';
-import { getPopularPost } from '@/app/libs/getPopularPost';
-import { getRecentAndUpdatedPosts } from '@/app/libs/getRecentAndUpdatedPosts';
+import { getFilteredPosts } from '@/app/_lib/getFilteredPosts';
+import { getPopularPost } from '@/app/_lib/getPopularPost';
+import { getRecentAndUpdatedPosts } from '@/app/_lib/getRecentAndUpdatedPosts';
 import { getTagsWithCount } from '@/lib/data/posts';
 
-import { IGNORE_TAGS, POPULAR_POST_DISPLAY_LIMIT } from './constant';
+import { IGNORE_TAGS, POPULAR_POST_DISPLAY_LIMIT } from './constants';
 
 const tagsWithCount = getTagsWithCount();
 

@@ -1,7 +1,7 @@
 import { memo } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
-import { TAG_VIEW_LIMIT } from '@/constant';
+import { TAG_VIEW_LIMIT } from '@/constants';
 import { styled } from '@/ui/styled';
 import { postTagAnchor } from '@/ui/styled/components';
 
