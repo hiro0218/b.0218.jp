@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
 import { getMetadata } from '@/app/_metadata';
-import { SITE_URL } from '@/constant';
+import { SITE_URL } from '@/constants';
 
 const slug = 'history';
 const title = 'History';

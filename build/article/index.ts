@@ -1,5 +1,5 @@
 import { loadEnvConfig } from '@next/env';
-import { FILENAME_POSTS_LIST } from '@/constant';
+import { FILENAME_POSTS_LIST } from '@/constants';
 import type { Post } from '@/types/source';
 import { copyDir, copyFile, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';

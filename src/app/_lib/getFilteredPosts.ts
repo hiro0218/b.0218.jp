@@ -1,6 +1,6 @@
 import { getPostsListJson } from '@/lib/data/posts';
 import type { PostSummary } from '@/types/source';
-import { IGNORE_TAGS } from './constant';
+import { IGNORE_TAGS } from './constants';
 
 const posts = getPostsListJson();
 

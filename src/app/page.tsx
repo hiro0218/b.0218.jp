@@ -5,9 +5,9 @@ import { Hero } from '@/components/Page/Home';
 import Heading from '@/components/UI/Heading';
 import { Box, Sidebar, Stack } from '@/components/UI/Layout';
 import { Container } from '@/components/UI/Layout/Container';
-import { SITE_URL } from '@/constant';
+import { SITE_URL } from '@/constants';
 import { getOrganizationStructured, getWebSiteStructured } from '@/lib/domain/json-ld';
-import { getData } from './libs';
+import { getData } from './_lib';
 
 const data = getData();
 const { recentPosts, updatesPosts, popularPosts, tags } = data;

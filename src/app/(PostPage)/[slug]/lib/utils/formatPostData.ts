@@ -1,4 +1,4 @@
-import { getDateAndUpdatedToSimpleFormat } from '@/app/libs/getDateAndUpdatedToSimpleFormat';
+import { getDateAndUpdatedToSimpleFormat } from '@/app/_lib/getDateAndUpdatedToSimpleFormat';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import type { Post } from '@/types/source';
 

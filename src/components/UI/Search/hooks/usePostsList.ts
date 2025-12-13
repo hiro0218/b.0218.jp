@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { FILENAME_POSTS_LIST, FILENAME_POSTS_POPULAR } from '@/constant';
+import { FILENAME_POSTS_LIST, FILENAME_POSTS_POPULAR } from '@/constants';
 import { clearOldCache, getLocalStorage, setLocalStorage } from '@/lib/browser/safeLocalStorage';
 import type { PostSummary } from '@/types/source';
 

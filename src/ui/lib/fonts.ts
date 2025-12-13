@@ -1,4 +1,4 @@
-import { BREAKPOINT as MAX_VIEWPORT } from '@/constant';
+import { BREAKPOINT as MAX_VIEWPORT } from '@/constants';
 
 const BASE_FONT_SIZE = 16;
 

@@ -1,7 +1,8 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
-import useTwitterWidgetsLoad from '@/hooks/useTwitterWidgetsLoad';
+import { useEffect } from 'react';
 
 type PostWidgetManagerProps = {
   children: ReactNode;
@@ -12,7 +13,18 @@ type PostWidgetManagerProps = {
  * Twitterなどのウィジェット読み込みを管理
  */
 export function PostWidgetManager({ children, contentRef }: PostWidgetManagerProps) {
-  useTwitterWidgetsLoad({ ref: contentRef });
+  const pathname = usePathname();
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: This effect should re-run when the pathname changes to load Twitter widgets for the new page.
+  useEffect(() => {
+    if (!contentRef.current) {
+      return;
+    }
+
+    if ('twttr' in window) {
+      window.twttr?.widgets.load(contentRef.current);
+    }
+  }, [pathname, contentRef]);
 
   return <section ref={contentRef}>{children}</section>;
 }

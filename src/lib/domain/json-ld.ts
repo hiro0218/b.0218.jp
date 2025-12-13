@@ -10,7 +10,7 @@ import type {
   WithContext,
 } from 'schema-dts';
 
-import { AUTHOR_ICON, AUTHOR_NAME, SITE_NAME, SITE_URL, URL } from '@/constant';
+import { AUTHOR_ICON, AUTHOR_NAME, SITE_NAME, SITE_URL, URL } from '@/constants';
 import type { Post } from '@/types/source';
 
 import { getOgpImage, getPermalink } from '../utils/url';

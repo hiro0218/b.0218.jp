@@ -1,5 +1,5 @@
-import { getRecentAndUpdatedPosts } from '@/app/libs/getRecentAndUpdatedPosts';
-import { isPost, isPostArray } from '@/types/guards';
+import { getRecentAndUpdatedPosts } from '@/app/_lib/getRecentAndUpdatedPosts';
+import { isPost, isPostArray } from '@/lib/guards';
 import type { ArticleSummary } from '@/types/source';
 import { getPost, getSimilarPosts, getSimilarTags, getTagsWithCountFromSlugs } from '../data';
 import { formatPostData, formatSimilarPosts, getAlternativePosts } from '../utils';

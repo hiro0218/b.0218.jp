@@ -1,4 +1,4 @@
-import type { ArchiveListProps } from '@/app/(ArchivePage)/archive/libs';
+import type { ArchiveListProps } from '@/app/(ArchivePage)/archive/_lib';
 import { Anchor } from '@/components/UI/Anchor';
 import { css, styled } from '@/ui/styled';
 

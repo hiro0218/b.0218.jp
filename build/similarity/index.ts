@@ -1,4 +1,4 @@
-import { FILENAME_POSTS_SIMILARITY, FILENAME_TAG_SIMILARITY } from '@/constant';
+import { FILENAME_POSTS_SIMILARITY, FILENAME_TAG_SIMILARITY } from '@/constants';
 import type { Post, TagIndex } from '@/types/source';
 import { readJSON, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';

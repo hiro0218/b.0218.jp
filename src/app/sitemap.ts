@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { SITE_URL } from '@/constant';
+import { SITE_URL } from '@/constants';
 import { getPostsListJson, getTagsWithCount } from '@/lib/data/posts';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';
 

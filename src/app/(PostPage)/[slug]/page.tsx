@@ -12,7 +12,7 @@ import PostNote from '@/components/Page/Post/Note';
 import PostShare from '@/components/Page/Post/Share';
 import { Stack } from '@/components/UI/Layout';
 import { Container } from '@/components/UI/Layout/Container';
-import { AUTHOR_NAME } from '@/constant';
+import { AUTHOR_NAME } from '@/constants';
 import { getPostsJson } from '@/lib/data/posts';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/domain/json-ld';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';

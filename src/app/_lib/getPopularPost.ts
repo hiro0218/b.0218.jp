@@ -1,6 +1,6 @@
 import { type getPostsListJson, getPostsPopular } from '@/lib/data/posts';
 import type { PostSummary } from '@/types/source';
-import { IGNORE_SLUGS } from './constant';
+import { IGNORE_SLUGS } from './constants';
 import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';
 
 const popularPostsSlugs = getPostsPopular();

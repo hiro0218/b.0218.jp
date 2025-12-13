@@ -1,4 +1,4 @@
-import { SITE_URL } from '@/constant';
+import { SITE_URL } from '@/constants';
 import type { PostSummary } from '@/types/source';
 import { readJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';

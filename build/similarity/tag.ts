@@ -1,6 +1,4 @@
 import type { Post, TagIndex, TagSimilarityScores } from '@/types/source';
-import { LRUCache } from './lru-cache';
-import { createError, type ErrorInfo, ErrorKind, failure, type Result, success } from './result';
 
 type CoOccurrenceMatrix = Map<string, Map<string, number>>; // tag1 -> Map<tag2, count>
 type TagDocFrequency = Map<string, number>; // tag -> count
@@ -11,7 +9,7 @@ type TagRelationsMap = Map<string, Map<string, number>>; // tag1 -> Map<tag2, np
  * タグ関連度計算結果のキャッシュ
  * 同一または類似の入力に対する再計算を避けることでパフォーマンスを向上
  */
-const tagsRelationCache = new LRUCache<string, TagSimilarityScores>(20);
+const tagsRelationCache = new Map<string, TagSimilarityScores>();
 
 const MIN_CO_OCCURRENCE = 2; // 関連性を計算するための最小共起回数 (ノイズ除去)
 const MIN_TAG_FREQUENCY = 3; // 関連性を計算するタグの最小出現記事数 (低頻度タグ除外)
@@ -41,32 +39,20 @@ function generateCacheKey(posts: Post[], tagsList: TagIndex): string {
   return `${postsCount}_${tagsCount}_${maxTagsInPost}`;
 }
 
-// エラー定義
-export const TagError = {
-  // biome-ignore lint/style/useNamingConvention: エラー型の命名規則を維持
-  InvalidInput: (message: string): ErrorInfo => createError(ErrorKind.INVALID_INPUT, message),
-  // biome-ignore lint/style/useNamingConvention: エラー型の命名規則を維持
-  ProcessingError: (message: string, cause?: unknown): ErrorInfo =>
-    createError(ErrorKind.PROCESSING_ERROR, message, cause),
-};
-
 /**
  * タグの出現頻度と共起行列を計算
  * 記事ごとにタグの出現頻度と共起情報を1パスで収集し、メモリ効率と計算効率を最適化
  * @param posts 全記事リスト
  * @param tagsList タグごとの記事リスト - 有効なタグの確認用
- * @returns tagDocFrequency と coOccurrenceMatrix を含むオブジェクトのResult
+ * @returns tagDocFrequency と coOccurrenceMatrix を含むオブジェクト
  */
 function buildFrequencyAndCoOccurrence(
   posts: Post[],
   tagsList: TagIndex,
-): Result<
-  {
-    tagDocFrequency: TagDocFrequency;
-    coOccurrenceMatrix: CoOccurrenceMatrix;
-  },
-  ErrorInfo
-> {
+): {
+  tagDocFrequency: TagDocFrequency;
+  coOccurrenceMatrix: CoOccurrenceMatrix;
+} {
   try {
     const tagDocFrequency: TagDocFrequency = new Map();
     const coOccurrenceMatrix: CoOccurrenceMatrix = new Map();
@@ -148,9 +134,10 @@ function buildFrequencyAndCoOccurrence(
         }
       }
     }
-    return success({ tagDocFrequency, coOccurrenceMatrix });
+    return { tagDocFrequency, coOccurrenceMatrix };
   } catch (error) {
-    return failure(TagError.ProcessingError('共起行列の構築に失敗しました', error));
+    console.error('[build/similarity/tag] 共起行列の構築に失敗:', error);
+    throw error;
   }
 }
 
@@ -161,14 +148,14 @@ function buildFrequencyAndCoOccurrence(
  * @param coOccurrenceMatrix 共起回数行列
  * @param tagDocFrequency 各タグの出現記事数
  * @param totalPosts 全記事数
- * @returns タグ関連度情報 - 値はNPMIスコア [-1, 1] のResult
+ * @returns タグ関連度情報 - 値はNPMIスコア [-1, 1]
  */
 function calculateTagRelationsNPMI(
   tagsList: TagIndex,
   coOccurrenceMatrix: CoOccurrenceMatrix,
   tagDocFrequency: TagDocFrequency,
   totalPosts: number,
-): Result<TagRelationsMap, ErrorInfo> {
+): TagRelationsMap {
   try {
     const tagRelations: TagRelationsMap = new Map();
 
@@ -252,9 +239,10 @@ function calculateTagRelationsNPMI(
         }
       }
     }
-    return success(tagRelations);
+    return tagRelations;
   } catch (error) {
-    return failure(TagError.ProcessingError('タグ関連度の計算に失敗しました', error));
+    console.error('[build/similarity/tag] タグ関連度の計算に失敗:', error);
+    throw error;
   }
 }
 
@@ -262,9 +250,9 @@ function calculateTagRelationsNPMI(
  * タグ関連度情報を関連度の高い順にソートする (Map入力 -> 通常オブジェクト出力)
  * 最適化されたデータ構造変換と効率的なソート処理
  * @param tagRelationsMap 計算されたタグ関連度情報 (Map)
- * @returns ソート済みのタグ関連度情報 (通常のオブジェクト形式 TagSimilarityMap) のResult
+ * @returns ソート済みのタグ関連度情報 (通常のオブジェクト形式 TagSimilarityMap)
  */
-function sortTagRelations(tagRelationsMap: TagRelationsMap): Result<TagSimilarityScores, ErrorInfo> {
+function sortTagRelations(tagRelationsMap: TagRelationsMap): TagSimilarityScores {
   try {
     // 結果オブジェクトの事前割り当て - タグ数に基づく適切なサイズ
     const sortedTags: TagSimilarityScores = Object.create(null); // プロトタイプチェーンのないオブジェクト
@@ -298,9 +286,10 @@ function sortTagRelations(tagRelationsMap: TagRelationsMap): Result<TagSimilarit
       sortedTags[tag] = sortedRelatedTags; // 通常のオブジェクト形式で格納
     }
 
-    return success(sortedTags);
+    return sortedTags;
   } catch (error) {
-    return failure(TagError.ProcessingError('タグ関連度のソートに失敗しました', error));
+    console.error('[build/similarity/tag] タグ関連度のソートに失敗:', error);
+    throw error;
   }
 }
 
@@ -339,29 +328,18 @@ export function getRelatedTags(posts: Post[], tagsList: TagIndex): TagSimilarity
   const totalPosts = posts.length;
 
   // 1. ドキュメント頻度と共起行列を1回のループで作成
-  const frequencyAndCoOccurrenceResult = buildFrequencyAndCoOccurrence(posts, tagsList);
-
-  if (frequencyAndCoOccurrenceResult.isFailure()) {
-    return {};
-  }
-
-  const { tagDocFrequency, coOccurrenceMatrix } = frequencyAndCoOccurrenceResult.value;
+  const { tagDocFrequency, coOccurrenceMatrix } = buildFrequencyAndCoOccurrence(posts, tagsList);
 
   // 2. NPMIに基づいてタグ関連度を計算 (確率事前計算)
-  const tagRelationsMapResult = calculateTagRelationsNPMI(
+  const tagRelationsMap = calculateTagRelationsNPMI(
     tagsList, // 有効タグリストの元として必要
     coOccurrenceMatrix,
     tagDocFrequency,
     totalPosts,
   );
 
-  if (tagRelationsMapResult.isFailure()) {
-    return {};
-  }
-
   // 3. 関連度の高い順にソート (結果は通常のオブジェクト形式に戻す)
-  const sortResult = sortTagRelations(tagRelationsMapResult.value);
-  const result = sortResult.isSuccess() ? sortResult.value : {};
+  const result = sortTagRelations(tagRelationsMap);
 
   // 有効な結果が得られた場合はキャッシュに格納
   if (Object.keys(result).length > 0) {
