@@ -4,7 +4,7 @@
 
 ## 技術スタック準拠
 
-### Next.js 15.x App Router
+### Next.js 16.x App Router
 
 - **ページコンポーネント**: `export default function PageName() {}`
 - **レイアウト**: `layout.tsx` でルートグループ固有の設定
