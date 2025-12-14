@@ -116,7 +116,7 @@ const titleStyle = css`
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-md);
   color: var(--colors-gray-1000);
-  transition: color 0.4s ease-out;
+  transition: color 0.2s ease-out;
 `;
 
 const Paragraph = styled.p`
