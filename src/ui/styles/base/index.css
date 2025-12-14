@@ -27,7 +27,6 @@ body {
   line-height: 1.875;
   color: var(--colors-gray-1000);
   line-break: strict;
-  text-rendering: optimizeLegibility;
   background-color: var(--colors-body-background);
   -webkit-font-smoothing: subpixel-antialiased;
 
