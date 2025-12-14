@@ -74,7 +74,7 @@ a {
     background-color 0.2s ease,
     opacity 0.2s ease,
     box-shadow 0.2s ease-out,
-    text-decoration-color 0.3s;
+    text-decoration-color 0.2s;
 
   &[target='_blank'] {
     /* img,svg が含まれていない a 要素には外部リンクアイコンを付与 */
@@ -278,7 +278,7 @@ tbody {
   }
 
   tr {
-    transition: background-color 0.3s ease-out;
+    transition: background-color 0.2s ease-out;
     &:hover {
       background-color: var(--colors-gray-a-100);
     }
@@ -311,9 +311,9 @@ del {
     overflow-y: clip;
     opacity: 0;
     transition:
-      height 0.8s var(--easings-ease-out-expo),
-      opacity 0.4s linear,
-      content-visibility 0.8s ease allow-discrete;
+      height 0.2s var(--easings-ease-out-expo),
+      opacity 0.2s linear,
+      content-visibility 0.2s ease allow-discrete;
   }
 
   details[open]::details-content {

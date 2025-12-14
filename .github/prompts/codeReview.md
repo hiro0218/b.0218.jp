@@ -30,7 +30,7 @@
 - **Result型**: エラーハンドリングでの関数型アプローチ
 - **パスマッピング**: 絶対パスでのimport
 
-### Next.js 15.x
+### Next.js 16.x
 
 - **App Router**: `page.tsx`, `layout.tsx`, `loading.tsx` の適切な使用
 - **メタデータAPI**: SEO最適化の実装

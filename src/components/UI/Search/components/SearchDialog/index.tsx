@@ -91,7 +91,7 @@ const Dialog = styled.dialog`
   border-radius: var(--radii-4);
   isolation: isolate;
   opacity: 0;
-  transition: top 0.4s ease-out;
+  transition: top 0.2s ease-out;
 
   &[open] {
     padding: 0;

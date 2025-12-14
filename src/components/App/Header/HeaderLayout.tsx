@@ -37,8 +37,8 @@ const Header = styled.header`
   pointer-events: none;
   isolation: isolate;
   transition:
-    transform 0.4s ease-out,
-    opacity 0.4s ease-out;
+    transform 0.2s ease-out,
+    opacity 0.2s ease-out;
 
   &[data-is-mounted='true'] {
     opacity: 1;
