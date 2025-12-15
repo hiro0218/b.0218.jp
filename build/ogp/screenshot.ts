@@ -201,6 +201,11 @@ else {
           await page.evaluate(async (title) => {
             document.getElementById('title').innerHTML = title;
 
+            // 既にフォントが読み込まれている場合
+            if (document.fonts.check('900 56px "Noto Sans JP"')) {
+              return;
+            }
+
             // Noto Sans JPフォントが確実に読み込まれるまで待機
             const waitForFont = async () => {
               const maxWaitTime = 1000;
@@ -228,6 +233,7 @@ else {
             fullPage: false,
             path: `${path.dist}/${slug}.jpg`,
             type: 'jpeg',
+            quality: 85,
           });
 
           completed++;
