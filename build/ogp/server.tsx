@@ -1,7 +1,5 @@
 import { type HttpBindings, serve } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
-import { cache } from 'hono/cache';
-import { compress } from 'hono/compress';
 import { secureHeaders } from 'hono/secure-headers';
 import { Hono } from 'hono/tiny';
 
@@ -34,18 +32,6 @@ app.use(
       fontSrc: ["'self'", 'https://fonts.gstatic.com'],
       imgSrc: ["'self'", 'data:'],
     },
-  }),
-);
-
-// gzip
-app.use(compress());
-
-// 静的ファイルのキャッシュ設定
-app.get(
-  '*',
-  cache({
-    cacheName: 'app',
-    cacheControl: 'max-age=31536000, immutable',
   }),
 );
 
