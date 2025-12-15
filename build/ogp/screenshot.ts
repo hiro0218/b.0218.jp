@@ -160,10 +160,12 @@ else {
       // 利用可能なページを取得
       const acquirePage = async (): Promise<{ page: Page; index: number }> => {
         while (true) {
-          const index = semaphore.findIndex((inUse) => !inUse);
-          if (index >= 0) {
-            semaphore[index] = true;
-            return { page: pagePool[index], index };
+          // アトミックな操作で競合状態を防ぐ
+          for (let i = 0; i < semaphore.length; i++) {
+            if (!semaphore[i]) {
+              semaphore[i] = true;
+              return { page: pagePool[i], index: i };
+            }
           }
           // 少し待機して再試行
           await new Promise((r) => setTimeout(r, 10));
@@ -245,18 +247,24 @@ else {
           } catch (_) {
             // リロードに失敗した場合、新しいページを作成
             try {
-              await page.close();
-              pagePool[pageIndex] = await browser.newPage({
+              const oldPage = page;
+              // 新しいページを先に作成してからcloseする（リソースリーク防止）
+              const newPage = await browser.newPage({
                 bypassCSP: true,
                 viewport: { width: 1200, height: 630 },
               });
-              await pagePool[pageIndex].goto(HOST, PAGE_GOTO_OPTIONS);
+              await newPage.goto(HOST, PAGE_GOTO_OPTIONS);
+              pagePool[pageIndex] = newPage;
+              // 新しいページの準備ができたら古いページをclose
+              await oldPage.close();
             } catch (newPageErr) {
               console.error('Failed to create new page:', newPageErr);
+              // 新しいページ作成に失敗しても、古いページは維持される
             }
           }
 
           process.send?.({ type: 'error', error: `Error processing ${post.slug}: ${err.toString()}` });
+          completed++; // エラー時もカウントして無限ループを防ぐ
         } finally {
           // ページを解放して次のタスクを開始
           releasePage(pageIndex);
