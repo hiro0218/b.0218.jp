@@ -208,24 +208,21 @@ else {
               return;
             }
 
-            // Noto Sans JPフォントが確実に読み込まれるまで待機
+            // Noto Sans JPフォントが読み込まれるまで最大1秒間ポーリングして待機
             const waitForFont = async () => {
               const maxWaitTime = 1000;
               const checkInterval = 50;
               const startTime = Date.now();
 
-              // 特定のフォントが読み込まれたことを確認
               while (Date.now() - startTime < maxWaitTime) {
-                const loaded = document.fonts.check('900 56px "Noto Sans JP"');
-                if (loaded) {
-                  return true;
+                if (document.fonts.check('900 56px "Noto Sans JP"')) {
+                  return;
                 }
                 await new Promise((resolve) => setTimeout(resolve, checkInterval));
               }
 
-              // タイムアウト後も document.fonts.ready を待つ
+              // タイムアウトした場合は、document.fonts.readyで最終的な読み込みを待つ
               await document.fonts.ready;
-              return false;
             };
 
             await waitForFont();
@@ -246,10 +243,11 @@ else {
             await page.reload({ timeout: 5000 });
           } catch (_) {
             // リロードに失敗した場合、新しいページを作成
+            let newPage: Page | undefined;
             try {
               const oldPage = page;
               // 新しいページを先に作成してからcloseする（リソースリーク防止）
-              const newPage = await browser.newPage({
+              newPage = await browser.newPage({
                 bypassCSP: true,
                 viewport: { width: 1200, height: 630 },
               });
@@ -259,7 +257,15 @@ else {
               await oldPage.close();
             } catch (newPageErr) {
               console.error('Failed to create new page:', newPageErr);
-              // 新しいページ作成に失敗しても、古いページは維持される
+              // 新しいページ作成中にエラーが発生した場合、作成途中のページをクリーンアップ
+              if (newPage && !pagePool.includes(newPage)) {
+                try {
+                  await newPage.close();
+                } catch (closeErr) {
+                  console.error('Failed to close orphaned page:', closeErr);
+                }
+              }
+              // 古いページは維持される
             }
           }
 
