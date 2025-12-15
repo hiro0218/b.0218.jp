@@ -140,9 +140,15 @@ else {
         // 初期ページ読み込み
         await page.goto(HOST, PAGE_GOTO_OPTIONS);
 
-        // キャッシュを温めるために初期レンダリング
-        await page.evaluate(() => {
+        // キャッシュを温めるために初期レンダリング（フォント読み込みを待機）
+        await page.evaluate(async () => {
           document.getElementById('title').innerHTML = 'Cache Warming';
+
+          // フォントを確実にキャッシュ（初回のみ時間がかかる）
+          const loaded = document.fonts.check('900 56px "Noto Sans JP"');
+          if (!loaded) {
+            await document.fonts.ready;
+          }
         });
 
         pagePool.push(page);
@@ -194,10 +200,28 @@ else {
           // 高速なDOM更新
           await page.evaluate(async (title) => {
             document.getElementById('title').innerHTML = title;
-            // フォント読み込みの最適化
-            const fontPromise = document.fonts.ready;
-            const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 250));
-            await Promise.race([fontPromise, timeoutPromise]);
+
+            // Noto Sans JPフォントが確実に読み込まれるまで待機
+            const waitForFont = async () => {
+              const maxWaitTime = 1000;
+              const checkInterval = 50;
+              const startTime = Date.now();
+
+              // 特定のフォントが読み込まれたことを確認
+              while (Date.now() - startTime < maxWaitTime) {
+                const loaded = document.fonts.check('900 56px "Noto Sans JP"');
+                if (loaded) {
+                  return true;
+                }
+                await new Promise((resolve) => setTimeout(resolve, checkInterval));
+              }
+
+              // タイムアウト後も document.fonts.ready を待つ
+              await document.fonts.ready;
+              return false;
+            };
+
+            await waitForFont();
           }, pageTitle);
 
           await page.screenshot({
