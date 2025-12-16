@@ -98,13 +98,7 @@ const Base: FC = (props) => {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-          rel="preload"
-          href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Noto+Sans+JP:wght@900&display=block"
-          as="style"
-          onload="this.onload=null;this.rel='stylesheet'"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Noto+Sans+JP:wght@900&display=block"
+          href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Noto+Sans+JP:wght@900&display=swap"
           rel="stylesheet"
         />
       </head>
