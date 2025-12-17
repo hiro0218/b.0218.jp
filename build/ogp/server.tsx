@@ -24,7 +24,8 @@ const sanitizeTitle = (title: string): string => {
 };
 
 app.get('/', (c) => {
-  const rawTitle = c.req.query('title') || DUMMY_TITLE;
+  const defaultTitle = OGP_CONFIG.debug ? DUMMY_TITLE : '';
+  const rawTitle = c.req.query('title') || defaultTitle;
   const title = sanitizeTitle(rawTitle);
 
   return c.html(<Template title={title} />);
