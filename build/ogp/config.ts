@@ -2,10 +2,6 @@ import * as os from 'node:os';
 import { cwd } from 'node:process';
 
 function validateConfig(config: typeof OGP_CONFIG): void {
-  if (config.server.port < 1024 || config.server.port > 65535) {
-    throw new Error(`Invalid server port: ${config.server.port}. Must be between 1024 and 65535.`);
-  }
-
   if (config.server.readyTimeout <= 0) {
     throw new Error('server.readyTimeout must be positive');
   }
@@ -33,8 +29,8 @@ function validateConfig(config: typeof OGP_CONFIG): void {
 
 export const OGP_CONFIG = {
   server: {
-    host: process.env.OGP_SERVER_HOST || 'http://localhost',
-    port: Number.parseInt(process.env.OGP_SERVER_PORT || '3000', 10),
+    host: 'http://localhost',
+    port: 3000,
     readyTimeout: 30000,
     readyCheckInterval: 500,
     shutdownTimeout: 5000,
