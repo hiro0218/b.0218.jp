@@ -81,7 +81,7 @@ export class OGPServerManager {
     while (Date.now() - startTime < OGP_CONFIG.server.readyTimeout) {
       try {
         const response = await fetch(this.serverUrl, {
-          signal: AbortSignal.timeout(2000),
+          signal: AbortSignal.timeout(OGP_CONFIG.server.healthCheckTimeout),
         });
 
         if (response.ok) {

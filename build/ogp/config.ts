@@ -17,6 +17,7 @@ export const OGP_CONFIG = {
     port: 3000,
     readyTimeout: 30000,
     readyCheckInterval: 500,
+    healthCheckTimeout: 2000,
     shutdownTimeout: 5000,
   },
   worker: {
