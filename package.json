@@ -38,9 +38,9 @@
     "next": "16.0.10",
     "next-scroll-restorer": "0.11.0",
     "react": "19.2.3",
-    "react-aria": "3.44.0",
+    "react-aria": "3.45.0",
     "react-dom": "19.2.3",
-    "react-stately": "3.42.0",
+    "react-stately": "3.43.0",
     "shokika.css": "1.8.0"
   },
   "devDependencies": {
