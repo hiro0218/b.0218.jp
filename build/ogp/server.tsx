@@ -1,6 +1,9 @@
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono/tiny';
 
+import * as Log from '~/tools/logger';
+
+import { OGP_CONFIG } from './config';
 import { Template } from './template';
 
 const app = new Hono();
@@ -27,6 +30,12 @@ app.get('/', (c) => {
   return c.html(<Template title={title} />);
 });
 
-serve(app, (info) => {
-  console.log(`Listening on http://localhost:${info.port}`);
-});
+serve(
+  {
+    fetch: app.fetch,
+    port: OGP_CONFIG.server.port,
+  },
+  (info) => {
+    Log.info('OGP Server', `Listening on http://localhost:${info.port}`);
+  },
+);
