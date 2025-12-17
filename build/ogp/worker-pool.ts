@@ -88,7 +88,7 @@ export class WorkerPool {
       let hasError = false;
       const errors: string[] = [];
 
-      const checkCompletion = (worker: NonNullable<ReturnType<typeof cluster.fork>>, code: number) => {
+      const handleWorkerExit = (worker: NonNullable<ReturnType<typeof cluster.fork>>, code: number) => {
         const workerInfo = this.workers.find((w) => w.worker === worker);
 
         if (code !== 0) {
@@ -109,7 +109,7 @@ export class WorkerPool {
         }
       };
 
-      cluster.on('exit', checkCompletion);
+      cluster.on('exit', handleWorkerExit);
     });
   }
 }
