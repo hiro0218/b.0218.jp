@@ -2,28 +2,12 @@ import * as os from 'node:os';
 import { cwd } from 'node:process';
 
 function validateConfig(config: typeof OGP_CONFIG): void {
-  if (config.server.readyTimeout <= 0) {
-    throw new Error('server.readyTimeout must be positive');
-  }
-
   if (config.worker.count <= 0) {
-    throw new Error('worker.count must be positive');
+    throw new Error('OGP_WORKERS must be a positive integer');
   }
 
   if (config.worker.pagesPerWorker <= 0) {
-    throw new Error('worker.pagesPerWorker must be positive');
-  }
-
-  if (config.screenshot.pageGotoTimeout <= 0) {
-    throw new Error('screenshot.pageGotoTimeout must be positive');
-  }
-
-  if (config.screenshot.viewport.width <= 0 || config.screenshot.viewport.height <= 0) {
-    throw new Error('screenshot.viewport dimensions must be positive');
-  }
-
-  if (config.output.quality < 0 || config.output.quality > 100) {
-    throw new Error(`Invalid output quality: ${config.output.quality}. Must be between 0 and 100.`);
+    throw new Error('OGP_PAGES_PER_WORKER must be a positive integer');
   }
 }
 
