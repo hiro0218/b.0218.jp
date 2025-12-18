@@ -4,8 +4,7 @@ import { IGNORE_SLUGS } from './constants';
 import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';
 
 const popularPostsSlugs = getPostsPopular();
-/** popularPostsSlugsを配列に変換し、数値が多い順にソート */
-const sortedSlugs = Object.entries(popularPostsSlugs).map(([slug]) => slug);
+const sortedSlugs = Object.keys(popularPostsSlugs);
 
 const createPostsMap = (posts: ReturnType<typeof getPostsListJson>) => {
   return new Map(posts.map((post) => [post.slug, post]));
