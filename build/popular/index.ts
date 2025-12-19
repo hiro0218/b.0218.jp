@@ -17,16 +17,18 @@ const sortByTotal = (obj: Result): Result =>
 
   const allSlugs = new Set([...Object.keys(bookmark), ...Object.keys(ga)]);
 
-  const result: Result = {};
-  for (const slug of allSlugs) {
+  const result: Result = Array.from(allSlugs).reduce((acc, slug) => {
     const hatenaCount = bookmark[slug] || 0;
     const gaCount = ga[slug] || 0;
-    result[slug] = {
+
+    acc[slug] = {
       total: hatenaCount + gaCount,
       ga: gaCount,
       hatena: hatenaCount,
     };
-  }
+
+    return acc;
+  }, {} as Result);
 
   await writeJSON(`${PATH_DIST}/${FILENAME_POSTS_POPULAR}.json`, sortByTotal(result));
   Log.info(`Write dist/${FILENAME_POSTS_POPULAR}.json`);
