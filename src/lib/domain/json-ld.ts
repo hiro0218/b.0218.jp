@@ -13,6 +13,7 @@ import type {
 import { AUTHOR_ICON, AUTHOR_NAME, SITE_NAME, SITE_URL, URL } from '@/constants';
 import type { PopularityDetail, Post } from '@/types/source';
 
+import { convertToISO8601WithTimezone } from '../utils/date';
 import { getOgpImage, getPermalink } from '../utils/url';
 
 const AUTHOR = {
@@ -83,8 +84,8 @@ export const getBlogPostingStructured = (post: Post, popularity?: PopularityDeta
       '@id': getPermalink(post.slug),
     },
     headline: post.title,
-    datePublished: post.date,
-    dateModified: post.updated || post.date,
+    datePublished: convertToISO8601WithTimezone(post.date),
+    dateModified: convertToISO8601WithTimezone(post.updated || post.date),
     ...(!!post.tags && { keywords: post.tags }),
     author: {
       ...AUTHOR,
