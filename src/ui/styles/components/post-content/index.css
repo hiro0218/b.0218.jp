@@ -144,10 +144,17 @@
 
   iframe {
     width: 100%;
+    background-color: var(--colors-white);
 
     &[src*='youtube'] {
       height: auto;
       aspect-ratio: 16 / 9;
+    }
+
+    &[srcdoc] {
+      display: block;
+      border: 1px solid var(--colors-gray-a-200);
+      border-radius: var(--radii-4);
     }
 
     @media (--isMobile) {
@@ -202,6 +209,12 @@
 
   figure {
     margin: var(--spacing-3) auto;
+  }
+
+  figcaption {
+    margin-top: var(--spacing-1);
+    font-size: var(--font-sizes-sm);
+    color: var(--colors-gray-600);
   }
 
   hr {

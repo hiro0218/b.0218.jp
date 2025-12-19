@@ -4,8 +4,10 @@ import { IGNORE_SLUGS } from './constants';
 import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';
 
 const popularPostsSlugs = getPostsPopular();
-/** popularPostsSlugsを配列に変換し、数値が多い順にソート */
-const sortedSlugs = Object.entries(popularPostsSlugs).map(([slug]) => slug);
+/** popularPostsSlugsを人気度順（total降順）にソート */
+const sortedSlugs = Object.entries(popularPostsSlugs)
+  .sort(([, a], [, b]) => b.total - a.total)
+  .map(([slug]) => slug);
 
 const createPostsMap = (posts: ReturnType<typeof getPostsListJson>) => {
   return new Map(posts.map((post) => [post.slug, post]));

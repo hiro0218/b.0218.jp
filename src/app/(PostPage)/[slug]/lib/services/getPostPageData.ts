@@ -1,6 +1,7 @@
 import { getRecentAndUpdatedPosts } from '@/app/_lib/getRecentAndUpdatedPosts';
+import { getPostsPopular } from '@/lib/data/posts';
 import { isPost, isPostArray } from '@/lib/guards';
-import type { ArticleSummary } from '@/types/source';
+import type { ArticleSummary, PopularityDetail } from '@/types/source';
 import { getPost, getSimilarPosts, getSimilarTags, getTagsWithCountFromSlugs } from '../data';
 import { formatPostData, formatSimilarPosts, getAlternativePosts } from '../utils';
 
@@ -10,6 +11,7 @@ interface PostPageData {
   similarPost: ArticleSummary[];
   similarTags: Array<{ slug: string; count: number }>;
   recentPosts: ArticleSummary[];
+  popularity?: PopularityDetail;
 }
 
 /**
@@ -67,11 +69,16 @@ export function getPostPageData(slug: string): PostPageData | null {
   // 類似記事が少ない場合は代替の記事を取得
   similarPost = getAlternativePosts(similarPost, tag, normalizedSlug);
 
+  // 人気度データの取得
+  const popularityScores = getPostsPopular();
+  const popularity = popularityScores[normalizedSlug];
+
   // 結果の組み立て
   return {
     post: formattedPost,
     similarPost,
     similarTags,
     recentPosts,
+    popularity,
   } satisfies PostPageData;
 }

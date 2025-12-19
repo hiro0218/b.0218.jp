@@ -11,8 +11,9 @@ import type {
 } from 'schema-dts';
 
 import { AUTHOR_ICON, AUTHOR_NAME, SITE_NAME, SITE_URL, URL } from '@/constants';
-import type { Post } from '@/types/source';
+import type { PopularityDetail, Post } from '@/types/source';
 
+import { convertToISO8601WithTimezone } from '../utils/date';
 import { getOgpImage, getPermalink } from '../utils/url';
 
 const AUTHOR = {
@@ -74,7 +75,7 @@ export const getWebPageStructured = ({
   };
 };
 
-export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> => {
+export const getBlogPostingStructured = (post: Post, popularity?: PopularityDetail): WithContext<BlogPosting> => {
   return {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -83,8 +84,8 @@ export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> =
       '@id': getPermalink(post.slug),
     },
     headline: post.title,
-    datePublished: post.date,
-    dateModified: post.updated || post.date,
+    datePublished: convertToISO8601WithTimezone(post.date),
+    dateModified: convertToISO8601WithTimezone(post.updated || post.date),
     ...(!!post.tags && { keywords: post.tags }),
     author: {
       ...AUTHOR,
@@ -101,7 +102,19 @@ export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> =
         height: '400',
       },
     },
-  };
+    ...(popularity?.hatena && {
+      interactionStatistic: {
+        '@type': 'InteractionCounter',
+        interactionType: { '@type': 'ShareAction' },
+        userInteractionCount: popularity.hatena,
+        interactionService: {
+          '@type': 'WebSite',
+          name: 'Hatena Bookmark',
+          url: 'https://b.hatena.ne.jp/',
+        },
+      },
+    }),
+  } as WithContext<BlogPosting>;
 };
 
 export const getBreadcrumbStructured = (post: Post) => {

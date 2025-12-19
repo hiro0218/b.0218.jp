@@ -80,7 +80,7 @@ export default async function Page({ params }: { params: Params }) {
     notFound();
   }
 
-  const { post, similarPost, similarTags, recentPosts } = data;
+  const { post, similarPost, similarTags, recentPosts, popularity } = data;
   const { title, date, updated, note, content, tagsWithCount } = post;
   const hasTweet = content.includes('twitter-tweet');
   const permalink = getPermalink(slug);
@@ -91,7 +91,7 @@ export default async function Page({ params }: { params: Params }) {
       <ReadingHistoryRecorder date={date} slug={slug} tags={tags} title={title} />
       <script
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify([getBlogPostingStructured(post), getBreadcrumbStructured(post)]),
+          __html: JSON.stringify([getBlogPostingStructured(post, popularity), getBreadcrumbStructured(post)]),
         }}
         type="application/ld+json"
       />
