@@ -74,14 +74,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <Suspense>
           <ClientSideScrollRestorer />
         </Suspense>
-        <PreconnectLinks />
+        {process.env.NODE_ENV === 'production' && <PreconnectLinks />}
         {
           /** @see https://developer.mozilla.org/ja/docs/Web/HTML/Attributes/rel/me */
           Object.entries(URL).map(([key, url]) => (
             <link href={url} key={key} rel="me" />
           ))
         }
-        <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} />
+        {process.env.NODE_ENV === 'production' && <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} />}
       </body>
     </html>
   );
