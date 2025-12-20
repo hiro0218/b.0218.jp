@@ -66,12 +66,14 @@ export const getWebPageStructured = ({
     '@type': 'WebPage',
     name: name,
     description: description,
-    ...(!!listItem && {
-      mainEntity: {
-        '@type': 'ItemList',
-        listItem,
-      },
-    }),
+    ...(listItem
+      ? {
+          mainEntity: {
+            '@type': 'ItemList',
+            listItem,
+          },
+        }
+      : {}),
   };
 };
 
@@ -86,7 +88,7 @@ export const getBlogPostingStructured = (post: Post, popularity?: PopularityDeta
     headline: post.title,
     datePublished: convertToISO8601WithTimezone(post.date),
     dateModified: convertToISO8601WithTimezone(post.updated || post.date),
-    ...(!!post.tags && { keywords: post.tags }),
+    ...(post.tags ? { keywords: post.tags } : {}),
     author: {
       ...AUTHOR,
     },
@@ -102,19 +104,21 @@ export const getBlogPostingStructured = (post: Post, popularity?: PopularityDeta
         height: '400',
       },
     },
-    ...(popularity?.hatena && {
-      interactionStatistic: {
-        '@type': 'InteractionCounter',
-        interactionType: { '@type': 'ShareAction' },
-        userInteractionCount: popularity.hatena,
-        interactionService: {
-          '@type': 'WebSite',
-          name: 'Hatena Bookmark',
-          url: 'https://b.hatena.ne.jp/',
-        },
-      },
-    }),
-  } as WithContext<BlogPosting>;
+    ...(popularity?.hatena
+      ? {
+          interactionStatistic: {
+            '@type': 'InteractionCounter',
+            interactionType: { '@type': 'ShareAction' },
+            userInteractionCount: popularity.hatena,
+            interactionService: {
+              '@type': 'WebSite',
+              name: 'Hatena Bookmark',
+              url: 'https://b.hatena.ne.jp/',
+            },
+          },
+        }
+      : {}),
+  };
 };
 
 export const getBreadcrumbStructured = (post: Post) => {
