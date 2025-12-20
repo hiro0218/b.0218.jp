@@ -1,4 +1,4 @@
-// https://nextjs.org/docs/pages/building-your-application/configuring/debugging
+// https://nextjs.org/docs/app/guides/debugging
 {
   "version": "0.2.0",
   "configurations": [
@@ -6,7 +6,7 @@
       "name": "Next.js: debug server-side",
       "type": "node-terminal",
       "request": "launch",
-      "command": "npm run dev"
+      "command": "npm run dev -- --inspect"
     },
     {
       "name": "Next.js: debug client-side",
@@ -18,7 +18,7 @@
       "name": "Next.js: debug full stack",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/node_modules/.bin/next",
+      "program": "${workspaceFolder}/node_modules/next/dist/bin/next",
       "runtimeArgs": ["--inspect"],
       "skipFiles": ["<node_internals>/**"],
       "serverReadyAction": {
