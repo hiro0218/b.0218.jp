@@ -1,3 +1,8 @@
+---
+description: "コード生成時の技術スタック準拠とコンポーネント分類ルール"
+agent: "agent"
+---
+
 # コード生成の指示
 
 コードを生成する際、以下の規則と技術スタックに従って実装してください。このプロジェクト固有の解決方法に基づいた高品質なコードを生成するためのガイドラインです。
@@ -24,7 +29,7 @@
 - **テンプレートリテラル**: `css\`...\`` 構文を使用（推奨）
 - **ゼロマージン**: コンポーネントは外部スペーシングを設定しない
 - **レスポンシブ**: `{ base: 'value', md: 'value' }` 形式
-- **トークン使用**: `token(colors.blue.500)` のようにデザイントークンを参照
+- **CSS変数使用（必須）**: `var(--colors-blue-500)` のようにCSS変数を使用
 
 ## コンポーネント分類ルール
 
@@ -59,7 +64,8 @@ export const Header = () => {
 - **コンポーネント/型**: `PascalCase` (例: `PostDetail`, `ButtonProps`)
 - **関数/変数**: `camelCase` (例: `calculateSimilarity`, `postData`)
 - **定数**: `SCREAMING_SNAKE_CASE` (例: `MAX_POSTS_PER_PAGE`)
-- **ファイル名**: `camelCase.tsx` または `kebab-case.tsx`
+- **ファイル名（コンポーネント）**: `PascalCase.tsx` (例: `Button.tsx`, `PostDetail.tsx`)
+- **ファイル名（ユーティリティ）**: `camelCase.ts` (例: `formatDate.ts`, `parseMarkdown.ts`)
 - **テストファイル**: `元ファイル名.test.ts(x)`
 
 ### プロジェクト固有
@@ -131,11 +137,11 @@ export const Button = ({ children, onClick }: ButtonProps) => {
       className={css`
         padding: 0.5rem 1rem;
         border-radius: 0.25rem;
-        background-color: token(colors.blue.500);
+        background-color: var(--colors-blue-500);
         color: white;
 
         &:hover {
-          background-color: token(colors.blue.600);
+          background-color: var(--colors-blue-600);
         }
 
         &:disabled {
@@ -317,7 +323,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 ```bash
 # 型チェック
-$ npm run typecheck
+$ tsc --noEmit --skipLibCheck
 
 # コードスタイルチェック
 $ npm run lint

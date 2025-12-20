@@ -15,7 +15,7 @@
 - Next.js 16.x blog using TypeScript, React 19.x, and Panda CSS
 - Focused on Japanese content with ML-powered features
 
-## 🔴 Critical Requirements
+## **CRITICAL**: Requirements
 
 ```bash
 # Run before ANY development/build
@@ -24,11 +24,11 @@ npm run dev       # Development server on port 8080 with HTTPS
 ```
 
 - **Dev Server URL**:
-  - ✅ Use: `https://localhost:8080` (HTTPS only)
-  - ❌ Do NOT use: `http://localhost:8080` (HTTP fails)
+  - **RECOMMENDED**: `https://localhost:8080` (HTTPS only)
+  - **DO NOT USE**: `http://localhost:8080` (HTTP fails)
   - Dev server launched with `--experimental-https` and a self-signed certificate
 
-## 🔴 Improvement Proposals: Guidelines
+## **CRITICAL**: Improvement Proposals Guidelines
 
 **Project uses SSG (Static Site Generation)**
 
@@ -140,7 +140,7 @@ const StyledDiv = styled.div`
 - React: App Router, Server Components by default, `'use client'` only if needed
 - Import order: external libs, internal utilities, components, types, styles/constants
 - File naming: PascalCase for components, camelCase for utilities, UPPER_SNAKE for constants
-- **Comments**: Follow @.github/prompts/comment-rule.prompt.md (JSDoc for public APIs only, no redundant comments)
+- **Comments**: JSDoc for public APIs only, no redundant comments (see `.github/instructions/typescript.instructions.md`)
 
 ## Performance
 
@@ -185,6 +185,67 @@ async function getData() {
 | Build production  | `npm run prebuild && npm run build`   |
 | Build (no lint)   | `npx next build --no-lint --webpack`  |
 | Bundle analysis   | `npm run build:analyzer`              |
+
+## Task-Specific Guidelines
+
+### Code Generation
+
+**Basic Principles** (always applied):
+
+- Follow existing patterns in the codebase
+- Use TypeScript strict mode with explicit types
+- Prefer Server Components (only add `'use client'` when necessary)
+- Follow layer dependencies (UI → Page → App)
+- Apply zero-margin principle for UI components
+
+**For detailed code generation guidance**: Execute `/prompt-codeGeneration` in VS Code
+
+### Code Review
+
+**Basic Checks** (always verify):
+
+- Type safety: No `any` types, proper type definitions
+- Architecture compliance: Correct component layer placement
+- Performance: Avoid unnecessary Client Components
+- Accessibility: Semantic HTML and ARIA labels
+- Security: No XSS vulnerabilities, proper input validation
+
+**For comprehensive review checklist**: Execute `/prompt-codeReview` in VS Code
+
+### Commit Messages
+
+**Basic Format** (always follow):
+
+- Start with type: `feat:`, `fix:`, `refactor:`, `docs:`, etc.
+- Use Japanese for description
+- Keep under 50 characters for title
+- Focus on "why" rather than "what"
+
+**For detailed commit message guidelines**: Execute `/prompt-commitMessageGeneration` in VS Code
+
+### Pull Requests
+
+**Essential Components** (always include):
+
+- Clear title describing the change (Japanese, under 50 chars)
+- Overview: Purpose and background (1-2 sentences)
+- Changes: Bulleted list of specific modifications
+- Impact: Affected features/components
+- Testing: What was verified
+
+**For detailed PR template**: Execute `/prompt-pullRequestDescriptionGeneration` in VS Code
+
+### Test Generation
+
+**Basic Requirements** (always ensure):
+
+- Test behavior, not implementation
+- Use existing test utilities and patterns
+- Clear test names describing scenarios
+- One assertion per test when possible
+- Cover edge cases and error conditions
+
+**For comprehensive test guidelines**: Execute `/prompt-testGeneration` in VS Code
 
 ---
 

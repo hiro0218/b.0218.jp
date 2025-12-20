@@ -3,6 +3,5 @@
     "source.organizeImports.biome": "explicit",
     "source.fixAll.biome": "explicit"
   },
-  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
-  "chat.promptFiles": true
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true
 }

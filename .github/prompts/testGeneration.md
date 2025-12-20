@@ -1,3 +1,8 @@
+---
+description: "Vitestテスト生成パターンとカバレッジ要件"
+agent: "agent"
+---
+
 # テスト生成の指示
 
 テストコードを生成する際、以下の規則と構造に従ってください。テストコードの品質と包括性はコードの信頼性と保守性に直結します。
@@ -133,7 +138,8 @@ it('パースする', () => { /* ... */ }); // 条件と期待結果が不明確
   // fetch のモック例
   vi.mock('node-fetch');
   import fetch from 'node-fetch';
-  const mockFetch = fetch as unknown as jest.Mock;
+  import type { Mock } from 'vitest';
+  const mockFetch = fetch as unknown as Mock;
   
   beforeEach(() => {
     mockFetch.mockClear();
@@ -149,7 +155,8 @@ it('パースする', () => { /* ... */ }); // 条件と期待結果が不明確
   // fs のモック例
   vi.mock('fs/promises');
   import { readFile } from 'fs/promises';
-  const mockReadFile = readFile as jest.Mock;
+  import type { Mock } from 'vitest';
+  const mockReadFile = readFile as Mock;
   
   beforeEach(() => {
     mockReadFile.mockResolvedValue(JSON.stringify({ key: 'value' }));
@@ -244,7 +251,8 @@ vi.mock('node-fetch', () => ({
 }));
 
 import fetch from 'node-fetch';
-const mockFetch = fetch as jest.Mock;
+import type { Mock } from 'vitest';
+const mockFetch = fetch as Mock;
 
 describe('fetchArticleData', () => {
   beforeEach(() => {
