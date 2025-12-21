@@ -1,8 +1,7 @@
-const withPlugins = require('next-compose-plugins');
-const nextBuildId = require('next-build-id');
+import nextBuildId from 'next-build-id';
 
 /** @type {import('next').NextConfig} */
-const nextConfiguration = {
+const nextConfig = {
   reactStrictMode: true,
 
   devIndicators: false,
@@ -16,7 +15,7 @@ const nextConfiguration = {
   // Turbopack configuration (empty to acknowledge and silence webpack warning)
   turbopack: {},
 
-  generateBuildId: () => nextBuildId({ dir: __dirname }),
+  generateBuildId: () => nextBuildId({ dir: import.meta.dirname }),
 
   modularizeImports: {
     '@radix-ui': {
@@ -49,4 +48,4 @@ const nextConfiguration = {
   },
 };
 
-module.exports = withPlugins([], nextConfiguration);
+export default nextConfig;
