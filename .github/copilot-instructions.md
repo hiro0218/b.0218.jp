@@ -168,15 +168,16 @@ const Button = styled.button`
 
 ## Performance
 
-- Static generation with ISR-style rebuilds
+- Static site generation (SSG)
 - Route-based code splitting
 - Next.js Image optimization
 - Bundle analysis: `npm run build:analyzer`
 
 ## Testing
 
-- Unit tests for utilities/hooks, integration tests for critical paths
-- 80% coverage target
+- Unit tests for utilities/hooks using Vitest
+- Test framework: Vitest with React Testing Library
+- Coverage reporting available via `npm run coverage`
 
 ## Patterns
 
