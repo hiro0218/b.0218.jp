@@ -18,16 +18,6 @@ export type SearchResultItem = SearchProps & {
 
 export type OnCloseDialogProps = () => void;
 
-export type SearchResultData = {
-  keyword: string;
-  suggestions: SearchResultItem[];
-  focusedIndex: number;
-};
-
-export type KeyboardNavigationReturn = {
-  isNavigationKey: (key: string) => boolean;
-};
-
 /**
  * Facade Pattern により、複雑な内部実装を隠蔽し、
  * シンプルで使いやすい API を提供
