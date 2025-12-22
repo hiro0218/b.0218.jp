@@ -91,7 +91,7 @@
     "postcss-custom-media-generator": "1.1.0",
     "postcss-import": "16.1.1",
     "postcss-lightningcss": "1.0.2",
-    "postcss-media-hover-any-hover": "0.4.0",
+    "postcss-media-hover-any-hover": "0.5.0",
     "postcss-mixins": "12.1.2",
     "postcss-styled-syntax": "0.7.1",
     "prettier": "3.7.4",
