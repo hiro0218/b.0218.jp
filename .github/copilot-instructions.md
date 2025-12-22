@@ -123,6 +123,30 @@ const StyledDiv = styled.div`
 `;
 ```
 
+**Important: `:hover` and Media Queries**
+
+- **DO NOT manually wrap `:hover` with `@media (any-hover: hover)`**
+- The `postcss-media-hover-any-hover` plugin (postcss.config.cjs) automatically wraps all `:hover` selectors
+- Simply write `:hover` styles directly - the plugin handles touch device detection
+
+```tsx
+// ✅ Correct - plugin handles media query automatically
+const Button = styled.button`
+  &:hover {
+    background: blue;
+  }
+`;
+
+// ❌ Incorrect - redundant manual wrapping
+const Button = styled.button`
+  @media (any-hover: hover) {
+    &:hover {
+      background: blue;
+    }
+  }
+`;
+```
+
 ### Path Aliases
 
 - `@/*` → `src/*`

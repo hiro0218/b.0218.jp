@@ -128,8 +128,14 @@ const Button = styled.button`
 
 ### 4. Touch（タッチデバイス対応）
 
+**⚠️ プロジェクト固有の実装**:
+- **ガイドラインの原則「`:hover` をメディアクエリで囲む」は PostCSS プラグインで自動実現されています**
+- `postcss-media-hover-any-hover` プラグイン（postcss.config.cjs）が全ての `:hover` を `@media (any-hover: hover)` で自動ラップ
+- 開発者は通常通り `:hover` を記述するだけで、ビルド時に自動変換されます
+- **手動でメディアクエリを追加する必要はありません**（重複になります）
+- 詳細は CLAUDE.md の "Styling" セクションを参照
+
 **主要チェックポイント**:
-- ホバー状態のメディアクエリ適用 (`@media (hover: hover)`)
 - インプットのフォントサイズ 16px 以上（iOS ズーム防止）
 - タッチデバイスでの自動フォーカス無効化
 - ビデオの自動再生設定（`muted`, `playsinline`）
@@ -137,28 +143,30 @@ const Button = styled.button`
 
 **検証項目**:
 ```css
-/* ✅ タッチデバイス対応 */
+/* ✅ 正しい実装（ガイドライン準拠） */
 button {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
-@media (hover: hover) {
-  button:hover {
-    background-color: #eee;
-  }
+/* :hover を記述するだけで、PostCSS が自動的に @media (any-hover: hover) でラップ */
+button:hover {
+  background-color: #eee;
 }
 
 input {
   font-size: 16px; /* iOS ズーム防止 */
 }
 
-/* ❌ タッチデバイス非対応 */
-button:hover {
-  background-color: #eee; /* タッチ時にも表示される */
+/* ❌ 間違った実装 */
+/* 手動でメディアクエリを追加（プラグインと重複） */
+@media (any-hover: hover) {
+  button:hover {
+    background-color: #eee;
+  }
 }
 
 input {
-  font-size: 14px; /* iOS でズームされる */
+  font-size: 14px; /* ガイドライン違反: iOS でズームされる */
 }
 ```
 
@@ -425,9 +433,11 @@ const SlowResponse = async () => {
 
 ### ⚠️ 改善推奨
 
-- [Button.tsx:23] **Touch**: ホバー状態のメディアクエリ未使用
-  **影響**: タッチデバイスでタップ時にホバー状態が残る
-  **提案**: `@media (hover: hover)` で囲む
+- [例] **Performance**: 画像最適化が必要
+  **影響**: ページロード時間が長くなる
+  **提案**: Next.js Image コンポーネントを使用
+
+> **Note**: このプロジェクトでは `:hover` のメディアクエリは PostCSS プラグインが自動処理するため、手動での追加を推奨しません
 
 ### ❌ 問題検出
 
