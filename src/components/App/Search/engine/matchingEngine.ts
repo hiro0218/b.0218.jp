@@ -78,7 +78,6 @@ export const getTagMatchType = (post: SearchProps, searchValue: string): MatchTy
     const matchType = getTextMatchType(tag, searchValue);
     const priority = getMatchTypePriority(matchType);
 
-    // 早期リターン: 完全一致が見つかったら即座に返す
     if (matchType === 'EXACT') {
       return 'EXACT';
     }
@@ -115,7 +114,6 @@ export const isMultiTermMatching = (post: SearchProps, searchTerms: string[]): b
   return searchTerms.every((term) => {
     const termNorm = normalizeText(term);
 
-    // タイトルマッチを先にチェック（早期リターン）
     const titleMatch = titleNorm.standard.includes(termNorm.standard) || titleNorm.compact.includes(termNorm.compact);
     if (titleMatch) return true;
 

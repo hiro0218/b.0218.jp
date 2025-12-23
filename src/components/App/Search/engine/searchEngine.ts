@@ -53,7 +53,6 @@ class SearchCache {
    * @param value - 保存するデータ
    */
   set(key: string, value: SearchResultItem[]): void {
-    // サイズ制限チェック
     if (this.cache.size >= SearchCache.CACHE_SIZE_LIMIT && !this.cache.has(key)) {
       const firstKey = this.cache.keys().next().value;
       this.cache.delete(firstKey);
