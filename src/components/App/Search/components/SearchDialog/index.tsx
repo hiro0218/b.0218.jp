@@ -8,7 +8,7 @@ import useIsClient from '@/hooks/useIsClient';
 import { styled } from '@/ui/styled';
 import { useSearchFacade } from '../../hooks/useSearchFacade';
 import type { OnCloseDialogProps } from '../../types';
-import { SEARCH_LABELS } from '../../utils/constants';
+import { SEARCH_LABELS } from '../constants';
 import { SearchHeader } from '../SearchHeader';
 import { SearchPanel } from '../SearchPanel';
 

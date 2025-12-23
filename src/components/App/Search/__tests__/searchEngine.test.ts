@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import type { MatchType, SearchProps } from '../types';
+import type { MatchType, SearchProps } from '@/components/App/Search';
 import {
   findMatchingPosts,
   getMatchTypePriority,
@@ -9,7 +9,7 @@ import {
   isMultiTermMatching,
   isTextMatching,
   performPostSearch,
-} from './search';
+} from '@/components/App/Search';
 
 // テスト用のモックデータ
 const mockPosts: SearchProps[] = [

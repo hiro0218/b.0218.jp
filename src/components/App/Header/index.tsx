@@ -1,9 +1,9 @@
 'use client';
 
+import { SearchButton } from '@/components/App/Search/components/SearchButton';
+import { SearchDialog } from '@/components/App/Search/components/SearchDialog';
 import { Container } from '@/components/UI/Layout/Container';
 import { Logo } from '@/components/UI/Logo';
-import { SearchButton } from '@/components/UI/Search/components/SearchButton';
-import { SearchDialog } from '@/components/UI/Search/components/SearchDialog';
 import { useSearchDialog } from '@/contexts/SearchDialogContext';
 import { css } from '@/ui/styled';
 import { HeaderLayout } from './HeaderLayout';

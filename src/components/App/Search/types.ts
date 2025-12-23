@@ -1,20 +1,53 @@
 import type { Post } from '@/types/source';
 
+/**
+ * 検索対象の記事データ
+ */
 export type SearchProps = Pick<Post, 'title' | 'tags' | 'slug'> & {
   score?: number;
 };
 
 /**
- * @see src/components/UI/Search/utils/search.ts
+ * マッチタイプ
+ *
+ * @description
+ * 検索結果のマッチパターンを表す型。
+ * 優先度順: EXACT > PARTIAL > EXACT_NO_SPACE > MULTI_TERM_MATCH > PARTIAL_NO_SPACE > NONE
  */
 export type MatchType = 'EXACT' | 'PARTIAL' | 'EXACT_NO_SPACE' | 'PARTIAL_NO_SPACE' | 'MULTI_TERM_MATCH' | 'NONE';
 
+/**
+ * マッチした場所
+ */
 export type MatchedIn = 'title' | 'tag' | 'both';
 
+/**
+ * 検索結果アイテム
+ */
 export type SearchResultItem = SearchProps & {
   matchType: MatchType;
   matchedIn: MatchedIn;
 };
+
+/**
+ * 優先度情報付きの検索結果の型定義
+ * @internal
+ */
+export type RankedSearchResult = {
+  post: SearchProps;
+  priority: number;
+  matchType: MatchType;
+  matchedIn: MatchedIn;
+};
+
+/**
+ * 検索状態（永続化用）
+ */
+export interface SearchState {
+  results: SearchResultItem[];
+  query: string;
+  focusedIndex?: number;
+}
 
 export type OnCloseDialogProps = () => void;
 

@@ -1,18 +1,24 @@
 'use client';
 
 import { type RefObject, useCallback, useEffect, useMemo, useRef } from 'react';
+import { usePostsData } from '../data/usePostsData';
 import type { UseSearchFacadeOptions, UseSearchFacadeReturn } from '../types';
-import { useKeyboardNavigation } from './useKeyboardNavigation';
-import { usePostsList } from './usePostsList';
-import { useSearchDOM } from './useSearchDOM';
-import { useSearchFocusState } from './useSearchFocusState';
-import { useSearchInput } from './useSearchInput';
+import { useSearchFocus } from './useSearchFocus';
+import { useSearchKeyboard } from './useSearchKeyboard';
 import { useSearchManager } from './useSearchManager';
-import { useSearchResultRefs } from './useSearchResultRefs';
 import { useSearchStatePersistence } from './useSearchStatePersistence';
+import { useSearchStateRestoration } from './useSearchStateRestoration';
 
 /**
  * Facade Pattern により、複雑な内部実装を隠蔽し、使用側のコードを簡潔にする
+ *
+ * @description
+ * 統合フック数: 8-9 → 5
+ * - usePostsData: データフェッチ・キャッシュ
+ * - useSearchManager: 検索実行管理
+ * - useSearchStatePersistence: 状態永続化
+ * - useSearchFocus: フォーカス管理（3フック統合）
+ * - useSearchKeyboard: キーボード操作（2フック統合）
  */
 export const useSearchFacade = ({
   onClose,
@@ -21,64 +27,39 @@ export const useSearchFacade = ({
 }: UseSearchFacadeOptions): UseSearchFacadeReturn => {
   const { persistState = true } = options;
 
-  const archives = usePostsList();
+  // ===== データ・検索・永続化 =====
+  const { data: archives } = usePostsData();
   const { state, debouncedSearch, executeSearch, setResults } = useSearchManager({
     archives,
   });
   const { saveSearchState, loadSearchState } = useSearchStatePersistence();
 
-  const { focusedIndex, setFocusedIndex, navigateToIndex, resetFocus } = useSearchFocusState({
+  // ===== フォーカス管理（統合） =====
+  const {
+    focusedIndex,
+    setFocusedIndex,
+    navigateToIndex,
+    resetFocus,
+    updateDOMRefs,
+    focusInput,
+    scrollToFocusedElement,
+    setResultRef,
+    getResultRef,
+    clearExcessRefs,
+  } = useSearchFocus({
     resultsLength: state.results.length,
-  });
-  const { focusInput, scrollToFocusedElement, updateDOMRefs } = useSearchDOM({
     dialogRef: dialogRef as RefObject<HTMLDialogElement>,
   });
-  const { setResultRef, getResultRef, clearExcessRefs } = useSearchResultRefs();
 
-  const savedStateRef = useRef<ReturnType<typeof loadSearchState>>(null);
-  const hasHydratedResultsRef = useRef(false);
-  const hasExecutedRestorationRef = useRef(false);
-
-  const tryRestoreSearchState = useCallback(() => {
-    if (!persistState) return;
-
-    const savedState = savedStateRef.current ?? loadSearchState();
-    if (!savedState?.query) return;
-
-    if (!hasHydratedResultsRef.current) {
-      setResults(savedState.results ?? [], savedState.query);
-      hasHydratedResultsRef.current = true;
-      savedStateRef.current = savedState;
-    }
-
-    if (!archives.length) {
-      return;
-    }
-
-    if (hasExecutedRestorationRef.current) {
-      return;
-    }
-
-    executeSearch(savedState.query);
-    if (savedState.focusedIndex !== undefined) {
-      setFocusedIndex(savedState.focusedIndex);
-    }
-    hasExecutedRestorationRef.current = true;
-  }, [archives.length, executeSearch, loadSearchState, persistState, setFocusedIndex, setResults]);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: 初回マウント時のみ実行
-  useEffect(() => {
-    if (!persistState) return;
-
-    savedStateRef.current = loadSearchState();
-    hasHydratedResultsRef.current = false;
-    hasExecutedRestorationRef.current = false;
-    tryRestoreSearchState();
-  }, []);
-
-  useEffect(() => {
-    tryRestoreSearchState();
-  }, [tryRestoreSearchState]);
+  // 検索状態の復元（専用フックに委譲）
+  useSearchStateRestoration({
+    persistState,
+    archives,
+    executeSearch,
+    setFocusedIndex,
+    setResults,
+    loadSearchState,
+  });
 
   useEffect(() => {
     if (!persistState) return;
@@ -96,6 +77,7 @@ export const useSearchFacade = ({
     onClose();
   }, [resetFocus, onClose]);
 
+  // ===== キーボード操作（統合） =====
   const focusedIndexRef = useRef(focusedIndex);
   const resultsRef = useRef(state.results);
 
@@ -104,16 +86,12 @@ export const useSearchFacade = ({
     resultsRef.current = state.results;
   }, [focusedIndex, state.results]);
 
-  const { keyboardProps } = useKeyboardNavigation({
+  const { keyboardProps, handleSearchInput } = useSearchKeyboard({
     onNavigate: navigateToIndex,
     onClose: handleCloseDialog,
     focusedIndexRef,
     resultsRef,
-  });
-
-  const { handleSearchInput } = useSearchInput({
     currentQuery: state.query,
-    focusedIndex,
     executeSearch,
     debouncedSearch,
   });
