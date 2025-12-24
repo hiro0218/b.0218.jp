@@ -12,7 +12,6 @@ interface SearchHeaderProps {
 }
 
 /**
- * 検索入力ヘッダーコンポーネント
  * @performance 初回マウント時のみfocusを実行し、不要な再レンダリングを防止
  */
 export function SearchHeader({ onKeyUp, onKeyDown, searchQuery }: SearchHeaderProps) {

@@ -8,19 +8,11 @@ import type { MatchedIn, MatchType, RankedSearchResult, SearchProps } from '../t
 import { isEmptyQuery } from '../utils/validation';
 import { getMatchTypePriority } from './scoringEngine';
 
-/**
- * 正規化されたテキストの型定義
- * @internal
- */
 type NormalizedText = {
   standard: string; // 小文字化+トリム
   compact: string; // スペース除去版
 };
 
-/**
- * テキスト正規化のユーティリティ
- * @internal
- */
 const normalizeText = (text: string): NormalizedText => {
   const standard = text.toLowerCase().trim();
   return {
@@ -126,10 +118,6 @@ export const isMultiTermMatching = (post: SearchProps, searchTerms: string[]): b
   });
 };
 
-/**
- * 単一キーワードでのマッチングを判定
- * @internal
- */
 const matchSingleTerm = (post: SearchProps, searchValue: string): RankedSearchResult | null => {
   const tagMatchType = getTagMatchType(post, searchValue);
   const titleMatchType = getTitleMatchType(post, searchValue);
@@ -152,10 +140,6 @@ const matchSingleTerm = (post: SearchProps, searchValue: string): RankedSearchRe
   };
 };
 
-/**
- * 複数キーワードでのマッチングを判定
- * @internal
- */
 const matchMultipleTerms = (post: SearchProps, searchTerms: string[]): RankedSearchResult | null => {
   if (!isMultiTermMatching(post, searchTerms)) {
     return null;

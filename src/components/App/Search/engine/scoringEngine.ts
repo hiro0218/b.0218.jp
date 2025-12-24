@@ -20,34 +20,10 @@ const PARTIAL_NO_SPACE_SCORE = 40; // スペース除去後の部分一致
 const NO_MATCH_SCORE = 0; // 不一致
 
 /**
- * マッチタイプ別のスコアリングロジック
+ * Match type priority scores for search result ranking
  *
- * @description
- * 各 MatchType に対応する優先度スコアを定義。
- * スコアが高いほど検索結果の上位に表示される。
- *
- * - EXACT (100): 完全一致（最優先）
- *   検索語とタイトル/タグが完全に一致する場合
- *   例: 検索「React入門」→「React入門」
- *
- * - PARTIAL (80): 部分一致（スペースあり）
- *   検索語がタイトル/タグに含まれる場合
- *   例: 検索「React」→「React入門」
- *
- * - EXACT_NO_SPACE (60): スペース除去後の完全一致
- *   スペースを除去した後に完全一致する場合
- *   例: 検索「React 入門」→「React入門」
- *
- * - MULTI_TERM_MATCH (50): 複数単語のAND条件一致
- *   複数の検索語がすべて含まれる場合
- *   例: 検索「React Hooks」→「React Hooksの基本」
- *
- * - PARTIAL_NO_SPACE (40): スペース除去後の部分一致
- *   スペース除去後に部分一致する場合
- *   例: 検索「Re act」→「React」
- *
- * - NONE (0): 不一致
- *   検索条件に一致しない場合
+ * Higher scores appear first in results:
+ * EXACT (100) > PARTIAL (80) > EXACT_NO_SPACE (60) > MULTI_TERM_MATCH (50) > PARTIAL_NO_SPACE (40) > NONE (0)
  */
 export const MATCH_PRIORITY: Record<MatchType, number> = {
   // biome-ignore lint/style/useNamingConvention: MatchType列挙値のキー名
@@ -72,10 +48,9 @@ export const MATCH_PRIORITY: Record<MatchType, number> = {
 export const getMatchTypePriority = (matchType: MatchType): number => MATCH_PRIORITY[matchType] ?? 0;
 
 /**
- * 検索結果をソートして件数制限を適用する
- * @param results - ランク付けされた検索結果
- * @param maxResults - 最大結果件数（デフォルト: 100）
- * @returns ソート済みの検索結果配列
+ * UI表示最適化のため優先度順にソートし結果件数を制限
+ *
+ * 優先度が同じ場合はスコア（記事の重要度）でさらにソート
  */
 export const sortAndLimitResults = (results: RankedSearchResult[], maxResults = 100): SearchResultItem[] => {
   const sorted = results.toSorted((a, b) => {

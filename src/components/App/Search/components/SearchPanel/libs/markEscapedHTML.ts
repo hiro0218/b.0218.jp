@@ -36,10 +36,7 @@ const markEscapedHTML = (() => {
 })();
 
 /**
- * 検索キーワードにマッチする部分をマークアップしたタイトル配列を生成
- * @param suggestions - 検索結果の配列
- * @param keyword - 検索キーワード（スペース区切り）
- * @returns マークアップされたHTML文字列の配列
+ * XSS対策のためHTMLエスケープした上でキーワード部分を<mark>タグでマークアップ
  */
 export const createMarkedTitles = (suggestions: { title: string }[], keyword: string) => {
   let splitKeyword = keywordSplitCache.get(keyword);

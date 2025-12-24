@@ -8,9 +8,6 @@ type Props = {
   openDialogAction: OnCloseDialogProps;
 };
 
-/**
- * 検索ボタンコンポーネント
- */
 export function SearchButton({ openDialogAction }: Props) {
   return (
     <Tooltip text={SEARCH_LABELS.searchTitle}>

@@ -9,15 +9,9 @@ import type { SearchProps } from '../types';
 import { extractSearchProps } from './postDataExtractor';
 import { useDataCache } from './useDataCache';
 
-/**
- * データ取得状態の型定義
- */
 export type PostsDataState = {
-  /** 記事データ配列 */
   data: SearchProps[];
-  /** エラー情報（エラーがない場合は null） */
   error: Error | null;
-  /** データ読み込み中かどうか */
   isLoading: boolean;
 };
 

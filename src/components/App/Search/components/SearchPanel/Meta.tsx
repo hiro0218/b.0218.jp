@@ -7,12 +7,6 @@ type SearchStatusProps = {
   searchQuery: string;
 };
 
-/**
- * スクリーンリーダー向け検索ステータスメッセージコンポーネント
- * @param resultsCount - 検索結果件数
- * @param searchQuery - 検索クエリ
- * @returns アクセシビリティ対応ステータスメッセージ
- */
 export function SearchStatus({ resultsCount, searchQuery }: SearchStatusProps) {
   const statusMessage = createSearchStatusMessage({ resultsCount, searchQuery });
 
@@ -28,12 +22,6 @@ type SearchResultMessageProps = {
   searchQuery: string;
 };
 
-/**
- * 表示用検索結果メッセージコンポーネント
- * @param resultsCount - 検索結果件数
- * @param searchQuery - 検索クエリ
- * @returns 検索結果サマリメッセージ
- */
 export function SearchResultMessage({ resultsCount, searchQuery }: SearchResultMessageProps) {
   const resultMessage = createSearchResultMessage({ resultsCount, searchQuery });
 
@@ -44,11 +32,6 @@ type SearchExternalLinkProps = {
   searchQuery?: string;
 };
 
-/**
- * 外部Google検索リンクコンポーネント
- * @param searchQuery - 検索クエリ（オプション）
- * @returns Google検索へのリンク
- */
 export function SearchExternalLink({ searchQuery }: SearchExternalLinkProps) {
   const query = searchQuery ? `site:b.0218.jp ${searchQuery}` : 'site:b.0218.jp';
   const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;

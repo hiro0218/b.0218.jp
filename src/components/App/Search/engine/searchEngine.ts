@@ -10,9 +10,6 @@ import { isEmptyQuery } from '../utils/validation';
 import { findMatchingPosts } from './matchingEngine';
 import { sortAndLimitResults } from './scoringEngine';
 
-/**
- * 最大検索結果件数
- */
 const MAX_SEARCH_RESULTS = 100;
 
 /**
@@ -30,11 +27,6 @@ class SearchCache {
 
   private cache = new Map<string, SearchResultItem[]>();
 
-  /**
-   * キャッシュからデータを取得する
-   * @param key - キャッシュキー
-   * @returns キャッシュされたデータ、またはundefined
-   */
   get(key: string): SearchResultItem[] | undefined {
     if (!this.cache.has(key)) {
       return undefined;
@@ -47,11 +39,6 @@ class SearchCache {
     return result;
   }
 
-  /**
-   * キャッシュにデータを保存する
-   * @param key - キャッシュキー
-   * @param value - 保存するデータ
-   */
   set(key: string, value: SearchResultItem[]): void {
     if (this.cache.size >= SearchCache.CACHE_SIZE_LIMIT && !this.cache.has(key)) {
       const firstKey = this.cache.keys().next().value;
@@ -61,12 +48,6 @@ class SearchCache {
     this.cache.set(key, value);
   }
 
-  /**
-   * キャッシュキーを生成する
-   * @param searchValue - 検索文字列
-   * @param dataSize - データサイズ（記事数）
-   * @returns キャッシュキー
-   */
   static createKey(searchValue: string, dataSize: number): string {
     return `${searchValue}-${dataSize}`;
   }
