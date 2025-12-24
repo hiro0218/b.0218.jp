@@ -27,12 +27,3 @@ export const isValidValue = <T>(value: T | null | undefined): value is T => {
 
   return true;
 };
-
-/**
- * 複数の値がすべて有効かチェックする
- * @param values - チェック対象の値の配列
- * @returns すべての値が有効な場合true
- */
-export const areAllValid = (...values: unknown[]): boolean => {
-  return values.every((value) => isValidValue(value));
-};

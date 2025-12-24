@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import type { SearchProps } from '@/components/App/Search';
-import { useSearchWithCache } from '@/components/App/Search';
+import { useSearchWithCache } from '@/components/App/Search/engine/searchEngine';
+import type { SearchProps } from '@/components/App/Search/types';
 import debounce from '@/lib/utils/debounce';
 import type { SearchState } from '../types';
 

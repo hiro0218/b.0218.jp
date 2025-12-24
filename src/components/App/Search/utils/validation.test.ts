@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { areAllValid, isEmptyQuery, isValidValue } from './validation';
+import { isEmptyQuery, isValidValue } from './validation';
 
 describe('validation utilities', () => {
   describe('isEmptyQuery', () => {
@@ -53,22 +53,6 @@ describe('validation utilities', () => {
       expect(isValidValue(0)).toBe(true);
       expect(isValidValue(false)).toBe(true);
       expect(isValidValue({})).toBe(true);
-    });
-  });
-
-  describe('areAllValid', () => {
-    test('すべての値が有効な場合はtrueを返す', () => {
-      expect(areAllValid('test', [1], 123)).toBe(true);
-    });
-
-    test('いずれかの値が無効な場合はfalseを返す', () => {
-      expect(areAllValid('test', null, 123)).toBe(false);
-      expect(areAllValid('test', '', [1])).toBe(false);
-      expect(areAllValid('test', [], 'value')).toBe(false);
-    });
-
-    test('引数なしの場合はtrueを返す', () => {
-      expect(areAllValid()).toBe(true);
     });
   });
 });
