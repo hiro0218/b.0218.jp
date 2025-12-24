@@ -224,38 +224,6 @@ grep -r "margin:" src/components/UI/
 # 検出された場合、違反として報告
 ```
 
-#### 3.3 Container サイズの検証
-
-```typescript
-// ✅ 定義された Container サイズを使用
-const Container = styled.div`
-  max-width: 1024px;  // OK: デフォルト Container
-  margin: 0 auto;
-`;
-
-const SmallContainer = styled.div`
-  max-width: 768px;   // OK: Small Container
-  margin: 0 auto;
-`;
-
-const LargeContainer = styled.div`
-  max-width: 1280px;  // OK: Large Container
-  margin: 0 auto;
-`;
-
-// ❌ 任意のサイズ（非推奨）
-const CustomContainer = styled.div`
-  max-width: 900px;   // NG: 定義外のサイズ
-  margin: 0 auto;
-`;
-```
-
-**許可される Container サイズ**:
-
-- Small: 768px
-- Default: 1024px
-- Large: 1280px
-
 ### Phase 4: TypeScript 品質の検証
 
 #### 4.1 any 型の使用チェック
@@ -355,9 +323,6 @@ import { Post } from '@/types/post';  // type キーワードがない
 
 ### ⚠️ 改善が必要な項目
 
-- [src/components/UI/Button/Button.tsx:45] Container サイズが定義外 (900px)
-  **提案**: 定義された Container サイズ（768px, 1024px, 1280px）を使用してください
-
 - [src/components/UI/Button/Button.tsx:12] any 型を使用
   **提案**: 明示的な型定義を追加してください
 
@@ -383,7 +348,6 @@ import { Post } from '@/types/post';  // type キーワードがない
 - **推奨アクション**:
   1. ゼロマージン原則違反を修正（必須）
   2. any 型を明示的な型定義に置き換え（推奨）
-  3. Container サイズを標準サイズに変更（推奨）
 ```
 
 #### 5.2 優先度の判定基準
@@ -395,7 +359,6 @@ import { Post } from '@/types/post';  // type キーワードがない
 | 'use client' の不適切な使用  | 中     | 推奨      |
 | any 型の使用                 | 中     | 推奨      |
 | インポート順序の違反         | 低     | 推奨      |
-| Container サイズの非標準使用 | 低     | 推奨      |
 
 ## 自動検証ツール
 
@@ -542,7 +505,6 @@ Output:
 - 違反: 1
 
 ⚠️ 警告ファイル
-- Card.tsx: Container サイズが非標準
 - Modal.tsx: any 型を使用
 
 ❌ 違反ファイル

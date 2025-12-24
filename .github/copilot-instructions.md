@@ -68,7 +68,6 @@ src/
 ### Component Principles
 
 - **Zero Margin**: No self-margins; parents control spacing
-- **Container Sizes**: small (768px), default (1024px), large (1280px)
 - **Layer Dependencies**: Enforced by Biome (`biome.json`)
 - UI and Functional are independent layers
 - **Detailed guidelines**: See `.claude/skills/` for architecture and interface review skills

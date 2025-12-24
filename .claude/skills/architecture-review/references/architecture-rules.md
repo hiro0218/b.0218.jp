@@ -23,7 +23,6 @@ src/
 
 - **No self-margins**: コンポーネントは自己マージンを持たない
 - **Parents control spacing**: 親コンポーネントがスペーシングを制御
-- **Container Sizes**: small (768px), default (1024px), large (1280px)
 
 ### レイヤー依存関係
 
@@ -197,30 +196,6 @@ const HomePage = () => (
     <Button>Another Button</Button>
   </div>
 );
-```
-
-### Container サイズ
-
-定義された Container サイズを使用：
-
-```typescript
-// Small Container (768px)
-const SmallContainer = styled.div`
-  max-width: 768px;
-  margin: 0 auto;
-`;
-
-// Default Container (1024px)
-const Container = styled.div`
-  max-width: 1024px;
-  margin: 0 auto;
-`;
-
-// Large Container (1280px)
-const LargeContainer = styled.div`
-  max-width: 1280px;
-  margin: 0 auto;
-`;
 ```
 
 ## React ベストプラクティス
