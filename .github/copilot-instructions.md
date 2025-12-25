@@ -195,7 +195,7 @@ Include:
 | Lint file         | `npx @biomejs/biome check <file>`     |
 | Lint all          | `npm run lint`                        |
 | Build production  | `npm run prebuild && npm run build`   |
-| Build (no lint)   | `npx next build --no-lint --webpack`  |
+| Build (fast)      | `npx next build --webpack`            |
 | Bundle analysis   | `npm run build:analyzer`              |
 
 ## Important Notes
