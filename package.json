@@ -141,6 +141,9 @@
     ],
     "**/*.{yml,yaml}": [
       "prettier --write --cache --experimental-cli"
+    ],
+    "**/*.md": [
+      "prettier --write --cache --experimental-cli"
     ]
   },
   "browserslist": [
