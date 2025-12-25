@@ -40,11 +40,11 @@ This document summarizes code comment principles from renowned software engineer
 ### Refactoring Alternatives
 
 | Instead of commenting... | Try this refactoring... |
-|-------------------------|------------------------|
-| Long explanatory comment | Extract Method |
-| Variable explanation | Rename Variable |
-| Precondition comment | Introduce Assertion |
-| Complex logic comment | Decompose Conditional |
+| ------------------------ | ----------------------- |
+| Long explanatory comment | Extract Method          |
+| Variable explanation     | Rename Variable         |
+| Precondition comment     | Introduce Assertion     |
+| Complex logic comment    | Decompose Conditional   |
 
 **Key Insight**: Comments often indicate that code structure needs improvement.
 
@@ -103,12 +103,14 @@ This document summarizes code comment principles from renowned software engineer
 ### Kernel Coding Standards
 
 Good comments explain:
+
 - **Complex algorithms**: Why this approach was chosen
 - **Non-obvious optimizations**: Performance rationale
 - **Hardware constraints**: Why specific implementation is required
 - **Trade-offs**: Why alternative approaches were rejected
 
 Bad comments explain:
+
 - What the code does (code does this)
 - How it works (read the code)
 - Implementation details (obvious from syntax)

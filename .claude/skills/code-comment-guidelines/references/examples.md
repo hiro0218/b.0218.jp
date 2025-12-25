@@ -60,13 +60,13 @@ const items: Item[] = [];
  * @returns a user
  */
 function getUser(id: string): User {
-  return users.find(u => u.id === id);
+  return users.find((u) => u.id === id);
 }
 ```
 
 ### ✅ Good: Meaningful public API documentation
 
-```typescript
+````typescript
 /**
  * Retrieves user by ID from the cached user list
  *
@@ -82,9 +82,9 @@ function getUser(id: string): User {
  * ```
  */
 export function getUser(id: string): User | undefined {
-  return users.find(u => u.id === id);
+  return users.find((u) => u.id === id);
 }
-```
+````
 
 **Principle**: Public APIs need documentation. Add context, examples, and edge cases.
 
@@ -202,13 +202,13 @@ function quickSort(arr: number[]): number[] {
   const pivot = arr[Math.floor(arr.length / 2)];
 
   // Filter elements less than pivot
-  const left = arr.filter(x => x < pivot);
+  const left = arr.filter((x) => x < pivot);
 
   // Filter elements equal to pivot
-  const middle = arr.filter(x => x === pivot);
+  const middle = arr.filter((x) => x === pivot);
 
   // Filter elements greater than pivot
-  const right = arr.filter(x => x > pivot);
+  const right = arr.filter((x) => x > pivot);
 
   // Recursively sort and combine
   return [...quickSort(left), ...middle, ...quickSort(right)];
@@ -231,9 +231,9 @@ function quickSort(arr: number[]): number[] {
   if (arr.length <= 1) return arr;
 
   const pivot = arr[Math.floor(arr.length / 2)];
-  const left = arr.filter(x => x < pivot);
-  const middle = arr.filter(x => x === pivot);
-  const right = arr.filter(x => x > pivot);
+  const left = arr.filter((x) => x < pivot);
+  const middle = arr.filter((x) => x === pivot);
+  const right = arr.filter((x) => x > pivot);
 
   return [...quickSort(left), ...middle, ...quickSort(right)];
 }
@@ -307,14 +307,14 @@ function isBulkOrder(amount: number): boolean {
 
 ## Summary Patterns
 
-| Scenario | Comment Needed? | Alternative |
-|----------|----------------|-------------|
-| Simple operations | ❌ No | Self-explanatory code |
-| Public API | ✅ Yes (JSDoc) | N/A |
-| Complex algorithm | ✅ Yes (high-level) | + Good naming |
-| Performance optimization | ✅ Yes (rationale) | N/A |
-| Business logic | ❌ No | Named constants/functions |
-| Library workaround | ✅ Yes (with link) | N/A |
-| Complex conditional | ❌ No | Extract to function |
-| Magic numbers | ❌ No | Named constants |
-| TODO notes | ✅ Yes (specific) | Issue tracker link |
+| Scenario                 | Comment Needed?     | Alternative               |
+| ------------------------ | ------------------- | ------------------------- |
+| Simple operations        | ❌ No               | Self-explanatory code     |
+| Public API               | ✅ Yes (JSDoc)      | N/A                       |
+| Complex algorithm        | ✅ Yes (high-level) | + Good naming             |
+| Performance optimization | ✅ Yes (rationale)  | N/A                       |
+| Business logic           | ❌ No               | Named constants/functions |
+| Library workaround       | ✅ Yes (with link)  | N/A                       |
+| Complex conditional      | ❌ No               | Extract to function       |
+| Magic numbers            | ❌ No               | Named constants           |
+| TODO notes               | ✅ Yes (specific)   | Issue tracker link        |

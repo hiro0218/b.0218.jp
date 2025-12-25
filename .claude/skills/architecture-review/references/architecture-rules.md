@@ -38,6 +38,7 @@ src/
 - **依存**: 下位レイヤーのみに依存
 
 **配置例**:
+
 - Header
 - Footer
 - Layout
@@ -51,11 +52,12 @@ src/
 - **制約**: App/ に依存不可
 
 **配置例**:
+
 - HomePage
 - AboutPage
 - BlogPostPage
-- _shared/Hero
-- _shared/ContactForm
+- \_shared/Hero
+- \_shared/ContactForm
 
 ### UI/
 
@@ -64,6 +66,7 @@ src/
 - **依存**: 他のコンポーネントレイヤーに依存しない
 
 **配置例**:
+
 - Button
 - Card
 - Modal
@@ -77,6 +80,7 @@ src/
 - **依存**: 他のコンポーネントレイヤーに依存しない
 
 **配置例**:
+
 - PreconnectLinks
 - MetaTags
 - ErrorBoundary
@@ -87,6 +91,7 @@ src/
 ### Separation of Concerns（関心の分離）
 
 各レイヤーが明確な責務を持つことで：
+
 - コードの理解が容易
 - 変更の影響範囲が限定的
 - テストが書きやすい
@@ -94,6 +99,7 @@ src/
 ### Maintainability（保守性）
 
 依存関係が明確なため：
+
 - リファクタリングが安全
 - 新機能の追加が容易
 - バグの原因特定が早い
@@ -101,6 +107,7 @@ src/
 ### Testability（テスト容易性）
 
 独立したレイヤーにより：
+
 - 単体テストが書きやすい
 - モックが作りやすい
 - テストの実行が高速
@@ -108,6 +115,7 @@ src/
 ### Scalability（拡張性）
 
 明確な構造により：
+
 - チーム開発がスムーズ
 - コードベースの成長に対応
 - 新メンバーのオンボーディングが容易
@@ -175,12 +183,12 @@ UI コンポーネントは `margin` プロパティを使用しない：
 ```typescript
 // ❌ 違反例
 const Button = styled.button`
-  margin: 16px;  // NG: 自己マージン
+  margin: 16px; // NG: 自己マージン
 `;
 
 // ✅ 正しい例
 const Button = styled.button`
-  padding: 8px 16px;  // OK: 内部スペーシング
+  padding: 8px 16px; // OK: 内部スペーシング
 `;
 ```
 
@@ -311,7 +319,7 @@ async function getData() {
 'use client';
 
 export function StaticContent() {
-  return <div>Static Content</div>;  // インタラクティブ機能なし
+  return <div>Static Content</div>; // インタラクティブ機能なし
 }
 
 // ✅ Server Component で十分

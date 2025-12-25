@@ -36,7 +36,7 @@ Use this checklist to determine if a comment is needed:
 ```typescript
 // ❌ Bad: Comment explains complex logic
 // Calculate total with tax and discount
-const total = price - (price * discount) + ((price - (price * discount)) * taxRate);
+const total = price - price * discount + (price - price * discount) * taxRate;
 
 // ✅ Good: Refactor to self-documenting code
 const discountedPrice = price * (1 - discount);
@@ -70,10 +70,11 @@ export function calculateTotal(price: number, discount: number, taxRate: number)
 // ✅ Good: Explains performance optimization
 // Convert to Map for O(1) lookup instead of O(n) array.find()
 // Reduces search time from ~500ms to <1ms with 1000+ items
-const postsMap = new Map(posts.map(p => [p.id, p]));
+const postsMap = new Map(posts.map((p) => [p.id, p]));
 ```
 
 **Action**: Comment **only** when explaining:
+
 - Performance optimizations with measurements
 - Library constraints or workarounds
 - Hardware/browser compatibility issues
@@ -116,7 +117,7 @@ for (let i = 0; i < users.length; i++) {
 
 // ✅ Suggest: Extract to function
 function findUserByEmail(email: string): User | undefined {
-  return users.find(u => u.email === email);
+  return users.find((u) => u.email === email);
 }
 ```
 
@@ -163,6 +164,7 @@ export function processPayment(amount: number, currency: string) {
 For TypeScript-specific patterns (React hooks, Server Components, type guards, etc.), refer to:
 
 **See [typescript-specific.md](references/typescript-specific.md)** for:
+
 - JSDoc requirements for public APIs
 - React component documentation
 - Server vs Client Components
@@ -174,6 +176,7 @@ For TypeScript-specific patterns (React hooks, Server Components, type guards, e
 For language-agnostic principles with examples in multiple languages, refer to:
 
 **See [examples.md](references/examples.md)** for:
+
 - Redundant comment examples
 - Function documentation patterns
 - Performance optimization comments
@@ -185,6 +188,7 @@ For language-agnostic principles with examples in multiple languages, refer to:
 For detailed rationale behind these guidelines, refer to:
 
 **See [experts.md](references/experts.md)** for:
+
 - Robert C. Martin (Uncle Bob) - "Comments are a failure"
 - Martin Fowler - "Comment needs are code smells"
 - Jeff Atwood - "Code = HOW, Comments = WHY"
@@ -206,6 +210,7 @@ When reviewing code comments, provide:
 **Overall Assessment**: Needs Improvement
 
 **Issues Found**:
+
 1. Line 12: Redundant comment `// Calculate total price` → Remove
 2. Line 34: Missing JSDoc for `export function applyDiscount()` → Add documentation
 3. Line 56: Complex logic needs refactoring → Extract to `calculateBulkDiscount()`
@@ -214,17 +219,17 @@ When reviewing code comments, provide:
 
 ## Quick Reference
 
-| Situation | Comment? | Alternative |
-|-----------|----------|-------------|
-| Simple operation | ❌ No | Self-explanatory code |
-| Public API (exported) | ✅ Yes (JSDoc) | N/A - Required |
-| Complex algorithm | ✅ Yes (high-level) | + Good naming |
-| Performance optimization | ✅ Yes (with metrics) | N/A |
-| Business logic | ❌ No | Named constants/functions |
-| Library workaround | ✅ Yes (with link) | N/A |
-| Type information | ❌ No | TypeScript types |
-| Magic number | ❌ No | Named constant |
-| TODO note | ✅ Yes (specific + link) | Issue tracker |
+| Situation                | Comment?                 | Alternative               |
+| ------------------------ | ------------------------ | ------------------------- |
+| Simple operation         | ❌ No                    | Self-explanatory code     |
+| Public API (exported)    | ✅ Yes (JSDoc)           | N/A - Required            |
+| Complex algorithm        | ✅ Yes (high-level)      | + Good naming             |
+| Performance optimization | ✅ Yes (with metrics)    | N/A                       |
+| Business logic           | ❌ No                    | Named constants/functions |
+| Library workaround       | ✅ Yes (with link)       | N/A                       |
+| Type information         | ❌ No                    | TypeScript types          |
+| Magic number             | ❌ No                    | Named constant            |
+| TODO note                | ✅ Yes (specific + link) | Issue tracker             |
 
 ## Remember
 

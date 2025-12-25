@@ -10,7 +10,7 @@ This document covers comment patterns specific to TypeScript and JavaScript deve
 // User object with name and email
 const user = {
   name: 'John',
-  email: 'john@example.com'
+  email: 'john@example.com',
 };
 
 // Array of numbers
@@ -32,7 +32,7 @@ interface User {
 
 const user: User = {
   name: 'John',
-  email: 'john@example.com'
+  email: 'john@example.com',
 };
 
 const scores: number[] = [90, 85, 95];
@@ -58,7 +58,7 @@ export function calculateTax(amount: number, rate: number): number {
 
 ### ✅ Good: Complete JSDoc for public API
 
-```typescript
+````typescript
 /**
  * Calculates tax amount based on the given rate
  *
@@ -79,7 +79,7 @@ export function calculateTax(amount: number, rate: number): number {
   }
   return Math.round(amount * rate);
 }
-```
+````
 
 **Principle**: All exported functions, classes, and complex constants need JSDoc.
 
@@ -137,7 +137,7 @@ export function Button({ children, onClick, preventDoubleClick }: ButtonProps) {
 
 export function Counter() {
   const [count, setCount] = useState(0);
-  return <button onClick={() => setCount(c => c + 1)}>{count}</button>;
+  return <button onClick={() => setCount((c) => c + 1)}>{count}</button>;
 }
 ```
 
@@ -150,10 +150,10 @@ export function Counter() {
 
 export function ThemeToggle() {
   const [theme, setTheme] = useState(() =>
-    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
   );
 
-  return <button onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}>{theme}</button>;
+  return <button onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}>{theme}</button>;
 }
 ```
 
@@ -226,10 +226,7 @@ function isString(value: unknown): value is string {
  * TODO(issue-#456): Remove after API v2 migration completes
  */
 function isUserObject(response: unknown): response is User {
-  return typeof response === 'object'
-    && response !== null
-    && 'id' in response
-    && 'email' in response;
+  return typeof response === 'object' && response !== null && 'id' in response && 'email' in response;
 }
 ```
 
@@ -339,10 +336,7 @@ const memoizedCallback = useCallback(() => {
  * Before memoization: 200ms per render
  * After memoization: <1ms per render (only recalculates when data changes)
  */
-const sortedItems = useMemo(
-  () => [...items].sort((a, b) => a.priority - b.priority),
-  [items]
-);
+const sortedItems = useMemo(() => [...items].sort((a, b) => a.priority - b.priority), [items]);
 ```
 
 **Principle**: Don't comment obvious memoization. Explain when profiling drove the decision with metrics.
@@ -351,17 +345,17 @@ const sortedItems = useMemo(
 
 ## Summary: TypeScript-Specific Principles
 
-| Pattern | Comment Needed? | Why |
-|---------|----------------|-----|
-| Type annotations | ❌ Never | Types are self-documenting |
-| Public exported API | ✅ Always (JSDoc) | Contract documentation |
-| Simple React patterns | ❌ No | Well-known conventions |
-| 'use client' directive | 🟡 Sometimes | Only when non-obvious |
-| Async/await | ❌ No | Syntax is understood |
-| Type guards | 🟡 Sometimes | Complex business logic only |
-| Dependency arrays | 🟡 Sometimes | Intentional omissions only |
-| Module augmentation | ✅ Yes | Unusual pattern |
-| SSR/SSG checks | ✅ Yes | Framework-specific |
-| useMemo/useCallback | 🟡 Sometimes | Profiling-driven only |
+| Pattern                | Comment Needed?   | Why                         |
+| ---------------------- | ----------------- | --------------------------- |
+| Type annotations       | ❌ Never          | Types are self-documenting  |
+| Public exported API    | ✅ Always (JSDoc) | Contract documentation      |
+| Simple React patterns  | ❌ No             | Well-known conventions      |
+| 'use client' directive | 🟡 Sometimes      | Only when non-obvious       |
+| Async/await            | ❌ No             | Syntax is understood        |
+| Type guards            | 🟡 Sometimes      | Complex business logic only |
+| Dependency arrays      | 🟡 Sometimes      | Intentional omissions only  |
+| Module augmentation    | ✅ Yes            | Unusual pattern             |
+| SSR/SSG checks         | ✅ Yes            | Framework-specific          |
+| useMemo/useCallback    | 🟡 Sometimes      | Profiling-driven only       |
 
 **Key Insight**: TypeScript's type system eliminates ~70% of comment needs compared to JavaScript.

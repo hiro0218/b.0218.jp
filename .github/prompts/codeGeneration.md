@@ -1,6 +1,6 @@
 ---
-description: "コード生成時の技術スタック準拠とコンポーネント分類ルール"
-agent: "agent"
+description: 'コード生成時の技術スタック準拠とコンポーネント分類ルール'
+agent: 'agent'
 ---
 
 # コード生成の指示
@@ -204,7 +204,7 @@ import type { Result } from '@/types/result';
 
 /**
  * 記事の類似度を計算する
- * 
+ *
  * @param text1 - 比較対象のテキスト1
  * @param text2 - 比較対象のテキスト2
  * @returns 類似度を表す数値（0-1）またはエラー
@@ -272,12 +272,7 @@ const MemoizedComponent = memo(function OptimizedComponent({ data }: Props) {
 ```tsx
 // 良い例: アクセシブルなコンポーネント
 export const AccessibleButton = ({ onClick, children }: ButtonProps) => (
-  <button
-    onClick={onClick}
-    aria-label="ボタンの説明"
-    tabIndex={0}
-    role="button"
-  >
+  <button onClick={onClick} aria-label="ボタンの説明" tabIndex={0} role="button">
     {children}
   </button>
 );
@@ -289,7 +284,7 @@ export const AccessibleButton = ({ onClick, children }: ButtonProps) => (
 // 良い例: メタデータと構造化データ
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const post = await getPost(params.slug);
-  
+
   return {
     title: post.title,
     description: post.excerpt,

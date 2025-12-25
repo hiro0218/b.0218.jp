@@ -128,6 +128,7 @@ const Button = styled.button`
 ### Performance & Optimization
 
 **Static Generation**:
+
 - Route-based code splitting
 - Next.js Image optimization
 - Bundle analysis: `npm run build:analyzer`
@@ -139,15 +140,18 @@ const Button = styled.button`
 React Compiler (React 19) automatically handles memoization and re-render optimization.
 
 **❌ DO NOT suggest**:
+
 - Manual `useMemo` / `useCallback` / `memo` (redundant when compiler is active)
 
 **✅ DO suggest**:
+
 - Algorithm improvements (e.g., O(n²) → O(n))
 - Data structure optimizations
 - Reducing unnecessary function calls or normalizations
 - Build-time optimizations
 
 **Verification**:
+
 1. Read `next.config.mjs` to check `reactCompiler` setting
 2. If `true`: Focus on algorithmic/structural improvements only
 3. If `false`: Manual memoization techniques are appropriate
@@ -167,12 +171,14 @@ React Compiler (React 19) automatically handles memoization and re-render optimi
 ### Commit Messages
 
 Format: `type: description` (Japanese, under 50 chars)
+
 - Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`
 - Focus on "why" rather than "what"
 
 ### Pull Requests
 
 Include:
+
 - Title: Japanese, under 50 chars
 - Overview: Purpose and background (1-2 sentences)
 - Changes: Bulleted list of modifications

@@ -23,6 +23,7 @@ allowed-tools: Read, Grep, Glob
 ### 1. Interactivity（インタラクティビティ）
 
 **主要チェックポイント**:
+
 - フォーム要素の適切な実装
 - ボタンの二重送信防止
 - インタラクティブ要素の `user-select` 設定
@@ -30,6 +31,7 @@ allowed-tools: Read, Grep, Glob
 - Enter キーでのフォーム送信
 
 **検証項目**:
+
 ```typescript
 // ✅ 正しい実装
 <form onSubmit={handleSubmit}>
@@ -59,6 +61,7 @@ allowed-tools: Read, Grep, Glob
 ### 2. Typography（タイポグラフィ）
 
 **主要チェックポイント**:
+
 - フォントスムージングの適用
 - フォントウェイトの適切な使用（400 以上）
 - タブラー数字の使用（テーブル、タイマーなど）
@@ -66,6 +69,7 @@ allowed-tools: Read, Grep, Glob
 - iOS での予期しないテキストリサイズ防止
 
 **検証項目**:
+
 ```css
 /* ✅ 推奨スタイル */
 body {
@@ -92,6 +96,7 @@ p {
 ### 3. Motion（モーション・アニメーション）
 
 **主要チェックポイント**:
+
 - アニメーション時間は 200ms 以内
 - テーマ切り替え時のトランジション防止
 - 頻繁な操作には過度なアニメーションを避ける
@@ -99,6 +104,7 @@ p {
 - 画面外での無限ループアニメーション停止
 
 **検証項目**:
+
 ```typescript
 // ✅ 適切なアニメーション
 const Dialog = styled.div`
@@ -131,16 +137,18 @@ const Button = styled.button`
 **⚠️ プロジェクト固有**: `:hover` は PostCSS プラグイン (`postcss-media-hover-any-hover`) が自動的に `@media (any-hover: hover)` でラップします。手動でメディアクエリを追加しないでください。
 
 **主要チェックポイント**:
+
 - インプットのフォントサイズ 16px 以上（iOS ズーム防止）
 - タッチデバイスでの自動フォーカス無効化
 - ビデオの自動再生設定（`muted`, `playsinline`）
 - iOS タップハイライトの適切な置き換え
 
 **検証項目**:
+
 ```css
 /* ✅ 正しい実装 */
 button {
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 button:hover {
@@ -152,7 +160,8 @@ input {
 }
 
 /* ❌ 間違った実装 */
-@media (any-hover: hover) { /* 冗長 */
+@media (any-hover: hover) {
+  /* 冗長 */
   button:hover {
     background-color: #eee;
   }
@@ -166,6 +175,7 @@ input {
 ### 5. Optimizations（パフォーマンス最適化）
 
 **主要チェックポイント**:
+
 - 大きな `blur()` 値の回避
 - GPU レンダリングの適切な使用 (`transform: translateZ(0)`)
 - `will-change` の慎重な使用
@@ -173,6 +183,7 @@ input {
 - React レンダリングのバイパス（必要時のみ）
 
 **検証項目**:
+
 ```typescript
 // ✅ 最適化された実装
 const BlurredBox = styled.div`
@@ -198,6 +209,7 @@ const HeavyBlur = styled.div`
 ### 6. Accessibility（アクセシビリティ）
 
 **主要チェックポイント**:
+
 - 無効化ボタンへのツールチップ禁止
 - フォーカスリングに `box-shadow` を使用
 - アイコンのみの要素に `aria-label` 追加
@@ -205,6 +217,7 @@ const HeavyBlur = styled.div`
 - キーボードナビゲーション対応（↑↓ キー）
 
 **検証項目**:
+
 ```typescript
 // ✅ アクセシブルな実装
 <button aria-label="閉じる">
@@ -237,6 +250,7 @@ const FocusRing = styled.button`
 #### 実装面のチェックポイント
 
 **UI パターンと実装**:
+
 - 楽観的 UI 更新とロールバック
 - サーバー側での認証リダイレクト
 - `::selection` のスタイリング
@@ -244,11 +258,12 @@ const FocusRing = styled.button`
 - 空状態の適切な処理
 
 **検証項目**:
+
 ```typescript
 // ✅ 楽観的 UI 更新
 const handleDelete = async (id) => {
   // 即座に UI を更新
-  setItems(items.filter(item => item.id !== id));
+  setItems(items.filter((item) => item.id !== id));
 
   try {
     await api.delete(id);
@@ -263,7 +278,7 @@ const handleDelete = async (id) => {
 <button onClick={handleCopy}>
   コピー
   {copied && <CheckIcon />} {/* ボタン内に表示 */}
-</button>
+</button>;
 
 // ❌ 不適切なフィードバック
 const handleCopy = () => {
@@ -275,6 +290,7 @@ const handleCopy = () => {
 #### UX 心理効果のチェックポイント
 
 **主要な心理効果**:
+
 - 美的ユーザビリティ効果（視覚的洗練さ）
 - 認知負荷の軽減（情報量、レイアウト、タイポグラフィ）
 - 視覚的階層（見出し、本文、コードの優先度）
@@ -285,6 +301,7 @@ const handleCopy = () => {
 - ピーク・エンドの法則（ハイライトと締めくくり）
 
 **技術ブログで特に重視すべき点**:
+
 - コンテンツの質と明確性を最優先
 - 技術記事ではコードブロック、シンタックスハイライト、適切な空白に注意
 - タイトルの明確性（クリックベイト回避）
@@ -292,6 +309,7 @@ const handleCopy = () => {
 - 過度な CTA や購読促進は控えめに
 
 **検証項目**:
+
 ```typescript
 // ✅ 認知負荷の軽減と視覚的階層
 const Article = () => (
@@ -356,6 +374,7 @@ const SlowResponse = async () => {
 ```
 
 **チェックリスト**:
+
 - [ ] 楽観的 UI 更新を実装（実装面）
 - [ ] フィードバックが適切な位置に表示（実装面）
 - [ ] 空状態が適切に処理される（実装面）
@@ -375,6 +394,7 @@ const SlowResponse = async () => {
 ### Step 1: ファイルの特定
 
 対象ファイルを特定します：
+
 - UI コンポーネント（`src/components/UI/`）
 - Page コンポーネント（`src/components/Page/`）
 - スタイル定義（`src/ui/`）
@@ -395,11 +415,11 @@ const SlowResponse = async () => {
 
 検出された問題を優先度別に分類：
 
-| 優先度 | 問題の種類                                 |
-| ------ | ------------------------------------------ |
-| 高     | アクセシビリティ違反、重大なUX問題         |
-| 中     | パフォーマンス問題、タッチデバイス非対応   |
-| 低     | 最適化の余地、細かいUX改善                 |
+| 優先度 | 問題の種類                               |
+| ------ | ---------------------------------------- |
+| 高     | アクセシビリティ違反、重大なUX問題       |
+| 中     | パフォーマンス問題、タッチデバイス非対応 |
+| 低     | 最適化の余地、細かいUX改善               |
 
 ### Step 4: レビュー結果の生成
 
@@ -407,7 +427,7 @@ const SlowResponse = async () => {
 
 ## 出力形式
 
-```markdown
+````markdown
 ## インターフェースレビュー結果
 
 ### 📊 レビューサマリー
@@ -441,12 +461,14 @@ const SlowResponse = async () => {
   - transition: all 500ms;
   + transition: all 150ms ease-out;
   ```
+````
 
 ### 📝 総合評価
 
 - **評価**: ⚠️ 改善推奨
 - **優先修正**: Motion のアニメーション時間短縮
 - **推奨改善**: Touch デバイス対応の強化
+
 ```
 
 ## 使用例
@@ -454,29 +476,37 @@ const SlowResponse = async () => {
 ### 例 1: UI コンポーネントのレビュー
 
 ```
+
 User: Button コンポーネントのインターフェースをレビューして
 Assistant: [スキルを起動して 7 つの領域から検証]
+
 ```
 
 ### 例 2: ページ全体のレビュー
 
 ```
+
 User: HomePage のアクセシビリティとタッチ対応をチェック
 Assistant: [Accessibility と Touch の領域を重点的に検証]
+
 ```
 
 ### 例 3: 特定領域のレビュー
 
 ```
+
 User: このアニメーションがベストプラクティスに従っているか確認
 Assistant: [Motion 領域を重点的に検証]
+
 ```
 
 ### 例 4: Design & UX のレビュー
 
 ```
+
 User: この記事ページの認知負荷と視覚的階層をチェック
 Assistant: [Design & UX 領域（UX 心理効果）を重点的に検証]
+
 ```
 
 ## 参照ドキュメント
@@ -498,3 +528,4 @@ Assistant: [Design & UX 領域（UX 心理効果）を重点的に検証]
 このスキルは以下のガイドラインに基づいています：
 - [raunofreiberg/interfaces](https://github.com/raunofreiberg/interfaces) - Web インターフェース実装
 - プロジェクト独自の UX 心理効果ガイドライン - 技術ブログにおける心理効果
+```

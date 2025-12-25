@@ -1,6 +1,6 @@
 ---
-description: "TypeScript コーディング規約と品質基準"
-applyTo: "**/*.{ts,tsx}"
+description: 'TypeScript コーディング規約と品質基準'
+applyTo: '**/*.{ts,tsx}'
 ---
 
 # TypeScript コーディング規約
@@ -42,7 +42,7 @@ import type { Post } from '@/types/source';
 
 ### 公開APIのJSDoc必須
 
-```typescript
+````typescript
 /**
  * 記事データをslugから取得
  *
@@ -60,9 +60,10 @@ import type { Post } from '@/types/source';
 export function getPost(slug: string): Post | undefined {
   // 実装
 }
-```
+````
 
 **必須対象**:
+
 - `export`された関数
 - `export`されたクラス
 - `export`された定数（複雑なものに限る）
@@ -87,7 +88,7 @@ import { css } from '../../../ui/styled';
 
 ```typescript
 // **RECOMMENDED**: ビルド時エラー
-const posts = getPosts();  // 存在しない場合はビルドエラー
+const posts = getPosts(); // 存在しない場合はビルドエラー
 
 // **AVOID**: ランタイムエラー
 try {
@@ -99,14 +100,14 @@ try {
 
 ## 命名規則
 
-| 種類 | 形式 | 例 |
-|------|------|-----|
-| コンポーネント | PascalCase | `PostDetail`, `Button` |
-| 関数/変数 | camelCase | `getPost`, `userData` |
-| 定数 | SCREAMING_SNAKE_CASE | `MAX_POSTS_PER_PAGE` |
-| 型/インターフェース | PascalCase | `PostProps`, `User` |
-| ファイル（コンポーネント） | PascalCase.tsx | `PostDetail.tsx` |
-| ファイル（ユーティリティ） | camelCase.ts | `formatDate.ts` |
+| 種類                       | 形式                 | 例                     |
+| -------------------------- | -------------------- | ---------------------- |
+| コンポーネント             | PascalCase           | `PostDetail`, `Button` |
+| 関数/変数                  | camelCase            | `getPost`, `userData`  |
+| 定数                       | SCREAMING_SNAKE_CASE | `MAX_POSTS_PER_PAGE`   |
+| 型/インターフェース        | PascalCase           | `PostProps`, `User`    |
+| ファイル（コンポーネント） | PascalCase.tsx       | `PostDetail.tsx`       |
+| ファイル（ユーティリティ） | camelCase.ts         | `formatDate.ts`        |
 
 ## Import順序
 
@@ -158,7 +159,9 @@ export function StaticText({ text }: { text: string }) {
 export function PostCount() {
   const [count, setCount] = useState(0);
   useEffect(() => {
-    fetch('/api/posts/count').then(r => r.json()).then(setCount);
+    fetch('/api/posts/count')
+      .then((r) => r.json())
+      .then(setCount);
   }, []);
   return <span>{count}</span>;
 }

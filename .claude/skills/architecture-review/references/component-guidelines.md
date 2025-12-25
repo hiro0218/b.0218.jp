@@ -22,38 +22,38 @@
 
 **判断基準**:
 
-| レイヤー     | 配置すべきファイル                           |
-| ------------ | -------------------------------------------- |
-| App/         | Header, Footer, Layout, Navigation           |
-| Page/        | HomePage, AboutPage, BlogPostPage            |
-| Page/_shared | Hero, ContactForm, NewsletterSignup          |
-| UI/          | Button, Card, Modal, Input, Typography       |
-| Functional/  | PreconnectLinks, MetaTags, ErrorBoundary     |
+| レイヤー      | 配置すべきファイル                       |
+| ------------- | ---------------------------------------- |
+| App/          | Header, Footer, Layout, Navigation       |
+| Page/         | HomePage, AboutPage, BlogPostPage        |
+| Page/\_shared | Hero, ContactForm, NewsletterSignup      |
+| UI/           | Button, Card, Modal, Input, Typography   |
+| Functional/   | PreconnectLinks, MetaTags, ErrorBoundary |
 
 #### 1.2 ファイル命名規則
 
 ```typescript
 // ✅ 正しい命名
 // Components: PascalCase
-src/components/UI/Button/Button.tsx
-src/components/Page/HomePage.tsx
+src / components / UI / Button / Button.tsx;
+src / components / Page / HomePage.tsx;
 
 // Utilities: camelCase
-src/lib/formatDate.ts
-src/lib/parseMarkdown.ts
+src / lib / formatDate.ts;
+src / lib / parseMarkdown.ts;
 
 // Constants: UPPER_SNAKE_CASE
-src/constants/API_ENDPOINT.ts
-src/constants/COLOR_PALETTE.ts
+src / constants / API_ENDPOINT.ts;
+src / constants / COLOR_PALETTE.ts;
 
 // Types: PascalCase
-src/types/Post.ts
-src/types/User.ts
+src / types / Post.ts;
+src / types / User.ts;
 
 // ❌ 誤った命名
-src/components/UI/button/button.tsx  // 小文字
-src/lib/FormatDate.ts                 // PascalCase（ユーティリティ）
-src/constants/apiEndpoint.ts          // camelCase（定数）
+src / components / UI / button / button.tsx; // 小文字
+src / lib / FormatDate.ts; // PascalCase（ユーティリティ）
+src / constants / apiEndpoint.ts; // camelCase（定数）
 ```
 
 ### Phase 2: インポート依存関係の検証
@@ -88,7 +88,7 @@ import { Card } from '@/components/UI/Card';
 import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
 
 // ❌ 禁止されるインポート
-import { Header } from '@/components/App/Header';  // App への依存は禁止
+import { Header } from '@/components/App/Header'; // App への依存は禁止
 ```
 
 **UI/ のインポート検証**:
@@ -99,9 +99,9 @@ import { css } from '@/ui/styled';
 import type { ButtonProps } from './types';
 
 // ❌ 禁止されるインポート
-import { HomePage } from '@/components/Page/HomePage';          // Page への依存
-import { Header } from '@/components/App/Header';               // App への依存
-import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';  // Functional への依存
+import { HomePage } from '@/components/Page/HomePage'; // Page への依存
+import { Header } from '@/components/App/Header'; // App への依存
+import { PreconnectLinks } from '@/components/Functional/PreconnectLinks'; // Functional への依存
 ```
 
 **Functional/ のインポート検証**:
@@ -111,9 +111,9 @@ import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';  // F
 import type { MetaData } from '@/types/meta';
 
 // ❌ 禁止されるインポート
-import { Button } from '@/components/UI/Button';       // UI への依存
+import { Button } from '@/components/UI/Button'; // UI への依存
 import { HomePage } from '@/components/Page/HomePage'; // Page への依存
-import { Header } from '@/components/App/Header';      // App への依存
+import { Header } from '@/components/App/Header'; // App への依存
 ```
 
 #### 2.2 インポート順序の検証
@@ -141,8 +141,8 @@ import { css } from '@/ui/styled';
 import { COLORS } from '@/constants/colors';
 
 // ❌ 誤った順序
-import { Button } from '@/components/UI/Button';  // コンポーネントが先
-import { useState } from 'react';                 // 外部ライブラリが後
+import { Button } from '@/components/UI/Button'; // コンポーネントが先
+import { useState } from 'react'; // 外部ライブラリが後
 ```
 
 ### Phase 3: コンポーネント実装の検証
@@ -158,7 +158,7 @@ export default function StaticPage() {
 }
 
 // Client Component（必要時のみ）
-'use client';
+('use client');
 
 import { useState } from 'react';
 
@@ -170,7 +170,7 @@ export default function InteractiveComponent() {
 // ❌ 不適切な使用例
 
 // 'use client' が不要（インタラクティブ機能なし）
-'use client';
+('use client');
 
 export default function StaticComponent() {
   return <div>Static Content</div>;
@@ -179,13 +179,13 @@ export default function StaticComponent() {
 
 **判断基準**:
 
-| 機能                   | Server Component | Client Component |
-| ---------------------- | :--------------: | :--------------: |
-| 静的コンテンツ表示     |        ✅        |        ❌        |
-| データフェッチ（SSG）  |        ✅        |        ❌        |
-| useState/useEffect     |        ❌        |        ✅        |
-| イベントハンドラ       |        ❌        |        ✅        |
-| ブラウザ API           |        ❌        |        ✅        |
+| 機能                  | Server Component | Client Component |
+| --------------------- | :--------------: | :--------------: |
+| 静的コンテンツ表示    |        ✅        |        ❌        |
+| データフェッチ（SSG） |        ✅        |        ❌        |
+| useState/useEffect    |        ❌        |        ✅        |
+| イベントハンドラ      |        ❌        |        ✅        |
+| ブラウザ API          |        ❌        |        ✅        |
 
 #### 3.2 ゼロマージン原則の検証
 
@@ -194,16 +194,16 @@ export default function StaticComponent() {
 ```typescript
 // ✅ 正しい実装（ゼロマージン）
 const Button = styled.button`
-  padding: 8px 16px;        // OK: 内部スペーシング
-  border-radius: 4px;       // OK: スタイリング
-  background-color: blue;   // OK: スタイリング
+  padding: 8px 16px; // OK: 内部スペーシング
+  border-radius: 4px; // OK: スタイリング
+  background-color: blue; // OK: スタイリング
 `;
 
 // ❌ 違反（自己マージン）
 const Button = styled.button`
-  margin: 16px;             // NG: 自己マージン
-  margin-top: 8px;          // NG: 自己マージン
-  margin-bottom: 8px;       // NG: 自己マージン
+  margin: 16px; // NG: 自己マージン
+  margin-top: 8px; // NG: 自己マージン
+  margin-bottom: 8px; // NG: 自己マージン
 `;
 
 // ✅ 親でスペーシング制御
@@ -273,11 +273,13 @@ export interface ButtonProps {
 }
 
 // ❌ 型推論に依存（Public API）
-export function formatPost(post) {  // 型がない
+export function formatPost(post) {
+  // 型がない
   // ...
 }
 
-export const Button = ({ children, onClick }) => {  // 型がない
+export const Button = ({ children, onClick }) => {
+  // 型がない
   // ...
 };
 ```
@@ -293,14 +295,14 @@ import type { User } from '@/types/user';
 import { getPosts, type Post } from '@/lib/posts';
 
 // ❌ 型を通常のインポートで取得
-import { Post } from '@/types/post';  // type キーワードがない
+import { Post } from '@/types/post'; // type キーワードがない
 ```
 
 ### Phase 5: レビュー結果の生成
 
 #### 5.1 結果フォーマット
 
-```markdown
+````markdown
 ## アーキテクチャレビュー結果
 
 ### 📊 レビューサマリー
@@ -340,6 +342,7 @@ import { Post } from '@/types/post';  // type キーワードがない
   +   padding: 8px 16px;
   + `;
   ```
+````
 
 ### 📝 総合評価
 
@@ -348,7 +351,8 @@ import { Post } from '@/types/post';  // type キーワードがない
 - **推奨アクション**:
   1. ゼロマージン原則違反を修正（必須）
   2. any 型を明示的な型定義に置き換え（推奨）
-```
+
+````
 
 #### 5.2 優先度の判定基準
 
@@ -370,7 +374,7 @@ npx @biomejs/biome check <file>
 
 # 自動修正
 npx @biomejs/biome check --write <file>
-```
+````
 
 ### TypeScript コンパイラチェック
 
@@ -424,7 +428,9 @@ const Layout = () => (
 export default function StaticList({ items }) {
   return (
     <ul>
-      {items.map(item => <li key={item.id}>{item.name}</li>)}
+      {items.map((item) => (
+        <li key={item.id}>{item.name}</li>
+      ))}
     </ul>
   );
 }
@@ -433,7 +439,9 @@ export default function StaticList({ items }) {
 export default function StaticList({ items }) {
   return (
     <ul>
-      {items.map(item => <li key={item.id}>{item.name}</li>)}
+      {items.map((item) => (
+        <li key={item.id}>{item.name}</li>
+      ))}
     </ul>
   );
 }
@@ -453,7 +461,7 @@ interface DataItem {
 }
 
 function processData(data: DataItem[]) {
-  return data.map(item => item.value);
+  return data.map((item) => item.value);
 }
 ```
 

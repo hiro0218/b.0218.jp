@@ -1,6 +1,6 @@
 ---
-description: "Vitestテスト生成パターンとカバレッジ要件"
-agent: "agent"
+description: 'Vitestテスト生成パターンとカバレッジ要件'
+agent: 'agent'
 ---
 
 # テスト生成の指示
@@ -76,7 +76,7 @@ it.each([
   ['123', 123],
   ['0', 0],
   ['-10', -10],
-  ['abc', NaN],  // 無効な入力のケース
+  ['abc', NaN], // 無効な入力のケース
 ])('parseNumber("%s")は%iを返す', (input, expected) => {
   expect(parseNumber(input)).toBe(expected);
 });
@@ -91,7 +91,7 @@ describe('isValidEmail', () => {
     ['user@', false],
     ['user@.com', false],
     [null, false],
-    [undefined, false]
+    [undefined, false],
   ])('isValidEmail(%s)は%sを返す', (input, expected) => {
     expect(isValidEmail(input)).toBe(expected);
   });
@@ -103,7 +103,7 @@ describe('isValidEmail', () => {
 ```typescript
 it('新規ユーザー作成時、適切な初期値が設定される', () => {
   const user = createUser('test@example.com', 'Test User');
-  
+
   expect(user.email).toBe('test@example.com');
   expect(user.name).toBe('Test User');
   expect(user.createdAt).toBeInstanceOf(Date);
@@ -121,60 +121,76 @@ it('新規ユーザー作成時、適切な初期値が設定される', () => {
 
 ```typescript
 // 良い例
-it('parseJson: 有効なJSON形式の場合、パースされたオブジェクトを返す', () => { /* ... */ });
-it('parseJson: 空文字列の場合、nullを返す', () => { /* ... */ });
-it('parseJson: 無効なJSON形式の場合、例外をスローする', () => { /* ... */ });
+it('parseJson: 有効なJSON形式の場合、パースされたオブジェクトを返す', () => {
+  /* ... */
+});
+it('parseJson: 空文字列の場合、nullを返す', () => {
+  /* ... */
+});
+it('parseJson: 無効なJSON形式の場合、例外をスローする', () => {
+  /* ... */
+});
 
 // 避けるべき例
-it('正常に動作する', () => { /* ... */ }); // 具体性が足りない
-it('parseJsonのテスト', () => { /* ... */ }); // 何をテストしているか不明確
-it('パースする', () => { /* ... */ }); // 条件と期待結果が不明確
+it('正常に動作する', () => {
+  /* ... */
+}); // 具体性が足りない
+it('parseJsonのテスト', () => {
+  /* ... */
+}); // 何をテストしているか不明確
+it('パースする', () => {
+  /* ... */
+}); // 条件と期待結果が不明確
 ```
 
 ### 4. モック化対象
 
 - **外部API呼び出し**: fetch, axiosなどのネットワーク要求
+
   ```typescript
   // fetch のモック例
   vi.mock('node-fetch');
   import fetch from 'node-fetch';
   import type { Mock } from 'vitest';
   const mockFetch = fetch as unknown as Mock;
-  
+
   beforeEach(() => {
     mockFetch.mockClear();
     mockFetch.mockResolvedValue({
       ok: true,
-      json: () => Promise.resolve({ data: 'test' })
+      json: () => Promise.resolve({ data: 'test' }),
     });
   });
   ```
 
 - **ファイルシステムアクセス**: fsモジュールなど
+
   ```typescript
   // fs のモック例
   vi.mock('fs/promises');
   import { readFile } from 'fs/promises';
   import type { Mock } from 'vitest';
   const mockReadFile = readFile as Mock;
-  
+
   beforeEach(() => {
     mockReadFile.mockResolvedValue(JSON.stringify({ key: 'value' }));
   });
   ```
 
 - **データベース操作**: 実際のDBアクセスをモック化
+
   ```typescript
   // DB クライアントのモック例
   vi.mock('../database/client');
   import { dbClient } from '../database/client';
-  
+
   beforeEach(() => {
     dbClient.query.mockResolvedValue({ rows: [{ id: 1, name: 'Test' }] });
   });
   ```
 
 - **時刻依存の処理**: Date.now, new Date()など
+
   ```typescript
   // Date のモック例
   beforeEach(() => {
@@ -274,7 +290,7 @@ describe('fetchArticleData', () => {
     expect(mockFetch).toHaveBeenCalledWith('https://api.example.com/articles/123');
     expect(result).toEqual({ id: '123', title: 'テスト記事' });
   });
-  
+
   it('APIリクエストが失敗した場合、エラーをスローする', async () => {
     // Arrange
     const mockResponse = {
@@ -288,7 +304,7 @@ describe('fetchArticleData', () => {
     await expect(fetchArticleData('999')).rejects.toThrow('記事が見つかりません: 404 Not Found');
     expect(mockFetch).toHaveBeenCalledWith('https://api.example.com/articles/999');
   });
-  
+
   it('ネットワークエラーの場合、適切なエラーメッセージでリジェクトする', async () => {
     // Arrange
     mockFetch.mockRejectedValue(new Error('Network error'));
@@ -305,6 +321,7 @@ describe('fetchArticleData', () => {
    - テスト間でグローバル状態を共有しない
    - 毎回テスト前にmockを初期化
    - 例: テスト毎に `beforeEach` で初期化する
+
    ```typescript
    beforeEach(() => {
      vi.clearAllMocks();
@@ -318,17 +335,18 @@ describe('fetchArticleData', () => {
    - データベース呼び出しをモック化
    - 時間がかかる処理をモック化
    - 例: タイマーのモック化
+
    ```typescript
    it('1秒後にコールバックが実行される', () => {
      vi.useFakeTimers();
      const callback = vi.fn();
-     
+
      setTimeout(callback, 1000);
      expect(callback).not.toHaveBeenCalled();
-     
+
      vi.advanceTimersByTime(1000);
      expect(callback).toHaveBeenCalledTimes(1);
-     
+
      vi.useRealTimers();
    });
    ```
@@ -337,20 +355,21 @@ describe('fetchArticleData', () => {
    - 各テストが互いに影響しないようにする
    - 環境変数やグローバル状態に依存しない
    - 例: テスト環境の独立性を保つ
+
    ```typescript
    // 悪い例
    let sharedState = {};
-   
+
    it('値を設定する', () => {
      sharedState.value = 'test';
      expect(sharedState.value).toBe('test');
    });
-   
+
    it('値を確認する', () => {
      // 前のテストに依存している
      expect(sharedState.value).toBe('test');
    });
-   
+
    // 良い例
    it('値を設定して確認する', () => {
      const state = {};
@@ -364,19 +383,20 @@ describe('fetchArticleData', () => {
    - AAAパターンを守って構造化されている
    - アサーションが明確
    - 複雑なテストの場合はコメントを追加する
+
    ```typescript
    it('商品検索: フィルター条件に一致する商品のみを返す', () => {
      // Arrange
      const products = [
        { id: 1, name: 'Product A', category: 'Electronics', price: 1000 },
        { id: 2, name: 'Product B', category: 'Books', price: 500 },
-       { id: 3, name: 'Product C', category: 'Electronics', price: 2000 }
+       { id: 3, name: 'Product C', category: 'Electronics', price: 2000 },
      ];
      const filters = { category: 'Electronics', maxPrice: 1500 };
-     
+
      // Act
      const result = filterProducts(products, filters);
-     
+
      // Assert
      expect(result).toHaveLength(1);
      expect(result[0].id).toBe(1);
@@ -387,6 +407,7 @@ describe('fetchArticleData', () => {
    - 成功パス、失敗パス、特殊なケースを網羅
    - 境界値に特に注意する
    - 例: 数値の境界値テスト
+
    ```typescript
    describe('validateAge', () => {
      it('18歳以上の場合、trueを返す', () => {
@@ -394,12 +415,12 @@ describe('fetchArticleData', () => {
        expect(validateAge(19)).toBe(true);
        expect(validateAge(100)).toBe(true);
      });
-     
+
      it('18歳未満の場合、falseを返す', () => {
        expect(validateAge(17)).toBe(false);
        expect(validateAge(0)).toBe(false);
      });
-     
+
      it('無効な入力の場合、エラーをスローする', () => {
        expect(() => validateAge(-1)).toThrow();
        expect(() => validateAge(null)).toThrow();
