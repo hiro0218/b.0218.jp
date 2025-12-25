@@ -1,4 +1,17 @@
+import { cpus, totalmem } from 'node:os';
 import nextBuildId from 'next-build-id';
+
+const getStaticGenerationConfig = () => {
+  const memoryGB = totalmem() / (1024 ** 3);
+  const maxConcurrency = Math.max(2, Math.min(cpus().length - 1, 16));
+  const minPagesPerWorker = memoryGB < 8 ? 15 : memoryGB >= 16 ? 50 : 25;
+
+  return {
+    staticGenerationMaxConcurrency: maxConcurrency,
+    staticGenerationMinPagesPerWorker: minPagesPerWorker,
+    staticGenerationRetryCount: 1,
+  };
+};
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -10,6 +23,8 @@ const nextConfig = {
 
   experimental: {
     scrollRestoration: false,
+    ...getStaticGenerationConfig(),
+    webpackBuildWorker: true,
   },
 
   // Turbopack configuration (empty to acknowledge and silence webpack warning)
