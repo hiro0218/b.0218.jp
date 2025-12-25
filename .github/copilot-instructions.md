@@ -14,8 +14,9 @@
 
 - Next.js 16.x blog using TypeScript, React 19.x, and Panda CSS
 - Focused on Japanese content with ML-powered features
+- **SSG (Static Site Generation)**: Data loads at build time, Client Components are minimal
 
-## **CRITICAL**: Requirements
+### Critical Requirements
 
 ```bash
 # Run before ANY development/build
@@ -23,30 +24,9 @@ npm run prebuild  # Updates submodules, processes content, generates assets
 npm run dev       # Development server on port 8080 with HTTPS
 ```
 
-- **Dev Server URL**:
-  - **RECOMMENDED**: `https://localhost:8080` (HTTPS only)
-  - **DO NOT USE**: `http://localhost:8080` (HTTP fails)
-  - Dev server launched with `--experimental-https` and a self-signed certificate
+**Dev Server**: Use `https://localhost:8080` (HTTPS only). HTTP fails.
 
-## **CRITICAL**: Improvement Proposals Guidelines
-
-**Project uses SSG (Static Site Generation)**
-
-When suggesting improvements or architectural changes:
-
-### Key Considerations
-
-- **Evidence-based**: When practical, verify current implementation before proposing changes
-- **Context-aware**: Consider SSG characteristics (build-time data loading, static generation)
-- **Appropriate patterns**: Use established approaches or design patterns when suitable for the context
-- **Check existing solutions**: Avoid duplicating existing utilities or patterns
-- **Balanced scope**: Propose changes appropriate to the problem size
-- **SSG-specific**: Remember that data loads at build time, and Client Components are minimal
-
-### What to Avoid
-
-- Over-engineering with patterns designed for dynamic backends or SPAs (e.g., Repository pattern, complex error handling)
-- Runtime solutions for build-time problems
+**Content Source**: `_article/_posts/*.md` is a Git submodule. **DO NOT edit directly.**
 
 ## Architecture
 
@@ -62,58 +42,30 @@ src/
 │   ├── UI/           # Reusable UI components (zero-margin)
 │   └── Functional/   # Utility components
 ├── ui/               # Styling
-└── types/            # Typescript types
+└── types/            # TypeScript types
 ```
 
 ### Component Principles
 
 - **Zero Margin**: No self-margins; parents control spacing
 - **Layer Dependencies**: Enforced by Biome (`biome.json`)
-- UI and Functional are independent layers
-- **Detailed guidelines**: See `.claude/skills/` for architecture and interface review skills
+  - UI and Functional are independent layers
+  - Page depends on UI/Functional
+  - App depends only on lower layers
+- **Server First**: Use Server Components by default, `'use client'` only when necessary
 
 ### Layer Responsibilities
 
-#### App/
+- **App/**: Application shell, layout, singleton-like
+- **Page/**: Page-specific logic and components
+- **UI/**: Visual, reusable components (Button, Card, Modal, etc.)
+- **Functional/**: Non-visual utilities (e.g., PreconnectLinks, metadata)
 
-- App structure, layout
-- Singleton-like
-- Depends only on lower layers
+## Development
 
-#### Page/
-
-- Page business logic/components
-- Shared sections in `Page/_shared/`
-- Depends on UI/Functional
-- Does NOT depend on App/
-
-#### UI/
-
-- Visual, reusable components (Button, Card, Modal, etc.)
-- No business logic
-- Zero margin
-- No dependencies on other component layers
-
-#### Functional/
-
-- Non-visual utilities (e.g., PreconnectLinks)
-- Handles metadata, optimization
-- No dependencies on component layers
-
-### Architecture Rationale
-
-- Separation of concerns
-- Maintainability, testability, and scalability
-- Biome enforces static dependencies
-
-## Workflow & Tooling
-
-See "Quick Reference" section below for essential commands.
-
-### Styling
+### Styling with Panda CSS
 
 ```tsx
-// Panda CSS example
 import { css, styled } from '@/ui/styled';
 
 const StyledDiv = styled.div`
@@ -122,21 +74,17 @@ const StyledDiv = styled.div`
 `;
 ```
 
-**Important: `:hover` and Media Queries**
-
-- **DO NOT manually wrap `:hover` with `@media (any-hover: hover)`**
-- The `postcss-media-hover-any-hover` plugin (postcss.config.cjs) automatically wraps all `:hover` selectors
-- Simply write `:hover` styles directly - the plugin handles touch device detection
+**Hover States**: Write `:hover` directly. The `postcss-media-hover-any-hover` plugin automatically wraps it for touch device detection.
 
 ```tsx
-// ✅ Correct - plugin handles media query automatically
+// ✅ Correct
 const Button = styled.button`
   &:hover {
     background: blue;
   }
 `;
 
-// ❌ Incorrect - redundant manual wrapping
+// ❌ Incorrect - redundant
 const Button = styled.button`
   @media (any-hover: hover) {
     &:hover {
@@ -151,50 +99,84 @@ const Button = styled.button`
 - `@/*` → `src/*`
 - `~/*` → project root
 
-## Content Architecture
+### Content Pipeline
 
-1. **Source:** `_article/_posts/*.md` Git submodule (DO NOT edit direct)
-2. **Processing:** `npm run prebuild` → JSON
-3. **Consumption:** SSG uses JSON output
+1. **Source**: `_article/_posts/*.md` (Git submodule)
+2. **Processing**: `npm run prebuild` → JSON
+3. **Consumption**: SSG uses JSON output
 
-## Coding Standards
+### Testing
 
-- TypeScript strict mode, explicit types for public APIs, type-only imports
-- React: App Router, Server Components by default, `'use client'` only if needed
-- Import order: external libs, internal utilities, components, types, styles/constants
-- File naming: PascalCase for components, camelCase for utilities, UPPER_SNAKE for constants
-- **Comments**: JSDoc for public APIs only, no redundant comments (see `.github/instructions/typescript.instructions.md`)
+- Framework: Vitest with React Testing Library
+- Coverage: `npm run coverage`
+- Focus: Test behavior, not implementation
+- One assertion per test when possible
+- Cover edge cases and error conditions
 
-## Performance
+## Standards
 
-- Static site generation (SSG)
+### Coding Standards
+
+- **TypeScript**: Strict mode, explicit types for public APIs, type-only imports
+- **React**: App Router, Server Components by default
+- **Import Order**: external libs → internal utilities → components → types → styles/constants
+- **File Naming**: PascalCase for components, camelCase for utilities, UPPER_SNAKE for constants
+- **Comments**: JSDoc for public APIs only, no redundant comments
+- **Security**: Validate inputs, prevent XSS/injection attacks
+- **Accessibility**: Semantic HTML, ARIA labels where needed
+
+### Performance & Optimization
+
+**Static Generation**:
 - Route-based code splitting
 - Next.js Image optimization
 - Bundle analysis: `npm run build:analyzer`
 
-## Testing
+**React Compiler** (`reactCompiler: true` in `next.config.mjs`):
 
-- Unit tests for utilities/hooks using Vitest
-- Test framework: Vitest with React Testing Library
-- Coverage reporting available via `npm run coverage`
+⚠️ **CRITICAL: Check `next.config.mjs` before suggesting manual optimizations**
 
-## Patterns
+React Compiler (React 19) automatically handles memoization and re-render optimization.
 
-### Data Fetching
+**❌ DO NOT suggest**:
+- Manual `useMemo` / `useCallback` / `memo` (redundant when compiler is active)
 
-```typescript
-async function getData() {
-  const posts = await import('@/posts.json');
-  return posts.default;
-}
-```
+**✅ DO suggest**:
+- Algorithm improvements (e.g., O(n²) → O(n))
+- Data structure optimizations
+- Reducing unnecessary function calls or normalizations
+- Build-time optimizations
 
-## Important Notes
+**Verification**:
+1. Read `next.config.mjs` to check `reactCompiler` setting
+2. If `true`: Focus on algorithmic/structural improvements only
+3. If `false`: Manual memoization techniques are appropriate
 
-1. Japanese content: uses morphological analysis
-2. Build dependencies: Playwright (`playwright install --only-shell`)
-3. Environment: `TZ=Asia/Tokyo` for timestamps
-4. Pre-commit: Husky via nano-staged
+### Improvement Proposals
+
+**Before suggesting architectural changes**:
+
+- **Evidence-based**: Verify current implementation when practical
+- **Context-aware**: Consider SSG characteristics (build-time data, minimal client-side)
+- **Appropriate scope**: Changes should match problem size
+- **Avoid over-engineering**: No patterns designed for dynamic backends/SPAs (e.g., Repository pattern)
+- **Check existing solutions**: Avoid duplicating utilities or patterns
+
+## Git Workflow
+
+### Commit Messages
+
+Format: `type: description` (Japanese, under 50 chars)
+- Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`
+- Focus on "why" rather than "what"
+
+### Pull Requests
+
+Include:
+- Title: Japanese, under 50 chars
+- Overview: Purpose and background (1-2 sentences)
+- Changes: Bulleted list of modifications
+- Testing: What was verified
 
 ## Quick Reference
 
@@ -210,69 +192,13 @@ async function getData() {
 | Build (no lint)   | `npx next build --no-lint --webpack`  |
 | Bundle analysis   | `npm run build:analyzer`              |
 
-## Task-Specific Guidelines
+## Important Notes
 
-### Code Generation
-
-**Basic Principles** (always applied):
-
-- Follow existing patterns in the codebase
-- Use TypeScript strict mode with explicit types
-- Prefer Server Components (only add `'use client'` when necessary)
-- Follow layer dependencies (UI → Page → App)
-- Apply zero-margin principle for UI components
-
-**For detailed code generation guidance**: Execute `/prompt-codeGeneration` in VS Code
-
-### Code Review
-
-**Basic Checks** (always verify):
-
-- Type safety: No `any` types, proper type definitions
-- Architecture compliance: Correct component layer placement
-- Performance: Avoid unnecessary Client Components
-- Accessibility: Semantic HTML and ARIA labels
-- Security: No XSS vulnerabilities, proper input validation
-
-**For comprehensive review checklist**: Execute `/prompt-codeReview` in VS Code
-
-### Commit Messages
-
-**Basic Format** (always follow):
-
-- Start with type: `feat:`, `fix:`, `refactor:`, `docs:`, etc.
-- Use Japanese for description
-- Keep under 50 characters for title
-- Focus on "why" rather than "what"
-
-**For detailed commit message guidelines**: Execute `/prompt-commitMessageGeneration` in VS Code
-
-### Pull Requests
-
-**Essential Components** (always include):
-
-- Clear title describing the change (Japanese, under 50 chars)
-- Overview: Purpose and background (1-2 sentences)
-- Changes: Bulleted list of specific modifications
-- Impact: Affected features/components
-- Testing: What was verified
-
-**For detailed PR template**: Execute `/prompt-pullRequestDescriptionGeneration` in VS Code
-
-### Test Generation
-
-**Basic Requirements** (always ensure):
-
-- Test behavior, not implementation
-- Use existing test utilities and patterns
-- Clear test names describing scenarios
-- One assertion per test when possible
-- Cover edge cases and error conditions
-
-**For comprehensive test guidelines**: Execute `/prompt-testGeneration` in VS Code
+1. Japanese content uses morphological analysis
+2. Build dependencies: Playwright (`playwright install --only-shell`)
+3. Environment: `TZ=Asia/Tokyo` for timestamps
+4. Pre-commit: Husky via nano-staged
 
 ---
 
-_Generated for Copilot, Claude Code, and other AI assistants. Be concise and actionable._
-
-**DO NOT modify files in `_article/` (Git submodule).**
+_For Copilot, Claude Code, and other AI assistants. Be concise and actionable._
