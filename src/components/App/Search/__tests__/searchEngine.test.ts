@@ -4,7 +4,6 @@ import {
   getTagMatchType,
   getTextMatchType,
   getTitleMatchType,
-  isMultiTermMatching,
   isTextMatching,
 } from '@/components/App/Search/engine/matchingEngine';
 import { getMatchTypePriority } from '@/components/App/Search/engine/scoringEngine';
@@ -135,12 +134,6 @@ describe('タグとタイトルの検索', () => {
     expect(getTitleMatchType(mockPosts[1], 'JavaScript')).toBe('PARTIAL');
     expect(getTitleMatchType(mockPosts[2], 'Google Fonts')).toBe('PARTIAL');
     expect(getTitleMatchType(mockPosts[0], 'Vue')).toBe('NONE');
-  });
-
-  test('isMultiTermMatching - 複数の検索語をAND条件で検索し、一致するかを判定する', () => {
-    expect(isMultiTermMatching(mockPosts[0], ['GitHub Actions', 'PR'])).toBe(true);
-    expect(isMultiTermMatching(mockPosts[1], ['JavaScript', 'ブラウザ'])).toBe(true);
-    expect(isMultiTermMatching(mockPosts[0], ['GitHub Actions', 'JavaScript'])).toBe(false);
   });
 });
 

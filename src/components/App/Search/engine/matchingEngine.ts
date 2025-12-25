@@ -21,6 +21,15 @@ const normalizeText = (text: string): NormalizedText => {
   };
 };
 
+const getTextMatchTypeFromNormalized = (textNorm: NormalizedText, queryNorm: NormalizedText): MatchType => {
+  if (textNorm.standard === queryNorm.standard) return 'EXACT';
+  if (textNorm.compact === queryNorm.compact) return 'EXACT_NO_SPACE';
+  if (textNorm.standard.includes(queryNorm.standard)) return 'PARTIAL';
+  if (textNorm.compact.includes(queryNorm.compact)) return 'PARTIAL_NO_SPACE';
+
+  return 'NONE';
+};
+
 /**
  * 検索精度向上のため検索クエリとテキストの一致パターンを判定し最適なマッチタイプを返す
  * @param text - 検索対象のテキスト
@@ -33,12 +42,7 @@ export const getTextMatchType = (text: string, query: string): MatchType => {
   const textNorm = normalizeText(text);
   const queryNorm = normalizeText(query);
 
-  if (textNorm.standard === queryNorm.standard) return 'EXACT';
-  if (textNorm.compact === queryNorm.compact) return 'EXACT_NO_SPACE';
-  if (textNorm.standard.includes(queryNorm.standard)) return 'PARTIAL';
-  if (textNorm.compact.includes(queryNorm.compact)) return 'PARTIAL_NO_SPACE';
-
-  return 'NONE';
+  return getTextMatchTypeFromNormalized(textNorm, queryNorm);
 };
 
 /**
@@ -63,11 +67,14 @@ export const getTagMatchType = (post: SearchProps, searchValue: string): MatchTy
     return 'NONE';
   }
 
+  // 検索クエリの正規化を1回だけ実行
+  const queryNorm = normalizeText(searchValue);
   let bestMatchType: MatchType = 'NONE';
   let bestPriority = 0;
 
   for (const tag of post.tags) {
-    const matchType = getTextMatchType(tag, searchValue);
+    const tagNorm = normalizeText(tag);
+    const matchType = getTextMatchTypeFromNormalized(tagNorm, queryNorm);
     const priority = getMatchTypePriority(matchType);
 
     if (matchType === 'EXACT') {
@@ -94,18 +101,10 @@ export const getTitleMatchType = (post: SearchProps, searchValue: string): Match
   return getTextMatchType(post.title, searchValue);
 };
 
-/**
- * 複数キーワード検索のAND条件実現のため全てのキーワードが含まれるかを判定
- * @param post - 検索対象の記事データ
- * @param searchTerms - 検索キーワードの配列
- * @returns 全てのキーワードが一致する場合true
- */
-export const isMultiTermMatching = (post: SearchProps, searchTerms: string[]): boolean => {
+const isMultiTermMatching = (post: SearchProps, normalizedSearchTerms: NormalizedText[]): boolean => {
   const titleNorm = normalizeText(post.title);
 
-  return searchTerms.every((term) => {
-    const termNorm = normalizeText(term);
-
+  return normalizedSearchTerms.every((termNorm) => {
     const titleMatch = titleNorm.standard.includes(termNorm.standard) || titleNorm.compact.includes(termNorm.compact);
     if (titleMatch) return true;
 
@@ -140,8 +139,8 @@ const matchSingleTerm = (post: SearchProps, searchValue: string): RankedSearchRe
   };
 };
 
-const matchMultipleTerms = (post: SearchProps, searchTerms: string[]): RankedSearchResult | null => {
-  if (!isMultiTermMatching(post, searchTerms)) {
+const matchMultipleTerms = (post: SearchProps, normalizedSearchTerms: NormalizedText[]): RankedSearchResult | null => {
+  if (!isMultiTermMatching(post, normalizedSearchTerms)) {
     return null;
   }
 
@@ -172,6 +171,9 @@ export const findMatchingPosts = (archives: SearchProps[], searchValue: string):
   const searchTerms = searchValue.toLowerCase().split(' ').filter(Boolean);
   const isMultiTermQuery = searchTerms.length > 1;
 
+  // 複数キーワード検索の場合、事前に正規化
+  const normalizedSearchTerms = isMultiTermQuery ? searchTerms.map(normalizeText) : [];
+
   for (const post of archives) {
     const singleMatch = matchSingleTerm(post, searchValue);
     if (singleMatch) {
@@ -180,7 +182,7 @@ export const findMatchingPosts = (archives: SearchProps[], searchValue: string):
     }
 
     if (isMultiTermQuery) {
-      const multiMatch = matchMultipleTerms(post, searchTerms);
+      const multiMatch = matchMultipleTerms(post, normalizedSearchTerms);
       if (multiMatch) {
         results.push(multiMatch);
       }
