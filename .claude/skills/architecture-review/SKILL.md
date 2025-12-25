@@ -1,6 +1,6 @@
 ---
 name: architecture-review
-description: Next.js プロジェクトのアーキテクチャ準拠をレビューするスキル。レイヤー依存関係、コンポーネント配置、ゼロマージン原則などをチェックします。コードレビュー時や新規コンポーネント作成時に使用してください。
+description: Review Next.js project architecture compliance. Checks layer dependencies, component placement, and zero-margin principle. Use during code reviews or when creating new components.
 allowed-tools: Read, Grep, Glob
 ---
 
@@ -16,11 +16,53 @@ Next.js プロジェクトのアーキテクチャ規約への準拠を検証し
 
 このスキルは以下の 5 つの観点からレビューを実行します：
 
-1. **レイヤー依存関係**: App → Page → UI/Functional の依存関係ルールへの準拠
-2. **コンポーネント配置**: 各レイヤーの責務に応じた適切なファイル配置
-3. **ゼロマージン原則**: UI コンポーネントの自己マージン禁止ルール
-4. **React ベストプラクティス**: Server/Client Components の適切な使用、インポート順序
-5. **TypeScript 品質**: Strict mode、型定義、type-only imports
+### 1. レイヤー依存関係
+
+App → Page → UI/Functional の依存関係ルールへの準拠
+
+```typescript
+// ✅ 正しい依存関係
+// src/components/Page/Home/HomePage.tsx
+import { Button } from '@/components/UI/Button';
+import { formatDate } from '@/components/Functional/utils';
+
+// ❌ 違反: Page が App に依存
+import { Header } from '@/components/App/Header';
+```
+
+### 2. コンポーネント配置
+
+各レイヤーの責務に応じた適切なファイル配置
+
+- **App/**: アプリケーション全体のレイアウト、ヘッダー、フッター
+- **Page/**: ページ固有のロジックとコンポーネント
+- **UI/**: 再利用可能な視覚的コンポーネント
+- **Functional/**: 非視覚的なユーティリティ
+
+### 3. ゼロマージン原則
+
+UI コンポーネントは自己マージンを持たない
+
+```typescript
+// ✅ 正しい実装
+const Button = styled.button`
+  padding: 8px 16px;
+  /* margin なし */
+`;
+
+// ❌ 違反
+const Button = styled.button`
+  margin: 16px 0; /* UI コンポーネントに margin */
+`;
+```
+
+### 4. React ベストプラクティス
+
+Server/Client Components の適切な使用、インポート順序
+
+### 5. TypeScript 品質
+
+Strict mode、型定義、type-only imports
 
 詳細なルールと判断基準は `references/` を参照してください。
 

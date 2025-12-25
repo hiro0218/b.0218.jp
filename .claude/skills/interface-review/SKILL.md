@@ -1,6 +1,6 @@
 ---
 name: interface-review
-description: Web インターフェースの実装をレビューするスキル。Interactivity, Typography, Motion, Touch, Optimizations, Accessibility, Design & UX の観点から、業界のベストプラクティスと UX 心理効果に基づいてチェックします。UI コンポーネントやページの実装レビュー時に使用してください。
+description: Review web interface implementations across Interactivity, Typography, Motion, Touch, Optimizations, Accessibility, and Design/UX. Based on industry best practices and UX psychology principles. Use for UI component and page implementation reviews.
 allowed-tools: Read, Grep, Glob
 ---
 
@@ -128,12 +128,7 @@ const Button = styled.button`
 
 ### 4. Touch（タッチデバイス対応）
 
-**⚠️ プロジェクト固有の実装**:
-- **ガイドラインの原則「`:hover` をメディアクエリで囲む」は PostCSS プラグインで自動実現されています**
-- `postcss-media-hover-any-hover` プラグイン（postcss.config.cjs）が全ての `:hover` を `@media (any-hover: hover)` で自動ラップ
-- 開発者は通常通り `:hover` を記述するだけで、ビルド時に自動変換されます
-- **手動でメディアクエリを追加する必要はありません**（重複になります）
-- 詳細は CLAUDE.md の "Styling" セクションを参照
+**⚠️ プロジェクト固有**: `:hover` は PostCSS プラグイン (`postcss-media-hover-any-hover`) が自動的に `@media (any-hover: hover)` でラップします。手動でメディアクエリを追加しないでください。
 
 **主要チェックポイント**:
 - インプットのフォントサイズ 16px 以上（iOS ズーム防止）
@@ -143,14 +138,13 @@ const Button = styled.button`
 
 **検証項目**:
 ```css
-/* ✅ 正しい実装（ガイドライン準拠） */
+/* ✅ 正しい実装 */
 button {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
-/* :hover を記述するだけで、PostCSS が自動的に @media (any-hover: hover) でラップ */
 button:hover {
-  background-color: #eee;
+  background-color: #eee; /* PostCSS が自動ラップ */
 }
 
 input {
@@ -158,15 +152,14 @@ input {
 }
 
 /* ❌ 間違った実装 */
-/* 手動でメディアクエリを追加（プラグインと重複） */
-@media (any-hover: hover) {
+@media (any-hover: hover) { /* 冗長 */
   button:hover {
     background-color: #eee;
   }
 }
 
 input {
-  font-size: 14px; /* ガイドライン違反: iOS でズームされる */
+  font-size: 14px; /* iOS でズーム発生 */
 }
 ```
 

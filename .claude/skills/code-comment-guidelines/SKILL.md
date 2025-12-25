@@ -1,6 +1,7 @@
 ---
 name: code-comment-guidelines
 description: Code comment guidelines based on industry best practices. Use when reviewing code, writing new code, or when asked about comment quality. Applies to all languages but specializes in TypeScript/JavaScript. Enforces "JSDoc for public APIs only, no redundant comments" principle. Automatically suggests comment additions, removals, or refactoring alternatives.
+allowed-tools: Read, Grep, Glob
 ---
 
 # Code Comment Guidelines
@@ -202,53 +203,14 @@ When reviewing code comments, provide:
 
 ### Example Output
 
-```markdown
-## Comment Review: src/utils/pricing.ts
-
 **Overall Assessment**: Needs Improvement
 
-### Issues Found
+**Issues Found**:
+1. Line 12: Redundant comment `// Calculate total price` → Remove
+2. Line 34: Missing JSDoc for `export function applyDiscount()` → Add documentation
+3. Line 56: Complex logic needs refactoring → Extract to `calculateBulkDiscount()`
 
-1. **Line 12: Redundant comment**
-   - Current: `// Calculate total price`
-   - Action: Remove (code is self-explanatory)
-
-2. **Line 34: Missing JSDoc**
-   - Function: `export function applyDiscount()`
-   - Action: Add JSDoc with @param and @returns
-
-3. **Line 56: Refactoring opportunity**
-   - Long comment explaining complex logic
-   - Suggestion: Extract to `calculateBulkDiscount()` function
-
-### Recommended Changes
-
-```diff
-- // Calculate total price
-  const total = basePrice + tax;
-
-+ /**
-+  * Apply bulk discount based on quantity tiers
-+  * @param price - Base price in cents
-+  * @param quantity - Order quantity
-+  * @returns Discounted price in cents
-+  */
-  export function applyDiscount(price: number, quantity: number): number {
--   // If quantity > 100, apply 10% discount
--   // If quantity > 50, apply 5% discount
--   if (quantity > 100) return price * 0.9;
--   if (quantity > 50) return price * 0.95;
--   return price;
-+   return calculateBulkDiscount(price, quantity);
-  }
-+
-+ function calculateBulkDiscount(price: number, quantity: number): number {
-+   if (quantity > 100) return price * 0.9;
-+   if (quantity > 50) return price * 0.95;
-+   return price;
-+ }
-```
-```
+**Recommended Changes**: Add JSDoc, remove redundant comments, extract helper function
 
 ## Quick Reference
 
