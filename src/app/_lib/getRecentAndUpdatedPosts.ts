@@ -2,7 +2,7 @@ import type { Post, PostSummary } from '@/types/source';
 import { POST_DISPLAY_LIMIT, UPDATED_POST_DISPLAY_LIMIT } from './constants';
 import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';
 
-const filterPosts = (posts: (PostSummary | Post)[]): PostSummary[] => {
+const transformToFormattedSummary = (posts: (PostSummary | Post)[]): PostSummary[] => {
   return posts.map((post) => {
     const dateFormats = getDateAndUpdatedToSimpleFormat(post.date, post.updated);
     return {
@@ -17,7 +17,7 @@ const filterPosts = (posts: (PostSummary | Post)[]): PostSummary[] => {
 
 export const getRecentAndUpdatedPosts = (posts: (PostSummary | Post)[]) => {
   const recentPosts = posts.slice(0, POST_DISPLAY_LIMIT);
-  const filteredRecentPosts = filterPosts(recentPosts);
+  const formattedRecentPosts = transformToFormattedSummary(recentPosts);
 
   const recentSlugs = new Set(recentPosts.map(({ slug }) => slug));
 
@@ -26,10 +26,10 @@ export const getRecentAndUpdatedPosts = (posts: (PostSummary | Post)[]) => {
     .toSorted((a, b) => b.updated.localeCompare(a.updated))
     .slice(0, UPDATED_POST_DISPLAY_LIMIT);
 
-  const filteredUpdatedPosts = filterPosts(updatesPosts);
+  const formattedUpdatedPosts = transformToFormattedSummary(updatesPosts);
 
   return {
-    recentPosts: filteredRecentPosts,
-    updatesPosts: filteredUpdatedPosts,
+    recentPosts: formattedRecentPosts,
+    updatesPosts: formattedUpdatedPosts,
   };
 };

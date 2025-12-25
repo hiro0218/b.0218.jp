@@ -26,12 +26,20 @@ const AUTHOR = {
 } as const;
 
 export const getDescriptionText = (postContent: string): string => {
-  return postContent
-    .replace(/(?:\r\n|\r|\n)/g, ' ') // 改行をスペースに置換
-    .replace(/<\/?[^>]+(>|$)/g, '') // HTMLタグを削除
-    .replace(/\s+/g, ' ') // 連続するスペースを1つのスペースに置換
-    .trim() // 先頭と末尾のスペースを削除
-    .substring(0, 160); // 160文字に切り詰め（Google推奨）
+  return (
+    postContent
+      .replace(/(?:\r\n|\r|\n)/g, ' ') // 改行をスペースに置換
+      .replace(/<\/?[^>]+(>|$)/g, '') // HTMLタグを削除
+      // 絵文字と記号を削除（サロゲートペア対応）
+      .replace(
+        /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{E000}-\u{F8FF}\u{FE00}-\u{FE0F}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}]/gu,
+        '',
+      )
+      .replace(/\s+/g, ' ') // 連続するスペースを1つのスペースに置換
+      .trim() // 先頭と末尾のスペースを削除
+      // サロゲートペアを考慮した切り詰め
+      .slice(0, 160)
+  );
 };
 
 export const getAboutPageStructured = ({

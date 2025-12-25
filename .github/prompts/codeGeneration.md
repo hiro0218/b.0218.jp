@@ -1,6 +1,6 @@
 ---
-description: "コード生成時の技術スタック準拠とコンポーネント分類ルール"
-agent: "agent"
+description: 'コード生成時の技術スタック準拠とコンポーネント分類ルール'
+agent: 'agent'
 ---
 
 # コード生成の指示
@@ -35,7 +35,7 @@ agent: "agent"
 
 ### 配置先の判断
 
-```typescript
+```tsx
 // Page固有のコンポーネント → src/components/Page/
 export const PostDetail = () => {
   /* 記事詳細表示 */
@@ -78,7 +78,7 @@ export const Header = () => {
 
 ### Server Component（デフォルト）
 
-```typescript
+```tsx
 // 原則としてServer Componentがデフォルト（'use client'指定なし）
 import type { PostProps } from '@/types/source';
 import { css } from '@/ui/styled';
@@ -109,7 +109,7 @@ export const PostDetail = ({ post }: PostDetailProps) => {
 
 ### Client Component（インタラクション有り）
 
-```typescript
+```tsx
 'use client';
 
 import { useState } from 'react';
@@ -157,7 +157,7 @@ export const Button = ({ children, onClick }: ButtonProps) => {
 
 ### App Routerページコンポーネント
 
-```typescript
+```tsx
 import type { Metadata } from 'next';
 import type { PostProps } from '@/types/source';
 import { PostDetail } from '@/components/Page/PostDetail';
@@ -204,7 +204,7 @@ import type { Result } from '@/types/result';
 
 /**
  * 記事の類似度を計算する
- * 
+ *
  * @param text1 - 比較対象のテキスト1
  * @param text2 - 比較対象のテキスト2
  * @returns 類似度を表す数値（0-1）またはエラー
@@ -249,7 +249,7 @@ export const fetchUserData = async (userId: string): Promise<Result<User, Error>
 
 ### 2. パフォーマンス最適化
 
-```typescript
+```tsx
 // 良い例: コード分割とメモ化
 import { lazy, Suspense, memo, useMemo } from 'react';
 
@@ -272,12 +272,7 @@ const MemoizedComponent = memo(function OptimizedComponent({ data }: Props) {
 ```tsx
 // 良い例: アクセシブルなコンポーネント
 export const AccessibleButton = ({ onClick, children }: ButtonProps) => (
-  <button
-    onClick={onClick}
-    aria-label="ボタンの説明"
-    tabIndex={0}
-    role="button"
-  >
+  <button onClick={onClick} aria-label="ボタンの説明" tabIndex={0} role="button">
     {children}
   </button>
 );
@@ -289,7 +284,7 @@ export const AccessibleButton = ({ onClick, children }: ButtonProps) => (
 // 良い例: メタデータと構造化データ
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const post = await getPost(params.slug);
-  
+
   return {
     title: post.title,
     description: post.excerpt,

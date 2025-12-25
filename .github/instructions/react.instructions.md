@@ -52,7 +52,7 @@ import { PostSection } from '@/components/Page/_shared/PostSection';
 
 UIコンポーネントは外部マージンを持たない：
 
-```typescript
+```tsx
 // **CORRECT**: 内部パディングのみ
 export const Card = ({ children }: Props) => (
   <div
@@ -81,7 +81,7 @@ export const Card = ({ children }: Props) => (
 
 **レイアウトは親が制御**:
 
-```typescript
+```tsx
 // 親（Page層やApp層）でレイアウト
 <Stack space={4}>
   <Card>...</Card>
@@ -100,7 +100,7 @@ export const Card = ({ children }: Props) => (
 
 ## Server Component優先
 
-```typescript
+```tsx
 // **DEFAULT**: Server Component
 export function PostList({ posts }: { posts: Post[] }) {
   return (
@@ -130,7 +130,7 @@ export function InteractiveButton() {
 
 ### ビルド時データ読み込み
 
-```typescript
+```tsx
 // **RECOMMENDED (SSG)**: ビルド時JSON
 import posts from '@/posts.json';
 
@@ -152,7 +152,7 @@ export function RecentPosts() {
 
 ### 静的パラメータ生成
 
-```typescript
+```tsx
 // app/(PostPage)/[slug]/page.tsx
 export async function generateStaticParams() {
   const posts = getAllPosts();
@@ -181,7 +181,7 @@ export const Wrapper = () => { ... };
 
 ## Props設計
 
-```typescript
+```tsx
 // **RECOMMENDED**: 明示的な型定義
 interface PostDetailProps {
   post: Post;
@@ -203,7 +203,7 @@ export const PostDetail = ({ post, showRelated }: {
 
 ## アクセシビリティ
 
-```typescript
+```tsx
 // **CORRECT**: セマンティックHTML + ARIA
 <button
   onClick={handleClick}

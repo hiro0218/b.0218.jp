@@ -1,6 +1,6 @@
 ---
-description: "Panda CSS スタイリング規約とゼロマージン原則"
-applyTo: "**/{ui,components}/**/*.{ts,tsx}"
+description: 'Panda CSS スタイリング規約とゼロマージン原則'
+applyTo: '**/{ui,components}/**/*.{ts,tsx}'
 ---
 
 # Panda CSS スタイリング規約
@@ -79,9 +79,9 @@ export const Alert = styled.div`
 
 // **FORBIDDEN**: 外部マージン
 export const Alert = styled.div`
-  margin: var(--spacing-4);  // **FORBIDDEN**
-  margin-bottom: var(--spacing-2);  // **FORBIDDEN**
-  margin: 0 auto;  // **FORBIDDEN** センタリングも禁止
+  margin: var(--spacing-4); // **FORBIDDEN**
+  margin-bottom: var(--spacing-2); // **FORBIDDEN**
+  margin: 0 auto; // **FORBIDDEN** センタリングも禁止
   padding: var(--spacing-3);
 `;
 ```
@@ -140,12 +140,16 @@ const styles = css`
 ```typescript
 // **RECOMMENDED**: パフォーマンスの良いプロパティ
 const animation = css`
-  transition: transform 0.2s, opacity 0.2s;  // transform/opacityのみ
+  transition:
+    transform 0.2s,
+    opacity 0.2s; // transform/opacityのみ
 `;
 
 // **AVOID**: レイアウトを引き起こすプロパティ
 const animation = css`
-  transition: width 0.2s, height 0.2s;  // reflow発生
+  transition:
+    width 0.2s,
+    height 0.2s; // reflow発生
 `;
 ```
 
@@ -167,7 +171,7 @@ const button = css`
 // **AVOID**: outline使用（Safariでborder-radiusを無視）
 const button = css`
   &:focus-visible {
-    outline: 3px solid var(--colors-blue-500);  // **AVOID**
+    outline: 3px solid var(--colors-blue-500); // **AVOID**
   }
 `;
 ```
@@ -189,7 +193,7 @@ const link = css`
 // **AVOID**: タッチデバイスでもホバー状態が表示される
 const link = css`
   &:hover {
-    color: var(--colors-blue-700);  // タッチ時にちらつく
+    color: var(--colors-blue-700); // タッチ時にちらつく
   }
 `;
 ```
