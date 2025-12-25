@@ -35,7 +35,7 @@ agent: 'agent'
 
 ### 配置先の判断
 
-```typescript
+```tsx
 // Page固有のコンポーネント → src/components/Page/
 export const PostDetail = () => {
   /* 記事詳細表示 */
@@ -78,7 +78,7 @@ export const Header = () => {
 
 ### Server Component（デフォルト）
 
-```typescript
+```tsx
 // 原則としてServer Componentがデフォルト（'use client'指定なし）
 import type { PostProps } from '@/types/source';
 import { css } from '@/ui/styled';
@@ -109,7 +109,7 @@ export const PostDetail = ({ post }: PostDetailProps) => {
 
 ### Client Component（インタラクション有り）
 
-```typescript
+```tsx
 'use client';
 
 import { useState } from 'react';
@@ -157,7 +157,7 @@ export const Button = ({ children, onClick }: ButtonProps) => {
 
 ### App Routerページコンポーネント
 
-```typescript
+```tsx
 import type { Metadata } from 'next';
 import type { PostProps } from '@/types/source';
 import { PostDetail } from '@/components/Page/PostDetail';
@@ -249,7 +249,7 @@ export const fetchUserData = async (userId: string): Promise<Result<User, Error>
 
 ### 2. パフォーマンス最適化
 
-```typescript
+```tsx
 // 良い例: コード分割とメモ化
 import { lazy, Suspense, memo, useMemo } from 'react';
 
