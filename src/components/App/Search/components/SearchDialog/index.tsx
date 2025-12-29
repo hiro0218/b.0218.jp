@@ -1,7 +1,7 @@
 'use client';
 
-import { type ForwardedRef, useId, useRef } from 'react';
-import { FocusScope, useInteractOutside } from 'react-aria';
+import { type ForwardedRef, useId } from 'react';
+import { FocusScope } from 'react-aria';
 import { createPortal } from 'react-dom';
 
 import useIsClient from '@/hooks/useIsClient';
@@ -21,86 +21,88 @@ type Props = {
 export const SearchDialog = ({ onCloseAction, isClosing, ref }: Props) => {
   const isClient = useIsClient();
   const id = useId();
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const search = useSearchFacade({
     onClose: onCloseAction,
     dialogRef: ref as React.RefObject<HTMLDialogElement>,
   });
 
-  useInteractOutside({
-    ref: containerRef,
-    onInteractOutside: search.actions.close,
-  });
+  const handleBackdropClick = (event: React.MouseEvent<HTMLDialogElement>) => {
+    if (event.target === event.currentTarget) {
+      search.actions.close();
+    }
+  };
 
   if (!isClient) {
     return null;
   }
 
   return createPortal(
-    <>
-      <BackgroundOverlay />
-      <FocusScope autoFocus contain restoreFocus>
-        <DialogContainer ref={containerRef}>
-          <Dialog
-            {...search.ui.containerProps}
-            aria-describedby={`${id}-described`}
-            aria-labelledby={`${id}-labelled`}
-            aria-modal="true"
-            data-closing={isClosing}
-            ref={ref}
-          >
-            <h2 className="sr-only" id={`${id}-labelled`}>
-              {SEARCH_LABELS.searchTitle}
-            </h2>
-            <p className="sr-only" id={`${id}-described`}>
-              {SEARCH_LABELS.searchDescription}
-            </p>
-            <SearchHeader {...search.ui.inputProps} searchQuery={search.query} />
-            <SearchPanel
-              focusedIndex={search.focusedIndex}
-              onLinkClick={search.actions.close}
-              results={search.results}
-              searchQuery={search.query}
-              setResultRef={search.ui.setResultRef}
-            />
-          </Dialog>
-        </DialogContainer>
-      </FocusScope>
-    </>,
+    <FocusScope autoFocus contain restoreFocus>
+      <Dialog
+        {...search.ui.containerProps}
+        aria-describedby={`${id}-described`}
+        aria-labelledby={`${id}-labelled`}
+        aria-modal="true"
+        data-closing={isClosing}
+        onClick={handleBackdropClick}
+        ref={ref}
+      >
+        <h2 className="sr-only" id={`${id}-labelled`}>
+          {SEARCH_LABELS.searchTitle}
+        </h2>
+        <p className="sr-only" id={`${id}-described`}>
+          {SEARCH_LABELS.searchDescription}
+        </p>
+        <SearchHeader {...search.ui.inputProps} searchQuery={search.query} />
+        <SearchPanel
+          focusedIndex={search.focusedIndex}
+          onLinkClick={search.actions.close}
+          results={search.results}
+          searchQuery={search.query}
+          setResultRef={search.ui.setResultRef}
+        />
+      </Dialog>
+    </FocusScope>,
     document.body,
   );
 };
 
-const BackgroundOverlay = styled.div`
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-index-overlay);
-  pointer-events: none;
-  background-color: var(--colors-overlay-backgrounds);
-`;
-
-const DialogContainer = styled.div`
-  position: relative;
-  z-index: calc(var(--z-index-overlay) + 1);
-`;
-
 const Dialog = styled.dialog`
   position: fixed;
-  top: 25vh;
+  top: 0;
+  max-width: 90vw;
+  max-height: 80vh;
+  padding: 0;
+  border: none;
   border-radius: var(--radii-4);
   isolation: isolate;
-  opacity: 0;
-  transition: top 0.2s ease-out;
+
+  &:not([open]) {
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
+  }
 
   &[open] {
-    padding: 0;
-    border: none;
+    visibility: visible;
+    pointer-events: auto;
     opacity: 1;
     animation: zoomIn 0.2s ease-out;
   }
 
   &[open][data-closing='true'] {
     animation: zoomOut 0.2s ease-out forwards;
+  }
+
+  &::backdrop {
+    background-color: var(--colors-overlay-backgrounds);
+    transition:
+      background-color 0.2s ease-out,
+      opacity 0.2s ease-out;
+  }
+
+  &[data-closing='true']::backdrop {
+    opacity: 0;
   }
 `;

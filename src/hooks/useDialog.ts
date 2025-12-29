@@ -55,7 +55,7 @@ export const useDialog = <T extends HTMLDialogElement>(options?: UseDialogOption
     const checkAndOpen = () => {
       const dialog = ref.current;
       if (dialog && !dialog.open) {
-        dialog.show();
+        dialog.showModal();
       } else if (!ref.current) {
         frameId = requestAnimationFrame(checkAndOpen);
       }
@@ -79,7 +79,7 @@ export const useDialog = <T extends HTMLDialogElement>(options?: UseDialogOption
   }, []);
 
   const openDialog = useCallback(() => {
-    ref.current?.show();
+    ref.current?.showModal();
   }, []);
 
   const closeDialog = useCallback(() => {
