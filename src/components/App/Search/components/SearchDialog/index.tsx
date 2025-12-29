@@ -96,6 +96,7 @@ const Dialog = styled.dialog`
   }
 
   &::backdrop {
+    cursor: pointer;
     background-color: var(--colors-overlay-backgrounds);
     transition:
       background-color 0.2s ease-out,
