@@ -13,6 +13,7 @@ interface UseSearchKeyboardProps {
   onClose: () => void;
   focusedIndexRef: { current: number };
   resultsRef: { current: SearchProps[] };
+  getResultRef: (index: number) => HTMLDivElement | undefined;
 
   // 検索入力
   currentQuery: string;
@@ -38,6 +39,7 @@ export const useSearchKeyboard = ({
   onClose,
   focusedIndexRef,
   resultsRef,
+  getResultRef,
   currentQuery,
   executeSearch,
   debouncedSearch,
@@ -64,13 +66,25 @@ export const useSearchKeyboard = ({
     const currentIndex = focusedIndexRef.current;
     const count = resultsRef.current.length;
     if (currentIndex >= 0 && currentIndex < count) {
+      // DOM操作でネイティブクリックをトリガー（クリック時と同じ処理フロー）
+      const resultElement = getResultRef(currentIndex);
+      if (resultElement) {
+        const anchor = resultElement.querySelector('a');
+        if (anchor) {
+          // anchor.click()内でonLinkClick(=onClose)が呼ばれるため、ここではonCloseを呼ばない
+          anchor.click();
+          return;
+        }
+      }
+
+      // フォールバック: DOM取得失敗時の代替処理
       const result = resultsRef.current[currentIndex];
       if (result) {
         router.push(convertPostSlugToPath(result.slug));
         onClose();
       }
     }
-  }, [onClose, router, focusedIndexRef, resultsRef]);
+  }, [onClose, router, focusedIndexRef, resultsRef, getResultRef]);
 
   const { keyboardProps } = useKeyboard({
     onKeyDown: (e) => {

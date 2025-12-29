@@ -86,6 +86,7 @@ export const useSearchFacade = ({
     onClose: handleCloseDialog,
     focusedIndexRef,
     resultsRef,
+    getResultRef,
     currentQuery: state.query,
     executeSearch,
     debouncedSearch,
