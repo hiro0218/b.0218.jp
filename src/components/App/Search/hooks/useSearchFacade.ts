@@ -3,7 +3,8 @@
 import { type RefObject, useCallback, useEffect, useMemo, useRef } from 'react';
 import { usePostsData } from '../data/usePostsData';
 import type { UseSearchFacadeOptions, UseSearchFacadeReturn } from '../types';
-import { useSearchFocus } from './useSearchFocus';
+import { useSearchDOMRefs } from './useSearchDOMRefs';
+import { useSearchFocusState } from './useSearchFocusState';
 import { useSearchKeyboard } from './useSearchKeyboard';
 import { useSearchManager } from './useSearchManager';
 import { useSearchStatePersistence } from './useSearchStatePersistence';
@@ -13,11 +14,12 @@ import { useSearchStateRestoration } from './useSearchStateRestoration';
  * Facade Pattern により、複雑な内部実装を隠蔽し、使用側のコードを簡潔にする
  *
  * @description
- * 統合フック数: 8-9 → 5
+ * 統合フック数: 8-9 → 6
  * - usePostsData: データフェッチ・キャッシュ
  * - useSearchManager: 検索実行管理
  * - useSearchStatePersistence: 状態永続化
- * - useSearchFocus: フォーカス管理（3フック統合）
+ * - useSearchFocusState: フォーカスインデックス管理
+ * - useSearchDOMRefs: DOM参照と操作
  * - useSearchKeyboard: キーボード操作（2フック統合）
  */
 export const useSearchFacade = ({
@@ -34,22 +36,15 @@ export const useSearchFacade = ({
   });
   const { saveSearchState, loadSearchState } = useSearchStatePersistence();
 
-  // ===== フォーカス管理（統合） =====
-  const {
-    focusedIndex,
-    setFocusedIndex,
-    navigateToIndex,
-    resetFocus,
-    updateDOMRefs,
-    focusInput,
-    scrollToFocusedElement,
-    setResultRef,
-    getResultRef,
-    clearExcessRefs,
-  } = useSearchFocus({
+  // ===== フォーカス管理（分離） =====
+  const { focusedIndex, setFocusedIndex, navigateToIndex, resetFocus } = useSearchFocusState({
     resultsLength: state.results.length,
-    dialogRef: dialogRef as RefObject<HTMLDialogElement>,
   });
+
+  const { updateDOMRefs, focusInput, scrollToFocusedElement, setResultRef, getResultRef, clearExcessRefs } =
+    useSearchDOMRefs({
+      dialogRef: dialogRef as RefObject<HTMLDialogElement>,
+    });
 
   // 検索状態の復元（専用フックに委譲）
   useSearchStateRestoration({

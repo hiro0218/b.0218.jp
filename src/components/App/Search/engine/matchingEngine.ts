@@ -7,28 +7,7 @@
 import type { MatchedIn, MatchType, RankedSearchResult, SearchProps } from '../types';
 import { isEmptyQuery } from '../utils/validation';
 import { getMatchTypePriority } from './scoringEngine';
-
-type NormalizedText = {
-  standard: string; // 小文字化+トリム
-  compact: string; // スペース除去版
-};
-
-const normalizeText = (text: string): NormalizedText => {
-  const standard = text.toLowerCase().trim();
-  return {
-    standard,
-    compact: standard.replace(/\s+/g, ''),
-  };
-};
-
-const getTextMatchTypeFromNormalized = (textNorm: NormalizedText, queryNorm: NormalizedText): MatchType => {
-  if (textNorm.standard === queryNorm.standard) return 'EXACT';
-  if (textNorm.compact === queryNorm.compact) return 'EXACT_NO_SPACE';
-  if (textNorm.standard.includes(queryNorm.standard)) return 'PARTIAL';
-  if (textNorm.compact.includes(queryNorm.compact)) return 'PARTIAL_NO_SPACE';
-
-  return 'NONE';
-};
+import { getMatchTypeFromNormalized, type NormalizedText, normalizeText } from './textNormalizationEngine';
 
 /**
  * 検索精度向上のため検索クエリとテキストの一致パターンを判定し最適なマッチタイプを返す
@@ -42,7 +21,7 @@ export const getTextMatchType = (text: string, query: string): MatchType => {
   const textNorm = normalizeText(text);
   const queryNorm = normalizeText(query);
 
-  return getTextMatchTypeFromNormalized(textNorm, queryNorm);
+  return getMatchTypeFromNormalized(textNorm, queryNorm);
 };
 
 /**
@@ -74,7 +53,7 @@ export const getTagMatchType = (post: SearchProps, searchValue: string): MatchTy
 
   for (const tag of post.tags) {
     const tagNorm = normalizeText(tag);
-    const matchType = getTextMatchTypeFromNormalized(tagNorm, queryNorm);
+    const matchType = getMatchTypeFromNormalized(tagNorm, queryNorm);
     const priority = getMatchTypePriority(matchType);
 
     if (matchType === 'EXACT') {
