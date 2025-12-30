@@ -5,6 +5,13 @@ import type { ArticleSummary, PopularityDetail } from '@/types/source';
 import { getPost, getPostsByTag, getSimilarPosts, getSimilarTags, getTagsWithCountFromSlugs } from '../data';
 import { formatPostData, formatSimilarPosts, getAlternativePosts } from '../utils';
 
+// 最新記事は全ページで同一のため、モジュールレベルでキャッシュ
+const allPostsForCache = getPost();
+const { recentPosts: cachedRecentPosts } =
+  Array.isArray(allPostsForCache) && isPostArray(allPostsForCache)
+    ? getRecentAndUpdatedPosts(allPostsForCache)
+    : { recentPosts: [] };
+
 /** 投稿ページの戻り値の型定義 */
 interface PostPageData {
   post: ReturnType<typeof formatPostData>;
@@ -44,27 +51,11 @@ export function getPostPageData(slug: string): PostPageData | null {
   const formattedPost = formatPostData(post, tagsWithCount);
   const tag = post.tags?.[0];
 
-  // 必要なデータを個別に取得
-  const allPosts = getPost();
-
-  if (!allPosts || !Array.isArray(allPosts)) {
-    console.error('[getPostPageData] Failed to get all posts');
-    return null;
-  }
-
-  if (!isPostArray(allPosts)) {
-    console.error('[getPostPageData] Invalid posts array structure');
-    return null;
-  }
-
   // 関連タグの取得
   const similarTags = tag ? getSimilarTags(tag) : [];
 
   // 類似記事の取得
   const rawSimilarPost = getSimilarPosts(normalizedSlug);
-
-  // 最新記事の整形
-  const { recentPosts } = getRecentAndUpdatedPosts(allPosts);
 
   // 類似記事の整形
   let similarPost = formatSimilarPosts(rawSimilarPost);
@@ -89,7 +80,7 @@ export function getPostPageData(slug: string): PostPageData | null {
     post: formattedPost,
     similarPost,
     similarTags,
-    recentPosts,
+    recentPosts: cachedRecentPosts,
     sameTagPosts,
     mostPopularTag,
     popularity,
