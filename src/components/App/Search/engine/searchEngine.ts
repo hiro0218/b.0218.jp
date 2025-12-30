@@ -4,6 +4,7 @@
  * マッチング、スコアリング、キャッシュを統合し、UIコンポーネント向けの検索APIを提供する
  */
 
+import { useMemo } from 'react';
 import type { SearchProps, SearchResultItem } from '../types';
 import { isEmptyQuery } from '../utils/validation';
 import { SearchCache } from './cacheEngine';
@@ -33,25 +34,27 @@ export const performPostSearch = (archives: SearchProps[], searchValue: string):
  * リアルタイム検索のUX向上のため同一検索語の結果をキャッシュ
  * パフォーマンス制約：LRU方式で最大50件まで保持（メモリ使用量制限）
  *
- * @note React Compiler (React 19) が自動でメモ化を行うため、手動の useMemo は不要
+ * @note React Compilerはクラスインスタンス生成や関数定義の最適化を行わないため、useMemoが必要
  * @returns キャッシュ機能付き検索実行関数
  */
 export const useSearchWithCache = () => {
-  const cache = new SearchCache();
+  const cache = useMemo(() => new SearchCache(), []);
 
-  return (archives: SearchProps[], searchValue: string): SearchResultItem[] => {
-    if (!searchValue) return [];
+  return useMemo(() => {
+    return (archives: SearchProps[], searchValue: string): SearchResultItem[] => {
+      if (!searchValue) return [];
 
-    const cacheKey = SearchCache.createKey(searchValue, archives.length);
+      const cacheKey = SearchCache.createKey(searchValue, archives.length);
 
-    const cachedResult = cache.get(cacheKey);
-    if (cachedResult) {
-      return cachedResult;
-    }
+      const cachedResult = cache.get(cacheKey);
+      if (cachedResult) {
+        return cachedResult;
+      }
 
-    const results = performPostSearch(archives, searchValue);
-    cache.set(cacheKey, results);
+      const results = performPostSearch(archives, searchValue);
+      cache.set(cacheKey, results);
 
-    return results;
-  };
+      return results;
+    };
+  }, [cache]);
 };
