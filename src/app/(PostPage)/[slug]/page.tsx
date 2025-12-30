@@ -80,7 +80,7 @@ export default async function Page({ params }: { params: Params }) {
     notFound();
   }
 
-  const { post, similarPost, similarTags, recentPosts, popularity } = data;
+  const { post, similarPost, similarTags, recentPosts, sameTagPosts, mostPopularTag, popularity } = data;
   const { title, date, updated, note, content, tagsWithCount } = post;
   const hasTweet = content.includes('twitter-tweet');
   const permalink = getPermalink(slug);
@@ -127,14 +127,17 @@ export default async function Page({ params }: { params: Params }) {
               tags={similarTags}
             />
             <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
-            <PostSection
-              as="aside"
-              heading="最新記事"
-              headingLevel="h2"
-              href="/archive"
-              posts={recentPosts}
-              prefetch={true}
-            />
+            {mostPopularTag && sameTagPosts.length > 0 && (
+              <PostSection
+                as="aside"
+                heading={`「${mostPopularTag.slug}」タグの記事`}
+                headingLevel="h2"
+                href={`/tags/${mostPopularTag.slug}`}
+                posts={sameTagPosts}
+                prefetch={false}
+              />
+            )}
+            <PostSection as="aside" heading="最新記事" headingLevel="h2" href="/archive" posts={recentPosts} />
           </Stack>
         </Stack>
       </Container>
