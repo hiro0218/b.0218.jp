@@ -4,9 +4,9 @@ import { SearchButton } from '@/components/App/Search/components/SearchButton';
 import { SearchDialog } from '@/components/App/Search/components/SearchDialog';
 import { Container } from '@/components/UI/Layout/Container';
 import { Logo } from '@/components/UI/Logo';
-import { useSearchDialog } from '@/contexts/SearchDialogContext';
 import { css } from '@/ui/styled';
 import { HeaderLayout } from './HeaderLayout';
+import { useSearchDialog } from './SearchDialogContext';
 
 export default function Header() {
   const searchDialog = useSearchDialog();
