@@ -7,13 +7,13 @@ import { Suspense } from 'react';
 import { openGraph } from '@/app/_metadata';
 import Footer from '@/components/App/Footer';
 import Header from '@/components/App/Header';
+import { SearchDialogProvider } from '@/components/App/Header/SearchDialogContext';
 import { Layout } from '@/components/App/Layout/AppLayout';
 import { MainContainer } from '@/components/App/Layout/MainContainer';
 import { ClientSideScrollRestorer } from '@/components/Functional/ClientSideScrollRestorer';
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
 import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constants';
-import { SearchDialogProvider } from '@/contexts/SearchDialogContext';
 
 const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((module) => module.PageScroll));
 
