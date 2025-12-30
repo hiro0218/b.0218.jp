@@ -125,7 +125,7 @@ jobs:
           overwrite: true
 
       - name: Download base branch bundle stats
-        uses: dawidd6/action-download-artifact@v11
+        uses: dawidd6/action-download-artifact@v12
         if: success() && github.event.number
         with:
           workflow: nextjs-bundle-analysis.yml
