@@ -174,7 +174,7 @@
       background-color: var(--colors-white);
       border: 1px solid var(--colors-gray-a-300);
       border-radius: var(--radii-4);
-      transition: background-color 0.2s ease-out;
+      transition: background-color 0.2s var(--easings-ease-out-expo);
     }
 
     &::details-content {

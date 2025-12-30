@@ -46,8 +46,8 @@ const Container = styled.div`
   opacity: 0;
   transform: translateY(10px);
   transition:
-    opacity 0.2s ease-out,
-    transform 0.2s ease-out;
+    opacity 0.2s var(--easings-ease-out-expo),
+    transform 0.2s var(--easings-ease-out-expo);
 
   &[data-visible='true'] {
     pointer-events: auto;

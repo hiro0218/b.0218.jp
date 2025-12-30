@@ -73,7 +73,7 @@ a {
   transition:
     background-color 0.2s ease,
     opacity 0.2s ease,
-    box-shadow 0.2s ease-out,
+    box-shadow 0.2s var(--easings-ease-out-expo),
     text-decoration-color 0.2s;
 
   &[target='_blank'] {
@@ -278,7 +278,7 @@ tbody {
   }
 
   tr {
-    transition: background-color 0.2s ease-out;
+    transition: background-color 0.2s var(--easings-ease-out-expo);
     &:hover {
       background-color: var(--colors-gray-a-100);
     }
@@ -327,12 +327,12 @@ del {
 @supports (view-transition-name: none) {
   @media not (prefers-reduced-motion: reduce) {
     ::view-transition-old(cross-fade) {
-      animation: view-transition-hide 0.4s ease-out forwards;
+      animation: view-transition-hide 0.4s var(--easings-ease-out-expo) forwards;
     }
 
     ::view-transition-new(cross-fade) {
       opacity: 0;
-      animation: view-transition-show 0.6s ease-out 0.2s forwards;
+      animation: view-transition-show 0.6s var(--easings-ease-out-expo) 0.2s forwards;
     }
   }
 }
