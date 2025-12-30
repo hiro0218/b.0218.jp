@@ -24,7 +24,7 @@ export const PostSection = ({
   headingWeight = 'normal',
   href,
   posts,
-  prefetch,
+  prefetch = false,
 }: Props) => {
   if (posts.length === 0) {
     return null;
