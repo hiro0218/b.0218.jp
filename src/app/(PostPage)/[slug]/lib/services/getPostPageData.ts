@@ -68,7 +68,7 @@ export function getPostPageData(slug: string): PostPageData | null {
 
   // 記事数が最も多いタグの記事を取得
   const mostPopularTagCandidate =
-    tagsWithCount.length > 0 ? tagsWithCount.toSorted((a, b) => b.count - a.count)[0] : null;
+    tagsWithCount.length > 0 ? tagsWithCount.reduce((max, tag) => (tag.count > max.count ? tag : max)) : null;
   const rawSameTagPosts = mostPopularTagCandidate ? getPostsByTag(mostPopularTagCandidate.slug, normalizedSlug, 4) : [];
   // 日付フォーマットを整形
   const sameTagPosts = formatSimilarPosts(rawSameTagPosts);
