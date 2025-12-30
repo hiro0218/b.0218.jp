@@ -28,7 +28,7 @@ const zoomedImageStyle = css`
   cursor: zoom-out;
   opacity: 1;
   transform: translate(-50%, -50%);
-  transition: opacity 0.2s ease-out;
+  transition: opacity 0.2s var(--easings-ease-out-expo);
 `;
 
 type ZoomImageProps = ImgHTMLAttributes<HTMLImageElement> & {

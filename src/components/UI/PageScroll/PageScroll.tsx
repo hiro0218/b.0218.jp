@@ -43,8 +43,8 @@ const Button = styled.button`
   border: none;
   border-radius: var(--radii-full);
   transition:
-    background-color 0.2s ease-out,
-    transform 0.1s ease-out;
+    background-color 0.2s var(--easings-ease-out-expo),
+    transform 0.1s var(--easings-ease-out-expo);
 
   svg {
     --desktop-size: calc(var(--sizes-icon-md) * 0.5);

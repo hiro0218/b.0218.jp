@@ -88,19 +88,19 @@ const Dialog = styled.dialog`
     visibility: visible;
     pointer-events: auto;
     opacity: 1;
-    animation: zoomIn 0.2s ease-out;
+    animation: zoomIn 0.2s var(--easings-ease-out-expo);
   }
 
   &[open][data-closing='true'] {
-    animation: zoomOut 0.2s ease-out forwards;
+    animation: zoomOut 0.2s var(--easings-ease-out-expo) forwards;
   }
 
   &::backdrop {
     cursor: pointer;
     background-color: var(--colors-overlay-backgrounds);
     transition:
-      background-color 0.2s ease-out,
-      opacity 0.2s ease-out;
+      background-color 0.2s var(--easings-ease-out-expo),
+      opacity 0.2s var(--easings-ease-out-expo);
   }
 
   &[data-closing='true']::backdrop {

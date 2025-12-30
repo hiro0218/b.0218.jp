@@ -83,7 +83,7 @@ const Section = styled.section`
     border: 4px solid var(--year-heading-circle-color);
     border-radius: var(--radii-full);
     transform: translateX(-50%);
-    transition: border 0.2s ease-out;
+    transition: border 0.2s var(--easings-ease-out-expo);
   }
 
   &:hover {
@@ -123,7 +123,7 @@ const Separator = styled.span`
   margin: auto;
   background-color: var(--year-post-separator-color);
   border-radius: var(--year-post-separator-border-radius);
-  transition: all 0.15s ease-out;
+  transition: all 0.15s var(--easings-ease-out-expo);
 `;
 
 const styleAnchor = css`

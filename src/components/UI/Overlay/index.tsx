@@ -34,9 +34,9 @@ const Div = styled.div`
   isolation: isolate;
   opacity: 0;
   transition:
-    opacity 0.2s ease-out,
-    visibility 0.2s ease-out;
-  animation: fadeIn 0.2s ease-out;
+    opacity 0.2s var(--easings-ease-out-expo),
+    visibility 0.2s var(--easings-ease-out-expo);
+  animation: fadeIn 0.2s var(--easings-ease-out-expo);
 
   [data-is-zoom-image='true'] ~ &,
   dialog[open] ~ & {
