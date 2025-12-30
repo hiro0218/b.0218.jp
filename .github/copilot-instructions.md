@@ -137,24 +137,74 @@ const Button = styled.button`
 
 ⚠️ **CRITICAL: Check `next.config.mjs` before suggesting manual optimizations**
 
-React Compiler (React 19) automatically handles memoization and re-render optimization.
+React Compiler (React 19) automatically handles memoization and re-render optimization **within component rendering**.
+
+**React Compiler Scope**:
+
+✅ **Automatically optimized**:
+
+- Component rendering results
+- JSX element generation
+- Inline calculations within components
+
+❌ **NOT automatically optimized** (manual memoization required):
+
+- Class instance creation in custom hooks (`new ClassName()`)
+- Function definitions in custom hooks
+- External library initialization
+- Side-effect-heavy operations
+
+**Example - Custom Hook with Cache**:
+
+```tsx
+// ❌ Without useMemo - cache recreated on every render
+export const useSearchWithCache = () => {
+  const cache = new SearchCache();
+  return (data, query) => {
+    /* ... */
+  };
+};
+
+// ✅ With useMemo - cache persists across renders
+export const useSearchWithCache = () => {
+  const cache = useMemo(() => new SearchCache(), []);
+  return useMemo(
+    () => (data, query) => {
+      /* ... */
+    },
+    [cache],
+  );
+};
+```
 
 **❌ DO NOT suggest**:
 
-- Manual `useMemo` / `useCallback` / `memo` (redundant when compiler is active)
+- Manual `useMemo` / `useCallback` / `memo` for component-level rendering optimization
 
-**✅ DO suggest**:
+**✅ DO suggest when appropriate**:
 
+- `useMemo` / `useCallback` for custom hook internals (see "NOT automatically optimized" above)
 - Algorithm improvements (e.g., O(n²) → O(n))
 - Data structure optimizations
-- Reducing unnecessary function calls or normalizations
 - Build-time optimizations
 
-**Verification**:
+**Verification Process** (before removing or adding optimizations):
 
 1. Read `next.config.mjs` to check `reactCompiler` setting
-2. If `true`: Focus on algorithmic/structural improvements only
-3. If `false`: Manual memoization techniques are appropriate
+2. Identify if optimization is for:
+   - Component rendering (handled by: React Compiler)
+   - Custom hook internals (requires: Manual memoization)
+3. For custom hooks with stateful instances or functions:
+   - Verify if the value should persist across re-renders
+   - Add `useMemo` / `useCallback` if persistence is required
+4. Test that the optimization actually works (e.g., cache functionality)
+
+**Common Pitfalls**:
+
+- Removing `useMemo` from custom hooks without verification
+- Assuming React Compiler optimizes everything (it doesn't)
+
+**See also**: Technology Adoption Guidelines > Test Behavioral Changes (applies beyond React Compiler)
 
 ### Improvement Proposals
 
@@ -165,6 +215,39 @@ React Compiler (React 19) automatically handles memoization and re-render optimi
 - **Appropriate scope**: Changes should match problem size
 - **Avoid over-engineering**: No patterns designed for dynamic backends/SPAs (e.g., Repository pattern)
 - **Check existing solutions**: Avoid duplicating utilities or patterns
+
+### Technology Adoption Guidelines
+
+**Applies to**: React Compiler, build tools (Next.js, Webpack, esbuild), formatters (Biome), type checkers (TypeScript), CSS-in-JS (Panda CSS), test frameworks (Vitest), and any new technology or optimization.
+
+**When introducing new technologies or removing existing optimizations**:
+
+1. **Verify Scope Before Assuming**:
+   - Read official documentation to understand exact capabilities
+   - Don't assume "new = better in all cases"
+   - Identify explicit limitations and unsupported use cases
+
+2. **Test Behavioral Changes**:
+
+   **Examples of changes that broke in production**:
+   - React Compiler: Removed `useMemo` from custom hook (result: cache recreated on every render)
+   - Next.js Tree-shaking: Enabled aggressive DCE (result: necessary side-effect code removed)
+   - TypeScript strict mode: Enabled without testing (result: hidden type errors surfaced)
+
+3. **Question Generalizations**:
+   - "This tool handles X automatically" (ask: In which contexts? What are exceptions?)
+   - "We don't need Y anymore" (ask: Are there edge cases where Y is still required?)
+   - "The docs say Z" (ask: Is that recommendation universal or context-specific?)
+
+   **Real-world examples**:
+   - "React Compiler memoizes everything" (actually: Only component rendering, not custom hooks)
+   - "TypeScript strict mode catches all errors" (actually: Runtime validation still needed)
+   - "Panda CSS has zero runtime" (actually: True, but atomic CSS classes still need loading)
+
+4. **Avoid These Anti-Patterns**:
+   - ❌ "New feature exists, so old approach is obsolete"
+   - ❌ "If it compiles, it probably works"
+   - ❌ "The framework is smart, so I don't need to think about it"
 
 ## Git Workflow
 
@@ -195,7 +278,7 @@ Include:
 | Lint file         | `npx @biomejs/biome check <file>`     |
 | Lint all          | `npm run lint`                        |
 | Build production  | `npm run prebuild && npm run build`   |
-| Build (no lint)   | `npx next build --no-lint --webpack`  |
+| Build (fast)      | `npx next build --webpack`            |
 | Bundle analysis   | `npm run build:analyzer`              |
 
 ## Important Notes
