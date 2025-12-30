@@ -1,2 +1,2 @@
 export { getPost, getTagsWithCountFromSlugs } from './getPost';
-export { getSimilarPosts, getSimilarTags } from './getSimilarContent';
+export { getPostsByTag, getSimilarPosts, getSimilarTags } from './getSimilarContent';

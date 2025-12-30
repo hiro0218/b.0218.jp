@@ -2,7 +2,7 @@ import { getRecentAndUpdatedPosts } from '@/app/_lib/getRecentAndUpdatedPosts';
 import { getPostsPopular } from '@/lib/data/posts';
 import { isPost, isPostArray } from '@/lib/guards';
 import type { ArticleSummary, PopularityDetail } from '@/types/source';
-import { getPost, getSimilarPosts, getSimilarTags, getTagsWithCountFromSlugs } from '../data';
+import { getPost, getPostsByTag, getSimilarPosts, getSimilarTags, getTagsWithCountFromSlugs } from '../data';
 import { formatPostData, formatSimilarPosts, getAlternativePosts } from '../utils';
 
 /** 投稿ページの戻り値の型定義 */
@@ -11,6 +11,8 @@ interface PostPageData {
   similarPost: ArticleSummary[];
   similarTags: Array<{ slug: string; count: number }>;
   recentPosts: ArticleSummary[];
+  sameTagPosts: ArticleSummary[];
+  mostPopularTag?: { slug: string; count: number };
   popularity?: PopularityDetail;
 }
 
@@ -73,12 +75,23 @@ export function getPostPageData(slug: string): PostPageData | null {
   const popularityScores = getPostsPopular();
   const popularity = popularityScores[normalizedSlug];
 
+  // 記事数が最も多いタグの記事を取得
+  const mostPopularTagCandidate =
+    tagsWithCount.length > 0 ? tagsWithCount.toSorted((a, b) => b.count - a.count)[0] : null;
+  const rawSameTagPosts = mostPopularTagCandidate ? getPostsByTag(mostPopularTagCandidate.slug, normalizedSlug, 4) : [];
+  // 日付フォーマットを整形
+  const sameTagPosts = formatSimilarPosts(rawSameTagPosts);
+  // 記事が取得できた場合のみmostPopularTagを設定
+  const mostPopularTag = sameTagPosts.length > 0 ? mostPopularTagCandidate : undefined;
+
   // 結果の組み立て
   return {
     post: formattedPost,
     similarPost,
     similarTags,
     recentPosts,
+    sameTagPosts,
+    mostPopularTag,
     popularity,
   } satisfies PostPageData;
 }
