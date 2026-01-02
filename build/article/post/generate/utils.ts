@@ -25,7 +25,8 @@ export const getMarkdownFiles = async (directory: string, maxDepth = 0) => {
 const agentFiles = ['CLAUDE.md', 'AGENTS.md'] as const;
 
 export const isAgentFile = (filename: string): boolean => {
-  return agentFiles.some((pattern) => filename.toUpperCase() === pattern.toUpperCase());
+  const upperFilename = filename.toUpperCase();
+  return agentFiles.some((pattern) => upperFilename === pattern.toUpperCase());
 };
 
 /**
