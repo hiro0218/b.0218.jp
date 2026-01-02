@@ -33,12 +33,5 @@ export const isAgentFile = (filename: string): boolean => {
  */
 // biome-ignore lint/suspicious/noExplicitAny: gray-matter returns any type for frontmatter data
 export const hasRequiredFrontmatter = (data: any): boolean => {
-  return (
-    typeof data === 'object' &&
-    data !== null &&
-    typeof data.title === 'string' &&
-    data.title.trim() !== '' &&
-    (typeof data.date === 'string' || data.date instanceof Date) &&
-    (typeof data.date === 'string' ? data.date.trim() !== '' : true)
-  );
+  return !!(data?.title?.trim() && data?.date);
 };
