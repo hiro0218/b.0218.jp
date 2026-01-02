@@ -42,7 +42,7 @@ export async function buildPage() {
         content,
       });
     } catch (error) {
-      Log.error(`Failed to parse frontmatter: ${file}`, error);
+      Log.error(`Failed to process file: ${file}`, error);
       continue;
     }
   }
