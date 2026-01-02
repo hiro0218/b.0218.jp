@@ -127,7 +127,7 @@
     "es-set-tostringtag": "npm:@nolyfill/es-set-tostringtag@^1"
   },
   "nano-staged": {
-    "**/*.{ts,tsx,js}": [
+    "**/*.{ts,tsx,js,mjs}": [
       "npx @biomejs/biome check --write",
       "bash -c 'tsc --noEmit --skipLibCheck'"
     ],
