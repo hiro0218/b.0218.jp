@@ -21,3 +21,24 @@ export const getMarkdownFiles = async (directory: string, maxDepth = 0) => {
 
   return files;
 };
+
+const agentFiles = ['CLAUDE.md', 'AGENTS.md'] as const;
+
+export const isAgentFile = (filename: string): boolean => {
+  return agentFiles.some((pattern) => filename.toUpperCase() === pattern.toUpperCase());
+};
+
+/**
+ * 必須フロントマターフィールドの存在を検証
+ */
+// biome-ignore lint/suspicious/noExplicitAny: gray-matter returns any type for frontmatter data
+export const hasRequiredFrontmatter = (data: any): boolean => {
+  return (
+    typeof data === 'object' &&
+    data !== null &&
+    typeof data.title === 'string' &&
+    data.title.trim() !== '' &&
+    (typeof data.date === 'string' || data.date instanceof Date) &&
+    (typeof data.date === 'string' ? data.date.trim() !== '' : true)
+  );
+};
