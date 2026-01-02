@@ -1,8 +1,12 @@
+import path from 'node:path';
 import { fdir } from 'fdir';
 
 const isMarkdown = (file: string) => file.endsWith('.md');
 
-export const getSlug = (file: string) => file.replace('.md', '');
+export const getSlug = (file: string) => {
+  const filename = path.basename(file);
+  return filename.replace('.md', '');
+};
 
 export const getPath = () => {
   return {
@@ -15,6 +19,7 @@ export const getMarkdownFiles = async (directory: string, maxDepth = 0) => {
   // md ファイル一覧を取得
   const files = await new fdir()
     .withMaxDepth(maxDepth)
+    .withRelativePaths()
     .filter((path) => isMarkdown(path))
     .crawl(directory)
     .withPromise();
