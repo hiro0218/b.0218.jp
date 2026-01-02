@@ -1,11 +1,12 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.6/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.10/schema.json",
   "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
   "files": {
     "ignoreUnknown": false,
     "includes": [
       "**",
       "!**/.github/scripts/*.js",
+      "!**/.github/scripts/*.mjs",
       "!**/.github/scripts/*.ts",
       "!.next/**",
       "!styled-system/**",
@@ -132,7 +133,7 @@
         }
       }
     },
-    { "includes": ["**/*.js"], "linter": { "rules": {} } },
+    { "includes": ["**/*.{js,mjs}"], "linter": { "rules": {} } },
     {
       "includes": ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
       "linter": {

@@ -64,7 +64,7 @@
     "@vitejs/plugin-react": "5.1.2",
     "@vitest/coverage-v8": "4.0.16",
     "browserslist": "4.28.1",
-    "dependency-cruiser": "17.3.4",
+    "dependency-cruiser": "17.3.5",
     "esbuild": "0.27.2",
     "esbuild-register": "3.6.0",
     "fdir": "6.5.0",
@@ -74,7 +74,7 @@
     "hast-util-is-element": "3.0.0",
     "hast-util-parse-selector": "4.0.0",
     "hast-util-select": "6.0.4",
-    "hono": "4.11.1",
+    "hono": "4.11.3",
     "husky": "9.1.7",
     "jsdom": "27.3.0",
     "knip": "5.77.1",
@@ -108,7 +108,7 @@
     "stylelint-config-recess-order": "7.4.0",
     "stylelint-config-recommended": "17.0.0",
     "stylelint-declaration-block-no-ignored-properties": "2.8.0",
-    "stylelint-order": "7.0.0",
+    "stylelint-order": "7.0.1",
     "stylelint-plugin-isolate-on-stack": "0.7.0",
     "typescript": "5.9.3",
     "unified": "11.0.5",
@@ -127,7 +127,7 @@
     "es-set-tostringtag": "npm:@nolyfill/es-set-tostringtag@^1"
   },
   "nano-staged": {
-    "**/*.{ts,tsx,js}": [
+    "**/*.{ts,tsx,js,mjs}": [
       "npx @biomejs/biome check --write",
       "bash -c 'tsc --noEmit --skipLibCheck'"
     ],

@@ -2,7 +2,7 @@ import { cpus, totalmem } from 'node:os';
 import nextBuildId from 'next-build-id';
 
 const getStaticGenerationConfig = () => {
-  const memoryGB = totalmem() / (1024 ** 3);
+  const memoryGB = totalmem() / 1024 ** 3;
   const maxConcurrency = Math.max(2, Math.min(cpus().length - 1, 16));
   const minPagesPerWorker = memoryGB < 8 ? 15 : memoryGB >= 16 ? 50 : 25;
 
@@ -47,6 +47,7 @@ const nextConfig = {
       rules: [
         ...rules,
         {
+          // biome-ignore lint/performance/useTopLevelRegex :no need for top-level regex
           test: /src\/.*\/index\.ts?$/,
           sideEffects: false,
         },
