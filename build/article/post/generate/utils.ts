@@ -11,10 +11,10 @@ export const getPath = () => {
   } as const;
 };
 
-export const getMarkdownFiles = async (directory: string) => {
+export const getMarkdownFiles = async (directory: string, maxDepth = 0) => {
   // md ファイル一覧を取得
   const files = await new fdir()
-    .withMaxDepth(0)
+    .withMaxDepth(maxDepth)
     .filter((path) => isMarkdown(path))
     .crawl(directory)
     .withPromise();

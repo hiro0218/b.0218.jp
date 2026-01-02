@@ -11,7 +11,7 @@ const PATH = getPath();
 
 export async function buildPost() {
   // md ファイル一覧を取得
-  const files = await getMarkdownFiles(`${PATH.from}/_posts`);
+  const files = await getMarkdownFiles(`${PATH.from}/_posts`, 1);
   const posts: Post[] = [];
 
   // 記事一覧
