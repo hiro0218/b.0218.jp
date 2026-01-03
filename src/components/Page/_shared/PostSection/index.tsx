@@ -1,7 +1,7 @@
 import type { JSX } from 'react';
+import ArticleCard from '@/components/UI/ArticleCard';
 import Heading from '@/components/UI/Heading';
 import { Box, Grid } from '@/components/UI/Layout';
-import LinkCard from '@/components/UI/LinkCard';
 import { LinkMore } from '@/components/UI/LinkMore';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { ArticleSummary, PostSummary } from '@/types/source';
@@ -50,7 +50,7 @@ export const PostSection = ({
             const link = convertPostSlugToPath(slug);
 
             return (
-              <LinkCard
+              <ArticleCard
                 date={date}
                 key={slug}
                 link={link}

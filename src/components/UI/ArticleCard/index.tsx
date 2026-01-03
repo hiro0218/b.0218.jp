@@ -19,7 +19,7 @@ type Props = {
   prefetch?: boolean;
 };
 
-function LinkCard({ link, title, date, updated, excerpt, tags, titleTagName = 'h3', prefetch = false }: Props) {
+function ArticleCard({ link, title, date, updated, excerpt, tags, titleTagName = 'h3', prefetch = false }: Props) {
   const Title = titleTagName;
 
   return (
@@ -46,7 +46,7 @@ function LinkCard({ link, title, date, updated, excerpt, tags, titleTagName = 'h
   );
 }
 
-export default LinkCard;
+export default ArticleCard;
 
 const Container = styled.div`
   --container-space: var(--spacing-3);

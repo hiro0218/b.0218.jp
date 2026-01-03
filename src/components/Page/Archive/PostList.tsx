@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import LinkCard from '@/components/UI/LinkCard';
+import ArticleCard from '@/components/UI/ArticleCard';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { ArticleSummary } from '@/types/source';
 import { ARCHIVE_CONFIG } from './constants';
@@ -28,7 +28,7 @@ export function PostList({ posts }: PostListProps) {
   return (
     <>
       {paginatedPosts.map(({ date, slug, title, updated, link }) => {
-        return <LinkCard date={date} key={slug} link={link} title={title} updated={updated} />;
+        return <ArticleCard date={date} key={slug} link={link} title={title} updated={updated} />;
       })}
     </>
   );
