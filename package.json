@@ -76,7 +76,7 @@
     "hast-util-select": "6.0.4",
     "hono": "4.11.3",
     "husky": "9.1.7",
-    "jsdom": "27.3.0",
+    "jsdom": "27.4.0",
     "knip": "5.77.1",
     "kuromoji": "0.1.2",
     "lightningcss": "1.30.2",
