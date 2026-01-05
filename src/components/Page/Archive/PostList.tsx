@@ -5,7 +5,7 @@ import ArticleCard from '@/components/UI/ArticleCard';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { ArticleSummary } from '@/types/source';
 import { ARCHIVE_CONFIG } from './constants';
-import { parsePageNumber } from './utils/parsePageNumber';
+import { calculateTotalPages, parsePageNumber } from './utils/parsePageNumber';
 
 type PostListProps = {
   posts: ArticleSummary[];
@@ -17,7 +17,10 @@ type PostListProps = {
  */
 export function PostList({ posts }: PostListProps) {
   const searchParams = useSearchParams();
-  const currentPage = parsePageNumber(searchParams.get(ARCHIVE_CONFIG.queryKey));
+  const pageParam = searchParams.get(ARCHIVE_CONFIG.queryKey);
+  const totalPages = calculateTotalPages(posts.length, ARCHIVE_CONFIG.itemsPerPage);
+  const currentPage = parsePageNumber(pageParam, 1, totalPages);
+
   const startIndex = (currentPage - 1) * ARCHIVE_CONFIG.itemsPerPage;
   const endIndex = startIndex + ARCHIVE_CONFIG.itemsPerPage;
   const paginatedPosts = posts.slice(startIndex, endIndex).map((post) => ({
