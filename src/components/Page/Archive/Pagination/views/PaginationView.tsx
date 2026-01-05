@@ -201,11 +201,12 @@ const paginationButtonStyle = css`
   border-radius: var(--radii-full);
   transition: background-color 0.1s var(--easings-ease-out-expo);
 
+  /* current */
   &[disabled] {
-    color: var(--colors-gray-1000);
+    color: var(--colors-gray-200);
     pointer-events: none;
     cursor: not-allowed;
-    background-color: var(--colors-gray-300);
+    background-color: var(--colors-gray-800);
 
     &[data-arrow-button] {
       color: var(--colors-gray-900);
@@ -215,19 +216,12 @@ const paginationButtonStyle = css`
 
   &:not([disabled]) {
     &:hover {
-      color: var(--colors-gray-1000);
-      background-color: var(--colors-gray-200);
+      color: var(--colors-gray-900);
+      background-color: var(--colors-gray-100);
     }
     &:active {
-      color: var(--colors-gray-1000);
-      background-color: var(--colors-gray-300);
-    }
-    &:focus-visible {
-      color: var(--colors-gray-1000);
-      background-color: var(--colors-gray-300);
-      box-shadow:
-        0 0 0 2px var(--colors-gray-25),
-        0 0 0 4px var(--colors-gray-800);
+      color: var(--colors-gray-900);
+      background-color: var(--colors-gray-200);
     }
   }
 `;
