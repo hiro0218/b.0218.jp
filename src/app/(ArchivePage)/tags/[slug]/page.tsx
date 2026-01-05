@@ -6,6 +6,7 @@ import { getMetadata } from '@/app/_metadata';
 import { Pagination } from '@/components/Page/Archive/Pagination';
 import { PostList } from '@/components/Page/Archive/PostList';
 import { Sidebar, Stack } from '@/components/UI/Layout';
+import { Loading } from '@/components/UI/Loading';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
 import { getTagsWithCount } from '@/lib/data/posts';
@@ -70,7 +71,7 @@ export default async function Page({ params }: { params: Params }) {
           </Sidebar.Side>
           <Sidebar.Main>
             <Stack>
-              <Suspense fallback={null}>
+              <Suspense fallback={<Loading />}>
                 <PostList posts={posts} />
               </Suspense>
             </Stack>
