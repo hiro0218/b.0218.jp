@@ -15,7 +15,7 @@ import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
 import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constants';
 
-const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((module) => module.PageScroll));
+const PageScroll = dynamic(() => import('@/components/Functional/PageScroll').then((module) => module.PageScroll));
 
 export const viewport: Viewport = {
   width: 'device-width',
