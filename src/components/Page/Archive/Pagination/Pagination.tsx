@@ -4,8 +4,12 @@ import { type ReactNode, useId } from 'react';
 import { CaretLeftIcon, CaretRightIcon, ICON_SIZE_XS } from '@/ui/icons';
 import { css, styled } from '@/ui/styled';
 import { ARCHIVE_CONFIG } from '../constants';
-import type { PaginationViewProps } from '../types';
+import { useCurrentPage } from './hooks/useCurrentPage';
 import { usePagination } from './hooks/usePagination';
+
+type PaginationProps = {
+  totalItems: number;
+};
 
 type NavigationButtonProps = {
   direction: 'previous' | 'next';
@@ -70,34 +74,32 @@ const EllipsisItem = ({ children }: EllipsisItemProps) => (
 );
 
 /**
- * ページネーションUIコンポーネント
- * @param onPageChange ページ変更ハンドラー
- * @param totalCount 総アイテム数
- * @param totalPages 総ページ数
- * @param siblingCount 現在ページの両側に表示する兄弟ページ数
- * @param currentPage 現在のページ番号
- * @param pageSize ページサイズ
+ * ページネーション付きナビゲーションを表示
+ *
+ * totalItems が 0 件、または 1 ページ以下の場合は null を返す（非表示）
+ *
+ * @param totalItems - 総アイテム数（0 以上の整数）
+ * @returns ページネーション UI、または null
+ *
+ * @example
+ * ```tsx
+ * <Pagination totalItems={100} />
+ * ```
  */
-export const Pagination = ({
-  onPageChange,
-  totalCount,
-  totalPages,
-  siblingCount = 1,
-  currentPage,
-  pageSize,
-}: PaginationViewProps) => {
+export function Pagination({ totalItems }: PaginationProps) {
+  const { currentPage, totalPages, setPage } = useCurrentPage(totalItems);
   const { paginationRange } = usePagination({
     currentPage,
-    totalCount,
+    totalCount: totalItems,
     totalPages,
-    siblingCount,
-    pageSize,
+    siblingCount: 1,
+    pageSize: ARCHIVE_CONFIG.itemsPerPage,
   });
 
   const id = useId();
   const paginationId = `pagination-${id}`;
 
-  if (totalCount === 0 || paginationRange.length < 2) {
+  if (totalItems === 0 || paginationRange.length < 2) {
     return null;
   }
 
@@ -112,7 +114,7 @@ export const Pagination = ({
           <NavigationButton
             currentPage={currentPage}
             direction="previous"
-            onPageChange={onPageChange}
+            onPageChange={setPage}
             totalPages={totalPages}
           />
         </li>
@@ -127,11 +129,7 @@ export const Pagination = ({
 
           return (
             <li data-paginate="page" key={`page-${pageNumber}`}>
-              <PageNumberButton
-                currentPage={currentPage}
-                onPageChange={onPageChange}
-                pageNumber={pageNumber as number}
-              />
+              <PageNumberButton currentPage={currentPage} onPageChange={setPage} pageNumber={pageNumber as number} />
             </li>
           );
         })}
@@ -141,17 +139,12 @@ export const Pagination = ({
           </PageCountDisplay>
         </li>
         <li data-paginate="arrow">
-          <NavigationButton
-            currentPage={currentPage}
-            direction="next"
-            onPageChange={onPageChange}
-            totalPages={totalPages}
-          />
+          <NavigationButton currentPage={currentPage} direction="next" onPageChange={setPage} totalPages={totalPages} />
         </li>
       </ul>
     </PaginationNav>
   );
-};
+}
 
 const PaginationNav = styled.nav`
   ul {
