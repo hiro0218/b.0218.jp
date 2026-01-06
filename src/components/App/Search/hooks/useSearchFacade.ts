@@ -36,9 +36,10 @@ export const useSearchFacade = ({
   });
   const { saveSearchState, loadSearchState } = useSearchStatePersistence();
 
-  // ===== フォーカス管理（分離） =====
-  const { focusedIndex, setFocusedIndex, navigateToIndex, resetFocus } = useSearchFocusState({
+  // ===== フォーカス管理 =====
+  const { focusedIndex, setFocusedIndex, resetFocus, moveUp, moveDown, moveToFirst, moveToLast } = useSearchFocusState({
     resultsLength: state.results.length,
+    loop: true,
   });
 
   const { updateDOMRefs, focusInput, scrollToFocusedElement, setResultRef, getResultRef, clearExcessRefs } =
@@ -82,7 +83,10 @@ export const useSearchFacade = ({
   }, [focusedIndex, state.results]);
 
   const { keyboardProps, handleSearchInput } = useSearchKeyboard({
-    onNavigate: navigateToIndex,
+    onMoveUp: moveUp,
+    onMoveDown: moveDown,
+    onMoveToFirst: moveToFirst,
+    onMoveToLast: moveToLast,
     onClose: handleCloseDialog,
     focusedIndexRef,
     resultsRef,

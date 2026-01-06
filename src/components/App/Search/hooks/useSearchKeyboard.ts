@@ -5,11 +5,14 @@ import { isHTMLElement } from '@/lib/browser/typeGuards';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { SearchProps } from '../types';
 
-const NAV_KEYS = new Set(['ArrowDown', 'ArrowUp', 'Enter', 'Escape'] as const);
+const NAV_KEYS = new Set(['ArrowDown', 'ArrowUp', 'Home', 'End', 'Enter', 'Escape'] as const);
 
 interface UseSearchKeyboardProps {
   // キーボードナビゲーション
-  onNavigate: (index: number) => void;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
+  onMoveToFirst: () => void;
+  onMoveToLast: () => void;
   onClose: () => void;
   focusedIndexRef: { current: number };
   resultsRef: { current: SearchProps[] };
@@ -31,11 +34,14 @@ export interface UseSearchKeyboardReturn {
  *
  * @description
  * 以下の2つの責務を統合:
- * 1. キーボードナビゲーション（Arrow, Enter, Escape）
+ * 1. キーボードナビゲーション（Arrow, Home/End, Enter, Escape）
  * 2. 検索入力の特殊処理（Enter キーの即座実行、デバウンス）
  */
 export const useSearchKeyboard = ({
-  onNavigate,
+  onMoveUp,
+  onMoveDown,
+  onMoveToFirst,
+  onMoveToLast,
   onClose,
   focusedIndexRef,
   resultsRef,
@@ -46,32 +52,14 @@ export const useSearchKeyboard = ({
 }: UseSearchKeyboardProps): UseSearchKeyboardReturn => {
   const router = useRouter();
 
-  // ===== キーボードナビゲーション =====
-  const handleArrowDown = useCallback(() => {
-    const currentIndex = focusedIndexRef.current;
-    const count = resultsRef.current.length;
-    if (count > 0 && currentIndex < count - 1) {
-      onNavigate(currentIndex + 1);
-    }
-  }, [onNavigate, focusedIndexRef, resultsRef]);
-
-  const handleArrowUp = useCallback(() => {
-    const currentIndex = focusedIndexRef.current;
-    if (currentIndex >= 0) {
-      onNavigate(currentIndex - 1);
-    }
-  }, [onNavigate, focusedIndexRef]);
-
   const handleEnter = useCallback(() => {
     const currentIndex = focusedIndexRef.current;
     const count = resultsRef.current.length;
     if (currentIndex >= 0 && currentIndex < count) {
-      // DOM操作でネイティブクリックをトリガー（クリック時と同じ処理フロー）
       const resultElement = getResultRef(currentIndex);
       if (resultElement) {
         const anchor = resultElement.querySelector('a');
         if (anchor) {
-          // anchor.click()内でonLinkClick(=onClose)が呼ばれるため、ここではonCloseを呼ばない
           anchor.click();
           return;
         }
@@ -100,11 +88,19 @@ export const useSearchKeyboard = ({
       switch (e.key) {
         case 'ArrowDown':
           e.preventDefault();
-          handleArrowDown();
+          onMoveDown();
           break;
         case 'ArrowUp':
           e.preventDefault();
-          handleArrowUp();
+          onMoveUp();
+          break;
+        case 'Home':
+          e.preventDefault();
+          onMoveToFirst();
+          break;
+        case 'End':
+          e.preventDefault();
+          onMoveToLast();
           break;
         case 'Enter':
           e.preventDefault();
