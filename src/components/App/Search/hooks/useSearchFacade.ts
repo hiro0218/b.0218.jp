@@ -1,6 +1,6 @@
 'use client';
 
-import { type RefObject, useCallback, useEffect, useMemo, useRef } from 'react';
+import { type RefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { usePostsData } from '../data/usePostsData';
 import type { UseSearchFacadeOptions, UseSearchFacadeReturn } from '../types';
 import { useSearchDOMRefs } from './useSearchDOMRefs';
@@ -96,7 +96,10 @@ export const useSearchFacade = ({
     debouncedSearch,
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    updateDOMRefs();
+    clearExcessRefs(state.results.length);
+
     if (focusedIndex === -1) {
       focusInput();
       return;
@@ -107,12 +110,15 @@ export const useSearchFacade = ({
       targetElement.focus();
       scrollToFocusedElement(targetElement);
     }
-  }, [focusedIndex, getResultRef, focusInput, scrollToFocusedElement]);
-
-  useEffect(() => {
-    updateDOMRefs();
-    clearExcessRefs(state.results.length);
-  }, [state.results.length, updateDOMRefs, clearExcessRefs]);
+  }, [
+    state.results.length,
+    focusedIndex,
+    updateDOMRefs,
+    clearExcessRefs,
+    getResultRef,
+    focusInput,
+    scrollToFocusedElement,
+  ]);
 
   const ui = useMemo(
     () => ({
