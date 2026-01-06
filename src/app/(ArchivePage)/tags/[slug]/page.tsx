@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { getTagPosts } from '@/app/_lib/getTagPosts';
 import { getMetadata } from '@/app/_metadata';
+import { StructuredData } from '@/components/Functional/StructuredData';
 import { Pagination } from '@/components/Page/Archive/Pagination';
 import { PostList } from '@/components/Page/Archive/PostList';
 import { Sidebar, Stack } from '@/components/UI/Layout';
@@ -52,16 +53,11 @@ export default async function Page({ params }: { params: Params }) {
 
   return (
     <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            getCollectionPageStructured({
-              name: `Tag: ${decodedSlug}`,
-              description: `Tag: ${decodedSlug} - ${SITE_NAME}`,
-            }),
-          ),
-        }}
-        type="application/ld+json"
+      <StructuredData
+        data={getCollectionPageStructured({
+          name: `Tag: ${decodedSlug}`,
+          description: `Tag: ${decodedSlug} - ${SITE_NAME}`,
+        })}
       />
       <Stack as="section" space={4}>
         <Title heading={pageTitle} paragraph={`${totalItems}件の記事`} />
