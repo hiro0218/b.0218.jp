@@ -41,6 +41,9 @@ export function SearchExternalLink({ searchQuery }: SearchExternalLinkProps) {
       <Stack direction="horizontal" justify="space-between" space={1}>
         <Stack align="center" direction="horizontal" justify="space-between" space={1}>
           <span>
+            <kbd>/</kbd>検索を開く
+          </span>
+          <span>
             <kbd>↑</kbd>
             <kbd>↓</kbd>選択
           </span>
