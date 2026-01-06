@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { StructuredData } from '@/components/Functional/StructuredData';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { TagSection } from '@/components/Page/_shared/TagSection';
 import { Hero } from '@/components/Page/Home';
@@ -30,12 +31,7 @@ export default async function Page() {
 
   return (
     <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify([webSiteStructured, organizationStructured]),
-        }}
-        type="application/ld+json"
-      />
+      <StructuredData data={[webSiteStructured, organizationStructured]} />
 
       <h1 className="sr-only">トップページ</h1>
 

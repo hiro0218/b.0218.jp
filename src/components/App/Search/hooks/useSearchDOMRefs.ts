@@ -57,30 +57,12 @@ export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps): UseSearc
   }, [actualDialogRef]);
 
   const scrollToFocusedElement = useCallback((targetElement: HTMLElement) => {
-    const searchResultsContainer = searchResultsRef.current;
-    if (!searchResultsContainer) return;
+    if (!searchResultsRef.current) return;
 
-    const measurements = {
-      containerRect: searchResultsContainer.getBoundingClientRect(),
-      elementRect: targetElement.getBoundingClientRect(),
-      elementOffsetTop: targetElement.offsetTop,
-      containerHeight: searchResultsContainer.clientHeight,
-      elementHeight: targetElement.offsetHeight,
-    };
-
-    const isAboveContainer = measurements.elementRect.top < measurements.containerRect.top;
-    const isBelowContainer = measurements.elementRect.bottom > measurements.containerRect.bottom;
-
-    if (isAboveContainer || isBelowContainer) {
-      const scrollTop = isAboveContainer
-        ? measurements.elementOffsetTop - 8
-        : measurements.elementOffsetTop - measurements.containerHeight + measurements.elementHeight + 8;
-
-      searchResultsContainer.scrollTo({
-        top: scrollTop,
-        behavior: 'smooth',
-      });
-    }
+    targetElement.scrollIntoView({
+      block: 'nearest',
+      behavior: 'smooth',
+    });
   }, []);
 
   // ===== 検索結果要素参照管理 =====

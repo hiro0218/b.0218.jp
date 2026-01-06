@@ -3,6 +3,7 @@
  */
 import type { Thing, WithContext } from 'schema-dts';
 import { PAGE_CONFIGS } from '@/app/_metadata';
+import { StructuredData } from '@/components/Functional/StructuredData';
 import { getAboutPageStructured, getWebPageStructured } from '@/lib/domain/json-ld';
 import Content from './Content';
 import type { PageSlug } from './types';
@@ -40,14 +41,7 @@ export default function Template({ slug }: TemplateProps) {
 
   return (
     <>
-      {jsonLd && (
-        <script
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLd),
-          }}
-          type="application/ld+json"
-        />
-      )}
+      {jsonLd && <StructuredData data={jsonLd} />}
       <Content description={description} slug={slug} title={title} />
     </>
   );

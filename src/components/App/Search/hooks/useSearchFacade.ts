@@ -1,6 +1,6 @@
 'use client';
 
-import { type RefObject, useCallback, useEffect, useMemo, useRef } from 'react';
+import { type RefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { usePostsData } from '../data/usePostsData';
 import type { UseSearchFacadeOptions, UseSearchFacadeReturn } from '../types';
 import { useSearchDOMRefs } from './useSearchDOMRefs';
@@ -36,9 +36,10 @@ export const useSearchFacade = ({
   });
   const { saveSearchState, loadSearchState } = useSearchStatePersistence();
 
-  // ===== フォーカス管理（分離） =====
-  const { focusedIndex, setFocusedIndex, navigateToIndex, resetFocus } = useSearchFocusState({
+  // ===== フォーカス管理 =====
+  const { focusedIndex, setFocusedIndex, resetFocus, moveUp, moveDown, moveToFirst, moveToLast } = useSearchFocusState({
     resultsLength: state.results.length,
+    loop: true,
   });
 
   const { updateDOMRefs, focusInput, scrollToFocusedElement, setResultRef, getResultRef, clearExcessRefs } =
@@ -76,13 +77,14 @@ export const useSearchFacade = ({
   const focusedIndexRef = useRef(focusedIndex);
   const resultsRef = useRef(state.results);
 
-  useEffect(() => {
-    focusedIndexRef.current = focusedIndex;
-    resultsRef.current = state.results;
-  }, [focusedIndex, state.results]);
+  focusedIndexRef.current = focusedIndex;
+  resultsRef.current = state.results;
 
   const { keyboardProps, handleSearchInput } = useSearchKeyboard({
-    onNavigate: navigateToIndex,
+    onMoveUp: moveUp,
+    onMoveDown: moveDown,
+    onMoveToFirst: moveToFirst,
+    onMoveToLast: moveToLast,
     onClose: handleCloseDialog,
     focusedIndexRef,
     resultsRef,
@@ -92,7 +94,10 @@ export const useSearchFacade = ({
     debouncedSearch,
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    updateDOMRefs();
+    clearExcessRefs(state.results.length);
+
     if (focusedIndex === -1) {
       focusInput();
       return;
@@ -103,12 +108,15 @@ export const useSearchFacade = ({
       targetElement.focus();
       scrollToFocusedElement(targetElement);
     }
-  }, [focusedIndex, getResultRef, focusInput, scrollToFocusedElement]);
-
-  useEffect(() => {
-    updateDOMRefs();
-    clearExcessRefs(state.results.length);
-  }, [state.results.length, updateDOMRefs, clearExcessRefs]);
+  }, [
+    state.results.length,
+    focusedIndex,
+    updateDOMRefs,
+    clearExcessRefs,
+    getResultRef,
+    focusInput,
+    scrollToFocusedElement,
+  ]);
 
   const ui = useMemo(
     () => ({

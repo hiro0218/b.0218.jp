@@ -41,6 +41,36 @@ export function SearchDialogProvider({ children }: { children: ReactNode }) {
     }
   }, [pathname]);
 
+  // グローバルキーボードショートカット: / でダイアログを開く
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // 既にダイアログが開いている場合は無視
+      if (dialogRef.current.isOpen) {
+        return;
+      }
+
+      // IME入力中は無視
+      if (e.isComposing) {
+        return;
+      }
+
+      // 入力フィールドにフォーカスがある場合は無視
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) {
+        return;
+      }
+
+      // / キーでダイアログを開く
+      if (e.key === '/') {
+        e.preventDefault();
+        dialogRef.current.open();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const contextValue = useMemo<SearchDialogContextType>(
     () => ({
       isOpen: dialog.isOpen,
