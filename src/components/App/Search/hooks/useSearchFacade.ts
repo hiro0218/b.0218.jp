@@ -77,10 +77,8 @@ export const useSearchFacade = ({
   const focusedIndexRef = useRef(focusedIndex);
   const resultsRef = useRef(state.results);
 
-  useEffect(() => {
-    focusedIndexRef.current = focusedIndex;
-    resultsRef.current = state.results;
-  }, [focusedIndex, state.results]);
+  focusedIndexRef.current = focusedIndex;
+  resultsRef.current = state.results;
 
   const { keyboardProps, handleSearchInput } = useSearchKeyboard({
     onMoveUp: moveUp,
