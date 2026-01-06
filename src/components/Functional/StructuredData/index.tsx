@@ -12,8 +12,7 @@ import type {
 
 type StructuredDataProps = {
   data:
-    | WithContext<CollectionPage | WebPage | AboutPage | BlogPosting | BreadcrumbList | Organization | WebSite>
-    | WithContext<Thing>
+    | WithContext<CollectionPage | WebPage | AboutPage | BlogPosting | BreadcrumbList | Organization | WebSite | Thing>
     | WithContext<Thing>[];
 };
 
