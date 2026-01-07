@@ -28,22 +28,54 @@ npm run dev       # Development server on port 8080 with HTTPS
 
 **Content Source**: `_article/_posts/*.md` is a Git submodule. **DO NOT edit directly.**
 
+## Important Configuration Files
+
+AI agents should verify these files before suggesting changes:
+
+| File              | Path                   | When to Check                                           |
+| ----------------- | ---------------------- | ------------------------------------------------------- |
+| Next.js Config    | `~/next.config.mjs`    | Before optimization suggestions (React Compiler status) |
+| Biome Config      | `~/biome.json`         | Before architectural changes (layer dependencies)       |
+| Panda CSS Config  | `~/panda.config.mts`   | Before styling changes (design tokens)                  |
+| TypeScript Config | `~/tsconfig.json`      | Before type-related changes (strict mode, paths)        |
+| PostCSS Config    | `~/postcss.config.cjs` | Before CSS changes (hover media queries)                |
+| Package JSON      | `~/package.json`       | Before adding dependencies or scripts                   |
+
+**Critical Checkpoints**:
+
+- React Compiler optimizations: Read `~/next.config.mjs` first
+- Component layer violations: Read `~/biome.json` first
+- Styling conventions: Read `~/panda.config.mts` first
+- CSS processing (hover queries): Read `~/postcss.config.cjs` first
+
 ## Architecture
 
 ### Directory Structure
 
 ```
-src/
-├── app/              # Next.js App Router (routes)
-├── components/       # Components
-│   ├── App/          # App shell (Header, Footer, Layout)
-│   ├── Page/         # Page-specific components
-│   │   └── _shared/  # Shared sections
-│   ├── UI/           # Reusable UI components (zero-margin)
-│   └── Functional/   # Utility components
-├── ui/               # Styling
-└── types/            # TypeScript types
+~/                              # Project root
+├── src/                        # Source code (import alias: @/)
+│   ├── app/                    # Next.js App Router (routes)
+│   ├── components/             # React components
+│   │   ├── App/                # App shell (Header, Footer, Layout)
+│   │   ├── Page/               # Page-specific components
+│   │   │   └── _shared/        # Shared page sections
+│   │   ├── UI/                 # Reusable UI (zero-margin principle)
+│   │   └── Functional/         # Non-visual utility components
+│   ├── ui/                     # Panda CSS styling (styled, tokens)
+│   └── types/                  # TypeScript type definitions
+├── _article/                   # Git submodule (read-only)
+│   └── _posts/                 # Markdown blog posts
+├── public/                     # Static assets
+├── scripts/                    # Build and prebuild scripts
+└── [config files]              # See "Important Configuration Files"
 ```
+
+**Path Reference Rules**:
+
+- Config files: Use `~/filename` (e.g., `~/next.config.mjs`)
+- Source files: Use `@/path` in imports (e.g., `import { css } from '@/ui/styled'`)
+- Submodule: `_article/_posts/*.md` (DO NOT edit directly)
 
 ### Component Principles
 
@@ -96,8 +128,10 @@ const Button = styled.button`
 
 ### Path Aliases
 
-- `@/*` → `src/*`
-- `~/*` → project root
+- `@/*` → `src/*` (TypeScript import alias)
+- `~/*` → project root (used in this document only)
+
+**Note**: In this document, `~/` refers to the project root directory, not the user's home directory.
 
 ### Content Pipeline
 
@@ -112,6 +146,25 @@ const Button = styled.button`
 - Focus: Test behavior, not implementation
 - One assertion per test when possible
 - Cover edge cases and error conditions
+
+## File-Specific Rules
+
+These rules apply automatically based on file paths:
+
+| File Pattern                     | Rules                                                      |
+| -------------------------------- | ---------------------------------------------------------- |
+| `src/components/UI/**/*`         | Zero-margin principle, no dependencies on Page/App layers  |
+| `src/components/Functional/**/*` | No visual elements, utility-only, independent layer        |
+| `src/components/Page/**/*`       | May depend on UI/Functional, not on App layer              |
+| `src/components/App/**/*`        | May depend on all lower layers, singleton-like patterns    |
+| `**/*.test.ts{,x}`               | Vitest + React Testing Library, one assertion per test     |
+| `**/*.tsx` (Client)              | Require `'use client'` directive, verify necessity         |
+| `**/*.tsx` (Server)              | Default mode, no `'use client'` unless interactive         |
+| `_article/**/*`                  | **Read-only** - Git submodule, do not edit                 |
+| `~/biome.json`                   | Verify before suggesting layer dependency changes          |
+| `~/next.config.mjs`              | Verify before React Compiler optimization suggestions      |
+| `~/panda.config.mts`             | Verify before styling convention changes                   |
+| `~/postcss.config.cjs`           | Verify before CSS processing changes (hover media queries) |
 
 ## Standards
 
