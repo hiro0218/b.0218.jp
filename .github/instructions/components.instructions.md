@@ -252,7 +252,9 @@ export function InteractiveButton() {
 
 ```tsx
 // ✅ Recommended (SSG): Build-time JSON
-import posts from '@/posts.json';
+// Note: `npm run prebuild` generates JSON files in `dist/`
+// Path alias: `~/* → project root`
+import posts from '~/dist/posts.json';
 
 export function RecentPosts() {
   const recent = posts.slice(0, 5);
@@ -431,7 +433,7 @@ export function PostCount() {
 **✅ Correct: Build-time data loading**
 
 ```tsx
-import posts from '@/posts.json';
+import posts from '~/dist/posts.json';
 
 export function PostCount() {
   return <span>{posts.length}</span>;
