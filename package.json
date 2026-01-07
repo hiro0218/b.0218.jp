@@ -3,28 +3,71 @@
   "version": "3.1.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_OPTIONS='--inspect' next dev -p 8080 --experimental-https --webpack",
     "prebuild": "git submodule update --remote && npm run build:article && npm run build:similarity && npm run build:popular && npm run build:ogp",
     "build": "TZ='Asia/Tokyo' next build --webpack",
+    "build:analyzer": "ANALYZE=true next build --webpack",
     "build:article": "TZ='Asia/Tokyo' NODE_OPTIONS='--disable-warning=ExperimentalWarning' node --require esbuild-register ./build/article",
     "build:misc": "node -r esbuild-register ./build/article/extractUniqueChars.ts",
     "build:ogp": "node --require esbuild-register ./build/ogp/index.ts",
-    "dev:ogp": "DEBUG=true node --require esbuild-register ./build/ogp/server.tsx",
-    "build:similarity": "node --require esbuild-register ./build/similarity",
     "build:popular": "node --require esbuild-register ./build/popular",
-    "build:analyzer": "ANALYZE=true next build --webpack",
-    "start": "next start",
+    "build:similarity": "node --require esbuild-register ./build/similarity",
+    "coverage": "vitest run --coverage",
+    "dev": "NODE_OPTIONS='--inspect' next dev -p 8080 --experimental-https --webpack",
+    "dev:ogp": "DEBUG=true node --require esbuild-register ./build/ogp/server.tsx",
+    "knip": "knip",
+    "knip:fix": "knip --fix --allow-remove-files",
+    "knip:report": "knip --reporter json > knip-report.json",
     "lint": "npx @biomejs/biome check src build tools",
-    "lint:write": "npx @biomejs/biome check --write --unsafe src build tools",
     "lint:css": "stylelint \"src/**/*.{css,ts,tsx}\"",
     "lint:markup": "markuplint \"src/**/*.{jsx,tsx}\"",
-    "test": "vitest --run",
-    "coverage": "vitest run --coverage",
-    "knip": "knip",
-    "knip:report": "knip --reporter json > knip-report.json",
-    "knip:fix": "knip --fix --allow-remove-files",
+    "lint:write": "npx @biomejs/biome check --write --unsafe src build tools",
     "nolyfill": "npx nolyfill install",
-    "prepare": "husky && playwright install --only-shell && panda codegen"
+    "prepare": "husky && playwright install --only-shell && panda codegen",
+    "start": "next start",
+    "test": "vitest --run"
+  },
+  "nano-staged": {
+    "**/*.{ts,tsx,js,mjs}": [
+      "npx @biomejs/biome check --write",
+      "bash -c 'tsc --noEmit --skipLibCheck'"
+    ],
+    "**/*.{ts,tsx}": [
+      "npx @biomejs/biome check --write",
+      "stylelint --fix --cache"
+    ],
+    "**/*.css": [
+      "prettier --write --cache --experimental-cli",
+      "stylelint --fix --cache"
+    ],
+    "**/*.{yml,yaml}": [
+      "prettier --write --cache --experimental-cli"
+    ],
+    "**/*.md": [
+      "prettier --write --cache --experimental-cli"
+    ]
+  },
+  "browserslist": [
+    "last 2 versions and >= 1% in JP and not dead, last 2 Firefox versions"
+  ],
+  "prettier": {
+    "plugins": [
+      "@prettier/plugin-oxc"
+    ],
+    "printWidth": 120,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
+  "overrides": {
+    "array.prototype.at": "npm:@nolyfill/array.prototype.at@^1",
+    "es-set-tostringtag": "npm:@nolyfill/es-set-tostringtag@^1",
+    "is-core-module": "npm:@nolyfill/is-core-module@^1",
+    "next-scroll-restorer": {
+      "next": "$next"
+    },
+    "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
+    "safer-buffer": "npm:@nolyfill/safer-buffer@^1",
+    "string.prototype.at": "npm:@nolyfill/string.prototype.at@^1"
   },
   "dependencies": {
     "@adobe/spectrum-tokens": "14.0.0",
@@ -115,48 +158,8 @@
     "unist-util-visit": "5.0.0",
     "vitest": "4.0.16"
   },
-  "overrides": {
-    "next-scroll-restorer": {
-      "next": "$next"
-    },
-    "array.prototype.at": "npm:@nolyfill/array.prototype.at@^1",
-    "is-core-module": "npm:@nolyfill/is-core-module@^1",
-    "string.prototype.at": "npm:@nolyfill/string.prototype.at@^1",
-    "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
-    "safer-buffer": "npm:@nolyfill/safer-buffer@^1",
-    "es-set-tostringtag": "npm:@nolyfill/es-set-tostringtag@^1"
-  },
-  "nano-staged": {
-    "**/*.{ts,tsx,js,mjs}": [
-      "npx @biomejs/biome check --write",
-      "bash -c 'tsc --noEmit --skipLibCheck'"
-    ],
-    "**/*.{ts,tsx}": [
-      "npx @biomejs/biome check --write",
-      "stylelint --fix --cache"
-    ],
-    "**/*.css": [
-      "prettier --write --cache --experimental-cli",
-      "stylelint --fix --cache"
-    ],
-    "**/*.{yml,yaml}": [
-      "prettier --write --cache --experimental-cli"
-    ],
-    "**/*.md": [
-      "prettier --write --cache --experimental-cli"
-    ]
-  },
-  "browserslist": [
-    "last 2 versions and >= 1% in JP and not dead, last 2 Firefox versions"
-  ],
-  "prettier": {
-    "printWidth": 120,
-    "trailingComma": "all",
-    "singleQuote": true,
-    "semi": true,
-    "plugins": [
-      "@prettier/plugin-oxc"
-    ]
+  "engines": {
+    "vscode": "^1.104.0"
   },
   "nextBundleAnalysis": {
     "budget": 358400,
