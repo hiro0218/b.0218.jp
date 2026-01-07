@@ -126,37 +126,39 @@ Content processing flow:
 
 These rules apply automatically based on file paths:
 
-| File Pattern                   | Rules                                                      | Details                                                 |
-| ------------------------------ | ---------------------------------------------------------- | ------------------------------------------------------- |
-| `src/components/**/*`          | Layer dependencies, zero-margin, server-first              | `.github/instructions/components.instructions.md`       |
-| `**/*.tsx` (styling)           | Panda CSS imports, CSS variables, hover states             | `.github/instructions/styling.instructions.md`          |
-| `_article/**/*`, `build/**/*`  | Read-only submodule, content pipeline flow                 | `.github/instructions/content-pipeline.instructions.md` |
-| `~/next.config.mjs`, `use*.ts` | React Compiler scope, custom hook memoization              | `.github/instructions/optimization.instructions.md`     |
-| `**/*.test.ts{,x}`             | Vitest + React Testing Library, one assertion per test     | `.github/prompts/testGeneration.md`                     |
-| `**/*.tsx` (Client)            | Require `'use client'` directive, verify necessity         | -                                                       |
-| `**/*.tsx` (Server)            | Default mode, no `'use client'` unless interactive         | -                                                       |
-| `~/biome.json`                 | Verify before suggesting layer dependency changes          | -                                                       |
-| `~/panda.config.mts`           | Verify before styling convention changes                   | -                                                       |
-| `~/postcss.config.cjs`         | Verify before CSS processing changes (hover media queries) | -                                                       |
+| File Pattern                   | Rules                                                      | Details                                           |
+| ------------------------------ | ---------------------------------------------------------- | ------------------------------------------------- |
+| `src/components/**/*`          | Layer dependencies, zero-margin, server-first              | `.github/instructions/components.instructions.md` |
+| `**/*.tsx` (styling)           | Panda CSS imports, CSS variables, hover states             | `.github/instructions/styling.instructions.md`    |
+| `_article/**/*`, `build/**/*`  | Read-only submodule, content pipeline flow                 | `.claude/rules/content-pipeline.instructions.md`  |
+| `~/next.config.mjs`, `use*.ts` | React Compiler scope, custom hook memoization              | `.claude/rules/optimization.instructions.md`      |
+| `**/*.test.ts{,x}`             | Vitest + React Testing Library, one assertion per test     | `.claude/rules/testGeneration.md`                 |
+| `**/*.tsx` (Client)            | Require `'use client'` directive, verify necessity         | -                                                 |
+| `**/*.tsx` (Server)            | Default mode, no `'use client'` unless interactive         | -                                                 |
+| `~/biome.json`                 | Verify before suggesting layer dependency changes          | -                                                 |
+| `~/panda.config.mts`           | Verify before styling convention changes                   | -                                                 |
+| `~/postcss.config.cjs`         | Verify before CSS processing changes (hover media queries) | -                                                 |
 
 ## Task-Specific Rules
 
 Detailed guidelines for specific development tasks:
 
-| Task            | File                                                  | Available via                                         |
-| --------------- | ----------------------------------------------------- | ----------------------------------------------------- |
-| Code Generation | `.github/prompts/codeGeneration.md`                   | GitHub Copilot (auto), Claude Code (`.claude/rules/`) |
-| Code Review     | `.github/prompts/codeReview.md`                       | GitHub Copilot (auto), Claude Code (`.claude/rules/`) |
-| Commit Messages | `.github/prompts/commitMessageGeneration.md`          | GitHub Copilot (auto), Claude Code (`.claude/rules/`) |
-| PR Descriptions | `.github/prompts/pullRequestDescriptionGeneration.md` | GitHub Copilot (auto), Claude Code (`.claude/rules/`) |
-| Test Generation | `.github/prompts/testGeneration.md`                   | GitHub Copilot (auto), Claude Code (`.claude/rules/`) |
+| Task            | File                                                | Tool        |
+| --------------- | --------------------------------------------------- | ----------- |
+| Code Generation | `.claude/rules/codeGeneration.md`                   | Claude Code |
+| Code Review     | `.claude/rules/codeReview.md`                       | Claude Code |
+| Commit Messages | `.claude/rules/commitMessageGeneration.md`          | Claude Code |
+| PR Descriptions | `.claude/rules/pullRequestDescriptionGeneration.md` | Claude Code |
+| Test Generation | `.claude/rules/testGeneration.md`                   | Claude Code |
 
 **Note**:
 
-- `.github/prompts/` and `.github/instructions/` directories are accessible to both:
-  - **GitHub Copilot**: Direct access via `.github/` paths
-  - **Claude Code**: Via `.claude/rules/github/prompts/` and `.claude/rules/github/instructions/` directory symlinks
-- Single source of truth in `.github/` avoids duplication between tools
+- **Claude Code rules**:
+  - Project-specific: `.claude/rules/` (optimizations, content pipeline, prompts)
+  - Shared with Copilot: `.claude/rules/github/instructions/` (symlink to `.github/instructions/`)
+- **GitHub Copilot rules**:
+  - Direct access: `.github/instructions/` (components, styling, TypeScript)
+- **Separation**: Claude Code advanced features in `.claude/rules/`, basic coding rules shared via `.github/instructions/`
 
 ## Standards
 
