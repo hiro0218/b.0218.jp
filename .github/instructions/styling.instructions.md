@@ -57,7 +57,7 @@ const Button = styled.button`
 const Link = styled.a`
   color: var(--colors-blue-600);
 
-  @media (hover: hover) {
+  @media (any-hover: hover) {
     &:hover {
       color: var(--colors-blue-700);
     }
