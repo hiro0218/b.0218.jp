@@ -27,7 +27,6 @@ jobs:
           script: |
             const CONFIG = {
               PRODUCTION: 'production',
-              QUALITY: 'quality',
               PRODUCTION_PATTERNS: [
                 /^src\//,
                 /^build\//,
@@ -42,25 +41,9 @@ jobs:
                 /^\.gitmodules$/,
                 /^_article$/
               ],
-              QUALITY_PATTERNS: [
-                /\.test\.(ts|tsx|js|jsx)$/,
-                /^biome\.json$/,
-                /^vitest\.config\.mts$/,
-                /^stylelint\.config\.js$/,
-                /^\.markuplintrc\.ts$/,
-                /^\.dependency-cruiser\.js$/,
-                /^knip\.json$/
-              ],
               SUBMODULE_PATTERNS: [/^_article\//]
             };
-            CONFIG.IMPACT = [CONFIG.PRODUCTION, CONFIG.QUALITY];
-            const DEP_KEYS = [
-              'dependencies',
-              'devDependencies',
-              'peerDependencies',
-              'optionalDependencies',
-              'resolutions'
-            ];
+            CONFIG.IMPACT = [CONFIG.PRODUCTION];
 
             const { owner, repo } = context.repo;
             const number = context.issue.number;
@@ -68,7 +51,6 @@ jobs:
             // 影響度判定
             let impactLevel = null;
             let page = 1;
-            let needsPackageJsonCheck = false;
 
             while (impactLevel !== CONFIG.PRODUCTION) {
               const { data: files } = await github.rest.pulls.listFiles({
@@ -87,51 +69,11 @@ jobs:
                 } else if (CONFIG.PRODUCTION_PATTERNS.some(p => p.test(filename))) {
                   impactLevel = CONFIG.PRODUCTION;
                   break;
-                } else if (filename === 'package.json') {
-                  needsPackageJsonCheck = true;
-                } else if (CONFIG.QUALITY_PATTERNS.some(p => p.test(filename)) && !impactLevel) {
-                  impactLevel = CONFIG.QUALITY;
                 }
               }
 
               if (impactLevel === CONFIG.PRODUCTION || files.length < 100) break;
               page++;
-            }
-
-            // package.json は依存関係の変更がある場合のみ quality とする
-            if (!impactLevel && needsPackageJsonCheck) {
-              const pickDeps = (pkg) => Object.fromEntries(
-                DEP_KEYS.map(key => [key, Object.fromEntries(Object.entries(pkg?.[key] || {}).sort(([a], [b]) => a.localeCompare(b)))]).
-                  filter(([, value]) => Object.keys(value).length > 0)
-              );
-
-              const loadPackageJson = async (ref) => {
-                try {
-                  const { data } = await github.rest.repos.getContent({
-                    owner,
-                    repo,
-                    path: 'package.json',
-                    ref
-                  });
-                  const content = Buffer.from(data.content, data.encoding).toString('utf8');
-                  return JSON.parse(content);
-                } catch (err) {
-                  if (err.status === 404) return null;
-                  throw err;
-                }
-              };
-
-              const { data: pr } = await github.rest.pulls.get({ owner, repo, pull_number: number });
-              const basePkg = await loadPackageJson(pr.base.sha);
-              const headPkg = await loadPackageJson(pr.head.sha);
-
-              if (basePkg && headPkg) {
-                const baseDeps = pickDeps(basePkg);
-                const headDeps = pickDeps(headPkg);
-                if (JSON.stringify(baseDeps) !== JSON.stringify(headDeps)) {
-                  impactLevel = CONFIG.QUALITY;
-                }
-              }
             }
 
             // ラベル管理
@@ -146,9 +88,9 @@ jobs:
               .filter(label => CONFIG.IMPACT.includes(label.name))
               .map(label => label.name);
 
-            // 無駄な削除・再付与を避けるため、差分のみを操作
-            const labelsToRemove = impactLevel
-              ? currentImpactLabels.filter(name => name !== impactLevel)
+            // production 以外は扱わない（quality を廃止）
+            const labelsToRemove = impactLevel === CONFIG.PRODUCTION
+              ? currentImpactLabels.filter(name => name !== CONFIG.PRODUCTION)
               : currentImpactLabels;
 
             if (labelsToRemove.length > 0) {
@@ -166,9 +108,9 @@ jobs:
               );
             }
 
-            if (impactLevel) {
-              const willRemoveImpact = labelsToRemove.includes(impactLevel);
-              const hadImpact = currentImpactLabels.includes(impactLevel);
+            if (impactLevel === CONFIG.PRODUCTION) {
+              const willRemoveImpact = labelsToRemove.includes(CONFIG.PRODUCTION);
+              const hadImpact = currentImpactLabels.includes(CONFIG.PRODUCTION);
               const hasImpactAfterRemoval = hadImpact && !willRemoveImpact;
 
               if (!hasImpactAfterRemoval) {
@@ -176,7 +118,7 @@ jobs:
                   owner,
                   repo,
                   issue_number: number,
-                  labels: [impactLevel]
+                  labels: [CONFIG.PRODUCTION]
                 });
               }
             }
