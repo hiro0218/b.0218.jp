@@ -31,7 +31,6 @@ jobs:
               PRODUCTION_PATTERNS: [
                 /^src\//,
                 /^build\//,
-                /^package\.json$/,
                 /^package-lock\.json$/,
                 /^scripts\//,
                 /^public\//,
@@ -44,6 +43,7 @@ jobs:
                 /^_article$/
               ],
               QUALITY_PATTERNS: [
+                /^package\.json$/,
                 /\.test\.(ts|tsx|js|jsx)$/,
                 /^biome\.json$/,
                 /^vitest\.config\.mts$/,
