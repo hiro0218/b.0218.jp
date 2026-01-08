@@ -1,0 +1,137 @@
+name: Auto Label PR by Changed Files
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  auto-label:
+    name: Analyze changes and apply label
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Analyze changed files and apply label
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const CONFIG = {
+              PRODUCTION: 'production',
+              QUALITY: 'quality',
+              PRODUCTION_PATTERNS: [
+                /^src\//,
+                /^build\//,
+                /^package\.json$/,
+                /^package-lock\.json$/,
+                /^scripts\//,
+                /^public\//,
+                /^next\.config\.mjs$/,
+                /^panda\.config\.mts$/,
+                /^postcss\.config\.cjs$/,
+                /^tsconfig\.json$/,
+                /^vercel\.json$/,
+                /^\.gitmodules$/,
+                /^_article$/
+              ],
+              QUALITY_PATTERNS: [
+                /\.test\.(ts|tsx|js|jsx)$/,
+                /^biome\.json$/,
+                /^vitest\.config\.mts$/,
+                /^stylelint\.config\.js$/,
+                /^\.markuplintrc\.ts$/,
+                /^\.dependency-cruiser\.js$/,
+                /^knip\.json$/
+              ],
+              SUBMODULE_PATTERNS: [/^_article\//]
+            };
+            CONFIG.IMPACT = [CONFIG.PRODUCTION, CONFIG.QUALITY];
+
+            const { owner, repo } = context.repo;
+            const number = context.issue.number;
+
+            // 影響度判定
+            let impactLevel = null;
+            let page = 1;
+
+            while (impactLevel !== CONFIG.PRODUCTION) {
+              const { data: files } = await github.rest.pulls.listFiles({
+                owner,
+                repo,
+                pull_number: number,
+                per_page: 100,
+                page
+              });
+
+              for (const file of files) {
+                const filename = file.filename;
+
+                if (CONFIG.SUBMODULE_PATTERNS.some(p => p.test(filename))) {
+                  continue;
+                } else if (CONFIG.PRODUCTION_PATTERNS.some(p => p.test(filename))) {
+                  impactLevel = CONFIG.PRODUCTION;
+                  break;
+                } else if (CONFIG.QUALITY_PATTERNS.some(p => p.test(filename)) && !impactLevel) {
+                  impactLevel = CONFIG.QUALITY;
+                }
+              }
+
+              if (impactLevel === CONFIG.PRODUCTION || files.length < 100) break;
+              page++;
+            }
+
+            // ラベル管理
+            const { data: currentLabels } = await github.rest.issues.listLabelsOnIssue({
+              owner,
+              repo,
+              issue_number: number
+            });
+
+            // 既存のインパクト系ラベルを抽出
+            const currentImpactLabels = currentLabels
+              .filter(label => CONFIG.IMPACT.includes(label.name))
+              .map(label => label.name);
+
+            // 無駄な削除・再付与を避けるため、差分のみを操作
+            const labelsToRemove = impactLevel
+              ? currentImpactLabels.filter(name => name !== impactLevel)
+              : currentImpactLabels;
+
+            if (labelsToRemove.length > 0) {
+              await Promise.all(
+                labelsToRemove.map(name =>
+                  github.rest.issues.removeLabel({
+                    owner,
+                    repo,
+                    issue_number: number,
+                    name
+                  }).catch(err => {
+                    if (err.status !== 404) throw err;
+                  })
+                )
+              );
+            }
+
+            if (impactLevel) {
+              const willRemoveImpact = labelsToRemove.includes(impactLevel);
+              const hadImpact = currentImpactLabels.includes(impactLevel);
+              const hasImpactAfterRemoval = hadImpact && !willRemoveImpact;
+
+              if (!hasImpactAfterRemoval) {
+                await github.rest.issues.addLabels({
+                  owner,
+                  repo,
+                  issue_number: number,
+                  labels: [impactLevel]
+                });
+              }
+            }
