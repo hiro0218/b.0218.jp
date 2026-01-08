@@ -28,82 +28,91 @@ npm run dev       # Development server on port 8080 with HTTPS
 
 **Content Source**: `_article/_posts/*.md` is a Git submodule. **DO NOT edit directly.**
 
+## Important Configuration Files
+
+AI agents should verify these files before suggesting changes:
+
+| File              | Path                   | When to Check                                           |
+| ----------------- | ---------------------- | ------------------------------------------------------- |
+| Next.js Config    | `~/next.config.mjs`    | Before optimization suggestions (React Compiler status) |
+| Biome Config      | `~/biome.json`         | Before architectural changes (layer dependencies)       |
+| Panda CSS Config  | `~/panda.config.mts`   | Before styling changes (design tokens)                  |
+| TypeScript Config | `~/tsconfig.json`      | Before type-related changes (strict mode, paths)        |
+| PostCSS Config    | `~/postcss.config.cjs` | Before CSS changes (hover media queries)                |
+| Package JSON      | `~/package.json`       | Before adding dependencies or scripts                   |
+
+**Critical Checkpoints**:
+
+- React Compiler optimizations: Read `~/next.config.mjs` first
+- Component layer violations: Read `~/biome.json` first
+- Styling conventions: Read `~/panda.config.mts` first
+- CSS processing (hover queries): Read `~/postcss.config.cjs` first
+
 ## Architecture
 
 ### Directory Structure
 
 ```
-src/
-├── app/              # Next.js App Router (routes)
-├── components/       # Components
-│   ├── App/          # App shell (Header, Footer, Layout)
-│   ├── Page/         # Page-specific components
-│   │   └── _shared/  # Shared sections
-│   ├── UI/           # Reusable UI components (zero-margin)
-│   └── Functional/   # Utility components
-├── ui/               # Styling
-└── types/            # TypeScript types
+~/                              # Project root
+├── src/                        # Source code (import alias: @/)
+│   ├── app/                    # Next.js App Router (routes)
+│   ├── components/             # React components
+│   │   ├── App/                # App shell (Header, Footer, Layout)
+│   │   ├── Page/               # Page-specific components
+│   │   │   └── _shared/        # Shared page sections
+│   │   ├── UI/                 # Reusable UI (zero-margin principle)
+│   │   └── Functional/         # Non-visual utility components
+│   ├── ui/                     # Panda CSS styling (styled, tokens)
+│   └── types/                  # TypeScript type definitions
+├── _article/                   # Git submodule (read-only)
+│   └── _posts/                 # Markdown blog posts
+├── public/                     # Static assets
+├── scripts/                    # Build and prebuild scripts
+└── [config files]              # See "Important Configuration Files"
 ```
 
-### Component Principles
+**Path Reference Rules**:
 
-- **Zero Margin**: No self-margins; parents control spacing
-- **Layer Dependencies**: Enforced by Biome (`biome.json`)
-  - UI and Functional are independent layers
-  - Page depends on UI/Functional
-  - App depends only on lower layers
-- **Server First**: Use Server Components by default, `'use client'` only when necessary
+- Config files: Use `~/filename` (e.g., `~/next.config.mjs`)
+- Source files: Use `@/path` in imports (e.g., `import { css } from '@/ui/styled'`)
+- Submodule: `_article/_posts/*.md` (DO NOT edit directly)
 
-### Layer Responsibilities
+### Component Architecture
 
-- **App/**: Application shell, layout, singleton-like
-- **Page/**: Page-specific logic and components
-- **UI/**: Visual, reusable components (Button, Card, Modal, etc.)
-- **Functional/**: Non-visual utilities (e.g., PreconnectLinks, metadata)
+Components follow strict layering and design principles:
+
+- **Zero Margin Principle**: No self-margins; parents control spacing
+- **Layer Dependencies**: UI ← → Functional (independent), Page → UI/Functional, App → all
+- **Server First**: Use Server Components by default
+- **Layer Responsibilities**: App (shell), Page (logic), UI (visual), Functional (utilities)
 
 ## Development
 
 ### Styling with Panda CSS
 
-```tsx
-import { css, styled } from '@/ui/styled';
+Use project-specific imports and CSS variables:
 
-const StyledDiv = styled.div`
-  background: var(--colors-gray-a-3);
-  padding: var(--spacing-2);
-`;
-```
-
-**Hover States**: Write `:hover` directly. The `postcss-media-hover-any-hover` plugin automatically wraps it for touch device detection.
-
-```tsx
-// ✅ Correct
-const Button = styled.button`
-  &:hover {
-    background: blue;
-  }
-`;
-
-// ❌ Incorrect - redundant
-const Button = styled.button`
-  @media (any-hover: hover) {
-    &:hover {
-      background: blue;
-    }
-  }
-`;
-```
+- **Import**: `import { css, styled } from '@/ui/styled'`
+- **Hover States**: Write `:hover` directly (PostCSS plugin wraps automatically)
+- **CSS Variables**: Required for colors, spacing, radii (`var(--colors-*)`, `var(--spacing-*)`)
+- **Zero Margin**: No external margins on components
 
 ### Path Aliases
 
-- `@/*` → `src/*`
-- `~/*` → project root
+- `@/*` → `src/*` (TypeScript import alias)
+- `~/*` → project root (used in this document only)
+
+**Note**: In this document, `~/` refers to the project root directory, not the user's home directory.
 
 ### Content Pipeline
 
-1. **Source**: `_article/_posts/*.md` (Git submodule)
-2. **Processing**: `npm run prebuild` → JSON
-3. **Consumption**: SSG uses JSON output
+Content processing flow:
+
+1. **Source**: `_article/_posts/*.md` (Git submodule, **read-only**)
+2. **Processing**: `npm run prebuild` → article JSON, similarity JSON, OGP images
+3. **Consumption**: Next.js SSG reads JSON at build time
+
+**Critical**: NEVER edit `_article/_posts/*.md` directly.
 
 ### Testing
 
@@ -112,6 +121,44 @@ const Button = styled.button`
 - Focus: Test behavior, not implementation
 - One assertion per test when possible
 - Cover edge cases and error conditions
+
+## File-Specific Rules
+
+These rules apply automatically based on file paths:
+
+| File Pattern                   | Rules                                                      | Details                                           |
+| ------------------------------ | ---------------------------------------------------------- | ------------------------------------------------- |
+| `src/components/**/*`          | Layer dependencies, zero-margin, server-first              | `.github/instructions/components.instructions.md` |
+| `**/*.tsx` (styling)           | Panda CSS imports, CSS variables, hover states             | `.github/instructions/styling.instructions.md`    |
+| `_article/**/*`, `build/**/*`  | Read-only submodule, content pipeline flow                 | `.claude/rules/content-pipeline.instructions.md`  |
+| `~/next.config.mjs`, `use*.ts` | React Compiler scope, custom hook memoization              | `.claude/rules/optimization.instructions.md`      |
+| `**/*.test.ts{,x}`             | Vitest + React Testing Library, one assertion per test     | `.claude/rules/testGeneration.md`                 |
+| `**/*.tsx` (Client)            | Require `'use client'` directive, verify necessity         | -                                                 |
+| `**/*.tsx` (Server)            | Default mode, no `'use client'` unless interactive         | -                                                 |
+| `~/biome.json`                 | Verify before suggesting layer dependency changes          | -                                                 |
+| `~/panda.config.mts`           | Verify before styling convention changes                   | -                                                 |
+| `~/postcss.config.cjs`         | Verify before CSS processing changes (hover media queries) | -                                                 |
+
+## Task-Specific Rules
+
+Detailed guidelines for specific development tasks:
+
+| Task            | File                                                | Tool        |
+| --------------- | --------------------------------------------------- | ----------- |
+| Code Generation | `.claude/rules/codeGeneration.md`                   | Claude Code |
+| Code Review     | `.claude/rules/codeReview.md`                       | Claude Code |
+| Commit Messages | `.claude/rules/commitMessageGeneration.md`          | Claude Code |
+| PR Descriptions | `.claude/rules/pullRequestDescriptionGeneration.md` | Claude Code |
+| Test Generation | `.claude/rules/testGeneration.md`                   | Claude Code |
+
+**Note**:
+
+- **Claude Code rules**:
+  - Project-specific: `.claude/rules/` (optimizations, content pipeline, prompts)
+  - Shared with Copilot: `.claude/rules/github/instructions/` (symlink to `.github/instructions/`)
+- **GitHub Copilot rules**:
+  - Direct access: `.github/instructions/` (components, styling, TypeScript)
+- **Separation**: Claude Code advanced features in `.claude/rules/`, basic coding rules shared via `.github/instructions/`
 
 ## Standards
 
@@ -133,78 +180,11 @@ const Button = styled.button`
 - Next.js Image optimization
 - Bundle analysis: `npm run build:analyzer`
 
-**React Compiler** (`reactCompiler: true` in `next.config.mjs`):
+**React Compiler**:
 
-⚠️ **CRITICAL: Check `next.config.mjs` before suggesting manual optimizations**
+⚠️ **CRITICAL: Read `~/next.config.mjs` before suggesting optimizations**
 
-React Compiler (React 19) automatically handles memoization and re-render optimization **within component rendering**.
-
-**React Compiler Scope**:
-
-✅ **Automatically optimized**:
-
-- Component rendering results
-- JSX element generation
-- Inline calculations within components
-
-❌ **NOT automatically optimized** (manual memoization required):
-
-- Class instance creation in custom hooks (`new ClassName()`)
-- Function definitions in custom hooks
-- External library initialization
-- Side-effect-heavy operations
-
-**Example - Custom Hook with Cache**:
-
-```tsx
-// ❌ Without useMemo - cache recreated on every render
-export const useSearchWithCache = () => {
-  const cache = new SearchCache();
-  return (data, query) => {
-    /* ... */
-  };
-};
-
-// ✅ With useMemo - cache persists across renders
-export const useSearchWithCache = () => {
-  const cache = useMemo(() => new SearchCache(), []);
-  return useMemo(
-    () => (data, query) => {
-      /* ... */
-    },
-    [cache],
-  );
-};
-```
-
-**❌ DO NOT suggest**:
-
-- Manual `useMemo` / `useCallback` / `memo` for component-level rendering optimization
-
-**✅ DO suggest when appropriate**:
-
-- `useMemo` / `useCallback` for custom hook internals (see "NOT automatically optimized" above)
-- Algorithm improvements (e.g., O(n²) → O(n))
-- Data structure optimizations
-- Build-time optimizations
-
-**Verification Process** (before removing or adding optimizations):
-
-1. Read `next.config.mjs` to check `reactCompiler` setting
-2. Identify if optimization is for:
-   - Component rendering (handled by: React Compiler)
-   - Custom hook internals (requires: Manual memoization)
-3. For custom hooks with stateful instances or functions:
-   - Verify if the value should persist across re-renders
-   - Add `useMemo` / `useCallback` if persistence is required
-4. Test that the optimization actually works (e.g., cache functionality)
-
-**Common Pitfalls**:
-
-- Removing `useMemo` from custom hooks without verification
-- Assuming React Compiler optimizes everything (it doesn't)
-
-**See also**: Technology Adoption Guidelines > Test Behavioral Changes (applies beyond React Compiler)
+React Compiler (`reactCompiler: true`) handles component rendering automatically.
 
 ### Improvement Proposals
 

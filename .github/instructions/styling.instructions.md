@@ -1,101 +1,170 @@
 ---
-description: 'Panda CSS スタイリング規約とゼロマージン原則'
+description: 'Panda CSS styling rules and zero-margin principle'
 applyTo: '**/{ui,components}/**/*.{ts,tsx}'
 ---
 
-# Panda CSS スタイリング規約
+# Panda CSS Styling Rules
 
-このファイルは、スタイリング実装時に自動的に適用される規約を定義します。
+This file defines styling conventions automatically applied during implementation.
 
-## Import規則
+## Import Rules
 
-```typescript
-// **RECOMMENDED**: プロジェクト統一import
+```tsx
+// ✅ Recommended: Project-unified import
 import { css, styled, cx } from '@/ui/styled';
 
-// **FORBIDDEN**: 直接import
+// ❌ Forbidden: Direct import
 import { css } from '~/styled-system/css';
 ```
 
-**理由**: `@/ui/styled`は統一されたエントリーポイントです。
+**Reason**: `@/ui/styled` is the unified entry point.
 
-## CSS変数の使用（必須）
+## Hover States (Critical)
 
-### 色
+### Correct: Write `:hover` directly
 
-```typescript
-// **RECOMMENDED**: CSS変数使用
+The `postcss-media-hover-any-hover` plugin **automatically wraps** hover states for touch device detection.
+
+```tsx
+// ✅ Correct - Plugin handles @media wrapping
+const Button = styled.button`
+  background: var(--colors-blue-500);
+
+  &:hover {
+    background: var(--colors-blue-600);
+  }
+`;
+```
+
+**Generated CSS** (automatic):
+
+```css
+.button {
+  background: var(--colors-blue-500);
+}
+
+@media (any-hover: hover) {
+  .button:hover {
+    background: var(--colors-blue-600);
+  }
+}
+```
+
+### Incorrect: Manual @media wrapping
+
+```tsx
+// ❌ Incorrect - Redundant, plugin does this automatically
+const Link = styled.a`
+  color: var(--colors-blue-600);
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--colors-blue-700);
+    }
+  }
+`;
+```
+
+**Why this is wrong**: The PostCSS plugin (`postcss-media-hover-any-hover`) automatically wraps `:hover` states with `@media (any-hover: hover)`. Writing it manually is redundant and may cause double-wrapping issues.
+
+## CSS Variables (Required)
+
+### Colors
+
+```tsx
+// ✅ Recommended: CSS variables
 color: var(--colors-gray-900);
 background-color: var(--colors-blue-a-50);
 
-// **FORBIDDEN**: 直接値
+// ❌ Forbidden: Direct values
 color: '#1a1a1a';
 background-color: 'rgba(59, 130, 246, 0.1)';
 ```
 
-### スペーシング
+### Spacing
 
-```typescript
-// **RECOMMENDED**: スペーシング変数
+```tsx
+// ✅ Recommended: Spacing variables
 padding: var(--spacing-4);
 gap: var(--spacing-2);
-margin: 0;  // ゼロのみ許可
+margin: 0;  // Zero only
 
-// **FORBIDDEN**: 直接値
+// ❌ Forbidden: Direct values
 padding: '2rem';
 gap: '16px';
-margin: '1rem';  // **FORBIDDEN** マージンは基本的に禁止
+margin: '1rem';  // ❌ Margin is generally forbidden
 ```
 
-### フォント
+### Fonts
 
-```typescript
-// **RECOMMENDED**: フォント変数
+```tsx
+// ✅ Recommended: Font variables
 font-size: var(--font-sizes-md);
 line-height: var(--line-heights-md);
 font-weight: var(--font-weights-bold);
 
-// **FORBIDDEN**: 直接値
+// ❌ Forbidden: Direct values
 font-size: '1rem';
 line-height: 1.5;
 font-weight: 700;
 ```
 
-## ゼロマージン原則（厳格）
+### Available CSS Variables
 
-### UIコンポーネントの制約
+**Colors**:
 
-```typescript
-// **CORRECT**: 内部スペーシングのみ
+- `var(--colors-gray-1)` to `var(--colors-gray-12)` - Grayscale
+- `var(--colors-gray-a-1)` to `var(--colors-gray-a-12)` - Grayscale with alpha
+- `var(--colors-blue-500)`, `var(--colors-red-500)`, etc. - Semantic colors
+
+**Spacing**:
+
+- `var(--spacing-1)` to `var(--spacing-12)` - Spacing scale
+
+**Radii**:
+
+- `var(--radii-sm)`, `var(--radii-md)`, `var(--radii-lg)` - Border radius
+
+**Typography**:
+
+- `var(--font-sizes-xs)` to `var(--font-sizes-3xl)` - Font sizes
+- `var(--line-heights-tight)`, `var(--line-heights-normal)`, etc. - Line heights
+
+## Zero Margin Principle (Strict)
+
+### UI Component Constraints
+
+```tsx
+// ✅ Correct: Internal spacing only
 export const Alert = styled.div`
   padding: var(--spacing-3);
   border-radius: var(--radii-8);
 
-  // 子要素のマージンリセットは許可
+  // Resetting child element margins is allowed
   & > * {
     margin: 0;
   }
 `;
 
-// **FORBIDDEN**: 外部マージン
+// ❌ Forbidden: External margin
 export const Alert = styled.div`
-  margin: var(--spacing-4); // **FORBIDDEN**
-  margin-bottom: var(--spacing-2); // **FORBIDDEN**
-  margin: 0 auto; // **FORBIDDEN** センタリングも禁止
+  margin: var(--spacing-4); // ❌ Forbidden
+  margin-bottom: var(--spacing-2); // ❌ Forbidden
+  margin: 0 auto; // ❌ Centering is also forbidden
   padding: var(--spacing-3);
 `;
 ```
 
-### レイアウトは親が制御
+### Layout is Controlled by Parent
 
-```typescript
-// ✅ 親コンポーネント（Page層/App層）でレイアウト
+```tsx
+// ✅ Parent component (Page/App layer) controls layout
 <Stack space={4}>
   <Alert type="note" />
   <Alert type="warning" />
 </Stack>
 
-// または
+// Or
 <div className={css`
   display: grid;
   gap: var(--spacing-4);
@@ -105,60 +174,90 @@ export const Alert = styled.div`
 </div>
 ```
 
-## レスポンシブデザイン
+**Why no margins**: Components should not dictate their own positioning. This makes them more reusable and prevents layout bugs.
 
-```typescript
-// **RECOMMENDED**: オブジェクト記法
-const styles = css`
-  font-size: {
-    base: var(--font-sizes-sm),
-    md: var(--font-sizes-md),
-    lg: var(--font-sizes-lg)
-  };
-  padding: {
-    base: var(--spacing-2),
-    md: var(--spacing-4)
-  };
+## Basic Usage
+
+### Inline Styles with `css`
+
+```tsx
+import { css } from '@/ui/styled';
+
+export const Component = () => (
+  <div
+    className={css`
+      background: var(--colors-gray-a-3);
+      padding: var(--spacing-2);
+      border-radius: 0.5rem;
+    `}
+  >
+    Content
+  </div>
+);
+```
+
+### Styled Components
+
+```tsx
+import { styled } from '@/ui/styled';
+
+const StyledButton = styled.button`
+  padding: 0.5rem 1rem;
+  background: var(--colors-blue-500);
+  color: white;
+  border-radius: 0.25rem;
+
+  &:hover {
+    background: var(--colors-blue-600);
+  }
 `;
 
-// **ALTERNATIVE** (複雑な場合のみ): メディアクエリ直接記述
-const styles = css`
-  font-size: var(--font-sizes-sm);
+export const Button = ({ children }: ButtonProps) => <StyledButton>{children}</StyledButton>;
+```
+
+## Responsive Design
+
+```tsx
+// ✅ Recommended: Mobile-first approach
+const ResponsiveCard = styled.div`
+  padding: var(--spacing-2);
 
   @media (min-width: 768px) {
-    font-size: var(--font-sizes-md);
+    padding: var(--spacing-4);
   }
 
   @media (min-width: 1024px) {
-    font-size: var(--font-sizes-lg);
+    padding: var(--spacing-6);
   }
 `;
 ```
 
-## パフォーマンス考慮
+**Mobile-first approach** is recommended.
 
-```typescript
-// **RECOMMENDED**: パフォーマンスの良いプロパティ
+## Performance Considerations
+
+```tsx
+// ✅ Recommended: Performance-friendly properties
 const animation = css`
   transition:
     transform 0.2s,
-    opacity 0.2s; // transform/opacityのみ
+    opacity 0.2s; // transform/opacity only
 `;
 
-// **AVOID**: レイアウトを引き起こすプロパティ
+// ❌ Avoid: Properties that trigger reflow
 const animation = css`
   transition:
     width 0.2s,
-    height 0.2s; // reflow発生
+    height 0.2s; // causes reflow
 `;
 ```
 
-## アクセシビリティ
+## Accessibility
 
-### フォーカス状態
+### Focus States
 
-```typescript
-// **RECOMMENDED**: box-shadow使用（border-radiusに従う）
+```tsx
+// ✅ Recommended: Use box-shadow (respects border-radius)
 const button = css`
   border-radius: var(--radii-8);
 
@@ -168,101 +267,141 @@ const button = css`
   }
 `;
 
-// **AVOID**: outline使用（Safariでborder-radiusを無視）
+// ❌ Avoid: Use outline (Safari ignores border-radius)
 const button = css`
   &:focus-visible {
-    outline: 3px solid var(--colors-blue-500); // **AVOID**
+    outline: 3px solid var(--colors-blue-500); // ❌ Avoid
   }
 `;
 ```
 
-### タッチデバイス対応
+## Common Patterns
 
-```typescript
-// **RECOMMENDED**: ホバー状態はポインタデバイスのみ
-const link = css`
-  color: var(--colors-blue-600);
+### Conditional Styles
 
-  @media (hover: hover) {
-    &:hover {
-      color: var(--colors-blue-700);
-    }
-  }
+```tsx
+const Button = styled.button<{ variant: 'primary' | 'secondary' }>`
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+
+  ${(props) =>
+    props.variant === 'primary' &&
+    `
+    background: var(--colors-blue-500);
+    color: white;
+  `}
+
+  ${(props) =>
+    props.variant === 'secondary' &&
+    `
+    background: var(--colors-gray-200);
+    color: var(--colors-gray-900);
+  `}
 `;
+```
 
-// **AVOID**: タッチデバイスでもホバー状態が表示される
-const link = css`
-  &:hover {
-    color: var(--colors-blue-700); // タッチ時にちらつく
+### Nested Selectors
+
+```tsx
+const Card = styled.div`
+  padding: var(--spacing-4);
+
+  h2 {
+    font-size: var(--font-sizes-2xl);
+    margin-bottom: var(--spacing-2);
+  }
+
+  p {
+    color: var(--colors-gray-11);
   }
 `;
 ```
 
-## Styled Components記法
+### Pseudo Elements
 
-```typescript
-// **RECOMMENDED**: テンプレートリテラル記法
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-4);
-  padding: var(--spacing-6);
+```tsx
+const Divider = styled.div`
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--colors-gray-a-6);
+  }
 `;
-
-// **ALTERNATIVE** (複雑な条件がある場合のみ): オブジェクト記法
-const Container = styled('div', {
-  base: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 'var(--spacing-4)',
-  },
-  variants: {
-    size: {
-      sm: { padding: 'var(--spacing-2)' },
-      md: { padding: 'var(--spacing-4)' },
-      lg: { padding: 'var(--spacing-6)' },
-    },
-  },
-});
 ```
 
-## 禁止事項
+## Configuration Files
 
-### 1. マジックナンバー
+### Before modifying `~/panda.config.mts`
 
-```typescript
-// **FORBIDDEN**
+**Always read the file first** to understand:
+
+- Existing design tokens
+- Theme configuration
+- Custom utilities
+
+**Example changes**:
+
+- Adding new color tokens
+- Defining custom spacing values
+- Creating new design patterns
+
+### Before modifying `~/postcss.config.cjs`
+
+**Always read the file first** to understand:
+
+- PostCSS plugins configuration
+- `postcss-media-hover-any-hover` settings
+- Custom media queries
+
+**Example changes**:
+
+- Adding new PostCSS plugins
+- Modifying hover detection settings
+- Configuring custom transformations
+
+## Forbidden Practices
+
+### 1. Magic Numbers
+
+```tsx
+// ❌ Forbidden
 min-width: 20px;
 height: 300px;
 border: 1px solid;
 
-// **RECOMMENDED**: 変数化
-min-width: var(--spacing-2½);
+// ✅ Recommended: Use variables
+min-width: var(--spacing-5);
 height: var(--sizes-container-small);
 border-width: var(--border-widths-1);
 ```
 
-### 2. !important の乱用
+### 2. !important Abuse
 
-```typescript
-// **AVOID**
+```tsx
+// ❌ Avoid
 color: var(--colors-red-500) !important;
 
-// **RECOMMENDED**: セレクタ詳細度を調整
+// ✅ Recommended: Adjust selector specificity
 .parent .child {
   color: var(--colors-red-500);
 }
 ```
 
-### 3. グローバルスタイルの競合
+### 3. Global Style Conflicts
 
-```typescript
-// **FORBIDDEN**: グローバルに影響
+```tsx
+// ❌ Forbidden: Affects globally
 div {
   margin: 0;
 }
 
-// **RECOMMENDED**: スコープを限定
+// ✅ Recommended: Scope it
 const Container = styled.div`
   & > div {
     margin: 0;
@@ -270,12 +409,15 @@ const Container = styled.div`
 `;
 ```
 
-## 詳細ガイドライン
+## Verification Checklist
 
-より詳細なUI/UXガイドラインは`web-interface-guidelines.md`を参照してください：
+Before committing styling changes:
 
-- インタラクティブ要素の設計
-- タイポグラフィ
-- モーション設計
-- タッチデバイス対応
-- パフォーマンス最適化
+- [ ] Using `@/ui/styled` import
+- [ ] Hover states written without manual `@media` wrapping
+- [ ] CSS variables used for colors, spacing, and other tokens
+- [ ] No external margins on components
+- [ ] Responsive styles follow mobile-first approach
+- [ ] Configuration file changes are intentional and documented
+- [ ] No magic numbers or hardcoded values
+- [ ] Focus states use `box-shadow` instead of `outline`
