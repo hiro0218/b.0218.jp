@@ -1,11 +1,13 @@
 'use client';
 
-import { type ReactNode, useId } from 'react';
+import { useId } from 'react';
 import { CaretLeftIcon, CaretRightIcon, ICON_SIZE_XS } from '@/ui/icons';
 import { css, styled } from '@/ui/styled';
 import { ARCHIVE_CONFIG } from '../constants';
 import { useCurrentPage } from './hooks/useCurrentPage';
 import { usePagination } from './hooks/usePagination';
+
+type PageChangeHandler = (page: number) => void;
 
 type PaginationProps = {
   totalItems: number;
@@ -15,19 +17,19 @@ type NavigationButtonProps = {
   direction: 'previous' | 'next';
   currentPage: number;
   totalPages: number;
-  onPageChange: (page: number) => void;
+  onPageChange: PageChangeHandler;
 };
 
 type PageNumberButtonProps = {
   pageNumber: number;
   currentPage: number;
-  onPageChange: (page: number) => void;
+  onPageChange: PageChangeHandler;
 };
 
-type EllipsisItemProps = {
-  children: ReactNode;
-};
-
+/**
+ * 前へ/次へボタン
+ * スクリーンリーダー用に現在ページ情報を含むラベルを提供
+ */
 const NavigationButton = ({ direction, currentPage, totalPages, onPageChange }: NavigationButtonProps) => {
   const isPrevious = direction === 'previous';
   const targetPage = isPrevious ? currentPage - 1 : currentPage + 1;
@@ -49,6 +51,10 @@ const NavigationButton = ({ direction, currentPage, totalPages, onPageChange }: 
   );
 };
 
+/**
+ * ページ番号ボタン
+ * 現在ページはaria-current="page"で明示（WAI-ARIAパターン準拠）
+ */
 const PageNumberButton = ({ pageNumber, currentPage, onPageChange }: PageNumberButtonProps) => {
   const isCurrentPage = pageNumber === currentPage;
   const ariaLabel = isCurrentPage ? `現在のページ（${pageNumber}ページ）` : `${pageNumber}ページへ移動`;
@@ -67,11 +73,13 @@ const PageNumberButton = ({ pageNumber, currentPage, onPageChange }: PageNumberB
   );
 };
 
-const EllipsisItem = ({ children }: EllipsisItemProps) => (
-  <EllipsisIndicator aria-hidden="true" className={paginationButtonStyle}>
-    {children}
-  </EllipsisIndicator>
-);
+/**
+ * 省略記号（...）かどうかを判定する型ガード
+ * map内の条件分岐で型の自動推論を可能にする
+ */
+function isEllipsis(item: string | number): item is string {
+  return item === ARCHIVE_CONFIG.dots;
+}
 
 /**
  * ページネーション付きナビゲーションを表示
@@ -96,16 +104,16 @@ export function Pagination({ totalItems }: PaginationProps) {
     pageSize: ARCHIVE_CONFIG.itemsPerPage,
   });
 
-  const id = useId();
-  const paginationId = `pagination-${id}`;
+  const statusId = `pagination-status-${useId()}`;
 
   if (totalItems === 0 || paginationRange.length < 2) {
     return null;
   }
 
   return (
-    <PaginationNav aria-describedby={`${paginationId}-status`} aria-label="ページネーション">
-      <div aria-atomic="true" aria-live="polite" className="sr-only" id={`${paginationId}-status`}>
+    <PaginationNav aria-describedby={statusId} aria-label="ページネーション">
+      {/* スクリーンリーダー用の現在位置通知（視覚的には非表示） */}
+      <div aria-atomic="true" aria-live="polite" className="sr-only" id={statusId}>
         {totalPages}ページ中{currentPage}ページ目
       </div>
 
@@ -118,21 +126,17 @@ export function Pagination({ totalItems }: PaginationProps) {
             totalPages={totalPages}
           />
         </li>
-        {paginationRange.map((pageNumber, index) => {
-          if (typeof pageNumber === 'string' && pageNumber === ARCHIVE_CONFIG.dots) {
-            return (
-              <li data-paginate="ellipsis" key={`dots-${index}`}>
-                <EllipsisItem>{ARCHIVE_CONFIG.dots}</EllipsisItem>
-              </li>
-            );
-          }
-
-          return (
-            <li data-paginate="page" key={`page-${pageNumber}`}>
-              <PageNumberButton currentPage={currentPage} onPageChange={setPage} pageNumber={pageNumber as number} />
+        {paginationRange.map((item, index) =>
+          isEllipsis(item) ? (
+            <li data-paginate="ellipsis" key={`dots-${index}`}>
+              <EllipsisIndicator aria-hidden="true">{ARCHIVE_CONFIG.dots}</EllipsisIndicator>
             </li>
-          );
-        })}
+          ) : (
+            <li data-paginate="page" key={`page-${item}`}>
+              <PageNumberButton currentPage={currentPage} onPageChange={setPage} pageNumber={item} />
+            </li>
+          ),
+        )}
         <li data-paginate="progress">
           <PageCountDisplay>
             {currentPage} / {totalPages}
