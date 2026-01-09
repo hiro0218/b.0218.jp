@@ -144,9 +144,9 @@ function MenuItem({ item, state, onAction }: MenuItemProps) {
   );
 
   return (
-    <MenuItemWrapper {...menuItemProps} ref={ref}>
+    <MenuItemContainer {...menuItemProps} ref={ref}>
       {item.rendered}
-    </MenuItemWrapper>
+    </MenuItemContainer>
   );
 }
 
@@ -208,7 +208,7 @@ export const Content = styled.div`
   }
 `;
 
-export const MenuItemWrapper = styled.div`
+export const MenuItemContainer = styled.div`
   & > a {
     display: flex;
     align-items: center;
