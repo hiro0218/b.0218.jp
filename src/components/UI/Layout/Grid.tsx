@@ -1,4 +1,4 @@
-import type { AriaRole, CSSProperties, JSX, ReactNode } from 'react';
+import type { CSSProperties, JSX, ReactNode } from 'react';
 import { css, cx } from '@/ui/styled';
 import type { SpaceGap } from '@/ui/styled/theme/tokens/spacing';
 import { containerType } from '@/ui/styled/utilities';
@@ -8,14 +8,12 @@ type Props = {
   gap?: SpaceGap | 0;
   columns?: number | 'auto-fit';
   minItemWidth?: string;
-  role?: AriaRole;
   className?: string;
   children: ReactNode;
 };
 
 export const Grid = ({
   as: GridTag = 'div',
-  role,
   children,
   gap,
   columns = 2,
@@ -42,11 +40,11 @@ export const Grid = ({
 
   const style = {
     ...(columns === 'auto-fit' && { '--grid-min-item-width': minItemWidth }),
-    ...(typeof columns === 'number' && { '--grid-columns': columns.toString() }),
+    ...(typeof columns === 'number' && { '--grid-columns': columns }),
   } as CSSProperties;
 
   return (
-    <GridTag role={role} {...props} className={cx(className, gridStyle, containerType)} data-gap={gap} style={style}>
+    <GridTag {...props} className={cx(containerType, gridStyle, className)} data-gap={gap} style={style}>
       {children}
     </GridTag>
   );
