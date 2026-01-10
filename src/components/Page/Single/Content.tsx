@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { parser } from '@/components/Page/Post/Content/parser/HTMLParser';
-import { Box } from '@/components/UI/Layout';
+import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { getPagesJson } from '@/lib/data/posts';
 
@@ -17,11 +17,9 @@ export default function Content({ title, description, slug }: Props) {
   const reactContent = useMemo(() => parser(content), [content]);
 
   return (
-    <>
+    <Stack gap={4}>
       <Title heading={title} paragraph={description} />
-      <Box as="article" className={'post-content'} mt={4}>
-        {reactContent}
-      </Box>
-    </>
+      <article className="post-content">{reactContent}</article>
+    </Stack>
   );
 }

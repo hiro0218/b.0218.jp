@@ -39,7 +39,7 @@ export default async function Page() {
           description,
         })}
       />
-      <Stack as="article" space={4}>
+      <Stack as="article" gap={4}>
         <Title heading={title} paragraph={description} />
 
         <Chart archives={archives} totalPosts={totalPosts} />

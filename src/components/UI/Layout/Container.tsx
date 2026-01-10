@@ -8,22 +8,16 @@ type Props = {
   className?: string;
 };
 
-const getSize = (size: Props['size']) => {
-  switch (size) {
-    case 'small':
-      return '768px';
-    case 'default':
-    default:
-      return '1024px';
-    case 'large':
-      return '1280px';
-  }
-};
+const SIZE_MAP = {
+  small: 'clamp(16rem, 90vw, 48rem)',
+  default: 'clamp(16rem, 90vw, 64rem)',
+  large: 'clamp(16rem, 90vw, 80rem)',
+} as const;
 
 const Root = styled.div`
   width: 100%;
   max-width: var(--container-size);
-  margin-inline: auto;
+  margin: auto;
 
   &[data-has-space='true'] {
     padding-inline: var(--spacing-3);
@@ -34,15 +28,11 @@ const Root = styled.div`
   }
 `;
 
-export const Container = ({ space = true, size, children, className }: Props) => {
-  const containerSize = getSize(size);
-
-  const style = {
-    '--container-size': containerSize,
-  } as CSSProperties;
+export const Container = ({ space = true, size = 'default', children, className }: Props) => {
+  const style = { '--container-size': SIZE_MAP[size] } as CSSProperties;
 
   return (
-    <Root className={className} {...(space && { 'data-has-space': space })} style={style}>
+    <Root className={className} data-has-space={space} style={style}>
       {children}
     </Root>
   );

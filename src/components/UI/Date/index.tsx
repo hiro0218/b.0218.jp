@@ -9,7 +9,7 @@ function PostDate({ date, updated }: Props) {
   const hasModified = !!updated && !isSameDay(new Date(date), new Date(updated));
 
   return (
-    <Stack className={timeStyle} direction="horizontal" space={1}>
+    <Stack className={timeStyle} direction="horizontal" gap={1}>
       <time
         className={
           hasModified

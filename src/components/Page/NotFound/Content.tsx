@@ -1,19 +1,21 @@
 import { Anchor } from '@/components/UI/Anchor';
-import { Stack } from '@/components/UI/Layout';
+import { Center, Stack } from '@/components/UI/Layout';
 import { css, styled } from '@/ui/styled';
 
 export default function Content() {
   return (
-    <Stack align="center" className={ContainerStyle} direction="vertical" justify="center" space={3}>
+    <Stack align="center" className={ContainerStyle} direction="vertical" gap={3} justify="center">
       <Header>
         <h1>Page not found</h1>
         <p>ページが見つかりませんでした</p>
       </Header>
-      <Stack space={4}>
+      <Stack gap={4}>
         <p>アクセスしようとしたページは、削除もしくはURLが変更され利用できない可能性があります。</p>
-        <Anchor className={AnchorStyle} href="/">
-          トップへ戻る
-        </Anchor>
+        <Center intrinsic maxWidth="120px">
+          <Anchor className={AnchorStyle} href="/">
+            トップへ戻る
+          </Anchor>
+        </Center>
       </Stack>
     </Stack>
   );
@@ -39,7 +41,6 @@ const Header = styled.header`
 const AnchorStyle = css`
   width: 120px;
   padding: var(--spacing-1) var(--spacing-2);
-  margin-inline: auto;
   font-size: var(--font-sizes-sm);
   background-color: var(--colors-gray-100);
   border-radius: var(--radii-4);

@@ -59,7 +59,7 @@ export default async function Page({ params }: { params: Params }) {
           description: `Tag: ${decodedSlug} - ${SITE_NAME}`,
         })}
       />
-      <Stack as="section" space={4}>
+      <Stack as="section" gap={4}>
         <Title heading={pageTitle} paragraph={`${totalItems}件の記事`} />
         <Sidebar>
           <Sidebar.Side>

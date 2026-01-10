@@ -38,8 +38,8 @@ export function SearchExternalLink({ searchQuery }: SearchExternalLinkProps) {
 
   return (
     <SearchFooter>
-      <Stack direction="horizontal" justify="space-between" space={1}>
-        <Stack align="center" direction="horizontal" justify="space-between" space={1}>
+      <Stack direction="horizontal" gap={1} justify="space-between">
+        <Stack align="center" direction="horizontal" gap={1} justify="space-between">
           <span>
             <kbd>/</kbd>検索を開く
           </span>

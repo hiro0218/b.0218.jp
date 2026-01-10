@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import PostDate from '@/components/UI/Date';
-import { Box, Cluster, Stack } from '@/components/UI/Layout';
+import { Cluster, Stack } from '@/components/UI/Layout';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag from '@/components/UI/Tag';
 import type { Post } from '@/types/source';
@@ -14,19 +14,14 @@ type Props = Pick<Post, 'title' | 'date' | 'updated'> & {
 
 function PostHeader({ title, date, updated, tagsWithCount, render }: Props) {
   return (
-    <Stack as="header" className={headerSeparatorStyle} space={2}>
+    <Stack as="header" className={headerSeparatorStyle} gap={2}>
       <Heading>{title}</Heading>
-      <Box mt={2}>
-        <Box className={itemStyle}>
-          <PostDate date={date} updated={updated} />
-          {/* <span aria-hidden="true">•</span> */}
-        </Box>
-        <Box className={itemStyle} mt={1}>
-          <Cluster isWide={false}>
-            <PostTag tags={tagsWithCount} />
-          </Cluster>
-        </Box>
-      </Box>
+      <Stack className={itemStyle} gap={2}>
+        <PostDate date={date} updated={updated} />
+        <Cluster isWide={false}>
+          <PostTag tags={tagsWithCount} />
+        </Cluster>
+      </Stack>
       {render}
     </Stack>
   );
@@ -57,6 +52,5 @@ const Heading = styled.h1`
 `;
 
 const itemStyle = css`
-  display: flex;
   color: var(--colors-gray-900);
 `;

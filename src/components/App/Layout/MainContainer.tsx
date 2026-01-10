@@ -3,7 +3,7 @@ import { Box } from '@/components/UI/Layout';
 
 export const MainContainer = ({ children }: { children: ReactNode }) => {
   return (
-    <Box as="main" mt={3}>
+    <Box as="main" padding={3}>
       {children}
     </Box>
   );
