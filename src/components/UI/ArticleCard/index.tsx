@@ -82,10 +82,6 @@ const containerStyle = css`
     box-shadow: 0 0 0 2px var(--hover-color);
   }
 
-  & > *:last-child {
-    margin-top: auto;
-  }
-
   time {
     font-size: var(--font-sizes-sm);
     line-height: var(--line-heights-xs);
@@ -130,6 +126,7 @@ const Paragraph = styled.p`
 const Tags = styled.div`
   display: flex;
   gap: var(--spacing-1);
+  margin-top: auto;
   overflow: clip;
   mask-image: linear-gradient(to right, transparent, #000 0, #000 calc(100% - 2em), transparent);
 

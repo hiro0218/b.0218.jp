@@ -20,10 +20,6 @@ const stackStyle = css`
   align-items: var(--stack-align, stretch);
   justify-content: var(--stack-justify, flex-start);
 
-  & > * {
-    margin-block: 0;
-  }
-
   &[data-direction='horizontal'] {
     flex-direction: row;
   }
