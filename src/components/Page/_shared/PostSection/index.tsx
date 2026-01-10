@@ -44,7 +44,7 @@ export const PostSection = ({
           {heading}
         </Heading>
       )}
-      <Grid className={containerType} gap={2}>
+      <Grid className={containerType} columns="auto-fit" gap={2}>
         {posts.map(({ date, slug, tags, title, updated }) => {
           const link = convertPostSlugToPath(slug);
 
