@@ -2,6 +2,7 @@ import type { ComponentProps, ReactNode } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
 import PostDate from '@/components/UI/Date';
+import { Stack } from '@/components/UI/Layout';
 import { css, cx, styled } from '@/ui/styled';
 import { postTagAnchor } from '@/ui/styled/components';
 import { textEllipsis } from '@/ui/styled/utilities';
@@ -23,7 +24,7 @@ function ArticleCard({ link, title, date, updated, excerpt, tags, titleTagName =
   const Title = titleTagName;
 
   return (
-    <Container>
+    <Stack as="div" className={containerStyle} gap={1}>
       <PostDate date={date} updated={updated} />
       <Anchor className={anchorStyle} href={link} prefetch={prefetch}>
         <Title className={cx('line-clamp-2', titleStyle)}>{title}</Title>
@@ -42,19 +43,17 @@ function ArticleCard({ link, title, date, updated, excerpt, tags, titleTagName =
           ))}
         </Tags>
       )}
-    </Container>
+    </Stack>
   );
 }
 
 export default ArticleCard;
 
-const Container = styled.div`
+const containerStyle = css`
   --container-space: var(--spacing-3);
   --hover-color: var(--colors-accent-1100);
+  display: grid;
 
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-1);
   contain-intrinsic-size: 0 200px;
   padding: var(--container-space);
   contain: layout style;
@@ -81,6 +80,10 @@ const Container = styled.div`
 
   &:active {
     box-shadow: 0 0 0 2px var(--hover-color);
+  }
+
+  & > *:last-child {
+    margin-top: auto;
   }
 
   time {
@@ -127,7 +130,6 @@ const Paragraph = styled.p`
 const Tags = styled.div`
   display: flex;
   gap: var(--spacing-1);
-  margin-top: auto;
   overflow: clip;
   mask-image: linear-gradient(to right, transparent, #000 0, #000 calc(100% - 2em), transparent);
 
