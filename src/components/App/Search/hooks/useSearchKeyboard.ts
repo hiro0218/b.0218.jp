@@ -5,7 +5,7 @@ import { isHTMLElement } from '@/lib/browser/typeGuards';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { SearchProps } from '../types';
 
-const NAV_KEYS = new Set(['ArrowDown', 'ArrowUp', 'Home', 'End', 'Enter', 'Escape'] as const);
+const NAV_KEYS: ReadonlySet<string> = new Set(['ArrowDown', 'ArrowUp', 'Home', 'End', 'Enter', 'Escape']);
 
 interface UseSearchKeyboardProps {
   // キーボードナビゲーション
@@ -133,7 +133,7 @@ export const useSearchKeyboard = ({
       }
 
       // ナビゲーションキー以外はデバウンス検索
-      if (!NAV_KEYS.has(e.key as typeof NAV_KEYS extends Set<infer T> ? T : never)) {
+      if (!NAV_KEYS.has(e.key)) {
         debouncedSearch(value);
       }
     },

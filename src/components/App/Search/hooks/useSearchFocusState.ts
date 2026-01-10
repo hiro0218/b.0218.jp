@@ -3,7 +3,6 @@ import { useCallback, useState } from 'react';
 export interface UseSearchFocusStateReturn {
   focusedIndex: number;
   setFocusedIndex: (index: number) => void;
-  navigateToIndex: (index: number) => void;
   resetFocus: () => void;
   moveUp: () => void;
   moveDown: () => void;
@@ -31,19 +30,6 @@ export const useSearchFocusState = ({
   loop = true,
 }: UseSearchFocusStateProps): UseSearchFocusStateReturn => {
   const [focusedIndex, setFocusedIndex] = useState(-1);
-
-  const navigateToIndex = useCallback(
-    (index: number) => {
-      setFocusedIndex((prev) => {
-        const maxIndex = resultsLength - 1;
-        if (index >= -1 && index <= maxIndex) {
-          return index;
-        }
-        return prev;
-      });
-    },
-    [resultsLength],
-  );
 
   const resetFocus = useCallback(() => {
     setFocusedIndex(-1);
@@ -78,7 +64,6 @@ export const useSearchFocusState = ({
   return {
     focusedIndex,
     setFocusedIndex,
-    navigateToIndex,
     resetFocus,
     moveUp,
     moveDown,

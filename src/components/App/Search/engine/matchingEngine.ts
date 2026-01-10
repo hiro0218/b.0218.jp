@@ -96,6 +96,12 @@ const isMultiTermMatching = (post: SearchProps, normalizedSearchTerms: Normalize
   });
 };
 
+const determineMatchedIn = (tagMatched: boolean, titleMatched: boolean): MatchedIn => {
+  if (tagMatched && titleMatched) return 'both';
+  if (tagMatched) return 'tag';
+  return 'title';
+};
+
 const matchSingleTerm = (post: SearchProps, searchValue: string): RankedSearchResult | null => {
   const tagMatchType = getTagMatchType(post, searchValue);
   const titleMatchType = getTitleMatchType(post, searchValue);
@@ -104,9 +110,7 @@ const matchSingleTerm = (post: SearchProps, searchValue: string): RankedSearchRe
     return null;
   }
 
-  const matchedIn: MatchedIn =
-    tagMatchType !== 'NONE' && titleMatchType !== 'NONE' ? 'both' : tagMatchType !== 'NONE' ? 'tag' : 'title';
-
+  const matchedIn = determineMatchedIn(tagMatchType !== 'NONE', titleMatchType !== 'NONE');
   const bestMatchType =
     getMatchTypePriority(tagMatchType) >= getMatchTypePriority(titleMatchType) ? tagMatchType : titleMatchType;
 

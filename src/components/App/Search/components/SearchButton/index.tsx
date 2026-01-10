@@ -1,11 +1,10 @@
 import { Tooltip } from '@/components/UI/Tooltip';
 import { ICON_SIZE_SM, MagnifyingGlassIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled';
-import type { OnCloseDialogProps } from '../../types';
 import { SEARCH_LABELS } from '../constants';
 
 type Props = {
-  openDialogAction: OnCloseDialogProps;
+  openDialogAction: () => void;
 };
 
 export function SearchButton({ openDialogAction }: Props) {

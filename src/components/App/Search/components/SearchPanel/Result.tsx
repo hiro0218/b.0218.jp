@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { css, styled } from '@/ui/styled';
 import type { SearchResultItem } from '../../types';
 import { SearchResultMessage } from './Meta';
@@ -19,38 +18,24 @@ export function Result({
   keyword?: string;
   onLinkClick?: () => void;
 }) {
-  const resultRefCallbacks = useMemo(
-    () =>
-      suggestions.map((_, refIndex) => {
-        return (element: HTMLDivElement | null) => {
-          setResultRef(refIndex, element);
-        };
-      }),
-    [suggestions, setResultRef],
-  );
-
-  const ResultList = useMemo(() => {
-    return suggestions.map(({ slug, matchedIn }, index) => {
-      const isFocused = focusedIndex === index;
-
-      return (
-        <NavigableLink
-          isFocused={isFocused}
-          key={slug}
-          matchedIn={matchedIn}
-          onLinkClick={onLinkClick}
-          ref={resultRefCallbacks[index]}
-          slug={slug}
-          title={markedTitles[index]}
-        />
-      );
-    });
-  }, [suggestions, markedTitles, focusedIndex, resultRefCallbacks, onLinkClick]);
-
   return (
     <Container data-search-results>
       <SearchResultMessage resultsCount={suggestions.length} searchQuery={keyword} />
-      {ResultList.length > 0 && <div>{ResultList}</div>}
+      {suggestions.length > 0 && (
+        <div>
+          {suggestions.map(({ slug, matchedIn }, index) => (
+            <NavigableLink
+              isFocused={focusedIndex === index}
+              key={slug}
+              matchedIn={matchedIn}
+              onLinkClick={onLinkClick}
+              ref={(element) => setResultRef(index, element)}
+              slug={slug}
+              title={markedTitles[index]}
+            />
+          ))}
+        </div>
+      )}
     </Container>
   );
 }

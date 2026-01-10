@@ -25,27 +25,21 @@ const NO_MATCH_SCORE = 0; // 不一致
  * Higher scores appear first in results:
  * EXACT (100) > PARTIAL (80) > EXACT_NO_SPACE (60) > MULTI_TERM_MATCH (50) > PARTIAL_NO_SPACE (40) > NONE (0)
  */
-export const MATCH_PRIORITY: Record<MatchType, number> = {
-  // biome-ignore lint/style/useNamingConvention: MatchType列挙値のキー名
-  EXACT: EXACT_MATCH_SCORE,
-  // biome-ignore lint/style/useNamingConvention: MatchType列挙値のキー名
-  PARTIAL: PARTIAL_MATCH_SCORE,
-  // biome-ignore lint/style/useNamingConvention: MatchType列挙値のキー名
-  EXACT_NO_SPACE: EXACT_NO_SPACE_SCORE,
-  // biome-ignore lint/style/useNamingConvention: MatchType列挙値のキー名
-  MULTI_TERM_MATCH: MULTI_TERM_MATCH_SCORE,
-  // biome-ignore lint/style/useNamingConvention: MatchType列挙値のキー名
-  PARTIAL_NO_SPACE: PARTIAL_NO_SPACE_SCORE,
-  // biome-ignore lint/style/useNamingConvention: MatchType列挙値のキー名
-  NONE: NO_MATCH_SCORE,
-} as const;
+const matchPriorityMap = new Map<MatchType, number>([
+  ['EXACT', EXACT_MATCH_SCORE],
+  ['PARTIAL', PARTIAL_MATCH_SCORE],
+  ['EXACT_NO_SPACE', EXACT_NO_SPACE_SCORE],
+  ['MULTI_TERM_MATCH', MULTI_TERM_MATCH_SCORE],
+  ['PARTIAL_NO_SPACE', PARTIAL_NO_SPACE_SCORE],
+  ['NONE', NO_MATCH_SCORE],
+]);
 
 /**
  * 検索結果の表示順序最適化のため、マッチタイプに応じた優先度スコアを返す
  * @param matchType - 判定されたマッチタイプ
  * @returns 優先度数値（高いほど優先表示、完全一致100〜不一致0）
  */
-export const getMatchTypePriority = (matchType: MatchType): number => MATCH_PRIORITY[matchType] ?? 0;
+export const getMatchTypePriority = (matchType: MatchType): number => matchPriorityMap.get(matchType) ?? 0;
 
 /**
  * UI表示最適化のため優先度順にソートし結果件数を制限

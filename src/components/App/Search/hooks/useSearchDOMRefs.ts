@@ -8,7 +8,6 @@ export interface UseSearchDOMRefsReturn {
   scrollToFocusedElement: (targetElement: HTMLElement) => void;
   setResultRef: (index: number, element: HTMLDivElement | null) => void;
   getResultRef: (index: number) => HTMLDivElement | undefined;
-  clearResultRefs: () => void;
   clearExcessRefs: (maxSize: number) => void;
 }
 
@@ -80,10 +79,6 @@ export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps): UseSearc
     return resultRefs.current.get(index);
   }, []);
 
-  const clearResultRefs = useCallback(() => {
-    resultRefs.current.clear();
-  }, []);
-
   const clearExcessRefs = useCallback((maxSize: number) => {
     const currentSize = resultRefs.current.size;
     if (currentSize > maxSize) {
@@ -101,7 +96,6 @@ export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps): UseSearc
     scrollToFocusedElement,
     setResultRef,
     getResultRef,
-    clearResultRefs,
     clearExcessRefs,
   };
 };

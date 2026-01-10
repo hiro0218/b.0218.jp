@@ -109,12 +109,4 @@ describe('useSearchStatePersistence', () => {
 
     expect(loaded).toBeNull();
   });
-
-  test('clearSearchState が正しく動作することを検証', () => {
-    const { result } = renderHook(() => useSearchStatePersistence());
-
-    result.current.clearSearchState();
-
-    expect(safeSessionStorage.removeSessionStorage).toHaveBeenCalledWith('search-state');
-  });
 });
