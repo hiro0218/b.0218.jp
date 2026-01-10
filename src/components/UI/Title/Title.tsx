@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 
+import { Stack } from '@/components/UI/Layout';
 import { css } from '@/ui/styled';
 
 type Props = {
@@ -9,10 +10,10 @@ type Props = {
 
 export function Title({ heading, paragraph = undefined }: Props) {
   return (
-    <header className={containerStyle}>
+    <Stack as="header" className={containerStyle} gap={1}>
       <h1 dangerouslySetInnerHTML={{ __html: heading }}></h1>
       {!!paragraph && <p className={paragraphStyle}>{paragraph}</p>}
-    </header>
+    </Stack>
   );
 }
 
@@ -21,7 +22,6 @@ const containerStyle = css`
 `;
 
 const paragraphStyle = css`
-  margin-top: var(--spacing-1);
   font-size: var(--font-sizes-md);
   color: var(--colors-gray-600);
 `;
