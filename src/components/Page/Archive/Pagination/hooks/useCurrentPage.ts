@@ -6,24 +6,21 @@ import { useCallback, useMemo } from 'react';
 import { ARCHIVE_CONFIG } from '../../constants';
 import { calculateTotalPages, parsePageNumber } from '../../utils/parsePageNumber';
 
-type UseCurrentPageResult = {
-  currentPage: number;
-  totalPages: number;
-  setPage: (page: number) => void;
-};
-
 /**
  * ページネーションの現在ページ管理フック
  * @param totalItems 総アイテム数
  * @returns 現在ページ、総ページ数、ページ設定関数
  */
-export const useCurrentPage = (totalItems: number): UseCurrentPageResult => {
+export function useCurrentPage(totalItems: number): {
+  currentPage: number;
+  totalPages: number;
+  setPage: (page: number) => void;
+} {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pageParam = searchParams.get(ARCHIVE_CONFIG.queryKey);
-  const itemsPerPage = ARCHIVE_CONFIG.itemsPerPage;
 
-  const totalPages = useMemo(() => calculateTotalPages(totalItems, itemsPerPage), [totalItems, itemsPerPage]);
+  const totalPages = useMemo(() => calculateTotalPages(totalItems, ARCHIVE_CONFIG.itemsPerPage), [totalItems]);
   const currentPage = parsePageNumber(pageParam, 1, totalPages);
 
   const setPage = useCallback(
@@ -41,9 +38,5 @@ export const useCurrentPage = (totalItems: number): UseCurrentPageResult => {
     [router, searchParams],
   );
 
-  return {
-    currentPage,
-    totalPages,
-    setPage,
-  };
-};
+  return { currentPage, totalPages, setPage };
+}

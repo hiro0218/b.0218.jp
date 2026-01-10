@@ -3,11 +3,8 @@
 import { useId } from 'react';
 import { CaretLeftIcon, CaretRightIcon, ICON_SIZE_XS } from '@/ui/icons';
 import { css, styled } from '@/ui/styled';
-import { ARCHIVE_CONFIG } from '../constants';
 import { useCurrentPage } from './hooks/useCurrentPage';
 import { usePagination } from './hooks/usePagination';
-
-type PageChangeHandler = (page: number) => void;
 
 type PaginationProps = {
   totalItems: number;
@@ -17,13 +14,13 @@ type NavigationButtonProps = {
   direction: 'previous' | 'next';
   currentPage: number;
   totalPages: number;
-  onPageChange: PageChangeHandler;
+  onPageChange: (page: number) => void;
 };
 
 type PageNumberButtonProps = {
   pageNumber: number;
   currentPage: number;
-  onPageChange: PageChangeHandler;
+  onPageChange: (page: number) => void;
 };
 
 /**
@@ -57,12 +54,11 @@ const NavigationButton = ({ direction, currentPage, totalPages, onPageChange }: 
  */
 const PageNumberButton = ({ pageNumber, currentPage, onPageChange }: PageNumberButtonProps) => {
   const isCurrentPage = pageNumber === currentPage;
-  const ariaLabel = isCurrentPage ? `現在のページ（${pageNumber}ページ）` : `${pageNumber}ページへ移動`;
 
   return (
     <button
       aria-current={isCurrentPage ? 'page' : undefined}
-      aria-label={ariaLabel}
+      aria-label={isCurrentPage ? `現在のページ（${pageNumber}ページ）` : `${pageNumber}ページへ移動`}
       className={paginationButtonStyle}
       disabled={isCurrentPage}
       onClick={() => onPageChange(pageNumber)}
@@ -72,14 +68,6 @@ const PageNumberButton = ({ pageNumber, currentPage, onPageChange }: PageNumberB
     </button>
   );
 };
-
-/**
- * 省略記号（...）かどうかを判定する型ガード
- * map内の条件分岐で型の自動推論を可能にする
- */
-function isEllipsis(item: string | number): item is string {
-  return item === ARCHIVE_CONFIG.dots;
-}
 
 /**
  * ページネーション付きナビゲーションを表示
@@ -96,15 +84,8 @@ function isEllipsis(item: string | number): item is string {
  */
 export function Pagination({ totalItems }: PaginationProps) {
   const { currentPage, totalPages, setPage } = useCurrentPage(totalItems);
-  const { paginationRange } = usePagination({
-    currentPage,
-    totalCount: totalItems,
-    totalPages,
-    siblingCount: 1,
-    pageSize: ARCHIVE_CONFIG.itemsPerPage,
-  });
-
-  const statusId = `pagination-status-${useId()}`;
+  const paginationRange = usePagination({ currentPage, totalPages });
+  const statusId = useId();
 
   if (totalItems === 0 || paginationRange.length < 2) {
     return null;
@@ -127,9 +108,9 @@ export function Pagination({ totalItems }: PaginationProps) {
           />
         </li>
         {paginationRange.map((item, index) =>
-          isEllipsis(item) ? (
+          typeof item === 'string' ? (
             <li data-paginate="ellipsis" key={`dots-${index}`}>
-              <EllipsisIndicator aria-hidden="true">{ARCHIVE_CONFIG.dots}</EllipsisIndicator>
+              <EllipsisIndicator aria-hidden="true">{item}</EllipsisIndicator>
             </li>
           ) : (
             <li data-paginate="page" key={`page-${item}`}>
