@@ -52,28 +52,6 @@ export const useSearchKeyboard = ({
 }: UseSearchKeyboardProps): UseSearchKeyboardReturn => {
   const router = useRouter();
 
-  const handleEnter = useCallback(() => {
-    const currentIndex = focusedIndexRef.current;
-    const count = resultsRef.current.length;
-    if (currentIndex >= 0 && currentIndex < count) {
-      const resultElement = getResultRef(currentIndex);
-      if (resultElement) {
-        const anchor = resultElement.querySelector('a');
-        if (anchor) {
-          anchor.click();
-          return;
-        }
-      }
-
-      // フォールバック: DOM取得失敗時の代替処理
-      const result = resultsRef.current[currentIndex];
-      if (result) {
-        router.push(convertPostSlugToPath(result.slug));
-        onClose();
-      }
-    }
-  }, [onClose, router, focusedIndexRef, resultsRef, getResultRef]);
-
   const { keyboardProps } = useKeyboard({
     onKeyDown: (e) => {
       const target = e.target;
@@ -102,10 +80,29 @@ export const useSearchKeyboard = ({
           e.preventDefault();
           onMoveToLast();
           break;
-        case 'Enter':
+        case 'Enter': {
           e.preventDefault();
-          handleEnter();
+          const currentIndex = focusedIndexRef.current;
+          const count = resultsRef.current.length;
+          if (currentIndex >= 0 && currentIndex < count) {
+            const resultElement = getResultRef(currentIndex);
+            if (resultElement) {
+              const anchor = resultElement.querySelector('a');
+              if (anchor) {
+                anchor.click();
+                break;
+              }
+            }
+
+            // フォールバック: DOM取得失敗時の代替処理
+            const result = resultsRef.current[currentIndex];
+            if (result) {
+              router.push(convertPostSlugToPath(result.slug));
+              onClose();
+            }
+          }
           break;
+        }
         case 'Escape':
           e.preventDefault();
           onClose();
