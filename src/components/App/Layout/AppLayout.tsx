@@ -12,5 +12,6 @@ const Root = styled.div`
   @media (--isDesktop) {
     display: grid;
     grid-template-rows: auto 1fr auto;
+    row-gap: var(--spacing-4);
   }
 `;

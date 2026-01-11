@@ -34,7 +34,6 @@ export default function Footer() {
 const Root = styled.footer`
   position: relative;
   padding: var(--spacing-5) 0;
-  margin-top: var(--spacing-6);
   isolation: isolate;
 
   &::before {

@@ -36,7 +36,6 @@ const HeaderContainerStyle = css`
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: var(--spacing-4);
   margin: 0 auto;
 
   @media (--isMobile) {
