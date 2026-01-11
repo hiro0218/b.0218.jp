@@ -1,5 +1,5 @@
 import type { Element } from 'html-react-parser';
-import type { HandlerFunction } from '../types';
+import type { HandlerFunction } from './types';
 import ZoomImageModal from './ZoomImageModal';
 
 /**

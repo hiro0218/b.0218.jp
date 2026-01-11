@@ -1,5 +1,5 @@
 import { css, styled } from '@/ui/styled';
-import type { SearchResultItem } from '../../types';
+import type { SearchResultItem } from '../types';
 import { SearchResultMessage } from './Meta';
 import { NavigableLink } from './NavigableLink';
 

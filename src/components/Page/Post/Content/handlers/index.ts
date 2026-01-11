@@ -3,4 +3,4 @@ export { handleAnchor } from './AnchorHandler';
 export { handleCodePen } from './CodePenHandler';
 export { handleLinkPreview } from './LinkPreviewHandler';
 export type { HandlerFunction } from './types';
-export { handleZoomImage } from './zoom-image/ZoomImageHandler';
+export { handleZoomImage } from './ZoomImageHandler';
