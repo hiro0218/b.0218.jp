@@ -33,8 +33,6 @@ export interface SearchState {
   focusedIndex?: number;
 }
 
-export type OnCloseDialogProps = () => void;
-
 /**
  * Facade Pattern により、複雑な内部実装を隠蔽し、
  * シンプルで使いやすい API を提供

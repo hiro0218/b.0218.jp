@@ -6,14 +6,13 @@ import { createPortal } from 'react-dom';
 
 import useIsClient from '@/hooks/useIsClient';
 import { styled } from '@/ui/styled';
-import { useSearchFacade } from '../../hooks/useSearchFacade';
-import type { OnCloseDialogProps } from '../../types';
 import { SEARCH_LABELS } from '../constants';
+import { useSearchFacade } from '../hooks/useSearchFacade';
 import { SearchHeader } from '../SearchHeader';
 import { SearchPanel } from '../SearchPanel';
 
 type Props = {
-  onCloseAction: OnCloseDialogProps;
+  onCloseAction: () => void;
   isClosing?: boolean;
   ref: ForwardedRef<HTMLDialogElement>;
 };

@@ -1,6 +1,6 @@
 import type { JSX } from 'react';
 import Heading from '@/components/UI/Heading';
-import { Box, Cluster } from '@/components/UI/Layout';
+import { Cluster, Stack } from '@/components/UI/Layout';
 import { LinkMore } from '@/components/UI/LinkMore';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
 import PostTag from '@/components/UI/Tag';
@@ -29,7 +29,7 @@ export const TagSection = ({
   }
 
   return (
-    <Box as={as}>
+    <Stack as={as} gap={2}>
       {!!heading && (
         <Heading
           as={headingLevel}
@@ -39,11 +39,9 @@ export const TagSection = ({
           {heading}
         </Heading>
       )}
-      <Box {...(!!heading && { mt: 2 })}>
-        <Cluster isWide={isWideCluster}>
-          <PostTag tags={tags} />
-        </Cluster>
-      </Box>
-    </Box>
+      <Cluster isWide={isWideCluster}>
+        <PostTag tags={tags} />
+      </Cluster>
+    </Stack>
   );
 };

@@ -1,3 +1,4 @@
+import { Stack } from '@/components/UI/Layout';
 import type { Post } from '@/types/source';
 import { ICON_SIZE_SM, InfoCircledIcon } from '@/ui/icons';
 import { css } from '@/ui/styled';
@@ -6,20 +7,16 @@ type Props = Pick<Post, 'note'>;
 
 function PostNote({ note }: Props) {
   return (
-    <aside className={ContainerStyle}>
+    <Stack align="center" as="aside" className={ContainerStyle} direction="horizontal" gap="½">
       <InfoCircledIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-      <div dangerouslySetInnerHTML={{ __html: note }} />
-    </aside>
+      <div className={contentStyle} dangerouslySetInnerHTML={{ __html: note }} />
+    </Stack>
   );
 }
 
 export default PostNote;
 
 const ContainerStyle = css`
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--spacing-½);
-  align-items: center;
   padding: var(--spacing-2);
   font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-md);
@@ -41,4 +38,8 @@ const ContainerStyle = css`
       fill: var(--colors-post-note-icon);
     }
   }
+`;
+
+const contentStyle = css`
+  flex: 1;
 `;

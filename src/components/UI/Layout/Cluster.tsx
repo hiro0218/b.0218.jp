@@ -25,7 +25,7 @@ const clusterStyle = css`
   }
 `;
 
-export function Cluster({ as: Tag = 'div', children = '', isWide, gap = 1, className, ...props }: Props) {
+export function Cluster({ as: Tag = 'div', children, isWide, gap = 1, className, ...props }: Props) {
   return (
     <Tag className={cx(className, clusterStyle)} {...(isWide && { 'data-is-wide': isWide })} {...props} data-gap={gap}>
       {children}

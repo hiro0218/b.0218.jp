@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Prebuild Script - ビルド前の準備処理を実行
+# エラー発生時は即座に終了
+set -e
+
+# 色付き出力の定義
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+echo -e "${BLUE}========================================${NC}"
+echo -e "${BLUE}  Prebuild Process Started${NC}"
+echo -e "${BLUE}========================================${NC}"
+echo ""
+
+# 1. Git Submodule の更新
+echo -e "${GREEN}[1/5] Updating git submodules...${NC}"
+git submodule update --remote
+echo "✓ Submodule update completed"
+echo ""
+
+# 2. 記事データのビルド
+echo -e "${GREEN}[2/5] Building articles...${NC}"
+npm run build:article
+echo "✓ Article build completed"
+echo ""
+
+# 3. 類似度の計算
+echo -e "${GREEN}[3/5] Calculating similarity...${NC}"
+npm run build:similarity
+echo "✓ Similarity calculation completed"
+echo ""
+
+# 4. 人気記事の取得
+echo -e "${GREEN}[4/5] Fetching popular posts...${NC}"
+npm run build:popular
+echo "✓ Popular posts fetched"
+echo ""
+
+# 5. OGP 画像の生成
+echo -e "${GREEN}[5/5] Generating OGP images...${NC}"
+npm run build:ogp
+echo "✓ OGP image generation completed"
+echo ""
+
+echo -e "${BLUE}========================================${NC}"
+echo -e "${BLUE}  Prebuild Process Completed! 🎉${NC}"
+echo -e "${BLUE}========================================${NC}"

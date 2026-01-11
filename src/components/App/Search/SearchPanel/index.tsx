@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { styled } from '@/ui/styled';
-import type { SearchResultItem } from '../../types';
+import type { SearchResultItem } from '../types';
 import { createMarkedTitles } from './libs/markEscapedHTML';
 import { SearchExternalLink, SearchStatus } from './Meta';
 import { Result } from './Result';

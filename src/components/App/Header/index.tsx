@@ -1,7 +1,7 @@
 'use client';
 
-import { SearchButton } from '@/components/App/Search/components/SearchButton';
-import { SearchDialog } from '@/components/App/Search/components/SearchDialog';
+import { SearchButton } from '@/components/App/Search/SearchButton';
+import { SearchDialog } from '@/components/App/Search/SearchDialog';
 import { Container } from '@/components/UI/Layout/Container';
 import { Logo } from '@/components/UI/Logo';
 import { css } from '@/ui/styled';
@@ -36,7 +36,6 @@ const HeaderContainerStyle = css`
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: var(--spacing-4);
   margin: 0 auto;
 
   @media (--isMobile) {

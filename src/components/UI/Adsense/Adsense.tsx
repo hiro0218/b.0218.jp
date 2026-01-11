@@ -14,6 +14,7 @@ export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
   const pathname = usePathname();
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname change should trigger ad reload
   useEffect(() => {
     setIsLoaded(true);
   }, [pathname]);

@@ -1,3 +1,4 @@
+import { Stack } from '@/components/UI/Layout';
 import {
   ChatBubbleLeft,
   ExclamationCircle,
@@ -6,7 +7,7 @@ import {
   InformationCircle,
   LightBulb,
 } from '@/ui/icons';
-import { css, styled } from '@/ui/styled';
+import { css } from '@/ui/styled';
 
 export type AlertType = 'note' | 'tip' | 'important' | 'warning' | 'caution';
 
@@ -38,25 +39,23 @@ export const Alert = ({ type, text }: Props) => {
   })();
 
   return (
-    <Container data-alert-type={type}>
-      <div className={titleStyle}>
-        {Icon}&nbsp;{type}
-      </div>
+    <Stack className={containerStyle} data-alert-type={type} direction="vertical" gap={1}>
+      <Stack align="center" className={titleStyle} direction="horizontal" gap="½">
+        {Icon}
+        <span>{type}</span>
+      </Stack>
       <p
         dangerouslySetInnerHTML={{
           __html: text,
         }}
       />
-    </Container>
+    </Stack>
   );
 };
 
-const Container = styled.div`
+const containerStyle = css`
   --alert-color: var(--colors-alert-note);
 
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-1);
   padding: var(--spacing-2) var(--spacing-3);
   background-color: hwb(from var(--alert-color) h w b / 0.1);
   border-left: var(--spacing-½) solid var(--alert-color);
@@ -88,8 +87,6 @@ const Container = styled.div`
 `;
 
 const titleStyle = css`
-  display: flex;
-  align-items: center;
   font-size: var(--font-sizes-md);
   font-weight: var(--font-weights-bold);
   color: var(--alert-color);

@@ -1,7 +1,7 @@
 import type { JSX } from 'react';
 import ArticleCard from '@/components/UI/ArticleCard';
 import Heading from '@/components/UI/Heading';
-import { Box, Grid } from '@/components/UI/Layout';
+import { Grid, Stack } from '@/components/UI/Layout';
 import { LinkMore } from '@/components/UI/LinkMore';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { ArticleSummary, PostSummary } from '@/types/source';
@@ -34,7 +34,7 @@ export const PostSection = ({
   const nextHeadingLevel = `h${Number(headingLevel[1]) + 1}` as Props['headingLevel'];
 
   return (
-    <Box as={as}>
+    <Stack as={as} gap={2}>
       {!!heading && (
         <Heading
           as={headingLevel}
@@ -44,26 +44,24 @@ export const PostSection = ({
           {heading}
         </Heading>
       )}
-      <Box className={containerType} mt={2}>
-        <Grid gap={2}>
-          {posts.map(({ date, slug, tags, title, updated }) => {
-            const link = convertPostSlugToPath(slug);
+      <Grid className={containerType} columns="auto-fit" gap={2}>
+        {posts.map(({ date, slug, tags, title, updated }) => {
+          const link = convertPostSlugToPath(slug);
 
-            return (
-              <ArticleCard
-                date={date}
-                key={slug}
-                link={link}
-                prefetch={prefetch}
-                tags={tags}
-                title={title}
-                titleTagName={nextHeadingLevel}
-                updated={updated}
-              />
-            );
-          })}
-        </Grid>
-      </Box>
-    </Box>
+          return (
+            <ArticleCard
+              date={date}
+              key={slug}
+              link={link}
+              prefetch={prefetch}
+              tags={tags}
+              title={title}
+              titleTagName={nextHeadingLevel}
+              updated={updated}
+            />
+          );
+        })}
+      </Grid>
+    </Stack>
   );
 };

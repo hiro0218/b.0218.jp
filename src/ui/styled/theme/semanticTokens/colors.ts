@@ -10,10 +10,10 @@ const semanticColorTokens = {
 
   // Alert variants (existing)
   alert: {
-    note: { value: { base: '{colors.blue.1200}' } },
-    important: { value: { base: '{colors.purple.1200}' } },
-    warning: { value: { base: '{colors.yellow.1200}' } },
-    caution: { value: { base: '{colors.red.1200}' } },
+    note: { value: { base: '{colors.blue.1000}' } },
+    important: { value: { base: '{colors.purple.1000}' } },
+    warning: { value: { base: '{colors.yellow.1000}' } },
+    caution: { value: { base: '{colors.red.1000}' } },
   },
 };
 

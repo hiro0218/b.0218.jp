@@ -67,6 +67,7 @@ export default Heading;
 
 const containerStyle = css`
   display: flex;
+  gap: var(--spacing-1);
   align-items: center;
 `;
 
@@ -86,7 +87,6 @@ const sideStyle = css`
 `;
 
 const headerSubStyle = css`
-  margin-top: var(--spacing-1);
   font-weight: var(--font-weights-normal);
   color: var(--colors-gray-900);
   overflow-wrap: break-word;

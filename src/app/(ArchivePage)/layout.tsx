@@ -9,7 +9,7 @@ type Props = {
 export default function ArchivePageLayout({ children }: Props) {
   return (
     <Container size="small">
-      <Stack as="section" space={4}>
+      <Stack as="section" gap={4}>
         {children}
       </Stack>
     </Container>
