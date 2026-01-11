@@ -3,7 +3,7 @@
   "version": "3.1.0",
   "private": true,
   "scripts": {
-    "prebuild": "git submodule update --remote && npm run build:article && npm run build:similarity && npm run build:popular && npm run build:ogp",
+    "prebuild": "bash scripts/prebuild.sh",
     "build": "TZ='Asia/Tokyo' next build --webpack",
     "build:analyzer": "ANALYZE=true next build --webpack",
     "build:article": "TZ='Asia/Tokyo' NODE_OPTIONS='--disable-warning=ExperimentalWarning' node --require esbuild-register ./build/article",
