@@ -1,8 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import type { CSSProperties, FC, ImgHTMLAttributes } from 'react';
-import { memo, useMemo } from 'react';
+import type { FC, ImgHTMLAttributes } from 'react';
 import { createPortal } from 'react-dom';
 import { useImageZoom } from '@/hooks/useImageZoom';
 import { parseStyleStringToObject } from '@/lib/browser/parseStyleStringToObject';
@@ -36,17 +35,8 @@ type ZoomImageProps = ImgHTMLAttributes<HTMLImageElement> & {
 };
 
 const ZoomImage: FC<ZoomImageProps> = ({ alt, src, style, ...props }) => {
-  const processedStyle = useMemo(
-    () => (style && typeof style === 'string' ? parseStyleStringToObject(style) : style),
-    [style],
-  );
-
-  const hasObjectFit = useMemo(() => {
-    if (!processedStyle) return false;
-    // CSSProperties またはRecord<string, string>として型安全にチェック
-    const styleObj = processedStyle as CSSProperties | Record<string, string>;
-    return 'objectFit' in styleObj && styleObj.objectFit !== undefined;
-  }, [processedStyle]);
+  const processedStyle = style && typeof style === 'string' ? parseStyleStringToObject(style) : style;
+  const hasObjectFit = !!(processedStyle && 'objectFit' in processedStyle && processedStyle.objectFit);
 
   const { imgRef, isZoomed, zoomIn, zoomOut, handleImageLoad, keyboardProps } = useImageZoom({
     hasObjectFit,
@@ -79,4 +69,4 @@ const ZoomImage: FC<ZoomImageProps> = ({ alt, src, style, ...props }) => {
   );
 };
 
-export default memo(ZoomImage);
+export default ZoomImage;
