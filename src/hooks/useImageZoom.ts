@@ -1,5 +1,17 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { useKeyboard } from 'react-aria';
+
+/**
+ * ズームモーダルの状態を表す型
+ *
+ * @remarks
+ * この状態はモーダルのライフサイクルとアニメーション制御に使用されます。
+ *
+ * - `UNLOADED`: モーダルが非表示の状態
+ * - `LOADING`: モーダルが開き始めている状態（アニメーション開始）
+ * - `LOADED`: モーダルが完全に開いた状態（アニメーション完了）
+ * - `UNLOADING`: モーダルが閉じ始めている状態（アニメーション開始）
+ */
+type ModalState = 'UNLOADED' | 'LOADING' | 'LOADED' | 'UNLOADING';
 
 interface UseImageZoomOptions {
   hasObjectFit?: boolean;
@@ -10,10 +22,12 @@ interface UseImageZoomReturn {
   imgRef: React.RefObject<HTMLImageElement>;
   isZoomed: boolean;
   imageLoaded: boolean;
+  canZoom: boolean;
+  modalState: ModalState;
   zoomIn: () => void;
   zoomOut: () => void;
   handleImageLoad: () => void;
-  keyboardProps: ReturnType<typeof useKeyboard>['keyboardProps'];
+  handleModalImgTransitionEnd: () => void;
 }
 
 export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomReturn => {
@@ -21,69 +35,88 @@ export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomRet
 
   const [isZoomed, setIsZoomed] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [canZoom, setCanZoom] = useState(false);
+  const [modalState, setModalState] = useState<ModalState>('UNLOADED');
   const imgRef = useRef<HTMLImageElement>(null);
 
   const zoomIn = useCallback(() => {
-    if (hasObjectFit) return;
-    if (!imageLoaded || !imgRef.current) return;
-
-    const { naturalWidth, naturalHeight } = imgRef.current;
-    if (naturalWidth < minImageSize && naturalHeight < minImageSize) return;
+    if (!canZoom || !imgRef.current) return;
 
     setIsZoomed(true);
+  }, [canZoom]);
+
+  const zoomOut = useCallback(() => {
+    setIsZoomed(false);
+  }, []);
+
+  const handleImageLoad = useCallback(() => {
+    setImageLoaded(true);
+  }, []);
+
+  // ズーム可否判定（ResizeObserver による効率的な監視）
+  useEffect(() => {
+    // objectFit が設定されている場合はズーム不可
+    if (hasObjectFit) {
+      setCanZoom(false);
+      return;
+    }
+
+    // 画像が読み込まれていない場合はズーム不可
+    if (!imageLoaded || !imgRef.current) {
+      setCanZoom(false);
+      return;
+    }
+
+    const img = imgRef.current;
+
+    // 初期状態でズーム可否を判定
+    const checkZoomEligibility = (element: HTMLImageElement) => {
+      const { naturalWidth, naturalHeight } = element;
+      setCanZoom(naturalWidth >= minImageSize || naturalHeight >= minImageSize);
+    };
+
+    // 初回判定
+    checkZoomEligibility(img);
+
+    // ResizeObserver で画像サイズの変更を監視
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const target = entry.target as HTMLImageElement;
+        checkZoomEligibility(target);
+      }
+    });
+
+    observer.observe(img);
+
+    return () => {
+      observer.disconnect();
+    };
   }, [hasObjectFit, imageLoaded, minImageSize]);
 
-  const zoomOut = useCallback(() => setIsZoomed(false), []);
-
-  const handleImageLoad = useCallback(() => setImageLoaded(true), []);
-
-  // React Ariaのキーボードフックを使用
-  const { keyboardProps } = useKeyboard({
-    onKeyDown: useCallback(
-      (e) => {
-        if (!isZoomed) return;
-
-        if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          e.stopPropagation();
-          zoomOut();
-        }
-      },
-      [isZoomed, zoomOut],
-    ),
-  });
-
-  // グローバルキーボードイベントの処理
+  // モーダル状態遷移（最終確定は onTransitionEnd で行う）
   useEffect(() => {
-    if (!isZoomed) return;
-
-    const handleGlobalKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' || event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        event.stopPropagation();
-        zoomOut();
+    if (isZoomed) {
+      if (modalState !== 'LOADED') {
+        setModalState('LOADING');
       }
-    };
+      return;
+    }
 
-    document.addEventListener('keydown', handleGlobalKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleGlobalKeyDown);
-    };
-  }, [isZoomed, zoomOut]);
+    if (modalState !== 'UNLOADED') {
+      setModalState('UNLOADING');
+    }
+  }, [isZoomed, modalState]);
 
-  // スクロールイベントの処理
-  useEffect(() => {
-    if (!isZoomed) return;
+  const handleModalImgTransitionEnd = useCallback(() => {
+    if (modalState === 'LOADING') {
+      setModalState('LOADED');
+      return;
+    }
 
-    const handleScroll = () => {
-      setIsZoomed(false);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [isZoomed]);
+    if (modalState === 'UNLOADING') {
+      setModalState('UNLOADED');
+    }
+  }, [modalState]);
 
   // キャッシュ済み画像のロード状態チェック
   useLayoutEffect(() => {
@@ -97,9 +130,11 @@ export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomRet
     imgRef,
     isZoomed,
     imageLoaded,
+    canZoom,
+    modalState,
     zoomIn,
     zoomOut,
     handleImageLoad,
-    keyboardProps,
+    handleModalImgTransitionEnd,
   };
 };
