@@ -23,7 +23,7 @@ const Root = styled.div`
     padding-inline: var(--spacing-3);
 
     @media (--isMobile) {
-      padding: 0 var(--spacing-3);
+      padding-inline: var(--spacing-2);
     }
   }
 `;
