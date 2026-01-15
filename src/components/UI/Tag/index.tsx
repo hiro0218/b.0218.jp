@@ -56,7 +56,6 @@ const Count = styled.span`
   justify-content: center;
   aspect-ratio: 1/1;
   padding: 0 var(--spacing-½);
-  margin-left: var(--spacing-1);
   font-family: var(--fonts-family-monospace);
   font-size: var(--font-sizes-xs);
   font-variant-numeric: tabular-nums;
