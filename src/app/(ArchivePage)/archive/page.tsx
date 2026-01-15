@@ -30,7 +30,7 @@ const renderTimelinesByYear = (archiveData: typeof archives) =>
     .toReversed()
     .map((year) => <Timeline key={year} posts={archiveData[year]} year={year} />);
 
-export default async function Page() {
+export default function Page() {
   return (
     <>
       <StructuredData

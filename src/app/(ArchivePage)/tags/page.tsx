@@ -28,7 +28,7 @@ export const metadata: Metadata = getMetadata({
   url,
 });
 
-export default async function Page() {
+export default function Page() {
   return (
     <>
       <StructuredData
