@@ -6,7 +6,7 @@ import { getOgpImage, getPermalink } from '@/lib/utils/url';
 
 export const dynamic = 'force-static';
 
-export async function GET() {
+export function GET() {
   const feed = new Feed({
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
@@ -26,14 +26,11 @@ export async function GET() {
   });
 
   const posts = getPostsJson();
-  let loopCount = 0;
 
-  posts.forEach((post) => {
-    if (post.noindex == true) {
-      return;
-    }
-
-    if (loopCount < 30) {
+  posts
+    .filter((post) => post.noindex !== true)
+    .slice(0, 30)
+    .forEach((post) => {
       const ogpImage = `${getOgpImage(post.slug)}`;
       const permalink = getPermalink(post.slug);
 
@@ -46,10 +43,7 @@ export async function GET() {
         date: new Date(post.date),
         image: ogpImage,
       });
-
-      loopCount++;
-    }
-  });
+    });
 
   return new Response(feed.rss2(), {
     headers: {
