@@ -1,7 +1,6 @@
 import '@/ui/styles/globals.css';
 
 import { GoogleAnalytics } from '@next/third-parties/google';
-import dynamic from 'next/dynamic';
 import type { Metadata, Viewport } from 'next/types';
 import { Suspense } from 'react';
 import { openGraph } from '@/app/_metadata';
@@ -12,10 +11,9 @@ import { Layout } from '@/components/App/Layout/AppLayout';
 import { MainContainer } from '@/components/App/Layout/MainContainer';
 import { ClientSideScrollRestorer } from '@/components/Functional/ClientSideScrollRestorer';
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
+import { ClientPageScroll } from '@/components/Functional/PageScroll/ClientPageScroll';
 import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
 import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constants';
-
-const PageScroll = dynamic(() => import('@/components/Functional/PageScroll').then((module) => module.PageScroll));
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -67,7 +65,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <Layout>
             <Header />
             <MainContainer>{children}</MainContainer>
-            <PageScroll />
+            <ClientPageScroll />
             <Footer />
           </Layout>
         </SearchDialogProvider>
