@@ -3,41 +3,54 @@ import type { HandlerFunction } from './types';
 import ZoomImageModal from './ZoomImageModal';
 
 /**
- * リンク（aタグ）内の画像は処理しない
+ * img タグを ZoomImageModal に変換するハンドラー
+ *
+ * @remarks リンク（aタグ）内の画像は変換しない
  */
 export const handleZoomImage: HandlerFunction = (domNode) => {
-  if (domNode.tagName === 'img') {
-    // aタグ内にある画像は処理しない
-    if (isInsideAnchor(domNode)) {
-      return undefined;
-    }
-
-    const attribs = domNode.attribs || {};
-    const { src, alt = '', ...rest } = attribs;
-
-    if (!src) {
-      return undefined;
-    }
-
-    return <ZoomImageModal alt={alt} src={src} {...rest} />;
+  if (domNode.tagName !== 'img') {
+    return undefined;
   }
 
-  return undefined;
+  if (isInsideAnchor(domNode)) {
+    return undefined;
+  }
+
+  const { src, alt = '', ...rest } = domNode.attribs ?? {};
+
+  if (!src) {
+    return undefined;
+  }
+
+  return <ZoomImageModal alt={alt} src={src} {...rest} />;
 };
 
+/**
+ * 要素が a タグの内側にあるかを再帰的にチェック
+ */
 function isInsideAnchor(element: Element): boolean {
-  // parent属性がある場合
-  if ('parent' in element && element.parent) {
-    // 親がaタグの場合はtrue
-    if (element.parent.type === 'tag' && element.parent.name === 'a') {
-      return true;
-    }
+  const parent = element.parent;
 
-    // 親の親も確認（ネストされたケース）
-    if ('parent' in element.parent && element.parent.parent) {
-      return element.parent.parent.type === 'tag' && element.parent.parent.name === 'a';
-    }
+  if (!parent || !isElement(parent)) {
+    return false;
   }
 
-  return false;
+  if (parent.name === 'a') {
+    return true;
+  }
+
+  return isInsideAnchor(parent);
+}
+
+/**
+ * html-react-parser の Node が Element 型かを判定
+ */
+function isElement(node: unknown): node is Element {
+  return (
+    typeof node === 'object' &&
+    node !== null &&
+    'type' in node &&
+    (node as { type: string }).type === 'tag' &&
+    'name' in node
+  );
 }

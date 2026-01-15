@@ -69,21 +69,20 @@ export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomRet
 
     const img = imgRef.current;
 
-    // 初期状態でズーム可否を判定
-    const checkZoomEligibility = (element: HTMLImageElement) => {
-      const { naturalWidth, naturalHeight } = element;
+    /**
+     * 画像の自然なサイズからズーム可否を判定
+     */
+    const updateZoomEligibility = () => {
+      const { naturalWidth, naturalHeight } = img;
       setCanZoom(naturalWidth >= minImageSize || naturalHeight >= minImageSize);
     };
 
     // 初回判定
-    checkZoomEligibility(img);
+    updateZoomEligibility();
 
     // ResizeObserver で画像サイズの変更を監視
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const target = entry.target as HTMLImageElement;
-        checkZoomEligibility(target);
-      }
+    const observer = new ResizeObserver(() => {
+      updateZoomEligibility();
     });
 
     observer.observe(img);
@@ -95,26 +94,21 @@ export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomRet
 
   // モーダル状態遷移（最終確定は onTransitionEnd で行う）
   useEffect(() => {
-    if (isZoomed) {
-      if (modalState !== 'LOADED') {
-        setModalState('LOADING');
-      }
-      return;
-    }
-
-    if (modalState !== 'UNLOADED') {
+    if (isZoomed && modalState !== 'LOADED') {
+      setModalState('LOADING');
+    } else if (!isZoomed && modalState !== 'UNLOADED') {
       setModalState('UNLOADING');
     }
   }, [isZoomed, modalState]);
 
   const handleModalImgTransitionEnd = useCallback(() => {
-    if (modalState === 'LOADING') {
-      setModalState('LOADED');
-      return;
-    }
-
-    if (modalState === 'UNLOADING') {
-      setModalState('UNLOADED');
+    switch (modalState) {
+      case 'LOADING':
+        setModalState('LOADED');
+        break;
+      case 'UNLOADING':
+        setModalState('UNLOADED');
+        break;
     }
   }, [modalState]);
 
