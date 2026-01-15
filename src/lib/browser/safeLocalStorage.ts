@@ -5,6 +5,7 @@
  * QuotaExceededError（容量超過）に対する自動リトライ機能を提供
  */
 
+import { isSSR } from '@/lib/browser/isSSR';
 import { safeJsonParse, safeJsonStringify } from '@/lib/utils/json';
 
 /**
@@ -18,7 +19,7 @@ import { safeJsonParse, safeJsonStringify } from '@/lib/utils/json';
  * }
  */
 export const getLocalStorage = <T>(key: string): T | null => {
-  if (typeof window === 'undefined') {
+  if (isSSR) {
     return null;
   }
 
@@ -54,7 +55,7 @@ export const setLocalStorage = <T>(
     onQuotaExceeded?: () => void;
   },
 ): boolean => {
-  if (typeof window === 'undefined') {
+  if (isSSR) {
     return false;
   }
 
@@ -90,7 +91,7 @@ export const setLocalStorage = <T>(
  * }
  */
 export const removeLocalStorage = (key: string): boolean => {
-  if (typeof window === 'undefined') {
+  if (isSSR) {
     return false;
   }
 
@@ -118,7 +119,7 @@ export const removeLocalStorage = (key: string): boolean => {
  * clearOldCache('cache-');
  */
 export const clearOldCache = (pattern?: string, excludeKey?: string): void => {
-  if (typeof window === 'undefined') {
+  if (isSSR) {
     return;
   }
 
