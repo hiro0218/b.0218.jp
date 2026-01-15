@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { getTagPosts } from '@/app/_lib/getTagPosts';
 import { getMetadata } from '@/app/_metadata';
 import { StructuredData } from '@/components/Functional/StructuredData';
 import { Pagination } from '@/components/Page/Archive/Pagination';
 import { PostList } from '@/components/Page/Archive/PostList';
 import { Sidebar, Stack } from '@/components/UI/Layout';
+import { Loading } from '@/components/UI/Loading';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
 import { getTagsWithCount } from '@/lib/data/posts';
@@ -65,11 +67,15 @@ export default async function Page({ params }: { params: Params }) {
           </Sidebar.Side>
           <Sidebar.Main>
             <Stack>
-              <PostList posts={posts} />
+              <Suspense fallback={<Loading />}>
+                <PostList posts={posts} />
+              </Suspense>
             </Stack>
           </Sidebar.Main>
         </Sidebar>
-        <Pagination totalItems={totalItems} />
+        <Suspense>
+          <Pagination totalItems={totalItems} />
+        </Suspense>
       </Stack>
     </>
   );
