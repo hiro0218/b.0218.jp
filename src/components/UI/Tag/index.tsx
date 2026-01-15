@@ -1,5 +1,3 @@
-import { memo } from 'react';
-
 import { Anchor } from '@/components/UI/Anchor';
 import { TAG_VIEW_LIMIT } from '@/constants';
 import { styled } from '@/ui/styled';
@@ -15,7 +13,7 @@ type PostTagProps = {
   hasRelTag?: boolean;
 };
 
-const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) {
+function PostTag({ tags, hasRelTag = true }: PostTagProps) {
   const sortedTags = tags.toSorted((a, b) => {
     if (b.count === undefined) return -1;
     if (a.count === undefined) return 1;
@@ -48,7 +46,7 @@ const PostTag = memo(function PostTag({ tags, hasRelTag = true }: PostTagProps) 
       </span>
     );
   });
-});
+}
 
 export default PostTag;
 

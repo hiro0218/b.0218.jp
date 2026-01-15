@@ -1,4 +1,4 @@
-import { forwardRef, memo } from 'react';
+import { forwardRef } from 'react';
 
 import { styled } from '@/ui/styled';
 
@@ -12,22 +12,22 @@ interface ToastProps {
  * トースト通知コンポーネント
  * 自動消去機能を持つ通知メッセージを表示
  */
-export const Toast = memo(
-  forwardRef<HTMLDivElement, ToastProps>(({ message, onHideToast, isVisible }, ref) => {
-    return (
-      <Container
-        aria-atomic="true"
-        aria-live="polite"
-        data-visible={isVisible}
-        onClick={onHideToast}
-        ref={ref}
-        role="status"
-      >
-        {message}
-      </Container>
-    );
-  }),
-);
+export const Toast = forwardRef<HTMLDivElement, ToastProps>(({ message, onHideToast, isVisible }, ref) => {
+  return (
+    <Container
+      aria-atomic="true"
+      aria-live="polite"
+      data-visible={isVisible}
+      onClick={onHideToast}
+      ref={ref}
+      role="status"
+    >
+      {message}
+    </Container>
+  );
+});
+
+Toast.displayName = 'Toast';
 
 const Container = styled.div`
   position: fixed;
