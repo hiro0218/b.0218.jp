@@ -79,7 +79,6 @@ export const AnchorStyle = css`
   align-items: center;
   padding: var(--spacing-1) var(--spacing-2);
   font-size: var(--font-sizes-sm);
-  border-radius: var(--radii-8);
 
   &:hover {
     background-color: var(--colors-gray-a-100);
