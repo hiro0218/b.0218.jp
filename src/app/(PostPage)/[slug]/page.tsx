@@ -24,15 +24,9 @@ type Params = Promise<{ slug: string }>;
 const posts = getPostsJson();
 
 export async function generateStaticParams() {
-  const paths = [];
-
-  for (let i = 0; i < posts.length; i++) {
-    paths.push({
-      slug: `${posts[i].slug}.html`,
-    });
-  }
-
-  return paths;
+  return posts.map((post) => ({
+    slug: `${post.slug}.html`,
+  }));
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
@@ -66,7 +60,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       images: [{ url: ogpImage }],
     },
     robots: {
-      ['max-image-preview']: 'large',
+      'max-image-preview': 'large',
       ...(noindex === true && { index: false }),
     },
   });
