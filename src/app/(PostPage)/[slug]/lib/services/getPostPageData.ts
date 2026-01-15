@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { getRecentAndUpdatedPosts } from '@/app/_lib/getRecentAndUpdatedPosts';
 import { getPostsPopular } from '@/lib/data/posts';
 import { isPost, isPostArray } from '@/lib/guards';
@@ -29,7 +30,7 @@ interface PostPageData {
  * @param slug - 投稿スラッグ
  * @returns 整形された投稿データと関連情報
  */
-export function getPostPageData(slug: string): PostPageData | null {
+export const getPostPageData = cache((slug: string): PostPageData | null => {
   // スラッグを正規化（.html拡張子を削除）
   const normalizedSlug = slug.replace('.html', '');
 
@@ -85,4 +86,4 @@ export function getPostPageData(slug: string): PostPageData | null {
     mostPopularTag,
     popularity,
   } satisfies PostPageData;
-}
+});
