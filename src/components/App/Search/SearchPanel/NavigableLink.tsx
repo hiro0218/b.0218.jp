@@ -1,4 +1,4 @@
-import { forwardRef, memo } from 'react';
+import { forwardRef } from 'react';
 import { Anchor } from '@/components/UI/Anchor';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import { ICON_SIZE_XS } from '@/ui/icons';
@@ -15,8 +15,8 @@ type NavigableLinkProps = {
   onLinkClick?: () => void;
 };
 
-export const NavigableLink = memo(
-  forwardRef<HTMLDivElement, NavigableLinkProps>(({ slug, title, isFocused, matchedIn, onLinkClick }, ref) => {
+export const NavigableLink = forwardRef<HTMLDivElement, NavigableLinkProps>(
+  ({ slug, title, isFocused, matchedIn, onLinkClick }, ref) => {
     const link = convertPostSlugToPath(slug);
 
     return (
@@ -35,7 +35,7 @@ export const NavigableLink = memo(
         </Anchor>
       </div>
     );
-  }),
+  },
 );
 
 NavigableLink.displayName = 'NavigableLink';
