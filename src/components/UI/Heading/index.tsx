@@ -68,11 +68,11 @@ const containerStyle = css`
 `;
 
 const mainStyle = css`
-  flex: 1 1;
+  flex: 1 1 auto;
 `;
 
 const headerTitleStyle = css`
-  font-weight: var(--font-weight, --font-weights-normal);
+  font-weight: var(--font-weight, var(--font-weights-normal));
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-1000);
   overflow-wrap: break-word;
