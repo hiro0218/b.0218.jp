@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useImageZoom } from '@/hooks/useImageZoom';
 import { parseStyleStringToObject } from '@/lib/browser/parseStyleStringToObject';
-import { css } from '@/ui/styled';
+import { css, cx } from '@/ui/styled';
 
 const MIN_IMAGE_SIZE = 100;
 const TRANSITION_MS = 200;
@@ -21,6 +21,16 @@ const buttonStyle = css`
     outline: 2px solid var(--colors-blue-500);
     outline-offset: 2px;
   }
+`;
+
+const buttonVisibleClass = css`
+  visibility: visible;
+  cursor: zoom-in;
+`;
+
+const buttonHiddenClass = css`
+  visibility: hidden;
+  cursor: zoom-in;
 `;
 
 const dialogStyle = css`
@@ -400,21 +410,14 @@ const ZoomImage: FC<ZoomImageProps> = ({ alt, src, style, zoomImg, a11yOptions, 
     return <img alt={alt || ''} src={src} style={processedStyle} {...props} onLoad={handleImageLoad} ref={imgRef} />;
   }
 
-  // ボタンの表示スタイル
-  const buttonDisplayStyle: CSSProperties = {
-    visibility: modalState === 'UNLOADED' ? 'visible' : 'hidden',
-    cursor: 'zoom-in',
-  };
-
   // ズーム可能な場合は button + dialog を返す
   return (
     <>
       <button
         aria-label={a11y.buttonZoom}
-        className={buttonStyle}
+        className={cx(buttonStyle, modalState === 'UNLOADED' ? buttonVisibleClass : buttonHiddenClass)}
         onClick={isZoomed ? undefined : zoomIn}
         onKeyDown={handleButtonKeyDown}
-        style={buttonDisplayStyle}
         type="button"
       >
         <img alt={alt || ''} src={src} style={processedStyle} {...props} onLoad={handleImageLoad} ref={imgRef} />
