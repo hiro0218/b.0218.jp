@@ -1,6 +1,8 @@
 'use client';
 
-import { type ForwardedRef, useId } from 'react';
+import { useDialog } from '@react-aria/dialog';
+import { mergeProps } from '@react-aria/utils';
+import { type RefObject, useId } from 'react';
 import { FocusScope } from 'react-aria';
 import { createPortal } from 'react-dom';
 
@@ -14,17 +16,29 @@ import { SearchPanel } from '../SearchPanel';
 type Props = {
   onCloseAction: () => void;
   isClosing?: boolean;
-  ref: ForwardedRef<HTMLDialogElement>;
+  dialogRef: RefObject<HTMLDialogElement>;
 };
 
-export const SearchDialog = ({ onCloseAction, isClosing, ref }: Props) => {
+export const SearchDialog = ({ onCloseAction, isClosing, dialogRef }: Props) => {
   const isClient = useIsClient();
   const id = useId();
+  const labelledId = `${id}-labelled`;
+  const describedId = `${id}-described`;
 
   const search = useSearchFacade({
     onClose: onCloseAction,
-    dialogRef: ref as React.RefObject<HTMLDialogElement>,
+    dialogRef,
   });
+
+  const { dialogProps } = useDialog(
+    {
+      'aria-labelledby': labelledId,
+      'aria-describedby': describedId,
+    },
+    dialogRef,
+  );
+
+  const mergedDialogProps = mergeProps(dialogProps, search.ui.containerProps);
 
   const handleBackdropClick = (event: React.MouseEvent<HTMLDialogElement>) => {
     if (event.target === event.currentTarget) {
@@ -38,19 +52,11 @@ export const SearchDialog = ({ onCloseAction, isClosing, ref }: Props) => {
 
   return createPortal(
     <FocusScope autoFocus contain restoreFocus>
-      <Dialog
-        {...search.ui.containerProps}
-        aria-describedby={`${id}-described`}
-        aria-labelledby={`${id}-labelled`}
-        aria-modal="true"
-        data-closing={isClosing}
-        onClick={handleBackdropClick}
-        ref={ref}
-      >
-        <h2 className="sr-only" id={`${id}-labelled`}>
+      <Dialog {...mergedDialogProps} data-closing={isClosing} onClick={handleBackdropClick} ref={dialogRef}>
+        <h2 className="sr-only" id={labelledId}>
           {SEARCH_LABELS.searchTitle}
         </h2>
-        <p className="sr-only" id={`${id}-described`}>
+        <p className="sr-only" id={describedId}>
           {SEARCH_LABELS.searchDescription}
         </p>
         <SearchHeader {...search.ui.inputProps} searchQuery={search.query} />

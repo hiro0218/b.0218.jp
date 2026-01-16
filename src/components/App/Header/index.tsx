@@ -29,9 +29,9 @@ export default function Header() {
 
       {(searchDialog.isOpen || searchDialog.isClosing) && (
         <SearchDialog
+          dialogRef={searchDialog.dialogRef}
           isClosing={searchDialog.isClosing}
           onCloseAction={searchDialog.close}
-          ref={searchDialog.dialogRef}
         />
       )}
     </>
