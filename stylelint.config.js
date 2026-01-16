@@ -18,7 +18,12 @@ module.exports = {
     'no-empty-source': null,
     'plugin/declaration-block-no-ignored-properties': true,
     'selector-pseudo-element-colon-notation': 'double',
-    'plugin/browser-compat': true,
+    'plugin/browser-compat': [
+      true,
+      {
+        ignore: ['properties.animation-timeline', 'properties.scroll-timeline'],
+      },
+    ],
     'stylelint-plugin-isolate-on-stack/no-redundant-declaration': true,
     'stylelint-plugin-isolate-on-stack/ineffective-on-background-blend': true,
   },
