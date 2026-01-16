@@ -41,7 +41,7 @@ const DEFAULT_A11Y: Required<A11yOptions> = {
   a11yNameDialog: '画像のズーム表示',
 };
 
-function ensureNumber(value: unknown): number {
+function toNumberOrZero(value: unknown): number {
   return typeof value === 'number' ? value : 0;
 }
 
@@ -124,10 +124,10 @@ function getModalImgStyle(params: {
   };
 
   if (params.isZoomed) {
-    const width = ensureNumber(style.width);
-    const height = ensureNumber(style.height);
-    const left = ensureNumber(style.left);
-    const top = ensureNumber(style.top);
+    const width = toNumberOrZero(style.width);
+    const height = toNumberOrZero(style.height);
+    const left = toNumberOrZero(style.left);
+    const top = toNumberOrZero(style.top);
     const translateX = window.innerWidth / 2 - (left + width / 2);
     const translateY = window.innerHeight / 2 - (top + height / 2);
     style.transform = `translate(${translateX}px,${translateY}px) scale(1)`;
