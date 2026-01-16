@@ -20,105 +20,90 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - name: Analyze changed files and apply label
-        uses: actions/github-script@v8
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v47
+        with:
+          # サブモジュール(_article/)を除外
+          files_ignore: |
+            _article/**
+
+      - name: Check for production changes
+        id: check-production
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const productionPatterns = [
+              /^src\//,
+              /^build\//,
+              /^package-lock\.json$/,
+              /^scripts\//,
+              /^public\//,
+              /^next\.config\.mjs$/,
+              /^panda\.config\.mts$/,
+              /^postcss\.config\.cjs$/,
+              /^tsconfig\.json$/,
+              /^vercel\.json$/,
+              /^\.gitmodules$/,
+            ];
+
+            const changedFiles = `${{ steps.changed-files.outputs.all_changed_files }}`.split(' ');
+
+            const hasProductionChanges = changedFiles.some(file =>
+              productionPatterns.some(pattern => pattern.test(file))
+            );
+
+            core.setOutput('has_production_changes', hasProductionChanges);
+
+            if (hasProductionChanges) {
+              core.info(`Production changes detected in: ${changedFiles.filter(f =>
+                productionPatterns.some(p => p.test(f))
+              ).join(', ')}`);
+            }
+
+      - name: Manage labels
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const CONFIG = {
-              PRODUCTION: 'production',
-              PRODUCTION_PATTERNS: [
-                /^src\//,
-                /^build\//,
-                /^package-lock\.json$/,
-                /^scripts\//,
-                /^public\//,
-                /^next\.config\.mjs$/,
-                /^panda\.config\.mts$/,
-                /^postcss\.config\.cjs$/,
-                /^tsconfig\.json$/,
-                /^vercel\.json$/,
-                /^\.gitmodules$/,
-                /^_article$/
-              ],
-              SUBMODULE_PATTERNS: [/^_article\//]
-            };
-            CONFIG.IMPACT = [CONFIG.PRODUCTION];
-
             const { owner, repo } = context.repo;
             const number = context.issue.number;
+            const hasProductionChanges = '${{ steps.check-production.outputs.has_production_changes }}' === 'true';
+            const PRODUCTION_LABEL = 'production';
 
-            // 影響度判定
-            let impactLevel = null;
-            let page = 1;
-
-            while (impactLevel !== CONFIG.PRODUCTION) {
-              const { data: files } = await github.rest.pulls.listFiles({
-                owner,
-                repo,
-                pull_number: number,
-                per_page: 100,
-                page
-              });
-
-              for (const file of files) {
-                const filename = file.filename;
-
-                if (CONFIG.SUBMODULE_PATTERNS.some(p => p.test(filename))) {
-                  continue;
-                } else if (CONFIG.PRODUCTION_PATTERNS.some(p => p.test(filename))) {
-                  impactLevel = CONFIG.PRODUCTION;
-                  break;
-                }
-              }
-
-              if (impactLevel === CONFIG.PRODUCTION || files.length < 100) break;
-              page++;
-            }
-
-            // ラベル管理
+            // 現在のラベルを取得
             const { data: currentLabels } = await github.rest.issues.listLabelsOnIssue({
               owner,
               repo,
               issue_number: number
             });
 
-            // 既存のインパクト系ラベルを抽出
-            const currentImpactLabels = currentLabels
-              .filter(label => CONFIG.IMPACT.includes(label.name))
-              .map(label => label.name);
+            const hasProductionLabel = currentLabels.some(label => label.name === PRODUCTION_LABEL);
 
-            // production 以外は扱わない（quality を廃止）
-            const labelsToRemove = impactLevel === CONFIG.PRODUCTION
-              ? currentImpactLabels.filter(name => name !== CONFIG.PRODUCTION)
-              : currentImpactLabels;
-
-            if (labelsToRemove.length > 0) {
-              await Promise.all(
-                labelsToRemove.map(name =>
-                  github.rest.issues.removeLabel({
-                    owner,
-                    repo,
-                    issue_number: number,
-                    name
-                  }).catch(err => {
-                    if (err.status !== 404) throw err;
-                  })
-                )
-              );
-            }
-
-            if (impactLevel === CONFIG.PRODUCTION) {
-              const willRemoveImpact = labelsToRemove.includes(CONFIG.PRODUCTION);
-              const hadImpact = currentImpactLabels.includes(CONFIG.PRODUCTION);
-              const hasImpactAfterRemoval = hadImpact && !willRemoveImpact;
-
-              if (!hasImpactAfterRemoval) {
-                await github.rest.issues.addLabels({
-                  owner,
-                  repo,
-                  issue_number: number,
-                  labels: [CONFIG.PRODUCTION]
-                });
-              }
+            // production ラベルの追加・削除
+            if (hasProductionChanges && !hasProductionLabel) {
+              await github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number: number,
+                labels: [PRODUCTION_LABEL]
+              });
+              core.info(`Added "${PRODUCTION_LABEL}" label`);
+            } else if (!hasProductionChanges && hasProductionLabel) {
+              await github.rest.issues.removeLabel({
+                owner,
+                repo,
+                issue_number: number,
+                name: PRODUCTION_LABEL
+              }).catch(err => {
+                if (err.status !== 404) throw err;
+              });
+              core.info(`Removed "${PRODUCTION_LABEL}" label`);
+            } else {
+              core.info('No label changes needed');
             }
