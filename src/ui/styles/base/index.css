@@ -226,6 +226,7 @@ table {
   overflow-x: auto;
   overscroll-behavior-inline: contain;
   font-size: var(--font-sizes-md);
+  background-color: var(--colors-white);
   animation: scroll-table-shadow-inset linear;
   /* stylelint-disable-next-line */
   animation-timeline: scroll(self x);
@@ -248,7 +249,7 @@ td {
 th {
   color: var(--colors-gray-1000);
   text-align: left;
-  background-color: var(--colors-gray-a-200);
+  background-color: var(--colors-gray-a-300);
 
   &[align='center'] {
     text-align: center;
@@ -278,7 +279,6 @@ tbody {
   }
 
   tr {
-    transition: background-color 0.2s var(--easings-ease-out-expo);
     &:hover {
       background-color: var(--colors-gray-a-100);
     }
