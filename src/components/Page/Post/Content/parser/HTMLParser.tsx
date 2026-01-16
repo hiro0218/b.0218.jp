@@ -1,5 +1,5 @@
 import reactHtmlParser, { Element, type HTMLReactParserOptions } from 'html-react-parser';
-import { handleAlert, handleAnchor, handleCodePen, handleLinkPreview, handleZoomImage } from '../handlers';
+import { handleAlert, handleAnchor, handleCodePen, handleLinkPreview, handleTable, handleZoomImage } from '../handlers';
 
 const applyHandlers = (domNode: Element) => {
   return (
@@ -7,6 +7,7 @@ const applyHandlers = (domNode: Element) => {
     handleAlert(domNode) ||
     handleLinkPreview(domNode) ||
     handleCodePen(domNode) ||
+    handleTable(domNode) ||
     handleZoomImage(domNode) ||
     domNode
   );

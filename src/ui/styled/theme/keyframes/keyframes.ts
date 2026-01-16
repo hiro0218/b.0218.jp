@@ -45,17 +45,6 @@ export const keyframes = defineKeyframes({
       filter: 'blur(0)',
     },
   },
-  'scroll-table-shadow-inset': {
-    '0%': {
-      boxShadow: `inset calc(var(--spacing-1) * -2) 0 var(--spacing-1) var(--colors-table-shadow-spread) var(--colors-table-shadow-color), inset 0 0 var(--spacing-1) var(--colors-table-shadow-spread) var(--colors-table-shadow-color)`,
-    },
-    '10%,90%': {
-      boxShadow: `inset calc(var(--spacing-1) * -1) 0 var(--spacing-1) var(--colors-table-shadow-spread) var(--colors-table-shadow-color), inset var(--spacing-1) 0 var(--spacing-1) var(--colors-table-shadow-spread) var(--colors-table-shadow-color)`,
-    },
-    '100%': {
-      boxShadow: `inset 0 0 var(--spacing-1) var(--colors-table-shadow-spread) var(--colors-table-shadow-color), inset calc(var(--spacing-1) * 2) 0 var(--spacing-1) var(--colors-table-shadow-spread) var(--colors-table-shadow-color)`,
-    },
-  },
   zoomIn: {
     '0%': {
       opacity: '0',
