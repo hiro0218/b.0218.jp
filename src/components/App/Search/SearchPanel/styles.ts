@@ -4,10 +4,6 @@ export const LinkContainerStyle = css`
   cursor: pointer;
   user-select: none;
   border-radius: var(--radii-8);
-
-  &:not([tabindex='-1']):hover {
-    background-color: var(--colors-gray-a-100);
-  }
 `;
 
 export const FocusedContainerStyle = css`
