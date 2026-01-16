@@ -21,7 +21,7 @@ export const NavigableLink = forwardRef<HTMLDivElement, NavigableLinkProps>(
 
     return (
       <div
-        className={isFocused ? cx(LinkContainerStyle, FocusedContainerStyle) : LinkContainerStyle}
+        className={cx(LinkContainerStyle, isFocused && FocusedContainerStyle)}
         ref={ref}
         tabIndex={isFocused ? 0 : -1}
       >
