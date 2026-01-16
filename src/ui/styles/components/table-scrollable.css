@@ -1,0 +1,40 @@
+@property --left-fade {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --right-fade {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0;
+}
+
+@keyframes table-scroll-fade {
+  0% {
+    --left-fade: 0;
+    --right-fade: 3rem;
+  }
+  10% {
+    --left-fade: 3rem;
+  }
+  90% {
+    --right-fade: 3rem;
+  }
+  100% {
+    --left-fade: 3rem;
+    --right-fade: 0;
+  }
+}
+
+.c-table-scrollable {
+  display: grid;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  mask: linear-gradient(to right, #0000, #ffff var(--left-fade) calc(100% - var(--right-fade)), #0000);
+  animation: table-scroll-fade;
+  /* stylelint-disable-next-line plugin/browser-compat */
+  animation-timeline: --table-scroll-timeline;
+  /* stylelint-disable-next-line plugin/browser-compat */
+  scroll-timeline: --table-scroll-timeline x;
+}

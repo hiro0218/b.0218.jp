@@ -221,15 +221,9 @@ pre {
 
 /* table */
 table {
-  display: block flow;
   max-inline-size: 100%;
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
   font-size: var(--font-sizes-md);
   background-color: var(--colors-white);
-  animation: scroll-table-shadow-inset linear;
-  /* stylelint-disable-next-line */
-  animation-timeline: scroll(self x);
 
   caption {
     margin: var(--spacing-1) 0;
