@@ -21,7 +21,6 @@
     "lint:css": "stylelint \"src/**/*.{css,ts,tsx}\"",
     "lint:markup": "markuplint \"src/**/*.{jsx,tsx}\"",
     "lint:write": "npx @biomejs/biome check --write --unsafe src build tools",
-    "nolyfill": "npx nolyfill install",
     "prepare": "husky && playwright install --only-shell && panda codegen",
     "start": "next start",
     "test": "vitest --run"
@@ -59,15 +58,9 @@
     "trailingComma": "all"
   },
   "overrides": {
-    "array.prototype.at": "npm:@nolyfill/array.prototype.at@^1",
-    "es-set-tostringtag": "npm:@nolyfill/es-set-tostringtag@^1",
-    "is-core-module": "npm:@nolyfill/is-core-module@^1",
     "next-scroll-restorer": {
       "next": "$next"
-    },
-    "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
-    "safer-buffer": "npm:@nolyfill/safer-buffer@^1",
-    "string.prototype.at": "npm:@nolyfill/string.prototype.at@^1"
+    }
   },
   "dependencies": {
     "@adobe/spectrum-tokens": "14.0.0",
