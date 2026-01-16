@@ -51,7 +51,7 @@ export default function Page() {
                       headingLevel="h3"
                       headingWeight="normal"
                       href={href}
-                      key={heading}
+                      key={`${href ?? 'section'}:${heading}`}
                       posts={posts}
                       prefetch={!!href}
                     />
