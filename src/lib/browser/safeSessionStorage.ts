@@ -4,6 +4,7 @@
  * Safari プライベートモードなどストレージアクセス拒否環境ではすべての関数が false/null を返す
  */
 
+import { isSSR } from '@/lib/browser/isSSR';
 import { safeJsonParse, safeJsonStringify } from '@/lib/utils/json';
 
 /**
@@ -16,7 +17,7 @@ import { safeJsonParse, safeJsonStringify } from '@/lib/utils/json';
  * }
  */
 export const getSessionStorage = <T>(key: string): T | null => {
-  if (typeof window === 'undefined') {
+  if (isSSR) {
     return null;
   }
 
@@ -40,7 +41,7 @@ export const getSessionStorage = <T>(key: string): T | null => {
  * }
  */
 export const setSessionStorage = <T>(key: string, value: T): boolean => {
-  if (typeof window === 'undefined') {
+  if (isSSR) {
     return false;
   }
 
@@ -66,7 +67,7 @@ export const setSessionStorage = <T>(key: string, value: T): boolean => {
  * }
  */
 export const removeSessionStorage = (key: string): boolean => {
-  if (typeof window === 'undefined') {
+  if (isSSR) {
     return false;
   }
 

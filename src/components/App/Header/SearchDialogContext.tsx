@@ -1,8 +1,11 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { createContext, type ReactNode, useContext, useEffect, useMemo, useRef } from 'react';
-import { useDialog } from '@/hooks/useDialog';
+import { createContext, type ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import type { OverlayTriggerProps } from 'react-stately';
+import { useOverlayTriggerState } from 'react-stately';
+import { useRequestAnimationFrame } from '@/hooks/useRequestAnimationFrame';
+import { useTimeout } from '@/hooks/useTimeout';
 
 type SearchDialogContextType = {
   isOpen: boolean;
@@ -14,16 +17,86 @@ type SearchDialogContextType = {
 
 const SearchDialogContext = createContext<SearchDialogContextType | undefined>(undefined);
 
+interface UseDialogStateOptions extends Partial<OverlayTriggerProps> {
+  animated?: boolean;
+  duration?: number;
+}
+
+function useDialogState(options?: UseDialogStateOptions) {
+  const { animated = true, duration: baseDuration = 200, ...overlayOptions } = options ?? {};
+
+  const state = useOverlayTriggerState(overlayOptions);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [isClosing, setIsClosing] = useState(false);
+  const [duration, setDuration] = useState(baseDuration);
+  const { schedule: scheduleRaf, cancel: cancelRaf } = useRequestAnimationFrame();
+  const { schedule: scheduleTimeout, cancel: cancelTimeout } = useTimeout();
+
+  useEffect(() => {
+    if (!animated) {
+      setDuration(0);
+      return;
+    }
+
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updateDuration = () => setDuration(mediaQuery.matches ? 0 : baseDuration);
+
+    updateDuration();
+    mediaQuery.addEventListener('change', updateDuration);
+
+    return () => mediaQuery.removeEventListener('change', updateDuration);
+  }, [animated, baseDuration]);
+
+  useEffect(() => {
+    if (!state.isOpen) return;
+
+    const openDialogWhenReady = () => {
+      const dialog = dialogRef.current;
+      if (dialog && !dialog.open) {
+        dialog.showModal();
+      } else if (!dialog) {
+        scheduleRaf(openDialogWhenReady);
+      }
+    };
+
+    scheduleRaf(openDialogWhenReady);
+
+    return cancelRaf;
+  }, [cancelRaf, scheduleRaf, state.isOpen]);
+
+  const close = useCallback(() => {
+    cancelTimeout();
+
+    if (duration > 0) {
+      setIsClosing(true);
+      scheduleTimeout(() => {
+        dialogRef.current?.close();
+        setIsClosing(false);
+        state.close();
+      }, duration);
+    } else {
+      dialogRef.current?.close();
+      state.close();
+    }
+  }, [cancelTimeout, duration, scheduleTimeout, state]);
+
+  return {
+    dialogRef,
+    open: state.open,
+    close,
+    isOpen: state.isOpen,
+    isClosing: animated && isClosing,
+  } as const;
+}
+
 export function SearchDialogProvider({ children }: { children: ReactNode }) {
-  const dialog = useDialog<HTMLDialogElement>();
+  const dialog = useDialogState();
   const pathname = usePathname();
 
   // pathnameの変更を保存するためのref
   const previousPathnameRef = useRef(pathname);
   const isInitialMount = useRef(true);
   const dialogRef = useRef(dialog);
-
-  // dialog への参照を常に最新に保つ
   dialogRef.current = dialog;
 
   useEffect(() => {
@@ -44,13 +117,8 @@ export function SearchDialogProvider({ children }: { children: ReactNode }) {
   // グローバルキーボードショートカット: / でダイアログを開く
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // 既にダイアログが開いている場合は無視
-      if (dialogRef.current.isOpen) {
-        return;
-      }
-
-      // IME入力中は無視
-      if (e.isComposing) {
+      // ダイアログが既に開いている場合、または IME 入力中（日本語変換中など）のキーイベントはショートカット判定から除外
+      if (dialogRef.current.isOpen || e.isComposing) {
         return;
       }
 
@@ -71,18 +139,7 @@ export function SearchDialogProvider({ children }: { children: ReactNode }) {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const contextValue = useMemo<SearchDialogContextType>(
-    () => ({
-      isOpen: dialog.isOpen,
-      isClosing: dialog.isClosing ?? false,
-      open: dialog.open,
-      close: dialog.close,
-      dialogRef: dialog.ref,
-    }),
-    [dialog.isOpen, dialog.isClosing, dialog.open, dialog.close, dialog.ref],
-  );
-
-  return <SearchDialogContext.Provider value={contextValue}>{children}</SearchDialogContext.Provider>;
+  return <SearchDialogContext.Provider value={dialog}>{children}</SearchDialogContext.Provider>;
 }
 
 export function useSearchDialog() {

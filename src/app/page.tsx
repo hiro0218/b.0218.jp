@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function Page() {
+export default function Page() {
   const webSiteStructured = getWebSiteStructured();
   const organizationStructured = getOrganizationStructured();
 
@@ -45,13 +45,13 @@ export default async function Page() {
               <Stack gap={2}>
                 <Heading as="h2">記事</Heading>
                 <Stack gap={4}>
-                  {postSections.map(({ heading, href, posts }, index) => (
+                  {postSections.map(({ heading, href, posts }) => (
                     <PostSection
                       heading={heading}
                       headingLevel="h3"
                       headingWeight="normal"
                       href={href}
-                      key={index}
+                      key={`${href ?? 'section'}:${heading}`}
                       posts={posts}
                       prefetch={!!href}
                     />

@@ -1,5 +1,4 @@
-import type { ReactNode } from 'react';
-import { type CSSProperties, useMemo } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 import { css } from '@/ui/styled';
 
@@ -34,13 +33,10 @@ function Heading({
     }
   })();
 
-  const TitleComponent = useMemo(
-    () => (
-      <TitleTag className={headerTitleStyle} data-font-size-h={fontSizeLevel} id={id} style={titleStyle}>
-        {children}
-      </TitleTag>
-    ),
-    [TitleTag, children, id, fontSizeLevel, titleStyle],
+  const TitleComponent = (
+    <TitleTag className={headerTitleStyle} data-font-size-h={fontSizeLevel} id={id} style={titleStyle}>
+      {children}
+    </TitleTag>
   );
 
   const hasTextSub = !!textSub;
@@ -72,11 +68,11 @@ const containerStyle = css`
 `;
 
 const mainStyle = css`
-  flex: 1 1;
+  flex: 1 1 auto;
 `;
 
 const headerTitleStyle = css`
-  font-weight: var(--font-weight, --font-weights-normal);
+  font-weight: var(--font-weight, var(--font-weights-normal));
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-1000);
   overflow-wrap: break-word;

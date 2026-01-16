@@ -1,11 +1,11 @@
-import { forwardRef, memo } from 'react';
+import { forwardRef } from 'react';
 import { Anchor } from '@/components/UI/Anchor';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import { ICON_SIZE_XS } from '@/ui/icons';
 import { Hashtag, MagnifyingGlass } from '@/ui/icons/index';
 import { cx } from '@/ui/styled';
 import type { MatchedIn } from '../types';
-import { AnchorStyle, FocusedContainerStyle, LinkContainerStyle } from './Result';
+import { AnchorStyle, FocusedContainerStyle, LinkContainerStyle } from './styles';
 
 type NavigableLinkProps = {
   slug: string;
@@ -15,13 +15,13 @@ type NavigableLinkProps = {
   onLinkClick?: () => void;
 };
 
-export const NavigableLink = memo(
-  forwardRef<HTMLDivElement, NavigableLinkProps>(({ slug, title, isFocused, matchedIn, onLinkClick }, ref) => {
+export const NavigableLink = forwardRef<HTMLDivElement, NavigableLinkProps>(
+  ({ slug, title, isFocused, matchedIn, onLinkClick }, ref) => {
     const link = convertPostSlugToPath(slug);
 
     return (
       <div
-        className={isFocused ? cx(LinkContainerStyle, FocusedContainerStyle) : LinkContainerStyle}
+        className={cx(LinkContainerStyle, isFocused ? FocusedContainerStyle : undefined)}
         ref={ref}
         tabIndex={isFocused ? 0 : -1}
       >
@@ -35,7 +35,7 @@ export const NavigableLink = memo(
         </Anchor>
       </div>
     );
-  }),
+  },
 );
 
 NavigableLink.displayName = 'NavigableLink';

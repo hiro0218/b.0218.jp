@@ -2,6 +2,7 @@ import { css } from '@/ui/styled';
 
 export const postTagAnchor = css`
   display: inline-flex;
+  gap: var(--spacing-1);
   align-items: center;
   justify-content: center;
   padding: var(--spacing-½) var(--spacing-2);

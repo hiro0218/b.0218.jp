@@ -19,7 +19,7 @@ export const metadata: Metadata = getMetadata({
   url: `${SITE_URL}/${slug}`,
 });
 
-export default async function Page() {
+export default function Page() {
   return (
     <>
       <Title heading={title} paragraph={description} />

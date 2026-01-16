@@ -21,9 +21,10 @@ const Root = styled.div`
 
   &[data-has-space='true'] {
     padding-inline: var(--spacing-3);
+    padding-block: 0;
 
     @media (--isMobile) {
-      padding: 0 var(--spacing-3);
+      padding-inline: var(--spacing-2);
     }
   }
 `;
