@@ -1,7 +1,7 @@
 'use client';
 
+import { useOverlay } from '@react-aria/overlays';
 import { useRef } from 'react';
-import { useOverlay } from 'react-aria';
 import { styled } from '@/ui/styled';
 
 type Props = {

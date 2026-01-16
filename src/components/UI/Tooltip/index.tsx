@@ -1,7 +1,7 @@
 'use client';
 
+import { useTooltip, useTooltipTrigger } from '@react-aria/tooltip';
 import { useRef } from 'react';
-import { useTooltip, useTooltipTrigger } from 'react-aria';
 import { useTooltipTriggerState } from 'react-stately';
 import { styled } from '@/ui/styled';
 

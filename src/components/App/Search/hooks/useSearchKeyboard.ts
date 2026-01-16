@@ -1,6 +1,6 @@
+import { useKeyboard } from '@react-aria/interactions';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
-import { useKeyboard } from 'react-aria';
 import { isHTMLElement } from '@/lib/browser/typeGuards';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { SearchProps } from '../types';

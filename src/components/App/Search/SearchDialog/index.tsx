@@ -1,9 +1,9 @@
 'use client';
 
 import { useDialog } from '@react-aria/dialog';
+import { FocusScope } from '@react-aria/focus';
 import { mergeProps } from '@react-aria/utils';
 import { type RefObject, useId } from 'react';
-import { FocusScope } from 'react-aria';
 import { createPortal } from 'react-dom';
 
 import useIsClient from '@/hooks/useIsClient';
