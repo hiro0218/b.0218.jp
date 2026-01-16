@@ -40,7 +40,7 @@
    * - @keyframes table-scroll-fade でスクロールの進行に応じて --left-fade / --right-fade を変化させ、
    *   最初は右側のみフェード、その後は両端フェード、最後は左側のみフェードといった挙動を実現しています。
    */
-  mask: linear-gradient(to right, #0000, #ffff var(--left-fade) calc(100% - var(--right-fade)), #0000);
+  mask: linear-gradient(to right, transparent, #fff var(--left-fade) calc(100% - var(--right-fade)), transparent);
   animation: table-scroll-fade;
   /* stylelint-disable-next-line plugin/browser-compat */
   animation-timeline: --table-scroll-timeline;
