@@ -117,6 +117,7 @@ export function SearchDialogProvider({ children }: { children: ReactNode }) {
   // グローバルキーボードショートカット: / でダイアログを開く
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // IME入力中（日本語変換中など）のキーイベントはショートカット判定から除外するため e.isComposing をチェック
       if (dialogRef.current.isOpen || e.isComposing) {
         return;
       }
