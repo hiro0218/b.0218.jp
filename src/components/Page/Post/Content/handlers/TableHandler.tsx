@@ -6,9 +6,12 @@ import type { HandlerFunction } from './types';
  */
 export const handleTable: HandlerFunction = (domNode) => {
   if (domNode.name === 'table') {
+    // style属性を除外（文字列として渡されるとReactがエラーをスローする）
+    const { style, ...restAttribs } = domNode.attribs || {};
+
     return (
       <div className="c-table-scrollable">
-        <table {...domNode.attribs}>{domToReact(domNode.children as DOMNode[])}</table>
+        <table {...restAttribs}>{domToReact(domNode.children as DOMNode[])}</table>
       </div>
     );
   }
