@@ -45,7 +45,6 @@ const Container = styled.div`
   gap: var(--spacing-1);
   max-height: 50vh;
   padding: 0;
-  margin: 0;
   overflow-x: clip;
   overflow-y: auto;
 
