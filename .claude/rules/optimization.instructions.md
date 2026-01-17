@@ -9,7 +9,17 @@ applyTo: '{next.config.mjs,**/use*.{ts,tsx}}'
 
 **Purpose**: Prevent incorrect optimization suggestions and ensure proper React Compiler usage.
 
-## Critical Rule
+## Priority Markers
+
+- 🔴 **CRITICAL**: Must Follow (violations cause severe errors)
+- 🟡 **IMPORTANT**: Should Follow (maintenance/quality may degrade)
+- ⚪ **RECOMMENDED**: Best Practices (consistency improvement)
+
+> **📌 About this file**: This is a detailed guide for CLAUDE.md. For priorities and the overview, see [CLAUDE.md - Critical Rules](../../CLAUDE.md#critical-rules-must-follow).
+
+## 🔴 Critical Rule
+
+> **WHY**: Misunderstanding the React Compiler scope can degrade performance by removing necessary optimizations. In production, removing `useMemo` from a custom hook invalidated a cache (see [Pitfall 1](#pitfall-1-removing-usememo-from-custom-hooks)).
 
 ⚠️ **ALWAYS read `~/next.config.mjs` before suggesting optimizations**
 
@@ -21,7 +31,7 @@ reactCompiler: true;
 
 If enabled, follow React Compiler rules below.
 
-## React Compiler (React 19)
+## 🔴 React Compiler (React 19)
 
 ### Overview
 
@@ -42,7 +52,7 @@ React Compiler (`reactCompiler: true`) automatically handles memoization and re-
 // ✅ React Compiler automatically optimizes this
 export const PostList = ({ posts }: Props) => {
   // This calculation is automatically memoized
-  const sortedPosts = posts.sort((a, b) => b.date - a.date);
+  const sortedPosts = [...posts].sort((a, b) => b.date - a.date);
 
   return (
     <ul>
@@ -162,7 +172,7 @@ export const useMarkdownParser = () => {
 | Component props              | Passing callbacks   | ✅ Yes                  | ❌ Not needed        |
 | Component state              | State updates       | ✅ Yes                  | ❌ Not needed        |
 
-## DO NOT Suggest
+## 🔴 DO NOT Suggest
 
 ❌ **These are unnecessary with React Compiler**:
 
@@ -183,7 +193,7 @@ const MemoizedCallback = useCallback(() => {
 }, []);
 ```
 
-## DO Suggest (When Appropriate)
+## 🟡 DO Suggest (When Appropriate)
 
 ✅ **These are valid optimizations**:
 
@@ -217,7 +227,9 @@ Before suggesting or removing optimizations:
 3. **For custom hooks with stateful instances or functions**:
    - Does the value need to persist across re-renders?
    - Is it a class instance, function, or expensive object?
-   - If yes → Use `useMemo` or `useCallback`
+
+- Are dependencies in `useMemo`/`useCallback` correctly listed (including incoming props/functions)?
+- If yes → Use `useMemo` or `useCallback`
 
 4. **Test the optimization**:
    - Does the cache actually work?
