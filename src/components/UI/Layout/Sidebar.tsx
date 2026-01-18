@@ -1,6 +1,7 @@
 import type { NamedExoticComponent, ReactNode } from 'react';
 
 import { css, cx, styled } from '@/ui/styled';
+import { fontSizeHeadingClasses } from '@/ui/styled/atomic';
 import type { SpaceGap } from '@/ui/styled/theme/tokens/spacing';
 import { textEllipsis } from '@/ui/styled/utilities';
 
@@ -37,11 +38,11 @@ const Title = ({ id, tag = 'h2', children }: TitleProps) => {
     <SidebarHeading
       className={cx(
         textEllipsis,
+        fontSizeHeadingClasses.h3,
         css`
           scroll-margin-top: var(--spacing-1);
         `,
       )}
-      data-font-size-h="3"
       id={id}
     >
       {children}
