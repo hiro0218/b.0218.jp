@@ -33,7 +33,7 @@ export const TagSection = ({
       {!!heading && (
         <Heading
           as={headingLevel}
-          isWeightNormal={headingWeight === 'normal'}
+          isBold={headingWeight === 'bold'}
           textSide={href && <LinkMore href={href} text="すべて見る" />}
         >
           {heading}

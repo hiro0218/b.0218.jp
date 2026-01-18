@@ -3,49 +3,38 @@ import type { ReactNode } from 'react';
 import { css, cx } from '@/ui/styled';
 import { fontWeightClasses, headingFontSizeClasses } from '@/ui/styled/atomic';
 
+type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
 type Props = {
-  id?: HTMLHeadingElement['id'];
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  id?: string;
+  as?: HeadingLevel;
   children: ReactNode;
   textSide?: ReactNode;
   textSub?: ReactNode;
-  isWeightNormal?: boolean;
+  isBold?: boolean;
 };
 
-function Heading({
-  id = undefined,
-  as: TitleTag = 'h1',
-  children,
-  textSide = undefined,
-  textSub = undefined,
-  isWeightNormal = true,
-}: Props) {
-  const TitleComponent = (
-    <TitleTag
-      className={cx(headerTitleStyle, headingFontSizeClasses[TitleTag], !isWeightNormal && fontWeightClasses.bold)}
-      id={id}
-    >
+function Heading({ id, as: Tag = 'h1', children, textSide, textSub, isBold = false }: Props) {
+  const titleClassName = cx(headerTitleStyle, headingFontSizeClasses[Tag], isBold && fontWeightClasses.bold);
+
+  const title = (
+    <Tag className={titleClassName} id={id}>
       {children}
-    </TitleTag>
+    </Tag>
   );
 
-  const hasTextSub = !!textSub;
-  const hasTextSide = !!textSide;
+  if (!textSide && !textSub) {
+    return title;
+  }
 
   return (
-    <>
-      {hasTextSub || hasTextSide ? (
-        <hgroup className={containerStyle}>
-          <div className={mainStyle}>
-            {TitleComponent}
-            {hasTextSub && <div className={headerSubStyle}>{textSub}</div>}
-          </div>
-          {hasTextSide && <div className={sideStyle}>{textSide}</div>}
-        </hgroup>
-      ) : (
-        <>{TitleComponent}</>
-      )}
-    </>
+    <hgroup className={containerStyle}>
+      <div className={mainStyle}>
+        {title}
+        {textSub && <div className={headerSubStyle}>{textSub}</div>}
+      </div>
+      {textSide && <div className={sideStyle}>{textSide}</div>}
+    </hgroup>
   );
 }
 
