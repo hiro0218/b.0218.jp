@@ -35,7 +35,7 @@ export const Stack = <T extends ElementType = 'div'>({
         justify && justifyClasses[justify],
         wrap && wrapClasses[wrap],
       )}
-      {...(gap !== undefined && { 'data-gap': gap })}
+      data-gap={gap}
       {...props}
     >
       {children}
