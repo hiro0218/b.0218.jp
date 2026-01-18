@@ -1,6 +1,7 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-import { css } from '@/ui/styled';
+import { css, cx } from '@/ui/styled';
+import { fontWeightClasses, headingFontSizeClasses } from '@/ui/styled/atomic';
 
 type Props = {
   id?: HTMLHeadingElement['id'];
@@ -19,22 +20,11 @@ function Heading({
   textSub = undefined,
   isWeightNormal = true,
 }: Props) {
-  const titleStyle = {
-    ...(!isWeightNormal && { '--font-weight': 'var(--font-weights-bold)' }),
-  } as CSSProperties;
-
-  const fontSizeLevel = (() => {
-    switch (TitleTag) {
-      case 'h1':
-      case 'h2':
-        return 4;
-      default:
-        return 5;
-    }
-  })();
-
   const TitleComponent = (
-    <TitleTag className={headerTitleStyle} data-font-size-h={fontSizeLevel} id={id} style={titleStyle}>
+    <TitleTag
+      className={cx(headerTitleStyle, headingFontSizeClasses[TitleTag], !isWeightNormal && fontWeightClasses.bold)}
+      id={id}
+    >
       {children}
     </TitleTag>
   );
@@ -72,7 +62,7 @@ const mainStyle = css`
 `;
 
 const headerTitleStyle = css`
-  font-weight: var(--font-weight, var(--font-weights-normal));
+  font-weight: var(--font-weights-normal);
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-1000);
   overflow-wrap: break-word;
