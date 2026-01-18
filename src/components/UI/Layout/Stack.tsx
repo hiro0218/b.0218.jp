@@ -17,7 +17,7 @@ export const Stack = <T extends ElementType = 'div'>({
   as,
   children,
   direction = 'vertical',
-  gap,
+  gap = 2,
   align,
   justify,
   wrap,
