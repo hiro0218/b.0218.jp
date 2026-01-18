@@ -7,7 +7,15 @@ applyTo: '**/{ui,components}/**/*.{ts,tsx}'
 
 This file defines styling conventions automatically applied during implementation.
 
-## Import Rules
+## Priority Markers
+
+- 🔴 **CRITICAL**: Must Follow (violations cause severe errors)
+- 🟡 **IMPORTANT**: Should Follow (maintenance/quality may degrade)
+- ⚪ **RECOMMENDED**: Best Practices (consistency improvement)
+
+> **📌 About this file**: This is a detailed guide for CLAUDE.md. For priorities and the overview, see [CLAUDE.md - Critical Rules](../../CLAUDE.md#critical-rules-must-follow).
+
+## 🔴 Import Rules (CRITICAL)
 
 ```tsx
 // ✅ Recommended: Project-unified import
@@ -19,9 +27,11 @@ import { css } from '~/styled-system/css';
 
 **Reason**: `@/ui/styled` is the unified entry point.
 
-## Hover States (Critical)
+## 🔴 Hover States (CRITICAL)
 
 ### Correct: Write `:hover` directly
+
+> **WHY**: The PostCSS plugin automatically wraps `:hover` with `@media (any-hover: hover)`. Manual wrapping causes double wrapping and breaks behavior on touch devices. There has been a real incident where manual wrapping prevented hover from working on touch devices.
 
 The `postcss-media-hover-any-hover` plugin **automatically wraps** hover states for touch device detection.
 
@@ -67,7 +77,9 @@ const Link = styled.a`
 
 **Why this is wrong**: The PostCSS plugin (`postcss-media-hover-any-hover`) automatically wraps `:hover` states with `@media (any-hover: hover)`. Writing it manually is redundant and may cause double-wrapping issues.
 
-## CSS Variables (Required)
+## 🔴 CSS Variables (CRITICAL)
+
+> **WHY**: CSS variables keep design tokens consistent and make theme changes easier. Using direct values causes large-scale edits when the design system changes.
 
 ### Colors
 
@@ -130,7 +142,9 @@ font-weight: 700;
 - `var(--font-sizes-xs)` to `var(--font-sizes-3xl)` - Font sizes
 - `var(--line-heights-tight)`, `var(--line-heights-normal)`, etc. - Line heights
 
-## Zero Margin Principle (Strict)
+## 🔴 Zero Margin Principle (CRITICAL)
+
+> **Details**: For details, see [components.instructions.md - Zero Margin Principle](./components.instructions.md#zero-margin-principle-critical).
 
 ### UI Component Constraints
 
@@ -174,7 +188,7 @@ export const Alert = styled.div`
 </div>
 ```
 
-**Why no margins**: Components should not dictate their own positioning. This makes them more reusable and prevents layout bugs.
+**Why no margins**: Components should not dictate their own positioning. This makes them more reusable and prevents layout bugs. For details, see [components.instructions.md](./components.instructions.md#zero-margin-principle-critical).
 
 ## Basic Usage
 
@@ -215,7 +229,7 @@ const StyledButton = styled.button`
 export const Button = ({ children }: ButtonProps) => <StyledButton>{children}</StyledButton>;
 ```
 
-## Responsive Design
+## 🟡 Responsive Design (IMPORTANT)
 
 ```tsx
 // ✅ Recommended: Mobile-first approach
@@ -234,7 +248,7 @@ const ResponsiveCard = styled.div`
 
 **Mobile-first approach** is recommended.
 
-## Performance Considerations
+## 🟡 Performance Considerations (IMPORTANT)
 
 ```tsx
 // ✅ Recommended: Performance-friendly properties
@@ -252,7 +266,7 @@ const animation = css`
 `;
 ```
 
-## Accessibility
+## 🟡 Accessibility (IMPORTANT)
 
 ### Focus States
 
@@ -275,7 +289,7 @@ const button = css`
 `;
 ```
 
-## Common Patterns
+## ⚪ Common Patterns (RECOMMENDED)
 
 ### Conditional Styles
 

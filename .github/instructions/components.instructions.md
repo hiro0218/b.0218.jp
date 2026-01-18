@@ -7,9 +7,17 @@ applyTo: '**/components/**/*.{ts,tsx}'
 
 This file defines design principles automatically applied when editing React/Next.js components.
 
+## Priority Markers
+
+- 🔴 **CRITICAL**: Must Follow (violations cause severe errors)
+- 🟡 **IMPORTANT**: Should Follow (maintenance/quality may degrade)
+- ⚪ **RECOMMENDED**: Best Practices (consistency improvement)
+
+> **📌 About this file**: This is a detailed guide for CLAUDE.md. For priorities and the overview, see [CLAUDE.md - Critical Rules](../../CLAUDE.md#critical-rules-must-follow).
+
 ## Component Principles
 
-### Zero Margin Principle
+### 🔴 Zero Margin Principle (CRITICAL)
 
 UI components must NOT set their own external margins (`margin`, `margin-top`, etc.). Parent components control spacing.
 
@@ -74,7 +82,9 @@ export const Card = ({ children }: CardProps) => (
 </div>
 ```
 
-### Layer Dependencies
+### 🔴 Layer Dependencies (CRITICAL)
+
+> **WHY**: Layered dependencies improve testability and make change impact clearer. Biome's automated checks prevent architecture violations.
 
 Layer dependencies are **enforced by Biome** (`~/biome.json`):
 
@@ -139,7 +149,7 @@ import { PostSection } from '@/components/Page/_shared/PostSection';
 npm run lint
 ```
 
-### Server First Principle
+### 🟡 Server First Principle (IMPORTANT)
 
 Use Server Components by default. Add `'use client'` **only when necessary**:
 
@@ -287,7 +297,7 @@ export default function PostPage({ params }: { params: { slug: string } }) {
 }
 ```
 
-## Component Naming
+## ⚪ Component Naming (RECOMMENDED)
 
 ```tsx
 // ✅ Good: Clear naming
@@ -301,7 +311,7 @@ export const Item = () => { ... };
 export const Wrapper = () => { ... };
 ```
 
-## Props Design
+## 🟡 Props Design (IMPORTANT)
 
 ```tsx
 // ✅ Recommended: Explicit type definition
@@ -323,7 +333,7 @@ export const PostDetail = ({ post, showRelated }: {
 };
 ```
 
-## Accessibility
+## 🟡 Accessibility (IMPORTANT)
 
 ```tsx
 // ✅ Correct: Semantic HTML + ARIA
