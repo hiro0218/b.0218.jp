@@ -1,53 +1,43 @@
-import type { AriaRole, CSSProperties, JSX, ReactNode } from 'react';
-import { css, cx } from '@/ui/styled';
+import type { ComponentPropsWithoutRef, ElementType } from 'react';
+import { cx } from '@/ui/styled';
+import type { FlexAlign, FlexJustify, FlexWrap } from '@/ui/styled/atomic';
+import { alignClasses, directionClasses, flexBaseStyle, justifyClasses, wrapClasses } from '@/ui/styled/atomic';
 import type { SpaceGap } from '@/ui/styled/theme/tokens/spacing';
 
-type Props = {
-  as?: keyof JSX.IntrinsicElements;
-  gap?: SpaceGap;
+type Props<T extends ElementType = 'div'> = {
+  as?: T;
+  gap?: SpaceGap | 0;
   direction?: 'vertical' | 'horizontal';
-  align?: CSSProperties['alignItems'];
-  justify?: CSSProperties['justifyContent'];
-  wrap?: CSSProperties['flexWrap'];
-  role?: AriaRole;
-  className?: string;
-  children: ReactNode;
-};
+  align?: FlexAlign;
+  justify?: FlexJustify;
+  wrap?: FlexWrap;
+} & Omit<ComponentPropsWithoutRef<T>, 'as' | 'gap' | 'direction' | 'align' | 'justify' | 'wrap'>;
 
-const stackStyle = css`
-  display: flex;
-  flex-wrap: var(--stack-wrap, nowrap);
-  align-items: var(--stack-align, stretch);
-  justify-content: var(--stack-justify, flex-start);
-
-  &[data-direction='horizontal'] {
-    flex-direction: row;
-  }
-
-  &[data-direction='vertical'] {
-    flex-direction: column;
-  }
-`;
-
-export const Stack = ({
-  as: Tag = 'div',
+export const Stack = <T extends ElementType = 'div'>({
+  as,
   children,
   direction = 'vertical',
-  gap = 2,
+  gap,
   align,
   justify,
   wrap,
   className,
   ...props
-}: Props) => {
-  const style = {
-    ...(align && { '--stack-align': align }),
-    ...(justify && { '--stack-justify': justify }),
-    ...(wrap && { '--stack-wrap': wrap }),
-  } as CSSProperties;
-
+}: Props<T>) => {
+  const Tag = (as ?? 'div') as ElementType;
   return (
-    <Tag className={cx(className, stackStyle)} data-direction={direction} data-gap={gap} style={style} {...props}>
+    <Tag
+      className={cx(
+        className,
+        flexBaseStyle,
+        directionClasses[direction],
+        align && alignClasses[align],
+        justify && justifyClasses[justify],
+        wrap && wrapClasses[wrap],
+      )}
+      {...(gap !== undefined && { 'data-gap': gap })}
+      {...props}
+    >
       {children}
     </Tag>
   );
