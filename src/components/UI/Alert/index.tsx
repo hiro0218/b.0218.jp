@@ -1,19 +1,13 @@
 import { Stack } from '@/components/UI/Layout';
-import {
-  ChatBubbleLeft,
-  ExclamationCircle,
-  ExclamationTriangle,
-  ICON_SIZE_SM,
-  InformationCircle,
-  LightBulb,
-} from '@/ui/icons';
+import { ExclamationCircle, ExclamationTriangle, ICON_SIZE_SM, InformationCircle, LightBulb } from '@/ui/icons';
 import { css } from '@/ui/styled';
 
 export type AlertType = 'note' | 'tip' | 'important' | 'warning' | 'caution';
+type SanitizedHtml = string;
 
 type Props = {
   type: AlertType;
-  text: string;
+  html: SanitizedHtml;
 };
 
 const SIZE = {
@@ -21,35 +15,49 @@ const SIZE = {
   width: ICON_SIZE_SM,
 };
 
-export const Alert = ({ type, text }: Props) => {
-  const Icon = (() => {
-    switch (type) {
-      case 'note':
-      case 'tip':
-        return <InformationCircle {...SIZE} />;
-      case 'important':
-        return <LightBulb {...SIZE} />;
-      case 'warning':
-        return <ExclamationTriangle {...SIZE} />;
-      case 'caution':
-        return <ExclamationCircle {...SIZE} />;
-      default:
-        return <ChatBubbleLeft {...SIZE} />;
-    }
-  })();
+const ALERT_ICONS: Record<AlertType, React.ReactNode> = {
+  note: <InformationCircle {...SIZE} aria-hidden="true" />,
+  tip: <InformationCircle {...SIZE} aria-hidden="true" />,
+  important: <LightBulb {...SIZE} aria-hidden="true" />,
+  warning: <ExclamationTriangle {...SIZE} aria-hidden="true" />,
+  caution: <ExclamationCircle {...SIZE} aria-hidden="true" />,
+};
+
+const ALERT_LABELS: Record<AlertType, string> = {
+  note: 'Note',
+  tip: 'Tip',
+  important: 'Important',
+  warning: 'Warning',
+  caution: 'Caution',
+};
+
+const ALERT_ROLES: Record<AlertType, 'note' | 'alert'> = {
+  note: 'note',
+  tip: 'note',
+  important: 'note',
+  warning: 'alert',
+  caution: 'alert',
+};
+
+export const Alert = ({ type, html }: Props) => {
+  const icon = ALERT_ICONS[type];
+  const label = ALERT_LABELS[type];
+  const role = ALERT_ROLES[type];
 
   return (
-    <Stack className={containerStyle} data-alert-type={type} direction="vertical" gap={1}>
-      <Stack align="center" className={titleStyle} direction="horizontal" gap="½">
-        {Icon}
-        <span>{type}</span>
+    <aside aria-label={`${label} alert`} className={containerStyle} data-alert-type={type} role={role}>
+      <Stack direction="vertical" gap={1}>
+        <Stack align="center" className={titleStyle} direction="horizontal" gap="½">
+          {icon}
+          <span>{label}</span>
+        </Stack>
+        <p
+          dangerouslySetInnerHTML={{
+            __html: html,
+          }}
+        />
       </Stack>
-      <p
-        dangerouslySetInnerHTML={{
-          __html: text,
-        }}
-      />
-    </Stack>
+    </aside>
   );
 };
 
@@ -90,5 +98,4 @@ const titleStyle = css`
   font-size: var(--font-sizes-md);
   font-weight: var(--font-weights-bold);
   color: var(--alert-color);
-  text-transform: capitalize;
 `;

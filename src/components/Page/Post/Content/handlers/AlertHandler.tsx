@@ -22,7 +22,7 @@ export const handleAlert: HandlerFunction = (domNode) => {
       return undefined;
     }
 
-    return <Alert text={json.data.text} type={json.data.type} />;
+    return <Alert html={json.data.text} type={json.data.type} />;
   }
 
   return undefined;
