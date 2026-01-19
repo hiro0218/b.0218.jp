@@ -1,5 +1,6 @@
 import type { CSSProperties, JSX, ReactNode } from 'react';
 import { css, cx } from '@/ui/styled';
+import { gapClasses } from '@/ui/styled/atomic';
 import type { SpaceGap } from '@/ui/styled/theme/tokens/spacing';
 import { containerType } from '@/ui/styled/utilities';
 
@@ -44,7 +45,11 @@ export const Grid = ({
   } as CSSProperties;
 
   return (
-    <GridTag {...props} className={cx(containerType, gridStyle, className)} data-gap={gap} style={style}>
+    <GridTag
+      {...props}
+      className={cx(containerType, gridStyle, gap !== undefined && gapClasses[gap], className)}
+      style={style}
+    >
       {children}
     </GridTag>
   );

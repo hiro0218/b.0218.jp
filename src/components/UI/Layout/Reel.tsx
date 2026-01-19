@@ -1,5 +1,6 @@
 import type { CSSProperties, JSX, ReactNode } from 'react';
 import { css, cx } from '@/ui/styled';
+import { gapClasses } from '@/ui/styled/atomic';
 import type { SpaceGap } from '@/ui/styled/theme/tokens/spacing';
 
 type ReelProps = {
@@ -49,8 +50,7 @@ export const Reel = ({
 
   return (
     <Tag
-      className={cx(className, reelStyle)}
-      data-gap={gap}
+      className={cx(className, reelStyle, gapClasses[gap])}
       style={{ '--reel-item-width': itemWidth } as CSSProperties}
       {...props}
     >
