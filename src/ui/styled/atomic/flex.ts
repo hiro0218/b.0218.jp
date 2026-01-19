@@ -42,9 +42,11 @@ export type FlexWrap = Extract<CSSProperties['flexWrap'], 'nowrap' | 'wrap' | 'w
  * Flexbox基本スタイル（display: flex）
  *
  * 全てのFlexboxコンテナに適用される基本スタイルです。
+ * min-width: 0 により、子要素が親の幅を超えて伸びることを防ぎます。
  */
 export const flexBaseStyle = css`
   display: flex;
+  min-width: 0;
 `;
 
 /**
