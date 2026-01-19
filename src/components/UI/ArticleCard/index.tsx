@@ -52,7 +52,6 @@ export default ArticleCard;
 const containerStyle = css`
   --container-space: var(--spacing-3);
   --hover-color: var(--colors-accent-1100);
-  display: grid;
 
   contain-intrinsic-size: 0 200px;
   padding: var(--container-space);

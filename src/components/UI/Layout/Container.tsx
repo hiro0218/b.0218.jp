@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react';
-import { styled } from '@/ui/styled';
+import { css, cx, styled } from '@/ui/styled';
 
 type Props = {
   size?: 'small' | 'default' | 'large';
@@ -18,14 +18,14 @@ const Root = styled.div`
   width: 100%;
   max-width: var(--container-size);
   margin: auto;
+`;
 
-  &[data-has-space='true'] {
-    padding-inline: var(--spacing-3);
-    padding-block: 0;
+const spaceStyle = css`
+  padding-block: 0;
+  padding-inline: var(--spacing-3);
 
-    @media (--isMobile) {
-      padding-inline: var(--spacing-2);
-    }
+  @media (--isMobile) {
+    padding-inline: var(--spacing-2);
   }
 `;
 
@@ -33,7 +33,7 @@ export const Container = ({ space = true, size = 'default', children, className 
   const style = { '--container-size': SIZE_MAP[size] } as CSSProperties;
 
   return (
-    <Root className={className} data-has-space={space} style={style}>
+    <Root className={cx(className, space && spaceStyle)} style={style}>
       {children}
     </Root>
   );
