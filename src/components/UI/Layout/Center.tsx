@@ -17,12 +17,12 @@ const centerStyle = css`
   max-inline-size: var(--center-max-width);
   padding-inline: var(--center-gutters, 0);
   margin-inline: auto;
+`;
 
-  &[data-intrinsic='true'] {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+const intrinsicStyle = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const Center = ({
@@ -41,7 +41,7 @@ export const Center = ({
   } as CSSProperties;
 
   return (
-    <Tag className={cx(className, centerStyle)} data-intrinsic={intrinsic || undefined} style={style} {...props}>
+    <Tag className={cx(className, centerStyle, intrinsic && intrinsicStyle)} style={style} {...props}>
       {children}
     </Tag>
   );
