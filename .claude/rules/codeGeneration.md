@@ -92,11 +92,10 @@ export const PostDetail = ({ post }: PostDetailProps) => {
     <article
       className={css`
         max-width: 42rem;
-        margin: 0 auto;
-        padding: 1rem;
+        padding: var(--spacing-4);
 
         @media (min-width: 768px) {
-          padding: 2rem;
+          padding: var(--spacing-8);
         }
       `}
     >
@@ -135,8 +134,8 @@ export const Button = ({ children, onClick }: ButtonProps) => {
       onClick={handleClick}
       disabled={isLoading}
       className={css`
-        padding: 0.5rem 1rem;
-        border-radius: 0.25rem;
+        padding: var(--spacing-2) var(--spacing-4);
+        border-radius: var(--radii-2);
         background-color: var(--colors-blue-500);
         color: white;
 
@@ -226,6 +225,228 @@ export const calculateSimilarity = (text1: string, text2: string): Result<number
 };
 ```
 
+## コード記述順序
+
+このセクションでは、TSXファイル内の推奨記述順序を定義します。これらは強制ではなく指針ですが、一貫性を保つために新規コード作成時に従うことを推奨します。
+
+### ファイル全体の構造
+
+1. **'use client' ディレクティブ**（Client Componentの場合のみ）
+2. **Import文**（`typescript.instructions.md`の順序に従う）
+   - 外部ライブラリ
+   - 内部ユーティリティ
+   - コンポーネント
+   - 型定義
+   - スタイル/定数（`css`, `styled` はここ）
+3. **型定義・インターフェース**（コンポーネント外部）
+4. **定数**（コンポーネント外部、SCREAMING_SNAKE_CASE）
+5. **メインコンポーネント**
+6. **サブコンポーネント**（必要な場合）
+7. **styled component**（Panda CSSのstyled関数）
+8. **ヘルパー関数**（コンポーネント外部）
+
+### コンポーネント内部の順序
+
+1. **Hooks**
+   - useState
+   - useRef
+   - useContext
+   - カスタムhooks（useIsClient, useId, useSearchなど）
+2. **計算された値**
+   - useMemo
+   - useCallback
+   - 単純な計算（useIdの結果など）
+3. **Effect hooks**
+   - useEffect
+   - useLayoutEffect
+4. **イベントハンドラー関数**
+   - handleClick, handleSubmitなど
+5. **ヘルパー関数**（コンポーネント内部）
+   - formatValue, validateInputなど
+6. **Early return**（条件付きレンダリング）
+   - if (!data) return null;
+7. **メインrender**
+   - return文
+
+### スタイリング（css/styled）の配置ルール
+
+#### Import位置
+
+```tsx
+// Import文の5番目（スタイル/定数）
+import { css, styled, cx } from '@/ui/styled';
+import { SITE_NAME } from '@/constants';
+```
+
+#### styled componentの配置
+
+ファイル構造の **7番目**（メインコンポーネントの後、ヘルパー関数の前）に配置：
+
+```tsx
+// 5. メインコンポーネント
+export const SearchDialog = ({ onClose }: DialogProps) => {
+  return <Dialog>...</Dialog>;
+};
+
+// 6. サブコンポーネント（必要な場合）
+const DialogContent = () => <div>...</div>;
+
+// 7. styled component（ここに配置）
+const Dialog = styled.dialog`
+  position: fixed;
+  border-radius: var(--radii-4);
+`;
+
+// 8. ヘルパー関数
+```
+
+#### inline cssの使用
+
+`css` テンプレートリテラルはコンポーネント内の `className` で直接使用：
+
+```tsx
+export const Logo = () => {
+  return (
+    <Anchor
+      className={css`
+        padding: var(--spacing-1);
+        pointer-events: auto;
+      `}
+      href="/"
+    >
+      <img alt={SITE_NAME} />
+    </Anchor>
+  );
+};
+```
+
+#### 使い分けガイドライン
+
+**`styled` を使うケース**:
+
+- 再利用可能なスタイルコンポーネント
+- 複雑なスタイル定義（疑似要素、メディアクエリ、ネストが多い）
+- コンポーネントとして命名したい場合
+
+**`css` を使うケース**:
+
+- 一時的・局所的なスタイル
+- シンプルなスタイル調整
+- 既存コンポーネントへのスタイル追加
+
+**`cx` の使用**:
+
+- 複数のクラス名を結合する場合
+- 条件付きスタイルの適用
+
+### 例外と柔軟性
+
+以下の場合は順序を調整可能：
+
+- **パフォーマンス最適化**が必要な場合
+- **特定のライブラリの要求**がある場合
+- **可読性が明らかに向上**する場合
+- **Reactのルール**（hooksは条件分岐の前に全て呼び出す）を優先
+
+### 記述順序の例
+
+#### Server Component（シンプル）
+
+```tsx
+import { Anchor } from '@/components/UI/Anchor';
+import { SITE_NAME } from '@/constants';
+import { css, cx } from '@/ui/styled';
+
+// 型定義（propsがある場合）
+type LogoProps = {
+  size?: 'small' | 'large';
+};
+
+// メインコンポーネント
+export const Logo = ({ size = 'small' }: LogoProps) => {
+  return (
+    <Anchor
+      className={cx(
+        'link-style',
+        css`
+          padding: var(--spacing-1);
+        `,
+      )}
+      href="/"
+    >
+      <img alt={SITE_NAME} height="25" src="/logo.svg" width="80" />
+    </Anchor>
+  );
+};
+```
+
+#### Client Component（複雑）
+
+```tsx
+'use client';
+
+import { useDialog } from '@react-aria/dialog';
+import { type RefObject, useId, useState } from 'react';
+
+import useIsClient from '@/hooks/useIsClient';
+import { styled } from '@/ui/styled';
+import { SearchHeader } from './SearchHeader';
+
+// 型定義
+type DialogProps = {
+  onClose: () => void;
+  dialogRef: RefObject<HTMLDialogElement>;
+};
+
+// メインコンポーネント
+export const SearchDialog = ({ onClose, dialogRef }: DialogProps) => {
+  // 1. State hooks
+  const [isClosing, setIsClosing] = useState(false);
+
+  // 2. その他のhooks
+  const isClient = useIsClient();
+  const id = useId();
+
+  // 3. カスタムhooks
+  const { dialogProps } = useDialog({ 'aria-labelledby': id }, dialogRef);
+
+  // 4. 計算された値
+  const labelledId = `${id}-labelled`;
+
+  // 5. イベントハンドラー
+  const handleBackdropClick = (event: React.MouseEvent) => {
+    if (event.target === event.currentTarget) {
+      setIsClosing(true);
+      onClose();
+    }
+  };
+
+  // 6. Early return
+  if (!isClient) {
+    return null;
+  }
+
+  // 7. メインrender
+  return (
+    <Dialog {...dialogProps} onClick={handleBackdropClick} ref={dialogRef}>
+      <SearchHeader labelledId={labelledId} />
+    </Dialog>
+  );
+};
+
+// styled component
+const Dialog = styled.dialog`
+  position: fixed;
+  border-radius: var(--radii-4);
+`;
+```
+
+### 既存コードへの適用
+
+- **新規コード**: この順序に従うことを推奨
+- **既存コード**: 大規模な変更時にのみ整理を検討
+- **リファクタリング**: 段階的に適用（一度に全ファイルを変更しない）
+
 ## 必須実装パターン
 
 ### 1. エラーハンドリング
@@ -250,6 +471,7 @@ export const fetchUserData = async (userId: string): Promise<Result<User, Error>
 ### 2. パフォーマンス最適化
 
 ```tsx
+// 注意: 最適化提案の前に ~/next.config.mjs の reactCompiler を必ず確認する
 // 良い例: コード分割とメモ化
 import { lazy, Suspense, memo, useMemo } from 'react';
 
@@ -308,7 +530,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 ☐ TypeScriptコンパイルエラーがない
 ☐ Biome (Linter/Formatter) の警告がない
 ☐ 未使用のインポート/変数がない
-☐ 適切な型注釈とJSDocが付けられている
+☐ 適切な型注釈が付けられている
+☐ 公開APIにはJSDocが付けられている
 ☐ テスタブルな構造になっている
 ☐ コンポーネントのレスポンシブ対応がされている
 ☐ アクセシビリティが考慮されている

@@ -190,6 +190,191 @@ export const Alert = styled.div`
 
 **Why no margins**: Components should not dictate their own positioning. This makes them more reusable and prevents layout bugs. For details, see [components.instructions.md](./components.instructions.md#zero-margin-principle-critical).
 
+## 🔴 Dynamic Styling with CSS Variables (CRITICAL)
+
+> **WHY**: Panda CSS uses **static compilation** at build time. Runtime dynamic values (props) cannot be directly embedded in `css` template literals. CSS variables must be used to apply dynamic styles.
+
+### Constraint: Static Compilation
+
+Panda CSS compiles `css` template literals to static CSS at **build time**, unlike other CSS-in-JS libraries (styled-components/Emotion) that process styles at runtime.
+
+```tsx
+// ❌ DOES NOT WORK - Panda CSS cannot embed runtime values
+const Component = ({ value }: { value: number }) => (
+  <div
+    className={css`
+      property: var(--spacing-${value}); // ❌ value is a runtime variable
+    `}
+  />
+);
+
+// ✅ CORRECT - Use CSS variables to pass runtime values
+const Component = ({ value }: { value: number }) => {
+  const style = { '--my-property': `var(--spacing-${value})` } as CSSProperties;
+
+  return (
+    <div
+      className={css`
+        property: var(--my-property); // ✅ Static CSS variable reference
+      `}
+      style={style}
+    />
+  );
+};
+```
+
+### Pattern: CSS Variables for Dynamic Values
+
+**Step 1**: Define static CSS with CSS variable placeholders
+
+```tsx
+const componentStyle = css`
+  display: flex;
+  gap: var(--component-gap); // Static reference to CSS variable
+  justify-content: flex-start;
+`;
+```
+
+**Step 2**: Pass runtime values via inline styles
+
+```tsx
+export function Component({ gap = 1 }: { gap: number }) {
+  // Runtime value passed via CSS variable
+  const style = { '--component-gap': `var(--spacing-${gap})` } as CSSProperties;
+
+  return (
+    <div className={componentStyle} style={style}>
+      ...
+    </div>
+  );
+}
+```
+
+### Why NOT Direct Values?
+
+```tsx
+// ❌ ANTI-PATTERN - Breaks with Panda CSS
+const MyComponent = ({ value }: { value: number }) => {
+  // Panda CSS compiles this at BUILD time
+  // `value` is unknown at build time
+  return (
+    <div
+      className={css`
+        property: ${value}px; // ❌ value is runtime, not build-time constant
+      `}
+    />
+  );
+};
+```
+
+**Why this fails**:
+
+1. Panda CSS processes `css` template literals during **webpack/vite build**
+2. Props are **runtime values** (only known when component renders)
+3. Build-time static compilation cannot access runtime values
+4. Result: CSS is generated with literal `${value}px` string, not actual values
+
+### Comparison with Other CSS-in-JS
+
+| Library           | Compilation       | Dynamic Props    | CSS Variables Required?        |
+| ----------------- | ----------------- | ---------------- | ------------------------------ |
+| **Panda CSS**     | Build-time static | ❌ Not supported | ✅ Yes (for dynamic values)    |
+| styled-components | Runtime           | ✅ Supported     | ❌ No (can use props directly) |
+| Emotion           | Runtime           | ✅ Supported     | ❌ No (can use props directly) |
+
+```tsx
+// styled-components/Emotion (Runtime)
+const Button = styled.button<{ $value: number }>`
+  property: ${(props) => props.$value}px; // ✅ Works (runtime interpolation)
+`;
+
+// Panda CSS (Build-time)
+const buttonStyle = css`
+  property: ${value}px; // ❌ Fails (no runtime interpolation)
+  property: var(--my-property); // ✅ Works (CSS variables)
+`;
+```
+
+### Documentation Requirements
+
+When using CSS variables for dynamic values, add comments explaining the constraint:
+
+```tsx
+/**
+ * Component with dynamic styling
+ *
+ * @note Panda CSS uses static compilation, so dynamic props
+ *       must be passed via CSS variables, not direct interpolation.
+ */
+const componentStyle = css`
+  property: var(--component-property); // Runtime props via CSS variable
+`;
+
+export function Component({ value }: Props) {
+  // Panda CSS constraint: runtime values via CSS variables
+  const style = { '--component-property': `var(--spacing-${value})` } as CSSProperties;
+  return (
+    <div className={componentStyle} style={style}>
+      ...
+    </div>
+  );
+}
+```
+
+### Common Mistakes
+
+#### Mistake 1: Trying to interpolate props
+
+```tsx
+// ❌ WRONG - props cannot be interpolated in Panda CSS
+const Component = ({ color }: { color: string }) => (
+  <div
+    className={css`
+      color: ${color};
+    `}
+  />
+);
+
+// ✅ CORRECT - use CSS variables
+const Component = ({ color }: { color: string }) => {
+  const style = { '--my-color': color } as CSSProperties;
+  return (
+    <div
+      className={css`
+        color: var(--my-color);
+      `}
+      style={style}
+    />
+  );
+};
+```
+
+#### Mistake 2: Assuming runtime compilation
+
+```tsx
+// ❌ WRONG - Panda CSS is build-time, not runtime
+const getStyle = (size: 'sm' | 'md' | 'lg') => {
+  return css`
+    property: ${size === 'sm' ? '0.5rem' : '1rem'};
+  `; // Won't work
+};
+
+// ✅ CORRECT - use conditional class application
+const styleClasses = {
+  sm: css`
+    property: 0.5rem;
+  `,
+  md: css`
+    property: 1rem;
+  `,
+  lg: css`
+    property: 1.5rem;
+  `,
+};
+
+const Component = ({ size }: { size: 'sm' | 'md' | 'lg' }) => <div className={styleClasses[size]} />;
+```
+
 ## Basic Usage
 
 ### Inline Styles with `css`
@@ -202,7 +387,7 @@ export const Component = () => (
     className={css`
       background: var(--colors-gray-a-3);
       padding: var(--spacing-2);
-      border-radius: 0.5rem;
+      border-radius: var(--radii-md);
     `}
   >
     Content
@@ -216,10 +401,10 @@ export const Component = () => (
 import { styled } from '@/ui/styled';
 
 const StyledButton = styled.button`
-  padding: 0.5rem 1rem;
+  padding: var(--spacing-2) var(--spacing-4);
   background: var(--colors-blue-500);
   color: white;
-  border-radius: 0.25rem;
+  border-radius: var(--radii-sm);
 
   &:hover {
     background: var(--colors-blue-600);
@@ -277,7 +462,7 @@ const button = css`
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 3px var(--colors-blue-a-300);
+    box-shadow: 0 0 0 var(--spacing-1) var(--colors-blue-a-300);
   }
 `;
 
@@ -295,8 +480,8 @@ const button = css`
 
 ```tsx
 const Button = styled.button<{ variant: 'primary' | 'secondary' }>`
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radii-sm);
 
   ${(props) =>
     props.variant === 'primary' &&
@@ -319,10 +504,11 @@ const Button = styled.button<{ variant: 'primary' | 'secondary' }>`
 ```tsx
 const Card = styled.div`
   padding: var(--spacing-4);
+  display: grid;
+  gap: var(--spacing-2);
 
   h2 {
     font-size: var(--font-sizes-2xl);
-    margin-bottom: var(--spacing-2);
   }
 
   p {

@@ -3,7 +3,7 @@ import { isElement } from 'hast-util-is-element';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
-const PREFIX_REGEX = /\[!(?<kind>[\w]+)\](?<collapsable>-{0,1})\s*(?<title>.*)/g;
+const PREFIX_REGEX = /\[!(?<kind>[\w]+)\]\s*(?<title>.*)/g;
 const PREFIX = ['[!NOTE]', '[!IMPORTANT]', '[!WARNING]', '[!TIP]', '[!CAUTION]'];
 
 /**
@@ -65,43 +65,14 @@ const rehypeGfmAlert: Plugin = () => {
       node.properties.type = 'application/json';
 
       const alertText = node.children
-        .map((child) => {
+        .map((child, index) => {
           if (child.type === 'element') {
-            return removeLabelElement(child.children)
-              .map((grandChild) => {
-                if (grandChild.type === 'text') {
-                  return grandChild.value;
-                }
-
-                if (grandChild.type === 'element') {
-                  const grandChildText = grandChild.children
-                    .map((greatGrandChild) => {
-                      if (greatGrandChild.type === 'text') {
-                        return greatGrandChild.value;
-                      }
-                      return '';
-                    })
-                    .join('');
-
-                  switch (grandChild.tagName) {
-                    case 'a':
-                      return `<a href="${grandChild.properties?.href ?? ''}">${grandChildText}</a>`;
-                    case 'img':
-                      return `<img src="${grandChild.properties?.src ?? ''}" alt="${grandChild.properties?.alt ?? ''}" />`;
-                    case 'br':
-                      return '<br />';
-                    case 'strong':
-                      return `<strong>${grandChildText}</strong>`;
-                    case 'code':
-                      return `<code>${grandChildText}</code>`;
-                    default:
-                      return grandChildText;
-                  }
-                }
-
-                return '';
-              })
+            const content = removeLabelElement(child.children)
+              .map((grandChild) => elementToHtml(grandChild))
               .join('');
+
+            // 複数段落の場合、段落間に改行を入れる
+            return index > 0 ? `\n\n${content}` : content;
           }
           return '';
         })
@@ -128,6 +99,47 @@ export default rehypeGfmAlert;
 const getAlertLabel = (prefix: string): string => {
   if (PREFIX.includes(prefix)) {
     return prefix.replace('[!', '').replace(']', '');
+  }
+
+  return '';
+};
+
+/**
+ * 要素を再帰的にHTMLに変換する
+ */
+const elementToHtml = (node: ElementContent): string => {
+  if (node.type === 'text') {
+    return node.value;
+  }
+
+  if (node.type === 'element') {
+    const childrenHtml = node.children.map((child) => elementToHtml(child)).join('');
+
+    switch (node.tagName) {
+      case 'a':
+        return `<a href="${node.properties?.href ?? ''}">${childrenHtml}</a>`;
+      case 'img':
+        return `<img src="${node.properties?.src ?? ''}" alt="${node.properties?.alt ?? ''}" />`;
+      case 'br':
+        return '<br />';
+      case 'strong':
+      case 'b':
+        return `<strong>${childrenHtml}</strong>`;
+      case 'em':
+      case 'i':
+        return `<em>${childrenHtml}</em>`;
+      case 'code':
+        return `<code>${childrenHtml}</code>`;
+      case 'del':
+      case 's':
+        return `<del>${childrenHtml}</del>`;
+      case 'sup':
+        return `<sup>${childrenHtml}</sup>`;
+      case 'sub':
+        return `<sub>${childrenHtml}</sub>`;
+      default:
+        return childrenHtml;
+    }
   }
 
   return '';

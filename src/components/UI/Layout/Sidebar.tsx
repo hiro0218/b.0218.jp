@@ -1,7 +1,7 @@
 import type { NamedExoticComponent, ReactNode } from 'react';
 
 import { css, cx, styled } from '@/ui/styled';
-import { fontSizeHeadingClasses } from '@/ui/styled/atomic';
+import { fontSizeHeadingClasses, gapClasses } from '@/ui/styled/atomic';
 import type { SpaceGap } from '@/ui/styled/theme/tokens/spacing';
 import { textEllipsis } from '@/ui/styled/utilities';
 
@@ -91,7 +91,7 @@ const Side = ({ children }: ChildProps) => {
 };
 
 export const Sidebar = (({ children, gap = 3 }: Props) => {
-  return <Container data-gap={gap}>{children}</Container>;
+  return <Container className={gapClasses[gap]}>{children}</Container>;
 }) as NamedExoticComponent<Props> & {
   // biome-ignore lint/style/useNamingConvention: compound component pattern requires PascalCase
   Title: typeof Title;
