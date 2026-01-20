@@ -4,14 +4,13 @@ import type { HandlerFunction } from './types';
 /**
  * tableタグを<div class="c-table-scrollable">で包括する
  */
-export const handleTable: HandlerFunction = (domNode) => {
+export const handleTable: HandlerFunction = (domNode, options) => {
   if (domNode.name === 'table') {
-    // style属性を除外（文字列として渡されるとReactがエラーをスローする）
     const { style, ...restAttribs } = domNode.attribs || {};
 
     return (
       <div className="c-table-scrollable">
-        <table {...restAttribs}>{domToReact(domNode.children as DOMNode[])}</table>
+        <table {...restAttribs}>{domToReact(domNode.children as DOMNode[], options)}</table>
       </div>
     );
   }
