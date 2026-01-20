@@ -11,6 +11,7 @@ import rehype0218 from './rehype0218';
 import rehypeExternalLink from './rehypeExternalLink';
 import rehypeGfmAlert from './rehypeGfmAlert';
 import rehypeRemoveComments from './rehypeRemoveComments';
+import rehypeWrapImgWithFigure from './rehypeWrapImgWithFigure';
 import remarkBreaks from './remarkBreaks';
 
 const markdownToHtmlString = async (markdown: string, isSimple = false) => {
@@ -26,6 +27,7 @@ const markdownToHtmlString = async (markdown: string, isSimple = false) => {
   const processor = isSimple
     ? baseProcessor.use(rehypeStringify, { allowDangerousHtml: true })
     : baseProcessor
+        .use(rehypeWrapImgWithFigure)
         .use(rehypeGfmAlert)
         .use(rehypeHighlight)
         .use(rehype0218)
