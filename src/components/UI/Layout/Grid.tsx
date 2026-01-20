@@ -44,12 +44,10 @@ export const Grid = ({
     ...(typeof columns === 'number' && { '--grid-columns': columns }),
   } as CSSProperties;
 
+  const gapClass = gap !== undefined ? gapClasses[gap] : undefined;
+
   return (
-    <GridTag
-      {...props}
-      className={cx(containerType, gridStyle, gap !== undefined && gapClasses[gap], className)}
-      style={style}
-    >
+    <GridTag {...props} className={cx(containerType, gridStyle, gapClass, className)} style={style}>
       {children}
     </GridTag>
   );
