@@ -15,15 +15,15 @@ interface AlertData {
  * class="gfm-alert"を持つ要素をAlertコンポーネントに変換する
  */
 export const handleAlert: HandlerFunction = (domNode) => {
-  if (domNode.attribs?.class === 'gfm-alert') {
-    const json = safeJsonParse<AlertData>(domToReact(domNode.children as DOMNode[]) as string);
-
-    if (!json) {
-      return undefined;
-    }
-
-    return <Alert html={json.data.text} type={json.data.type} />;
+  if (domNode.attribs?.class !== 'gfm-alert') {
+    return undefined;
   }
 
-  return undefined;
+  const json = safeJsonParse<AlertData>(domToReact(domNode.children as DOMNode[]) as string);
+
+  if (!json) {
+    return undefined;
+  }
+
+  return <Alert html={json.data.text} type={json.data.type} />;
 };

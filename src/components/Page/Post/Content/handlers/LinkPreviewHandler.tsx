@@ -19,24 +19,24 @@ interface LinkPreviewData {
  * class="link-preview"を持つ要素をLinkPreviewコンポーネントに変換する
  */
 export const handleLinkPreview: HandlerFunction = (domNode) => {
-  if (domNode.attribs?.class === 'link-preview') {
-    const json = safeJsonParse<LinkPreviewData>(domToReact(domNode.children as DOMNode[]) as string);
-
-    if (!json) {
-      return undefined;
-    }
-
-    return (
-      <LinkPreview
-        card={json.data.card}
-        description={json.data.description}
-        domain={json.data.domain}
-        link={json.data.link}
-        thumbnail={json.data.thumbnail}
-        title={json.data.title}
-      />
-    );
+  if (domNode.attribs?.class !== 'link-preview') {
+    return undefined;
   }
 
-  return undefined;
+  const json = safeJsonParse<LinkPreviewData>(domToReact(domNode.children as DOMNode[]) as string);
+
+  if (!json) {
+    return undefined;
+  }
+
+  return (
+    <LinkPreview
+      card={json.data.card}
+      description={json.data.description}
+      domain={json.data.domain}
+      link={json.data.link}
+      thumbnail={json.data.thumbnail}
+      title={json.data.title}
+    />
+  );
 };

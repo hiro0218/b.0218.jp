@@ -1,6 +1,6 @@
 'use client';
 
-import type { CSSProperties, FC, ImgHTMLAttributes } from 'react';
+import type { CSSProperties, ImgHTMLAttributes, JSX } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { parseStyleStringToObject } from '@/lib/browser/parseStyleStringToObject';
 import type { ZoomImageSource } from '../types';
@@ -136,7 +136,7 @@ function getModalImgStyle(params: {
   return style;
 }
 
-const ZoomImage: FC<ZoomImageProps> = ({ alt, src, style, zoomImg, a11yOptions, ...props }) => {
+function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImageProps): JSX.Element {
   const processedStyle = style && typeof style === 'string' ? parseStyleStringToObject(style) : style;
   const hasObjectFit = !!(processedStyle && 'objectFit' in processedStyle && processedStyle.objectFit);
 
@@ -273,6 +273,6 @@ const ZoomImage: FC<ZoomImageProps> = ({ alt, src, style, zoomImg, a11yOptions, 
       )}
     </>
   );
-};
+}
 
 export default ZoomImage;
