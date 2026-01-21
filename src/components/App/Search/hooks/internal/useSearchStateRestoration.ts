@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useRef } from 'react';
-import type { SearchProps, SearchResultItem } from '../types';
+import type { SearchProps, SearchResultItem } from '../../types';
 
 interface UseSearchStateRestorationProps {
   persistState: boolean;
   archives: SearchProps[];
   executeSearch: (query: string) => void;
-  setFocusedIndex: (index: number) => void;
+  setFocusedIndex?: (index: number) => void;
   setResults: (results: SearchResultItem[], query: string) => void;
   loadSearchState: () => { query: string; results: SearchResultItem[]; focusedIndex?: number } | null;
 }
@@ -53,7 +53,7 @@ export const useSearchStateRestoration = ({
 
     // archives データが揃ったら検索を再実行
     executeSearch(savedState.query);
-    if (savedState.focusedIndex !== undefined) {
+    if (setFocusedIndex && savedState.focusedIndex !== undefined) {
       setFocusedIndex(savedState.focusedIndex);
     }
     hasExecutedRestorationRef.current = true;

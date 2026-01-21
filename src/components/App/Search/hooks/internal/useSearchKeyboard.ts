@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 import { isHTMLElement } from '@/lib/browser/typeGuards';
 import { convertPostSlugToPath } from '@/lib/utils/url';
-import type { SearchProps } from '../types';
+import type { SearchProps } from '../../types';
 
 const NAV_KEYS: ReadonlySet<string> = new Set(['ArrowDown', 'ArrowUp', 'Home', 'End', 'Enter', 'Escape']);
 

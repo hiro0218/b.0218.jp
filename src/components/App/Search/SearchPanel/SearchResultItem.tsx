@@ -1,13 +1,12 @@
 import { forwardRef } from 'react';
 import { Anchor } from '@/components/UI/Anchor';
 import { convertPostSlugToPath } from '@/lib/utils/url';
-import { ICON_SIZE_XS } from '@/ui/icons';
-import { Hashtag, MagnifyingGlass } from '@/ui/icons/index';
+import { Hashtag, ICON_SIZE_XS, MagnifyingGlass } from '@/ui/icons/index';
 import { cx } from '@/ui/styled';
 import type { MatchedIn } from '../types';
-import { AnchorStyle, FocusedContainerStyle, LinkContainerStyle } from './styles';
+import { AnchorStyle, FocusedContainerStyle, LinkContainerStyle } from './SearchResultItem.styles';
 
-type NavigableLinkProps = {
+type SearchResultItemProps = {
   slug: string;
   title: string;
   isFocused: boolean;
@@ -15,7 +14,14 @@ type NavigableLinkProps = {
   onLinkClick?: () => void;
 };
 
-export const NavigableLink = forwardRef<HTMLDivElement, NavigableLinkProps>(
+/**
+ * 検索結果アイテム
+ *
+ * @description
+ * 個別の検索結果を表示するコンポーネント。
+ * キーボードナビゲーションに対応し、フォーカス状態を視覚的に表現します。
+ */
+export const SearchResultItem = forwardRef<HTMLDivElement, SearchResultItemProps>(
   ({ slug, title, isFocused, matchedIn, onLinkClick }, ref) => {
     const link = convertPostSlugToPath(slug);
 
@@ -38,4 +44,4 @@ export const NavigableLink = forwardRef<HTMLDivElement, NavigableLinkProps>(
   },
 );
 
-NavigableLink.displayName = 'NavigableLink';
+SearchResultItem.displayName = 'SearchResultItem';

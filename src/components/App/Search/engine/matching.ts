@@ -6,8 +6,8 @@
 
 import type { MatchedIn, MatchType, RankedSearchResult, SearchProps } from '../types';
 import { isEmptyQuery } from '../utils/validation';
-import { getMatchTypePriority } from './scoringEngine';
-import { getMatchTypeFromNormalized, type NormalizedText, normalizeText } from './textNormalizationEngine';
+import { getMatchTypePriority } from './scoring';
+import { getMatchTypeFromNormalized, type NormalizedText, normalizeText } from './textNormalization';
 
 /**
  * 検索精度向上のため検索クエリとテキストの一致パターンを判定し最適なマッチタイプを返す

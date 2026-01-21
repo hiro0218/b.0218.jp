@@ -7,9 +7,9 @@
 import { useMemo } from 'react';
 import type { SearchProps, SearchResultItem } from '../types';
 import { isEmptyQuery } from '../utils/validation';
-import { SearchCache } from './cacheEngine';
-import { findMatchingPosts } from './matchingEngine';
-import { sortAndLimitResults } from './scoringEngine';
+import { SearchCache } from './cache';
+import { findMatchingPosts } from './matching';
+import { sortAndLimitResults } from './scoring';
 
 const MAX_SEARCH_RESULTS = 100;
 

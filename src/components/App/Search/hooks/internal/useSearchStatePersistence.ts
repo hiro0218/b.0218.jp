@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import { getSessionStorage, removeSessionStorage, setSessionStorage } from '@/lib/browser/safeSessionStorage';
-import type { SearchResultItem } from '../types';
+import type { SearchResultItem } from '../../types';
 
 type SearchState = {
   query: string;
@@ -57,8 +57,14 @@ export const useSearchStatePersistence = () => {
     return searchState;
   }, []);
 
+  const clearSearchState = useCallback(() => {
+    if (!isClientRef.current) return;
+    removeSessionStorage(STORAGE_KEY);
+  }, []);
+
   return {
     saveSearchState,
     loadSearchState,
+    clearSearchState,
   };
 };

@@ -6,10 +6,11 @@ import { mergeProps } from '@react-aria/utils';
 import { type RefObject, useId } from 'react';
 import { createPortal } from 'react-dom';
 
+import { Container } from '@/components/UI/Layout';
 import useIsClient from '@/hooks/useIsClient';
 import { styled } from '@/ui/styled';
 import { SEARCH_LABELS } from '../constants';
-import { useSearchFacade } from '../hooks/useSearchFacade';
+import { useSearch } from '../hooks/useSearch';
 import { SearchHeader } from '../SearchHeader';
 import { SearchPanel } from '../SearchPanel';
 
@@ -25,7 +26,7 @@ export const SearchDialog = ({ onCloseAction, isClosing, dialogRef }: Props) => 
   const labelledId = `${id}-labelled`;
   const describedId = `${id}-described`;
 
-  const search = useSearchFacade({
+  const search = useSearch({
     onClose: onCloseAction,
     dialogRef,
   });
@@ -38,11 +39,11 @@ export const SearchDialog = ({ onCloseAction, isClosing, dialogRef }: Props) => 
     dialogRef,
   );
 
-  const mergedDialogProps = mergeProps(dialogProps, search.ui.containerProps);
+  const mergedDialogProps = mergeProps(dialogProps, search.containerProps);
 
   const handleBackdropClick = (event: React.MouseEvent<HTMLDialogElement>) => {
     if (event.target === event.currentTarget) {
-      search.actions.close();
+      search.close();
     }
   };
 
@@ -59,14 +60,16 @@ export const SearchDialog = ({ onCloseAction, isClosing, dialogRef }: Props) => 
         <p className="sr-only" id={describedId}>
           {SEARCH_LABELS.searchDescription}
         </p>
-        <SearchHeader {...search.ui.inputProps} searchQuery={search.query} />
-        <SearchPanel
-          focusedIndex={search.focusedIndex}
-          onLinkClick={search.actions.close}
-          results={search.results}
-          searchQuery={search.query}
-          setResultRef={search.ui.setResultRef}
-        />
+        <Container size="default" space={false}>
+          <SearchHeader {...search.inputProps} onClear={search.reset} searchQuery={search.query} />
+          <SearchPanel
+            focusedIndex={search.focusedIndex}
+            onLinkClick={search.close}
+            results={search.results}
+            searchQuery={search.query}
+            setResultRef={search.setResultRef}
+          />
+        </Container>
       </Dialog>
     </FocusScope>,
     document.body,
@@ -76,7 +79,7 @@ export const SearchDialog = ({ onCloseAction, isClosing, dialogRef }: Props) => 
 const Dialog = styled.dialog`
   position: fixed;
   top: 0;
-  max-width: 90vw;
+  width: clamp(16rem, 90vw, 64rem);
   max-height: 80vh;
   padding: 0;
   border: none;

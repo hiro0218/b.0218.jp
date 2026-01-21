@@ -7,7 +7,7 @@ type Props = {
   openDialogAction: () => void;
 };
 
-export function SearchButton({ openDialogAction }: Props) {
+export function SearchTrigger({ openDialogAction }: Props) {
   return (
     <Tooltip text={SEARCH_LABELS.searchTitle}>
       <Button aria-haspopup="dialog" className="link-style--hover-effect" onClick={openDialogAction} type="button">

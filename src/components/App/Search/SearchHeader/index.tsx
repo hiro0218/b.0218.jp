@@ -4,17 +4,19 @@ import { useEffect, useId, useRef } from 'react';
 
 import { ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';
 import { css, styled } from '@/ui/styled';
+import { SearchClearButton } from '../SearchClearButton';
 
 interface SearchHeaderProps {
   onKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onClear: () => void;
   searchQuery: string;
 }
 
 /**
  * @performance 初回マウント時のみfocusを実行し、不要な再レンダリングを防止
  */
-export function SearchHeader({ onKeyUp, onKeyDown, searchQuery }: SearchHeaderProps) {
+export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: SearchHeaderProps) {
   const refInput = useRef<HTMLInputElement>(null);
   const searchInputId = useId();
 
@@ -24,6 +26,14 @@ export function SearchHeader({ onKeyUp, onKeyDown, searchQuery }: SearchHeaderPr
       refInput.current?.focus();
     }
   }, []);
+
+  const handleClear = () => {
+    onClear();
+    if (refInput.current) {
+      refInput.current.value = '';
+      refInput.current.focus();
+    }
+  };
 
   return (
     <div className={headerStyle}>
@@ -38,11 +48,14 @@ export function SearchHeader({ onKeyUp, onKeyDown, searchQuery }: SearchHeaderPr
         id={searchInputId}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
-        placeholder="記事タイトルやタグから検索する"
+        placeholder="記事タイトルまたはタグを検索"
         ref={refInput}
         role="searchbox"
         type="text"
       />
+      <div className={clearButtonWrapperStyle}>
+        <SearchClearButton disabled={!searchQuery} onClear={handleClear} />
+      </div>
     </div>
   );
 }
@@ -50,7 +63,18 @@ export function SearchHeader({ onKeyUp, onKeyDown, searchQuery }: SearchHeaderPr
 const headerStyle = css`
   position: relative;
   display: flex;
-  border-bottom: 1px solid var(--colors-gray-400);
+  padding: var(--spacing-½) 0;
+  background-color: var(--colors-gray-a-50);
+  border-radius: var(--radii-4);
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: var(--colors-gray-a-100);
+  }
+
+  &:focus-within {
+    background-color: var(--colors-gray-a-100);
+  }
 `;
 
 const headerIconStyle = css`
@@ -64,14 +88,21 @@ const SearchInput = styled.input`
   height: var(--spacing-4);
   padding: 0;
   font-size: var(--font-sizes-md);
+  background-color: transparent;
   border: none;
 
   &::placeholder {
     font-size: var(--font-sizes-sm);
-    color: var(--colors-gray-900);
+    color: var(--colors-gray-600);
   }
 
   &:focus {
     outline: none;
   }
+`;
+
+const clearButtonWrapperStyle = css`
+  display: flex;
+  align-items: center;
+  padding-right: var(--spacing-1);
 `;

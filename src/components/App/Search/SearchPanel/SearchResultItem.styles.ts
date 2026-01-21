@@ -34,6 +34,6 @@ export const AnchorStyle = css`
 
   svg {
     flex-shrink: 0;
-    fill: var(--colors-gray-900);
+    fill: var(--colors-gray-800);
   }
 `;

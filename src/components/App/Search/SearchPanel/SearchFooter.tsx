@@ -1,48 +1,26 @@
 import { Stack } from '@/components/UI/Layout';
 import { styled } from '@/ui/styled';
-import { createSearchResultMessage, createSearchStatusMessage } from './libs/createSearchMessage';
+import { truncateQuery } from './utils/createSearchMessage';
 
-type SearchStatusProps = {
-  resultsCount: number;
-  searchQuery: string;
-};
-
-export function SearchStatus({ resultsCount, searchQuery }: SearchStatusProps) {
-  const statusMessage = createSearchStatusMessage({ resultsCount, searchQuery });
-
-  return (
-    <div aria-live="polite" className="sr-only">
-      {statusMessage}
-    </div>
-  );
-}
-
-type SearchResultMessageProps = {
-  resultsCount: number;
-  searchQuery: string;
-};
-
-export function SearchResultMessage({ resultsCount, searchQuery }: SearchResultMessageProps) {
-  const resultMessage = createSearchResultMessage({ resultsCount, searchQuery });
-
-  return <Message>{resultMessage}</Message>;
-}
-
-type SearchExternalLinkProps = {
+type SearchFooterProps = {
   searchQuery?: string;
 };
 
-export function SearchExternalLink({ searchQuery }: SearchExternalLinkProps) {
+/**
+ * 検索パネルのフッター
+ *
+ * @description
+ * キーボードショートカットの案内とGoogle検索へのリンクを表示します。
+ */
+export function SearchFooter({ searchQuery }: SearchFooterProps) {
   const query = searchQuery ? `site:b.0218.jp ${searchQuery}` : 'site:b.0218.jp';
   const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+  const displayQuery = searchQuery ? truncateQuery(searchQuery) : '';
 
   return (
-    <SearchFooter>
+    <Footer>
       <Stack direction="horizontal" gap={1} justify="space-between">
         <Stack align="center" direction="horizontal" gap={1} justify="space-between">
-          <span>
-            <kbd>/</kbd>検索を開く
-          </span>
           <span>
             <kbd>↑</kbd>
             <kbd>↓</kbd>選択
@@ -53,29 +31,20 @@ export function SearchExternalLink({ searchQuery }: SearchExternalLinkProps) {
         </Stack>
         <Stack>
           <a href={searchUrl} rel="noreferrer" target="_blank">
-            {searchQuery ? `Google で「${searchQuery}」を検索` : 'Google 検索'}
+            {displayQuery ? `Google で「${displayQuery}」を検索` : 'Google 検索'}
           </a>
         </Stack>
       </Stack>
-    </SearchFooter>
+    </Footer>
   );
 }
 
-const Message = styled.div`
-  padding: var(--spacing-½);
-  font-size: var(--font-sizes-xs);
-  font-weight: var(--font-weights-bold);
-  line-height: var(--line-heights-xs);
-  color: var(--colors-gray-900);
-`;
-
-const SearchFooter = styled.footer`
+const Footer = styled.footer`
   padding: var(--spacing-1) var(--spacing-1);
   font-size: var(--font-sizes-xs);
   color: var(--colors-gray-900);
   text-align: right;
   background-color: var(--colors-gray-a-50);
-  border-top: 1px solid var(--colors-gray-400);
 
   a {
     color: var(--colors-gray-900);

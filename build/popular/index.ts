@@ -1,5 +1,5 @@
 import { FILENAME_POSTS_POPULAR } from '@/constants';
-import { writeJSON } from '~/tools/fs';
+import { copyFile, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
 import { getPopularArticles } from './ga';
 import { getBookmarkArticles } from './hatena';
@@ -7,6 +7,7 @@ import { getBookmarkArticles } from './hatena';
 import type { Result } from './type';
 
 const PATH_DIST = `${process.cwd()}/dist`;
+const PATH_PUBLIC = `${process.cwd()}/public`;
 
 const sortByTotal = (obj: Result): Result =>
   Object.fromEntries(Object.entries(obj).sort(([, a], [, b]) => b.total - a.total));
@@ -32,4 +33,7 @@ const sortByTotal = (obj: Result): Result =>
 
   await writeJSON(`${PATH_DIST}/${FILENAME_POSTS_POPULAR}.json`, sortByTotal(result));
   Log.info(`Write dist/${FILENAME_POSTS_POPULAR}.json`);
+
+  await copyFile(`${PATH_DIST}/${FILENAME_POSTS_POPULAR}.json`, `${PATH_PUBLIC}/${FILENAME_POSTS_POPULAR}.json`);
+  Log.info(`Copy dist/${FILENAME_POSTS_POPULAR}.json -> public`);
 })();
