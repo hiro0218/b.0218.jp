@@ -78,7 +78,7 @@ const Query = styled.p`
   color: var(--colors-gray-800);
 `;
 
-const Suggestion = styled.div`
+const Suggestion = styled.p`
   padding-left: 0;
   margin-top: var(--spacing-4);
   margin-bottom: 0;
