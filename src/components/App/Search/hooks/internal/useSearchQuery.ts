@@ -111,7 +111,12 @@ export const useSearchQuery = (options: UseSearchQueryOptions = {}): UseSearchQu
     saveSearchState({
       query: state.query,
       results: state.results,
-      focusedIndex: -1, // focusedIndex は useSearchNavigation で管理
+      // focusedIndex はキーボードナビゲーション用の一時的な状態であり、
+      // セッション間でフォーカス位置を復元しない設計のため、永続化時は常に
+      // 「未フォーカス」を表す -1 に固定する。
+      // 実際のフォーカス管理は useSearchNavigation が行い、永続化された値は
+      // 参照されないが、保存データのスキーマを保つためにキー自体は保持しておく。
+      focusedIndex: -1,
     });
   }, [persistState, state.query, state.results, saveSearchState]);
 
