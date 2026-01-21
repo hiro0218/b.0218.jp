@@ -1,8 +1,8 @@
 'use client';
 
 import { useCallback, useEffect } from 'react';
-import { usePostsData } from '../data/usePostsData';
-import type { SearchResultItem } from '../types';
+import { usePostsData } from '../../data/usePostsData';
+import type { SearchResultItem } from '../../types';
 import { useSearchManager } from './useSearchManager';
 import { useSearchStatePersistence } from './useSearchStatePersistence';
 import { useSearchStateRestoration } from './useSearchStateRestoration';

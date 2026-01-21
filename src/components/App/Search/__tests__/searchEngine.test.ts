@@ -5,9 +5,9 @@ import {
   getTextMatchType,
   getTitleMatchType,
   isTextMatching,
-} from '@/components/App/Search/engine/matchingEngine';
-import { getMatchTypePriority } from '@/components/App/Search/engine/scoringEngine';
-import { performPostSearch } from '@/components/App/Search/engine/searchEngine';
+} from '@/components/App/Search/engine/matching';
+import { getMatchTypePriority } from '@/components/App/Search/engine/scoring';
+import { performPostSearch } from '@/components/App/Search/engine/search';
 import type { MatchType, SearchProps } from '@/components/App/Search/types';
 
 // テスト用のモックデータ

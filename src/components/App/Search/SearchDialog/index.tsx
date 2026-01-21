@@ -79,7 +79,7 @@ export const SearchDialog = ({ onCloseAction, isClosing, dialogRef }: Props) => 
 const Dialog = styled.dialog`
   position: fixed;
   top: 0;
-  max-width: 90vw;
+  width: clamp(16rem, 90vw, 64rem);
   max-height: 80vh;
   padding: 0;
   overflow: clip;

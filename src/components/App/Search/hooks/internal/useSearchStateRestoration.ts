@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import type { SearchProps, SearchResultItem } from '../types';
+import type { SearchProps, SearchResultItem } from '../../types';
 
 interface UseSearchStateRestorationProps {
   persistState: boolean;

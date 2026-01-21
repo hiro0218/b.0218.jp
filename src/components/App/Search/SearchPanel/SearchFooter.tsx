@@ -1,41 +1,17 @@
 import { Stack } from '@/components/UI/Layout';
 import { styled } from '@/ui/styled';
-import { createSearchResultMessage, createSearchStatusMessage, truncateQuery } from './libs/createSearchMessage';
-
-type SearchStatusProps = {
-  resultsCount: number;
-  searchQuery: string;
-};
-
-export function SearchStatus({ resultsCount, searchQuery }: SearchStatusProps) {
-  const statusMessage = createSearchStatusMessage({ resultsCount, searchQuery });
-
-  return (
-    <div aria-live="polite" className="sr-only">
-      {statusMessage}
-    </div>
-  );
-}
-
-type SearchResultMessageProps = {
-  resultsCount: number;
-  searchQuery: string;
-};
-
-export function SearchResultMessage({ resultsCount, searchQuery }: SearchResultMessageProps) {
-  const resultMessage = createSearchResultMessage({ resultsCount, searchQuery });
-
-  if (resultsCount > 0) {
-    return <ResultsSummary>{resultMessage}</ResultsSummary>;
-  }
-
-  return <NoResultsMessage>{resultMessage}</NoResultsMessage>;
-}
+import { truncateQuery } from './utils/createSearchMessage';
 
 type SearchFooterProps = {
   searchQuery?: string;
 };
 
+/**
+ * 検索パネルのフッター
+ *
+ * @description
+ * キーボードショートカットの案内とGoogle検索へのリンクを表示します。
+ */
 export function SearchFooter({ searchQuery }: SearchFooterProps) {
   const query = searchQuery ? `site:b.0218.jp ${searchQuery}` : 'site:b.0218.jp';
   const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
@@ -62,21 +38,6 @@ export function SearchFooter({ searchQuery }: SearchFooterProps) {
     </Footer>
   );
 }
-
-const ResultsSummary = styled.div`
-  padding: var(--spacing-1) var(--spacing-½);
-  font-size: var(--font-sizes-xs);
-  line-height: var(--line-heights-xs);
-  color: var(--colors-gray-600);
-`;
-
-const NoResultsMessage = styled.div`
-  padding: var(--spacing-1) var(--spacing-½);
-  font-size: var(--font-sizes-sm);
-  line-height: var(--line-heights-sm);
-  color: var(--colors-gray-700);
-  text-align: center;
-`;
 
 const Footer = styled.footer`
   padding: var(--spacing-1) var(--spacing-1);

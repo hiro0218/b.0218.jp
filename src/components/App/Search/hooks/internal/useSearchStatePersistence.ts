@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import { getSessionStorage, removeSessionStorage, setSessionStorage } from '@/lib/browser/safeSessionStorage';
-import type { SearchResultItem } from '../types';
+import type { SearchResultItem } from '../../types';
 
 type SearchState = {
   query: string;

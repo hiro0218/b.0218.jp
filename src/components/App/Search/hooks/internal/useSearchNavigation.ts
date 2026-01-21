@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import type { RefObject } from 'react';
 import { isHTMLElement } from '@/lib/browser/typeGuards';
 import { convertPostSlugToPath } from '@/lib/utils/url';
-import type { SearchResultItem } from '../types';
+import type { SearchResultItem } from '../../types';
 import { useSearchFocusState } from './useSearchFocusState';
 
 /**

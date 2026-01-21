@@ -4,7 +4,7 @@
 import { renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import * as safeSessionStorage from '@/lib/browser/safeSessionStorage';
-import type { SearchResultItem } from '../types';
+import type { SearchResultItem } from '../../types';
 import { useSearchStatePersistence } from './useSearchStatePersistence';
 
 vi.mock('@/lib/browser/safeSessionStorage', () => ({

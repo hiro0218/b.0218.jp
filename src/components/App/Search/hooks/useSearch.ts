@@ -2,9 +2,9 @@
 
 import { type RefObject, useCallback, useMemo, useRef } from 'react';
 import type { SearchResultItem } from '../types';
-import { useSearchNavigation } from './useSearchNavigation';
-import { useSearchQuery } from './useSearchQuery';
-import { useSearchUI } from './useSearchUI';
+import { useSearchNavigation } from './internal/useSearchNavigation';
+import { useSearchQuery } from './internal/useSearchQuery';
+import { useSearchUI } from './internal/useSearchUI';
 
 /**
  * useSearch のオプション
