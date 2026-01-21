@@ -19,24 +19,26 @@ export function Result({
   onLinkClick?: () => void;
 }) {
   return (
-    <Container data-search-results>
+    <>
       <SearchResultMessage resultsCount={suggestions.length} searchQuery={keyword} />
-      {suggestions.length > 0 && (
-        <div>
-          {suggestions.map(({ slug, matchedIn }, index) => (
-            <NavigableLink
-              isFocused={focusedIndex === index}
-              key={slug}
-              matchedIn={matchedIn}
-              onLinkClick={onLinkClick}
-              ref={(element) => setResultRef(index, element)}
-              slug={slug}
-              title={markedTitles[index]}
-            />
-          ))}
-        </div>
-      )}
-    </Container>
+      <Container data-search-results>
+        {suggestions.length > 0 && (
+          <>
+            {suggestions.map(({ slug, matchedIn }, index) => (
+              <NavigableLink
+                isFocused={focusedIndex === index}
+                key={slug}
+                matchedIn={matchedIn}
+                onLinkClick={onLinkClick}
+                ref={(element) => setResultRef(index, element)}
+                slug={slug}
+                title={markedTitles[index]}
+              />
+            ))}
+          </>
+        )}
+      </Container>
+    </>
   );
 }
 

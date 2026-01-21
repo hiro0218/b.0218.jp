@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { styled } from '@/ui/styled';
 import type { SearchResultItem } from '../types';
 import { createMarkedTitles } from './libs/markEscapedHTML';
-import { SearchExternalLink, SearchStatus } from './Meta';
+import { SearchFooter, SearchStatus } from './Meta';
 import { Result } from './Result';
 
 type SearchPanelProps = {
@@ -28,13 +28,12 @@ export function SearchPanel({ results, searchQuery, focusedIndex, setResultRef, 
         setResultRef={setResultRef}
         suggestions={results}
       />
-      <SearchExternalLink searchQuery={searchQuery} />
+      <SearchFooter searchQuery={searchQuery} />
     </SearchMain>
   );
 }
 
 const SearchMain = styled.main`
-  width: min(90vw, 640px);
   max-height: calc(60vh - var(--header-height));
   overflow-y: auto;
 `;

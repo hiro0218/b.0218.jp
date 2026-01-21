@@ -38,7 +38,7 @@ export function SearchHeader({ onKeyUp, onKeyDown, searchQuery }: SearchHeaderPr
         id={searchInputId}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
-        placeholder="記事タイトルやタグから検索する"
+        placeholder="記事タイトルまたはタグで検索する"
         ref={refInput}
         role="searchbox"
         type="text"
@@ -50,7 +50,18 @@ export function SearchHeader({ onKeyUp, onKeyDown, searchQuery }: SearchHeaderPr
 const headerStyle = css`
   position: relative;
   display: flex;
-  border-bottom: 1px solid var(--colors-gray-400);
+  padding: var(--spacing-½) 0;
+  background-color: var(--colors-gray-a-50);
+  border-radius: var(--radii-4);
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: var(--colors-gray-a-100);
+  }
+
+  &:focus-within {
+    background-color: var(--colors-gray-a-100);
+  }
 `;
 
 const headerIconStyle = css`
@@ -64,11 +75,12 @@ const SearchInput = styled.input`
   height: var(--spacing-4);
   padding: 0;
   font-size: var(--font-sizes-md);
+  background-color: transparent;
   border: none;
 
   &::placeholder {
     font-size: var(--font-sizes-sm);
-    color: var(--colors-gray-900);
+    color: var(--colors-gray-600);
   }
 
   &:focus {
