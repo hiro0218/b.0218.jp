@@ -57,8 +57,14 @@ export const useSearchStatePersistence = () => {
     return searchState;
   }, []);
 
+  const clearSearchState = useCallback(() => {
+    if (!isClientRef.current) return;
+    removeSessionStorage(STORAGE_KEY);
+  }, []);
+
   return {
     saveSearchState,
     loadSearchState,
+    clearSearchState,
   };
 };

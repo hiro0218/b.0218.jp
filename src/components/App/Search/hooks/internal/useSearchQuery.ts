@@ -80,13 +80,19 @@ export const useSearchQuery = (options: UseSearchQueryOptions = {}): UseSearchQu
   const { data: archives, isLoading, error } = usePostsData();
 
   // ===== 検索実行管理 =====
-  const { state, debouncedSearch, executeSearch, reset, setResults } = useSearchManager({
+  const {
+    state,
+    debouncedSearch,
+    executeSearch,
+    reset: resetManager,
+    setResults,
+  } = useSearchManager({
     archives,
     debounceDelayMs: debounceMs,
   });
 
   // ===== 状態永続化 =====
-  const { saveSearchState, loadSearchState } = useSearchStatePersistence();
+  const { saveSearchState, loadSearchState, clearSearchState } = useSearchStatePersistence();
 
   // ===== 検索状態復元 =====
   useSearchStateRestoration({
@@ -115,6 +121,11 @@ export const useSearchQuery = (options: UseSearchQueryOptions = {}): UseSearchQu
     },
     [executeSearch],
   );
+
+  const reset = useCallback(() => {
+    resetManager();
+    clearSearchState();
+  }, [resetManager, clearSearchState]);
 
   return {
     query: state.query,

@@ -61,7 +61,7 @@ export const SearchDialog = ({ onCloseAction, isClosing, dialogRef }: Props) => 
           {SEARCH_LABELS.searchDescription}
         </p>
         <Container size="default" space={false}>
-          <SearchHeader {...search.inputProps} searchQuery={search.query} />
+          <SearchHeader {...search.inputProps} onClear={search.reset} searchQuery={search.query} />
           <SearchPanel
             focusedIndex={search.focusedIndex}
             onLinkClick={search.close}
@@ -82,7 +82,6 @@ const Dialog = styled.dialog`
   width: clamp(16rem, 90vw, 64rem);
   max-height: 80vh;
   padding: 0;
-  overflow: clip;
   border: none;
   border-radius: var(--radii-4);
   isolation: isolate;
