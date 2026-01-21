@@ -33,7 +33,8 @@ export function SearchPanel({ results, searchQuery, focusedIndex, setResultRef, 
   );
 }
 
-const SearchMain = styled.main`
-  max-height: calc(60vh - var(--header-height));
-  overflow-y: auto;
+const SearchMain = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 `;

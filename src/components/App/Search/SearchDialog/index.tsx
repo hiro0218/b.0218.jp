@@ -82,6 +82,7 @@ const Dialog = styled.dialog`
   max-width: 90vw;
   max-height: 80vh;
   padding: 0;
+  overflow: clip;
   border: none;
   border-radius: var(--radii-4);
   isolation: isolate;

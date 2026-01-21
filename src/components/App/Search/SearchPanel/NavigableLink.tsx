@@ -1,8 +1,7 @@
 import { forwardRef } from 'react';
 import { Anchor } from '@/components/UI/Anchor';
 import { convertPostSlugToPath } from '@/lib/utils/url';
-import { ICON_SIZE_XS } from '@/ui/icons';
-import { Hashtag, MagnifyingGlass } from '@/ui/icons/index';
+import { Hashtag, ICON_SIZE_XS, MagnifyingGlass } from '@/ui/icons/index';
 import { cx } from '@/ui/styled';
 import type { MatchedIn } from '../types';
 import { AnchorStyle, FocusedContainerStyle, LinkContainerStyle } from './styles';
