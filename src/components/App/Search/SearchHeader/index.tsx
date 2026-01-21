@@ -48,7 +48,7 @@ export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: Searc
         id={searchInputId}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
-        placeholder="記事タイトルまたはタグで検索する"
+        placeholder="記事タイトルまたはタグを検索"
         ref={refInput}
         role="searchbox"
         type="text"
