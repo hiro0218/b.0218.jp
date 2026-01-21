@@ -15,8 +15,8 @@ export interface UseSearchNavigationOptions {
   /** 検索結果の件数 */
   resultsLength: number;
 
-  /** ダイアログを閉じる処理 */
-  onClose: () => void;
+  /** ダイアログを閉じる処理（オプション） */
+  onClose?: () => void;
 
   /** ナビゲーション時のコールバック（オプション） */
   onNavigate?: (index: number) => void;
@@ -146,14 +146,14 @@ export const useSearchNavigation = ({
           const result = results[currentIndex];
           if (result) {
             router.push(convertPostSlugToPath(result.slug));
-            onClose();
+            if (onClose) onClose();
           }
           break;
         }
 
         case 'Escape':
           e.preventDefault();
-          onClose();
+          if (onClose) onClose();
           break;
       }
     },

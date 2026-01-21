@@ -1,6 +1,6 @@
 'use client';
 
-import { type RefObject, useLayoutEffect } from 'react';
+import { type RefObject, useCallback, useLayoutEffect } from 'react';
 import { useSearchDOMRefs } from './useSearchDOMRefs';
 
 /**
@@ -64,7 +64,7 @@ export const useSearchUI = ({ dialogRef, focusedIndex, resultsLength }: UseSearc
     });
 
   // ===== focusedIndex の変更を監視して DOM 操作を実行 =====
-  useLayoutEffect(() => {
+  const handleFocusChange = useCallback(() => {
     updateDOMRefs();
     clearExcessRefs(resultsLength);
 
@@ -79,6 +79,10 @@ export const useSearchUI = ({ dialogRef, focusedIndex, resultsLength }: UseSearc
       scrollToFocusedElement(targetElement);
     }
   }, [resultsLength, focusedIndex, updateDOMRefs, clearExcessRefs, getResultRef, focusInput, scrollToFocusedElement]);
+
+  useLayoutEffect(() => {
+    handleFocusChange();
+  }, [handleFocusChange]);
 
   return {
     setResultRef,

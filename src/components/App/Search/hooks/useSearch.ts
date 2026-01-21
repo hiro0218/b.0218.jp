@@ -10,8 +10,8 @@ import { useSearchUI } from './useSearchUI';
  * useSearch のオプション
  */
 export interface UseSearchOptions {
-  /** ダイアログを閉じる処理 */
-  onClose: () => void;
+  /** ダイアログを閉じる処理（オプション） */
+  onClose?: () => void;
 
   /** ダイアログの ref（オプション） */
   dialogRef?: RefObject<HTMLDialogElement>;
@@ -158,7 +158,7 @@ export const useSearch = ({
   // ===== クローズ処理 =====
   const handleClose = useCallback(() => {
     resetFocus();
-    onClose();
+    if (onClose) onClose();
   }, [resetFocus, onClose]);
 
   // ===== 検索入力処理 =====

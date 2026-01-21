@@ -93,8 +93,6 @@ export const useSearchQuery = (options: UseSearchQueryOptions = {}): UseSearchQu
     persistState,
     archives,
     executeSearch,
-    // focusedIndex は useSearchNavigation で管理するため、ダミー関数を渡す
-    setFocusedIndex: () => {},
     setResults,
     loadSearchState,
   });
