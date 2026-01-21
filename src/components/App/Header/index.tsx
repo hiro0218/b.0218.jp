@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { SearchButton } from '@/components/App/Search/SearchButton';
+import { SearchTrigger } from '@/components/App/Search/SearchTrigger';
 import { Container } from '@/components/UI/Layout/Container';
 import { Logo } from '@/components/UI/Logo';
 import { css } from '@/ui/styled';
@@ -23,7 +23,7 @@ export default function Header() {
       <HeaderLayout>
         <Container className={HeaderContainerStyle} size={'large'} space={false}>
           <Logo />
-          <SearchButton openDialogAction={searchDialog.open} />
+          <SearchTrigger openDialogAction={searchDialog.open} />
         </Container>
       </HeaderLayout>
 
