@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { css, cx, styled } from '@/ui/styled';
 
 type Props = {
@@ -8,15 +8,20 @@ type Props = {
   className?: string;
 };
 
-const SIZE_MAP = {
-  small: 'var(--sizes-container-sm)',
-  default: 'var(--sizes-container-md)',
-  large: 'var(--sizes-container-lg)',
+const sizeStyles = {
+  small: css`
+    max-width: var(--sizes-container-sm);
+  `,
+  default: css`
+    max-width: var(--sizes-container-md);
+  `,
+  large: css`
+    max-width: var(--sizes-container-lg);
+  `,
 } as const;
 
 const Root = styled.div`
   width: 100%;
-  max-width: var(--container-size);
   margin: auto;
 `;
 
@@ -29,12 +34,6 @@ const spaceStyle = css`
   }
 `;
 
-export const Container = ({ space = true, size = 'default', children, className }: Props) => {
-  const style = { '--container-size': SIZE_MAP[size] } as CSSProperties;
-
-  return (
-    <Root className={cx(className, space && spaceStyle)} style={style}>
-      {children}
-    </Root>
-  );
-};
+export function Container({ size = 'default', space = true, children, className }: Props): ReactNode {
+  return <Root className={cx(className, space && spaceStyle, sizeStyles[size])}>{children}</Root>;
+}
