@@ -9,9 +9,9 @@ type Props = {
 };
 
 const SIZE_MAP = {
-  small: 'clamp(16rem, 90vw, 48rem)',
-  default: 'clamp(16rem, 90vw, 64rem)',
-  large: 'clamp(16rem, 90vw, 80rem)',
+  small: 'var(--sizes-container-sm)',
+  default: 'var(--sizes-container-md)',
+  large: 'var(--sizes-container-lg)',
 } as const;
 
 const Root = styled.div`

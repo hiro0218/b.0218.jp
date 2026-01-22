@@ -6,7 +6,6 @@ import { mergeProps } from '@react-aria/utils';
 import { type RefObject, useId } from 'react';
 import { createPortal } from 'react-dom';
 
-import { Container } from '@/components/UI/Layout';
 import useIsClient from '@/hooks/useIsClient';
 import { styled } from '@/ui/styled';
 import { SEARCH_LABELS } from '../constants';
@@ -60,16 +59,14 @@ export const SearchDialog = ({ onCloseAction, isClosing, dialogRef }: Props) => 
         <p className="sr-only" id={describedId}>
           {SEARCH_LABELS.searchDescription}
         </p>
-        <Container size="default" space={false}>
-          <SearchHeader {...search.inputProps} onClear={search.reset} searchQuery={search.query} />
-          <SearchPanel
-            focusedIndex={search.focusedIndex}
-            onLinkClick={search.close}
-            results={search.results}
-            searchQuery={search.query}
-            setResultRef={search.setResultRef}
-          />
-        </Container>
+        <SearchHeader {...search.inputProps} onClear={search.reset} searchQuery={search.query} />
+        <SearchPanel
+          focusedIndex={search.focusedIndex}
+          onLinkClick={search.close}
+          results={search.results}
+          searchQuery={search.query}
+          setResultRef={search.setResultRef}
+        />
       </Dialog>
     </FocusScope>,
     document.body,
@@ -79,7 +76,7 @@ export const SearchDialog = ({ onCloseAction, isClosing, dialogRef }: Props) => 
 const Dialog = styled.dialog`
   position: fixed;
   top: 0;
-  width: clamp(16rem, 90vw, 64rem);
+  width: var(--sizes-container-sm);
   max-height: 80vh;
   padding: 0;
   border: none;
