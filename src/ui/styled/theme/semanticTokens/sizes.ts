@@ -7,6 +7,10 @@ export const sizes: TokenValues<'sizes'> = {
   'icon-md': { value: `${ICON_SIZE_MD}px` },
   'icon-lg': { value: `${ICON_SIZE_LG}px` },
   'icon-xl': { value: `${ICON_SIZE_XL}px` },
+  'container-xs': { value: 'clamp(16rem, 90vw, 42rem)' },
+  'container-sm': { value: 'clamp(16rem, 90vw, 48rem)' },
+  'container-md': { value: 'clamp(16rem, 90vw, 64rem)' },
+  'container-lg': { value: 'clamp(16rem, 90vw, 80rem)' },
 };
 
 export default sizes;
