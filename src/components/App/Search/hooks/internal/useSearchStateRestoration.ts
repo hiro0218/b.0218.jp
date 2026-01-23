@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useRef } from 'react';
-import type { SearchProps, SearchResultItem } from '../../types';
+import type { SearchResultItem } from '../../types';
 
 interface UseSearchStateRestorationProps {
   persistState: boolean;
-  archives: SearchProps[];
   executeSearch: (query: string) => void;
   setFocusedIndex?: (index: number) => void;
   setResults: (results: SearchResultItem[], query: string) => void;
@@ -15,12 +14,11 @@ interface UseSearchStateRestorationProps {
  *
  * @description
  * - localStorage から検索状態を読み込み
- * - archives データが揃ったら検索を再実行
+ * - 転置インデックスを使った検索を即座に再実行
  * - focusedIndex も復元
  */
 export const useSearchStateRestoration = ({
   persistState,
-  archives,
   executeSearch,
   setFocusedIndex,
   setResults,
@@ -43,21 +41,17 @@ export const useSearchStateRestoration = ({
       savedStateRef.current = savedState;
     }
 
-    if (!archives.length) {
-      return;
-    }
-
     if (hasExecutedRestorationRef.current) {
       return;
     }
 
-    // archives データが揃ったら検索を再実行
+    // 転置インデックスは常に利用可能なため、即座に検索を再実行
     executeSearch(savedState.query);
     if (setFocusedIndex && savedState.focusedIndex !== undefined) {
       setFocusedIndex(savedState.focusedIndex);
     }
     hasExecutedRestorationRef.current = true;
-  }, [archives.length, executeSearch, loadSearchState, persistState, setFocusedIndex, setResults]);
+  }, [executeSearch, loadSearchState, persistState, setFocusedIndex, setResults]);
 
   // 初回マウント時の状態初期化
   // biome-ignore lint/correctness/useExhaustiveDependencies: 初回マウント時のみ実行
@@ -70,7 +64,7 @@ export const useSearchStateRestoration = ({
     tryRestoreSearchState();
   }, []);
 
-  // archives データの変化を監視して復元を試行
+  // 復元を試行
   useEffect(() => {
     tryRestoreSearchState();
   }, [tryRestoreSearchState]);

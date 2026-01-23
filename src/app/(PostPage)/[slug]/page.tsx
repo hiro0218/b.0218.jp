@@ -37,7 +37,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { publishedTime, modifiedTime } = meta;
   const permalink = getPermalink(slug);
   const description = getDescriptionText(content);
-  const ogpImage = `${getOgpImage(slug)}?ts=${process.env.BUILD_ID}`;
+  const buildId = process.env.BUILD_ID || '';
+  const ogpImage = `${getOgpImage(slug)}${buildId ? `?ts=${buildId}` : ''}`;
 
   return getMetadata({
     title,

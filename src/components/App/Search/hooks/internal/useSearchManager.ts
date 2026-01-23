@@ -1,11 +1,9 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useSearchWithCache } from '@/components/App/Search/engine/search';
-import type { SearchProps } from '@/components/App/Search/types';
 import debounce from '@/lib/utils/debounce';
 import type { SearchState } from '../../types';
 
 type UseSearchManagerProps = {
-  archives: SearchProps[];
   debounceDelayMs?: number;
 };
 
@@ -16,8 +14,11 @@ const initialState: SearchState = {
 
 /**
  * 検索機能の統合管理を提供
+ * @description
+ * 転置インデックスベースの高速検索を使用
+ * archivesパラメータは不要（ビルド時生成の検索インデックスを使用）
  */
-export const useSearchManager = ({ archives, debounceDelayMs = 300 }: UseSearchManagerProps) => {
+export const useSearchManager = ({ debounceDelayMs = 300 }: UseSearchManagerProps = {}) => {
   const [state, setState] = useState<SearchState>(initialState);
   const searchWithCache = useSearchWithCache();
   const lastQueryRef = useRef('');
@@ -48,11 +49,11 @@ export const useSearchManager = ({ archives, debounceDelayMs = 300 }: UseSearchM
         return;
       }
 
-      const results = searchWithCache(archives, trimmedQuery);
+      const results = searchWithCache(trimmedQuery);
       setResults(results, trimmedQuery);
       lastQueryRef.current = trimmedQuery;
     },
-    [archives, setResults, reset, searchWithCache],
+    [setResults, reset, searchWithCache],
   );
 
   const debouncedSearch = useMemo(() => debounce(executeSearch, debounceDelayMs), [executeSearch, debounceDelayMs]);

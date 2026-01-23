@@ -81,7 +81,7 @@ jobs:
         run: |
           # Clean .next directory to avoid cache conflicts
           rm -rf .next
-          npx panda codegen && npm run build:article && npm run build:similarity && npm run build:popular && ./node_modules/.bin/next build --webpack
+          npx panda codegen && npm run build:article && npm run build:search && npm run build:similarity && npm run build:popular && ./node_modules/.bin/next build --webpack
 
       - name: Save next build cache
         uses: actions/cache/save@v5

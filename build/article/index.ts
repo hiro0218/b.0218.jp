@@ -1,7 +1,7 @@
 import { loadEnvConfig } from '@next/env';
 import { FILENAME_POSTS_LIST } from '@/constants';
 import type { Post } from '@/types/source';
-import { copyDir, copyFile, writeJSON } from '~/tools/fs';
+import { copyDir, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
 import { buildPage, buildPost, buildTerm } from './post/generate';
 import { getPath } from './post/generate/utils';
@@ -18,9 +18,6 @@ async function buildPostList(posts: Partial<Post>[]) {
 }
 
 async function copyFiles() {
-  copyFile(`${PATH.to}/${FILENAME_POSTS_LIST}.json`, `${process.cwd()}/public/${FILENAME_POSTS_LIST}.json`).then(() => {
-    Log.info(`Copy dist/${FILENAME_POSTS_LIST}.json -> public`);
-  });
   copyDir(`${process.cwd()}/_article/images`, `${process.cwd()}/public/images`).then(() => {
     Log.info('Copy _article/images -> public/images');
   });

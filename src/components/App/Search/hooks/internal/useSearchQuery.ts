@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback, useEffect } from 'react';
-import { usePostsData } from '../../data/usePostsData';
 import type { SearchResultItem } from '../../types';
 import { useSearchManager } from './useSearchManager';
 import { useSearchStatePersistence } from './useSearchStatePersistence';
@@ -36,10 +35,10 @@ export interface UseSearchQueryReturn {
   /** 検索結果 */
   results: SearchResultItem[];
 
-  /** データ読み込み中か */
+  /** データ読み込み中か（SSGのため常にfalse） */
   isLoading: boolean;
 
-  /** エラー（存在する場合） */
+  /** エラー（SSGのため常にnull） */
   error: Error | null;
 
   /** 即座に検索を実行する */
@@ -56,11 +55,13 @@ export interface UseSearchQueryReturn {
 }
 
 /**
- * 検索クエリ管理、データフェッチ、検索実行、状態永続化を統合
+ * 検索クエリ管理、検索実行、状態永続化を統合
  *
  * @description
+ * 転置インデックスベースの高速検索を使用
+ * archivesパラメータは不要（ビルド時生成の検索インデックスを使用）
+ *
  * 以下のフックを統合:
- * - usePostsData: データフェッチ・キャッシュ
  * - useSearchManager: 検索実行管理
  * - useSearchStatePersistence: 状態永続化
  * - useSearchStateRestoration: 検索状態復元
@@ -76,9 +77,6 @@ export interface UseSearchQueryReturn {
 export const useSearchQuery = (options: UseSearchQueryOptions = {}): UseSearchQueryReturn => {
   const { persistState = true, debounceMs = 300 } = options;
 
-  // ===== データフェッチ =====
-  const { data: archives, isLoading, error } = usePostsData();
-
   // ===== 検索実行管理 =====
   const {
     state,
@@ -87,7 +85,6 @@ export const useSearchQuery = (options: UseSearchQueryOptions = {}): UseSearchQu
     reset: resetManager,
     setResults,
   } = useSearchManager({
-    archives,
     debounceDelayMs: debounceMs,
   });
 
@@ -97,7 +94,6 @@ export const useSearchQuery = (options: UseSearchQueryOptions = {}): UseSearchQu
   // ===== 検索状態復元 =====
   useSearchStateRestoration({
     persistState,
-    archives,
     executeSearch,
     setResults,
     loadSearchState,
@@ -135,8 +131,8 @@ export const useSearchQuery = (options: UseSearchQueryOptions = {}): UseSearchQu
   return {
     query: state.query,
     results: state.results,
-    isLoading,
-    error,
+    isLoading: false, // SSGのため常にfalse
+    error: null, // SSGのため常にnull
     search,
     debouncedSearch,
     reset,
