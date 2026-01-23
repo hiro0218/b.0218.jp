@@ -1,31 +1,30 @@
 /**
  * 検索エンジンの統合APIを提供するモジュール
  * @description
- * マッチング、スコアリング、キャッシュを統合し、UIコンポーネント向けの検索APIを提供する
+ * 転置インデックスベースの高速検索とキャッシュを統合し、UIコンポーネント向けの検索APIを提供する
  */
 
 import { useMemo } from 'react';
-import type { SearchProps, SearchResultItem } from '../types';
+import type { SearchResultItem } from '../types';
 import { isEmptyQuery } from '../utils/validation';
 import { SearchCache } from './cache';
-import { findMatchingPosts } from './matching';
-import { sortAndLimitResults } from './scoring';
-
-const MAX_SEARCH_RESULTS = 100;
+import { performIndexedSearch } from './indexedSearch';
 
 /**
  * UIコンポーネント用最適化検索API
- * @param archives 検索対象の投稿配列
+ * @description
+ * 転置インデックスを利用した高速検索（O(1)）
+ * ビルド時に生成された検索インデックスを使用
+ *
  * @param searchValue 検索クエリ文字列
  * @returns 優先度順ソート済み検索結果（最大100件）
  */
-export const performPostSearch = (archives: SearchProps[], searchValue: string): SearchResultItem[] => {
+export const performPostSearch = (searchValue: string): SearchResultItem[] => {
   if (isEmptyQuery(searchValue)) {
     return [];
   }
 
-  const rankedResults = findMatchingPosts(archives, searchValue);
-  return sortAndLimitResults(rankedResults, MAX_SEARCH_RESULTS);
+  return performIndexedSearch(searchValue);
 };
 
 /**
@@ -41,17 +40,17 @@ export const useSearchWithCache = () => {
   const cache = useMemo(() => new SearchCache(), []);
 
   return useMemo(() => {
-    return (archives: SearchProps[], searchValue: string): SearchResultItem[] => {
+    return (searchValue: string): SearchResultItem[] => {
       if (!searchValue) return [];
 
-      const cacheKey = SearchCache.createKey(searchValue, archives.length);
+      const cacheKey = SearchCache.createKey(searchValue, 0);
 
       const cachedResult = cache.get(cacheKey);
       if (cachedResult) {
         return cachedResult;
       }
 
-      const results = performPostSearch(archives, searchValue);
+      const results = performPostSearch(searchValue);
       cache.set(cacheKey, results);
 
       return results;
