@@ -8,7 +8,15 @@ import type { ZoomImageSource } from '../types';
 
 const dialogStyle = css`
   &::backdrop {
-    display: none;
+    cursor: zoom-out;
+    background-color: var(--colors-overlay-backgrounds);
+    transition:
+      background-color 0.2s,
+      opacity 0.2s;
+  }
+
+  &[data-closing='true']::backdrop {
+    opacity: 0;
   }
 
   &[open] {
@@ -26,24 +34,11 @@ const dialogStyle = css`
     background: transparent;
     border: 0;
   }
-`;
-
-const overlayStyle = css`
-  position: absolute;
-  inset: 0;
-  backdrop-filter: blur(4px);
-  transition: background-color 0.2s;
-
-  &[data-zoom-modal-overlay='hidden'] {
-    background-color: rgba(0, 0, 0, 0);
-  }
-
-  &[data-zoom-modal-overlay='visible'] {
-    background-color: var(--colors-gray-a-11);
-  }
 
   @media (prefers-reduced-motion: reduce) {
-    transition: none;
+    &::backdrop {
+      transition: none;
+    }
   }
 `;
 
@@ -86,6 +81,7 @@ interface ZoomDialogProps {
  * ズームダイアログコンポーネント
  *
  * 画像のズーム表示用のモーダルダイアログです。
+ * Searchダイアログと同様のシンプルなbackdropスタイルを使用しています。
  */
 function ZoomDialogComponent({
   dialogRef,
@@ -104,12 +100,14 @@ function ZoomDialogComponent({
   onTransitionEnd,
 }: ZoomDialogProps): ReactNode {
   return createPortal(
-    <dialog aria-label={a11yLabel} className={dialogStyle} onCancel={onCancel} onClose={onClose} ref={dialogRef}>
-      <div
-        className={overlayStyle}
-        data-zoom-modal-overlay={isModalActive ? 'visible' : 'hidden'}
-        role="presentation"
-      />
+    <dialog
+      aria-label={a11yLabel}
+      className={dialogStyle}
+      data-closing={!isModalActive}
+      onCancel={onCancel}
+      onClose={onClose}
+      ref={dialogRef}
+    >
       <div className={modalContentStyle} onClick={onContentClick}>
         <img
           alt={alt || ''}
