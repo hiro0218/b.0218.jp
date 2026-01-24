@@ -1,6 +1,9 @@
 ---
 description: 'コードレビューチェックポイントとアーキテクチャ準拠確認'
 agent: 'agent'
+applyTo: '**/*.{ts,tsx,js,jsx}'
+paths:
+  - '**/*.{ts,tsx,js,jsx}'
 ---
 
 # コードレビューの指示
