@@ -7,9 +7,9 @@ type Props = Pick<Post, 'note'>;
 
 function PostNote({ note }: Props) {
   return (
-    <Stack as="aside" className={ContainerStyle} direction="horizontal" space={1}>
+    <Stack align="center" as="aside" className={ContainerStyle} direction="horizontal" gap="½">
       <InfoCircledIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-      <div dangerouslySetInnerHTML={{ __html: note }} />
+      <div className={contentStyle} dangerouslySetInnerHTML={{ __html: note }} />
     </Stack>
   );
 }
@@ -17,7 +17,6 @@ function PostNote({ note }: Props) {
 export default PostNote;
 
 const ContainerStyle = css`
-  align-items: center;
   padding: var(--spacing-2);
   font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-md);
@@ -33,8 +32,14 @@ const ContainerStyle = css`
 
   svg {
     flex-shrink: 0;
+    height: 1lh;
+
     path {
       fill: var(--colors-post-note-icon);
     }
   }
+`;
+
+const contentStyle = css`
+  flex: 1;
 `;

@@ -1,0 +1,109 @@
+name: Auto Label PR by Changed Files
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  auto-label:
+    name: Analyze changes and apply label
+    runs-on: ubuntu-slim
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v47
+        with:
+          # サブモジュール(_article/)を除外
+          files_ignore: |
+            _article/**
+
+      - name: Check for production changes
+        id: check-production
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const productionPatterns = [
+              /^src\//,
+              /^build\//,
+              /^package-lock\.json$/,
+              /^scripts\//,
+              /^public\//,
+              /^next\.config\.mjs$/,
+              /^panda\.config\.mts$/,
+              /^postcss\.config\.cjs$/,
+              /^tsconfig\.json$/,
+              /^vercel\.json$/,
+              /^\.gitmodules$/,
+            ];
+
+            const changedFiles = `${{ steps.changed-files.outputs.all_changed_files }}`.split(' ');
+
+            const hasProductionChanges = changedFiles.some(file =>
+              productionPatterns.some(pattern => pattern.test(file))
+            );
+
+            core.setOutput('has_production_changes', hasProductionChanges);
+
+            if (hasProductionChanges) {
+              core.info(`Production changes detected in: ${changedFiles.filter(f =>
+                productionPatterns.some(p => p.test(f))
+              ).join(', ')}`);
+            }
+
+      - name: Manage labels
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const number = context.issue.number;
+            const hasProductionChanges = '${{ steps.check-production.outputs.has_production_changes }}' === 'true';
+            const PRODUCTION_LABEL = 'production';
+
+            // 現在のラベルを取得
+            const { data: currentLabels } = await github.rest.issues.listLabelsOnIssue({
+              owner,
+              repo,
+              issue_number: number
+            });
+
+            const hasProductionLabel = currentLabels.some(label => label.name === PRODUCTION_LABEL);
+
+            // production ラベルの追加・削除
+            if (hasProductionChanges && !hasProductionLabel) {
+              await github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number: number,
+                labels: [PRODUCTION_LABEL]
+              });
+              core.info(`Added "${PRODUCTION_LABEL}" label`);
+            } else if (!hasProductionChanges && hasProductionLabel) {
+              await github.rest.issues.removeLabel({
+                owner,
+                repo,
+                issue_number: number,
+                name: PRODUCTION_LABEL
+              }).catch(err => {
+                if (err.status !== 404) throw err;
+              });
+              core.info(`Removed "${PRODUCTION_LABEL}" label`);
+            } else {
+              core.info('No label changes needed');
+            }

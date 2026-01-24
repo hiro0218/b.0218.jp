@@ -1,5 +1,5 @@
-import type { CSSProperties, ReactNode } from 'react';
-import { styled } from '@/ui/styled';
+import type { ReactNode } from 'react';
+import { css, cx, styled } from '@/ui/styled';
 
 type Props = {
   size?: 'small' | 'default' | 'large';
@@ -8,42 +8,32 @@ type Props = {
   className?: string;
 };
 
-const getSize = (size: Props['size']) => {
-  switch (size) {
-    case 'small':
-      return '768px';
-    case 'default':
-    default:
-      return '1024px';
-    case 'large':
-      return '1280px';
-  }
-};
+const sizeStyles = {
+  small: css`
+    max-width: var(--sizes-container-sm);
+  `,
+  default: css`
+    max-width: var(--sizes-container-md);
+  `,
+  large: css`
+    max-width: var(--sizes-container-lg);
+  `,
+} as const;
 
 const Root = styled.div`
   width: 100%;
-  max-width: var(--container-size);
-  margin-inline: auto;
+  margin: auto;
+`;
 
-  &[data-has-space='true'] {
-    padding-inline: var(--spacing-3);
+const spaceStyle = css`
+  padding-block: 0;
+  padding-inline: var(--spacing-3);
 
-    @media (--isMobile) {
-      padding: 0 var(--spacing-3);
-    }
+  @media (--isMobile) {
+    padding-inline: var(--spacing-2);
   }
 `;
 
-export const Container = ({ space = true, size, children, className }: Props) => {
-  const containerSize = getSize(size);
-
-  const style = {
-    '--container-size': containerSize,
-  } as CSSProperties;
-
-  return (
-    <Root className={className} {...(space && { 'data-has-space': space })} style={style}>
-      {children}
-    </Root>
-  );
-};
+export function Container({ size = 'default', space = true, children, className }: Props): ReactNode {
+  return <Root className={cx(className, space && spaceStyle, sizeStyles[size])}>{children}</Root>;
+}

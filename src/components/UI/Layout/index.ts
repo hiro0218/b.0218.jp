@@ -1,6 +1,9 @@
 export { Box } from './Box';
+export { Center } from './Center';
 export { Cluster } from './Cluster';
 export { Container } from './Container';
+export { Frame } from './Frame';
 export { Grid } from './Grid';
+export { Reel } from './Reel';
 export { Sidebar } from './Sidebar';
 export { Stack } from './Stack';

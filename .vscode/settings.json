@@ -4,5 +4,6 @@
     "source.fixAll.biome": "explicit"
   },
   "github.copilot.chat.codeGeneration.useInstructionFiles": true,
-  "chat.promptFiles": true
+  "chat.promptFiles": true,
+  "chat.useAgentsMdFile": true
 }

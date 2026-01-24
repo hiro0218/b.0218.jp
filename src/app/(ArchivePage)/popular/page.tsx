@@ -1,10 +1,10 @@
 import type { Metadata } from 'next/types';
 import { getMetadata } from '@/app/_metadata';
 import { getData } from '@/app/(ArchivePage)/popular/lib/getData';
+import ArticleCard from '@/components/UI/ArticleCard';
 import { Sidebar, Stack } from '@/components/UI/Layout';
-import LinkCard from '@/components/UI/LinkCard';
 import { Title } from '@/components/UI/Title';
-import { SITE_URL } from '@/constant';
+import { SITE_URL } from '@/constants';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 
 const { popularPosts } = getData();
@@ -19,7 +19,7 @@ export const metadata: Metadata = getMetadata({
   url: `${SITE_URL}/${slug}`,
 });
 
-export default async function Page() {
+export default function Page() {
   return (
     <>
       <Title heading={title} paragraph={description} />
@@ -31,7 +31,7 @@ export default async function Page() {
           <Stack>
             {popularPosts.map(({ date, slug, tags, title, updated }) => {
               const link = convertPostSlugToPath(slug);
-              return <LinkCard date={date} key={slug} link={link} tags={tags} title={title} updated={updated} />;
+              return <ArticleCard date={date} key={slug} link={link} tags={tags} title={title} updated={updated} />;
             })}
           </Stack>
         </Sidebar.Main>

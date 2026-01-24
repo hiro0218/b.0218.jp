@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "next-devtools": {
+      "command": "npx",
+      "args": ["-y", "next-devtools-mcp@latest"]
+    },
+    "panda": {
+      "command": "npx",
+      "args": ["panda", "mcp"]
+    },
+    "React Aria": {
+      "command": "npx",
+      "args": ["@react-aria/mcp@latest"]
+    }
+  }
+}

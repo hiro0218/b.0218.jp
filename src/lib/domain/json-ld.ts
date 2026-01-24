@@ -10,9 +10,10 @@ import type {
   WithContext,
 } from 'schema-dts';
 
-import { AUTHOR_ICON, AUTHOR_NAME, SITE_NAME, SITE_URL, URL } from '@/constant';
-import type { Post } from '@/types/source';
+import { AUTHOR_ICON, AUTHOR_NAME, SITE_NAME, SITE_URL, URL } from '@/constants';
+import type { PopularityDetail, Post } from '@/types/source';
 
+import { convertToISO8601WithTimezone } from '../utils/date';
 import { getOgpImage, getPermalink } from '../utils/url';
 
 const AUTHOR = {
@@ -25,12 +26,20 @@ const AUTHOR = {
 } as const;
 
 export const getDescriptionText = (postContent: string): string => {
-  return postContent
-    .replace(/(?:\r\n|\r|\n)/g, ' ') // 改行をスペースに置換
-    .replace(/<\/?[^>]+(>|$)/g, '') // HTMLタグを削除
-    .replace(/\s+/g, ' ') // 連続するスペースを1つのスペースに置換
-    .trim() // 先頭と末尾のスペースを削除
-    .substring(0, 140); // 140文字に切り詰め
+  return (
+    postContent
+      .replace(/(?:\r\n|\r|\n)/g, ' ') // 改行をスペースに置換
+      .replace(/<\/?[^>]+(>|$)/g, '') // HTMLタグを削除
+      // 絵文字と記号を削除（サロゲートペア対応）
+      .replace(
+        /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{E000}-\u{F8FF}\u{FE00}-\u{FE0F}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}]/gu,
+        '',
+      )
+      .replace(/\s+/g, ' ') // 連続するスペースを1つのスペースに置換
+      .trim() // 先頭と末尾のスペースを削除
+      // サロゲートペアを考慮した切り詰め
+      .slice(0, 160)
+  );
 };
 
 export const getAboutPageStructured = ({
@@ -65,16 +74,18 @@ export const getWebPageStructured = ({
     '@type': 'WebPage',
     name: name,
     description: description,
-    ...(!!listItem && {
-      mainEntity: {
-        '@type': 'ItemList',
-        listItem,
-      },
-    }),
+    ...(listItem
+      ? {
+          mainEntity: {
+            '@type': 'ItemList',
+            listItem,
+          },
+        }
+      : {}),
   };
 };
 
-export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> => {
+export const getBlogPostingStructured = (post: Post, popularity?: PopularityDetail): WithContext<BlogPosting> => {
   return {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -83,9 +94,9 @@ export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> =
       '@id': getPermalink(post.slug),
     },
     headline: post.title,
-    datePublished: post.date,
-    dateModified: post.updated || post.date,
-    ...(!!post.tags && { keywords: post.tags }),
+    datePublished: convertToISO8601WithTimezone(post.date),
+    dateModified: convertToISO8601WithTimezone(post.updated || post.date),
+    ...(post.tags ? { keywords: post.tags } : {}),
     author: {
       ...AUTHOR,
     },
@@ -101,6 +112,20 @@ export const getBlogPostingStructured = (post: Post): WithContext<BlogPosting> =
         height: '400',
       },
     },
+    ...(popularity?.hatena
+      ? {
+          interactionStatistic: {
+            '@type': 'InteractionCounter',
+            interactionType: { '@type': 'ShareAction' },
+            userInteractionCount: popularity.hatena,
+            interactionService: {
+              '@type': 'WebSite',
+              name: 'Hatena Bookmark',
+              url: 'https://b.hatena.ne.jp/',
+            },
+          },
+        }
+      : {}),
   };
 };
 

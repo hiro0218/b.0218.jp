@@ -1,7 +1,6 @@
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
 import { loadEnvConfig } from '@next/env';
 import * as Log from '~/tools/logger';
-import type { Result } from './type';
 
 loadEnvConfig(process.cwd());
 
@@ -46,7 +45,7 @@ export const getPopularArticles = async () => {
     limit: 20,
   });
 
-  const result: Result = {};
+  const result: Record<string, number> = {};
 
   response.rows?.forEach((row) => {
     const slug = row.dimensionValues?.[0].value.replace('/', '').replace('.html', '');

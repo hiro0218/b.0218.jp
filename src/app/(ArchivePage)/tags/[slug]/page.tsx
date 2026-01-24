@@ -1,14 +1,15 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
+import { getTagPosts } from '@/app/_lib/getTagPosts';
 import { getMetadata } from '@/app/_metadata';
-import { getTagPosts } from '@/app/libs/getTagPosts';
+import { StructuredData } from '@/components/Functional/StructuredData';
 import { Pagination } from '@/components/Page/Archive/Pagination';
 import { PostList } from '@/components/Page/Archive/PostList';
 import { Sidebar, Stack } from '@/components/UI/Layout';
 import { Loading } from '@/components/UI/Loading';
 import { Title } from '@/components/UI/Title';
-import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
+import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
 import { getTagsWithCount } from '@/lib/data/posts';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
 
@@ -52,18 +53,13 @@ export default async function Page({ params }: { params: Params }) {
 
   return (
     <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            getCollectionPageStructured({
-              name: `Tag: ${decodedSlug}`,
-              description: `Tag: ${decodedSlug} - ${SITE_NAME}`,
-            }),
-          ),
-        }}
-        type="application/ld+json"
+      <StructuredData
+        data={getCollectionPageStructured({
+          name: `Tag: ${decodedSlug}`,
+          description: `Tag: ${decodedSlug} - ${SITE_NAME}`,
+        })}
       />
-      <Stack as="section" space={4}>
+      <Stack as="section" gap={4}>
         <Title heading={pageTitle} paragraph={`${totalItems}件の記事`} />
         <Sidebar>
           <Sidebar.Side>

@@ -1,62 +1,48 @@
-import type { AriaRole, CSSProperties, JSX, ReactNode } from 'react';
-
-import { css, cx } from '@/ui/styled';
+import type { ComponentPropsWithoutRef, ElementType } from 'react';
+import { cx } from '@/ui/styled';
+import type { FlexAlign, FlexJustify, FlexWrap } from '@/ui/styled/atomic';
+import {
+  alignClasses,
+  directionClasses,
+  flexBaseStyle,
+  gapClasses,
+  justifyClasses,
+  wrapClasses,
+} from '@/ui/styled/atomic';
 import type { SpaceGap } from '@/ui/styled/theme/tokens/spacing';
 
-type Props = {
-  as?: keyof JSX.IntrinsicElements;
-  space?: SpaceGap;
+type Props<T extends ElementType = 'div'> = {
+  as?: T;
+  gap?: SpaceGap | 0;
   direction?: 'vertical' | 'horizontal';
-  align?: CSSProperties['alignItems'];
-  justify?: CSSProperties['justifyContent'];
-  wrap?: CSSProperties['flexWrap'];
-  role?: AriaRole;
-  className?: string;
-  children: ReactNode;
-};
+  align?: FlexAlign;
+  justify?: FlexJustify;
+  wrap?: FlexWrap;
+} & Omit<ComponentPropsWithoutRef<T>, 'as' | 'gap' | 'direction' | 'align' | 'justify' | 'wrap'>;
 
-const tagStyle = css`
-  display: flex;
-  flex-wrap: var(--stack-wrap);
-  align-items: var(--stack-align);
-  justify-content: var(--stack-justify);
-
-  & > * {
-    margin-block: 0;
-  }
-
-  &[data-direction='horizontal'] {
-    flex-direction: row;
-  }
-
-  &[data-direction='vertical'] {
-    flex-direction: column;
-  }
-`;
-
-export const Stack = ({
-  as: Tag = 'div',
+export const Stack = <T extends ElementType = 'div'>({
+  as,
   children,
   direction = 'vertical',
-  space = 2,
+  gap = 2,
   align,
-  justify = 'flex-start',
+  justify,
   wrap,
-  className = undefined,
+  className,
   ...props
-}: Props) => {
+}: Props<T>) => {
+  const Tag = (as ?? 'div') as ElementType;
   return (
     <Tag
-      className={cx(className, tagStyle)}
-      data-direction={direction}
-      data-gap={space}
-      style={
-        {
-          '--stack-align': align,
-          '--stack-justify': justify,
-          '--stack-wrap': wrap,
-        } as CSSProperties
-      }
+      className={cx(
+        className,
+        flexBaseStyle,
+        directionClasses[direction],
+        align && alignClasses[align],
+        justify && justifyClasses[justify],
+        wrap && wrapClasses[wrap],
+        gapClasses[gap],
+      )}
       {...props}
     >
       {children}

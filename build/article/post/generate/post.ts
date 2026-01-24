@@ -1,5 +1,5 @@
 import { read as matterRead } from 'gray-matter';
-import { FILENAME_POSTS } from '@/constant';
+import { FILENAME_POSTS } from '@/constants';
 import type { Post } from '@/types/source';
 import { mkdir, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
@@ -11,7 +11,7 @@ const PATH = getPath();
 
 export async function buildPost() {
   // md ファイル一覧を取得
-  const files = await getMarkdownFiles(`${PATH.from}/_posts`);
+  const files = await getMarkdownFiles(`${PATH.from}/_posts`, 1);
   const posts: Post[] = [];
 
   // 記事一覧

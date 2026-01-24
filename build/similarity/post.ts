@@ -1,67 +1,6 @@
 import kuromoji, { type IpadicFeatures, type Tokenizer } from 'kuromoji';
 import type { Post, TagSimilarityScores } from '@/types/source';
-import { LRUCache } from './lru-cache';
-import { createError, type ErrorInfo, ErrorKind, failure, type Result, success, tryCatch } from './result';
-
-// 形態素解析時に除外する日本語ストップワード
-const STOP_WORDS_JA = new Set([
-  'の',
-  'に',
-  'は',
-  'を',
-  'た',
-  'が',
-  'で',
-  'て',
-  'と',
-  'し',
-  'れ',
-  'さ',
-  'ある',
-  'いる',
-  'も',
-  'する',
-  'から',
-  'な',
-  'こと',
-  'この',
-  'その',
-  'あの',
-  'これ',
-  'それ',
-  'あれ',
-  'ため',
-  'よう',
-  'ます',
-  'です',
-  'なり',
-  'なら',
-  'へ',
-  'また',
-  'ない',
-  'いう',
-  'もの',
-  'という',
-  'あり',
-  'まで',
-  'られ',
-  'なる',
-  'へ',
-  'か',
-  'だ',
-  'これら',
-  'として',
-  'そして',
-  'について',
-  'および',
-  'ならびに',
-  'もの',
-  'こと',
-  'とき',
-  '場合',
-  '的',
-  '数',
-]);
+import { STOP_WORDS_JA } from '../shared/stopWords';
 
 // 正規表現パターン
 const REGEX_DIGIT_ONLY = /^\d+$/;
@@ -76,28 +15,13 @@ const TAG_SIMILARITY_BASE_THRESHOLD = 0.5; // タグ類似度閾値
 const TAG_SIMILARITY_JACCARD_WEIGHT = 0.4; // ジャッカード係数重み
 const TAG_SIMILARITY_RELATED_WEIGHT = 0.6; // 関連度スコア重み
 
-// 処理効率化用のキャッシュサイズ
-const CACHE_SIZE = 1000;
-
-// エラー定義
-export const PostError = {
-  // biome-ignore lint/style/useNamingConvention: エラー型の命名規則を維持
-  InvalidInput: (message: string): ErrorInfo => createError(ErrorKind.INVALID_INPUT, message),
-  // biome-ignore lint/style/useNamingConvention: エラー型の命名規則を維持
-  TokenizerError: (message: string, cause?: unknown): ErrorInfo =>
-    createError(ErrorKind.INITIALIZATION_ERROR, message, cause),
-  // biome-ignore lint/style/useNamingConvention: エラー型の命名規則を維持
-  ProcessingError: (message: string, cause?: unknown): ErrorInfo =>
-    createError(ErrorKind.PROCESSING_ERROR, message, cause),
-};
-
 // トークナイザ初期化用のシングルトン
 let tokenizerPromise: Promise<Tokenizer<IpadicFeatures>> | null = null;
 
 /**
  * 形態素解析器を初期化する（シングルトン）
  */
-async function getTokenizer(): Promise<Result<Tokenizer<IpadicFeatures>, ErrorInfo>> {
+async function getTokenizer(): Promise<Tokenizer<IpadicFeatures>> {
   if (!tokenizerPromise) {
     tokenizerPromise = new Promise((resolve, reject) => {
       const builder = kuromoji.builder({ dicPath: 'node_modules/kuromoji/dict' });
@@ -112,52 +36,49 @@ async function getTokenizer(): Promise<Result<Tokenizer<IpadicFeatures>, ErrorIn
   }
 
   try {
-    const tokenizer = await tokenizerPromise;
-    return success(tokenizer);
+    return await tokenizerPromise;
   } catch (error) {
-    return failure(PostError.TokenizerError('形態素解析器の初期化に失敗しました', error));
+    console.error('[build/similarity/post] 形態素解析器の初期化に失敗:', error);
+    throw error;
   }
 }
 
 // キャッシュの初期化
-const similarityCache = new LRUCache<string, number>(CACHE_SIZE);
-const tfIdfCache = new LRUCache<string, Record<string, number>>(CACHE_SIZE);
+const similarityCache = new Map<string, number>();
+const tfIdfCache = new Map<string, Record<string, number>>();
 
 /**
  * テキストを形態素解析し、意味のある単語の基本形配列を返す
  */
-async function preprocessText(
-  text: string,
-  tokenizerInstance: Tokenizer<IpadicFeatures>,
-): Promise<Result<string[], ErrorInfo>> {
+async function preprocessText(text: string, tokenizerInstance: Tokenizer<IpadicFeatures>): Promise<string[]> {
   if (!text) {
-    return success([]);
+    return [];
   }
 
-  return await tryCatch(
-    async () => {
-      const tokens: IpadicFeatures[] = tokenizerInstance.tokenize(text);
-      const meaningfulTokens: string[] = [];
+  try {
+    const tokens: IpadicFeatures[] = tokenizerInstance.tokenize(text);
+    const meaningfulTokens: string[] = [];
 
-      for (const token of tokens) {
-        // 意味のある単語のみを抽出（条件チェックの短絡評価を活用）
-        if (token.pos === '名詞' || token.pos === '動詞' || token.pos === '形容詞' || token.pos === '副詞') {
-          if (token.pos_detail_1 && (token.pos_detail_1.includes('数') || token.pos_detail_1.includes('接尾'))) {
-            continue;
-          }
-          if (token.pos === '記号' || STOP_WORDS_JA.has(token.basic_form) || token.basic_form.length <= 1) {
-            continue;
-          }
-          if (REGEX_DIGIT_ONLY.test(token.basic_form)) {
-            continue;
-          }
-          meaningfulTokens.push(token.basic_form);
+    for (const token of tokens) {
+      // 意味のある単語のみを抽出（条件チェックの短絡評価を活用）
+      if (token.pos === '名詞' || token.pos === '動詞' || token.pos === '形容詞' || token.pos === '副詞') {
+        if (token.pos_detail_1 && (token.pos_detail_1.includes('数') || token.pos_detail_1.includes('接尾'))) {
+          continue;
         }
+        if (token.pos === '記号' || STOP_WORDS_JA.has(token.basic_form) || token.basic_form.length <= 1) {
+          continue;
+        }
+        if (REGEX_DIGIT_ONLY.test(token.basic_form)) {
+          continue;
+        }
+        meaningfulTokens.push(token.basic_form);
       }
-      return meaningfulTokens;
-    },
-    (error) => PostError.ProcessingError('テキスト前処理中にエラーが発生しました', error),
-  );
+    }
+    return meaningfulTokens;
+  } catch (error) {
+    console.error('[build/similarity/post] テキスト前処理中にエラー:', error);
+    throw error;
+  }
 }
 
 // TF-IDF計算関連の型定義
@@ -168,7 +89,7 @@ type TfIdfVector = Record<string, number>;
 /**
  * 全記事からIDFスコアを計算
  */
-function calculateIdf(posts: Post[], processedContents: string[][]): Result<IdfScores, ErrorInfo> {
+function calculateIdf(posts: Post[], processedContents: string[][]): IdfScores {
   try {
     const idfScores: IdfScores = {};
     const totalDocs = posts.length;
@@ -187,20 +108,20 @@ function calculateIdf(posts: Post[], processedContents: string[][]): Result<IdfS
       idfScores[word] = Math.log((totalDocs + 1) / ((docFrequency[word] || 0) + 1)) + 1;
     });
 
-    return success(idfScores);
+    return idfScores;
   } catch (error) {
-    return failure(PostError.ProcessingError('IDF計算中にエラーが発生しました', error));
+    throw error;
   }
 }
 
 /**
  * 単一記事のTFスコアを計算
  */
-function calculateTf(words: string[]): Result<TfScores, ErrorInfo> {
+function calculateTf(words: string[]): TfScores {
   try {
     const tfScores: TfScores = {};
     const wordCount = words.length;
-    if (wordCount === 0) return success(tfScores);
+    if (wordCount === 0) return tfScores;
 
     words.forEach((word) => {
       tfScores[word] = (tfScores[word] || 0) + 1;
@@ -210,21 +131,21 @@ function calculateTf(words: string[]): Result<TfScores, ErrorInfo> {
       tfScores[word] /= wordCount;
     }
 
-    return success(tfScores);
+    return tfScores;
   } catch (error) {
-    return failure(PostError.ProcessingError('TF計算中にエラーが発生しました', error));
+    throw error;
   }
 }
 
 /**
  * TF-IDFベクトルを計算（キャッシュを利用）
  */
-function calculateTfIdfVector(slug: string, tfScores: TfScores, idfScores: IdfScores): Result<TfIdfVector, ErrorInfo> {
+function calculateTfIdfVector(slug: string, tfScores: TfScores, idfScores: IdfScores): TfIdfVector {
   // キャッシュをチェック
   const cacheKey = `tfidf_${slug}`;
   const cachedVector = tfIdfCache.get(cacheKey);
   if (cachedVector) {
-    return success(cachedVector);
+    return cachedVector;
   }
 
   try {
@@ -238,16 +159,16 @@ function calculateTfIdfVector(slug: string, tfScores: TfScores, idfScores: IdfSc
 
     // 計算結果をキャッシュに保存
     tfIdfCache.set(cacheKey, tfIdfVector);
-    return success(tfIdfVector);
+    return tfIdfVector;
   } catch (error) {
-    return failure(PostError.ProcessingError('TF-IDF計算中にエラーが発生しました', error));
+    throw error;
   }
 }
 
 /**
  * コサイン類似度を計算
  */
-function calculateCosineSimilarity(vec1: TfIdfVector, vec2: TfIdfVector): Result<number, ErrorInfo> {
+function calculateCosineSimilarity(vec1: TfIdfVector, vec2: TfIdfVector): number {
   try {
     // ベクトルの大きさとドット積を一度に計算（ループ最適化）
     let dotProduct = 0;
@@ -281,41 +202,37 @@ function calculateCosineSimilarity(vec1: TfIdfVector, vec2: TfIdfVector): Result
     magnitude2 = Math.sqrt(magnitude2);
 
     if (magnitude1 === 0 || magnitude2 === 0) {
-      return success(0);
+      return 0;
     }
 
     const similarity = dotProduct / (magnitude1 * magnitude2);
-    return success(Math.min(1, similarity)); // 1以下に制限
+    return Math.min(1, similarity); // 1以下に制限
   } catch (error) {
-    return failure(PostError.ProcessingError('コサイン類似度計算中にエラーが発生しました', error));
+    throw error;
   }
 }
 
 /**
  * コンテンツ類似度を計算
  */
-function calculateContentSimilarity(tfIdfVector1: TfIdfVector, tfIdfVector2: TfIdfVector): Result<number, ErrorInfo> {
+function calculateContentSimilarity(tfIdfVector1: TfIdfVector, tfIdfVector2: TfIdfVector): number {
   return calculateCosineSimilarity(tfIdfVector1, tfIdfVector2);
 }
 
 /**
  * タグ類似度を計算
  */
-function calculateTagSimilarity(
-  tags1: string[],
-  tags2: string[],
-  sortedTags: TagSimilarityScores,
-): Result<number, ErrorInfo> {
+function calculateTagSimilarity(tags1: string[], tags2: string[], sortedTags: TagSimilarityScores): number {
   try {
     if (!tags1 || !tags2 || tags1.length === 0 || tags2.length === 0 || !sortedTags) {
-      return success(0);
+      return 0;
     }
 
     const validTags1 = tags1.filter((tag) => sortedTags[tag]);
     const validTags2 = tags2.filter((tag) => sortedTags[tag]);
 
     if (validTags1.length === 0 || validTags2.length === 0) {
-      return success(0);
+      return 0;
     }
 
     // ジャッカード類似度の計算
@@ -348,18 +265,16 @@ function calculateTagSimilarity(
     const normalizedRelatedScore = comparisonCount > 0 ? relatedTagScoreSum / comparisonCount : 0;
 
     // 最終的なタグ類似度
-    return success(
-      jaccardSimilarity * TAG_SIMILARITY_JACCARD_WEIGHT + normalizedRelatedScore * TAG_SIMILARITY_RELATED_WEIGHT,
-    );
+    return jaccardSimilarity * TAG_SIMILARITY_JACCARD_WEIGHT + normalizedRelatedScore * TAG_SIMILARITY_RELATED_WEIGHT;
   } catch (error) {
-    return failure(PostError.ProcessingError('タグ類似度計算中にエラーが発生しました', error));
+    throw error;
   }
 }
 
 /**
  * 新鮮度ボーナスを計算（更新日を考慮）
  */
-function calculateRecencyBonus(post1: Post, post2: Post): Result<number, ErrorInfo> {
+function calculateRecencyBonus(post1: Post, post2: Post): number {
   try {
     const getEffectiveDate = (post: Post): Date | null => {
       let effectiveDate: Date | null = null;
@@ -392,23 +307,22 @@ function calculateRecencyBonus(post1: Post, post2: Post): Result<number, ErrorIn
     const effectiveDate1 = getEffectiveDate(post1);
     const effectiveDate2 = getEffectiveDate(post2);
 
-    if (!effectiveDate1 || !effectiveDate2) return success(0);
+    if (!effectiveDate1 || !effectiveDate2) return 0;
 
     try {
       const diffInMs = Math.abs(effectiveDate1.getTime() - effectiveDate2.getTime());
       const decayPeriodInMs = RECENCY_DECAY_DAYS * 24 * 60 * 60 * 1000;
 
-      if (decayPeriodInMs <= 0) return success(0);
+      if (decayPeriodInMs <= 0) return 0;
 
       const bonus = RECENCY_BONUS_FACTOR * Math.max(0, 1 - diffInMs / decayPeriodInMs);
-      return success(bonus);
+      return bonus;
     } catch (error) {
-      return failure(
-        PostError.ProcessingError(`新鮮度ボーナス計算中にエラーが発生しました (${post1.slug} と ${post2.slug})`, error),
-      );
+      console.error(`[build/similarity/post] 新鮮度ボーナス計算中にエラー (${post1.slug} と ${post2.slug}):`, error);
+      throw error;
     }
   } catch (error) {
-    return failure(PostError.ProcessingError('新鮮度ボーナス計算中に予期しないエラーが発生しました', error));
+    throw error;
   }
 }
 
@@ -421,38 +335,26 @@ async function calculatePostSimilarity(
   postTfIdf: TfIdfVector,
   targetPostTfIdf: TfIdfVector,
   sortedTags: TagSimilarityScores,
-): Promise<Result<number, ErrorInfo>> {
+): Promise<number> {
   if (!post.slug || !targetPost.slug) {
-    return failure(PostError.InvalidInput('スラグを持たない投稿の類似度は計算できません'));
+    throw new Error('スラグを持たない投稿の類似度は計算できません');
   }
 
   // キャッシュをチェック
   const cacheKey = [post.slug, targetPost.slug].sort().join('_');
   const cachedScore = similarityCache.get(cacheKey);
   if (cachedScore !== undefined) {
-    return success(cachedScore);
+    return cachedScore;
   }
 
   // タグ類似度を計算
-  const tagSimilarityResult = calculateTagSimilarity(post.tags || [], targetPost.tags || [], sortedTags);
-  if (tagSimilarityResult.isFailure()) {
-    return tagSimilarityResult;
-  }
-  const tagSimilarityScore = tagSimilarityResult.value;
+  const tagSimilarityScore = calculateTagSimilarity(post.tags || [], targetPost.tags || [], sortedTags);
 
   // コンテンツ類似度を計算
-  const contentSimilarityResult = calculateContentSimilarity(postTfIdf, targetPostTfIdf);
-  if (contentSimilarityResult.isFailure()) {
-    return contentSimilarityResult;
-  }
-  const contentSimilarityScore = contentSimilarityResult.value;
+  const contentSimilarityScore = calculateContentSimilarity(postTfIdf, targetPostTfIdf);
 
   // 新鮮度ボーナスを計算
-  const recencyBonusResult = calculateRecencyBonus(post, targetPost);
-  if (recencyBonusResult.isFailure()) {
-    return recencyBonusResult;
-  }
-  const recencyBonus = recencyBonusResult.value;
+  const recencyBonus = calculateRecencyBonus(post, targetPost);
 
   // 最終スコアの計算
   const weightedScore = Math.max(0, TAG_WEIGHT * tagSimilarityScore + CONTENT_WEIGHT * contentSimilarityScore);
@@ -461,7 +363,7 @@ async function calculatePostSimilarity(
 
   // 計算結果をキャッシュに保存
   similarityCache.set(cacheKey, roundedScore);
-  return success(roundedScore);
+  return roundedScore;
 }
 
 /**
@@ -479,12 +381,7 @@ export async function getRelatedPosts(
   }
 
   // トークナイザの初期化
-  const tokenizerResult = await getTokenizer();
-  if (tokenizerResult.isFailure()) {
-    console.error('Failed to initialize kuromoji tokenizer. Aborting.', tokenizerResult.error);
-    return [];
-  }
-  const tokenizer = tokenizerResult.value;
+  const tokenizer = await getTokenizer();
 
   // キャッシュクリア（不要なコメントアウトを削除）
 
@@ -499,25 +396,19 @@ export async function getRelatedPosts(
     const batchResults = await Promise.all(
       batch.map(async (post) => {
         const textToProcess = post.content || post.title || '';
-        const processedTextResult = await preprocessText(textToProcess, tokenizer);
-        return processedTextResult.match({
-          success: (value) => value,
-          failure: (error) => {
-            console.warn(`記事 ${post.slug} の前処理中にエラーが発生: ${error.message}`);
-            return [];
-          },
-        });
+        try {
+          return await preprocessText(textToProcess, tokenizer);
+        } catch (error) {
+          console.warn(`記事 ${post.slug} の前処理中にエラー:`, error);
+          return [];
+        }
       }),
     );
     processedContents.push(...batchResults);
   }
 
   // 2. IDFスコア計算
-  const idfScoresResult = calculateIdf(posts, processedContents);
-  if (idfScoresResult.isFailure()) {
-    return [];
-  }
-  const idfScores = idfScoresResult.value;
+  const idfScores = calculateIdf(posts, processedContents);
 
   // 3. TF-IDFベクトル計算
   const tfIdfVectors: { [slug: string]: TfIdfVector } = {};
@@ -528,19 +419,14 @@ export async function getRelatedPosts(
     if (!post.slug) continue;
 
     postIndexMap.set(post.slug, index);
-    const tfScoresResult = calculateTf(processedContents[index]);
-    if (tfScoresResult.isFailure()) {
-      console.warn(`記事 ${post.slug} のTF計算中にエラー: ${tfScoresResult.error.message}`);
+    try {
+      const tfScores = calculateTf(processedContents[index]);
+      const tfIdfVector = calculateTfIdfVector(post.slug, tfScores, idfScores);
+      tfIdfVectors[post.slug] = tfIdfVector;
+    } catch (error) {
+      console.warn(`記事 ${post.slug} のTF/TF-IDF計算中にエラー:`, error);
       continue;
     }
-
-    const tfIdfVectorResult = calculateTfIdfVector(post.slug, tfScoresResult.value, idfScores);
-    if (tfIdfVectorResult.isFailure()) {
-      console.warn(`記事 ${post.slug} のTF-IDF計算中にエラー: ${tfIdfVectorResult.error.message}`);
-      continue;
-    }
-
-    tfIdfVectors[post.slug] = tfIdfVectorResult.value;
   }
 
   // タグによる候補絞り込みのためのインデックス作成
@@ -611,21 +497,19 @@ export async function getRelatedPosts(
             processedPairs.add(pairKey);
 
             const postTfIdf = tfIdfVectors[post.slug];
-            const similarityScoreResult = await calculatePostSimilarity(
-              post,
-              targetPost,
-              postTfIdf,
-              targetPostTfIdf,
-              sortedTags,
-            );
-
-            return similarityScoreResult.match({
-              success: (similarityScore) => ({ slug: post.slug, similarityScore }),
-              failure: (error) => {
-                console.warn(`類似度計算中にエラー (${post.slug} - ${targetPost.slug}): ${error.message}`);
-                return null;
-              },
-            });
+            try {
+              const similarityScore = await calculatePostSimilarity(
+                post,
+                targetPost,
+                postTfIdf,
+                targetPostTfIdf,
+                sortedTags,
+              );
+              return { slug: post.slug, similarityScore };
+            } catch (error) {
+              console.warn(`類似度計算中にエラー (${post.slug} - ${targetPost.slug}):`, error);
+              return null;
+            }
           }),
         );
 

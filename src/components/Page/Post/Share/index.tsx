@@ -6,8 +6,7 @@ import { useCallback, useId, useSyncExternalStore } from 'react';
 import { Stack } from '@/components/UI/Layout';
 import { Toast, useToast } from '@/components/UI/Toast';
 import { Tooltip } from '@/components/UI/Tooltip';
-import { X_ACCOUNT } from '@/constant';
-import useCopyToClipboard from '@/hooks/useCopyToClipboard';
+import { X_ACCOUNT } from '@/constants';
 import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, Share1Icon, X } from '@/ui/icons';
 import { css, cx } from '@/ui/styled';
 
@@ -24,15 +23,22 @@ const getServerSnapshot = () => false;
 function PostShare({ title, url }: Props) {
   const labelledbyId = useId();
   const isShareSupported = useSyncExternalStore(emptySubscribe, getNavigatorShareSnapshot, getServerSnapshot);
-  const [, copy] = useCopyToClipboard();
   const { ref, showToast, hideToast, message, isVisible } = useToast('記事のURLをコピーしました');
   const classNames = cx('link-style--hover-effect', ShareButtonStyle);
 
-  const onClickCopyPermalink = useCallback(() => {
-    copy(url).then(() => {
+  const onClickCopyPermalink = useCallback(async () => {
+    if (!navigator?.clipboard) {
+      console.error('[PostShare] Clipboard API not supported');
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(url);
       showToast();
-    });
-  }, [copy, showToast, url]);
+    } catch (error) {
+      console.error('[PostShare] Failed to copy text:', error);
+    }
+  }, [showToast, url]);
 
   const onClickShare = useCallback(() => {
     if (!isShareSupported) return;
@@ -55,7 +61,7 @@ function PostShare({ title, url }: Props) {
       <h2 className="sr-only" id={labelledbyId}>
         このページをシェアする
       </h2>
-      <Stack direction="horizontal" space={1}>
+      <Stack direction="horizontal" gap={1}>
         <Tooltip text="Xでポスト">
           <a
             className={classNames}

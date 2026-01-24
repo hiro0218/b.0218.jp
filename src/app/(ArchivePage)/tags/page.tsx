@@ -1,8 +1,9 @@
 import type { Metadata } from 'next/types';
 import { getMetadata } from '@/app/_metadata';
+import { StructuredData } from '@/components/Functional/StructuredData';
 import { TagSection } from '@/components/Page/_shared/TagSection';
 import { Title } from '@/components/UI/Title';
-import { SITE_URL, TAG_VIEW_LIMIT } from '@/constant';
+import { SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
 import { getTagsWithCount } from '@/lib/data/posts';
 import { getWebPageStructured } from '@/lib/domain/json-ld';
 
@@ -27,20 +28,15 @@ export const metadata: Metadata = getMetadata({
   url,
 });
 
-export default async function Page() {
+export default function Page() {
   return (
     <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            getWebPageStructured({
-              name: title,
-              description,
-              listItem,
-            }),
-          ),
-        }}
-        type="application/ld+json"
+      <StructuredData
+        data={getWebPageStructured({
+          name: title,
+          description,
+          listItem,
+        })}
       />
       <Title heading={title} paragraph={description} />
       <TagSection tags={tags} />

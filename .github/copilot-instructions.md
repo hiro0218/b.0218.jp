@@ -1,236 +1,334 @@
 # AI Assistant Instructions
 
-> **Note**: This file is the source for symlinks `AGENTS.md` and `CLAUDE.md`. They are not duplicates but references to this single source of truth, ensuring consistency across AI assistants.
+> **Note**: This file is the source for symlinks `AGENTS.md` and `CLAUDE.md` to enforce consistency among AI assistants.
+
+## Language Preference
+
+**IMPORTANT: Always respond in Japanese unless explicitly asked otherwise.**
+
+- Use Japanese for all explanations, comments, and documentation
+- Technical terms and code may remain in English
+- Maintain a professional tone in Japanese (desu/masu form)
 
 ## Project Overview
 
-Next.js 15.x blog with TypeScript, React 19.x, and Panda CSS. Japanese content focus with ML-powered features.
+- Next.js 16.x blog using TypeScript, React 19.x, and Panda CSS
+- Focused on Japanese content with ML-powered features
+- **SSG (Static Site Generation)**: Data loads at build time, Client Components are minimal
 
-## 🔴 Critical Requirements
+### Critical Requirements
 
 ```bash
-# MUST run before any development/build
+# Run before ANY development/build
 npm run prebuild  # Updates submodules, processes content, generates assets
-npm run dev       # Development server on port 8080
+npm run dev       # Development server on port 8080 with HTTPS
 ```
+
+**Dev Server**: Use `https://localhost:8080` (HTTPS only). HTTP fails.
+
+**Content Source**: `_article/_posts/*.md` is a Git submodule. **DO NOT edit directly.**
+
+## 🔴 Critical Rules (Must Follow)
+
+These rules are **CRITICAL**. Violations can cause runtime errors, build failures, or serious bugs.
+
+### Priority Levels
+
+- 🔴 **CRITICAL**: Must Follow (violations cause severe errors)
+- 🟡 **IMPORTANT**: Should Follow (maintenance/quality may degrade)
+- ⚪ **RECOMMENDED**: Best Practices (consistency improvement)
+
+### 1. Zero Margin Principle
+
+**RULE**: UI components must not set external margins. Parents control spacing with `gap` or `Stack`.
+
+**Details**: [components.instructions.md - Zero Margin Principle](./instructions/components.instructions.md#zero-margin-principle-critical)
+
+---
+
+### 2. Layer Dependencies
+
+**RULE**: UI ↔ Functional (independent), Page → UI/Functional, App → all layers
+
+**Details**: [components.instructions.md - Layer Dependencies](./instructions/components.instructions.md#layer-dependencies-critical)
+
+---
+
+### 3. React Compiler Check
+
+**RULE**: Check `reactCompiler` in `~/next.config.mjs` before suggesting optimizations.
+
+**Details**: [optimization.instructions.md - React Compiler](../.claude/rules/optimization.instructions.md#react-compiler-react-19)
+
+---
+
+### 4. Content Source Read-Only
+
+**RULE**: Do not edit `_article/_posts/*.md` directly. Always update content via `npm run prebuild`.
+
+**Details**: [content-pipeline.instructions.md](../.claude/rules/content-pipeline.instructions.md)
+
+---
+
+### 5. Hover States Handling
+
+**RULE**: Write `:hover` directly. Do not manually write `@media (any-hover: hover)`.
+
+**Details**: [styling.instructions.md - Hover States](./instructions/styling.instructions.md#hover-states-critical)
+
+---
+
+### 6. CSS Variables Mandatory
+
+**RULE**: Colors, spacing, and fonts must use CSS variables (`var(--colors-*)`, `var(--spacing-*)`).
+
+**Details**: [styling.instructions.md - CSS Variables](./instructions/styling.instructions.md#css-variables-critical)
+
+---
+
+### 7. Server First Principle
+
+**RULE**: Default to Server Components. Use `'use client'` only when interaction is required.
+
+**Details**: [components.instructions.md - Server First Principle](./instructions/components.instructions.md#server-first-principle-important)
+
+## Important Configuration Files
+
+AI agents should verify these files before suggesting changes:
+
+| File              | Path                   | When to Check                                           |
+| ----------------- | ---------------------- | ------------------------------------------------------- |
+| Next.js Config    | `~/next.config.mjs`    | Before optimization suggestions (React Compiler status) |
+| Biome Config      | `~/biome.json`         | Before architectural changes (layer dependencies)       |
+| Panda CSS Config  | `~/panda.config.mts`   | Before styling changes (design tokens)                  |
+| TypeScript Config | `~/tsconfig.json`      | Before type-related changes (strict mode, paths)        |
+| PostCSS Config    | `~/postcss.config.cjs` | Before CSS changes (hover media queries)                |
+| Package JSON      | `~/package.json`       | Before adding dependencies or scripts                   |
+
+**Critical Checkpoints**:
+
+- React Compiler optimizations: Read `~/next.config.mjs` first
+- Component layer violations: Read `~/biome.json` first
+- Styling conventions: Read `~/panda.config.mts` first
+- CSS processing (hover queries): Read `~/postcss.config.cjs` first
 
 ## Architecture
 
 ### Directory Structure
 
 ```
-src/
-├── app/              # Next.js App Router (routes)
-├── components/       # Component hierarchy
-│   ├── App/         # Application shell (Header, Footer, Layout)
-│   ├── Page/        # Page-specific components
-│   │   └── _shared/ # Shared page sections
-│   ├── UI/          # Reusable UI components (zero-margin principle)
-│   └── Functional/  # Utility components (Container, JsonLd)
-├── ui/              # Styling system
-└── types/           # TypeScript definitions
+~/                              # Project root
+├── src/                        # Source code (import alias: @/)
+│   ├── app/                    # Next.js App Router (routes)
+│   ├── components/             # React components
+│   │   ├── App/                # App shell (Header, Footer, Layout)
+│   │   ├── Page/               # Page-specific components
+│   │   │   └── _shared/        # Shared page sections
+│   │   ├── UI/                 # Reusable UI (zero-margin principle)
+│   │   └── Functional/         # Non-visual utility components
+│   ├── ui/                     # Panda CSS styling (styled, tokens)
+│   └── types/                  # TypeScript type definitions
+├── _article/                   # Git submodule (read-only)
+│   └── _posts/                 # Markdown blog posts
+├── public/                     # Static assets
+├── scripts/                    # Build and prebuild scripts
+└── [config files]              # See "Important Configuration Files"
 ```
 
-### Component Principles
+**Path Reference Rules**:
 
-- **Zero Margin**: Components don't set their own margins - parent controls spacing
-- **Container Sizes**: small (768px), default (1024px), large (1280px)
-- **Layer Dependencies**:
+- Config files: Use `~/filename` (e.g., `~/next.config.mjs`)
+- Source files: Use `@/path` in imports (e.g., `import { css } from '@/ui/styled'`)
+- Submodule: `_article/_posts/*.md` (DO NOT edit directly)
 
-```mermaid
-graph TD
-    A[src/app] --> B[App/]
-    B --> C[Page/]
-    C --> D[UI/]
-    C --> E[Functional/]
-```
+### Component Architecture
 
-- UI and Functional are **independent layers** with no mutual dependencies
-- All layer dependencies are statically enforced by Biome (see biome.json)
+Components follow strict layering and design principles. For details, see [🔴 Critical Rules](#critical-rules-must-follow) and [components.instructions.md](./instructions/components.instructions.md).
 
-### Layer Responsibilities
+- **Layer Responsibilities**: App (shell), Page (logic), UI (visual), Functional (utilities)
 
-#### App/
-- **Purpose**: Application-wide structure and layout
-- **Examples**: Header, Footer, Layout
-- **Characteristics**:
-  - Singleton-like components
-  - Can depend on lower layers only
-  - Defines the overall application shell
+## Development
 
-#### Page/
-- **Purpose**: Page-specific logic and components
-- **Examples**: Post components, Archive components, Home components
-- **Characteristics**:
-  - Contains business logic
-  - `Page/_shared/` for sections shared across multiple pages
-  - Can depend on UI and Functional layers only
-  - Cannot depend on App layer
+### Styling with Panda CSS
 
-#### UI/
-- **Purpose**: Reusable visual presentation components
-- **Examples**: Button, Card, Modal, Tooltip, Alert, LinkMore
-- **Characteristics**:
-  - Follows Zero Margin principle
-  - No dependencies on other component layers
-  - Pure visual components with no business logic
+Use project-specific imports and CSS variables:
 
-#### Functional/
-- **Purpose**: Functional utility components without visual representation
-- **Examples**: PreconnectLinks, ReadingHistoryRecorder
-- **Characteristics**:
-  - No visual output (or minimal)
-  - Handles metadata, optimization, and utility functions
-  - No dependencies on other component layers
-
-### Architecture Rationale
-
-This layered architecture provides:
-- **Clear separation of concerns**: Each layer has a single, well-defined responsibility
-- **Maintainability**: Changes are localized to specific layers
-- **Testability**: Layers can be tested independently
-- **Scalability**: New features can be added without affecting existing layers
-- **Static verification**: Biome enforces all dependency rules at compile time
-
-## Development Workflow
-
-### Essential Commands
-
-```bash
-npm run prebuild     # Required before dev/build
-npm run dev          # Development server
-npm run build        # Production build
-npm run lint         # Biome linting (fast)
-npm test             # Vitest tests
-```
-
-### Styling System
-
-```tsx
-// Panda CSS - Use template literals only
-import { css, styled } from '@/ui/styled';
-
-const StyledDiv = styled.div`
-  background: var(--colors-gray-a-3);
-  padding: var(--spacing-2);
-`;
-```
+- **Import**: `import { css, styled } from '@/ui/styled'`
+- **Hover States**: Write `:hover` directly (PostCSS plugin wraps automatically)
+- **CSS Variables**: Required for colors, spacing, radii (`var(--colors-*)`, `var(--spacing-*)`)
 
 ### Path Aliases
 
-- `@/*` → `src/*`
-- `~/*` → project root
+- `@/*` → `src/*` (TypeScript import alias)
+- `~/*` → project root (used in this document only)
 
-## Content Architecture
+**Note**: In this document, `~/` refers to the project root directory, not the user's home directory.
 
-1. **Source**: Git submodule `_article/_posts/*.md` (DO NOT edit directly)
-2. **Processing**: `npm run prebuild` generates JSON files
-3. **Consumption**: Static generation uses processed JSON
+### Content Pipeline
 
-## Coding Standards
+Content processing flow:
 
-### TypeScript
+1. **Source**: `_article/_posts/*.md` (Git submodule, **read-only**)
+2. **Processing**: `npm run prebuild` → article JSON, similarity JSON, OGP images
+3. **Consumption**: Next.js SSG reads JSON at build time
 
-- Strict mode enabled
-- Explicit types for all public APIs
-- Type-only imports where applicable
+**Critical**: NEVER edit `_article/_posts/*.md` directly.
 
-### React/Next.js
+### Testing
 
-- App Router patterns (not Pages Router)
-- Server Components by default
-- Client Components only when needed (`'use client'`)
+- Framework: Vitest with React Testing Library
+- Coverage: `npm run coverage`
+- Focus: Test behavior, not implementation
+- One assertion per test when possible
+- Cover edge cases and error conditions
 
-### Import Order
+## File-Specific Rules
 
-1. External libraries
-2. Internal utilities (`@/lib`, `@/utils`)
-3. Components (`@/components`)
-4. Types (`@/types`)
-5. Styles and constants
+These rules apply automatically based on file paths:
 
-### File Naming
+| File Pattern                   | Rules                                                      | Details                                             |
+| ------------------------------ | ---------------------------------------------------------- | --------------------------------------------------- |
+| `src/components/**/*`          | Layer dependencies, zero-margin, server-first              | `./instructions/components.instructions.md`         |
+| `**/*.tsx` (styling)           | Panda CSS imports, CSS variables, hover states             | `./instructions/styling.instructions.md`            |
+| `**/*.{ts,tsx}` (types)        | Type safety, no `any`, type-only imports                   | `./instructions/typescript.instructions.md`         |
+| `_article/**/*`, `build/**/*`  | Read-only submodule, content pipeline flow                 | `../.claude/rules/content-pipeline.instructions.md` |
+| `~/next.config.mjs`, `use*.ts` | React Compiler scope, custom hook memoization              | `../.claude/rules/optimization.instructions.md`     |
+| `**/*.test.ts{,x}`             | Vitest + React Testing Library, one assertion per test     | `../.claude/rules/testGeneration.md`                |
+| `**/*.tsx` (Client)            | Require `'use client'` directive, verify necessity         | -                                                   |
+| `**/*.tsx` (Server)            | Default mode, no `'use client'` unless interactive         | -                                                   |
+| `~/biome.json`                 | Verify before suggesting layer dependency changes          | -                                                   |
+| `~/panda.config.mts`           | Verify before styling convention changes                   | -                                                   |
+| `~/postcss.config.cjs`         | Verify before CSS processing changes (hover media queries) | -                                                   |
 
-- Components: PascalCase (`PostContent.tsx`)
-- Utilities: camelCase (`getPostData.ts`)
-- Constants: UPPER_SNAKE (`MAX_POSTS`)
+## Task-Specific Rules
 
-## Performance Optimization
+Detailed guidelines for specific development tasks:
 
-- Static generation with ISR-like updates
-- Code splitting via route groups
-- Image optimization with Next.js Image
+| Task            | File                                                | Tool        |
+| --------------- | --------------------------------------------------- | ----------- |
+| Code Generation | `.claude/rules/codeGeneration.md`                   | Claude Code |
+| Code Review     | `.claude/rules/codeReview.md`                       | Claude Code |
+| Commit Messages | `.claude/rules/commitMessageGeneration.md`          | Claude Code |
+| PR Descriptions | `.claude/rules/pullRequestDescriptionGeneration.md` | Claude Code |
+| Test Generation | `.claude/rules/testGeneration.md`                   | Claude Code |
+
+**Note**:
+
+- **Claude Code rules**:
+  - Project-specific: `.claude/rules/` (optimizations, content pipeline, prompts)
+  - Shared with Copilot: `.github/instructions/` (components, styling, TypeScript)
+- **GitHub Copilot rules**:
+  - Direct access: `.github/instructions/` (components, styling, TypeScript)
+- **Separation**: Claude Code advanced features in `.claude/rules/`, basic coding rules shared via `.github/instructions/`
+
+## Standards
+
+### Coding Standards
+
+- **TypeScript**: Strict mode, explicit types for public APIs, type-only imports
+- **React**: App Router, Server Components by default
+- **Import Order**: external libs → internal utilities → components → types → styles/constants
+- **File Naming**: PascalCase for components, camelCase for utilities, UPPER_SNAKE for constants
+- **Comments**: JSDoc for public APIs only, no redundant comments
+- **Security**: Validate inputs, prevent XSS/injection attacks
+- **Accessibility**: Semantic HTML, ARIA labels where needed
+
+### Performance & Optimization
+
+**Static Generation**:
+
+- Route-based code splitting
+- Next.js Image optimization
 - Bundle analysis: `npm run build:analyzer`
 
-## Testing Strategy
+**React Compiler**:
 
-- Unit tests for utilities and hooks
-- Integration tests for critical paths
-- Coverage target: 80%
+⚠️ **CRITICAL: Read `~/next.config.mjs` before suggesting optimizations**
 
-## Common Patterns
+React Compiler (`reactCompiler: true`) handles component rendering automatically.
 
-### Data Fetching
+### Improvement Proposals
 
-```typescript
-// Use in Server Components
-async function getData() {
-  const posts = await import('@/posts.json');
-  return posts.default;
-}
-```
+**Before suggesting architectural changes**:
 
-### Error Handling
+- **Evidence-based**: Verify current implementation when practical
+- **Context-aware**: Consider SSG characteristics (build-time data, minimal client-side)
+- **Appropriate scope**: Changes should match problem size
+- **Avoid over-engineering**: No patterns designed for dynamic backends/SPAs (e.g., Repository pattern)
+- **Check existing solutions**: Avoid duplicating utilities or patterns
 
-```typescript
-// Result type for functional error handling
-import { Result } from '@/build/similarity/result';
-```
+### Technology Adoption Guidelines
 
-## Important Notes
+**Applies to**: React Compiler, build tools (Next.js, Webpack, esbuild), formatters (Biome), type checkers (TypeScript), CSS-in-JS (Panda CSS), test frameworks (Vitest), and any new technology or optimization.
 
-1. **Japanese Content**: Special text processing for Japanese morphological analysis
-2. **Build Dependencies**: Playwright required (`playwright install --only-shell`)
-3. **Environment**: `TZ=Asia/Tokyo` for consistent timestamps
-4. **Pre-commit**: Husky hooks with nano-staged configured
+**When introducing new technologies or removing existing optimizations**:
 
-## Quick Verification
+1. **Verify Scope Before Assuming**:
+   - Read official documentation to understand exact capabilities
+   - Don't assume "new = better in all cases"
+   - Identify explicit limitations and unsupported use cases
 
-For rapid feedback after code changes, use these targeted commands:
+2. **Test Behavioral Changes**:
 
-```bash
-# Type-check specific file only (fastest)
-npx tsc --noEmit --skipLibCheck src/components/MyComponent.tsx
+   **Examples of changes that broke in production**:
+   - React Compiler: Removed `useMemo` from custom hook (result: cache recreated on every render)
+   - Next.js Tree-shaking: Enabled aggressive DCE (result: necessary side-effect code removed)
+   - TypeScript strict mode: Enabled without testing (result: hidden type errors surfaced)
 
-# Lint specific file only
-npx @biomejs/biome check src/hooks/useDialog.ts
+3. **Question Generalizations**:
+   - "This tool handles X automatically" (ask: In which contexts? What are exceptions?)
+   - "We don't need Y anymore" (ask: Are there edge cases where Y is still required?)
+   - "The docs say Z" (ask: Is that recommendation universal or context-specific?)
 
-# Test specific file/pattern only
-npm test -- useDialog        # Tests matching "useDialog"
-npm test -- src/hooks/       # All tests in hooks directory
+   **Real-world examples**:
+   - "React Compiler memoizes everything" (actually: Only component rendering, not custom hooks)
+   - "TypeScript strict mode catches all errors" (actually: Runtime validation still needed)
+   - "Panda CSS has zero runtime" (actually: True, but atomic CSS classes still need loading)
 
-# Build without linting (faster build)
-npx next build --no-lint --webpack
+4. **Avoid These Anti-Patterns**:
+   - ❌ "New feature exists, so old approach is obsolete"
+   - ❌ "If it compiles, it probably works"
+   - ❌ "The framework is smart, so I don't need to think about it"
 
-# Build specific page only (experimental)
-npx next build --experimental-build-mode=compile --webpack
+## Git Workflow
 
-# Hot reload already running (port 8080)
-# Just save the file - Next.js dev server auto-reloads
-```
+### Commit Messages
+
+Format: `type: description` (Japanese, under 50 chars)
+
+- Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`
+- Focus on "why" rather than "what"
+
+### Pull Requests
+
+Include:
+
+- Title: Japanese, under 50 chars
+- Overview: Purpose and background (1-2 sentences)
+- Changes: Bulleted list of modifications
+- Testing: What was verified
 
 ## Quick Reference
 
-| Task              | Command                             |
-| ----------------- | ----------------------------------- |
-| Start development | `npm run prebuild && npm run dev`   |
-| Run tests         | `npm test`                          |
-| Check types       | `tsc --noEmit --skipLibCheck`       |
-| Lint code         | `npm run lint`                      |
-| Build production  | `npm run prebuild && npm run build` |
+| Task              | Command                               |
+| ----------------- | ------------------------------------- |
+| Start development | `npm run prebuild && npm run dev`     |
+| Dev server URL    | `https://localhost:8080` (HTTPS only) |
+| Run tests         | `npm test`                            |
+| Type check file   | `tsc --noEmit --skipLibCheck <file>`  |
+| Lint file         | `npx @biomejs/biome check <file>`     |
+| Lint all          | `npm run lint`                        |
+| Build production  | `npm run prebuild && npm run build`   |
+| Build (fast)      | `npx next build --webpack`            |
+| Bundle analysis   | `npm run build:analyzer`              |
+
+## Important Notes
+
+1. Japanese content uses morphological analysis
+2. Build dependencies: Playwright (`playwright install --only-shell`)
+3. Environment: `TZ=Asia/Tokyo` for timestamps
+4. Pre-commit: Husky via nano-staged
 
 ---
 
-_Generated for GitHub Copilot, Cursor, and other AI assistants. Keep concise and actionable._
-
-**IMPORTANT**: Do NOT modify files in `_article/` directory (Git submodule)
+_For Copilot, Claude Code, and other AI assistants. Be concise and actionable._

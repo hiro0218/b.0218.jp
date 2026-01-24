@@ -1,0 +1,47 @@
+{
+  "$schema": "https://unpkg.com/knip@latest/schema.json",
+  "entry": [
+    "src/app/**/page.{ts,tsx}",
+    "src/app/**/layout.{ts,tsx}",
+    "src/app/**/route.{ts,tsx}",
+    "src/app/**/not-found.tsx",
+    "src/app/**/template.tsx",
+    "src/app/**/sitemap.ts",
+    "src/app/_metadata.ts",
+    "build/**/*.{ts,tsx}",
+    "tools/**/*.{ts,tsx}",
+    "vitest.config.{ts,mts}",
+    "panda.config.{ts,mts}",
+    "next.config.{js,mjs,ts}"
+  ],
+  "project": [
+    "src/**/*.{ts,tsx}",
+    "build/**/*.{ts,tsx}",
+    "tools/**/*.{ts,tsx}"
+  ],
+  "ignore": [
+    "_article/**",
+    "src/ui/styled/index.ts",
+    "src/ui/styled/global/**",
+    "src/ui/styled/utilities/**",
+    "src/ui/styled/components/**",
+    "src/ui/styled/constant.ts",
+    "**/*.test.{ts,tsx}",
+    "**/*.spec.{ts,tsx}",
+    "**/__tests__/**",
+    "**/*.d.ts",
+    "styled-system/**",
+    "src/components/UI/Layout/Frame.tsx",
+    "src/components/UI/Layout/Reel.tsx"
+  ],
+  "ignoreDependencies": [
+    "@next/env",
+    "shokika.css",
+    "@markuplint/jsx-parser",
+    "@markuplint/react-spec",
+    "@types/gtag.js",
+    "@types/twitter-for-web"
+  ],
+  "ignoreExportsUsedInFile": true,
+  "includeEntryExports": true
+}

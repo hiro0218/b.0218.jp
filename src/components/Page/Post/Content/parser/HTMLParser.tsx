@@ -1,13 +1,14 @@
 import reactHtmlParser, { Element, type HTMLReactParserOptions } from 'html-react-parser';
-import { handleAlert, handleAnchor, handleCodePen, handleLinkPreview, handleZoomImage } from '../handlers';
+import { handleAlert, handleAnchor, handleCodePen, handleLinkPreview, handleTable, handleZoomImage } from '../handlers';
 
-const applyHandlers = (domNode: Element) => {
+const applyHandlers = (domNode: Element, options: HTMLReactParserOptions) => {
   return (
-    handleAnchor(domNode) ||
-    handleAlert(domNode) ||
-    handleLinkPreview(domNode) ||
-    handleCodePen(domNode) ||
-    handleZoomImage(domNode) ||
+    handleAnchor(domNode, options) ||
+    handleAlert(domNode, options) ||
+    handleLinkPreview(domNode, options) ||
+    handleCodePen(domNode, options) ||
+    handleTable(domNode, options) ||
+    handleZoomImage(domNode, options) ||
     domNode
   );
 };
@@ -18,7 +19,7 @@ const reactHtmlParserOptions: HTMLReactParserOptions = {
       return domNode;
     }
 
-    return applyHandlers(domNode);
+    return applyHandlers(domNode, reactHtmlParserOptions);
   },
 };
 

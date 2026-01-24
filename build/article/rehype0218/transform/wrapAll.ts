@@ -20,7 +20,7 @@ function transform(tree: Root, { selector, wrapper = 'div' }: { selector: string
   }
 }
 
-export const wrapAll = (tree: Root) => {
+const _wrapAll = (tree: Root) => {
   for (let i = 0; i < options.length; i++) {
     transform(tree, options[i]);
   }

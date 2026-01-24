@@ -1,0 +1,1 @@
+export { handleZoomImage } from './ZoomImageHandler';

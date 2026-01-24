@@ -14,11 +14,6 @@ type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
  */
 type SimilarityScore = number;
 
-/**
- * 人気度スコアの型
- */
-type PopularityScore = number;
-
 // ========================================
 // 基本型定義
 // ========================================
@@ -120,11 +115,23 @@ export type TagSimilarityScores = Record<string, Record<string, SimilarityScore>
 export type PostSimilarityMatrix = Record<string, Record<string, SimilarityScore>>[];
 
 /**
- * 記事人気度スコア型（posts-popular.json）
- * キー：記事スラッグ、値：人気度スコア
- * 実際のデータ形式：{ "slug1": 1234, "slug2": 5678, ... }
+ * 人気度の詳細情報
  */
-export type PostPopularityScores = Record<string, PopularityScore>;
+export type PopularityDetail = {
+  /** 合算スコア（ソート用） */
+  total: number;
+  /** Google Analytics ページビュー数 */
+  ga: number;
+  /** はてなブックマーク数 */
+  hatena: number;
+};
+
+/**
+ * 記事人気度スコア型（posts-popular.json）
+ * キー：記事スラッグ、値：人気度詳細
+ * 実際のデータ形式：{ "slug1": { total: 1234, ga: 1000, hatena: 234 }, ... }
+ */
+export type PostPopularityScores = Record<string, PopularityDetail>;
 
 /**
  * タグカウント型（tags-with-count.json）

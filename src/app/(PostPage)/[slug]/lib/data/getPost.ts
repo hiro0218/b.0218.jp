@@ -2,6 +2,7 @@ import { getPostsJson, getTagsWithCount } from '@/lib/data/posts';
 
 const posts = getPostsJson();
 const tagDataWithCount = getTagsWithCount();
+const postsMap = new Map(posts.map((post) => [post.slug, post]));
 
 const tagDataWithCountBySlug: Record<string, (typeof tagDataWithCount)[number]> = {};
 for (let i = 0; i < tagDataWithCount.length; i++) {
@@ -26,7 +27,7 @@ export function getPost(slug?: string | null) {
 
   const normalizedSlug = slug.replace('.html', '');
 
-  return posts.find((post) => post.slug === normalizedSlug) || null;
+  return postsMap.get(normalizedSlug) || null;
 }
 
 /**

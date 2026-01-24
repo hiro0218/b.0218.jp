@@ -1,7 +1,7 @@
 'use client';
 
+import { useOverlay } from '@react-aria/overlays';
 import { useRef } from 'react';
-import { useOverlay } from 'react-aria';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -34,9 +34,9 @@ const Div = styled.div`
   isolation: isolate;
   opacity: 0;
   transition:
-    opacity 0.4s ease-out,
-    visibility 0.4s ease-out;
-  animation: fadeIn 0.4s ease-out;
+    opacity 0.2s var(--easings-ease-out-expo),
+    visibility 0.2s var(--easings-ease-out-expo);
+  animation: fadeIn 0.2s var(--easings-ease-out-expo);
 
   [data-is-zoom-image='true'] ~ &,
   dialog[open] ~ & {

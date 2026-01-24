@@ -1,10 +1,10 @@
 import { read as matterRead } from 'gray-matter';
-import { FILENAME_PAGES } from '@/constant';
+import { FILENAME_PAGES } from '@/constants';
 import type { Page } from '@/types/source';
 import { writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
 import markdownToHtmlString from '../../markdownToHtmlString';
-import { getMarkdownFiles, getPath, getSlug } from './utils';
+import { getMarkdownFiles, getPath, getSlug, hasRequiredFrontmatter, isAgentFile } from './utils';
 
 const PATH = getPath();
 
@@ -17,18 +17,34 @@ export async function buildPage() {
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
 
-    // front matter を取得
-    const page = matterRead(`${PATH.from}/${file}`);
-    const { title, date, updated } = page.data as Page;
-    const content = await markdownToHtmlString(page.content);
+    if (isAgentFile(file)) {
+      Log.info(`Skip agent file: ${file}`);
+      continue;
+    }
 
-    pages.push({
-      title,
-      slug: getSlug(file),
-      date,
-      ...(updated && { updated: new Date(updated).toISOString() }),
-      content,
-    });
+    try {
+      // front matter を取得
+      const page = matterRead(`${PATH.from}/${file}`);
+
+      if (!hasRequiredFrontmatter(page.data)) {
+        Log.info(`Skip file without required frontmatter: ${file}`);
+        continue;
+      }
+
+      const { title, date, updated } = page.data;
+      const content = await markdownToHtmlString(page.content);
+
+      pages.push({
+        title,
+        slug: getSlug(file),
+        date,
+        ...(updated && { updated: new Date(updated).toISOString() }),
+        content,
+      });
+    } catch (error) {
+      Log.error(`Failed to process file: ${file}`, error);
+      continue;
+    }
   }
 
   writeJSON(`${PATH.to}/${FILENAME_PAGES}.json`, pages).then(() => {

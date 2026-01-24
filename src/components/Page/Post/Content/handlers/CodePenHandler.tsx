@@ -5,18 +5,18 @@ import type { HandlerFunction } from './types';
  * CodePenのiframeを処理し、ハイドレーション時のエスケープ文字不一致を防止する
  */
 export const handleCodePen: HandlerFunction = (domNode) => {
-  if (
+  const isCodePenIframe =
     domNode.tagName === 'iframe' &&
     typeof domNode.attribs?.src === 'string' &&
-    domNode.attribs.src.includes('//codepen.io') &&
-    domNode.children[0] instanceof Text
-  ) {
-    // ハイドレーション時にエスケープ文字が不一致しない場合があるため埋める
-    domNode.children[0].data = 'CodePen';
+    domNode.attribs.src.includes('//codepen.io');
 
-    // 元のDOMノードを使用するため、undefinedを返す
-    return undefined;
+  const firstChild = domNode.children[0];
+
+  if (isCodePenIframe && firstChild instanceof Text) {
+    // ハイドレーション時にエスケープ文字が不一致しない場合があるため埋める
+    firstChild.data = 'CodePen';
   }
 
+  // 元のDOMノードを使用するため、undefinedを返す
   return undefined;
 };

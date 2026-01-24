@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
 import { getMetadata } from '@/app/_metadata';
+import { StructuredData } from '@/components/Functional/StructuredData';
 import { Chart } from '@/components/Page/Archive/Chart';
 import { Timeline } from '@/components/Page/Archive/Timeline';
 import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
-import { SITE_URL } from '@/constant';
+import { SITE_URL } from '@/constants';
 import { getPostsListJson } from '@/lib/data/posts';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
-import { getData } from './libs';
+import { getData } from './_lib';
 
 const posts = getPostsListJson();
 const archives = getData(posts);
@@ -29,21 +30,16 @@ const renderTimelinesByYear = (archiveData: typeof archives) =>
     .toReversed()
     .map((year) => <Timeline key={year} posts={archiveData[year]} year={year} />);
 
-export default async function Page() {
+export default function Page() {
   return (
     <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            getCollectionPageStructured({
-              name: pageTitle,
-              description,
-            }),
-          ),
-        }}
-        type="application/ld+json"
+      <StructuredData
+        data={getCollectionPageStructured({
+          name: pageTitle,
+          description,
+        })}
       />
-      <Stack as="article" space={4}>
+      <Stack as="article" gap={4}>
         <Title heading={title} paragraph={description} />
 
         <Chart archives={archives} totalPosts={totalPosts} />

@@ -1,0 +1,49 @@
+@property --left-fade {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --right-fade {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0;
+}
+
+@keyframes table-scroll-fade {
+  0% {
+    --left-fade: 0;
+    --right-fade: 3rem;
+  }
+  10% {
+    --left-fade: 3rem;
+  }
+  90% {
+    --right-fade: 3rem;
+  }
+  100% {
+    --left-fade: 3rem;
+    --right-fade: 0;
+  }
+}
+
+.c-table-scrollable {
+  display: grid;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  /* 
+   * テーブルの左右にフェードをかけるためのマスク。
+   * - --left-fade / --right-fade は、それぞれ左端・右端のフェード幅（長さ）を表すカスタムプロパティです。
+   * - linear-gradient は左から右へ、透明(#0000) → 不透明(#ffff) → 透明(#0000) となるマスクを生成します。
+   *   - var(--left-fade) までを不透明にすることで、左側のフェード幅を制御します。
+   *   - calc(100% - var(--right-fade)) 以降を透明にすることで、右側のフェード幅を制御します。
+   * - @keyframes table-scroll-fade でスクロールの進行に応じて --left-fade / --right-fade を変化させ、
+   *   最初は右側のみフェード、その後は両端フェード、最後は左側のみフェードといった挙動を実現しています。
+   */
+  mask: linear-gradient(to right, transparent, #fff var(--left-fade) calc(100% - var(--right-fade)), transparent);
+  animation: table-scroll-fade;
+  /* stylelint-disable-next-line plugin/browser-compat */
+  animation-timeline: --table-scroll-timeline;
+  /* stylelint-disable-next-line plugin/browser-compat */
+  scroll-timeline: --table-scroll-timeline x;
+}

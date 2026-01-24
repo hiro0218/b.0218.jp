@@ -1,4 +1,4 @@
-import { TAG_VIEW_LIMIT } from '@/constant';
+import { TAG_VIEW_LIMIT } from '@/constants';
 import { getPostsJson, getSimilarPosts as getSimilarPostsJson, getSimilarTag, getTagsJson } from '@/lib/data/posts';
 import type { ArticleSummary } from '@/types/source';
 
@@ -94,4 +94,41 @@ export function getSimilarTags(tag: string) {
   const sortedValidTags = validTags.toSorted((a, b) => b.count - a.count);
 
   return sortedValidTags.slice(0, LIMIT_TAG_LIST);
+}
+
+/**
+ * 指定されたタグに属する記事を取得する
+ * @param tagSlug - タグのスラッグ
+ * @param excludeSlug - 除外する記事のスラッグ（通常は現在の記事）
+ * @param limit - 取得件数の上限（デフォルト: 4）
+ * @returns 記事のリスト
+ * @example
+ * const posts = getPostsByTag('javascript', 'current-post-slug', 4);
+ */
+export function getPostsByTag(tagSlug: string, excludeSlug: string, limit = 4): ArticleSummary[] {
+  const postSlugs = getTagPostsMapping(tagSlug);
+
+  if (!postSlugs || postSlugs.length === 0) {
+    return [];
+  }
+
+  const results: ArticleSummary[] = [];
+
+  for (let i = 0; i < postSlugs.length; i++) {
+    const slug = postSlugs[i];
+    if (slug === excludeSlug) {
+      continue;
+    }
+
+    const post = postsMap.get(slug);
+    if (post) {
+      results.push(post);
+    }
+
+    if (results.length >= limit) {
+      break;
+    }
+  }
+
+  return results;
 }

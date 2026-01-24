@@ -1,12 +1,19 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+import { SearchTrigger } from '@/components/App/Search/SearchTrigger';
 import { Container } from '@/components/UI/Layout/Container';
 import { Logo } from '@/components/UI/Logo';
-import { SearchButton } from '@/components/UI/Search/components/SearchButton';
-import { SearchDialog } from '@/components/UI/Search/components/SearchDialog';
-import { useSearchDialog } from '@/contexts/SearchDialogContext';
 import { css } from '@/ui/styled';
 import { HeaderLayout } from './HeaderLayout';
+import { useSearchDialog } from './SearchDialogContext';
+
+const SearchDialog = dynamic(
+  () => import('@/components/App/Search/SearchDialog').then((module) => module.SearchDialog),
+  {
+    ssr: false,
+  },
+);
 
 export default function Header() {
   const searchDialog = useSearchDialog();
@@ -16,15 +23,15 @@ export default function Header() {
       <HeaderLayout>
         <Container className={HeaderContainerStyle} size={'large'} space={false}>
           <Logo />
-          <SearchButton openDialogAction={searchDialog.open} />
+          <SearchTrigger openDialogAction={searchDialog.open} />
         </Container>
       </HeaderLayout>
 
       {(searchDialog.isOpen || searchDialog.isClosing) && (
         <SearchDialog
+          dialogRef={searchDialog.dialogRef}
           isClosing={searchDialog.isClosing}
           onCloseAction={searchDialog.close}
-          ref={searchDialog.dialogRef}
         />
       )}
     </>
@@ -36,7 +43,6 @@ const HeaderContainerStyle = css`
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: var(--spacing-4);
   margin: 0 auto;
 
   @media (--isMobile) {

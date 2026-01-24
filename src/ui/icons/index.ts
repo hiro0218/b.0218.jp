@@ -4,6 +4,7 @@ export {
   CaretRightIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  Cross2Icon,
   GitHubLogoIcon,
   InfoCircledIcon,
   Link2Icon,

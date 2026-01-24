@@ -1,21 +1,19 @@
 import '@/ui/styles/globals.css';
 
 import { GoogleAnalytics } from '@next/third-parties/google';
-import dynamic from 'next/dynamic';
 import type { Metadata, Viewport } from 'next/types';
 import { Suspense } from 'react';
 import { openGraph } from '@/app/_metadata';
 import Footer from '@/components/App/Footer';
 import Header from '@/components/App/Header';
+import { SearchDialogProvider } from '@/components/App/Header/SearchDialogContext';
 import { Layout } from '@/components/App/Layout/AppLayout';
 import { MainContainer } from '@/components/App/Layout/MainContainer';
 import { ClientSideScrollRestorer } from '@/components/Functional/ClientSideScrollRestorer';
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
+import { ClientPageScroll } from '@/components/Functional/PageScroll/ClientPageScroll';
 import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
-import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constant';
-import { SearchDialogProvider } from '@/contexts/SearchDialogContext';
-
-const PageScroll = dynamic(() => import('@/components/UI/PageScroll').then((module) => module.PageScroll));
+import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constants';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -62,26 +60,32 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
       <body>
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+        {process.env.NODE_ENV === 'production' && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />}
         <SearchDialogProvider>
           <Layout>
             <Header />
             <MainContainer>{children}</MainContainer>
-            <PageScroll />
+            <ClientPageScroll />
             <Footer />
           </Layout>
         </SearchDialogProvider>
         <Suspense>
           <ClientSideScrollRestorer />
         </Suspense>
-        <PreconnectLinks />
+        {process.env.NODE_ENV === 'production' && <PreconnectLinks />}
         {
-          /** @see https://developer.mozilla.org/ja/docs/Web/HTML/Attributes/rel/me */
+          /**
+           * rel="me" links for identity verification (Mastodon, IndieAuth, etc.)
+           * Note: Ideally should be in <head>, but Next.js App Router metadata API
+           * doesn't support custom <link> elements. HTML5 allows <link> in <body>
+           * and browsers will process them correctly.
+           * @see https://developer.mozilla.org/ja/docs/Web/HTML/Attributes/rel/me
+           */
           Object.entries(URL).map(([key, url]) => (
             <link href={url} key={key} rel="me" />
           ))
         }
-        <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} />
+        {process.env.NODE_ENV === 'production' && <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} />}
       </body>
     </html>
   );

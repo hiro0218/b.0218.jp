@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { getMetadata } from '@/app/_metadata';
 import { ReadingHistoryRecorder } from '@/components/Functional/ReadingHistoryRecorder';
+import { StructuredData } from '@/components/Functional/StructuredData';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { TagSection } from '@/components/Page/_shared/TagSection';
 import { PostContent } from '@/components/Page/Post/Content';
@@ -12,7 +13,7 @@ import PostNote from '@/components/Page/Post/Note';
 import PostShare from '@/components/Page/Post/Share';
 import { Stack } from '@/components/UI/Layout';
 import { Container } from '@/components/UI/Layout/Container';
-import { AUTHOR_NAME } from '@/constant';
+import { AUTHOR_NAME } from '@/constants';
 import { getPostsJson } from '@/lib/data/posts';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/domain/json-ld';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';
@@ -23,26 +24,21 @@ type Params = Promise<{ slug: string }>;
 const posts = getPostsJson();
 
 export async function generateStaticParams() {
-  const paths = [];
-
-  for (let i = 0; i < posts.length; i++) {
-    paths.push({
-      slug: `${posts[i].slug}.html`,
-    });
-  }
-
-  return paths;
+  return posts.map((post) => ({
+    slug: `${post.slug}.html`,
+  }));
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug: _slug } = await params;
   const slug = _slug.replace('.html', '');
   const data = getPostPageData(slug);
-  const { title, content, noindex, meta } = data.post;
+  const { title, content, noindex, meta, tagsWithCount } = data.post;
   const { publishedTime, modifiedTime } = meta;
   const permalink = getPermalink(slug);
   const description = getDescriptionText(content);
-  const ogpImage = `${getOgpImage(slug)}?ts=${process.env.BUILD_ID}`;
+  const buildId = process.env.BUILD_ID || '';
+  const ogpImage = `${getOgpImage(slug)}${buildId ? `?ts=${buildId}` : ''}`;
 
   return getMetadata({
     title,
@@ -51,14 +47,12 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     openGraph: {
       type: 'article',
       images: [{ url: ogpImage }],
+      section: tagsWithCount[0]?.slug,
+      tags: tagsWithCount.map((tag) => tag.slug),
+      publishedTime,
+      modifiedTime: modifiedTime || publishedTime,
     },
     other: {
-      // biome-ignore lint/style/useNamingConvention: key names should remain unchanged
-      updated_time: modifiedTime || publishedTime,
-      // biome-ignore lint/style/useNamingConvention: key names should remain unchanged
-      published_time: publishedTime,
-      // biome-ignore lint/style/useNamingConvention: key names should remain unchanged
-      modified_time: modifiedTime || publishedTime,
       label1: 'Written by',
       data1: AUTHOR_NAME,
     },
@@ -67,8 +61,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       images: [{ url: ogpImage }],
     },
     robots: {
-      ['max-image-preview']: 'large',
-      ...(noindex === true && { index: true }),
+      'max-image-preview': 'large',
+      ...(noindex === true && { index: false }),
     },
   });
 }
@@ -82,7 +76,7 @@ export default async function Page({ params }: { params: Params }) {
     notFound();
   }
 
-  const { post, similarPost, similarTags, recentPosts } = data;
+  const { post, similarPost, similarTags, recentPosts, sameTagPosts, mostPopularTag, popularity } = data;
   const { title, date, updated, note, content, tagsWithCount } = post;
   const hasTweet = content.includes('twitter-tweet');
   const permalink = getPermalink(slug);
@@ -91,16 +85,11 @@ export default async function Page({ params }: { params: Params }) {
   return (
     <>
       <ReadingHistoryRecorder date={date} slug={slug} tags={tags} title={title} />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify([getBlogPostingStructured(post), getBreadcrumbStructured(post)]),
-        }}
-        type="application/ld+json"
-      />
+      <StructuredData data={[getBlogPostingStructured(post, popularity), getBreadcrumbStructured(post)]} />
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
       <Container size="small" space={false}>
-        <Stack space={6}>
-          <Stack as="article" space={4}>
+        <Stack gap={6}>
+          <Stack as="article" gap={4}>
             <PostHeader
               date={date}
               render={
@@ -119,7 +108,7 @@ export default async function Page({ params }: { params: Params }) {
               <PostEdit slug={slug} />
             </Stack>
           </Stack>
-          <Stack as="footer" space={5}>
+          <Stack as="footer" gap={5}>
             <TagSection
               as="aside"
               heading="関連タグ"
@@ -129,14 +118,17 @@ export default async function Page({ params }: { params: Params }) {
               tags={similarTags}
             />
             <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
-            <PostSection
-              as="aside"
-              heading="最新記事"
-              headingLevel="h2"
-              href="/archive"
-              posts={recentPosts}
-              prefetch={true}
-            />
+            {mostPopularTag && sameTagPosts.length > 0 && (
+              <PostSection
+                as="aside"
+                heading={`「${mostPopularTag.slug}」タグの記事`}
+                headingLevel="h2"
+                href={`/tags/${mostPopularTag.slug}`}
+                posts={sameTagPosts}
+                prefetch={false}
+              />
+            )}
+            <PostSection as="aside" heading="最新記事" headingLevel="h2" href="/archive" posts={recentPosts} />
           </Stack>
         </Stack>
       </Container>

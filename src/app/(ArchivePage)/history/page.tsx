@@ -1,9 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
+import ArticleCard from '@/components/UI/ArticleCard';
 import { Sidebar, Stack } from '@/components/UI/Layout';
-import LinkCard from '@/components/UI/LinkCard';
 import { Loading } from '@/components/UI/Loading';
 import { Title } from '@/components/UI/Title';
 import useIsMounted from '@/hooks/useIsMounted';
@@ -46,7 +45,7 @@ export default function Page() {
                 <>
                   {history.map(({ date, slug: postSlug, tags, title: postTitle }) => {
                     const link = convertPostSlugToPath(postSlug);
-                    return <LinkCard date={date} key={postSlug} link={link} tags={tags} title={postTitle} />;
+                    return <ArticleCard date={date} key={postSlug} link={link} tags={tags} title={postTitle} />;
                   })}
                 </>
               )}

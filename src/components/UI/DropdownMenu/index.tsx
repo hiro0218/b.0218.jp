@@ -1,47 +1,38 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { useButton } from '@react-aria/button';
+import { useInteractOutside } from '@react-aria/interactions';
+import { useMenu, useMenuItem } from '@react-aria/menu';
+import type { ReactNode, RefObject } from 'react';
 import { Children, isValidElement, useId, useMemo, useRef } from 'react';
-import { useButton, useInteractOutside, useMenu, useMenuItem } from 'react-aria';
 import type { Node } from 'react-stately';
 import { Item, useMenuTriggerState, useTreeState } from 'react-stately';
 import { styled } from '@/ui/styled';
 
+type MenuPosition = 'left' | 'right';
+
 export type DropdownMenuProps = {
   title: ReactNode;
   children: ReactNode;
-  menuHorizontalPosition?: 'left' | 'right';
+  menuHorizontalPosition?: MenuPosition;
 };
 
 /**
  * クリック操作で開閉するドロップダウンメニューコンポーネント
- * React Aria を使用してアクセシビリティを向上
- *
- * @param {DropdownMenuProps} props - コンポーネントのプロパティ
- * @returns {JSX.Element} ドロップダウンメニューコンポーネント
  */
-export const DropdownMenu = ({ title, children, menuHorizontalPosition = 'right' }: DropdownMenuProps) => {
+export function DropdownMenu({ title, children, menuHorizontalPosition = 'right' }: DropdownMenuProps) {
   const state = useMenuTriggerState({});
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerId = useId();
 
-  const { buttonProps } = useButton(
-    {
-      onPress: () => state.toggle(),
-    },
-    triggerRef,
-  );
+  const { buttonProps } = useButton({ onPress: () => state.toggle() }, triggerRef);
 
-  // 外側クリックでメニューを閉じる
+  // メニュー外クリックで閉じる（開いている場合のみハンドラを設定）
   useInteractOutside({
     ref: containerRef,
-    onInteractOutside: () => {
-      if (state.isOpen) {
-        state.close();
-      }
-    },
+    onInteractOutside: state.isOpen ? () => state.close() : undefined,
   });
 
   return (
@@ -68,21 +59,21 @@ export const DropdownMenu = ({ title, children, menuHorizontalPosition = 'right'
       </MenuPopover>
     </Container>
   );
-};
+}
 
 type MenuPopoverProps = {
   children: ReactNode;
   onClose: () => void;
   autoFocus?: boolean | 'first' | 'last';
-  menuRef: React.RefObject<HTMLDivElement>;
+  menuRef: RefObject<HTMLDivElement>;
   isOpen: boolean;
-  'data-position'?: 'left' | 'right';
+  'data-position': MenuPosition;
   'aria-labelledby': string;
 };
 
 /**
- * ReactNode からテキストコンテンツを抽出する
- * アクセシビリティのための textValue を生成するために使用
+ * ReactNodeからテキストコンテンツを再帰的に抽出
+ * React AriaのtextValue要求を満たすために使用（スクリーンリーダー対応）
  */
 function extractTextContent(node: ReactNode): string {
   if (typeof node === 'string' || typeof node === 'number') {
@@ -94,12 +85,9 @@ function extractTextContent(node: ReactNode): string {
   }
 
   if (isValidElement(node)) {
-    const props = node.props as { children?: ReactNode };
-    if (props.children) {
-      return extractTextContent(props.children);
-    }
+    const { children } = node.props as { children?: ReactNode };
+    return children ? extractTextContent(children) : '';
   }
-
   return '';
 }
 
@@ -109,42 +97,30 @@ function MenuPopover({
   autoFocus,
   menuRef,
   isOpen,
-  'data-position': position,
+  'data-position': dataPosition,
   'aria-labelledby': ariaLabelledby,
 }: MenuPopoverProps) {
-  // Fragment を含む子要素を適切にフラット化
-  const items = Children.toArray(children);
-
-  // テキスト抽出をメモ化してパフォーマンスを向上
-  const textValues = useMemo(() => items.map((child) => extractTextContent(child)), [items]);
-
-  const state = useTreeState({
-    selectionMode: 'none',
-    children: items.map((child, index) => {
-      const textValue = textValues[index];
-      // 既存の key を使用、なければ安定した ID を生成
+  // 子要素を React Stately の Item にラップ（childrenが変更時のみ再計算）
+  const menuItems = useMemo(() => {
+    return Children.toArray(children).map((child, index) => {
+      const textValue = extractTextContent(child);
+      // 既存のkeyを優先、なければtextValueとindexから生成
       const itemKey = isValidElement(child) && child.key ? child.key : `menu-item-${textValue}-${index}`;
-
       return (
         <Item key={itemKey} textValue={textValue}>
           {child}
         </Item>
       );
-    }),
-  });
+    });
+  }, [children]);
 
-  const { menuProps: ariaMenuProps } = useMenu(
-    {
-      autoFocus,
-      onClose,
-      'aria-labelledby': ariaLabelledby,
-    },
-    state,
-    menuRef,
-  );
+  // メニュー選択を無効化（ナビゲーション目的のためselectionMode: 'none'）
+  const state = useTreeState({ selectionMode: 'none', children: menuItems });
+
+  const { menuProps } = useMenu({ autoFocus, onClose, 'aria-labelledby': ariaLabelledby }, state, menuRef);
 
   return (
-    <Content {...ariaMenuProps} aria-expanded={isOpen} data-position={position} ref={menuRef} role="menu">
+    <Content {...menuProps} aria-expanded={isOpen} data-position={dataPosition} ref={menuRef} role="menu">
       {Array.from(state.collection).map((item) => (
         <MenuItem item={item} key={item.key} onAction={onClose} state={state} />
       ))}
@@ -170,9 +146,9 @@ function MenuItem({ item, state, onAction }: MenuItemProps) {
   );
 
   return (
-    <MenuItemWrapper {...menuItemProps} ref={ref}>
+    <MenuItemContainer {...menuItemProps} ref={ref}>
       {item.rendered}
-    </MenuItemWrapper>
+    </MenuItemContainer>
   );
 }
 
@@ -234,7 +210,7 @@ export const Content = styled.div`
   }
 `;
 
-export const MenuItemWrapper = styled.div`
+export const MenuItemContainer = styled.div`
   & > a {
     display: flex;
     align-items: center;

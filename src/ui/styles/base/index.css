@@ -67,14 +67,14 @@ a {
   color: var(--colors-gray-1000);
   overflow-wrap: break-word;
   text-decoration: none;
-  text-decoration-color: var(--colors-gray-800);
+  text-decoration-color: var(--colors-gray-500);
   text-underline-position: under;
   text-underline-offset: 4%;
   transition:
     background-color 0.2s ease,
     opacity 0.2s ease,
-    box-shadow 0.2s ease-out,
-    text-decoration-color 0.3s;
+    box-shadow 0.2s var(--easings-ease-out-expo),
+    text-decoration-color 0.2s;
 
   &[target='_blank'] {
     /* img,svg が含まれていない a 要素には外部リンクアイコンを付与 */
@@ -114,7 +114,7 @@ figure {
 
   figcaption {
     font-size: var(--font-sizes-sm);
-    color: var(--colors-gray-900);
+    color: var(--colors-gray-600);
   }
 }
 
@@ -171,7 +171,7 @@ strong {
 
 mark {
   padding: 1px 2px;
-  background-color: var(--colors-accent-a-5);
+  background-color: var(--colors-gray-a-100);
   border-radius: var(--radii-4);
 }
 
@@ -182,7 +182,7 @@ code {
 }
 
 code {
-  color: var(--colors-gray-1000);
+  color: var(--colors-gray-800);
   overflow-wrap: break-word;
   background-color: var(--colors-gray-a-25);
   border-radius: var(--radii-4);
@@ -221,14 +221,9 @@ pre {
 
 /* table */
 table {
-  display: block flow;
   max-inline-size: 100%;
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
   font-size: var(--font-sizes-md);
-  animation: scroll-table-shadow-inset linear;
-  /* stylelint-disable-next-line */
-  animation-timeline: scroll(self x);
+  background-color: var(--colors-white);
 
   caption {
     margin: var(--spacing-1) 0;
@@ -248,7 +243,7 @@ td {
 th {
   color: var(--colors-gray-1000);
   text-align: left;
-  background-color: var(--colors-gray-a-200);
+  background-color: var(--colors-gray-a-300);
 
   &[align='center'] {
     text-align: center;
@@ -278,7 +273,6 @@ tbody {
   }
 
   tr {
-    transition: background-color 0.3s ease-out;
     &:hover {
       background-color: var(--colors-gray-a-100);
     }
@@ -311,9 +305,9 @@ del {
     overflow-y: clip;
     opacity: 0;
     transition:
-      height 0.8s var(--easings-ease-out-expo),
-      opacity 0.4s linear,
-      content-visibility 0.8s ease allow-discrete;
+      height 0.2s var(--easings-ease-out-expo),
+      opacity 0.2s linear,
+      content-visibility 0.2s ease allow-discrete;
   }
 
   details[open]::details-content {
@@ -327,12 +321,12 @@ del {
 @supports (view-transition-name: none) {
   @media not (prefers-reduced-motion: reduce) {
     ::view-transition-old(cross-fade) {
-      animation: view-transition-hide 0.4s ease-out forwards;
+      animation: view-transition-hide 0.4s var(--easings-ease-out-expo) forwards;
     }
 
     ::view-transition-new(cross-fade) {
       opacity: 0;
-      animation: view-transition-show 0.6s ease-out 0.2s forwards;
+      animation: view-transition-show 0.6s var(--easings-ease-out-expo) 0.2s forwards;
     }
   }
 }

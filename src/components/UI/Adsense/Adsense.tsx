@@ -1,8 +1,7 @@
 import { usePathname } from 'next/navigation';
-import { type CSSProperties, useEffect } from 'react';
+import { type CSSProperties, useEffect, useState } from 'react';
 
-import { GOOGLE_ADSENSE } from '@/constant';
-import { useBoolean } from '@/hooks/useBoolean';
+import { GOOGLE_ADSENSE } from '@/constants';
 import { css, styled } from '@/ui/styled';
 
 type Size = {
@@ -13,12 +12,12 @@ type Props = Size;
 
 export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
   const pathname = usePathname();
-  const { value: isLoaded, setTrue: setLoaded } = useBoolean(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally including setLoaded for pathname change
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname change should trigger ad reload
   useEffect(() => {
-    setLoaded();
-  }, [pathname, setLoaded]);
+    setIsLoaded(true);
+  }, [pathname]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally depending on isLoaded state only
   useEffect(() => {

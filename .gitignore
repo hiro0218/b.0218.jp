@@ -65,6 +65,7 @@ typings/
 # next.js build output
 .next
 out
+next-env.d.ts
 public/posts.json
 public/posts-list.json
 public/images
@@ -100,3 +101,7 @@ certificates
 ## Panda
 styled-system
 styled-system-studio
+
+## knip
+knip-report.json
+.knip-cache/

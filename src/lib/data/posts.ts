@@ -1,4 +1,4 @@
-import { isPostArray, isPostSummaryArray } from '@/types/guards';
+import { isPostArray, isPostSummaryArray } from '@/lib/guards';
 import type {
   Page,
   Post,
