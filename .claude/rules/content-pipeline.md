@@ -1,6 +1,10 @@
 ---
 description: 'Content pipeline and Git submodule management rules'
 applyTo: '{_article/**/*,scripts/prebuild/**/*,build/**/*}'
+paths:
+  - '_article/**/*'
+  - 'scripts/prebuild/**/*'
+  - 'build/**/*'
 ---
 
 # Content Pipeline Rules
