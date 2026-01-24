@@ -1,6 +1,9 @@
 ---
 description: 'コード生成時の技術スタック準拠とコンポーネント分類ルール'
 agent: 'agent'
+applyTo: '**/*.{ts,tsx,js,jsx}'
+paths:
+  - '**/*.{ts,tsx,js,jsx}'
 ---
 
 # コード生成の指示

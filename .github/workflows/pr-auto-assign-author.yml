@@ -6,7 +6,7 @@ permissions: write-all
 jobs:
   auto-assign:
     name: Assign author to PR
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - name: Assign author to PR
         uses: technote-space/assign-author@v1

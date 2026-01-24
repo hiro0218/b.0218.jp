@@ -1,6 +1,9 @@
 ---
 description: 'React Compiler optimization rules and performance guidelines'
-applyTo: '{next.config.mjs,**/use*.{ts,tsx}}'
+applyTo: '{next.config.mjs,src/**/*.{ts,tsx}}'
+paths:
+  - 'next.config.mjs'
+  - 'src/**/*.{ts,tsx}'
 ---
 
 # Performance Optimization Rules

@@ -1,6 +1,9 @@
 ---
 description: 'Vitestテスト生成パターンとカバレッジ要件'
 agent: 'agent'
+applyTo: '**/*.test.{ts,tsx}'
+paths:
+  - '**/*.test.{ts,tsx}'
 ---
 
 # テスト生成の指示

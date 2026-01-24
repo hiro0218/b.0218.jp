@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   auto-merge:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
