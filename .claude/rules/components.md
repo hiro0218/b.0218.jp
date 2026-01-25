@@ -1,6 +1,8 @@
 ---
 description: 'Component architecture, layer dependencies, and zero-margin principle'
 applyTo: '**/components/**/*.{ts,tsx}'
+paths:
+  - '**/components/**/*.{ts,tsx}'
 ---
 
 # Component Architecture Rules
@@ -9,11 +11,9 @@ This file defines design principles automatically applied when editing React/Nex
 
 ## Priority Markers
 
-- 🔴 **CRITICAL**: Must Follow (violations cause severe errors)
-- 🟡 **IMPORTANT**: Should Follow (maintenance/quality may degrade)
-- ⚪ **RECOMMENDED**: Best Practices (consistency improvement)
+> See [CLAUDE.md - Priority Levels](../CLAUDE.md#priority-levels) for marker definitions.
 
-> **📌 About this file**: This is a detailed guide for CLAUDE.md. For priorities and the overview, see [CLAUDE.md - Critical Rules](../../CLAUDE.md#critical-rules-must-follow).
+> **📌 About this file**: This is a detailed guide for CLAUDE.md. For priorities and the overview, see [CLAUDE.md - Critical Rules](../CLAUDE.md#critical-rules-must-follow).
 
 ## Component Principles
 
@@ -256,46 +256,23 @@ export function InteractiveButton() {
 - No visual output (or minimal)
 - Side-effect or metadata focused
 
-## SSG Optimization Patterns
+## SSG Optimization
 
-### Build-Time Data Loading
+This project uses SSG (Static Site Generation). For SSG principles and build-time data loading patterns, see [architecture.md - SSG](./architecture.md#-ssg-ビルド時データロード優先-critical).
+
+### Component-Specific Pattern
 
 ```tsx
-// ✅ Recommended (SSG): Build-time JSON
-// Note: `npm run prebuild` generates JSON files in `dist/`
-// Path alias: `~/* → project root`
+// ✅ Build-time data in component
 import posts from '~/dist/posts.json';
 
 export function RecentPosts() {
   const recent = posts.slice(0, 5);
   return <ul>{recent.map(...)}</ul>;
 }
-
-// ❌ Avoid: Runtime fetch
-'use client';
-export function RecentPosts() {
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    fetch('/api/posts').then(r => r.json()).then(setPosts);
-  }, []);
-  return <ul>{posts.map(...)}</ul>;
-}
 ```
 
-### Static Parameter Generation
-
-```tsx
-// app/(PostPage)/[slug]/page.tsx
-export async function generateStaticParams() {
-  const posts = getAllPosts();
-  return posts.map((post) => ({ slug: post.slug }));
-}
-
-export default function PostPage({ params }: { params: { slug: string } }) {
-  const post = getPost(params.slug);
-  return <PostDetail post={post} />;
-}
-```
+**Full details**: [architecture.md - SSG Optimization](./architecture.md#-ssg-ビルド時データロード優先-critical)
 
 ## ⚪ Component Naming (RECOMMENDED)
 

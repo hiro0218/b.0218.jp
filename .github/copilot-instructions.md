@@ -30,7 +30,7 @@ npm run dev       # Development server on port 8080 with HTTPS
 
 ## 🔴 Critical Rules (Must Follow)
 
-These rules are **CRITICAL**. Violations can cause runtime errors, build failures, or serious bugs.
+These rules are **CRITICAL**. Violations can cause runtime errors, build failures, or serious bugs. All detailed guidelines are in `.claude/rules/` (automatically loaded).
 
 ### Priority Levels
 
@@ -38,59 +38,21 @@ These rules are **CRITICAL**. Violations can cause runtime errors, build failure
 - 🟡 **IMPORTANT**: Should Follow (maintenance/quality may degrade)
 - ⚪ **RECOMMENDED**: Best Practices (consistency improvement)
 
-### 1. Zero Margin Principle
+### Component Architecture
 
-**RULE**: UI components must not set external margins. Parents control spacing with `gap` or `Stack`.
+1. **Zero Margin Principle**: UI components must not set external margins. Parents control spacing with `gap` or `Stack`.
+2. **Layer Dependencies**: UI ↔ Functional (independent), Page → UI/Functional, App → all layers
+3. **Server First**: Default to Server Components. Use `'use client'` only when interaction is required.
 
-**Details**: [components.md - Zero Margin Principle](.github/components.md#zero-margin-principle-critical)
+### Styling (Panda CSS)
 
----
+4. **Hover States**: Write `:hover` directly. Do not manually write `@media (any-hover: hover)` (PostCSS plugin handles this).
+5. **CSS Variables**: Colors, spacing, and fonts must use CSS variables (`var(--colors-*)`, `var(--spacing-*)`).
 
-### 2. Layer Dependencies
+### Project-Specific
 
-**RULE**: UI ↔ Functional (independent), Page → UI/Functional, App → all layers
-
-**Details**: [components.md - Layer Dependencies](.github/components.md#layer-dependencies-critical)
-
----
-
-### 3. React Compiler Check
-
-**RULE**: Check `reactCompiler` in `~/next.config.mjs` before suggesting optimizations.
-
-**Details**: [optimization.instructions.md - React Compiler](../.claude/rules/optimization.instructions.md#react-compiler-react-19)
-
----
-
-### 4. Content Source Read-Only
-
-**RULE**: Do not edit `_article/_posts/*.md` directly. Always update content via `npm run prebuild`.
-
-**Details**: [content-pipeline.instructions.md](../.claude/rules/content-pipeline.instructions.md)
-
----
-
-### 5. Hover States Handling
-
-**RULE**: Write `:hover` directly. Do not manually write `@media (any-hover: hover)`.
-
-**Details**: [styling.md - Hover States](.github/styling.md#hover-states-critical)
-
----
-
-### 6. CSS Variables Mandatory
-
-**RULE**: Colors, spacing, and fonts must use CSS variables (`var(--colors-*)`, `var(--spacing-*)`).
-
-**Details**: [styling.md - CSS Variables](.github/styling.md#css-variables-critical)
-
----
-
-### 7. Server First Principle
-
-**RULE**: Default to Server Components. Use `'use client'` only when interaction is required.
-
-**Details**: [components.md - Server First Principle](.github/components.md#server-first-principle-important)
+6. **React Compiler Check**: Check `reactCompiler` in `~/next.config.mjs` before suggesting optimizations.
+7. **Content Source Read-Only**: Do not edit `_article/_posts/*.md` directly. Always update content via `npm run prebuild`.
 
 ## Important Configuration Files
 
@@ -143,7 +105,7 @@ AI agents should verify these files before suggesting changes:
 
 ### Component Architecture
 
-Components follow strict layering and design principles. For details, see [🔴 Critical Rules](#critical-rules-must-follow) and [components.md](.github/components.md).
+Components follow strict layering and design principles. For details, see [🔴 Critical Rules](#critical-rules-must-follow) and [components.md](.claude/rules/components.md).
 
 - **Layer Responsibilities**: App (shell), Page (logic), UI (visual), Functional (utilities)
 
@@ -184,42 +146,40 @@ Content processing flow:
 
 ## File-Specific Rules
 
-These rules apply automatically based on file paths:
+These rules apply automatically based on file paths. All detailed guidelines are in `.claude/rules/` (automatically loaded).
 
-| File Pattern                   | Rules                                                      | Details                                             |
-| ------------------------------ | ---------------------------------------------------------- | --------------------------------------------------- |
-| `src/components/**/*`          | Layer dependencies, zero-margin, server-first              | `.github/components.md`                             |
-| `**/*.tsx` (styling)           | Panda CSS imports, CSS variables, hover states             | `.github/styling.md`                                |
-| `**/*.{ts,tsx}` (types)        | Type safety, no `any`, type-only imports                   | `.github/typescript.md`                             |
-| `_article/**/*`, `build/**/*`  | Read-only submodule, content pipeline flow                 | `../.claude/rules/content-pipeline.instructions.md` |
-| `~/next.config.mjs`, `use*.ts` | React Compiler scope, custom hook memoization              | `../.claude/rules/optimization.instructions.md`     |
-| `**/*.test.ts{,x}`             | Vitest + React Testing Library, one assertion per test     | `../.claude/rules/testGeneration.md`                |
-| `**/*.tsx` (Client)            | Require `'use client'` directive, verify necessity         | -                                                   |
-| `**/*.tsx` (Server)            | Default mode, no `'use client'` unless interactive         | -                                                   |
-| `~/biome.json`                 | Verify before suggesting layer dependency changes          | -                                                   |
-| `~/panda.config.mts`           | Verify before styling convention changes                   | -                                                   |
-| `~/postcss.config.cjs`         | Verify before CSS processing changes (hover media queries) | -                                                   |
+| File Pattern                   | Auto-Applied Rules                                     |
+| ------------------------------ | ------------------------------------------------------ |
+| `src/components/**/*`          | Layer dependencies, zero-margin, server-first          |
+| `**/*.tsx` (styling)           | Panda CSS imports, CSS variables, hover states         |
+| `**/*.{ts,tsx}` (types)        | Type safety, no `any`, type-only imports               |
+| `_article/**/*`, `build/**/*`  | Read-only submodule, content pipeline flow             |
+| `~/next.config.mjs`, `use*.ts` | React Compiler scope, custom hook memoization          |
+| `**/*.test.ts{,x}`             | Vitest + React Testing Library, one assertion per test |
+| `**/*.tsx` (Client)            | Require `'use client'` directive, verify necessity     |
+| `**/*.tsx` (Server)            | Default mode, no `'use client'` unless interactive     |
+| `~/biome.json`                 | Verify before suggesting layer dependency changes      |
+| `~/panda.config.mts`           | Verify before styling convention changes               |
+| `~/postcss.config.cjs`         | Verify before CSS processing changes (hover queries)   |
 
-## Task-Specific Rules
+## Coding Rules
 
-Detailed guidelines for specific development tasks:
+All coding rules are in `.claude/rules/` and automatically loaded by Claude Code:
 
-| Task            | File                                                | Tool        |
-| --------------- | --------------------------------------------------- | ----------- |
-| Code Generation | `.claude/rules/codeGeneration.md`                   | Claude Code |
-| Code Review     | `.claude/rules/codeReview.md`                       | Claude Code |
-| Commit Messages | `.claude/rules/commitMessageGeneration.md`          | Claude Code |
-| PR Descriptions | `.claude/rules/pullRequestDescriptionGeneration.md` | Claude Code |
-| Test Generation | `.claude/rules/testGeneration.md`                   | Claude Code |
+**Task-Specific Guidelines**:
 
-**Note**:
+- Code generation, code review, commit messages, PR descriptions, test generation
 
-- **Claude Code rules**:
-  - Project-specific: `.claude/rules/` (optimizations, content pipeline, prompts)
-  - Shared with Copilot: `.github/` (components, styling, TypeScript)
-- **GitHub Copilot rules**:
-  - Direct access: `.github/` (components, styling, TypeScript)
-- **Separation**: Claude Code advanced features in `.claude/rules/`, basic coding rules shared via `.github/`
+**Coding Standards**:
+
+- Components (layer dependencies, zero-margin principle)
+- Styling (Panda CSS, CSS variables, hover states)
+- TypeScript (type safety, import conventions)
+
+**Project-Specific**:
+
+- React Compiler optimization
+- Content pipeline (submodule, prebuild process)
 
 ## Standards
 
@@ -291,13 +251,6 @@ React Compiler (`reactCompiler: true`) handles component rendering automatically
    - ❌ "The framework is smart, so I don't need to think about it"
 
 ## Git Workflow
-
-### Commit Messages
-
-Format: `type: description` (Japanese, under 50 chars)
-
-- Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`
-- Focus on "why" rather than "what"
 
 ### Pull Requests
 

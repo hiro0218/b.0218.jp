@@ -10,6 +10,10 @@ paths:
 
 テストコードを生成する際、以下の規則と構造に従ってください。テストコードの品質と包括性はコードの信頼性と保守性に直結します。
 
+## Priority Markers
+
+> See [CLAUDE.md - Priority Levels](../CLAUDE.md#priority-levels) for marker definitions.
+
 ## 技術スタック
 
 - **テストフレームワーク**: Vitest

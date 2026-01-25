@@ -7,6 +7,10 @@ agent: 'agent'
 
 コミットメッセージを生成する際、必ず以下の形式と規則に従ってください。コミットメッセージの品質と一貫性は、プロジェクトの履歴と管理において非常に重要です。
 
+## Priority Markers
+
+> See [CLAUDE.md - Priority Levels](../CLAUDE.md#priority-levels) for marker definitions.
+
 ## 必須フォーマット
 
 `<type>(<scope>): <subject>`

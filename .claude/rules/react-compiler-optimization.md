@@ -14,9 +14,7 @@ paths:
 
 ## Priority Markers
 
-- 🔴 **CRITICAL**: Must Follow (violations cause severe errors)
-- 🟡 **IMPORTANT**: Should Follow (maintenance/quality may degrade)
-- ⚪ **RECOMMENDED**: Best Practices (consistency improvement)
+> See [CLAUDE.md - Priority Levels](../CLAUDE.md#priority-levels) for marker definitions.
 
 > **📌 About this file**: This is a detailed guide for CLAUDE.md. For priorities and the overview, see [CLAUDE.md - Critical Rules](../../CLAUDE.md#critical-rules-must-follow).
 

@@ -7,6 +7,10 @@ agent: 'agent'
 
 プルリクエストのタイトルと説明を生成する際、以下の形式と内容に従ってください。良いPRの説明はレビュープロセスを加速し、変更の意図と影響を明確に伝えます。
 
+## Priority Markers
+
+> See [CLAUDE.md - Priority Levels](../CLAUDE.md#priority-levels) for marker definitions.
+
 ## タイトル生成ルール
 
 1. **文字数**: 50文字以内で簡潔に要約

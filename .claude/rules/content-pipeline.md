@@ -13,6 +13,10 @@ paths:
 
 **Purpose**: Prevent content source modifications and ensure proper build pipeline usage.
 
+## Priority Markers
+
+> See [CLAUDE.md - Priority Levels](../CLAUDE.md#priority-levels) for marker definitions.
+
 ## Critical Rule
 
 ⚠️ **NEVER edit files in `_article/_posts/*.md` directly**

@@ -1,6 +1,8 @@
 ---
 description: 'TypeScript コーディング規約と品質基準'
 applyTo: '**/*.{ts,tsx}'
+paths:
+  - '**/*.{ts,tsx}'
 ---
 
 # TypeScript コーディング規約
@@ -9,9 +11,7 @@ applyTo: '**/*.{ts,tsx}'
 
 ## Priority Markers
 
-- 🔴 **CRITICAL**: Must Follow (violations cause build errors or runtime crashes)
-- 🟡 **IMPORTANT**: Should Follow (maintainability/quality may degrade)
-- ⚪ **RECOMMENDED**: Best Practices (consistency improvement)
+> See [CLAUDE.md - Priority Levels](../CLAUDE.md#priority-levels) for marker definitions.
 
 > **📌 About this file**: This is a detailed guide for CLAUDE.md. For priorities and the overview, see [CLAUDE.md - Critical Rules](../CLAUDE.md#critical-rules-must-follow).
 
@@ -28,11 +28,10 @@ applyTo: '**/*.{ts,tsx}'
 
 ### 🟡 Important Rules (Should Follow)
 
-| Rule               | Summary                        | Verification            | Details                                    |
-| ------------------ | ------------------------------ | ----------------------- | ------------------------------------------ |
-| Build-time errors  | Prefer SSG errors over runtime | Manual review           | [#エラーハンドリング](#エラーハンドリング) |
-| Import order       | Follow 5-section pattern       | Biome `organizeImports` | [#import順序](#import順序)                 |
-| Naming conventions | Follow table patterns          | Manual review           | [#命名規則](#命名規則)                     |
+| Rule               | Summary                  | Verification            | Details                    |
+| ------------------ | ------------------------ | ----------------------- | -------------------------- |
+| Import order       | Follow 5-section pattern | Biome `organizeImports` | [#import順序](#import順序) |
+| Naming conventions | Follow table patterns    | Manual review           | [#命名規則](#命名規則)     |
 
 ### 🚨 Common Mistakes
 
@@ -41,14 +40,12 @@ applyTo: '**/*.{ts,tsx}'
 | `data: any`                   | `data: DataType`                    | Type safety, prevents runtime errors     |
 | `import { Post }` (type)      | `import type { Post }`              | Reduces bundle size (3-5% reduction)     |
 | `../../lib/posts`             | `@/lib/posts`                       | Easier refactoring, clearer dependencies |
-| Runtime `fetch`               | Import JSON directly                | SSG principle, faster build              |
 | No JSDoc on exported function | Add JSDoc with `@param`, `@returns` | IntelliSense, better DX                  |
 
 ## 🔴 型定義の原則 (CRITICAL)
 
 > **Related Sections**:
 >
-> - [エラーハンドリング](#エラーハンドリング) - SSG での型安全なエラー処理
 > - [命名規則](#命名規則) - 型名の命名規則
 > - [components.md - Props Design](./components.md#props-design-important) - コンポーネントの型定義
 
@@ -145,30 +142,7 @@ import { css } from '../../../ui/styled';
 >
 > **REAL CASE**: コンポーネントを `components/UI/` から `components/Page/` に移動した際、相対パスのimportが一斉に壊れ、修正に2時間かかりました。絶対パス (`@/`) なら移動してもimportは変更不要です。
 
-## 🟡 エラーハンドリング (IMPORTANT)
-
-> **Related Sections**:
->
-> - [型定義の原則](#型定義の原則) - 型安全なエラー処理の基礎
-> - [CLAUDE.md - SSG Optimization](../CLAUDE.md#ssg-optimization-patterns) - ビルド時データロード
-
-このプロジェクトはSSGのため、ビルド時エラーを優先：
-
-```typescript
-// ✅ RECOMMENDED: ビルド時エラー
-const posts = getPosts(); // 存在しない場合はビルドエラー
-
-// ❌ AVOID: ランタイムエラー
-try {
-  const posts = await fetch('/api/posts');
-} catch (error) {
-  // SSGではランタイムfetchは基本的に不要
-}
-```
-
-> **WHY**: SSG では静的生成時にデータを読み込むため、ランタイムでのデータフェッチは不要です。
->
-> **SSG PRINCIPLE**: ビルド時にエラーが出れば、デプロイ前に問題を発見できます。ランタイムエラーは本番環境でユーザーに影響を与えます。
+> **SSG関連の原則**: ビルド時データロードやランタイム `fetch` 回避は `architecture.md` を参照してください。
 
 ## 🟡 命名規則 (IMPORTANT)
 
@@ -230,36 +204,7 @@ export function formatDate(date: Date): string {
 
 ---
 
-### Mistake 2: Runtime fetch in SSG project
-
-```typescript
-// ❌ WRONG - Unnecessary runtime fetch
-'use client';
-export function PostList() {
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    fetch('/api/posts').then(r => r.json()).then(setPosts);
-  }, []);
-
-  return <ul>{posts.map(...)}</ul>;
-}
-
-// ✅ CORRECT - Build-time import
-import posts from '~/dist/posts.json';
-
-export function PostList() {
-  return <ul>{posts.map(...)}</ul>;
-}
-```
-
-**Why this matters**: SSG ではビルド時にデータが確定しているため、ランタイムでのfetchは不要です。Client Component にする必要もなく、バンドルサイズが削減されます。
-
-**Related**: [CLAUDE.md - SSG Optimization Patterns](../CLAUDE.md#ssg-optimization-patterns)
-
----
-
-### Mistake 3: Mixing value and type imports
+### Mistake 2: Mixing value and type imports
 
 ```typescript
 // ❌ WRONG - Value and type mixed
@@ -276,7 +221,7 @@ import { getPosts } from '@/lib/posts';
 
 ---
 
-### Mistake 4: No JSDoc on public API
+### Mistake 3: No JSDoc on public API
 
 ````typescript
 // ❌ WRONG - No documentation
@@ -321,7 +266,6 @@ export function calculateSimilarity(post1: Post, post2: Post): number {
 These rules **cannot be automatically verified**:
 
 - 🔴 JSDoc for public APIs (check during code review)
-- 🟡 Build-time vs runtime errors (architectural decision)
 - 🟡 Absolute imports (TypeScript config enforces, but not linted)
 
 ### Verification Workflow
@@ -349,7 +293,6 @@ Before committing TypeScript changes:
 - [ ] Type-only imports use `import type` (verified by Biome `useImportType`)
 - [ ] Exported functions have JSDoc comments with `@param`, `@returns`, `@example`
 - [ ] Absolute imports (`@/`) used instead of relative paths (`../../`)
-- [ ] Build-time data loading (no runtime `fetch` for SSG)
 - [ ] Import order follows 5-section pattern (auto-fixed by Biome)
 - [ ] Type errors resolved (`tsc --noEmit` passes)
 - [ ] Lint errors resolved (`npm run lint` passes)

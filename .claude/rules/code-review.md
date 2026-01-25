@@ -10,57 +10,46 @@ paths:
 
 コードレビューを行う際には、以下のチェックポイントに従って評価・改善提案を行ってください。このガイドラインは、プロジェクトの品質維持と向上に役立つ具体的なレビュー方法を提供します。
 
+## Priority Markers
+
+> See [CLAUDE.md - Priority Levels](../CLAUDE.md#priority-levels) for marker definitions.
+
 ## プロジェクト固有の観点
 
-### 1. アーキテクチャ準拠
+詳細ルールは各ガイドに集約しています。レビュー時は以下を参照してください。
 
-- **App Router構造**: ルートグループ `(ArchivePage)`, `(PostPage)`, `(SinglePage)` の適切な使用
-- **コンポーネント分類**: `Page/`, `UI/`, `Functional/`, `App/` の正しい配置
-- **パスマッピング**: `@/*` (src配下), `~/*` (プロジェクトルート) の適切な使用
-
-### 2. スタイリング規則
-
-- **PandaCSS**: テンプレートリテラル構文の使用
-- **ゼロマージン原則**: コンポーネントが自身のマージンを設定していないか
-- **レスポンシブ対応**: モバイルファーストの実装
-
-### 3. パフォーマンス
-
-- **静的生成**: `generateStaticParams` の適切な実装
-- **画像最適化**: Next.js Image コンポーネントの使用
-- **バンドルサイズ**: 不要なimportやライブラリの使用
+- アーキテクチャ横断: [architecture.md](./architecture.md)
+- コンポーネント/レイヤー: [components.md](./components.md)
+- スタイリング: [styling.md](./styling.md)
+- TypeScript規約: [typescript.md](./typescript.md)
+- コンテンツパイプライン: [content-pipeline.md](./content-pipeline.md)
 
 ## 技術スタック固有のチェック
 
-### TypeScript
+具体的なルールやサンプルは以下を参照し、レビューでは「違反がないか」を確認してください。
 
-- **型安全性**: `any` の使用を避け、適切な型定義
-- **Result型**: エラーハンドリングでの関数型アプローチ
-- **パスマッピング**: 絶対パスでのimport
-
-### Next.js 16.x
-
-- **App Router**: `page.tsx`, `layout.tsx`, `loading.tsx` の適切な使用
-- **メタデータAPI**: SEO最適化の実装
-- **サーバーコンポーネント**: クライアントコンポーネントとの適切な分離
-
-### 日本語コンテンツ処理
-
-- **文字エンコーディング**: UTF-8の適切な処理
-- **形態素解析**: kuromoji使用時の効率的な実装
-- **TF-IDF計算**: パフォーマンス最適化
+- TypeScript: [typescript.md](./typescript.md)
+- Next.js / App Router: [architecture.md](./architecture.md)
+- 日本語コンテンツ処理: [content-pipeline.md](./content-pipeline.md)
 
 ## レビュー手順
 
 ### 1. 必須チェック項目
 
+#### 自動チェック（コマンドで検証）
+
+```bash
+tsc --noEmit --skipLibCheck  # 型エラー検出
+npm run lint                 # Biome: コードスタイル、未使用変数、Layer Dependencies
+npm test                     # テスト実行
 ```
-□ コンパイルエラーがない
-□ 型エラーが解消されている
-□ Biome (Linter) の警告が解消されている
-□ 未使用のインポート/変数がない
+
+#### 手動レビュー
+
+```
 □ 適切なJSDocとコメントが付けられている
-□ テストが存在し、パスしている
+□ アーキテクチャ準拠（Layer Dependencies、Server First、SSG）
+□ スタイリング規約準拠（Panda CSS、CSS Variables、Zero Margin）
 ```
 
 ### 2. 品質評価（優先度順）
@@ -153,30 +142,9 @@ function processData(data: DataWithValue) {
 
 ## プロジェクト特有の注意点
 
-### ビルドプロセス
+以下はレビュー観点の要約です。詳細は各ガイドに従って判断してください。
 
-- **プリビルドスクリプトへの影響**: 変更が`npm run prebuild`に与える影響を考慮
-- **JSON生成処理の整合性**: 記事データの生成処理が正しいか
-- **OGP画像生成への影響**: 画像生成の動作への影響がないか
-
-### コンテンツ処理
-
-- **Markdown解析の精度**: 記事の構造が正しく解析されているか
-- **類似度計算の正確性**: 関連記事の特定が正しく機能しているか
-- **静的ファイル生成の効率性**: ビルド時間やリソース消費が最適化されているか
-
-### 開発体験
-
-- **開発サーバーの動作**: ローカル開発環境での動作を確認
-- **ホットリロードの対応**: 適切なホットリロードが機能しているか
-- **デバッグ情報の適切性**: エラーメッセージやログが明確であるか
-
-### セキュリティとパフォーマンス
-
-- **XSS脆弱性**: 特に`dangerouslySetInnerHTML`の使用箇所を確認
-- **リソース最適化**: 画像、CSS、JavaScriptのバンドルが最適化されているか
-- **アクセシビリティ**: スクリーンリーダー互換性が確保されているか
-
-```
-
-```
+- **ビルドプロセス**: `npm run prebuild` への影響、JSON/OGP生成の整合性
+- **コンテンツ処理**: Markdown解析、類似度計算、静的生成の効率
+- **開発体験**: Devサーバー動作、ホットリロード、デバッグ情報
+- **セキュリティ/アクセシビリティ**: `dangerouslySetInnerHTML`、画像最適化、SR対応

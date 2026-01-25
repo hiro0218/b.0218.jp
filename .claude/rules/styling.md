@@ -1,6 +1,9 @@
 ---
 description: 'Panda CSS styling rules and zero-margin principle'
 applyTo: '**/{ui,components}/**/*.{ts,tsx}'
+paths:
+  - '**/ui/**/*.{ts,tsx}'
+  - '**/components/**/*.{ts,tsx}'
 ---
 
 # Panda CSS Styling Rules
@@ -9,11 +12,9 @@ This file defines styling conventions automatically applied during implementatio
 
 ## Priority Markers
 
-- 🔴 **CRITICAL**: Must Follow (violations cause severe errors)
-- 🟡 **IMPORTANT**: Should Follow (maintenance/quality may degrade)
-- ⚪ **RECOMMENDED**: Best Practices (consistency improvement)
+> See [CLAUDE.md - Priority Levels](../CLAUDE.md#priority-levels) for marker definitions.
 
-> **📌 About this file**: This is a detailed guide for CLAUDE.md. For priorities and the overview, see [CLAUDE.md - Critical Rules](../../CLAUDE.md#critical-rules-must-follow).
+> **📌 About this file**: This is a detailed guide for CLAUDE.md. For priorities and the overview, see [CLAUDE.md - Critical Rules](../CLAUDE.md#critical-rules-must-follow).
 
 ## 🔴 Import Rules (CRITICAL)
 
@@ -144,51 +145,27 @@ font-weight: 700;
 
 ## 🔴 Zero Margin Principle (CRITICAL)
 
-> **Details**: For details, see [components.md - Zero Margin Principle](./components.md#zero-margin-principle-critical).
+> **Details**: See [components.md - Zero Margin Principle](./components.md#zero-margin-principle-critical) for full explanation and examples.
 
-### UI Component Constraints
+### Quick Summary
+
+UI components must NOT set their own external margins. Parent components control spacing.
 
 ```tsx
-// ✅ Correct: Internal spacing only
+// ✅ Correct: No external margin
 export const Alert = styled.div`
   padding: var(--spacing-3);
   border-radius: var(--radii-8);
-
-  // Resetting child element margins is allowed
-  & > * {
-    margin: 0;
-  }
 `;
 
-// ❌ Forbidden: External margin
-export const Alert = styled.div`
-  margin: var(--spacing-4); // ❌ Forbidden
-  margin-bottom: var(--spacing-2); // ❌ Forbidden
-  margin: 0 auto; // ❌ Centering is also forbidden
-  padding: var(--spacing-3);
-`;
-```
-
-### Layout is Controlled by Parent
-
-```tsx
-// ✅ Parent component (Page/App layer) controls layout
+// ✅ Parent controls layout
 <Stack space={4}>
   <Alert type="note" />
   <Alert type="warning" />
-</Stack>
-
-// Or
-<div className={css`
-  display: grid;
-  gap: var(--spacing-4);
-`}>
-  <Alert type="note" />
-  <Alert type="warning" />
-</div>
+</Stack>;
 ```
 
-**Why no margins**: Components should not dictate their own positioning. This makes them more reusable and prevents layout bugs. For details, see [components.md](./components.md#zero-margin-principle-critical).
+**For full details, examples, and rationale**: [components.md - Zero Margin Principle](./components.md#zero-margin-principle-critical)
 
 ## 🔴 Dynamic Styling with CSS Variables (CRITICAL)
 
