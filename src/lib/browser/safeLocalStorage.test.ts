@@ -2,6 +2,14 @@ import type { MockInstance } from 'vitest';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { clearOldCache, getLocalStorage, removeLocalStorage, setLocalStorage } from './safeLocalStorage';
 
+// isSSRモジュールをモック化
+let mockIsSSR = false;
+vi.mock('./isSSR', () => ({
+  get isSSR() {
+    return mockIsSSR;
+  },
+}));
+
 describe('safeLocalStorage', () => {
   let mockStorage: Record<string, string> = {};
   let consoleSpy: MockInstance;
@@ -230,16 +238,12 @@ describe('safeLocalStorage', () => {
   });
 
   describe('サーバーサイドでの動作', () => {
-    let originalWindow: typeof globalThis.window;
-
     beforeEach(() => {
-      originalWindow = globalThis.window;
-      // biome-ignore lint/performance/noDelete: テスト環境でwindowオブジェクトを削除する必要があるため
-      delete globalThis.window;
+      mockIsSSR = true;
     });
 
     afterEach(() => {
-      globalThis.window = originalWindow;
+      mockIsSSR = false;
     });
 
     test('getLocalStorage がサーバーサイドでnullを返す', () => {

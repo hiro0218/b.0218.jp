@@ -3,6 +3,14 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { safeJsonParse, safeJsonStringify } from '@/lib/utils/json';
 import { getSessionStorage, removeSessionStorage, setSessionStorage } from './safeSessionStorage';
 
+// isSSRモジュールをモック化
+let mockIsSSR = false;
+vi.mock('./isSSR', () => ({
+  get isSSR() {
+    return mockIsSSR;
+  },
+}));
+
 describe('safeSessionStorage', () => {
   let mockStorage: Record<string, string> = {};
   let consoleSpy: MockInstance;
@@ -208,16 +216,12 @@ describe('safeSessionStorage', () => {
   });
 
   describe('サーバーサイドでの動作', () => {
-    let originalWindow: typeof globalThis.window;
-
     beforeEach(() => {
-      originalWindow = globalThis.window;
-      // biome-ignore lint/performance/noDelete: テスト環境でwindowオブジェクトを削除する必要があるため
-      delete globalThis.window;
+      mockIsSSR = true;
     });
 
     afterEach(() => {
-      globalThis.window = originalWindow;
+      mockIsSSR = false;
     });
 
     test('getSessionStorage がサーバーサイドでnullを返す', () => {
