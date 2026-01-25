@@ -133,7 +133,7 @@ TSXファイル内の推奨順序。強制ではないが新規コードでは�
 ### ファイル全体の構造
 
 1. **'use client' ディレクティブ**（Client Componentの場合のみ）
-2. **Import文**（`typescript.instructions.md`の順序に従う）
+2. **Import文**（`typescript.md`の順序に従う）
    - 外部ライブラリ
    - 内部ユーティリティ
    - コンポーネント

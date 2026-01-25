@@ -144,7 +144,7 @@ font-weight: 700;
 
 ## 🔴 Zero Margin Principle (CRITICAL)
 
-> **Details**: For details, see [components.instructions.md - Zero Margin Principle](./components.instructions.md#zero-margin-principle-critical).
+> **Details**: For details, see [components.md - Zero Margin Principle](./components.md#zero-margin-principle-critical).
 
 ### UI Component Constraints
 
@@ -188,7 +188,7 @@ export const Alert = styled.div`
 </div>
 ```
 
-**Why no margins**: Components should not dictate their own positioning. This makes them more reusable and prevents layout bugs. For details, see [components.instructions.md](./components.instructions.md#zero-margin-principle-critical).
+**Why no margins**: Components should not dictate their own positioning. This makes them more reusable and prevents layout bugs. For details, see [components.md](./components.md#zero-margin-principle-critical).
 
 ## 🔴 Dynamic Styling with CSS Variables (CRITICAL)
 
