@@ -42,7 +42,7 @@ These rules are **CRITICAL**. Violations can cause runtime errors, build failure
 
 **RULE**: UI components must not set external margins. Parents control spacing with `gap` or `Stack`.
 
-**Details**: [components.instructions.md - Zero Margin Principle](./instructions/components.instructions.md#zero-margin-principle-critical)
+**Details**: [components.instructions.md - Zero Margin Principle](.github/components.instructions.md#zero-margin-principle-critical)
 
 ---
 
@@ -50,7 +50,7 @@ These rules are **CRITICAL**. Violations can cause runtime errors, build failure
 
 **RULE**: UI ↔ Functional (independent), Page → UI/Functional, App → all layers
 
-**Details**: [components.instructions.md - Layer Dependencies](./instructions/components.instructions.md#layer-dependencies-critical)
+**Details**: [components.instructions.md - Layer Dependencies](.github/components.instructions.md#layer-dependencies-critical)
 
 ---
 
@@ -74,7 +74,7 @@ These rules are **CRITICAL**. Violations can cause runtime errors, build failure
 
 **RULE**: Write `:hover` directly. Do not manually write `@media (any-hover: hover)`.
 
-**Details**: [styling.instructions.md - Hover States](./instructions/styling.instructions.md#hover-states-critical)
+**Details**: [styling.instructions.md - Hover States](.github/styling.instructions.md#hover-states-critical)
 
 ---
 
@@ -82,7 +82,7 @@ These rules are **CRITICAL**. Violations can cause runtime errors, build failure
 
 **RULE**: Colors, spacing, and fonts must use CSS variables (`var(--colors-*)`, `var(--spacing-*)`).
 
-**Details**: [styling.instructions.md - CSS Variables](./instructions/styling.instructions.md#css-variables-critical)
+**Details**: [styling.instructions.md - CSS Variables](.github/styling.instructions.md#css-variables-critical)
 
 ---
 
@@ -90,7 +90,7 @@ These rules are **CRITICAL**. Violations can cause runtime errors, build failure
 
 **RULE**: Default to Server Components. Use `'use client'` only when interaction is required.
 
-**Details**: [components.instructions.md - Server First Principle](./instructions/components.instructions.md#server-first-principle-important)
+**Details**: [components.instructions.md - Server First Principle](.github/components.instructions.md#server-first-principle-important)
 
 ## Important Configuration Files
 
@@ -143,7 +143,7 @@ AI agents should verify these files before suggesting changes:
 
 ### Component Architecture
 
-Components follow strict layering and design principles. For details, see [🔴 Critical Rules](#critical-rules-must-follow) and [components.instructions.md](./instructions/components.instructions.md).
+Components follow strict layering and design principles. For details, see [🔴 Critical Rules](#critical-rules-must-follow) and [components.instructions.md](.github/components.instructions.md).
 
 - **Layer Responsibilities**: App (shell), Page (logic), UI (visual), Functional (utilities)
 
@@ -188,9 +188,9 @@ These rules apply automatically based on file paths:
 
 | File Pattern                   | Rules                                                      | Details                                             |
 | ------------------------------ | ---------------------------------------------------------- | --------------------------------------------------- |
-| `src/components/**/*`          | Layer dependencies, zero-margin, server-first              | `./instructions/components.instructions.md`         |
-| `**/*.tsx` (styling)           | Panda CSS imports, CSS variables, hover states             | `./instructions/styling.instructions.md`            |
-| `**/*.{ts,tsx}` (types)        | Type safety, no `any`, type-only imports                   | `./instructions/typescript.instructions.md`         |
+| `src/components/**/*`          | Layer dependencies, zero-margin, server-first              | `.github/components.instructions.md`                |
+| `**/*.tsx` (styling)           | Panda CSS imports, CSS variables, hover states             | `.github/styling.instructions.md`                   |
+| `**/*.{ts,tsx}` (types)        | Type safety, no `any`, type-only imports                   | `.github/typescript.instructions.md`                |
 | `_article/**/*`, `build/**/*`  | Read-only submodule, content pipeline flow                 | `../.claude/rules/content-pipeline.instructions.md` |
 | `~/next.config.mjs`, `use*.ts` | React Compiler scope, custom hook memoization              | `../.claude/rules/optimization.instructions.md`     |
 | `**/*.test.ts{,x}`             | Vitest + React Testing Library, one assertion per test     | `../.claude/rules/testGeneration.md`                |
@@ -216,10 +216,10 @@ Detailed guidelines for specific development tasks:
 
 - **Claude Code rules**:
   - Project-specific: `.claude/rules/` (optimizations, content pipeline, prompts)
-  - Shared with Copilot: `.github/instructions/` (components, styling, TypeScript)
+  - Shared with Copilot: `.github/` (components, styling, TypeScript)
 - **GitHub Copilot rules**:
-  - Direct access: `.github/instructions/` (components, styling, TypeScript)
-- **Separation**: Claude Code advanced features in `.claude/rules/`, basic coding rules shared via `.github/instructions/`
+  - Direct access: `.github/` (components, styling, TypeScript)
+- **Separation**: Claude Code advanced features in `.claude/rules/`, basic coding rules shared via `.github/`
 
 ## Standards
 
