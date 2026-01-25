@@ -1,5 +1,5 @@
 ---
-description: 'Content pipeline and Git submodule management rules'
+description: 'コンテンツパイプラインと Git submodule 管理規則'
 applyTo: '{_article/**/*,scripts/prebuild/**/*,build/**/*}'
 paths:
   - '_article/**/*'
@@ -7,25 +7,25 @@ paths:
   - 'build/**/*'
 ---
 
-# Content Pipeline Rules
+# コンテンツパイプライン規則
 
-**Applies to**: `_article/**/*`, `scripts/prebuild/**/*`, `build/**/*`
+**適用対象**: `_article/**/*`, `scripts/prebuild/**/*`, `build/**/*`
 
-**Purpose**: Prevent content source modifications and ensure proper build pipeline usage.
+**目的**: コンテンツソースの直接編集を防止し、適切なビルドパイプラインの使用を徹底する。
 
 ## Priority Markers
 
 > See [CLAUDE.md - Priority Levels](../CLAUDE.md#priority-levels) for marker definitions.
 
-## Critical Rule
+## 🔴 重要ルール (CRITICAL)
 
-⚠️ **NEVER edit files in `_article/_posts/*.md` directly**
+⚠️ **`_article/_posts/*.md` のファイルを直接編集しないこと**
 
-These files are a **Git submodule** (read-only).
+これらのファイルは **Git submodule**（読み取り専用）です。
 
-## Content Source
+## コンテンツソース
 
-### Git Submodule Structure
+### Git Submodule 構造
 
 ```
 _article/                    ← Git submodule (separate repository)
@@ -35,123 +35,123 @@ _article/                    ← Git submodule (separate repository)
     └── ...
 ```
 
-**Properties**:
+**特性**:
 
-- External repository
-- Managed separately from main project
-- Content team owns and maintains
-- Development team consumes as read-only
+- 外部リポジトリ
+- メインプロジェクトとは独立して管理
+- コンテンツチームが所有・メンテナンス
+- 開発チームは読み取り専用として使用
 
-### Why Read-Only?
+### なぜ読み取り専用か
 
-1. **Separation of concerns**: Content team manages content repository independently
-2. **Version control**: Content changes tracked in separate repository
-3. **Build process**: Main project pulls latest content during prebuild
+1. **関心の分離**: コンテンツチームがコンテンツリポジトリを独立して管理
+2. **バージョン管理**: コンテンツの変更が別リポジトリで追跡される
+3. **ビルドプロセス**: メインプロジェクトは prebuild 時に最新コンテンツを取得
 
-## Content Pipeline Flow
+## コンテンツパイプラインフロー
 
-### 1. Source Update
+### 1. ソース更新
 
 ```bash
-# Updates submodule to latest commit
+# submodule を最新コミットに更新
 git submodule update --remote
 ```
 
-Automatically executed by `npm run prebuild`.
+`npm run prebuild` により自動実行される。
 
-### 2. Processing (`build/article/`)
+### 2. 処理 (`build/article/`)
 
-**Input**: `_article/_posts/*.md` (Markdown files)
+**入力**: `_article/_posts/*.md` (Markdown ファイル)
 
-**Processing**:
+**処理内容**:
 
-- Parse Markdown with front matter (gray-matter)
-- Extract metadata (title, date, tags, etc.)
-- Convert Markdown to HTML (unified, remark, rehype)
-- Perform morphological analysis (kuromoji) for Japanese text
-- Calculate TF-IDF for content similarity
-- Generate table of contents (mokuji.js)
+- Front matter 付き Markdown のパース (gray-matter)
+- メタデータの抽出 (タイトル、日付、タグなど)
+- Markdown から HTML への変換 (unified, remark, rehype)
+- 日本語テキストの形態素解析 (kuromoji)
+- コンテンツ類似度のための TF-IDF 計算
+- 目次の生成 (mokuji.js)
 
-**Output**: JSON files in `.next/cache/article/` or similar
+**出力**: `.next/cache/article/` または類似ディレクトリ内の JSON ファイル
 
-**Scripts**:
+**スクリプト**:
 
-- `build/article/index.ts` - Main processing
-- `build/article/parser.ts` - Markdown parsing
-- `build/article/analyzer.ts` - Text analysis
+- `build/article/index.ts` - メイン処理
+- `build/article/parser.ts` - Markdown パース
+- `build/article/analyzer.ts` - テキスト分析
 
-### 3. Similarity Calculation (`build/similarity/`)
+### 3. 類似度計算 (`build/similarity/`)
 
-**Input**: Processed article JSON
+**入力**: 処理済み記事 JSON
 
-**Processing**:
+**処理内容**:
 
-- Calculate cosine similarity between articles
-- Generate similarity matrix
-- Rank related articles
+- 記事間のコサイン類似度を計算
+- 類似度行列の生成
+- 関連記事のランク付け
 
-**Output**: JSON with article relationships
+**出力**: 記事関係性を含む JSON
 
-**Scripts**:
+**スクリプト**:
 
-- `build/similarity/index.ts` - Similarity calculation
-- `build/similarity/vectorizer.ts` - Text vectorization
+- `build/similarity/index.ts` - 類似度計算
+- `build/similarity/vectorizer.ts` - テキストのベクトル化
 
-### 4. Popular Posts (`build/popular/`)
+### 4. 人気記事 (`build/popular/`)
 
-**Input**: Google Analytics data (via API)
+**入力**: Google Analytics データ (API 経由)
 
-**Processing**:
+**処理内容**:
 
-- Fetch page view data
-- Rank articles by popularity
-- Generate popular posts list
+- ページビューデータの取得
+- 人気度による記事のランク付け
+- 人気記事リストの生成
 
-**Output**: JSON with popularity rankings
+**出力**: 人気度ランキングを含む JSON
 
-**Scripts**:
+**スクリプト**:
 
-- `build/popular/index.ts` - GA data fetching
+- `build/popular/index.ts` - GA データ取得
 
-### 5. OGP Image Generation (`build/ogp/`)
+### 5. OGP 画像生成 (`build/ogp/`)
 
-**Input**: Article metadata (title, excerpt)
+**入力**: 記事メタデータ (タイトル、抜粋)
 
-**Processing**:
+**処理内容**:
 
-- Render article preview using Playwright
-- Capture screenshot
-- Optimize image
-- Save as PNG
+- Playwright を使用した記事プレビューのレンダリング
+- スクリーンショットの撮影
+- 画像の最適化
+- PNG として保存
 
-**Output**: `public/ogp/{slug}.png`
+**出力**: `public/ogp/{slug}.png`
 
-**Scripts**:
+**スクリプト**:
 
-- `build/ogp/index.ts` - Image generation
-- `build/ogp/server.tsx` - Preview rendering
+- `build/ogp/index.ts` - 画像生成
+- `build/ogp/server.tsx` - プレビューレンダリング
 
-### 6. Consumption (SSG)
+### 6. 利用 (SSG)
 
-**Input**: Generated JSON files
+**入力**: 生成された JSON ファイル
 
-**Processing**:
+**処理内容**:
 
-- Next.js reads JSON during build
-- `generateStaticParams` creates static pages
-- `getStaticProps` equivalent (App Router)
+- Next.js がビルド時に JSON を読み込み
+- `generateStaticParams` で静的ページを生成
+- `getStaticProps` 相当 (App Router)
 
-**Output**: Static HTML pages
+**出力**: 静的 HTML ページ
 
-## Prebuild Command
+## Prebuild コマンド
 
-**Always run before development or build**:
+**開発またはビルド前に必ず実行**:
 
 ```bash
 npm run prebuild
 ```
 
-**What it does**:
+**実行内容**:
 
 ```json
 {
@@ -161,100 +161,100 @@ npm run prebuild
 }
 ```
 
-**Execution order**:
+**実行順序**:
 
-1. Update Git submodule (`_article/`)
-2. Process articles → JSON
-3. Calculate similarity → JSON
-4. Fetch popular posts → JSON
-5. Generate OGP images → PNG
+1. Git submodule の更新 (`_article/`)
+2. 記事の処理 → JSON
+3. 類似度の計算 → JSON
+4. 人気記事の取得 → JSON
+5. OGP 画像の生成 → PNG
 
-**Why it's critical**:
+**重要な理由**:
 
-- Ensures latest content is available
-- Regenerates all derived data
-- Updates similarity calculations
-- Refreshes OGP images
+- 最新コンテンツの利用を保証
+- すべての派生データの再生成
+- 類似度計算の更新
+- OGP 画像のリフレッシュ
 
-## File Modification Rules
+## ファイル編集ルール
 
-### ✅ CAN Modify
+### ✅ 編集可能
 
-- `build/**/*` - Build scripts (processing logic)
-- `scripts/**/*` - Helper scripts
-- `src/lib/posts.ts` - JSON consumption logic
-- `src/app/**/page.tsx` - Page components consuming data
+- `build/**/*` - ビルドスクリプト（処理ロジック）
+- `scripts/**/*` - ヘルパースクリプト
+- `src/lib/posts.ts` - JSON 利用ロジック
+- `src/app/**/page.tsx` - データを使用するページコンポーネント
 
-### ❌ CANNOT Modify
+### ❌ 編集不可
 
-- `_article/_posts/*.md` - Content source (Git submodule)
-- Generated JSON files (will be overwritten)
-- Generated OGP images (will be overwritten)
+- `_article/_posts/*.md` - コンテンツソース（Git submodule）
+- 生成された JSON ファイル（上書きされる）
+- 生成された OGP 画像（上書きされる）
 
-### 🔄 TEMPORARY Modifications (Development)
+### 🔄 一時的な編集（開発時）
 
-For testing purposes only:
+テスト目的のみ:
 
 ```bash
-# Temporarily modify content for local testing
+# ローカルテスト用に一時的にコンテンツを編集
 cd _article
-# Edit files
+# ファイルを編集
 cd ..
 npm run build:article
 
-# Revert before committing
+# コミット前に元に戻す
 git submodule update --remote
 ```
 
-## Common Tasks
+## 一般的なタスク
 
-### Adding New Content
+### 新しいコンテンツの追加
 
-❌ **Do NOT**:
+❌ **やってはいけないこと**:
 
 ```bash
-# Wrong - editing submodule directly
+# 誤り - submodule を直接編集
 vim _article/_posts/2024-01-01-new-post.md
 ```
 
-✅ **Do THIS**:
+✅ **正しい方法**:
 
-1. Create content in the separate content repository
-2. Commit and push in content repository
-3. Update submodule in main project:
+1. 独立したコンテンツリポジトリでコンテンツを作成
+2. コンテンツリポジトリでコミット＆プッシュ
+3. メインプロジェクトで submodule を更新:
    ```bash
    npm run prebuild
    ```
 
-### Modifying Content Processing
+### コンテンツ処理の変更
 
-✅ **Correct workflow**:
+✅ **正しいワークフロー**:
 
-1. Edit `build/article/*.ts` (processing logic)
-2. Run `npm run build:article` to test
-3. Verify output JSON structure
-4. Commit changes to main repository
+1. `build/article/*.ts` を編集（処理ロジック）
+2. `npm run build:article` でテスト
+3. 出力される JSON 構造を確認
+4. メインリポジトリに変更をコミット
 
-### Debugging Content Issues
+### コンテンツ問題のデバッグ
 
 ```bash
-# 1. Verify submodule status
+# 1. submodule ステータスの確認
 git submodule status
 
-# 2. Check latest content
+# 2. 最新コンテンツの確認
 ls -la _article/_posts/
 
-# 3. Reprocess with debug output
+# 3. デバッグ出力付きで再処理
 DEBUG=true npm run build:article
 
-# 4. Inspect generated JSON
+# 4. 生成された JSON の確認
 cat .next/cache/article/*.json | jq
 
-# 5. Test OGP generation locally
+# 5. OGP 生成のローカルテスト
 npm run dev:ogp
 ```
 
-## Data Flow Diagram
+## データフロー図
 
 ```
 ┌─────────────────────┐
@@ -287,52 +287,52 @@ npm run dev:ogp
 └─────────────────────┘
 ```
 
-## Environment Variables
+## 環境変数
 
-**Build-time**:
+**ビルド時**:
 
-- `TZ=Asia/Tokyo` - Timezone for date processing
-- `DEBUG=true` - Enable debug output
-- `ANALYZE=true` - Bundle analysis mode
+- `TZ=Asia/Tokyo` - 日付処理用のタイムゾーン
+- `DEBUG=true` - デバッグ出力を有効化
+- `ANALYZE=true` - バンドル分析モード
 
-**Runtime** (for popular posts):
+**実行時**（人気記事用）:
 
-- `GOOGLE_APPLICATION_CREDENTIALS` - GA API credentials path
-- `GA_PROPERTY_ID` - Google Analytics property ID
+- `GOOGLE_APPLICATION_CREDENTIALS` - GA API 認証情報のパス
+- `GA_PROPERTY_ID` - Google Analytics プロパティ ID
 
-## Troubleshooting
+## トラブルシューティング
 
-### Issue: Content not updating
+### 問題: コンテンツが更新されない
 
 ```bash
-# Solution: Force submodule update
+# 解決策: submodule の強制更新
 git submodule update --remote --force
 npm run prebuild
 ```
 
-### Issue: OGP images not generating
+### 問題: OGP 画像が生成されない
 
 ```bash
-# Solution: Verify Playwright installation
+# 解決策: Playwright インストールの確認
 playwright install --only-shell
 npm run build:ogp
 ```
 
-### Issue: Similarity calculation failing
+### 問題: 類似度計算が失敗する
 
 ```bash
-# Solution: Clear cache and rebuild
+# 解決策: キャッシュをクリアして再ビルド
 rm -rf .next/cache
 npm run prebuild
 ```
 
-## Verification Checklist
+## 検証チェックリスト
 
-Before committing content pipeline changes:
+コンテンツパイプラインの変更をコミットする前に:
 
-- [ ] `_article/_posts/*.md` files are NOT modified
-- [ ] Build scripts changes are tested with `npm run prebuild`
-- [ ] Generated JSON structure is validated
-- [ ] OGP images are regenerating correctly
-- [ ] Development server works with new data
-- [ ] Production build completes successfully
+- [ ] `_article/_posts/*.md` ファイルが編集されていないこと
+- [ ] ビルドスクリプトの変更が `npm run prebuild` でテストされていること
+- [ ] 生成された JSON 構造が検証されていること
+- [ ] OGP 画像が正しく再生成されていること
+- [ ] 開発サーバーが新しいデータで動作すること
+- [ ] 本番ビルドが正常に完了すること

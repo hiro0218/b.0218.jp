@@ -1,43 +1,43 @@
 ---
-description: 'Panda CSS styling rules and zero-margin principle'
+description: 'Panda CSS スタイリング規則と Zero Margin Principle'
 applyTo: '**/{ui,components}/**/*.{ts,tsx}'
 paths:
   - '**/ui/**/*.{ts,tsx}'
   - '**/components/**/*.{ts,tsx}'
 ---
 
-# Panda CSS Styling Rules
+# Panda CSS スタイリング規則
 
-This file defines styling conventions automatically applied during implementation.
+このファイルは、実装時に自動的に適用されるスタイリング規約を定義する。
 
 ## Priority Markers
 
 > See [CLAUDE.md - Priority Levels](../CLAUDE.md#priority-levels) for marker definitions.
 
-> **📌 About this file**: This is a detailed guide for CLAUDE.md. For priorities and the overview, see [CLAUDE.md - Critical Rules](../CLAUDE.md#critical-rules-must-follow).
+> **📌 このファイルについて**: これは CLAUDE.md の詳細ガイドです。優先順位と概要については、[CLAUDE.md - Critical Rules](../CLAUDE.md#critical-rules-must-follow) を参照してください。
 
-## 🔴 Import Rules (CRITICAL)
+## 🔴 Import ルール (CRITICAL)
 
 ```tsx
-// ✅ Recommended: Project-unified import
+// ✅ 推奨: プロジェクト統一 import
 import { css, styled, cx } from '@/ui/styled';
 
-// ❌ Forbidden: Direct import
+// ❌ 禁止: 直接 import
 import { css } from '~/styled-system/css';
 ```
 
-**Reason**: `@/ui/styled` is the unified entry point.
+**理由**: `@/ui/styled` が統一エントリーポイントである。
 
 ## 🔴 Hover States (CRITICAL)
 
-### Correct: Write `:hover` directly
+### 正しい方法: `:hover` を直接記述
 
-> **WHY**: The PostCSS plugin automatically wraps `:hover` with `@media (any-hover: hover)`. Manual wrapping causes double wrapping and breaks behavior on touch devices. There has been a real incident where manual wrapping prevented hover from working on touch devices.
+> **WHY**: PostCSS プラグインが自動的に `:hover` を `@media (any-hover: hover)` でラップする。手動でラップすると二重ラップが発生し、タッチデバイスで動作が壊れる。実際に、手動ラップによってタッチデバイスでホバーが機能しなくなった事例がある。
 
-The `postcss-media-hover-any-hover` plugin **automatically wraps** hover states for touch device detection.
+`postcss-media-hover-any-hover` プラグインは、タッチデバイス検出のためにホバー状態を**自動的にラップ**する。
 
 ```tsx
-// ✅ Correct - Plugin handles @media wrapping
+// ✅ 正しい - プラグインが @media ラップを処理
 const Button = styled.button`
   background: var(--colors-blue-500);
 
@@ -47,7 +47,7 @@ const Button = styled.button`
 `;
 ```
 
-**Generated CSS** (automatic):
+**生成される CSS** (自動):
 
 ```css
 .button {
@@ -61,10 +61,10 @@ const Button = styled.button`
 }
 ```
 
-### Incorrect: Manual @media wrapping
+### 誤った方法: 手動 @media ラップ
 
 ```tsx
-// ❌ Incorrect - Redundant, plugin does this automatically
+// ❌ 誤り - 冗長、プラグインが自動で行う
 const Link = styled.a`
   color: var(--colors-blue-600);
 
@@ -76,20 +76,20 @@ const Link = styled.a`
 `;
 ```
 
-**Why this is wrong**: The PostCSS plugin (`postcss-media-hover-any-hover`) automatically wraps `:hover` states with `@media (any-hover: hover)`. Writing it manually is redundant and may cause double-wrapping issues.
+**なぜ誤りか**: PostCSS プラグイン (`postcss-media-hover-any-hover`) が自動的に `:hover` 状態を `@media (any-hover: hover)` でラップします。手動で書くと冗長であり、二重ラップ問題を引き起こす可能性があります。
 
 ## 🔴 CSS Variables (CRITICAL)
 
-> **WHY**: CSS variables keep design tokens consistent and make theme changes easier. Using direct values causes large-scale edits when the design system changes.
+> **WHY**: CSS 変数によりデザイントークンの一貫性が保たれ、テーマ変更が容易になります。直接値を使用すると、デザインシステム変更時に大規模な編集が必要になります。
 
 ### Colors
 
 ```tsx
-// ✅ Recommended: CSS variables
+// ✅ 推奨: CSS 変数
 color: var(--colors-gray-900);
 background-color: var(--colors-blue-a-50);
 
-// ❌ Forbidden: Direct values
+// ❌ 禁止: 直接値
 color: '#1a1a1a';
 background-color: 'rgba(59, 130, 246, 0.1)';
 ```
@@ -97,42 +97,42 @@ background-color: 'rgba(59, 130, 246, 0.1)';
 ### Spacing
 
 ```tsx
-// ✅ Recommended: Spacing variables
+// ✅ 推奨: Spacing 変数
 padding: var(--spacing-4);
 gap: var(--spacing-2);
-margin: 0;  // Zero only
+margin: 0;  // Zero のみ
 
-// ❌ Forbidden: Direct values
+// ❌ 禁止: 直接値
 padding: '2rem';
 gap: '16px';
-margin: '1rem';  // ❌ Margin is generally forbidden
+margin: '1rem';  // ❌ Margin は一般的に禁止
 ```
 
 ### Fonts
 
 ```tsx
-// ✅ Recommended: Font variables
+// ✅ 推奨: Font 変数
 font-size: var(--font-sizes-md);
 line-height: var(--line-heights-md);
 font-weight: var(--font-weights-bold);
 
-// ❌ Forbidden: Direct values
+// ❌ 禁止: 直接値
 font-size: '1rem';
 line-height: 1.5;
 font-weight: 700;
 ```
 
-### Available CSS Variables
+### 利用可能な CSS Variables
 
 **Colors**:
 
-- `var(--colors-gray-1)` to `var(--colors-gray-12)` - Grayscale
-- `var(--colors-gray-a-1)` to `var(--colors-gray-a-12)` - Grayscale with alpha
-- `var(--colors-blue-500)`, `var(--colors-red-500)`, etc. - Semantic colors
+- `var(--colors-gray-1)` to `var(--colors-gray-12)` - グレースケール
+- `var(--colors-gray-a-1)` to `var(--colors-gray-a-12)` - アルファ付きグレースケール
+- `var(--colors-blue-500)`, `var(--colors-red-500)`, etc. - セマンティックカラー
 
 **Spacing**:
 
-- `var(--spacing-1)` to `var(--spacing-12)` - Spacing scale
+- `var(--spacing-1)` to `var(--spacing-12)` - Spacing スケール
 
 **Radii**:
 
@@ -140,59 +140,59 @@ font-weight: 700;
 
 **Typography**:
 
-- `var(--font-sizes-xs)` to `var(--font-sizes-3xl)` - Font sizes
-- `var(--line-heights-tight)`, `var(--line-heights-normal)`, etc. - Line heights
+- `var(--font-sizes-xs)` to `var(--font-sizes-3xl)` - フォントサイズ
+- `var(--line-heights-tight)`, `var(--line-heights-normal)`, etc. - 行の高さ
 
 ## 🔴 Zero Margin Principle (CRITICAL)
 
-> **Details**: See [components.md - Zero Margin Principle](./components.md#zero-margin-principle-critical) for full explanation and examples.
+> **詳細**: 完全な説明と例については、[components.md - Zero Margin Principle](./components.md#-zero-margin-principle-critical) を参照してください。
 
-### Quick Summary
+### 概要
 
-UI components must NOT set their own external margins. Parent components control spacing.
+UI コンポーネントは自身の外部マージンを設定してはならない。親コンポーネントが間隔を制御する。
 
 ```tsx
-// ✅ Correct: No external margin
+// ✅ 正しい: 外部マージンなし
 export const Alert = styled.div`
   padding: var(--spacing-3);
   border-radius: var(--radii-8);
 `;
 
-// ✅ Parent controls layout
+// ✅ 親がレイアウトを制御
 <Stack space={4}>
   <Alert type="note" />
   <Alert type="warning" />
 </Stack>;
 ```
 
-**For full details, examples, and rationale**: [components.md - Zero Margin Principle](./components.md#zero-margin-principle-critical)
+**詳細、例、根拠については**: [components.md - Zero Margin Principle](./components.md#-zero-margin-principle-critical)
 
 ## 🔴 Dynamic Styling with CSS Variables (CRITICAL)
 
-> **WHY**: Panda CSS uses **static compilation** at build time. Runtime dynamic values (props) cannot be directly embedded in `css` template literals. CSS variables must be used to apply dynamic styles.
+> **WHY**: Panda CSS は**ビルド時の静的コンパイル**を使用します。ランタイムの動的な値 (props) は `css` テンプレートリテラル内に直接埋め込めません。動的スタイルを適用するには CSS 変数を使用する必要があります。
 
-### Constraint: Static Compilation
+### 制約: 静的コンパイル
 
-Panda CSS compiles `css` template literals to static CSS at **build time**, unlike other CSS-in-JS libraries (styled-components/Emotion) that process styles at runtime.
+Panda CSS は `css` テンプレートリテラルを**ビルド時**に静的 CSS へコンパイルします。これは、ランタイムでスタイルを処理する他の CSS-in-JS ライブラリ (styled-components/Emotion) とは異なります。
 
 ```tsx
-// ❌ DOES NOT WORK - Panda CSS cannot embed runtime values
+// ❌ 動作しない - Panda CSS はランタイム値を埋め込めない
 const Component = ({ value }: { value: number }) => (
   <div
     className={css`
-      property: var(--spacing-${value}); // ❌ value is a runtime variable
+      property: var(--spacing-${value}); // ❌ value はランタイム変数
     `}
   />
 );
 
-// ✅ CORRECT - Use CSS variables to pass runtime values
+// ✅ 正しい - CSS 変数を使用してランタイム値を渡す
 const Component = ({ value }: { value: number }) => {
   const style = { '--my-property': `var(--spacing-${value})` } as CSSProperties;
 
   return (
     <div
       className={css`
-        property: var(--my-property); // ✅ Static CSS variable reference
+        property: var(--my-property); // ✅ 静的な CSS 変数参照
       `}
       style={style}
     />
@@ -200,23 +200,23 @@ const Component = ({ value }: { value: number }) => {
 };
 ```
 
-### Pattern: CSS Variables for Dynamic Values
+### パターン: 動的な値のための CSS Variables
 
-**Step 1**: Define static CSS with CSS variable placeholders
+**Step 1**: CSS 変数プレースホルダーで静的 CSS を定義
 
 ```tsx
 const componentStyle = css`
   display: flex;
-  gap: var(--component-gap); // Static reference to CSS variable
+  gap: var(--component-gap); // CSS 変数への静的参照
   justify-content: flex-start;
 `;
 ```
 
-**Step 2**: Pass runtime values via inline styles
+**Step 2**: インラインスタイルでランタイム値を渡す
 
 ```tsx
 export function Component({ gap = 1 }: { gap: number }) {
-  // Runtime value passed via CSS variable
+  // CSS 変数経由でランタイム値を渡す
   const style = { '--component-gap': `var(--spacing-${gap})` } as CSSProperties;
 
   return (
@@ -227,68 +227,68 @@ export function Component({ gap = 1 }: { gap: number }) {
 }
 ```
 
-### Why NOT Direct Values?
+### なぜ直接値はダメなのか?
 
 ```tsx
-// ❌ ANTI-PATTERN - Breaks with Panda CSS
+// ❌ アンチパターン - Panda CSS で壊れる
 const MyComponent = ({ value }: { value: number }) => {
-  // Panda CSS compiles this at BUILD time
-  // `value` is unknown at build time
+  // Panda CSS はビルド時にコンパイルする
+  // `value` はビルド時に不明
   return (
     <div
       className={css`
-        property: ${value}px; // ❌ value is runtime, not build-time constant
+        property: ${value}px; // ❌ value はランタイム、ビルド時定数ではない
       `}
     />
   );
 };
 ```
 
-**Why this fails**:
+**なぜ失敗するか**:
 
-1. Panda CSS processes `css` template literals during **webpack/vite build**
-2. Props are **runtime values** (only known when component renders)
-3. Build-time static compilation cannot access runtime values
-4. Result: CSS is generated with literal `${value}px` string, not actual values
+1. Panda CSS は **webpack/vite ビルド** 時に `css` テンプレートリテラルを処理
+2. Props は **ランタイム値** (コンポーネントレンダリング時にのみ判明)
+3. ビルド時の静的コンパイルはランタイム値にアクセスできない
+4. 結果: CSS は実際の値ではなく、リテラル `${value}px` 文字列で生成される
 
-### Comparison with Other CSS-in-JS
+### 他の CSS-in-JS との比較
 
-| Library           | Compilation       | Dynamic Props    | CSS Variables Required?        |
-| ----------------- | ----------------- | ---------------- | ------------------------------ |
-| **Panda CSS**     | Build-time static | ❌ Not supported | ✅ Yes (for dynamic values)    |
-| styled-components | Runtime           | ✅ Supported     | ❌ No (can use props directly) |
-| Emotion           | Runtime           | ✅ Supported     | ❌ No (can use props directly) |
+| ライブラリ        | コンパイル   | 動的 Props    | CSS Variables 必須?            |
+| ----------------- | ------------ | ------------- | ------------------------------ |
+| **Panda CSS**     | ビルド時静的 | ❌ 非サポート | ✅ はい (動的値用)             |
+| styled-components | ランタイム   | ✅ サポート   | ❌ いいえ (props を直接使用可) |
+| Emotion           | ランタイム   | ✅ サポート   | ❌ いいえ (props を直接使用可) |
 
 ```tsx
-// styled-components/Emotion (Runtime)
+// styled-components/Emotion (ランタイム)
 const Button = styled.button<{ $value: number }>`
-  property: ${(props) => props.$value}px; // ✅ Works (runtime interpolation)
+  property: ${(props) => props.$value}px; // ✅ 動作する (ランタイム補間)
 `;
 
-// Panda CSS (Build-time)
+// Panda CSS (ビルド時)
 const buttonStyle = css`
-  property: ${value}px; // ❌ Fails (no runtime interpolation)
-  property: var(--my-property); // ✅ Works (CSS variables)
+  property: ${value}px; // ❌ 失敗 (ランタイム補間なし)
+  property: var(--my-property); // ✅ 動作する (CSS 変数)
 `;
 ```
 
-### Documentation Requirements
+### ドキュメント要件
 
-When using CSS variables for dynamic values, add comments explaining the constraint:
+動的な値に CSS 変数を使用する場合、制約を説明するコメントを追加してください:
 
 ```tsx
 /**
- * Component with dynamic styling
+ * 動的スタイリングを持つコンポーネント
  *
- * @note Panda CSS uses static compilation, so dynamic props
- *       must be passed via CSS variables, not direct interpolation.
+ * @note Panda CSS は静的コンパイルを使用するため、動的 props は
+ *       直接補間ではなく CSS 変数経由で渡す必要があります。
  */
 const componentStyle = css`
-  property: var(--component-property); // Runtime props via CSS variable
+  property: var(--component-property); // CSS 変数経由でランタイム props
 `;
 
 export function Component({ value }: Props) {
-  // Panda CSS constraint: runtime values via CSS variables
+  // Panda CSS 制約: CSS 変数経由でランタイム値
   const style = { '--component-property': `var(--spacing-${value})` } as CSSProperties;
   return (
     <div className={componentStyle} style={style}>
@@ -298,12 +298,12 @@ export function Component({ value }: Props) {
 }
 ```
 
-### Common Mistakes
+### よくある間違い
 
-#### Mistake 1: Trying to interpolate props
+#### 間違い 1: props を補間しようとする
 
 ```tsx
-// ❌ WRONG - props cannot be interpolated in Panda CSS
+// ❌ 誤り - Panda CSS では props を補間できない
 const Component = ({ color }: { color: string }) => (
   <div
     className={css`
@@ -312,7 +312,7 @@ const Component = ({ color }: { color: string }) => (
   />
 );
 
-// ✅ CORRECT - use CSS variables
+// ✅ 正しい - CSS 変数を使用
 const Component = ({ color }: { color: string }) => {
   const style = { '--my-color': color } as CSSProperties;
   return (
@@ -326,17 +326,17 @@ const Component = ({ color }: { color: string }) => {
 };
 ```
 
-#### Mistake 2: Assuming runtime compilation
+#### 間違い 2: ランタイムコンパイルを仮定
 
 ```tsx
-// ❌ WRONG - Panda CSS is build-time, not runtime
+// ❌ 誤り - Panda CSS はビルド時、ランタイムではない
 const getStyle = (size: 'sm' | 'md' | 'lg') => {
   return css`
     property: ${size === 'sm' ? '0.5rem' : '1rem'};
-  `; // Won't work
+  `; // 動作しない
 };
 
-// ✅ CORRECT - use conditional class application
+// ✅ 正しい - 条件付きクラス適用を使用
 const styleClasses = {
   sm: css`
     property: 0.5rem;
@@ -352,9 +352,9 @@ const styleClasses = {
 const Component = ({ size }: { size: 'sm' | 'md' | 'lg' }) => <div className={styleClasses[size]} />;
 ```
 
-## Basic Usage
+## 基本的な使用方法
 
-### Inline Styles with `css`
+### `css` によるインラインスタイル
 
 ```tsx
 import { css } from '@/ui/styled';
@@ -391,10 +391,10 @@ const StyledButton = styled.button`
 export const Button = ({ children }: ButtonProps) => <StyledButton>{children}</StyledButton>;
 ```
 
-## 🟡 Responsive Design (IMPORTANT)
+## 🟡 レスポンシブデザイン (IMPORTANT)
 
 ```tsx
-// ✅ Recommended: Mobile-first approach
+// ✅ 推奨: モバイルファーストアプローチ
 const ResponsiveCard = styled.div`
   padding: var(--spacing-2);
 
@@ -408,32 +408,32 @@ const ResponsiveCard = styled.div`
 `;
 ```
 
-**Mobile-first approach** is recommended.
+**モバイルファーストアプローチ** が推奨されます。
 
-## 🟡 Performance Considerations (IMPORTANT)
+## 🟡 パフォーマンス考慮事項 (IMPORTANT)
 
 ```tsx
-// ✅ Recommended: Performance-friendly properties
+// ✅ 推奨: パフォーマンスに優しいプロパティ
 const animation = css`
   transition:
     transform 0.2s,
-    opacity 0.2s; // transform/opacity only
+    opacity 0.2s; // transform/opacity のみ
 `;
 
-// ❌ Avoid: Properties that trigger reflow
+// ❌ 避ける: リフローを引き起こすプロパティ
 const animation = css`
   transition:
     width 0.2s,
-    height 0.2s; // causes reflow
+    height 0.2s; // リフローを引き起こす
 `;
 ```
 
-## 🟡 Accessibility (IMPORTANT)
+## 🟡 アクセシビリティ (IMPORTANT)
 
 ### Focus States
 
 ```tsx
-// ✅ Recommended: Use box-shadow (respects border-radius)
+// ✅ 推奨: box-shadow を使用 (border-radius を尊重)
 const button = css`
   border-radius: var(--radii-8);
 
@@ -443,17 +443,17 @@ const button = css`
   }
 `;
 
-// ❌ Avoid: Use outline (Safari ignores border-radius)
+// ❌ 避ける: outline を使用 (Safari が border-radius を無視)
 const button = css`
   &:focus-visible {
-    outline: 3px solid var(--colors-blue-500); // ❌ Avoid
+    outline: 3px solid var(--colors-blue-500); // ❌ 避ける
   }
 `;
 ```
 
-## ⚪ Common Patterns (RECOMMENDED)
+## ⚪ 一般的なパターン (RECOMMENDED)
 
-### Conditional Styles
+### 条件付きスタイル
 
 ```tsx
 const Button = styled.button<{ variant: 'primary' | 'secondary' }>`
@@ -476,7 +476,7 @@ const Button = styled.button<{ variant: 'primary' | 'secondary' }>`
 `;
 ```
 
-### Nested Selectors
+### ネストされたセレクター
 
 ```tsx
 const Card = styled.div`
@@ -494,7 +494,7 @@ const Card = styled.div`
 `;
 ```
 
-### Pseudo Elements
+### 疑似要素
 
 ```tsx
 const Divider = styled.div`
@@ -512,73 +512,73 @@ const Divider = styled.div`
 `;
 ```
 
-## Configuration Files
+## 設定ファイル
 
-### Before modifying `~/panda.config.mts`
+### `~/panda.config.mts` を変更する前に
 
-**Always read the file first** to understand:
+**必ずファイルを先に読んで以下を理解すること**：
 
-- Existing design tokens
-- Theme configuration
-- Custom utilities
+- 既存のデザイントークン
+- テーマ設定
+- カスタムユーティリティ
 
-**Example changes**:
+**変更例**：
 
-- Adding new color tokens
-- Defining custom spacing values
-- Creating new design patterns
+- 新しいカラートークンの追加
+- カスタムスペーシング値の定義
+- 新しいデザインパターンの作成
 
-### Before modifying `~/postcss.config.cjs`
+### `~/postcss.config.cjs` を変更する前に
 
-**Always read the file first** to understand:
+**必ずファイルを先に読んで以下を理解すること**：
 
-- PostCSS plugins configuration
-- `postcss-media-hover-any-hover` settings
-- Custom media queries
+- PostCSS プラグインの設定
+- `postcss-media-hover-any-hover` の設定
+- カスタムメディアクエリ
 
-**Example changes**:
+**変更例**：
 
-- Adding new PostCSS plugins
-- Modifying hover detection settings
-- Configuring custom transformations
+- 新しい PostCSS プラグインの追加
+- hover 検出設定の変更
+- カスタム変換の設定
 
-## Forbidden Practices
+## 禁止事項
 
-### 1. Magic Numbers
+### 1. マジックナンバー
 
 ```tsx
-// ❌ Forbidden
+// ❌ 禁止
 min-width: 20px;
 height: 300px;
 border: 1px solid;
 
-// ✅ Recommended: Use variables
+// ✅ 推奨: 変数を使用
 min-width: var(--spacing-5);
 height: var(--sizes-container-small);
 border-width: var(--border-widths-1);
 ```
 
-### 2. !important Abuse
+### 2. !important の乱用
 
 ```tsx
-// ❌ Avoid
+// ❌ 避ける
 color: var(--colors-red-500) !important;
 
-// ✅ Recommended: Adjust selector specificity
+// ✅ 推奨: セレクターの詳細度を調整
 .parent .child {
   color: var(--colors-red-500);
 }
 ```
 
-### 3. Global Style Conflicts
+### 3. グローバルスタイルの競合
 
 ```tsx
-// ❌ Forbidden: Affects globally
+// ❌ 禁止: グローバルに影響
 div {
   margin: 0;
 }
 
-// ✅ Recommended: Scope it
+// ✅ 推奨: スコープを限定
 const Container = styled.div`
   & > div {
     margin: 0;
@@ -586,15 +586,15 @@ const Container = styled.div`
 `;
 ```
 
-## Verification Checklist
+## 検証チェックリスト
 
-Before committing styling changes:
+スタイリング変更をコミットする前に：
 
-- [ ] Using `@/ui/styled` import
-- [ ] Hover states written without manual `@media` wrapping
-- [ ] CSS variables used for colors, spacing, and other tokens
-- [ ] No external margins on components
-- [ ] Responsive styles follow mobile-first approach
-- [ ] Configuration file changes are intentional and documented
-- [ ] No magic numbers or hardcoded values
-- [ ] Focus states use `box-shadow` instead of `outline`
+- [ ] `@/ui/styled` import を使用していること
+- [ ] Hover States が手動の `@media` ラッピングなしで記述されていること
+- [ ] 色、スペーシング、その他のトークンに CSS 変数を使用していること
+- [ ] コンポーネントに外部マージンがないこと
+- [ ] レスポンシブスタイルがモバイルファーストアプローチに従っていること
+- [ ] 設定ファイルの変更が意図的でドキュメント化されていること
+- [ ] マジックナンバーやハードコードされた値がないこと
+- [ ] Focus States が `outline` の代わりに `box-shadow` を使用していること

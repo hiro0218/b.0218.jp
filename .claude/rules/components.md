@@ -1,27 +1,27 @@
 ---
-description: 'Component architecture, layer dependencies, and zero-margin principle'
+description: 'コンポーネントアーキテクチャ、レイヤー依存関係、Zero Margin Principle'
 applyTo: '**/components/**/*.{ts,tsx}'
 paths:
   - '**/components/**/*.{ts,tsx}'
 ---
 
-# Component Architecture Rules
+# コンポーネントアーキテクチャ規則
 
-This file defines design principles automatically applied when editing React/Next.js components.
+このファイルは、React/Next.js コンポーネントを編集する際に自動的に適用される設計原則を定義する。
 
 ## Priority Markers
 
 > See [CLAUDE.md - Priority Levels](../CLAUDE.md#priority-levels) for marker definitions.
 
-> **📌 About this file**: This is a detailed guide for CLAUDE.md. For priorities and the overview, see [CLAUDE.md - Critical Rules](../CLAUDE.md#critical-rules-must-follow).
+> **📌 このファイルについて**: これは CLAUDE.md の詳細ガイドです。優先順位と概要については、[CLAUDE.md - Critical Rules](../CLAUDE.md#critical-rules-must-follow) を参照してください。
 
-## Component Principles
+## コンポーネント原則
 
 ### 🔴 Zero Margin Principle (CRITICAL)
 
-UI components must NOT set their own external margins (`margin`, `margin-top`, etc.). Parent components control spacing.
+UI コンポーネントは、自身の外部マージン（`margin`、`margin-top` など）を設定してはならない。親コンポーネントが間隔を制御する。
 
-**Correct**:
+**正しい例**:
 
 ```tsx
 // Component (no margin)
@@ -47,15 +47,15 @@ export const Card = ({ children }: CardProps) => (
 </div>;
 ```
 
-**Incorrect**:
+**誤った例**:
 
 ```tsx
-// ❌ Component sets its own margin
+// ❌ コンポーネントが自身のマージンを設定
 export const Card = ({ children }: CardProps) => (
   <div
     className={css`
       padding: var(--spacing-4);
-      margin-bottom: var(--spacing-4); /* ❌ Violates zero-margin principle */
+      margin-bottom: var(--spacing-4); /* ❌ Zero Margin Principle 違反 */
     `}
   >
     {children}
@@ -63,7 +63,7 @@ export const Card = ({ children }: CardProps) => (
 );
 ```
 
-**Layout is controlled by parent**:
+**レイアウトは親が制御**:
 
 ```tsx
 // Parent (Page/App layer) controls layout
@@ -82,28 +82,28 @@ export const Card = ({ children }: CardProps) => (
 </div>
 ```
 
-### 🔴 Layer Dependencies (CRITICAL)
+### 🔴 レイヤー依存関係 (CRITICAL)
 
-> **WHY**: Layered dependencies improve testability and make change impact clearer. Biome's automated checks prevent architecture violations.
+> **WHY**: レイヤー化された依存関係により、テスト容易性が向上し、変更の影響範囲が明確になる。Biome の自動チェックがアーキテクチャ違反を防止する。
 
-Layer dependencies are **enforced by Biome** (`~/biome.json`):
+レイヤー依存関係は **Biome によって強制** される（`~/biome.json`）:
 
 ```
-App/ (top)
-  ↓ depends on
+App/ (最上位)
+  ↓ 依存
 Page/
-  ↓ depends on
-UI/ ← → Functional/ (independent)
+  ↓ 依存
+UI/ ← → Functional/ (独立)
 ```
 
-**Rules**:
+**ルール**:
 
-- `UI/` and `Functional/` are **independent** layers (cannot import from each other)
-- `Page/` may import from `UI/` and `Functional/`
-- `App/` may import from all lower layers
-- **Lower layers CANNOT import from upper layers**
+- `UI/` と `Functional/` は **独立** レイヤー（相互にインポート不可）
+- `Page/` は `UI/` と `Functional/` からインポート可能
+- `App/` はすべての下位レイヤーからインポート可能
+- **下位レイヤーは上位レイヤーからインポート不可**
 
-**Examples**:
+**例**:
 
 #### UI Layer (`src/components/UI/**`)
 
@@ -117,43 +117,43 @@ import { PostHeader } from '@/components/Page/Post/Header'; // Biome error
 import { Layout } from '@/components/App/Layout'; // Biome error
 ```
 
-**Rule**: UI layer is completely independent. Cannot depend on App, Page, or Functional layers.
+**ルール**: UI レイヤーは完全に独立。App、Page、Functional レイヤーに依存できません。
 
-#### Page Layer (`src/components/Page/**`)
+#### Page レイヤー (`src/components/Page/**`)
 
 ```tsx
-// ✅ Allowed: Dependencies on UI and Functional
+// ✅ 許可: UI と Functional への依存
 import { Button } from '@/components/UI/Button';
 import { Stack } from '@/components/UI/Layout';
 
-// ❌ Forbidden: Dependencies on App layer
-import { Header } from '@/components/App/Header'; // Biome error
+// ❌ 禁止: App レイヤーへの依存
+import { Header } from '@/components/App/Header'; // Biome エラー
 ```
 
-**Rule**: Page layer can depend on UI/Functional. Cannot depend on App.
+**ルール**: Page レイヤーは UI/Functional に依存可能。App には依存不可。
 
-#### App Layer (`src/components/App/**`)
+#### App レイヤー (`src/components/App/**`)
 
 ```tsx
-// ✅ Allowed: Dependencies on all lower layers
+// ✅ 許可: すべての下位レイヤーへの依存
 import { Button } from '@/components/UI/Button';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 ```
 
-**Rule**: App layer can depend on all lower layers.
+**ルール**: App レイヤーはすべての下位レイヤーに依存可能。
 
-**Verification**:
+**検証**:
 
 ```bash
-# Biome will catch layer violations
+# Biome がレイヤー違反を検出
 npm run lint
 ```
 
 ### 🟡 Server First Principle (IMPORTANT)
 
-Use Server Components by default. Add `'use client'` **only when necessary**:
+デフォルトで Server Components を使用する。`'use client'` は **必要な場合のみ** 追加:
 
-**Default: Server Component**
+**デフォルト: Server Component**
 
 ```tsx
 export function PostList({ posts }: { posts: Post[] }) {
@@ -167,7 +167,7 @@ export function PostList({ posts }: { posts: Post[] }) {
 }
 ```
 
-**Only when needed: Client Component**
+**必要な場合のみ: Client Component**
 
 ```tsx
 'use client';
@@ -178,92 +178,92 @@ export function InteractiveButton() {
 }
 ```
 
-**Client Component required when**:
+**Client Component が必要な場合**:
 
-- Using React hooks (`useState`, `useEffect`, etc.)
-- Event handlers (`onClick`, `onChange`, etc.)
-- Browser APIs (`window`, `document`)
+- React hooks の使用 (`useState`, `useEffect` など)
+- イベントハンドラー (`onClick`, `onChange` など)
+- ブラウザ API (`window`, `document`)
 
-## Layer Responsibilities
+## レイヤーの責務
 
-### App/ (Application Shell)
+### App/ (アプリケーションシェル)
 
-**Purpose**: Application-wide layout, navigation, singleton-like components
+**目的**: アプリケーション全体のレイアウト、ナビゲーション、シングルトン的なコンポーネント
 
-**Examples**:
+**例**:
 
-- `Header.tsx` - Site-wide header
-- `Footer.tsx` - Site-wide footer
-- `Layout.tsx` - Root layout wrapper
-- `GlobalSearch.tsx` - Global search bar
+- `Header.tsx` - サイト全体のヘッダー
+- `Footer.tsx` - サイト全体のフッター
+- `Layout.tsx` - ルートレイアウトラッパー
+- `GlobalSearch.tsx` - グローバル検索バー
 
-**Characteristics**:
+**特性**:
 
-- Singleton patterns acceptable
-- May depend on all lower layers
-- Should be stable (rarely changes)
+- シングルトンパターンが許容される
+- すべての下位レイヤーに依存可能
+- 安定している必要がある（変更頻度が低い）
 
-### Page/ (Page-Specific)
+### Page/ (ページ固有)
 
-**Purpose**: Page-specific logic and components
+**目的**: ページ固有のロジックとコンポーネント
 
-**Examples**:
+**例**:
 
-- `PostDetail.tsx` - Post page detail view
-- `ArchiveList.tsx` - Archive page list
-- `PostHeader.tsx` - Post-specific header
+- `PostDetail.tsx` - 記事ページの詳細ビュー
+- `ArchiveList.tsx` - アーカイブページのリスト
+- `PostHeader.tsx` - 記事固有のヘッダー
 
-**Characteristics**:
+**特性**:
 
-- May depend on `UI/` and `Functional/`
-- Cannot depend on `App/`
-- Page-specific logic and composition
+- `UI/` と `Functional/` に依存可能
+- `App/` には依存不可
+- ページ固有のロジックと構成
 
-**Shared sections**: `Page/_shared/` for components used across multiple page types
+**共有セクション**: 複数のページタイプで使用されるコンポーネントは `Page/_shared/` に配置
 
-### UI/ (Visual Components)
+### UI/ (ビジュアルコンポーネント)
 
-**Purpose**: Reusable, visual components with zero external dependencies
+**目的**: 外部依存ゼロの再利用可能なビジュアルコンポーネント
 
-**Examples**:
+**例**:
 
-- `Button.tsx` - Button component
-- `Card.tsx` - Card component
-- `Modal.tsx` - Modal dialog
-- `Icon.tsx` - Icon wrapper
+- `Button.tsx` - ボタンコンポーネント
+- `Card.tsx` - カードコンポーネント
+- `Modal.tsx` - モーダルダイアログ
+- `Icon.tsx` - アイコンラッパー
 
-**Characteristics**:
+**特性**:
 
-- Zero-margin principle enforced
-- Independent layer (no imports from `Page/`, `App/`, or `Functional/`)
-- Purely visual, no business logic
-- Should be highly reusable
+- Zero Margin Principle が強制される
+- 独立レイヤー（`Page/`、`App/`、`Functional/` からインポート不可）
+- 純粋にビジュアル、ビジネスロジックなし
+- 高い再利用性が求められる
 
-### Functional/ (Non-Visual Utilities)
+### Functional/ (非ビジュアルユーティリティ)
 
-**Purpose**: Non-visual utility components
+**目的**: 非ビジュアルなユーティリティコンポーネント
 
-**Examples**:
+**例**:
 
-- `PreconnectLinks.tsx` - DNS prefetch links
-- `GoogleAnalytics.tsx` - Analytics integration
-- `StructuredData.tsx` - JSON-LD schema
-- `ErrorBoundary.tsx` - Error handling
+- `PreconnectLinks.tsx` - DNS プリフェッチリンク
+- `GoogleAnalytics.tsx` - Analytics 統合
+- `StructuredData.tsx` - JSON-LD スキーマ
+- `ErrorBoundary.tsx` - エラーハンドリング
 
-**Characteristics**:
+**特性**:
 
-- Independent layer (no imports from `Page/`, `App/`, or `UI/`)
-- No visual output (or minimal)
-- Side-effect or metadata focused
+- 独立レイヤー（`Page/`、`App/`、`UI/` からインポート不可）
+- ビジュアル出力なし（または最小限）
+- 副作用またはメタデータに焦点
 
-## SSG Optimization
+## SSG 最適化
 
-This project uses SSG (Static Site Generation). For SSG principles and build-time data loading patterns, see [architecture.md - SSG](./architecture.md#-ssg-ビルド時データロード優先-critical).
+このプロジェクトは SSG (Static Site Generation) を使用しています。SSG の原則とビルド時のデータ読み込みパターンについては、[architecture.md - SSG](./architecture.md#-ssg-ビルド時データロード優先-critical) を参照してください。
 
-### Component-Specific Pattern
+### コンポーネント固有のパターン
 
 ```tsx
-// ✅ Build-time data in component
+// ✅ コンポーネント内でビルド時データを使用
 import posts from '~/dist/posts.json';
 
 export function RecentPosts() {
@@ -272,94 +272,94 @@ export function RecentPosts() {
 }
 ```
 
-**Full details**: [architecture.md - SSG Optimization](./architecture.md#-ssg-ビルド時データロード優先-critical)
+**詳細**: [architecture.md - SSG 最適化](./architecture.md#-ssg-ビルド時データロード優先-critical)
 
-## ⚪ Component Naming (RECOMMENDED)
+## ⚪ コンポーネント命名 (RECOMMENDED)
 
 ```tsx
-// ✅ Good: Clear naming
+// ✅ 良い例: 明確な命名
 export const PostDetail = () => { ... };
 export const TagList = () => { ... };
 export const SearchPanel = () => { ... };
 
-// ❌ Bad: Vague naming
+// ❌ 悪い例: 曖昧な命名
 export const Component = () => { ... };
 export const Item = () => { ... };
 export const Wrapper = () => { ... };
 ```
 
-## 🟡 Props Design (IMPORTANT)
+## 🟡 Props 設計 (IMPORTANT)
 
 ```tsx
-// ✅ Recommended: Explicit type definition
+// ✅ 推奨: 明示的な型定義
 interface PostDetailProps {
   post: Post;
   showRelated?: boolean;
 }
 
 export const PostDetail = ({ post, showRelated = true }: PostDetailProps) => {
-  // Implementation
+  // 実装
 };
 
-// ❌ Avoid: Inline type definition (for complex cases)
+// ❌ 避ける: インライン型定義（複雑な場合）
 export const PostDetail = ({ post, showRelated }: {
   post: { slug: string; title: string; content: string; ... };
   showRelated?: boolean;
 }) => {
-  // Implementation
+  // 実装
 };
 ```
 
-## 🟡 Accessibility (IMPORTANT)
+## 🟡 アクセシビリティ (IMPORTANT)
 
 ```tsx
-// ✅ Correct: Semantic HTML + ARIA
+// ✅ 正しい: セマンティックHTML + ARIA
 <button
   onClick={handleClick}
-  aria-label="Share article"
+  aria-label="記事を共有"
   type="button"
 >
   <ShareIcon />
 </button>
 
-// ✅ Correct: List structure
-<nav aria-label="Main navigation">
+// ✅ 正しい: リスト構造
+<nav aria-label="メインナビゲーション">
   <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/archive">Archive</a></li>
+    <li><a href="/">ホーム</a></li>
+    <li><a href="/archive">アーカイブ</a></li>
   </ul>
 </nav>
 
-// ❌ Incorrect: Non-semantic
-<div onClick={handleClick}>  // ❌ Should use button
+// ❌ 誤り: 非セマンティック
+<div onClick={handleClick}>  // ❌ button を使用すべき
   <ShareIcon />
 </div>
 ```
 
-## Layer Violation Examples
+## レイヤー違反の例
 
-**❌ UI importing from Page**:
+**❌ UI が Page からインポート**:
 
 ```tsx
 // src/components/UI/Button.tsx
-import { PostHeader } from '@/components/Page/PostHeader'; // ❌ Violation
+import { PostHeader } from '@/components/Page/PostHeader'; // ❌ 違反
 ```
 
-**❌ Page importing from App**:
+**❌ Page が App からインポート**:
 
 ```tsx
 // src/components/Page/PostDetail.tsx
-import { Header } from '@/components/App/Header'; // ❌ Violation
+import { Header } from '@/components/App/Header'; // ❌ 違反
 ```
 
-**❌ Functional importing from UI**:
+**❌ Functional が UI からインポート**:
 
 ```tsx
 // src/components/Functional/GoogleAnalytics.tsx
-import { Button } from '@/components/UI/Button'; // ❌ Violation
+import { Button } from '@/components/UI/Button'; // ❌ 違反
 ```
 
-**✅ Correct dependencies**:
+**✅ 正しい依存関係**:
 
 ```tsx
 // src/components/Page/PostDetail.tsx
@@ -371,13 +371,13 @@ import { SearchInput } from '@/components/Page/SearchInput'; // ✅ OK
 import { Button } from '@/components/UI/Button'; // ✅ OK
 ```
 
-## Avoid These Anti-Patterns
+## 避けるべきアンチパターン
 
-### Unnecessary Client Components
+### 不要な Client Component
 
-Client Components should only be used when interactive features are required. Avoid converting Server Components to Client Components unnecessarily.
+Client Components はインタラクティブな機能が必要な場合のみ使用します。Server Components を不必要に Client Components に変換しないでください。
 
-**❌ Incorrect: Unnecessary Client Component**
+**❌ 誤り: 不要な Client Component**
 
 ```tsx
 'use client';
@@ -387,7 +387,7 @@ export function StaticText({ text }: { text: string }) {
 }
 ```
 
-**✅ Correct: Keep as Server Component**
+**✅ 正しい: Server Component のまま**
 
 ```tsx
 export function StaticText({ text }: { text: string }) {
@@ -395,11 +395,11 @@ export function StaticText({ text }: { text: string }) {
 }
 ```
 
-### Unnecessary useEffect for SSG
+### SSG における不要な useEffect
 
-This project uses SSG (Static Site Generation), so data fetching at runtime is generally unnecessary. Load data at build time instead.
+このプロジェクトは SSG (Static Site Generation) を使用しているため、ランタイムでのデータ取得は一般的に不要です。代わりにビルド時にデータを読み込みます。
 
-**❌ Incorrect: Runtime data fetching with useEffect**
+**❌ 誤り: useEffect でランタイムデータ取得**
 
 ```tsx
 'use client';
@@ -417,7 +417,7 @@ export function PostCount() {
 }
 ```
 
-**✅ Correct: Build-time data loading**
+**✅ 正しい: ビルド時データ読み込み**
 
 ```tsx
 import posts from '~/dist/posts.json';
@@ -427,21 +427,21 @@ export function PostCount() {
 }
 ```
 
-**Why this matters**:
+**重要な理由**:
 
-- SSG pre-renders pages at build time
-- Runtime data fetching adds unnecessary Client Component overhead
-- Build-time data is faster and more reliable
+- SSG はビルド時にページを事前レンダリング
+- ランタイムデータ取得は不要な Client Component オーバーヘッドを追加
+- ビルド時データの方が高速で信頼性が高い
 
-## Verification Checklist
+## 検証チェックリスト
 
-Before committing component changes:
+コンポーネント変更をコミットする前に:
 
-- [ ] Component does not set its own margin
-- [ ] Layer dependencies are correct (verified by `npm run lint`)
-- [ ] `'use client'` is used only when necessary
-- [ ] Component is placed in the correct directory
-- [ ] Imports follow the dependency rules
-- [ ] Props have explicit type definitions
-- [ ] Semantic HTML is used for accessibility
-- [ ] No unnecessary Client Components or useEffect hooks
+- [ ] コンポーネントが自身のマージンを設定していないこと
+- [ ] レイヤー依存関係が正しいこと（`npm run lint` で検証）
+- [ ] `'use client'` が必要な場合のみ使用されていること
+- [ ] コンポーネントが正しいディレクトリに配置されていること
+- [ ] インポートが依存関係ルールに従っていること
+- [ ] Props に明示的な型定義があること
+- [ ] アクセシビリティのためにセマンティック HTML が使用されていること
+- [ ] 不要な Client Components や useEffect フックがないこと

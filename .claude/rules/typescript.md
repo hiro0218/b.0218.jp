@@ -7,7 +7,7 @@ paths:
 
 # TypeScript コーディング規約
 
-このファイルは、TypeScriptファイル編集時に自動的に適用されるコーディング規約を定義します。
+このファイルは、TypeScriptファイル編集時に自動的に適用されるコーディング規約を定義する。
 
 ## Priority Markers
 
@@ -66,11 +66,11 @@ function process(data: DataWithValue) {
 }
 ```
 
-**理由**: Biomeの`noExplicitAny`ルールで自動検出されます。
+**理由**: Biomeの`noExplicitAny`ルールで自動検出される。
 
-> **WHY**: `any` は TypeScript の型チェックを無効化し、ランタイムエラーの原因になります。
+> **WHY**: `any` は TypeScript の型チェックを無効化し、ランタイムエラーの原因になる。
 >
-> **REAL CASE**: `getPost(slug: any)` と定義していたため、`getPost(123)` (数値) が通り、ビルド時にエラーが出ず、本番環境で 404 エラーが多発しました。`getPost(slug: string)` にすることで、ビルド時に検出できるようになりました。
+> **REAL CASE**: `getPost(slug: any)` と定義していたため、`getPost(123)` (数値) が通り、ビルド時にエラーが出ず、本番環境で 404 エラーが多発した。`getPost(slug: string)` にすることで、ビルド時に検出できるようになった。
 
 ---
 
@@ -84,11 +84,11 @@ import { Post } from '@/types/source';
 import type { Post } from '@/types/source';
 ```
 
-**理由**: Biomeの`useImportType`ルールで推奨されます。
+**理由**: Biomeの`useImportType`ルールで推奨される。
 
-> **WHY**: `import type` はトランスパイル時に削除され、バンドルサイズが削減されます。
+> **WHY**: `import type` はトランスパイル時に削除され、バンドルサイズが削減される。
 >
-> **IMPACT**: プロジェクト全体で `import type` を徹底することで、最終バンドルサイズが約 3-5% 削減されました（型定義ファイルが含まれないため）。
+> **IMPACT**: プロジェクト全体で `import type` を徹底することで、最終バンドルサイズが約 3-5% 削減された（型定義ファイルが含まれないため）。
 
 ---
 
@@ -120,9 +120,9 @@ export function getPost(slug: string): Post | undefined {
 - `export`されたクラス
 - `export`された定数（複雑なものに限る）
 
-> **WHY**: JSDoc は IntelliSense での開発体験を向上させ、関数の使い方を明確にします。
+> **WHY**: JSDoc は IntelliSense での開発体験を向上させ、関数の使い方を明確にする。
 >
-> **IMPACT**: チームメンバーが関数の実装を読まずに使い方を理解でき、開発効率が向上します。特に `@example` タグは実際の使用例を示すため、誤用を防ぎます。
+> **IMPACT**: チームメンバーが関数の実装を読まずに使い方を理解でき、開発効率が向上する。特に `@example` タグは実際の使用例を示すため、誤用を防ぐ。
 
 ## 🔴 パスマッピング (CRITICAL)
 
@@ -138,11 +138,11 @@ import { getPost } from '../../lib/data/posts';
 import { css } from '../../../ui/styled';
 ```
 
-> **WHY**: 相対パスはファイル移動時に壊れやすく、深いネストでは可読性が低下します。
+> **WHY**: 相対パスはファイル移動時に壊れやすく、深いネストでは可読性が低下する。
 >
-> **REAL CASE**: コンポーネントを `components/UI/` から `components/Page/` に移動した際、相対パスのimportが一斉に壊れ、修正に2時間かかりました。絶対パス (`@/`) なら移動してもimportは変更不要です。
+> **REAL CASE**: コンポーネントを `components/UI/` から `components/Page/` に移動した際、相対パスのimportが一斉に壊れ、修正に2時間かかった。絶対パス (`@/`) なら移動してもimportは変更不要である。
 
-> **SSG関連の原則**: ビルド時データロードやランタイム `fetch` 回避は `architecture.md` を参照してください。
+> **SSG関連の原則**: ビルド時データロードやランタイム `fetch` 回避は `architecture.md` を参照すること。
 
 ## 🟡 命名規則 (IMPORTANT)
 
@@ -178,11 +178,11 @@ import { css } from '@/ui/styled';
 import { SITE_NAME } from '@/constants';
 ```
 
-Biomeの`organizeImports`で自動整理されますが、この順序を意識してください。
+Biomeの`organizeImports`で自動整理されるが、この順序を意識すること。
 
-> **WHY**: 一貫したimport順序により、コードの可読性が向上し、依存関係が明確になります。
+> **WHY**: 一貫したimport順序により、コードの可読性が向上し、依存関係が明確になる。
 >
-> **AUTO-FIX**: Biome が自動で整理するため、手動で並び替える必要はありません（`npm run lint:fix` で自動適用）。
+> **AUTO-FIX**: Biome が自動で整理するため、手動で並び替える必要はない（`npm run lint:fix` で自動適用）。
 
 ## Common Mistakes & Solutions
 
@@ -200,7 +200,7 @@ export function formatDate(date: Date): string {
 }
 ```
 
-**Why this matters**: `any` を使うと、間違った型の引数を渡してもビルド時にエラーが出ず、ランタイムで予期しないエラーが発生します。
+**Why this matters**: `any` を使うと、間違った型の引数を渡してもビルド時にエラーが出ず、ランタイムで予期しないエラーが発生する。
 
 ---
 
@@ -215,9 +215,9 @@ import type { Post } from '@/types/source';
 import { getPosts } from '@/lib/posts';
 ```
 
-**Why this matters**: `import type` はトランスパイル時に削除されるため、型と値を分けることでバンドルサイズが削減されます。
+**Why this matters**: `import type` はトランスパイル時に削除されるため、型と値を分けることでバンドルサイズが削減される。
 
-**Auto-fix**: Biome が自動で分離します（`npm run lint:fix`）。
+**Auto-fix**: Biome が自動で分離する（`npm run lint:fix`）。
 
 ---
 
@@ -250,7 +250,7 @@ export function calculateSimilarity(post1: Post, post2: Post): number {
 }
 ````
 
-**Why this matters**: JSDoc により、関数を使う開発者が実装を読まずに使い方を理解できます。特に `@example` タグは実際の使用例を示し、誤用を防ぎます。
+**Why this matters**: JSDoc により、関数を使う開発者が実装を読まずに使い方を理解できる。特に `@example` タグは実際の使用例を示し、誤用を防ぐ。
 
 ## Automated Verification
 
