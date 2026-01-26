@@ -48,9 +48,9 @@ export type Page = Article;
 /**
  * 記事要約型
  * アーカイブページなどでタグ情報なしで表示する際に使用
- * contentフィールドを除外し、updatedをオプショナルにした型
+ * contentフィールドを除外し、updatedとtagsをオプショナルにした型
  */
-export type ArticleSummary = Optional<Omit<Article, 'content'>, 'updated'>;
+export type ArticleSummary = Optional<Omit<Article, 'content'>, 'updated'> & Partial<WithTags>;
 
 /**
  * タグ情報を持つ型
