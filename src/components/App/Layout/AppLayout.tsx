@@ -7,9 +7,9 @@ export const Layout = ({ children }: { children: ReactNode }) => {
 };
 
 const Root = styled.div`
-  height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr auto;
+  height: 100vh;
 
   @media (--isMobile) {
     row-gap: var(--spacing-3);
