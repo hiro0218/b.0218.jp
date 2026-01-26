@@ -18,6 +18,7 @@ for (let i = 0; i < cachedPosts.length; i++) {
     slug: post.slug,
     date: post.date,
     updated: post.updated,
+    tags: post.tags,
   });
 }
 

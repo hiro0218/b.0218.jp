@@ -10,6 +10,10 @@ paths:
 
 コード生成は本ルールに厳密に従うこと。
 
+## Priority Markers
+
+> See [CLAUDE.md - Priority Levels](../CLAUDE.md#priority-levels) for marker definitions.
+
 ## 技術スタック準拠
 
 ### Next.js 16.x App Router
@@ -22,6 +26,8 @@ paths:
 
 ### TypeScript
 
+**詳細**: [typescript.md](./typescript.md)
+
 - **厳格な型定義**: `any` を避け、適切な型を明示
 - **Result型（推奨）**: エラーハンドリングでは関数型アプローチ（Result型）を優先的に使用
   - 全関数に必須ではないが、失敗する可能性がある処理では積極的に活用
@@ -30,101 +36,32 @@ paths:
 
 ### PandaCSS
 
-- **プロジェクト統一import**: `import { css, styled } from '@/ui/styled'`
-- **テンプレートリテラル構文（推奨）**: `css\`...\``with`@media` queries
-  - このプロジェクトでは常にtemplate literal構文を使用
-  - `css({ base: 'value', md: 'value' })` のようなobject syntaxは使用しない
-- **ゼロマージン**: コンポーネントは外部スペーシングを設定しない（レイアウト専用コンポーネントは例外：`margin: auto` による中央寄せなど）
-- **CSS変数使用（必須）**: `var(--colors-blue-500)` のようにCSS変数を使用
-- **Hover states（必須）**: `:hover` を直接書く。`@media (any-hover: hover)` で手動ラップしない（PostCSS pluginが自動処理）
+スタイリングの詳細は `styling.md` に集約しています。
+
+**詳細**: [styling.md](./styling.md)
 
 ## プロジェクト固有の重要ルール
 
-### Content Source Read-Only（必須）
+アーキテクチャ横断のルールは `architecture.md` に集約しています。
 
-**CRITICAL**: `_article/_posts/*.md` は**直接編集禁止**（Git submodule）。
-更新は `npm run prebuild` のみ。処理ロジック（`build/article/*.ts`）の修正は可。
-
-## React/Next.js 実装原則
-
-### Server First Principle（重要）
-
-**CRITICAL**: デフォルトはServer Component。`'use client'` は必要時のみ。
-
-**Client Component が必要なケース**:
-
-- React Hooks / イベントハンドラー / ブラウザAPI / リアルタイム更新
-
-SSGのため、不要なClient化は避ける。
+**詳細**: [architecture.md](./architecture.md)
 
 ## コンポーネント分類ルール
 
 ### Layer Dependencies（重要）
 
-コンポーネントのレイヤー間依存関係は厳密に定義されています（Biomeで自動チェック）：
+コンポーネントは厳密なレイヤー構造に従う（Biomeで自動チェック）：`App/` → `Page/` → `UI/` ↔ `Functional/`
 
-```
-App/ (top)
-  ↓ depends on
-Page/
-  ↓ depends on
-UI/ ← → Functional/ (independent)
-```
-
-**ルール**:
-
-- `UI/` と `Functional/` は**独立レイヤー**（相互import禁止）
-- `Page/` は `UI/` と `Functional/` に依存可能
-- `App/` は全下位レイヤーに依存可能
-- **下位レイヤーは上位レイヤーに依存不可**
-
-### 配置先の判断
-
-```tsx
-// Page固有のコンポーネント → src/components/Page/
-export const PostDetail = () => {
-  /* 記事詳細表示 */
-};
-
-// 再利用可能なUIコンポーネント → src/components/UI/
-export const Button = ({ children, onClick }: ButtonProps) => {
-  /* ボタン */
-};
-
-// ロジックのみのコンポーネント → src/components/Functional/
-export const GoogleAnalytics = () => {
-  /* GA設定 */
-};
-
-// アプリケーションシェル → src/components/App/
-export const Header = () => {
-  /* ヘッダー */
-};
-```
+**詳細**: [components.md - Layer Dependencies](./components.md#layer-dependencies-critical)
 
 ## 命名規則
 
-### 必須パターン
-
-- **コンポーネント/型**: `PascalCase` (例: `PostDetail`, `ButtonProps`)
-- **関数/変数**: `camelCase` (例: `calculateSimilarity`, `postData`)
-- **定数**: `SCREAMING_SNAKE_CASE` (例: `MAX_POSTS_PER_PAGE`)
-- **ファイル名（コンポーネント）**: `PascalCase.tsx` (例: `Button.tsx`, `PostDetail.tsx`)
-- **ファイル名（ユーティリティ）**: `camelCase.ts` (例: `formatDate.ts`, `parseMarkdown.ts`)
-- **テストファイル**: `元ファイル名.test.ts(x)`
-
-### プロジェクト固有
-
-- **App Routerページコンポーネント**: `Page` 固定（`export default function Page()` または `export default async function Page()`）
-- **Pageコンポーネント（src/components/Page/）**: `PageName` 形式（例: `PostDetail`, `ArchiveList`）
-- **型定義**: `Props` サフィックス (例: `PostProps`, `PageProps`)
-- **ユーティリティ関数**: 動詞で開始 (例: `formatDate`, `parseMarkdown`)
+**詳細**: [typescript.md - 命名規則](./typescript.md#命名規則-important)
 
 ## コード構造（要点）
 
-- Server Componentがデフォルト（`'use client'` は必要時のみ）
-- UIはゼロマージン、親で余白管理
 - `export function` を基本に統一（既存は混在）
+- Server First / Zero Margin などの原則は `architecture.md` と `components.md` を参照
 
 ## コード記述順序
 
@@ -133,12 +70,7 @@ TSXファイル内の推奨順序。強制ではないが新規コードでは�
 ### ファイル全体の構造
 
 1. **'use client' ディレクティブ**（Client Componentの場合のみ）
-2. **Import文**（`typescript.instructions.md`の順序に従う）
-   - 外部ライブラリ
-   - 内部ユーティリティ
-   - コンポーネント
-   - 型定義
-   - スタイル/定数（`css`, `styled` はここ）
+2. **Import文**（**詳細**: [typescript.md - Import順序](./typescript.md#-import順序-important)）
 3. **型定義・インターフェース**（コンポーネント外部）
 4. **定数**（コンポーネント外部、SCREAMING_SNAKE_CASE）
 5. **メインコンポーネント**
@@ -148,21 +80,13 @@ TSXファイル内の推奨順序。強制ではないが新規コードでは�
 
 ### コンポーネント内部の順序
 
-1. **Hooks**
-   - useState
-   - useRef
-   - useContext
-   - カスタムhooks（useIsClient, useId, useSearchなど）
+1. **Hooks** (useState → useRef → useContext → カスタムhooks)
 2. **計算された値**
 3. **Effect hooks**
 4. **イベントハンドラー関数**
-   - handleClick, handleSubmitなど
-5. **ヘルパー関数**（コンポーネント内部）
-   - formatValue, validateInputなど
-6. **Early return**（条件付きレンダリング）
-   - if (!data) return null;
+5. **ヘルパー関数** (コンポーネント内部)
+6. **Early return** (条件付きレンダリング)
 7. **メインrender**
-   - return文
 
 ### スタイリング（css/styled）の配置ルール
 
@@ -171,10 +95,6 @@ TSXファイル内の推奨順序。強制ではないが新規コードでは�
 - `styled`: 再利用/複雑/命名したいスタイル
 - `css`: 局所/シンプルなスタイル
 - `cx`: クラス結合/条件付与
-
-### Hover States（重要）
-
-**CRITICAL**: `:hover` を直接書く。`@media (any-hover: hover)` で手動ラップしない。
 
 ### 例外と柔軟性
 
@@ -200,6 +120,8 @@ TSXファイル内の推奨順序。強制ではないが新規コードでは�
 
 ### 2. パフォーマンス最適化
 
+**詳細**: [react-compiler-optimization.md](./react-compiler-optimization.md)
+
 - 最適化提案前に `~/next.config.mjs` の `reactCompiler` を確認
 - 目的・効果が明確な場合のみ適用
 
@@ -216,12 +138,12 @@ TSXファイル内の推奨順序。強制ではないが新規コードでは�
 
 ### 必須チェック項目
 
-- TypeScriptエラーなし / Lint警告なし / 未使用なし
-- 公開APIはJSDoc / テスト可能な構造
+- 公開APIはJSDoc（typescript.md参照）
+- テスト可能な構造
 - レスポンシブ対応 / アクセシビリティ配慮
 
 ### 自動チェックコマンド
 
-- `tsc --noEmit --skipLibCheck`
-- `npm run lint`
-- `npm test`
+- `tsc --noEmit --skipLibCheck` (型チェック)
+- `npm run lint` (Biome: コードスタイル、未使用変数、Layer Dependencies)
+- `npm test` (テスト実行)

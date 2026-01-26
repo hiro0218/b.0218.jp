@@ -1,17 +1,10 @@
 import { cache } from 'react';
-import { getRecentAndUpdatedPosts } from '@/app/_lib/getRecentAndUpdatedPosts';
+import { recentPosts as cachedRecentPosts } from '@/app/_lib/cachedRecentPosts';
 import { getPostsPopular } from '@/lib/data/posts';
-import { isPost, isPostArray } from '@/lib/guards';
+import { isPost } from '@/lib/guards';
 import type { ArticleSummary, PopularityDetail } from '@/types/source';
 import { getPost, getPostsByTag, getSimilarPosts, getSimilarTags, getTagsWithCountFromSlugs } from '../data';
 import { formatPostData, formatSimilarPosts, getAlternativePosts } from '../utils';
-
-// 最新記事は全ページで同一のため、モジュールレベルでキャッシュ
-const allPostsForCache = getPost();
-const { recentPosts: cachedRecentPosts } =
-  Array.isArray(allPostsForCache) && isPostArray(allPostsForCache)
-    ? getRecentAndUpdatedPosts(allPostsForCache)
-    : { recentPosts: [] };
 
 /** 投稿ページの戻り値の型定義 */
 interface PostPageData {

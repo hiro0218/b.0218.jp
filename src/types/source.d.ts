@@ -48,32 +48,42 @@ export type Page = Article;
 /**
  * 記事要約型
  * アーカイブページなどでタグ情報なしで表示する際に使用
- * contentフィールドを除外し、updatedをオプショナルにした型
+ * contentフィールドを除外し、updatedとtagsをオプショナルにした型
  */
-export type ArticleSummary = Optional<Omit<Article, 'content'>, 'updated'>;
+export type ArticleSummary = Optional<Omit<Article, 'content'>, 'updated'> & Partial<WithTags>;
+
+/**
+ * タグ情報を持つ型
+ * 記事やコンテンツにタグを関連付ける際に使用
+ */
+export type WithTags = {
+  /** 記事に紐づくタグの配列 */
+  tags: string[];
+};
+
+/**
+ * ブログ投稿固有のメタデータ型
+ * 記事の基本情報に追加される投稿固有の情報
+ */
+export type PostMetadata = WithTags & {
+  /** 記事の注釈（オプショナル） */
+  note?: string;
+  /** 検索エンジンのインデックスを拒否するフラグ */
+  noindex?: boolean;
+};
 
 /**
  * ブログ投稿の完全型（posts.json）
  * すべての投稿記事情報を含む型
  */
-export type Post = Article & {
-  /** 記事の注釈（オプショナル） */
-  note?: string;
-  /** 記事に紐づくタグの配列 */
-  tags: string[];
-  /** 検索エンジンのインデックスを拒否するフラグ */
-  noindex?: boolean;
-};
+export type Post = Article & PostMetadata;
 
 /**
  * ブログ投稿の要約型（posts-list.json）
  * 一覧ページやサイドバーなどで使用する軽量な型
  * 実際のデータ形式：[{ title, slug, date, tags }, ...]
  */
-export type PostSummary = ArticleSummary & {
-  /** 記事に紐づくタグの配列 */
-  tags: string[];
-};
+export type PostSummary = ArticleSummary & WithTags;
 
 /**
  * 閲覧履歴アイテムの型定義

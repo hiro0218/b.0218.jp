@@ -1,100 +1,62 @@
-# AI Assistant Instructions
+# AIアシスタント指示
 
-> **Note**: This file is the source for symlinks `AGENTS.md` and `CLAUDE.md` to enforce consistency among AI assistants.
+> **Note**: このファイルは `AGENTS.md` と `CLAUDE.md` のシンボリックリンクの元となり、AIアシスタント間の一貫性を確保する。
 
-## Language Preference
+## 言語設定
 
-**IMPORTANT: Always respond in Japanese unless explicitly asked otherwise.**
+**IMPORTANT: 明示的に指示がない限り、常に日本語で応答すること。**
 
-- Use Japanese for all explanations, comments, and documentation
-- Technical terms and code may remain in English
-- Maintain a professional tone in Japanese (desu/masu form)
+- すべての説明、コメント、ドキュメントは日本語で記述すること
+- 技術用語とコードは英語のままで問題ない
+- 日本語は常に「だ・である」調で記述すること
 
-## Project Overview
+## プロジェクト概要
 
-- Next.js 16.x blog using TypeScript, React 19.x, and Panda CSS
-- Focused on Japanese content with ML-powered features
-- **SSG (Static Site Generation)**: Data loads at build time, Client Components are minimal
+- TypeScript、React 19.x、Panda CSS を使用する Next.js 16.x のブログ
+- ML を活用した日本語コンテンツに特化
+- **SSG (Static Site Generation)**: データはビルド時に読み込み、Client Component は最小限
 
-### Critical Requirements
+### 必須要件
 
 ```bash
-# Run before ANY development/build
-npm run prebuild  # Updates submodules, processes content, generates assets
-npm run dev       # Development server on port 8080 with HTTPS
+# 開発/ビルドの前に必ず実行
+npm run prebuild  # サブモジュール更新、コンテンツ処理、アセット生成
+npm run dev       # HTTPSの8080番ポートで開発サーバー起動
 ```
 
-**Dev Server**: Use `https://localhost:8080` (HTTPS only). HTTP fails.
+**Dev Server**: `https://localhost:8080` を使用（HTTPSのみ）。HTTPは失敗する。
 
-**Content Source**: `_article/_posts/*.md` is a Git submodule. **DO NOT edit directly.**
+**Content Source**: `_article/_posts/*.md` は Git submodule である。**直接編集しないこと。**
 
-## 🔴 Critical Rules (Must Follow)
+## 🔴 重要ルール（必ず遵守）
 
-These rules are **CRITICAL**. Violations can cause runtime errors, build failures, or serious bugs.
+これらは **CRITICAL** である。違反するとランタイムエラー、ビルド失敗、重大な不具合に繋がる。詳細ガイドは `.claude/rules/` にある（自動で読み込み済み）。
 
-### Priority Levels
+### 優先度レベル
 
 - 🔴 **CRITICAL**: Must Follow (violations cause severe errors)
 - 🟡 **IMPORTANT**: Should Follow (maintenance/quality may degrade)
 - ⚪ **RECOMMENDED**: Best Practices (consistency improvement)
 
-### 1. Zero Margin Principle
+### コンポーネントアーキテクチャ
 
-**RULE**: UI components must not set external margins. Parents control spacing with `gap` or `Stack`.
+1. **ゼロマージン原則**: UIコンポーネントは外部マージンを設定しない。余白は親が `gap` や `Stack` で管理する。
+2. **レイヤー依存**: UI ↔ Functional（独立）、Page → UI/Functional、App → 全レイヤー
+3. **Server First**: デフォルトは Server Component。`'use client'` は対話が必要な場合のみ。
 
-**Details**: [components.instructions.md - Zero Margin Principle](./instructions/components.instructions.md#zero-margin-principle-critical)
+### スタイリング（Panda CSS）
 
----
+4. **Hover States**: `:hover` を直接書く。`@media (any-hover: hover)` を手動で書かない（PostCSS が処理）。
+5. **CSS Variables**: 色・余白・フォントはCSS変数（`var(--colors-*)`, `var(--spacing-*)`）を使う。
 
-### 2. Layer Dependencies
+### プロジェクト固有
 
-**RULE**: UI ↔ Functional (independent), Page → UI/Functional, App → all layers
+6. **React Compiler Check**: 最適化提案前に `~/next.config.mjs` の `reactCompiler` を確認する。
+7. **Content Source Read-Only**: `_article/_posts/*.md` を直接編集しない。コンテンツ更新は `npm run prebuild` 経由。
 
-**Details**: [components.instructions.md - Layer Dependencies](./instructions/components.instructions.md#layer-dependencies-critical)
+## 重要な設定ファイル
 
----
-
-### 3. React Compiler Check
-
-**RULE**: Check `reactCompiler` in `~/next.config.mjs` before suggesting optimizations.
-
-**Details**: [optimization.instructions.md - React Compiler](../.claude/rules/optimization.instructions.md#react-compiler-react-19)
-
----
-
-### 4. Content Source Read-Only
-
-**RULE**: Do not edit `_article/_posts/*.md` directly. Always update content via `npm run prebuild`.
-
-**Details**: [content-pipeline.instructions.md](../.claude/rules/content-pipeline.instructions.md)
-
----
-
-### 5. Hover States Handling
-
-**RULE**: Write `:hover` directly. Do not manually write `@media (any-hover: hover)`.
-
-**Details**: [styling.instructions.md - Hover States](./instructions/styling.instructions.md#hover-states-critical)
-
----
-
-### 6. CSS Variables Mandatory
-
-**RULE**: Colors, spacing, and fonts must use CSS variables (`var(--colors-*)`, `var(--spacing-*)`).
-
-**Details**: [styling.instructions.md - CSS Variables](./instructions/styling.instructions.md#css-variables-critical)
-
----
-
-### 7. Server First Principle
-
-**RULE**: Default to Server Components. Use `'use client'` only when interaction is required.
-
-**Details**: [components.instructions.md - Server First Principle](./instructions/components.instructions.md#server-first-principle-important)
-
-## Important Configuration Files
-
-AI agents should verify these files before suggesting changes:
+AIエージェントは、変更提案の前に以下のファイルを確認すること。
 
 | File              | Path                   | When to Check                                           |
 | ----------------- | ---------------------- | ------------------------------------------------------- |
@@ -107,197 +69,188 @@ AI agents should verify these files before suggesting changes:
 
 **Critical Checkpoints**:
 
-- React Compiler optimizations: Read `~/next.config.mjs` first
-- Component layer violations: Read `~/biome.json` first
-- Styling conventions: Read `~/panda.config.mts` first
-- CSS processing (hover queries): Read `~/postcss.config.cjs` first
+- React Compiler optimizations: 先に `~/next.config.mjs` を読む
+- Component layer violations: 先に `~/biome.json` を読む
+- Styling conventions: 先に `~/panda.config.mts` を読む
+- CSS processing (hover queries): 先に `~/postcss.config.cjs` を読む
 
-## Architecture
+## アーキテクチャ
 
-### Directory Structure
+### ディレクトリ構成
 
 ```
-~/                              # Project root
-├── src/                        # Source code (import alias: @/)
-│   ├── app/                    # Next.js App Router (routes)
-│   ├── components/             # React components
-│   │   ├── App/                # App shell (Header, Footer, Layout)
-│   │   ├── Page/               # Page-specific components
-│   │   │   └── _shared/        # Shared page sections
-│   │   ├── UI/                 # Reusable UI (zero-margin principle)
-│   │   └── Functional/         # Non-visual utility components
-│   ├── ui/                     # Panda CSS styling (styled, tokens)
-│   └── types/                  # TypeScript type definitions
-├── _article/                   # Git submodule (read-only)
-│   └── _posts/                 # Markdown blog posts
-├── public/                     # Static assets
-├── scripts/                    # Build and prebuild scripts
-└── [config files]              # See "Important Configuration Files"
+~/                              # プロジェクトルート
+├── src/                        # ソースコード（import alias: @/）
+│   ├── app/                    # Next.js App Router（routes）
+│   ├── components/             # Reactコンポーネント
+│   │   ├── App/                # Appシェル（Header, Footer, Layout）
+│   │   ├── Page/               # ページ固有コンポーネント
+│   │   │   └── _shared/        # 共通セクション
+│   │   ├── UI/                 # 再利用UI（ゼロマージン）
+│   │   └── Functional/         # 非表示のユーティリティコンポーネント
+│   ├── ui/                     # Panda CSSスタイル（styled, tokens）
+│   └── types/                  # TypeScript型定義
+├── _article/                   # Git submodule（読み取り専用）
+│   └── _posts/                 # Markdown記事
+├── public/                     # 静的アセット
+├── scripts/                    # build / prebuildスクリプト
+└── [config files]              # 「重要な設定ファイル」を参照
 ```
 
 **Path Reference Rules**:
 
-- Config files: Use `~/filename` (e.g., `~/next.config.mjs`)
-- Source files: Use `@/path` in imports (e.g., `import { css } from '@/ui/styled'`)
-- Submodule: `_article/_posts/*.md` (DO NOT edit directly)
+- Config files: `~/filename` 形式（例: `~/next.config.mjs`）
+- Source files: import は `@/path` を使う（例: `import { css } from '@/ui/styled'`）
+- Submodule: `_article/_posts/*.md`（直接編集禁止）
 
-### Component Architecture
+### コンポーネントアーキテクチャ
 
-Components follow strict layering and design principles. For details, see [🔴 Critical Rules](#critical-rules-must-follow) and [components.instructions.md](./instructions/components.instructions.md).
+コンポーネントは厳密なレイヤーと設計原則に従う。詳細は [🔴 重要ルール](#-重要ルール必ず遵守) と [components.md](.claude/rules/components.md) を参照すること。
 
-- **Layer Responsibilities**: App (shell), Page (logic), UI (visual), Functional (utilities)
+- **Layer Responsibilities**: App（シェル）、Page（ロジック）、UI（視覚）、Functional（ユーティリティ）
 
-## Development
+## 開発
 
-### Styling with Panda CSS
+### Panda CSS によるスタイリング
 
-Use project-specific imports and CSS variables:
+プロジェクト固有の import と CSS 変数を使用する。
 
 - **Import**: `import { css, styled } from '@/ui/styled'`
-- **Hover States**: Write `:hover` directly (PostCSS plugin wraps automatically)
-- **CSS Variables**: Required for colors, spacing, radii (`var(--colors-*)`, `var(--spacing-*)`)
+- **Hover States**: `:hover` を直接書く（PostCSSが自動でラップ）
+- **CSS Variables**: 色・余白・角丸は `var(--colors-*)`, `var(--spacing-*)` などを使用
 
-### Path Aliases
+### パスエイリアス
 
-- `@/*` → `src/*` (TypeScript import alias)
-- `~/*` → project root (used in this document only)
+- `@/*` → `src/*`（TypeScriptのimportエイリアス）
+- `~/*` → プロジェクトルート（このドキュメントのみ）
 
-**Note**: In this document, `~/` refers to the project root directory, not the user's home directory.
+**Note**: 本ドキュメントでの `~/` はユーザーのホームではなく、プロジェクトルートを指す。
 
-### Content Pipeline
+### コンテンツパイプライン
 
-Content processing flow:
+コンテンツ処理フロー:
 
-1. **Source**: `_article/_posts/*.md` (Git submodule, **read-only**)
-2. **Processing**: `npm run prebuild` → article JSON, similarity JSON, OGP images
-3. **Consumption**: Next.js SSG reads JSON at build time
+1. **Source**: `_article/_posts/*.md`（Git submodule / 読み取り専用）
+2. **Processing**: `npm run prebuild` → 記事JSON、類似度JSON、OGP画像
+3. **Consumption**: Next.js SSG がビルド時に JSON を読み込む
 
-**Critical**: NEVER edit `_article/_posts/*.md` directly.
+**Critical**: `_article/_posts/*.md` を直接編集してはいけない。
 
-### Testing
+### テスト
 
-- Framework: Vitest with React Testing Library
+- Framework: Vitest + React Testing Library
 - Coverage: `npm run coverage`
-- Focus: Test behavior, not implementation
-- One assertion per test when possible
-- Cover edge cases and error conditions
+- Focus: 実装ではなく挙動を検証
+- 可能な限り 1 テスト 1 アサーション
+- エッジケースとエラー条件をカバー
 
-## File-Specific Rules
+## ファイル別ルール
 
-These rules apply automatically based on file paths:
+これらはパスに応じて自動適用される。詳細は `.claude/rules/` にある（自動読み込み済み）。
 
-| File Pattern                   | Rules                                                      | Details                                             |
-| ------------------------------ | ---------------------------------------------------------- | --------------------------------------------------- |
-| `src/components/**/*`          | Layer dependencies, zero-margin, server-first              | `./instructions/components.instructions.md`         |
-| `**/*.tsx` (styling)           | Panda CSS imports, CSS variables, hover states             | `./instructions/styling.instructions.md`            |
-| `**/*.{ts,tsx}` (types)        | Type safety, no `any`, type-only imports                   | `./instructions/typescript.instructions.md`         |
-| `_article/**/*`, `build/**/*`  | Read-only submodule, content pipeline flow                 | `../.claude/rules/content-pipeline.instructions.md` |
-| `~/next.config.mjs`, `use*.ts` | React Compiler scope, custom hook memoization              | `../.claude/rules/optimization.instructions.md`     |
-| `**/*.test.ts{,x}`             | Vitest + React Testing Library, one assertion per test     | `../.claude/rules/testGeneration.md`                |
-| `**/*.tsx` (Client)            | Require `'use client'` directive, verify necessity         | -                                                   |
-| `**/*.tsx` (Server)            | Default mode, no `'use client'` unless interactive         | -                                                   |
-| `~/biome.json`                 | Verify before suggesting layer dependency changes          | -                                                   |
-| `~/panda.config.mts`           | Verify before styling convention changes                   | -                                                   |
-| `~/postcss.config.cjs`         | Verify before CSS processing changes (hover media queries) | -                                                   |
+| File Pattern                   | Auto-Applied Rules                                     |
+| ------------------------------ | ------------------------------------------------------ |
+| `src/components/**/*`          | Layer dependencies, zero-margin, server-first          |
+| `**/*.tsx` (styling)           | Panda CSS imports, CSS variables, hover states         |
+| `**/*.{ts,tsx}` (types)        | Type safety, no `any`, type-only imports               |
+| `_article/**/*`, `build/**/*`  | Read-only submodule, content pipeline flow             |
+| `~/next.config.mjs`, `use*.ts` | React Compiler scope, custom hook memoization          |
+| `**/*.test.ts{,x}`             | Vitest + React Testing Library, one assertion per test |
+| `**/*.tsx` (Client)            | Require `'use client'` directive, verify necessity     |
+| `**/*.tsx` (Server)            | Default mode, no `'use client'` unless interactive     |
+| `~/biome.json`                 | Verify before suggesting layer dependency changes      |
+| `~/panda.config.mts`           | Verify before styling convention changes               |
+| `~/postcss.config.cjs`         | Verify before CSS processing changes (hover queries)   |
 
-## Task-Specific Rules
+## コーディングルール
 
-Detailed guidelines for specific development tasks:
+すべてのルールは `.claude/rules/` にあり、Claude Code が自動で読み込む。
 
-| Task            | File                                                | Tool        |
-| --------------- | --------------------------------------------------- | ----------- |
-| Code Generation | `.claude/rules/codeGeneration.md`                   | Claude Code |
-| Code Review     | `.claude/rules/codeReview.md`                       | Claude Code |
-| Commit Messages | `.claude/rules/commitMessageGeneration.md`          | Claude Code |
-| PR Descriptions | `.claude/rules/pullRequestDescriptionGeneration.md` | Claude Code |
-| Test Generation | `.claude/rules/testGeneration.md`                   | Claude Code |
+**Task-Specific Guidelines**:
 
-**Note**:
+- Code generation, code review, commit messages, PR descriptions, test generation
 
-- **Claude Code rules**:
-  - Project-specific: `.claude/rules/` (optimizations, content pipeline, prompts)
-  - Shared with Copilot: `.github/instructions/` (components, styling, TypeScript)
-- **GitHub Copilot rules**:
-  - Direct access: `.github/instructions/` (components, styling, TypeScript)
-- **Separation**: Claude Code advanced features in `.claude/rules/`, basic coding rules shared via `.github/instructions/`
+**Coding Standards**:
 
-## Standards
+- Components（layer dependencies, zero-margin principle）
+- Styling（Panda CSS, CSS variables, hover states）
+- TypeScript（type safety, import conventions）
 
-### Coding Standards
+**Project-Specific**:
 
-- **TypeScript**: Strict mode, explicit types for public APIs, type-only imports
-- **React**: App Router, Server Components by default
+- React Compiler optimization
+- Content pipeline（submodule, prebuild process）
+
+## 標準
+
+### コーディング標準
+
+- **TypeScript**: Strict mode, public API は明示型、type-only imports
+- **React**: App Router、Server Component がデフォルト
 - **Import Order**: external libs → internal utilities → components → types → styles/constants
-- **File Naming**: PascalCase for components, camelCase for utilities, UPPER_SNAKE for constants
-- **Comments**: JSDoc for public APIs only, no redundant comments
-- **Security**: Validate inputs, prevent XSS/injection attacks
-- **Accessibility**: Semantic HTML, ARIA labels where needed
+- **File Naming**: コンポーネントは PascalCase、ユーティリティは camelCase、定数は UPPER_SNAKE
+- **Comments**: 公開APIのみ JSDoc、冗長なコメントは不要
+- **Security**: 入力検証、XSS/Injection 対策
+- **Accessibility**: セマンティックHTML、必要に応じてARIA
 
-### Performance & Optimization
+### パフォーマンスと最適化
 
 **Static Generation**:
 
-- Route-based code splitting
-- Next.js Image optimization
+- ルートベースのコード分割
+- Next.js Image 最適化
 - Bundle analysis: `npm run build:analyzer`
 
 **React Compiler**:
 
-⚠️ **CRITICAL: Read `~/next.config.mjs` before suggesting optimizations**
+⚠️ **CRITICAL: 最適化提案前に `~/next.config.mjs` を読むこと**
 
-React Compiler (`reactCompiler: true`) handles component rendering automatically.
+React Compiler（`reactCompiler: true`）はコンポーネントレンダリングを自動最適化する。
 
-### Improvement Proposals
+### 改善提案
 
-**Before suggesting architectural changes**:
+**アーキテクチャ変更の前に**:
 
-- **Evidence-based**: Verify current implementation when practical
-- **Context-aware**: Consider SSG characteristics (build-time data, minimal client-side)
-- **Appropriate scope**: Changes should match problem size
-- **Avoid over-engineering**: No patterns designed for dynamic backends/SPAs (e.g., Repository pattern)
-- **Check existing solutions**: Avoid duplicating utilities or patterns
+- **Evidence-based**: 可能な限り現状実装を確認
+- **Context-aware**: SSG 特性（ビルド時データ・最小クライアント）を考慮
+- **Appropriate scope**: 問題規模に適した範囲で変更
+- **Avoid over-engineering**: 動的バックエンド/SPA向けのパターンは避ける（例: Repository pattern）
+- **Check existing solutions**: 既存ユーティリティやパターンの重複は避ける
 
-### Technology Adoption Guidelines
+### 技術導入ガイドライン
 
-**Applies to**: React Compiler, build tools (Next.js, Webpack, esbuild), formatters (Biome), type checkers (TypeScript), CSS-in-JS (Panda CSS), test frameworks (Vitest), and any new technology or optimization.
+**対象**: React Compiler、ビルドツール（Next.js / Webpack / esbuild）、フォーマッタ（Biome）、型チェック（TypeScript）、CSS-in-JS（Panda CSS）、テストフレームワーク（Vitest）、その他新技術や最適化。
 
-**When introducing new technologies or removing existing optimizations**:
+**新技術の導入や既存最適化の撤去時**:
 
-1. **Verify Scope Before Assuming**:
-   - Read official documentation to understand exact capabilities
-   - Don't assume "new = better in all cases"
-   - Identify explicit limitations and unsupported use cases
+1. **前提の範囲を確認する**:
+   - 公式ドキュメントで正確な能力を理解する
+   - 「新しい=常に良い」とは考えない
+   - 制約や非対応のケースを特定する
 
-2. **Test Behavioral Changes**:
+2. **挙動変更を検証する**:
 
-   **Examples of changes that broke in production**:
-   - React Compiler: Removed `useMemo` from custom hook (result: cache recreated on every render)
-   - Next.js Tree-shaking: Enabled aggressive DCE (result: necessary side-effect code removed)
-   - TypeScript strict mode: Enabled without testing (result: hidden type errors surfaced)
+   **本番で壊れた例**:
+   - React Compiler: カスタムフックから `useMemo` を削除（結果: キャッシュが毎回再生成）
+   - Next.js Tree-shaking: 強い DCE を有効化（結果: 必要な副作用コードが削除）
+   - TypeScript strict mode: テストなしで有効化（結果: 潜在エラーが表面化）
 
-3. **Question Generalizations**:
-   - "This tool handles X automatically" (ask: In which contexts? What are exceptions?)
-   - "We don't need Y anymore" (ask: Are there edge cases where Y is still required?)
-   - "The docs say Z" (ask: Is that recommendation universal or context-specific?)
+3. **一般化を疑う**:
+   - 「このツールはXを自動でやる」→ どの文脈？例外は？
+   - 「Yは不要になった」→ 例外は？
+   - 「ドキュメントにZと書いてある」→ それは普遍的？
 
-   **Real-world examples**:
-   - "React Compiler memoizes everything" (actually: Only component rendering, not custom hooks)
-   - "TypeScript strict mode catches all errors" (actually: Runtime validation still needed)
-   - "Panda CSS has zero runtime" (actually: True, but atomic CSS classes still need loading)
+   **実例**:
+   - 「React Compilerは全てをメモ化する」→ 実際はコンポーネントレンダリングのみ（カスタムフックは対象外）
+   - 「TypeScript strict modeは全エラーを防ぐ」→ 実行時バリデーションは必要
+   - 「Panda CSSはランタイムゼロ」→ 事実だが原子クラスの読み込みは必要
 
-4. **Avoid These Anti-Patterns**:
-   - ❌ "New feature exists, so old approach is obsolete"
-   - ❌ "If it compiles, it probably works"
-   - ❌ "The framework is smart, so I don't need to think about it"
+4. **避けるべきアンチパターン**:
+   - ❌ 「新機能があるので従来は不要」
+   - ❌ 「コンパイルできたら多分OK」
+   - ❌ 「フレームワークが賢いので考えなくていい」
 
-## Git Workflow
-
-### Commit Messages
-
-Format: `type: description` (Japanese, under 50 chars)
-
-- Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`
-- Focus on "why" rather than "what"
+## Git ワークフロー
 
 ### Pull Requests
 
@@ -308,7 +261,7 @@ Include:
 - Changes: Bulleted list of modifications
 - Testing: What was verified
 
-## Quick Reference
+## クイックリファレンス
 
 | Task              | Command                               |
 | ----------------- | ------------------------------------- |
@@ -322,13 +275,13 @@ Include:
 | Build (fast)      | `npx next build --webpack`            |
 | Bundle analysis   | `npm run build:analyzer`              |
 
-## Important Notes
+## 重要メモ
 
-1. Japanese content uses morphological analysis
-2. Build dependencies: Playwright (`playwright install --only-shell`)
-3. Environment: `TZ=Asia/Tokyo` for timestamps
-4. Pre-commit: Husky via nano-staged
+1. 日本語コンテンツは形態素解析を使用
+2. ビルド依存: Playwright（`playwright install --only-shell`）
+3. 環境: `TZ=Asia/Tokyo` をタイムスタンプに使用
+4. Pre-commit: Husky + nano-staged
 
 ---
 
-_For Copilot, Claude Code, and other AI assistants. Be concise and actionable._
+_Copilot、Claude Code、その他のAIアシスタント向け。簡潔で実用的に。_
