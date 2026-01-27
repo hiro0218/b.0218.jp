@@ -6,7 +6,7 @@
   background-color: var(--colors-gray-a-300);
 }
 
-:root {
+:where(:root) {
   /* stylelint-disable-next-line */
   interpolate-size: allow-keywords;
 }

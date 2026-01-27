@@ -1,6 +1,8 @@
 const pkg = require('./package.json');
 const { Features } = require('lightningcss');
 
+const isDev = process.env.NODE_ENV === 'development';
+
 module.exports = {
   plugins: {
     'postcss-import': {},
@@ -15,7 +17,7 @@ module.exports = {
       browsers: pkg.browserslist,
       lightningcssOptions: {
         include: Features.Nesting,
-        minify: true,
+        minify: !isDev,
         drafts: {
           customMedia: true,
         },
