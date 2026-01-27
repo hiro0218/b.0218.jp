@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { getMetadata } from '@/app/_metadata';
 import { ReadingHistoryRecorder } from '@/components/Functional/ReadingHistoryRecorder';
+import { ScrollProgress } from '@/components/Functional/ScrollProgress';
 import { StructuredData } from '@/components/Functional/StructuredData';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { TagSection } from '@/components/Page/_shared/TagSection';
@@ -85,6 +86,7 @@ export default async function Page({ params }: { params: Params }) {
   return (
     <>
       <ReadingHistoryRecorder date={date} slug={slug} tags={tags} title={title} />
+      <ScrollProgress />
       <StructuredData data={[getBlogPostingStructured(post, popularity), getBreadcrumbStructured(post)]} />
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
       <Container size="small" space={false}>
