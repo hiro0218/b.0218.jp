@@ -2,11 +2,18 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 
 /**
  * ズームモーダルの状態
+ *
+ * - UNLOADED: モーダル非表示
+ * - LOADING: モーダル表示開始（アニメーション中）
+ * - LOADED: モーダル表示完了
+ * - UNLOADING: モーダル非表示開始（アニメーション中）
  */
 export type ModalState = 'UNLOADED' | 'LOADING' | 'LOADED' | 'UNLOADING';
 
 interface UseImageZoomOptions {
+  /** object-fit が設定されているか */
   hasObjectFit?: boolean;
+  /** ズーム可能な最小画像サイズ（px） */
   minImageSize?: number;
 }
 
@@ -22,7 +29,13 @@ interface UseImageZoomReturn {
   handleModalImgTransitionEnd: () => void;
 }
 
-export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomReturn => {
+/**
+ * 画像ズーム機能を提供
+ *
+ * @param options - ズーム設定オプション
+ * @returns ズーム制御に必要な状態と関数
+ */
+export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomReturn {
   const { hasObjectFit = false, minImageSize = 100 } = options;
 
   const [isZoomed, setIsZoomed] = useState(false);
@@ -33,7 +46,6 @@ export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomRet
 
   const zoomIn = useCallback(() => {
     if (!canZoom || !imgRef.current) return;
-
     setIsZoomed(true);
   }, [canZoom]);
 
@@ -45,6 +57,7 @@ export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomRet
     setImageLoaded(true);
   }, []);
 
+  // ズーム可能かどうかを判定
   useEffect(() => {
     if (hasObjectFit) {
       setCanZoom(false);
@@ -58,17 +71,14 @@ export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomRet
 
     const img = imgRef.current;
 
-    const checkImageSizeForZoom = () => {
+    function checkImageSizeForZoom(): void {
       const { naturalWidth, naturalHeight } = img;
       setCanZoom(naturalWidth >= minImageSize || naturalHeight >= minImageSize);
-    };
+    }
 
     checkImageSizeForZoom();
 
-    const observer = new ResizeObserver(() => {
-      checkImageSizeForZoom();
-    });
-
+    const observer = new ResizeObserver(checkImageSizeForZoom);
     observer.observe(img);
 
     return () => {
@@ -76,6 +86,7 @@ export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomRet
     };
   }, [hasObjectFit, imageLoaded, minImageSize]);
 
+  // isZoomed の変化に応じて modalState を更新
   useEffect(() => {
     if (isZoomed && modalState !== 'LOADED') {
       setModalState('LOADING');
@@ -84,6 +95,7 @@ export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomRet
     }
   }, [isZoomed, modalState]);
 
+  // CSS トランジション完了時の状態遷移
   const handleModalImgTransitionEnd = useCallback(() => {
     switch (modalState) {
       case 'LOADING':
@@ -95,6 +107,7 @@ export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomRet
     }
   }, [modalState]);
 
+  // 既にロード済みの画像を検出
   useLayoutEffect(() => {
     const img = imgRef.current;
     if (img && !imageLoaded && img.complete && img.naturalWidth) {
@@ -113,4 +126,4 @@ export const useImageZoom = (options: UseImageZoomOptions = {}): UseImageZoomRet
     handleImageLoad,
     handleModalImgTransitionEnd,
   };
-};
+}

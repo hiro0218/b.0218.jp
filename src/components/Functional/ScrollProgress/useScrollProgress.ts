@@ -9,7 +9,6 @@ const MAX_PROGRESS = 100;
  * @returns 0-100の進捗率
  */
 function calculateScrollProgress(): number {
-  // SSR/SSG環境では0を返す
   if (typeof window === 'undefined') return MIN_PROGRESS;
 
   const scrollTop = window.scrollY;
@@ -31,20 +30,17 @@ function calculateScrollProgress(): number {
  * @returns 0-100の進捗率
  */
 export function useScrollProgress(): number {
-  const [progress, setProgress] = useState(calculateScrollProgress);
+  const [progress, setProgress] = useState(MIN_PROGRESS);
 
   useEffect(() => {
     const updateProgress = () => {
       setProgress(calculateScrollProgress());
     };
 
-    // 初回計算
     updateProgress();
 
-    // throttle でパフォーマンス最適化
     const throttledUpdate = throttle(updateProgress);
 
-    // passive: true でスクロールパフォーマンス向上
     window.addEventListener('scroll', throttledUpdate, { passive: true });
     window.addEventListener('resize', throttledUpdate, { passive: true });
 
