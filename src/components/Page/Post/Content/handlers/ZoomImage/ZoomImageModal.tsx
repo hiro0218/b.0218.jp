@@ -279,7 +279,9 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
           />
           {isLoadingZoomImg && modalState === 'UNLOADED' && (
             <div className={loadingIndicatorStyle}>
-              <div aria-label="画像を読み込み中" className={spinnerStyle} role="status" />
+              <div aria-live="polite" className={spinnerStyle} role="status">
+                <span className="sr-only">画像を読み込み中</span>
+              </div>
             </div>
           )}
         </>
