@@ -140,11 +140,18 @@ function ZoomDialogComponent({
           className={zoomedImageStyle}
           loading="lazy"
           onClick={onImageClick}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              onImageClick();
+            }
+          }}
           onTransitionEnd={onTransitionEnd}
           ref={modalImgRef}
           src={zoomImg?.src || src}
           srcSet={zoomImg?.srcSet}
           style={modalImgStyle}
+          tabIndex={0}
         />
       </div>
     </dialog>,
