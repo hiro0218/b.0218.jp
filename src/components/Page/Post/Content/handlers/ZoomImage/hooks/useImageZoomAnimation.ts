@@ -36,6 +36,7 @@ export function useImageZoomAnimation({
         if (!isAnimationInitializedRef.current) {
           isAnimationInitializedRef.current = true;
           shouldZoomImageRef.current = true;
+          refreshModalImgStyle(true);
         }
         break;
 
