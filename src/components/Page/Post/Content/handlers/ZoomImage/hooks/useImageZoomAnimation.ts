@@ -1,9 +1,7 @@
 'use client';
 
 import type { MutableRefObject } from 'react';
-import { useCallback, useEffect, useRef } from 'react';
-
-import { useDoubleRaf } from '@/hooks/useDoubleRaf';
+import { useEffect, useRef } from 'react';
 
 import type { ModalState } from './useImageZoom';
 
@@ -13,63 +11,48 @@ interface UseImageZoomAnimationOptions {
 }
 
 interface UseImageZoomAnimationReturn {
-  zoomInitRef: MutableRefObject<boolean>;
+  /** アニメーション初期化済みフラグ */
+  isAnimationInitializedRef: MutableRefObject<boolean>;
+  /** 現在ズーム表示すべきかどうか */
   shouldZoomImageRef: MutableRefObject<boolean>;
 }
 
 /**
- * modalState に応じて 2 段階 rAF でズーム用スタイルを更新します。
+ * モーダル状態に応じてズームアニメーションを制御
+ *
+ * @param options - モーダル状態とスタイル更新関数
+ * @returns アニメーション状態を管理する ref オブジェクト
  */
 export function useImageZoomAnimation({
   modalState,
   refreshModalImgStyle,
 }: UseImageZoomAnimationOptions): UseImageZoomAnimationReturn {
-  const zoomInitRef = useRef(false);
+  const isAnimationInitializedRef = useRef(false);
   const shouldZoomImageRef = useRef(false);
-  const { schedule: scheduleDoubleRaf, cancel: cancelDoubleRaf } = useDoubleRaf();
-
-  const handleLoading = useCallback(() => {
-    if (zoomInitRef.current) return;
-    zoomInitRef.current = true;
-    shouldZoomImageRef.current = false;
-
-    scheduleDoubleRaf(
-      () => refreshModalImgStyle(false),
-      () => {
-        shouldZoomImageRef.current = true;
-        refreshModalImgStyle(true);
-      },
-    );
-  }, [scheduleDoubleRaf, refreshModalImgStyle]);
-
-  const handleUnloading = useCallback(() => {
-    cancelDoubleRaf();
-    shouldZoomImageRef.current = false;
-    refreshModalImgStyle(false);
-  }, [cancelDoubleRaf, refreshModalImgStyle]);
-
-  const handleUnloaded = useCallback(() => {
-    cancelDoubleRaf();
-    shouldZoomImageRef.current = false;
-    refreshModalImgStyle(false);
-    zoomInitRef.current = false;
-  }, [cancelDoubleRaf, refreshModalImgStyle]);
 
   useEffect(() => {
     switch (modalState) {
       case 'LOADING':
-        handleLoading();
+        if (!isAnimationInitializedRef.current) {
+          isAnimationInitializedRef.current = true;
+          shouldZoomImageRef.current = true;
+        }
         break;
 
       case 'UNLOADING':
-        handleUnloading();
+        shouldZoomImageRef.current = false;
+        refreshModalImgStyle(false);
         break;
 
       case 'UNLOADED':
-        handleUnloaded();
+        // アニメーション完了後のクリーンアップ
+        if (isAnimationInitializedRef.current) {
+          shouldZoomImageRef.current = false;
+          isAnimationInitializedRef.current = false;
+        }
         break;
     }
-  }, [modalState, handleLoading, handleUnloading, handleUnloaded]);
+  }, [modalState, refreshModalImgStyle]);
 
-  return { zoomInitRef, shouldZoomImageRef };
+  return { isAnimationInitializedRef, shouldZoomImageRef };
 }

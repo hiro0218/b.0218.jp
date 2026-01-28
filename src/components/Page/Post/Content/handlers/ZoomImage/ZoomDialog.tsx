@@ -5,6 +5,7 @@ import { memo } from 'react';
 import { createPortal } from 'react-dom';
 import { css } from '@/ui/styled';
 import type { ZoomImageSource } from '../types';
+import type { ModalState } from './hooks/useImageZoom';
 
 const dialogStyle = css`
   &::backdrop {
@@ -30,9 +31,19 @@ const dialogStyle = css`
     padding: 0;
     margin: 0;
     overflow: hidden;
-    pointer-events: all;
     background: transparent;
     border: 0;
+  }
+
+  /* 閉じている時は完全に非表示 */
+  &:not([open]) {
+    display: none;
+    pointer-events: none;
+  }
+
+  /* UNLOADING中は操作をブロックしない */
+  &[data-unloading='true'] {
+    pointer-events: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -61,19 +72,33 @@ const zoomedImageStyle = css`
 `;
 
 interface ZoomDialogProps {
+  /** ダイアログ要素への ref */
   dialogRef: RefObject<HTMLDialogElement | null>;
+  /** モーダル画像要素への ref */
   modalImgRef: RefObject<HTMLImageElement | null>;
+  /** ダイアログの aria-label */
   a11yLabel: string;
+  /** モーダルがアクティブ（LOADING または LOADED）か */
   isModalActive: boolean;
+  /** 現在のモーダル状態 */
+  modalState: ModalState;
+  /** モーダル画像に適用するスタイル */
   modalImgStyle: CSSProperties;
+  /** 高解像度ズーム画像のソース */
   zoomImg?: ZoomImageSource;
+  /** 元画像の src */
   src: string;
+  /** 画像の alt テキスト */
   alt?: string;
+  /** Escape キー押下時のハンドラ */
   onCancel: (event: React.SyntheticEvent<HTMLDialogElement>) => void;
+  /** ダイアログクローズ時のハンドラ */
   onClose: () => void;
+  /** コンテンツエリアクリック時のハンドラ */
   onContentClick: (event: React.MouseEvent<HTMLDivElement>) => void;
+  /** 画像クリック時のハンドラ */
   onImageClick: () => void;
-  onImageKeyDown: (event: React.KeyboardEvent) => void;
+  /** 画像のトランジション完了時のハンドラ */
   onTransitionEnd: (event: React.TransitionEvent<HTMLImageElement>) => void;
 }
 
@@ -88,6 +113,7 @@ function ZoomDialogComponent({
   modalImgRef,
   a11yLabel,
   isModalActive,
+  modalState,
   modalImgStyle,
   zoomImg,
   src,
@@ -96,7 +122,6 @@ function ZoomDialogComponent({
   onClose,
   onContentClick,
   onImageClick,
-  onImageKeyDown,
   onTransitionEnd,
 }: ZoomDialogProps): ReactNode {
   return createPortal(
@@ -104,6 +129,7 @@ function ZoomDialogComponent({
       aria-label={a11yLabel}
       className={dialogStyle}
       data-closing={!isModalActive}
+      data-unloading={modalState === 'UNLOADING'}
       onCancel={onCancel}
       onClose={onClose}
       ref={dialogRef}
@@ -114,13 +140,11 @@ function ZoomDialogComponent({
           className={zoomedImageStyle}
           loading="lazy"
           onClick={onImageClick}
-          onKeyDown={onImageKeyDown}
           onTransitionEnd={onTransitionEnd}
           ref={modalImgRef}
           src={zoomImg?.src || src}
           srcSet={zoomImg?.srcSet}
           style={modalImgStyle}
-          tabIndex={0}
         />
       </div>
     </dialog>,
