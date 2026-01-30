@@ -170,19 +170,14 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
   /**
    * ズームイン処理
    *
-   * 2段階 rAF で初期位置設定後にズーム位置へ遷移
+   * 初期位置（トリガー画像の位置）を設定した上でズームを開始する。
+   * 実際のアニメーションおよびズーム後スタイルの更新は useImageZoomAnimation に委譲する。
    */
   const handleZoomIn = useCallback(() => {
     // 初期位置（トリガー画像の位置）を設定
     refreshModalImgStyle(false);
+    // ズーム状態への遷移をトリガー（後続のアニメーションはフック側で制御）
     zoomIn();
-
-    // 2段階 rAF で最終位置に移動（ブラウザのレンダリングサイクルを確実に待つ）
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        refreshModalImgStyle(true);
-      });
-    });
   }, [zoomIn, refreshModalImgStyle]);
 
   const handleZoomOut = useCallback(() => {
