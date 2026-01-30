@@ -45,9 +45,14 @@ echo "✓ Popular posts fetched"
 echo ""
 
 # 6. OGP 画像の生成
-echo -e "${GREEN}[6/6] Generating OGP images...${NC}"
-npm run build:ogp
-echo "✓ OGP image generation completed"
+if [ "${SKIP_OGP}" = "true" ]; then
+  echo -e "${GREEN}[6/6] Skipping OGP image generation (SKIP_OGP=true)${NC}"
+  echo "⊘ OGP image generation skipped"
+else
+  echo -e "${GREEN}[6/6] Generating OGP images...${NC}"
+  npm run build:ogp
+  echo "✓ OGP image generation completed"
+fi
 echo ""
 
 echo -e "${BLUE}========================================${NC}"
