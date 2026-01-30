@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { runCompare } from './lib/compare-core.mjs'
+import { runCompare } from './lib/compare-core.js'
 
 try {
   const { output } = runCompare()

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { runReport } from './lib/report-core.mjs'
+import { runReport } from './lib/report-core.js'
 
 try {
   runReport()
