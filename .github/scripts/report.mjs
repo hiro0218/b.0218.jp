@@ -49,16 +49,6 @@ const memoryCache = {}
 const buildMeta = JSON.parse(
   fs.readFileSync(path.join(nextMetaRoot, 'build-manifest.json'), 'utf8')
 )
-let appPathsManifest = null
-
-// Try to load App Router paths manifest
-try {
-  appPathsManifest = JSON.parse(
-    fs.readFileSync(path.join(nextMetaRoot, 'server/app-paths-manifest.json'), 'utf8')
-  )
-} catch (err) {
-  console.log('No App Router paths manifest found')
-}
 
 // Calculate global bundle size from rootMainFiles
 let globalBundle = buildMeta.rootMainFiles || []
@@ -78,18 +68,14 @@ const appChunksDir = path.join(nextMetaRoot, 'static/chunks/app')
 const sharedChunksDir = path.join(nextMetaRoot, 'static/chunks')
 
 // Process App Router pages if they exist
-if (appPathsManifest) {
-  console.log(`Processing ${Object.keys(appPathsManifest).length} App Router pages...`)
+console.log(`\n📂 Checking app chunks directory: ${appChunksDir}`)
+console.log(`   Exists: ${fs.existsSync(appChunksDir)}`)
 
-  console.log(`\n📂 Checking app chunks directory: ${appChunksDir}`)
-  console.log(`   Exists: ${fs.existsSync(appChunksDir)}`)
+if (fs.existsSync(appChunksDir)) {
+  const topLevelItems = fs.readdirSync(appChunksDir)
+  console.log(`   Top-level items (${topLevelItems.length}): ${topLevelItems.slice(0, 5).join(', ')}${topLevelItems.length > 5 ? '...' : ''}`)
 
-  if (fs.existsSync(appChunksDir)) {
-    const topLevelItems = fs.readdirSync(appChunksDir)
-    console.log(`   Top-level items (${topLevelItems.length}): ${topLevelItems.slice(0, 5).join(', ')}${topLevelItems.length > 5 ? '...' : ''}`)
-  }
-
-  if (fs.existsSync(appChunksDir)) {
+  {
     // Scan all JS files in app chunks directory
     const scanDirectory = (dir, basePath = '') => {
       const files = fs.readdirSync(dir, { withFileTypes: true })
