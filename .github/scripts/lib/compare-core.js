@@ -22,8 +22,10 @@ import { getBuildOutputDirectory, getOptions, safeReadJSON, safeWriteFile } from
 
 // Override default filesize options to display a non-breakable space as a spacer.
 const filesize = (bytes, options) => {
-  return originalFilesize(bytes, {
-    spacer: ' ',
+  // Handle undefined, null, or NaN values
+  const validBytes = Number.isNaN(bytes) || bytes == null ? 0 : bytes;
+  return originalFilesize(validBytes, {
+    spacer: ' ',
     ...options,
   });
 };
@@ -39,9 +41,9 @@ const TRIVIAL_CHANGE_THRESHOLD = 0.01;
  * @returns {{ output: string, commentPath: string }} 出力本文とコメントファイルのパス
  */
 export function runCompare({ cwd = process.cwd(), options = getOptions(cwd) } = {}) {
-  const Budget = options.budget;
-  const BudgetPercentIncreaseRed = options.budgetPercentIncreaseRed;
-  const MinimumChangeThreshold = options.minimumChangeThreshold;
+  const Budget = options.budget || 0;
+  const BudgetPercentIncreaseRed = options.budgetPercentIncreaseRed || 20;
+  const MinimumChangeThreshold = options.minimumChangeThreshold ?? 0;
   const ShowDetails = options.showDetails === undefined ? true : options.showDetails;
   const BuildOutputDirectory = getBuildOutputDirectory(options);
   const PackageName = options.name;
@@ -265,9 +267,9 @@ function generateTableHeader(globalBundleCurrent, showBudget, ctx) {
  * @returns {Object} Budget metrics
  */
 function calculateBudgetMetrics(pageData, globalBundleCurrent, globalBundleBase, showBudget, ctx) {
-  const firstLoadSize = globalBundleCurrent ? pageData.gzip + globalBundleCurrent.gzip : 0;
+  const firstLoadSize = globalBundleCurrent ? (pageData.gzip ?? 0) + (globalBundleCurrent.gzip ?? 0) : 0;
 
-  const budgetPercentage = showBudget ? ((firstLoadSize / ctx.budget) * 100).toFixed(2) : 0;
+  const budgetPercentage = showBudget && ctx.budget > 0 ? ((firstLoadSize / ctx.budget) * 100).toFixed(2) : 0;
 
   const previousBudgetPercentage =
     ctx.hasBaseBundle && globalBundleBase && pageData.gzipDiff
@@ -348,7 +350,7 @@ export function markdownTable(_data, globalBundleCurrent, globalBundleBase, ctx)
  */
 function renderFirstLoad(globalBundleCurrent, firstLoadSize) {
   if (!globalBundleCurrent) return '';
-  return ` | ${filesize(firstLoadSize)}`;
+  return ` | ${filesize(firstLoadSize ?? 0)}`;
 }
 
 /**
@@ -362,9 +364,10 @@ function renderFirstLoad(globalBundleCurrent, firstLoadSize) {
  */
 function renderSize(d, showBudgetDiff, ctx) {
   const gzd = d.gzipDiff;
-  const baseSize = d.gzip - gzd;
+  const gzipSize = d.gzip ?? 0;
+  const baseSize = gzipSize - (gzd ?? 0);
   const percentChange = gzd && baseSize !== 0 ? (gzd / baseSize) * 100 : 0;
-  return ` | \`${filesize(d.gzip)}\`${
+  return ` | \`${filesize(gzipSize)}\`${
     gzd && !showBudgetDiff && ctx.hasBaseBundle
       ? ` _(${renderStatusIndicator(percentChange, ctx)}${filesize(gzd)})_`
       : ''

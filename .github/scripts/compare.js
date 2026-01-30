@@ -7,9 +7,10 @@
 import { runCompare } from './lib/compare-core.js'
 
 try {
-  const { output } = runCompare()
-  console.log(output)
+  const { output } = runCompare();
+  console.log(output);
 } catch (err) {
-  console.error(`Error: ${err.message}`)
-  process.exit(1)
+  console.error(`Error: ${err.message}`);
+  console.error(err.stack);
+  process.exit(1);
 }
