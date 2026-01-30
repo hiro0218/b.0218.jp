@@ -3,15 +3,66 @@
 import type { CSSProperties, ImgHTMLAttributes, JSX } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { parseStyleStringToObject } from '@/lib/browser/parseStyleStringToObject';
+import { css } from '@/ui/styled';
 import type { ZoomImageSource } from '../types';
 import { useImageZoom } from './hooks/useImageZoom';
 import { useImageZoomAnimation } from './hooks/useImageZoomAnimation';
 import { useImageZoomDialog } from './hooks/useImageZoomDialog';
-import { useImageZoomTransition } from './hooks/useImageZoomTransition';
+import { calculateModalImgStyle } from './utils/calculateZoomStyle';
 import { ZoomDialog } from './ZoomDialog';
 import { ZoomTriggerButton } from './ZoomTriggerButton';
 
 const MIN_IMAGE_SIZE = 100;
+
+const loadingIndicatorStyle = css`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: var(--colors-overlay-backgrounds);
+  border: 1px solid var(--colors-border-default);
+  border-radius: var(--radii-md);
+  transform: translate(-50%, -50%);
+  animation: fadeIn 0.2s;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+`;
+
+const spinnerStyle = css`
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--colors-border-default);
+  border-top-color: var(--colors-blue-500);
+  border-radius: var(--radii-full);
+  animation: spin 1s linear infinite;
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    border-top-color: var(--colors-border-default);
+    animation: none;
+  }
+`;
 
 interface A11yOptions {
   /**
@@ -33,109 +84,17 @@ type ZoomImageProps = ImgHTMLAttributes<HTMLImageElement> & {
   a11yOptions?: A11yOptions;
 };
 
-/**
- * デフォルトのアクセシビリティラベル
- */
 const DEFAULT_A11Y: Required<A11yOptions> = {
   a11yNameButtonZoom: '画像をズーム',
   a11yNameDialog: '画像のズーム表示',
 };
 
-function toNumberOrZero(value: unknown): number {
-  return typeof value === 'number' ? value : 0;
-}
-
-function getScaleToWindow(params: { height: number; width: number; offset: number }): number {
-  return Math.min(
-    (window.innerWidth - params.offset * 2) / params.width,
-    (window.innerHeight - params.offset * 2) / params.height,
-  );
-}
-
-function getScaleToWindowMax(params: {
-  containerHeight: number;
-  containerWidth: number;
-  offset: number;
-  targetHeight: number;
-  targetWidth: number;
-}): number {
-  const scale = getScaleToWindow({
-    height: params.targetHeight,
-    offset: params.offset,
-    width: params.targetWidth,
-  });
-  const ratio =
-    params.targetWidth > params.targetHeight
-      ? params.targetWidth / params.containerWidth
-      : params.targetHeight / params.containerHeight;
-  return scale > 1 ? ratio : scale * ratio;
-}
-
-function getScale(params: {
-  containerHeight: number;
-  containerWidth: number;
-  hasScalableSrc: boolean;
-  offset: number;
-  targetHeight: number;
-  targetWidth: number;
-}): number {
-  if (!params.containerHeight || !params.containerWidth) {
-    return 1;
-  }
-
-  const hasValidTarget = params.targetHeight > 0 && params.targetWidth > 0;
-  const shouldUseNaturalSize = !params.hasScalableSrc && hasValidTarget;
-
-  if (shouldUseNaturalSize) {
-    return getScaleToWindowMax(params);
-  }
-
-  return getScaleToWindow({
-    height: params.containerHeight,
-    offset: params.offset,
-    width: params.containerWidth,
-  });
-}
-
-function getModalImgStyle(params: {
-  hasScalableSrc: boolean;
-  isZoomed: boolean;
-  offset: number;
-  targetEl: HTMLImageElement;
-}): CSSProperties {
-  const imgRect = params.targetEl.getBoundingClientRect();
-  const targetWidth = params.targetEl.naturalWidth || imgRect.width;
-  const targetHeight = params.targetEl.naturalHeight || imgRect.height;
-  const scale = getScale({
-    containerHeight: imgRect.height,
-    containerWidth: imgRect.width,
-    hasScalableSrc: params.hasScalableSrc,
-    offset: params.offset,
-    targetHeight,
-    targetWidth,
-  });
-
-  const style: CSSProperties = {
-    top: imgRect.top,
-    left: imgRect.left,
-    width: imgRect.width * scale,
-    height: imgRect.height * scale,
-    transform: `translate(0,0) scale(${1 / scale})`,
-  };
-
-  if (params.isZoomed) {
-    const width = toNumberOrZero(style.width);
-    const height = toNumberOrZero(style.height);
-    const left = toNumberOrZero(style.left);
-    const top = toNumberOrZero(style.top);
-    const translateX = window.innerWidth / 2 - (left + width / 2);
-    const translateY = window.innerHeight / 2 - (top + height / 2);
-    style.transform = `translate(${translateX}px,${translateY}px) scale(1)`;
-  }
-
-  return style;
-}
-
+/**
+ * ズーム可能な画像コンポーネント
+ *
+ * クリックで画像をモーダル表示し、transform ベースのアニメーションで
+ * トリガー画像の位置から画面中央へスムーズに遷移する。
+ */
 function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImageProps): JSX.Element {
   const processedStyle = style && typeof style === 'string' ? parseStyleStringToObject(style) : style;
   const hasObjectFit = !!(processedStyle && 'objectFit' in processedStyle && processedStyle.objectFit);
@@ -149,6 +108,7 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
   const modalImgRef = useRef<HTMLImageElement>(null);
   const [modalImgStyle, setModalImgStyle] = useState<CSSProperties>({});
   const [isMounted, setIsMounted] = useState(false);
+  const [isLoadingZoomImg, setIsLoadingZoomImg] = useState(false);
 
   const { imgRef, isZoomed, canZoom, modalState, zoomIn, zoomOut, handleImageLoad, handleModalImgTransitionEnd } =
     useImageZoom({
@@ -162,6 +122,33 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
     setIsMounted(true);
   }, []);
 
+  // ズーム画像のプリロード
+  useEffect(() => {
+    if (!zoomImg?.src || !canZoom) return;
+
+    setIsLoadingZoomImg(true);
+    const img = new Image();
+
+    img.onload = () => {
+      setIsLoadingZoomImg(false);
+    };
+
+    img.onerror = () => {
+      setIsLoadingZoomImg(false);
+    };
+
+    img.src = zoomImg.src;
+
+    if (zoomImg.srcSet) {
+      img.srcset = zoomImg.srcSet;
+    }
+  }, [zoomImg?.src, zoomImg?.srcSet, canZoom]);
+
+  /**
+   * モーダル画像のスタイルを更新
+   *
+   * @param isZoomed - ズーム状態か否か
+   */
   const refreshModalImgStyle = useCallback(
     (isZoomed: boolean) => {
       const targetEl = imgRef.current;
@@ -169,7 +156,7 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
       if (!targetEl.complete || !targetEl.naturalWidth) return;
 
       setModalImgStyle(
-        getModalImgStyle({
+        calculateModalImgStyle({
           hasScalableSrc: Boolean(zoomImg?.src),
           isZoomed,
           offset: 0,
@@ -178,6 +165,48 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
       );
     },
     [imgRef, zoomImg?.src],
+  );
+
+  /**
+   * ズームイン処理
+   *
+   * 初期位置（トリガー画像の位置）を設定した上でズームを開始する。
+   * 実際のアニメーションおよびズーム後スタイルの更新は useImageZoomAnimation に委譲する。
+   */
+  const handleZoomIn = useCallback(() => {
+    // 初期位置（トリガー画像の位置）を設定
+    refreshModalImgStyle(false);
+    // ズーム状態への遷移をトリガー（後続のアニメーションはフック側で制御）
+    zoomIn();
+  }, [zoomIn, refreshModalImgStyle]);
+
+  const handleZoomOut = useCallback(() => {
+    zoomOut();
+  }, [zoomOut]);
+
+  const handleDialogCancel = useCallback(
+    (event: React.SyntheticEvent<HTMLDialogElement>) => {
+      event.preventDefault();
+      handleZoomOut();
+    },
+    [handleZoomOut],
+  );
+
+  const handleDialogContentClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if (event.target === event.currentTarget) {
+        handleZoomOut();
+      }
+    },
+    [handleZoomOut],
+  );
+
+  const handleTransitionEnd = useCallback(
+    (event: React.TransitionEvent<HTMLImageElement>) => {
+      if (event.propertyName !== 'transform') return;
+      handleModalImgTransitionEnd();
+    },
+    [handleModalImgTransitionEnd],
   );
 
   const { shouldZoomImageRef } = useImageZoomAnimation({
@@ -191,12 +220,7 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
     modalState,
   });
 
-  useImageZoomTransition({
-    modalImgRef,
-    modalState,
-    onTransitionEnd: handleModalImgTransitionEnd,
-  });
-
+  // リサイズ時にモーダル画像の位置を再計算
   useEffect(() => {
     if (!isModalActive) return;
 
@@ -210,30 +234,7 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
     };
   }, [isModalActive, refreshModalImgStyle, shouldZoomImageRef]);
 
-  function handleDialogCancel(event: React.SyntheticEvent<HTMLDialogElement>): void {
-    event.preventDefault();
-    zoomOut();
-  }
-
-  function handleDialogContentClick(event: React.MouseEvent<HTMLDivElement>): void {
-    if (event.target === event.currentTarget) {
-      zoomOut();
-    }
-  }
-
-  function handleZoomedImageKeyDown(event: React.KeyboardEvent): void {
-    const isCloseKey = event.key === 'Escape' || event.key === 'Enter' || event.key === ' ';
-    if (isCloseKey) {
-      event.preventDefault();
-      zoomOut();
-    }
-  }
-
-  function handleTransitionEnd(event: React.TransitionEvent<HTMLImageElement>): void {
-    if (event.propertyName !== 'transform') return;
-    handleModalImgTransitionEnd();
-  }
-
+  // ズーム不可の場合は通常の img 要素を返す
   if (!canZoom) {
     return <img alt={alt || ''} src={src} style={processedStyle} {...props} onLoad={handleImageLoad} ref={imgRef} />;
   }
@@ -250,26 +251,35 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
         onImageLoad={handleImageLoad}
         src={src}
         style={processedStyle}
-        zoomIn={zoomIn}
+        zoomIn={handleZoomIn}
       />
 
       {isMounted && (
-        <ZoomDialog
-          a11yLabel={a11y.dialog}
-          alt={alt}
-          dialogRef={dialogRef}
-          isModalActive={isModalActive}
-          modalImgRef={modalImgRef}
-          modalImgStyle={modalImgStyle}
-          onCancel={handleDialogCancel}
-          onClose={zoomOut}
-          onContentClick={handleDialogContentClick}
-          onImageClick={zoomOut}
-          onImageKeyDown={handleZoomedImageKeyDown}
-          onTransitionEnd={handleTransitionEnd}
-          src={src}
-          zoomImg={zoomImg}
-        />
+        <>
+          <ZoomDialog
+            a11yLabel={a11y.dialog}
+            alt={alt}
+            dialogRef={dialogRef}
+            isModalActive={isModalActive}
+            modalImgRef={modalImgRef}
+            modalImgStyle={modalImgStyle}
+            modalState={modalState}
+            onCancel={handleDialogCancel}
+            onClose={handleZoomOut}
+            onContentClick={handleDialogContentClick}
+            onImageClick={handleZoomOut}
+            onTransitionEnd={handleTransitionEnd}
+            src={src}
+            zoomImg={zoomImg}
+          />
+          {isLoadingZoomImg && modalState === 'UNLOADED' && (
+            <div className={loadingIndicatorStyle}>
+              <div aria-live="polite" className={spinnerStyle} role="status">
+                <span className="sr-only">画像を読み込み中</span>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </>
   );

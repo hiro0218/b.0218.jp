@@ -25,7 +25,9 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     steps:
-      - uses: Kesin11/actions-timeline@v2
+      # Pinned to v2.2.6 for security
+      # https://github.com/Kesin11/actions-timeline/releases/tag/v2.2.6
+      - uses: Kesin11/actions-timeline@7c7e0821d38f27460f4a71ef874a1c8cf23602e4 # v2.2.6
 
       - uses: actions/checkout@v6
         with:
@@ -58,6 +60,9 @@ jobs:
       - if: steps.cache-node-modules.outputs.cache-hit != 'true'
         name: Install dependencies
         run: npm ci --ignore-scripts
+
+      - name: Install bundle analysis scripts dependencies
+        run: npm ci --prefix .github/scripts
 
       - name: Restore next build
         uses: actions/cache@v5
@@ -115,7 +120,7 @@ jobs:
 
       # カスタムスクリプトを使用してバンドルサイズを分析
       - name: Analyze bundle
-        run: node .github/scripts/report.mjs
+        run: node .github/scripts/report.js
 
       - name: Upload bundle
         uses: actions/upload-artifact@v6
@@ -124,8 +129,11 @@ jobs:
           path: .next/analyze/__bundle_analysis.json
           overwrite: true
 
+      # Pinned to v12 for security
+      # Note: dawidd6/action-download-artifact supports cross-workflow artifact download
+      # https://github.com/dawidd6/action-download-artifact/releases/tag/v12
       - name: Download base branch bundle stats
-        uses: dawidd6/action-download-artifact@v12
+        uses: dawidd6/action-download-artifact@0bd50d53a6d7fb5cb921e607957e9cc12b4ce392 # v12
         if: success() && github.event.number
         with:
           workflow: nextjs-bundle-analysis.yml
@@ -136,7 +144,7 @@ jobs:
       - name: Compare with base branch bundle
         if: success() && github.event.number
         run: |
-          ls -laR .next/analyze/base && node .github/scripts/compare.mjs
+          ls -laR .next/analyze/base && node .github/scripts/compare.js
 
       - name: Get Comment Body
         id: get-comment-body
@@ -147,8 +155,10 @@ jobs:
           echo "$(cat .next/analyze/__bundle_analysis_comment.txt)" >> $GITHUB_OUTPUT
           echo EOF >> $GITHUB_OUTPUT
 
+      # Pinned to v2.9.4 for security
+      # https://github.com/marocchino/sticky-pull-request-comment/releases/tag/v2.9.4
       - name: Comment
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@773744901bac0e8cbb5a0dc842800d45e9b2b405 # v2.9.4
         with:
           header: next-bundle-analysis
           message: ${{ steps.get-comment-body.outputs.body }}

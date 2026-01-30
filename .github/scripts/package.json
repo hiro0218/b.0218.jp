@@ -1,0 +1,11 @@
+{
+  "name": "bundle-analysis-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "CI scripts for Next.js bundle analysis",
+  "dependencies": {
+    "filesize": "11.0.13",
+    "gzip-size": "7.0.0"
+  }
+}
