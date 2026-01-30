@@ -105,3 +105,6 @@ styled-system-studio
 ## knip
 knip-report.json
 .knip-cache/
+
+# next-agents-md
+.next-docs/
