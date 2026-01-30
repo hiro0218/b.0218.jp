@@ -20,6 +20,7 @@ import { filesize as originalFilesize } from 'filesize'
 import fs from 'fs'
 import path from 'path'
 import { getBuildOutputDirectory, getOptions } from './utils.mjs'
+import { DETAILS_GLOBAL_BUNDLE, renderDetailsPageChanges } from './templates.mjs'
 
 // Override default filesize options to display a non-breakable space as a spacer.
 const filesize = (bytes, options) => {
@@ -162,14 +163,7 @@ if (globalBundleChanges) {
 
   // and we end with some extra details further explaining the data above
   if (SHOW_DETAILS) {
-    output += `\n<details>
-<summary>Details</summary>
-<p>The <strong>global bundle</strong> is the javascript bundle that loads alongside every page. It is in its own category because its impact is much higher - an increase to its size means that every page on your website loads slower, and a decrease means every page loads faster.</p>
-<p>For Pages Router, the global bundle is based on _app.js. For App Router, it's based on the root layout file.</p>
-<p>Pages with [App] prefix are from the App Router, others are from the Pages Router.</p>
-<p>Any third party scripts you have added directly to your app using the <code>&lt;script&gt;</code> tag are not accounted for in this analysis</p>
-<p>If you want further insight into what is behind the changes, give <a href='https://www.npmjs.com/package/@next/bundle-analyzer'>@next/bundle-analyzer</a> a try!</p>
-</details>\n\n`
+    output += `\n${DETAILS_GLOBAL_BUNDLE}\n`
   }
 }
 
@@ -211,17 +205,10 @@ The following page${plural} changed size from the code in this PR compared to it
   // details depending on whether a budget is being used, since the information presented
   // is quite different.
   if (SHOW_DETAILS) {
-    output += `\n<details>
-<summary>Details</summary>
-<p>Only the gzipped size is provided here based on <a href='https://twitter.com/slightlylate/status/1412851269211811845'>an expert tip</a>.</p>
-<p><strong>First Load</strong> is the size of the global bundle plus the bundle for the individual page. If a user were to show up to your website and land on a given page, the first load size represents the amount of javascript that user would need to download. If <code>next/link</code> is used, subsequent page loads would only need to download that page's bundle (the number in the "Size" column), since the global bundle has already been downloaded.</p>
-<p>Any third party scripts you have added directly to your app using the <code>&lt;script&gt;</code> tag are not accounted for in this analysis</p>
-${
-  BUDGET && globalBundleCurrent
-    ? `<p>The "Budget %" column shows what percentage of your performance budget the <strong>First Load</strong> total takes up. For example, if your budget was 100kb, and a given page's first load size was 10kb, it would be 10% of your budget. You can also see how much this has increased or decreased compared to the base branch of your PR. If this percentage has increased by ${BUDGET_PERCENT_INCREASE_RED}% or more, there will be a red status indicator applied, indicating that special attention should be given to this. If you see "+/- <0.01%" it means that there was a change in bundle size, but it is a trivial enough amount that it can be ignored.</p>`
-    : `<p>Next to the size is how much the size has increased or decreased compared with the base branch of this PR. If this percentage has increased by ${BUDGET_PERCENT_INCREASE_RED}% or more, there will be a red status indicator applied, indicating that special attention should be given to this.`
-}
-</details>\n`
+    output += `\n${renderDetailsPageChanges({
+      budgetPercentIncreaseRed: BUDGET_PERCENT_INCREASE_RED,
+      budget: BUDGET && globalBundleCurrent ? BUDGET : null
+    })}\n`
   }
 }
 
@@ -230,7 +217,7 @@ const hasNoChanges =
   (!hasBaseBundle || (!newPages.length && !changedPages.length && !globalBundleChanges))
 if (hasNoChanges) {
   if (!hasBaseBundle) {
-    output += '初回実行または比較対象のバンドル情報がありません。次回のコミットで変更が検出されます。'
+    output += 'No base bundle found for comparison. Changes will be detected in the next commit.'
   } else {
     output += 'This PR introduced no changes to the JavaScript bundle! 🙌'
   }
@@ -262,68 +249,113 @@ fs.writeFileSync(
 
 // Util Functions
 
-// this is where the vast majority of the complexity lives, its a single function
-// that renders a markdown table displaying a wide range of bundle size data in a
-// wide variety of different ways. this could potentially be improved by splitting it
-// up into several different functions for rendering the different tables we produce
-// (new pages, changed pages, global bundle)
+/**
+ * Generates markdown table header for bundle analysis
+ * @param {Object|null} globalBundleCurrent - Current global bundle data
+ * @param {boolean} showBudget - Whether to show budget column
+ * @returns {string} Markdown table header
+ */
+function generateTableHeader(globalBundleCurrent, showBudget) {
+  const columns = ['Page', 'Size (compressed)']
+
+  if (globalBundleCurrent) {
+    columns.push('First Load')
+  }
+
+  if (showBudget) {
+    columns.push(`% of Budget (\`${filesize(BUDGET)}\`)`)
+  }
+
+  const header = columns.join(' | ')
+  const separator = columns.map(() => '---').join('|')
+
+  return `${header} |\n|${separator}|`
+}
+
+/**
+ * Calculates budget-related metrics for a page
+ * @param {Object} pageData - Page bundle data
+ * @param {Object|null} globalBundleCurrent - Current global bundle
+ * @param {Object|null} globalBundleBase - Base global bundle
+ * @param {boolean} showBudget - Whether budget calculation is needed
+ * @returns {Object} Budget metrics
+ */
+function calculateBudgetMetrics(pageData, globalBundleCurrent, globalBundleBase, showBudget) {
+  const firstLoadSize = globalBundleCurrent
+    ? pageData.gzip + globalBundleCurrent.gzip
+    : 0
+
+  const budgetPercentage = showBudget
+    ? ((firstLoadSize / BUDGET) * 100).toFixed(2)
+    : 0
+
+  // Calculate previous budget percentage if we have base bundle and diff
+  // Base page size = current page size - diff
+  const previousBudgetPercentage = hasBaseBundle && globalBundleBase && pageData.gzipDiff
+    ? (((globalBundleBase.gzip + (pageData.gzip - pageData.gzipDiff)) / BUDGET) * 100).toFixed(2)
+    : 0
+
+  const budgetChange = previousBudgetPercentage && hasBaseBundle
+    ? (previousBudgetPercentage - budgetPercentage).toFixed(2)
+    : 0
+
+  return {
+    firstLoadSize,
+    budgetPercentage,
+    previousBudgetPercentage,
+    budgetChange
+  }
+}
+
+/**
+ * Generates a single table row for bundle data
+ * @param {Object} pageData - Page bundle data
+ * @param {Object|null} globalBundleCurrent - Current global bundle
+ * @param {Object|null} globalBundleBase - Base global bundle
+ * @param {boolean} showBudget - Whether to show budget column
+ * @param {boolean} showBudgetDiff - Whether to show budget diff
+ * @returns {string} Markdown table row
+ */
+function generateTableRow(pageData, globalBundleCurrent, globalBundleBase, showBudget, showBudgetDiff) {
+  const metrics = calculateBudgetMetrics(pageData, globalBundleCurrent, globalBundleBase, showBudget)
+
+  return (
+    `| \`${pageData.page}\`` +
+    renderSize(pageData, showBudgetDiff) +
+    renderFirstLoad(globalBundleCurrent, metrics.firstLoadSize) +
+    renderBudgetPercentage(
+      showBudget,
+      metrics.budgetPercentage,
+      metrics.previousBudgetPercentage,
+      metrics.budgetChange
+    ) +
+    ' |\n'
+  )
+}
+
+/**
+ * Generates a complete markdown table for bundle analysis data
+ * @param {Array|Object} _data - Bundle data (can be array or single object)
+ * @param {Object|null} globalBundleCurrent - Current global bundle
+ * @param {Object|null} globalBundleBase - Base global bundle for comparison
+ * @returns {string} Complete markdown table
+ */
 function markdownTable(_data, globalBundleCurrent, globalBundleBase) {
-  // 空のデータの場合は早期リターン
+  // Early return for empty data
   if (!_data || _data.length === 0) {
-    return '';
+    return ''
   }
 
   const data = [].concat(_data)
-  // the table renders different depending on whether the budget option is enabled
-  // and also some tables do not run budget diffs (new, global)
   const showBudget = globalBundleCurrent && BUDGET
   const showBudgetDiff = BUDGET && !!globalBundleBase && hasBaseBundle
 
-  // first we set up the table headers
-  return `Page | Size (compressed) | ${
-    globalBundleCurrent ? `First Load |` : ''
-  }${showBudget ? ` % of Budget (\`${filesize(BUDGET)}\`) |` : ''}
-|---|---|${globalBundleCurrent ? '---|' : ''}${showBudget ? '---|' : ''}
-${data
-  .map((d) => {
-    // next, we go through each item in the bundle data that was passed in and render
-    // a row for it. a couple calculations are run upfront to make rendering easier.
-    const firstLoadSize = globalBundleCurrent
-      ? d.gzip + globalBundleCurrent.gzip
-      : 0
+  const header = generateTableHeader(globalBundleCurrent, showBudget)
+  const rows = data
+    .map(pageData => generateTableRow(pageData, globalBundleCurrent, globalBundleBase, showBudget, showBudgetDiff))
+    .join('')
 
-    const budgetPercentage = showBudget
-      ? ((firstLoadSize / BUDGET) * 100).toFixed(2)
-      : 0
-
-    // ベースバンドルがない場合は比較情報を表示しない
-    // ベースブランチでのFirst Load = ベースのグローバルバンドル + ベースのページサイズ
-    // ベースのページサイズ = 現在のページサイズ - 差分
-    const previousBudgetPercentage = hasBaseBundle && globalBundleBase && d.gzipDiff
-        ? (
-            ((globalBundleBase.gzip + (d.gzip - d.gzipDiff)) / BUDGET) *
-            100
-          ).toFixed(2)
-        : 0
-
-    const budgetChange = previousBudgetPercentage && hasBaseBundle
-      ? (previousBudgetPercentage - budgetPercentage).toFixed(2)
-      : 0
-
-    return (
-      `| \`${d.page}\`` +
-      renderSize(d, showBudgetDiff) +
-      renderFirstLoad(globalBundleCurrent, firstLoadSize) +
-      renderBudgetPercentage(
-        showBudget,
-        budgetPercentage,
-        previousBudgetPercentage,
-        budgetChange
-      ) +
-      ' |\n'
-    )
-  })
-  .join('')}`
+  return `${header}\n${rows}`
 }
 
 // as long as global bundle is passed, render the first load size, which is the global

@@ -75,35 +75,14 @@ if (fs.existsSync(appChunksDir)) {
   const topLevelItems = fs.readdirSync(appChunksDir)
   console.log(`   Top-level items (${topLevelItems.length}): ${topLevelItems.slice(0, 5).join(', ')}${topLevelItems.length > 5 ? '...' : ''}`)
 
-  {
-    // Scan all JS files in app chunks directory
-    const scanDirectory = (dir, basePath = '') => {
-      const files = fs.readdirSync(dir, { withFileTypes: true })
-
-      files.forEach(file => {
-        const fullPath = path.join(dir, file.name)
-        const relativePath = path.join(basePath, file.name)
-
-        if (file.isDirectory()) {
-          // Recursively scan subdirectories
-          scanDirectory(fullPath, relativePath)
-        } else if (file.isFile() && file.name.endsWith('.js')) {
-          // Calculate size for each JS file
-          const scriptPath = `static/chunks/app/${relativePath}`
-          const sizes = getScriptSizes([scriptPath])
-
-          // Map to a readable page path, removing hash
-          let pagePath = `/_app/${relativePath.replace(/\\/g, '/').replace(/\.js$/, '')}`
-          // Remove hash pattern (e.g., -89866720651bb81e)
-          pagePath = pagePath.replace(APP_ROUTE_HASH_PATTERN, '')
-
-          allPageSizes[pagePath] = sizes
-        }
-      })
-    }
-
-    scanDirectory(appChunksDir)
-  }
+  // Scan all JS files in app chunks directory
+  const appPageSizes = scanJsFilesRecursively(
+    appChunksDir,
+    '',
+    APP_ROUTE_HASH_PATTERN,
+    '/_app/'
+  )
+  Object.assign(allPageSizes, appPageSizes)
 }
 
 // Process shared chunks (non-app specific)
@@ -152,6 +131,43 @@ console.log('Bundle analysis saved to:', path.join(nextMetaRoot, 'analyze/__bund
 // --------------
 // Util Functions
 // --------------
+
+/**
+ * Recursively scans a directory for JavaScript files and calculates their bundle sizes
+ * @param {string} dir - Directory to scan
+ * @param {string} basePath - Relative base path for constructing page paths
+ * @param {RegExp} hashPattern - Pattern to remove from page paths (e.g., content hashes)
+ * @param {string} pathPrefix - Prefix to prepend to page paths (e.g., '/_app/')
+ * @returns {Object.<string, {raw: number, gzip: number}>} Map of page paths to size data
+ */
+function scanJsFilesRecursively(dir, basePath, hashPattern, pathPrefix) {
+  const results = {}
+  const files = fs.readdirSync(dir, { withFileTypes: true })
+
+  files.forEach(file => {
+    const fullPath = path.join(dir, file.name)
+    const relativePath = path.join(basePath, file.name)
+
+    if (file.isDirectory()) {
+      // Recursively scan subdirectories
+      const subResults = scanJsFilesRecursively(fullPath, relativePath, hashPattern, pathPrefix)
+      Object.assign(results, subResults)
+    } else if (file.isFile() && file.name.endsWith('.js')) {
+      // Calculate size for each JS file
+      const scriptPath = `static/chunks/app/${relativePath}`
+      const sizes = getScriptSizes([scriptPath])
+
+      // Map to a readable page path, removing hash
+      let pagePath = `${pathPrefix}${relativePath.replace(/\\/g, '/').replace(/\.js$/, '')}`
+      // Remove hash pattern (e.g., -89866720651bb81e)
+      pagePath = pagePath.replace(hashPattern, '')
+
+      results[pagePath] = sizes
+    }
+  })
+
+  return results
+}
 
 // Given an array of scripts, return the total of their combined file sizes
 function getScriptSizes(scriptPaths) {
