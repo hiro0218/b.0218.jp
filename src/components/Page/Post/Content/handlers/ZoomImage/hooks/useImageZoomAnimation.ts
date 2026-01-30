@@ -42,15 +42,14 @@ export function useImageZoomAnimation({
 
       case 'UNLOADING':
         shouldZoomImageRef.current = false;
+        isAnimationInitializedRef.current = false;
         refreshModalImgStyle(false);
         break;
 
       case 'UNLOADED':
         // アニメーション完了後のクリーンアップ
-        if (isAnimationInitializedRef.current) {
-          shouldZoomImageRef.current = false;
-          isAnimationInitializedRef.current = false;
-        }
+        shouldZoomImageRef.current = false;
+        isAnimationInitializedRef.current = false;
         break;
     }
   }, [modalState, refreshModalImgStyle]);
