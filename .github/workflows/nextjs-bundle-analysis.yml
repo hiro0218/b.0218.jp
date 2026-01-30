@@ -62,8 +62,7 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Install bundle analysis scripts dependencies
-        working-directory: .github/scripts
-        run: npm ci
+        run: npm ci --prefix .github/scripts
 
       - name: Restore next build
         uses: actions/cache@v5
