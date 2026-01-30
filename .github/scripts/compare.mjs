@@ -17,9 +17,8 @@
  */
 
 import { filesize as originalFilesize } from 'filesize'
-import fs from 'fs'
 import path from 'path'
-import { getBuildOutputDirectory, getOptions } from './utils.mjs'
+import { getBuildOutputDirectory, getOptions, safeReadJSON, safeWriteFile } from './utils.mjs'
 import { DETAILS_GLOBAL_BUNDLE, renderDetailsPageChanges } from './templates.mjs'
 
 // Override default filesize options to display a non-breakable space as a spacer.
@@ -45,31 +44,27 @@ const PACKAGE_NAME = options.name
 const SKIP_COMMENT_IF_EMPTY = options.skipCommentIfEmpty
 
 // import the current and base branch bundle stats
-const currentBundle = JSON.parse(
-  fs.readFileSync(
-    path.join(
-      process.cwd(),
-      BUILD_OUTPUT_DIRECTORY,
-      'analyze/__bundle_analysis.json'
-    ),
-    'utf8'
-  )
+const currentBundlePath = path.join(
+  process.cwd(),
+  BUILD_OUTPUT_DIRECTORY,
+  'analyze/__bundle_analysis.json'
 )
-let baseBundle = {}
-let hasBaseBundle = false
-try {
-  baseBundle = JSON.parse(
-    fs.readFileSync(
-      path.join(
-        process.cwd(),
-        BUILD_OUTPUT_DIRECTORY,
-        'analyze/base/bundle/__bundle_analysis.json'
-      ),
-      'utf8'
-    )
-  )
-  hasBaseBundle = true
-} catch (err) {
+const currentBundle = safeReadJSON(currentBundlePath)
+
+if (!currentBundle) {
+  console.error(`Error: Current bundle analysis not found at ${currentBundlePath}`)
+  process.exit(1)
+}
+
+const baseBundlePath = path.join(
+  process.cwd(),
+  BUILD_OUTPUT_DIRECTORY,
+  'analyze/base/bundle/__bundle_analysis.json'
+)
+const baseBundle = safeReadJSON(baseBundlePath) || {}
+const hasBaseBundle = baseBundle !== null && Object.keys(baseBundle).length > 0
+
+if (!hasBaseBundle) {
   console.log('No base bundle analysis found or invalid format. Running in single-bundle mode.')
 }
 
@@ -238,14 +233,12 @@ console.log(output)
 
 // and to cap it off, we write the output to a file which is later read in as comment
 // contents by the actions workflow.
-fs.writeFileSync(
-  path.join(
-    process.cwd(),
-    BUILD_OUTPUT_DIRECTORY,
-    'analyze/__bundle_analysis_comment.txt'
-  ),
-  output.trim()
+const commentPath = path.join(
+  process.cwd(),
+  BUILD_OUTPUT_DIRECTORY,
+  'analyze/__bundle_analysis_comment.txt'
 )
+safeWriteFile(commentPath, output.trim())
 
 // Util Functions
 
@@ -358,17 +351,25 @@ function markdownTable(_data, globalBundleCurrent, globalBundleBase) {
   return `${header}\n${rows}`
 }
 
-// as long as global bundle is passed, render the first load size, which is the global
-// bundle plus the size of the current page, representing the total JS required
-// in order to land on that page.
+/**
+ * Renders the first load size column (global bundle + page bundle)
+ * @param {Object|null} globalBundleCurrent - Current global bundle data
+ * @param {number} firstLoadSize - Total first load size in bytes
+ * @returns {string} Formatted table cell or empty string
+ */
 function renderFirstLoad(globalBundleCurrent, firstLoadSize) {
   if (!globalBundleCurrent) return ''
   return ` | ${filesize(firstLoadSize)}`
 }
 
-// renders the bundle size of the current page. if there is a diff from the base branch
-// size of the page, also displays the size difference, unless there is a budget set and
-// the budget has a diff from the base branch, in which case the diff is not rendered.
+/**
+ * Renders the size column with optional diff from base branch
+ * @param {Object} d - Page bundle data
+ * @param {number} d.gzip - Gzipped size in bytes
+ * @param {number} [d.gzipDiff] - Size difference from base branch
+ * @param {boolean} showBudgetDiff - Whether to show budget diff instead of size diff
+ * @returns {string} Formatted table cell with size and optional diff
+ */
 function renderSize(d, showBudgetDiff) {
   const gzd = d.gzipDiff
   // 差分が無い場合や、ベースバンドルがない場合は0にする
@@ -383,8 +384,14 @@ function renderSize(d, showBudgetDiff) {
   }`
 }
 
-// renders the percentage of the budget taken up by the current page's first load js
-// for changed pages, also renders the percent change compared to the base branch size
+/**
+ * Renders the budget percentage column with optional change indicator
+ * @param {boolean} showBudget - Whether to show budget column
+ * @param {string} budgetPercentage - Current budget percentage (formatted string)
+ * @param {string} previousBudgetPercentage - Previous budget percentage (formatted string)
+ * @param {string} budgetChange - Budget change percentage (formatted string)
+ * @returns {string} Formatted table cell or empty string
+ */
 function renderBudgetPercentage(
   showBudget,
   budgetPercentage,
@@ -409,13 +416,15 @@ function renderBudgetPercentage(
   }`
 }
 
-// given a percentage that a metric has changed, renders a colored status indicator
-// this makes it easier to call attention to things that need attention
-//
-// in general:
-// - yellow means "keep an eye on this"
-// - red means "this is a problem"
-// - green means "this is a win"
+/**
+ * Renders a colored emoji status indicator based on percentage change
+ * @param {number} percentageChange - Percentage change (positive = increase, negative = decrease)
+ * @returns {string} Emoji indicator:
+ *   - 🔴 for large increases (>= BUDGET_PERCENT_INCREASE_RED)
+ *   - 🟡 for moderate increases (> 0 and < BUDGET_PERCENT_INCREASE_RED)
+ *   - 🟢 for decreases (< 0)
+ *   - '' (empty) for trivial changes (< TRIVIAL_CHANGE_THRESHOLD)
+ */
 function renderStatusIndicator(percentageChange) {
   let res = ''
   if (percentageChange > 0 && percentageChange < BUDGET_PERCENT_INCREASE_RED) {
@@ -431,10 +440,16 @@ function renderStatusIndicator(percentageChange) {
 }
 
 /**
- * フォーマットされたページパスを返す関数
- * App RouterとPages Routerのページ表示を適切に整形する
- * @param {string} pagePath - 元のページパス
- * @returns {string} 表示用に整形されたパス
+ * Formats page path for display, distinguishing between App Router and Pages Router
+ * @param {string} pagePath - Original page path from bundle analysis
+ * @returns {string} Formatted path:
+ *   - App Router paths: "/_app/..." -> "[App] ..."
+ *   - Shared chunks: "/_shared/..." -> "/_shared/..." (unchanged)
+ *   - Pages Router: other paths remain unchanged
+ * @example
+ *   formatPagePath('/_app/page') // => '[App] page'
+ *   formatPagePath('/_shared/framework.js') // => '/_shared/framework.js'
+ *   formatPagePath('/index') // => '/index'
  */
 function formatPagePath(pagePath) {
   // App Router用のパスの場合 (/_app/ で始まる場合)

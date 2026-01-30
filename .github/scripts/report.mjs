@@ -17,15 +17,24 @@
 import path from 'path'
 import fs from 'fs'
 import { gzipSizeSync } from 'gzip-size'
-import { getBuildOutputDirectory, getOptions } from './utils.mjs'
+import { getBuildOutputDirectory, getOptions, safeReadJSON, safeWriteFile } from './utils.mjs'
 
 // Hash pattern constants for Next.js build outputs
 // Next.js generates content hashes with hexadecimal characters (0-9a-f)
 // Minimum hash length is typically 8 characters, but can be longer
-const HASH_MIN_LENGTH = 8
-const APP_ROUTE_HASH_PATTERN = /-[0-9a-f]+$/  // Matches: -89866720651bb81e
-const CHUNK_FILE_HASH_PATTERN = new RegExp(`[-\\.][0-9a-f]{${HASH_MIN_LENGTH},}\\.js$`)  // Matches: framework-abc123.js or 123.abc123.js
-const NUMERIC_CHUNK_PATTERN = /^([0-9]+)\..*\.js$/  // Matches: 117.hash.js -> captures "117"
+const NEXT_JS_HASH_MIN_LENGTH = 8
+
+// Pattern to match and remove Next.js build hash suffix from App Router paths
+// Example: "page-89866720651bb81e" -> removes "-89866720651bb81e"
+const NEXT_JS_BUILD_HASH_SUFFIX = /-[0-9a-f]+$/
+
+// Pattern to match chunk files with hash in filename
+// Example: "framework-abc123.js" or "123.abc123.js"
+const NEXT_JS_CHUNK_HASH_PATTERN = new RegExp(`[-\\.][0-9a-f]{${NEXT_JS_HASH_MIN_LENGTH},}\\.js$`)
+
+// Pattern to extract numeric chunk ID from filename
+// Example: "117.abc123.js" -> captures "117"
+const NUMERIC_CHUNK_ID_PATTERN = /^([0-9]+)\..*\.js$/
 
 // Pull options from `package.json`
 const options = getOptions()
@@ -46,9 +55,14 @@ try {
 const memoryCache = {}
 
 // Load build manifests
-const buildMeta = JSON.parse(
-  fs.readFileSync(path.join(nextMetaRoot, 'build-manifest.json'), 'utf8')
-)
+const buildMetaPath = path.join(nextMetaRoot, 'build-manifest.json')
+const buildMeta = safeReadJSON(buildMetaPath)
+
+if (!buildMeta) {
+  console.error(`Error: build-manifest.json not found at ${buildMetaPath}`)
+  console.error('Please run "next build" first.')
+  process.exit(1)
+}
 
 // Calculate global bundle size from rootMainFiles
 let globalBundle = buildMeta.rootMainFiles || []
@@ -79,7 +93,7 @@ if (fs.existsSync(appChunksDir)) {
   const appPageSizes = scanJsFilesRecursively(
     appChunksDir,
     '',
-    APP_ROUTE_HASH_PATTERN,
+    NEXT_JS_BUILD_HASH_SUFFIX,
     '/_app/'
   )
   Object.assign(allPageSizes, appPageSizes)
@@ -96,8 +110,8 @@ if (fs.existsSync(sharedChunksDir)) {
       // Remove hash from filename for consistent tracking
       // Handles patterns like: framework-abc123.js, 123.abc123.js, abc-123.js
       let cleanFileName = file
-        .replace(CHUNK_FILE_HASH_PATTERN, '.js')  // Remove hash with - or . separator
-        .replace(NUMERIC_CHUNK_PATTERN, '$1.js')  // For patterns like 117.hash.js -> 117.js
+        .replace(NEXT_JS_CHUNK_HASH_PATTERN, '.js')  // Remove hash with - or . separator
+        .replace(NUMERIC_CHUNK_ID_PATTERN, '$1.js')  // For patterns like 117.hash.js -> 117.js
 
       allPageSizes[`/_shared/${cleanFileName}`] = sizes
     }
@@ -120,16 +134,13 @@ console.log(`  - App chunks found: ${fs.existsSync(appChunksDir) ? 'Yes' : 'No'}
 console.log(`  - Shared chunks found: ${fs.existsSync(sharedChunksDir) ? 'Yes' : 'No'}`)
 console.log('================================\n')
 
-fs.mkdirSync(path.join(nextMetaRoot, 'analyze/'), { recursive: true })
-fs.writeFileSync(
-  path.join(nextMetaRoot, 'analyze/__bundle_analysis.json'),
-  rawData
-)
+const outputPath = path.join(nextMetaRoot, 'analyze/__bundle_analysis.json')
+safeWriteFile(outputPath, rawData)
 
-console.log('Bundle analysis saved to:', path.join(nextMetaRoot, 'analyze/__bundle_analysis.json'))
+console.log('Bundle analysis saved to:', outputPath)
 
 // --------------
-// Util Functions
+// Utility Functions
 // --------------
 
 /**
@@ -169,7 +180,14 @@ function scanJsFilesRecursively(dir, basePath, hashPattern, pathPrefix) {
   return results
 }
 
-// Given an array of scripts, return the total of their combined file sizes
+/**
+ * Calculates the total raw and gzipped sizes for an array of script files
+ * @param {string[]} scriptPaths - Array of relative script paths from Next.js build output
+ * @returns {{raw: number, gzip: number}} Object containing total raw and gzipped sizes in bytes
+ * @example
+ *   getScriptSizes(['static/chunks/main.js', 'static/chunks/framework.js'])
+ *   // => { raw: 150000, gzip: 50000 }
+ */
 function getScriptSizes(scriptPaths) {
   const res = scriptPaths.reduce(
     (acc, scriptPath) => {
@@ -183,7 +201,14 @@ function getScriptSizes(scriptPaths) {
   return res
 }
 
-// Given an individual path to a script, return its file size
+/**
+ * Calculates the raw and gzipped size of a single script file
+ * Uses an in-memory cache to avoid re-calculating sizes for the same file
+ * @param {string} scriptPath - Relative path to the script file from Next.js build output
+ * @returns {[number, number]} Tuple of [rawSize, gzipSize] in bytes
+ * @example
+ *   getScriptSize('static/chunks/main.js') // => [100000, 35000]
+ */
 function getScriptSize(scriptPath) {
   const encoding = 'utf8'
   const p = path.join(nextMetaRoot, scriptPath)
@@ -214,7 +239,16 @@ function getScriptSize(scriptPath) {
   return [rawSize, gzipSize]
 }
 
-// Format bytes to human-readable format
+/**
+ * Formats byte count to human-readable string with appropriate unit
+ * @param {number} bytes - Size in bytes
+ * @returns {string} Formatted string (e.g., "1.5 KB", "250 Bytes", "2.3 MB")
+ * @example
+ *   formatBytes(0) // => '0 Bytes'
+ *   formatBytes(1024) // => '1 KB'
+ *   formatBytes(1536) // => '1.5 KB'
+ *   formatBytes(1048576) // => '1 MB'
+ */
 function formatBytes(bytes) {
   if (bytes === 0) return '0 Bytes'
   const k = 1024
