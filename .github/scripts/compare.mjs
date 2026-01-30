@@ -34,6 +34,8 @@ const options = getOptions()
 
 const BUDGET = options.budget
 const BUDGET_PERCENT_INCREASE_RED = options.budgetPercentIncreaseRed
+// Threshold for trivial changes that can be ignored (< 0.01% change)
+const TRIVIAL_CHANGE_THRESHOLD = 0.01
 // this must be explicitly set to false not to render
 const SHOW_DETAILS =
   options.showDetails === undefined ? true : options.showDetails
@@ -363,7 +365,7 @@ function renderBudgetPercentage(
   // its displayed as "+/- <0.01%", signaling that it's not a consequential change, but it
   // still is a change technically, so we still show it.
   const budgetChangeText = ` _(${renderStatusIndicator(budgetChange)}${
-    budgetChange < 0.01 && budgetChange > -0.01
+    Math.abs(budgetChange) < TRIVIAL_CHANGE_THRESHOLD
       ? '+/- <0.01%'
       : budgetChange + '%'
   })_`
@@ -388,7 +390,7 @@ function renderStatusIndicator(percentageChange) {
     res += '🟡 +'
   } else if (percentageChange >= BUDGET_PERCENT_INCREASE_RED) {
     res += '🔴 +'
-  } else if (percentageChange < 0.01 && percentageChange > -0.01) {
+  } else if (Math.abs(percentageChange) < TRIVIAL_CHANGE_THRESHOLD) {
     res += ''
   } else {
     res += '🟢 '
