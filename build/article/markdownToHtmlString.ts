@@ -1,4 +1,4 @@
-import rehypeHighlight from 'rehype-highlight';
+import rehypeShiki from '@shikijs/rehype';
 import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
 import rehypeRaw from 'rehype-raw';
 import rehypeStringify from 'rehype-stringify';
@@ -29,7 +29,13 @@ const markdownToHtmlString = async (markdown: string, isSimple = false) => {
     : baseProcessor
         .use(rehypeWrapImgWithFigure)
         .use(rehypeGfmAlert)
-        .use(rehypeHighlight)
+        .use(rehypeShiki, {
+          themes: {
+            light: 'one-light',
+            dark: 'one-dark-pro',
+          },
+          defaultColor: false,
+        })
         .use(rehype0218)
         .use(rehypeRemoveComments)
         .use(rehypeStringify, { allowDangerousHtml: true });

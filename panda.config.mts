@@ -1,5 +1,5 @@
 import { defineConfig } from '@pandacss/dev';
-import { dataCss, hljsCss } from './src/ui/styled/global/css';
+import { dataCss, shikiCss } from './src/ui/styled/global/css';
 import globalVars from './src/ui/styled/global/vars';
 import { keyframes } from './src/ui/styled/theme/keyframes';
 import { semanticTokens } from './src/ui/styled/theme/semanticTokens';
@@ -41,7 +41,7 @@ export default defineConfig({
 
   globalCss: {
     ...dataCss,
-    ...hljsCss,
+    ...shikiCss,
   },
 
   theme: {

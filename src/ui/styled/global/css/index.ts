@@ -1,2 +1,2 @@
 export { dataCss } from './data';
-export { hljsCss } from './hljs';
+export { shikiCss } from './shiki';
