@@ -3,7 +3,7 @@
 import type { RefObject } from 'react';
 import { useCallback } from 'react';
 
-import { DEFAULT_TRANSITION_MS } from '@/constants/animation';
+import { DEFAULT_TRANSITION_MS } from '@/constants';
 
 /**
  * transition-duration をミリ秒で取得します。
