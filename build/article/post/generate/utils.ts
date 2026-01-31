@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { fdir } from 'fdir';
+import { BUILD_PATHS } from '~/build/shared/paths';
 
 const isMarkdown = (file: string) => file.endsWith('.md');
 
@@ -10,8 +11,8 @@ export const getSlug = (file: string) => {
 
 export const getPath = () => {
   return {
-    from: `${process.cwd()}/_article`,
-    to: `${process.cwd()}/dist`,
+    from: BUILD_PATHS.article,
+    to: BUILD_PATHS.dist,
   } as const;
 };
 
