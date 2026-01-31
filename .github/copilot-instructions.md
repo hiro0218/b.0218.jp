@@ -4,11 +4,9 @@
 
 ## 言語設定
 
-**IMPORTANT: 明示的に指示がない限り、常に日本語で応答すること。**
-
 - すべての説明、コメント、ドキュメントは日本語で記述すること
 - 技術用語とコードは英語のままで問題ない
-- 日本語は常に「だ・である」調で記述すること
+- コメントやドキュメントへの記載する日本語は常に「だ・である」調で記述すること
 
 ## プロジェクト概要
 
@@ -25,8 +23,6 @@ npm run dev       # HTTPSの8080番ポートで開発サーバー起動
 ```
 
 **Dev Server**: `https://localhost:8080` を使用（HTTPSのみ）。HTTPは失敗する。
-
-**Content Source**: `_article/_posts/*.md` は Git submodule である。**直接編集しないこと。**
 
 ## 🔴 重要ルール（必ず遵守）
 
@@ -122,19 +118,19 @@ AIエージェントは、変更提案の前に以下のファイルを確認す
 ### パスエイリアス
 
 - `@/*` → `src/*`（TypeScriptのimportエイリアス）
-- `~/*` → プロジェクトルート（このドキュメントのみ）
+- `~/*` → プロジェクトルート（**このドキュメント内の表記専用。コード内では使用不可**）
 
-**Note**: 本ドキュメントでの `~/` はユーザーのホームではなく、プロジェクトルートを指す。
+**重要**: `~/` 表記は本ドキュメント内でのファイルパス参照にのみ使用する。実際のコード内では `@/` を使うこと。
 
 ### コンテンツパイプライン
 
 コンテンツ処理フロー:
 
-1. **Source**: `_article/_posts/*.md`（Git submodule / 読み取り専用）
+1. **Source**: `_article/_posts/*.md`（**Git submodule / 読み取り専用 - 直接編集禁止**）
 2. **Processing**: `npm run prebuild` → 記事JSON、類似度JSON、OGP画像
 3. **Consumption**: Next.js SSG がビルド時に JSON を読み込む
 
-**Critical**: `_article/_posts/*.md` を直接編集してはいけない。
+**🔴 CRITICAL**: `_article/_posts/*.md` を直接編集してはいけない。コンテンツ更新は元リポジトリで行い、`npm run prebuild` で反映する。
 
 ### テスト
 
@@ -203,9 +199,9 @@ AIエージェントは、変更提案の前に以下のファイルを確認す
 
 **React Compiler**:
 
-⚠️ **CRITICAL: 最適化提案前に `~/next.config.mjs` を読むこと**
-
 React Compiler（`reactCompiler: true`）はコンポーネントレンダリングを自動最適化する。
+
+詳細: [🔴 重要ルール - React Compiler Check](#プロジェクト固有)
 
 ### 改善提案
 
