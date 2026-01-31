@@ -7,7 +7,6 @@
     "build": "TZ='Asia/Tokyo' next build --webpack",
     "build:analyzer": "ANALYZE=true next build --webpack",
     "build:article": "TZ='Asia/Tokyo' NODE_OPTIONS='--disable-warning=ExperimentalWarning' node --require esbuild-register ./build/article",
-    "build:misc": "node -r esbuild-register ./build/article/extractUniqueChars.ts",
     "build:ogp": "node --require esbuild-register ./build/ogp/index.ts",
     "build:popular": "node --require esbuild-register ./build/popular",
     "build:search": "node --require esbuild-register ./build/search",
