@@ -74,6 +74,7 @@
     "@react-aria/interactions": "3.26.0",
     "@react-aria/menu": "3.19.4",
     "@react-aria/overlays": "3.31.0",
+    "@react-aria/textfield": "3.18.3",
     "@react-aria/tooltip": "3.9.0",
     "@react-aria/utils": "3.32.0",
     "@total-typescript/ts-reset": "0.6.1",
