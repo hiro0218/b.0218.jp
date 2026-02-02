@@ -204,6 +204,10 @@ pre {
   border-radius: var(--radii-4);
   -webkit-overflow-scrolling: touch;
 
+  &[tabindex='0'] {
+    cursor: revert;
+  }
+
   & > code {
     display: block;
     padding: var(--spacing-3);
