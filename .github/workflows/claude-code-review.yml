@@ -18,10 +18,19 @@ jobs:
     #   github.event.pull_request.user.login == 'new-developer' ||
     #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
 
+    # Skip draft PRs to reduce API costs
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    # Prevent duplicate reviews on rapid pushes
+    concurrency:
+      group: claude-review-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+
     permissions:
       contents: read
-      pull-requests: read
+      pull-requests: write # Required to post review comments
       issues: read
       id-token: write
 
@@ -29,7 +38,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0 # Required for submodules
+          submodules: true # Fetch _article/_posts submodule
 
       - name: Run Claude Code Review
         id: claude-review
@@ -41,4 +51,3 @@ jobs:
           prompt: '/code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}'
           # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
           # or https://code.claude.com/docs/en/cli-reference for available options
-
