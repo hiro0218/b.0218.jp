@@ -2,6 +2,7 @@
 
 import type { CSSProperties, ImgHTMLAttributes, JSX } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import useIsMounted from '@/hooks/useIsMounted';
 import { parseStyleStringToObject } from '@/lib/browser/parseStyleStringToObject';
 import { css } from '@/ui/styled';
 import type { ZoomImageSource } from '../types';
@@ -107,7 +108,7 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
   const dialogRef = useRef<HTMLDialogElement>(null);
   const modalImgRef = useRef<HTMLImageElement>(null);
   const [modalImgStyle, setModalImgStyle] = useState<CSSProperties>({});
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useIsMounted();
   const [isLoadingZoomImg, setIsLoadingZoomImg] = useState(false);
 
   const { imgRef, isZoomed, canZoom, modalState, zoomIn, zoomOut, handleImageLoad, handleModalImgTransitionEnd } =
@@ -117,10 +118,6 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
     });
 
   const isModalActive = modalState === 'LOADING' || modalState === 'LOADED';
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   // ズーム画像のプリロード
   useEffect(() => {
