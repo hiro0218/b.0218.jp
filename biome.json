@@ -5,14 +5,13 @@
     "ignoreUnknown": false,
     "includes": [
       "**",
-      "!**/.github/scripts/*.js",
-      "!**/.github/scripts/*.mjs",
-      "!**/.github/scripts/*.ts",
-      "!.next/**",
-      "!styled-system/**",
       "!**/*.css",
+      "!.github/scripts/**",
+      "!.next/**",
+      "!_article/**",
+      "!coverage/**",
       "!dist/**",
-      "!coverage/**"
+      "!styled-system/**"
     ]
   },
   "formatter": {

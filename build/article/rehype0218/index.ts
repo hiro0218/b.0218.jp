@@ -2,7 +2,6 @@ import type { Element, Root } from 'hast';
 import { visit } from 'unist-util-visit';
 
 import { SITE_URL } from '@/constants';
-import transformCodeblock from './transform/codeblock';
 import transformImage from './transform/image';
 import transformLinkPreview from './transform/linkPreview';
 import { removeEmptyParagraph } from './transform/paragraph';
@@ -32,10 +31,6 @@ const rehype0218 = () => {
       if (node.tagName === 'img') {
         transformImage(node, imageCounter);
         imageCounter++;
-      }
-
-      if (node.tagName === 'code' && node.children.length > 0) {
-        transformCodeblock(node);
       }
 
       if (node.tagName === 'p') {

@@ -1,7 +1,13 @@
 import type { Config } from '@markuplint/ml-config';
 
 const config: Config = {
-  excludeFiles: ['./src/**/*.ts', './src/_app.tsx', './src/_document.tsx'],
+  excludeFiles: [
+    '**/*.ts', // TypeScriptファイル（JSXなし）
+    '**/*.test.tsx', // テストファイル
+    '.next/**', // Next.jsビルド成果物
+    'styled-system/**', // Panda CSSビルド成果物
+    '_article/**', // Git submodule（読み取り専用）
+  ],
   parser: {
     '\\.[jt]sx?$': '@markuplint/jsx-parser',
   },

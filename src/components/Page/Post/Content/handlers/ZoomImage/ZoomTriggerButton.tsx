@@ -1,8 +1,11 @@
 'use client';
 
 import { ZoomInIcon } from '@radix-ui/react-icons';
+import { useButton } from '@react-aria/button';
+import { useFocusRing } from '@react-aria/focus';
+import { mergeProps } from '@react-aria/utils';
 import type { CSSProperties, ImgHTMLAttributes, ReactNode, RefObject } from 'react';
-import { memo } from 'react';
+import { memo, useRef } from 'react';
 import { css, cx } from '@/ui/styled';
 import type { ModalState } from './hooks/useImageZoom';
 
@@ -19,7 +22,7 @@ const buttonStyle = css`
     }
   }
 
-  &:focus-visible {
+  &[data-focus-visible='true'] {
     outline: 2px solid var(--colors-blue-500);
     outline-offset: 2px;
   }
@@ -88,7 +91,7 @@ interface ZoomTriggerButtonProps {
  * ズームトリガーボタンコンポーネント
  *
  * 画像をクリックしてズームモーダルを開くためのボタンです。
- * モーダルが開いている間は非表示になります。
+ * React Ariaを使用してキーボード操作とフォーカス管理を標準化しています。
  */
 function ZoomTriggerButtonComponent({
   a11yLabel,
@@ -102,20 +105,25 @@ function ZoomTriggerButtonComponent({
   onImageLoad,
   imgRef,
 }: ZoomTriggerButtonProps): ReactNode {
-  function handleKeyDown(event: React.KeyboardEvent): void {
-    const isActivationKey = event.key === 'Enter' || event.key === ' ';
-    if (isActivationKey && !isZoomed) {
-      event.preventDefault();
-      zoomIn();
-    }
-  }
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const { buttonProps } = useButton(
+    {
+      'aria-label': a11yLabel,
+      onPress: isZoomed ? undefined : zoomIn,
+      isDisabled: isZoomed,
+    },
+    buttonRef,
+  );
+
+  const { isFocusVisible, focusProps } = useFocusRing();
 
   return (
     <button
-      aria-label={a11yLabel}
+      {...mergeProps(buttonProps, focusProps)}
       className={cx(buttonStyle, modalState === 'UNLOADED' ? buttonVisibleClass : buttonHiddenClass)}
-      onClick={isZoomed ? undefined : zoomIn}
-      onKeyDown={handleKeyDown}
+      data-focus-visible={isFocusVisible}
+      ref={buttonRef}
       type="button"
     >
       <img alt={alt || ''} src={src} style={style} {...imgProps} onLoad={onImageLoad} ref={imgRef} />

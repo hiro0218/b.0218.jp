@@ -1,5 +1,7 @@
 'use client';
 
+import { useDialog } from '@react-aria/dialog';
+import { FocusScope } from '@react-aria/focus';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
 import { memo } from 'react';
 import { createPortal } from 'react-dom';
@@ -106,7 +108,7 @@ interface ZoomDialogProps {
  * ズームダイアログコンポーネント
  *
  * 画像のズーム表示用のモーダルダイアログです。
- * Searchダイアログと同様のシンプルなbackdropスタイルを使用しています。
+ * SearchDialogと同様にReact Ariaを使用してアクセシビリティを確保しています。
  */
 function ZoomDialogComponent({
   dialogRef,
@@ -124,37 +126,46 @@ function ZoomDialogComponent({
   onImageClick,
   onTransitionEnd,
 }: ZoomDialogProps): ReactNode {
+  const { dialogProps } = useDialog(
+    {
+      'aria-label': a11yLabel,
+    },
+    dialogRef,
+  );
+
   return createPortal(
-    <dialog
-      aria-label={a11yLabel}
-      className={dialogStyle}
-      data-closing={!isModalActive}
-      data-unloading={modalState === 'UNLOADING'}
-      onCancel={onCancel}
-      onClose={onClose}
-      ref={dialogRef}
-    >
-      <div className={modalContentStyle} onClick={onContentClick}>
-        <img
-          alt={alt || ''}
-          className={zoomedImageStyle}
-          loading="lazy"
-          onClick={onImageClick}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              onImageClick();
-            }
-          }}
-          onTransitionEnd={onTransitionEnd}
-          ref={modalImgRef}
-          src={zoomImg?.src || src}
-          srcSet={zoomImg?.srcSet}
-          style={modalImgStyle}
-          tabIndex={0}
-        />
-      </div>
-    </dialog>,
+    <FocusScope autoFocus contain restoreFocus>
+      <dialog
+        {...dialogProps}
+        className={dialogStyle}
+        data-closing={!isModalActive}
+        data-unloading={modalState === 'UNLOADING'}
+        onCancel={onCancel}
+        onClose={onClose}
+        ref={dialogRef}
+      >
+        <div className={modalContentStyle} onClick={onContentClick}>
+          <img
+            alt={alt || ''}
+            className={zoomedImageStyle}
+            loading="lazy"
+            onClick={onImageClick}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onImageClick();
+              }
+            }}
+            onTransitionEnd={onTransitionEnd}
+            ref={modalImgRef}
+            src={zoomImg?.src || src}
+            srcSet={zoomImg?.srcSet}
+            style={modalImgStyle}
+            tabIndex={0}
+          />
+        </div>
+      </dialog>
+    </FocusScope>,
     document.body,
   );
 }

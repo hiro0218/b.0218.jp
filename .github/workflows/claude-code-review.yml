@@ -38,16 +38,35 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Required for submodules
-          submodules: true # Fetch _article/_posts submodule
+          fetch-depth: 1 # Minimal checkout for PR reviews
 
       - name: Run Claude Code Review
         id: claude-review
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          plugin_marketplaces: 'https://github.com/anthropics/claude-code.git'
-          plugins: 'code-review@claude-code-plugins'
-          prompt: '/code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}'
-          # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
-          # or https://code.claude.com/docs/en/cli-reference for available options
+          track_progress: true # Enable visual progress tracking
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            このプルリクエストをレビューしてください。以下の観点で評価してください：
+            - コード品質とベストプラクティス
+            - 潜在的なバグや問題
+            - セキュリティへの影響
+            - パフォーマンスの考慮事項
+            - TypeScript型の安全性
+            - React 19のベストプラクティス準拠
+
+            特定の問題にはインラインコメントを使用して詳細なフィードバックを提供してください。
+
+            Note: PRブランチは既に現在の作業ディレクトリにチェックアウトされています。
+
+            トップレベルのフィードバックには `gh pr comment` を使用してください。
+            特定のコードの問題を強調するには `mcp__github_inline_comment__create_inline_comment` を使用してください。
+            GitHubコメントのみを投稿し、レビューテキストをメッセージとして送信しないでください。
+
+          claude_args: |
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"
+          # See https://github.com/anthropics/claude-code-action/blob/main/docs/solutions.md
+          # for more examples and configuration options

@@ -1,6 +1,8 @@
 'use client';
 
-import { useEffect, useId, useRef } from 'react';
+import { useTextField } from '@react-aria/textfield';
+import { mergeProps } from '@react-aria/utils';
+import { useEffect, useRef } from 'react';
 
 import { ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';
 import { css, styled } from '@/ui/styled';
@@ -18,7 +20,17 @@ interface SearchHeaderProps {
  */
 export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: SearchHeaderProps) {
   const refInput = useRef<HTMLInputElement>(null);
-  const searchInputId = useId();
+
+  const { labelProps, inputProps } = useTextField(
+    {
+      'aria-label': '検索キーワード',
+      type: 'text',
+      autoComplete: 'off',
+      defaultValue: searchQuery,
+      inputMode: 'search',
+    },
+    refInput,
+  );
 
   useEffect(() => {
     // タッチデバイスではキーボードが画面を覆うため、自動フォーカスを避ける
@@ -37,21 +49,18 @@ export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: Searc
 
   return (
     <div className={headerStyle}>
-      <label className={headerIconStyle} htmlFor={searchInputId}>
+      <label {...labelProps} className={headerIconStyle}>
         <MagnifyingGlassIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
       </label>
       <SearchInput
-        aria-autocomplete="list"
-        aria-label="検索キーワード"
-        autoComplete="off"
-        defaultValue={searchQuery}
-        id={searchInputId}
-        onKeyDown={onKeyDown}
-        onKeyUp={onKeyUp}
-        placeholder="記事タイトルまたはタグを検索"
+        {...mergeProps(inputProps, {
+          'aria-autocomplete': 'list' as const,
+          role: 'searchbox' as const,
+          placeholder: '記事タイトルまたはタグを検索',
+          onKeyDown,
+          onKeyUp,
+        })}
         ref={refInput}
-        role="searchbox"
-        type="text"
       />
       <div className={clearButtonWrapperStyle}>
         <SearchClearButton disabled={!searchQuery} onClear={handleClear} />

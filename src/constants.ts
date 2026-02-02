@@ -48,3 +48,19 @@ export const GOOGLE_ADSENSE = {
   // biome-ignore lint/style/useNamingConvention: UPPER
   SLOT: '4045255408',
 } as const;
+
+/**
+ * アニメーション関連の定数
+ */
+
+/**
+ * デフォルトのトランジション時間（ミリ秒）
+ * @remarks CSS の transition-duration を読み取れなかった場合のフォールバック値
+ */
+export const DEFAULT_TRANSITION_MS = 200;
+
+/**
+ * フォールバックの安全マージン（ミリ秒）
+ * @remarks onTransitionEnd イベントのフォールバックタイマーに追加する安全マージン
+ */
+export const FALLBACK_MARGIN_MS = 50;

@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
+import useIsClient from '@/hooks/useIsClient';
 import { getSessionStorage, removeSessionStorage, setSessionStorage } from '@/lib/browser/safeSessionStorage';
 import type { SearchResultItem } from '../../types';
 
@@ -23,26 +24,25 @@ type StoredSearchState = SearchState & {
  * 画面遷移後も検索結果を維持するために使用
  */
 export const useSearchStatePersistence = () => {
-  const isClientRef = useRef(false);
+  const isClient = useIsClient();
 
-  useEffect(() => {
-    isClientRef.current = true;
-  }, []);
+  const saveSearchState = useCallback(
+    (state: SearchState) => {
+      if (!isClient) return;
 
-  const saveSearchState = useCallback((state: SearchState) => {
-    if (!isClientRef.current) return;
+      const storedState: StoredSearchState = {
+        ...state,
+        isOpen: state.isOpen ?? true,
+        timestamp: Date.now(),
+      };
 
-    const storedState: StoredSearchState = {
-      ...state,
-      isOpen: state.isOpen ?? true,
-      timestamp: Date.now(),
-    };
-
-    setSessionStorage(STORAGE_KEY, storedState);
-  }, []);
+      setSessionStorage(STORAGE_KEY, storedState);
+    },
+    [isClient],
+  );
 
   const loadSearchState = useCallback((): SearchState | null => {
-    if (!isClientRef.current) return null;
+    if (!isClient) return null;
 
     const state = getSessionStorage<StoredSearchState>(STORAGE_KEY);
     if (!state) return null;
@@ -55,12 +55,12 @@ export const useSearchStatePersistence = () => {
 
     const { timestamp, ...searchState } = state;
     return searchState;
-  }, []);
+  }, [isClient]);
 
   const clearSearchState = useCallback(() => {
-    if (!isClientRef.current) return;
+    if (!isClient) return;
     removeSessionStorage(STORAGE_KEY);
-  }, []);
+  }, [isClient]);
 
   return {
     saveSearchState,
