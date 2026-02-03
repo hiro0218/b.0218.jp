@@ -119,6 +119,7 @@ async function preprocessText(
 type IdfScores = Record<string, number>;
 type TfScores = Record<string, number>;
 type TfIdfVector = Record<string, number>;
+type TfIdfNorms = Record<string, number>;
 
 /**
  * 全記事からIDFスコアを計算
@@ -202,38 +203,27 @@ function calculateTfIdfVector(slug: string, tfScores: TfScores, idfScores: IdfSc
 /**
  * コサイン類似度を計算
  */
-function calculateCosineSimilarity(vec1: TfIdfVector, vec2: TfIdfVector): number {
+function calculateCosineSimilarityWithNorms(
+  vec1: TfIdfVector,
+  vec2: TfIdfVector,
+  magnitude1: number,
+  magnitude2: number,
+): number {
   try {
-    // ベクトルの大きさとドット積を一度に計算（ループ最適化）
+    // ドット積のみを計算（ベクトル長は事前計算済み）
     let dotProduct = 0;
-    let magnitude1 = 0;
-    let magnitude2 = 0;
 
     // 一般的に多くの単語がゼロの値を持つため、非ゼロ値のみを処理
     // まず第1ベクトルの非ゼロ値を処理
     for (const word in vec1) {
       const val1 = vec1[word];
       if (val1 === 0) continue;
-      magnitude1 += val1 * val1;
 
       const val2 = vec2[word] || 0;
       if (val2 !== 0) {
         dotProduct += val1 * val2;
       }
     }
-
-    // 次に第2ベクトルの非ゼロ値を処理（vec2に固有の単語のみ）
-    for (const word in vec2) {
-      const val2 = vec2[word];
-      if (val2 === 0) continue;
-      magnitude2 += val2 * val2;
-
-      // vec1に含まれない単語は既に上のループで処理済みなので、
-      // ここではdotProductに加算しない
-    }
-
-    magnitude1 = Math.sqrt(magnitude1);
-    magnitude2 = Math.sqrt(magnitude2);
 
     if (magnitude1 === 0 || magnitude2 === 0) {
       return 0;
@@ -249,8 +239,13 @@ function calculateCosineSimilarity(vec1: TfIdfVector, vec2: TfIdfVector): number
 /**
  * コンテンツ類似度を計算
  */
-function calculateContentSimilarity(tfIdfVector1: TfIdfVector, tfIdfVector2: TfIdfVector): number {
-  return calculateCosineSimilarity(tfIdfVector1, tfIdfVector2);
+function calculateContentSimilarity(
+  tfIdfVector1: TfIdfVector,
+  tfIdfVector2: TfIdfVector,
+  norm1: number,
+  norm2: number,
+): number {
+  return calculateCosineSimilarityWithNorms(tfIdfVector1, tfIdfVector2, norm1, norm2);
 }
 
 /**
@@ -368,6 +363,8 @@ async function calculatePostSimilarity(
   targetPost: Post,
   postTfIdf: TfIdfVector,
   targetPostTfIdf: TfIdfVector,
+  postTfIdfNorm: number,
+  targetPostTfIdfNorm: number,
   sortedTags: TagSimilarityScores,
 ): Promise<number> {
   if (!post.slug || !targetPost.slug) {
@@ -393,7 +390,12 @@ async function calculatePostSimilarity(
   }
 
   // コンテンツ類似度を計算
-  const contentSimilarityScore = calculateContentSimilarity(postTfIdf, targetPostTfIdf);
+  const contentSimilarityScore = calculateContentSimilarity(
+    postTfIdf,
+    targetPostTfIdf,
+    postTfIdfNorm,
+    targetPostTfIdfNorm,
+  );
 
   // 新鮮度ボーナスを計算
   const recencyBonus = calculateRecencyBonus(post, targetPost);
@@ -481,6 +483,7 @@ export async function getRelatedPosts(
 
   // 3. TF-IDFベクトル計算
   const tfIdfVectors: { [slug: string]: TfIdfVector } = {};
+  const tfIdfNorms: TfIdfNorms = {};
   const postIndexMap = new Map<string, number>();
 
   for (let index = 0; index < posts.length; index++) {
@@ -492,6 +495,13 @@ export async function getRelatedPosts(
       const tfScores = calculateTf(processedContents[index]);
       const tfIdfVector = calculateTfIdfVector(post.slug, tfScores, idfScores);
       tfIdfVectors[post.slug] = tfIdfVector;
+      let normSum = 0;
+      for (const word in tfIdfVector) {
+        const val = tfIdfVector[word];
+        if (val === 0) continue;
+        normSum += val * val;
+      }
+      tfIdfNorms[post.slug] = Math.sqrt(normSum);
     } catch (error) {
       console.warn(`[getRelatedPosts] TF-IDF計算エラー (${post.slug}):`, error);
       continue;
@@ -538,7 +548,13 @@ export async function getRelatedPosts(
         }
 
         const targetPostTfIdf = tfIdfVectors[targetPost.slug];
+        const targetPostNorm = tfIdfNorms[targetPost.slug];
         const targetTags = targetPost.tags || [];
+
+        // ノルムが計算されていない場合はスキップ（異常ケース）
+        if (targetPostNorm === undefined || targetPostNorm === 0) {
+          return null;
+        }
 
         // タグがない記事は候補も少ないため早期スキップ
         if (targetTags.length === 0) {
@@ -579,12 +595,21 @@ export async function getRelatedPosts(
             processedPairs.add(pairKey);
 
             const postTfIdf = tfIdfVectors[post.slug];
+            const postNorm = tfIdfNorms[post.slug];
+
+            // ノルムが計算されていない場合はスキップ（異常ケース）
+            if (postNorm === undefined || postNorm === 0) {
+              return null;
+            }
+
             try {
               const similarityScore = await calculatePostSimilarity(
                 post,
                 targetPost,
                 postTfIdf,
                 targetPostTfIdf,
+                postNorm,
+                targetPostNorm,
                 sortedTags,
               );
               return { slug: post.slug, similarityScore };
