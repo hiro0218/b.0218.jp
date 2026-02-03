@@ -7,14 +7,41 @@ import { STOP_WORDS_JA } from '../shared/stopWords';
 const REGEX_DIGIT_ONLY = /^\d+$/;
 
 // テキスト処理パラメータ
+// NOTE:
+// - CONTENT_MAX_LENGTH は、1件あたりの本文トークナイズコストとメモリ使用量のバランスを取るための上限値である。
+//   - 典型的なブログ記事の本文長（〜数千文字）をほぼカバーしつつ、極端に長い記事によるバッチ処理時間の悪化を防ぐ目的で 5000 文字に設定している。
+//   - この値を増やすと類似度計算に使える情報量は増えるが、前処理時間・メモリ使用量・バッチあたりのCPU負荷が線形〜準線形に増加する。
+//   - パフォーマンスチューニング時には、計測環境で 3000〜8000 程度の範囲で変更し、処理時間とメモリ使用量のトレードオフを確認してから確定すること。
 const CONTENT_MAX_LENGTH = 5000; // 本文の最大文字数（パフォーマンス最適化）
+// NOTE:
+// - TITLE_WEIGHT は、タイトルに含まれる単語を本文よりも重要視するための重み付け係数である。
+//   - タイトル語を「本文中に繰り返し出現した」とみなすことで、タイトルが類似度スコアに与える影響を強めている。
+//   - 初期検証では 2〜4 程度の範囲を試し、タイトル依存が強くなりすぎず、かつ無視もされないバランスとして 3 に設定している。
+//   - 類似度がタイトルに過度に引きずられる場合は 2 に、タイトルをより強調したい場合は 4 程度までを目安に調整すること。
 const TITLE_WEIGHT = 3; // タイトルの重み（タイトルは3回繰り返して重要度を上げる）
 
 // 類似度計算パラメータ
-const SIMILARITY_LIMIT = 6; // 関連投稿の最大数
-const MIN_SIMILARITY_SCORE = 0.05; // 最小類似度閾値（これ以下は無視）
-const MIN_COMMON_TAGS = 1; // 類似度計算の最小共通タグ数
-const MAX_SIMILARITY_CANDIDATES = 50; // 類似度計算の最大候補数（パフォーマンス最適化）
+const SIMILARITY_LIMIT = 6; // 関連投稿の最大数（UI に表示する上限）
+
+// 最小類似度閾値。
+// 0.0〜1.0 のコサイン類似度のうち、0.05 未満はノイズ（偶然一致）として無視する前提で設定している。
+// - 小さくする（例: 0.01）と候補は増えるが、関連性の低い記事が混ざりやすくなる（精度低下・計算コスト増）。
+// - 大きくする（例: 0.1〜0.2）と高い類似度の記事に絞られるが、ニッチなトピックの記事が拾われにくくなる。
+// サイト全体の記事数が多いほど値をやや上げ、記事数が少ない小規模サイトではやや下げるとバランスが取りやすい。
+const MIN_SIMILARITY_SCORE = 0.05;
+
+// 類似度計算に含めるための最小共通タグ数。
+// 1 を下回る値（0）にすると、タグが完全に無関係な記事同士もコンテンツ類似度だけで候補に入りやすくなり、ノイズが増える。
+// 2 以上にすると、より強くタグが一致している記事に限定されるが、タグ付けが疎な記事同士の関連性を見落としやすくなる。
+// 本ブログではタグ付けを前提にしているため、「最低でも 1 つはタグが重なっていること」を必要条件としている。
+const MIN_COMMON_TAGS = 1;
+
+// 類似度計算時に評価する最大候補数（パフォーマンス最適化用の上限）。
+// 全投稿との全組み合わせを計算すると記事数 N に対して O(N^2) となるため、事前フィルタ後の候補を 50 件に制限している。
+// - 値を増やす（例: 100〜200）と、より多くの候補から最適なものを選べる可能性があるが、計算時間とメモリ使用量が増える。
+// - 値を減らす（例: 20〜30）と、高速になる一方で、長期運用で記事数が増えた際に関連投稿の見落としが発生しやすくなる。
+// 目安として、記事数が数百件規模なら 50 前後、数千件以上になる場合は CPU/メモリ状況を見ながら 30〜80 程度で調整するとよい。
+const MAX_SIMILARITY_CANDIDATES = 50;
 const TAG_WEIGHT = 0.6; // タグ類似度の重み
 const CONTENT_WEIGHT = 0.4; // コンテンツ類似度の重み
 const RECENCY_BONUS_FACTOR = 0.1; // 新鮮度ボーナス係数
@@ -30,13 +57,11 @@ const MIN_BATCH_SIZE = 100; // 最小バッチサイズ
 const MAX_BATCH_SIZE = 400; // 最大バッチサイズ（メモリ制約）
 
 // CPU数に基づいてバッチサイズを計算
-const calculateBatchSize = (): number => {
-  const calculated = CPU_COUNT * BATCH_SIZE_PER_CPU;
-  return Math.min(Math.max(calculated, MIN_BATCH_SIZE), MAX_BATCH_SIZE);
-};
+const CALCULATED_BATCH_SIZE = CPU_COUNT * BATCH_SIZE_PER_CPU;
+const EFFECTIVE_BATCH_SIZE = Math.min(Math.max(CALCULATED_BATCH_SIZE, MIN_BATCH_SIZE), MAX_BATCH_SIZE);
 
-const PREPROCESSING_BATCH_SIZE = calculateBatchSize();
-const SIMILARITY_BATCH_SIZE = calculateBatchSize();
+const PREPROCESSING_BATCH_SIZE = EFFECTIVE_BATCH_SIZE;
+const SIMILARITY_BATCH_SIZE = EFFECTIVE_BATCH_SIZE;
 
 // トークナイザ初期化用のシングルトン
 let tokenizerPromise: Promise<Tokenizer<IpadicFeatures>> | null = null;
@@ -452,7 +477,7 @@ export async function getRelatedPosts(
   const processedContents: string[][] = [];
 
   // 個別記事処理のタイムアウト（ミリ秒）
-  const PerPostTimeout = 10000; // 10秒
+  const perPostTimeout = 10000; // 10秒
 
   /**
    * タイムアウト付きで記事を前処理する
@@ -478,7 +503,7 @@ export async function getRelatedPosts(
     const batchResults = await Promise.all(
       batch.map(async (post) => {
         try {
-          return await preprocessPostWithTimeout(post, tokenizer, PerPostTimeout);
+          return await preprocessPostWithTimeout(post, tokenizer, perPostTimeout);
         } catch (error) {
           console.warn(`[getRelatedPosts] エラー (${post.slug}):`, error instanceof Error ? error.message : error);
           return [];
