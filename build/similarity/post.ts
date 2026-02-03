@@ -1,3 +1,4 @@
+import { cpus } from 'node:os';
 import kuromoji, { type IpadicFeatures, type Tokenizer } from 'kuromoji';
 import type { Post, TagSimilarityScores } from '@/types/source';
 import { STOP_WORDS_JA } from '../shared/stopWords';
@@ -12,6 +13,8 @@ const TITLE_WEIGHT = 3; // タイトルの重み（タイトルは3回繰り返�
 // 類似度計算パラメータ
 const SIMILARITY_LIMIT = 6; // 関連投稿の最大数
 const MIN_SIMILARITY_SCORE = 0.05; // 最小類似度閾値（これ以下は無視）
+const MIN_COMMON_TAGS = 1; // 類似度計算の最小共通タグ数
+const MAX_SIMILARITY_CANDIDATES = 50; // 類似度計算の最大候補数（パフォーマンス最適化）
 const TAG_WEIGHT = 0.6; // タグ類似度の重み
 const CONTENT_WEIGHT = 0.4; // コンテンツ類似度の重み
 const RECENCY_BONUS_FACTOR = 0.1; // 新鮮度ボーナス係数
@@ -20,9 +23,20 @@ const TAG_SIMILARITY_BASE_THRESHOLD = 0.5; // タグ類似度閾値
 const TAG_SIMILARITY_JACCARD_WEIGHT = 0.4; // ジャッカード係数重み
 const TAG_SIMILARITY_RELATED_WEIGHT = 0.6; // 関連度スコア重み
 
-// バッチ処理パラメータ
-const PREPROCESSING_BATCH_SIZE = 100; // 前処理バッチサイズ（大きくして並列化効率向上）
-const SIMILARITY_BATCH_SIZE = 100; // 類似度計算バッチサイズ
+// バッチ処理パラメータ（CPU数に応じて動的に調整）
+const CPU_COUNT = cpus().length;
+const BATCH_SIZE_PER_CPU = 25; // 1コアあたりのバッチサイズ
+const MIN_BATCH_SIZE = 100; // 最小バッチサイズ
+const MAX_BATCH_SIZE = 400; // 最大バッチサイズ（メモリ制約）
+
+// CPU数に基づいてバッチサイズを計算
+const calculateBatchSize = (): number => {
+  const calculated = CPU_COUNT * BATCH_SIZE_PER_CPU;
+  return Math.min(Math.max(calculated, MIN_BATCH_SIZE), MAX_BATCH_SIZE);
+};
+
+const PREPROCESSING_BATCH_SIZE = calculateBatchSize();
+const SIMILARITY_BATCH_SIZE = calculateBatchSize();
 
 // トークナイザ初期化用のシングルトン
 let tokenizerPromise: Promise<Tokenizer<IpadicFeatures>> | null = null;
@@ -424,7 +438,9 @@ export async function getRelatedPosts(
     return [];
   }
 
-  console.log(`[getRelatedPosts] 処理開始 (記事数: ${posts.length})`);
+  console.log(
+    `[getRelatedPosts] 処理開始 (記事数: ${posts.length}, CPU: ${CPU_COUNT}コア, バッチサイズ: ${PREPROCESSING_BATCH_SIZE})`,
+  );
 
   // トークナイザの初期化
   const tokenizer = await getTokenizer();
@@ -456,8 +472,6 @@ export async function getRelatedPosts(
   }
 
   // 記事を小さなバッチに分割して処理
-  const preprocessingStartTime = Date.now();
-
   for (let i = 0; i < posts.length; i += PREPROCESSING_BATCH_SIZE) {
     const batch = posts.slice(i, i + PREPROCESSING_BATCH_SIZE);
 
@@ -475,8 +489,7 @@ export async function getRelatedPosts(
     processedContents.push(...batchResults);
   }
 
-  const preprocessingElapsedTime = Date.now() - preprocessingStartTime;
-  console.log(`[getRelatedPosts] コンテンツ前処理完了 (${Math.round(preprocessingElapsedTime / 1000)}秒)`);
+  console.log('[getRelatedPosts] コンテンツ前処理完了');
 
   // 2. IDFスコア計算
   const idfScores = calculateIdf(posts, processedContents);
@@ -537,8 +550,6 @@ export async function getRelatedPosts(
   const results: { [key: string]: Record<string, number> }[] = [];
 
   // 記事をチャンクに分割
-  const similarityStartTime = Date.now();
-
   for (let i = 0; i < posts.length; i += SIMILARITY_BATCH_SIZE) {
     const targetPosts = posts.slice(i, i + SIMILARITY_BATCH_SIZE);
     const chunkResults = await Promise.all(
@@ -561,21 +572,43 @@ export async function getRelatedPosts(
           return null;
         }
 
-        // タグに基づく候補記事の絞り込み
+        // タグに基づく候補記事の絞り込み（加点方式：共通タグ数でソート）
         const candidateIndices = new Set<number>();
+        const commonTagCounts = new Map<number, number>(); // 候補記事ごとの共通タグ数
+
+        // 共通タグ数をカウント
         targetTags.forEach((tag) => {
           const indices = tagToPostIndices.get(tag);
           if (indices) {
             indices.forEach((index) => {
               if (posts[index]?.slug !== targetPost.slug) {
                 candidateIndices.add(index);
+                commonTagCounts.set(index, (commonTagCounts.get(index) || 0) + 1);
               }
             });
           }
         });
 
-        // 候補が少なすぎる場合はスキップ（類似記事が見つからない可能性が高い）
+        // 候補が少なすぎる場合はスキップ
         if (candidateIndices.size < 2) {
+          return null;
+        }
+
+        // 共通タグ数でソートして上位候補を選択（加点方式）
+        // - 共通タグが多い記事が優先される
+        // - 共通タグが少ない記事も下位候補として残る
+        const sortedCandidates = Array.from(candidateIndices)
+          .map((index) => ({
+            index,
+            commonTags: commonTagCounts.get(index) || 0,
+          }))
+          .filter((candidate) => candidate.commonTags >= MIN_COMMON_TAGS)
+          .sort((a, b) => b.commonTags - a.commonTags)
+          .slice(0, MAX_SIMILARITY_CANDIDATES) // 上位50件のみ
+          .map((c) => c.index);
+
+        // 候補が少なすぎる場合はスキップ
+        if (sortedCandidates.length < 2) {
           return null;
         }
 
@@ -585,7 +618,7 @@ export async function getRelatedPosts(
 
         // 類似度計算を並列処理で効率化
         const relatedPostsData = await Promise.all(
-          Array.from(candidateIndices).map(async (postIndex) => {
+          sortedCandidates.map(async (postIndex) => {
             const post = posts[postIndex];
             if (!post || !post.slug || !tfIdfVectors[post.slug]) return null;
 
@@ -649,7 +682,6 @@ export async function getRelatedPosts(
     results.push(...chunkValidResults);
   }
 
-  const similarityElapsedTime = Date.now() - similarityStartTime;
-  console.log(`[getRelatedPosts] 類似度計算完了 (${Math.round(similarityElapsedTime / 1000)}秒)`);
+  console.log('[getRelatedPosts] 類似度計算完了');
   return results;
 }

@@ -312,9 +312,14 @@ export function getRelatedTags(posts: Post[], tagsList: TagIndex): TagSimilarity
   }
 
   // タグリストが空の場合も早期リターン
-  if (Object.keys(tagsList).length === 0) {
+  const tagsCount = Object.keys(tagsList).length;
+  if (tagsCount === 0) {
+    console.warn('[getRelatedTags] タグリストが空です');
     return {};
   }
+
+  // 処理開始ログ
+  console.log(`[getRelatedTags] 処理開始 (記事数: ${posts.length}, タグ数: ${tagsCount})`);
 
   // キャッシュキーの生成
   const cacheKey = generateCacheKey(posts, tagsList);
@@ -322,29 +327,38 @@ export function getRelatedTags(posts: Post[], tagsList: TagIndex): TagSimilarity
   // キャッシュヒットした場合はキャッシュから結果を返す
   const cachedResult = tagsRelationCache.get(cacheKey);
   if (cachedResult !== undefined) {
+    console.log('[getRelatedTags] キャッシュヒット - 計算をスキップ');
     return cachedResult;
   }
 
   const totalPosts = posts.length;
 
   // 1. ドキュメント頻度と共起行列を1回のループで作成
+  console.log('[getRelatedTags] 共起行列の構築を開始...');
   const { tagDocFrequency, coOccurrenceMatrix } = buildFrequencyAndCoOccurrence(posts, tagsList);
+  console.log('[getRelatedTags] 共起行列の構築完了');
 
   // 2. NPMIに基づいてタグ関連度を計算 (確率事前計算)
+  console.log('[getRelatedTags] タグ関連度の計算を開始...');
   const tagRelationsMap = calculateTagRelationsNPMI(
     tagsList, // 有効タグリストの元として必要
     coOccurrenceMatrix,
     tagDocFrequency,
     totalPosts,
   );
+  console.log('[getRelatedTags] タグ関連度の計算完了');
 
   // 3. 関連度の高い順にソート (結果は通常のオブジェクト形式に戻す)
+  console.log('[getRelatedTags] タグ関連度のソートを開始...');
   const result = sortTagRelations(tagRelationsMap);
+  console.log('[getRelatedTags] タグ関連度のソート完了');
 
   // 有効な結果が得られた場合はキャッシュに格納
   if (Object.keys(result).length > 0) {
     tagsRelationCache.set(cacheKey, result);
   }
+
+  console.log('[getRelatedTags] 処理完了');
 
   return result;
 }
