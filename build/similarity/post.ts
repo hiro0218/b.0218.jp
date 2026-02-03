@@ -108,7 +108,7 @@ async function getTokenizer(): Promise<Tokenizer<IpadicFeatures>> {
 
 // キャッシュの初期化
 const similarityCache = new Map<string, number>();
-const tfIdfCache = new Map<string, Record<string, number>>();
+const tfIdfCache = new Map<string, { vector: Record<string, number>; norm: number }>();
 
 /**
  * 記事からテキストを抽出（タイトル重視 + 本文の一部）
@@ -192,19 +192,17 @@ function calculateIdf(posts: Post[], processedContents: string[][]): IdfScores {
     const idfScores: IdfScores = {};
     const totalDocs = posts.length;
     const docFrequency: Record<string, number> = {};
-    const allWords = new Set<string>();
 
     processedContents.forEach((words) => {
       const uniqueWordsInDoc = new Set(words);
       uniqueWordsInDoc.forEach((word) => {
         docFrequency[word] = (docFrequency[word] || 0) + 1;
-        allWords.add(word);
       });
     });
 
-    allWords.forEach((word) => {
-      idfScores[word] = Math.log((totalDocs + 1) / ((docFrequency[word] || 0) + 1)) + 1;
-    });
+    for (const word in docFrequency) {
+      idfScores[word] = Math.log((totalDocs + 1) / (docFrequency[word] + 1)) + 1;
+    }
 
     return idfScores;
   } catch (error) {
@@ -224,13 +222,11 @@ function calculateTf(words: string[]): TfScores {
     const wordCount = words.length;
     if (wordCount === 0) return tfScores;
 
-    words.forEach((word) => {
-      tfScores[word] = (tfScores[word] || 0) + 1;
-    });
+    const invWordCount = 1 / wordCount;
 
-    for (const word in tfScores) {
-      tfScores[word] /= wordCount;
-    }
+    words.forEach((word) => {
+      tfScores[word] = (tfScores[word] || 0) + invWordCount;
+    });
 
     return tfScores;
   } catch (error) {
@@ -239,33 +235,43 @@ function calculateTf(words: string[]): TfScores {
 }
 
 /**
- * TF-IDFベクトルを計算（キャッシュを利用）
+ * TF-IDFベクトルとノルムを同時に計算（キャッシュを利用）
  *
  * @param slug - 記事スラッグ（キャッシュキーとして使用）
  * @param tfScores - 記事のTFスコア
  * @param idfScores - 全記事のIDFスコア
- * @returns TF-IDFベクトル（単語ごとのTF-IDF値）
+ * @returns TF-IDFベクトルとノルム
+ *
+ * @remarks
+ * - ベクトルとノルムを1パスで計算してキャッシュに保存
+ * - キャッシュキーはslugのみ（同一記事は同一のidfScoresで処理される前提）
  */
-function calculateTfIdfVector(slug: string, tfScores: TfScores, idfScores: IdfScores): TfIdfVector {
-  // キャッシュをチェック
+function calculateTfIdfVectorWithNorm(
+  slug: string,
+  tfScores: TfScores,
+  idfScores: IdfScores,
+): { vector: TfIdfVector; norm: number } {
   const cacheKey = `tfidf_${slug}`;
-  const cachedVector = tfIdfCache.get(cacheKey);
-  if (cachedVector) {
-    return cachedVector;
+  const cached = tfIdfCache.get(cacheKey);
+  if (cached) {
+    return cached;
   }
 
   try {
     const tfIdfVector: TfIdfVector = {};
+    let normSum = 0;
 
     for (const word in tfScores) {
       if (idfScores[word] !== undefined) {
-        tfIdfVector[word] = tfScores[word] * idfScores[word];
+        const val = tfScores[word] * idfScores[word];
+        tfIdfVector[word] = val;
+        normSum += val * val;
       }
     }
 
-    // 計算結果をキャッシュに保存
-    tfIdfCache.set(cacheKey, tfIdfVector);
-    return tfIdfVector;
+    const result = { vector: tfIdfVector, norm: Math.sqrt(normSum) };
+    tfIdfCache.set(cacheKey, result);
+    return result;
   } catch (error) {
     throw error;
   }
@@ -287,27 +293,18 @@ function calculateCosineSimilarityWithNorms(
   magnitude2: number,
 ): number {
   try {
-    // ドット積のみを計算（ベクトル長は事前計算済み）
+    if (magnitude1 === 0 || magnitude2 === 0) return 0;
+
     let dotProduct = 0;
 
-    // 一般的に多くの単語がゼロの値を持つため、非ゼロ値のみを処理
-    // まず第1ベクトルの非ゼロ値を処理
     for (const word in vec1) {
-      const val1 = vec1[word];
-      if (val1 === 0) continue;
-
-      const val2 = vec2[word] || 0;
-      if (val2 !== 0) {
-        dotProduct += val1 * val2;
+      const val2 = vec2[word];
+      if (val2 !== undefined && Number.isFinite(val2)) {
+        dotProduct += vec1[word] * val2;
       }
     }
 
-    if (magnitude1 === 0 || magnitude2 === 0) {
-      return 0;
-    }
-
-    const similarity = dotProduct / (magnitude1 * magnitude2);
-    return Math.min(1, similarity); // 1以下に制限
+    return Math.min(1, dotProduct / (magnitude1 * magnitude2));
   } catch (error) {
     throw error;
   }
@@ -355,9 +352,14 @@ function calculateTagSimilarity(tags1: string[], tags2: string[], sortedTags: Ta
     // ジャッカード類似度の計算
     const tagSet1 = new Set(validTags1);
     const tagSet2 = new Set(validTags2);
-    const intersection = new Set([...tagSet1].filter((tag) => tagSet2.has(tag)));
-    const union = new Set([...tagSet1, ...tagSet2]);
-    const jaccardSimilarity = union.size > 0 ? intersection.size / union.size : 0;
+
+    let intersectionCount = 0;
+    for (const tag of tagSet1) {
+      if (tagSet2.has(tag)) intersectionCount++;
+    }
+
+    const unionSize = tagSet1.size + tagSet2.size - intersectionCount;
+    const jaccardSimilarity = unionSize > 0 ? intersectionCount / unionSize : 0;
 
     // 関連タグスコアの計算
     let relatedTagScoreSum = 0;
@@ -620,7 +622,7 @@ export async function getRelatedPosts(
   // 2. IDFスコア計算
   const idfScores = calculateIdf(posts, processedContents);
 
-  // 3. TF-IDFベクトル計算
+  // 3. TF-IDFベクトル計算（ノルムも同時計算）
   const tfIdfVectors: { [slug: string]: TfIdfVector } = {};
   const tfIdfNorms: TfIdfNorms = {};
   const postIndexMap = new Map<string, number>();
@@ -632,15 +634,9 @@ export async function getRelatedPosts(
     postIndexMap.set(post.slug, index);
     try {
       const tfScores = calculateTf(processedContents[index]);
-      const tfIdfVector = calculateTfIdfVector(post.slug, tfScores, idfScores);
-      tfIdfVectors[post.slug] = tfIdfVector;
-      let normSum = 0;
-      for (const word in tfIdfVector) {
-        const val = tfIdfVector[word];
-        if (val === 0) continue;
-        normSum += val * val;
-      }
-      tfIdfNorms[post.slug] = Math.sqrt(normSum);
+      const { vector, norm } = calculateTfIdfVectorWithNorm(post.slug, tfScores, idfScores);
+      tfIdfVectors[post.slug] = vector;
+      tfIdfNorms[post.slug] = norm;
     } catch (error) {
       console.warn(`[getRelatedPosts] TF-IDF計算エラー (${post.slug}):`, error);
       continue;
