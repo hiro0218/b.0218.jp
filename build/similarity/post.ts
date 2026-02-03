@@ -68,6 +68,13 @@ let tokenizerPromise: Promise<Tokenizer<IpadicFeatures>> | null = null;
 
 /**
  * 形態素解析器を初期化する（シングルトン）
+ *
+ * @returns 初期化済みのKuromojiトークナイザインスタンス
+ * @throws {Error} 初期化が60秒以内に完了しない場合
+ *
+ * @remarks
+ * - 初回呼び出し時のみ辞書を読み込み、以降はキャッシュを返す
+ * - タイムアウトは60秒に設定
  */
 async function getTokenizer(): Promise<Tokenizer<IpadicFeatures>> {
   if (!tokenizerPromise) {
@@ -105,19 +112,42 @@ const tfIdfCache = new Map<string, Record<string, number>>();
 
 /**
  * 記事からテキストを抽出（タイトル重視 + 本文の一部）
+ *
+ * @param post - 抽出元の記事データ
+ * @returns タイトルと本文を結合したテキスト
  */
 function extractTextFromPost(post: Post): string {
-  // タイトルは重要なので複数回繰り返す
   const titleRepeated = post.title ? `${post.title} `.repeat(TITLE_WEIGHT) : '';
-
-  // 本文は最初の部分のみ使用（パフォーマンス最適化）
   const contentSnippet = post.content ? post.content.substring(0, CONTENT_MAX_LENGTH) : '';
-
   return titleRepeated + contentSnippet;
 }
 
 /**
+ * トークンが意味のある単語かどうかを判定
+ *
+ * @param token - 形態素解析トークン
+ * @returns 意味のある単語の場合true
+ */
+function isMeaningfulToken(token: IpadicFeatures): boolean {
+  const validPos = ['名詞', '動詞', '形容詞', '副詞'];
+  if (!validPos.includes(token.pos)) return false;
+
+  if (token.pos_detail_1?.includes('数') || token.pos_detail_1?.includes('接尾')) return false;
+  if (token.pos === '記号') return false;
+  if (STOP_WORDS_JA.has(token.basic_form)) return false;
+  if (token.basic_form.length <= 1) return false;
+  if (REGEX_DIGIT_ONLY.test(token.basic_form)) return false;
+
+  return true;
+}
+
+/**
  * テキストを形態素解析し、意味のある単語の基本形配列を返す
+ *
+ * @param text - 解析対象のテキスト
+ * @param tokenizerInstance - Kuromojiトークナイザインスタンス
+ * @param slug - エラーログ用の記事スラッグ（オプション）
+ * @returns 意味のある単語の基本形配列
  */
 async function preprocessText(
   text: string,
@@ -133,17 +163,7 @@ async function preprocessText(
     const meaningfulTokens: string[] = [];
 
     for (const token of tokens) {
-      // 意味のある単語のみを抽出（条件チェックの短絡評価を活用）
-      if (token.pos === '名詞' || token.pos === '動詞' || token.pos === '形容詞' || token.pos === '副詞') {
-        if (token.pos_detail_1 && (token.pos_detail_1.includes('数') || token.pos_detail_1.includes('接尾'))) {
-          continue;
-        }
-        if (token.pos === '記号' || STOP_WORDS_JA.has(token.basic_form) || token.basic_form.length <= 1) {
-          continue;
-        }
-        if (REGEX_DIGIT_ONLY.test(token.basic_form)) {
-          continue;
-        }
+      if (isMeaningfulToken(token)) {
         meaningfulTokens.push(token.basic_form);
       }
     }
@@ -161,7 +181,11 @@ type TfIdfVector = Record<string, number>;
 type TfIdfNorms = Record<string, number>;
 
 /**
- * 全記事からIDFスコアを計算
+ * 全記事からIDF（逆文書頻度）スコアを計算
+ *
+ * @param posts - 全記事の配列
+ * @param processedContents - 各記事の形態素解析済み単語配列
+ * @returns 単語ごとのIDFスコアマップ
  */
 function calculateIdf(posts: Post[], processedContents: string[][]): IdfScores {
   try {
@@ -189,7 +213,10 @@ function calculateIdf(posts: Post[], processedContents: string[][]): IdfScores {
 }
 
 /**
- * 単一記事のTFスコアを計算
+ * 単一記事のTF（単語頻度）スコアを計算
+ *
+ * @param words - 記事内の単語配列
+ * @returns 単語ごとの出現頻度（0-1の正規化済み）
  */
 function calculateTf(words: string[]): TfScores {
   try {
@@ -213,6 +240,11 @@ function calculateTf(words: string[]): TfScores {
 
 /**
  * TF-IDFベクトルを計算（キャッシュを利用）
+ *
+ * @param slug - 記事スラッグ（キャッシュキーとして使用）
+ * @param tfScores - 記事のTFスコア
+ * @param idfScores - 全記事のIDFスコア
+ * @returns TF-IDFベクトル（単語ごとのTF-IDF値）
  */
 function calculateTfIdfVector(slug: string, tfScores: TfScores, idfScores: IdfScores): TfIdfVector {
   // キャッシュをチェック
@@ -240,7 +272,13 @@ function calculateTfIdfVector(slug: string, tfScores: TfScores, idfScores: IdfSc
 }
 
 /**
- * コサイン類似度を計算
+ * コサイン類似度を計算（事前計算済みノルムを使用）
+ *
+ * @param vec1 - 第1のTF-IDFベクトル
+ * @param vec2 - 第2のTF-IDFベクトル
+ * @param magnitude1 - vec1のノルム（事前計算済み）
+ * @param magnitude2 - vec2のノルム（事前計算済み）
+ * @returns コサイン類似度（0-1）
  */
 function calculateCosineSimilarityWithNorms(
   vec1: TfIdfVector,
@@ -277,6 +315,12 @@ function calculateCosineSimilarityWithNorms(
 
 /**
  * コンテンツ類似度を計算
+ *
+ * @param tfIdfVector1 - 第1の記事のTF-IDFベクトル
+ * @param tfIdfVector2 - 第2の記事のTF-IDFベクトル
+ * @param norm1 - 第1のベクトルのノルム
+ * @param norm2 - 第2のベクトルのノルム
+ * @returns コンテンツ類似度（0-1）
  */
 function calculateContentSimilarity(
   tfIdfVector1: TfIdfVector,
@@ -288,7 +332,12 @@ function calculateContentSimilarity(
 }
 
 /**
- * タグ類似度を計算
+ * タグ類似度を計算（Jaccard係数 + 関連度スコア）
+ *
+ * @param tags1 - 第1の記事のタグ配列
+ * @param tags2 - 第2の記事のタグ配列
+ * @param sortedTags - タグ間の関連度スコアマップ
+ * @returns タグ類似度（0-1）
  */
 function calculateTagSimilarity(tags1: string[], tags2: string[], sortedTags: TagSimilarityScores): number {
   try {
@@ -341,6 +390,14 @@ function calculateTagSimilarity(tags1: string[], tags2: string[], sortedTags: Ta
 
 /**
  * 新鮮度ボーナスを計算（更新日を考慮）
+ *
+ * @param post1 - 第1の記事
+ * @param post2 - 第2の記事
+ * @returns 新鮮度ボーナス（0-RECENCY_BONUS_FACTOR）
+ *
+ * @remarks
+ * - 更新日が近い記事ほどボーナスが高い
+ * - RECENCY_DECAY_DAYS以内なら線形減衰
  */
 function calculateRecencyBonus(post1: Post, post2: Post): number {
   try {
@@ -396,6 +453,20 @@ function calculateRecencyBonus(post1: Post, post2: Post): number {
 
 /**
  * 投稿間の類似度を計算（キャッシュを利用）
+ *
+ * @param post - 第1の記事
+ * @param targetPost - 第2の記事
+ * @param postTfIdf - 第1の記事のTF-IDFベクトル
+ * @param targetPostTfIdf - 第2の記事のTF-IDFベクトル
+ * @param postTfIdfNorm - 第1のベクトルのノルム
+ * @param targetPostTfIdfNorm - 第2のベクトルのノルム
+ * @param sortedTags - タグ間の関連度スコアマップ
+ * @returns 最終的な類似度スコア（0-1以上）
+ *
+ * @remarks
+ * - タグ類似度 × TAG_WEIGHT + コンテンツ類似度 × CONTENT_WEIGHT
+ * - 新鮮度ボーナスを乗算
+ * - MIN_SIMILARITY_SCORE未満は早期リターンで0を返す
  */
 async function calculatePostSimilarity(
   post: Post,
@@ -450,8 +521,34 @@ async function calculatePostSimilarity(
 }
 
 /**
- * 関連投稿を取得するメイン関数
- * タグによる事前フィルタリングによりパフォーマンスを改善
+ * 各記事に対して関連度の高い記事を計算し、類似度スコアを返す
+ *
+ * @param posts - 全記事の配列
+ * @param sortedTags - タグ間の類似度スコアマップ
+ * @returns 記事スラッグをキーとし、関連記事スラッグとスコアのマップを値とする配列
+ *
+ * @remarks
+ * **アルゴリズム概要:**
+ * - TF-IDF + コサイン類似度でコンテンツ類似度を計算
+ * - タグ類似度（Jaccard係数 + 関連度スコア）と組み合わせて最終スコアを算出
+ * - 新鮮度ボーナス（更新日の近さ）を加味
+ *
+ * **フィルタリング条件:**
+ * - 最低MIN_COMMON_TAGSのタグ共通が必要
+ * - MIN_SIMILARITY_SCORE未満のスコアは除外
+ * - 最大SIMILARITY_LIMIT件まで関連記事を返す
+ *
+ * **パフォーマンス最適化:**
+ * - タグによる事前フィルタリングで候補をMAX_SIMILARITY_CANDIDATES件に制限
+ * - バッチ処理（PREPROCESSING_BATCH_SIZE、SIMILARITY_BATCH_SIZE）
+ * - TF-IDFベクトルとノルムの事前計算とキャッシュ
+ *
+ * @example
+ * ```typescript
+ * const related = await getRelatedPosts(allPosts, tagScores);
+ * console.log(related[0]);
+ * // { "post-slug-1": { "related-1": 0.85, "related-2": 0.72 } }
+ * ```
  */
 export async function getRelatedPosts(
   posts: Post[],
@@ -470,8 +567,6 @@ export async function getRelatedPosts(
   // トークナイザの初期化
   const tokenizer = await getTokenizer();
 
-  // キャッシュクリア（不要なコメントアウトを削除）
-
   // 1. コンテンツ前処理（非同期・並行処理）
   console.log('[getRelatedPosts] コンテンツ前処理を開始...');
   const processedContents: string[][] = [];
@@ -481,6 +576,12 @@ export async function getRelatedPosts(
 
   /**
    * タイムアウト付きで記事を前処理する
+   *
+   * @param post - 前処理対象の記事
+   * @param tokenizer - Kuromojiトークナイザインスタンス
+   * @param timeout - タイムアウト時間（ミリ秒）
+   * @returns 意味のある単語の基本形配列
+   * @throws {Error} タイムアウト時
    */
   async function preprocessPostWithTimeout(
     post: Post,
