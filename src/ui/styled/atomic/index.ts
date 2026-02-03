@@ -8,5 +8,4 @@
 export type { FlexAlign, FlexJustify, FlexWrap } from './flex';
 export { alignClasses, directionClasses, flexBaseStyle, justifyClasses, wrapClasses } from './flex';
 export { gapClasses } from './spacing';
-export type { FontWeight, HeadingTag } from './typography';
 export { fontSizeHeadingClasses, fontWeightClasses, headingFontSizeClasses } from './typography';

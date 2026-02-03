@@ -5,23 +5,7 @@
  * Heading等のテキストコンポーネントで使用されます。
  */
 
-import type { CSSProperties } from 'react';
 import { css } from '@/ui/styled';
-
-/**
- * 見出しタグの型定義
- *
- * HTML見出し要素（h1〜h6）を表します。
- */
-export type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-
-/**
- * Font weight プロパティの型定義
- *
- * フォントの太さを指定します。
- * テキストコンポーネントのプロパティ型として使用されます。
- */
-export type FontWeight = Extract<CSSProperties['fontWeight'], 'normal' | 'bold'>;
 
 /**
  * Font weight の Atomic CSS クラスマップ
