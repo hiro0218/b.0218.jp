@@ -1,0 +1,20 @@
+# Development tools and configs
+
+.github
+.claude
+.vscode
+.husky
+
+# Editor configs
+
+.editorconfig
+.markuplintrc.ts
+.mcp.json
+
+# Development certificates (HTTPS local dev)
+
+certificates
+
+# Dependency analysis
+
+.dependency-cruiser.js

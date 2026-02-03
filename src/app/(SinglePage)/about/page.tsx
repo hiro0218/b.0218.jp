@@ -1,8 +1,9 @@
+import type { Metadata } from 'next';
 import { getMetadata, PAGE_CONFIGS } from '@/app/_metadata';
 import Template from '@/components/Page/Single/Template';
 import { SITE_URL } from '@/constants';
 
-export const metadata = getMetadata({
+export const metadata: Metadata = getMetadata({
   title: PAGE_CONFIGS.about.title,
   description: PAGE_CONFIGS.about.description,
   url: `${SITE_URL}/about`,

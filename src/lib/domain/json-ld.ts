@@ -5,6 +5,7 @@ import type {
   CollectionPage,
   ListItem,
   Organization,
+  ProfilePage,
   WebPage,
   WebSite,
   WithContext,
@@ -60,14 +61,26 @@ export const getAboutPageStructured = ({
   };
 };
 
+export const getProfilePageStructured = (): WithContext<ProfilePage> => {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    mainEntity: {
+      ...AUTHOR,
+    },
+  };
+};
+
 export const getWebPageStructured = ({
   name,
   description,
   listItem,
+  includeOrganization = false,
 }: {
   name: string;
   description: string;
   listItem?: ListItem[];
+  includeOrganization?: boolean;
 }): WithContext<WebPage> => {
   return {
     '@context': 'https://schema.org',
@@ -79,6 +92,15 @@ export const getWebPageStructured = ({
           mainEntity: {
             '@type': 'ItemList',
             listItem,
+          },
+        }
+      : {}),
+    ...(includeOrganization
+      ? {
+          about: {
+            '@type': 'Organization',
+            name: SITE_NAME,
+            url: SITE_URL,
           },
         }
       : {}),

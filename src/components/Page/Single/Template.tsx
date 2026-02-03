@@ -4,7 +4,7 @@
 import type { Thing, WithContext } from 'schema-dts';
 import { PAGE_CONFIGS } from '@/app/_metadata';
 import { StructuredData } from '@/components/Functional/StructuredData';
-import { getAboutPageStructured, getWebPageStructured } from '@/lib/domain/json-ld';
+import { getAboutPageStructured, getProfilePageStructured, getWebPageStructured } from '@/lib/domain/json-ld';
 import Content from './Content';
 import type { PageSlug } from './types';
 
@@ -25,14 +25,18 @@ export default function Template({ slug }: TemplateProps) {
   const jsonLd = (() => {
     switch (slug) {
       case 'about':
-        return getAboutPageStructured({
-          name: 'About',
-          description: 'サイトと運営者について',
-        });
+        return [
+          getAboutPageStructured({
+            name: 'About',
+            description: 'サイトと運営者について',
+          }),
+          getProfilePageStructured(),
+        ];
       case 'privacy':
         return getWebPageStructured({
           name: 'Privacy',
           description: 'プライバシーポリシー',
+          includeOrganization: true,
         });
       default:
         return null;
