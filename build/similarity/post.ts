@@ -5,8 +5,13 @@ import { STOP_WORDS_JA } from '../shared/stopWords';
 // 正規表現パターン
 const REGEX_DIGIT_ONLY = /^\d+$/;
 
+// テキスト処理パラメータ
+const CONTENT_MAX_LENGTH = 5000; // 本文の最大文字数（パフォーマンス最適化）
+const TITLE_WEIGHT = 3; // タイトルの重み（タイトルは3回繰り返して重要度を上げる）
+
 // 類似度計算パラメータ
 const SIMILARITY_LIMIT = 6; // 関連投稿の最大数
+const MIN_SIMILARITY_SCORE = 0.05; // 最小類似度閾値（これ以下は無視）
 const TAG_WEIGHT = 0.6; // タグ類似度の重み
 const CONTENT_WEIGHT = 0.4; // コンテンツ類似度の重み
 const RECENCY_BONUS_FACTOR = 0.1; // 新鮮度ボーナス係数
@@ -14,6 +19,10 @@ const RECENCY_DECAY_DAYS = 30; // 新鮮度減衰日数
 const TAG_SIMILARITY_BASE_THRESHOLD = 0.5; // タグ類似度閾値
 const TAG_SIMILARITY_JACCARD_WEIGHT = 0.4; // ジャッカード係数重み
 const TAG_SIMILARITY_RELATED_WEIGHT = 0.6; // 関連度スコア重み
+
+// バッチ処理パラメータ
+const PREPROCESSING_BATCH_SIZE = 100; // 前処理バッチサイズ（大きくして並列化効率向上）
+const SIMILARITY_BATCH_SIZE = 100; // 類似度計算バッチサイズ
 
 // トークナイザ初期化用のシングルトン
 let tokenizerPromise: Promise<Tokenizer<IpadicFeatures>> | null = null;
@@ -25,7 +34,15 @@ async function getTokenizer(): Promise<Tokenizer<IpadicFeatures>> {
   if (!tokenizerPromise) {
     tokenizerPromise = new Promise((resolve, reject) => {
       const builder = kuromoji.builder({ dicPath: 'node_modules/kuromoji/dict' });
+
+      // タイムアウトを設定（60秒）
+      const timeout = setTimeout(() => {
+        reject(new Error('形態素解析器の初期化がタイムアウトしました（60秒）'));
+      }, 60000);
+
       builder.build((err, tokenizer) => {
+        clearTimeout(timeout);
+
         if (err) {
           reject(err);
         } else {
@@ -38,7 +55,7 @@ async function getTokenizer(): Promise<Tokenizer<IpadicFeatures>> {
   try {
     return await tokenizerPromise;
   } catch (error) {
-    console.error('[build/similarity/post] 形態素解析器の初期化に失敗:', error);
+    console.error('[getTokenizer] 初期化エラー:', error);
     throw error;
   }
 }
@@ -48,9 +65,26 @@ const similarityCache = new Map<string, number>();
 const tfIdfCache = new Map<string, Record<string, number>>();
 
 /**
+ * 記事からテキストを抽出（タイトル重視 + 本文の一部）
+ */
+function extractTextFromPost(post: Post): string {
+  // タイトルは重要なので複数回繰り返す
+  const titleRepeated = post.title ? `${post.title} `.repeat(TITLE_WEIGHT) : '';
+
+  // 本文は最初の部分のみ使用（パフォーマンス最適化）
+  const contentSnippet = post.content ? post.content.substring(0, CONTENT_MAX_LENGTH) : '';
+
+  return titleRepeated + contentSnippet;
+}
+
+/**
  * テキストを形態素解析し、意味のある単語の基本形配列を返す
  */
-async function preprocessText(text: string, tokenizerInstance: Tokenizer<IpadicFeatures>): Promise<string[]> {
+async function preprocessText(
+  text: string,
+  tokenizerInstance: Tokenizer<IpadicFeatures>,
+  slug?: string,
+): Promise<string[]> {
   if (!text) {
     return [];
   }
@@ -76,7 +110,7 @@ async function preprocessText(text: string, tokenizerInstance: Tokenizer<IpadicF
     }
     return meaningfulTokens;
   } catch (error) {
-    console.error('[build/similarity/post] テキスト前処理中にエラー:', error);
+    console.error(`[build/similarity/post] テキスト前処理中にエラー${slug ? ` (記事: ${slug})` : ''}:`, error);
     throw error;
   }
 }
@@ -350,6 +384,14 @@ async function calculatePostSimilarity(
   // タグ類似度を計算
   const tagSimilarityScore = calculateTagSimilarity(post.tags || [], targetPost.tags || [], sortedTags);
 
+  // タグ類似度が非常に低い場合、コンテンツ類似度を計算しても最終スコアが閾値を超えない
+  // 早期リターンでパフォーマンスを改善
+  const maxPossibleScore = TAG_WEIGHT * tagSimilarityScore + CONTENT_WEIGHT * 1.0; // 最大値を仮定
+  if (maxPossibleScore < MIN_SIMILARITY_SCORE) {
+    similarityCache.set(cacheKey, 0);
+    return 0;
+  }
+
   // コンテンツ類似度を計算
   const contentSimilarityScore = calculateContentSimilarity(postTfIdf, targetPostTfIdf);
 
@@ -380,32 +422,59 @@ export async function getRelatedPosts(
     return [];
   }
 
+  console.log(`[getRelatedPosts] 処理開始 (記事数: ${posts.length})`);
+
   // トークナイザの初期化
   const tokenizer = await getTokenizer();
 
   // キャッシュクリア（不要なコメントアウトを削除）
 
   // 1. コンテンツ前処理（非同期・並行処理）
-  // biome-ignore lint/style/useNamingConvention: 定数名の命名規則を維持
-  const BATCH_SIZE = 50; // 処理バッチサイズ
+  console.log('[getRelatedPosts] コンテンツ前処理を開始...');
   const processedContents: string[][] = [];
 
+  // 個別記事処理のタイムアウト（ミリ秒）
+  const PerPostTimeout = 10000; // 10秒
+
+  /**
+   * タイムアウト付きで記事を前処理する
+   */
+  async function preprocessPostWithTimeout(
+    post: Post,
+    tokenizer: Tokenizer<IpadicFeatures>,
+    timeout: number,
+  ): Promise<string[]> {
+    const textToProcess = extractTextFromPost(post);
+    return Promise.race([
+      preprocessText(textToProcess, tokenizer, post.slug),
+      new Promise<string[]>((_, reject) =>
+        setTimeout(() => reject(new Error(`処理タイムアウト (${timeout}ms)`)), timeout),
+      ),
+    ]);
+  }
+
   // 記事を小さなバッチに分割して処理
-  for (let i = 0; i < posts.length; i += BATCH_SIZE) {
-    const batch = posts.slice(i, i + BATCH_SIZE);
+  const preprocessingStartTime = Date.now();
+
+  for (let i = 0; i < posts.length; i += PREPROCESSING_BATCH_SIZE) {
+    const batch = posts.slice(i, i + PREPROCESSING_BATCH_SIZE);
+
     const batchResults = await Promise.all(
       batch.map(async (post) => {
-        const textToProcess = post.content || post.title || '';
         try {
-          return await preprocessText(textToProcess, tokenizer);
+          return await preprocessPostWithTimeout(post, tokenizer, PerPostTimeout);
         } catch (error) {
-          console.warn(`記事 ${post.slug} の前処理中にエラー:`, error);
+          console.warn(`[getRelatedPosts] エラー (${post.slug}):`, error instanceof Error ? error.message : error);
           return [];
         }
       }),
     );
+
     processedContents.push(...batchResults);
   }
+
+  const preprocessingElapsedTime = Date.now() - preprocessingStartTime;
+  console.log(`[getRelatedPosts] コンテンツ前処理完了 (${Math.round(preprocessingElapsedTime / 1000)}秒)`);
 
   // 2. IDFスコア計算
   const idfScores = calculateIdf(posts, processedContents);
@@ -424,7 +493,7 @@ export async function getRelatedPosts(
       const tfIdfVector = calculateTfIdfVector(post.slug, tfScores, idfScores);
       tfIdfVectors[post.slug] = tfIdfVector;
     } catch (error) {
-      console.warn(`記事 ${post.slug} のTF/TF-IDF計算中にエラー:`, error);
+      console.warn(`[getRelatedPosts] TF-IDF計算エラー (${post.slug}):`, error);
       continue;
     }
   }
@@ -454,11 +523,14 @@ export async function getRelatedPosts(
   }
 
   // 4. 各記事に対して関連度計算（チャンク分割で並行処理）
+  console.log('[getRelatedPosts] 類似度計算を開始...');
   const results: { [key: string]: Record<string, number> }[] = [];
 
   // 記事をチャンクに分割
-  for (let i = 0; i < posts.length; i += BATCH_SIZE) {
-    const targetPosts = posts.slice(i, i + BATCH_SIZE);
+  const similarityStartTime = Date.now();
+
+  for (let i = 0; i < posts.length; i += SIMILARITY_BATCH_SIZE) {
+    const targetPosts = posts.slice(i, i + SIMILARITY_BATCH_SIZE);
     const chunkResults = await Promise.all(
       targetPosts.map(async (targetPost) => {
         if (!targetPost.slug || !tfIdfVectors[targetPost.slug]) {
@@ -467,6 +539,11 @@ export async function getRelatedPosts(
 
         const targetPostTfIdf = tfIdfVectors[targetPost.slug];
         const targetTags = targetPost.tags || [];
+
+        // タグがない記事は候補も少ないため早期スキップ
+        if (targetTags.length === 0) {
+          return null;
+        }
 
         // タグに基づく候補記事の絞り込み
         const candidateIndices = new Set<number>();
@@ -480,6 +557,11 @@ export async function getRelatedPosts(
             });
           }
         });
+
+        // 候補が少なすぎる場合はスキップ（類似記事が見つからない可能性が高い）
+        if (candidateIndices.size < 2) {
+          return null;
+        }
 
         // 絞り込んだ候補に対して類似度を計算
         // 重複計算を避けるためのキー検証用セット
@@ -513,10 +595,11 @@ export async function getRelatedPosts(
           }),
         );
 
-        // フィルタリングとソート
+        // フィルタリングとソート（最小類似度閾値を適用）
         const validPosts = relatedPostsData
           .filter(
-            (post): post is { slug: string; similarityScore: number } => post !== null && post.similarityScore > 0,
+            (post): post is { slug: string; similarityScore: number } =>
+              post !== null && post.similarityScore >= MIN_SIMILARITY_SCORE,
           )
           .sort((a, b) => b.similarityScore - a.similarityScore)
           .slice(0, SIMILARITY_LIMIT);
@@ -535,10 +618,13 @@ export async function getRelatedPosts(
       }),
     );
 
-    results.push(
-      ...chunkResults.filter((result): result is { [key: string]: Record<string, number> } => result !== null),
+    const chunkValidResults = chunkResults.filter(
+      (result): result is { [key: string]: Record<string, number> } => result !== null,
     );
+    results.push(...chunkValidResults);
   }
 
+  const similarityElapsedTime = Date.now() - similarityStartTime;
+  console.log(`[getRelatedPosts] 類似度計算完了 (${Math.round(similarityElapsedTime / 1000)}秒)`);
   return results;
 }

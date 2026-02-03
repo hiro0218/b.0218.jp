@@ -302,12 +302,12 @@ function sortTagRelations(tagRelationsMap: TagRelationsMap): TagSimilarityScores
 export function getRelatedTags(posts: Post[], tagsList: TagIndex): TagSimilarityScores {
   // 入力チェック
   if (!Array.isArray(posts) || posts.length === 0) {
-    console.warn('getRelatedTags: Invalid posts array. Returning empty object.');
+    console.warn('[getRelatedTags] 記事配列が無効です');
     return {};
   }
 
   if (typeof tagsList !== 'object' || tagsList === null) {
-    console.warn('getRelatedTags: Invalid tagsList. Returning empty object.');
+    console.warn('[getRelatedTags] タグリストが無効です');
     return {};
   }
 
