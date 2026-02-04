@@ -14,8 +14,8 @@ const dialogStyle = css`
     cursor: zoom-out;
     background-color: var(--colors-overlay-backgrounds);
     transition:
-      background-color 0.2s,
-      opacity 0.2s;
+      background-color 0.3s var(--easings-ease-out-quint),
+      opacity 0.3s var(--easings-ease-out-quint);
   }
 
   &[data-closing='true']::backdrop {
@@ -66,7 +66,7 @@ const zoomedImageStyle = css`
   cursor: zoom-out;
   image-rendering: high-quality;
   transform-origin: top left;
-  transition: transform 0.2s;
+  transition: transform 0.3s var(--easings-ease-out-quint);
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;

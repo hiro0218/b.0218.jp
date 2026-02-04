@@ -29,7 +29,7 @@ const loadingIndicatorStyle = css`
   border: 1px solid var(--colors-border-default);
   border-radius: var(--radii-md);
   transform: translate(-50%, -50%);
-  animation: fadeIn 0.2s;
+  animation: fadeIn 0.3s var(--easings-ease-out-quint);
 
   @keyframes fadeIn {
     from {
