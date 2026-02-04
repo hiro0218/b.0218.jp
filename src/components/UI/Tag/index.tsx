@@ -19,8 +19,9 @@ function PostTag({ tags, hasRelTag = true }: PostTagProps) {
   }
 
   const sortedTags = tags.toSorted((a, b) => {
-    if (b.count === undefined) return -1;
+    if (a.count === undefined && b.count === undefined) return 0;
     if (a.count === undefined) return 1;
+    if (b.count === undefined) return -1;
 
     return b.count - a.count;
   });
