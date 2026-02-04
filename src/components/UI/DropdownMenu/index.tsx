@@ -177,35 +177,44 @@ export const Content = styled.div`
   position: absolute;
   top: 100%;
   z-index: var(--z-index-base);
+  visibility: hidden;
   min-width: max-content;
   height: fit-content;
   padding: var(--spacing-½);
-  content-visibility: hidden;
+  pointer-events: none;
   background-color: var(--colors-white);
   border: 1px solid var(--colors-gray-a-200);
   border-radius: var(--radii-4);
   box-shadow: var(--shadows-md);
   opacity: 0;
-  transform: scale(0.8);
-  transition: transform 0.1s linear;
+  transform: scale(0.95);
+  transition:
+    opacity 150ms ease-out,
+    transform 150ms ease-out,
+    visibility 0s 150ms;
 
   &[data-position='left'] {
     left: 0;
-    transform-origin: top left;
+    transform-origin: 0 0;
   }
 
   &[data-position='right'] {
     right: 0;
-    transform-origin: top right;
+    transform-origin: 100% 0;
   }
 
   &[aria-expanded='true'] {
-    content-visibility: visible;
-    opacity: 1;
-    transform: scale(1);
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+    animation: dropdownEnter 180ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
 
-    @starting-style {
-      opacity: 0;
+  @media (prefers-reduced-motion: reduce) {
+    &[aria-expanded='true'] {
+      opacity: 1;
+      transform: scale(1);
+      animation: none;
     }
   }
 `;
