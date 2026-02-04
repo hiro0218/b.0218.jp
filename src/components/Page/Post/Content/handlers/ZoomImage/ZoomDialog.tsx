@@ -16,6 +16,7 @@ const dialogStyle = css`
     transition:
       background-color 0.3s var(--easings-ease-out-quint),
       opacity 0.3s var(--easings-ease-out-quint);
+    will-change: opacity, background-color;
   }
 
   &[data-closing='true']::backdrop {
@@ -51,6 +52,7 @@ const dialogStyle = css`
   @media (prefers-reduced-motion: reduce) {
     &::backdrop {
       transition: none;
+      will-change: auto;
     }
   }
 `;
@@ -63,13 +65,16 @@ const modalContentStyle = css`
 
 const zoomedImageStyle = css`
   position: absolute;
+  contain: layout style paint;
   cursor: zoom-out;
   image-rendering: high-quality;
   transform-origin: top left;
   transition: transform 0.3s var(--easings-ease-out-quint);
+  will-change: transform;
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
+    will-change: auto;
   }
 `;
 
