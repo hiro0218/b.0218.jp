@@ -5,7 +5,7 @@ import { useButton } from '@react-aria/button';
 import { useFocusRing } from '@react-aria/focus';
 import { mergeProps } from '@react-aria/utils';
 import type { CSSProperties, ImgHTMLAttributes, ReactNode, RefObject } from 'react';
-import { memo, useRef } from 'react';
+import { useRef } from 'react';
 import { css, cx } from '@/ui/styled';
 import type { ModalState } from './hooks/useImageZoom';
 
@@ -93,7 +93,7 @@ interface ZoomTriggerButtonProps {
  * 画像をクリックしてズームモーダルを開くためのボタンです。
  * React Ariaを使用してキーボード操作とフォーカス管理を標準化しています。
  */
-function ZoomTriggerButtonComponent({
+export function ZoomTriggerButton({
   a11yLabel,
   modalState,
   isZoomed,
@@ -126,12 +126,10 @@ function ZoomTriggerButtonComponent({
       ref={buttonRef}
       type="button"
     >
-      <img alt={alt || ''} src={src} style={style} {...imgProps} onLoad={onImageLoad} ref={imgRef} />
+      <img alt={alt} src={src} style={style} {...imgProps} onLoad={onImageLoad} ref={imgRef} />
       <span aria-hidden="true" className={cx(zoomIndicatorStyle, 'zoom-indicator')}>
         <ZoomInIcon className={zoomIconStyle} />
       </span>
     </button>
   );
 }
-
-export const ZoomTriggerButton = memo(ZoomTriggerButtonComponent);
