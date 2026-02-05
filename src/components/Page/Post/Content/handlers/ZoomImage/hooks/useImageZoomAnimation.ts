@@ -32,25 +32,28 @@ export function useImageZoomAnimation({
 
   useEffect(() => {
     switch (modalState) {
-      case 'LOADING':
+      case 'LOADING': {
         if (!isAnimationInitializedRef.current) {
           isAnimationInitializedRef.current = true;
           shouldZoomImageRef.current = true;
           refreshModalImgStyle(true);
         }
         break;
+      }
 
-      case 'UNLOADING':
+      case 'UNLOADING': {
         shouldZoomImageRef.current = false;
         isAnimationInitializedRef.current = false;
         refreshModalImgStyle(false);
         break;
+      }
 
-      case 'UNLOADED':
+      case 'UNLOADED': {
         // アニメーション完了後のクリーンアップ
         shouldZoomImageRef.current = false;
         isAnimationInitializedRef.current = false;
         break;
+      }
     }
   }, [modalState, refreshModalImgStyle]);
 
