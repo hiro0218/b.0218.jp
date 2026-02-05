@@ -3,7 +3,6 @@
 import { useDialog } from '@react-aria/dialog';
 import { FocusScope } from '@react-aria/focus';
 import type { CSSProperties, ReactNode, RefObject } from 'react';
-import { memo } from 'react';
 import { createPortal } from 'react-dom';
 import { css } from '@/ui/styled';
 import type { ZoomImageSource } from '../types';
@@ -125,7 +124,7 @@ interface ZoomDialogProps {
  * 画像のズーム表示用のモーダルダイアログです。
  * SearchDialogと同様にReact Ariaを使用してアクセシビリティを確保しています。
  */
-function ZoomDialogComponent({
+export function ZoomDialog({
   dialogRef,
   modalImgRef,
   a11yLabel,
@@ -161,9 +160,9 @@ function ZoomDialogComponent({
       >
         <div className={modalContentStyle} onClick={onContentClick}>
           <img
-            alt={alt || ''}
+            alt={alt}
             className={zoomedImageStyle}
-            loading="lazy"
+            loading="eager"
             onClick={onImageClick}
             onKeyDown={(e) => {
               handleImageKeyDown(e, onImageClick);
@@ -181,5 +180,3 @@ function ZoomDialogComponent({
     document.body,
   );
 }
-
-export const ZoomDialog = memo(ZoomDialogComponent);
