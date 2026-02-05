@@ -46,11 +46,10 @@ function isInsideAnchor(element: Element): boolean {
  * html-react-parser の Node が Element 型かを判定
  */
 function isElement(node: unknown): node is Element {
-  return (
-    typeof node === 'object' &&
-    node !== null &&
-    'type' in node &&
-    (node as { type: string }).type === 'tag' &&
-    'name' in node
-  );
+  if (typeof node !== 'object' || node === null) {
+    return false;
+  }
+
+  const element = node as Partial<Element>;
+  return element.type === 'tag' && typeof element.name === 'string';
 }

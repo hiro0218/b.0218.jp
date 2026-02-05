@@ -78,6 +78,16 @@ const zoomedImageStyle = css`
   }
 `;
 
+/**
+ * Enter または Space キーで画像をクリックしたように動作させる
+ */
+function handleImageKeyDown(event: React.KeyboardEvent<HTMLImageElement>, onClick: () => void): void {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    onClick();
+  }
+}
+
 interface ZoomDialogProps {
   /** ダイアログ要素への ref */
   dialogRef: RefObject<HTMLDialogElement | null>;
@@ -156,10 +166,7 @@ function ZoomDialogComponent({
             loading="lazy"
             onClick={onImageClick}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                onImageClick();
-              }
+              handleImageKeyDown(e, onImageClick);
             }}
             onTransitionEnd={onTransitionEnd}
             ref={modalImgRef}

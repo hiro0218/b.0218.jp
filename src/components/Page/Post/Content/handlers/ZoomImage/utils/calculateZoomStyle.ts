@@ -1,10 +1,13 @@
 import type { CSSProperties } from 'react';
 
 /**
- * 値が number 型であれば返し、そうでなければ 0 を返す
+ * CSSProperties の値を number として取得し、取得できない場合は 0 を返す
  */
-function toNumberOrZero(value: unknown): number {
-  return typeof value === 'number' ? value : 0;
+function toNumberOrZero(value: string | number | undefined): number {
+  if (typeof value === 'number') {
+    return value;
+  }
+  return 0;
 }
 
 /**
