@@ -3,24 +3,19 @@ import { ExclamationCircle, ExclamationTriangle, ICON_SIZE_XS, InformationCircle
 import { css } from '@/ui/styled';
 
 export type AlertType = 'note' | 'tip' | 'important' | 'warning' | 'caution';
-type SanitizedHtml = string;
 
 type Props = {
   type: AlertType;
-  html: SanitizedHtml;
-};
-
-const SIZE = {
-  height: ICON_SIZE_XS,
-  width: ICON_SIZE_XS,
+  html: string;
+  hideLabel?: boolean;
 };
 
 const ALERT_ICONS: Record<AlertType, React.ReactNode> = {
-  note: <InformationCircle {...SIZE} aria-hidden="true" />,
-  tip: <InformationCircle {...SIZE} aria-hidden="true" />,
-  important: <LightBulb {...SIZE} aria-hidden="true" />,
-  warning: <ExclamationTriangle {...SIZE} aria-hidden="true" />,
-  caution: <ExclamationCircle {...SIZE} aria-hidden="true" />,
+  note: <InformationCircle aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
+  tip: <InformationCircle aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
+  important: <LightBulb aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
+  warning: <ExclamationTriangle aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
+  caution: <ExclamationCircle aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
 };
 
 const ALERT_LABELS: Record<AlertType, string> = {
@@ -39,25 +34,38 @@ const ALERT_ROLES: Record<AlertType, 'note' | 'alert'> = {
   caution: 'alert',
 };
 
-export const Alert = ({ type, html }: Props) => {
+export function Alert({ type, html, hideLabel = false }: Props) {
   const icon = ALERT_ICONS[type];
   const label = ALERT_LABELS[type];
   const role = ALERT_ROLES[type];
 
+  const content = <div dangerouslySetInnerHTML={{ __html: html }} />;
+
   return (
-    <aside aria-label={`${label} alert`} className={containerStyle} data-alert-type={type} role={role}>
-      <Cluster className={titleStyle} gap="½">
-        {icon}
-        {label}
-      </Cluster>
-      <p
-        dangerouslySetInnerHTML={{
-          __html: html,
-        }}
-      />
+    <aside
+      aria-label={`${label} alert`}
+      className={containerStyle}
+      data-alert-type={type}
+      data-hide-label={hideLabel}
+      role={role}
+    >
+      {hideLabel ? (
+        <>
+          {icon}
+          {content}
+        </>
+      ) : (
+        <>
+          <Cluster className={titleStyle} gap="½">
+            {icon}
+            {label}
+          </Cluster>
+          {content}
+        </>
+      )}
     </aside>
   );
-};
+}
 
 const containerStyle = css`
   display: grid;
@@ -72,6 +80,26 @@ const containerStyle = css`
   /* stylelint-disable-next-line */
   ::selection {
     background-color: hwb(from var(--alert-color) h w b / 0.1);
+  }
+
+  & > :where(*) {
+    margin: 0;
+  }
+
+  &[data-hide-label='true'] {
+    display: flex;
+    gap: var(--spacing-½);
+    align-items: center;
+    padding: var(--spacing-2);
+
+    svg {
+      flex-shrink: 0;
+      height: 1lh;
+    }
+
+    & > div {
+      flex: 1;
+    }
   }
 
   &[data-alert-type='note'] {
@@ -102,14 +130,6 @@ const containerStyle = css`
     --alert-border: var(--colors-red-400);
     --alert-color: var(--colors-red-900);
     --alert-background: var(--colors-red-100);
-  }
-
-  & > :where(*) {
-    margin: 0;
-  }
-
-  p {
-    font-size: var(--font-sizes-sm);
   }
 `;
 

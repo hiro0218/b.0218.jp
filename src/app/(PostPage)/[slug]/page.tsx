@@ -10,8 +10,8 @@ import { TagSection } from '@/components/Page/_shared/TagSection';
 import { PostContent } from '@/components/Page/Post/Content';
 import PostEdit from '@/components/Page/Post/Edit';
 import PostHeader from '@/components/Page/Post/Header';
-import PostNote from '@/components/Page/Post/Note';
 import PostShare from '@/components/Page/Post/Share';
+import { Alert } from '@/components/UI/Alert';
 import { Stack } from '@/components/UI/Layout';
 import { Container } from '@/components/UI/Layout/Container';
 import { AUTHOR_NAME } from '@/constants';
@@ -97,7 +97,7 @@ export default async function Page({ params }: { params: Params }) {
               render={
                 <>
                   <PostShare title={title} url={permalink} />
-                  {!!note && <PostNote note={note} />}
+                  {!!note && <Alert hideLabel={true} html={note} type="note" />}
                 </>
               }
               tagsWithCount={tagsWithCount}
