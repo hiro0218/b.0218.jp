@@ -79,8 +79,9 @@ interface A11yOptions {
   a11yNameDialog?: string;
 }
 
-type ZoomImageProps = ImgHTMLAttributes<HTMLImageElement> & {
+type ZoomImageProps = Omit<ImgHTMLAttributes<HTMLImageElement>, 'style'> & {
   src: string;
+  style?: CSSProperties | string;
   zoomImg?: ZoomImageSource;
   a11yOptions?: A11yOptions;
 };
@@ -97,7 +98,15 @@ const DEFAULT_A11Y: Required<A11yOptions> = {
  * トリガー画像の位置から画面中央へスムーズに遷移する。
  */
 function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImageProps): JSX.Element {
-  const processedStyle = style && typeof style === 'string' ? parseStyleStringToObject(style) : style;
+  const processedStyle: CSSProperties | undefined = (() => {
+    if (!style) {
+      return undefined;
+    }
+    if (typeof style === 'string') {
+      return parseStyleStringToObject(style);
+    }
+    return style;
+  })();
   const hasObjectFit = !!(processedStyle && 'objectFit' in processedStyle && processedStyle.objectFit);
 
   const a11y = {
@@ -121,24 +130,33 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
 
   // ズーム画像のプリロード
   useEffect(() => {
-    if (!zoomImg?.src || !canZoom) return;
+    if (!zoomImg?.src || !canZoom) {
+      return;
+    }
 
     setIsLoadingZoomImg(true);
     const img = new Image();
 
-    img.onload = () => {
+    function handleLoad(): void {
       setIsLoadingZoomImg(false);
-    };
+    }
 
-    img.onerror = () => {
+    function handleError(): void {
       setIsLoadingZoomImg(false);
-    };
+    }
 
-    img.src = zoomImg.src;
+    img.addEventListener('load', handleLoad);
+    img.addEventListener('error', handleError);
 
     if (zoomImg.srcSet) {
       img.srcset = zoomImg.srcSet;
     }
+    img.src = zoomImg.src;
+
+    return () => {
+      img.removeEventListener('load', handleLoad);
+      img.removeEventListener('error', handleError);
+    };
   }, [zoomImg?.src, zoomImg?.srcSet, canZoom]);
 
   /**
@@ -177,25 +195,21 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
     zoomIn();
   }, [zoomIn, refreshModalImgStyle]);
 
-  const handleZoomOut = useCallback(() => {
-    zoomOut();
-  }, [zoomOut]);
-
   const handleDialogCancel = useCallback(
     (event: React.SyntheticEvent<HTMLDialogElement>) => {
       event.preventDefault();
-      handleZoomOut();
+      zoomOut();
     },
-    [handleZoomOut],
+    [zoomOut],
   );
 
   const handleDialogContentClick = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
       if (event.target === event.currentTarget) {
-        handleZoomOut();
+        zoomOut();
       }
     },
-    [handleZoomOut],
+    [zoomOut],
   );
 
   const handleTransitionEnd = useCallback(
@@ -233,7 +247,7 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
 
   // ズーム不可の場合は通常の img 要素を返す
   if (!canZoom) {
-    return <img alt={alt || ''} src={src} style={processedStyle} {...props} onLoad={handleImageLoad} ref={imgRef} />;
+    return <img alt={alt} src={src} style={processedStyle} {...props} onLoad={handleImageLoad} ref={imgRef} />;
   }
 
   return (
@@ -262,9 +276,9 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
             modalImgStyle={modalImgStyle}
             modalState={modalState}
             onCancel={handleDialogCancel}
-            onClose={handleZoomOut}
+            onClose={zoomOut}
             onContentClick={handleDialogContentClick}
-            onImageClick={handleZoomOut}
+            onImageClick={zoomOut}
             onTransitionEnd={handleTransitionEnd}
             src={src}
             zoomImg={zoomImg}

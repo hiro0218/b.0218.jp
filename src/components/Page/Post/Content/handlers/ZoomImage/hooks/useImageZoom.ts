@@ -20,7 +20,6 @@ interface UseImageZoomOptions {
 interface UseImageZoomReturn {
   imgRef: React.RefObject<HTMLImageElement>;
   isZoomed: boolean;
-  imageLoaded: boolean;
   canZoom: boolean;
   modalState: ModalState;
   zoomIn: () => void;
@@ -124,7 +123,6 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
   return {
     imgRef,
     isZoomed,
-    imageLoaded,
     canZoom,
     modalState,
     zoomIn,
