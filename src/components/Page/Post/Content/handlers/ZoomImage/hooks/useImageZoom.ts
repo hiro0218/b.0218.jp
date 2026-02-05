@@ -88,22 +88,28 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
 
   // isZoomed の変化に応じて modalState を更新
   useEffect(() => {
-    if (isZoomed && modalState !== 'LOADED') {
-      setModalState('LOADING');
-    } else if (!isZoomed && modalState !== 'UNLOADED') {
-      setModalState('UNLOADING');
+    if (isZoomed) {
+      if (modalState !== 'LOADED') {
+        setModalState('LOADING');
+      }
+    } else {
+      if (modalState !== 'UNLOADED') {
+        setModalState('UNLOADING');
+      }
     }
   }, [isZoomed, modalState]);
 
   // CSS トランジション完了時の状態遷移
   const handleModalImgTransitionEnd = useCallback(() => {
     switch (modalState) {
-      case 'LOADING':
+      case 'LOADING': {
         setModalState('LOADED');
         break;
-      case 'UNLOADING':
+      }
+      case 'UNLOADING': {
         setModalState('UNLOADED');
         break;
+      }
     }
   }, [modalState]);
 
