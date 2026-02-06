@@ -35,8 +35,8 @@ const dialogStyle = css`
 `;
 
 const dialogImageStyle = css`
-  max-width: calc(100dvw - var(--spacing-8));
-  max-height: calc(100dvh - var(--spacing-8));
+  max-width: 100%;
+  max-height: 100%;
   cursor: zoom-out;
   object-fit: contain;
   image-rendering: high-quality;
