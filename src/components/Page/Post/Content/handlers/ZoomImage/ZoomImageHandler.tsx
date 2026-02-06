@@ -1,9 +1,9 @@
 import type { Element } from 'html-react-parser';
+import { ZoomImage } from '@/components/UI/ZoomImage';
 import type { HandlerFunction } from '../types';
-import ZoomImageModal from './ZoomImageModal';
 
 /**
- * img タグを ZoomImageModal に変換するハンドラー
+ * img タグを ZoomImage に変換するハンドラー
  *
  * @remarks リンク（aタグ）内の画像は変換しない
  */
@@ -22,7 +22,7 @@ export const handleZoomImage: HandlerFunction = (domNode) => {
     return undefined;
   }
 
-  return <ZoomImageModal alt={alt} src={src} {...rest} />;
+  return <ZoomImage alt={alt} src={src} {...rest} />;
 };
 
 /**
