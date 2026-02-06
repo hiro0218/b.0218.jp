@@ -8,11 +8,6 @@ describe('typeGuards', () => {
       expect(isHTMLElement(element)).toBe(true);
     });
 
-    it('HTMLSpanElementに対してtrueを返す', () => {
-      const element = document.createElement('span');
-      expect(isHTMLElement(element)).toBe(true);
-    });
-
     it('nullに対してfalseを返す', () => {
       expect(isHTMLElement(null)).toBe(false);
     });

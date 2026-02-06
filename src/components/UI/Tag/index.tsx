@@ -14,38 +14,43 @@ type PostTagProps = {
 };
 
 function PostTag({ tags, hasRelTag = true }: PostTagProps) {
+  if (tags.length === 0) {
+    return null;
+  }
+
   const sortedTags = tags.toSorted((a, b) => {
-    if (b.count === undefined) return -1;
+    if (a.count === undefined && b.count === undefined) return 0;
     if (a.count === undefined) return 1;
+    if (b.count === undefined) return -1;
 
     return b.count - a.count;
   });
 
-  if (tags?.length === 0) {
-    return null;
-  }
+  return (
+    <>
+      {sortedTags.map(({ slug, count }) => {
+        const isAnchor = count >= TAG_VIEW_LIMIT;
 
-  return sortedTags.map(({ slug, count }) => {
-    const isAnchor = count >= TAG_VIEW_LIMIT;
-
-    return isAnchor ? (
-      <Anchor
-        className={postTagAnchor}
-        href={`/tags/${slug}`}
-        key={slug}
-        {...(hasRelTag && {
-          rel: 'tag',
-        })}
-      >
-        {slug}
-        <Count aria-hidden="true">{count}</Count>
-      </Anchor>
-    ) : (
-      <span aria-hidden="true" className={postTagAnchor} key={slug}>
-        {slug}
-      </span>
-    );
-  });
+        return isAnchor ? (
+          <Anchor
+            className={postTagAnchor}
+            href={`/tags/${slug}`}
+            key={slug}
+            {...(hasRelTag && {
+              rel: 'tag',
+            })}
+          >
+            {slug}
+            <Count aria-hidden="true">{count}</Count>
+          </Anchor>
+        ) : (
+          <span aria-hidden="true" className={postTagAnchor} key={slug}>
+            {slug}
+          </span>
+        );
+      })}
+    </>
+  );
 }
 
 export default PostTag;

@@ -1,9 +1,9 @@
 import type { Element } from 'html-react-parser';
+import { ZoomImage } from '@/components/UI/ZoomImage';
 import type { HandlerFunction } from '../types';
-import ZoomImageModal from './ZoomImageModal';
 
 /**
- * img タグを ZoomImageModal に変換するハンドラー
+ * img タグを ZoomImage に変換するハンドラー
  *
  * @remarks リンク（aタグ）内の画像は変換しない
  */
@@ -22,7 +22,7 @@ export const handleZoomImage: HandlerFunction = (domNode) => {
     return undefined;
   }
 
-  return <ZoomImageModal alt={alt} src={src} {...rest} />;
+  return <ZoomImage alt={alt} src={src} {...rest} />;
 };
 
 /**
@@ -46,11 +46,10 @@ function isInsideAnchor(element: Element): boolean {
  * html-react-parser の Node が Element 型かを判定
  */
 function isElement(node: unknown): node is Element {
-  return (
-    typeof node === 'object' &&
-    node !== null &&
-    'type' in node &&
-    (node as { type: string }).type === 'tag' &&
-    'name' in node
-  );
+  if (typeof node !== 'object' || node === null) {
+    return false;
+  }
+
+  const element = node as Partial<Element>;
+  return element.type === 'tag' && typeof element.name === 'string';
 }

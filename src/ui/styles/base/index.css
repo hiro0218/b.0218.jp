@@ -333,4 +333,17 @@ del {
       animation: view-transition-show 0.6s var(--easings-ease-out-expo) 0.2s forwards;
     }
   }
+
+  ::view-transition-old(zoom-image),
+  ::view-transition-new(zoom-image) {
+    animation-duration: 300ms;
+    animation-timing-function: var(--easings-ease-out-quint);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(zoom-image),
+    ::view-transition-new(zoom-image) {
+      animation-duration: 0s;
+    }
+  }
 }

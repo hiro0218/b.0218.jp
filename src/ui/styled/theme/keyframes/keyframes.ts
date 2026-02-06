@@ -7,6 +7,10 @@ export const keyframes = defineKeyframes({
     '80%': { transform: 'translateY(10px)', animationTimingFunction: 'ease-out' },
     '100%': { transform: 'translateY(0)', animationTimingFunction: 'ease-in' },
   },
+  dropdownEnter: {
+    '0%': { opacity: '0', transform: 'scale(0.95)' },
+    '100%': { opacity: '1', transform: 'scale(1)' },
+  },
   fadeIn: {
     '0%': { opacity: '0' },
     '100%': { opacity: '1' },

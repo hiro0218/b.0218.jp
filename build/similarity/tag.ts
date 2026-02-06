@@ -15,16 +15,6 @@ const MIN_CO_OCCURRENCE = 2; // 関連性を計算するための最小共起回
 const MIN_TAG_FREQUENCY = 3; // 関連性を計算するタグの最小出現記事数 (低頻度タグ除外)
 const NPMI_THRESHOLD = 0; // 計算結果として保持するNPMIスコアの最小値 (0より大きい関連性のみ)
 
-/**
- * キャッシュキーを生成する
- *
- * @param posts - 全記事リスト
- * @param tagsList - タグごとの記事リスト
- * @returns キャッシュキー（記事数_タグ数_最大タグ数）
- *
- * @remarks
- * 完全な入力内容に基づくハッシュ値よりも計算コストが低い簡易キーを使用
- */
 function generateCacheKey(posts: Post[], tagsList: TagIndex): string {
   const tagsCount = Object.keys(tagsList).length;
   const postsCount = posts.length;
@@ -39,16 +29,6 @@ function generateCacheKey(posts: Post[], tagsList: TagIndex): string {
   return `${postsCount}_${tagsCount}_${maxTagsInPost}`;
 }
 
-/**
- * タグの出現頻度と共起行列を計算
- *
- * @param posts - 全記事リスト
- * @param tagsList - タグごとの記事リスト（有効なタグの確認用）
- * @returns tagDocFrequency と coOccurrenceMatrix を含むオブジェクト
- *
- * @remarks
- * 記事ごとにタグの出現頻度と共起情報を1パスで収集し、メモリ効率と計算効率を最適化
- */
 function buildFrequencyAndCoOccurrence(
   posts: Post[],
   tagsList: TagIndex,
@@ -122,21 +102,6 @@ function buildFrequencyAndCoOccurrence(
   }
 }
 
-/**
- * NPMI (Normalized Pointwise Mutual Information) に基づくタグ関連度を計算
- *
- * @param tagsList - 有効なタグリスト取得用
- * @param coOccurrenceMatrix - 共起回数行列
- * @param tagDocFrequency - 各タグの出現記事数
- * @param totalPosts - 全記事数
- * @returns タグ関連度情報（値はNPMIスコア [-1, 1]）
- *
- * @remarks
- * - 数値計算の安定性とパフォーマンスを考慮した実装
- * - 除算を乗算に変換（invTotalPosts使用）
- * - ゼロ除算・log(0)を回避するため極小値チェックを実施
- * - 対称性を確保（tag1 -> tag2 と tag2 -> tag1 の両方を格納）
- */
 function calculateTagRelationsNPMI(
   tagsList: TagIndex,
   coOccurrenceMatrix: CoOccurrenceMatrix,
@@ -212,15 +177,6 @@ function calculateTagRelationsNPMI(
   }
 }
 
-/**
- * タグ関連度情報を関連度の高い順にソートする
- *
- * @param tagRelationsMap - 計算されたタグ関連度情報（Map形式）
- * @returns ソート済みのタグ関連度情報（通常のオブジェクト形式）
- *
- * @remarks
- * Map形式から通常のオブジェクト形式に変換し、効率的なソート処理を実施
- */
 function sortTagRelations(tagRelationsMap: TagRelationsMap): TagSimilarityScores {
   try {
     const sortedTags: TagSimilarityScores = Object.create(null);
@@ -259,65 +215,38 @@ function sortTagRelations(tagRelationsMap: TagRelationsMap): TagSimilarityScores
  * @param posts - 全記事リスト
  * @param tagsList - タグごとの記事リスト
  * @returns 計算・ソート済みのタグ関連度情報
- *
- * @remarks
- * **パフォーマンス最適化:**
- * - キャッシュ利用で再計算を回避
- * - Map活用による効率的なデータ構造
- * - 確率の事前計算で除算を削減
- * - 数値計算の安定性を考慮
- *
- * **処理フロー:**
- * 1. 入力検証とキャッシュチェック
- * 2. ドキュメント頻度と共起行列を1パスで構築
- * 3. NPMIに基づくタグ関連度を計算
- * 4. 関連度の高い順にソート
  */
 export function getRelatedTags(posts: Post[], tagsList: TagIndex): TagSimilarityScores {
   if (!Array.isArray(posts) || posts.length === 0) {
-    console.warn('[getRelatedTags] 記事配列が無効です');
+    console.warn('getRelatedTags: Invalid posts array. Returning empty object.');
     return {};
   }
 
   if (typeof tagsList !== 'object' || tagsList === null) {
-    console.warn('[getRelatedTags] タグリストが無効です');
+    console.warn('getRelatedTags: Invalid tagsList. Returning empty object.');
     return {};
   }
 
   const tagsCount = Object.keys(tagsList).length;
   if (tagsCount === 0) {
-    console.warn('[getRelatedTags] タグリストが空です');
     return {};
   }
-
-  console.log(`[getRelatedTags] 処理開始 (記事数: ${posts.length}, タグ数: ${tagsCount})`);
 
   const cacheKey = generateCacheKey(posts, tagsList);
   const cachedResult = tagsRelationCache.get(cacheKey);
   if (cachedResult !== undefined) {
-    console.log('[getRelatedTags] キャッシュヒット - 計算をスキップ');
     return cachedResult;
   }
 
   const totalPosts = posts.length;
 
-  console.log('[getRelatedTags] 共起行列の構築を開始...');
   const { tagDocFrequency, coOccurrenceMatrix } = buildFrequencyAndCoOccurrence(posts, tagsList);
-  console.log('[getRelatedTags] 共起行列の構築完了');
-
-  console.log('[getRelatedTags] タグ関連度の計算を開始...');
   const tagRelationsMap = calculateTagRelationsNPMI(tagsList, coOccurrenceMatrix, tagDocFrequency, totalPosts);
-  console.log('[getRelatedTags] タグ関連度の計算完了');
-
-  console.log('[getRelatedTags] タグ関連度のソートを開始...');
   const result = sortTagRelations(tagRelationsMap);
-  console.log('[getRelatedTags] タグ関連度のソート完了');
 
   if (Object.keys(result).length > 0) {
     tagsRelationCache.set(cacheKey, result);
   }
-
-  console.log('[getRelatedTags] 処理完了');
 
   return result;
 }

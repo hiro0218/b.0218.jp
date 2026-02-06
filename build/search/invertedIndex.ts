@@ -100,32 +100,3 @@ export async function generateSearchIndex(
 
   return { invertedIndex, searchData };
 }
-
-/**
- * 転置インデックスを生成する
- *
- * @deprecated generateSearchIndex() を使用してください
- * @param posts 記事データ配列
- * @param tokenizer 形態素解析器インスタンス
- * @returns 転置インデックス
- */
-export async function generateInvertedIndex(
-  posts: Post[],
-  tokenizer: Tokenizer<IpadicFeatures>,
-): Promise<InvertedIndex> {
-  const { invertedIndex } = await generateSearchIndex(posts, tokenizer);
-  return invertedIndex;
-}
-
-/**
- * 検索用軽量データを生成する
- *
- * @deprecated generateSearchIndex() を使用してください
- * @param posts 記事データ配列
- * @param tokenizer 形態素解析器インスタンス
- * @returns 検索用軽量データ配列
- */
-export async function generateSearchData(posts: Post[], tokenizer: Tokenizer<IpadicFeatures>): Promise<SearchData[]> {
-  const { searchData } = await generateSearchIndex(posts, tokenizer);
-  return searchData;
-}

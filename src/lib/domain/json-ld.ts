@@ -17,6 +17,8 @@ import type { PopularityDetail, Post } from '@/types/source';
 import { convertToISO8601WithTimezone } from '../utils/date';
 import { getOgpImage, getPermalink } from '../utils/url';
 
+const EMOJI_REGEX = /[\p{Extended_Pictographic}\p{Emoji_Component}\p{Regional_Indicator}]/gu;
+
 const AUTHOR = {
   '@type': 'Person',
   name: AUTHOR_NAME,
@@ -32,10 +34,7 @@ export const getDescriptionText = (postContent: string): string => {
       .replace(/(?:\r\n|\r|\n)/g, ' ') // 改行をスペースに置換
       .replace(/<\/?[^>]+(>|$)/g, '') // HTMLタグを削除
       // 絵文字と記号を削除（サロゲートペア対応）
-      .replace(
-        /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{E000}-\u{F8FF}\u{FE00}-\u{FE0F}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}]/gu,
-        '',
-      )
+      .replace(EMOJI_REGEX, '')
       .replace(/\s+/g, ' ') // 連続するスペースを1つのスペースに置換
       .trim() // 先頭と末尾のスペースを削除
       // サロゲートペアを考慮した切り詰め

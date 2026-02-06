@@ -20,6 +20,35 @@ paths:
 - `export` された関数・クラス・メソッド
 - 公開APIとして利用される機能
 
+## 🔴 配置ルール（CRITICAL）
+
+テストファイルは対象ファイルと同じディレクトリに配置する（コロケーション）。`__test__` ディレクトリは使用しない。
+
+### 正しい配置例
+
+```
+src/
+  components/
+    Button/
+      Button.tsx
+      Button.test.tsx       ✅ 正しい
+```
+
+### 誤った配置例
+
+```
+src/
+  components/
+    Button/
+      Button.tsx
+      __tests__/
+        Button.test.tsx     ❌ 禁止
+```
+
+### 例外
+
+統合テストやE2Eテストは `tests/` や `e2e/` に配置可能。
+
 ## 必須ルール
 
 1. **カバレッジ目標**: 80%以上（グローバルルール `~/.claude/rules/testing.md` に準拠）

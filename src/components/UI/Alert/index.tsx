@@ -1,26 +1,21 @@
-import { Stack } from '@/components/UI/Layout';
-import { ExclamationCircle, ExclamationTriangle, ICON_SIZE_SM, InformationCircle, LightBulb } from '@/ui/icons';
+import { Cluster } from '@/components/UI/Layout/Cluster';
+import { ExclamationCircle, ExclamationTriangle, ICON_SIZE_XS, InformationCircle, LightBulb } from '@/ui/icons';
 import { css } from '@/ui/styled';
 
 export type AlertType = 'note' | 'tip' | 'important' | 'warning' | 'caution';
-type SanitizedHtml = string;
 
 type Props = {
   type: AlertType;
-  html: SanitizedHtml;
-};
-
-const SIZE = {
-  height: ICON_SIZE_SM,
-  width: ICON_SIZE_SM,
+  html: string;
+  hideLabel?: boolean;
 };
 
 const ALERT_ICONS: Record<AlertType, React.ReactNode> = {
-  note: <InformationCircle {...SIZE} aria-hidden="true" />,
-  tip: <InformationCircle {...SIZE} aria-hidden="true" />,
-  important: <LightBulb {...SIZE} aria-hidden="true" />,
-  warning: <ExclamationTriangle {...SIZE} aria-hidden="true" />,
-  caution: <ExclamationCircle {...SIZE} aria-hidden="true" />,
+  note: <InformationCircle aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
+  tip: <InformationCircle aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
+  important: <LightBulb aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
+  warning: <ExclamationTriangle aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
+  caution: <ExclamationCircle aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
 };
 
 const ALERT_LABELS: Record<AlertType, string> = {
@@ -39,63 +34,107 @@ const ALERT_ROLES: Record<AlertType, 'note' | 'alert'> = {
   caution: 'alert',
 };
 
-export const Alert = ({ type, html }: Props) => {
+export function Alert({ type, html, hideLabel = false }: Props) {
   const icon = ALERT_ICONS[type];
   const label = ALERT_LABELS[type];
   const role = ALERT_ROLES[type];
 
+  const content = <div dangerouslySetInnerHTML={{ __html: html }} />;
+
   return (
-    <aside aria-label={`${label} alert`} className={containerStyle} data-alert-type={type} role={role}>
-      <Stack direction="vertical" gap={1}>
-        <Stack align="center" className={titleStyle} direction="horizontal" gap="½">
+    <aside
+      aria-label={`${label} alert`}
+      className={containerStyle}
+      data-alert-type={type}
+      data-hide-label={hideLabel}
+      role={role}
+    >
+      {hideLabel ? (
+        <>
           {icon}
-          <span>{label}</span>
-        </Stack>
-        <p
-          dangerouslySetInnerHTML={{
-            __html: html,
-          }}
-        />
-      </Stack>
+          {content}
+        </>
+      ) : (
+        <>
+          <Cluster className={titleStyle} gap="½">
+            {icon}
+            {label}
+          </Cluster>
+          {content}
+        </>
+      )}
     </aside>
   );
-};
+}
 
 const containerStyle = css`
-  --alert-color: var(--colors-alert-note);
-
+  display: grid;
+  gap: var(--spacing-1);
   padding: var(--spacing-2) var(--spacing-3);
-  background-color: hwb(from var(--alert-color) h w b / 0.1);
-  border-left: var(--spacing-½) solid var(--alert-color);
+  font-size: var(--font-sizes-sm);
+  color: var(--alert-color);
+  background-color: var(--alert-background);
+  border-radius: var(--radii-8);
+  box-shadow: inset 0 0 0 1px var(--alert-border);
 
-  &[data-alert-type='note'],
-  &[data-alert-type='tip'] {
-    --alert-color: var(--colors-alert-note);
-  }
-
-  &[data-alert-type='important'] {
-    --alert-color: var(--colors-alert-important);
-  }
-
-  &[data-alert-type='warning'] {
-    --alert-color: var(--colors-alert-warning);
-  }
-
-  &[data-alert-type='caution'] {
-    --alert-color: var(--colors-alert-caution);
+  /* stylelint-disable-next-line */
+  ::selection {
+    background-color: hwb(from var(--alert-color) h w b / 0.1);
   }
 
   & > :where(*) {
     margin: 0;
   }
 
-  p {
-    font-size: var(--font-sizes-sm);
+  &[data-hide-label='true'] {
+    display: flex;
+    gap: var(--spacing-½);
+    align-items: center;
+    padding: var(--spacing-2);
+
+    svg {
+      flex-shrink: 0;
+      height: 1lh;
+    }
+
+    & > div {
+      flex: 1;
+    }
+  }
+
+  &[data-alert-type='note'] {
+    --alert-border: var(--colors-blue-400);
+    --alert-color: var(--colors-blue-900);
+    --alert-background: var(--colors-blue-100);
+  }
+
+  &[data-alert-type='tip'] {
+    --alert-border: var(--colors-green-400);
+    --alert-color: var(--colors-green-900);
+    --alert-background: var(--colors-green-100);
+  }
+
+  &[data-alert-type='important'] {
+    --alert-border: var(--colors-purple-400);
+    --alert-color: var(--colors-purple-900);
+    --alert-background: var(--colors-purple-100);
+  }
+
+  &[data-alert-type='warning'] {
+    --alert-border: var(--colors-yellow-400);
+    --alert-color: var(--colors-yellow-1000);
+    --alert-background: var(--colors-yellow-100);
+  }
+
+  &[data-alert-type='caution'] {
+    --alert-border: var(--colors-red-400);
+    --alert-color: var(--colors-red-900);
+    --alert-background: var(--colors-red-100);
   }
 `;
 
 const titleStyle = css`
-  font-size: var(--font-sizes-md);
+  align-items: center;
   font-weight: var(--font-weights-bold);
   color: var(--alert-color);
 `;

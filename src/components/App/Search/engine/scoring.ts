@@ -4,7 +4,7 @@
  * 検索結果の優先度を計算し、最適な順序で表示するためのロジックを提供する
  */
 
-import type { MatchType, RankedSearchResult, SearchResultItem } from '../types';
+import type { MatchType } from '../types';
 
 /**
  * 優先度スコア定数
@@ -40,26 +40,3 @@ const matchPriorityMap = new Map<MatchType, number>([
  * @returns 優先度数値（高いほど優先表示、完全一致100〜不一致0）
  */
 export const getMatchTypePriority = (matchType: MatchType): number => matchPriorityMap.get(matchType) ?? 0;
-
-/**
- * UI表示最適化のため優先度順にソートし結果件数を制限
- *
- * 優先度が同じ場合はスコア（記事の重要度）でさらにソート
- */
-export const sortAndLimitResults = (results: RankedSearchResult[], maxResults = 100): SearchResultItem[] => {
-  const sorted = results.toSorted((a, b) => {
-    const priorityDiff = b.priority - a.priority;
-    if (priorityDiff !== 0) {
-      return priorityDiff;
-    }
-    const scoreA = a.post.score ?? 0;
-    const scoreB = b.post.score ?? 0;
-    return scoreB - scoreA;
-  });
-
-  return sorted.slice(0, maxResults).map((result) => ({
-    ...result.post,
-    matchType: result.matchType,
-    matchedIn: result.matchedIn,
-  }));
-};
