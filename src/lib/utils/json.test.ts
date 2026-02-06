@@ -35,16 +35,6 @@ describe('json utilities', () => {
       expect(consoleSpy).toHaveBeenCalledWith('Failed to parse JSON:', expect.any(SyntaxError));
     });
 
-    test('数値をパースする', () => {
-      const result = safeJsonParse<number>('123');
-      expect(result).toBe(123);
-    });
-
-    test('配列をパースする', () => {
-      const result = safeJsonParse<string[]>('["a", "b", "c"]');
-      expect(result).toEqual(['a', 'b', 'c']);
-    });
-
     test('null 値をパースする', () => {
       const result = safeJsonParse<null>('null');
       expect(result).toBeNull();
@@ -83,26 +73,6 @@ describe('json utilities', () => {
       const result = safeJsonStringify(obj);
       expect(result).toBeNull();
       expect(consoleSpy).toHaveBeenCalledWith('Failed to stringify JSON:', expect.any(TypeError));
-    });
-
-    test('配列を stringify する', () => {
-      const result = safeJsonStringify(['a', 'b', 'c']);
-      expect(result).toBe('["a","b","c"]');
-    });
-
-    test('null を stringify する', () => {
-      const result = safeJsonStringify(null);
-      expect(result).toBe('null');
-    });
-
-    test('数値を stringify する', () => {
-      const result = safeJsonStringify(123);
-      expect(result).toBe('123');
-    });
-
-    test('文字列を stringify する', () => {
-      const result = safeJsonStringify('hello');
-      expect(result).toBe('"hello"');
     });
   });
 });

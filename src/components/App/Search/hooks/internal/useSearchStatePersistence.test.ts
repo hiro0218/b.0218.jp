@@ -49,11 +49,6 @@ describe('useSearchStatePersistence', () => {
     vi.restoreAllMocks();
   });
 
-  test('フックが正しくインポートできる', () => {
-    expect(useSearchStatePersistence).toBeDefined();
-    expect(typeof useSearchStatePersistence).toBe('function');
-  });
-
   test('saveSearchState が正しく動作することを検証', () => {
     const { result } = renderHook(() => useSearchStatePersistence());
 

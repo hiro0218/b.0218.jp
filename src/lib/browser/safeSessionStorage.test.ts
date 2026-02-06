@@ -1,6 +1,5 @@
 import type { MockInstance } from 'vitest';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import { safeJsonParse, safeJsonStringify } from '@/lib/utils/json';
 import { getSessionStorage, removeSessionStorage, setSessionStorage } from './safeSessionStorage';
 
 // isSSRモジュールをモック化
@@ -40,59 +39,6 @@ describe('safeSessionStorage', () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
-  });
-
-  describe('safeJsonParse', () => {
-    test('有効なJSONをパースする', () => {
-      const result = safeJsonParse<{ name: string }>('{"name":"test"}');
-      expect(result).toEqual({ name: 'test' });
-    });
-
-    test('nullを受け取った場合nullを返す', () => {
-      const result = safeJsonParse(null);
-      expect(result).toBeNull();
-    });
-
-    test('無効なJSONの場合nullを返す', () => {
-      const result = safeJsonParse('invalid json');
-      expect(result).toBeNull();
-      expect(consoleSpy).toHaveBeenCalledWith('Failed to parse JSON:', expect.any(SyntaxError));
-    });
-  });
-
-  describe('safeJsonStringify', () => {
-    test('オブジェクトをJSON文字列に変換する', () => {
-      const result = safeJsonStringify({ name: 'test', value: 123 });
-      expect(result).toBe('{"name":"test","value":123}');
-    });
-
-    test('undefinedの場合nullを返す', () => {
-      const result = safeJsonStringify(undefined);
-      expect(result).toBeNull();
-    });
-
-    test('関数の場合nullを返す', () => {
-      const result = safeJsonStringify(() => 'test');
-      expect(result).toBeNull();
-    });
-
-    test('Symbolの場合nullを返す', () => {
-      const result = safeJsonStringify(Symbol('test'));
-      expect(result).toBeNull();
-    });
-
-    test('循環参照の場合nullを返す', () => {
-      interface CircularObj {
-        name: string;
-        self?: CircularObj;
-      }
-      const obj: CircularObj = { name: 'test' };
-      obj.self = obj;
-
-      const result = safeJsonStringify(obj);
-      expect(result).toBeNull();
-      expect(consoleSpy).toHaveBeenCalledWith('Failed to stringify JSON:', expect.any(TypeError));
-    });
   });
 
   describe('getSessionStorage', () => {
