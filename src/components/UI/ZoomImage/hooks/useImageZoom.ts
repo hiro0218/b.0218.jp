@@ -46,6 +46,8 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
   const imgRef = useRef<HTMLImageElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const dialogImgRef = useRef<HTMLImageElement>(null);
+  const isTransitioning = useRef(false);
+  const isMountedRef = useRef(true);
 
   const handleImageLoad = useCallback(() => {
     setImageLoaded(true);
@@ -75,6 +77,8 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
   }, [canZoom, viewTransitionName]);
 
   const close = useCallback(() => {
+    if (isTransitioning.current) return;
+
     const dialog = dialogRef.current;
     if (!imgRef.current || !dialog || !dialogImgRef.current || !dialog.open) return;
 
@@ -88,6 +92,8 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
       setIsOpen(false);
       return;
     }
+
+    isTransitioning.current = true;
 
     // 「old」スナップショット用に viewTransitionName を明示的に設定
     dialogImg.style.viewTransitionName = viewTransitionName;
@@ -105,15 +111,24 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
 
     if (transition) {
       transition.finished.finally(() => {
+        isTransitioning.current = false;
+        if (!isMountedRef.current) return;
         sourceImg.style.viewTransitionName = '';
         if (triggerButton) triggerButton.style.visibility = '';
         setIsOpen(false);
       });
     } else {
       sourceImg.style.viewTransitionName = '';
+      isTransitioning.current = false;
       setIsOpen(false);
     }
   }, [viewTransitionName]);
+
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   // ズーム可否判定（画像ロード時に一度だけチェック）
   useEffect(() => {
