@@ -26,3 +26,19 @@
 .line-clamp-2 {
   @mixin line-clamp 2;
 }
+
+.skip-link {
+  @mixin sr-only;
+
+  &:focus-visible {
+    @mixin not-sr-only;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--z-index-overlay);
+    padding: var(--spacing-2) var(--spacing-4);
+    font-weight: var(--font-weights-bold);
+    color: var(--colors-gray-100);
+    background-color: var(--colors-gray-1000);
+  }
+}

@@ -15,7 +15,7 @@ export const PageScroll = () => {
   return (
     <Container data-floating>
       <Tooltip position="top" text="ページトップへ">
-        <Button onClick={scrollToTop}>
+        <Button aria-label="ページトップへ" onClick={scrollToTop}>
           <ArrowUpIcon />
         </Button>
       </Tooltip>
