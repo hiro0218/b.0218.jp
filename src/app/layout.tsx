@@ -60,6 +60,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
       <body>
+        <a className="skip-link" href="#main">
+          メインコンテンツへスキップ
+        </a>
         {process.env.NODE_ENV === 'production' && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />}
         <SearchDialogProvider>
           <Layout>
