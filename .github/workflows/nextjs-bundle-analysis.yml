@@ -93,12 +93,21 @@ jobs:
           PID_POPULAR=$!
 
           PARALLEL_FAILED=0
-          wait $PID_SIMILARITY || PARALLEL_FAILED=1
-          wait $PID_SEARCH || PARALLEL_FAILED=1
-          wait $PID_POPULAR || PARALLEL_FAILED=1
+          EXIT_SIMILARITY=0; EXIT_SEARCH=0; EXIT_POPULAR=0
+
+          wait $PID_SIMILARITY; EXIT_SIMILARITY=$?
+          wait $PID_SEARCH; EXIT_SEARCH=$?
+          wait $PID_POPULAR; EXIT_POPULAR=$?
+
+          if [ $EXIT_SIMILARITY -ne 0 ] || [ $EXIT_SEARCH -ne 0 ] || [ $EXIT_POPULAR -ne 0 ]; then
+            PARALLEL_FAILED=1
+          fi
 
           if [ $PARALLEL_FAILED -ne 0 ]; then
-            echo "One or more parallel prebuild steps failed"
+            echo "One or more parallel prebuild steps failed:"
+            [ $EXIT_SIMILARITY -ne 0 ] && echo "  - build:similarity (exit code: $EXIT_SIMILARITY)"
+            [ $EXIT_SEARCH -ne 0 ] && echo "  - build:search (exit code: $EXIT_SEARCH)"
+            [ $EXIT_POPULAR -ne 0 ] && echo "  - build:popular (exit code: $EXIT_POPULAR)"
             exit 1
           fi
 
