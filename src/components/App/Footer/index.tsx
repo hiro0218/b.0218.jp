@@ -64,6 +64,7 @@ const LogoContainer = styled.div`
 
 const Nav = styled.nav`
   display: inline-flex;
+  flex-wrap: wrap;
   gap: var(--spacing-3);
   align-items: center;
   margin-left: calc(var(--spacing-1) * -1);
