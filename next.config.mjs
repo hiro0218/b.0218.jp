@@ -25,6 +25,20 @@ const nextConfig = {
     scrollRestoration: false,
     ...getStaticGenerationConfig(),
     webpackBuildWorker: true,
+    optimizePackageImports: [
+      '@react-aria/button',
+      '@react-aria/dialog',
+      '@react-aria/focus',
+      '@react-aria/interactions',
+      '@react-aria/menu',
+      '@react-aria/overlays',
+      '@react-aria/textfield',
+      '@react-aria/tooltip',
+      '@react-aria/utils',
+      'html-react-parser',
+      'react-stately',
+    ],
+    webpackMemoryOptimizations: true,
   },
 
   // Turbopack configuration (empty to acknowledge and silence webpack warning)
