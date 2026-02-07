@@ -9,18 +9,21 @@ import { useScrollProgress } from './useScrollProgress';
  * ページ上部に固定表示される
  */
 export function ScrollProgress(): ReactNode {
-  const progress = useScrollProgress();
+  const ref = useScrollProgress();
 
-  return <ProgressBar aria-hidden="true" style={{ width: `${progress}%` }} />;
+  return <ProgressBar aria-hidden="true" ref={ref} />;
 }
 
 const ProgressBar = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: var(--z-index-base);
+  z-index: calc(var(--z-index-header) + 1);
+  width: 100%;
   height: 4px;
   pointer-events: none;
   background: var(--colors-accent-800);
-  transition: width 0.1s linear;
+  transform: scaleX(0);
+  transform-origin: left;
+  will-change: transform;
 `;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { type RefObject, useEffect, useRef } from 'react';
 import throttle from '@/lib/utils/throttle';
 
 const MIN_PROGRESS = 0;
@@ -9,8 +9,6 @@ const MAX_PROGRESS = 100;
  * @returns 0-100の進捗率
  */
 function calculateScrollProgress(): number {
-  if (typeof window === 'undefined') return MIN_PROGRESS;
-
   const scrollTop = window.scrollY;
   const docHeight = document.documentElement.scrollHeight;
   const windowHeight = window.innerHeight;
@@ -26,15 +24,18 @@ function calculateScrollProgress(): number {
 }
 
 /**
- * スクロール進捗率を計算して返すカスタムフック
- * @returns 0-100の進捗率
+ * スクロール進捗率を計算し、ref 経由で直接 DOM を更新するカスタムフック
+ * React の再レンダーを発生させず、transform で GPU 合成のみで描画する
  */
-export function useScrollProgress(): number {
-  const [progress, setProgress] = useState(MIN_PROGRESS);
+export function useScrollProgress(): RefObject<HTMLDivElement | null> {
+  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const updateProgress = () => {
-      setProgress(calculateScrollProgress());
+      if (ref.current) {
+        const progress = calculateScrollProgress();
+        ref.current.style.transform = `scaleX(${progress / MAX_PROGRESS})`;
+      }
     };
 
     updateProgress();
@@ -50,5 +51,5 @@ export function useScrollProgress(): number {
     };
   }, []);
 
-  return progress;
+  return ref;
 }
