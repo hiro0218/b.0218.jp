@@ -70,10 +70,8 @@ jobs:
         env:
           cache-name: cache-next-build
         with:
-          path: |
-            .next
-            !.next/cache/webpack
-          key: ${{ runner.os }}-nextjs-v16-build-${{ hashFiles('package-lock.json') }}-${{ hashFiles('.github/**/*.{js,jsx,ts,tsx}', 'src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}', 'panda.config.ts', 'next.config.js') }}
+          path: .next
+          key: ${{ runner.os }}-nextjs-v16-build-${{ hashFiles('package-lock.json') }}-${{ hashFiles('.github/**/*.{js,jsx,ts,tsx}', 'src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}', 'panda.config.ts', 'next.config.mjs') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-v16-build-${{ hashFiles('package-lock.json') }}-
 
@@ -84,9 +82,27 @@ jobs:
           GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
         # change this if your site requires a custom build command
         run: |
-          # Clean .next directory to avoid cache conflicts
-          rm -rf .next
-          npx panda codegen && npm run build:article && npm run build:search && npm run build:similarity && npm run build:popular && ./node_modules/.bin/next build --webpack
+          npx panda codegen
+          npm run build:article
+
+          npm run build:similarity &
+          PID_SIMILARITY=$!
+          npm run build:search &
+          PID_SEARCH=$!
+          npm run build:popular &
+          PID_POPULAR=$!
+
+          PARALLEL_FAILED=0
+          wait $PID_SIMILARITY || PARALLEL_FAILED=1
+          wait $PID_SEARCH || PARALLEL_FAILED=1
+          wait $PID_POPULAR || PARALLEL_FAILED=1
+
+          if [ $PARALLEL_FAILED -ne 0 ]; then
+            echo "One or more parallel prebuild steps failed"
+            exit 1
+          fi
+
+          ./node_modules/.bin/next build --webpack
 
       - name: Save next build cache
         uses: actions/cache/save@v5
@@ -94,10 +110,8 @@ jobs:
         env:
           cache-name: cache-next-build
         with:
-          path: |
-            .next
-            !.next/cache/webpack
-          key: ${{ runner.os }}-nextjs-v16-build-${{ hashFiles('package-lock.json') }}-${{ hashFiles('.github/**/*.{js,jsx,ts,tsx}', 'src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}', 'panda.config.ts', 'next.config.js') }}
+          path: .next
+          key: ${{ runner.os }}-nextjs-v16-build-${{ hashFiles('package-lock.json') }}-${{ hashFiles('.github/**/*.{js,jsx,ts,tsx}', 'src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}', 'panda.config.ts', 'next.config.mjs') }}
 
       # touch .env
       # echo "TZ=Asia/Tokyo" >> .env
