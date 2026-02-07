@@ -10,7 +10,13 @@ type Props = {
 export function SearchTrigger({ openDialogAction }: Props) {
   return (
     <Tooltip text={SEARCH_LABELS.searchTitle}>
-      <Button aria-haspopup="dialog" className="link-style--hover-effect" onClick={openDialogAction} type="button">
+      <Button
+        aria-haspopup="dialog"
+        aria-label={SEARCH_LABELS.searchTitle}
+        className="link-style--hover-effect"
+        onClick={openDialogAction}
+        type="button"
+      >
         <MagnifyingGlassIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
       </Button>
     </Tooltip>
