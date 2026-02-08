@@ -50,7 +50,7 @@ function ArticleCard({ link, title, date, updated, excerpt, tags, titleTagName =
 export default ArticleCard;
 
 const containerStyle = css`
-  --container-space: var(--spacing-3);
+  --container-space: var(--spacing-2);
   --hover-color: var(--colors-accent-1100);
 
   contain-intrinsic-size: 0 200px;
@@ -63,8 +63,8 @@ const containerStyle = css`
   box-shadow: 0 0 0 1px var(--colors-gray-200);
   transition: box-shadow 0.2s var(--easings-ease-out-expo);
 
-  @media (--isMobile) {
-    --container-space: var(--spacing-2);
+  @media (--isDesktop) {
+    --container-space: var(--spacing-3);
   }
 
   @container (max-width: 480px) {

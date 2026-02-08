@@ -27,10 +27,10 @@ const Root = styled.div`
 
 const spaceStyle = css`
   padding-block: 0;
-  padding-inline: var(--spacing-3);
+  padding-inline: var(--spacing-2);
 
-  @media (--isMobile) {
-    padding-inline: var(--spacing-2);
+  @media (--isDesktop) {
+    padding-inline: var(--spacing-3);
   }
 `;
 

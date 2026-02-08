@@ -159,6 +159,7 @@
 
   iframe {
     width: 100%;
+    min-height: 320px;
     background-color: var(--colors-white);
 
     &[src*='youtube'] {
@@ -172,8 +173,8 @@
       border-radius: var(--radii-4);
     }
 
-    @media (--isMobile) {
-      min-height: 320px;
+    @media (--isDesktop) {
+      min-height: initial;
     }
   }
 

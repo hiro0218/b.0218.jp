@@ -44,7 +44,7 @@ export function SearchResultList({
 const Container = styled.div`
   display: grid;
   gap: var(--spacing-1);
-  max-height: 50vh;
+  max-height: 60vh;
   padding: 0;
   overflow-x: clip;
   overflow-y: auto;
@@ -53,7 +53,7 @@ const Container = styled.div`
     padding: var(--spacing-½) var(--spacing-1);
   }
 
-  @media (--isMobile) {
-    max-height: 60vh;
+  @media (--isDesktop) {
+    max-height: 50vh;
   }
 `;

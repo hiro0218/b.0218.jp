@@ -46,11 +46,11 @@ const Avatar = styled.div`
   flex-shrink: 0;
   grid-row: 1 / span 2;
   grid-column: 1 / 2;
-  width: var(--hero-size);
+  width: var(--hero-size-shrink);
   user-select: none;
 
-  @media (--isMobile) {
-    width: var(--hero-size-shrink);
+  @media (--isDesktop) {
+    width: var(--hero-size);
   }
 
   img {

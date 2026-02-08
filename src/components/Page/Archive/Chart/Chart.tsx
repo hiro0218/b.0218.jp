@@ -35,15 +35,17 @@ export const Chart = ({ archives, totalPosts }: Props) => {
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   gap: var(--spacing-½);
-  height: var(--spacing-5);
-  overflow-x: scroll;
+  align-items: start;
+  width: 100%;
 
-  @media (--isMobile) {
-    flex-direction: column;
-    align-items: start;
-    width: 100%;
-    height: auto;
+  @media (--isDesktop) {
+    flex-direction: row;
+    align-items: stretch;
+    width: auto;
+    height: var(--spacing-5);
+    overflow-x: scroll;
   }
 `;
 
@@ -54,26 +56,28 @@ const ChartItem = styled.div`
 
 const AnchorStyle = css`
   --fill: var(--colors-gray-100);
-  --direction: to top;
+  --direction: to right;
 
   position: relative;
   display: flex;
   align-items: end;
   justify-content: center;
+  width: 100%;
   min-width: 5cap;
   height: 100%;
-  font-size: var(--font-sizes-xs);
+  padding: var(--spacing-1) var(--spacing-½);
+  font-size: var(--font-sizes-sm);
   font-variant-numeric: tabular-nums;
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-900);
   background: linear-gradient(var(--direction), var(--fill) var(--percent), transparent var(--percent));
 
-  @media (--isMobile) {
-    --direction: to right;
+  @media (--isDesktop) {
+    --direction: to top;
 
-    width: 100%;
-    padding: var(--spacing-1) var(--spacing-½);
-    font-size: var(--font-sizes-sm);
+    width: auto;
+    padding: 0;
+    font-size: var(--font-sizes-xs);
   }
 
   &:hover {

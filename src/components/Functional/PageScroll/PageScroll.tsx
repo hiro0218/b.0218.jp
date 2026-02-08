@@ -51,13 +51,13 @@ const Button = styled.button`
     --mobile-size: calc(var(--sizes-icon-lg) * 0.5);
 
     flex: 1 1;
-    width: var(--desktop-size);
-    height: var(--desktop-size);
+    width: var(--mobile-size);
+    height: var(--mobile-size);
     fill: currentColor;
 
-    @media (--isMobile) {
-      width: var(--mobile-size);
-      height: var(--mobile-size);
+    @media (--isDesktop) {
+      width: var(--desktop-size);
+      height: var(--desktop-size);
     }
   }
 

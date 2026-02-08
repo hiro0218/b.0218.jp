@@ -144,19 +144,23 @@ const PaginationNav = styled.nav`
     display: flex;
   }
 
-  @media (--isDesktop) {
-    [data-paginate='progress'] {
-      display: none;
-    }
+  [data-paginate='arrow'] {
+    display: block;
   }
 
-  @media (--isMobile) {
-    [data-paginate='arrow'] {
-      display: block;
-    }
+  [data-paginate='page'],
+  [data-paginate='ellipsis'] {
+    display: none;
+  }
 
+  @media (--isDesktop) {
+    [data-paginate='arrow'],
     [data-paginate='page'],
     [data-paginate='ellipsis'] {
+      display: flex;
+    }
+
+    [data-paginate='progress'] {
       display: none;
     }
   }

@@ -26,9 +26,10 @@ const Container = styled.div`
   --column-ratio: calc(21 / (21 + 9)); /* 片方のカラムの割合 */
 
   display: flex;
+  flex-direction: column;
 
-  @media (--isMobile) {
-    flex-direction: column;
+  @media (--isDesktop) {
+    flex-direction: row;
   }
 `;
 
@@ -64,13 +65,13 @@ const Main = ({ children }: ChildProps) => {
 };
 
 const stickyStyle = css`
-  position: sticky;
-  top: var(--spacing-1);
+  position: static;
   block-size: 100%;
   isolation: isolate;
 
-  @media (--isMobile) {
-    position: static;
+  @media (--isDesktop) {
+    position: sticky;
+    top: var(--spacing-1);
   }
 `;
 

@@ -80,12 +80,13 @@ const BodyTitle = styled.span`
 `;
 
 const BodyDescription = styled.span`
+  display: none;
   margin-top: var(--spacing-½);
   font-size: var(--font-sizes-sm);
   color: var(--colors-gray-800);
 
-  @media (--isMobile) {
-    display: none;
+  @media (--isDesktop) {
+    display: block;
   }
 `;
 

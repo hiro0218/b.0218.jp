@@ -35,7 +35,7 @@ export const Timeline = ({ posts, year }: Props) => {
 
 const Section = styled.section`
   --vertical-space: var(--spacing-3);
-  --columns-1: 12%;
+  --columns-1: 16%;
   --columns-2: 8%;
   --year-heading-height: var(--spacing-5);
   --year-heading-circle-color: var(--colors-gray-600);
@@ -45,8 +45,8 @@ const Section = styled.section`
   --year-post-separator-color: var(--colors-gray-600);
   --year-post-separator-border-radius: var(--radii-full);
 
-  @media (--isMobile) {
-    --columns-1: 16%;
+  @media (--isDesktop) {
+    --columns-1: 12%;
   }
 
   position: relative;

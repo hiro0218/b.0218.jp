@@ -42,14 +42,14 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-height: 50vh;
+  max-height: 60vh;
   padding: var(--spacing-6) var(--spacing-1);
   overflow-y: auto;
   color: var(--colors-gray-600);
   text-align: center;
 
-  @media (--isMobile) {
-    max-height: 60vh;
+  @media (--isDesktop) {
+    max-height: 50vh;
   }
 `;
 

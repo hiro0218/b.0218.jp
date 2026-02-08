@@ -64,21 +64,22 @@ const Ins = () => {
 
 const containerStyle = css`
   display: flex;
+  flex-direction: column;
   gap: var(--spacing-2);
   align-items: center;
   justify-content: center;
   margin: 0 auto;
 
-  @media (--isMobile) {
-    flex-direction: column;
+  @media (--isDesktop) {
+    flex-direction: row;
   }
 `;
 
 const Ads = styled.div`
-  min-width: var(--ads-width);
+  min-width: 250px;
   height: var(--ads-height);
 
-  @media (--isMobile) {
-    min-width: 250px;
+  @media (--isDesktop) {
+    min-width: var(--ads-width);
   }
 `;
