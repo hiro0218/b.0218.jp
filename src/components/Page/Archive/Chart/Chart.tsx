@@ -7,23 +7,19 @@ type Props = {
   archives: ArchiveListProps;
 };
 
+const CHART_SCALE = 10;
+
 export const Chart = ({ archives, totalPosts }: Props) => {
   const years = Object.keys(archives);
-  const yearPercentages: Record<string, string> = {};
-
-  for (const year of years) {
-    const thisPosts = archives[year].length;
-    yearPercentages[year] = `${(Math.round((thisPosts / totalPosts) * 100000) / 100).toFixed(2)}%`;
-  }
 
   return (
     <Wrapper>
       <Container>
         {years.map((year) => {
-          const percentage = yearPercentages[year];
+          const percent = `${((archives[year].length / totalPosts) * 100 * CHART_SCALE).toFixed(0)}%`;
 
           return (
-            <ChartItem key={year} style={{ '--percent': percentage } as React.CSSProperties}>
+            <ChartItem key={year} style={{ '--percent': percent } as React.CSSProperties}>
               <Anchor className={AnchorStyle} href={`#${year}年`}>
                 {year}
               </Anchor>
