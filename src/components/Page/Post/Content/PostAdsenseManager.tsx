@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Adsense } from '@/components/UI/Adsense';
-import { splitReactNode } from '@/lib/browser/splitHtml';
+import { splitReactNode } from '@/lib/react/splitReactNode';
 import { styled } from '@/ui/styled';
 import { PostContentRenderer } from './PostContentRenderer';
 
