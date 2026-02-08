@@ -70,10 +70,8 @@ jobs:
         env:
           cache-name: cache-next-build
         with:
-          path: |
-            .next
-            !.next/cache/webpack
-          key: ${{ runner.os }}-nextjs-v16-build-${{ hashFiles('package-lock.json') }}-${{ hashFiles('.github/**/*.{js,jsx,ts,tsx}', 'src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}', 'panda.config.ts', 'next.config.js') }}
+          path: .next
+          key: ${{ runner.os }}-nextjs-v16-build-${{ hashFiles('package-lock.json') }}-${{ hashFiles('.github/**/*.{js,jsx,ts,tsx}', 'src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}', 'panda.config.ts', 'next.config.mjs') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-v16-build-${{ hashFiles('package-lock.json') }}-
 
@@ -84,9 +82,36 @@ jobs:
           GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
         # change this if your site requires a custom build command
         run: |
-          # Clean .next directory to avoid cache conflicts
-          rm -rf .next
-          npx panda codegen && npm run build:article && npm run build:search && npm run build:similarity && npm run build:popular && ./node_modules/.bin/next build --webpack
+          npx panda codegen
+          npm run build:article
+
+          npm run build:similarity &
+          PID_SIMILARITY=$!
+          npm run build:search &
+          PID_SEARCH=$!
+          npm run build:popular &
+          PID_POPULAR=$!
+
+          PARALLEL_FAILED=0
+          EXIT_SIMILARITY=0; EXIT_SEARCH=0; EXIT_POPULAR=0
+
+          wait $PID_SIMILARITY; EXIT_SIMILARITY=$?
+          wait $PID_SEARCH; EXIT_SEARCH=$?
+          wait $PID_POPULAR; EXIT_POPULAR=$?
+
+          if [ $EXIT_SIMILARITY -ne 0 ] || [ $EXIT_SEARCH -ne 0 ] || [ $EXIT_POPULAR -ne 0 ]; then
+            PARALLEL_FAILED=1
+          fi
+
+          if [ $PARALLEL_FAILED -ne 0 ]; then
+            echo "One or more parallel prebuild steps failed:"
+            [ $EXIT_SIMILARITY -ne 0 ] && echo "  - build:similarity (exit code: $EXIT_SIMILARITY)"
+            [ $EXIT_SEARCH -ne 0 ] && echo "  - build:search (exit code: $EXIT_SEARCH)"
+            [ $EXIT_POPULAR -ne 0 ] && echo "  - build:popular (exit code: $EXIT_POPULAR)"
+            exit 1
+          fi
+
+          ./node_modules/.bin/next build --webpack
 
       - name: Save next build cache
         uses: actions/cache/save@v5
@@ -94,10 +119,8 @@ jobs:
         env:
           cache-name: cache-next-build
         with:
-          path: |
-            .next
-            !.next/cache/webpack
-          key: ${{ runner.os }}-nextjs-v16-build-${{ hashFiles('package-lock.json') }}-${{ hashFiles('.github/**/*.{js,jsx,ts,tsx}', 'src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}', 'panda.config.ts', 'next.config.js') }}
+          path: .next
+          key: ${{ runner.os }}-nextjs-v16-build-${{ hashFiles('package-lock.json') }}-${{ hashFiles('.github/**/*.{js,jsx,ts,tsx}', 'src/**/*.{js,jsx,ts,tsx}', 'app/**/*.{js,jsx,ts,tsx}', 'panda.config.ts', 'next.config.mjs') }}
 
       # touch .env
       # echo "TZ=Asia/Tokyo" >> .env
