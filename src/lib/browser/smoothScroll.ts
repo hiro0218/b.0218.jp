@@ -1,7 +1,5 @@
 import { isSSR } from '@/lib/browser/isSSR';
 
-let cachedScrollBehavior: ScrollBehavior | null = null;
-
 /**
  * ユーザーのモーション設定に基づいてスクロール動作を決定
  * - SSR環境: 'instant' を返す
@@ -11,26 +9,23 @@ let cachedScrollBehavior: ScrollBehavior | null = null;
  * @returns スクロール動作（'instant' または 'smooth'）
  */
 const getScrollBehavior = (): ScrollBehavior => {
-  if (cachedScrollBehavior === null) {
-    if (isSSR) {
-      cachedScrollBehavior = 'instant';
-    } else {
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      cachedScrollBehavior = prefersReducedMotion ? 'instant' : 'smooth';
-    }
-  }
-
-  return cachedScrollBehavior;
+  if (isSSR) return 'instant';
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
 };
 
 // ページトップへのリンクを統一的に処理するため
 const isTopHash = (hash: string): boolean => hash === '#top' || hash === '#';
 
+const isSamePageLink = (anchor: HTMLAnchorElement): boolean => {
+  const url = new URL(anchor.href, location.href);
+  return url.origin === location.origin && url.pathname === location.pathname;
+};
+
 // URLデコードエラーや不正なIDに対する堅牢性を確保
 const getTarget = (hash: string): HTMLElement | null => {
   try {
     const targetElementId = decodeURIComponent(hash.slice(1));
-    return document.getElementById(targetElementId) || (isTopHash(hash) ? document.body : null);
+    return document.getElementById(targetElementId) || (isTopHash(hash) ? document.documentElement : null);
   } catch (error) {
     console.error('Failed to decode URL hash:', error);
     return null;
@@ -51,10 +46,23 @@ const focusOnTarget = (element: HTMLElement): void => {
 
     // スクリーンリーダーのナビゲーション向上のため
     if (document.activeElement !== element) {
+      const previousTabindex = element.getAttribute('tabindex');
       // 通常フォーカス不可能な要素でもキーボードナビゲーションできるように
       element.setAttribute('tabindex', '-1');
       element.focus({ preventScroll: true });
-      element.removeAttribute('tabindex');
+
+      // blurイベントで元のtabindex状態に復元
+      element.addEventListener(
+        'blur',
+        () => {
+          if (previousTabindex === null) {
+            element.removeAttribute('tabindex');
+          } else {
+            element.setAttribute('tabindex', previousTabindex);
+          }
+        },
+        { once: true },
+      );
     }
   } catch (error) {
     console.error('Failed to focus on target element:', error);
@@ -67,6 +75,9 @@ const handleSmoothScrollClick = (event: MouseEvent): void => {
 
   const element = eventTarget.closest<HTMLAnchorElement>('a[href*="#"]');
   if (!element) return;
+
+  // 同一ページのアンカーリンクのみ処理
+  if (!isSamePageLink(element)) return;
 
   const hash = element.hash;
   const target = getTarget(hash);
@@ -93,21 +104,17 @@ const handleSmoothScrollClick = (event: MouseEvent): void => {
  * cleanup();
  */
 const initializeSmoothScroll = (): (() => void) => {
-  // 重複初期化を防ぐため
-  let isInitialized = false;
   const abortController = new AbortController();
 
-  if (!isInitialized && !isSSR) {
+  if (!isSSR) {
     document.addEventListener('click', handleSmoothScrollClick, {
       capture: true,
       signal: abortController.signal,
     });
-    isInitialized = true;
   }
 
   return () => {
     abortController.abort();
-    isInitialized = false;
   };
 };
 
