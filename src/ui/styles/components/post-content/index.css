@@ -19,6 +19,7 @@
   h5,
   h6 {
     position: relative;
+    container-type: inline-size;
     font-feature-settings: 'palt';
     font-kerning: normal;
     line-height: var(--line-heights-md);
@@ -52,14 +53,10 @@
 
   h2 {
     padding-bottom: var(--spacing-½);
-    margin-top: var(--spacing-5);
+    margin-top: clamp(var(--spacing-5), 5vw + 1rem, var(--spacing-6));
     margin-bottom: var(--spacing-3);
     line-height: var(--line-heights-md);
     border-bottom: 1px solid var(--colors-gray-400);
-
-    @media (--isDesktop) {
-      margin-top: var(--spacing-6);
-    }
 
     &:first-of-type {
       margin-top: auto;
@@ -67,34 +64,22 @@
   }
 
   h3 {
-    margin-top: var(--spacing-4);
+    margin-top: clamp(var(--spacing-4), 3.5vw + 0.5rem, var(--spacing-5));
     margin-bottom: var(--spacing-3);
     line-height: var(--line-heights-sm);
-
-    @media (--isDesktop) {
-      margin-top: var(--spacing-5);
-    }
   }
 
   h4,
   h5 {
-    margin-top: var(--spacing-3);
+    margin-top: clamp(var(--spacing-3), 3vw + 0.25rem, var(--spacing-5));
     margin-bottom: var(--spacing-2);
     line-height: var(--line-heights-sm);
-
-    @media (--isDesktop) {
-      margin-top: var(--spacing-5);
-    }
   }
 
   h6 {
-    margin-top: var(--spacing-3);
+    margin-top: clamp(var(--spacing-3), 2vw + 0.5rem, var(--spacing-4));
     margin-bottom: var(--spacing-2);
     line-height: var(--line-heights-sm);
-
-    @media (--isDesktop) {
-      margin-top: var(--spacing-4);
-    }
   }
 
   > :where(p) {
@@ -159,7 +144,6 @@
 
   iframe {
     width: 100%;
-    min-height: 320px;
     background-color: var(--colors-white);
 
     &[src*='youtube'] {
@@ -171,10 +155,6 @@
       display: block;
       border: 1px solid var(--colors-gray-a-200);
       border-radius: var(--radii-4);
-    }
-
-    @media (--isDesktop) {
-      min-height: initial;
     }
   }
 

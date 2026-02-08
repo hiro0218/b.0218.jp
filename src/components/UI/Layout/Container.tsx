@@ -27,11 +27,7 @@ const Root = styled.div`
 
 const spaceStyle = css`
   padding-block: 0;
-  padding-inline: var(--spacing-2);
-
-  @media (--isDesktop) {
-    padding-inline: var(--spacing-3);
-  }
+  padding-inline: clamp(var(--spacing-2), 3vw, var(--spacing-3));
 `;
 
 export function Container({ size = 'default', space = true, children, className }: Props): ReactNode {

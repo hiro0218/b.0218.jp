@@ -30,7 +30,7 @@
     color: var(--colors-gray-1000);
   }
 
-  @media (--isDesktop) {
+  @container (min-width: 768px) {
     &::after {
       display: block;
     }

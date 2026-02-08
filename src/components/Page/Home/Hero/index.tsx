@@ -33,25 +33,18 @@ const ContainerStyle = css`
   grid-template-rows: auto auto;
   grid-template-columns: auto 1fr;
   gap: 0 var(--spacing-2);
+  max-width: 85%;
   margin-inline: auto;
   font-size: var(--font-sizes-md);
   color: var(--colors-gray-900);
-
-  @media (--isDesktop) {
-    max-width: 85%;
-  }
 `;
 
 const Avatar = styled.div`
   flex-shrink: 0;
   grid-row: 1 / span 2;
   grid-column: 1 / 2;
-  width: var(--hero-size-shrink);
+  width: clamp(var(--hero-size-shrink), 15vw, var(--hero-size));
   user-select: none;
-
-  @media (--isDesktop) {
-    width: var(--hero-size);
-  }
 
   img {
     aspect-ratio: 1/1;

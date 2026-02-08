@@ -132,6 +132,8 @@ export function Pagination({ totalItems }: PaginationProps) {
 }
 
 const PaginationNav = styled.nav`
+  container-type: inline-size;
+
   ul {
     display: flex;
     gap: var(--spacing-1);
@@ -153,7 +155,7 @@ const PaginationNav = styled.nav`
     display: none;
   }
 
-  @media (--isDesktop) {
+  @container (min-width: 600px) {
     [data-paginate='arrow'],
     [data-paginate='page'],
     [data-paginate='ellipsis'] {

@@ -39,8 +39,9 @@ const Container = styled.div`
   gap: var(--spacing-½);
   align-items: start;
   width: 100%;
+  container-type: inline-size;
 
-  @media (--isDesktop) {
+  @container (min-width: 600px) {
     flex-direction: row;
     align-items: stretch;
     width: auto;
@@ -65,19 +66,17 @@ const AnchorStyle = css`
   width: 100%;
   min-width: 5cap;
   height: 100%;
-  padding: var(--spacing-1) var(--spacing-½);
-  font-size: var(--font-sizes-sm);
+  padding: clamp(0px, 0.5vw, var(--spacing-1)) clamp(0px, 0.5vw, var(--spacing-½));
+  font-size: clamp(var(--font-sizes-xs), 1.2vw, var(--font-sizes-sm));
   font-variant-numeric: tabular-nums;
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-900);
   background: linear-gradient(var(--direction), var(--fill) var(--percent), transparent var(--percent));
 
-  @media (--isDesktop) {
+  @container (min-width: 600px) {
     --direction: to top;
 
     width: auto;
-    padding: 0;
-    font-size: var(--font-sizes-xs);
   }
 
   &:hover {

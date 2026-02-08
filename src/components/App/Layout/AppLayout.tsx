@@ -9,10 +9,6 @@ export const Layout = ({ children }: { children: ReactNode }) => {
 const Root = styled.div`
   display: grid;
   grid-template-rows: auto 1fr auto;
-  row-gap: var(--spacing-3);
+  row-gap: clamp(var(--spacing-3), 3.5vw, var(--spacing-4));
   height: 100vh;
-
-  @media (--isDesktop) {
-    row-gap: var(--spacing-4);
-  }
 `;

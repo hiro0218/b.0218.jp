@@ -63,10 +63,6 @@ const containerStyle = css`
   box-shadow: 0 0 0 1px var(--colors-gray-200);
   transition: box-shadow 0.2s var(--easings-ease-out-expo);
 
-  @media (--isDesktop) {
-    --container-space: var(--spacing-3);
-  }
-
   @container (max-width: 480px) {
     --container-space: var(--spacing-2);
   }
