@@ -20,7 +20,7 @@ const ProgressBar = styled.div`
   left: 0;
   z-index: calc(var(--z-index-header) + 1);
   width: 100%;
-  height: 4px;
+  height: var(--spacing-½);
   pointer-events: none;
   background: var(--colors-accent-800);
   transform: scaleX(0);
