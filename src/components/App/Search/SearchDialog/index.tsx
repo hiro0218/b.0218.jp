@@ -74,10 +74,13 @@ export const SearchDialog = ({ onCloseAction, isClosing, dialogRef }: Props) => 
 };
 
 const Dialog = styled.dialog`
+  --search-dialog-max-height: 80vh;
+  --search-content-max-height: 55vh;
+
   position: fixed;
   top: 0;
   width: var(--sizes-container-sm);
-  max-height: 80vh;
+  max-height: var(--search-dialog-max-height);
   padding: 0;
   border: none;
   border-radius: var(--radii-4);
