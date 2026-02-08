@@ -59,8 +59,8 @@ const Footer = styled.footer`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 20px;
-    height: 20px;
+    min-width: var(--sizes-icon-sm);
+    height: var(--sizes-icon-sm);
     padding: var(--spacing-½);
     margin: 0 var(--spacing-½);
     font-size: var(--font-sizes-xs);

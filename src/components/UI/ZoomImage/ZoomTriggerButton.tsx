@@ -58,8 +58,8 @@ const zoomIndicatorStyle = css`
 
 const zoomIconStyle = css`
   display: block;
-  width: 16px;
-  height: 16px;
+  width: var(--spacing-2);
+  height: var(--spacing-2);
   color: var(--colors-text-primary);
 `;
 
