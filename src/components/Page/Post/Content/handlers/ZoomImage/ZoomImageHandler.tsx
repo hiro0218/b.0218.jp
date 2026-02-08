@@ -16,13 +16,13 @@ export const handleZoomImage: HandlerFunction = (domNode) => {
     return undefined;
   }
 
-  const { src, alt = '', ...rest } = domNode.attribs ?? {};
+  const { src, alt = '', class: className, ...rest } = domNode.attribs ?? {};
 
   if (!src) {
     return undefined;
   }
 
-  return <ZoomImage alt={alt} src={src} {...rest} />;
+  return <ZoomImage alt={alt} className={className} src={src} {...rest} />;
 };
 
 /**

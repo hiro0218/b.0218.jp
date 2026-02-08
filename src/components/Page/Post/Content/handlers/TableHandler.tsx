@@ -9,11 +9,13 @@ export const handleTable: HandlerFunction = (domNode, options) => {
     return undefined;
   }
 
-  const { style, ...restAttribs } = domNode.attribs || {};
+  const { style, class: className, ...restAttribs } = domNode.attribs || {};
 
   return (
     <div className="c-table-scrollable">
-      <table {...restAttribs}>{domToReact(domNode.children as DOMNode[], options)}</table>
+      <table className={className} {...restAttribs}>
+        {domToReact(domNode.children as DOMNode[], options)}
+      </table>
     </div>
   );
 };
