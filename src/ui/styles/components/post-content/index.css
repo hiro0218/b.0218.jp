@@ -28,6 +28,10 @@
     text-wrap: pretty;
     scroll-margin-top: 1em;
 
+    blockquote > &:first-of-type {
+      margin-top: 0;
+    }
+
     & > code {
       font-size: 1em;
     }
