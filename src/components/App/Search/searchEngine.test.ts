@@ -200,6 +200,26 @@ describe('特定ワードでの検索', () => {
   });
 });
 
+describe('AND検索（複数ワード）', () => {
+  test('複数ワード検索では全てのワードを含む記事のみがヒットする', () => {
+    const results = performPostSearch('javascript react');
+
+    // javascript と react の両方のトークンを持つのは 202502090230 のみ
+    expect(results.length).toBe(1);
+    expect(results[0].slug).toBe('202502090230');
+  });
+
+  test('片方のワードしか含まない記事はAND検索で除外される', () => {
+    const results = performPostSearch('github copilot');
+
+    // github のみ持つ 202504281417 (GitHub Actions) は除外される
+    expect(results.some((post) => post.slug === '202504281417')).toBe(false);
+
+    // github と copilot の両方を持つ 202503210941 は含まれる
+    expect(results.some((post) => post.slug === '202503210941')).toBe(true);
+  });
+});
+
 describe('日本語検索の問題', () => {
   test('「方法」で検索したとき該当する全ての記事がヒットする', () => {
     const results = performPostSearch('方法');
@@ -232,15 +252,15 @@ describe('フォールバック検索（タイトル直接検索）', () => {
     expect(['EXACT', 'PARTIAL', 'MULTI_TERM_MATCH', 'NONE']).toContain(results[0].matchType);
   });
 
-  test('インデックス検索で結果がある場合はフォールバック検索を使用しない', () => {
+  test('インデックス検索結果が優先され、フォールバック結果は後方に配置される', () => {
     // "GitHub"はインデックスに存在するワード
     const results = performPostSearch('github');
 
     // 結果があり、通常の検索が動作する
     expect(results.length).toBeGreaterThan(0);
 
-    // タグマッチまたはトークンマッチの結果が含まれるべき
-    // (フォールバックではmatchedInが必ずtitleになるが、通常検索ではtag/bothもある)
+    // インデックス検索結果はタグマッチやトークンマッチの情報を持つ
+    // (フォールバックではmatchedInが必ずtitleかつmatchTypeがPARTIALになる)
     const hasNonTitleMatch = results.some((post) => post.matchedIn !== 'title' || post.matchType !== 'PARTIAL');
     expect(hasNonTitleMatch).toBe(true);
   });
