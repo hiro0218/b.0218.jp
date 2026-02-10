@@ -45,6 +45,9 @@ const typedSearchData = searchData as SearchDataItem[];
 // slug をキーとしたマップを作成（高速参照用）
 const searchDataMap = new Map<string, SearchDataItem>(typedSearchData.map((item) => [item.slug, item]));
 
+// 転置インデックスのキー配列をキャッシュ（部分一致検索の毎回アロケーションを回避）
+const indexTokenKeys = Object.keys(typedSearchIndex);
+
 /**
  * 検索クエリをトークンに分割（スペース区切り + 正規化）
  */
@@ -132,7 +135,7 @@ function findMatchingTokens(queryToken: string): TokenMatch[] {
   }
 
   // 部分一致検索（完全一致したトークンは除く）
-  for (const indexToken of Object.keys(typedSearchIndex)) {
+  for (const indexToken of indexTokenKeys) {
     if (indexToken !== queryToken && indexToken.includes(queryToken)) {
       matches.push({ token: indexToken, matchType: 'partial' });
     }
