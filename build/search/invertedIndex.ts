@@ -1,5 +1,6 @@
 import type { IpadicFeatures, Tokenizer } from 'kuromoji';
 import type { Post } from '@/types/source';
+import * as Log from '~/tools/logger';
 import { tokenizeText } from './tokenizer';
 
 /**
@@ -38,62 +39,57 @@ interface GenerateSearchIndexResult {
  * @param tokenizer 形態素解析器インスタンス
  * @returns 転置インデックスと検索用データ
  */
-export async function generateSearchIndex(
-  posts: Post[],
-  tokenizer: Tokenizer<IpadicFeatures>,
-): Promise<GenerateSearchIndexResult> {
+export function generateSearchIndex(posts: Post[], tokenizer: Tokenizer<IpadicFeatures>): GenerateSearchIndexResult {
   const invertedIndex: InvertedIndex = {};
   const searchData: SearchData[] = [];
-  // タグ用のSetマップ（重複チェック用）
-  const tagSlugSets = new Map<string, Set<string>>();
+  const slugSetsMap = new Map<string, Set<string>>();
+
+  function addToIndex(key: string, slug: string): void {
+    if (!slugSetsMap.has(key)) {
+      slugSetsMap.set(key, new Set());
+    }
+    if (!invertedIndex[key]) {
+      invertedIndex[key] = [];
+    }
+
+    const slugSet = slugSetsMap.get(key)!;
+    if (!slugSet.has(slug)) {
+      slugSet.add(slug);
+      invertedIndex[key].push(slug);
+    }
+  }
 
   for (const post of posts) {
     if (!post.slug) continue;
 
     // タイトルとタグを結合してトークン化（1回のみ）
-    const textToProcess = [post.title, ...(post.tags || [])].join(' ');
+    const textToProcess = [post.title, ...post.tags].join(' ');
 
     try {
-      const tokens = await tokenizeText(textToProcess, tokenizer);
+      const tokens = tokenizeText(textToProcess, tokenizer);
       const uniqueTokens = [...new Set(tokens)];
 
       // 転置インデックスに追加
       for (const token of uniqueTokens) {
-        if (!invertedIndex[token]) {
-          invertedIndex[token] = [];
-        }
-        invertedIndex[token].push(post.slug);
+        addToIndex(token, post.slug);
       }
 
       // タグは完全一致検索用に正規化した形でも登録
-      if (post.tags) {
-        // タグを正規化して重複を排除
-        const normalizedTags = new Set(post.tags.map((tag) => tag.toLowerCase().trim()));
+      const normalizedTags = new Set(post.tags.map((tag) => tag.toLowerCase().trim()));
 
-        for (const normalizedTag of normalizedTags) {
-          // Setで重複管理（O(1)の重複チェック）
-          if (!tagSlugSets.has(normalizedTag)) {
-            tagSlugSets.set(normalizedTag, new Set());
-            invertedIndex[normalizedTag] = [];
-          }
-
-          const slugSet = tagSlugSets.get(normalizedTag)!;
-          if (!slugSet.has(post.slug)) {
-            slugSet.add(post.slug);
-            invertedIndex[normalizedTag].push(post.slug);
-          }
-        }
+      for (const normalizedTag of normalizedTags) {
+        addToIndex(normalizedTag, post.slug);
       }
 
       // 検索用データに追加
       searchData.push({
         slug: post.slug,
         title: post.title,
-        tags: post.tags || [],
+        tags: post.tags,
         tokens: uniqueTokens,
       });
     } catch (error) {
-      console.warn(`[build/search/invertedIndex] 記事 ${post.slug} の処理中にエラー:`, error);
+      Log.warn(`[build/search/invertedIndex] 記事 ${post.slug} の処理中にエラー: ${String(error)}`);
       continue;
     }
   }

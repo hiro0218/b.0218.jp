@@ -35,7 +35,7 @@ function createMockTokenizer(tokens: IpadicFeatures[]): Tokenizer<IpadicFeatures
 }
 
 describe('tokenizeText', () => {
-  it('名詞・動詞・形容詞・副詞の基本形を返すこと', async () => {
+  it('名詞・動詞・形容詞・副詞の基本形を返すこと', () => {
     const tokens = [
       createToken({ pos: '名詞', posDetail1: '一般', basicForm: 'プログラミング', surfaceForm: 'プログラミング' }),
       createToken({ pos: '動詞', posDetail1: '自立', basicForm: '書く', surfaceForm: '書い' }),
@@ -43,20 +43,20 @@ describe('tokenizeText', () => {
       createToken({ pos: '助詞', posDetail1: '格助詞', basicForm: 'を', surfaceForm: 'を' }),
     ];
 
-    const result = await tokenizeText('プログラミングを書い美しく', createMockTokenizer(tokens));
+    const result = tokenizeText('プログラミングを書い美しく', createMockTokenizer(tokens));
 
     expect(result).toEqual(['プログラミング', '書く', '美しい']);
   });
 
-  it('空文字列の場合、空配列を返すこと', async () => {
+  it('空文字列の場合、空配列を返すこと', () => {
     const mockTokenizer = createMockTokenizer([]);
 
-    const result = await tokenizeText('', mockTokenizer);
+    const result = tokenizeText('', mockTokenizer);
 
     expect(result).toEqual([]);
   });
 
-  it('数詞・接尾語・1文字・数字のみのトークンを除外すること', async () => {
+  it('数詞・接尾語・1文字・数字のみのトークンを除外すること', () => {
     const tokens = [
       createToken({ pos: '名詞', posDetail1: '数', basicForm: '100', surfaceForm: '100' }),
       createToken({ pos: '名詞', posDetail1: '接尾', basicForm: '個', surfaceForm: '個' }),
@@ -65,21 +65,18 @@ describe('tokenizeText', () => {
       createToken({ pos: '名詞', posDetail1: '一般', basicForm: 'テスト', surfaceForm: 'テスト' }),
     ];
 
-    const result = await tokenizeText('100個あ42テスト', createMockTokenizer(tokens));
+    const result = tokenizeText('100個あ42テスト', createMockTokenizer(tokens));
 
     expect(result).toEqual(['テスト']);
   });
 
-  it('トークナイザがエラーを投げた場合、例外を再スローすること', async () => {
+  it('トークナイザがエラーを投げた場合、例外を再スローすること', () => {
     const mockTokenizer = {
       tokenize: vi.fn(() => {
         throw new Error('tokenize failed');
       }),
     } as unknown as Tokenizer<IpadicFeatures>;
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-    await expect(tokenizeText('test', mockTokenizer)).rejects.toThrow('tokenize failed');
-
-    consoleSpy.mockRestore();
+    expect(() => tokenizeText('test', mockTokenizer)).toThrow('tokenize failed');
   });
 });

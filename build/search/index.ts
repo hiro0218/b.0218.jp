@@ -19,7 +19,7 @@ import { getTokenizer } from './tokenizer';
 
     // 転置インデックスと検索用データを一括生成（トークン化は1回のみ）
     Log.info('検索インデックスを生成中...');
-    const { invertedIndex, searchData } = await generateSearchIndex(posts, tokenizer);
+    const { invertedIndex, searchData } = generateSearchIndex(posts, tokenizer);
 
     // ファイル出力
     await writeJSON(`${BUILD_PATHS.dist}/search-index.json`, invertedIndex);
