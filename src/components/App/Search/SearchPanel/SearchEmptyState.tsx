@@ -19,7 +19,7 @@ export function SearchEmptyState({ searchQuery }: SearchEmptyStateProps) {
     return (
       <Container aria-live="polite" role="status">
         <Title>入力して記事を検索する</Title>
-        <Description>タイトルや本文からキーワードで検索できます</Description>
+        <Description>タイトルやタグからキーワードで検索できます</Description>
       </Container>
     );
   }
