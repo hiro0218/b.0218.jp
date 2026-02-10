@@ -1,4 +1,6 @@
 import type { Element, ElementContent } from 'hast';
+import type { LinkPreviewCache } from './cache';
+import { getCachedOgp, hasCachedError, setCacheEntry } from './cache';
 import { getHTML, getMeta } from './dom';
 import { handleError } from './handleError';
 
@@ -9,8 +11,6 @@ type OpgProps = {
   card?: 'summary' | 'summary_large_image' | 'app' | 'player';
 };
 type OgpKey = keyof OpgProps;
-
-const SKIP_DOMAINS: string[] = [];
 
 const setPreviewLinkNodes = (node: Element, domain: string, ogp: OpgProps) => {
   if (Object.keys(ogp).length === 0) return;
@@ -111,7 +111,7 @@ const getOgpProps = (meta: HTMLMetaElement[]): OpgProps => {
   return Object.fromEntries(ogpEntries);
 };
 
-const transformLinkPreview = async (node: Element, index: number, parent: Element) => {
+const transformLinkPreview = async (node: Element, index: number, parent: Element, cache: LinkPreviewCache) => {
   if (!canTransformLinkPreview(node, index, parent)) return;
 
   const href = node.properties?.href as string;
@@ -121,25 +121,37 @@ const transformLinkPreview = async (node: Element, index: number, parent: Elemen
 
   try {
     const domain = new URL(href).hostname;
-    if (SKIP_DOMAINS.includes(domain)) return;
+
+    // 直近で取得失敗したURLはTTL内で再フェッチしない
+    if (hasCachedError(cache, href)) {
+      return;
+    }
+
+    // キャッシュヒット時はフェッチをスキップ
+    const cachedOgp = getCachedOgp(cache, href);
+    if (cachedOgp) {
+      setPreviewLinkNodes(node, domain, cachedOgp);
+      return;
+    }
 
     const result = await getHTML(href);
-    if (!result) return;
+    if (!result) {
+      setCacheEntry(cache, href, null, true);
+      return;
+    }
 
     const meta = getMeta(result);
-    if (!meta) return;
+    if (!meta) {
+      setCacheEntry(cache, href, null, true);
+      return;
+    }
 
     const ogp = getOgpProps(Array.from(meta));
-
+    setCacheEntry(cache, href, ogp);
     setPreviewLinkNodes(node, domain, ogp);
   } catch (error) {
-    // エラー発生時はドメインをスキップリストに追加
     handleError(error, `Failed to transform link preview for: ${href}`);
-    try {
-      SKIP_DOMAINS.push(new URL(href).hostname);
-    } catch (_) {
-      // URL解析に失敗した場合は無視
-    }
+    setCacheEntry(cache, href, null, true);
   }
 };
 
