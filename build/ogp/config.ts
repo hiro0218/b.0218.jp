@@ -42,8 +42,10 @@ export const OGP_CONFIG = {
   output: {
     dir: `${cwd()}/public/images/ogp`,
     format: 'jpeg' as const,
+    ext: 'jpg' as const,
     quality: 85,
   },
+  force: process.env.OGP_FORCE === 'true',
   debug: process.env.DEBUG === 'true',
 } as const;
 

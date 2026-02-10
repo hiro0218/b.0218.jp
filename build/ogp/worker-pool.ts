@@ -4,10 +4,7 @@ import { join } from 'node:path';
 import * as Log from '~/tools/logger';
 
 import { OGP_CONFIG } from './config';
-
-type Post = { title: string; slug: string };
-type WorkerMessage = { type: 'completed'; index?: number } | { type: 'error'; error: string };
-type WorkerTaskMessage = { type: 'posts'; posts: Post[] };
+import type { Post, WorkerMessage, WorkerTaskMessage } from './types';
 
 interface WorkerInfo {
   worker: NonNullable<ReturnType<typeof cluster.fork>>;
@@ -18,6 +15,7 @@ interface WorkerInfo {
 export class WorkerPool {
   private workers: WorkerInfo[] = [];
   private totalPosts: number = 0;
+  private failedPosts: Array<{ slug: string; error: string }> = [];
 
   async start(posts: Post[]): Promise<void> {
     this.totalPosts = posts.length;
@@ -54,6 +52,13 @@ export class WorkerPool {
     }
 
     await this.waitForCompletion();
+
+    if (this.failedPosts.length > 0) {
+      Log.warn(
+        'OGP Generation Summary',
+        `${this.failedPosts.length} post(s) failed:\n${this.failedPosts.map((f) => `  - ${f.slug}: ${f.error}`).join('\n')}`,
+      );
+    }
   }
 
   async stop(): Promise<void> {
@@ -78,7 +83,19 @@ export class WorkerPool {
           Log.info('Generating OGP Images', `(${totalCompleted}/${this.totalPosts})`);
         }
       } else if (msg.type === 'error') {
-        Log.error('Worker Error', msg.error || 'Unknown error');
+        const errorMessage = msg.error || 'Unknown error';
+        Log.error('Worker Error', errorMessage);
+
+        const currentPost = workerInfo.posts[workerInfo.completed];
+        if (currentPost) {
+          this.failedPosts.push({ slug: currentPost.slug, error: errorMessage });
+        }
+      } else if (msg.type === 'summary' && msg.failed.length > 0) {
+        for (const slug of msg.failed) {
+          if (!this.failedPosts.some((f) => f.slug === slug)) {
+            this.failedPosts.push({ slug, error: 'Failed (reported by worker)' });
+          }
+        }
       }
     });
   }
@@ -100,6 +117,8 @@ export class WorkerPool {
         }
 
         if (this.workers.every((w) => !w.worker.isConnected())) {
+          cluster.removeListener('exit', handleWorkerExit);
+
           if (hasError) {
             reject(new Error(`Worker failures:\n${errors.join('\n')}`));
           } else {
