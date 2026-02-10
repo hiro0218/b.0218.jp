@@ -19,7 +19,7 @@ export class WorkerPool {
 
   async start(posts: Post[]): Promise<void> {
     this.totalPosts = posts.length;
-    const workerCount = OGP_CONFIG.worker.count;
+    const workerCount = Math.min(OGP_CONFIG.worker.count, posts.length);
 
     Log.info(
       'Starting OGP Generation',
@@ -83,12 +83,10 @@ export class WorkerPool {
           Log.info('Generating OGP Images', `(${totalCompleted}/${this.totalPosts})`);
         }
       } else if (msg.type === 'error') {
-        const errorMessage = msg.error || 'Unknown error';
-        Log.error('Worker Error', errorMessage);
+        Log.error('Worker Error', `${msg.slug || 'unknown'}: ${msg.error}`);
 
-        const currentPost = workerInfo.posts[workerInfo.completed];
-        if (currentPost) {
-          this.failedPosts.push({ slug: currentPost.slug, error: errorMessage });
+        if (msg.slug) {
+          this.failedPosts.push({ slug: msg.slug, error: msg.error });
         }
       } else if (msg.type === 'summary' && msg.failed.length > 0) {
         for (const slug of msg.failed) {
