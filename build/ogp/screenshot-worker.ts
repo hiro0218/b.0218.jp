@@ -15,6 +15,7 @@ process.on('message', async (msg: WorkerTaskMessage) => {
     } catch (err) {
       const message: WorkerMessage = {
         type: 'error',
+        slug: '',
         error: err instanceof Error ? err.message : String(err),
       };
       process.send?.(message);
@@ -103,7 +104,8 @@ async function processImages(posts: Post[]): Promise<void> {
 
       const message: WorkerMessage = {
         type: 'error',
-        error: `Error processing ${post.slug}: ${err instanceof Error ? err.message : String(err)}`,
+        slug: post.slug,
+        error: err instanceof Error ? err.message : String(err),
       };
       process.send?.(message);
       completed++;
