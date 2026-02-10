@@ -7,6 +7,7 @@ type Props = {
   archives: ArchiveListProps;
 };
 
+/** 小さな割合でもバーが視認できるよう、パーセント値を拡大するスケール係数。100%を超えると全面塗りつぶしになる */
 const CHART_SCALE = 10;
 
 export const Chart = ({ archives, totalPosts }: Props) => {
