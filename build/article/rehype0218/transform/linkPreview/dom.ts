@@ -2,7 +2,7 @@ import { JSDOM, VirtualConsole } from 'jsdom';
 import { handleError } from './handleError';
 import { isIgnoreDomain, isValidURL, normalizeURL } from './url';
 
-const FETCH_HEADERS = { 'User-Agent': 'Twitterbot/1.0' };
+const FETCH_HEADERS = { 'User-Agent': 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)' };
 
 const FETCH_TIMEOUT = 1000;
 
