@@ -1,8 +1,7 @@
-import { getPostsJson, getTagsWithCount } from '@/lib/data/posts';
+import { getPostBySlug, getTagsWithCount } from '@/lib/data/posts';
+import type { Post } from '@/types/source';
 
-const posts = getPostsJson();
 const tagDataWithCount = getTagsWithCount();
-const postsMap = new Map(posts.map((post) => [post.slug, post]));
 
 const tagDataWithCountBySlug: Record<string, (typeof tagDataWithCount)[number]> = {};
 for (let i = 0; i < tagDataWithCount.length; i++) {
@@ -12,22 +11,14 @@ for (let i = 0; i < tagDataWithCount.length; i++) {
 
 /**
  * 投稿データを取得する関数
- * @param slug - 投稿のスラッグ（nullの場合は全投稿を返す）
- * @returns 指定されたスラッグの投稿、全投稿の配列、または該当データがない場合はnull
+ * @param slug - 投稿のスラッグ
+ * @returns 指定されたスラッグの投稿、または該当データがない場合はnull
  * @example
- * // 特定の投稿を取得
  * const post = getPost('sample-post');
- * // 全投稿を取得
- * const allPosts = getPost();
  */
-export function getPost(slug?: string | null) {
-  if (!slug) {
-    return posts;
-  }
-
+export function getPost(slug: string): Post | null {
   const normalizedSlug = slug.replace('.html', '');
-
-  return postsMap.get(normalizedSlug) || null;
+  return getPostBySlug(normalizedSlug);
 }
 
 /**

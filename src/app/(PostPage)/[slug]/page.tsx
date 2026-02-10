@@ -15,17 +15,17 @@ import { Alert } from '@/components/UI/Alert';
 import { Stack } from '@/components/UI/Layout';
 import { Container } from '@/components/UI/Layout/Container';
 import { AUTHOR_NAME } from '@/constants';
-import { getPostsJson } from '@/lib/data/posts';
+import { getPostsListJson } from '@/lib/data/posts';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/domain/json-ld';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';
 import { getPostPageData } from './lib/services';
 
 type Params = Promise<{ slug: string }>;
 
-const posts = getPostsJson();
+const postsList = getPostsListJson();
 
 export async function generateStaticParams() {
-  return posts.map((post) => ({
+  return postsList.map((post) => ({
     slug: `${post.slug}.html`,
   }));
 }
