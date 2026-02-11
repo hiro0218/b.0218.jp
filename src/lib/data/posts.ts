@@ -48,7 +48,13 @@ const tagsWithCount = tagsWithCountData as TagCounts[];
  * @returns 記事データ。該当なしの場合はnull
  * @throws JSONパースエラーやENOENT以外のI/Oエラー時
  */
+const VALID_SLUG_PATTERN = /^[\w-]+$/;
+
 export const getPostBySlug = (slug: string): Post | null => {
+  if (!VALID_SLUG_PATTERN.test(slug)) {
+    return null;
+  }
+
   const filePath = path.join(POSTS_DIR, `${slug}.json`);
 
   let data: string;
