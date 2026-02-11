@@ -35,6 +35,17 @@ const markdownToHtmlString = async (markdown: string, isSimple = false) => {
             dark: 'one-dark-pro',
           },
           defaultColor: false,
+          transformers: [
+            {
+              name: 'add-language-attribute',
+              code(node) {
+                const lang = this.options.lang;
+                if (lang) {
+                  node.properties['data-language'] = lang;
+                }
+              },
+            },
+          ],
         })
         .use(rehype0218)
         .use(rehypeRemoveComments)

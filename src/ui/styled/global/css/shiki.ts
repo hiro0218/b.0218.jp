@@ -14,6 +14,16 @@ export const shikiCss = defineGlobalStyles({
     overflow: 'auto',
   },
 
+  // Language label
+  'pre > code[data-language]::before': {
+    content: 'attr(data-language)',
+    marginBottom: 'var(--spacing-½)',
+    display: 'block',
+    fontSize: 'var(--font-sizes-xs)',
+    color: 'var(--colors-gray-500)',
+    pointerEvents: 'none',
+  },
+
   // Light mode
   'html:not(.dark) .shiki, html:not(.dark) .shiki span': {
     color: 'var(--shiki-light)',
