@@ -7,13 +7,13 @@ import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 
-import { collectText } from './hastUtils';
 import rehype0218 from './rehype0218';
 import rehypeExternalLink from './rehypeExternalLink';
 import rehypeGfmAlert from './rehypeGfmAlert';
 import rehypeRemoveComments from './rehypeRemoveComments';
 import rehypeWrapImgWithFigure from './rehypeWrapImgWithFigure';
 import remarkBreaks from './remarkBreaks';
+import { shikiConfig } from './shikiConfig';
 
 async function markdownToHtmlString(markdown: string, isSimple = false): Promise<string> {
   const baseProcessor = unified()
@@ -30,36 +30,7 @@ async function markdownToHtmlString(markdown: string, isSimple = false): Promise
     : baseProcessor
         .use(rehypeWrapImgWithFigure)
         .use(rehypeGfmAlert)
-        .use(rehypeShiki, {
-          themes: {
-            light: 'one-light',
-            dark: 'one-dark-pro',
-          },
-          defaultColor: false,
-          transformers: [
-            {
-              name: 'add-language-attribute',
-              code(node) {
-                const lang = this.options.lang;
-                if (lang) {
-                  node.properties['data-language'] = lang;
-                }
-              },
-            },
-            {
-              name: 'diff-line-highlight',
-              line(node) {
-                if (this.options.lang !== 'diff') return;
-                const text = collectText(node.children);
-                if (text.startsWith('+')) {
-                  node.properties['data-diff'] = 'add';
-                } else if (text.startsWith('-')) {
-                  node.properties['data-diff'] = 'remove';
-                }
-              },
-            },
-          ],
-        })
+        .use(rehypeShiki, shikiConfig)
         .use(rehype0218)
         .use(rehypeRemoveComments)
         .use(rehypeStringify, { allowDangerousHtml: true });
