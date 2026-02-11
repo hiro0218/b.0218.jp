@@ -131,6 +131,12 @@ const containerStyle = css`
     --alert-color: var(--colors-red-900);
     --alert-background: var(--colors-red-100);
   }
+
+  a {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `;
 
 const titleStyle = css`
