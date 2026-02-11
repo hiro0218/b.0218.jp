@@ -7,6 +7,7 @@ import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 
+import { collectText } from './hastUtils';
 import rehype0218 from './rehype0218';
 import rehypeExternalLink from './rehypeExternalLink';
 import rehypeGfmAlert from './rehypeGfmAlert';
@@ -14,7 +15,7 @@ import rehypeRemoveComments from './rehypeRemoveComments';
 import rehypeWrapImgWithFigure from './rehypeWrapImgWithFigure';
 import remarkBreaks from './remarkBreaks';
 
-const markdownToHtmlString = async (markdown: string, isSimple = false) => {
+async function markdownToHtmlString(markdown: string, isSimple = false): Promise<string> {
   const baseProcessor = unified()
     .use(remarkParse)
     .use(remarkGfm)
@@ -45,6 +46,18 @@ const markdownToHtmlString = async (markdown: string, isSimple = false) => {
                 }
               },
             },
+            {
+              name: 'diff-line-highlight',
+              line(node) {
+                if (this.options.lang !== 'diff') return;
+                const text = collectText(node.children);
+                if (text.startsWith('+')) {
+                  node.properties['data-diff'] = 'add';
+                } else if (text.startsWith('-')) {
+                  node.properties['data-diff'] = 'remove';
+                }
+              },
+            },
           ],
         })
         .use(rehype0218)
@@ -54,6 +67,6 @@ const markdownToHtmlString = async (markdown: string, isSimple = false) => {
   const result = await processor.process(markdown);
 
   return result.toString();
-};
+}
 
 export default markdownToHtmlString;
