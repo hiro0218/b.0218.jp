@@ -111,12 +111,16 @@ export const getCachedOgp = (cache: LinkPreviewCache, url: string): OpgProps | n
   const entry = getValidEntry(cache, url);
   if (!entry || entry.error) return null;
 
-  return {
+  const ogp: OpgProps = {
     ...(entry.title != null && { title: entry.title }),
     ...(entry.description != null && { description: entry.description }),
     ...(entry.image != null && { image: entry.image }),
     ...(entry.card != null && { card: entry.card as OpgProps['card'] }),
   };
+
+  if (Object.keys(ogp).length === 0) return null;
+
+  return ogp;
 };
 
 /**
