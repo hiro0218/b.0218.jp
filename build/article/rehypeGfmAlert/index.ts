@@ -3,6 +3,8 @@ import { isElement } from 'hast-util-is-element';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
+import { isElementNode, isTextNode } from '../hastUtils';
+
 const PREFIX_REGEX = /\[!(?<kind>[\w]+)\]\s*(?<title>.*)/g;
 const PREFIX = ['[!NOTE]', '[!IMPORTANT]', '[!WARNING]', '[!TIP]', '[!CAUTION]'];
 
@@ -28,7 +30,7 @@ const rehypeGfmAlert: Plugin = () => {
       if (!isElement(node, 'blockquote')) return;
 
       // 不要なノードを削除する
-      node.children = node.children.filter((child) => !(child.type === 'text' && child.value === '\n'));
+      node.children = node.children.filter((child) => !(isTextNode(child) && child.value === '\n'));
 
       // 空のブロッククオートは対象外
       if (node.children.length === 0) return;
@@ -41,7 +43,7 @@ const rehypeGfmAlert: Plugin = () => {
 
       // プレーンテキストで始まらないparagraphは無視する
       const firstChild = node.children[0].children[0];
-      if (firstChild.type !== 'text') return;
+      if (!isTextNode(firstChild)) return;
 
       // prefixがない場合は対象外
       if (!firstChild.value.match(PREFIX_REGEX)) return;
@@ -66,7 +68,7 @@ const rehypeGfmAlert: Plugin = () => {
 
       const alertText = node.children
         .map((child, index) => {
-          if (child.type === 'element') {
+          if (isElementNode(child)) {
             const content = removeLabelElement(child.children)
               .map((grandChild) => elementToHtml(grandChild))
               .join('');
@@ -108,11 +110,11 @@ const getAlertLabel = (prefix: string): string => {
  * 要素を再帰的にHTMLに変換する
  */
 const elementToHtml = (node: ElementContent): string => {
-  if (node.type === 'text') {
+  if (isTextNode(node)) {
     return node.value;
   }
 
-  if (node.type === 'element') {
+  if (isElementNode(node)) {
     const childrenHtml = node.children.map((child) => elementToHtml(child)).join('');
 
     switch (node.tagName) {
@@ -152,13 +154,13 @@ const removeLabelElement = (nodes: ElementContent[]): ElementContent[] => {
     if (breakPosition === -1) return true;
 
     // 最初のラベルを取り除く
-    if (node.type === 'text' && PREFIX.includes(node.value)) {
+    if (isTextNode(node) && PREFIX.includes(node.value)) {
       breakPosition = index;
       return false;
     }
 
     // ラベルの次の改行を取り除く
-    if (index === breakPosition + 1 && node.type === 'element' && node.tagName === 'br') {
+    if (index === breakPosition + 1 && isElementNode(node) && node.tagName === 'br') {
       breakPosition = -1;
       return false;
     }
