@@ -50,7 +50,7 @@ function ArticleCard({ link, title, date, updated, excerpt, tags, titleTagName =
 export default ArticleCard;
 
 const containerStyle = css`
-  --container-space: var(--spacing-2);
+  --container-space: var(--spacing-3);
   --hover-color: var(--colors-accent-1100);
 
   contain-intrinsic-size: 0 200px;
