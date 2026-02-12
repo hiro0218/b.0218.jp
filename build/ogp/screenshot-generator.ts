@@ -1,4 +1,5 @@
 import cluster from 'node:cluster';
+import { readdir } from 'node:fs/promises';
 
 import { getPostsListJson } from '@/lib/data/posts';
 import { mkdir } from '~/tools/fs';
@@ -17,11 +18,23 @@ export class ScreenshotGenerator {
 
     await mkdir(OGP_CONFIG.output.dir, { recursive: true });
 
-    const posts = getPostsListJson();
+    const allPosts = getPostsListJson();
 
-    if (posts.length === 0) {
+    if (allPosts.length === 0) {
       Log.info('OGP Generation', 'No posts to process');
       return;
+    }
+
+    const posts = OGP_CONFIG.force ? allPosts : await this.filterNewPosts(allPosts);
+
+    if (posts.length === 0) {
+      Log.info('OGP Generation', `All ${allPosts.length} posts already have OGP images, skipping`);
+      return;
+    }
+
+    const skipped = allPosts.length - posts.length;
+    if (skipped > 0) {
+      Log.info('OGP Generation', `Skipping ${skipped} posts with existing images, generating ${posts.length}`);
     }
 
     this.workerPool = new WorkerPool();
@@ -49,5 +62,12 @@ export class ScreenshotGenerator {
       await this.workerPool.stop();
       this.workerPool = null;
     }
+  }
+
+  private async filterNewPosts(posts: { slug: string }[]): Promise<{ slug: string }[]> {
+    const existingFiles = await readdir(OGP_CONFIG.output.dir).catch(() => [] as string[]);
+    const existingSet = new Set(existingFiles);
+
+    return posts.filter((post) => !existingSet.has(`${post.slug}.${OGP_CONFIG.output.ext}`));
   }
 }

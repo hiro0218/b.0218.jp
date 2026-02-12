@@ -23,6 +23,9 @@ const SCORE = {
   tagContains: 10,
   allTokensExact: 20,
   compoundWord: 40,
+  fallbackExactTitle: 30,
+  fallbackWordBoundary: 20,
+  fallbackEarlyPosition: 10,
 } as const;
 
 /** クエリトークン分割用正規表現 */
@@ -45,6 +48,9 @@ const typedSearchData = searchData as SearchDataItem[];
 // slug をキーとしたマップを作成（高速参照用）
 const searchDataMap = new Map<string, SearchDataItem>(typedSearchData.map((item) => [item.slug, item]));
 
+// 転置インデックスのキー配列をキャッシュ（部分一致検索の毎回アロケーションを回避）
+const indexTokenKeys = Object.keys(typedSearchIndex);
+
 /**
  * 検索クエリをトークンに分割（スペース区切り + 正規化）
  */
@@ -52,8 +58,9 @@ function tokenizeQuery(query: string): string[] {
   const normalized = query.toLowerCase().trim();
   if (!normalized) return [];
 
-  // スペースで分割して空文字を除外
-  return normalized.split(WHITESPACE_REGEX).filter((token) => token.length > 0);
+  // スペースで分割して空文字を除外し、重複トークンを排除
+  const tokens = normalized.split(WHITESPACE_REGEX).filter((token) => token.length > 0);
+  return [...new Set(tokens)];
 }
 
 type MatchType = 'exact' | 'partial';
@@ -132,7 +139,7 @@ function findMatchingTokens(queryToken: string): TokenMatch[] {
   }
 
   // 部分一致検索（完全一致したトークンは除く）
-  for (const indexToken of Object.keys(typedSearchIndex)) {
+  for (const indexToken of indexTokenKeys) {
     if (indexToken !== queryToken && indexToken.includes(queryToken)) {
       matches.push({ token: indexToken, matchType: 'partial' });
     }
@@ -142,30 +149,48 @@ function findMatchingTokens(queryToken: string): TokenMatch[] {
 }
 
 /**
- * タイトル直接検索（フォールバック用）
+ * タイトル直接検索（補完用）
  * @description
- * 転置インデックスで結果が0件の場合に使用
- * 全記事のタイトルに対して部分一致検索を実行
+ * 全記事のタイトルに対して部分一致検索を実行し、
+ * インデックス検索で見つからなかった記事を補完する。
+ * マッチ位置に応じたスコアリングで結果を順位付けする。
  *
  * @param searchValue 検索クエリ文字列
+ * @param excludeSlugs インデックス検索で既に見つかった記事のslugセット
  * @returns タイトルマッチした記事のリスト（最大100件）
  */
-function searchByTitleFallback(searchValue: string): SearchResultItem[] {
+function searchByTitleFallback(searchValue: string, excludeSlugs: Set<string>): SearchResultItem[] {
   const queryLower = searchValue.toLowerCase().trim();
   const results: Array<SearchResultItem & { score: number }> = [];
 
   for (const data of typedSearchData) {
+    if (excludeSlugs.has(data.slug)) continue;
+
     const titleLower = data.title.toLowerCase();
 
-    // タイトルに検索クエリが含まれているかチェック
     if (titleLower.includes(queryLower)) {
+      const matchIndex = titleLower.indexOf(queryLower);
+      let score = SCORE.titleMatch;
+
+      // 完全一致ボーナス
+      if (titleLower === queryLower) {
+        score += SCORE.fallbackExactTitle;
+      }
+      // 単語境界での一致ボーナス（先頭、スペース後、括弧後）
+      else if (matchIndex === 0 || titleLower[matchIndex - 1] === ' ' || titleLower[matchIndex - 1] === ']') {
+        score += SCORE.fallbackWordBoundary;
+      }
+
+      // 早期出現ボーナス（タイトル先頭に近いほど高スコア）
+      score += Math.max(0, SCORE.fallbackEarlyPosition - Math.floor(matchIndex / 10));
+
       results.push({
         slug: data.slug,
         title: data.title,
         tags: data.tags,
         matchedIn: 'title',
         matchType: 'PARTIAL',
-        score: SCORE.titleMatch, // タイトルマッチスコアを基本スコアとする
+        score,
       });
     }
   }
@@ -199,6 +224,7 @@ export function performIndexedSearch(searchValue: string): SearchResultItem[] {
   // 1. 転置インデックスから候補記事IDを取得（完全一致 + 部分一致）
   const matchInfo = new Map<string, MatchInfo>();
   const slugToTokens = new Map<string, Set<string>>();
+  const slugMatchedQueryTokens = new Map<string, Set<string>>();
 
   for (const queryToken of queryTokens) {
     for (const { token: indexToken, matchType } of findMatchingTokens(queryToken)) {
@@ -215,6 +241,11 @@ export function performIndexedSearch(searchValue: string): SearchResultItem[] {
         const tokens = slugToTokens.get(slug) ?? new Set();
         tokens.add(indexToken);
         slugToTokens.set(slug, tokens);
+
+        // クエリトークンごとのマッチを記録（AND検索用）
+        const matched = slugMatchedQueryTokens.get(slug) ?? new Set();
+        matched.add(queryToken);
+        slugMatchedQueryTokens.set(slug, matched);
       }
     }
   }
@@ -224,6 +255,12 @@ export function performIndexedSearch(searchValue: string): SearchResultItem[] {
   const queryLower = searchValue.toLowerCase();
 
   for (const [slug, info] of matchInfo) {
+    // AND検索: 複数トークンの場合、すべてのクエリトークンにマッチしない記事を除外
+    if (queryTokens.length > 1) {
+      const matchedTokens = slugMatchedQueryTokens.get(slug);
+      if (!matchedTokens || matchedTokens.size < queryTokens.length) continue;
+    }
+
     const data = searchDataMap.get(slug);
     if (!data) continue;
 
@@ -275,10 +312,9 @@ export function performIndexedSearch(searchValue: string): SearchResultItem[] {
   // スコアプロパティを除外して返す
   const indexedResults = results.slice(0, MAX_SEARCH_RESULTS).map(({ score, ...item }) => item);
 
-  // 4. フォールバック: インデックス検索で結果が0件の場合、タイトル直接検索を実行
-  if (indexedResults.length === 0) {
-    return searchByTitleFallback(searchValue);
-  }
+  // 4. タイトル直接検索で補完（インデックス検索で見つからなかった記事を追加）
+  const indexedSlugs = new Set(indexedResults.map((r) => r.slug));
+  const fallbackResults = searchByTitleFallback(searchValue, indexedSlugs);
 
-  return indexedResults;
+  return [...indexedResults, ...fallbackResults].slice(0, MAX_SEARCH_RESULTS);
 }

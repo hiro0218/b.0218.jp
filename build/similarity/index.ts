@@ -1,6 +1,7 @@
 import { FILENAME_POSTS_SIMILARITY, FILENAME_TAG_SIMILARITY } from '@/constants';
-import type { Post, TagIndex } from '@/types/source';
+import type { TagIndex } from '@/types/source';
 import { BUILD_PATHS } from '~/build/shared/paths';
+import { readAllPosts } from '~/build/shared/readAllPosts';
 import { readJSON, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
 
@@ -15,7 +16,7 @@ import { getRelatedTags } from './tag';
     Log.info('類似度計算を開始...');
 
     // データ読み込み
-    const posts = await readJSON<Post[]>(`${BUILD_PATHS.dist}/posts.json`);
+    const posts = readAllPosts();
     const tags = await readJSON<TagIndex>(`${BUILD_PATHS.dist}/tags.json`);
     Log.info(`記事: ${posts.length}件, タグ: ${Object.keys(tags).length}件`);
 

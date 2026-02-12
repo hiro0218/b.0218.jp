@@ -7,73 +7,75 @@ type Props = {
   archives: ArchiveListProps;
 };
 
+/** 小さな割合でもバーが視認できるよう、パーセント値を拡大するスケール係数。100%を超えると全面塗りつぶしになる */
+const CHART_SCALE = 10;
+
 export const Chart = ({ archives, totalPosts }: Props) => {
   const years = Object.keys(archives);
-  const yearPercentages: Record<string, string> = {};
-
-  for (const year of years) {
-    const thisPosts = archives[year].length;
-    yearPercentages[year] = `${(Math.round((thisPosts / totalPosts) * 100000) / 100).toFixed(2)}%`;
-  }
 
   return (
-    <Container>
-      {years.map((year) => {
-        const percentage = yearPercentages[year];
+    <Wrapper>
+      <Container>
+        {years.map((year) => {
+          const percent = `${((archives[year].length / totalPosts) * 100 * CHART_SCALE).toFixed(0)}%`;
 
-        return (
-          <ChartItem key={year} style={{ '--percent': percentage } as React.CSSProperties}>
-            <Anchor className={AnchorStyle} href={`#${year}年`}>
-              {year}
-            </Anchor>
-          </ChartItem>
-        );
-      })}
-    </Container>
+          return (
+            <ChartItem key={year} style={{ '--percent': percent } as React.CSSProperties}>
+              <Anchor className={AnchorStyle} href={`#${year}年`}>
+                {year}
+              </Anchor>
+            </ChartItem>
+          );
+        })}
+      </Container>
+    </Wrapper>
   );
 };
 
+const Wrapper = styled.div`
+  width: 100%;
+  container-type: inline-size;
+`;
+
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   gap: var(--spacing-½);
-  height: var(--spacing-5);
-  overflow-x: scroll;
 
-  @media (--isMobile) {
-    flex-direction: column;
-    align-items: start;
-    width: 100%;
-    height: auto;
+  @container (min-width: 600px) {
+    flex-direction: row;
+    height: var(--spacing-5);
+    overflow-x: auto;
   }
 `;
 
 const ChartItem = styled.div`
-  /* V8最適化: CSS変数を保持するラッパー要素 */
-  display: contents;
+  flex: none;
+
+  @container (min-width: 600px) {
+    flex: 1;
+    min-width: 5cap;
+  }
 `;
 
 const AnchorStyle = css`
   --fill: var(--colors-gray-100);
-  --direction: to top;
+  --direction: to right;
 
-  position: relative;
   display: flex;
   align-items: end;
   justify-content: center;
-  min-width: 5cap;
+  width: 100%;
   height: 100%;
-  font-size: var(--font-sizes-xs);
+  padding: var(--spacing-½);
+  font-size: var(--font-sizes-sm);
   font-variant-numeric: tabular-nums;
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-900);
   background: linear-gradient(var(--direction), var(--fill) var(--percent), transparent var(--percent));
 
-  @media (--isMobile) {
-    --direction: to right;
-
-    width: 100%;
-    padding: var(--spacing-1) var(--spacing-½);
-    font-size: var(--font-sizes-sm);
+  @container (min-width: 600px) {
+    --direction: to top;
   }
 
   &:hover {

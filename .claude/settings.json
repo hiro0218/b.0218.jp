@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(_article/**)",
+      "Edit(_article/**)",
+      "Write(_article/**)"
+    ]
+  }
+}

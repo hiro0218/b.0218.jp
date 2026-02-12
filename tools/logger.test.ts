@@ -1,4 +1,4 @@
-import { cyan, red, yellow } from 'picocolors';
+import { styleText } from 'node:util';
 import { error, info, warn } from './logger';
 
 describe('Log functions', () => {
@@ -6,7 +6,7 @@ describe('Log functions', () => {
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const message = 'This is an error message';
     error(message);
-    expect(consoleErrorSpy).toHaveBeenCalledWith(`${red('error')} -`, message);
+    expect(consoleErrorSpy).toHaveBeenCalledWith(`${styleText('red', 'error')} -`, message);
     consoleErrorSpy.mockRestore();
   });
 
@@ -14,7 +14,7 @@ describe('Log functions', () => {
     const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const message = 'This is a warning message';
     warn(message);
-    expect(consoleWarnSpy).toHaveBeenCalledWith(`${yellow('warn')}  -`, message);
+    expect(consoleWarnSpy).toHaveBeenCalledWith(`${styleText('yellow', 'warn')}  -`, message);
     consoleWarnSpy.mockRestore();
   });
 
@@ -22,7 +22,7 @@ describe('Log functions', () => {
     const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     const message = 'This is an info message';
     info(message);
-    expect(consoleLogSpy).toHaveBeenCalledWith(`${cyan('info')}  -`, message);
+    expect(consoleLogSpy).toHaveBeenCalledWith(`${styleText('cyan', 'info')}  -`, message);
     consoleLogSpy.mockRestore();
   });
 });

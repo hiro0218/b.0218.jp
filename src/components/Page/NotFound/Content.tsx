@@ -39,7 +39,9 @@ const Header = styled.header`
 `;
 
 const AnchorStyle = css`
-  width: 120px;
+  --_button-width: 120px;
+
+  width: var(--_button-width);
   padding: var(--spacing-1) var(--spacing-2);
   font-size: var(--font-sizes-sm);
   background-color: var(--colors-gray-100);

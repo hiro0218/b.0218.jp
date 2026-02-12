@@ -19,7 +19,7 @@ export function SearchEmptyState({ searchQuery }: SearchEmptyStateProps) {
     return (
       <Container aria-live="polite" role="status">
         <Title>入力して記事を検索する</Title>
-        <Description>タイトルや本文からキーワードで検索できます</Description>
+        <Description>タイトルやタグからキーワードで検索できます</Description>
       </Container>
     );
   }
@@ -42,15 +42,11 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-height: 50vh;
+  max-height: var(--search-content-max-height, 55vh);
   padding: var(--spacing-6) var(--spacing-1);
   overflow-y: auto;
   color: var(--colors-gray-600);
   text-align: center;
-
-  @media (--isMobile) {
-    max-height: 60vh;
-  }
 `;
 
 const Title = styled.h2`

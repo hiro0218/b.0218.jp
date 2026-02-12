@@ -4,9 +4,13 @@ import { visit } from 'unist-util-visit';
 import { SITE_URL } from '@/constants';
 import transformImage from './transform/image';
 import transformLinkPreview from './transform/linkPreview';
+import { loadCache, saveCache } from './transform/linkPreview/cache';
+import { handleError } from './transform/linkPreview/handleError';
 import { removeEmptyParagraph } from './transform/paragraph';
 
 // import { wrapAll } from './transform/wrapAll';
+
+const MAX_CONCURRENCY = 5;
 
 const rehype0218 = () => {
   const nodes = new Set<{ node: Element; index: number; parent: Element }>();
@@ -38,11 +42,42 @@ const rehype0218 = () => {
       }
     });
 
-    await Promise.all(
-      [...nodes].map(async ({ node, index, parent }) => {
-        await transformLinkPreview(node, index, parent);
-      }),
-    );
+    const cache = loadCache();
+    const entries = [...nodes];
+
+    // セマフォによる並行数制御（最大5並列）
+    let running = 0;
+    let idx = 0;
+
+    await new Promise<void>((resolve) => {
+      if (entries.length === 0) {
+        resolve();
+        return;
+      }
+
+      const next = () => {
+        while (running < MAX_CONCURRENCY && idx < entries.length) {
+          const { node, index, parent } = entries[idx++];
+          running++;
+          transformLinkPreview(node, index, parent, cache)
+            .catch((error) => {
+              handleError(error, 'Unhandled error in link preview transform');
+            })
+            .finally(() => {
+              running--;
+              if (idx >= entries.length && running === 0) {
+                resolve();
+              } else {
+                next();
+              }
+            });
+        }
+      };
+
+      next();
+    });
+
+    saveCache(cache);
 
     // wrapAll(tree);
   };

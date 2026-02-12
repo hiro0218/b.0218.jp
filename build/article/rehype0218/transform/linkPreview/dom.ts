@@ -2,9 +2,9 @@ import { JSDOM, VirtualConsole } from 'jsdom';
 import { handleError } from './handleError';
 import { isIgnoreDomain, isValidURL, normalizeURL } from './url';
 
-const FETCH_HEADERS = { 'User-Agent': 'Twitterbot/1.0' };
+const FETCH_HEADERS = { 'User-Agent': 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)' };
 
-const FETCH_TIMEOUT = 1000;
+const FETCH_TIMEOUT = 5000;
 
 const META_TAG_REGEX =
   /<meta\s+(?:[^>]*?\s+)?(?:property|name)=["'](?:og:|twitter:)?(title|description|image|card)["'][^>]*?content=["']([^"']*)["'][^>]*?>/gi;
@@ -115,6 +115,11 @@ export const getMeta = (html: string) => {
   }
 };
 
+const MAX_RETRIES = 1;
+const RETRY_DELAY_MS = 1000;
+
+const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
+
 /**
  * 指定されたURLからHTML内容を取得する
  * @param url - HTML取得対象のURL
@@ -124,35 +129,42 @@ export const getHTML = async (url: string) => {
   if (isIgnoreDomain(url)) return '';
   if (!isValidURL(url)) return '';
 
-  try {
-    const normalizedUrl = normalizeURL(url);
+  const normalizedUrl = normalizeURL(url);
 
-    const enhancedHeaders = {
-      ...FETCH_HEADERS,
-      accept: 'text/html',
-      acceptLanguage: 'ja,en-US;q=0.9,en;q=0.8',
-    };
+  const enhancedHeaders = {
+    ...FETCH_HEADERS,
+    accept: 'text/html',
+    'Accept-Language': 'ja,en-US;q=0.9,en;q=0.8',
+  };
 
-    const response = await fetch(normalizedUrl, {
-      headers: enhancedHeaders,
-      signal: AbortSignal.timeout(FETCH_TIMEOUT),
-    });
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const response = await fetch(normalizedUrl, {
+        headers: enhancedHeaders,
+        signal: AbortSignal.timeout(FETCH_TIMEOUT),
+      });
 
-    if (!response.ok) {
+      if (!response.ok) {
+        return '';
+      }
+
+      const text = await response.text();
+      const headEnd = text.indexOf('</head>');
+
+      if (headEnd > 0) {
+        return text.substring(0, headEnd + 7);
+      }
+
+      return text;
+    } catch (error) {
+      if (attempt < MAX_RETRIES) {
+        await sleep(RETRY_DELAY_MS * (attempt + 1));
+        continue;
+      }
+      handleError(error, `Failed to fetch HTML from: ${url}`);
       return '';
     }
-
-    const text = await response.text();
-    const headEnd = text.indexOf('</head>');
-
-    // head部分が見つかった場合はその部分だけを返す
-    if (headEnd > 0) {
-      return text.substring(0, headEnd + 7); // '</head>'の長さを加算
-    }
-
-    return text;
-  } catch (error) {
-    handleError(error, `Failed to fetch HTML from: ${url}`);
-    return '';
   }
+
+  return '';
 };

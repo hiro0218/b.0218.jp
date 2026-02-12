@@ -1,10 +1,12 @@
 import type { ElementContent } from 'hast';
 import { isElement } from 'hast-util-is-element';
+import { toHtml } from 'hast-util-to-html';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
-const PREFIX_REGEX = /\[!(?<kind>[\w]+)\]\s*(?<title>.*)/g;
-const PREFIX = ['[!NOTE]', '[!IMPORTANT]', '[!WARNING]', '[!TIP]', '[!CAUTION]'];
+import { isElementNode, isTextNode } from '../hastUtils';
+
+const ALERT_TYPES = ['[!NOTE]', '[!IMPORTANT]', '[!WARNING]', '[!TIP]', '[!CAUTION]'];
 
 /**
  *
@@ -28,7 +30,7 @@ const rehypeGfmAlert: Plugin = () => {
       if (!isElement(node, 'blockquote')) return;
 
       // 不要なノードを削除する
-      node.children = node.children.filter((child) => !(child.type === 'text' && child.value === '\n'));
+      node.children = node.children.filter((child) => !(isTextNode(child) && child.value === '\n'));
 
       // 空のブロッククオートは対象外
       if (node.children.length === 0) return;
@@ -41,13 +43,10 @@ const rehypeGfmAlert: Plugin = () => {
 
       // プレーンテキストで始まらないparagraphは無視する
       const firstChild = node.children[0].children[0];
-      if (firstChild.type !== 'text') return;
+      if (!isTextNode(firstChild)) return;
 
-      // prefixがない場合は対象外
-      if (!firstChild.value.match(PREFIX_REGEX)) return;
-
-      const prefix = firstChild.value;
-      const alertType = getAlertLabel(prefix);
+      // アラートラベルでない場合は対象外
+      const alertType = getAlertLabel(firstChild.value);
 
       if (!alertType) return;
 
@@ -66,10 +65,8 @@ const rehypeGfmAlert: Plugin = () => {
 
       const alertText = node.children
         .map((child, index) => {
-          if (child.type === 'element') {
-            const content = removeLabelElement(child.children)
-              .map((grandChild) => elementToHtml(grandChild))
-              .join('');
+          if (isElementNode(child)) {
+            const content = toHtml(removeLabelElement(child.children));
 
             // 複数段落の場合、段落間に改行を入れる
             return index > 0 ? `\n\n${content}` : content;
@@ -96,70 +93,29 @@ const rehypeGfmAlert: Plugin = () => {
 
 export default rehypeGfmAlert;
 
-const getAlertLabel = (prefix: string): string => {
-  if (PREFIX.includes(prefix)) {
-    return prefix.replace('[!', '').replace(']', '');
-  }
-
-  return '';
-};
-
-/**
- * 要素を再帰的にHTMLに変換する
- */
-const elementToHtml = (node: ElementContent): string => {
-  if (node.type === 'text') {
-    return node.value;
-  }
-
-  if (node.type === 'element') {
-    const childrenHtml = node.children.map((child) => elementToHtml(child)).join('');
-
-    switch (node.tagName) {
-      case 'a':
-        return `<a href="${node.properties?.href ?? ''}">${childrenHtml}</a>`;
-      case 'img':
-        return `<img src="${node.properties?.src ?? ''}" alt="${node.properties?.alt ?? ''}" />`;
-      case 'br':
-        return '<br />';
-      case 'strong':
-      case 'b':
-        return `<strong>${childrenHtml}</strong>`;
-      case 'em':
-      case 'i':
-        return `<em>${childrenHtml}</em>`;
-      case 'code':
-        return `<code>${childrenHtml}</code>`;
-      case 'del':
-      case 's':
-        return `<del>${childrenHtml}</del>`;
-      case 'sup':
-        return `<sup>${childrenHtml}</sup>`;
-      case 'sub':
-        return `<sub>${childrenHtml}</sub>`;
-      default:
-        return childrenHtml;
-    }
+const getAlertLabel = (value: string): string => {
+  if (ALERT_TYPES.includes(value)) {
+    return value.slice(2, -1);
   }
 
   return '';
 };
 
 const removeLabelElement = (nodes: ElementContent[]): ElementContent[] => {
-  let breakPosition = 0;
+  let labelIndex = -1;
 
   return nodes.filter((node, index) => {
-    if (breakPosition === -1) return true;
+    // 既にラベルと改行を処理済み
+    if (labelIndex !== -1 && index > labelIndex + 1) return true;
 
     // 最初のラベルを取り除く
-    if (node.type === 'text' && PREFIX.includes(node.value)) {
-      breakPosition = index;
+    if (labelIndex === -1 && isTextNode(node) && ALERT_TYPES.includes(node.value)) {
+      labelIndex = index;
       return false;
     }
 
     // ラベルの次の改行を取り除く
-    if (index === breakPosition + 1 && node.type === 'element' && node.tagName === 'br') {
-      breakPosition = -1;
+    if (labelIndex !== -1 && index === labelIndex + 1 && isElementNode(node) && node.tagName === 'br') {
       return false;
     }
 

@@ -5,7 +5,6 @@ import { Grid, Stack } from '@/components/UI/Layout';
 import { LinkMore } from '@/components/UI/LinkMore';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { ArticleSummary, PostSummary } from '@/types/source';
-import { containerType } from '@/ui/styled/utilities';
 
 type Props = {
   heading?: string;
@@ -44,7 +43,7 @@ export const PostSection = ({
           {heading}
         </Heading>
       )}
-      <Grid className={containerType} columns="auto-fit" gap={2}>
+      <Grid columns="auto-fit" gap={2}>
         {posts.map(({ date, slug, tags, title, updated }) => {
           const link = convertPostSlugToPath(slug);
 

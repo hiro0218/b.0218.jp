@@ -1,10 +1,12 @@
 import { Feed } from 'feed';
 import { AUTHOR_NAME, SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constants';
-import { getPostsJson } from '@/lib/data/posts';
+import { getPostBySlug, getPostsListJson } from '@/lib/data/posts';
 import { getDescriptionText } from '@/lib/domain/json-ld';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';
 
 export const dynamic = 'force-static';
+
+const FEED_LIMIT = 30;
 
 export function GET() {
   const feed = new Feed({
@@ -25,25 +27,32 @@ export function GET() {
     },
   });
 
-  const posts = getPostsJson();
+  const postsList = getPostsListJson();
+  let count = 0;
 
-  posts
-    .filter((post) => post.noindex !== true)
-    .slice(0, 30)
-    .forEach((post) => {
-      const ogpImage = `${getOgpImage(post.slug)}`;
-      const permalink = getPermalink(post.slug);
+  for (let i = 0; i < postsList.length && count < FEED_LIMIT; i++) {
+    const summary = postsList[i];
+    const post = getPostBySlug(summary.slug);
 
-      feed.addItem({
-        title: post.title,
-        description: getDescriptionText(post.content),
-        id: post.slug,
-        link: permalink,
-        guid: permalink,
-        date: new Date(post.date),
-        image: ogpImage,
-      });
+    if (!post || post.noindex === true) {
+      continue;
+    }
+
+    const ogpImage = `${getOgpImage(post.slug)}`;
+    const permalink = getPermalink(post.slug);
+
+    feed.addItem({
+      title: post.title,
+      description: getDescriptionText(post.content),
+      id: post.slug,
+      link: permalink,
+      guid: permalink,
+      date: new Date(post.date),
+      image: ogpImage,
     });
+
+    count++;
+  }
 
   return new Response(feed.rss2(), {
     headers: {

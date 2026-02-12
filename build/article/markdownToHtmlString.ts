@@ -13,8 +13,9 @@ import rehypeGfmAlert from './rehypeGfmAlert';
 import rehypeRemoveComments from './rehypeRemoveComments';
 import rehypeWrapImgWithFigure from './rehypeWrapImgWithFigure';
 import remarkBreaks from './remarkBreaks';
+import { shikiConfig } from './shikiConfig';
 
-const markdownToHtmlString = async (markdown: string, isSimple = false) => {
+async function markdownToHtmlString(markdown: string, isSimple = false): Promise<string> {
   const baseProcessor = unified()
     .use(remarkParse)
     .use(remarkGfm)
@@ -29,13 +30,7 @@ const markdownToHtmlString = async (markdown: string, isSimple = false) => {
     : baseProcessor
         .use(rehypeWrapImgWithFigure)
         .use(rehypeGfmAlert)
-        .use(rehypeShiki, {
-          themes: {
-            light: 'one-light',
-            dark: 'one-dark-pro',
-          },
-          defaultColor: false,
-        })
+        .use(rehypeShiki, shikiConfig)
         .use(rehype0218)
         .use(rehypeRemoveComments)
         .use(rehypeStringify, { allowDangerousHtml: true });
@@ -43,6 +38,6 @@ const markdownToHtmlString = async (markdown: string, isSimple = false) => {
   const result = await processor.process(markdown);
 
   return result.toString();
-};
+}
 
 export default markdownToHtmlString;

@@ -63,10 +63,11 @@ export async function buildPost() {
     }
   }
 
-  await mkdir(`${PATH.to}`, { recursive: true });
-  await writeJSON(`${PATH.to}/${FILENAME_POSTS}.json`, posts).then(() => {
-    Log.info(`Write dist/${FILENAME_POSTS}.json`);
-  });
+  // 記事単位の個別JSONファイルを生成
+  const postsDir = `${PATH.to}/${FILENAME_POSTS}`;
+  await mkdir(postsDir, { recursive: true });
+  await Promise.all(posts.map((post) => writeJSON(`${postsDir}/${post.slug}.json`, post)));
+  Log.info(`Write dist/${FILENAME_POSTS}/ (${posts.length} files)`);
 
   return posts;
 }

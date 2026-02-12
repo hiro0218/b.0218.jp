@@ -1,7 +1,7 @@
-import type { ReactElement, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 
-type ReturnType = {
+type SplitResult = {
   before: ReactNode;
   after: ReactNode;
 };
@@ -22,7 +22,7 @@ type ReturnType = {
  *   </>
  * );
  */
-export function splitReactNode(node: ReactNode): ReturnType {
+export function splitReactNode(node: ReactNode): SplitResult {
   if (node === null || node === undefined) {
     return { before: null, after: null };
   }
@@ -40,7 +40,7 @@ export function splitReactNode(node: ReactNode): ReturnType {
   // 一度の走査で2番目のh2要素を見つける
   for (let i = 0; i < children.length; i++) {
     const child = children[i];
-    if (React.isValidElement(child) && (child as ReactElement).type === 'h2') {
+    if (React.isValidElement(child) && child.type === 'h2') {
       h2Count++;
       if (h2Count === 2) {
         splitIndex = i;

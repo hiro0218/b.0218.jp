@@ -3,10 +3,7 @@ import { type Browser, chromium, type Page } from 'playwright-chromium';
 import * as Log from '~/tools/logger';
 
 import { OGP_CONFIG } from './config';
-
-type Post = { title: string; slug: string };
-type WorkerMessage = { type: 'completed'; index?: number } | { type: 'error'; error: string };
-type WorkerTaskMessage = { type: 'posts'; posts: Post[] };
+import type { Post, WorkerMessage, WorkerTaskMessage } from './types';
 
 let browser: Browser | null = null;
 const pagePool: Page[] = [];
@@ -18,6 +15,7 @@ process.on('message', async (msg: WorkerTaskMessage) => {
     } catch (err) {
       const message: WorkerMessage = {
         type: 'error',
+        slug: '',
         error: err instanceof Error ? err.message : String(err),
       };
       process.send?.(message);
@@ -28,8 +26,36 @@ process.on('message', async (msg: WorkerTaskMessage) => {
   }
 });
 
+async function setTitleAndWaitForFonts(page: Page, title: string): Promise<void> {
+  await page.evaluate(
+    async ({ title, fontWaitTimeout, fontCheckInterval }) => {
+      document.getElementById('title')!.textContent = title;
+
+      if (document.fonts.check('900 56px "Noto Sans JP"')) {
+        return;
+      }
+
+      const startTime = Date.now();
+      while (Date.now() - startTime < fontWaitTimeout) {
+        if (document.fonts.check('900 56px "Noto Sans JP"')) {
+          return;
+        }
+        await new Promise((resolve) => setTimeout(resolve, fontCheckInterval));
+      }
+
+      await document.fonts.ready;
+    },
+    {
+      title,
+      fontWaitTimeout: OGP_CONFIG.screenshot.fontWaitTimeout,
+      fontCheckInterval: OGP_CONFIG.screenshot.fontCheckInterval,
+    },
+  );
+}
+
 async function processImages(posts: Post[]): Promise<void> {
   const serverUrl = `${OGP_CONFIG.server.host}:${OGP_CONFIG.server.port}/`;
+  const failedSlugs: string[] = [];
 
   browser = await chromium.launch({
     args: [...OGP_CONFIG.screenshot.chromiumArgs],
@@ -74,10 +100,12 @@ async function processImages(posts: Post[]): Promise<void> {
       process.send?.(message);
     } catch (err) {
       await handlePageError(page, pageIndex, serverUrl);
+      failedSlugs.push(post.slug);
 
       const message: WorkerMessage = {
         type: 'error',
-        error: `Error processing ${post.slug}: ${err instanceof Error ? err.message : String(err)}`,
+        slug: post.slug,
+        error: err instanceof Error ? err.message : String(err),
       };
       process.send?.(message);
       completed++;
@@ -97,6 +125,9 @@ async function processImages(posts: Post[]): Promise<void> {
   while (completed < posts.length) {
     await new Promise((resolve) => setTimeout(resolve, OGP_CONFIG.screenshot.completionCheckInterval));
   }
+
+  const summaryMessage: WorkerMessage = { type: 'summary', failed: failedSlugs };
+  process.send?.(summaryMessage);
 }
 
 async function initializePagePool(serverUrl: string): Promise<void> {
@@ -113,69 +144,19 @@ async function initializePagePool(serverUrl: string): Promise<void> {
       timeout: OGP_CONFIG.screenshot.pageGotoTimeout,
     });
 
-    await warmupFonts(page);
+    await setTitleAndWaitForFonts(page, 'Cache Warming');
     pagePool.push(page);
   }
 }
 
-async function warmupFonts(page: Page): Promise<void> {
-  await page.evaluate(
-    async ({ fontWaitTimeout, fontCheckInterval }) => {
-      document.getElementById('title')!.innerHTML = 'Cache Warming';
-
-      if (document.fonts.check('900 56px "Noto Sans JP"')) {
-        return;
-      }
-
-      const startTime = Date.now();
-      while (Date.now() - startTime < fontWaitTimeout) {
-        if (document.fonts.check('900 56px "Noto Sans JP"')) {
-          return;
-        }
-        await new Promise((resolve) => setTimeout(resolve, fontCheckInterval));
-      }
-
-      await document.fonts.ready;
-    },
-    {
-      fontWaitTimeout: OGP_CONFIG.screenshot.fontWaitTimeout,
-      fontCheckInterval: OGP_CONFIG.screenshot.fontCheckInterval,
-    },
-  );
-}
-
 async function captureScreenshot(page: Page, post: Post): Promise<void> {
   const { title, slug } = post;
-  const pageTitle = title.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-  await page.evaluate(
-    async ({ title, fontWaitTimeout, fontCheckInterval }) => {
-      document.getElementById('title')!.innerHTML = title;
-
-      if (document.fonts.check('900 56px "Noto Sans JP"')) {
-        return;
-      }
-
-      const startTime = Date.now();
-      while (Date.now() - startTime < fontWaitTimeout) {
-        if (document.fonts.check('900 56px "Noto Sans JP"')) {
-          return;
-        }
-        await new Promise((resolve) => setTimeout(resolve, fontCheckInterval));
-      }
-
-      await document.fonts.ready;
-    },
-    {
-      title: pageTitle,
-      fontWaitTimeout: OGP_CONFIG.screenshot.fontWaitTimeout,
-      fontCheckInterval: OGP_CONFIG.screenshot.fontCheckInterval,
-    },
-  );
+  await setTitleAndWaitForFonts(page, title);
 
   await page.screenshot({
     fullPage: false,
-    path: `${OGP_CONFIG.output.dir}/${slug}.jpg`,
+    path: `${OGP_CONFIG.output.dir}/${slug}.${OGP_CONFIG.output.ext}`,
     type: OGP_CONFIG.output.format,
     quality: OGP_CONFIG.output.quality,
   });

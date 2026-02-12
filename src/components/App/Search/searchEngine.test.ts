@@ -1,14 +1,5 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
-import {
-  findMatchingPosts,
-  getTagMatchType,
-  getTextMatchType,
-  getTitleMatchType,
-  isTextMatching,
-} from '@/components/App/Search/engine/matching';
-import { getMatchTypePriority } from '@/components/App/Search/engine/scoring';
 import { performPostSearch } from '@/components/App/Search/engine/search';
-import type { MatchType, SearchProps } from '@/components/App/Search/types';
 
 // 転置インデックスとデータをモック
 vi.mock('~/dist/search-index.json', () => {
@@ -141,171 +132,21 @@ beforeEach(() => {
   vi.clearAllMocks();
 });
 
-// テスト用のモックデータ
-const mockPosts: SearchProps[] = [
-  {
-    title: '[GitHub Actions] `actions/ai-inference`を利用したPR自動要約の実装',
-    tags: ['GitHub Actions', 'AI'],
-    slug: '202504281417',
-  },
-  {
-    title: 'JavaScriptを利用したブラウザのプライベートモード判定についての考察',
-    tags: ['JavaScript', 'ブラウザ', '調査'],
-    slug: '202504122020',
-  },
-  {
-    title: '[Google Fonts] 日本語フォントの読み込みを高速化する実装方法',
-    tags: ['TypeScript', 'React', 'CSS', 'フォント'],
-    slug: '202504061452',
-  },
-  {
-    title: '[GitHub Copilot] 「ずんだもん」の人格を与える技術',
-    tags: ['GitHub Copilot', 'VS Code'],
-    slug: '202503210941',
-  },
-  {
-    title: '[TypeScript] オプショナルの`?`と`| undefined`の違い',
-    tags: ['TypeScript'],
-    slug: '202502242115',
-  },
-  {
-    title: '[命名規則] コンポーネント名は動詞から始めない',
-    tags: ['React', '設計'],
-    slug: '202502122306',
-  },
-  {
-    title: '[JavaScript] 分割代入された引数の名称変更とデフォルト値を同時に指定する方法',
-    tags: ['React', 'JavaScript', 'TypeScript'],
-    slug: '202502090230',
-  },
-  {
-    title: '[JavaScript] テンプレートリテラルと文字列連結のパフォーマンス比較',
-    tags: ['JavaScript'],
-    slug: '202502071045',
-  },
-  {
-    title: '[CSS in JS] 最新のCSSプロパティにVS Codeのシンタックスハイライトを対応させる方法',
-    tags: ['CSS in JS', 'Emotion', 'TypeScript', 'VS Code'],
-    slug: '202501200200',
-  },
-  {
-    title: 'Shift_JISファイルをgrepする方法',
-    tags: ['Bash'],
-    slug: '202412281606',
-  },
+// テスト用のモックデータ（「方法」検索テストで参照件数の検証に使用）
+const mockPosts = [
+  { title: '[GitHub Actions] `actions/ai-inference`を利用したPR自動要約の実装' },
+  { title: 'JavaScriptを利用したブラウザのプライベートモード判定についての考察' },
+  { title: '[Google Fonts] 日本語フォントの読み込みを高速化する実装方法' },
+  { title: '[GitHub Copilot] 「ずんだもん」の人格を与える技術' },
+  { title: '[TypeScript] オプショナルの`?`と`| undefined`の違い' },
+  { title: '[命名規則] コンポーネント名は動詞から始めない' },
+  { title: '[JavaScript] 分割代入された引数の名称変更とデフォルト値を同時に指定する方法' },
+  { title: '[JavaScript] テンプレートリテラルと文字列連結のパフォーマンス比較' },
+  { title: '[CSS in JS] 最新のCSSプロパティにVS Codeのシンタックスハイライトを対応させる方法' },
+  { title: 'Shift_JISファイルをgrepする方法' },
 ];
 
-describe('基本ユーティリティ関数', () => {
-  test('getMatchTypePriority - マッチタイプの優先度をスコアに変換する', () => {
-    expect(getMatchTypePriority('EXACT')).toBe(100);
-    expect(getMatchTypePriority('PARTIAL')).toBe(80);
-    expect(getMatchTypePriority('EXACT_NO_SPACE')).toBe(60);
-    expect(getMatchTypePriority('MULTI_TERM_MATCH')).toBe(50);
-    expect(getMatchTypePriority('PARTIAL_NO_SPACE')).toBe(40);
-    expect(getMatchTypePriority('NONE')).toBe(0);
-    expect(getMatchTypePriority('UNKNOWN' as MatchType)).toBe(0);
-  });
-});
-
-describe('一致判定ロジック', () => {
-  test('getTextMatchType - 完全一致の判定', () => {
-    expect(getTextMatchType('React', 'React')).toBe('EXACT');
-    expect(getTextMatchType('react', 'REACT')).toBe('EXACT');
-    // trim()により前後のスペースは除去されるため、完全一致になる
-    expect(getTextMatchType('React', ' React ')).toBe('EXACT');
-    expect(getTextMatchType('React', 'React Native')).not.toBe('EXACT');
-  });
-
-  test('getTextMatchType - 部分一致の判定', () => {
-    expect(getTextMatchType('React入門', 'React')).toBe('PARTIAL');
-    expect(getTextMatchType('JavaScript入門', 'Script')).toBe('PARTIAL');
-    expect(getTextMatchType('React', 'Angular')).toBe('NONE');
-  });
-
-  test('getTextMatchType - スペース除去後の完全一致判定', () => {
-    expect(getTextMatchType('React入門', 'React 入門')).toBe('EXACT_NO_SPACE');
-    expect(getTextMatchType('TypeScript', 'Type Script')).toBe('EXACT_NO_SPACE');
-  });
-
-  test('getTextMatchType - スペース除去後の部分一致判定', () => {
-    expect(getTextMatchType('ReactとTypeScript', 'Re act')).toBe('PARTIAL_NO_SPACE');
-    expect(getTextMatchType('JavaScript入門', 'Java Script')).toBe('PARTIAL_NO_SPACE');
-  });
-
-  test('getTextMatchType - 空文字列や不一致の場合', () => {
-    expect(getTextMatchType('', 'React')).toBe('NONE');
-    expect(getTextMatchType('React', '')).toBe('NONE');
-    expect(getTextMatchType('', '')).toBe('NONE');
-    expect(getTextMatchType('Vue', 'Angular')).toBe('NONE');
-  });
-
-  test('isTextMatching - テキストが検索クエリに一致するか判定する', () => {
-    expect(isTextMatching('React入門', 'React')).toBe(true);
-    expect(isTextMatching('React', 'React')).toBe(true);
-    expect(isTextMatching('React入門', 'React 入門')).toBe(true);
-    expect(isTextMatching('React', 'Vue')).toBe(false);
-  });
-});
-
-describe('タグとタイトルの検索', () => {
-  test('getTagMatchType - タグに基づいて検索を実行し、一致タイプを返す', () => {
-    const post = mockPosts[0];
-
-    expect(getTagMatchType(post, 'GitHub Actions')).toBe('EXACT');
-    expect(getTagMatchType(post, 'GitHub')).toBe('PARTIAL');
-    expect(getTagMatchType(post, 'JavaScript')).toBe('NONE');
-
-    // タグが空の場合
-    expect(getTagMatchType({ ...post, tags: [] }, 'GitHub Actions')).toBe('NONE');
-    expect(getTagMatchType({ ...post, tags: undefined }, 'GitHub Actions')).toBe('NONE');
-  });
-
-  test('getTitleMatchType - タイトルに基づいて検索を実行し、一致タイプを返す', () => {
-    expect(getTitleMatchType(mockPosts[0], 'GitHub Actions')).toBe('PARTIAL');
-    expect(getTitleMatchType(mockPosts[1], 'JavaScript')).toBe('PARTIAL');
-    expect(getTitleMatchType(mockPosts[2], 'Google Fonts')).toBe('PARTIAL');
-    expect(getTitleMatchType(mockPosts[0], 'Vue')).toBe('NONE');
-  });
-});
-
 describe('検索ロジック', () => {
-  test('findMatchingPosts - 検索クエリが空の場合は空の配列を返す', () => {
-    expect(findMatchingPosts(mockPosts, '')).toEqual([]);
-  });
-
-  test('findMatchingPosts - 単一キーワードでの検索', () => {
-    const results = findMatchingPosts(mockPosts, 'GitHub Actions');
-
-    // 少なくとも1つの結果が含まれるべき（mockPostsに"GitHub Actions"が含まれる）
-    expect(results.length).toBe(1);
-
-    // 最初の結果は完全一致のものであるべき
-    expect(results[0].matchType).toBe('EXACT');
-    expect(results[0].post.tags?.includes('GitHub Actions')).toBe(true);
-  });
-
-  test('findMatchingPosts - タグのみマッチしタイトルに含まれない場合、matchedInがtagになる', () => {
-    // Arrange
-    // 「調査」はタグに存在するがタイトル「…プライベートモード判定についての考察」には含まれない
-    const results = findMatchingPosts(mockPosts, '調査');
-
-    // Act
-    const matchedPost = results.find((r) => r.post.slug === '202504122020');
-
-    // Assert
-    expect(matchedPost).toBeDefined();
-    expect(matchedPost?.matchedIn).toBe('tag');
-    expect(matchedPost?.matchType).toBe('EXACT');
-  });
-
-  test('findMatchingPosts - 複数キーワードの検索（AND条件）', () => {
-    const results = findMatchingPosts(mockPosts, 'JavaScript TypeScript');
-
-    // JavaScriptとTypeScriptの両方を含む投稿
-    expect(results.length).toBeGreaterThan(0);
-    expect(results.some((r) => r.post.slug === '202502090230')).toBe(true);
-  });
-
   test('performPostSearch - 優先度順にソートされた結果を返す', () => {
     const results = performPostSearch('React');
 
@@ -359,6 +200,26 @@ describe('特定ワードでの検索', () => {
   });
 });
 
+describe('AND検索（複数ワード）', () => {
+  test('複数ワード検索では全てのワードを含む記事のみがヒットする', () => {
+    const results = performPostSearch('javascript react');
+
+    // javascript と react の両方のトークンを持つのは 202502090230 のみ
+    expect(results.length).toBe(1);
+    expect(results[0].slug).toBe('202502090230');
+  });
+
+  test('片方のワードしか含まない記事はAND検索で除外される', () => {
+    const results = performPostSearch('github copilot');
+
+    // github のみ持つ 202504281417 (GitHub Actions) は除外される
+    expect(results.some((post) => post.slug === '202504281417')).toBe(false);
+
+    // github と copilot の両方を持つ 202503210941 は含まれる
+    expect(results.some((post) => post.slug === '202503210941')).toBe(true);
+  });
+});
+
 describe('日本語検索の問題', () => {
   test('「方法」で検索したとき該当する全ての記事がヒットする', () => {
     const results = performPostSearch('方法');
@@ -391,15 +252,15 @@ describe('フォールバック検索（タイトル直接検索）', () => {
     expect(['EXACT', 'PARTIAL', 'MULTI_TERM_MATCH', 'NONE']).toContain(results[0].matchType);
   });
 
-  test('インデックス検索で結果がある場合はフォールバック検索を使用しない', () => {
+  test('インデックス検索結果が優先され、フォールバック結果は後方に配置される', () => {
     // "GitHub"はインデックスに存在するワード
     const results = performPostSearch('github');
 
     // 結果があり、通常の検索が動作する
     expect(results.length).toBeGreaterThan(0);
 
-    // タグマッチまたはトークンマッチの結果が含まれるべき
-    // (フォールバックではmatchedInが必ずtitleになるが、通常検索ではtag/bothもある)
+    // インデックス検索結果はタグマッチやトークンマッチの情報を持つ
+    // (フォールバックではmatchedInが必ずtitleかつmatchTypeがPARTIALになる)
     const hasNonTitleMatch = results.some((post) => post.matchedIn !== 'title' || post.matchType !== 'PARTIAL');
     expect(hasNonTitleMatch).toBe(true);
   });

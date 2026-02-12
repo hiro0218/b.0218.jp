@@ -1,4 +1,5 @@
 import kuromoji, { type IpadicFeatures, type Tokenizer } from 'kuromoji';
+import * as Log from '~/tools/logger';
 import { STOP_WORDS_JA } from '../shared/stopWords';
 
 const REGEX_DIGIT_ONLY = /^\d+$/;
@@ -26,7 +27,7 @@ export async function getTokenizer(): Promise<Tokenizer<IpadicFeatures>> {
     return await tokenizerPromise;
   } catch (error) {
     tokenizerPromise = null;
-    console.error('[build/search/tokenizer] 形態素解析器の初期化に失敗:', error);
+    Log.error('[build/search/tokenizer] 形態素解析器の初期化に失敗:', String(error));
     throw error;
   }
 }
@@ -38,7 +39,7 @@ export async function getTokenizer(): Promise<Tokenizer<IpadicFeatures>> {
  * @param tokenizerInstance トークナイザインスタンス
  * @returns 意味のある単語の配列（基本形）
  */
-export async function tokenizeText(text: string, tokenizerInstance: Tokenizer<IpadicFeatures>): Promise<string[]> {
+export function tokenizeText(text: string, tokenizerInstance: Tokenizer<IpadicFeatures>): string[] {
   if (!text) {
     return [];
   }
@@ -48,12 +49,11 @@ export async function tokenizeText(text: string, tokenizerInstance: Tokenizer<Ip
     const meaningfulTokens: string[] = [];
 
     for (const token of tokens) {
-      // 意味のある単語のみを抽出
       if (token.pos === '名詞' || token.pos === '動詞' || token.pos === '形容詞' || token.pos === '副詞') {
         if (token.pos_detail_1 && (token.pos_detail_1.includes('数') || token.pos_detail_1.includes('接尾'))) {
           continue;
         }
-        if (token.pos === '記号' || STOP_WORDS_JA.has(token.basic_form) || token.basic_form.length <= 1) {
+        if (STOP_WORDS_JA.has(token.basic_form) || token.basic_form.length <= 1) {
           continue;
         }
         if (REGEX_DIGIT_ONLY.test(token.basic_form)) {
@@ -64,7 +64,7 @@ export async function tokenizeText(text: string, tokenizerInstance: Tokenizer<Ip
     }
     return meaningfulTokens;
   } catch (error) {
-    console.error('[build/search/tokenizer] テキスト前処理中にエラー:', error);
+    Log.error('[build/search/tokenizer] テキスト前処理中にエラー:', String(error));
     throw error;
   }
 }

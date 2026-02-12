@@ -64,21 +64,14 @@ const Ins = () => {
 
 const containerStyle = css`
   display: flex;
+  flex-wrap: wrap;
   gap: var(--spacing-2);
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-
-  @media (--isMobile) {
-    flex-direction: column;
-  }
 `;
 
 const Ads = styled.div`
-  min-width: var(--ads-width);
+  flex: 1 1 250px;
   height: var(--ads-height);
-
-  @media (--isMobile) {
-    min-width: 250px;
-  }
 `;

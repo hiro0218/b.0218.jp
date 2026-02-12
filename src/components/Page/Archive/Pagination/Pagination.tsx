@@ -132,6 +132,8 @@ export function Pagination({ totalItems }: PaginationProps) {
 }
 
 const PaginationNav = styled.nav`
+  container-type: inline-size;
+
   ul {
     display: flex;
     gap: var(--spacing-1);
@@ -144,19 +146,23 @@ const PaginationNav = styled.nav`
     display: flex;
   }
 
-  @media (--isDesktop) {
-    [data-paginate='progress'] {
-      display: none;
-    }
+  [data-paginate='arrow'] {
+    display: block;
   }
 
-  @media (--isMobile) {
-    [data-paginate='arrow'] {
-      display: block;
-    }
+  [data-paginate='page'],
+  [data-paginate='ellipsis'] {
+    display: none;
+  }
 
+  @container (min-width: 600px) {
+    [data-paginate='arrow'],
     [data-paginate='page'],
     [data-paginate='ellipsis'] {
+      display: flex;
+    }
+
+    [data-paginate='progress'] {
       display: none;
     }
   }

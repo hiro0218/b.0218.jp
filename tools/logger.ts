@@ -1,9 +1,9 @@
-import { cyan, red, yellow } from 'picocolors';
+import { styleText } from 'node:util';
 
 const prefixes = {
-  error: `${red('error')} -`,
-  warn: `${yellow('warn')}  -`,
-  info: `${cyan('info')}  -`,
+  error: `${styleText('red', 'error')} -`,
+  warn: `${styleText('yellow', 'warn')}  -`,
+  info: `${styleText('cyan', 'info')}  -`,
 };
 
 export function error(...message: string[]): void {

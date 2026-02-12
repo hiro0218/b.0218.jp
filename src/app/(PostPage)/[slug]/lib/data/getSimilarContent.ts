@@ -1,18 +1,18 @@
 import { TAG_VIEW_LIMIT } from '@/constants';
-import { getPostsJson, getSimilarPosts as getSimilarPostsJson, getSimilarTag, getTagsJson } from '@/lib/data/posts';
+import { getPostsListJson, getSimilarPosts as getSimilarPostsJson, getSimilarTag, getTagsJson } from '@/lib/data/posts';
 import type { ArticleSummary } from '@/types/source';
 
 const LIMIT_TAG_LIST = 10;
 
 const cachedSimilarPosts = getSimilarPostsJson();
-const cachedPosts = getPostsJson();
+const cachedPostsList = getPostsListJson();
 const cachedTagData = getTagsJson();
 const cachedSimilarTags = getSimilarTag();
 
 // 投稿検索のパフォーマンス向上のため、O(n)のfind()をO(1)のMap検索に置き換える
 const postsMap = new Map<string, ArticleSummary>();
-for (let i = 0; i < cachedPosts.length; i++) {
-  const post = cachedPosts[i];
+for (let i = 0; i < cachedPostsList.length; i++) {
+  const post = cachedPostsList[i];
   postsMap.set(post.slug, {
     title: post.title,
     slug: post.slug,

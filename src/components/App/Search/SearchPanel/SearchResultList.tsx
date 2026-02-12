@@ -44,16 +44,12 @@ export function SearchResultList({
 const Container = styled.div`
   display: grid;
   gap: var(--spacing-1);
-  max-height: 50vh;
+  max-height: var(--search-content-max-height, 55vh);
   padding: 0;
   overflow-x: clip;
   overflow-y: auto;
 
   &:not(:empty) {
     padding: var(--spacing-½) var(--spacing-1);
-  }
-
-  @media (--isMobile) {
-    max-height: 60vh;
   }
 `;
