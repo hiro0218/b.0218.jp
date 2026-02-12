@@ -95,7 +95,7 @@ export default rehypeGfmAlert;
 
 const getAlertLabel = (value: string): string => {
   if (ALERT_TYPES.includes(value)) {
-    return value.replace('[!', '').replace(']', '');
+    return value.slice(2, -1);
   }
 
   return '';
