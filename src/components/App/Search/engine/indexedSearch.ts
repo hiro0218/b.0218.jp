@@ -58,8 +58,9 @@ function tokenizeQuery(query: string): string[] {
   const normalized = query.toLowerCase().trim();
   if (!normalized) return [];
 
-  // スペースで分割して空文字を除外
-  return normalized.split(WHITESPACE_REGEX).filter((token) => token.length > 0);
+  // スペースで分割して空文字を除外し、重複トークンを排除
+  const tokens = normalized.split(WHITESPACE_REGEX).filter((token) => token.length > 0);
+  return [...new Set(tokens)];
 }
 
 type MatchType = 'exact' | 'partial';
