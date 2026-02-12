@@ -69,6 +69,7 @@ const containerStyle = css`
   align-items: center;
   justify-content: center;
   margin: 0 auto;
+  overflow-x: auto;
 `;
 
 const Ads = styled.div`
