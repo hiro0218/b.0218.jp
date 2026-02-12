@@ -5,6 +5,7 @@ import { SITE_URL } from '@/constants';
 import transformImage from './transform/image';
 import transformLinkPreview from './transform/linkPreview';
 import { loadCache, saveCache } from './transform/linkPreview/cache';
+import { handleError } from './transform/linkPreview/handleError';
 import { removeEmptyParagraph } from './transform/paragraph';
 
 // import { wrapAll } from './transform/wrapAll';
@@ -58,14 +59,18 @@ const rehype0218 = () => {
         while (running < MAX_CONCURRENCY && idx < entries.length) {
           const { node, index, parent } = entries[idx++];
           running++;
-          transformLinkPreview(node, index, parent, cache).finally(() => {
-            running--;
-            if (idx >= entries.length && running === 0) {
-              resolve();
-            } else {
-              next();
-            }
-          });
+          transformLinkPreview(node, index, parent, cache)
+            .catch((error) => {
+              handleError(error, 'Unhandled error in link preview transform');
+            })
+            .finally(() => {
+              running--;
+              if (idx >= entries.length && running === 0) {
+                resolve();
+              } else {
+                next();
+              }
+            });
         }
       };
 
