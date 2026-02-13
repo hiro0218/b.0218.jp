@@ -85,11 +85,11 @@ export function ZoomTriggerButton({
 }: ZoomTriggerButtonProps): ReactNode {
   return (
     <button
+      aria-disabled={isOpen || undefined}
       aria-expanded={isOpen}
       aria-label={a11yLabel}
       className={cx(buttonStyle, isOpen ? buttonHiddenClass : buttonVisibleClass)}
-      disabled={isOpen}
-      onClick={zoomIn}
+      onClick={isOpen ? undefined : zoomIn}
       type="button"
     >
       <img alt={alt} src={src} style={style} {...imgProps} onLoad={onImageLoad} ref={imgRef} />
