@@ -16,24 +16,6 @@ vi.mock('@radix-ui/react-icons', () => ({
   ZoomInIcon: (props: Record<string, unknown>) => <span data-testid="zoom-icon" {...props} />,
 }));
 
-vi.mock('@react-aria/button', () => ({
-  useButton: (props: Record<string, unknown>, _ref: unknown) => ({
-    buttonProps: {
-      type: 'button',
-      'aria-label': props['aria-label'],
-      disabled: props.isDisabled,
-    },
-  }),
-}));
-
-vi.mock('@react-aria/focus', () => ({
-  useFocusRing: () => ({ isFocusVisible: false, focusProps: {} }),
-}));
-
-vi.mock('@react-aria/utils', () => ({
-  mergeProps: (...args: Record<string, unknown>[]) => Object.assign({}, ...args),
-}));
-
 /* ------------------------------------------------------------------ */
 /*  Import component after mocks                                      */
 /* ------------------------------------------------------------------ */

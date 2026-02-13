@@ -1,11 +1,7 @@
 'use client';
 
 import { ZoomInIcon } from '@radix-ui/react-icons';
-import { useButton } from '@react-aria/button';
-import { useFocusRing } from '@react-aria/focus';
-import { mergeProps } from '@react-aria/utils';
 import type { CSSProperties, ImgHTMLAttributes, ReactNode, RefObject } from 'react';
-import { useRef } from 'react';
 import { css, cx } from '@/ui/styled';
 
 const buttonStyle = css`
@@ -21,7 +17,7 @@ const buttonStyle = css`
     }
   }
 
-  &[data-focus-visible='true'] {
+  &:focus-visible {
     outline: 2px solid var(--colors-blue-500);
     outline-offset: 2px;
   }
@@ -75,12 +71,7 @@ interface ZoomTriggerButtonProps {
   imgRef: RefObject<HTMLImageElement | null>;
 }
 
-/**
- * ズームトリガーボタンコンポーネント
- *
- * 画像をクリックしてズームモーダルを開くためのボタン。
- * React Aria でキーボード操作とフォーカス管理を標準化。
- */
+/** 画像をクリックしてズームモーダルを開くためのボタン */
 export function ZoomTriggerButton({
   a11yLabel,
   isOpen,
@@ -92,26 +83,13 @@ export function ZoomTriggerButton({
   onImageLoad,
   imgRef,
 }: ZoomTriggerButtonProps): ReactNode {
-  const buttonRef = useRef<HTMLButtonElement>(null);
-
-  const { buttonProps } = useButton(
-    {
-      'aria-label': a11yLabel,
-      onPress: isOpen ? undefined : zoomIn,
-      isDisabled: isOpen,
-    },
-    buttonRef,
-  );
-
-  const { isFocusVisible, focusProps } = useFocusRing();
-
   return (
     <button
-      {...mergeProps(buttonProps, focusProps)}
       aria-expanded={isOpen}
+      aria-label={a11yLabel}
       className={cx(buttonStyle, isOpen ? buttonHiddenClass : buttonVisibleClass)}
-      data-focus-visible={isFocusVisible}
-      ref={buttonRef}
+      disabled={isOpen}
+      onClick={zoomIn}
       type="button"
     >
       <img alt={alt} src={src} style={style} {...imgProps} onLoad={onImageLoad} ref={imgRef} />
