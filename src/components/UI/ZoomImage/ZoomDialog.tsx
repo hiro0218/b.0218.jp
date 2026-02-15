@@ -93,7 +93,6 @@ export function ZoomDialog({
         onClick={(e) => {
           if (e.target === e.currentTarget) onClose();
         }}
-        onClose={onClose}
         ref={dialogRef}
       >
         <img

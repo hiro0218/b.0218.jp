@@ -16,24 +16,6 @@ vi.mock('@radix-ui/react-icons', () => ({
   ZoomInIcon: (props: Record<string, unknown>) => <span data-testid="zoom-icon" {...props} />,
 }));
 
-vi.mock('@react-aria/button', () => ({
-  useButton: (props: Record<string, unknown>, _ref: unknown) => ({
-    buttonProps: {
-      type: 'button',
-      'aria-label': props['aria-label'],
-      disabled: props.isDisabled,
-    },
-  }),
-}));
-
-vi.mock('@react-aria/focus', () => ({
-  useFocusRing: () => ({ isFocusVisible: false, focusProps: {} }),
-}));
-
-vi.mock('@react-aria/utils', () => ({
-  mergeProps: (...args: Record<string, unknown>[]) => Object.assign({}, ...args),
-}));
-
 /* ------------------------------------------------------------------ */
 /*  Import component after mocks                                      */
 /* ------------------------------------------------------------------ */
@@ -187,7 +169,7 @@ describe('ZoomTriggerButton', () => {
   /*  isOpen states                                                   */
   /* ================================================================ */
   describe('isOpen 状態', () => {
-    it('isOpen が true の場合、button が disabled になる', () => {
+    it('isOpen が true の場合、aria-disabled が設定される', () => {
       render(
         <ZoomTriggerButton
           a11yLabel="画像をズーム"
@@ -200,8 +182,44 @@ describe('ZoomTriggerButton', () => {
         />,
       );
 
-      const button = screen.getByRole('button') as HTMLButtonElement;
-      expect(button.disabled).toBe(true);
+      const button = screen.getByRole('button');
+      expect(button.getAttribute('aria-disabled')).toBe('true');
+    });
+
+    it('isOpen が false の場合、aria-disabled が設定されない', () => {
+      render(
+        <ZoomTriggerButton
+          a11yLabel="画像をズーム"
+          imgProps={{}}
+          imgRef={createRef<HTMLImageElement>()}
+          isOpen={false}
+          onImageLoad={vi.fn()}
+          src="/test.jpg"
+          zoomIn={vi.fn()}
+        />,
+      );
+
+      const button = screen.getByRole('button');
+      expect(button.getAttribute('aria-disabled')).toBeNull();
+    });
+
+    it('isOpen が true の場合、onClick ハンドラが設定されない', () => {
+      const zoomIn = vi.fn();
+      render(
+        <ZoomTriggerButton
+          a11yLabel="画像をズーム"
+          imgProps={{}}
+          imgRef={createRef<HTMLImageElement>()}
+          isOpen={true}
+          onImageLoad={vi.fn()}
+          src="/test.jpg"
+          zoomIn={zoomIn}
+        />,
+      );
+
+      const button = screen.getByRole('button');
+      button.click();
+      expect(zoomIn).not.toHaveBeenCalled();
     });
   });
 });

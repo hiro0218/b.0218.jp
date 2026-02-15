@@ -1,5 +1,4 @@
-import { Cluster } from '@/components/UI/Layout/Cluster';
-import { ExclamationCircle, ExclamationTriangle, ICON_SIZE_XS, InformationCircle, LightBulb } from '@/ui/icons';
+import { ExclamationCircle, ExclamationTriangle, InformationCircle, LightBulb } from '@/ui/icons';
 import { css } from '@/ui/styled';
 
 export type AlertType = 'note' | 'tip' | 'important' | 'warning' | 'caution';
@@ -11,11 +10,11 @@ type Props = {
 };
 
 const ALERT_ICONS: Record<AlertType, React.ReactNode> = {
-  note: <InformationCircle aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
-  tip: <InformationCircle aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
-  important: <LightBulb aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
-  warning: <ExclamationTriangle aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
-  caution: <ExclamationCircle aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
+  note: <InformationCircle aria-hidden="true" />,
+  tip: <InformationCircle aria-hidden="true" />,
+  important: <LightBulb aria-hidden="true" />,
+  warning: <ExclamationTriangle aria-hidden="true" />,
+  caution: <ExclamationCircle aria-hidden="true" />,
 };
 
 const ALERT_LABELS: Record<AlertType, string> = {
@@ -39,37 +38,20 @@ export function Alert({ type, html, hideLabel = false }: Props) {
   const label = ALERT_LABELS[type];
   const role = ALERT_ROLES[type];
 
-  const content = <div dangerouslySetInnerHTML={{ __html: html }} />;
-
   return (
-    <aside
-      aria-label={`${label} alert`}
-      className={containerStyle}
-      data-alert-type={type}
-      data-hide-label={hideLabel}
-      role={role}
-    >
-      {hideLabel ? (
-        <>
-          {icon}
-          {content}
-        </>
-      ) : (
-        <>
-          <Cluster className={titleStyle} gap="½">
-            {icon}
-            {label}
-          </Cluster>
-          {content}
-        </>
-      )}
+    <aside aria-label={`${label} alert`} className={containerStyle} data-alert-type={type} role={role}>
+      {icon}
+      {!hideLabel && <span className={labelStyle}>{label}</span>}
+      <div className={contentStyle} dangerouslySetInnerHTML={{ __html: html }} />
     </aside>
   );
 }
 
 const containerStyle = css`
   display: grid;
-  gap: var(--spacing-1);
+  grid-template-columns: calc(var(--spacing-1)) 1fr;
+  column-gap: var(--spacing-2);
+  align-items: flex-start;
   padding: var(--spacing-2) var(--spacing-3);
   font-size: var(--font-sizes-sm);
   color: var(--alert-color);
@@ -86,20 +68,10 @@ const containerStyle = css`
     margin: 0;
   }
 
-  &[data-hide-label='true'] {
-    display: flex;
-    gap: var(--spacing-½);
-    align-items: center;
-    padding: var(--spacing-2);
-
-    svg {
-      flex-shrink: 0;
-      height: 1lh;
-    }
-
-    & > div {
-      flex: 1;
-    }
+  & > svg {
+    width: var(--sizes-icon-xs);
+    height: var(--sizes-icon-xs);
+    min-height: 1lh;
   }
 
   &[data-alert-type='note'] {
@@ -139,8 +111,10 @@ const containerStyle = css`
   }
 `;
 
-const titleStyle = css`
-  align-items: center;
+const labelStyle = css`
   font-weight: var(--font-weights-bold);
-  color: var(--alert-color);
+`;
+
+const contentStyle = css`
+  grid-column-start: 2;
 `;

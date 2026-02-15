@@ -70,6 +70,7 @@ const containerStyle = css`
   justify-content: center;
   margin: 0 auto;
   overflow-x: auto;
+  overflow-y: hidden;
 `;
 
 const Ads = styled.div`

@@ -42,17 +42,6 @@ vi.mock('@react-aria/dialog', () => ({
 vi.mock('@react-aria/focus', () => ({
   // biome-ignore lint/style/useNamingConvention: React component mock requires PascalCase
   FocusScope: ({ children }: { children: ReactNode }) => children,
-  useFocusRing: () => ({ isFocusVisible: false, focusProps: {} }),
-}));
-
-vi.mock('@react-aria/button', () => ({
-  useButton: (props: Record<string, unknown>, _ref: unknown) => ({
-    buttonProps: { type: 'button', 'aria-label': props['aria-label'] },
-  }),
-}));
-
-vi.mock('@react-aria/utils', () => ({
-  mergeProps: (...args: Record<string, unknown>[]) => Object.assign({}, ...args),
 }));
 
 vi.mock('@radix-ui/react-icons', () => ({
