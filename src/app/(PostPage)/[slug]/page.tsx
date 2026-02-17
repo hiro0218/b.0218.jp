@@ -34,6 +34,11 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { slug: _slug } = await params;
   const slug = _slug.replace('.html', '');
   const data = getPostPageData(slug);
+
+  if (!data) {
+    notFound();
+  }
+
   const { title, content, noindex, meta, tagsWithCount } = data.post;
   const { publishedTime, modifiedTime } = meta;
   const permalink = getPermalink(slug);
