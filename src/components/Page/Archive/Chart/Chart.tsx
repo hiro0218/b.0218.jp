@@ -14,10 +14,10 @@ export const Chart = ({ archives, totalPosts }: Props) => {
   const years = Object.keys(archives);
 
   return (
-    <Wrapper>
+    <Root>
       <Container>
         {years.map((year) => {
-          const percent = `${((archives[year].length / totalPosts) * 100 * CHART_SCALE).toFixed(0)}%`;
+          const percent = `${Math.min((archives[year].length / totalPosts) * 100 * CHART_SCALE, 100).toFixed(0)}%`;
 
           return (
             <ChartItem key={year} style={{ '--percent': percent } as React.CSSProperties}>
@@ -26,64 +26,80 @@ export const Chart = ({ archives, totalPosts }: Props) => {
                 className={AnchorStyle}
                 href={`#${year}年`}
               >
-                {year}
+                <span>{year}</span>
               </Anchor>
             </ChartItem>
           );
         })}
       </Container>
-    </Wrapper>
+    </Root>
   );
 };
 
-const Wrapper = styled.div`
+const Root = styled.div`
   width: 100%;
   container-type: inline-size;
 `;
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: var(--spacing-½);
 
   @container (min-width: 600px) {
-    flex-direction: row;
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
     height: var(--spacing-5);
     overflow-x: auto;
   }
 `;
 
 const ChartItem = styled.div`
-  flex: none;
-
   @container (min-width: 600px) {
-    flex: 1;
     min-width: 5cap;
   }
 `;
 
 const AnchorStyle = css`
   --fill: var(--colors-gray-100);
-  --direction: to right;
 
-  display: flex;
-  align-items: end;
-  justify-content: center;
+  display: grid;
+  gap: var(--spacing-½);
   width: 100%;
   height: 100%;
-  padding: var(--spacing-½);
   font-size: var(--font-sizes-sm);
   font-variant-numeric: tabular-nums;
   line-height: var(--line-heights-sm);
-  color: var(--colors-gray-900);
-  background: linear-gradient(var(--direction), var(--fill) var(--percent), transparent var(--percent));
+  color: var(--colors-gray-700);
 
-  @container (min-width: 600px) {
-    --direction: to top;
+  & > span,
+  &::before {
+    grid-area: 1 / 1;
+  }
+
+  & > span {
+    align-self: end;
+    justify-self: center;
+  }
+
+  &::before {
+    align-self: end;
+    width: var(--percent);
+    height: 100%;
+    content: '';
+    background: var(--fill);
+    border-radius: var(--radii-4);
+    transition: background 0.2s var(--easings-ease-out-expo);
+
+    @container (min-width: 600px) {
+      width: 100%;
+      height: var(--percent);
+    }
   }
 
   &:hover {
     --fill: var(--colors-gray-200);
+
+    color: var(--colors-gray-900);
   }
 
   &:active,
