@@ -43,10 +43,6 @@ const HeaderContainerStyle = css`
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: 0 var(--spacing-3);
+  padding: 0;
   margin: 0 auto;
-
-  @media (--isDesktop) {
-    padding: 0;
-  }
 `;
