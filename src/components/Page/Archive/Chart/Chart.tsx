@@ -63,7 +63,6 @@ const AnchorStyle = css`
   --fill: var(--colors-gray-100);
 
   display: grid;
-  gap: var(--spacing-½);
   width: 100%;
   height: 100%;
   font-size: var(--font-sizes-sm);
