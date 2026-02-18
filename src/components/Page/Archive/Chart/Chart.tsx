@@ -21,7 +21,11 @@ export const Chart = ({ archives, totalPosts }: Props) => {
 
           return (
             <ChartItem key={year} style={{ '--percent': percent } as React.CSSProperties}>
-              <Anchor className={AnchorStyle} href={`#${year}年`}>
+              <Anchor
+                aria-label={`${year}年の記事一覧（${archives[year].length}件）`}
+                className={AnchorStyle}
+                href={`#${year}年`}
+              >
                 {year}
               </Anchor>
             </ChartItem>
