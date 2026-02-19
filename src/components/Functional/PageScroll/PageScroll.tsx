@@ -4,21 +4,15 @@ import { Tooltip } from '@/components/UI/Tooltip';
 import { ArrowUpIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
-export const PageScroll = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  return (
-    <Container data-floating>
-      <Tooltip position="top" text="ページトップへ">
-        <Button aria-label="ページトップへ" onClick={scrollToTop}>
-          <ArrowUpIcon />
-        </Button>
-      </Tooltip>
-    </Container>
-  );
-};
+export const PageScroll = () => (
+  <Container data-floating>
+    <Tooltip position="top" text="ページトップへ">
+      <Button aria-label="ページトップへ" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+        <ArrowUpIcon />
+      </Button>
+    </Tooltip>
+  </Container>
+);
 
 const Container = styled.div`
   position: fixed;
