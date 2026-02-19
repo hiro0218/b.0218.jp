@@ -3,25 +3,16 @@
 import { Tooltip } from '@/components/UI/Tooltip';
 import { ArrowUpIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled';
-/**
- * Why do you specify # for href?
- * @see https://html.spec.whatwg.org/multipage/browsing-the-web.html#scroll-to-the-fragment-identifier
- */
-export const PageScroll = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
-  return (
-    <Container data-floating>
-      <Tooltip position="top" text="ページトップへ">
-        <Button aria-label="ページトップへ" onClick={scrollToTop}>
-          <ArrowUpIcon />
-        </Button>
-      </Tooltip>
-    </Container>
-  );
-};
+export const PageScroll = () => (
+  <Container data-floating>
+    <Tooltip position="top" text="ページトップへ">
+      <Button aria-label="ページトップへ" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+        <ArrowUpIcon />
+      </Button>
+    </Tooltip>
+  </Container>
+);
 
 const Container = styled.div`
   position: fixed;
@@ -30,6 +21,15 @@ const Container = styled.div`
   z-index: var(--z-index-base);
   aspect-ratio: 1/1;
   isolation: isolate;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: fadeOut linear reverse both;
+    animation-duration: auto;
+    /* stylelint-disable-next-line plugin/browser-compat */
+    animation-timeline: scroll(root block);
+    /* stylelint-disable-next-line plugin/browser-compat */
+    animation-range: 120px 360px;
+  }
 `;
 
 const Button = styled.button`

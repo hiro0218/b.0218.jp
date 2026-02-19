@@ -9,9 +9,9 @@ import Header from '@/components/App/Header';
 import { SearchDialogProvider } from '@/components/App/Header/SearchDialogContext';
 import { Layout } from '@/components/App/Layout/AppLayout';
 import { MainContainer } from '@/components/App/Layout/MainContainer';
+import { PageScroll } from '@/components/App/PageScroll/PageScroll';
 import { ClientSideScrollRestorer } from '@/components/Functional/ClientSideScrollRestorer';
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
-import { ClientPageScroll } from '@/components/Functional/PageScroll/ClientPageScroll';
 import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
 import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constants';
 
@@ -67,7 +67,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <Layout>
             <Header />
             <MainContainer>{children}</MainContainer>
-            <ClientPageScroll />
+            <PageScroll />
             <Footer />
           </Layout>
         </SearchDialogProvider>

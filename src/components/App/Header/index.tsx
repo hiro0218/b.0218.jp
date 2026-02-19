@@ -1,19 +1,12 @@
 'use client';
 
-import dynamic from 'next/dynamic';
+import { SearchDialog } from '@/components/App/Search/SearchDialog';
 import { SearchTrigger } from '@/components/App/Search/SearchTrigger';
 import { Container } from '@/components/UI/Layout/Container';
 import { Logo } from '@/components/UI/Logo';
 import { css } from '@/ui/styled';
 import { HeaderLayout } from './HeaderLayout';
 import { useSearchDialog } from './SearchDialogContext';
-
-const SearchDialog = dynamic(
-  () => import('@/components/App/Search/SearchDialog').then((module) => module.SearchDialog),
-  {
-    ssr: false,
-  },
-);
 
 export default function Header() {
   const searchDialog = useSearchDialog();

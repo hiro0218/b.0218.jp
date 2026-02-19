@@ -40,7 +40,7 @@ export default function Page() {
           <section>
             <Hero />
           </section>
-          <Sidebar>
+          <Sidebar gap={4}>
             <Sidebar.Main>
               <Stack gap={2}>
                 <Heading as="h2">記事</Heading>
