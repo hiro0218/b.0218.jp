@@ -27,7 +27,7 @@ jobs:
     steps:
       # Pinned to v2.2.6 for security
       # https://github.com/Kesin11/actions-timeline/releases/tag/v2.2.6
-      - uses: Kesin11/actions-timeline@7c7e0821d38f27460f4a71ef874a1c8cf23602e4 # v2.2.6
+      - uses: Kesin11/actions-timeline@e018cfefea60b4f44266998551211a35a58b8097 # v3.0.0
 
       - uses: actions/checkout@v6
         with:
@@ -156,7 +156,7 @@ jobs:
       # Note: dawidd6/action-download-artifact supports cross-workflow artifact download
       # https://github.com/dawidd6/action-download-artifact/releases/tag/v12
       - name: Download base branch bundle stats
-        uses: dawidd6/action-download-artifact@0bd50d53a6d7fb5cb921e607957e9cc12b4ce392 # v12
+        uses: dawidd6/action-download-artifact@5c98f0b039f36ef966fdb7dfa9779262785ecb05 # v14
         if: success() && github.event.number
         with:
           workflow: nextjs-bundle-analysis.yml
