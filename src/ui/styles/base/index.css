@@ -166,7 +166,6 @@ h6 {
 b,
 strong {
   font-weight: var(--font-weights-bold);
-  color: var(--colors-gray-1000);
 }
 
 mark {
