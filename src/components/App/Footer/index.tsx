@@ -68,10 +68,12 @@ const Nav = styled.nav`
   gap: var(--spacing-3);
   align-items: center;
   margin-left: calc(var(--spacing-1) * -1);
+  font-family: var(--fonts-family-monospace);
   font-size: var(--font-sizes-sm);
 `;
 
 const copyrightStyle = css`
+  margin-top: var(--spacing-2);
   font-size: var(--font-sizes-xs);
   font-weight: var(--font-weights-bold);
   color: var(--colors-gray-600);
