@@ -51,6 +51,19 @@ function handleImageKeyDown(event: React.KeyboardEvent<HTMLImageElement>, onClic
   }
 }
 
+/**
+ * Enter または Space キーで dialog 背景をクリックしたように動作させる
+ * バブリングで子要素からのイベントが到達した場合は無視する
+ */
+function handleDialogKeyDown(event: React.KeyboardEvent<HTMLDialogElement>, onClose: () => void): void {
+  if (event.key === 'Enter' || event.key === ' ') {
+    if (event.target === event.currentTarget) {
+      event.preventDefault();
+      onClose();
+    }
+  }
+}
+
 interface ZoomDialogProps {
   dialogRef: RefObject<HTMLDialogElement | null>;
   dialogImgRef: RefObject<HTMLImageElement | null>;
@@ -94,12 +107,7 @@ export function ZoomDialog({
           if (e.target === e.currentTarget) onClose();
         }}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            if (e.target === e.currentTarget) {
-              e.preventDefault();
-              onClose();
-            }
-          }
+          handleDialogKeyDown(e, onClose);
         }}
         ref={dialogRef}
       >
