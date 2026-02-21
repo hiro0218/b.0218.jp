@@ -93,6 +93,14 @@ export function ZoomDialog({
         onClick={(e) => {
           if (e.target === e.currentTarget) onClose();
         }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            if (e.target === e.currentTarget) {
+              e.preventDefault();
+              onClose();
+            }
+          }
+        }}
         ref={dialogRef}
       >
         <img
