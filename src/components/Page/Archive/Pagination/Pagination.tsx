@@ -109,7 +109,7 @@ export function Pagination({ totalItems }: PaginationProps) {
         </li>
         {paginationRange.map((item, index) =>
           typeof item === 'string' ? (
-            <li data-paginate="ellipsis" key={`dots-${index}`}>
+            <li data-paginate="ellipsis" key={`dots-after-${paginationRange[index - 1]}`}>
               <EllipsisIndicator aria-hidden="true">{item}</EllipsisIndicator>
             </li>
           ) : (
