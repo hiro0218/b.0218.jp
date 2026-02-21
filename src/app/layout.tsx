@@ -57,7 +57,7 @@ export const metadata: Metadata = {
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja">
+    <html data-scroll-behavior="smooth" lang="ja">
       <body>
         <a className="skip-link" href="#main">
           メインコンテンツへスキップ

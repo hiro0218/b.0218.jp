@@ -1,5 +1,6 @@
 import { usePathname } from 'next/navigation';
-import { type CSSProperties, useEffect, useState } from 'react';
+import type { CSSProperties } from 'react';
+import { useEffect } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/constants';
 import { css, styled } from '@/ui/styled';
@@ -10,25 +11,20 @@ type Size = {
 };
 type Props = Size;
 
+function pushAd() {
+  try {
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
+  } catch (error) {
+    console.error('Failed to load AdSense ad:', error);
+  }
+}
+
 export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
   const pathname = usePathname();
-  const [isLoaded, setIsLoaded] = useState(false);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname change should trigger ad reload
   useEffect(() => {
-    setIsLoaded(true);
+    pushAd();
   }, [pathname]);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally depending on isLoaded state only
-  useEffect(() => {
-    try {
-      if (isLoaded) {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-      }
-    } catch (error) {
-      console.error('Failed to load AdSense ad:', error);
-    }
-  }, [pathname, isLoaded]);
 
   const adsStyle = {
     '--ads-height': `${adsHeight}px`,

@@ -267,6 +267,76 @@ describe('ZoomDialog', () => {
   });
 
   /* ================================================================ */
+  /*  Keyboard navigation (handleDialogKeyDown)                       */
+  /* ================================================================ */
+  describe('キーボード操作（handleDialogKeyDown）', () => {
+    it('dialog 要素自体への Enter キーで onClose が呼ばれる', () => {
+      const onClose = vi.fn();
+
+      render(
+        <ZoomDialog
+          a11yLabel="テスト"
+          alt="テスト画像"
+          dialogImgRef={createRef<HTMLImageElement>()}
+          dialogRef={createRef<HTMLDialogElement>()}
+          onCancel={vi.fn()}
+          onClose={onClose}
+          src="/test.jpg"
+        />,
+      );
+
+      const dialog = screen.getByRole('dialog', { hidden: true });
+      const prevented = !fireEvent.keyDown(dialog, { key: 'Enter' });
+
+      expect(onClose).toHaveBeenCalledOnce();
+      expect(prevented).toBe(true);
+    });
+
+    it('dialog 要素自体への Space キーで onClose が呼ばれる', () => {
+      const onClose = vi.fn();
+
+      render(
+        <ZoomDialog
+          a11yLabel="テスト"
+          alt="テスト画像"
+          dialogImgRef={createRef<HTMLImageElement>()}
+          dialogRef={createRef<HTMLDialogElement>()}
+          onCancel={vi.fn()}
+          onClose={onClose}
+          src="/test.jpg"
+        />,
+      );
+
+      const dialog = screen.getByRole('dialog', { hidden: true });
+      const prevented = !fireEvent.keyDown(dialog, { key: ' ' });
+
+      expect(onClose).toHaveBeenCalledOnce();
+      expect(prevented).toBe(true);
+    });
+
+    it('Tab キーでは dialog の onClose が呼ばれない', () => {
+      const onClose = vi.fn();
+
+      render(
+        <ZoomDialog
+          a11yLabel="テスト"
+          alt="テスト画像"
+          dialogImgRef={createRef<HTMLImageElement>()}
+          dialogRef={createRef<HTMLDialogElement>()}
+          onCancel={vi.fn()}
+          onClose={onClose}
+          src="/test.jpg"
+        />,
+      );
+
+      const dialog = screen.getByRole('dialog', { hidden: true });
+      fireEvent.keyDown(dialog, { key: 'Tab' });
+
+      expect(onClose).not.toHaveBeenCalled();
+    });
+  });
+
+  /* ================================================================ */
   /*  onCancel prop                                                   */
   /* ================================================================ */
   describe('onCancel', () => {
