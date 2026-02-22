@@ -2,7 +2,7 @@
 
 import { useTextField } from '@react-aria/textfield';
 import { mergeProps } from '@react-aria/utils';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';
 import { css, styled } from '@/ui/styled';
@@ -20,13 +20,15 @@ interface SearchHeaderProps {
  */
 export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: SearchHeaderProps) {
   const refInput = useRef<HTMLInputElement>(null);
+  const [inputValue, setInputValue] = useState(searchQuery);
 
-  const { labelProps, inputProps } = useTextField(
+  const { inputProps } = useTextField(
     {
       'aria-label': '検索キーワード',
       type: 'text',
       autoComplete: 'off',
-      defaultValue: searchQuery,
+      value: inputValue,
+      onChange: setInputValue,
       inputMode: 'search',
     },
     refInput,
@@ -41,17 +43,15 @@ export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: Searc
 
   const handleClear = () => {
     onClear();
-    if (refInput.current) {
-      refInput.current.value = '';
-      refInput.current.focus();
-    }
+    setInputValue('');
+    refInput.current?.focus();
   };
 
   return (
     <div className={headerStyle}>
-      <label {...labelProps} className={headerIconStyle}>
+      <span className={headerIconStyle}>
         <MagnifyingGlassIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
-      </label>
+      </span>
       <SearchInput
         {...mergeProps(inputProps, {
           'aria-autocomplete': 'list' as const,
@@ -63,7 +63,7 @@ export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: Searc
         ref={refInput}
       />
       <div className={clearButtonWrapperStyle}>
-        <SearchClearButton disabled={!searchQuery} onClear={handleClear} />
+        <SearchClearButton disabled={!inputValue} onClear={handleClear} />
       </div>
     </div>
   );
@@ -72,7 +72,9 @@ export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: Searc
 const headerStyle = css`
   position: relative;
   display: flex;
-  padding: var(--spacing-½) 0;
+  gap: var(--spacing-1);
+  align-items: center;
+  padding: var(--spacing-½) 0 var(--spacing-½) var(--spacing-2);
   background-color: var(--colors-gray-a-50);
   border-radius: var(--radii-4);
   transition: background-color 0.2s ease-in-out;
@@ -87,9 +89,10 @@ const headerStyle = css`
 `;
 
 const headerIconStyle = css`
-  display: flex;
-  align-items: center;
-  padding: 0 var(--spacing-1) 0 var(--spacing-2);
+  display: grid;
+  place-items: center;
+  width: var(--spacing-3);
+  height: var(--spacing-3);
 `;
 
 const SearchInput = styled.input`
@@ -97,6 +100,7 @@ const SearchInput = styled.input`
   height: var(--spacing-4);
   padding: 0;
   font-size: var(--font-sizes-md);
+  cursor: text;
   background-color: transparent;
   border: none;
 

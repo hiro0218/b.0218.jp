@@ -90,7 +90,9 @@ const anchorStyle = css`
     content: '';
   }
 
-  &:hover {
+  &:hover,
+  &:focus,
+  &:focus-within {
     & > * {
       color: var(--hover-color);
     }

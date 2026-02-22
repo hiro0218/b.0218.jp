@@ -5,6 +5,7 @@ import type { SearchState } from '../../types';
 
 type UseSearchManagerProps = {
   debounceDelayMs?: number;
+  getInitialState?: () => SearchState | null;
 };
 
 const initialState: SearchState = {
@@ -18,8 +19,8 @@ const initialState: SearchState = {
  * 転置インデックスベースの高速検索を使用
  * archivesパラメータは不要（ビルド時生成の検索インデックスを使用）
  */
-export const useSearchManager = ({ debounceDelayMs = 300 }: UseSearchManagerProps = {}) => {
-  const [state, setState] = useState<SearchState>(initialState);
+export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: UseSearchManagerProps = {}) => {
+  const [state, setState] = useState<SearchState>(() => getInitialState?.() ?? initialState);
   const searchWithCache = useSearchWithCache();
   const lastQueryRef = useRef('');
 

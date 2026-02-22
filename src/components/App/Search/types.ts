@@ -30,5 +30,4 @@ export type RankedSearchResult = {
 export interface SearchState {
   results: SearchResultItem[];
   query: string;
-  focusedIndex?: number;
 }

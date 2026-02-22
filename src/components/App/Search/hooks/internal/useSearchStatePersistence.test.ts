@@ -32,7 +32,6 @@ describe('useSearchStatePersistence', () => {
         matchedIn: 'both' as const,
       },
     ] as SearchResultItem[],
-    focusedIndex: 0,
   };
 
   const mockStoredState = {
@@ -59,7 +58,6 @@ describe('useSearchStatePersistence', () => {
       expect.objectContaining({
         query: 'React',
         results: mockSearchState.results,
-        focusedIndex: 0,
         timestamp: 1000000,
       }),
     );
@@ -76,7 +74,6 @@ describe('useSearchStatePersistence', () => {
     expect(loaded).toEqual({
       query: 'React',
       results: mockSearchState.results,
-      focusedIndex: 0,
     });
   });
 

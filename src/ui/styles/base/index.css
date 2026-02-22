@@ -166,7 +166,6 @@ h6 {
 b,
 strong {
   font-weight: var(--font-weights-bold);
-  color: var(--colors-gray-1000);
 }
 
 mark {
@@ -308,10 +307,13 @@ del {
     height: 0;
     overflow-y: clip;
     opacity: 0;
+    transform: translateY(-8px);
+    /* 閉じる時: コンテンツが先にフェードアウト → 高さ収縮 */
     transition:
-      height 0.2s var(--easings-ease-out-expo),
-      opacity 0.2s linear,
-      content-visibility 0.2s ease allow-discrete;
+      height 0.3s var(--easings-ease-out-expo) 0.08s,
+      opacity 0.2s var(--easings-ease-out-expo),
+      transform 0.2s var(--easings-ease-out-expo),
+      content-visibility 0.3s ease allow-discrete;
   }
 
   details[open]::details-content {
@@ -319,6 +321,13 @@ del {
     /* stylelint-disable-next-line declaration-property-value-no-unknown */
     height: calc-size(auto, size);
     opacity: 1;
+    transform: translateY(0);
+    /* 開く時: 高さが先に展開 → コンテンツがフェードイン */
+    transition:
+      height 0.4s var(--easings-ease-out-expo),
+      opacity 0.3s var(--easings-ease-out-expo) 0.1s,
+      transform 0.3s var(--easings-ease-out-expo) 0.1s,
+      content-visibility 0.4s ease allow-discrete;
   }
 }
 

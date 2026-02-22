@@ -41,7 +41,6 @@ const Avatar = styled.div`
   flex-shrink: 0;
   width: var(--sizes-icon-xl);
   height: var(--sizes-icon-xl);
-  user-select: none;
 
   img {
     aspect-ratio: 1/1;
