@@ -72,7 +72,9 @@ export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: Searc
 const headerStyle = css`
   position: relative;
   display: flex;
-  padding: var(--spacing-½) 0;
+  gap: var(--spacing-1);
+  align-items: center;
+  padding: var(--spacing-½) 0 var(--spacing-½) var(--spacing-2);
   background-color: var(--colors-gray-a-50);
   border-radius: var(--radii-4);
   transition: background-color 0.2s ease-in-out;
@@ -87,9 +89,10 @@ const headerStyle = css`
 `;
 
 const headerIconStyle = css`
-  display: flex;
-  align-items: center;
-  padding: 0 var(--spacing-1) 0 var(--spacing-2);
+  display: grid;
+  place-items: center;
+  width: var(--spacing-3);
+  height: var(--spacing-3);
 `;
 
 const SearchInput = styled.input`
