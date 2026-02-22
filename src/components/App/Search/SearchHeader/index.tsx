@@ -21,7 +21,7 @@ interface SearchHeaderProps {
 export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: SearchHeaderProps) {
   const refInput = useRef<HTMLInputElement>(null);
 
-  const { labelProps, inputProps } = useTextField(
+  const { inputProps } = useTextField(
     {
       'aria-label': '検索キーワード',
       type: 'text',
@@ -49,9 +49,9 @@ export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: Searc
 
   return (
     <div className={headerStyle}>
-      <label {...labelProps} className={headerIconStyle}>
+      <span className={headerIconStyle}>
         <MagnifyingGlassIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
-      </label>
+      </span>
       <SearchInput
         {...mergeProps(inputProps, {
           'aria-autocomplete': 'list' as const,
