@@ -2,7 +2,7 @@
 
 import { useTextField } from '@react-aria/textfield';
 import { mergeProps } from '@react-aria/utils';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';
 import { css, styled } from '@/ui/styled';
@@ -20,13 +20,15 @@ interface SearchHeaderProps {
  */
 export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: SearchHeaderProps) {
   const refInput = useRef<HTMLInputElement>(null);
+  const [inputValue, setInputValue] = useState(searchQuery);
 
   const { inputProps } = useTextField(
     {
       'aria-label': '検索キーワード',
       type: 'text',
       autoComplete: 'off',
-      defaultValue: searchQuery,
+      value: inputValue,
+      onChange: setInputValue,
       inputMode: 'search',
     },
     refInput,
@@ -41,10 +43,8 @@ export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: Searc
 
   const handleClear = () => {
     onClear();
-    if (refInput.current) {
-      refInput.current.value = '';
-      refInput.current.focus();
-    }
+    setInputValue('');
+    refInput.current?.focus();
   };
 
   return (
@@ -63,7 +63,7 @@ export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: Searc
         ref={refInput}
       />
       <div className={clearButtonWrapperStyle}>
-        <SearchClearButton disabled={!searchQuery} onClear={handleClear} />
+        <SearchClearButton disabled={!inputValue} onClear={handleClear} />
       </div>
     </div>
   );

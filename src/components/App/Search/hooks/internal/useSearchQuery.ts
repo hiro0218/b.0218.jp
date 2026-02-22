@@ -3,7 +3,7 @@
 import { useCallback, useEffect } from 'react';
 import type { SearchResultItem } from '../../types';
 import { useSearchManager } from './useSearchManager';
-import { useSearchStatePersistence } from './useSearchStatePersistence';
+import { readSearchStateSync, useSearchStatePersistence } from './useSearchStatePersistence';
 import { useSearchStateRestoration } from './useSearchStateRestoration';
 
 /**
@@ -86,6 +86,7 @@ export const useSearchQuery = (options: UseSearchQueryOptions = {}): UseSearchQu
     setResults,
   } = useSearchManager({
     debounceDelayMs: debounceMs,
+    getInitialState: persistState ? readSearchStateSync : undefined,
   });
 
   // ===== 状態永続化 =====
