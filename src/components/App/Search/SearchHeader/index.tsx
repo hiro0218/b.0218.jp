@@ -97,6 +97,7 @@ const SearchInput = styled.input`
   height: var(--spacing-4);
   padding: 0;
   font-size: var(--font-sizes-md);
+  cursor: text;
   background-color: transparent;
   border: none;
 
