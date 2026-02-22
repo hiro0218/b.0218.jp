@@ -2,11 +2,10 @@
 
 import { useKeyboard } from '@react-aria/interactions';
 import { useRouter } from 'next/navigation';
-import type { RefObject } from 'react';
+import { type RefObject, useCallback, useState } from 'react';
 import { isHTMLElement } from '@/lib/browser/typeGuards';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { SearchResultItem } from '../../types';
-import { useSearchFocusState } from './useSearchFocusState';
 
 /**
  * useSearchNavigation のオプション
@@ -17,9 +16,6 @@ export interface UseSearchNavigationOptions {
 
   /** ダイアログを閉じる処理（オプション） */
   onClose?: () => void;
-
-  /** ナビゲーション時のコールバック（オプション） */
-  onNavigate?: (index: number) => void;
 
   /**
    * ループナビゲーションを有効化
@@ -56,27 +52,12 @@ export interface UseSearchNavigationReturn {
  * フォーカス管理、キーボードナビゲーションを統合
  *
  * @description
- * 以下のフックを統合:
- * - useSearchFocusState: フォーカスインデックス管理
- * - useKeyboard（ナビゲーション部分）: 矢印キー、Home/End、Escapeの処理
- *
- * @example
- * ```tsx
- * const navigation = useSearchNavigation({
- *   resultsLength: results.length,
- *   onClose: handleClose,
- *   loop: true,
- *   resultsRef,
- *   getResultRef,
- * });
- *
- * <div {...navigation.containerProps}>...</div>
- * ```
+ * フォーカスインデックス管理と矢印キー、Home/End、Escapeの処理を提供。
+ * ループナビゲーション対応（最後の次 → 最初、最初の前 → 最後）。
  */
 export const useSearchNavigation = ({
   resultsLength,
   onClose,
-  onNavigate,
   loop = true,
   resultsRef,
   getResultRef,
@@ -84,10 +65,37 @@ export const useSearchNavigation = ({
   const router = useRouter();
 
   // ===== フォーカス管理 =====
-  const { focusedIndex, setFocusedIndex, resetFocus, moveUp, moveDown, moveToFirst, moveToLast } = useSearchFocusState({
-    resultsLength,
-    loop,
-  });
+  const [focusedIndex, setFocusedIndex] = useState(-1);
+
+  const resetFocus = useCallback(() => {
+    setFocusedIndex(-1);
+  }, []);
+
+  const moveUp = useCallback(() => {
+    setFocusedIndex((prev) => {
+      if (loop) {
+        return prev > -1 ? prev - 1 : resultsLength - 1;
+      }
+      return Math.max(-1, prev - 1);
+    });
+  }, [resultsLength, loop]);
+
+  const moveDown = useCallback(() => {
+    setFocusedIndex((prev) => {
+      if (loop) {
+        return prev < resultsLength - 1 ? prev + 1 : -1;
+      }
+      return Math.min(resultsLength - 1, prev + 1);
+    });
+  }, [resultsLength, loop]);
+
+  const moveToFirst = useCallback(() => {
+    setFocusedIndex(resultsLength > 0 ? 0 : -1);
+  }, [resultsLength]);
+
+  const moveToLast = useCallback(() => {
+    setFocusedIndex(resultsLength > 0 ? resultsLength - 1 : -1);
+  }, [resultsLength]);
 
   // ===== キーボードナビゲーション =====
   const { keyboardProps } = useKeyboard({
@@ -106,13 +114,11 @@ export const useSearchNavigation = ({
         case 'ArrowDown':
           e.preventDefault();
           moveDown();
-          if (onNavigate) onNavigate(focusedIndex);
           break;
 
         case 'ArrowUp':
           e.preventDefault();
           moveUp();
-          if (onNavigate) onNavigate(focusedIndex);
           break;
 
         case 'Home':

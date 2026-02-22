@@ -3,8 +3,7 @@
 import { useCallback, useEffect } from 'react';
 import type { SearchResultItem } from '../../types';
 import { useSearchManager } from './useSearchManager';
-import { readSearchStateSync, useSearchStatePersistence } from './useSearchStatePersistence';
-import { useSearchStateRestoration } from './useSearchStateRestoration';
+import { readSearchStateSync, useSearchStatePersistence, useSearchStateRestoration } from './useSearchStatePersistence';
 
 /**
  * useSearchQuery のオプション
@@ -63,8 +62,7 @@ export interface UseSearchQueryReturn {
  *
  * 以下のフックを統合:
  * - useSearchManager: 検索実行管理
- * - useSearchStatePersistence: 状態永続化
- * - useSearchStateRestoration: 検索状態復元
+ * - useSearchStatePersistence: 状態永続化・復元
  *
  * @example
  * ```tsx
@@ -108,21 +106,8 @@ export const useSearchQuery = (options: UseSearchQueryOptions = {}): UseSearchQu
     saveSearchState({
       query: state.query,
       results: state.results,
-      // focusedIndex はキーボードナビゲーション用の一時的な状態であり、
-      // セッション間でフォーカス位置を復元しない設計のため、永続化時は常に
-      // 「未フォーカス」を表す -1 に固定する。
-      // 実際のフォーカス管理は useSearchNavigation が行い、永続化された値は
-      // 参照されないが、保存データのスキーマを保つためにキー自体は保持しておく。
-      focusedIndex: -1,
     });
   }, [persistState, state.query, state.results, saveSearchState]);
-
-  const search = useCallback(
-    (query: string) => {
-      executeSearch(query);
-    },
-    [executeSearch],
-  );
 
   const reset = useCallback(() => {
     resetManager();
@@ -134,7 +119,7 @@ export const useSearchQuery = (options: UseSearchQueryOptions = {}): UseSearchQu
     results: state.results,
     isLoading: false, // SSGのため常にfalse
     error: null, // SSGのため常にnull
-    search,
+    search: executeSearch,
     debouncedSearch,
     reset,
     setResults,

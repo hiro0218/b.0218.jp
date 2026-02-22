@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import useIsClient from '@/hooks/useIsClient';
 import { getSessionStorage, removeSessionStorage, setSessionStorage } from '@/lib/browser/safeSessionStorage';
 import type { SearchResultItem, SearchState as SharedSearchState } from '../../types';
@@ -8,7 +8,6 @@ import type { SearchResultItem, SearchState as SharedSearchState } from '../../t
 type SearchState = {
   query: string;
   results: SearchResultItem[];
-  focusedIndex: number;
   isOpen?: boolean;
 };
 
@@ -86,4 +85,69 @@ export const useSearchStatePersistence = () => {
     loadSearchState,
     clearSearchState,
   };
+};
+
+// ===== 状態復元 =====
+
+interface UseSearchStateRestorationProps {
+  persistState: boolean;
+  executeSearch: (query: string) => void;
+  setResults: (results: SearchResultItem[], query: string) => void;
+  loadSearchState: () => { query: string; results: SearchResultItem[] } | null;
+}
+
+/**
+ * sessionStorage から検索状態を復元し、検索を再実行するフック
+ *
+ * @description
+ * - キャッシュされた結果を即座に表示（初回ハイドレーション）
+ * - 転置インデックスによる検索を再実行して最新結果を取得
+ */
+export const useSearchStateRestoration = ({
+  persistState,
+  executeSearch,
+  setResults,
+  loadSearchState,
+}: UseSearchStateRestorationProps) => {
+  const savedStateRef = useRef<ReturnType<typeof loadSearchState>>(null);
+  const hasHydratedResultsRef = useRef(false);
+  const hasExecutedRestorationRef = useRef(false);
+
+  const tryRestoreSearchState = useCallback(() => {
+    if (!persistState) return;
+
+    const savedState = savedStateRef.current ?? loadSearchState();
+    if (!savedState?.query) return;
+
+    // 初回ハイドレーション: キャッシュされた結果を即座に表示
+    if (!hasHydratedResultsRef.current) {
+      setResults(savedState.results ?? [], savedState.query);
+      hasHydratedResultsRef.current = true;
+      savedStateRef.current = savedState;
+    }
+
+    if (hasExecutedRestorationRef.current) {
+      return;
+    }
+
+    // 転置インデックスは常に利用可能なため、即座に検索を再実行
+    executeSearch(savedState.query);
+    hasExecutedRestorationRef.current = true;
+  }, [executeSearch, loadSearchState, persistState, setResults]);
+
+  // 初回マウント時の状態初期化
+  // biome-ignore lint/correctness/useExhaustiveDependencies: 初回マウント時のみ実行
+  useEffect(() => {
+    if (!persistState) return;
+
+    savedStateRef.current = loadSearchState();
+    hasHydratedResultsRef.current = false;
+    hasExecutedRestorationRef.current = false;
+    tryRestoreSearchState();
+  }, []);
+
+  // 復元を試行
+  useEffect(() => {
+    tryRestoreSearchState();
+  }, [tryRestoreSearchState]);
 };
