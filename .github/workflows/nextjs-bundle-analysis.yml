@@ -156,7 +156,7 @@ jobs:
       # Note: dawidd6/action-download-artifact supports cross-workflow artifact download
       # https://github.com/dawidd6/action-download-artifact/releases/tag/v12
       - name: Download base branch bundle stats
-        uses: dawidd6/action-download-artifact@5c98f0b039f36ef966fdb7dfa9779262785ecb05 # v14
+        uses: dawidd6/action-download-artifact@fe9d59ce33ce92db8a6ac90b2c8be6b6d90417c8 # v15
         if: success() && github.event.number
         with:
           workflow: nextjs-bundle-analysis.yml
