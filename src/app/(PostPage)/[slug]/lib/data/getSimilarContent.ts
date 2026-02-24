@@ -82,13 +82,13 @@ export function getSimilarTags(tag: string) {
   }
 
   const tagSlugs = Object.keys(similarTagsList);
-  const validTags: { slug: string; count: number }[] = [];
+  const validTags: { slug: string; count: number; isNavigable: boolean }[] = [];
 
   for (let i = 0; i < tagSlugs.length; i++) {
     const slug = tagSlugs[i];
     const tagPosts = getTagPostsMapping(slug);
     if (tagPosts.length >= TAG_VIEW_LIMIT) {
-      validTags.push({ slug, count: tagPosts.length });
+      validTags.push({ slug, count: tagPosts.length, isNavigable: true });
     }
   }
 

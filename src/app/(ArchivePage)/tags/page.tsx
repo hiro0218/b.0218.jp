@@ -9,7 +9,9 @@ import { getWebPageStructured } from '@/lib/domain/json-ld';
 
 type ListItemProps = Parameters<typeof getWebPageStructured>[0]['listItem'];
 
-const tags = getTagsWithCount().filter((tag) => tag.count >= TAG_VIEW_LIMIT);
+const tags = getTagsWithCount()
+  .filter((tag) => tag.count >= TAG_VIEW_LIMIT)
+  .map((tag) => ({ ...tag, isNavigable: true as const }));
 const title = 'Tags';
 const description = `${tags.length}件のタグ`;
 const url = `${SITE_URL}/tags`;

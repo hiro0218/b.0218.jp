@@ -1,3 +1,4 @@
+import { TAG_VIEW_LIMIT } from '@/constants';
 import { getPostBySlug, getTagsWithCount } from '@/lib/data/posts';
 import type { Post } from '@/types/source';
 
@@ -35,5 +36,8 @@ export function getTagsWithCountFromSlugs(slugs: string[]) {
     return [];
   }
 
-  return slugs.map((slug) => tagDataWithCountBySlug[slug]).filter(Boolean);
+  return slugs
+    .map((slug) => tagDataWithCountBySlug[slug])
+    .filter(Boolean)
+    .map((tag) => ({ ...tag, isNavigable: tag.count >= TAG_VIEW_LIMIT }));
 }
