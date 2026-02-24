@@ -26,7 +26,7 @@ npm run dev       # https://localhost:8080 (HTTPSのみ)
 ## 🔴 クリティカルルール
 
 1. **ゼロマージン**: UIコンポーネントは外部マージンを設定しない → [components.md](.claude/rules/components.md#-zero-margin-principle-critical)
-2. **レイヤー依存**: UI ↔ Functional は独立、Page → UI/Functional → [components.md](.claude/rules/components.md#-レイヤー依存関係-critical)
+2. **レイヤー依存**: UI ↔ Functional は独立、Page → UI/Functional。Functional 層は非可視コンポーネントのみ（`null` / `<script>` / `<link>`）→ [components.md](.claude/rules/components.md#-レイヤー依存関係-critical)
 3. **Server First**: デフォルトは Server Component → [architecture.md](.claude/rules/architecture.md#-server-first--ssg-critical)
 4. **React Compiler 確認**: 最適化前に `next.config.mjs` を確認 → [react-compiler-optimization.md](.claude/rules/react-compiler-optimization.md)
 
