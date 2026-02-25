@@ -130,12 +130,12 @@ const styleAnchor = css`
   align-items: center;
   width: 100%;
   padding-block: var(--spacing-1);
-  border-radius: var(--radii-8);
   color: var(--colors-gray-700);
+  border-radius: var(--radii-8);
 
   &:hover {
-    background-color: var(--colors-gray-a-100);
     color: var(--colors-gray-800);
+    background-color: var(--colors-gray-a-100);
 
     --year-post-separator-size-h: var(--spacing-3);
     --year-post-separator-size-w: var(--spacing-1);
