@@ -7,7 +7,7 @@ import { Stack } from '@/components/UI/Layout';
 import { Toast, useToast } from '@/components/UI/Toast';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { X_ACCOUNT } from '@/constants';
-import { Hatenabookmark, ICON_SIZE_SM, Link2Icon, Share1Icon, X } from '@/ui/icons';
+import { Hatenabookmark, ICON_SIZE_SM, LinkIcon, ShareIcon, X } from '@/ui/icons';
 import { css, cx } from '@/ui/styled';
 
 interface Props {
@@ -84,18 +84,18 @@ function PostShare({ title, url }: Props) {
         </Tooltip>
         <Tooltip text="ページのURLをコピー">
           <button className={classNames} onClick={onClickCopyPermalink} type="button">
-            <Link2Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+            <LinkIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
           </button>
         </Tooltip>
         {isShareSupported ? (
           <Tooltip text="その他：共有">
             <button aria-label="その他：共有" className={classNames} onClick={onClickShare} type="button">
-              <Share1Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+              <ShareIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
             </button>
           </Tooltip>
         ) : (
           <button aria-label="共有に未対応" className={classNames} disabled type="button">
-            <Share1Icon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+            <ShareIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
           </button>
         )}
       </Stack>

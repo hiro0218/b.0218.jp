@@ -2,3 +2,13 @@
   min-height: 100%;
   isolation: isolate;
 }
+
+/**
+ * workaround
+ * shokika.css で svg { stroke: none; fill: currentColor } を設定しているため、
+ * アイコンの色が currentColor で指定されている場合は stroke と fill を currentColor にする。
+ */
+svg[data-slot='icon'] {
+  fill: none;
+  stroke: currentColor;
+}

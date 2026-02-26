@@ -44,9 +44,9 @@ vi.mock('@react-aria/focus', () => ({
   FocusScope: ({ children }: { children: ReactNode }) => children,
 }));
 
-vi.mock('@radix-ui/react-icons', () => ({
+vi.mock('@heroicons/react/24/outline', () => ({
   // biome-ignore lint/style/useNamingConvention: React component mock requires PascalCase
-  ZoomInIcon: (props: Record<string, unknown>) => <span data-testid="zoom-icon" {...props} />,
+  MagnifyingGlassPlusIcon: (props: Record<string, unknown>) => <span data-testid="zoom-icon" {...props} />,
 }));
 
 /* ------------------------------------------------------------------ */

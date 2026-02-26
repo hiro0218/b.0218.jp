@@ -1,6 +1,6 @@
 'use client';
 
-import { ZoomInIcon } from '@radix-ui/react-icons';
+import { MagnifyingGlassPlusIcon } from '@heroicons/react/24/outline';
 import type { CSSProperties, ImgHTMLAttributes, ReactNode, RefObject } from 'react';
 import { css, cx } from '@/ui/styled';
 
@@ -94,7 +94,7 @@ export function ZoomTriggerButton({
     >
       <img alt={alt} src={src} style={style} {...imgProps} onLoad={onImageLoad} ref={imgRef} />
       <span aria-hidden="true" className={cx(zoomIndicatorStyle, 'zoom-indicator')}>
-        <ZoomInIcon className={zoomIconStyle} />
+        <MagnifyingGlassPlusIcon className={zoomIconStyle} />
       </span>
     </button>
   );

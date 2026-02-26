@@ -1,4 +1,4 @@
-import { Cross2Icon, ICON_SIZE_XS } from '@/ui/icons';
+import { ICON_SIZE_XS, XMarkIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 export function SearchClearButton({ onClear, disabled = false }: Props) {
   return (
     <Button aria-label="検索キーワードをクリア" disabled={disabled} onClick={onClear} type="button">
-      <Cross2Icon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
+      <XMarkIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
     </Button>
   );
 }

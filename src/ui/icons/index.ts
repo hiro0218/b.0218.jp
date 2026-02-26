@@ -1,53 +1,27 @@
 export {
   ArrowUpIcon,
-  CaretLeftIcon,
-  CaretRightIcon,
   ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   ChevronUpIcon,
-  Cross2Icon,
-  GitHubLogoIcon,
-  InfoCircledIcon,
-  Link2Icon,
+  ExclamationCircleIcon,
+  ExclamationTriangleIcon,
+  HashtagIcon,
+  InformationCircleIcon,
+  LightBulbIcon,
+  LinkIcon,
   MagnifyingGlassIcon,
-  Share1Icon,
-} from '@radix-ui/react-icons';
-export { ChatBubbleLeft } from './ChatBubbleLeft';
-export { ExclamationCircle } from './ExclamationCircle';
-export { ExclamationTriangle } from './ExclamationTriangle';
-export { Hashtag } from './Hashtag';
+  MagnifyingGlassPlusIcon,
+  ShareIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
+export { GitHubLogo } from './GitHubLogo';
 export { Hatenabookmark } from './Hatenabookmark';
-export { InformationCircle } from './InformationCircle';
-export { LightBulb } from './LightBulb';
-export { MagnifyingGlass } from './MagnifyingGlass';
 export { X } from './X';
 
-const BASE = 15;
-const SCALE = 1.5;
-const STEP = 5;
-
-function generateIconSizes(initialSize: number, scale: number, steps: number): Record<string, number> {
-  const sizes: Record<string, number> = {};
-  let currentSize = initialSize;
-  const step = ['XS', 'SM', 'MD', 'LG', 'XL'];
-
-  for (let i = 0; i < steps; i++) {
-    const key = `ICON_SIZE_${step[i] || `STEP${i + 1}`}`;
-    sizes[key] = Math.round(currentSize);
-    currentSize = Math.floor(currentSize * scale);
-  }
-
-  return sizes;
-}
-
-export const {
-  /** 15 */
-  ICON_SIZE_XS,
-  /** 20 */
-  ICON_SIZE_SM,
-  /** 30 */
-  ICON_SIZE_MD,
-  /** 45 */
-  ICON_SIZE_LG,
-  /** 67 */
-  ICON_SIZE_XL,
-} = generateIconSizes(BASE, SCALE, STEP);
+/** heroicons 24/outline (viewBox 24x24, stroke-width 1.5) に最適化した 4px グリッドスケール */
+export const ICON_SIZE_XS = 16;
+export const ICON_SIZE_SM = 24;
+export const ICON_SIZE_MD = 32;
+export const ICON_SIZE_LG = 48;
+export const ICON_SIZE_XL = 72;

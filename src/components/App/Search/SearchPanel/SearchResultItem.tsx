@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { Anchor } from '@/components/UI/Anchor';
 import { convertPostSlugToPath } from '@/lib/utils/url';
-import { Hashtag, ICON_SIZE_XS, MagnifyingGlass } from '@/ui/icons/index';
+import { HashtagIcon, ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons/index';
 import { cx } from '@/ui/styled';
 import type { MatchedIn } from '../types';
 import { AnchorStyle, FocusedContainerStyle, LinkContainerStyle } from './SearchResultItem.styles';
@@ -33,9 +33,9 @@ export const SearchResultItem = forwardRef<HTMLDivElement, SearchResultItemProps
       >
         <Anchor className={AnchorStyle} href={link} onClick={onLinkClick} prefetch={false}>
           {matchedIn === 'tag' ? (
-            <Hashtag height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
+            <HashtagIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
           ) : (
-            <MagnifyingGlass height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
+            <MagnifyingGlassIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
           )}
           <span dangerouslySetInnerHTML={{ __html: title }} />
         </Anchor>

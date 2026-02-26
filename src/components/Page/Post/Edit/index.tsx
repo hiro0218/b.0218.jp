@@ -1,5 +1,5 @@
 import { DropdownMenu } from '@/components/UI/DropdownMenu/index';
-import { GitHubLogoIcon, ICON_SIZE_SM } from '@/ui/icons';
+import { GitHubLogo, ICON_SIZE_SM } from '@/ui/icons';
 import { css } from '@/ui/styled';
 
 type Props = {
@@ -14,7 +14,7 @@ function PostEdit({ slug }: Props) {
         title={
           <>
             <span className="sr-only">Feedback</span>
-            <GitHubLogoIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+            <GitHubLogo height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
           </>
         }
       >
