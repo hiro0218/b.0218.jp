@@ -10,6 +10,7 @@
     "build:ogp": "node --require esbuild-register ./build/ogp/index.ts",
     "build:popular": "node --require esbuild-register ./build/popular",
     "build:search": "node --require esbuild-register ./build/search",
+    "build:category": "node --require esbuild-register ./build/category",
     "build:similarity": "node --require esbuild-register ./build/similarity",
     "coverage": "vitest run --coverage",
     "dev": "NODE_OPTIONS='--inspect' next dev -p 8080 --experimental-https --webpack",
