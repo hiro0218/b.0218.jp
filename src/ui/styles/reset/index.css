@@ -6,7 +6,9 @@
 /**
  * workaround
  * shokika.css で svg { stroke: none; fill: currentColor } を設定しているため、
- * アイコンの色が currentColor で指定されている場合は stroke と fill を currentColor にする。
+ * Heroicons (outline) の stroke ベース描画が無効化される。
+ * data-slot="icon" は @heroicons/react が全アイコンに付与する属性。
+ * fill: none で塗りを無効化し、stroke: currentColor でアイコンの線描画を復元する。
  */
 svg[data-slot='icon'] {
   fill: none;
