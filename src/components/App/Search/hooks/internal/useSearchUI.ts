@@ -49,15 +49,11 @@ export const useSearchUI = ({ dialogRef, focusedIndex, resultsLength }: UseSearc
       dialogRef,
     });
 
-  // 初回マウント時にDOM参照を解決
+  // DOM参照を解決（マウント時 + 結果数変化時）
   useLayoutEffect(() => {
     updateDOMRefs();
-  }, [updateDOMRefs]);
-
-  // 結果数が減少したときの参照リークを防止
-  useLayoutEffect(() => {
     clearExcessRefs(resultsLength);
-  }, [resultsLength, clearExcessRefs]);
+  }, [updateDOMRefs, resultsLength, clearExcessRefs]);
 
   // focusedIndex の変更を監視して DOM 操作を実行
   useLayoutEffect(() => {
