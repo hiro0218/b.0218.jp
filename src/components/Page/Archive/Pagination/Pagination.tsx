@@ -1,7 +1,7 @@
 'use client';
 
 import { useId } from 'react';
-import { CaretLeftIcon, CaretRightIcon, ICON_SIZE_XS } from '@/ui/icons';
+import { ChevronLeftIcon, ChevronRightIcon, ICON_SIZE_XS } from '@/ui/icons';
 import { css, styled } from '@/ui/styled';
 import { useCurrentPage } from './hooks/useCurrentPage';
 import { usePagination } from './hooks/usePagination';
@@ -31,7 +31,7 @@ const NavigationButton = ({ direction, currentPage, totalPages, onPageChange }: 
   const isPrevious = direction === 'previous';
   const targetPage = isPrevious ? currentPage - 1 : currentPage + 1;
   const isDisabled = isPrevious ? currentPage <= 1 : currentPage >= totalPages;
-  const Icon = isPrevious ? CaretLeftIcon : CaretRightIcon;
+  const Icon = isPrevious ? ChevronLeftIcon : ChevronRightIcon;
   const label = isPrevious ? `前のページへ（現在${currentPage}ページ）` : `次のページへ（現在${currentPage}ページ）`;
 
   return (

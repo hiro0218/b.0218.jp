@@ -11,9 +11,9 @@ vi.mock('@/ui/styled', () => ({
   cx: (...args: string[]) => args.filter(Boolean).join(' '),
 }));
 
-vi.mock('@radix-ui/react-icons', () => ({
+vi.mock('@heroicons/react/24/outline', () => ({
   // biome-ignore lint/style/useNamingConvention: React component mock requires PascalCase
-  ZoomInIcon: (props: Record<string, unknown>) => <span data-testid="zoom-icon" {...props} />,
+  MagnifyingGlassPlusIcon: (props: Record<string, unknown>) => <span data-testid="zoom-icon" {...props} />,
 }));
 
 /* ------------------------------------------------------------------ */

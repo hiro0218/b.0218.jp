@@ -26,9 +26,9 @@ npm run build:article
 echo "✓ Article build completed"
 echo ""
 
-# 3-5. 類似度計算・検索インデックス生成・人気記事取得を並列実行
-# 3つのステップは posts.json / posts-list.json を読み込むのみで相互依存なし
-echo -e "${GREEN}[3/4] Running similarity, search, and popular in parallel...${NC}"
+# 3-5. 類似度計算・検索インデックス生成・人気記事取得・タグカテゴリ分類を並列実行
+# 4つのステップは posts.json / posts-list.json / tags.json を読み込むのみで相互依存なし
+echo -e "${GREEN}[3/4] Running similarity, search, popular, and category in parallel...${NC}"
 
 npm run build:similarity &
 PID_SIMILARITY=$!
@@ -39,16 +39,21 @@ PID_SEARCH=$!
 npm run build:popular &
 PID_POPULAR=$!
 
+npm run build:category &
+PID_CATEGORY=$!
+
 PARALLEL_FAILED=0
 EXIT_SIMILARITY=0
 EXIT_SEARCH=0
 EXIT_POPULAR=0
+EXIT_CATEGORY=0
 
 wait $PID_SIMILARITY; EXIT_SIMILARITY=$?
 wait $PID_SEARCH; EXIT_SEARCH=$?
 wait $PID_POPULAR; EXIT_POPULAR=$?
+wait $PID_CATEGORY; EXIT_CATEGORY=$?
 
-if [ $EXIT_SIMILARITY -ne 0 ] || [ $EXIT_SEARCH -ne 0 ] || [ $EXIT_POPULAR -ne 0 ]; then
+if [ $EXIT_SIMILARITY -ne 0 ] || [ $EXIT_SEARCH -ne 0 ] || [ $EXIT_POPULAR -ne 0 ] || [ $EXIT_CATEGORY -ne 0 ]; then
   PARALLEL_FAILED=1
 fi
 
@@ -57,12 +62,14 @@ if [ $PARALLEL_FAILED -ne 0 ]; then
   [ $EXIT_SIMILARITY -ne 0 ] && echo "  - build:similarity (exit code: $EXIT_SIMILARITY)"
   [ $EXIT_SEARCH -ne 0 ] && echo "  - build:search (exit code: $EXIT_SEARCH)"
   [ $EXIT_POPULAR -ne 0 ] && echo "  - build:popular (exit code: $EXIT_POPULAR)"
+  [ $EXIT_CATEGORY -ne 0 ] && echo "  - build:category (exit code: $EXIT_CATEGORY)"
   exit 1
 fi
 
 echo "✓ Similarity calculation completed"
 echo "✓ Search index generation completed"
 echo "✓ Popular posts fetched"
+echo "✓ Tag category classification completed"
 echo ""
 
 # 6. OGP 画像の生成

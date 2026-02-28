@@ -150,3 +150,15 @@ export type TagCounts = {
   slug: string;
   count: number;
 };
+
+/**
+ * タグカテゴリ名
+ */
+export type TagCategoryName = '開発' | 'テクノロジー' | 'その他';
+
+/**
+ * タグカテゴリマッピング型（tag-categories.json）
+ * キー：タグ名、値：カテゴリ名
+ * 実際のデータ形式：{ "JavaScript": "開発", "Windows": "テクノロジー", ... }
+ */
+export type TagCategoryMap = Record<string, TagCategoryName>;

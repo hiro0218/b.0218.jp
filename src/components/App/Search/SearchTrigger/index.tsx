@@ -1,5 +1,5 @@
 import { Tooltip } from '@/components/UI/Tooltip';
-import { ICON_SIZE_SM, MagnifyingGlassIcon } from '@/ui/icons';
+import { ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 import { SEARCH_LABELS } from '../constants';
 
@@ -17,7 +17,7 @@ export function SearchTrigger({ openDialogAction }: Props) {
         onClick={openDialogAction}
         type="button"
       >
-        <MagnifyingGlassIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+        <MagnifyingGlassIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
       </Button>
     </Tooltip>
   );
@@ -34,9 +34,6 @@ const Button = styled.button`
   background: none;
   border: none;
   border-radius: var(--radii-full);
-  transition:
-    background-color 0.2s var(--easings-ease-out-expo),
-    transform 0.1s var(--easings-ease-out-expo);
 
   &::after {
     border-radius: var(--radii-full);

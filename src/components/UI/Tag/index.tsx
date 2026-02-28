@@ -1,11 +1,11 @@
 import { Anchor } from '@/components/UI/Anchor';
-import { TAG_VIEW_LIMIT } from '@/constants';
 import { styled } from '@/ui/styled';
 import { postTagAnchor } from '@/ui/styled/components';
 
 export type Props = {
   slug: string;
   count?: number;
+  isNavigable?: boolean;
 };
 
 type PostTagProps = {
@@ -28,8 +28,8 @@ function PostTag({ tags, hasRelTag = true }: PostTagProps) {
 
   return (
     <>
-      {sortedTags.map(({ slug, count }) => {
-        const isAnchor = count >= TAG_VIEW_LIMIT;
+      {sortedTags.map(({ slug, count, isNavigable }) => {
+        const isAnchor = isNavigable ?? false;
 
         return isAnchor ? (
           <Anchor
@@ -41,7 +41,7 @@ function PostTag({ tags, hasRelTag = true }: PostTagProps) {
             })}
           >
             {slug}
-            <Count aria-hidden="true">{count}</Count>
+            {count != null && <Count aria-hidden="true">{count}</Count>}
           </Anchor>
         ) : (
           <span aria-hidden="true" className={postTagAnchor} key={slug}>

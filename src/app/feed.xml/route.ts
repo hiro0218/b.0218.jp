@@ -38,7 +38,7 @@ export function GET() {
       continue;
     }
 
-    const ogpImage = `${getOgpImage(post.slug)}`;
+    const ogpImage = getOgpImage(post.slug);
     const permalink = getPermalink(post.slug);
 
     feed.addItem({

@@ -53,7 +53,7 @@ const Button = styled.button`
     flex: 1 1;
     width: var(--mobile-size);
     height: var(--mobile-size);
-    fill: currentColor;
+    color: inherit;
 
     @media (--isDesktop) {
       width: var(--desktop-size);

@@ -2,3 +2,15 @@
   min-height: 100%;
   isolation: isolate;
 }
+
+/**
+ * workaround
+ * shokika.css で svg { stroke: none; fill: currentColor } を設定しているため、
+ * Heroicons (outline) の stroke ベース描画が無効化される。
+ * data-slot="icon" は @heroicons/react が全アイコンに付与する属性。
+ * fill: none で塗りを無効化し、stroke: currentColor でアイコンの線描画を復元する。
+ */
+svg[data-slot='icon'] {
+  fill: none;
+  stroke: currentColor;
+}

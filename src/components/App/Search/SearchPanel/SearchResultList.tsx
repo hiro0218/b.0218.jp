@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { styled } from '@/ui/styled';
 import type { SearchResultItem as SearchResultItemType } from '../types';
 import { SearchResultItem } from './SearchResultItem';
@@ -24,6 +25,15 @@ export function SearchResultList({
   setResultRef,
   onLinkClick,
 }: SearchResultListProps) {
+  const resultRefCallbacks = useMemo(
+    () =>
+      Array.from(
+        { length: results.length },
+        (_, index) => (element: HTMLDivElement | null) => setResultRef(index, element),
+      ),
+    [results.length, setResultRef],
+  );
+
   return (
     <Container data-search-results>
       {results.map(({ slug, matchedIn }, index) => (
@@ -32,7 +42,7 @@ export function SearchResultList({
           key={slug}
           matchedIn={matchedIn}
           onLinkClick={onLinkClick}
-          ref={(element) => setResultRef(index, element)}
+          ref={resultRefCallbacks[index]}
           slug={slug}
           title={markedTitles[index]}
         />

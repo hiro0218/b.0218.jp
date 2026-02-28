@@ -23,21 +23,25 @@ export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps) => {
     if (!dialog) return;
 
     internalDialogRef.current = dialog;
-    const input = dialog.querySelector('input[role="searchbox"]') as HTMLInputElement;
-    const results = dialog.querySelector('[data-search-results]') as HTMLElement;
 
-    if (input) inputRef.current = input;
-    if (results) searchResultsRef.current = results;
+    if (!inputRef.current?.isConnected) {
+      const input = dialog.querySelector('input[role="searchbox"]') as HTMLInputElement;
+      if (input) inputRef.current = input;
+    }
+
+    // searchResults は条件付きレンダリングのため、要素が存在しない場合は null を許容
+    if (!searchResultsRef.current?.isConnected) {
+      searchResultsRef.current = dialog.querySelector<HTMLElement>('[data-search-results]');
+    }
   }, [actualDialogRef]);
 
   const focusInput = useCallback(() => {
     const input = inputRef.current;
-    const container = searchResultsRef.current;
     const dialog = actualDialogRef.current;
 
-    if (input && container && dialog?.open) {
+    if (input && dialog?.open) {
       input.focus();
-      container.scrollTo({ top: 0, behavior: 'smooth' });
+      searchResultsRef.current?.scrollTo({ top: 0, behavior: 'auto' });
     }
   }, [actualDialogRef]);
 
@@ -46,7 +50,7 @@ export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps) => {
 
     targetElement.scrollIntoView({
       block: 'nearest',
-      behavior: 'smooth',
+      behavior: 'auto',
     });
   }, []);
 

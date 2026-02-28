@@ -10,7 +10,7 @@ import { formatPostData, formatSimilarPosts, getAlternativePosts } from '../util
 interface PostPageData {
   post: ReturnType<typeof formatPostData>;
   similarPost: ArticleSummary[];
-  similarTags: Array<{ slug: string; count: number }>;
+  similarTags: Array<{ slug: string; count: number; isNavigable: boolean }>;
   recentPosts: ArticleSummary[];
   sameTagPosts: ArticleSummary[];
   mostPopularTag?: { slug: string; count: number };

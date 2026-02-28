@@ -1,4 +1,4 @@
-import { ExclamationCircle, ExclamationTriangle, InformationCircle, LightBulb } from '@/ui/icons';
+import { ExclamationCircleIcon, ExclamationTriangleIcon, InformationCircleIcon, LightBulbIcon } from '@/ui/icons';
 import { css } from '@/ui/styled';
 
 export type AlertType = 'note' | 'tip' | 'important' | 'warning' | 'caution';
@@ -10,11 +10,11 @@ type Props = {
 };
 
 const ALERT_ICONS: Record<AlertType, React.ReactNode> = {
-  note: <InformationCircle aria-hidden="true" />,
-  tip: <InformationCircle aria-hidden="true" />,
-  important: <LightBulb aria-hidden="true" />,
-  warning: <ExclamationTriangle aria-hidden="true" />,
-  caution: <ExclamationCircle aria-hidden="true" />,
+  note: <InformationCircleIcon aria-hidden="true" />,
+  tip: <InformationCircleIcon aria-hidden="true" />,
+  important: <LightBulbIcon aria-hidden="true" />,
+  warning: <ExclamationTriangleIcon aria-hidden="true" />,
+  caution: <ExclamationCircleIcon aria-hidden="true" />,
 };
 
 const ALERT_LABELS: Record<AlertType, string> = {

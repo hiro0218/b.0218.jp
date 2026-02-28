@@ -42,14 +42,14 @@ const tags = tagsData as TagIndex;
 const tagsSimilarity = tagsSimilarityData as TagSimilarityScores;
 const tagsWithCount = tagsWithCountData as TagCounts[];
 
+const VALID_SLUG_PATTERN = /^[\w-]+$/;
+
 /**
  * 個別記事データをslugで取得
  * @param slug - 記事のスラッグ
  * @returns 記事データ。該当なしの場合はnull
  * @throws JSONパースエラーやENOENT以外のI/Oエラー時
  */
-const VALID_SLUG_PATTERN = /^[\w-]+$/;
-
 export const getPostBySlug = (slug: string): Post | null => {
   if (!VALID_SLUG_PATTERN.test(slug)) {
     return null;
