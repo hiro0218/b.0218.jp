@@ -44,10 +44,9 @@ export function labelPropagation(nodes: string[], adjMap: Map<string, Map<string
   }
 
   const rand = createRng(SEED);
-  let iterationsUsed = 0;
+  let converged = false;
 
   for (let iter = 0; iter < MAX_ITERATIONS; iter++) {
-    iterationsUsed = iter + 1;
     let changed = false;
     const shuffled = shuffle([...nodes], rand);
 
@@ -82,18 +81,21 @@ export function labelPropagation(nodes: string[], adjMap: Map<string, Map<string
       }
     }
 
-    if (!changed) break;
+    if (!changed) {
+      converged = true;
+      break;
+    }
   }
 
-  if (iterationsUsed === MAX_ITERATIONS) {
+  if (!converged) {
     Log.warn(`Label Propagation が ${MAX_ITERATIONS} 回で収束しなかった`);
   }
 
   // ラベル → クラスタに変換
   const clusterMap = new Map<number, string[]>();
-  for (const [node, l] of label) {
-    if (!clusterMap.has(l)) clusterMap.set(l, []);
-    clusterMap.get(l)!.push(node);
+  for (const [node, labelId] of label) {
+    if (!clusterMap.has(labelId)) clusterMap.set(labelId, []);
+    clusterMap.get(labelId)!.push(node);
   }
 
   return [...clusterMap.values()].sort((a, b) => b.length - a.length);
