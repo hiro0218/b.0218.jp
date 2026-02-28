@@ -115,8 +115,7 @@ async function processImages(posts: Post[]): Promise<void> {
     }
   };
 
-  const batchSize = Math.min(posts.length, OGP_CONFIG.worker.pagesPerWorker * 3);
-  const initialTasks = Math.min(batchSize, posts.length);
+  const initialTasks = Math.min(posts.length, OGP_CONFIG.worker.pagesPerWorker * 3);
 
   for (let i = 0; i < initialTasks; i++) {
     processQueue();
