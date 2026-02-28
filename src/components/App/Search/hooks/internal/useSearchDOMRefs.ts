@@ -22,6 +22,10 @@ export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps) => {
     const dialog = actualDialogRef.current;
     if (!dialog) return;
 
+    if (inputRef.current && searchResultsRef.current) {
+      return;
+    }
+
     internalDialogRef.current = dialog;
     const input = dialog.querySelector('input[role="searchbox"]') as HTMLInputElement;
     const results = dialog.querySelector('[data-search-results]') as HTMLElement;
@@ -37,7 +41,7 @@ export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps) => {
 
     if (input && container && dialog?.open) {
       input.focus();
-      container.scrollTo({ top: 0, behavior: 'smooth' });
+      container.scrollTo({ top: 0, behavior: 'auto' });
     }
   }, [actualDialogRef]);
 
@@ -46,7 +50,7 @@ export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps) => {
 
     targetElement.scrollIntoView({
       block: 'nearest',
-      behavior: 'smooth',
+      behavior: 'auto',
     });
   }, []);
 

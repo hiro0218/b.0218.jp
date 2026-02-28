@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, memo } from 'react';
 import { Anchor } from '@/components/UI/Anchor';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import { HashtagIcon, ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons/index';
@@ -21,7 +21,7 @@ type SearchResultItemProps = {
  * 個別の検索結果を表示するコンポーネント。
  * キーボードナビゲーションに対応し、フォーカス状態を視覚的に表現します。
  */
-export const SearchResultItem = forwardRef<HTMLDivElement, SearchResultItemProps>(
+const SearchResultItemBase = forwardRef<HTMLDivElement, SearchResultItemProps>(
   ({ slug, title, isFocused, matchedIn, onLinkClick }, ref) => {
     const link = convertPostSlugToPath(slug);
 
@@ -44,4 +44,6 @@ export const SearchResultItem = forwardRef<HTMLDivElement, SearchResultItemProps
   },
 );
 
-SearchResultItem.displayName = 'SearchResultItem';
+SearchResultItemBase.displayName = 'SearchResultItem';
+
+export const SearchResultItem = memo(SearchResultItemBase);

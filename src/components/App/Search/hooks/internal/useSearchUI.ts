@@ -49,11 +49,18 @@ export const useSearchUI = ({ dialogRef, focusedIndex, resultsLength }: UseSearc
       dialogRef,
     });
 
-  // focusedIndex の変更を監視して DOM 操作を実行
+  // 初回マウント時にDOM参照を解決
   useLayoutEffect(() => {
     updateDOMRefs();
-    clearExcessRefs(resultsLength);
+  }, [updateDOMRefs]);
 
+  // 結果数が減少したときの参照リークを防止
+  useLayoutEffect(() => {
+    clearExcessRefs(resultsLength);
+  }, [resultsLength, clearExcessRefs]);
+
+  // focusedIndex の変更を監視して DOM 操作を実行
+  useLayoutEffect(() => {
     if (focusedIndex === -1) {
       focusInput();
       return;
@@ -64,7 +71,7 @@ export const useSearchUI = ({ dialogRef, focusedIndex, resultsLength }: UseSearc
       targetElement.focus();
       scrollToFocusedElement(targetElement);
     }
-  }, [resultsLength, focusedIndex, updateDOMRefs, clearExcessRefs, getResultRef, focusInput, scrollToFocusedElement]);
+  }, [focusedIndex, getResultRef, focusInput, scrollToFocusedElement]);
 
   return {
     setResultRef,

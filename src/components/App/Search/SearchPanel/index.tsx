@@ -32,7 +32,7 @@ export function SearchPanel({ results, searchQuery, focusedIndex, setResultRef, 
   const hasResults = results.length > 0;
 
   return (
-    <SearchMain aria-atomic="true" aria-label="サイト内検索" aria-live="polite" data-search-results role="search">
+    <SearchMain aria-atomic="true" aria-label="サイト内検索" aria-live="polite" role="search">
       <SearchStatus resultsCount={results.length} searchQuery={searchQuery} />
 
       {hasResults ? (

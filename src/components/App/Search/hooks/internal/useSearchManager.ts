@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchWithCache } from '@/components/App/Search/engine/search';
 import debounce from '@/lib/utils/debounce';
 import type { SearchState } from '../../types';
@@ -58,6 +58,12 @@ export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: Use
   );
 
   const debouncedSearch = useMemo(() => debounce(executeSearch, debounceDelayMs), [executeSearch, debounceDelayMs]);
+
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [debouncedSearch]);
 
   return {
     state,
