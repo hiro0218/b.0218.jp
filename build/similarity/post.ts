@@ -2,12 +2,19 @@ import { cpus } from 'node:os';
 import kuromoji, { type IpadicFeatures, type Tokenizer } from 'kuromoji';
 import type { Post, TagSimilarityScores } from '@/types/source';
 import { STOP_WORDS_JA } from '../shared/stopWords';
+import {
+  calculateBm25Idf,
+  calculateDocFrequency,
+  calculateIdfWeightedJaccard,
+  calculateSublinearTf,
+  filterRareTerms,
+} from './scoring';
 
 // 正規表現パターン
 const REGEX_DIGIT_ONLY = /^\d+$/;
 
 // テキスト処理パラメータ
-const CONTENT_MAX_LENGTH = 5000;
+const CONTENT_MAX_LENGTH = 7000;
 const TITLE_WEIGHT = 3;
 
 // 類似度計算パラメータ
@@ -101,7 +108,8 @@ async function preprocessText(
   }
 
   try {
-    const tokens: IpadicFeatures[] = tokenizerInstance.tokenize(text);
+    const normalizedText = text.normalize('NFKC');
+    const tokens: IpadicFeatures[] = tokenizerInstance.tokenize(normalizedText);
     const meaningfulTokens: string[] = [];
 
     for (const token of tokens) {
@@ -123,44 +131,10 @@ type TfIdfVector = Record<string, number>;
 type TfIdfNorms = Record<string, number>;
 
 function calculateIdf(posts: Post[], processedContents: string[][]): IdfScores {
-  try {
-    const idfScores: IdfScores = {};
-    const totalDocs = posts.length;
-    const docFrequency: Record<string, number> = {};
-
-    processedContents.forEach((words) => {
-      const uniqueWordsInDoc = new Set(words);
-      uniqueWordsInDoc.forEach((word) => {
-        docFrequency[word] = (docFrequency[word] || 0) + 1;
-      });
-    });
-
-    for (const word in docFrequency) {
-      idfScores[word] = Math.log((totalDocs + 1) / (docFrequency[word] + 1)) + 1;
-    }
-
-    return idfScores;
-  } catch (error) {
-    throw error;
-  }
-}
-
-function calculateTf(words: string[]): TfScores {
-  try {
-    const tfScores: TfScores = {};
-    const wordCount = words.length;
-    if (wordCount === 0) return tfScores;
-
-    const invWordCount = 1 / wordCount;
-
-    words.forEach((word) => {
-      tfScores[word] = (tfScores[word] || 0) + invWordCount;
-    });
-
-    return tfScores;
-  } catch (error) {
-    throw error;
-  }
+  const totalDocs = posts.length;
+  const rawDocFrequency = calculateDocFrequency(processedContents);
+  const filteredDocFrequency = filterRareTerms(rawDocFrequency);
+  return calculateBm25Idf(totalDocs, filteredDocFrequency);
 }
 
 function calculateTfIdfVectorWithNorm(
@@ -227,58 +201,50 @@ function calculateContentSimilarity(
   return calculateCosineSimilarityWithNorms(tfIdfVector1, tfIdfVector2, norm1, norm2);
 }
 
-function calculateTagSimilarity(tags1: string[], tags2: string[], sortedTags: TagSimilarityScores): number {
-  try {
-    if (!tags1 || !tags2 || tags1.length === 0 || tags2.length === 0 || !sortedTags) {
-      return 0;
-    }
+function calculateTagSimilarity(
+  tags1: string[],
+  tags2: string[],
+  sortedTags: TagSimilarityScores,
+  tagIdf: Record<string, number>,
+): number {
+  if (!tags1 || !tags2 || tags1.length === 0 || tags2.length === 0 || !sortedTags) {
+    return 0;
+  }
 
-    const validTags1 = tags1.filter((tag) => sortedTags[tag]);
-    const validTags2 = tags2.filter((tag) => sortedTags[tag]);
+  const validTags1 = tags1.filter((tag) => sortedTags[tag]);
+  const validTags2 = tags2.filter((tag) => sortedTags[tag]);
 
-    if (validTags1.length === 0 || validTags2.length === 0) {
-      return 0;
-    }
+  if (validTags1.length === 0 || validTags2.length === 0) {
+    return 0;
+  }
 
-    // ジャッカード類似度の計算
-    const tagSet1 = new Set(validTags1);
-    const tagSet2 = new Set(validTags2);
+  // IDF-weighted Jaccard 類似度の計算
+  const idfWeightedJaccard = calculateIdfWeightedJaccard(validTags1, validTags2, tagIdf);
 
-    let intersectionCount = 0;
-    for (const tag of tagSet1) {
-      if (tagSet2.has(tag)) intersectionCount++;
-    }
+  // 関連タグスコアの計算（NPMI ベース、維持）
+  let relatedTagScoreSum = 0;
+  let comparisonCount = 0;
 
-    const unionSize = tagSet1.size + tagSet2.size - intersectionCount;
-    const jaccardSimilarity = unionSize > 0 ? intersectionCount / unionSize : 0;
+  for (const tag1 of validTags1) {
+    const tagRelevanceMap = sortedTags[tag1];
+    if (!tagRelevanceMap) continue;
 
-    // 関連タグスコアの計算
-    let relatedTagScoreSum = 0;
-    let comparisonCount = 0;
+    for (const tag2 of validTags2) {
+      const relevanceScore = tagRelevanceMap[tag2];
+      const dynamicThreshold =
+        TAG_SIMILARITY_BASE_THRESHOLD * (1 - 0.1 * Math.min(validTags1.length, validTags2.length));
 
-    for (const tag1 of validTags1) {
-      const tagRelevanceMap = sortedTags[tag1];
-      if (!tagRelevanceMap) continue;
-
-      for (const tag2 of validTags2) {
-        const relevanceScore = tagRelevanceMap[tag2];
-        const dynamicThreshold =
-          TAG_SIMILARITY_BASE_THRESHOLD * (1 - 0.1 * Math.min(validTags1.length, validTags2.length));
-
-        if (relevanceScore && relevanceScore >= dynamicThreshold) {
-          relatedTagScoreSum += relevanceScore;
-          comparisonCount++;
-        }
+      if (relevanceScore && relevanceScore >= dynamicThreshold) {
+        relatedTagScoreSum += relevanceScore;
+        comparisonCount++;
       }
     }
-
-    const normalizedRelatedScore = comparisonCount > 0 ? relatedTagScoreSum / comparisonCount : 0;
-
-    // 最終的なタグ類似度
-    return jaccardSimilarity * TAG_SIMILARITY_JACCARD_WEIGHT + normalizedRelatedScore * TAG_SIMILARITY_RELATED_WEIGHT;
-  } catch (error) {
-    throw error;
   }
+
+  const normalizedRelatedScore = comparisonCount > 0 ? relatedTagScoreSum / comparisonCount : 0;
+
+  // 最終的なタグ類似度
+  return idfWeightedJaccard * TAG_SIMILARITY_JACCARD_WEIGHT + normalizedRelatedScore * TAG_SIMILARITY_RELATED_WEIGHT;
 }
 
 function calculateRecencyBonus(post1: Post, post2: Post): number {
@@ -341,6 +307,7 @@ async function calculatePostSimilarity(
   postTfIdfNorm: number,
   targetPostTfIdfNorm: number,
   sortedTags: TagSimilarityScores,
+  tagIdf: Record<string, number>,
 ): Promise<number> {
   if (!post.slug || !targetPost.slug) {
     throw new Error('スラグを持たない投稿の類似度は計算できません');
@@ -354,7 +321,7 @@ async function calculatePostSimilarity(
   }
 
   // タグ類似度を計算
-  const tagSimilarityScore = calculateTagSimilarity(post.tags || [], targetPost.tags || [], sortedTags);
+  const tagSimilarityScore = calculateTagSimilarity(post.tags || [], targetPost.tags || [], sortedTags, tagIdf);
 
   // タグ類似度が非常に低い場合、コンテンツ類似度を計算しても最終スコアが閾値を超えない
   // 早期リターンでパフォーマンスを改善
@@ -457,7 +424,7 @@ export async function getRelatedPosts(
 
     postIndexMap.set(post.slug, index);
     try {
-      const tfScores = calculateTf(processedContents[index]);
+      const tfScores = calculateSublinearTf(processedContents[index]);
       const { vector, norm } = calculateTfIdfVectorWithNorm(post.slug, tfScores, idfScores);
       tfIdfVectors[post.slug] = vector;
       tfIdfNorms[post.slug] = norm;
@@ -491,7 +458,14 @@ export async function getRelatedPosts(
     }
   }
 
-  // 4. 各記事に対して関連度計算（チャンク分割で並行処理）
+  // 4. タグの IDF を計算（IDF-weighted Jaccard 用）
+  const tagIdf: Record<string, number> = {};
+  const totalPostCount = posts.length;
+  for (const [tag, count] of taggedPostsCount.entries()) {
+    tagIdf[tag] = Math.log((totalPostCount - count + 0.5) / (count + 0.5) + 1);
+  }
+
+  // 5. 各記事に対して関連度計算（チャンク分割で並行処理）
   const results: { [key: string]: Record<string, number> }[] = [];
 
   // 記事をチャンクに分割
@@ -589,6 +563,7 @@ export async function getRelatedPosts(
                 postNorm,
                 targetPostNorm,
                 sortedTags,
+                tagIdf,
               );
               return { slug: post.slug, similarityScore };
             } catch (error) {
