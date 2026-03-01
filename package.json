@@ -64,7 +64,7 @@
     }
   },
   "dependencies": {
-    "@adobe/spectrum-tokens": "14.1.0",
+    "@adobe/spectrum-tokens": "14.2.1",
     "@heroicons/react": "2.2.0",
     "@next/third-parties": "16.1.6",
     "@pandacss/dev": "1.8.2",
