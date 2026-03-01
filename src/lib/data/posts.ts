@@ -8,6 +8,7 @@ import type {
   PostPopularityScores,
   PostSimilarityMatrix,
   PostSummary,
+  TagCategoryMap,
   TagCounts,
   TagIndex,
   TagSimilarityScores,
@@ -16,6 +17,7 @@ import pagesData from '~/dist/pages.json';
 import postsListData from '~/dist/posts-list.json';
 import postsPopularData from '~/dist/posts-popular.json';
 import postsSimilarityData from '~/dist/posts-similarity.json';
+import tagCategoriesData from '~/dist/tag-categories.json';
 import tagsData from '~/dist/tags.json';
 import tagsSimilarityData from '~/dist/tags-similarity.json';
 import tagsWithCountData from '~/dist/tags-with-count.json';
@@ -40,6 +42,7 @@ const postsPopular = postsPopularData as PostPopularityScores;
 const postsSimilarity = postsSimilarityData as PostSimilarityMatrix;
 const tags = tagsData as TagIndex;
 const tagsSimilarity = tagsSimilarityData as TagSimilarityScores;
+const tagCategories = tagCategoriesData as TagCategoryMap;
 const tagsWithCount = tagsWithCountData as TagCounts[];
 
 const VALID_SLUG_PATTERN = /^[\w-]+$/;
@@ -112,3 +115,6 @@ export const getSimilarPosts = (): PostSimilarityMatrix => postsSimilarity;
 
 /** 人気記事データを取得 */
 export const getPostsPopular = (): PostPopularityScores => postsPopular;
+
+/** タグカテゴリマッピングを取得 */
+export const getTagCategoriesJson = (): TagCategoryMap => tagCategories;

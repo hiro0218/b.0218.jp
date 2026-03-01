@@ -3,8 +3,12 @@ import ArticleCard from '@/components/UI/ArticleCard';
 import Heading from '@/components/UI/Heading';
 import { Grid, Stack } from '@/components/UI/Layout';
 import { LinkMore } from '@/components/UI/LinkMore';
+import { getTagCategoriesJson } from '@/lib/data/posts';
+import { getPrimaryCategory } from '@/lib/utils/tagCategory';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { ArticleSummary, PostSummary } from '@/types/source';
+
+const categoryMap = getTagCategoriesJson();
 
 type Props = {
   heading?: string;
@@ -46,9 +50,11 @@ export const PostSection = ({
       <Grid columns="auto-fit" gap={2}>
         {posts.map(({ date, slug, tags, title, updated }) => {
           const link = convertPostSlugToPath(slug);
+          const category = getPrimaryCategory(tags, categoryMap);
 
           return (
             <ArticleCard
+              category={category}
               date={date}
               key={slug}
               link={link}
