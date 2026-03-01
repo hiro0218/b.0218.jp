@@ -154,11 +154,11 @@ export type TagCounts = {
 /**
  * タグカテゴリ名
  */
-export type TagCategoryName = '開発' | 'テクノロジー' | 'その他';
+export type TagCategoryName = 'development' | 'technology' | 'other';
 
 /**
  * タグカテゴリマッピング型（tag-categories.json）
  * キー：タグ名、値：カテゴリ名
- * 実際のデータ形式：{ "JavaScript": "開発", "Windows": "テクノロジー", ... }
+ * 実際のデータ形式：{ "JavaScript": "development", "Windows": "technology", ... }
  */
 export type TagCategoryMap = Record<string, TagCategoryName>;

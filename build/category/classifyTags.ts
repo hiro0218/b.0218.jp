@@ -1,7 +1,7 @@
 import type { TagCategoryMap, TagCategoryName } from '@/types/source';
 
 /** どのカテゴリにも親和度がない場合のデフォルトカテゴリ */
-const DEFAULT_CATEGORY: TagCategoryName = 'その他';
+const DEFAULT_CATEGORY: TagCategoryName = 'other';
 
 /**
  * カテゴリ判定用のシードタグ
@@ -12,7 +12,7 @@ const DEFAULT_CATEGORY: TagCategoryName = 'その他';
  */
 const CATEGORY_SEEDS = new Map<TagCategoryName, ReadonlySet<string>>([
   [
-    '開発',
+    'development',
     new Set([
       'JavaScript',
       'TypeScript',
@@ -28,11 +28,11 @@ const CATEGORY_SEEDS = new Map<TagCategoryName, ReadonlySet<string>>([
       'シェルスクリプト',
     ]),
   ],
-  ['テクノロジー', new Set(['Windows', 'macOS', 'Chrome', 'Firefox', 'Excel', 'Android'])],
-  ['その他', new Set(['名探偵コナン', '雑記', 'レビュー', '考察'])],
+  ['technology', new Set(['Windows', 'macOS', 'Chrome', 'Firefox', 'Excel', 'Android'])],
+  ['other', new Set(['名探偵コナン', '雑記', 'レビュー', '考察'])],
 ]);
 
-const CATEGORY_PRIORITY: readonly TagCategoryName[] = ['開発', 'その他', 'テクノロジー'];
+const CATEGORY_PRIORITY: readonly TagCategoryName[] = ['development', 'other', 'technology'];
 
 /**
  * クラスタとカテゴリの親和度を計算する
