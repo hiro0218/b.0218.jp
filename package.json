@@ -64,7 +64,7 @@
     }
   },
   "dependencies": {
-    "@adobe/spectrum-tokens": "14.1.0",
+    "@adobe/spectrum-tokens": "14.2.1",
     "@heroicons/react": "2.2.0",
     "@next/third-parties": "16.1.6",
     "@pandacss/dev": "1.8.2",
@@ -119,10 +119,10 @@
     "hast-util-is-element": "3.0.0",
     "hast-util-parse-selector": "4.0.0",
     "hast-util-select": "6.0.4",
-    "hono": "4.11.9",
+    "hono": "4.12.3",
     "husky": "9.1.7",
     "jsdom": "28.1.0",
-    "knip": "5.83.0",
+    "knip": "5.85.0",
     "kuromoji": "0.1.2",
     "lightningcss": "1.31.1",
     "markuplint": "4.14.1",
