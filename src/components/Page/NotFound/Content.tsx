@@ -1,53 +1,65 @@
+import { recentPosts } from '@/app/_lib/cachedRecentPosts';
+import { PostSection } from '@/components/Page/_shared/PostSection';
 import { Anchor } from '@/components/UI/Anchor';
 import { Center, Stack } from '@/components/UI/Layout';
-import { css, styled } from '@/ui/styled';
+import { css } from '@/ui/styled';
 
 export default function Content() {
   return (
-    <Stack align="center" className={ContainerStyle} direction="vertical" gap={3} justify="center">
-      <Header>
-        <h1>Page not found</h1>
-        <p>ページが見つかりませんでした</p>
-      </Header>
-      <Stack gap={4}>
-        <p>アクセスしようとしたページは、削除もしくはURLが変更され利用できない可能性があります。</p>
-        <Center intrinsic maxWidth="120px">
-          <Anchor className={AnchorStyle} href="/">
-            トップへ戻る
-          </Anchor>
-        </Center>
+    <Stack align="center" className={ContainerStyle} direction="vertical" gap={5} justify="center">
+      <Stack gap={3}>
+        <Stack as="header" className={HeaderStyle}>
+          <h1>404</h1>
+          <p>お探しのページは見つかりませんでした</p>
+        </Stack>
+        <Stack gap={3}>
+          <p>URLが変更・削除された可能性があります。</p>
+          <Center intrinsic maxWidth="160px">
+            <Anchor className={PrimaryAnchorStyle} href="/">
+              トップへ戻る
+            </Anchor>
+          </Center>
+        </Stack>
+      </Stack>
+      <Stack className={LatestPostContainerStyle} gap={2}>
+        <PostSection as="section" heading="" headingLevel="h2" href="/archive" posts={recentPosts.slice(0, 4)} />
       </Stack>
     </Stack>
   );
 }
 
 const ContainerStyle = css`
-  height: 100%;
+  width: 100%;
   padding-inline: var(--spacing-4);
-  text-align: center;
 `;
 
-const Header = styled.header`
+const LatestPostContainerStyle = css`
+  width: min(100%, var(--sizes-container-sm));
+`;
+
+const HeaderStyle = css`
+  text-align: center;
+
   h1 {
     font-size: var(--font-sizes-h1);
   }
 
   p {
     font-size: var(--font-sizes-sm);
-    color: var(--colors-gray-900);
+    color: var(--colors-gray-600);
   }
 `;
 
-const AnchorStyle = css`
-  --_button-width: 120px;
-
-  width: var(--_button-width);
+const PrimaryAnchorStyle = css`
+  width: 100%;
   padding: var(--spacing-1) var(--spacing-2);
   font-size: var(--font-sizes-sm);
-  background-color: var(--colors-gray-100);
+  color: var(--colors-white);
+  white-space: nowrap;
+  background-color: var(--colors-gray-800);
   border-radius: var(--radii-4);
 
   &:hover {
-    background-color: var(--colors-gray-200);
+    background-color: var(--colors-gray-700);
   }
 `;
