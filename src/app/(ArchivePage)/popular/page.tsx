@@ -5,6 +5,8 @@ import ArticleCard from '@/components/UI/ArticleCard';
 import { Sidebar, Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
+import { getTagCategoriesJson } from '@/lib/data/posts';
+import { getPrimaryCategory } from '@/lib/utils/tagCategory';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 
 const { popularPosts } = getData();
@@ -19,6 +21,8 @@ export const metadata: Metadata = getMetadata({
   url: `${SITE_URL}/${slug}`,
 });
 
+const categoryMap = getTagCategoriesJson();
+
 export default function Page() {
   return (
     <>
@@ -31,7 +35,18 @@ export default function Page() {
           <Stack>
             {popularPosts.map(({ date, slug, tags, title, updated }) => {
               const link = convertPostSlugToPath(slug);
-              return <ArticleCard date={date} key={slug} link={link} tags={tags} title={title} updated={updated} />;
+              const category = getPrimaryCategory(tags, categoryMap);
+              return (
+                <ArticleCard
+                  category={category}
+                  date={date}
+                  key={slug}
+                  link={link}
+                  tags={tags}
+                  title={title}
+                  updated={updated}
+                />
+              );
             })}
           </Stack>
         </Sidebar.Main>

@@ -30,6 +30,10 @@ export const getPostPageData = cache((slug: string): PostPageData | null => {
   // 基本投稿データの取得と型検証
   const post = getPost(normalizedSlug);
 
+  if (post === null) {
+    return null;
+  }
+
   if (!isPost(post)) {
     console.error('[getPostPageData] Invalid post data structure');
     return null;

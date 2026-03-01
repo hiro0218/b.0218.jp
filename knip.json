@@ -31,8 +31,6 @@
     "**/__tests__/**",
     "**/*.d.ts",
     "styled-system/**",
-    "src/components/UI/Layout/Frame.tsx",
-    "src/components/UI/Layout/Reel.tsx"
   ],
   "ignoreDependencies": [
     "@next/env",
