@@ -150,7 +150,7 @@ jobs:
         run: node .github/scripts/report.js
 
       - name: Upload bundle
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: bundle
           path: .next/analyze/__bundle_analysis.json
