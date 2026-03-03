@@ -7,6 +7,7 @@ import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 
+import type { Rehype0218Options } from './rehype0218';
 import rehype0218 from './rehype0218';
 import rehypeExternalLink from './rehypeExternalLink';
 import rehypeGfmAlert from './rehypeGfmAlert';
@@ -15,7 +16,7 @@ import rehypeWrapImgWithFigure from './rehypeWrapImgWithFigure';
 import remarkBreaks from './remarkBreaks';
 import { shikiConfig } from './shikiConfig';
 
-async function markdownToHtmlString(markdown: string, isSimple = false): Promise<string> {
+async function markdownToHtmlString(markdown: string, isSimple = false, options?: Rehype0218Options): Promise<string> {
   const baseProcessor = unified()
     .use(remarkParse)
     .use(remarkGfm)
@@ -31,7 +32,7 @@ async function markdownToHtmlString(markdown: string, isSimple = false): Promise
         .use(rehypeWrapImgWithFigure)
         .use(rehypeGfmAlert)
         .use(rehypeShiki, shikiConfig)
-        .use(rehype0218)
+        .use(rehype0218, options)
         .use(rehypeRemoveComments)
         .use(rehypeStringify, { allowDangerousHtml: true });
 

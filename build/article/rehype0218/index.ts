@@ -4,15 +4,24 @@ import { visit } from 'unist-util-visit';
 import { SITE_URL } from '@/constants';
 import transformImage from './transform/image';
 import transformLinkPreview from './transform/linkPreview';
+import type { LinkPreviewCache } from './transform/linkPreview/cache';
 import { loadCache, saveCache } from './transform/linkPreview/cache';
 import { handleError } from './transform/linkPreview/handleError';
 import { removeEmptyParagraph } from './transform/paragraph';
+
+export type { LinkPreviewCache };
+export { loadCache, saveCache };
 
 // import { wrapAll } from './transform/wrapAll';
 
 const MAX_CONCURRENCY = 5;
 
-const rehype0218 = () => {
+export interface Rehype0218Options {
+  /** 外部から渡す共有キャッシュ。指定時は内部で loadCache/saveCache を行わない */
+  sharedCache?: LinkPreviewCache;
+}
+
+const rehype0218 = (options?: Rehype0218Options) => {
   const nodes = new Set<{ node: Element; index: number; parent: Element }>();
   let imageCounter = 0;
 
@@ -42,7 +51,7 @@ const rehype0218 = () => {
       }
     });
 
-    const cache = loadCache();
+    const cache = options?.sharedCache ?? loadCache();
     const entries = [...nodes];
 
     // セマフォによる並行数制御（最大5並列）
@@ -77,7 +86,9 @@ const rehype0218 = () => {
       next();
     });
 
-    saveCache(cache);
+    if (!options?.sharedCache) {
+      saveCache(cache);
+    }
 
     // wrapAll(tree);
   };
