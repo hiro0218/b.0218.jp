@@ -5,9 +5,10 @@ import { SEARCH_LABELS } from '../constants';
 
 type Props = {
   openDialogAction: () => void;
+  onPrefetch?: () => void;
 };
 
-export function SearchTrigger({ openDialogAction }: Props) {
+export function SearchTrigger({ openDialogAction, onPrefetch }: Props) {
   return (
     <Tooltip text={SEARCH_LABELS.searchTitle}>
       <Button
@@ -15,6 +16,8 @@ export function SearchTrigger({ openDialogAction }: Props) {
         aria-label={SEARCH_LABELS.searchTitle}
         className="link-style--hover-effect"
         onClick={openDialogAction}
+        onFocus={onPrefetch}
+        onMouseEnter={onPrefetch}
         type="button"
       >
         <MagnifyingGlassIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />

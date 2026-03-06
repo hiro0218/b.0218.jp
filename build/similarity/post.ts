@@ -1,4 +1,3 @@
-import { cpus } from 'node:os';
 import kuromoji, { type IpadicFeatures, type Tokenizer } from 'kuromoji';
 import type { Post, TagSimilarityScores } from '@/types/source';
 import { STOP_WORDS_JA } from '../shared/stopWords';
@@ -25,23 +24,10 @@ const MAX_SIMILARITY_CANDIDATES = 50;
 const TAG_WEIGHT = 0.6; // タグ類似度の重み
 const CONTENT_WEIGHT = 0.4; // コンテンツ類似度の重み
 const RECENCY_BONUS_FACTOR = 0.1; // 新鮮度ボーナス係数
-const RECENCY_DECAY_DAYS = 30; // 新鮮度減衰日数
+const RECENCY_DECAY_MS = 30 * 24 * 60 * 60 * 1000; // 30日（ミリ秒）
 const TAG_SIMILARITY_BASE_THRESHOLD = 0.5; // タグ類似度閾値
 const TAG_SIMILARITY_JACCARD_WEIGHT = 0.4; // ジャッカード係数重み
 const TAG_SIMILARITY_RELATED_WEIGHT = 0.6; // 関連度スコア重み
-
-// バッチ処理パラメータ（CPU数に応じて動的に調整）
-const CPU_COUNT = cpus().length;
-const BATCH_SIZE_PER_CPU = 25; // 1コアあたりのバッチサイズ
-const MIN_BATCH_SIZE = 100; // 最小バッチサイズ
-const MAX_BATCH_SIZE = 400; // 最大バッチサイズ（メモリ制約）
-
-// CPU数に基づいてバッチサイズを計算
-const CALCULATED_BATCH_SIZE = CPU_COUNT * BATCH_SIZE_PER_CPU;
-const EFFECTIVE_BATCH_SIZE = Math.min(Math.max(CALCULATED_BATCH_SIZE, MIN_BATCH_SIZE), MAX_BATCH_SIZE);
-
-const PREPROCESSING_BATCH_SIZE = EFFECTIVE_BATCH_SIZE;
-const SIMILARITY_BATCH_SIZE = EFFECTIVE_BATCH_SIZE;
 
 // トークナイザ初期化用のシングルトン
 let tokenizerPromise: Promise<Tokenizer<IpadicFeatures>> | null = null;
@@ -77,7 +63,7 @@ async function getTokenizer(): Promise<Tokenizer<IpadicFeatures>> {
 
 // キャッシュの初期化
 const similarityCache = new Map<string, number>();
-const tfIdfCache = new Map<string, { vector: Record<string, number>; norm: number }>();
+const tfIdfCache = new Map<string, { vector: Record<string, number>; norm: number; size: number }>();
 
 function extractTextFromPost(post: Post): string {
   const titleRepeated = post.title ? `${post.title} `.repeat(TITLE_WEIGHT) : '';
@@ -98,11 +84,7 @@ function isMeaningfulToken(token: IpadicFeatures): boolean {
   return true;
 }
 
-async function preprocessText(
-  text: string,
-  tokenizerInstance: Tokenizer<IpadicFeatures>,
-  slug?: string,
-): Promise<string[]> {
+function preprocessText(text: string, tokenizerInstance: Tokenizer<IpadicFeatures>, slug?: string): string[] {
   if (!text) {
     return [];
   }
@@ -141,31 +123,29 @@ function calculateTfIdfVectorWithNorm(
   slug: string,
   tfScores: TfScores,
   idfScores: IdfScores,
-): { vector: TfIdfVector; norm: number } {
+): { vector: TfIdfVector; norm: number; size: number } {
   const cacheKey = `tfidf_${slug}`;
   const cached = tfIdfCache.get(cacheKey);
   if (cached) {
     return cached;
   }
 
-  try {
-    const tfIdfVector: TfIdfVector = {};
-    let normSum = 0;
+  const tfIdfVector: TfIdfVector = {};
+  let normSum = 0;
+  let size = 0;
 
-    for (const word in tfScores) {
-      if (idfScores[word] !== undefined) {
-        const val = tfScores[word] * idfScores[word];
-        tfIdfVector[word] = val;
-        normSum += val * val;
-      }
+  for (const word in tfScores) {
+    if (idfScores[word] !== undefined) {
+      const val = tfScores[word] * idfScores[word];
+      tfIdfVector[word] = val;
+      normSum += val * val;
+      size++;
     }
-
-    const result = { vector: tfIdfVector, norm: Math.sqrt(normSum) };
-    tfIdfCache.set(cacheKey, result);
-    return result;
-  } catch (error) {
-    throw error;
   }
+
+  const result = { vector: tfIdfVector, norm: Math.sqrt(normSum), size };
+  tfIdfCache.set(cacheKey, result);
+  return result;
 }
 
 function calculateCosineSimilarityWithNorms(
@@ -173,47 +153,32 @@ function calculateCosineSimilarityWithNorms(
   vec2: TfIdfVector,
   magnitude1: number,
   magnitude2: number,
+  size1: number,
+  size2: number,
 ): number {
-  try {
-    if (magnitude1 === 0 || magnitude2 === 0) return 0;
+  if (magnitude1 === 0 || magnitude2 === 0) return 0;
 
-    let dotProduct = 0;
+  let dotProduct = 0;
 
-    for (const word in vec1) {
-      const val2 = vec2[word];
-      if (val2 !== undefined && Number.isFinite(val2)) {
-        dotProduct += vec1[word] * val2;
-      }
+  // 小さい方のベクトルを反復して効率化（サイズは事前計算済み）
+  const [smaller, larger] = size1 <= size2 ? [vec1, vec2] : [vec2, vec1];
+
+  for (const word in smaller) {
+    const val = larger[word];
+    if (val !== undefined) {
+      dotProduct += smaller[word] * val;
     }
-
-    return Math.min(1, dotProduct / (magnitude1 * magnitude2));
-  } catch (error) {
-    throw error;
   }
-}
 
-function calculateContentSimilarity(
-  tfIdfVector1: TfIdfVector,
-  tfIdfVector2: TfIdfVector,
-  norm1: number,
-  norm2: number,
-): number {
-  return calculateCosineSimilarityWithNorms(tfIdfVector1, tfIdfVector2, norm1, norm2);
+  return Math.min(1, dotProduct / (magnitude1 * magnitude2));
 }
 
 function calculateTagSimilarity(
-  tags1: string[],
-  tags2: string[],
+  validTags1: string[],
+  validTags2: string[],
   sortedTags: TagSimilarityScores,
   tagIdf: Record<string, number>,
 ): number {
-  if (!tags1 || !tags2 || tags1.length === 0 || tags2.length === 0 || !sortedTags) {
-    return 0;
-  }
-
-  const validTags1 = tags1.filter((tag) => sortedTags[tag]);
-  const validTags2 = tags2.filter((tag) => sortedTags[tag]);
-
   if (validTags1.length === 0 || validTags2.length === 0) {
     return 0;
   }
@@ -225,14 +190,15 @@ function calculateTagSimilarity(
   let relatedTagScoreSum = 0;
   let comparisonCount = 0;
 
+  // dynamicThreshold はループ内で不変のためループ外で事前計算
+  const dynamicThreshold = TAG_SIMILARITY_BASE_THRESHOLD * (1 - 0.1 * Math.min(validTags1.length, validTags2.length));
+
   for (const tag1 of validTags1) {
     const tagRelevanceMap = sortedTags[tag1];
     if (!tagRelevanceMap) continue;
 
     for (const tag2 of validTags2) {
       const relevanceScore = tagRelevanceMap[tag2];
-      const dynamicThreshold =
-        TAG_SIMILARITY_BASE_THRESHOLD * (1 - 0.1 * Math.min(validTags1.length, validTags2.length));
 
       if (relevanceScore && relevanceScore >= dynamicThreshold) {
         relatedTagScoreSum += relevanceScore;
@@ -247,81 +213,50 @@ function calculateTagSimilarity(
   return idfWeightedJaccard * TAG_SIMILARITY_JACCARD_WEIGHT + normalizedRelatedScore * TAG_SIMILARITY_RELATED_WEIGHT;
 }
 
-function calculateRecencyBonus(post1: Post, post2: Post): number {
-  try {
-    const getEffectiveDate = (post: Post): Date | null => {
-      let effectiveDate: Date | null = null;
-      let updatedDate: Date | null = null;
-      let publishedDate: Date | null = null;
-
-      if (post.updated) {
-        try {
-          const d = new Date(post.updated);
-          if (!Number.isNaN(d.getTime())) updatedDate = d;
-        } catch (_) {
-          // 無効な日付は無視
-        }
-      }
-      if (post.date) {
-        try {
-          const d = new Date(post.date);
-          if (!Number.isNaN(d.getTime())) publishedDate = d;
-        } catch (_) {
-          // 無効な日付は無視
-        }
-      }
-
-      if (updatedDate) effectiveDate = updatedDate;
-      else if (publishedDate) effectiveDate = publishedDate;
-
-      return effectiveDate;
-    };
-
-    const effectiveDate1 = getEffectiveDate(post1);
-    const effectiveDate2 = getEffectiveDate(post2);
-
-    if (!effectiveDate1 || !effectiveDate2) return 0;
-
-    try {
-      const diffInMs = Math.abs(effectiveDate1.getTime() - effectiveDate2.getTime());
-      const decayPeriodInMs = RECENCY_DECAY_DAYS * 24 * 60 * 60 * 1000;
-
-      if (decayPeriodInMs <= 0) return 0;
-
-      const bonus = RECENCY_BONUS_FACTOR * Math.max(0, 1 - diffInMs / decayPeriodInMs);
-      return bonus;
-    } catch (error) {
-      console.error(`[build/similarity/post] 新鮮度ボーナス計算中にエラー (${post1.slug} と ${post2.slug}):`, error);
-      throw error;
-    }
-  } catch (error) {
-    throw error;
+function getEffectiveTimestamp(post: Post): number | null {
+  if (post.updated) {
+    const d = new Date(post.updated);
+    if (!Number.isNaN(d.getTime())) return d.getTime();
   }
+  if (post.date) {
+    const d = new Date(post.date);
+    if (!Number.isNaN(d.getTime())) return d.getTime();
+  }
+  return null;
 }
 
-async function calculatePostSimilarity(
-  post: Post,
-  targetPost: Post,
+function calculateRecencyBonus(ts1: number | null, ts2: number | null): number {
+  if (ts1 === null || ts2 === null) return 0;
+
+  const diffInMs = Math.abs(ts1 - ts2);
+  return RECENCY_BONUS_FACTOR * Math.max(0, 1 - diffInMs / RECENCY_DECAY_MS);
+}
+
+function calculatePostSimilarity(
+  postSlug: string,
+  targetSlug: string,
   postTfIdf: TfIdfVector,
   targetPostTfIdf: TfIdfVector,
   postTfIdfNorm: number,
   targetPostTfIdfNorm: number,
+  postTfIdfSize: number,
+  targetTfIdfSize: number,
+  postValidTags: string[],
+  targetValidTags: string[],
   sortedTags: TagSimilarityScores,
   tagIdf: Record<string, number>,
-): Promise<number> {
-  if (!post.slug || !targetPost.slug) {
-    throw new Error('スラグを持たない投稿の類似度は計算できません');
-  }
-
-  // キャッシュをチェック
-  const cacheKey = [post.slug, targetPost.slug].sort().join('_');
+  postTimestamp: number | null,
+  targetTimestamp: number | null,
+): number {
+  // キャッシュをチェック（配列生成 + sort を回避）
+  const cacheKey = postSlug < targetSlug ? `${postSlug}_${targetSlug}` : `${targetSlug}_${postSlug}`;
   const cachedScore = similarityCache.get(cacheKey);
   if (cachedScore !== undefined) {
     return cachedScore;
   }
 
-  // タグ類似度を計算
-  const tagSimilarityScore = calculateTagSimilarity(post.tags || [], targetPost.tags || [], sortedTags, tagIdf);
+  // タグ類似度を計算（事前検証済みタグを使用）
+  const tagSimilarityScore = calculateTagSimilarity(postValidTags, targetValidTags, sortedTags, tagIdf);
 
   // タグ類似度が非常に低い場合、コンテンツ類似度を計算しても最終スコアが閾値を超えない
   // 早期リターンでパフォーマンスを改善
@@ -332,15 +267,17 @@ async function calculatePostSimilarity(
   }
 
   // コンテンツ類似度を計算
-  const contentSimilarityScore = calculateContentSimilarity(
+  const contentSimilarityScore = calculateCosineSimilarityWithNorms(
     postTfIdf,
     targetPostTfIdf,
     postTfIdfNorm,
     targetPostTfIdfNorm,
+    postTfIdfSize,
+    targetTfIdfSize,
   );
 
-  // 新鮮度ボーナスを計算
-  const recencyBonus = calculateRecencyBonus(post, targetPost);
+  // 新鮮度ボーナスを計算（事前計算済みタイムスタンプを使用）
+  const recencyBonus = calculateRecencyBonus(postTimestamp, targetTimestamp);
 
   // 最終スコアの計算
   const weightedScore = Math.max(0, TAG_WEIGHT * tagSimilarityScore + CONTENT_WEIGHT * contentSimilarityScore);
@@ -372,42 +309,17 @@ export async function getRelatedPosts(
   // トークナイザの初期化
   const tokenizer = await getTokenizer();
 
-  // 1. コンテンツ前処理（非同期・並行処理）
+  // 1. コンテンツ前処理（同期処理）
   const processedContents: string[][] = [];
 
-  // 個別記事処理のタイムアウト（ミリ秒）
-  const perPostTimeout = 10000;
-
-  async function preprocessPostWithTimeout(
-    post: Post,
-    tokenizer: Tokenizer<IpadicFeatures>,
-    timeout: number,
-  ): Promise<string[]> {
-    const textToProcess = extractTextFromPost(post);
-    return Promise.race([
-      preprocessText(textToProcess, tokenizer, post.slug),
-      new Promise<string[]>((_, reject) =>
-        setTimeout(() => reject(new Error(`処理タイムアウト (${timeout}ms)`)), timeout),
-      ),
-    ]);
-  }
-
-  // 記事を小さなバッチに分割して処理
-  for (let i = 0; i < posts.length; i += PREPROCESSING_BATCH_SIZE) {
-    const batch = posts.slice(i, i + PREPROCESSING_BATCH_SIZE);
-
-    const batchResults = await Promise.all(
-      batch.map(async (post) => {
-        try {
-          return await preprocessPostWithTimeout(post, tokenizer, perPostTimeout);
-        } catch (error) {
-          console.warn(`[getRelatedPosts] エラー (${post.slug}):`, error instanceof Error ? error.message : error);
-          return [];
-        }
-      }),
-    );
-
-    processedContents.push(...batchResults);
+  for (const post of posts) {
+    try {
+      const textToProcess = extractTextFromPost(post);
+      processedContents.push(preprocessText(textToProcess, tokenizer, post.slug));
+    } catch (error) {
+      console.warn(`[getRelatedPosts] エラー (${post.slug}):`, error instanceof Error ? error.message : error);
+      processedContents.push([]);
+    }
   }
 
   // 2. IDFスコア計算
@@ -416,18 +328,18 @@ export async function getRelatedPosts(
   // 3. TF-IDFベクトル計算（ノルムも同時計算）
   const tfIdfVectors: { [slug: string]: TfIdfVector } = {};
   const tfIdfNorms: TfIdfNorms = {};
-  const postIndexMap = new Map<string, number>();
+  const tfIdfSizes: Record<string, number> = {};
 
   for (let index = 0; index < posts.length; index++) {
     const post = posts[index];
     if (!post.slug) continue;
 
-    postIndexMap.set(post.slug, index);
     try {
       const tfScores = calculateSublinearTf(processedContents[index]);
-      const { vector, norm } = calculateTfIdfVectorWithNorm(post.slug, tfScores, idfScores);
+      const { vector, norm, size } = calculateTfIdfVectorWithNorm(post.slug, tfScores, idfScores);
       tfIdfVectors[post.slug] = vector;
       tfIdfNorms[post.slug] = norm;
+      tfIdfSizes[post.slug] = size;
     } catch (error) {
       console.warn(`[getRelatedPosts] TF-IDF計算エラー (${post.slug}):`, error);
       continue;
@@ -438,7 +350,6 @@ export async function getRelatedPosts(
   const tagToPostIndices = new Map<string, Set<number>>();
   const taggedPostsCount = new Map<string, number>(); // タグごとの記事数カウント
 
-  // タグのインデックス作成をバッチ処理前に一度だけ実行
   for (let index = 0; index < posts.length; index++) {
     const post = posts[index];
     if (!post.tags || post.tags.length === 0) continue;
@@ -447,7 +358,6 @@ export async function getRelatedPosts(
     const uniqueTags = new Set(post.tags);
 
     for (const tag of uniqueTags) {
-      // タグの記事インデックスを追加
       if (!tagToPostIndices.has(tag)) {
         tagToPostIndices.set(tag, new Set([index]));
         taggedPostsCount.set(tag, 1);
@@ -465,142 +375,144 @@ export async function getRelatedPosts(
     tagIdf[tag] = Math.log((totalPostCount - count + 0.5) / (count + 0.5) + 1);
   }
 
-  // 5. 各記事に対して関連度計算（チャンク分割で並行処理）
+  // 5. タイムスタンプを事前計算（index ベースの配列）
+  const timestamps: (number | null)[] = new Array(posts.length);
+  for (let i = 0; i < posts.length; i++) {
+    timestamps[i] = getEffectiveTimestamp(posts[i]);
+  }
+
+  // 6. 各記事の validTags を事前計算（sortedTags に存在するタグのみ）
+  const postValidTags: string[][] = new Array(posts.length);
+  for (let i = 0; i < posts.length; i++) {
+    const tags = posts[i].tags;
+    if (!tags || tags.length === 0) {
+      postValidTags[i] = [];
+    } else {
+      postValidTags[i] = tags.filter((tag) => sortedTags[tag]);
+    }
+  }
+
+  // 7. 各記事に対して関連度計算（同期処理）
   const results: { [key: string]: Record<string, number> }[] = [];
 
-  // 記事をチャンクに分割
-  for (let i = 0; i < posts.length; i += SIMILARITY_BATCH_SIZE) {
-    const targetPosts = posts.slice(i, i + SIMILARITY_BATCH_SIZE);
-    const chunkResults = await Promise.all(
-      targetPosts.map(async (targetPost) => {
-        if (!targetPost.slug || !tfIdfVectors[targetPost.slug]) {
-          return null;
-        }
+  for (let i = 0; i < posts.length; i++) {
+    const targetPost = posts[i];
+    if (!targetPost.slug || !tfIdfVectors[targetPost.slug]) {
+      continue;
+    }
 
-        const targetPostTfIdf = tfIdfVectors[targetPost.slug];
-        const targetPostNorm = tfIdfNorms[targetPost.slug];
-        const targetTags = targetPost.tags || [];
+    const targetPostTfIdf = tfIdfVectors[targetPost.slug];
+    const targetPostNorm = tfIdfNorms[targetPost.slug];
+    const targetTags = targetPost.tags || [];
 
-        // ノルムが計算されていない場合はスキップ（異常ケース）
-        if (targetPostNorm === undefined || targetPostNorm === 0) {
-          return null;
-        }
+    // ノルムが計算されていない場合はスキップ（異常ケース）
+    if (targetPostNorm === undefined || targetPostNorm === 0) {
+      continue;
+    }
 
-        // タグがない記事は候補も少ないため早期スキップ
-        if (targetTags.length === 0) {
-          return null;
-        }
+    // タグがない記事は候補も少ないため早期スキップ
+    if (targetTags.length === 0) {
+      continue;
+    }
 
-        // タグに基づく候補記事の絞り込み（加点方式：共通タグ数でソート）
-        const candidateIndices = new Set<number>();
-        const commonTagCounts = new Map<number, number>(); // 候補記事ごとの共通タグ数
+    // タグに基づく候補記事の絞り込み（加点方式：共通タグ数でソート）
+    const candidateIndices = new Set<number>();
+    const commonTagCounts = new Map<number, number>();
 
-        // 共通タグ数をカウント
-        targetTags.forEach((tag) => {
-          const indices = tagToPostIndices.get(tag);
-          if (indices) {
-            indices.forEach((index) => {
-              if (posts[index]?.slug !== targetPost.slug) {
-                candidateIndices.add(index);
-                commonTagCounts.set(index, (commonTagCounts.get(index) || 0) + 1);
-              }
-            });
+    for (const tag of targetTags) {
+      const indices = tagToPostIndices.get(tag);
+      if (indices) {
+        for (const index of indices) {
+          if (posts[index]?.slug !== targetPost.slug) {
+            candidateIndices.add(index);
+            commonTagCounts.set(index, (commonTagCounts.get(index) || 0) + 1);
           }
-        });
-
-        // 候補が少なすぎる場合はスキップ
-        if (candidateIndices.size < 2) {
-          return null;
         }
+      }
+    }
 
-        // 共通タグ数でソートして上位候補を選択（加点方式）
-        // - 共通タグが多い記事が優先される
-        // - 共通タグが少ない記事も下位候補として残る
-        const sortedCandidates = Array.from(candidateIndices)
-          .map((index) => ({
-            index,
-            commonTags: commonTagCounts.get(index) || 0,
-          }))
-          .filter((candidate) => candidate.commonTags >= MIN_COMMON_TAGS)
-          .sort((a, b) => b.commonTags - a.commonTags)
-          .slice(0, MAX_SIMILARITY_CANDIDATES) // 上位50件のみ
-          .map((c) => c.index);
+    // 候補が少なすぎる場合はスキップ
+    if (candidateIndices.size < 2) {
+      continue;
+    }
 
-        // 候補が少なすぎる場合はスキップ
-        if (sortedCandidates.length < 2) {
-          return null;
-        }
+    // 共通タグ数でソートして上位候補を選択（加点方式）
+    const sortedCandidates = Array.from(candidateIndices)
+      .map((index) => ({
+        index,
+        commonTags: commonTagCounts.get(index) || 0,
+      }))
+      .filter((candidate) => candidate.commonTags >= MIN_COMMON_TAGS)
+      .sort((a, b) => b.commonTags - a.commonTags)
+      .slice(0, MAX_SIMILARITY_CANDIDATES)
+      .map((c) => c.index);
 
-        // 絞り込んだ候補に対して類似度を計算
-        // 重複計算を避けるためのキー検証用セット
-        const processedPairs = new Set<string>();
+    // 候補が少なすぎる場合はスキップ
+    if (sortedCandidates.length < 2) {
+      continue;
+    }
 
-        // 類似度計算を並列処理で効率化
-        const relatedPostsData = await Promise.all(
-          sortedCandidates.map(async (postIndex) => {
-            const post = posts[postIndex];
-            if (!post || !post.slug || !tfIdfVectors[post.slug]) return null;
+    // 絞り込んだ候補に対して類似度を計算（同期ループ、similarityCache で重複排除済み）
+    const relatedPostsData: { slug: string; similarityScore: number }[] = [];
 
-            // 既に計算済みのペアはスキップ
-            const pairKey = [post.slug, targetPost.slug].sort().join('_');
-            if (processedPairs.has(pairKey)) return null;
-            processedPairs.add(pairKey);
+    for (const postIndex of sortedCandidates) {
+      const candidatePost = posts[postIndex];
+      if (!candidatePost || !candidatePost.slug || !tfIdfVectors[candidatePost.slug]) continue;
 
-            const postTfIdf = tfIdfVectors[post.slug];
-            const postNorm = tfIdfNorms[post.slug];
+      const postTfIdf = tfIdfVectors[candidatePost.slug];
+      const postNorm = tfIdfNorms[candidatePost.slug];
 
-            // ノルムが計算されていない場合はスキップ（異常ケース）
-            if (postNorm === undefined || postNorm === 0) {
-              return null;
-            }
+      // ノルムが計算されていない場合はスキップ（異常ケース）
+      if (postNorm === undefined || postNorm === 0) {
+        continue;
+      }
 
-            try {
-              const similarityScore = await calculatePostSimilarity(
-                post,
-                targetPost,
-                postTfIdf,
-                targetPostTfIdf,
-                postNorm,
-                targetPostNorm,
-                sortedTags,
-                tagIdf,
-              );
-              return { slug: post.slug, similarityScore };
-            } catch (error) {
-              console.warn(`類似度計算中にエラー (${post.slug} - ${targetPost.slug}):`, error);
-              return null;
-            }
-          }),
+      try {
+        const similarityScore = calculatePostSimilarity(
+          candidatePost.slug,
+          targetPost.slug,
+          postTfIdf,
+          targetPostTfIdf,
+          postNorm,
+          targetPostNorm,
+          tfIdfSizes[candidatePost.slug],
+          tfIdfSizes[targetPost.slug],
+          postValidTags[postIndex],
+          postValidTags[i],
+          sortedTags,
+          tagIdf,
+          timestamps[postIndex],
+          timestamps[i],
         );
 
-        // フィルタリングとソート（最小類似度閾値を適用）
-        const validPosts = relatedPostsData
-          .filter(
-            (post): post is { slug: string; similarityScore: number } =>
-              post !== null && post.similarityScore >= MIN_SIMILARITY_SCORE,
-          )
-          .sort((a, b) => b.similarityScore - a.similarityScore)
-          .slice(0, SIMILARITY_LIMIT);
-
-        if (validPosts.length === 0) {
-          return null;
+        if (similarityScore >= MIN_SIMILARITY_SCORE) {
+          relatedPostsData.push({ slug: candidatePost.slug, similarityScore });
         }
+      } catch (error) {
+        console.warn(`類似度計算中にエラー (${candidatePost.slug} - ${targetPost.slug}):`, error);
+      }
+    }
 
-        // 結果を指定形式に変換
-        const scoredArticles = validPosts.reduce<Record<string, number>>((acc, post) => {
-          acc[post.slug] = post.similarityScore;
-          return acc;
-        }, {});
+    // ソートして上位を選択
+    relatedPostsData.sort((a, b) => b.similarityScore - a.similarityScore);
+    const validPosts = relatedPostsData.slice(0, SIMILARITY_LIMIT);
 
-        return { [targetPost.slug]: scoredArticles };
-      }),
-    );
+    if (validPosts.length === 0) {
+      continue;
+    }
 
-    const chunkValidResults = chunkResults.filter(
-      (result): result is { [key: string]: Record<string, number> } => result !== null,
-    );
-    results.push(...chunkValidResults);
+    // 結果を指定形式に変換
+    const scoredArticles: Record<string, number> = Object.create(null);
+    for (const { slug, similarityScore } of validPosts) {
+      scoredArticles[slug] = similarityScore;
+    }
+
+    results.push({ [targetPost.slug]: scoredArticles });
   }
+
+  // キャッシュクリア（モジュールグローバルなキャッシュの肥大化を防止）
+  similarityCache.clear();
+  tfIdfCache.clear();
 
   return results;
 }

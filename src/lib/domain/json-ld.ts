@@ -12,6 +12,7 @@ import type {
 } from 'schema-dts';
 
 import { AUTHOR_ICON, AUTHOR_NAME, SITE_NAME, SITE_URL, URL } from '@/constants';
+import { getTagCategoriesJson, getTagsWithCount } from '@/lib/data/posts';
 import type { PopularityDetail, Post } from '@/types/source';
 
 import { convertToISO8601WithTimezone } from '../utils/date';
@@ -19,13 +20,28 @@ import { getOgpImage, getPermalink } from '../utils/url';
 
 const EMOJI_REGEX = /[\p{Extended_Pictographic}\p{Emoji_Component}\p{Regional_Indicator}]/gu;
 
+const KNOWS_ABOUT_LIMIT = 10;
+
+/** 記事タグから著者の knowsAbout を算出（development カテゴリの上位タグ） */
+const getKnowsAbout = (): string[] => {
+  const tagsWithCount = getTagsWithCount();
+  const tagCategories = getTagCategoriesJson();
+
+  return tagsWithCount
+    .filter((tag) => tagCategories[tag.slug] === 'development')
+    .slice(0, KNOWS_ABOUT_LIMIT)
+    .map((tag) => tag.slug);
+};
+
 const AUTHOR = {
   '@type': 'Person',
   name: AUTHOR_NAME,
   image: AUTHOR_ICON,
-  url: SITE_URL,
+  url: `${SITE_URL}/about`,
   sameAs: [...Object.values(URL)],
   jobTitle: 'Frontend Developer',
+  knowsAbout: getKnowsAbout(),
+  description: 'バックエンド開発を経て、CSS設計・Web標準・アクセシビリティを探求するフロントエンドエンジニア',
 } as const;
 
 export const getDescriptionText = (postContent: string): string => {
@@ -133,6 +149,7 @@ export const getBlogPostingStructured = (post: Post, popularity?: PopularityDeta
         height: '400',
       },
     },
+    inLanguage: 'ja',
     ...(popularity?.hatena
       ? {
           interactionStatistic: {

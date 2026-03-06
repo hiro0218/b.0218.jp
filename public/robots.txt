@@ -6,5 +6,31 @@ Allow: /
 User-agent: MJ12bot
 Disallow: /
 
+# AI Training Crawlers - Block
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+# AI Search Crawlers - Allow
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
 # Sitemaps
 Sitemap: https://b.0218.jp/sitemap.xml
