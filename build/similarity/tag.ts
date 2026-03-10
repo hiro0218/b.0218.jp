@@ -155,7 +155,7 @@ function calculateTagRelationsNPMI(
 
             if (!isNaN(npmi) && npmi > NPMI_THRESHOLD) {
               const clippedNpmi = Math.min(1, npmi);
-              const roundedNpmi = parseFloat(clippedNpmi.toFixed(4));
+              const roundedNpmi = Math.round(clippedNpmi * 10000) / 10000;
 
               tagRelations.get(tag1)!.set(tag2, roundedNpmi);
 

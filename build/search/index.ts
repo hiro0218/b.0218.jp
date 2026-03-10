@@ -1,6 +1,8 @@
+import path from 'node:path';
+import { FILENAME_POSTS_LIST } from '@/constants';
+import type { PostSummary } from '@/types/source';
 import { BUILD_PATHS } from '~/build/shared/paths';
-import { readAllPosts } from '~/build/shared/readAllPosts';
-import { writeJSON } from '~/tools/fs';
+import { readJSON, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
 import { generateSearchIndex } from './invertedIndex';
 import { getTokenizer } from './tokenizer';
@@ -9,8 +11,8 @@ import { getTokenizer } from './tokenizer';
   try {
     Log.info('転置インデックス生成を開始します...');
 
-    // 記事データを読み込む
-    const posts = readAllPosts();
+    // 記事データを読み込む（posts-list.json から一括読み込み）
+    const posts = await readJSON<PostSummary[]>(path.join(BUILD_PATHS.dist, `${FILENAME_POSTS_LIST}.json`));
     Log.info(`${posts.length}件の記事を読み込みました`);
 
     // 形態素解析器を初期化
