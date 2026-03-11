@@ -207,7 +207,7 @@ export const Content = styled.div`
     visibility: visible;
     pointer-events: auto;
     transition-delay: 0s;
-    animation: dropdownEnter 180ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: dropdownEnter 180ms var(--easings-ease-out-expo) forwards;
   }
 
   @media (prefers-reduced-motion: reduce) {
