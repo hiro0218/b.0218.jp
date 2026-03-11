@@ -49,6 +49,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: '/favicon.ico',
+    apple: '/icon.png',
   },
   other: {
     search: '/opensearch.xml',
