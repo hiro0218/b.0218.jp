@@ -37,6 +37,7 @@ const Button = styled.button`
   background: none;
   border: none;
   border-radius: var(--radii-full);
+  transition: transform 0.1s var(--easings-ease-out-expo);
 
   &::after {
     border-radius: var(--radii-full);

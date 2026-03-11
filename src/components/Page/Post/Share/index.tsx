@@ -110,9 +110,14 @@ const ShareButtonStyle = css`
   justify-content: center;
   width: calc(var(--sizes-icon-sm) * 2);
   height: calc(var(--sizes-icon-sm) * 2);
+  transition: transform 0.1s var(--easings-ease-out-expo);
 
   &::after {
     border-radius: var(--radii-full);
+  }
+
+  &:active {
+    transform: scale(0.97);
   }
 `;
 
