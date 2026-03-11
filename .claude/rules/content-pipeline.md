@@ -8,10 +8,6 @@ paths:
 
 # コンテンツパイプライン規則
 
-## Priority Markers
-
-> 優先度の定義については [CLAUDE.md](../../CLAUDE.md#priority-markers) を参照。
-
 ## 🔴 重要ルール (CRITICAL)
 
 - `_article/_posts/*.md` は Git submodule のため直接編集禁止

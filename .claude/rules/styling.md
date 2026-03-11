@@ -6,10 +6,6 @@ paths:
 
 # Panda CSS スタイリング規則
 
-## Priority Markers
-
-> 優先度の定義については [CLAUDE.md](../../CLAUDE.md#priority-markers) を参照。
-
 ## 🔴 Import (CRITICAL)
 
 - `@/ui/styled` から `css/styled/cx` を import

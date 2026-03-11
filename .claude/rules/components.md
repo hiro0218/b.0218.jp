@@ -5,10 +5,6 @@ paths:
 
 # コンポーネントアーキテクチャ規則
 
-## Priority Markers
-
-> 優先度の定義については [CLAUDE.md](../../CLAUDE.md#priority-markers) を参照。
-
 ## 🔴 Zero Margin Principle (CRITICAL)
 
 - UI コンポーネントは外部マージンを持たない

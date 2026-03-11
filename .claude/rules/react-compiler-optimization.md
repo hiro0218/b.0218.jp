@@ -6,10 +6,6 @@ paths:
 
 # パフォーマンス最適化規則
 
-## Priority Markers
-
-> 優先度の定義については [CLAUDE.md](../../CLAUDE.md#priority-markers) を参照。
-
 ## 🔴 重要ルール (CRITICAL)
 
 - 最適化提案前に必ず `next.config.mjs` の `reactCompiler` を確認

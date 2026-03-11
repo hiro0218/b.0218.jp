@@ -5,10 +5,6 @@ paths:
 
 # テスト生成の指示
 
-## Priority Markers
-
-> 優先度の定義については [CLAUDE.md](../../CLAUDE.md#priority-markers) を参照。
-
 ## 技術スタック
 
 - **テストフレームワーク**: Vitest
