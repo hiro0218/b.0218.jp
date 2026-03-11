@@ -64,8 +64,10 @@ const Button = styled.button`
   &:hover {
     background-color: var(--colors-gray-a-200);
 
-    svg {
-      animation: floatingFade 0.4s linear 0s;
+    @media (prefers-reduced-motion: no-preference) {
+      svg {
+        animation: floatingFade 0.4s linear 0s;
+      }
     }
   }
 
