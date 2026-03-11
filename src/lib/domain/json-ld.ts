@@ -145,8 +145,8 @@ export const getBlogPostingStructured = (post: Post, popularity?: PopularityDeta
       logo: {
         '@type': 'ImageObject',
         url: AUTHOR_ICON,
-        width: '400',
-        height: '400',
+        width: '400px',
+        height: '400px',
       },
     },
     inLanguage: 'ja',
@@ -191,7 +191,6 @@ export const getBreadcrumbStructured = (post: Post) => {
     '@type': 'ListItem',
     position: itemListElement.length + 1,
     name: post.title,
-    item: getPermalink(post.slug),
   });
 
   const structure: WithContext<BreadcrumbList> = {
@@ -227,6 +226,12 @@ export const getWebSiteStructured = (): WithContext<WebSite> => {
     name: SITE_NAME,
     alternateName: ['b.0218.jp'],
     url: SITE_URL,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `https://www.google.com/search?q=site:${new globalThis.URL(SITE_URL).hostname}+{search_term_string}`,
+      /** @see https://developers.google.com/search/docs/appearance/structured-data/sitelinks-searchbox */
+      'query-input': 'required name=search_term_string',
+    } as unknown as WebSite['potentialAction'],
   };
 };
 
