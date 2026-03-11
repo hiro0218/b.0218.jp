@@ -40,6 +40,10 @@ const Header = styled.header`
     transform 0.2s var(--easings-ease-out-expo),
     opacity 0.2s var(--easings-ease-out-expo);
 
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
   &[data-is-mounted='true'] {
     opacity: 1;
     transform: translateY(0);

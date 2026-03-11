@@ -103,6 +103,12 @@ const Dialog = styled.dialog`
     animation: zoomOut 0.2s var(--easings-ease-out-expo) forwards;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    &[open] {
+      animation: none;
+    }
+  }
+
   &::backdrop {
     cursor: pointer;
     background-color: var(--colors-overlay-backgrounds);
