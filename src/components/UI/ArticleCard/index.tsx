@@ -50,7 +50,7 @@ function ArticleCard({
         <Title className={cx('line-clamp-2', titleStyle)}>{title}</Title>
       </Anchor>
       {!!excerpt && (
-        <Paragraph className={textEllipsis} {...(typeof excerpt !== 'string' && { as: 'div' })}>
+        <Paragraph as={typeof excerpt === 'string' ? 'p' : 'div'} className={textEllipsis}>
           {excerpt}
         </Paragraph>
       )}
