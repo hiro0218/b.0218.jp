@@ -94,7 +94,7 @@ const containerStyle = css`
   background-color: var(--colors-white);
   border-radius: var(--radii-4);
   box-shadow: 0 0 0 1px var(--colors-gray-200);
-  transition: box-shadow 0.2s var(--easings-ease-out-expo);
+  transition: box-shadow var(--durations-slow) var(--easings-ease-out-expo);
 
   &:hover,
   &:focus,
@@ -141,7 +141,7 @@ const titleStyle = css`
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-md);
   color: var(--colors-gray-1000);
-  transition: color 0.2s var(--easings-ease-out-expo);
+  transition: color var(--durations-slow) var(--easings-ease-out-expo);
 `;
 
 const Paragraph = styled.p`
@@ -154,7 +154,7 @@ const Tags = styled.div`
   gap: var(--spacing-1);
   margin-top: auto;
   overflow: clip;
-  mask-image: linear-gradient(to right, transparent, #000 0, #000 calc(100% - 2em), transparent);
+  mask-image: linear-gradient(to right, transparent, black 0, black calc(100% - 2em), transparent);
 
   @container (max-width: 480px) {
     display: none;

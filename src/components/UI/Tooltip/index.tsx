@@ -53,8 +53,8 @@ const TooltipContent = styled.span`
   border-radius: var(--radii-4);
   opacity: 0;
   transition:
-    transform 0.1s linear,
-    opacity 0.2s linear;
+    transform var(--durations-fast) var(--easings-ease-out-expo),
+    opacity var(--durations-slow) var(--easings-ease-out-expo);
 
   &[data-position='top'] {
     bottom: calc(100% + var(--spacing-½));

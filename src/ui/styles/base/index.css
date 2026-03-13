@@ -71,10 +71,10 @@ a {
   text-underline-position: under;
   text-underline-offset: 4%;
   transition:
-    background-color 0.2s ease,
-    opacity 0.2s ease,
-    box-shadow 0.2s var(--easings-ease-out-expo),
-    text-decoration-color 0.2s;
+    background-color var(--durations-slow) ease,
+    opacity var(--durations-slow) ease,
+    box-shadow var(--durations-slow) var(--easings-ease-out-expo),
+    text-decoration-color var(--durations-slow);
 
   &[target='_blank'] {
     /* img,svg が含まれていない a 要素には外部リンクアイコンを付与 */
@@ -310,10 +310,10 @@ del {
     transform: translateY(-8px);
     /* 閉じる時: コンテンツが先にフェードアウト → 高さ収縮 */
     transition:
-      height 0.3s var(--easings-ease-out-expo) 0.08s,
-      opacity 0.2s var(--easings-ease-out-expo),
-      transform 0.2s var(--easings-ease-out-expo),
-      content-visibility 0.3s ease allow-discrete;
+      height var(--durations-slower) var(--easings-ease-out-expo) 0.08s,
+      opacity var(--durations-slow) var(--easings-ease-out-expo),
+      transform var(--durations-slow) var(--easings-ease-out-expo),
+      content-visibility var(--durations-slower) ease allow-discrete;
   }
 
   details[open]::details-content {
@@ -324,10 +324,10 @@ del {
     transform: translateY(0);
     /* 開く時: 高さが先に展開 → コンテンツがフェードイン */
     transition:
-      height 0.4s var(--easings-ease-out-expo),
-      opacity 0.3s var(--easings-ease-out-expo) 0.1s,
-      transform 0.3s var(--easings-ease-out-expo) 0.1s,
-      content-visibility 0.4s ease allow-discrete;
+      height var(--durations-slowest) var(--easings-ease-out-expo),
+      opacity var(--durations-slower) var(--easings-ease-out-expo) var(--durations-fast),
+      transform var(--durations-slower) var(--easings-ease-out-expo) var(--durations-fast),
+      content-visibility var(--durations-slowest) ease allow-discrete;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -342,18 +342,19 @@ del {
 @supports (view-transition-name: none) {
   @media not (prefers-reduced-motion: reduce) {
     ::view-transition-old(cross-fade) {
-      animation: view-transition-hide 0.4s var(--easings-ease-out-expo) forwards;
+      animation: view-transition-hide var(--durations-slowest) var(--easings-ease-out-expo) forwards;
     }
 
     ::view-transition-new(cross-fade) {
       opacity: 0;
-      animation: view-transition-show 0.4s var(--easings-ease-out-expo) 0.1s forwards;
+      animation: view-transition-show var(--durations-slowest) var(--easings-ease-out-expo) var(--durations-fast)
+        forwards;
     }
   }
 
   ::view-transition-old(zoom-image),
   ::view-transition-new(zoom-image) {
-    animation-duration: 300ms;
+    animation-duration: var(--durations-slower);
     animation-timing-function: var(--easings-ease-out-quint);
   }
 

@@ -64,6 +64,7 @@ function PostShare({ title, url }: Props) {
       <Stack direction="horizontal" gap={1}>
         <Tooltip text="Xでポスト">
           <a
+            aria-label="Xでポスト"
             className={classNames}
             href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}&via=${X_ACCOUNT}`}
             rel="noreferrer"
@@ -74,6 +75,7 @@ function PostShare({ title, url }: Props) {
         </Tooltip>
         <Tooltip text="はてなブックマークでブックマーク">
           <a
+            aria-label="はてなブックマークでブックマーク"
             className={classNames}
             href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`}
             rel="noreferrer"
@@ -83,7 +85,7 @@ function PostShare({ title, url }: Props) {
           </a>
         </Tooltip>
         <Tooltip text="ページのURLをコピー">
-          <button className={classNames} onClick={onClickCopyPermalink} type="button">
+          <button aria-label="ページのURLをコピー" className={classNames} onClick={onClickCopyPermalink} type="button">
             <LinkIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
           </button>
         </Tooltip>
@@ -110,7 +112,7 @@ const ShareButtonStyle = css`
   justify-content: center;
   width: calc(var(--sizes-icon-sm) * 2);
   height: calc(var(--sizes-icon-sm) * 2);
-  transition: transform 0.1s var(--easings-ease-out-expo);
+  transition: transform var(--durations-fast) var(--easings-ease-out-expo);
 
   &::after {
     border-radius: var(--radii-full);
