@@ -1,5 +1,6 @@
 import type { Theme } from '@pandacss/types';
 
+import borderWidths from './borderWidths';
 import colors from './colors';
 import durations from './durations';
 import easings from './easings';
@@ -14,6 +15,7 @@ import spacing from './spacing';
 import zIndex from './zIndex';
 
 export const tokens: Theme['tokens'] = {
+  borderWidths,
   colors,
   durations,
   easings,
