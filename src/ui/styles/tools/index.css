@@ -51,7 +51,7 @@
 
   &:focus-visible {
     outline: 0;
-    box-shadow: inset 0 0 0 2px var(--colors-gray-700);
+    box-shadow: inset 0 0 0 2px var(--colors-focus-ring);
   }
 }
 
