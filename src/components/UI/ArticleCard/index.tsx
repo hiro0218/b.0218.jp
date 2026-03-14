@@ -41,7 +41,7 @@ function ArticleCard({
       <Header>
         <PostDate date={date} updated={updated} />
         {!!category && (
-          <CategoryBadge aria-label={CATEGORY_LABELS[category]} data-category={category}>
+          <CategoryBadge aria-label={CATEGORY_LABELS[category]} data-category={category} role="img">
             {CATEGORY_ICONS[category]}
           </CategoryBadge>
         )}
