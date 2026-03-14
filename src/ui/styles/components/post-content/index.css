@@ -60,7 +60,7 @@
     margin-top: clamp(var(--spacing-5), 5vw + 1rem, var(--spacing-6));
     margin-bottom: var(--spacing-3);
     line-height: var(--line-heights-md);
-    border-bottom: 1px solid var(--colors-gray-400);
+    border-bottom: var(--border-widths-thin) solid var(--colors-gray-400);
 
     &:first-of-type {
       margin-top: auto;
@@ -157,8 +157,8 @@
 
     &[srcdoc] {
       display: block;
-      border: 1px solid var(--colors-gray-a-200);
-      border-radius: var(--radii-4);
+      border: var(--border-widths-thin) solid var(--colors-gray-a-200);
+      border-radius: var(--radii-sm);
     }
   }
 
@@ -172,9 +172,9 @@
       font-size: var(--font-sizes-sm);
       font-weight: var(--font-weights-bold);
       background-color: var(--colors-white);
-      border: 1px solid var(--colors-gray-a-300);
-      border-radius: var(--radii-4);
-      transition: background-color 0.2s var(--easings-ease-out-expo);
+      border: var(--border-widths-thin) solid var(--colors-gray-a-300);
+      border-radius: var(--radii-sm);
+      transition: background-color var(--durations-slow) var(--easings-ease-out-expo);
     }
 
     &::details-content {
@@ -188,8 +188,8 @@
 
     &[open] {
       background-color: var(--colors-white);
-      border: 1px solid var(--colors-gray-a-400);
-      border-radius: var(--radii-4);
+      border: var(--border-widths-thin) solid var(--colors-gray-a-400);
+      border-radius: var(--radii-sm);
 
       summary {
         background-color: var(--colors-gray-100);

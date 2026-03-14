@@ -65,6 +65,6 @@ const Footer = styled.footer`
     margin: 0 var(--spacing-½);
     font-size: var(--font-sizes-xs);
     background-color: var(--colors-gray-a-100);
-    border-radius: var(--radii-4);
+    border-radius: var(--radii-sm);
   }
 `;

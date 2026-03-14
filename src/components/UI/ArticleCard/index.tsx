@@ -41,7 +41,7 @@ function ArticleCard({
       <Header>
         <PostDate date={date} updated={updated} />
         {!!category && (
-          <CategoryBadge aria-label={CATEGORY_LABELS[category]} data-category={category}>
+          <CategoryBadge aria-label={CATEGORY_LABELS[category]} data-category={category} role="img">
             {CATEGORY_ICONS[category]}
           </CategoryBadge>
         )}
@@ -50,7 +50,7 @@ function ArticleCard({
         <Title className={cx('line-clamp-2', titleStyle)}>{title}</Title>
       </Anchor>
       {!!excerpt && (
-        <Paragraph className={textEllipsis} {...(typeof excerpt !== 'string' && { as: 'div' })}>
+        <Paragraph as={typeof excerpt === 'string' ? 'p' : 'div'} className={textEllipsis}>
           {excerpt}
         </Paragraph>
       )}
@@ -92,18 +92,18 @@ const containerStyle = css`
   content-visibility: auto;
   word-break: break-all;
   background-color: var(--colors-white);
-  border-radius: var(--radii-4);
-  box-shadow: 0 0 0 1px var(--colors-gray-200);
-  transition: box-shadow 0.2s var(--easings-ease-out-expo);
+  border-radius: var(--radii-sm);
+  box-shadow: 0 0 0 var(--border-widths-thin) var(--colors-gray-200);
+  transition: box-shadow var(--durations-slow) var(--easings-ease-out-expo);
 
   &:hover,
   &:focus,
   &:focus-within {
-    box-shadow: 0 0 0 1px var(--hover-color);
+    box-shadow: 0 0 0 var(--border-widths-thin) var(--hover-color);
   }
 
   &:active {
-    box-shadow: 0 0 0 2px var(--hover-color);
+    box-shadow: 0 0 0 var(--border-widths-medium) var(--hover-color);
   }
 
   time {
@@ -141,7 +141,7 @@ const titleStyle = css`
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-md);
   color: var(--colors-gray-1000);
-  transition: color 0.2s var(--easings-ease-out-expo);
+  transition: color var(--durations-slow) var(--easings-ease-out-expo);
 `;
 
 const Paragraph = styled.p`
@@ -154,7 +154,7 @@ const Tags = styled.div`
   gap: var(--spacing-1);
   margin-top: auto;
   overflow: clip;
-  mask-image: linear-gradient(to right, transparent, #000 0, #000 calc(100% - 2em), transparent);
+  mask-image: linear-gradient(to right, transparent, black 0, black calc(100% - 2em), transparent);
 
   @container (max-width: 480px) {
     display: none;
@@ -164,7 +164,7 @@ const Tags = styled.div`
 const TagItem = styled.span`
   padding: var(--spacing-½) var(--spacing-1);
   font-size: var(--font-sizes-xs);
-  border-radius: var(--radii-4);
+  border-radius: var(--radii-sm);
 `;
 
 const Header = styled.div`
@@ -183,7 +183,7 @@ const CategoryBadge = styled.span`
   display: inline-flex;
   align-items: center;
   padding: var(--spacing-½);
-  border-radius: var(--radii-4);
+  border-radius: var(--radii-sm);
 
   @container (max-width: 320px) {
     display: grid;

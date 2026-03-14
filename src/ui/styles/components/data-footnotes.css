@@ -3,13 +3,13 @@
   margin-top: var(--spacing-6);
   font-size: var(--font-sizes-sm);
   color: var(--colors-gray-800);
-  border-top: 1px solid var(--colors-gray-400);
+  border-top: var(--border-widths-thin) solid var(--colors-gray-400);
 
   li {
     padding-left: var(--spacing-½);
     counter-increment: steps;
     opacity: 0.6;
-    transition: opacity 0.2s ease-in-out;
+    transition: opacity var(--durations-slow) ease-in-out;
 
     &:hover {
       opacity: 1;

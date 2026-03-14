@@ -50,7 +50,7 @@ const anchorStyle = css`
   font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-1000);
-  border-radius: var(--radii-2);
+  border-radius: var(--radii-xs);
 
   &:hover {
     background-color: var(--colors-gray-a-100);

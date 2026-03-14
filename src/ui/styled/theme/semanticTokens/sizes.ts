@@ -11,6 +11,7 @@ export const sizes: TokenValues<'sizes'> = {
   'container-sm': { value: 'clamp(16rem, 90vw, 48rem)' },
   'container-md': { value: 'clamp(16rem, 90vw, 64rem)' },
   'container-lg': { value: 'clamp(16rem, 90vw, 80rem)' },
+  'touch-target': { value: '44px' },
 };
 
 export default sizes;

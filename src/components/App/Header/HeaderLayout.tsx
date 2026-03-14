@@ -37,8 +37,12 @@ const Header = styled.header`
   pointer-events: none;
   isolation: isolate;
   transition:
-    transform 0.2s var(--easings-ease-out-expo),
-    opacity 0.2s var(--easings-ease-out-expo);
+    transform var(--durations-slow) var(--easings-ease-out-expo),
+    opacity var(--durations-slow) var(--easings-ease-out-expo);
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 
   &[data-is-mounted='true'] {
     opacity: 1;

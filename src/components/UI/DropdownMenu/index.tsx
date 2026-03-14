@@ -183,15 +183,15 @@ export const Content = styled.div`
   padding: var(--spacing-½);
   pointer-events: none;
   background-color: var(--colors-white);
-  border: 1px solid var(--colors-gray-a-200);
-  border-radius: var(--radii-4);
+  border: var(--border-widths-thin) solid var(--colors-gray-a-200);
+  border-radius: var(--radii-sm);
   box-shadow: var(--shadows-md);
   opacity: 0;
   transform: scale(0.95);
   transition:
-    opacity 150ms ease-out,
-    transform 150ms ease-out,
-    visibility 0s 150ms;
+    opacity var(--durations-normal) var(--easings-ease-out-expo),
+    transform var(--durations-normal) var(--easings-ease-out-expo),
+    visibility 0s var(--durations-normal);
 
   &[data-position='left'] {
     left: 0;
@@ -207,7 +207,7 @@ export const Content = styled.div`
     visibility: visible;
     pointer-events: auto;
     transition-delay: 0s;
-    animation: dropdownEnter 180ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: dropdownEnter var(--durations-slow) var(--easings-ease-out-expo) forwards;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -225,6 +225,6 @@ export const MenuItemContainer = styled.div`
     align-items: center;
     padding: var(--spacing-½) var(--spacing-1);
     line-height: var(--line-heights-lg);
-    border-radius: var(--radii-4);
+    border-radius: var(--radii-sm);
   }
 `;

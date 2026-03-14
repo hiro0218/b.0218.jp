@@ -5,20 +5,6 @@ paths:
 
 # コードレビューの指示
 
-## Priority Markers
-
-> 優先度の定義については [CLAUDE.md](../../CLAUDE.md#priority-markers) を参照。
-
-## プロジェクト固有の観点
-
-詳細ルールは各ガイドに集約している。レビュー時は以下を参照すること。
-
-- アーキテクチャ横断: [architecture.md](./architecture.md)
-- コンポーネント/レイヤー: [components.md](./components.md)
-- スタイリング: [styling.md](./styling.md)
-- TypeScript規約: [typescript.md](./typescript.md)
-- コンテンツパイプライン: [content-pipeline.md](./content-pipeline.md)
-
 ## レビュー手順
 
 ### 1. 必須チェック項目

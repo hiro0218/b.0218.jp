@@ -7,6 +7,8 @@ const semanticColorTokens = {
   backgroundAccentGradientTo: { value: { base: '{colors.accent.200}' } },
   tableShadowColor: { value: { base: '{colors.grayA.100}' } },
   postNoteIcon: { value: { base: '{colors.grass.1200}' } },
+  focusRing: { value: { base: '{colors.accent.900}' } },
+  selectionBackground: { value: { base: '{colors.accent.200}' } },
 };
 
 export default semanticColorTokens;

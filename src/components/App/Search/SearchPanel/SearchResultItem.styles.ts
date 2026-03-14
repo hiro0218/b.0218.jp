@@ -3,12 +3,12 @@ import { css } from '@/ui/styled';
 export const LinkContainerStyle = css`
   cursor: pointer;
   user-select: none;
-  border-radius: var(--radii-8);
+  border-radius: var(--radii-md);
 `;
 
 export const FocusedContainerStyle = css`
   background-color: var(--colors-gray-100);
-  box-shadow: inset 0 0 0 2px var(--colors-gray-a-1000);
+  box-shadow: inset 0 0 0 var(--border-widths-medium) var(--colors-gray-a-1000);
 `;
 
 export const AnchorStyle = css`
@@ -17,7 +17,7 @@ export const AnchorStyle = css`
   align-items: center;
   padding: var(--spacing-1) var(--spacing-2);
   font-size: var(--font-sizes-sm);
-  border-radius: var(--radii-8);
+  border-radius: var(--radii-md);
 
   &:hover {
     background-color: var(--colors-gray-a-100);

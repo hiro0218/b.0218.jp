@@ -22,7 +22,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({ message, onHideTo
       ref={ref}
       role="status"
     >
-      {message}
+      {isVisible && message}
     </Container>
   );
 });
@@ -41,13 +41,13 @@ const Container = styled.div`
   pointer-events: none;
   user-select: none;
   background-color: var(--colors-dark-backgrounds);
-  border-radius: var(--radii-4);
+  border-radius: var(--radii-sm);
   isolation: isolate;
   opacity: 0;
   transform: translateY(10px);
   transition:
-    opacity 0.2s var(--easings-ease-out-expo),
-    transform 0.2s var(--easings-ease-out-expo);
+    opacity var(--durations-slow) var(--easings-ease-out-expo),
+    transform var(--durations-slow) var(--easings-ease-out-expo);
 
   &[data-visible='true'] {
     pointer-events: auto;

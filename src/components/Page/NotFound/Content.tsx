@@ -57,7 +57,7 @@ const PrimaryAnchorStyle = css`
   color: var(--colors-white);
   white-space: nowrap;
   background-color: var(--colors-gray-800);
-  border-radius: var(--radii-4);
+  border-radius: var(--radii-sm);
 
   &:hover {
     background-color: var(--colors-gray-700);

@@ -18,14 +18,14 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--spacing-4);
-  height: var(--spacing-4);
+  width: var(--sizes-touch-target);
+  height: var(--sizes-touch-target);
   padding: 0;
   cursor: pointer;
   background: none;
   border: none;
   border-radius: var(--radii-full);
-  transition: background-color 0.2s var(--easings-ease-out-expo);
+  transition: background-color var(--durations-slow) var(--easings-ease-out-expo);
 
   &:hover {
     background-color: var(--colors-gray-a-100);

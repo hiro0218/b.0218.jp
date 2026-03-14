@@ -5,10 +5,6 @@ paths:
 
 # プロジェクトアーキテクチャ指針（要点）
 
-## Priority Markers
-
-> 優先度の定義については [CLAUDE.md](../../CLAUDE.md#priority-markers) を参照。
-
 ## 🔴 Server First / SSG (CRITICAL)
 
 - デフォルトは Server Component
@@ -18,18 +14,16 @@ paths:
 
 ## 🔴 Layer Dependencies (CRITICAL)
 
-- レイヤー依存は Biome で検証される
-
-**詳細**: [components.md](./components.md#レイヤー依存関係-critical)
+→ 正規定義: [components.md](./components.md)
 
 ## 🔴 Content Source Read-Only (CRITICAL)
 
-- `_article/_posts/*.md` は Git submodule のため直接編集禁止
+→ 正規定義: [content-pipeline.md](./content-pipeline.md)
 
-**詳細**: [content-pipeline.md](./content-pipeline.md)
+## 🔴 React Compiler (CRITICAL)
 
-## 🟡 React Compiler (IMPORTANT)
+→ 正規定義: [react-compiler-optimization.md](./react-compiler-optimization.md)
 
-- 最適化提案前に `next.config.mjs` の `reactCompiler` を確認
+## 🟡 ルートグループ名 (IMPORTANT)
 
-**詳細**: [react-compiler-optimization.md](./react-compiler-optimization.md)
+- `(ArchivePage)`, `(PostPage)`, `(SinglePage)` を使用する
