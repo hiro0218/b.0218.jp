@@ -14,7 +14,7 @@
   min-height: var(--sizes-touch-target);
   padding: var(--spacing-½) var(--spacing-1);
   color: var(--colors-gray-1000);
-  border-radius: var(--radii-4);
+  border-radius: var(--radii-sm);
 
   @media (--isDesktop) {
     min-height: auto;
@@ -31,7 +31,7 @@
     pointer-events: none;
     content: '';
     background-color: var(--colors-gray-a-100);
-    border-radius: var(--radii-4);
+    border-radius: var(--radii-sm);
     opacity: 0;
     transform: scale(0.8);
     transition:

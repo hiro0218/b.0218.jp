@@ -50,7 +50,7 @@ const TooltipContent = styled.span`
   pointer-events: none;
   user-select: none;
   background-color: var(--colors-dark-backgrounds);
-  border-radius: var(--radii-4);
+  border-radius: var(--radii-sm);
   opacity: 0;
   transition:
     transform var(--durations-fast) var(--easings-ease-out-expo),

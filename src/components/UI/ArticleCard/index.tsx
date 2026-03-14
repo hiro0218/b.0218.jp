@@ -92,7 +92,7 @@ const containerStyle = css`
   content-visibility: auto;
   word-break: break-all;
   background-color: var(--colors-white);
-  border-radius: var(--radii-4);
+  border-radius: var(--radii-sm);
   box-shadow: 0 0 0 var(--border-widths-thin) var(--colors-gray-200);
   transition: box-shadow var(--durations-slow) var(--easings-ease-out-expo);
 
@@ -164,7 +164,7 @@ const Tags = styled.div`
 const TagItem = styled.span`
   padding: var(--spacing-½) var(--spacing-1);
   font-size: var(--font-sizes-xs);
-  border-radius: var(--radii-4);
+  border-radius: var(--radii-sm);
 `;
 
 const Header = styled.div`
@@ -183,7 +183,7 @@ const CategoryBadge = styled.span`
   display: inline-flex;
   align-items: center;
   padding: var(--spacing-½);
-  border-radius: var(--radii-4);
+  border-radius: var(--radii-sm);
 
   @container (max-width: 320px) {
     display: grid;

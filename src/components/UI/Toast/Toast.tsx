@@ -41,7 +41,7 @@ const Container = styled.div`
   pointer-events: none;
   user-select: none;
   background-color: var(--colors-dark-backgrounds);
-  border-radius: var(--radii-4);
+  border-radius: var(--radii-sm);
   isolation: isolate;
   opacity: 0;
   transform: translateY(10px);

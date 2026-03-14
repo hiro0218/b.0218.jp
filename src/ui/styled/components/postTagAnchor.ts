@@ -13,7 +13,7 @@ export const postTagAnchor = css`
   white-space: nowrap;
   min-height: var(--sizes-touch-target);
   background-color: var(--colors-gray-a-100);
-  border-radius: var(--radii-8);
+  border-radius: var(--radii-md);
 
   @media (--isDesktop) {
     min-height: auto;

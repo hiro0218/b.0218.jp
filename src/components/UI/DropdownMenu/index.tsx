@@ -184,7 +184,7 @@ export const Content = styled.div`
   pointer-events: none;
   background-color: var(--colors-white);
   border: var(--border-widths-thin) solid var(--colors-gray-a-200);
-  border-radius: var(--radii-4);
+  border-radius: var(--radii-sm);
   box-shadow: var(--shadows-md);
   opacity: 0;
   transform: scale(0.95);
@@ -225,6 +225,6 @@ export const MenuItemContainer = styled.div`
     align-items: center;
     padding: var(--spacing-½) var(--spacing-1);
     line-height: var(--line-heights-lg);
-    border-radius: var(--radii-4);
+    border-radius: var(--radii-sm);
   }
 `;

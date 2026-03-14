@@ -83,7 +83,7 @@ const Dialog = styled.dialog`
   max-height: var(--search-dialog-max-height);
   padding: 0;
   border: none;
-  border-radius: var(--radii-4);
+  border-radius: var(--radii-sm);
   isolation: isolate;
 
   &:not([open]) {

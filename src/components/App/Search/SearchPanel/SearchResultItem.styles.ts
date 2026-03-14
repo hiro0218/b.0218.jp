@@ -3,7 +3,7 @@ import { css } from '@/ui/styled';
 export const LinkContainerStyle = css`
   cursor: pointer;
   user-select: none;
-  border-radius: var(--radii-8);
+  border-radius: var(--radii-md);
 `;
 
 export const FocusedContainerStyle = css`
@@ -17,7 +17,7 @@ export const AnchorStyle = css`
   align-items: center;
   padding: var(--spacing-1) var(--spacing-2);
   font-size: var(--font-sizes-sm);
-  border-radius: var(--radii-8);
+  border-radius: var(--radii-md);
 
   &:hover {
     background-color: var(--colors-gray-a-100);

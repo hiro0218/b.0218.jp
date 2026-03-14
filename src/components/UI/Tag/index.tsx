@@ -67,5 +67,5 @@ const Count = styled.span`
   line-height: var(--line-heights-sm);
   user-select: none;
   background-color: var(--colors-gray-a-100);
-  border-radius: var(--radii-8);
+  border-radius: var(--radii-md);
 `;

@@ -76,7 +76,7 @@ const headerStyle = css`
   align-items: center;
   padding: var(--spacing-½) 0 var(--spacing-½) var(--spacing-2);
   background-color: var(--colors-gray-a-50);
-  border-radius: var(--radii-4);
+  border-radius: var(--radii-sm);
   transition: background-color var(--durations-slow) var(--easings-ease-out-expo);
 
   &:hover {

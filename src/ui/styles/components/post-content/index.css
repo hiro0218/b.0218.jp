@@ -158,7 +158,7 @@
     &[srcdoc] {
       display: block;
       border: var(--border-widths-thin) solid var(--colors-gray-a-200);
-      border-radius: var(--radii-4);
+      border-radius: var(--radii-sm);
     }
   }
 
@@ -173,7 +173,7 @@
       font-weight: var(--font-weights-bold);
       background-color: var(--colors-white);
       border: var(--border-widths-thin) solid var(--colors-gray-a-300);
-      border-radius: var(--radii-4);
+      border-radius: var(--radii-sm);
       transition: background-color var(--durations-slow) var(--easings-ease-out-expo);
     }
 
@@ -189,7 +189,7 @@
     &[open] {
       background-color: var(--colors-white);
       border: var(--border-widths-thin) solid var(--colors-gray-a-400);
-      border-radius: var(--radii-4);
+      border-radius: var(--radii-sm);
 
       summary {
         background-color: var(--colors-gray-100);

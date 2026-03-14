@@ -135,7 +135,7 @@ const styleAnchor = css`
   width: 100%;
   padding-block: var(--spacing-1);
   color: var(--colors-gray-700);
-  border-radius: var(--radii-8);
+  border-radius: var(--radii-md);
 
   &:hover {
     color: var(--colors-gray-800);
@@ -144,7 +144,7 @@ const styleAnchor = css`
     --year-post-separator-size-h: var(--spacing-3);
     --year-post-separator-size-w: var(--spacing-1);
     --year-post-separator-color: var(--colors-accent-600);
-    --year-post-separator-border-radius: var(--radii-8);
+    --year-post-separator-border-radius: var(--radii-md);
   }
 
   &:active {
