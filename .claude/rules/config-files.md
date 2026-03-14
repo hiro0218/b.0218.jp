@@ -26,6 +26,6 @@ paths:
 **詳細**:
 
 - React Compiler: [react-compiler-optimization.md](./react-compiler-optimization.md)
-- レイヤー依存: [components.md](./components.md#レイヤー依存関係-critical)
+- レイヤー依存: [components.md](./components.md)
 - スタイリング: [styling.md](./styling.md)
 - TypeScript: [typescript.md](./typescript.md)

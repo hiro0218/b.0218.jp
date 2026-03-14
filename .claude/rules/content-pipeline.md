@@ -24,11 +24,15 @@ paths:
 
 ## パイプライン手順（要点）
 
-1. `build/article` → `dist/*.json`
-2. `build/similarity` → `dist/*.json`
-3. `build/search` → `dist/*.json`
-4. `build/popular` → `dist/*.json`
-5. `build/ogp` → `public/ogp/*.png`
+1. `build:article` → `dist/*.json`（順次）
+2. 以下を並列実行:
+   - `build:similarity` → `dist/*.json`
+   - `build:search` → `dist/*.json`
+   - `build:popular` → `dist/*.json`
+   - `build:category` → `dist/*.json`
+3. `build:ogp` → `public/ogp/*.png`（`SKIP_OGP=true` でスキップ可）
+
+正確な手順は `scripts/prebuild.sh` を参照。
 
 ## 編集可能/不可
 

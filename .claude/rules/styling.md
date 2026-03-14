@@ -27,4 +27,4 @@ paths:
 
 ## 参照
 
-- Zero Margin: [components.md](./components.md#zero-margin-principle-critical)
+- Zero Margin: [components.md](./components.md)

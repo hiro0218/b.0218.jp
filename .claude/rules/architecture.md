@@ -14,7 +14,7 @@ paths:
 
 ## 🔴 Layer Dependencies (CRITICAL)
 
-→ 正規定義: [components.md](./components.md#レイヤー依存関係-critical)
+→ 正規定義: [components.md](./components.md)
 
 ## 🔴 Content Source Read-Only (CRITICAL)
 
