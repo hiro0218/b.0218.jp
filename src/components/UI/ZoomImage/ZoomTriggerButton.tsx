@@ -18,7 +18,7 @@ const buttonStyle = css`
   }
 
   &:focus-visible {
-    outline: 2px solid var(--colors-blue-500);
+    outline: 2px solid var(--colors-focus-ring);
     outline-offset: 2px;
   }
 `;
