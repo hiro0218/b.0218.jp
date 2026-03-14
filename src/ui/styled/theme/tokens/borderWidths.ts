@@ -1,9 +1,9 @@
 import type { TokenValues } from './types';
 
 const borderWidthValues: TokenValues<'borderWidths'> = {
-  '1': { value: '1px' },
-  '2': { value: '2px' },
-  '4': { value: '4px' },
+  thin: { value: '1px' },
+  medium: { value: '2px' },
+  thick: { value: '4px' },
 };
 
 export default borderWidthValues;
