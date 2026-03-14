@@ -11,9 +11,14 @@
 @define-mixin link-style {
   display: inline-flex;
   align-items: center;
+  min-height: var(--sizes-touch-target);
   padding: var(--spacing-½) var(--spacing-1);
   color: var(--colors-gray-1000);
   border-radius: var(--radii-4);
+
+  @media (--isDesktop) {
+    min-height: auto;
+  }
 }
 
 @define-mixin link-style--hover-effect {
