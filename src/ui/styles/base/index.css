@@ -90,7 +90,7 @@ a {
 
   &:focus-visible {
     outline: 0;
-    box-shadow: 0 0 0 2px var(--colors-gray-700);
+    box-shadow: 0 0 0 2px var(--colors-focus-ring);
   }
 }
 
