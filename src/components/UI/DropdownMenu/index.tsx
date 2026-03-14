@@ -183,7 +183,7 @@ export const Content = styled.div`
   padding: var(--spacing-½);
   pointer-events: none;
   background-color: var(--colors-white);
-  border: 1px solid var(--colors-gray-a-200);
+  border: var(--border-widths-1) solid var(--colors-gray-a-200);
   border-radius: var(--radii-4);
   box-shadow: var(--shadows-md);
   opacity: 0;

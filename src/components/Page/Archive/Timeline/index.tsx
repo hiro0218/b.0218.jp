@@ -76,7 +76,7 @@ const Section = styled.section`
     height: var(--year-heading-separator-size);
     content: '';
     background-color: var(--colors-white);
-    border: 4px solid var(--year-heading-circle-color);
+    border: var(--border-widths-4) solid var(--year-heading-circle-color);
     border-radius: var(--radii-full);
     transform: translateX(-50%);
     transition: border var(--durations-slow) var(--easings-ease-out-expo);

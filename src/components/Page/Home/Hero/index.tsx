@@ -23,7 +23,7 @@ const containerStyle = css`
 
   a {
     text-decoration-line: underline;
-    text-decoration-thickness: 2px;
+    text-decoration-thickness: var(--border-widths-2);
     text-decoration-color: var(--colors-gray-600);
     text-underline-offset: 2%;
 

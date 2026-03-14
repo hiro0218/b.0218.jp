@@ -39,7 +39,7 @@ const Anchor = styled.a`
   text-decoration: none;
   text-decoration-line: unset;
   background-color: var(--colors-white);
-  border: 1px solid var(--colors-gray-a-300);
+  border: var(--border-widths-1) solid var(--colors-gray-a-300);
   border-radius: var(--radii-8);
 
   &:hover {

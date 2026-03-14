@@ -93,17 +93,17 @@ const containerStyle = css`
   word-break: break-all;
   background-color: var(--colors-white);
   border-radius: var(--radii-4);
-  box-shadow: 0 0 0 1px var(--colors-gray-200);
+  box-shadow: 0 0 0 var(--border-widths-1) var(--colors-gray-200);
   transition: box-shadow var(--durations-slow) var(--easings-ease-out-expo);
 
   &:hover,
   &:focus,
   &:focus-within {
-    box-shadow: 0 0 0 1px var(--hover-color);
+    box-shadow: 0 0 0 var(--border-widths-1) var(--hover-color);
   }
 
   &:active {
-    box-shadow: 0 0 0 2px var(--hover-color);
+    box-shadow: 0 0 0 var(--border-widths-2) var(--hover-color);
   }
 
   time {
