@@ -45,7 +45,7 @@ const zoomIndicatorStyle = css`
   background: var(--colors-gray-a-100);
   border-radius: var(--radii-full);
   opacity: 0;
-  transition: opacity var(--durations-slow) var(--easings-ease-out-expo);
+  transition: opacity var(--transition-slow);
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;

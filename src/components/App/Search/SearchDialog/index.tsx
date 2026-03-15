@@ -96,11 +96,11 @@ const Dialog = styled.dialog`
     visibility: visible;
     pointer-events: auto;
     opacity: 1;
-    animation: zoomIn var(--durations-slow) var(--easings-ease-out-expo);
+    animation: zoomIn var(--transition-slow);
   }
 
   &[open][data-closing='true'] {
-    animation: zoomOut var(--durations-slow) var(--easings-ease-out-expo) forwards;
+    animation: zoomOut var(--transition-slow) forwards;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -113,8 +113,8 @@ const Dialog = styled.dialog`
     cursor: pointer;
     background-color: var(--colors-overlay-backgrounds);
     transition:
-      background-color var(--durations-slow) var(--easings-ease-out-expo),
-      opacity var(--durations-slow) var(--easings-ease-out-expo);
+      background-color var(--transition-slow),
+      opacity var(--transition-slow);
   }
 
   &[data-closing='true']::backdrop {

@@ -189,8 +189,8 @@ export const Content = styled.div`
   opacity: 0;
   transform: scale(0.95);
   transition:
-    opacity var(--durations-normal) var(--easings-ease-out-expo),
-    transform var(--durations-normal) var(--easings-ease-out-expo),
+    opacity var(--transition-normal),
+    transform var(--transition-normal),
     visibility 0s var(--durations-normal);
 
   &[data-position='left'] {
@@ -207,7 +207,7 @@ export const Content = styled.div`
     visibility: visible;
     pointer-events: auto;
     transition-delay: 0s;
-    animation: dropdownEnter var(--durations-slow) var(--easings-ease-out-expo) forwards;
+    animation: dropdownEnter var(--transition-slow) forwards;
   }
 
   @media (prefers-reduced-motion: reduce) {

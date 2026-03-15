@@ -73,7 +73,7 @@ a {
   transition:
     background-color var(--durations-slow) ease,
     opacity var(--durations-slow) ease,
-    box-shadow var(--durations-slow) var(--easings-ease-out-expo),
+    box-shadow var(--transition-slow),
     text-decoration-color var(--durations-slow);
 
   &[target='_blank'] {
@@ -311,8 +311,8 @@ del {
     /* 閉じる時: コンテンツが先にフェードアウト → 高さ収縮 */
     transition:
       height var(--durations-slower) var(--easings-ease-out-expo) 0.08s,
-      opacity var(--durations-slow) var(--easings-ease-out-expo),
-      transform var(--durations-slow) var(--easings-ease-out-expo),
+      opacity var(--transition-slow),
+      transform var(--transition-slow),
       content-visibility var(--durations-slower) ease allow-discrete;
   }
 

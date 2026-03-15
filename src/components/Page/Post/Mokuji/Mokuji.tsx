@@ -45,7 +45,7 @@ const Root = styled.nav`
 const Details = styled.details`
   background-color: var(--colors-gray-a-100);
   border-radius: var(--radii-md);
-  transition: background-color var(--durations-slow) var(--easings-ease-out-expo);
+  transition: background-color var(--transition-slow);
 
   &:not([open]) {
     &:hover {

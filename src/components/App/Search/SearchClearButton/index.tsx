@@ -25,7 +25,7 @@ const Button = styled.button`
   background: none;
   border: none;
   border-radius: var(--radii-full);
-  transition: background-color var(--durations-slow) var(--easings-ease-out-expo);
+  transition: background-color var(--transition-slow);
 
   &:hover {
     background-color: var(--colors-gray-a-100);

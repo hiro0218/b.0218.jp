@@ -79,7 +79,7 @@ const Section = styled.section`
     border: var(--border-widths-thick) solid var(--year-heading-circle-color);
     border-radius: var(--radii-full);
     transform: translateX(-50%);
-    transition: border var(--durations-slow) var(--easings-ease-out-expo);
+    transition: border var(--transition-slow);
   }
 
   &:hover {
@@ -120,10 +120,10 @@ const Separator = styled.span`
   background-color: var(--year-post-separator-color);
   border-radius: var(--year-post-separator-border-radius);
   transition:
-    width var(--durations-normal) var(--easings-ease-out-expo),
-    height var(--durations-normal) var(--easings-ease-out-expo),
-    background-color var(--durations-normal) var(--easings-ease-out-expo),
-    border-radius var(--durations-normal) var(--easings-ease-out-expo);
+    width var(--transition-normal),
+    height var(--transition-normal),
+    background-color var(--transition-normal),
+    border-radius var(--transition-normal);
 `;
 
 const styleAnchor = css`

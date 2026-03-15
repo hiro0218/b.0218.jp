@@ -37,8 +37,8 @@ const Header = styled.header`
   pointer-events: none;
   isolation: isolate;
   transition:
-    transform var(--durations-slow) var(--easings-ease-out-expo),
-    opacity var(--durations-slow) var(--easings-ease-out-expo);
+    transform var(--transition-slow),
+    opacity var(--transition-slow);
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;

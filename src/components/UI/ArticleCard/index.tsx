@@ -94,7 +94,7 @@ const containerStyle = css`
   background-color: var(--colors-white);
   border-radius: var(--radii-sm);
   box-shadow: 0 0 0 var(--border-widths-thin) var(--colors-gray-200);
-  transition: box-shadow var(--durations-slow) var(--easings-ease-out-expo);
+  transition: box-shadow var(--transition-slow);
 
   &:hover,
   &:focus,
@@ -141,7 +141,7 @@ const titleStyle = css`
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-md);
   color: var(--colors-gray-1000);
-  transition: color var(--durations-slow) var(--easings-ease-out-expo);
+  transition: color var(--transition-slow);
 `;
 
 const Paragraph = styled.p`

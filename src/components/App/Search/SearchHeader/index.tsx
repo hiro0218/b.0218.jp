@@ -77,7 +77,7 @@ const headerStyle = css`
   padding: var(--spacing-½) 0 var(--spacing-½) var(--spacing-2);
   background-color: var(--colors-gray-a-50);
   border-radius: var(--radii-sm);
-  transition: background-color var(--durations-slow) var(--easings-ease-out-expo);
+  transition: background-color var(--transition-slow);
 
   &:hover {
     background-color: var(--colors-gray-a-100);

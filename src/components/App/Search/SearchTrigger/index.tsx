@@ -37,7 +37,7 @@ const Button = styled.button`
   background: none;
   border: none;
   border-radius: var(--radii-full);
-  transition: transform var(--durations-fast) var(--easings-ease-out-expo);
+  transition: transform var(--transition-fast);
 
   @media (--isDesktop) {
     width: var(--spacing-4);

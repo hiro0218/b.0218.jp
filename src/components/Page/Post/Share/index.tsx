@@ -112,7 +112,7 @@ const ShareButtonStyle = css`
   justify-content: center;
   width: calc(var(--sizes-icon-sm) * 2);
   height: calc(var(--sizes-icon-sm) * 2);
-  transition: transform var(--durations-fast) var(--easings-ease-out-expo);
+  transition: transform var(--transition-fast);
 
   &::after {
     border-radius: var(--radii-full);
