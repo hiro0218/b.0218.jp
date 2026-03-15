@@ -120,7 +120,6 @@ const Separator = styled.span`
   background-color: var(--year-post-separator-color);
   border-radius: var(--year-post-separator-border-radius);
   transition:
-    width var(--transition-normal),
     height var(--transition-normal),
     background-color var(--transition-normal),
     border-radius var(--transition-normal);
@@ -142,7 +141,6 @@ const styleAnchor = css`
     background-color: var(--colors-gray-a-100);
 
     --year-post-separator-size-h: var(--spacing-3);
-    --year-post-separator-size-w: var(--spacing-1);
     --year-post-separator-color: var(--colors-accent-600);
     --year-post-separator-border-radius: var(--radii-md);
   }
