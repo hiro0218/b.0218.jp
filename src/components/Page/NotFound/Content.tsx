@@ -1,10 +1,14 @@
-import { recentPosts } from '@/app/_lib/cachedRecentPosts';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { Anchor } from '@/components/UI/Anchor';
 import { Center, Stack } from '@/components/UI/Layout';
+import type { PostSummary } from '@/types/source';
 import { css } from '@/ui/styled';
 
-export default function Content() {
+type Props = {
+  posts: PostSummary[];
+};
+
+export default function Content({ posts }: Props) {
   return (
     <Stack align="center" className={ContainerStyle} direction="vertical" gap={5} justify="center">
       <Stack gap={3}>
@@ -22,7 +26,7 @@ export default function Content() {
         </Stack>
       </Stack>
       <Stack className={LatestPostContainerStyle} gap={2}>
-        <PostSection as="section" heading="" headingLevel="h2" href="/archive" posts={recentPosts.slice(0, 4)} />
+        <PostSection as="section" heading="" headingLevel="h2" href="/archive" posts={posts.slice(0, 4)} />
       </Stack>
     </Stack>
   );
