@@ -1,10 +1,10 @@
-import type { ArchiveListProps } from '@/app/(ArchivePage)/archive/_lib';
 import { Anchor } from '@/components/UI/Anchor';
+import type { ArchivesByYear } from '@/types/source';
 import { css, styled } from '@/ui/styled';
 
 type Props = {
   totalPosts: number;
-  archives: ArchiveListProps;
+  archives: ArchivesByYear;
 };
 
 /** 小さな割合でもバーが視認できるよう、パーセント値を拡大するスケール係数。100%を超えると全面塗りつぶしになる */
@@ -86,8 +86,8 @@ const AnchorStyle = css`
     height: 100%;
     content: '';
     background: var(--fill);
-    border-radius: var(--radii-4);
-    transition: background 0.2s var(--easings-ease-out-expo);
+    border-radius: var(--radii-sm);
+    transition: background var(--transition-slow);
 
     @container (min-width: 600px) {
       width: 100%;

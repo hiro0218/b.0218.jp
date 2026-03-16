@@ -1,10 +1,10 @@
 import type { TokenValues } from './types';
 
 const radiiValues: TokenValues<'radii'> = {
-  '2': { value: '2px' },
-  '4': { value: '4px' },
-  '8': { value: '8px' },
-  '12': { value: '12px' },
+  xs: { value: '2px' },
+  sm: { value: '4px' },
+  md: { value: '8px' },
+  lg: { value: '12px' },
   full: { value: '100%' },
 };
 

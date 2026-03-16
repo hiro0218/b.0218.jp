@@ -5,10 +5,6 @@ paths:
 
 # TypeScript コーディング規約
 
-## Priority Markers
-
-> 優先度の定義については [CLAUDE.md](../../CLAUDE.md#priority-markers) を参照。
-
 ## 🔴 必須
 
 - `any` を使用しない

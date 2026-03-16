@@ -1,3 +1,5 @@
+'use client';
+
 import { usePathname } from 'next/navigation';
 
 import { ChevronDownIcon, ChevronUpIcon, ICON_SIZE_XS } from '@/ui/icons';
@@ -44,8 +46,8 @@ const Root = styled.nav`
 
 const Details = styled.details`
   background-color: var(--colors-gray-a-100);
-  border-radius: var(--radii-8);
-  transition: background-color 0.2s var(--easings-ease-out-expo);
+  border-radius: var(--radii-md);
+  transition: background-color var(--transition-slow);
 
   &:not([open]) {
     &:hover {

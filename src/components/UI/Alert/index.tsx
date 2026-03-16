@@ -56,8 +56,8 @@ const containerStyle = css`
   font-size: var(--font-sizes-sm);
   color: var(--alert-color);
   background-color: var(--alert-background);
-  border-radius: var(--radii-8);
-  box-shadow: inset 0 0 0 1px var(--alert-border);
+  border-radius: var(--radii-md);
+  box-shadow: inset 0 0 0 var(--border-widths-thin) var(--alert-border);
 
   /* stylelint-disable-next-line */
   ::selection {

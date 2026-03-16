@@ -43,8 +43,8 @@ const Button = styled.button`
   border: none;
   border-radius: var(--radii-full);
   transition:
-    background-color 0.2s var(--easings-ease-out-expo),
-    transform 0.1s var(--easings-ease-out-expo);
+    background-color var(--transition-slow),
+    transform var(--transition-fast);
 
   svg {
     --desktop-size: calc(var(--sizes-icon-md) * 0.5);
@@ -64,8 +64,10 @@ const Button = styled.button`
   &:hover {
     background-color: var(--colors-gray-a-200);
 
-    svg {
-      animation: floatingFade 0.4s linear 0s;
+    @media (prefers-reduced-motion: no-preference) {
+      svg {
+        animation: floatingFade var(--durations-slowest) linear 0s;
+      }
     }
   }
 

@@ -83,7 +83,7 @@ const Dialog = styled.dialog`
   max-height: var(--search-dialog-max-height);
   padding: 0;
   border: none;
-  border-radius: var(--radii-4);
+  border-radius: var(--radii-sm);
   isolation: isolate;
 
   &:not([open]) {
@@ -96,19 +96,25 @@ const Dialog = styled.dialog`
     visibility: visible;
     pointer-events: auto;
     opacity: 1;
-    animation: zoomIn 0.2s var(--easings-ease-out-expo);
+    animation: zoomIn var(--transition-slow);
   }
 
   &[open][data-closing='true'] {
-    animation: zoomOut 0.2s var(--easings-ease-out-expo) forwards;
+    animation: zoomOut var(--transition-slow) forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &[open] {
+      animation: none;
+    }
   }
 
   &::backdrop {
     cursor: pointer;
     background-color: var(--colors-overlay-backgrounds);
     transition:
-      background-color 0.2s var(--easings-ease-out-expo),
-      opacity 0.2s var(--easings-ease-out-expo);
+      background-color var(--transition-slow),
+      opacity var(--transition-slow);
   }
 
   &[data-closing='true']::backdrop {

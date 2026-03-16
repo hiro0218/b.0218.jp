@@ -191,7 +191,6 @@ export const getBreadcrumbStructured = (post: Post) => {
     '@type': 'ListItem',
     position: itemListElement.length + 1,
     name: post.title,
-    item: getPermalink(post.slug),
   });
 
   const structure: WithContext<BreadcrumbList> = {

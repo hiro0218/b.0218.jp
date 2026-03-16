@@ -30,13 +30,19 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--spacing-4);
-  height: var(--spacing-4);
+  width: var(--sizes-touch-target);
+  height: var(--sizes-touch-target);
   pointer-events: auto;
   cursor: pointer;
   background: none;
   border: none;
   border-radius: var(--radii-full);
+  transition: transform var(--transition-fast);
+
+  @media (--isDesktop) {
+    width: var(--spacing-4);
+    height: var(--spacing-4);
+  }
 
   &::after {
     border-radius: var(--radii-full);

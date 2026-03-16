@@ -5,10 +5,6 @@ paths:
 
 # コンポーネントアーキテクチャ規則
 
-## Priority Markers
-
-> 優先度の定義については [CLAUDE.md](../../CLAUDE.md#priority-markers) を参照。
-
 ## 🔴 Zero Margin Principle (CRITICAL)
 
 - UI コンポーネントは外部マージンを持たない
@@ -37,7 +33,7 @@ UI/ ← → Functional/ (独立)
 ### Feature Module Convention
 
 App/ 内で自己完結した機能モジュール（独自の hooks, engine, types を持つ）は「Feature Module」として扱う。
-現時点では `App/Search/` のみが該当。外部からの import は公開 API（トップレベルコンポーネント）のみ。
+外部からの import は公開 API（トップレベルコンポーネント）のみ。
 
 ## 🟡 Props 設計 (IMPORTANT)
 
@@ -46,4 +42,4 @@ App/ 内で自己完結した機能モジュール（独自の hooks, engine, ty
 
 ## 参照
 
-- SSG 原則: [architecture.md](./architecture.md#server-first--ssg-critical)
+- SSG 原則: [architecture.md](./architecture.md)

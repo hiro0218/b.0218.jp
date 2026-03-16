@@ -18,7 +18,7 @@ const buttonStyle = css`
   }
 
   &:focus-visible {
-    outline: 2px solid var(--colors-blue-500);
+    outline: var(--border-widths-medium) solid var(--colors-focus-ring);
     outline-offset: 2px;
   }
 `;
@@ -45,7 +45,7 @@ const zoomIndicatorStyle = css`
   background: var(--colors-gray-a-100);
   border-radius: var(--radii-full);
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity var(--transition-slow);
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
@@ -56,7 +56,7 @@ const zoomIconStyle = css`
   display: block;
   width: var(--spacing-2);
   height: var(--spacing-2);
-  color: var(--colors-text-primary);
+  color: var(--colors-gray-1000);
 `;
 
 interface ZoomTriggerButtonProps {

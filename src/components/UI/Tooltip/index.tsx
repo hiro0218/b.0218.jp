@@ -50,11 +50,11 @@ const TooltipContent = styled.span`
   pointer-events: none;
   user-select: none;
   background-color: var(--colors-dark-backgrounds);
-  border-radius: var(--radii-4);
+  border-radius: var(--radii-sm);
   opacity: 0;
   transition:
-    transform 0.1s linear,
-    opacity 0.2s linear;
+    transform var(--transition-fast),
+    opacity var(--transition-slow);
 
   &[data-position='top'] {
     bottom: calc(100% + var(--spacing-½));

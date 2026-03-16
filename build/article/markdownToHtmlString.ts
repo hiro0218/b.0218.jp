@@ -2,6 +2,7 @@ import rehypeShiki from '@shikijs/rehype';
 import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
 import rehypeRaw from 'rehype-raw';
 import rehypeStringify from 'rehype-stringify';
+import remarkCjkFriendly from 'remark-cjk-friendly';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
@@ -20,6 +21,7 @@ async function markdownToHtmlString(markdown: string, isSimple = false, options?
   const baseProcessor = unified()
     .use(remarkParse)
     .use(remarkGfm)
+    .use(remarkCjkFriendly)
     .use(remarkBreaks)
     .use(remarkRehype, { footnoteLabel: '注釈', allowDangerousHtml: true })
     .use(rehypeExternalLink)

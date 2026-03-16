@@ -10,5 +10,5 @@ export const metadata: Metadata = getMetadata({
 });
 
 export default function Page() {
-  return <Template slug="privacy" />;
+  return <Template description={PAGE_CONFIGS.privacy.description} slug="privacy" title={PAGE_CONFIGS.privacy.title} />;
 }

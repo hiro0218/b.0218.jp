@@ -19,9 +19,9 @@ const url = `${SITE_URL}/tags`;
 // 構造化データのリスト
 const listItem: ListItemProps = tags.slice(0, 20).map(({ slug }, i) => ({
   '@type': 'ListItem',
-  position: i,
+  position: i + 1,
   name: decodeURIComponent(slug),
-  url: `${url}/${slug}`,
+  url: `${url}/${encodeURIComponent(slug)}`,
 }));
 
 export const metadata: Metadata = getMetadata({

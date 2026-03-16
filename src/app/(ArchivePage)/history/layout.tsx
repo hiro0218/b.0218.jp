@@ -13,6 +13,7 @@ export const metadata: Metadata = getMetadata({
   title,
   description: `${pageTitle} - ${description}`,
   url: `${SITE_URL}/${slug}`,
+  robots: { index: false, follow: false },
 });
 
 type Props = {

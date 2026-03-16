@@ -59,7 +59,7 @@ const Section = styled.section`
     color: var(--colors-gray-500);
     pointer-events: none;
     content: '';
-    background-image: repeating-linear-gradient(-45deg, currentColor, currentColor 1px, #0000 0 50%);
+    background-image: repeating-linear-gradient(-45deg, currentColor, currentColor 1px, transparent 0 50%);
     background-size: 6px 6px;
     transform: translateX(-50%);
   }
@@ -76,10 +76,10 @@ const Section = styled.section`
     height: var(--year-heading-separator-size);
     content: '';
     background-color: var(--colors-white);
-    border: 4px solid var(--year-heading-circle-color);
+    border: var(--border-widths-thick) solid var(--year-heading-circle-color);
     border-radius: var(--radii-full);
     transform: translateX(-50%);
-    transition: border 0.2s var(--easings-ease-out-expo);
+    transition: border var(--transition-slow);
   }
 
   &:hover {
@@ -119,7 +119,10 @@ const Separator = styled.span`
   margin: auto;
   background-color: var(--year-post-separator-color);
   border-radius: var(--year-post-separator-border-radius);
-  transition: all 0.15s var(--easings-ease-out-expo);
+  transition:
+    height var(--transition-normal),
+    background-color var(--transition-normal),
+    border-radius var(--transition-normal);
 `;
 
 const styleAnchor = css`
@@ -131,16 +134,15 @@ const styleAnchor = css`
   width: 100%;
   padding-block: var(--spacing-1);
   color: var(--colors-gray-700);
-  border-radius: var(--radii-8);
+  border-radius: var(--radii-md);
 
   &:hover {
     color: var(--colors-gray-800);
     background-color: var(--colors-gray-a-100);
 
     --year-post-separator-size-h: var(--spacing-3);
-    --year-post-separator-size-w: var(--spacing-1);
     --year-post-separator-color: var(--colors-accent-600);
-    --year-post-separator-border-radius: var(--radii-8);
+    --year-post-separator-border-radius: var(--radii-md);
   }
 
   &:active {
