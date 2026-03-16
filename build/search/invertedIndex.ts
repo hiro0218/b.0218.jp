@@ -17,7 +17,6 @@ export interface SearchData {
   slug: string;
   title: string;
   tags: string[];
-  tokens: string[];
 }
 
 /**
@@ -89,7 +88,6 @@ export function generateSearchIndex(
         slug: post.slug,
         title: post.title,
         tags: post.tags,
-        tokens: uniqueTokens,
       });
     } catch (error) {
       Log.warn(`[build/search/invertedIndex] 記事 ${post.slug} の処理中にエラー: ${String(error)}`);
