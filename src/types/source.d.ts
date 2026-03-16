@@ -162,3 +162,14 @@ export type TagCategoryName = 'development' | 'technology' | 'other';
  * 実際のデータ形式：{ "JavaScript": "development", "Windows": "technology", ... }
  */
 export type TagCategoryMap = Record<string, TagCategoryName>;
+
+// ========================================
+// アーカイブ型定義
+// ========================================
+
+/**
+ * 年別アーカイブ型
+ * キー：年（文字列）、値：その年の記事要約の配列
+ * 実際のデータ形式：{ "2025": [PostSummary, ...], "2024": [...], ... }
+ */
+export type ArchivesByYear = Record<string, PostSummary[]>;
