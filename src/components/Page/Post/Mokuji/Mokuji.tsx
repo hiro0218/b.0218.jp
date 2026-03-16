@@ -1,3 +1,5 @@
+'use client';
+
 import { usePathname } from 'next/navigation';
 
 import { ChevronDownIcon, ChevronUpIcon, ICON_SIZE_XS } from '@/ui/icons';
