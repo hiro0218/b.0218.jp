@@ -1,1 +1,1 @@
-export { type ArchiveListProps, getData } from './getData';
+export { getData } from './getData';
