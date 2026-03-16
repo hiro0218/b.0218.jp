@@ -26,6 +26,7 @@ const nextConfig = {
     ...getStaticGenerationConfig(),
     webpackBuildWorker: true,
     optimizePackageImports: [
+      '@heroicons/react',
       '@react-aria/button',
       '@react-aria/dialog',
       '@react-aria/focus',
