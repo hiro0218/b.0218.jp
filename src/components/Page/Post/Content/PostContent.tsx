@@ -1,11 +1,7 @@
-'use client';
-
-import { useMemo, useRef } from 'react';
 import { Adsense } from '@/components/UI/Adsense';
 import type { Post } from '@/types/source';
-import Mokuji from '../Mokuji';
 import { AdsenseContainer, PostAdsenseManager } from './PostAdsenseManager';
-import { PostWidgetManager } from './PostWidgetManager';
+import { PostContentClient } from './PostContentClient';
 import { parser } from './parser/HTMLParser';
 
 type ContentProps = {
@@ -13,18 +9,17 @@ type ContentProps = {
 };
 
 export default function Content({ content }: ContentProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const parsedContent = useMemo(() => parser(content), [content]);
+  const parsedContent = parser(content);
 
   return (
-    <>
-      <Mokuji refContent={ref} />
-      <PostWidgetManager contentRef={ref}>
-        <PostAdsenseManager content={parsedContent} />
-      </PostWidgetManager>
-      <AdsenseContainer>
-        <Adsense />
-      </AdsenseContainer>
-    </>
+    <PostContentClient
+      adsense={
+        <AdsenseContainer>
+          <Adsense />
+        </AdsenseContainer>
+      }
+    >
+      <PostAdsenseManager content={parsedContent} />
+    </PostContentClient>
   );
 }
