@@ -1,11 +1,36 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { createContext, type ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import {
+  createContext,
+  type ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react';
 import type { OverlayTriggerProps } from 'react-stately';
 import { useOverlayTriggerState } from 'react-stately';
 import { useRequestAnimationFrame } from '@/hooks/useRequestAnimationFrame';
 import { useTimeout } from '@/hooks/useTimeout';
+
+const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+
+function subscribeReducedMotion(callback: () => void) {
+  const mq = window.matchMedia(REDUCED_MOTION_QUERY);
+  mq.addEventListener('change', callback);
+  return () => mq.removeEventListener('change', callback);
+}
+
+function getReducedMotionSnapshot() {
+  return window.matchMedia(REDUCED_MOTION_QUERY).matches;
+}
+
+function getReducedMotionServerSnapshot() {
+  return false;
+}
 
 type SearchDialogContextType = {
   isOpen: boolean;
@@ -28,24 +53,14 @@ function useDialogState(options?: UseDialogStateOptions) {
   const state = useOverlayTriggerState(overlayOptions);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [isClosing, setIsClosing] = useState(false);
-  const [duration, setDuration] = useState(baseDuration);
+  const prefersReducedMotion = useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotionSnapshot,
+    getReducedMotionServerSnapshot,
+  );
+  const duration = animated && !prefersReducedMotion ? baseDuration : 0;
   const { schedule: scheduleRaf, cancel: cancelRaf } = useRequestAnimationFrame();
   const { schedule: scheduleTimeout, cancel: cancelTimeout } = useTimeout();
-
-  useEffect(() => {
-    if (!animated) {
-      setDuration(0);
-      return;
-    }
-
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const updateDuration = () => setDuration(mediaQuery.matches ? 0 : baseDuration);
-
-    updateDuration();
-    mediaQuery.addEventListener('change', updateDuration);
-
-    return () => mediaQuery.removeEventListener('change', updateDuration);
-  }, [animated, baseDuration]);
 
   useEffect(() => {
     if (!state.isOpen) return;
