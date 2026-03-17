@@ -1,12 +1,6 @@
 import { defineKeyframes } from '@pandacss/dev';
 
 export const keyframes = defineKeyframes({
-  slideIn: {
-    '0%': { transform: 'translateY(400px)', animationTimingFunction: 'ease-out' },
-    '60%': { transform: 'translateY(-30px)', animationTimingFunction: 'ease-in' },
-    '80%': { transform: 'translateY(10px)', animationTimingFunction: 'ease-out' },
-    '100%': { transform: 'translateY(0)', animationTimingFunction: 'ease-in' },
-  },
   dropdownEnter: {
     '0%': { opacity: '0', transform: 'scale(0.95)' },
     '100%': { opacity: '1', transform: 'scale(1)' },
