@@ -9,7 +9,7 @@
     padding-left: var(--spacing-½);
     counter-increment: steps;
     opacity: 0.6;
-    transition: opacity var(--durations-slow) ease-in-out;
+    transition: opacity var(--durations-slow) var(--easings-ease-in-out-quint);
 
     &:hover {
       opacity: 1;
