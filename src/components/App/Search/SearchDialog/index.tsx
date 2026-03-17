@@ -107,6 +107,10 @@ const Dialog = styled.dialog`
     &[open] {
       animation: none;
     }
+
+    &[open][data-closing='true'] {
+      animation: none;
+    }
   }
 
   &::backdrop {

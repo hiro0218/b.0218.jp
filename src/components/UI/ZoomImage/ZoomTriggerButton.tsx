@@ -48,7 +48,7 @@ const zoomIndicatorStyle = css`
   transition: opacity var(--transition-slow);
 
   @media (prefers-reduced-motion: reduce) {
-    transition: none;
+    transition: opacity 0.01s;
   }
 `;
 
