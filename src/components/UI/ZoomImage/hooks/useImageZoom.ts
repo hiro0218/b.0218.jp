@@ -41,13 +41,18 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
   const viewTransitionName = `zoom-image-${useId().replace(/:/g, '')}`;
 
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [canZoom, setCanZoom] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const dialogImgRef = useRef<HTMLImageElement>(null);
   const isTransitioning = useRef(false);
   const isMountedRef = useRef(true);
+
+  const canZoom =
+    !hasObjectFit &&
+    imageLoaded &&
+    !!imgRef.current &&
+    (imgRef.current.naturalWidth >= minImageSize || imgRef.current.naturalHeight >= minImageSize);
 
   const handleImageLoad = useCallback(() => {
     setImageLoaded(true);
@@ -129,22 +134,6 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
       isMountedRef.current = false;
     };
   }, []);
-
-  // ズーム可否判定（画像ロード時に一度だけチェック）
-  useEffect(() => {
-    if (hasObjectFit) {
-      setCanZoom(false);
-      return;
-    }
-
-    if (!imageLoaded || !imgRef.current) {
-      setCanZoom(false);
-      return;
-    }
-
-    const { naturalWidth, naturalHeight } = imgRef.current;
-    setCanZoom(naturalWidth >= minImageSize || naturalHeight >= minImageSize);
-  }, [hasObjectFit, imageLoaded, minImageSize]);
 
   // 既にロード済みの画像を検出
   useLayoutEffect(() => {
