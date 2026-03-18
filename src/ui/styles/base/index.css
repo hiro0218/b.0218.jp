@@ -24,6 +24,7 @@ body {
   font-family: var(--fonts-family-sans-serif);
   font-weight: var(--font-weights-normal);
   font-feature-settings: 'chws' 1;
+  font-synthesis: none;
   line-height: 1.875;
   color: var(--colors-gray-1000);
   line-break: strict;
