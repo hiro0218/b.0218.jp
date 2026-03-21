@@ -4,14 +4,14 @@ import { Stack } from '@/components/UI/Layout';
 import { css } from '@/ui/styled';
 
 type Props = {
-  heading: string;
+  children: ReactNode;
   paragraph?: ReactNode;
 };
 
-export function Title({ heading, paragraph = undefined }: Props) {
+export function Title({ children, paragraph }: Props) {
   return (
     <Stack as="header" className={containerStyle} gap={1}>
-      <h1 dangerouslySetInnerHTML={{ __html: heading }}></h1>
+      <h1>{children}</h1>
       {!!paragraph && <p className={paragraphStyle}>{paragraph}</p>}
     </Stack>
   );

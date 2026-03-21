@@ -40,7 +40,7 @@ export default function Page() {
           listItem,
         })}
       />
-      <Title heading={title} paragraph={description} />
+      <Title paragraph={description}>{title}</Title>
       <TagSection tags={tags} />
     </>
   );
