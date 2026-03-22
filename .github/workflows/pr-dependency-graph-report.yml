@@ -30,33 +30,42 @@ jobs:
 
       - name: Run dependency-cruiser
         run: |
-          files="$(git diff --name-only --diff-filter=AM origin/${{ github.base_ref }}...HEAD | grep -E "src/.*\.(js|cjs|mjs|jsx|ts|tsx)$" | tr '\n' ' ' | xargs)";
-          # 修正ファイル同士の依存関係のみ抽出するための正規表現を生成
-          includeOnlyOption=$(echo "$files" | sed 's/ /|/g');
-          echo $files;
+          files="$(git diff --name-only --diff-filter=AM origin/${{ github.base_ref }}...HEAD \
+            | grep -E 'src/.*\.(js|cjs|mjs|jsx|ts|tsx)$' \
+            | grep -v '\.\(spec\|test\)\.' \
+            | tr '\n' ' ' | xargs)"
+          includeOnlyOption=$(echo "$files" | sed 's/ /|/g')
+          echo "$files"
 
-          if [[ $files == "" ]]; then
-            echo "特定のファイルに変更がないので終了します。"
+          if [[ -z "$files" ]]; then
+            echo "対象ファイルなし"
             exit 0
           fi
 
-          if [[ $files != "" ]]; then
-            # 修正ファイルとその依存先を抽出（より完全なグラフ）
-            bunx depcruise --cache -X "^node_modules" --max-depth 3 -T json --focus "$includeOnlyOption" $files > _temp.json
+          # 1. 違反チェック（markdown レポート）
+          bunx depcruise --cache -X "^node_modules" --max-depth 3 \
+            --focus "$includeOnlyOption" -T json $files > _temp.json
 
-            echo -e '\n' >> result.md
-            bunx depcruise-fmt -T markdown _temp.json >> result.md
-            echo -e '\n' >> result.md
+          bunx depcruise-fmt -T markdown _temp.json > result.md
 
+          # 2. 影響範囲（変更ファイルに依存しているモジュールを抽出）
+          bunx depcruise --cache -X "^node_modules" --max-depth 2 \
+            --reaches "$includeOnlyOption" src -T json > _reaches.json 2>/dev/null || true
+
+          if [[ -s _reaches.json ]]; then
             echo -e '\n---\n' >> result.md
-
-            echo -e '\n<details>' >> result.md
-            echo -e '\n<summary>変更されたファイルとその依存先の関係を可視化します。</summary>' >> result.md
-            echo -e '\n```mermaid' >> result.md
-            bunx depcruise-fmt -T mermaid _temp.json >> result.md
-            echo -e '\n```' >> result.md
-            echo -e '\n</details>' >> result.md
+            echo -e '### 影響範囲（変更ファイルに依存しているモジュール）\n' >> result.md
+            bunx depcruise-fmt -T markdown _reaches.json >> result.md
           fi
+
+          # 3. 依存グラフ（折りたたみ）
+          echo -e '\n---\n' >> result.md
+          echo -e '<details>\n' >> result.md
+          echo -e '<summary>依存グラフ（Mermaid）</summary>\n' >> result.md
+          echo -e '\n```mermaid' >> result.md
+          bunx depcruise-fmt -T mermaid _temp.json >> result.md
+          echo -e '\n```\n' >> result.md
+          echo -e '</details>' >> result.md
 
           echo "files=$files" >> $GITHUB_ENV
           cat result.md
