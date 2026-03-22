@@ -8,7 +8,7 @@ export const Loading = ({ size = 50 }: LoadingProps) => {
   const spinnerStyle = { width: `${size}px`, height: `${size}px` };
 
   return (
-    <Container>
+    <Container role="status">
       <Spinner
         aria-hidden="true"
         fill="none"
@@ -25,7 +25,7 @@ export const Loading = ({ size = 50 }: LoadingProps) => {
           fill="currentFill"
         />
       </Spinner>
-      <span className="sr-only">Loading...</span>
+      <span className="sr-only">読み込み中...</span>
     </Container>
   );
 };
@@ -41,4 +41,8 @@ const Spinner = styled.svg`
   color: var(--colors-gray-a-400); /* background */
   fill: var(--colors-gray-a-700); /* spin */
   animation: rotate 0.8s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 `;
