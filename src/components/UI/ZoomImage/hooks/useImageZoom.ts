@@ -42,6 +42,7 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
 
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const isOpenRef = useRef(false);
   const imgRef = useRef<HTMLImageElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const dialogImgRef = useRef<HTMLImageElement>(null);
@@ -59,11 +60,14 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
   }, []);
 
   const open = useCallback(() => {
-    if (!canZoom || !imgRef.current || !dialogRef.current || !dialogImgRef.current) return;
+    if (!canZoom || isOpenRef.current || isTransitioning.current) return;
+    if (!imgRef.current || !dialogRef.current || !dialogImgRef.current) return;
 
     const sourceImg = imgRef.current;
     const dialog = dialogRef.current;
     const dialogImg = dialogImgRef.current;
+
+    isOpenRef.current = true;
 
     if (!document.startViewTransition) {
       dialog.showModal();
@@ -71,14 +75,23 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
       return;
     }
 
+    isTransitioning.current = true;
     sourceImg.style.viewTransitionName = viewTransitionName;
-    startViewTransition(() => {
+
+    const transition = startViewTransition(() => {
       sourceImg.style.viewTransitionName = '';
       dialogImg.style.viewTransitionName = viewTransitionName;
       dialog.showModal();
+      setIsOpen(true);
     });
 
-    setIsOpen(true);
+    if (transition) {
+      transition.finished.finally(() => {
+        isTransitioning.current = false;
+      });
+    } else {
+      isTransitioning.current = false;
+    }
   }, [canZoom, viewTransitionName]);
 
   const close = useCallback(() => {
@@ -94,6 +107,7 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
       dialogImg.style.viewTransitionName = '';
       sourceImg.style.viewTransitionName = '';
       dialog.close();
+      isOpenRef.current = false;
       setIsOpen(false);
       return;
     }
@@ -120,11 +134,13 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
         if (!isMountedRef.current) return;
         sourceImg.style.viewTransitionName = '';
         if (triggerButton) triggerButton.style.visibility = '';
+        isOpenRef.current = false;
         setIsOpen(false);
       });
     } else {
       sourceImg.style.viewTransitionName = '';
       isTransitioning.current = false;
+      isOpenRef.current = false;
       setIsOpen(false);
     }
   }, [viewTransitionName]);

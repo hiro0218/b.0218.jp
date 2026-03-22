@@ -34,22 +34,16 @@ const dialogStyle = css`
   }
 `;
 
+const dialogImageButtonStyle = css`
+  display: contents;
+  cursor: zoom-out;
+`;
+
 const dialogImageStyle = css`
   max-width: 100%;
   max-height: 100%;
-  cursor: zoom-out;
   object-fit: contain;
 `;
-
-/**
- * Enter または Space キーで画像をクリックしたように動作させる
- */
-function handleImageKeyDown(event: React.KeyboardEvent<HTMLImageElement>, onClick: () => void): void {
-  if (event.key === 'Enter' || event.key === ' ') {
-    event.preventDefault();
-    onClick();
-  }
-}
 
 /**
  * Enter または Space キーで dialog 背景をクリックしたように動作させる
@@ -68,6 +62,8 @@ interface ZoomDialogProps {
   dialogRef: RefObject<HTMLDialogElement | null>;
   dialogImgRef: RefObject<HTMLImageElement | null>;
   a11yLabel: string;
+  a11yNameClose: string;
+  isOpen: boolean;
   src: string;
   alt?: string;
   zoomImg?: ZoomImageSource;
@@ -84,6 +80,8 @@ export function ZoomDialog({
   dialogRef,
   dialogImgRef,
   a11yLabel,
+  a11yNameClose,
+  isOpen,
   zoomImg,
   src,
   alt,
@@ -98,7 +96,7 @@ export function ZoomDialog({
   );
 
   return createPortal(
-    <FocusScope autoFocus contain restoreFocus>
+    <FocusScope autoFocus={isOpen} contain={isOpen} restoreFocus>
       <dialog
         {...dialogProps}
         className={dialogStyle}
@@ -111,19 +109,16 @@ export function ZoomDialog({
         }}
         ref={dialogRef}
       >
-        <img
-          alt={alt}
-          className={dialogImageStyle}
-          loading="eager"
-          onClick={onClose}
-          onKeyDown={(e) => {
-            handleImageKeyDown(e, onClose);
-          }}
-          ref={dialogImgRef}
-          src={zoomImg?.src || src}
-          srcSet={zoomImg?.srcSet}
-          tabIndex={0}
-        />
+        <button aria-label={a11yNameClose} className={dialogImageButtonStyle} onClick={onClose} type="button">
+          <img
+            alt={alt}
+            className={dialogImageStyle}
+            loading="eager"
+            ref={dialogImgRef}
+            src={zoomImg?.src || src}
+            srcSet={zoomImg?.srcSet}
+          />
+        </button>
       </dialog>
     </FocusScope>,
     document.body,
