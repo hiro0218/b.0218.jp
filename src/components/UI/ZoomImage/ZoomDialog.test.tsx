@@ -54,11 +54,11 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テストダイアログ"
-          a11yNameClose="閉じる"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={dialogRef}
           isOpen={false}
+          label="テストダイアログ"
           onCancel={vi.fn()}
           onClose={vi.fn()}
           src="/test.jpg"
@@ -72,11 +72,11 @@ describe('ZoomDialog', () => {
     it('dialog に正しい aria-label が設定される', () => {
       render(
         <ZoomDialog
-          a11yLabel="画像のズーム表示"
-          a11yNameClose="閉じる"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
           isOpen={false}
+          label="画像のズーム表示"
           onCancel={vi.fn()}
           onClose={vi.fn()}
           src="/test.jpg"
@@ -90,12 +90,12 @@ describe('ZoomDialog', () => {
     it('img 要素に src が設定される', () => {
       render(
         <ZoomDialog
-          a11yLabel="テスト"
-          a11yNameClose="閉じる"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
           isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={vi.fn()}
           src="/original.jpg"
@@ -109,11 +109,11 @@ describe('ZoomDialog', () => {
     it('close ボタンに aria-label が設定される', () => {
       render(
         <ZoomDialog
-          a11yLabel="テスト"
-          a11yNameClose="閉じる"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
           isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={vi.fn()}
           src="/test.jpg"
@@ -132,12 +132,12 @@ describe('ZoomDialog', () => {
     it('zoomImg.src が指定された場合、img の src に zoomImg.src が使用される', () => {
       render(
         <ZoomDialog
-          a11yLabel="テスト"
-          a11yNameClose="閉じる"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
           isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={vi.fn()}
           src="/thumb.jpg"
@@ -152,12 +152,12 @@ describe('ZoomDialog', () => {
     it('zoomImg.srcSet が指定された場合、img の srcset が設定される', () => {
       render(
         <ZoomDialog
-          a11yLabel="テスト"
-          a11yNameClose="閉じる"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
           isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={vi.fn()}
           src="/thumb.jpg"
@@ -179,12 +179,12 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テスト"
-          a11yNameClose="閉じる"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
           isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={onClose}
           src="/test.jpg"
@@ -204,12 +204,12 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テスト"
-          a11yNameClose="閉じる"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
           isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={onClose}
           src="/test.jpg"
@@ -237,12 +237,12 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テスト"
-          a11yNameClose="閉じる"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
           isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={onClose}
           src="/test.jpg"
@@ -260,12 +260,12 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テスト"
-          a11yNameClose="閉じる"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
           isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={onClose}
           src="/test.jpg"
@@ -288,12 +288,12 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テスト"
-          a11yNameClose="閉じる"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
           isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={onClose}
           src="/test.jpg"
@@ -312,12 +312,12 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テスト"
-          a11yNameClose="閉じる"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
           isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={onClose}
           src="/test.jpg"
@@ -336,12 +336,12 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テスト"
-          a11yNameClose="閉じる"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
           isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={onClose}
           src="/test.jpg"
@@ -364,11 +364,11 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テスト"
-          a11yNameClose="閉じる"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
           isOpen={false}
+          label="テスト"
           onCancel={onCancel}
           onClose={vi.fn()}
           src="/test.jpg"

@@ -204,8 +204,8 @@ describe('ZoomImage', () => {
       render(
         <ZoomImage
           a11yOptions={{
-            a11yNameButtonZoom: 'カスタムズーム',
-            a11yNameDialog: 'カスタムダイアログ',
+            buttonZoomLabel: 'カスタムズーム',
+            dialogLabel: 'カスタムダイアログ',
           }}
           alt="photo"
           src="/test.jpg"

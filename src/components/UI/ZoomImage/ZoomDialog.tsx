@@ -61,8 +61,8 @@ function handleDialogKeyDown(event: React.KeyboardEvent<HTMLDialogElement>, onCl
 interface ZoomDialogProps {
   dialogRef: RefObject<HTMLDialogElement | null>;
   dialogImgRef: RefObject<HTMLImageElement | null>;
-  a11yLabel: string;
-  a11yNameClose: string;
+  label: string;
+  closeLabel: string;
   isOpen: boolean;
   src: string;
   alt?: string;
@@ -79,8 +79,8 @@ interface ZoomDialogProps {
 export function ZoomDialog({
   dialogRef,
   dialogImgRef,
-  a11yLabel,
-  a11yNameClose,
+  label,
+  closeLabel,
   isOpen,
   zoomImg,
   src,
@@ -90,7 +90,7 @@ export function ZoomDialog({
 }: ZoomDialogProps): ReactNode {
   const { dialogProps } = useDialog(
     {
-      'aria-label': a11yLabel,
+      'aria-label': label,
     },
     dialogRef,
   );
@@ -109,7 +109,7 @@ export function ZoomDialog({
         }}
         ref={dialogRef}
       >
-        <button aria-label={a11yNameClose} className={dialogImageButtonStyle} onClick={onClose} type="button">
+        <button aria-label={closeLabel} className={dialogImageButtonStyle} onClick={onClose} type="button">
           <img
             alt={alt}
             className={dialogImageStyle}

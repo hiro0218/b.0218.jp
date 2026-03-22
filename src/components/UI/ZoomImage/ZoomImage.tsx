@@ -16,19 +16,19 @@ interface A11yOptions {
    * ズームトリガーボタンの aria-label
    * @default '画像をズーム'
    */
-  a11yNameButtonZoom?: string;
+  buttonZoomLabel?: string;
 
   /**
    * ズームダイアログの aria-label
    * @default '画像のズーム表示'
    */
-  a11yNameDialog?: string;
+  dialogLabel?: string;
 
   /**
    * ズームダイアログの閉じるボタンの aria-label
    * @default '閉じる'
    */
-  a11yNameClose?: string;
+  closeLabel?: string;
 }
 
 type ZoomImageProps = Omit<ImgHTMLAttributes<HTMLImageElement>, 'style'> & {
@@ -39,9 +39,9 @@ type ZoomImageProps = Omit<ImgHTMLAttributes<HTMLImageElement>, 'style'> & {
 };
 
 const DEFAULT_A11Y: Required<A11yOptions> = {
-  a11yNameButtonZoom: '画像をズーム',
-  a11yNameDialog: '画像のズーム表示',
-  a11yNameClose: '閉じる',
+  buttonZoomLabel: '画像をズーム',
+  dialogLabel: '画像のズーム表示',
+  closeLabel: '閉じる',
 };
 
 /**
@@ -63,9 +63,9 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
   const hasObjectFit = !!(processedStyle && 'objectFit' in processedStyle && processedStyle.objectFit);
 
   const a11y = {
-    buttonZoom: a11yOptions?.a11yNameButtonZoom || alt || DEFAULT_A11Y.a11yNameButtonZoom,
-    dialog: a11yOptions?.a11yNameDialog || alt || DEFAULT_A11Y.a11yNameDialog,
-    close: a11yOptions?.a11yNameClose || DEFAULT_A11Y.a11yNameClose,
+    buttonZoom: a11yOptions?.buttonZoomLabel || alt || DEFAULT_A11Y.buttonZoomLabel,
+    dialog: a11yOptions?.dialogLabel || alt || DEFAULT_A11Y.dialogLabel,
+    close: a11yOptions?.closeLabel || DEFAULT_A11Y.closeLabel,
   };
 
   const isMounted = useIsMounted();
@@ -91,11 +91,11 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
   return (
     <>
       <ZoomTriggerButton
-        a11yLabel={a11y.buttonZoom}
         alt={alt}
         imgProps={props}
         imgRef={imgRef}
         isOpen={isOpen}
+        label={a11y.buttonZoom}
         onImageLoad={handleImageLoad}
         src={src}
         style={processedStyle}
@@ -104,12 +104,12 @@ function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImag
 
       {isMounted && (
         <ZoomDialog
-          a11yLabel={a11y.dialog}
-          a11yNameClose={a11y.close}
           alt={alt}
+          closeLabel={a11y.close}
           dialogImgRef={dialogImgRef}
           dialogRef={dialogRef}
           isOpen={isOpen}
+          label={a11y.dialog}
           onCancel={handleDialogCancel}
           onClose={close}
           src={src}
