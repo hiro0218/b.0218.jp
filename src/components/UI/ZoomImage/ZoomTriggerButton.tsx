@@ -48,7 +48,7 @@ const zoomIndicatorStyle = css`
   transition: opacity var(--transition-slow);
 
   @media (prefers-reduced-motion: reduce) {
-    transition: none;
+    transition: opacity 0.01s;
   }
 `;
 
@@ -60,7 +60,7 @@ const zoomIconStyle = css`
 `;
 
 interface ZoomTriggerButtonProps {
-  a11yLabel: string;
+  label: string;
   isOpen: boolean;
   zoomIn: () => void;
   alt?: string;
@@ -73,7 +73,7 @@ interface ZoomTriggerButtonProps {
 
 /** 画像をクリックしてズームモーダルを開くためのボタン */
 export function ZoomTriggerButton({
-  a11yLabel,
+  label,
   isOpen,
   zoomIn,
   alt,
@@ -87,7 +87,7 @@ export function ZoomTriggerButton({
     <button
       aria-disabled={isOpen || undefined}
       aria-expanded={isOpen}
-      aria-label={a11yLabel}
+      aria-label={label}
       className={cx(buttonStyle, isOpen ? buttonHiddenClass : buttonVisibleClass)}
       onClick={isOpen ? undefined : zoomIn}
       type="button"

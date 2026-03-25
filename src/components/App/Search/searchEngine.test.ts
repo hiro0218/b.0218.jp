@@ -1,123 +1,130 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { initializeSearchEngine, resetSearchEngine } from '@/components/App/Search/engine/indexedSearch';
 import { performPostSearch } from '@/components/App/Search/engine/search';
+import type { SearchDataPayload } from '@/components/App/Search/engine/searchDataLoader';
+import { ensureSearchEngineSync } from '@/components/App/Search/engine/searchDataLoader';
 
-// 転置インデックスとデータをモック
-vi.mock('~/dist/search-index.json', () => {
-  // モックデータからトークンを生成して転置インデックスを作成
-  const index: Record<string, string[]> = {};
+// searchDataLoader をモック（vi.mock はホイスティングされるため通常 import の前に適用される）
+vi.mock('@/components/App/Search/engine/searchDataLoader', () => ({
+  ensureSearchEngineSync: vi.fn(() => true),
+  isSearchDataReady: vi.fn(() => true),
+  loadAndInitializeSearch: vi.fn(() => Promise.resolve()),
+  preloadSearchData: vi.fn(() => Promise.resolve()),
+}));
 
-  // 各記事のタイトルとタグからトークンを抽出
-  const posts = [
-    { slug: '202504281417', tokens: ['github', 'actions', 'ai', 'inference', 'pr', '自動', '要約', '実装'] },
-    { slug: '202504122020', tokens: ['javascript', 'ブラウザ', 'プライベート', 'モード', '判定', '考察'] },
-    {
-      slug: '202504061452',
-      tokens: ['google', 'fonts', '日本語', 'フォント', '読み込み', '高速化', '実装', '方法', 'react'],
-    },
-    { slug: '202503210941', tokens: ['github', 'copilot', 'ずんだもん', '人格', '技術'] },
-    { slug: '202502242115', tokens: ['typescript', 'オプショナル', 'undefined', '違い'] },
-    { slug: '202502122306', tokens: ['命名', '規則', 'コンポーネント', '名', '動詞', '始める', 'react'] },
-    {
-      slug: '202502090230',
-      tokens: ['javascript', '分割', '代入', '引数', '名称', '変更', 'デフォルト', '値', '指定', '方法', 'react'],
-    },
-    {
-      slug: '202502071045',
-      tokens: ['javascript', 'テンプレート', 'リテラル', '文字列', '連結', 'パフォーマンス', '比較'],
-    },
-    {
-      slug: '202501200200',
-      tokens: ['css', 'js', '最新', 'プロパティ', 'vs', 'code', 'シンタックス', 'ハイライト', '対応', '方法'],
-    },
-    { slug: '202412281606', tokens: ['shift', 'jis', 'ファイル', 'grep', '方法'] },
-    { slug: '202303191231', tokens: ['c', 'プログラミング'] },
-    { slug: '202403220115', tokens: ['css3', 'html5', 'web'] },
-  ];
+// モックデータからトークンを生成して転置インデックスを作成
+const posts = [
+  { slug: '202504281417', tokens: ['github', 'actions', 'ai', 'inference', 'pr', '自動', '要約', '実装'] },
+  { slug: '202504122020', tokens: ['javascript', 'ブラウザ', 'プライベート', 'モード', '判定', '考察'] },
+  {
+    slug: '202504061452',
+    tokens: ['google', 'fonts', '日本語', 'フォント', '読み込み', '高速化', '実装', '方法', 'react'],
+  },
+  { slug: '202503210941', tokens: ['github', 'copilot', 'ずんだもん', '人格', '技術'] },
+  { slug: '202502242115', tokens: ['typescript', 'オプショナル', 'undefined', '違い'] },
+  { slug: '202502122306', tokens: ['命名', '規則', 'コンポーネント', '名', '動詞', '始める', 'react'] },
+  {
+    slug: '202502090230',
+    tokens: ['javascript', '分割', '代入', '引数', '名称', '変更', 'デフォルト', '値', '指定', '方法', 'react'],
+  },
+  {
+    slug: '202502071045',
+    tokens: ['javascript', 'テンプレート', 'リテラル', '文字列', '連結', 'パフォーマンス', '比較'],
+  },
+  {
+    slug: '202501200200',
+    tokens: ['css', 'js', '最新', 'プロパティ', 'vs', 'code', 'シンタックス', 'ハイライト', '対応', '方法'],
+  },
+  { slug: '202412281606', tokens: ['shift', 'jis', 'ファイル', 'grep', '方法'] },
+  { slug: '202303191231', tokens: ['c', 'プログラミング'] },
+  { slug: '202403220115', tokens: ['css3', 'html5', 'web'] },
+];
 
-  for (const post of posts) {
-    for (const token of post.tokens) {
-      if (!index[token]) {
-        index[token] = [];
-      }
-      if (!index[token].includes(post.slug)) {
-        index[token].push(post.slug);
-      }
+const mockSearchIndex: Record<string, string[]> = {};
+for (const post of posts) {
+  for (const token of post.tokens) {
+    if (!mockSearchIndex[token]) {
+      mockSearchIndex[token] = [];
+    }
+    if (!mockSearchIndex[token].includes(post.slug)) {
+      mockSearchIndex[token].push(post.slug);
     }
   }
+}
 
-  return { default: index };
-});
+const mockSearchData = [
+  {
+    slug: '202504281417',
+    title: '[GitHub Actions] `actions/ai-inference`を利用したPR自動要約の実装',
+    tags: ['GitHub Actions', 'AI'],
+  },
+  {
+    slug: '202504122020',
+    title: 'JavaScriptを利用したブラウザのプライベートモード判定についての考察',
+    tags: ['JavaScript', 'ブラウザ', '調査'],
+  },
+  {
+    slug: '202504061452',
+    title: '[Google Fonts] 日本語フォントの読み込みを高速化する実装方法',
+    tags: ['TypeScript', 'React', 'CSS', 'フォント'],
+  },
+  {
+    slug: '202503210941',
+    title: '[GitHub Copilot] 「ずんだもん」の人格を与える技術',
+    tags: ['GitHub Copilot', 'VS Code'],
+  },
+  {
+    slug: '202502242115',
+    title: '[TypeScript] オプショナルの`?`と`| undefined`の違い',
+    tags: ['TypeScript'],
+  },
+  {
+    slug: '202502122306',
+    title: '[命名規則] コンポーネント名は動詞から始めない',
+    tags: ['React', '設計'],
+  },
+  {
+    slug: '202502090230',
+    title: '[JavaScript] 分割代入された引数の名称変更とデフォルト値を同時に指定する方法',
+    tags: ['React', 'JavaScript', 'TypeScript'],
+  },
+  {
+    slug: '202502071045',
+    title: '[JavaScript] テンプレートリテラルと文字列連結のパフォーマンス比較',
+    tags: ['JavaScript'],
+  },
+  {
+    slug: '202501200200',
+    title: '[CSS in JS] 最新のCSSプロパティにVS Codeのシンタックスハイライトを対応させる方法',
+    tags: ['CSS in JS', 'Emotion', 'TypeScript', 'VS Code'],
+  },
+  {
+    slug: '202412281606',
+    title: 'Shift_JISファイルをgrepする方法',
+    tags: ['Bash'],
+  },
+  {
+    slug: '202303191231',
+    title: 'C++プログラミング',
+    tags: ['C++', 'プログラミング'],
+  },
+  {
+    slug: '202403220115',
+    title: 'CSS3とHTML5',
+    tags: ['CSS3', 'HTML5', 'Web'],
+  },
+];
 
-vi.mock('~/dist/search-data.json', () => {
-  return {
-    default: [
-      {
-        slug: '202504281417',
-        title: '[GitHub Actions] `actions/ai-inference`を利用したPR自動要約の実装',
-        tags: ['GitHub Actions', 'AI'],
-      },
-      {
-        slug: '202504122020',
-        title: 'JavaScriptを利用したブラウザのプライベートモード判定についての考察',
-        tags: ['JavaScript', 'ブラウザ', '調査'],
-      },
-      {
-        slug: '202504061452',
-        title: '[Google Fonts] 日本語フォントの読み込みを高速化する実装方法',
-        tags: ['TypeScript', 'React', 'CSS', 'フォント'],
-      },
-      {
-        slug: '202503210941',
-        title: '[GitHub Copilot] 「ずんだもん」の人格を与える技術',
-        tags: ['GitHub Copilot', 'VS Code'],
-      },
-      {
-        slug: '202502242115',
-        title: '[TypeScript] オプショナルの`?`と`| undefined`の違い',
-        tags: ['TypeScript'],
-      },
-      {
-        slug: '202502122306',
-        title: '[命名規則] コンポーネント名は動詞から始めない',
-        tags: ['React', '設計'],
-      },
-      {
-        slug: '202502090230',
-        title: '[JavaScript] 分割代入された引数の名称変更とデフォルト値を同時に指定する方法',
-        tags: ['React', 'JavaScript', 'TypeScript'],
-      },
-      {
-        slug: '202502071045',
-        title: '[JavaScript] テンプレートリテラルと文字列連結のパフォーマンス比較',
-        tags: ['JavaScript'],
-      },
-      {
-        slug: '202501200200',
-        title: '[CSS in JS] 最新のCSSプロパティにVS Codeのシンタックスハイライトを対応させる方法',
-        tags: ['CSS in JS', 'Emotion', 'TypeScript', 'VS Code'],
-      },
-      {
-        slug: '202412281606',
-        title: 'Shift_JISファイルをgrepする方法',
-        tags: ['Bash'],
-      },
-      {
-        slug: '202303191231',
-        title: 'C++プログラミング',
-        tags: ['C++', 'プログラミング'],
-      },
-      {
-        slug: '202403220115',
-        title: 'CSS3とHTML5',
-        tags: ['CSS3', 'HTML5', 'Web'],
-      },
-    ],
-  };
-});
+const mockPayload: SearchDataPayload = {
+  searchIndex: mockSearchIndex,
+  searchData: mockSearchData,
+};
 
-// モック後にモジュールをリセットするための beforeEach フック
 beforeEach(() => {
   vi.clearAllMocks();
+  resetSearchEngine();
+  vi.mocked(ensureSearchEngineSync).mockReturnValue(true);
+  initializeSearchEngine(mockPayload);
 });
 
 // テスト用のモックデータ（「方法」検索テストで参照件数の検証に使用）
@@ -251,5 +258,15 @@ describe('フォールバック検索（タイトル直接検索）', () => {
     // (フォールバックではmatchedInが必ずtitleかつmatchTypeがPARTIALになる)
     const hasNonTitleMatch = results.some((post) => post.matchedIn !== 'title' || post.matchType !== 'PARTIAL');
     expect(hasNonTitleMatch).toBe(true);
+  });
+});
+
+describe('エンジン未初期化時', () => {
+  test('未初期化かつデータ未ロードの場合は空配列を返す', () => {
+    resetSearchEngine();
+    vi.mocked(ensureSearchEngineSync).mockReturnValueOnce(false);
+
+    const results = performPostSearch('React');
+    expect(results).toEqual([]);
   });
 });

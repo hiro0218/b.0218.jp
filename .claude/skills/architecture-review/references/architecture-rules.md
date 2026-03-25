@@ -37,12 +37,15 @@ src/
 - **特性**: シングルトン的
 - **依存**: 下位レイヤーのみに依存
 
-**配置例**:
+**Feature Module Convention**: App/ 内で自己完結した機能モジュール（独自の hooks, engine, types を持つ）は「Feature Module」として扱う。外部からの import は公開 API（トップレベルコンポーネント）のみ。
 
-- Header
-- Footer
-- Layout
-- Navigation
+**実際の配置**:
+
+- Layout/ (AppLayout, MainContainer)
+- Header/
+- Search/ (Feature Module: hooks/, engine/, SearchPanel/, SearchTrigger/, SearchClearButton/)
+- ScrollProgress/
+- PageScroll/
 
 ### Page/
 
@@ -51,13 +54,13 @@ src/
 - **依存**: UI/Functional に依存可能
 - **制約**: App/ に依存不可
 
-**配置例**:
+**実際の配置**:
 
-- HomePage
-- AboutPage
-- BlogPostPage
-- \_shared/Hero
-- \_shared/ContactForm
+- Home/ (Hero)
+- Post/ (Content, Header, Edit, Mokuji)
+- Archive/ (Pagination, Chart, Timeline, PostList)
+- Single/ (Template)
+- \_shared/ (TagSection, PostSection)
 
 ### UI/
 
@@ -124,21 +127,19 @@ src/
 
 ### Biome による依存関係チェック
 
-`biome.json` で以下のルールが強制されています：
+`biome.json` の `noRestrictedImports` ルールで以下が強制されている：
 
-```json
-{
-  "linter": {
-    "rules": {
-      "nursery": {
-        "noRestrictedImports": {
-          // レイヤー間の依存関係を制限
-        }
-      }
-    }
-  }
-}
-```
+**レイヤー間依存関係の制限**:
+
+- UI/ → App/, Page/, Functional/ の import 禁止
+- Functional/ → App/, Page/, UI/ の import 禁止
+- Page/ → App/ の import 禁止
+- Page/\_shared/ → 個別 Page サブフォルダ（Archive/, Home/, Post/, Single/）の import 禁止
+
+**styled-system の直接 import 禁止**（全レイヤー共通）:
+
+- `~/styled-system/*` からの直接 import は禁止
+- `@/ui/styled` 経由で import すること
 
 ### 違反例
 
@@ -181,14 +182,16 @@ import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
 UI コンポーネントは `margin` プロパティを使用しない：
 
 ```typescript
+import { css } from '@/ui/styled';
+
 // ❌ 違反例
-const Button = styled.button`
-  margin: 16px; // NG: 自己マージン
+const buttonStyle = css`
+  margin: 16px; /* NG: 自己マージン */
 `;
 
 // ✅ 正しい例
-const Button = styled.button`
-  padding: 8px 16px; // OK: 内部スペーシング
+const buttonStyle = css`
+  padding: 8px 16px; /* OK: 内部スペーシング */
 `;
 ```
 
@@ -197,9 +200,15 @@ const Button = styled.button`
 親コンポーネントがスペーシングを制御：
 
 ```typescript
-// 親コンポーネント
+import { css } from '@/ui/styled';
+
+const layoutStyle = css`
+  display: flex;
+  gap: 16px;
+`;
+
 const HomePage = () => (
-  <div className={css({ display: 'flex', gap: '16px' })}>
+  <div className={layoutStyle}>
     <Button>Click Me</Button>
     <Button>Another Button</Button>
   </div>

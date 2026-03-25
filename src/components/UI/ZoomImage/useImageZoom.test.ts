@@ -34,6 +34,37 @@ function createMockDialog(overrides: Partial<HTMLDialogElement> = {}): HTMLDialo
   } as unknown as HTMLDialogElement;
 }
 
+interface DeferredViewTransitionMock {
+  startViewTransition: typeof document.startViewTransition;
+  closeFinishedResolve: () => void;
+  closeFinishedPromise: Promise<undefined>;
+}
+
+/**
+ * open は即座に resolve、close は手動制御の ViewTransition モック
+ */
+function createDeferredViewTransitionMock(): DeferredViewTransitionMock {
+  let closeFinishedResolve: () => void = () => {};
+  const closeFinishedPromise = new Promise<undefined>((resolve) => {
+    closeFinishedResolve = () => resolve(undefined);
+  });
+
+  let callCount = 0;
+  const startViewTransition = vi.fn((cb: () => void) => {
+    callCount++;
+    cb();
+    const finished = callCount === 1 ? Promise.resolve(undefined) : closeFinishedPromise;
+    return {
+      finished,
+      ready: Promise.resolve(undefined),
+      updateCallbackDone: Promise.resolve(undefined),
+      skipTransition: vi.fn(),
+    } as unknown as ViewTransition;
+  });
+
+  return { startViewTransition, closeFinishedResolve, closeFinishedPromise };
+}
+
 /* ------------------------------------------------------------------ */
 /*  Tests                                                             */
 /* ------------------------------------------------------------------ */
@@ -134,12 +165,41 @@ describe('useImageZoom', () => {
     it('canZoom が false の場合、open() は何もしない', () => {
       const { result } = renderHook(() => useImageZoom());
 
-      // canZoom is false by default
       act(() => {
         result.current.open();
       });
 
       expect(result.current.isOpen).toBe(false);
+    });
+
+    it('isOpen が true の場合、open() は何もしない（二重 open 防止）', () => {
+      document.startViewTransition = undefined;
+
+      const { result } = renderHook(() => useImageZoom({ minImageSize: 1 }));
+
+      const mockImg = createMockImage({ naturalWidth: 200, naturalHeight: 200 });
+      const mockDialog = createMockDialog();
+      const mockDialogImg = createMockImage();
+
+      Object.defineProperty(result.current.imgRef, 'current', { value: mockImg, writable: true });
+      Object.defineProperty(result.current.dialogRef, 'current', { value: mockDialog, writable: true });
+      Object.defineProperty(result.current.dialogImgRef, 'current', { value: mockDialogImg, writable: true });
+
+      act(() => {
+        result.current.handleImageLoad();
+      });
+      act(() => {
+        result.current.open();
+      });
+
+      expect(mockDialog.showModal).toHaveBeenCalledOnce();
+
+      // 2回目の open() は無視される
+      act(() => {
+        result.current.open();
+      });
+
+      expect(mockDialog.showModal).toHaveBeenCalledOnce();
     });
 
     it('imgRef が null の場合、open() は何もしない', () => {
@@ -300,7 +360,7 @@ describe('useImageZoom', () => {
       // callback 実行前: sourceImg に viewTransitionName が設定されている
       expect(imgStyle.viewTransitionName).toBeDefined();
 
-      // callback を実行
+      // callback を実行（setIsOpen(true) も callback 内で呼ばれる）
       act(() => {
         capturedCallback?.();
       });
@@ -308,6 +368,7 @@ describe('useImageZoom', () => {
       // callback 実行後: sourceImg の viewTransitionName が空、dialogImg に移動
       expect(imgStyle.viewTransitionName).toBe('');
       expect(dialogImgStyle.viewTransitionName).toBeTruthy();
+      expect(result.current.isOpen).toBe(true);
     });
   });
 
@@ -377,20 +438,8 @@ describe('useImageZoom', () => {
     });
 
     it('View Transition API 対応時、startViewTransition 経由で close を実行する', async () => {
-      let finishedResolve: () => void = () => {};
-      const finishedPromise = new Promise<undefined>((resolve) => {
-        finishedResolve = () => resolve(undefined);
-      });
-
-      document.startViewTransition = vi.fn((cb: () => void) => {
-        cb();
-        return {
-          finished: finishedPromise,
-          ready: Promise.resolve(undefined),
-          updateCallbackDone: Promise.resolve(undefined),
-          skipTransition: vi.fn(),
-        } as unknown as ViewTransition;
-      });
+      const mock = createDeferredViewTransitionMock();
+      document.startViewTransition = mock.startViewTransition;
 
       const { result } = renderHook(() => useImageZoom({ minImageSize: 1 }));
 
@@ -410,39 +459,32 @@ describe('useImageZoom', () => {
         result.current.open();
       });
 
+      // open の transition.finished を解決して isTransitioning をリセット
+      await act(async () => {
+        await Promise.resolve();
+      });
+
       Object.defineProperty(mockDialog, 'open', { value: true, writable: true });
 
       act(() => {
         result.current.close();
       });
 
-      expect(document.startViewTransition).toHaveBeenCalled();
+      expect(mock.startViewTransition).toHaveBeenCalledTimes(2);
       expect(mockDialog.close).toHaveBeenCalled();
 
       // transition.finished で isOpen が false になる
       await act(async () => {
-        finishedResolve();
-        await finishedPromise;
+        mock.closeFinishedResolve();
+        await mock.closeFinishedPromise;
       });
 
       expect(result.current.isOpen).toBe(false);
     });
 
     it('close() で triggerButton が見つかった場合、visibility を制御する', async () => {
-      let finishedResolve: () => void = () => {};
-      const finishedPromise = new Promise<undefined>((resolve) => {
-        finishedResolve = () => resolve(undefined);
-      });
-
-      document.startViewTransition = vi.fn((cb: () => void) => {
-        cb();
-        return {
-          finished: finishedPromise,
-          ready: Promise.resolve(undefined),
-          updateCallbackDone: Promise.resolve(undefined),
-          skipTransition: vi.fn(),
-        } as unknown as ViewTransition;
-      });
+      const mock = createDeferredViewTransitionMock();
+      document.startViewTransition = mock.startViewTransition;
 
       const { result } = renderHook(() => useImageZoom({ minImageSize: 1 }));
 
@@ -468,6 +510,11 @@ describe('useImageZoom', () => {
         result.current.open();
       });
 
+      // open の transition.finished を解決
+      await act(async () => {
+        await Promise.resolve();
+      });
+
       act(() => {
         result.current.close();
       });
@@ -477,28 +524,16 @@ describe('useImageZoom', () => {
 
       // transition.finished 後に visibility が空に戻る
       await act(async () => {
-        finishedResolve();
-        await finishedPromise;
+        mock.closeFinishedResolve();
+        await mock.closeFinishedPromise;
       });
 
       expect(triggerButtonStyle.visibility).toBe('');
     });
 
     it('isTransitioning が true の場合、close() は何もしない（二重 close 防止）', async () => {
-      let finishedResolve: () => void = () => {};
-      const finishedPromise = new Promise<undefined>((resolve) => {
-        finishedResolve = () => resolve(undefined);
-      });
-
-      document.startViewTransition = vi.fn((cb: () => void) => {
-        cb();
-        return {
-          finished: finishedPromise,
-          ready: Promise.resolve(undefined),
-          updateCallbackDone: Promise.resolve(undefined),
-          skipTransition: vi.fn(),
-        } as unknown as ViewTransition;
-      });
+      const mock = createDeferredViewTransitionMock();
+      document.startViewTransition = mock.startViewTransition;
 
       const { result } = renderHook(() => useImageZoom({ minImageSize: 1 }));
 
@@ -517,25 +552,31 @@ describe('useImageZoom', () => {
         result.current.open();
       });
 
-      // 1回目の close(): isTransitioning が true になる（finishedPromise 未解決）
+      // open の transition.finished を解決
+      await act(async () => {
+        await Promise.resolve();
+      });
+
+      // 1回目の close(): isTransitioning が true になる（closeFinishedPromise 未解決）
       act(() => {
         result.current.close();
       });
 
-      const firstCallCount = (document.startViewTransition as ReturnType<typeof vi.fn>).mock.calls.length;
+      const mockFn = mock.startViewTransition as unknown as ReturnType<typeof vi.fn>;
+      const closeCallCount = mockFn.mock.calls.length;
 
       // 2回目の close(): isTransitioning が true のため無視される
       act(() => {
         result.current.close();
       });
 
-      const secondCallCount = (document.startViewTransition as ReturnType<typeof vi.fn>).mock.calls.length;
-      expect(secondCallCount).toBe(firstCallCount);
+      const afterSecondCloseCount = mockFn.mock.calls.length;
+      expect(afterSecondCloseCount).toBe(closeCallCount);
 
-      // cleanup: finishedPromise を解決
+      // cleanup
       await act(async () => {
-        finishedResolve();
-        await finishedPromise;
+        mock.closeFinishedResolve();
+        await mock.closeFinishedPromise;
       });
     });
 

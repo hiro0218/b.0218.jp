@@ -9,6 +9,7 @@ import type { SearchResultItem } from '../types';
 import { isEmptyQuery } from '../utils/validation';
 import { SearchCache } from './cache';
 import { performIndexedSearch } from './indexedSearch';
+import { ensureSearchEngineSync } from './searchDataLoader';
 
 /**
  * UIコンポーネント用最適化検索API
@@ -23,6 +24,8 @@ export const performPostSearch = (searchValue: string): SearchResultItem[] => {
   if (isEmptyQuery(searchValue)) {
     return [];
   }
+
+  if (!ensureSearchEngineSync()) return [];
 
   return performIndexedSearch(searchValue);
 };

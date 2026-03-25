@@ -10,7 +10,6 @@ interface SearchDataItem {
   slug: string;
   title: string;
   tags: string[];
-  tokens: string[];
 }
 
 /**

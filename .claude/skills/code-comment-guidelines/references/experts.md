@@ -153,7 +153,19 @@ All experts agree on:
 Despite minimalism, all experts acknowledge comments are essential for:
 
 - **Public APIs**: Contract documentation (JSDoc, etc.)
-- **Non-obvious optimizations**: Performance trade-offs
-- **Business logic**: Domain-specific rules
-- **Workarounds**: Why the "normal" approach doesn't work
-- **TODOs**: Known improvements or limitations
+- **Non-obvious optimizations**: Performance trade-offs with measurements
+- **Business logic**: Domain-specific rules that aren't obvious from code
+- **Workarounds**: Why the "normal" approach doesn't work (with issue/docs link)
+- **TODOs**: Known improvements or limitations (with issue tracker link)
+- **Security boundaries**: Why specific validation or auth checks exist
+- **Concurrency/race conditions**: Why specific ordering or locking is required
+- **Legal/regulatory**: Copyright, license, compliance requirements
+
+## Industry Style Guides Alignment
+
+These expert principles are reinforced by major industry style guides:
+
+- **Google TypeScript Style Guide**: "Comments are not a substitute for good naming"
+- **Airbnb JavaScript Style Guide**: Prefer `//` for single-line, `/** */` for multi-line JSDoc
+- **Microsoft TypeScript Coding Guidelines**: Use JSDoc for public API surface only
+- **Linux Kernel Coding Style**: Chapter 8 — "Comments are good, but avoid over-commenting"

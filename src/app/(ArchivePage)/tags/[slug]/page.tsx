@@ -60,7 +60,7 @@ export default async function Page({ params }: { params: Params }) {
         })}
       />
       <Stack as="section" gap={4}>
-        <Title heading={pageTitle} paragraph={`${totalItems}件の記事`} />
+        <Title paragraph={`${totalItems}件の記事`}>{pageTitle}</Title>
         <Sidebar>
           <Sidebar.Side>
             <Sidebar.Title>{decodedSlug}</Sidebar.Title>

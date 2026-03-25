@@ -17,7 +17,7 @@ export default function Content({ title, description, slug }: Props) {
 
   return (
     <Stack gap={4}>
-      <Title heading={title} paragraph={description} />
+      <Title paragraph={description}>{title}</Title>
       <article className="post-content">{reactContent}</article>
     </Stack>
   );

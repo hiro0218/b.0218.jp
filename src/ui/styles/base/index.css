@@ -24,6 +24,7 @@ body {
   font-family: var(--fonts-family-sans-serif);
   font-weight: var(--font-weights-normal);
   font-feature-settings: 'chws' 1;
+  font-synthesis: none;
   line-height: 1.875;
   color: var(--colors-gray-1000);
   line-break: strict;
@@ -71,10 +72,10 @@ a {
   text-underline-position: under;
   text-underline-offset: 4%;
   transition:
-    background-color var(--durations-slow) ease,
-    opacity var(--durations-slow) ease,
+    background-color var(--transition-slow),
+    opacity var(--transition-slow),
     box-shadow var(--transition-slow),
-    text-decoration-color var(--durations-slow);
+    text-decoration-color var(--transition-slow);
 
   &[target='_blank'] {
     /* img,svg が含まれていない a 要素には外部リンクアイコンを付与 */

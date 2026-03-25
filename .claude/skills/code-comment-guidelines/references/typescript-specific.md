@@ -144,20 +144,25 @@ export function Counter() {
 ### ✅ Good: Explain when 'use client' is non-obvious
 
 ```typescript
-// This component MUST be a Client Component because Next.js Server Components
-// cannot access browser APIs (window.matchMedia) or use event handlers
+// Client Component required: useSyncExternalStore subscribes to browser matchMedia API
+// which is unavailable during SSR. The subscribe/getSnapshot pattern handles hydration safely.
 'use client';
 
+import { useSyncExternalStore } from 'react';
+
+const emptySubscribe = () => () => {};
+const getSnapshot = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
+const getServerSnapshot = () => false;
+
 export function ThemeToggle() {
-  const [theme, setTheme] = useState(() =>
-    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
-  );
+  const prefersDark = useSyncExternalStore(emptySubscribe, getSnapshot, getServerSnapshot);
+  const [theme, setTheme] = useState<'dark' | 'light'>(prefersDark ? 'dark' : 'light');
 
   return <button onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}>{theme}</button>;
 }
 ```
 
-**Principle**: When 'use client' is obvious (useState, onClick), no comment needed. Explain when multiple factors are involved.
+**Principle**: When 'use client' is obvious (useState, onClick), no comment needed. Explain when multiple factors or SSR-safety concerns are involved.
 
 ---
 
@@ -343,6 +348,47 @@ const sortedItems = useMemo(() => [...items].sort((a, b) => a.priority - b.prior
 
 ---
 
+## Server Actions and 'use server'
+
+### ❌ Bad: Commenting obvious server action
+
+```typescript
+'use server';
+
+// Server action to update user
+export async function updateUser(formData: FormData) {
+  const name = formData.get('name') as string;
+  await db.user.update({ where: { id: userId }, data: { name } });
+}
+```
+
+### ✅ Good: Explain security boundaries and revalidation
+
+```typescript
+'use server';
+
+/**
+ * Updates user profile from settings form
+ *
+ * @throws {Error} If user is not authenticated (checked via session)
+ *
+ * Security: formData is validated server-side even though client validates too,
+ * because Server Actions are publicly callable HTTP endpoints
+ */
+export async function updateUser(formData: FormData) {
+  const session = await getSession();
+  if (!session) throw new Error('Unauthorized');
+
+  const validated = userSchema.parse(Object.fromEntries(formData));
+  await db.user.update({ where: { id: session.userId }, data: validated });
+  revalidatePath('/settings');
+}
+```
+
+**Principle**: Server Actions are HTTP endpoints. Comment security boundaries and why server-side validation is required even with client validation.
+
+---
+
 ## Summary: TypeScript-Specific Principles
 
 | Pattern                | Comment Needed?   | Why                         |
@@ -351,6 +397,7 @@ const sortedItems = useMemo(() => [...items].sort((a, b) => a.priority - b.prior
 | Public exported API    | ✅ Always (JSDoc) | Contract documentation      |
 | Simple React patterns  | ❌ No             | Well-known conventions      |
 | 'use client' directive | 🟡 Sometimes      | Only when non-obvious       |
+| 'use server' actions   | 🟡 Sometimes      | Security boundaries         |
 | Async/await            | ❌ No             | Syntax is understood        |
 | Type guards            | 🟡 Sometimes      | Complex business logic only |
 | Dependency arrays      | 🟡 Sometimes      | Intentional omissions only  |

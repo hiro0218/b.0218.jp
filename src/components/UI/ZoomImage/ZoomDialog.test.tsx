@@ -54,9 +54,11 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テストダイアログ"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={dialogRef}
+          isOpen={false}
+          label="テストダイアログ"
           onCancel={vi.fn()}
           onClose={vi.fn()}
           src="/test.jpg"
@@ -70,9 +72,11 @@ describe('ZoomDialog', () => {
     it('dialog に正しい aria-label が設定される', () => {
       render(
         <ZoomDialog
-          a11yLabel="画像のズーム表示"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
+          isOpen={false}
+          label="画像のズーム表示"
           onCancel={vi.fn()}
           onClose={vi.fn()}
           src="/test.jpg"
@@ -86,10 +90,12 @@ describe('ZoomDialog', () => {
     it('img 要素に src が設定される', () => {
       render(
         <ZoomDialog
-          a11yLabel="テスト"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
+          isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={vi.fn()}
           src="/original.jpg"
@@ -98,6 +104,24 @@ describe('ZoomDialog', () => {
 
       const img = screen.getByAltText('テスト画像') as HTMLImageElement;
       expect(img.src).toContain('/original.jpg');
+    });
+
+    it('close ボタンに aria-label が設定される', () => {
+      render(
+        <ZoomDialog
+          closeLabel="閉じる"
+          dialogImgRef={createRef<HTMLImageElement>()}
+          dialogRef={createRef<HTMLDialogElement>()}
+          isOpen={false}
+          label="テスト"
+          onCancel={vi.fn()}
+          onClose={vi.fn()}
+          src="/test.jpg"
+        />,
+      );
+
+      const button = screen.getByRole('button', { hidden: true });
+      expect(button.getAttribute('aria-label')).toBe('閉じる');
     });
   });
 
@@ -108,10 +132,12 @@ describe('ZoomDialog', () => {
     it('zoomImg.src が指定された場合、img の src に zoomImg.src が使用される', () => {
       render(
         <ZoomDialog
-          a11yLabel="テスト"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
+          isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={vi.fn()}
           src="/thumb.jpg"
@@ -126,10 +152,12 @@ describe('ZoomDialog', () => {
     it('zoomImg.srcSet が指定された場合、img の srcset が設定される', () => {
       render(
         <ZoomDialog
-          a11yLabel="テスト"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
+          isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={vi.fn()}
           src="/thumb.jpg"
@@ -151,10 +179,12 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テスト"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
+          isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={onClose}
           src="/test.jpg"
@@ -174,10 +204,12 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テスト"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
+          isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={onClose}
           src="/test.jpg"
@@ -197,51 +229,30 @@ describe('ZoomDialog', () => {
   });
 
   /* ================================================================ */
-  /*  Keyboard navigation (handleImageKeyDown)                        */
+  /*  Keyboard navigation (button wrapping img)                       */
   /* ================================================================ */
-  describe('キーボード操作（handleImageKeyDown）', () => {
-    it('Enter キーで onClose が呼ばれ、preventDefault も実行される', () => {
+  describe('キーボード操作（button 経由）', () => {
+    it('画像ボタンをクリックすると onClose が呼ばれる', () => {
       const onClose = vi.fn();
 
       render(
         <ZoomDialog
-          a11yLabel="テスト"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
+          isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={onClose}
           src="/test.jpg"
         />,
       );
 
-      const img = screen.getByAltText('テスト画像');
-      const prevented = !fireEvent.keyDown(img, { key: 'Enter' });
+      const button = screen.getByRole('button', { hidden: true });
+      fireEvent.click(button);
 
       expect(onClose).toHaveBeenCalledOnce();
-      expect(prevented).toBe(true);
-    });
-
-    it('Space キーで onClose が呼ばれ、preventDefault も実行される', () => {
-      const onClose = vi.fn();
-
-      render(
-        <ZoomDialog
-          a11yLabel="テスト"
-          alt="テスト画像"
-          dialogImgRef={createRef<HTMLImageElement>()}
-          dialogRef={createRef<HTMLDialogElement>()}
-          onCancel={vi.fn()}
-          onClose={onClose}
-          src="/test.jpg"
-        />,
-      );
-
-      const img = screen.getByAltText('テスト画像');
-      const prevented = !fireEvent.keyDown(img, { key: ' ' });
-
-      expect(onClose).toHaveBeenCalledOnce();
-      expect(prevented).toBe(true);
     });
 
     it('Escape キーでは onClose が呼ばれない', () => {
@@ -249,18 +260,20 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テスト"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
+          isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={onClose}
           src="/test.jpg"
         />,
       );
 
-      const img = screen.getByAltText('テスト画像');
-      fireEvent.keyDown(img, { key: 'Escape' });
+      const button = screen.getByRole('button', { hidden: true });
+      fireEvent.keyDown(button, { key: 'Escape' });
 
       expect(onClose).not.toHaveBeenCalled();
     });
@@ -275,10 +288,12 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テスト"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
+          isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={onClose}
           src="/test.jpg"
@@ -297,10 +312,12 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テスト"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
+          isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={onClose}
           src="/test.jpg"
@@ -319,10 +336,12 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テスト"
           alt="テスト画像"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
+          isOpen={false}
+          label="テスト"
           onCancel={vi.fn()}
           onClose={onClose}
           src="/test.jpg"
@@ -345,9 +364,11 @@ describe('ZoomDialog', () => {
 
       render(
         <ZoomDialog
-          a11yLabel="テスト"
+          closeLabel="閉じる"
           dialogImgRef={createRef<HTMLImageElement>()}
           dialogRef={createRef<HTMLDialogElement>()}
+          isOpen={false}
+          label="テスト"
           onCancel={onCancel}
           onClose={vi.fn()}
           src="/test.jpg"

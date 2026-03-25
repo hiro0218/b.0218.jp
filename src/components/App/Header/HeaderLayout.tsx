@@ -36,12 +36,13 @@ const Header = styled.header`
   margin: 0 auto;
   pointer-events: none;
   isolation: isolate;
+  will-change: transform, opacity;
   transition:
     transform var(--transition-slow),
     opacity var(--transition-slow);
 
   @media (prefers-reduced-motion: reduce) {
-    transition: none;
+    transition: opacity 0.01s;
   }
 
   &[data-is-mounted='true'] {

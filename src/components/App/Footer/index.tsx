@@ -18,7 +18,7 @@ export default function Footer() {
         <LogoContainer>
           <Logo />
         </LogoContainer>
-        <Nav>
+        <Nav aria-label="フッターナビゲーション">
           {Links.map(({ title, href }) => (
             <Anchor className="link-style link-style--hover-effect" href={href} key={href}>
               {title}

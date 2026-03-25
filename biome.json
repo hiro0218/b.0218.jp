@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.8/schema.json",
   "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
   "files": {
     "ignoreUnknown": false,
@@ -38,11 +38,9 @@
     "rules": {
       "recommended": false,
       "a11y": {
-        "noAriaUnsupportedElements": "warn",
-        "useAltText": "warn",
-        "useAriaPropsForRole": "warn",
-        "useValidAriaProps": "warn",
-        "useValidAriaValues": "warn"
+        "recommended": true,
+        "noNoninteractiveTabindex": "warn",
+        "noSvgWithoutTitle": "off"
       },
       "complexity": {
         "noBannedTypes": "error",
@@ -151,6 +149,23 @@
       }
     },
     {
+      "includes": ["src/components/App/**/*.{ts,tsx}"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "~/styled-system/*": "@/ui/styled 経由で import してください"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "includes": ["src/components/UI/**/*.{ts,tsx}"],
       "linter": {
         "rules": {
@@ -161,7 +176,8 @@
                 "paths": {
                   "@/components/App/*": "UI層からApp層への依存は禁止されています",
                   "@/components/Page/*": "UI層からPage層への依存は禁止されています",
-                  "@/components/Functional/*": "UI層からFunctional層への依存は禁止されています"
+                  "@/components/Functional/*": "UI層からFunctional層への依存は禁止されています",
+                  "~/styled-system/*": "@/ui/styled 経由で import してください"
                 }
               }
             }
@@ -180,7 +196,8 @@
                 "paths": {
                   "@/components/App/*": "Functional層からApp層への依存は禁止されています",
                   "@/components/Page/*": "Functional層からPage層への依存は禁止されています",
-                  "@/components/UI/*": "Functional層からUI層への依存は禁止されています"
+                  "@/components/UI/*": "Functional層からUI層への依存は禁止されています",
+                  "~/styled-system/*": "@/ui/styled 経由で import してください"
                 }
               }
             }
@@ -201,7 +218,8 @@
                   "@/components/Page/Archive/*": "Page/_shared層から個別Page層への依存は禁止されています",
                   "@/components/Page/Home/*": "Page/_shared層から個別Page層への依存は禁止されています",
                   "@/components/Page/Post/*": "Page/_shared層から個別Page層への依存は禁止されています",
-                  "@/components/Page/Single/*": "Page/_shared層から個別Page層への依存は禁止されています"
+                  "@/components/Page/Single/*": "Page/_shared層から個別Page層への依存は禁止されています",
+                  "~/styled-system/*": "@/ui/styled 経由で import してください"
                 }
               }
             }
@@ -223,7 +241,8 @@
               "level": "error",
               "options": {
                 "paths": {
-                  "@/components/App/*": "Page層からApp層への依存は禁止されています"
+                  "@/components/App/*": "Page層からApp層への依存は禁止されています",
+                  "~/styled-system/*": "@/ui/styled 経由で import してください"
                 }
               }
             }
