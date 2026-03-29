@@ -38,10 +38,10 @@ describe('ZoomTriggerButton', () => {
     it('button 要素をレンダリングする', () => {
       render(
         <ZoomTriggerButton
-          a11yLabel="画像をズーム"
           imgProps={{}}
           imgRef={createRef<HTMLImageElement>()}
           isOpen={false}
+          label="画像をズーム"
           onImageLoad={vi.fn()}
           src="/test.jpg"
           zoomIn={vi.fn()}
@@ -55,11 +55,11 @@ describe('ZoomTriggerButton', () => {
     it('style prop が img 要素に適用される', () => {
       render(
         <ZoomTriggerButton
-          a11yLabel="画像をズーム"
           alt="テスト画像"
           imgProps={{}}
           imgRef={createRef<HTMLImageElement>()}
           isOpen={false}
+          label="画像をズーム"
           onImageLoad={vi.fn()}
           src="/test.jpg"
           style={{ width: '300px', height: '200px' }}
@@ -75,11 +75,11 @@ describe('ZoomTriggerButton', () => {
     it('imgProps が img 要素に渡される', () => {
       render(
         <ZoomTriggerButton
-          a11yLabel="画像をズーム"
           alt="テスト画像"
           imgProps={{ width: 400, height: 300 }}
           imgRef={createRef<HTMLImageElement>()}
           isOpen={false}
+          label="画像をズーム"
           onImageLoad={vi.fn()}
           src="/test.jpg"
           zoomIn={vi.fn()}
@@ -99,10 +99,10 @@ describe('ZoomTriggerButton', () => {
     it('button に正しい aria-label が設定される', () => {
       render(
         <ZoomTriggerButton
-          a11yLabel="風景写真をズーム"
           imgProps={{}}
           imgRef={createRef<HTMLImageElement>()}
           isOpen={false}
+          label="風景写真をズーム"
           onImageLoad={vi.fn()}
           src="/test.jpg"
           zoomIn={vi.fn()}
@@ -116,10 +116,10 @@ describe('ZoomTriggerButton', () => {
     it('isOpen が false の場合、aria-expanded が false に設定される', () => {
       render(
         <ZoomTriggerButton
-          a11yLabel="画像をズーム"
           imgProps={{}}
           imgRef={createRef<HTMLImageElement>()}
           isOpen={false}
+          label="画像をズーム"
           onImageLoad={vi.fn()}
           src="/test.jpg"
           zoomIn={vi.fn()}
@@ -133,10 +133,10 @@ describe('ZoomTriggerButton', () => {
     it('isOpen が true の場合、aria-expanded が true に設定される', () => {
       render(
         <ZoomTriggerButton
-          a11yLabel="画像をズーム"
           imgProps={{}}
           imgRef={createRef<HTMLImageElement>()}
           isOpen={true}
+          label="画像をズーム"
           onImageLoad={vi.fn()}
           src="/test.jpg"
           zoomIn={vi.fn()}
@@ -150,10 +150,10 @@ describe('ZoomTriggerButton', () => {
     it('button の type が "button" である', () => {
       render(
         <ZoomTriggerButton
-          a11yLabel="画像をズーム"
           imgProps={{}}
           imgRef={createRef<HTMLImageElement>()}
           isOpen={false}
+          label="画像をズーム"
           onImageLoad={vi.fn()}
           src="/test.jpg"
           zoomIn={vi.fn()}
@@ -172,10 +172,10 @@ describe('ZoomTriggerButton', () => {
     it('isOpen が true の場合、aria-disabled が設定される', () => {
       render(
         <ZoomTriggerButton
-          a11yLabel="画像をズーム"
           imgProps={{}}
           imgRef={createRef<HTMLImageElement>()}
           isOpen={true}
+          label="画像をズーム"
           onImageLoad={vi.fn()}
           src="/test.jpg"
           zoomIn={vi.fn()}
@@ -189,10 +189,10 @@ describe('ZoomTriggerButton', () => {
     it('isOpen が false の場合、aria-disabled が設定されない', () => {
       render(
         <ZoomTriggerButton
-          a11yLabel="画像をズーム"
           imgProps={{}}
           imgRef={createRef<HTMLImageElement>()}
           isOpen={false}
+          label="画像をズーム"
           onImageLoad={vi.fn()}
           src="/test.jpg"
           zoomIn={vi.fn()}
@@ -207,10 +207,10 @@ describe('ZoomTriggerButton', () => {
       const zoomIn = vi.fn();
       render(
         <ZoomTriggerButton
-          a11yLabel="画像をズーム"
           imgProps={{}}
           imgRef={createRef<HTMLImageElement>()}
           isOpen={true}
+          label="画像をズーム"
           onImageLoad={vi.fn()}
           src="/test.jpg"
           zoomIn={zoomIn}

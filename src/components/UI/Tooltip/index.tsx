@@ -70,4 +70,8 @@ const TooltipContent = styled.span`
     opacity: 1;
     transform: translate(-50%, 0%);
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 `;

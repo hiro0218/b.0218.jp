@@ -4,12 +4,9 @@
  * ビルド時に生成された転置インデックスを利用して、O(1)の検索を実現
  */
 
-// ビルド時に生成された転置インデックスと検索データをインポート
-import searchData from '~/dist/search-data.json';
-import searchIndex from '~/dist/search-index.json';
-
 import type { SearchResultItem } from '../types';
 import { isEmptyQuery } from '../utils/validation';
+import type { SearchDataPayload } from './searchDataLoader';
 
 const MAX_SEARCH_RESULTS = 100;
 const MATCHING_TOKEN_CACHE_SIZE = 200;
@@ -32,47 +29,66 @@ const SCORE = {
 /** クエリトークン分割用正規表現 */
 const WHITESPACE_REGEX = /\s+/;
 
-/**
- * 検索用データの型定義（ビルド時生成データ）
- */
-interface SearchDataItem {
-  slug: string;
-  title: string;
-  tags: string[];
-}
-
 interface NormalizedSearchDataItem extends SearchDataItem {
   titleLower: string;
   tagsLower: string[];
 }
 
-// 型アサーション
-const typedSearchIndex = searchIndex as Record<string, string[]>;
-const typedSearchData = searchData as SearchDataItem[];
-const normalizedSearchData: NormalizedSearchDataItem[] = typedSearchData.map((item) => ({
-  ...item,
-  titleLower: item.title.toLowerCase(),
-  tagsLower: item.tags.map((tag) => tag.toLowerCase()),
-}));
+let initialized = false;
+let typedSearchIndex: Record<string, string[]> = {};
+let normalizedSearchData: NormalizedSearchDataItem[] = [];
+let searchDataMap = new Map<string, NormalizedSearchDataItem>();
+let indexTokenKeys: string[] = [];
+let indexTokensByFirstChar = new Map<string, string[]>();
+let matchingTokenCache = new Map<string, TokenMatch[]>();
 
-// slug をキーとしたマップを作成（高速参照用）
-const searchDataMap = new Map<string, NormalizedSearchDataItem>(normalizedSearchData.map((item) => [item.slug, item]));
+/**
+ * 検索エンジンを初期化（二重初期化防止付き）
+ */
+export function initializeSearchEngine(data: SearchDataPayload): void {
+  if (initialized) return;
 
-// 転置インデックスのキー配列をキャッシュ（部分一致検索の毎回アロケーションを回避）
-const indexTokenKeys = Object.keys(typedSearchIndex);
-const indexTokensByFirstChar = new Map<string, string[]>();
-const matchingTokenCache = new Map<string, TokenMatch[]>();
+  typedSearchIndex = data.searchIndex;
+  normalizedSearchData = data.searchData.map((item) => ({
+    ...item,
+    titleLower: item.title.toLowerCase(),
+    tagsLower: item.tags.map((tag) => tag.toLowerCase()),
+  }));
+  searchDataMap = new Map<string, NormalizedSearchDataItem>(normalizedSearchData.map((item) => [item.slug, item]));
+  indexTokenKeys = Object.keys(typedSearchIndex);
+  indexTokensByFirstChar = new Map<string, string[]>();
+  matchingTokenCache = new Map<string, TokenMatch[]>();
 
-for (const token of indexTokenKeys) {
-  const firstChar = token[0];
-  if (!firstChar) continue;
+  for (const token of indexTokenKeys) {
+    const firstChar = token[0];
+    if (!firstChar) continue;
 
-  const bucket = indexTokensByFirstChar.get(firstChar);
-  if (bucket) {
-    bucket.push(token);
-  } else {
-    indexTokensByFirstChar.set(firstChar, [token]);
+    const bucket = indexTokensByFirstChar.get(firstChar);
+    if (bucket) {
+      bucket.push(token);
+    } else {
+      indexTokensByFirstChar.set(firstChar, [token]);
+    }
   }
+
+  initialized = true;
+}
+
+export function isSearchEngineReady(): boolean {
+  return initialized;
+}
+
+/**
+ * 検索エンジンの状態をリセット（テスト専用）
+ */
+export function resetSearchEngine(): void {
+  initialized = false;
+  typedSearchIndex = {};
+  normalizedSearchData = [];
+  searchDataMap = new Map();
+  indexTokenKeys = [];
+  indexTokensByFirstChar = new Map();
+  matchingTokenCache = new Map();
 }
 
 /**
@@ -246,6 +262,8 @@ function searchByTitleFallback(searchValue: string, excludeSlugs: Set<string>): 
  * @returns 優先度順ソート済み検索結果（最大100件）
  */
 export function performIndexedSearch(searchValue: string): SearchResultItem[] {
+  if (!initialized) return [];
+
   if (isEmptyQuery(searchValue)) {
     return [];
   }

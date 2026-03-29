@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchWithCache } from '@/components/App/Search/engine/search';
+import { isSearchDataReady, loadAndInitializeSearch } from '@/components/App/Search/engine/searchDataLoader';
 import debounce from '@/lib/utils/debounce';
 import type { SearchState } from '../../types';
 
@@ -21,8 +22,17 @@ const initialState: SearchState = {
  */
 export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: UseSearchManagerProps = {}) => {
   const [state, setState] = useState<SearchState>(() => getInitialState?.() ?? initialState);
+  const [isReady, setIsReady] = useState(isSearchDataReady);
   const searchWithCache = useSearchWithCache();
   const lastQueryRef = useRef('');
+
+  // マウント時にデータロード開始（プリフェッチ未完了時のフォールバック）
+  useEffect(() => {
+    if (isReady) return;
+    loadAndInitializeSearch()
+      .then(() => setIsReady(true))
+      .catch(() => {});
+  }, [isReady]);
 
   const setResults = useCallback((results: SearchState['results'], query: string) => {
     setState({
@@ -46,6 +56,13 @@ export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: Use
         return;
       }
 
+      if (!isReady) {
+        // データ未ロード時はクエリを保留
+        lastQueryRef.current = trimmedQuery;
+        loadAndInitializeSearch().catch(() => {});
+        return;
+      }
+
       if (trimmedQuery === lastQueryRef.current) {
         return;
       }
@@ -54,8 +71,15 @@ export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: Use
       setResults(results, trimmedQuery);
       lastQueryRef.current = trimmedQuery;
     },
-    [setResults, reset, searchWithCache],
+    [setResults, reset, searchWithCache, isReady],
   );
+
+  // isReady が true になった時、保留中クエリがあれば検索実行
+  useEffect(() => {
+    if (!isReady || !lastQueryRef.current) return;
+    const results = searchWithCache(lastQueryRef.current);
+    setResults(results, lastQueryRef.current);
+  }, [isReady, searchWithCache, setResults]);
 
   const debouncedSearch = useMemo(() => debounce(executeSearch, debounceDelayMs), [executeSearch, debounceDelayMs]);
 
@@ -67,6 +91,7 @@ export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: Use
 
   return {
     state,
+    isReady,
     debouncedSearch,
     executeSearch,
     reset,

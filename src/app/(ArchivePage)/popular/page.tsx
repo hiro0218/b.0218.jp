@@ -26,7 +26,7 @@ const categoryMap = getTagCategoriesJson();
 export default function Page() {
   return (
     <>
-      <Title heading={title} paragraph={description} />
+      <Title paragraph={description}>{title}</Title>
       <Sidebar>
         <Sidebar.Side>
           <Sidebar.Title>{pageTitle}</Sidebar.Title>

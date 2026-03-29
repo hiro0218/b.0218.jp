@@ -5,13 +5,13 @@ export const postTagAnchor = css`
   gap: var(--spacing-1);
   align-items: center;
   justify-content: center;
+  min-height: var(--sizes-touch-target);
   padding: var(--spacing-½) var(--spacing-2);
   font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-700);
   text-align: center;
   white-space: nowrap;
-  min-height: var(--sizes-touch-target);
   background-color: var(--colors-gray-a-100);
   border-radius: var(--radii-md);
 

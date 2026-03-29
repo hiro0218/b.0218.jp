@@ -40,7 +40,7 @@ export default function Page() {
         })}
       />
       <Stack as="article" gap={4}>
-        <Title heading={title} paragraph={description} />
+        <Title paragraph={description}>{title}</Title>
 
         <Chart archives={archives} totalPosts={totalPosts} />
 

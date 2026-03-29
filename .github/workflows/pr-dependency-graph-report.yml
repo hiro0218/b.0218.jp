@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: write
+  contents: read
   pull-requests: write
 
 jobs:
@@ -28,53 +28,131 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Run dependency-cruiser
+      - name: Detect changed files
+        id: detect
+        env:
+          BASE_REF: ${{ github.base_ref }}
         run: |
-          files="$(git diff --name-only --diff-filter=AM origin/${{ github.base_ref }}...HEAD | grep -E "src/.*\.(js|cjs|mjs|jsx|ts|tsx)$" | tr '\n' ' ' | xargs)";
-          # 修正ファイル同士の依存関係のみ抽出するための正規表現を生成
-          includeOnlyOption=$(echo "$files" | sed 's/ /|/g');
-          echo $files;
+          files="$(git diff --name-only --diff-filter=AM "origin/$BASE_REF"...HEAD \
+            | grep -E 'src/.*\.(js|cjs|mjs|jsx|ts|tsx)$' \
+            | grep -v '\.\(spec\|test\)\.' \
+            | tr '\n' ' ' | xargs)"
 
-          if [[ $files == "" ]]; then
-            echo "特定のファイルに変更がないので終了します。"
-            exit 0
-          fi
-
-          if [[ $files != "" ]]; then
-            # 修正ファイルとその依存先を抽出（より完全なグラフ）
-            bunx depcruise --cache -X "^node_modules" --max-depth 3 -T json --focus "$includeOnlyOption" $files > _temp.json
-
-            echo -e '\n' >> result.md
-            bunx depcruise-fmt -T markdown _temp.json >> result.md
-            echo -e '\n' >> result.md
-
-            echo -e '\n---\n' >> result.md
-
-            echo -e '\n<details>' >> result.md
-            echo -e '\n<summary>変更されたファイルとその依存先の関係を可視化します。</summary>' >> result.md
-            echo -e '\n```mermaid' >> result.md
-            bunx depcruise-fmt -T mermaid _temp.json >> result.md
-            echo -e '\n```' >> result.md
-            echo -e '\n</details>' >> result.md
-          fi
-
-          echo "files=$files" >> $GITHUB_ENV
-          cat result.md
-
-      - name: Initial Markdown File
-        run: |
-          echo '<!-- dependency-cruiser report -->' > comment.md
-          echo '' >> comment.md
-
-      - name: Generate Markdown Text
-        run: |
-          if [[ "${{ env.files }}" != "" ]]; then
-            cat result.md >> comment.md
+          if [[ -z "$files" ]]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
           else
-            echo '依存関係を分析する対象のファイルがありませんでした。' >> comment.md
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "files=$files" >> "$GITHUB_OUTPUT"
+            # 正規表現メタ文字をエスケープ（. → \.）
+            echo "focus=$(echo "$files" | sed 's/\./\\./g' | sed 's/ /|/g')" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Write Comment (Use find-comment)
+      - name: Run dependency-cruiser
+        if: steps.detect.outputs.skip == 'false'
+        env:
+          FILES: ${{ steps.detect.outputs.files }}
+          FOCUS: ${{ steps.detect.outputs.focus }}
+        run: |
+          # 変更ファイルの依存関係を JSON で取得
+          bunx depcruise --cache -X "^node_modules" --max-depth 3 \
+            --focus "$FOCUS" -T json $FILES > dep-result.json
+
+          # 影響範囲（変更ファイルに依存しているモジュール）を JSON で取得
+          bunx depcruise --cache -X "^node_modules" --max-depth 2 \
+            --reaches "$FOCUS" src -T json > dep-reaches.json 2>/dev/null || true
+
+          # JSON バリデーション（失敗時は空にする）
+          if ! jq empty dep-reaches.json 2>/dev/null; then
+            rm -f dep-reaches.json
+          fi
+
+      - name: Build comment
+        if: steps.detect.outputs.skip == 'false'
+        env:
+          FILES: ${{ steps.detect.outputs.files }}
+        run: |
+          cat > comment.md << 'HEADER'
+          <!-- dependency-cruiser report -->
+          ## 依存関係チェック
+          HEADER
+
+          # --- 違反セクション ---
+          error_count=$(jq '.summary.error // 0' dep-result.json)
+          warn_count=$(jq '.summary.warn // 0' dep-result.json)
+          total_violations=$((error_count + warn_count))
+
+          if [[ $total_violations -eq 0 ]]; then
+            echo -e '\n**違反なし** — 依存ルールへの違反は検出されませんでした。\n' >> comment.md
+          else
+            echo -e "\n**${total_violations}件の違反**（error: ${error_count} / warn: ${warn_count}）\n" >> comment.md
+
+            # 違反テーブル（error と warn のみ。info はノイズになるため除外）
+            echo '| 深刻度 | ルール | 対象ファイル | 依存先 | 説明 |' >> comment.md
+            echo '|---|---|---|---|---|' >> comment.md
+            jq -r '
+              (.summary.violations // [])[]
+              | select(.rule.severity == "error" or .rule.severity == "warn")
+              | "| \(.rule.severity) | `\(.rule.name)` | `\(.from)` | `\(.to)` | \(.comment // "-") |"
+            ' dep-result.json >> comment.md
+            echo '' >> comment.md
+          fi
+
+          # --- 影響範囲セクション ---
+          if [[ -s dep-reaches.json ]]; then
+            reaches_count=$(jq '[.modules[].source] | length' dep-reaches.json 2>/dev/null || echo "0")
+
+            if [[ $reaches_count -gt 0 ]]; then
+              # 変更ファイル自身を除外して、影響を受ける側のモジュールだけ抽出
+              affected=$(jq -r '[.modules[].source] | sort | .[]' dep-reaches.json \
+                | grep -v -F -f <(echo "$FILES" | tr ' ' '\n') || true)
+
+              if [[ -n "$affected" ]]; then
+                affected_count=$(echo "$affected" | wc -l | tr -d ' ')
+                echo -e "---\n" >> comment.md
+                echo "<details>" >> comment.md
+                echo "<summary><strong>影響範囲</strong> — 変更ファイルに依存している ${affected_count} モジュール</summary>" >> comment.md
+                echo "" >> comment.md
+                echo "$affected" | sed 's/^/- `/' | sed 's/$/`/' >> comment.md
+                echo "" >> comment.md
+                echo "</details>" >> comment.md
+                echo "" >> comment.md
+              fi
+            fi
+          fi
+
+          # --- 依存グラフ（折りたたみ、サイズ制限付き） ---
+          mermaid_output=$(bunx depcruise-fmt -T mermaid dep-result.json)
+          mermaid_size=${#mermaid_output}
+
+          echo -e "---\n" >> comment.md
+          echo '<details>' >> comment.md
+          echo '<summary>依存グラフ</summary>' >> comment.md
+          echo '' >> comment.md
+          echo '```mermaid' >> comment.md
+          if [[ $mermaid_size -gt 50000 ]]; then
+            echo "$mermaid_output" | head -c 50000 >> comment.md
+            echo '' >> comment.md
+            echo '%% グラフが大きいため省略されました' >> comment.md
+          else
+            echo "$mermaid_output" >> comment.md
+          fi
+          echo '```' >> comment.md
+          echo '' >> comment.md
+          echo '</details>' >> comment.md
+
+          cat comment.md
+
+      - name: Build comment (no files)
+        if: steps.detect.outputs.skip == 'true'
+        run: |
+          cat > comment.md << 'EOF'
+          <!-- dependency-cruiser report -->
+          ## 依存関係チェック
+
+          依存関係を分析する対象のファイルがありませんでした。
+          EOF
+
+      - name: Find existing comment
         uses: peter-evans/find-comment@v4
         id: fc
         with:

@@ -192,37 +192,43 @@ export default function StaticComponent() {
 **UI コンポーネントの検証**:
 
 ```typescript
+import { css } from '@/ui/styled';
+
 // ✅ 正しい実装（ゼロマージン）
-const Button = styled.button`
-  padding: 8px 16px; // OK: 内部スペーシング
-  border-radius: 4px; // OK: スタイリング
-  background-color: blue; // OK: スタイリング
+const buttonStyle = css`
+  padding: 8px 16px; /* OK: 内部スペーシング */
+  border-radius: 4px; /* OK: スタイリング */
+  background-color: blue; /* OK: スタイリング */
 `;
 
 // ❌ 違反（自己マージン）
-const Button = styled.button`
-  margin: 16px; // NG: 自己マージン
-  margin-top: 8px; // NG: 自己マージン
-  margin-bottom: 8px; // NG: 自己マージン
+const buttonStyle = css`
+  margin: 16px; /* NG: 自己マージン */
+  margin-top: 8px; /* NG: 自己マージン */
+  margin-bottom: 8px; /* NG: 自己マージン */
 `;
 
 // ✅ 親でスペーシング制御
+const layoutStyle = css`
+  display: flex;
+  gap: 16px;
+`;
+
 const HomePage = () => (
-  <div className={css({ display: 'flex', gap: '16px' })}>
+  <div className={layoutStyle}>
     <Button>Click Me</Button>
     <Button>Another</Button>
   </div>
 );
 ```
 
-**検証コマンド**:
+**検証方法**:
 
-```bash
-# UI コンポーネント内の margin 使用を検索
-grep -r "margin:" src/components/UI/
+Grep ツールで UI コンポーネント内の margin 使用を検索：
 
-# 検出された場合、違反として報告
-```
+- `css` テンプレートリテラル内の `margin` プロパティ
+- CSS 変数を使った `margin: var(--spacing-*)` パターン
+- 検出された場合、違反として報告（ただし `& > :where(*) { margin: 0; }` のようなリセット用途は除外）
 
 ### Phase 4: TypeScript 品質の検証
 
@@ -400,19 +406,26 @@ import { HomePage } from '@/components/Page/HomePage';
 ### パターン 2: ゼロマージン原則の違反
 
 ```typescript
+import { css } from '@/ui/styled';
+
 // ❌ 違反例
-const Card = styled.div`
+const cardStyle = css`
   margin: 16px;
 `;
 
 // ✅ 修正方法
-const Card = styled.div`
+const cardStyle = css`
   padding: 16px;
 `;
 
 // 親コンポーネント
+const layoutStyle = css`
+  display: grid;
+  gap: 16px;
+`;
+
 const Layout = () => (
-  <div className={css({ display: 'grid', gap: '16px' })}>
+  <div className={layoutStyle}>
     <Card />
     <Card />
   </div>

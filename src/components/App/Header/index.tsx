@@ -1,6 +1,7 @@
 'use client';
 
 import { lazy, Suspense } from 'react';
+import { loadAndInitializeSearch } from '@/components/App/Search/engine/searchDataLoader';
 import { SearchTrigger } from '@/components/App/Search/SearchTrigger';
 import { Container } from '@/components/UI/Layout/Container';
 import { Logo } from '@/components/UI/Logo';
@@ -16,7 +17,7 @@ let prefetchStarted = false;
 const prefetchSearchDialog = () => {
   if (prefetchStarted) return;
   prefetchStarted = true;
-  importSearchDialog().catch(() => {
+  Promise.all([importSearchDialog(), loadAndInitializeSearch()]).catch(() => {
     prefetchStarted = false;
   });
 };

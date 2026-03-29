@@ -12,6 +12,10 @@ module.exports = {
         ignoreAtRules: ['extend', 'mixin', 'define-mixin'],
       },
     ],
+    'media-feature-name-disallowed-list': [
+      ['any-hover'],
+      { message: ':hover を直接書いてください。PostCSS が自動で any-hover ラップします' },
+    ],
     'color-hex-length': 'short',
     'color-no-invalid-hex': true,
     'length-zero-no-unit': true,

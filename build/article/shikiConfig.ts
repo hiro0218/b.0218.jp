@@ -13,7 +13,7 @@ export const shikiConfig: RehypeShikiOptions = {
       name: 'add-language-attribute',
       code(node) {
         const lang = this.options.lang;
-        if (lang) {
+        if (lang && lang !== 'text') {
           node.properties['data-language'] = lang;
         }
       },

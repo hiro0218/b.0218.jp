@@ -39,9 +39,10 @@ const Header = styled.header`
   transition:
     transform var(--transition-slow),
     opacity var(--transition-slow);
+  will-change: transform, opacity;
 
   @media (prefers-reduced-motion: reduce) {
-    transition: none;
+    transition: opacity 0.01s;
   }
 
   &[data-is-mounted='true'] {

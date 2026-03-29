@@ -76,9 +76,12 @@ const postsMap = new Map(posts.map((p) => [p.id, p]));
 **Action**: Comment **only** when explaining:
 
 - Performance optimizations with measurements
-- Library constraints or workarounds
+- Library constraints or workarounds (with link to issue/docs)
 - Hardware/browser compatibility issues
 - Non-obvious algorithm choices
+- Concurrency/race condition prevention
+- Security-sensitive decisions (why input is trusted, auth checks)
+- Regulatory or compliance requirements
 
 ### Step 4: Does TypeScript already document this?
 
@@ -157,6 +160,33 @@ export function processPayment(amount: number, currency: string) {
 
 **Suggestion**: "Make TODO specific with issue link and description."
 
+### 5. Remove Commented-Out Code
+
+```typescript
+// ❌ Commented-out code pollutes the codebase
+// const oldImplementation = fetchWithRetry(url);
+// if (oldImplementation.status === 500) {
+//   return fallback();
+// }
+const result = fetchWithCache(url);
+```
+
+**Suggestion**: "Remove commented-out code. Use version control (git) to recover old implementations."
+
+### 6. Flag Outdated Comments
+
+```typescript
+// ❌ Comment contradicts current behavior
+// Returns null when user not found
+export function getUser(id: string): User {
+  // Actually throws UserNotFoundError since v2.0
+  const user = db.users.findOrThrow(id);
+  return user;
+}
+```
+
+**Suggestion**: "Update or remove outdated comment. Comment says 'returns null' but code throws."
+
 ## Language-Specific Guidance
 
 ### TypeScript/JavaScript
@@ -167,9 +197,11 @@ For TypeScript-specific patterns (React hooks, Server Components, type guards, e
 
 - JSDoc requirements for public APIs
 - React component documentation
-- Server vs Client Components
+- Server vs Client Components (`'use client'` / `'use server'`)
+- Server Actions security boundary comments
 - Type guard documentation
 - useMemo/useCallback comment patterns
+- SSR/SSG environment checks
 
 ### General Programming
 
@@ -230,6 +262,9 @@ When reviewing code comments, provide:
 | Type information         | ❌ No                    | TypeScript types          |
 | Magic number             | ❌ No                    | Named constant            |
 | TODO note                | ✅ Yes (specific + link) | Issue tracker             |
+| Commented-out code       | ❌ Remove                | Version control (git)     |
+| Outdated comment         | ❌ Remove or update      | Keep in sync with code    |
+| Regulatory/legal         | ✅ Yes                   | N/A - Required            |
 
 ## Remember
 

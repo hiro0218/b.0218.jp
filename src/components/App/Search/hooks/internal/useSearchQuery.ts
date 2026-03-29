@@ -34,7 +34,7 @@ export interface UseSearchQueryReturn {
   /** 検索結果 */
   results: SearchResultItem[];
 
-  /** データ読み込み中か（SSGのため常にfalse） */
+  /** 検索データの読み込み中か */
   isLoading: boolean;
 
   /** エラー（SSGのため常にnull） */
@@ -78,6 +78,7 @@ export const useSearchQuery = (options: UseSearchQueryOptions = {}): UseSearchQu
   // ===== 検索実行管理 =====
   const {
     state,
+    isReady,
     debouncedSearch,
     executeSearch,
     reset: resetManager,
@@ -117,7 +118,7 @@ export const useSearchQuery = (options: UseSearchQueryOptions = {}): UseSearchQu
   return {
     query: state.query,
     results: state.results,
-    isLoading: false, // SSGのため常にfalse
+    isLoading: !isReady,
     error: null, // SSGのため常にnull
     search: executeSearch,
     debouncedSearch,

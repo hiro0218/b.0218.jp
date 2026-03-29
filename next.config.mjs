@@ -42,6 +42,10 @@ const nextConfig = {
     webpackMemoryOptimizations: true,
   },
 
+  logging: {
+    browserToTerminal: true,
+  },
+
   // Turbopack configuration (empty to acknowledge and silence webpack warning)
   turbopack: {},
 

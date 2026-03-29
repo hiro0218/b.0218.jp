@@ -130,7 +130,7 @@ export const useSearchStateRestoration = ({
       return;
     }
 
-    // 転置インデックスは常に利用可能なため、即座に検索を再実行
+    // データ未ロード時は executeSearch 内でクエリが保留され、ロード完了後に自動実行される
     executeSearch(savedState.query);
     hasExecutedRestorationRef.current = true;
   }, [executeSearch, loadSearchState, persistState, setResults]);

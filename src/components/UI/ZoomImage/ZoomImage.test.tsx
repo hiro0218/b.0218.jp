@@ -204,8 +204,8 @@ describe('ZoomImage', () => {
       render(
         <ZoomImage
           a11yOptions={{
-            a11yNameButtonZoom: 'カスタムズーム',
-            a11yNameDialog: 'カスタムダイアログ',
+            buttonZoomLabel: 'カスタムズーム',
+            dialogLabel: 'カスタムダイアログ',
           }}
           alt="photo"
           src="/test.jpg"
@@ -219,14 +219,14 @@ describe('ZoomImage', () => {
       expect(dialog.getAttribute('aria-label')).toBe('カスタムダイアログ');
     });
 
-    it('dialog 内の img に tabIndex=0 が設定されキーボード操作可能', () => {
+    it('dialog 内の img が button で囲まれキーボード操作可能', () => {
       hookReturnOverrides = { canZoom: true };
 
       render(<ZoomImage alt="test" src="/test.jpg" />);
 
       const images = screen.getAllByAltText('test');
       const dialogImg = images[1]; // 2番目が dialog 内の img
-      expect(dialogImg.getAttribute('tabindex')).toBe('0');
+      expect(dialogImg.closest('button')).not.toBeNull();
     });
 
     it('canZoom が true の場合、button に aria-expanded 属性が設定される', () => {

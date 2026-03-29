@@ -24,6 +24,7 @@ function pushAd() {
 export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
   const pathname = usePathname();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname is a trigger to reload ads on route change
   useEffect(() => {
     pushAd();
   }, [pathname]);
