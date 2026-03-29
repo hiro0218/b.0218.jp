@@ -36,10 +36,10 @@ const Header = styled.header`
   margin: 0 auto;
   pointer-events: none;
   isolation: isolate;
-  will-change: transform, opacity;
   transition:
     transform var(--transition-slow),
     opacity var(--transition-slow);
+  will-change: transform, opacity;
 
   @media (prefers-reduced-motion: reduce) {
     transition: opacity 0.01s;
