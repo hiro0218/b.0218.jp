@@ -14,15 +14,23 @@ type PostDateProps = ComponentProps<typeof PostDate>;
 type Props = {
   link: string;
   title: string;
+  /** 見出しの HTML 要素。一覧ページでは h2、単体では h3 が典型 */
   titleTagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   excerpt?: ReactNode | string;
   date: PostDateProps['date'];
   updated?: PostDateProps['updated'];
   tags?: string[];
+  /** 記事カテゴリ。アイコンと背景色が変わる */
   category?: TagCategoryName;
+  /** Next.js のルートプリフェッチを有効にする */
   prefetch?: boolean;
 };
 
+/**
+ * ブログ記事の一覧表示用カード。タイトル・日付・カテゴリ・タグを表示する。
+ * コンテナクエリでレスポンシブに対応し、狭い幅ではタグが非表示になる。
+ * @summary 記事一覧用カード（レスポンシブ対応）
+ */
 function ArticleCard({
   link,
   title,

@@ -9,9 +9,14 @@ type TooltipProps = {
   text: string;
   position?: 'top' | 'bottom';
   children: React.ReactElement;
+  /** ホバーから表示までの遅延（ms） */
   delay?: number;
 };
 
+/**
+ * ホバーでテキストを表示するツールチップ。React Aria でアクセシビリティ対応済み。
+ * @summary ホバーツールチップ
+ */
 export const Tooltip = ({ text, position = 'bottom', children, delay = 500 }: TooltipProps) => {
   const state = useTooltipTriggerState({ delay });
   const triggerRef = useRef<HTMLSpanElement>(null);

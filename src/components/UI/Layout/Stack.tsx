@@ -38,11 +38,18 @@ type Props<T extends ElementType = 'div'> = {
    */
   gap?: SpaceGap | 0;
   direction?: 'vertical' | 'horizontal';
+  /** 交差軸の配置 */
   align?: FlexAlign;
+  /** 主軸の配置 */
   justify?: FlexJustify;
   wrap?: FlexWrap;
 } & Omit<ComponentPropsWithoutRef<T>, 'as' | 'gap' | 'direction' | 'align' | 'justify' | 'wrap'>;
 
+/**
+ * 子要素を縦または横方向に並べるレイアウトコンポーネント。
+ * gap でスペースを制御する（Zero Margin Principle）。
+ * @summary 縦/横方向のスタックレイアウト
+ */
 export const Stack = <T extends ElementType = 'div'>({
   as,
   children,
