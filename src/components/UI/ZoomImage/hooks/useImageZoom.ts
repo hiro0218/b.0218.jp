@@ -40,7 +40,7 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
   const { hasObjectFit = false, minImageSize = 100 } = options;
   const viewTransitionName = `zoom-image-${useId().replace(/:/g, '')}`;
 
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [loadedImageSize, setLoadedImageSize] = useState<{ height: number; width: number } | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const isOpenRef = useRef(false);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -51,12 +51,17 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
 
   const canZoom =
     !hasObjectFit &&
-    imageLoaded &&
-    !!imgRef.current &&
-    (imgRef.current.naturalWidth >= minImageSize || imgRef.current.naturalHeight >= minImageSize);
+    loadedImageSize !== null &&
+    (loadedImageSize.width >= minImageSize || loadedImageSize.height >= minImageSize);
 
   const handleImageLoad = useCallback(() => {
-    setImageLoaded(true);
+    const img = imgRef.current;
+    if (!img) return;
+
+    setLoadedImageSize({
+      height: img.naturalHeight,
+      width: img.naturalWidth,
+    });
   }, []);
 
   const open = useCallback(() => {
@@ -154,10 +159,13 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
   // 既にロード済みの画像を検出
   useLayoutEffect(() => {
     const img = imgRef.current;
-    if (img && !imageLoaded && img.complete && img.naturalWidth) {
-      setImageLoaded(true);
+    if (img && loadedImageSize === null && img.complete && img.naturalWidth) {
+      setLoadedImageSize({
+        height: img.naturalHeight,
+        width: img.naturalWidth,
+      });
     }
-  }, [imageLoaded]);
+  }, [loadedImageSize]);
 
   return {
     imgRef,

@@ -1,10 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { Stack } from './Stack';
+import { DemoBox } from '@/stories/_internal/DemoBox';
 
-const DemoBox = ({ children, color = 'var(--colors-blue-200)' }: { children: React.ReactNode; color?: string }) => (
-  <div style={{ background: color, padding: '1rem', borderRadius: '4px' }}>{children}</div>
-);
+import { Stack } from './Stack';
 
 const defaultChildren = (
   <>
@@ -17,7 +15,6 @@ const defaultChildren = (
 const meta = {
   title: 'UI/Layout/Stack',
   component: Stack,
-  tags: ['autodocs'],
   args: {
     children: defaultChildren,
   },
@@ -26,12 +23,28 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = { name: '基本' };
+export const Default: Story = {
+  name: '基本',
+  parameters: {
+    docs: {
+      description: {
+        story: '縦方向に要素を並べる基本形。デフォルト gap は 2（8px）。',
+      },
+    },
+  },
+};
 
 export const Horizontal: Story = {
   name: '横方向',
   args: {
     direction: 'horizontal',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '横方向に要素を並べる。ヘッダーやツールバーに使用する。',
+      },
+    },
   },
 };
 
@@ -39,6 +52,13 @@ export const CustomGap: Story = {
   name: 'カスタム gap',
   args: {
     gap: 5,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'gap を変更して要素間のスペースを調整する。',
+      },
+    },
   },
 };
 
@@ -48,6 +68,13 @@ export const WithAlignment: Story = {
     direction: 'horizontal',
     align: 'center',
     justify: 'space-between',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '横方向で配置を指定する。space-between でヘッダーレイアウト等に使用する。',
+      },
+    },
   },
 };
 
@@ -67,6 +94,13 @@ export const WithWrap: Story = {
         <DemoBox color="var(--colors-red-300)">折り返し 6</DemoBox>
       </>
     ),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '横方向で折り返しを有効にする。タグ一覧等の可変個数の要素に使用する。',
+      },
+    },
   },
 };
 
@@ -89,6 +123,13 @@ export const AsList: Story = {
       </>
     ),
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'ul 要素として描画する。セマンティクスが必要なリストに使用する。',
+      },
+    },
+  },
 };
 
 export const AlignCenter: Story = {
@@ -106,6 +147,13 @@ export const AlignCenter: Story = {
       </>
     ),
   },
+  parameters: {
+    docs: {
+      description: {
+        story: '異なる高さの要素を交差軸で中央揃えする。',
+      },
+    },
+  },
 };
 
 export const JustifyEnd: Story = {
@@ -114,11 +162,25 @@ export const JustifyEnd: Story = {
     direction: 'horizontal',
     justify: 'flex-end',
   },
+  parameters: {
+    docs: {
+      description: {
+        story: '要素を右寄せする。',
+      },
+    },
+  },
 };
 
 export const NoGap: Story = {
   name: 'gap なし',
   args: {
     gap: 0,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'gap を 0 にしたタイトなレイアウト。メニュー項目等に使用する。',
+      },
+    },
   },
 };

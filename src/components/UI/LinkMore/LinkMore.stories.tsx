@@ -5,7 +5,6 @@ import { LinkMore } from './index';
 const meta = {
   title: 'UI/LinkMore',
   component: LinkMore,
-  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
@@ -20,6 +19,13 @@ export const Default: Story = {
     href: '/posts',
     text: 'もっと見る',
   },
+  parameters: {
+    docs: {
+      description: {
+        story: '基本的な「もっと見る」リンク。一覧ページへの遷移に使用する。',
+      },
+    },
+  },
 };
 
 export const WithLongText: Story = {
@@ -28,6 +34,13 @@ export const WithLongText: Story = {
     href: '/tags/typescript',
     text: 'TypeScript の記事をすべて見る',
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'テキストが長い場合の表示。レイアウト崩れがないことを確認する。',
+      },
+    },
+  },
 };
 
 export const ExternalLink: Story = {
@@ -35,5 +48,12 @@ export const ExternalLink: Story = {
   args: {
     href: 'https://example.com',
     text: '外部サイトへ',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '外部 URL を指定した場合の表示。',
+      },
+    },
   },
 };

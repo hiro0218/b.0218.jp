@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { Cluster } from '@/components/UI/Layout/Cluster';
 import { Stack } from '@/components/UI/Layout/Stack';
-import { toKebab } from '@/stories/_internal/StorybookDocs';
+import { toKebab } from '@/stories/_internal/utils';
 import { keyframes } from '@/ui/styled/theme/keyframes';
 import durationValues from '@/ui/styled/theme/tokens/durations';
 import easingValues from '@/ui/styled/theme/tokens/easings';
@@ -29,7 +29,11 @@ const EasingDemo = ({ name, variable }: { name: string; variable: string }) => {
       <Stack align="center" direction="horizontal" gap={1}>
         <span>{name}</span>
         <code>{variable}</code>
-        <button onClick={() => setActive((prev) => !prev)} style={{ padding: '0.5rem 1rem' }} type="button">
+        <button
+          onClick={() => setActive((prev) => !prev)}
+          style={{ padding: 'var(--spacing-1) var(--spacing-2)' }}
+          type="button"
+        >
           {active ? 'Reset' : 'Play'}
         </button>
       </Stack>
@@ -40,19 +44,21 @@ const EasingDemo = ({ name, variable }: { name: string; variable: string }) => {
           overflow: 'hidden',
           borderRadius: 'var(--radii-sm)',
           background: 'var(--colors-gray-100)',
+          containerType: 'inline-size',
         }}
       >
         <div
           style={{
             position: 'absolute',
             top: '4px',
-            left: active ? 'calc(100% - 2.5rem)' : '4px',
+            left: '4px',
             width: '2rem',
             height: '2rem',
             borderRadius: 'var(--radii-sm)',
             background: 'var(--colors-blue-600)',
-            transition: `left 0.6s var(${variable})`,
-            willChange: 'left',
+            transform: active ? 'translateX(calc(100cqi - 2.5rem - 4px))' : 'translateX(0)',
+            transition: `transform 0.6s var(${variable})`,
+            willChange: 'transform',
           }}
         />
       </div>
@@ -96,7 +102,12 @@ const KeyframeDemo = ({ name }: { name: string }) => {
         }}
       />
       <code>{name}</code>
-      <button disabled={playing} onClick={() => setPlaying(true)} style={{ padding: '0.5rem 1rem' }} type="button">
+      <button
+        disabled={playing}
+        onClick={() => setPlaying(true)}
+        style={{ padding: 'var(--spacing-1) var(--spacing-2)' }}
+        type="button"
+      >
         Play
       </button>
     </Stack>
@@ -131,7 +142,7 @@ const AnimationPage = () => (
 const meta = {
   title: 'Design Tokens/Animation',
   component: AnimationPage,
-  tags: ['autodocs'],
+  tags: ['!manifest'],
 } satisfies Meta<typeof AnimationPage>;
 
 export default meta;

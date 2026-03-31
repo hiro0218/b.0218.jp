@@ -6,7 +6,6 @@ import { Toast } from './Toast';
 const meta = {
   title: 'UI/Toast',
   component: Toast,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },
@@ -22,6 +21,13 @@ export const Visible: Story = {
     isVisible: true,
     onHideToast: fn(),
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'トーストが表示されている状態。クリップボードコピー等の操作フィードバックに使用する。',
+      },
+    },
+  },
 };
 
 export const Hidden: Story = {
@@ -31,9 +37,17 @@ export const Hidden: Story = {
     isVisible: false,
     onHideToast: fn(),
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'トーストが非表示の状態。自動消去後やアニメーション完了後の状態。',
+      },
+    },
+  },
 };
 
 export const ClickToDismiss: Story = {
+  tags: ['!manifest'],
   name: 'クリックで閉じる',
   args: {
     message: 'クリックで閉じます',

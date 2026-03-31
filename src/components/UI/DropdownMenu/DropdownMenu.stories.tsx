@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { act } from '@testing-library/react';
 import { expect, userEvent, within } from 'storybook/test';
 
 import { GitHubLogo, ICON_SIZE_SM } from '@/ui/icons';
@@ -17,7 +18,6 @@ const MENU_TRIGGER_NAME = /Feedback/;
 const meta = {
   title: 'UI/DropdownMenu',
   component: DropdownMenu,
-  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
@@ -38,6 +38,13 @@ export const Default: Story = {
       </>
     ),
   },
+  parameters: {
+    docs: {
+      description: {
+        story: '基本的なドロップダウンメニュー。右寄せで展開する。',
+      },
+    },
+  },
 };
 
 export const PositionLeft: Story = {
@@ -52,6 +59,13 @@ export const PositionLeft: Story = {
       </>
     ),
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'メニューを左寄せで展開する。右端に配置されたトリガーで使用する。',
+      },
+    },
+  },
 };
 
 const menuItems = (
@@ -63,6 +77,7 @@ const menuItems = (
 );
 
 export const ToggleMenu: Story = {
+  tags: ['!manifest'],
   name: '開閉操作',
   args: {
     title: menuTitle,
@@ -72,7 +87,9 @@ export const ToggleMenu: Story = {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('button', { name: MENU_TRIGGER_NAME });
 
-    await userEvent.click(trigger);
+    await act(async () => {
+      await userEvent.click(trigger);
+    });
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
     await expect(trigger).toHaveAttribute('aria-haspopup', 'menu');
 

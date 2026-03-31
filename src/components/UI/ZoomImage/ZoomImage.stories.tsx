@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, userEvent, within } from 'storybook/test';
+import { act } from '@testing-library/react';
+import { expect, fireEvent, userEvent, within } from 'storybook/test';
 
 import ZoomImage from './ZoomImage';
 
 const meta = {
   title: 'UI/ZoomImage',
   component: ZoomImage,
-  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
@@ -28,6 +28,13 @@ export const Default: Story = {
     src: Img600x400,
     alt: 'TypeScript の型推論フロー図',
   },
+  parameters: {
+    docs: {
+      description: {
+        story: '標準サイズの画像。クリックでモーダルズームできる。',
+      },
+    },
+  },
 };
 
 export const WithClassName: Story = {
@@ -37,6 +44,13 @@ export const WithClassName: Story = {
     alt: 'コンポーネント構成図',
     className: 'custom-image',
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'カスタム className を適用した画像。',
+      },
+    },
+  },
 };
 
 export const SmallImage: Story = {
@@ -45,18 +59,61 @@ export const SmallImage: Story = {
     src: Img80x80,
     alt: 'アイコン画像',
   },
+  parameters: {
+    docs: {
+      description: {
+        story: '100px 以下の画像はズーム不可。アイコンや小さいサムネイルに該当する。',
+      },
+    },
+  },
 };
 
 export const ClickToZoom: Story = {
+  tags: ['!manifest'],
   name: 'ズーム操作',
   args: {
     src: Img600x400,
     alt: 'ズーム操作テスト画像',
+    a11yOptions: {
+      buttonZoomLabel: '画像をズーム',
+    },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const image = canvas.getByAltText('ズーム操作テスト画像');
+
+    Object.defineProperties(image, {
+      complete: { value: true, configurable: true },
+      naturalHeight: { value: 400, configurable: true },
+      naturalWidth: { value: 600, configurable: true },
+    });
+
+    // Storybook テスト環境（jsdom）では showModal/close が未実装のためポリフィル
+    if (!HTMLDialogElement.prototype.showModal) {
+      Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
+        configurable: true,
+        value() {
+          this.setAttribute('open', '');
+        },
+      });
+    }
+
+    if (!HTMLDialogElement.prototype.close) {
+      Object.defineProperty(HTMLDialogElement.prototype, 'close', {
+        configurable: true,
+        value() {
+          this.removeAttribute('open');
+        },
+      });
+    }
+
+    await act(async () => {
+      await fireEvent.load(image);
+    });
     const trigger = await canvas.findByRole('button', { name: '画像をズーム' });
-    await userEvent.click(trigger);
+    await act(async () => {
+      await userEvent.click(trigger);
+    });
 
     const body = within(document.body);
     const dialog = await body.findByRole('dialog');

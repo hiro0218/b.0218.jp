@@ -5,7 +5,6 @@ import { Anchor } from './index';
 const meta = {
   title: 'UI/Anchor',
   component: Anchor,
-  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
@@ -20,6 +19,13 @@ export const Default: Story = {
     href: '/example',
     children: 'リンクテキスト',
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'サイト内リンクの基本形。Next.js Link でクライアントサイドナビゲーションを行う。',
+      },
+    },
+  },
 };
 
 export const WithTitle: Story = {
@@ -29,6 +35,13 @@ export const WithTitle: Story = {
     title: 'サンプルリンク',
     children: 'タイトル付きリンク',
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'title 属性でホバー時にリンク先の補足情報を表示する。',
+      },
+    },
+  },
 };
 
 export const ExternalLink: Story = {
@@ -36,5 +49,12 @@ export const ExternalLink: Story = {
   args: {
     href: 'https://example.com',
     children: '外部リンク',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '外部 URL へのリンク。ドメインが異なる場合に自動で外部リンク扱いになる。',
+      },
+    },
   },
 };

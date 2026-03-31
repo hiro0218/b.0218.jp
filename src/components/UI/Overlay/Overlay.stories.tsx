@@ -6,7 +6,6 @@ import { Overlay } from './index';
 const meta = {
   title: 'UI/Overlay',
   component: Overlay,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },
@@ -29,6 +28,13 @@ export const Default: Story = {
     onCloseAction: fn(),
     isOpen: true,
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'オーバーレイが表示されている状態。モーダルやズーム画像の背面に使用する。',
+      },
+    },
+  },
 };
 
 export const Closed: Story = {
@@ -37,9 +43,17 @@ export const Closed: Story = {
     onCloseAction: fn(),
     isOpen: false,
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'オーバーレイが非表示の状態。',
+      },
+    },
+  },
 };
 
 export const ClickToClose: Story = {
+  tags: ['!manifest'],
   name: 'クリックで閉じる',
   args: {
     onCloseAction: fn(),
@@ -47,18 +61,14 @@ export const ClickToClose: Story = {
   },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
-    const overlay = canvas.getAllByRole('generic').at(-1);
-
-    if (!overlay) {
-      throw new Error('Overlay element not found.');
-    }
-
+    const overlay = canvas.getByTestId('overlay');
     await userEvent.click(overlay);
     await expect(args.onCloseAction).toHaveBeenCalled();
   },
 };
 
 export const OverlayStructure: Story = {
+  tags: ['!manifest'],
   name: 'DOM 構造確認',
   args: {
     onCloseAction: fn(),
@@ -66,12 +76,7 @@ export const OverlayStructure: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const overlay = canvas.getAllByRole('generic').at(-1);
-
-    if (!overlay) {
-      throw new Error('Overlay element not found.');
-    }
-
+    const overlay = canvas.getByTestId('overlay');
     await expect(overlay).toBeInTheDocument();
     await expect(overlay).toBeVisible();
   },

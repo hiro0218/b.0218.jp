@@ -54,4 +54,8 @@ const Container = styled.div`
     opacity: 1;
     transform: translateY(0);
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: opacity var(--transition-slow);
+  }
 `;

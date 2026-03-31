@@ -1,18 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { Sidebar } from './Sidebar';
+import { DemoBox } from '@/stories/_internal/DemoBox';
 
-const DemoContent = ({ color = 'var(--colors-blue-200)', label }: { color?: string; label: string }) => (
-  <div style={{ background: color, padding: '1rem', borderRadius: '4px', minHeight: '100px' }}>{label}</div>
-);
+import { Sidebar } from './Sidebar';
 
 const defaultChildren = (
   <>
     <Sidebar.Main>
-      <DemoContent label="メインエリア（flex: 7）" />
+      <DemoBox minHeight="100px">メインエリア（flex: 7）</DemoBox>
     </Sidebar.Main>
     <Sidebar.Side>
-      <DemoContent color="var(--colors-green-200)" label="サイドバーエリア（flex: 3、デスクトップで sticky）" />
+      <DemoBox color="var(--colors-green-200)" minHeight="100px">
+        サイドバーエリア（flex: 3、デスクトップで sticky）
+      </DemoBox>
     </Sidebar.Side>
   </>
 );
@@ -20,7 +20,6 @@ const defaultChildren = (
 const meta = {
   title: 'UI/Layout/Sidebar',
   component: Sidebar,
-  tags: ['autodocs'],
   args: {
     children: defaultChildren,
   },
@@ -29,7 +28,16 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = { name: '基本' };
+export const Default: Story = {
+  name: '基本',
+  parameters: {
+    docs: {
+      description: {
+        story: 'メイン + サイドバーの 2 カラムレイアウト。デスクトップでサイドバーが sticky になる。',
+      },
+    },
+  },
+};
 
 export const WithTitle: Story = {
   name: 'タイトル付き',
@@ -38,13 +46,22 @@ export const WithTitle: Story = {
       <>
         <Sidebar.Title>サイドバーレイアウト</Sidebar.Title>
         <Sidebar.Main>
-          <DemoContent label="メインコンテンツ" />
+          <DemoBox minHeight="100px">メインコンテンツ</DemoBox>
         </Sidebar.Main>
         <Sidebar.Side>
-          <DemoContent color="var(--colors-green-200)" label="サイドコンテンツ" />
+          <DemoBox color="var(--colors-green-200)" minHeight="100px">
+            サイドコンテンツ
+          </DemoBox>
         </Sidebar.Side>
       </>
     ),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Sidebar.Title を使用してレイアウト上部にタイトルを配置する。',
+      },
+    },
   },
 };
 
@@ -52,6 +69,13 @@ export const CustomGap: Story = {
   name: 'カスタム gap',
   args: {
     gap: 5,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'メインとサイドバー間の gap を変更する。',
+      },
+    },
   },
 };
 
@@ -64,12 +88,21 @@ export const TitleWithCustomTag: Story = {
           h3 サイドバータイトル
         </Sidebar.Title>
         <Sidebar.Main>
-          <DemoContent label="メインコンテンツ" />
+          <DemoBox minHeight="100px">メインコンテンツ</DemoBox>
         </Sidebar.Main>
         <Sidebar.Side>
-          <DemoContent color="var(--colors-green-200)" label="サイドコンテンツ" />
+          <DemoBox color="var(--colors-green-200)" minHeight="100px">
+            サイドコンテンツ
+          </DemoBox>
         </Sidebar.Side>
       </>
     ),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'タイトルの HTML タグを h3 に変更する。見出しレベルの調整が必要な場合に使用する。',
+      },
+    },
   },
 };

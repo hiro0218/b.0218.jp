@@ -5,7 +5,6 @@ import PostDate from './index';
 const meta = {
   title: 'UI/Date',
   component: PostDate,
-  tags: ['autodocs'],
 } satisfies Meta<typeof PostDate>;
 
 export default meta;
@@ -17,6 +16,13 @@ export const Default: Story = {
     date: '2024-01-15',
     updated: '2024-01-15',
   },
+  parameters: {
+    docs: {
+      description: {
+        story: '公開日と更新日が同一の場合。公開日のみ表示する。',
+      },
+    },
+  },
 };
 
 export const WithUpdate: Story = {
@@ -25,6 +31,13 @@ export const WithUpdate: Story = {
     date: '2024-01-15',
     updated: '2024-03-20',
   },
+  parameters: {
+    docs: {
+      description: {
+        story: '公開後に内容を更新した記事。公開日と更新日の両方を表示する。',
+      },
+    },
+  },
 };
 
 export const NoUpdate: Story = {
@@ -32,5 +45,12 @@ export const NoUpdate: Story = {
   args: {
     date: '2024-01-15',
     updated: undefined,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '更新日が未設定の場合。公開日のみ表示する。',
+      },
+    },
   },
 };

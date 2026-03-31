@@ -60,7 +60,7 @@ const TypographyPage = () => (
 const meta = {
   title: 'Design Tokens/Typography',
   component: TypographyPage,
-  tags: ['autodocs'],
+  tags: ['!manifest'],
 } satisfies Meta<typeof TypographyPage>;
 
 export default meta;

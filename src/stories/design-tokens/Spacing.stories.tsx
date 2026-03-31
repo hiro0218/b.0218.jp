@@ -47,7 +47,7 @@ const SpacingPage = () => (
 const meta = {
   title: 'Design Tokens/Spacing',
   component: SpacingPage,
-  tags: ['autodocs'],
+  tags: ['!manifest'],
 } satisfies Meta<typeof SpacingPage>;
 
 export default meta;

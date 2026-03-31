@@ -27,7 +27,7 @@ export function Overlay({ onCloseAction, isOpen = true }: Props) {
     ref,
   );
 
-  return <Div {...overlayProps} onClick={onCloseAction} ref={ref} />;
+  return <Div {...overlayProps} data-testid="overlay" onClick={onCloseAction} ref={ref} />;
 }
 
 const Div = styled.div`
@@ -48,5 +48,9 @@ const Div = styled.div`
     visibility: visible;
     content-visibility: hidden;
     opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
   }
 `;

@@ -5,14 +5,14 @@ import type { Preview } from '@storybook/nextjs-vite';
 const storybookBaseStyles = `
   [data-storybook-surface] h2 {
     font-size: var(--font-sizes-h4);
-    font-weight: 700;
-    line-height: 1.3;
+    font-weight: var(--font-weights-bolder);
+    line-height: var(--line-heights-sm);
     margin: 0;
   }
   [data-storybook-surface] h3 {
     font-size: var(--font-sizes-h6);
-    font-weight: 600;
-    line-height: 1.4;
+    font-weight: var(--font-weights-bold);
+    line-height: var(--line-heights-sm);
     margin: 0;
   }
   [data-storybook-surface] code {
@@ -22,6 +22,7 @@ const storybookBaseStyles = `
 `;
 
 const preview: Preview = {
+  tags: ['autodocs'],
   decorators: [
     (Story, context) => {
       const isFullscreen = context.parameters.layout === 'fullscreen';

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
 import { Grid } from '@/components/UI/Layout/Grid';
 import { Stack } from '@/components/UI/Layout/Stack';
-import { toKebab } from '@/stories/_internal/StorybookDocs';
+import { toKebab } from '@/stories/_internal/utils';
 import colorTokens from '@/ui/styled/theme/tokens/colors';
 
 function scaleEntries(tokenKey: string): { name: string; variable: string }[] {
@@ -26,7 +26,7 @@ const ColorSwatch = ({ name, variable }: { name: string; variable: string }) => 
         height: '3rem',
         borderRadius: 'var(--radii-sm)',
         background: `var(${variable})`,
-        border: '1px solid var(--colors-gray-300)',
+        border: 'var(--border-widths-thin) solid var(--colors-gray-300)',
       }}
     />
     <div>
@@ -89,7 +89,7 @@ const ColorPalettePage = () => (
 const meta = {
   title: 'Design Tokens/ColorPalette',
   component: ColorPalettePage,
-  tags: ['autodocs'],
+  tags: ['!manifest'],
 } satisfies Meta<typeof ColorPalettePage>;
 
 export default meta;
