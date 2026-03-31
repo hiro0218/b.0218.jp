@@ -4,15 +4,22 @@ import { postTagAnchor } from '@/ui/styled/components';
 
 export type Props = {
   slug: string;
+  /** タグに紐づく記事数 */
   count?: number;
+  /** タグページへのリンクを有効にする */
   isNavigable?: boolean;
 };
 
 type PostTagProps = {
   tags: Props[];
+  /** rel="tag" 属性を付与する */
   hasRelTag?: boolean;
 };
 
+/**
+ * 記事に付与されたタグ一覧を表示する。リンク付きとテキストのみの混在に対応。
+ * @summary 記事タグ一覧（リンク/テキスト混在対応）
+ */
 function PostTag({ tags, hasRelTag = true }: PostTagProps) {
   if (tags.length === 0) {
     return null;

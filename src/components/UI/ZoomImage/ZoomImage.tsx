@@ -34,6 +34,7 @@ interface A11yOptions {
 type ZoomImageProps = Omit<ImgHTMLAttributes<HTMLImageElement>, 'style'> & {
   src: string;
   style?: CSSProperties | string;
+  /** ズーム時に表示する別画像のソース */
   zoomImg?: ZoomImageSource;
   a11yOptions?: A11yOptions;
 };
@@ -45,10 +46,10 @@ const DEFAULT_A11Y: Required<A11yOptions> = {
 };
 
 /**
- * ズーム可能な画像コンポーネント
- *
+ * ズーム可能な画像コンポーネント。
  * クリックで画像をモーダル表示し、View Transitions API で
  * トリガー画像の位置から画面中央へスムーズに遷移する。
+ * @summary クリックでモーダルズームする画像
  */
 function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImageProps): JSX.Element {
   const processedStyle: CSSProperties | undefined = (() => {

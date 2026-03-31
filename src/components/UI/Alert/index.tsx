@@ -4,8 +4,10 @@ import { css } from '@/ui/styled';
 export type AlertType = 'note' | 'tip' | 'important' | 'warning' | 'caution';
 
 type Props = {
+  /** アラートの種類。重要度と視覚表現が変わる */
   type: AlertType;
   html: string;
+  /** ラベル（Note, Warning 等）を非表示にする */
   hideLabel?: boolean;
 };
 
@@ -33,6 +35,11 @@ const ALERT_ROLES: Record<AlertType, 'note' | 'alert'> = {
   caution: 'alert',
 };
 
+/**
+ * 記事内で注意事項や補足情報を強調表示するアラートボックス。
+ * GitHub Flavored Markdown の blockquote alert 構文に対応する。
+ * @summary 注意事項・補足情報の強調表示ボックス
+ */
 export function Alert({ type, html, hideLabel = false }: Props) {
   const icon = ALERT_ICONS[type];
   const label = ALERT_LABELS[type];

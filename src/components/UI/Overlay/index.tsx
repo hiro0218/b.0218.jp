@@ -9,6 +9,11 @@ type Props = {
   isOpen?: boolean;
 };
 
+/**
+ * 全画面オーバーレイ。モーダルやズーム画像の背景として使用する。
+ * クリックまたは外部操作で閉じる。
+ * @summary モーダル背景用オーバーレイ
+ */
 export function Overlay({ onCloseAction, isOpen = true }: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -22,7 +27,7 @@ export function Overlay({ onCloseAction, isOpen = true }: Props) {
     ref,
   );
 
-  return <Div {...overlayProps} onClick={onCloseAction} ref={ref} />;
+  return <Div {...overlayProps} data-testid="overlay" onClick={onCloseAction} ref={ref} />;
 }
 
 const Div = styled.div`
@@ -43,5 +48,9 @@ const Div = styled.div`
     visibility: visible;
     content-visibility: hidden;
     opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
   }
 `;

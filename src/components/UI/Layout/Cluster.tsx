@@ -7,6 +7,7 @@ type Props = {
   as?: keyof JSX.IntrinsicElements;
   gap?: SpaceGap;
   role?: AriaRole;
+  /** 子要素を flex: 1 1 auto で均等に伸縮させる */
   isWide?: boolean;
   className?: string;
   children: ReactNode;
@@ -27,6 +28,10 @@ const wideStyle = css`
   }
 `;
 
+/**
+ * 横並びで自動折り返しするレイアウト。タグやバッジ等の可変個数の要素に使用する。
+ * @summary 横並び自動折り返しレイアウト
+ */
 export function Cluster({ as: Tag = 'div', children, isWide, gap = 1, className, ...props }: Props) {
   const style = { '--cluster-gap': `var(--spacing-${gap})` } as CSSProperties;
 

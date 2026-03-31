@@ -9,11 +9,17 @@ type Props = {
   id?: string;
   as?: HeadingLevel;
   children: ReactNode;
+  /** 見出し右側に表示する補助テキスト（件数など） */
   textSide?: ReactNode;
+  /** 見出し下部に表示する補足テキスト */
   textSub?: ReactNode;
   isBold?: boolean;
 };
 
+/**
+ * セクション見出しコンポーネント。補助テキストやサブテキストを付与できる。
+ * @summary セクション見出し（補助テキスト対応）
+ */
 function Heading({ id, as: Tag = 'h1', children, textSide, textSub, isBold = false }: Props) {
   const titleClassName = cx(headerTitleStyle, headingFontSizeClasses[Tag], isBold && fontWeightClasses.bold);
 
