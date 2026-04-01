@@ -160,7 +160,7 @@ jobs:
       # Note: dawidd6/action-download-artifact supports cross-workflow artifact download
       # https://github.com/dawidd6/action-download-artifact/releases/tag/v12
       - name: Download base branch bundle stats
-        uses: dawidd6/action-download-artifact@2536c51d3d126276eb39f74d6bc9c72ac6ef30d3 # v16
+        uses: dawidd6/action-download-artifact@1f8785ff7a5130826f848e7f72725c85d241860f # v18
         if: success() && github.event.number
         with:
           workflow: nextjs-bundle-analysis.yml
@@ -185,7 +185,7 @@ jobs:
       # Pinned to v2.9.4 for security
       # https://github.com/marocchino/sticky-pull-request-comment/releases/tag/v2.9.4
       - name: Comment
-        uses: marocchino/sticky-pull-request-comment@773744901bac0e8cbb5a0dc842800d45e9b2b405 # v2.9.4
+        uses: marocchino/sticky-pull-request-comment@70d2764d1a7d5d9560b100cbea0077fc8f633987 # v3.0.2
         with:
           header: next-bundle-analysis
           message: ${{ steps.get-comment-body.outputs.body }}

@@ -79,7 +79,7 @@ jobs:
             ```
 
       - name: Comment
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           header: ai-summary-comment
           message: ${{ steps.inference.outputs.response }}
