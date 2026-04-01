@@ -95,7 +95,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.4.8",
     "@google-analytics/data": "5.2.1",
-    "@hono/node-server": "1.19.9",
+    "@hono/node-server": "1.19.12",
     "@markuplint/jsx-parser": "4.7.23",
     "@markuplint/react-spec": "4.5.23",
     "@prettier/plugin-oxc": "0.1.3",
