@@ -47,7 +47,7 @@ src/
 
 ## 必須ルール
 
-1. **カバレッジ目標**: 80%以上（グローバルルール `~/.claude/rules/testing.md` に準拠）
+1. **カバレッジ目標**: 80%以上（グローバルルール `~/.claude/rules/development.md` の Testing セクションに準拠）
 2. **ファイル命名**: `src/utils/helper.ts` → `src/utils/helper.test.ts`
 3. **AAA パターン**を守る
 4. **テスト名は日本語**で「〜の場合、〜を返す」形式
