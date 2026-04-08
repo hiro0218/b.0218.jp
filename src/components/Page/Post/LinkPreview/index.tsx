@@ -29,9 +29,11 @@ export const LinkPreview = ({ link, card, thumbnail, title, domain, description 
 };
 
 const Anchor = styled.a`
+  --link-preview-thumbnail-size: 120px;
+
   display: flex;
   align-items: center;
-  height: 120px;
+  height: var(--link-preview-thumbnail-size);
   margin: var(--spacing-3) 0;
   container-type: inline-size;
   overflow: hidden;
@@ -42,7 +44,8 @@ const Anchor = styled.a`
   border: var(--border-widths-thin) solid var(--colors-gray-a-300);
   border-radius: var(--radii-md);
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background-color: var(--colors-gray-50);
     border-color: var(--colors-gray-a-400);
   }
@@ -60,7 +63,7 @@ const Anchor = styled.a`
       .p-link-preview-thumbnail {
         width: calc(var(--container-width) / 230px);
         max-width: 230px;
-        height: 120px;
+        height: var(--link-preview-thumbnail-size);
       }
     }
   }
@@ -69,7 +72,7 @@ const Anchor = styled.a`
 const Body = styled.span`
   display: block;
   flex: 1 1;
-  width: calc(100% - 120px);
+  width: calc(100% - var(--link-preview-thumbnail-size));
   padding: 0 var(--spacing-2);
   padding-left: var(--spacing-2);
 `;
@@ -102,8 +105,8 @@ const Thumbnail = styled.span`
   flex-shrink: 0;
   flex-basis: auto;
   flex-direction: column;
-  width: 120px;
-  height: 120px;
+  width: var(--link-preview-thumbnail-size);
+  height: var(--link-preview-thumbnail-size);
   overflow: hidden;
   user-select: none;
 
