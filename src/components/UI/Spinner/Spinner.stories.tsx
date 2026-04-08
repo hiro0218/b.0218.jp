@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { Loading } from './index';
+import { Spinner } from './index';
 
 const meta = {
-  title: 'UI/Loading',
-  component: Loading,
-} satisfies Meta<typeof Loading>;
+  title: 'UI/Spinner',
+  component: Spinner,
+} satisfies Meta<typeof Spinner>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
