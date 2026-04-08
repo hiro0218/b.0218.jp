@@ -54,7 +54,7 @@ const Section = styled.section`
     inset: 0;
     left: calc(var(--columns-1) + var(--columns-2) / 2);
     z-index: -1;
-    width: 2px;
+    width: var(--border-widths-medium);
     margin-top: var(--vertical-space);
     color: var(--colors-gray-500);
     pointer-events: none;
@@ -79,7 +79,7 @@ const Section = styled.section`
     border: var(--border-widths-thick) solid var(--year-heading-circle-color);
     border-radius: var(--radii-full);
     transform: translateX(-50%);
-    transition: border var(--transition-slow);
+    transition: border-color var(--transition-slow);
   }
 
   &:hover {
@@ -123,6 +123,10 @@ const Separator = styled.span`
     height var(--transition-normal),
     background-color var(--transition-normal),
     border-radius var(--transition-normal);
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: background-color var(--transition-normal);
+  }
 `;
 
 const styleAnchor = css`
@@ -136,7 +140,8 @@ const styleAnchor = css`
   color: var(--colors-gray-700);
   border-radius: var(--radii-md);
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     color: var(--colors-gray-800);
     background-color: var(--colors-gray-a-100);
 
