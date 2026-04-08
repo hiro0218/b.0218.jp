@@ -8,6 +8,10 @@ const linkMoreStyle = css`
   font-size: var(--font-sizes-sm);
 `;
 
+/**
+ * 「もっと見る」ナビゲーションリンク。右矢印アイコン付き。
+ * @summary 「もっと見る」リンク
+ */
 export function LinkMore({ href, text }: { href: string; text: string | ReactNode }) {
   return (
     <Anchor className={cx('link-style link-style--hover-effect', linkMoreStyle)} href={href}>

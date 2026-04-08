@@ -1,9 +1,14 @@
 import { styled } from '@/ui/styled';
 
 interface LoadingProps {
+  /** スピナーのサイズ（px） */
   size?: number;
 }
 
+/**
+ * 読み込み中を示すスピナー。非同期処理の待機状態に使用する。
+ * @summary 読み込み中スピナー
+ */
 export const Loading = ({ size = 50 }: LoadingProps) => {
   const spinnerStyle = { width: `${size}px`, height: `${size}px` };
 

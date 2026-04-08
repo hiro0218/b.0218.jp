@@ -83,6 +83,11 @@ const Side = ({ children }: ChildProps) => {
   );
 };
 
+/**
+ * メインコンテンツとサイドバーの 2 カラムレイアウト。
+ * Sidebar.Main、Sidebar.Side、Sidebar.Title の compound component で構成する。
+ * @summary 2 カラムサイドバーレイアウト
+ */
 export const Sidebar = (({ children, gap = 3 }: Props) => {
   return <Container className={gapClasses[gap]}>{children}</Container>;
 }) as NamedExoticComponent<Props> & {

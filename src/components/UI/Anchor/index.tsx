@@ -20,6 +20,11 @@ type Props = {
 } & LinkProps &
   ContentProp;
 
+/**
+ * Next.js Link のラッパー。内部・外部リンクを統一的に扱う。
+ * ナビゲーション用途で使用し、ボタン操作には Button を使う。
+ * @summary 内部・外部リンクの統一ラッパー
+ */
 export function Anchor({ href, className, prefetch = false, title = undefined, children, ...rest }: Props) {
   return (
     <Link className={className} href={href} prefetch={prefetch || undefined} {...(title && { title })} {...rest}>

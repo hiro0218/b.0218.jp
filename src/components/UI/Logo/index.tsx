@@ -2,6 +2,10 @@ import { Anchor } from '@/components/UI/Anchor';
 import { SITE_NAME } from '@/constants';
 import { css, cx } from '@/ui/styled';
 
+/**
+ * サイトロゴ。トップページへのリンクを兼ねる。
+ * @summary サイトロゴ（トップページリンク）
+ */
 export const Logo = () => {
   return (
     <Anchor

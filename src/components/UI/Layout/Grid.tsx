@@ -7,12 +7,18 @@ import { containerType } from '@/ui/styled/utilities';
 type Props = {
   as?: keyof JSX.IntrinsicElements;
   gap?: SpaceGap | 0;
+  /** カラム数。'auto-fit' で幅に応じた自動調整 */
   columns?: number | 'auto-fit';
+  /** auto-fit 時の各アイテムの最小幅 */
   minItemWidth?: string;
   className?: string;
   children: ReactNode;
 };
 
+/**
+ * CSS Grid ベースのグリッドレイアウト。固定カラム数または auto-fit に対応。
+ * @summary CSS Grid レイアウト（固定/auto-fit）
+ */
 export const Grid = ({
   as: GridTag = 'div',
   children,

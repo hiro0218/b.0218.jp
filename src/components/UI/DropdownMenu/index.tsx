@@ -12,13 +12,17 @@ import { styled } from '@/ui/styled';
 type MenuPosition = 'left' | 'right';
 
 export type DropdownMenuProps = {
+  /** メニュートリガーに表示するコンテンツ */
   title: ReactNode;
+  /** メニュー内のリンク要素 */
   children: ReactNode;
   menuHorizontalPosition?: MenuPosition;
 };
 
 /**
- * クリック操作で開閉するドロップダウンメニューコンポーネント
+ * クリック操作で開閉するドロップダウンメニュー。
+ * React Aria でアクセシビリティ対応済み。
+ * @summary クリック開閉ドロップダウンメニュー
  */
 export function DropdownMenu({ title, children, menuHorizontalPosition = 'right' }: DropdownMenuProps) {
   const state = useMenuTriggerState({});

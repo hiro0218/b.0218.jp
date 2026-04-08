@@ -170,7 +170,10 @@ module.exports = {
         'このモジュールはpackage.jsonのdevDependenciesセクションにリストされているnpmパッケージに依存していますが、本番環境にデプロイされる可能性があります。package.jsonのdependenciesセクションにのみ記載するようにしてください。',
       from: {
         path: '^(src)',
-        pathNot: '[.](spec|test)[.](js|mjs|cjs|ts|ls|coffee|litcoffee|coffee[.]md)$',
+        pathNot: [
+          '[.](spec|test)[.](js|mjs|cjs|ts|ls|coffee|litcoffee|coffee[.]md)$',
+          '[.]stories[.](js|mjs|cjs|ts|tsx)$',
+        ],
       },
       to: {
         dependencyTypes: ['npm-dev'],
