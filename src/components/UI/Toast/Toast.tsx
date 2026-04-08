@@ -44,10 +44,15 @@ const Container = styled.div`
   border-radius: var(--radii-sm);
   isolation: isolate;
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(var(--spacing-1));
   transition:
     opacity var(--transition-slow),
     transform var(--transition-slow);
+
+  @media (prefers-reduced-motion: reduce) {
+    transform: none;
+    transition: opacity var(--transition-slow);
+  }
 
   &[data-visible='true'] {
     pointer-events: auto;
