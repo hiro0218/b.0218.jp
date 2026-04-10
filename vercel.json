@@ -3,7 +3,7 @@
   "redirects": [],
   "git": {
     "deploymentEnabled": {
-      "dependabot/*": false
+      "dependabot/**": false
     }
   },
   "github": {
