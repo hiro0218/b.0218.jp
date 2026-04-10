@@ -1,15 +1,68 @@
-name: dependabot-auto-merge
+name: Dependabot Auto Merge
 
 on:
   pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   auto-merge:
-    runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' }}
+    runs-on: ubuntu-slim
+    if: github.actor == 'dependabot[bot]'
+    timeout-minutes: 10
+
     steps:
-      - uses: ahmadnassri/action-dependabot-auto-merge@v2
+      - name: Fetch dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
         with:
-          target: patch
-          approve: false
-          github-token: ${{ secrets.BOT_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Evaluate auto-merge conditions
+        id: evaluate
+        env:
+          ECOSYSTEM: ${{ steps.metadata.outputs.package-ecosystem }}
+          UPDATE_TYPE: ${{ steps.metadata.outputs.update-type }}
+          DEP_TYPE: ${{ steps.metadata.outputs.dependency-type }}
+        run: |
+          echo "ecosystem=$ECOSYSTEM update_type=$UPDATE_TYPE dep_type=$DEP_TYPE"
+
+          SHOULD_MERGE=false
+
+          # GitHub Actions: any version
+          if [[ "$ECOSYSTEM" == "github_actions" ]]; then
+            SHOULD_MERGE=true
+            echo "→ GitHub Actions bump: auto-merge"
+
+          # npm devDependencies: patch or minor
+          elif [[ "$DEP_TYPE" == "direct:development" ]]; then
+            if [[ "$UPDATE_TYPE" == "version-update:semver-patch" || "$UPDATE_TYPE" == "version-update:semver-minor" ]]; then
+              SHOULD_MERGE=true
+              echo "→ devDependency $UPDATE_TYPE: auto-merge"
+            fi
+
+          # npm production dependencies: patch only
+          elif [[ "$DEP_TYPE" == "direct:production" ]]; then
+            if [[ "$UPDATE_TYPE" == "version-update:semver-patch" ]]; then
+              SHOULD_MERGE=true
+              echo "→ production dependency patch: auto-merge"
+            fi
+          fi
+
+          if [[ "$SHOULD_MERGE" == "false" ]]; then
+            echo "→ Conditions not met: skip auto-merge"
+          fi
+
+          echo "should_merge=$SHOULD_MERGE" >> "$GITHUB_OUTPUT"
+
+      - name: Approve and merge
+        if: steps.evaluate.outputs.should_merge == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.BOT_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          gh pr review --approve "$PR_URL"
+          gh pr merge --merge "$PR_URL"
