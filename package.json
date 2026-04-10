@@ -116,7 +116,7 @@
     "@vitejs/plugin-react": "5.1.4",
     "@vitest/coverage-v8": "4.0.18",
     "browserslist": "4.28.1",
-    "dependency-cruiser": "17.3.8",
+    "dependency-cruiser": "17.3.10",
     "esbuild": "0.27.4",
     "esbuild-register": "3.6.0",
     "fdir": "6.5.0",
