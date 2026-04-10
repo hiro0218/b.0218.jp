@@ -9,8 +9,8 @@ interface ToastProps {
 }
 
 /**
- * トースト通知コンポーネント
- * 自動消去機能を持つ通知メッセージを表示
+ * トースト通知コンポーネント。自動消去機能を持つ通知メッセージを表示する。
+ * @summary 自動消去トースト通知
  */
 export const Toast = forwardRef<HTMLDivElement, ToastProps>(({ message, onHideToast, isVisible }, ref) => {
   return (
@@ -44,14 +44,23 @@ const Container = styled.div`
   border-radius: var(--radii-sm);
   isolation: isolate;
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(var(--spacing-1));
   transition:
     opacity var(--transition-slow),
     transform var(--transition-slow);
+
+  @media (prefers-reduced-motion: reduce) {
+    transform: none;
+    transition: opacity var(--transition-slow);
+  }
 
   &[data-visible='true'] {
     pointer-events: auto;
     opacity: 1;
     transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: opacity var(--transition-slow);
   }
 `;

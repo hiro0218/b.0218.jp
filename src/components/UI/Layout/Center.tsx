@@ -6,7 +6,9 @@ type CenterProps = {
   as?: keyof JSX.IntrinsicElements;
   maxWidth?: string;
   minWidth?: string;
+  /** 左右の内側余白（padding-inline） */
   gutters?: SpaceGap;
+  /** flex column + align center による内在的な中央揃え */
   intrinsic?: boolean;
   className?: string;
   children: ReactNode;
@@ -25,6 +27,11 @@ const intrinsicStyle = css`
   align-items: center;
 `;
 
+/**
+ * コンテンツを水平方向に中央揃えするレイアウトコンポーネント。
+ * max-width と margin auto で中央配置する。
+ * @summary 水平中央揃えレイアウト
+ */
 export const Center = ({
   as: Tag = 'div',
   maxWidth = '80rem',

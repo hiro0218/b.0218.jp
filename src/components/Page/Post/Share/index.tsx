@@ -114,6 +114,10 @@ const ShareButtonStyle = css`
   height: calc(var(--sizes-icon-sm) * 2);
   transition: transform var(--transition-fast);
 
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
   &::after {
     border-radius: var(--radii-full);
   }

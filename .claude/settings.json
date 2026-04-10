@@ -3,7 +3,11 @@
     "deny": [
       "Read(_article/**)",
       "Edit(_article/**)",
-      "Write(_article/**)"
+      "Write(_article/**)",
+      "Write(dist/**)",
+      "Edit(dist/**)",
+      "Write(public/ogp/**)",
+      "Edit(public/ogp/**)"
     ]
   }
 }

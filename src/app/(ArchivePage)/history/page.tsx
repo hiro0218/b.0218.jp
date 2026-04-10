@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import ArticleCard from '@/components/UI/ArticleCard';
 import { Sidebar, Stack } from '@/components/UI/Layout';
-import { Loading } from '@/components/UI/Loading';
+import { Spinner } from '@/components/UI/Spinner';
 import { Title } from '@/components/UI/Title';
 import useIsMounted from '@/hooks/useIsMounted';
 import { useReadingHistory } from '@/hooks/useReadingHistory';
@@ -36,7 +36,7 @@ export default function Page() {
         </Sidebar.Side>
         <Sidebar.Main>
           {!isMounted ? (
-            <Loading />
+            <Spinner />
           ) : (
             <Stack>
               {history.length === 0 ? (

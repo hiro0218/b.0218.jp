@@ -3,10 +3,12 @@
 version: 2
 updates:
   # GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
+    cooldown:
+      default-days: 7
 
   # npm
   - package-ecosystem: 'npm' # See documentation for possible values
@@ -20,3 +22,5 @@ updates:
     reviewers:
       - 'hiro0218'
     open-pull-requests-limit: 10
+    cooldown:
+      default-days: 7
