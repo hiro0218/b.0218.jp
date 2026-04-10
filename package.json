@@ -135,7 +135,7 @@
     "nano-staged": "1.0.2",
     "next-build-id": "3.0.0",
     "p-limit": "7.3.0",
-    "playwright-chromium": "1.58.2",
+    "playwright-chromium": "1.59.1",
     "postcss": "8.5.8",
     "postcss-custom-media": "12.0.1",
     "postcss-custom-media-generator": "1.1.0",
