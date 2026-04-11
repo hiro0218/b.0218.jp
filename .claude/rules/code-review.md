@@ -13,7 +13,7 @@ paths:
 
 ```bash
 tsc --noEmit --skipLibCheck  # 型エラー検出
-npm run lint                 # Biome: コードスタイル、未使用変数、Layer Dependencies
+npm run lint                 # Biome: 規則詳細は linting.md を参照
 npm test                     # テスト実行
 ```
 

@@ -43,3 +43,4 @@ App/ 内で自己完結した機能モジュール（独自の hooks, engine, ty
 ## 参照
 
 - SSG 原則: [architecture.md](./architecture.md)
+- レイヤー依存の lint 強制: [linting.md](./linting.md)

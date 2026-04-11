@@ -17,7 +17,7 @@ paths:
 ## 必須チェック（最小）
 
 - `next.config.mjs`: `reactCompiler` の有効/無効
-- `biome.json`: `noRestrictedImports`（レイヤー依存）
+- `biome.json`: `recommended: true` + 例外方式、`noRestrictedImports`（レイヤー依存）、VCS 統合
 - `panda.config.mts`: `theme.tokens` の定義
 - `postcss.config.cjs`: hover 自動ラップ設定
 - `tsconfig.json`: `strict` と `paths`（`@/*`, `~/*`）
@@ -25,6 +25,7 @@ paths:
 
 **詳細**:
 
+- Biome 規則: [linting.md](./linting.md)
 - React Compiler: [react-compiler-optimization.md](./react-compiler-optimization.md)
 - レイヤー依存: [components.md](./components.md)
 - スタイリング: [styling.md](./styling.md)
