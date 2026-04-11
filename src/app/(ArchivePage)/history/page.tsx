@@ -42,12 +42,10 @@ export default function Page() {
               {history.length === 0 ? (
                 <>閲覧履歴がありません</>
               ) : (
-                <>
-                  {history.map(({ date, slug: postSlug, tags, title: postTitle }) => {
-                    const link = convertPostSlugToPath(postSlug);
-                    return <ArticleCard date={date} key={postSlug} link={link} tags={tags} title={postTitle} />;
-                  })}
-                </>
+                history.map(({ date, slug: postSlug, tags, title: postTitle }) => {
+                  const link = convertPostSlugToPath(postSlug);
+                  return <ArticleCard date={date} key={postSlug} link={link} tags={tags} title={postTitle} />;
+                })
               )}
             </Stack>
           )}
