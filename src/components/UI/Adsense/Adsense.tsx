@@ -15,6 +15,7 @@ type Props = Size;
 
 function pushAd() {
   try {
+    // biome-ignore lint/suspicious/noAssignInExpressions: AdSense SDK の初期化パターン
     (window.adsbygoogle = window.adsbygoogle || []).push({});
   } catch (error) {
     console.error('Failed to load AdSense ad:', error);
