@@ -22,7 +22,7 @@ export const Timeline = ({ posts, year }: Props) => {
           const link = convertPostSlugToPath(slug);
           return (
             <Anchor className={styleAnchor} href={link} key={slug}>
-              <Date>{date.replace(`${year}/`, '')}</Date>
+              <DateText>{date.replace(`${year}/`, '')}</DateText>
               <Separator />
               <span className={textEllipsis}>{title}</span>
             </Anchor>
@@ -106,7 +106,7 @@ const PostCount = styled.span`
   text-align: right;
 `;
 
-const Date = styled.span`
+const DateText = styled.span`
   font-size: var(--font-sizes-sm);
   font-variant-numeric: tabular-nums;
   color: var(--colors-gray-600);

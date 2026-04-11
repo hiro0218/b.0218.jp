@@ -2,7 +2,7 @@ import { styled } from '@/ui/styled';
 import { postTagAnchor } from '@/ui/styled/components';
 
 type Props = {
-  tags: Array<string>;
+  tags: string[];
 };
 
 export function ArticleCardTags({ tags }: Props) {

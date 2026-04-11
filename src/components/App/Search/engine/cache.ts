@@ -11,11 +11,11 @@ export class SearchCache {
   private cache = new Map<string, SearchResultItem[]>();
 
   get(key: string): SearchResultItem[] | undefined {
-    if (!this.cache.has(key)) {
+    const result = this.cache.get(key);
+    if (result === undefined) {
       return undefined;
     }
 
-    const result = this.cache.get(key)!;
     // LRU更新：削除して再追加で最新に
     this.cache.delete(key);
     this.cache.set(key, result);
