@@ -29,7 +29,7 @@ describe('safeSessionStorage', () => {
           delete mockStorage[key];
         }),
         clear: vi.fn(() => {
-          Object.keys(mockStorage).forEach((key) => delete mockStorage[key]);
+          for (const key of Object.keys(mockStorage)) delete mockStorage[key];
         }),
       },
       writable: true,
