@@ -18,24 +18,22 @@ function PostEdit({ slug }: Props) {
           </>
         }
       >
-        <>
-          <a
-            className={anchorStyle}
-            href={`https://github.com/hiro0218/article/edit/master/_posts/${slug}.md`}
-            rel="noreferrer"
-            target="_blank"
-          >
-            Edit on GitHub
-          </a>
-          <a
-            className={anchorStyle}
-            href={`https://github.com/hiro0218/article/blob/master/_posts/${slug}.md`}
-            rel="noreferrer"
-            target="_blank"
-          >
-            View raw file on GitHub
-          </a>
-        </>
+        <a
+          className={anchorStyle}
+          href={`https://github.com/hiro0218/article/edit/master/_posts/${slug}.md`}
+          rel="noreferrer"
+          target="_blank"
+        >
+          Edit on GitHub
+        </a>
+        <a
+          className={anchorStyle}
+          href={`https://github.com/hiro0218/article/blob/master/_posts/${slug}.md`}
+          rel="noreferrer"
+          target="_blank"
+        >
+          View raw file on GitHub
+        </a>
       </DropdownMenu>
     </aside>
   );
