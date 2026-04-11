@@ -13,8 +13,7 @@ paths:
 
 ## 状態管理
 
-SSG ブログのため、以下の原則を守る:
+SSG ブログ固有の原則（Server First は [architecture.md](../architecture.md) を参照）:
 
-- Server Component をデフォルトとし、クライアント状態は最小限に
 - URL にシリアライズ可能な状態（フィルタ、ページネーション等）は URL パラメータで管理
 - サーバー状態をクライアントストアに複製しない

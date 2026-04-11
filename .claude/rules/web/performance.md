@@ -31,9 +31,8 @@ paths:
 
 ## アニメーション
 
-- compositor-friendly プロパティのみ: `transform`, `opacity`, `clip-path`
-- `will-change` は限定的に使用し、完了後に除去
 - 参照: グローバルルール `animation.md`
+- 補足: `clip-path` もアニメーション可能（グローバルルールに加えて許容）
 
 ## チェックリスト
 
