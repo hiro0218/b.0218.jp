@@ -32,21 +32,9 @@ export default function Footer() {
 }
 
 const Root = styled.footer`
-  position: relative;
   padding: var(--spacing-5) 0;
-  isolation: isolate;
-
-  &::before {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    content: '';
-    background-color: var(--colors-gray-a-100);
-    clip-path: polygon(0 max(20vw, 300px), 100% 0, 100% 100%, 0 100%);
-  }
+  margin-top: var(--spacing-6);
+  border-top: var(--border-widths-thin) solid var(--colors-gray-200);
 `;
 
 const ContainerStyle = css`
