@@ -1,7 +1,8 @@
-import { UPDATED_POST_DISPLAY_LIMIT } from '@/app/_lib/constants';
 import { getDateAndUpdatedToSimpleFormat } from '@/app/_lib/getDateAndUpdatedToSimpleFormat';
 import { getTagPosts } from '@/app/_lib/getTagPosts';
 import type { ArticleSummary } from '@/types/source';
+
+const ALTERNATIVE_POSTS_LIMIT = 4;
 
 /**
  * 類似記事が不足している場合に同一タグから代替記事を取得する
@@ -28,7 +29,7 @@ export function getAlternativePosts(
   }
 
   // 現在の記事を除外し、表示数を制限
-  return tagPosts.filter((tagPost) => tagPost.slug !== currentSlug).slice(0, UPDATED_POST_DISPLAY_LIMIT);
+  return tagPosts.filter((tagPost) => tagPost.slug !== currentSlug).slice(0, ALTERNATIVE_POSTS_LIMIT);
 }
 
 export function formatSimilarPosts(posts: ArticleSummary[]): ArticleSummary[] {

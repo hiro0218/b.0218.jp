@@ -12,8 +12,8 @@ import { convertPostSlugToPath } from '@/lib/utils/url';
 const { popularPosts } = getData();
 const slug = 'popular';
 const title = 'Popular';
-const pageTitle = '注目記事';
-const description = `${popularPosts.length}件の記事（過去7日間）`;
+const pageTitle = '定番記事';
+const description = `${popularPosts.length}件の記事`;
 
 export const metadata: Metadata = getMetadata({
   title,
