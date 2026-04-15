@@ -86,7 +86,7 @@
     "css-in-js-easing": "1.2.0",
     "feed": "5.2.0",
     "hast-util-to-html": "9.0.5",
-    "html-react-parser": "5.2.17",
+    "html-react-parser": "6.0.1",
     "mokuji.js": "5.1.0",
     "next": "16.2.3",
     "next-scroll-restorer": "0.11.0",
