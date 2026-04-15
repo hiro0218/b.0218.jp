@@ -34,7 +34,7 @@ export default function Page() {
           <section>
             <Hero />
           </section>
-          <Stack gap={2}>
+          <Stack gap={3}>
             <Heading as="h2">記事</Heading>
             <Stack gap={4}>
               <PostSection
