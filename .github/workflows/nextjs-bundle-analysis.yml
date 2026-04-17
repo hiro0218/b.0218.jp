@@ -51,7 +51,7 @@ jobs:
       #           ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
       - id: cache-node-modules
-        uses: actions/cache@v5
+        uses: actions/cache@v5.0.4
         with:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
@@ -65,7 +65,7 @@ jobs:
         run: npm ci --prefix .github/scripts
 
       - name: Restore next build
-        uses: actions/cache@v5
+        uses: actions/cache@v5.0.4
         id: restore-build-cache
         env:
           cache-name: cache-next-build
@@ -118,7 +118,7 @@ jobs:
           ./node_modules/.bin/next build --webpack
 
       - name: Save next build cache
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v5.0.4
         if: steps.restore-build-cache.outputs.cache-hit != 'true'
         env:
           cache-name: cache-next-build
