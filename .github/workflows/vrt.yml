@@ -88,7 +88,42 @@ jobs:
           retention-days: 90
           overwrite: true
 
+      - name: Collect failed snapshots
+        id: diffs
+        if: always() && github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          section=""
+          if [ -d test-results ] && [ -f storybook-static/index.json ]; then
+            ids=$(find test-results -name '*-diff.png' -type f \
+              | sed -E 's#.*/([^/]+)-diff\.png$#\1#' | sort -u)
+            if [ -n "$ids" ]; then
+              ids_json=$(printf '%s\n' "$ids" | jq -R . | jq -s .)
+              list=$(jq -r --argjson ids "$ids_json" '
+                $ids[] as $id
+                | if .entries[$id]
+                  then "\(.entries[$id].importPath)\t\(.entries[$id].title) / \(.entries[$id].name)"
+                  else "\($id)\t" end
+              ' storybook-static/index.json | while IFS=$'\t' read -r path label; do
+                if [ -n "$label" ]; then
+                  echo "- \`${path#./}\` — ${label}"
+                else
+                  echo "- \`${path}\` (story 情報の解決に失敗)"
+                fi
+              done)
+              if [ -n "$list" ]; then
+                section=$'### 差分があったスナップショット\n\n'"$list"
+              fi
+            fi
+          fi
+          {
+            echo 'section<<EOF'
+            echo "$section"
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+
       - name: Upload diff report (PR)
+        id: artifact
         if: always() && github.event_name == 'pull_request'
         uses: actions/upload-artifact@v7
         with:
@@ -107,7 +142,14 @@ jobs:
           message: |
             ## Storybook VRT
 
-            - 結果: ${{ steps.vrt.outcome == 'success' && '差分なし' || '差分あり / 要確認' }}
-            - 差分 artifact: `vrt-diff-${{ github.event.pull_request.number }}`
-            - HTML レポート: artifact 内の `playwright-report/index.html` を開く
-            - 実行ログ: [run #${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            > **結果**: ${{ steps.vrt.outcome == 'success' && '差分なし' || '差分あり / 要確認' }}
+
+            ### リンク
+
+            | 種別 | 参照先 |
+            | --- | --- |
+            | 差分 artifact | [vrt-diff-${{ github.event.pull_request.number }}](${{ steps.artifact.outputs.artifact-url }}) |
+            | HTML レポート | artifact 内の `playwright-report/index.html` |
+            | 実行ログ | [run #${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |
+
+            ${{ steps.diffs.outputs.section }}
