@@ -83,6 +83,13 @@ export const ToggleMenu: Story = {
     title: menuTitle,
     children: menuItems,
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'トリガーをクリックするとメニューが展開され、aria-expanded / aria-haspopup が更新されることを検証する。',
+      },
+    },
+  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('button', { name: MENU_TRIGGER_NAME });

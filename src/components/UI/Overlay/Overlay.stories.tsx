@@ -59,6 +59,13 @@ export const ClickToClose: Story = {
     onCloseAction: fn(),
     isOpen: true,
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'オーバーレイをクリックすると onCloseAction が発火することを検証するインタラクションテスト。',
+      },
+    },
+  },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const overlay = canvas.getByTestId('overlay');
@@ -73,6 +80,13 @@ export const OverlayStructure: Story = {
   args: {
     onCloseAction: fn(),
     isOpen: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'isOpen=true のとき DOM に存在し可視であることを検証するスモークテスト。',
+      },
+    },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

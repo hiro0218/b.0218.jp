@@ -78,6 +78,13 @@ export const ClickToZoom: Story = {
       buttonZoomLabel: '画像をズーム',
     },
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'ズームボタンをクリックして dialog が表示されることを検証するインタラクションテスト。',
+      },
+    },
+  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const image = canvas.getByAltText('ズーム操作テスト画像');

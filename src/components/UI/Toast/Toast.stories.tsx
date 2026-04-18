@@ -54,6 +54,13 @@ export const ClickToDismiss: Story = {
     isVisible: true,
     onHideToast: fn(),
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'トーストをクリックすると onHideToast が発火することを検証するインタラクションテスト。',
+      },
+    },
+  },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const toast = canvas.getByRole('status');
