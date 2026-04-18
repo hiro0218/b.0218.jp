@@ -145,6 +145,7 @@ export const WithTextSub: Story = {
 };
 
 export const WithTextSideAndSub: Story = {
+  tags: ['!manifest'],
   name: 'サイド + 補足',
   args: {
     as: 'h2',
