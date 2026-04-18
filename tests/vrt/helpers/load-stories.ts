@@ -14,7 +14,7 @@ type StoryIndex = {
 
 const STORYBOOK_INDEX_PATH = join(process.cwd(), 'storybook-static', 'index.json');
 
-const INCLUDE_PREFIXES: readonly string[] = ['ui-alert--'];
+const INCLUDE_PREFIXES: readonly string[] = ['ui-'];
 
 const EXCLUDED_TAGS: readonly string[] = ['!manifest', '!vrt'];
 
