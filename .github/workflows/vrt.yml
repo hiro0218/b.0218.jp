@@ -1,0 +1,108 @@
+name: 'Storybook VRT'
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: write
+
+jobs:
+  vrt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Kesin11/actions-timeline@e018cfefea60b4f44266998551211a35a58b8097 # v3.0.0
+
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.node-version'
+          cache: 'npm'
+
+      - id: cache-node-modules
+        uses: actions/cache@v5
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
+
+      - if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Restore Storybook build cache
+        id: sb-cache
+        uses: actions/cache@v5
+        with:
+          path: storybook-static
+          key: storybook-${{ runner.os }}-${{ hashFiles('.storybook/**', 'src/components/UI/**/*.{ts,tsx,css}', 'src/stories/**/*.{ts,tsx,css}', 'src/lib/**/*.{ts,tsx}', 'src/ui/**/*.{ts,tsx}', 'panda.config.mts', 'package-lock.json') }}
+
+      - name: Build Storybook
+        if: steps.sb-cache.outputs.cache-hit != 'true'
+        run: npm run vrt:build
+
+      - name: Download baseline snapshots from master
+        if: github.event_name == 'pull_request'
+        uses: dawidd6/action-download-artifact@1f8785ff7a5130826f848e7f72725c85d241860f # v18
+        with:
+          workflow: vrt.yml
+          branch: master
+          name: vrt-baseline
+          path: tests/vrt/__snapshots__
+          if_no_artifact_found: warn
+
+      - name: Run Playwright VRT
+        id: vrt
+        run: npm run vrt
+        continue-on-error: ${{ github.event_name == 'pull_request' }}
+
+      - name: Upload baseline snapshots (master branch)
+        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/master' && steps.vrt.outcome == 'success'
+        uses: actions/upload-artifact@v7
+        with:
+          name: vrt-baseline
+          path: tests/vrt/__snapshots__
+          retention-days: 90
+          overwrite: true
+
+      - name: Upload diff report (PR)
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v7
+        with:
+          name: vrt-diff-${{ github.event.pull_request.number }}
+          path: |
+            test-results
+            playwright-report
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Comment PR with VRT result
+        if: always() && github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@70d2764d1a7d5d9560b100cbea0077fc8f633987 # v3.0.2
+        with:
+          header: storybook-vrt
+          message: |
+            ## Storybook VRT
+
+            - 結果: ${{ steps.vrt.outcome == 'success' && '差分なし' || '差分あり / 要確認' }}
+            - 差分 artifact: `vrt-diff-${{ github.event.pull_request.number }}`
+            - HTML レポート: artifact 内の `playwright-report/index.html` を開く
+            - 実行ログ: [run #${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
