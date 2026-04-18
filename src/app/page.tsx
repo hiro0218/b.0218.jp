@@ -4,20 +4,14 @@ import { PostSection } from '@/components/Page/_shared/PostSection';
 import { TagSection } from '@/components/Page/_shared/TagSection';
 import { Hero } from '@/components/Page/Home';
 import Heading from '@/components/UI/Heading';
-import { Sidebar, Stack } from '@/components/UI/Layout';
+import { Stack } from '@/components/UI/Layout';
 import { Container } from '@/components/UI/Layout/Container';
 import { SITE_URL } from '@/constants';
 import { getOrganizationStructured, getWebSiteStructured } from '@/lib/domain/json-ld';
 import { getData } from './_lib';
 
 const data = getData();
-const { recentPosts, updatesPosts, popularPosts, tags } = data;
-
-const postSections = [
-  { heading: '最新記事', href: '/archive', posts: recentPosts },
-  { heading: '注目記事', href: '/popular', posts: popularPosts },
-  { heading: '更新記事', posts: updatesPosts },
-];
+const { recentPosts, popularPosts, tags } = data;
 
 export const metadata: Metadata = {
   alternates: {
@@ -40,31 +34,28 @@ export default function Page() {
           <section>
             <Hero />
           </section>
-          <Sidebar gap={4}>
-            <Sidebar.Main>
-              <Stack gap={2}>
-                <Heading as="h2">記事</Heading>
-                <Stack gap={4}>
-                  {postSections.map(({ heading, href, posts }) => (
-                    <PostSection
-                      heading={heading}
-                      headingLevel="h3"
-                      headingWeight="normal"
-                      href={href}
-                      key={`${href ?? 'section'}:${heading}`}
-                      posts={posts}
-                      prefetch={!!href}
-                    />
-                  ))}
-                </Stack>
-              </Stack>
-            </Sidebar.Main>
-            <Sidebar.Side>
-              <Stack gap={4}>
-                <TagSection heading="タグ" headingLevel="h2" headingWeight="normal" href="/tags" tags={tags} />
-              </Stack>
-            </Sidebar.Side>
-          </Sidebar>
+          <Stack gap={3}>
+            <Heading as="h2">記事</Heading>
+            <Stack gap={4}>
+              <PostSection
+                heading="最新記事"
+                headingLevel="h3"
+                headingWeight="normal"
+                href="/archive"
+                posts={recentPosts}
+                prefetch
+              />
+              <TagSection heading="タグ" headingLevel="h3" headingWeight="normal" href="/tags" tags={tags} />
+              <PostSection
+                heading="定番記事"
+                headingLevel="h3"
+                headingWeight="normal"
+                href="/popular"
+                posts={popularPosts}
+                prefetch
+              />
+            </Stack>
+          </Stack>
         </Stack>
       </Container>
     </>

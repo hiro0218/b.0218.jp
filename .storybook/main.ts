@@ -5,6 +5,9 @@ const config: StorybookConfig = {
   stories: ['../src/components/UI/**/*.stories.@(ts|tsx)', '../src/stories/**/*.stories.@(ts|tsx)'],
   addons: ['@storybook/addon-a11y'],
   staticDirs: ['../public'],
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
+  },
 };
 
 export default config;

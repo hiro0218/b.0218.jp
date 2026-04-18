@@ -13,12 +13,15 @@ const analyticsDataClient = new BetaAnalyticsDataClient({
   },
 });
 
+const GA_DATE_RANGE = '183daysAgo';
+const GA_RESULT_LIMIT = 50;
+
 export const getPopularArticles = async () => {
   const [response] = await analyticsDataClient.runReport({
     property: `properties/${process.env.GA_PROPERTY_ID}`,
     dateRanges: [
       {
-        startDate: '8daysAgo',
+        startDate: GA_DATE_RANGE,
         endDate: '1daysAgo',
       },
     ],
@@ -42,7 +45,7 @@ export const getPopularArticles = async () => {
         },
       },
     },
-    limit: 20,
+    limit: GA_RESULT_LIMIT,
   });
 
   const result: Record<string, number> = {};

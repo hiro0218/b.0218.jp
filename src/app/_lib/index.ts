@@ -1,4 +1,4 @@
-import { recentPosts, updatesPosts } from '@/app/_lib/cachedRecentPosts';
+import { recentPosts } from '@/app/_lib/cachedRecentPosts';
 import { getFilteredPosts } from '@/app/_lib/getFilteredPosts';
 import { getPopularPost } from '@/app/_lib/getPopularPost';
 import { TAG_VIEW_LIMIT } from '@/constants';
@@ -17,7 +17,6 @@ const tags = tagsWithCount
 export const getData = () => {
   return {
     recentPosts,
-    updatesPosts,
     popularPosts,
     tags,
   };

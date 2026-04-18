@@ -90,6 +90,14 @@ const meta = {
   title: 'Design Tokens/ColorPalette',
   component: ColorPalettePage,
   tags: ['!manifest'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'サイト全体で使用する色トークンの一覧。Solid / Alias / Transparent の各スケールを CSS 変数として参照できる。新規色を追加する前に既存トークンとの重複を確認する用途で使用する。',
+      },
+    },
+  },
 } satisfies Meta<typeof ColorPalettePage>;
 
 export default meta;

@@ -40,6 +40,7 @@ function PostTag({ tags, hasRelTag = true }: PostTagProps) {
 
         return isAnchor ? (
           <Anchor
+            aria-label={count != null ? `${slug}（${count}件）` : undefined}
             className={postTagAnchor}
             href={`/tags/${slug}`}
             key={slug}

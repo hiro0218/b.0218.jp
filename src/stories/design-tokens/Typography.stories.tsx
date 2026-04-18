@@ -61,6 +61,14 @@ const meta = {
   title: 'Design Tokens/Typography',
   component: TypographyPage,
   tags: ['!manifest'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'タイポグラフィトークンの一覧。フォントサイズと太さの各スケールを CSS 変数として参照できる。記事本文や UI テキストのスケール選定に使用する。',
+      },
+    },
+  },
 } satisfies Meta<typeof TypographyPage>;
 
 export default meta;

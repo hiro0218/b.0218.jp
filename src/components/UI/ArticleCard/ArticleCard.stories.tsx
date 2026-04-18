@@ -143,6 +143,7 @@ export const OtherCategory: Story = {
 };
 
 export const FullContent: Story = {
+  tags: ['!manifest'],
   name: '全属性',
   args: {
     link: '/posts/example-post',

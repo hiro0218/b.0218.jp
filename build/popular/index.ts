@@ -11,8 +11,7 @@ const sortByTotal = (obj: Result): Result =>
   Object.fromEntries(Object.entries(obj).sort(([, a], [, b]) => b.total - a.total));
 
 (async () => {
-  const bookmark = await getBookmarkArticles();
-  const ga = await getPopularArticles();
+  const [bookmark, ga] = await Promise.all([getBookmarkArticles(), getPopularArticles()]);
 
   const allSlugs = new Set([...Object.keys(bookmark), ...Object.keys(ga)]);
 
