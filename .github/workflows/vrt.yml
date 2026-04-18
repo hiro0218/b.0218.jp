@@ -93,34 +93,32 @@ jobs:
         if: always() && github.event_name == 'pull_request'
         shell: bash
         run: |
-          list=""
+          section=""
           if [ -d test-results ] && [ -f storybook-static/index.json ]; then
             ids=$(find test-results -name '*-diff.png' -type f \
               | sed -E 's#.*/([^/]+)-diff\.png$#\1#' | sort -u)
             if [ -n "$ids" ]; then
-              list=$(while IFS= read -r id; do
-                info=$(jq -r --arg id "$id" '
-                  if .entries[$id]
+              ids_json=$(printf '%s\n' "$ids" | jq -R . | jq -s .)
+              list=$(jq -r --argjson ids "$ids_json" '
+                $ids[] as $id
+                | if .entries[$id]
                   then "\(.entries[$id].importPath)\t\(.entries[$id].title) / \(.entries[$id].name)"
-                  else "" end
-                ' storybook-static/index.json)
-                if [ -n "$info" ]; then
-                  path=${info%%$'\t'*}
-                  label=${info##*$'\t'}
+                  else "\($id)\t" end
+              ' storybook-static/index.json | while IFS=$'\t' read -r path label; do
+                if [ -n "$label" ]; then
                   echo "- \`${path#./}\` — ${label}"
                 else
-                  echo "- \`${id}\` (story 情報の解決に失敗)"
+                  echo "- \`${path}\` (story 情報の解決に失敗)"
                 fi
-              done <<< "$ids")
+              done)
+              if [ -n "$list" ]; then
+                section=$'### 差分があったスナップショット\n\n'"$list"
+              fi
             fi
           fi
           {
-            echo 'list<<EOF'
-            if [ -z "$list" ]; then
-              echo '差分はありません。'
-            else
-              echo "$list"
-            fi
+            echo 'section<<EOF'
+            echo "$section"
             echo EOF
           } >> "$GITHUB_OUTPUT"
 
@@ -154,6 +152,4 @@ jobs:
             | HTML レポート | artifact 内の `playwright-report/index.html` |
             | 実行ログ | [run #${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |
 
-            ### 差分があったスナップショット
-
-            ${{ steps.diffs.outputs.list }}
+            ${{ steps.diffs.outputs.section }}
