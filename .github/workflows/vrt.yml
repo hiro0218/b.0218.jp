@@ -71,7 +71,12 @@ jobs:
 
       - name: Run Playwright VRT
         id: vrt
-        run: npm run vrt
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            npm run vrt
+          else
+            npm run vrt -- --update-snapshots
+          fi
         continue-on-error: ${{ github.event_name == 'pull_request' }}
 
       - name: Upload baseline snapshots (master branch)
