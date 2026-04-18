@@ -105,6 +105,11 @@ styled-system
 storybook-static
 styled-system-studio
 
+## Playwright VRT
+tests/vrt/__snapshots__/
+playwright-report/
+test-results/
+
 ## knip
 knip-report.json
 .knip-cache/

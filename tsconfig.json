@@ -66,6 +66,8 @@
   ],
   "exclude": [
     "node_modules",
-    "build/ogp"
+    "build/ogp",
+    "playwright.config.ts",
+    "tests/vrt/**/*"
   ]
 }
