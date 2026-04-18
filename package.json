@@ -27,7 +27,12 @@
     "storybook": "panda codegen && storybook dev -p 6006",
     "build-storybook": "panda codegen && storybook build",
     "test:storybook": "vitest --run src/stories/storybook-interactions.test.tsx",
-    "test": "vitest --run"
+    "test": "vitest --run",
+    "vrt": "playwright test",
+    "vrt:build": "npm run build-storybook",
+    "vrt:pull-baseline": "gh run list --workflow=vrt.yml --branch=master --status=success --limit=1 --json databaseId --jq '.[0].databaseId' | xargs -I {} gh run download {} -n vrt-baseline -D tests/vrt/__snapshots__",
+    "vrt:ui": "playwright test --ui",
+    "vrt:update": "playwright test --update-snapshots"
   },
   "nano-staged": {
     "**/*.{ts,tsx,js,mjs}": [
@@ -101,6 +106,7 @@
     "@hono/node-server": "1.19.13",
     "@markuplint/jsx-parser": "4.7.23",
     "@markuplint/react-spec": "4.5.23",
+    "@playwright/test": "1.59.1",
     "@prettier/plugin-oxc": "0.1.4",
     "@shikijs/rehype": "4.0.2",
     "@storybook/addon-a11y": "10.3.5",
