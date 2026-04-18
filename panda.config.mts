@@ -1,4 +1,5 @@
 import { defineConfig } from '@pandacss/dev';
+import pkg from './package.json' with { type: 'json' };
 import { dataCss, shikiCss } from './src/ui/styled/global/css';
 import globalVars from './src/ui/styled/global/vars';
 import { keyframes } from './src/ui/styled/theme/keyframes';
@@ -18,6 +19,7 @@ export default defineConfig({
   exclude: ['./src/ui/lib/**/*.{ts,tsx}'],
 
   lightningcss: true,
+  browserslist: pkg.browserslist,
   logLevel: process.env.NODE_ENV === 'production' ? 'warn' : 'debug',
   minify: process.env.NODE_ENV === 'production' ? true : false,
   hash: {
