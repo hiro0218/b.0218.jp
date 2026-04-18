@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 type StoryEntry = {
@@ -19,6 +19,12 @@ const INCLUDE_PREFIXES: readonly string[] = ['components-ui-alert--'];
 const EXCLUDED_TAGS: readonly string[] = ['!manifest', '!vrt'];
 
 export function loadStoryIds(): string[] {
+  if (!existsSync(STORYBOOK_INDEX_PATH)) {
+    throw new Error(
+      `Storybook index not found at ${STORYBOOK_INDEX_PATH}.\n` +
+        `Run 'npm run vrt:build' first to generate storybook-static/.`,
+    );
+  }
   const raw = readFileSync(STORYBOOK_INDEX_PATH, 'utf8');
   const index = JSON.parse(raw) as StoryIndex;
 
