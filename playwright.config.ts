@@ -41,7 +41,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `npx -y http-server storybook-static -p ${PORT} -s -c-1 -a ${HOST}`,
+    command: 'node --require esbuild-register tests/vrt/helpers/serve-storybook.ts',
     url: `http://${HOST}:${PORT}/iframe.html`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
