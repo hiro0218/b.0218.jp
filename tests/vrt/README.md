@@ -68,7 +68,7 @@ Phase 2 以降で対象を広げる場合は、該当定数を空配列 `[]` に
 | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | `push` to `master`         | ストーリーを撮影し、成功時に `vrt-baseline` artifact を上書き（retention 90 日）                                                    |
 | `pull_request` to `master` | master の `vrt-baseline` artifact を取得し比較。差分・HTML レポートを `vrt-diff-<PR番号>` artifact に upload、sticky comment で通知 |
-| `workflow_dispatch`        | 手動でベースラインを更新する際に利用                                                                                                |
+| `workflow_dispatch`        | `master` を対象に手動実行した場合、ストーリーを撮影し `vrt-baseline` artifact を上書き                                              |
 
 初回は master に `vrt-baseline` artifact が存在しないため PR 側は warning で続行する。master に merge 後の push で初ベースラインが生成される。
 

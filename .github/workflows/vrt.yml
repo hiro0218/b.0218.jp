@@ -53,7 +53,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: storybook-static
-          key: storybook-${{ runner.os }}-${{ hashFiles('.storybook/**', 'src/components/UI/**/*.stories.@(ts|tsx)', 'src/stories/**/*.stories.@(ts|tsx)', 'panda.config.mts', 'package-lock.json') }}
+          key: storybook-${{ runner.os }}-${{ hashFiles('.storybook/**', 'src/components/UI/**/*.{ts,tsx,css}', 'src/stories/**/*.{ts,tsx,css}', 'src/lib/**/*.{ts,tsx}', 'src/ui/**/*.{ts,tsx}', 'panda.config.mts', 'package-lock.json') }}
 
       - name: Build Storybook
         if: steps.sb-cache.outputs.cache-hit != 'true'
@@ -74,8 +74,8 @@ jobs:
         run: npm run vrt
         continue-on-error: ${{ github.event_name == 'pull_request' }}
 
-      - name: Upload baseline snapshots (master push)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && steps.vrt.outcome == 'success'
+      - name: Upload baseline snapshots (master branch)
+        if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/master' && steps.vrt.outcome == 'success'
         uses: actions/upload-artifact@v7
         with:
           name: vrt-baseline
