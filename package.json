@@ -30,7 +30,7 @@
     "test": "vitest --run",
     "vrt": "playwright test",
     "vrt:build": "npm run build-storybook",
-    "vrt:pull-baseline": "gh run list --workflow=vrt.yml --branch=master --status=success --limit=1 --json databaseId --jq '.[0].databaseId' | xargs -I {} gh run download {} -n vrt-baseline -D tests/vrt/__snapshots__",
+    "vrt:pull-baseline": "bash scripts/vrt-pull-baseline.sh",
     "vrt:ui": "playwright test --ui",
     "vrt:update": "playwright test --update-snapshots"
   },
