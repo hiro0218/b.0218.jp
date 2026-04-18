@@ -48,6 +48,14 @@ const meta = {
   title: 'Design Tokens/Spacing',
   component: SpacingPage,
   tags: ['!manifest'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'スペーシングトークンの一覧。Fibonacci 数列ベース（0.5, 1, 2, 3, 5, 8, 13）で定義されており、gap / padding / margin の値選定に使用する。',
+      },
+    },
+  },
 } satisfies Meta<typeof SpacingPage>;
 
 export default meta;

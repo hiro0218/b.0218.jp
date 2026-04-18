@@ -143,6 +143,14 @@ const meta = {
   title: 'Design Tokens/Animation',
   component: AnimationPage,
   tags: ['!manifest'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'アニメーション関連トークンの一覧。イージング・デュレーション・キーフレームを実際の動きで確認できる。UI トランジションの統一性を保つ際に参照する。',
+      },
+    },
+  },
 } satisfies Meta<typeof AnimationPage>;
 
 export default meta;
