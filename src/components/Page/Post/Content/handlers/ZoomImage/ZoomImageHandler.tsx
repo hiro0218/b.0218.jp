@@ -1,5 +1,6 @@
 import type { Element } from 'html-react-parser';
 import { ZoomImage } from '@/components/UI/ZoomImage';
+import { toSafeProps } from '../attribs';
 import type { HandlerFunction } from '../types';
 
 /**
@@ -16,13 +17,15 @@ export const handleZoomImage: HandlerFunction = (domNode) => {
     return undefined;
   }
 
-  const { src, alt = '', class: className, ...rest } = domNode.attribs ?? {};
+  const src = domNode.attribs?.src;
 
   if (!src) {
     return undefined;
   }
 
-  return <ZoomImage alt={alt} className={className} src={src} {...rest} />;
+  const { alt, ...props } = toSafeProps(domNode);
+
+  return <ZoomImage {...props} alt={typeof alt === 'string' ? alt : ''} src={src} />;
 };
 
 /**
