@@ -1,4 +1,4 @@
-import { type DOMNode, domToReact } from 'html-react-parser';
+import { attributesToProps, type DOMNode, domToReact } from 'html-react-parser';
 import type { HandlerFunction } from './types';
 
 /**
@@ -9,13 +9,11 @@ export const handleTable: HandlerFunction = (domNode, options) => {
     return undefined;
   }
 
-  const { style, class: className, cellspacing, cellpadding, ...restAttribs } = domNode.attribs || {};
+  const props = attributesToProps(domNode.attribs, domNode.name);
 
   return (
     <div className="c-table-scrollable">
-      <table cellPadding={cellpadding} cellSpacing={cellspacing} className={className} {...restAttribs}>
-        {domToReact(domNode.children as DOMNode[], options)}
-      </table>
+      <table {...props}>{domToReact(domNode.children as DOMNode[], options)}</table>
     </div>
   );
 };
