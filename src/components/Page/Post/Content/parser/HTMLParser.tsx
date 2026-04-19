@@ -1,5 +1,9 @@
-import reactHtmlParser, { Element, type HTMLReactParserOptions } from 'html-react-parser';
+import reactHtmlParser, { type Element, type HTMLReactParserOptions } from 'html-react-parser';
 import { handleAlert, handleAnchor, handleCodePen, handleLinkPreview, handleTable, handleZoomImage } from '../handlers';
+
+const isTagElement = (domNode: unknown): domNode is Element => {
+  return typeof domNode === 'object' && domNode !== null && (domNode as Element).type === 'tag';
+};
 
 const applyHandlers = (domNode: Element, options: HTMLReactParserOptions) => {
   return (
@@ -15,7 +19,7 @@ const applyHandlers = (domNode: Element, options: HTMLReactParserOptions) => {
 
 const reactHtmlParserOptions: HTMLReactParserOptions = {
   replace: (domNode) => {
-    if (!(domNode instanceof Element && domNode.attribs)) {
+    if (!isTagElement(domNode) || !domNode.attribs) {
       return domNode;
     }
 
