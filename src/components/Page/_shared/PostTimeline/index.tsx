@@ -143,6 +143,7 @@ const Title = styled.h3`
   font-size: var(--font-sizes-md);
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-sm);
+  text-wrap: balance;
 
   a {
     color: inherit;
