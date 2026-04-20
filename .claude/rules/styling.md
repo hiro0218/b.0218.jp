@@ -19,7 +19,7 @@ paths:
 ## 🔴 CSS Variables (CRITICAL)
 
 - 色/余白/フォントは CSS 変数を使用
-- 直接値は禁止（`margin: 0` だけ許可 - Zero Margin Principle のリセット目的）
+- 直接値は禁止（例外は [components.md](./components.md) の Zero Margin Principle を参照）
 
 ## 🔴 Dynamic Styling (CRITICAL)
 

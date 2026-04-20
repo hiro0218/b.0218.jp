@@ -9,6 +9,7 @@ paths:
 
 - UI コンポーネントは外部マージンを持たない
 - 余白は親が `gap` などで制御する
+- CSS では `margin: 0` のリセット目的のみ直接値を許可（それ以外は CSS 変数経由 → [styling.md](./styling.md)）
 
 ## 🔴 レイヤー依存関係 (CRITICAL)
 
