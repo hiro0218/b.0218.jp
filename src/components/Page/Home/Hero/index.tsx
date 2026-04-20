@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SITE_DESCRIPTION } from '@/constants';
 import { css, styled } from '@/ui/styled';
 
 export function Hero() {
@@ -7,8 +8,13 @@ export function Hero() {
       <Avatar>
         <img alt="" height={100} src="/hiro0218.svg" width={100} />
       </Avatar>
+      <Title>
+        hiro<span> ─ web developer</span>
+      </Title>
       <p>
-        <Link href="/about">hiro</Link> is web developer.
+        {SITE_DESCRIPTION}
+        <br />
+        <Link href="/about">about</Link>
       </p>
     </div>
   );
@@ -16,6 +22,8 @@ export function Hero() {
 
 const containerStyle = css`
   display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: var(--sizes-icon-xl) 1fr;
   gap: var(--spacing-2);
   font-family: var(--fonts-family-monospace);
   font-size: var(--font-sizes-md);
@@ -33,17 +41,34 @@ const containerStyle = css`
   }
 
   p {
-    color: var(--colors-gray-700);
+    line-height: var(--line-heights-lg);
+    color: var(--colors-gray-600);
   }
 `;
 
 const Avatar = styled.div`
-  flex-shrink: 0;
+  display: grid;
+  grid-row: 1 / -1;
+  place-items: center;
   width: var(--sizes-icon-xl);
-  height: var(--sizes-icon-xl);
 
   img {
+    flex-shrink: 0;
     aspect-ratio: 1/1;
     border-radius: var(--radii-full);
+  }
+`;
+
+const Title = styled.h2`
+  display: flex;
+  gap: var(--spacing-1);
+  align-items: center;
+  font-weight: var(--font-weights-bold);
+  line-height: var(--line-heights-sm);
+
+  & > span {
+    font-size: var(--font-sizes-lg);
+    font-weight: var(--font-weights-normal);
+    color: var(--colors-gray-600);
   }
 `;
