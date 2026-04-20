@@ -36,12 +36,13 @@ export default function Page() {
           </section>
           <Stack gap={3}>
             <Heading as="h2">記事</Heading>
-            <Stack gap={4}>
+            <Stack gap={5}>
               <PostSection
                 heading="最新記事"
                 headingLevel="h3"
                 headingWeight="normal"
                 href="/archive"
+                layout="timeline"
                 posts={recentPosts}
                 prefetch
               />
@@ -51,6 +52,7 @@ export default function Page() {
                 headingLevel="h3"
                 headingWeight="normal"
                 href="/popular"
+                layout="timeline"
                 posts={popularPosts}
                 prefetch
               />

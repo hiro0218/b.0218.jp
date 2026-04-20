@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { getMetadata } from '@/app/_metadata';
 import { StructuredData } from '@/components/Functional/StructuredData';
+import { PostTimeline } from '@/components/Page/_shared/PostTimeline';
 import { Chart } from '@/components/Page/Archive/Chart';
-import { Timeline } from '@/components/Page/Archive/Timeline';
+import Heading from '@/components/UI/Heading';
 import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
@@ -28,7 +29,14 @@ export const metadata: Metadata = getMetadata({
 const renderTimelinesByYear = (archiveData: typeof archives) =>
   Object.keys(archiveData)
     .toReversed()
-    .map((year) => <Timeline key={year} posts={archiveData[year]} year={year} />);
+    .map((year) => (
+      <Stack as="section" gap={2} key={year}>
+        <Heading as="h2" id={`${year}年`} textSide={<span>{archiveData[year].length} posts</span>}>
+          {year}
+        </Heading>
+        <PostTimeline posts={archiveData[year]} />
+      </Stack>
+    ));
 
 export default function Page() {
   return (
