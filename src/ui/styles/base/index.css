@@ -277,6 +277,8 @@ tbody {
   }
 
   tr {
+    transition: background-color var(--transition-slow);
+
     &:hover {
       background-color: var(--colors-gray-a-100);
     }
