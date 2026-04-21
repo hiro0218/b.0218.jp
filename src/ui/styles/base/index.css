@@ -327,10 +327,10 @@ del {
     transform: translateY(0);
     /* 開く時: 高さが先に展開 → コンテンツがフェードイン */
     transition:
-      height var(--durations-slowest) var(--easings-ease-out-expo),
+      height var(--durations-slower) var(--easings-ease-out-expo),
       opacity var(--durations-slower) var(--easings-ease-out-expo) var(--durations-fast),
       transform var(--durations-slower) var(--easings-ease-out-expo) var(--durations-fast),
-      content-visibility var(--durations-slowest) ease allow-discrete;
+      content-visibility var(--durations-slower) ease allow-discrete;
   }
 
   @media (prefers-reduced-motion: reduce) {

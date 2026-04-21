@@ -66,7 +66,7 @@ const Button = styled.button`
 
     @media (prefers-reduced-motion: no-preference) {
       svg {
-        animation: floatingFade var(--durations-slowest) linear 0s;
+        animation: floatingFade var(--durations-slow) var(--easings-ease-out-expo) 0s;
       }
     }
   }

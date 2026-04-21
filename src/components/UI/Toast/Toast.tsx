@@ -44,7 +44,7 @@ const Container = styled.div`
   border-radius: var(--radii-sm);
   isolation: isolate;
   opacity: 0;
-  transform: translateY(var(--spacing-1));
+  transform: translateY(100%);
   transition:
     opacity var(--transition-slow),
     transform var(--transition-slow);
