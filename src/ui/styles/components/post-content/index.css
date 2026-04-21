@@ -181,6 +181,7 @@
     }
 
     &[open] {
+      overflow: clip;
       background-color: var(--colors-white);
       border: var(--border-widths-thin) solid var(--colors-gray-a-400);
       border-radius: var(--radii-sm);

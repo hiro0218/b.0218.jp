@@ -109,7 +109,7 @@ figure {
       display: block;
       margin-right: auto;
       margin-left: auto;
-      border: var(--border-widths-thin) solid var(--colors-gray-400);
+      border: var(--border-widths-thin) solid var(--colors-gray-a-200);
     }
   }
 
