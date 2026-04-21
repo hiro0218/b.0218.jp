@@ -1,4 +1,5 @@
 import type { JSX } from 'react';
+import { PostTimeline } from '@/components/Page/_shared/PostTimeline';
 import ArticleCard from '@/components/UI/ArticleCard';
 import Heading from '@/components/UI/Heading';
 import { Grid, Stack } from '@/components/UI/Layout';
@@ -18,6 +19,7 @@ type Props = {
   href?: string;
   as?: keyof JSX.IntrinsicElements;
   prefetch?: boolean;
+  layout?: 'card' | 'timeline';
 };
 
 export const PostSection = ({
@@ -28,6 +30,7 @@ export const PostSection = ({
   href,
   posts,
   prefetch = false,
+  layout = 'card',
 }: Props) => {
   if (posts.length === 0) {
     return null;
@@ -37,7 +40,7 @@ export const PostSection = ({
   const nextHeadingLevel = `h${Number(headingLevel[1]) + 1}` as Props['headingLevel'];
 
   return (
-    <Stack as={as} gap={2}>
+    <Stack as={as} gap={3}>
       {!!heading && (
         <Heading
           as={headingLevel}
@@ -47,26 +50,30 @@ export const PostSection = ({
           {heading}
         </Heading>
       )}
-      <Grid columns="auto-fit" gap={2}>
-        {posts.map(({ date, slug, tags, title, updated }) => {
-          const link = convertPostSlugToPath(slug);
-          const category = getPrimaryCategory(tags, categoryMap);
+      {layout === 'timeline' ? (
+        <PostTimeline posts={posts} prefetch={prefetch} />
+      ) : (
+        <Grid columns="auto-fit" gap={2}>
+          {posts.map(({ date, slug, tags, title, updated }) => {
+            const link = convertPostSlugToPath(slug);
+            const category = getPrimaryCategory(tags, categoryMap);
 
-          return (
-            <ArticleCard
-              category={category}
-              date={date}
-              key={slug}
-              link={link}
-              prefetch={prefetch}
-              tags={tags}
-              title={title}
-              titleTagName={nextHeadingLevel}
-              updated={updated}
-            />
-          );
-        })}
-      </Grid>
+            return (
+              <ArticleCard
+                category={category}
+                date={date}
+                key={slug}
+                link={link}
+                prefetch={prefetch}
+                tags={tags}
+                title={title}
+                titleTagName={nextHeadingLevel}
+                updated={updated}
+              />
+            );
+          })}
+        </Grid>
+      )}
     </Stack>
   );
 };

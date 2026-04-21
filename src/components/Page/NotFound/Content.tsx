@@ -38,7 +38,7 @@ const ContainerStyle = css`
 `;
 
 const LatestPostContainerStyle = css`
-  width: min(100%, var(--sizes-container-sm));
+  width: min(100%, var(--sizes-container-md));
 `;
 
 const HeaderStyle = css`

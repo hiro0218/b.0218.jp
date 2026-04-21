@@ -7,33 +7,23 @@ paths:
 
 ## レビュー手順
 
-### 1. 必須チェック項目
-
-#### 自動チェック（コマンドで検証）
+### 1. 自動チェック
 
 ```bash
 tsc --noEmit --skipLibCheck  # 型エラー検出
-npm run lint                 # Biome: 規則詳細は linting.md を参照
+npm run lint                 # Biome: [linting.md](./linting.md)
 npm test                     # テスト実行
 ```
 
-#### 手動レビュー
+### 2. 手動レビュー（チェックリスト）
 
-```
-□ 適切なJSDocとコメントが付けられている
-□ アーキテクチャ準拠（Layer Dependencies、Server First、SSG）
-□ スタイリング規約準拠（Panda CSS、CSS Variables、Zero Margin）
-□ セキュリティ: ハードコードされた秘密情報（API キー、トークン）がないか
-□ セキュリティ: ユーザー入力の適切なバリデーション
-```
-
-### 2. 品質評価（プロジェクト固有）
-
-- SSG 前提に反するランタイム fetch を追加していないか
-- レイヤー依存・Zero Margin・Server First に違反していないか
-- Panda CSS のルール（CSS 変数・hover 自動ラップ）に違反していないか
+- [ ] JSDoc とコメントが適切（[typescript.md](./typescript.md), [storybook.md](./storybook.md)）
+- [ ] アーキテクチャ準拠（[architecture.md](./architecture.md), [components.md](./components.md)）
+- [ ] スタイリング規約準拠（[styling.md](./styling.md), [components.md](./components.md) の Zero Margin）
+- [ ] セキュリティ: ハードコードされた秘密情報がない
+- [ ] セキュリティ: ユーザー入力のバリデーション
 
 ## プロジェクト特有の注意点
 
-- **ビルドプロセス**: `npm run prebuild` への影響、JSON/OGP生成の整合性
-- **コンテンツ処理**: Markdown 解析、類似度計算、検索インデックス生成の整合性
+- **ビルドプロセス**: `npm run prebuild` への影響、JSON/OGP 生成の整合性（[content-pipeline.md](./content-pipeline.md)）
+- **SSG 原則違反**: ランタイム `fetch` を追加していないか（[architecture.md](./architecture.md)）

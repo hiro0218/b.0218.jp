@@ -66,7 +66,7 @@ const Button = styled.button`
 
     @media (prefers-reduced-motion: no-preference) {
       svg {
-        animation: floatingFade var(--durations-slowest) linear 0s;
+        animation: floatingFade var(--durations-slow) var(--easings-ease-out-expo) 0s;
       }
     }
   }
@@ -74,6 +74,6 @@ const Button = styled.button`
   &:active {
     background-color: var(--colors-gray-a-300);
     border-color: var(--colors-gray-700);
-    transform: scale(0.97);
+    transform: scale(0.96);
   }
 `;

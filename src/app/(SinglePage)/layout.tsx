@@ -7,7 +7,7 @@ type Props = {
 
 export default function SinglePageLayout({ children }: Props) {
   return (
-    <Container size="small">
+    <Container size="default">
       <section>{children}</section>
     </Container>
   );

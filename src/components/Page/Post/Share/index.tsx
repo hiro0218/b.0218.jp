@@ -123,7 +123,7 @@ const ShareButtonStyle = css`
   }
 
   &:active {
-    transform: scale(0.97);
+    transform: scale(0.96);
   }
 `;
 

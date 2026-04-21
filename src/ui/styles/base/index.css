@@ -109,7 +109,7 @@ figure {
       display: block;
       margin-right: auto;
       margin-left: auto;
-      border: var(--border-widths-thin) solid var(--colors-gray-400);
+      border: var(--border-widths-thin) solid var(--colors-gray-a-200);
     }
   }
 
@@ -277,6 +277,8 @@ tbody {
   }
 
   tr {
+    transition: background-color var(--transition-slow);
+
     &:hover {
       background-color: var(--colors-gray-a-100);
     }
@@ -325,10 +327,10 @@ del {
     transform: translateY(0);
     /* 開く時: 高さが先に展開 → コンテンツがフェードイン */
     transition:
-      height var(--durations-slowest) var(--easings-ease-out-expo),
+      height var(--durations-slower) var(--easings-ease-out-expo),
       opacity var(--durations-slower) var(--easings-ease-out-expo) var(--durations-fast),
       transform var(--durations-slower) var(--easings-ease-out-expo) var(--durations-fast),
-      content-visibility var(--durations-slowest) ease allow-discrete;
+      content-visibility var(--durations-slower) ease allow-discrete;
   }
 
   @media (prefers-reduced-motion: reduce) {

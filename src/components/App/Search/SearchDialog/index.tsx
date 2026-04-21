@@ -79,7 +79,7 @@ const Dialog = styled.dialog`
 
   position: fixed;
   top: 0;
-  width: var(--sizes-container-sm);
+  width: var(--sizes-container-md);
   max-height: var(--search-dialog-max-height);
   padding: 0;
   border: none;

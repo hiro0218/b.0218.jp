@@ -48,7 +48,7 @@ const Heading = styled.h1`
   font-kerning: normal;
   line-height: var(--line-heights-lg);
   word-break: auto-phrase;
-  text-wrap: pretty;
+  text-wrap: balance;
 `;
 
 const itemStyle = css`
