@@ -74,6 +74,6 @@ const Button = styled.button`
   &:active {
     background-color: var(--colors-gray-a-300);
     border-color: var(--colors-gray-700);
-    transform: scale(0.97);
+    transform: scale(0.96);
   }
 `;

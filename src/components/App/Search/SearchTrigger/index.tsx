@@ -49,7 +49,7 @@ const Button = styled.button`
   }
 
   &:active {
-    transform: scale(0.97);
+    transform: scale(0.96);
   }
 
   svg {

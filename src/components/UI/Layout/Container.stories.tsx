@@ -16,39 +16,40 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  name: '基本',
+  name: '基本（一覧）',
   parameters: {
     docs: {
       description: {
-        story: 'デフォルトサイズのコンテナ。max-width で幅を制限し中央配置する。',
+        story:
+          '記事一覧・トップページなど、情報をスキャンするブラウジング向けレイアウトに使用する。size 省略時のフォールバックでもある。',
       },
     },
   },
 };
 
 export const Small: Story = {
-  name: '小サイズ',
+  name: '小サイズ（記事本文）',
   args: {
     size: 'small',
   },
   parameters: {
     docs: {
       description: {
-        story: '狭い max-width のコンテナ。記事本文等の読みやすい幅に使用する。',
+        story: '記事本文など、1 行あたりの文字数を絞りたい集中読書向けレイアウトに使用する。',
       },
     },
   },
 };
 
 export const Large: Story = {
-  name: '大サイズ',
+  name: '大サイズ（サイトchrome）',
   args: {
     size: 'large',
   },
   parameters: {
     docs: {
       description: {
-        story: '広い max-width のコンテナ。ダッシュボード等の幅広レイアウトに使用する。',
+        story: 'サイトヘッダーなど、両端まで要素を配置したい全幅 chrome レイアウトに使用する。',
       },
     },
   },
