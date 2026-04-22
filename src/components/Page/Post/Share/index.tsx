@@ -37,6 +37,7 @@ function PostShare({ title, url }: Props) {
       showToast();
     } catch (error) {
       console.error('[PostShare] Failed to copy text:', error);
+      showToast('コピーに失敗しました');
     }
   }, [showToast, url]);
 
