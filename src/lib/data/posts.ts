@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { FILENAME_POSTS } from '@/constants';
+import { isProduction } from '@/lib/config/environment';
 import { isPost, isPostSummaryArray } from '@/lib/guards';
 import type {
   Page,
@@ -26,7 +27,7 @@ const POSTS_DIR = path.join(process.cwd(), 'dist', FILENAME_POSTS);
 
 // JSONデータの型検証と初期化
 const validatePostsListData = (): PostSummary[] => {
-  if (process.env.NODE_ENV !== 'production') {
+  if (!isProduction) {
     if (!isPostSummaryArray(postsListData)) {
       console.error('[posts.ts] Invalid posts list data structure from dist/posts-list.json');
       return [];
@@ -72,7 +73,7 @@ export const getPostBySlug = (slug: string): Post | null => {
 
   const post = JSON.parse(data) as Post;
 
-  if (process.env.NODE_ENV !== 'production' && !isPost(post)) {
+  if (!isProduction && !isPost(post)) {
     throw new Error(`[posts.ts] Invalid post data structure for slug: ${slug}`);
   }
 

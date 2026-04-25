@@ -10,6 +10,7 @@ import { Sidebar, Stack } from '@/components/UI/Layout';
 import { Spinner } from '@/components/UI/Spinner';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
+import { isProduction } from '@/lib/config/environment';
 import { getTagsWithCount } from '@/lib/data/posts';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
 
@@ -24,7 +25,7 @@ export async function generateStaticParams() {
     .filter((tag) => tag.count >= TAG_VIEW_LIMIT)
     .map((tag) => ({
       // @note https://github.com/vercel/next.js/issues/63002
-      slug: process.env.NODE_ENV === 'production' ? tag.slug : encodeURIComponent(tag.slug),
+      slug: isProduction ? tag.slug : encodeURIComponent(tag.slug),
     }));
 }
 

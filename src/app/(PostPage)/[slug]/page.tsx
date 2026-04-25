@@ -15,6 +15,7 @@ import { Alert } from '@/components/UI/Alert';
 import { Stack } from '@/components/UI/Layout';
 import { Container } from '@/components/UI/Layout/Container';
 import { AUTHOR_NAME } from '@/constants';
+import { buildId } from '@/lib/config/environment';
 import { getPostsListJson } from '@/lib/data/posts';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/domain/json-ld';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';
@@ -43,7 +44,6 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { publishedTime, modifiedTime } = meta;
   const permalink = getPermalink(slug);
   const description = getDescriptionText(content);
-  const buildId = process.env.BUILD_ID || '';
   const ogpImage = `${getOgpImage(slug)}${buildId ? `?ts=${buildId}` : ''}`;
 
   return getMetadata({
