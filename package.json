@@ -31,8 +31,11 @@
     "vrt": "playwright test --config playwright.vrt.config.ts",
     "vrt:build": "npm run build-storybook",
     "vrt:pull-baseline": "bash scripts/vrt-pull-baseline.sh",
-    "vrt:ui": "playwright test --ui",
-    "vrt:update": "playwright test --update-snapshots"
+    "vrt:ui": "playwright test --config playwright.vrt.config.ts --ui",
+    "vrt:update": "playwright test --config playwright.vrt.config.ts --update-snapshots",
+    "e2e": "playwright test --config playwright.e2e.config.ts",
+    "e2e:ui": "playwright test --config playwright.e2e.config.ts --ui",
+    "e2e:debug": "playwright test --config playwright.e2e.config.ts --debug"
   },
   "nano-staged": {
     "**/*.{ts,tsx,js,mjs}": [
