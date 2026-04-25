@@ -1,0 +1,252 @@
+name: 'Build & Verify'
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  actions: write
+  pull-requests: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: Kesin11/actions-timeline@e018cfefea60b4f44266998551211a35a58b8097 # v3.0.0
+
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.node-version'
+          cache: 'npm'
+
+      - id: cache-node-modules
+        uses: actions/cache@v5
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
+
+      - if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Generate Panda CSS
+        run: npx panda codegen
+
+      - name: Restore next build cache
+        uses: actions/cache@v5
+        with:
+          path: .next/cache
+          key: next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.{ts,tsx,js,jsx}') }}
+          restore-keys: |
+            next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
+
+      - name: Prebuild and next build
+        env:
+          GA_PROPERTY_ID: ${{ secrets.GA_PROPERTY_ID }}
+          GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL }}
+          GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
+          SKIP_OGP: 'true'
+        run: |
+          npm run prebuild
+          ./node_modules/.bin/next build --webpack
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: build-output
+          path: |
+            .next
+            !.next/cache
+          retention-days: 1
+          include-hidden-files: true
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: build
+    timeout-minutes: 15
+    steps:
+      - uses: Kesin11/actions-timeline@e018cfefea60b4f44266998551211a35a58b8097 # v3.0.0
+
+      - uses: actions/checkout@v6
+
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.node-version'
+          cache: 'npm'
+
+      - id: cache-node-modules
+        uses: actions/cache@v5
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
+
+      - if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: build-output
+          path: .next
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Start Next.js server
+        run: |
+          ./node_modules/.bin/next start -p 3100 -H 127.0.0.1 > .next-start.log 2>&1 &
+          echo $! > .next-start.pid
+          for i in $(seq 1 60); do
+            if curl -sf http://127.0.0.1:3100 > /dev/null; then
+              echo "Server is ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Server failed to start within 60s"
+          cat .next-start.log
+          exit 1
+
+      - name: Run Playwright E2E
+        id: e2e
+        run: npm run e2e
+        continue-on-error: ${{ github.event_name == 'pull_request' }}
+
+      - name: Stop Next.js server
+        if: always()
+        run: |
+          if [ -f .next-start.pid ]; then
+            kill "$(cat .next-start.pid)" 2>/dev/null || true
+          fi
+
+      - name: Upload E2E report
+        id: artifact
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-report-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
+          path: |
+            playwright-report-e2e
+            test-results-e2e
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Comment PR with E2E result
+        if: always() && github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@70d2764d1a7d5d9560b100cbea0077fc8f633987 # v3.0.2
+        with:
+          header: e2e
+          message: |
+            ## E2E
+
+            > **結果**: ${{ steps.e2e.outcome == 'success' && '成功' || '失敗 / 要確認' }}
+
+            ### リンク
+
+            | 種別 | 参照先 |
+            | --- | --- |
+            | レポート artifact | [e2e-report-${{ github.event.pull_request.number }}](${{ steps.artifact.outputs.artifact-url }}) |
+            | HTML レポート | artifact 内の `playwright-report-e2e/index.html` |
+            | 実行ログ | [run #${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |
+
+  bundle-analysis:
+    runs-on: ubuntu-latest
+    needs: build
+    timeout-minutes: 10
+    steps:
+      - uses: Kesin11/actions-timeline@e018cfefea60b4f44266998551211a35a58b8097 # v3.0.0
+
+      - uses: actions/checkout@v6
+
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.node-version'
+          cache: 'npm'
+
+      - id: cache-node-modules
+        uses: actions/cache@v5
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
+
+      - if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install bundle analysis scripts dependencies
+        run: npm ci --prefix .github/scripts
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: build-output
+          path: .next
+
+      - name: Analyze bundle
+        run: node .github/scripts/report.js
+
+      - name: Upload bundle
+        uses: actions/upload-artifact@v7
+        with:
+          name: bundle
+          path: .next/analyze/__bundle_analysis.json
+          overwrite: true
+
+      - name: Download base branch bundle stats
+        uses: dawidd6/action-download-artifact@8305c0f1062bb0d184d09ef4493ecb9288447732 # v20
+        if: success() && github.event.number
+        with:
+          workflow: ci.yml
+          branch: ${{ github.event.pull_request.base.ref }}
+          path: .next/analyze/base
+          if_no_artifact_found: warn
+
+      - name: Compare with base branch bundle
+        if: success() && github.event.number
+        run: |
+          if [ -d .next/analyze/base ] && [ -n "$(ls -A .next/analyze/base 2>/dev/null)" ]; then
+            ls -laR .next/analyze/base && node .github/scripts/compare.js
+          else
+            echo "Base branch bundle not found, skipping comparison"
+          fi
+
+      - name: Get Comment Body
+        id: get-comment-body
+        if: success() && github.event.number
+        run: |
+          if [ -f .next/analyze/__bundle_analysis_comment.txt ]; then
+            echo "body<<EOF" >> $GITHUB_OUTPUT
+            cat .next/analyze/__bundle_analysis_comment.txt >> $GITHUB_OUTPUT
+            echo EOF >> $GITHUB_OUTPUT
+          else
+            echo "body=Base bundle not available; skipped comparison." >> $GITHUB_OUTPUT
+          fi
+
+      - name: Comment
+        if: success() && github.event.number
+        uses: marocchino/sticky-pull-request-comment@70d2764d1a7d5d9560b100cbea0077fc8f633987 # v3.0.2
+        with:
+          header: next-bundle-analysis
+          message: ${{ steps.get-comment-body.outputs.body }}
