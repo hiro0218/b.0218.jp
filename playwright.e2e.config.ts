@@ -37,7 +37,7 @@ export default defineConfig({
   webServer: {
     command: `SKIP_OGP=true npm run prebuild && npm run build && npm run start -- -p ${PORT} -H ${HOST}`,
     url: `http://${HOST}:${PORT}`,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: true,
     timeout: 600_000,
     stdout: 'pipe',
     stderr: 'pipe',
