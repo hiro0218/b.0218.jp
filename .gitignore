@@ -110,6 +110,10 @@ tests/vrt/__snapshots__/
 playwright-report/
 test-results/
 
+## Playwright E2E
+playwright-report-e2e/
+test-results-e2e/
+
 ## knip
 knip-report.json
 .knip-cache/

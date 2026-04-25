@@ -16,7 +16,7 @@ import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect';
  */
 export const useToast = (initialMessage: string, duration = 2000) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [message] = useState(initialMessage);
+  const [message, setMessage] = useState(initialMessage);
   const [isVisible, setIsVisible] = useState(false);
 
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -74,11 +74,16 @@ export const useToast = (initialMessage: string, duration = 2000) => {
   /**
    * トーストを表示して自動消去タイマーを開始
    * 既に表示中の場合は表示時間をリセットして延長する
+   * @param overrideMessage - 指定時はこのメッセージを表示、未指定時は initialMessage に戻す
    */
-  const showToast = useCallback(() => {
-    setIsVisible(true);
-    reset();
-  }, [reset]);
+  const showToast = useCallback(
+    (overrideMessage?: string) => {
+      setMessage(overrideMessage ?? initialMessage);
+      setIsVisible(true);
+      reset();
+    },
+    [initialMessage, reset],
+  );
 
   /**
    * トーストを即座に非表示にして待機中のタイマーをキャンセル
