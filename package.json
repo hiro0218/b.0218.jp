@@ -135,7 +135,7 @@
     "hast-util-select": "6.0.4",
     "hono": "4.12.14",
     "husky": "9.1.7",
-    "jsdom": "28.1.0",
+    "jsdom": "29.0.2",
     "knip": "6.0.4",
     "kuromoji": "0.1.2",
     "markuplint": "4.14.1",
