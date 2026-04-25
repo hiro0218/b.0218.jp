@@ -29,7 +29,7 @@ jobs:
           submodules: true
 
       - name: Install Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v6.3.0
         with:
           node-version-file: '.node-version'
           cache: 'npm'
@@ -61,7 +61,7 @@ jobs:
 
       - name: Download baseline snapshots from master
         if: github.event_name == 'pull_request'
-        uses: dawidd6/action-download-artifact@1f8785ff7a5130826f848e7f72725c85d241860f # v18
+        uses: dawidd6/action-download-artifact@8305c0f1062bb0d184d09ef4493ecb9288447732 # v20
         with:
           workflow: vrt.yml
           branch: master
