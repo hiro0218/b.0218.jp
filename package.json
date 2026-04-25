@@ -28,7 +28,7 @@
     "build-storybook": "panda codegen && storybook build",
     "test:storybook": "vitest --run src/stories/storybook-interactions.test.tsx",
     "test": "vitest --run",
-    "vrt": "playwright test",
+    "vrt": "playwright test --config playwright.vrt.config.ts",
     "vrt:build": "npm run build-storybook",
     "vrt:pull-baseline": "bash scripts/vrt-pull-baseline.sh",
     "vrt:ui": "playwright test --ui",
