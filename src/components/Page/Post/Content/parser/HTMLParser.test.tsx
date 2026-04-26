@@ -35,6 +35,26 @@ describe('parser', () => {
     const { container } = renderParser('<table><tbody><tr><td>cell</td></tr></tbody></table>');
     expect(container.querySelector('.c-table-scrollable table')).not.toBeNull();
   });
+
+  it('handleAnchor が undefined を返した外部リンクは href とテキストが保持される', () => {
+    const { container } = renderParser('<a href="https://example.com">外部リンク</a>');
+    const anchor = container.querySelector('a[href="https://example.com"]');
+    expect(anchor).not.toBeNull();
+    expect(anchor?.textContent).toBe('外部リンク');
+  });
+
+  it('handleAnchor が undefined を返した外部リンクのネストした要素も保持される', () => {
+    const { container } = renderParser('<a href="https://example.com"><strong>強調</strong>後</a>');
+    const anchor = container.querySelector('a[href="https://example.com"]');
+    expect(anchor?.querySelector('strong')?.textContent).toBe('強調');
+    expect(anchor?.textContent).toBe('強調後');
+  });
+
+  it('どの replacer もマッチしない要素は元の name と属性のまま描画される', () => {
+    const { container } = renderParser('<section data-foo="bar"><span>x</span></section>');
+    const section = container.querySelector('section[data-foo="bar"]');
+    expect(section?.querySelector('span')?.textContent).toBe('x');
+  });
 });
 
 describe('Alert ハンドラ', () => {
