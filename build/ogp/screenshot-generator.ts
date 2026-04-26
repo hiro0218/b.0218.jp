@@ -1,7 +1,7 @@
 import cluster from 'node:cluster';
 import { readdir } from 'node:fs/promises';
 
-import { getPostsListJson } from '@/lib/data/posts';
+import { getPostsListJson } from '@/lib/post/data';
 import { mkdir } from '~/tools/fs';
 import * as Log from '~/tools/logger';
 

@@ -1,7 +1,7 @@
 import { type DOMNode, domToReact } from 'html-react-parser';
 import { Alert, type AlertType } from '@/components/UI/Alert';
 import { safeJsonParse } from '@/lib/utils/json';
-import type { HandlerFunction } from './types';
+import type { Replacer } from './types';
 
 interface AlertData {
   type: 'alert';
@@ -14,7 +14,7 @@ interface AlertData {
 /**
  * class="gfm-alert"を持つ要素をAlertコンポーネントに変換する
  */
-export const handleAlert: HandlerFunction = (domNode) => {
+export const handleAlert: Replacer = (domNode) => {
   if (domNode.attribs?.class !== 'gfm-alert') {
     return undefined;
   }

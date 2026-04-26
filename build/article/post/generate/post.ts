@@ -1,11 +1,13 @@
-import { read as matterRead } from 'gray-matter';
+import { readFileSync } from 'node:fs';
 import pLimit from 'p-limit';
 import { FILENAME_POSTS } from '@/constants';
-import type { Post } from '@/types/source';
+import { isContentPreview } from '@/lib/config/environment';
+import { convertRawPost } from '@/lib/post/convert';
+import { isValidFrontmatter, parseFrontmatter, type RawPost, tryToIso } from '@/lib/post/raw';
+import { isPubliclyVisible } from '@/lib/post/visibility';
 import { mkdir, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
 import markdownToHtmlString from '../../markdownToHtmlString';
-import type { LinkPreviewCache } from '../../rehype0218';
 import { loadCache, saveCache } from '../../rehype0218';
 import { buildTagNormalizationMap, normalizeTags } from './normalizeTag';
 import { getMarkdownFiles, getPath, getSlug } from './utils';
@@ -14,79 +16,46 @@ const PATH = getPath();
 
 const POST_CONCURRENCY = 4;
 
-interface RawPost {
-  content: string;
-  title: string;
-  slug: string;
-  date: string;
-  updated?: string;
-  note?: string;
-  tags: string[];
-  noindex?: boolean;
-}
-
-async function convertRawPost(
-  raw: RawPost,
-  limit: ReturnType<typeof pLimit>,
-  sharedCache: LinkPreviewCache,
-): Promise<Post> {
-  const content = await limit(() => markdownToHtmlString(raw.content, false, { sharedCache }));
-  const noteContent = raw.note ? await markdownToHtmlString(raw.note, true) : '';
-
-  const post: Post = {
-    title: raw.title,
-    slug: raw.slug,
-    date: raw.date,
-    content: content.trim(),
-    tags: raw.tags,
-    noindex: raw.noindex,
-  };
-
-  if (raw.updated) {
-    post.updated = raw.updated;
-  }
-
-  if (noteContent) {
-    post.note = noteContent;
-  }
-
-  return post;
-}
-
 export async function buildPost() {
-  // md ファイル一覧を取得
   const files = await getMarkdownFiles(`${PATH.from}/_posts`, 1);
 
-  // Phase 1: front matter の読み込みとフィルタリング（同期処理）
   const rawPosts: RawPost[] = [];
+  const visibilityCtx = { now: new Date(), isContentPreview };
 
   for (const file of files) {
-    const post = matterRead(`${PATH.from}/_posts/${file}`);
-    const { title, date, updated, note, tags, noindex } = post.data as Post;
-
-    // 未来の投稿はスキップ
-    const dateObj = new Date(date);
-    if (!process.env.IS_DEVELOPMENT && dateObj > new Date()) {
+    const source = readFileSync(`${PATH.from}/_posts/${file}`, 'utf-8');
+    const { frontmatter, markdown } = parseFrontmatter(source);
+    if (!isValidFrontmatter(frontmatter)) {
+      Log.info(`Skip post with invalid frontmatter: ${file}`);
       continue;
     }
 
-    rawPosts.push({
-      content: post.content,
-      title: title.trim(),
+    const raw: RawPost = {
       slug: getSlug(file),
-      date: dateObj.toISOString(),
-      updated: updated ? new Date(updated).toISOString() : undefined,
-      note: typeof note === 'string' ? note : undefined,
-      tags: tags || [],
-      noindex,
-    });
+      content: markdown,
+      title: frontmatter.title.trim(),
+      date: tryToIso(frontmatter.date) ?? '',
+      updated: tryToIso(frontmatter.updated),
+      note: typeof frontmatter.note === 'string' ? frontmatter.note : undefined,
+      tags: Array.isArray(frontmatter.tags) ? frontmatter.tags.filter((t): t is string => typeof t === 'string') : [],
+      noindex: typeof frontmatter.noindex === 'boolean' ? frontmatter.noindex : undefined,
+    };
+
+    if (!isPubliclyVisible(raw, visibilityCtx)) {
+      Log.info(`Skip future-dated post: ${file}`);
+      continue;
+    }
+
+    rawPosts.push(raw);
   }
 
-  // Phase 2: Markdown → HTML 変換を並列実行（キャッシュ共有）
+  // 投稿間で共有し、重複する link-preview 断片がキャッシュヒットするようにする
   const sharedCache = loadCache();
   const limit = pLimit(POST_CONCURRENCY);
+  const markdownToHtml = (md: string, isSimple = false) =>
+    limit(() => markdownToHtmlString(md, isSimple, { sharedCache }));
 
-  const posts = await Promise.all(rawPosts.map((raw) => convertRawPost(raw, limit, sharedCache)));
+  const posts = await Promise.all(rawPosts.map((raw) => convertRawPost(raw, { markdownToHtml })));
   saveCache(sharedCache);
 
   // sort: 日付順

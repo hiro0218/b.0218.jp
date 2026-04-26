@@ -5,6 +5,7 @@ import type { CSSProperties } from 'react';
 import { useEffect } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/constants';
+import { isDevelopment } from '@/lib/config/environment';
 import { css, styled } from '@/ui/styled';
 
 type Size = {
@@ -33,7 +34,7 @@ export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
   const adsStyle = {
     '--ads-height': `${adsHeight}px`,
     '--ads-width': `${adsWidth}px`,
-    backgroundColor: process.env.NODE_ENV === 'development' ? 'var(--colors-gray-100)' : undefined,
+    backgroundColor: isDevelopment ? 'var(--colors-gray-100)' : undefined,
   } as CSSProperties;
 
   /**

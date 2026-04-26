@@ -135,6 +135,9 @@ module.exports = {
       from: {},
       to: {
         couldNotResolve: true,
+        // dist/*.json は prebuild で生成されるビルド成果物のため lint 時には存在しない。
+        // 生成済みかどうかは build パイプラインの責務であり、依存関係解析の対象外とする。
+        pathNot: '^~/dist/.*\\.json$',
       },
     },
     {
@@ -173,6 +176,9 @@ module.exports = {
         pathNot: [
           '[.](spec|test)[.](js|mjs|cjs|ts|ls|coffee|litcoffee|coffee[.]md)$',
           '[.]stories[.](js|mjs|cjs|ts|tsx)$',
+          // raw.ts は build パイプライン専用モジュール。gray-matter は prebuild でのみ使用され、
+          // ランタイム（Next.js）バンドルには含まれない。
+          '^src/lib/post/raw\\.ts$',
         ],
       },
       to: {

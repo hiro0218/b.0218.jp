@@ -1,7 +1,7 @@
 import { type DOMNode, domToReact } from 'html-react-parser';
 import { LinkPreview } from '@/components/Page/Post/LinkPreview';
 import { safeJsonParse } from '@/lib/utils/json';
-import type { HandlerFunction } from './types';
+import type { Replacer } from './types';
 
 interface LinkPreviewData {
   type: 'link-preview';
@@ -18,7 +18,7 @@ interface LinkPreviewData {
 /**
  * class="link-preview"を持つ要素をLinkPreviewコンポーネントに変換する
  */
-export const handleLinkPreview: HandlerFunction = (domNode) => {
+export const handleLinkPreview: Replacer = (domNode) => {
   if (domNode.attribs?.class !== 'link-preview') {
     return undefined;
   }

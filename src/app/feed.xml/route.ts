@@ -1,7 +1,7 @@
 import { Feed } from 'feed';
 import { AUTHOR_NAME, SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constants';
-import { getPostBySlug, getPostsListJson } from '@/lib/data/posts';
 import { getDescriptionText } from '@/lib/domain/json-ld';
+import { getPostBySlug, getPostsListJson } from '@/lib/post/data';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';
 
 export const dynamic = 'force-static';

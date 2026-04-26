@@ -1,3 +1,4 @@
+import { tagKey } from '@/lib/tag/key';
 import type { Post } from '@/types/source';
 
 /**
@@ -43,7 +44,7 @@ export function buildTagNormalizationMap(posts: Partial<Post>[]): Map<string, st
     }
 
     for (const tag of tags) {
-      const normalizedKey = tag.toLowerCase();
+      const normalizedKey = tagKey(tag);
 
       let entry = tagVariantsMap.get(normalizedKey);
 
@@ -79,7 +80,7 @@ export function buildTagNormalizationMap(posts: Partial<Post>[]): Map<string, st
  */
 export function normalizeTags(tags: string[], normalizationMap: Map<string, string>): string[] {
   return tags.map((tag) => {
-    const normalizedKey = tag.toLowerCase();
+    const normalizedKey = tagKey(tag);
     return normalizationMap.get(normalizedKey) || tag;
   });
 }

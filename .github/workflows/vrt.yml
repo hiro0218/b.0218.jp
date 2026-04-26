@@ -142,7 +142,7 @@ jobs:
           message: |
             ## Storybook VRT
 
-            > **結果**: ${{ steps.vrt.outcome == 'success' && '差分なし' || '差分あり / 要確認' }}
+            > **結果**: ${{ (steps.vrt.outcome == 'success' && '差分なし') || (steps.vrt.outcome == 'failure' && '差分あり / 要確認') || 'ビルド失敗 / VRT 実行不可' }}
 
             ### リンク
 

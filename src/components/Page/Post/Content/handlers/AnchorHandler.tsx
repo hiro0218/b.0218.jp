@@ -1,12 +1,12 @@
 import { type DOMNode, domToReact } from 'html-react-parser';
 import { Anchor } from '@/components/UI/Anchor';
 import { toSafeProps } from './attribs';
-import type { HandlerFunction } from './types';
+import type { Replacer } from './types';
 
 /**
  * 先頭が「/」で始まるhref属性を持つaタグをAnchorコンポーネントに変換する
  */
-export const handleAnchor: HandlerFunction = (domNode, options) => {
+export const handleAnchor: Replacer = (domNode, options) => {
   const href = domNode.attribs?.href;
 
   if (domNode.tagName !== 'a' || !href?.startsWith('/')) {

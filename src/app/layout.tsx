@@ -14,6 +14,7 @@ import { ClientSideScrollRestorer } from '@/components/Functional/ClientSideScro
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
 import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constants';
+import { isProduction } from '@/lib/config/environment';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -63,7 +64,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <a className="skip-link" href="#main">
           メインコンテンツへスキップ
         </a>
-        {process.env.NODE_ENV === 'production' && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />}
+        {isProduction && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />}
         <SearchDialogProvider>
           <Layout>
             <Header />
@@ -75,7 +76,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <Suspense>
           <ClientSideScrollRestorer />
         </Suspense>
-        {process.env.NODE_ENV === 'production' && <PreconnectLinks />}
+        {isProduction && <PreconnectLinks />}
         {
           /**
            * rel="me" links for identity verification (Mastodon, IndieAuth, etc.)
@@ -88,7 +89,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <link href={url} key={key} rel="me" />
           ))
         }
-        {process.env.NODE_ENV === 'production' && <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} />}
+        {isProduction && <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} />}
       </body>
     </html>
   );
