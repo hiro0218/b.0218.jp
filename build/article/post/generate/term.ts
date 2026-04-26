@@ -1,3 +1,4 @@
+import { tagKey } from '@/lib/tag/key';
 import type { Post } from '@/types/source';
 import { writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
@@ -24,7 +25,7 @@ export async function buildTerm(posts: Partial<Post>[]) {
     }
 
     for (const tag of tags) {
-      const normalizedKey = tag.toLowerCase();
+      const normalizedKey = tagKey(tag);
       let entry = tagVariants.get(normalizedKey);
 
       if (!entry) {

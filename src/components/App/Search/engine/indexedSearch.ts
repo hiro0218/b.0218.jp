@@ -4,6 +4,7 @@
  * ビルド時に生成された転置インデックスを利用して、O(1)の検索を実現
  */
 
+import { tagKey } from '@/lib/tag/key';
 import type { SearchResultItem } from '../types';
 import { isEmptyQuery } from '../utils/validation';
 import type { SearchDataPayload } from './searchDataLoader';
@@ -52,7 +53,7 @@ export function initializeSearchEngine(data: SearchDataPayload): void {
   normalizedSearchData = data.searchData.map((item) => ({
     ...item,
     titleLower: item.title.toLowerCase(),
-    tagsLower: item.tags.map((tag) => tag.toLowerCase()),
+    tagsLower: item.tags.map(tagKey),
   }));
   searchDataMap = new Map<string, NormalizedSearchDataItem>(normalizedSearchData.map((item) => [item.slug, item]));
   indexTokenKeys = Object.keys(typedSearchIndex);
