@@ -1,5 +1,6 @@
 import { TAG_VIEW_LIMIT } from '@/constants';
-import { getPostsListJson, getSimilarPosts as getSimilarPostsJson, getSimilarTag, getTagsJson } from '@/lib/data/posts';
+import { getPostsListJson, getSimilarPosts as getSimilarPostsJson } from '@/lib/post/data';
+import { getSimilarTag, getTagsJson } from '@/lib/tag/data';
 import type { ArticleSummary } from '@/types/source';
 
 const LIMIT_TAG_LIST = 10;

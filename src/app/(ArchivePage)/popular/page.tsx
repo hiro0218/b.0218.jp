@@ -5,7 +5,7 @@ import ArticleCard from '@/components/UI/ArticleCard';
 import { Sidebar, Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
-import { getTagCategoriesJson } from '@/lib/data/posts';
+import { getTagCategoriesJson } from '@/lib/tag/data';
 import { getPrimaryCategory } from '@/lib/utils/tagCategory';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 

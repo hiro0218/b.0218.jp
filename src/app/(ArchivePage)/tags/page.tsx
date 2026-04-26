@@ -4,8 +4,8 @@ import { StructuredData } from '@/components/Functional/StructuredData';
 import { TagSection } from '@/components/Page/_shared/TagSection';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
-import { getTagsWithCount } from '@/lib/data/posts';
 import { getWebPageStructured } from '@/lib/domain/json-ld';
+import { getTagsWithCount } from '@/lib/tag/data';
 
 type ListItemProps = Parameters<typeof getWebPageStructured>[0]['listItem'];
 
