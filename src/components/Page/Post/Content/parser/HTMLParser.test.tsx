@@ -58,6 +58,19 @@ describe('parser', () => {
 });
 
 describe('Alert ハンドラ', () => {
+  it('rehypeGfmAlert が出力する <script class="gfm-alert"> から Alert を描画する', () => {
+    const json = JSON.stringify({ type: 'alert', data: { type: 'note', text: 'note body' } });
+    const { container, queryByTestId } = renderParser(
+      `<script class="gfm-alert" type="application/json">${json}</script>`,
+    );
+
+    const alert = queryByTestId('alert');
+    expect(alert).not.toBeNull();
+    expect(alert?.dataset.alertType).toBe('note');
+    expect(alert?.textContent).toBe('note body');
+    expect(container.querySelector('script.gfm-alert')).toBeNull();
+  });
+
   it('class="gfm-alert" と有効な JSON で Alert を描画し元の div を消す', () => {
     const json = JSON.stringify({ type: 'alert', data: { type: 'warning', text: 'warn body' } });
     const { container, queryByTestId } = renderParser(`<div class="gfm-alert">${json}</div>`);

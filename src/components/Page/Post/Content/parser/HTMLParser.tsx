@@ -15,8 +15,12 @@ const mutators: Mutator[] = [handleCodePen];
 
 const replacers: Replacer[] = [handleAnchor, handleAlert, handleLinkPreview, handleTable, handleZoomImage];
 
-const isTagElement = (domNode: unknown): domNode is Element => {
-  return typeof domNode === 'object' && domNode !== null && (domNode as Element).type === 'tag';
+// rehypeGfmAlert は blockquote を <script type="application/json" class="gfm-alert"> に変換するため、
+// htmlparser2 の type が 'script' / 'style' になる要素もハンドラ対象に含める。
+const isReplaceableElement = (domNode: unknown): domNode is Element => {
+  if (typeof domNode !== 'object' || domNode === null) return false;
+  const type = (domNode as Element).type;
+  return type === 'tag' || type === 'script' || type === 'style';
 };
 
 const applyHandlers = (domNode: Element, options: HTMLReactParserOptions) => {
@@ -32,7 +36,7 @@ const applyHandlers = (domNode: Element, options: HTMLReactParserOptions) => {
 
 const reactHtmlParserOptions: HTMLReactParserOptions = {
   replace: (domNode) => {
-    if (!isTagElement(domNode) || !domNode.attribs) {
+    if (!isReplaceableElement(domNode) || !domNode.attribs) {
       return domNode;
     }
 
