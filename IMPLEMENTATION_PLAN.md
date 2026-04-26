@@ -93,12 +93,12 @@ Stage 5 (HTML handler) ← 独立。任意タイミングで並列可
 
 **Commits** (4):
 
-1. `src/lib/tag/key.ts`, `url.ts` 追加 + テスト
-2. indexedSearch / build normalizeTag を `tagKey()` に切替
-3. tagCategory を `src/lib/tag/category.ts` に移動
-4. URL 集約 (`tagUrlPath()` 適用)
+1. `cd0ff98d` `feat(tag): add canonical key and URL helpers`
+2. `c8313f33` `refactor(tag): route equality keys through tagKey` (build/normalizeTag, build/term, indexedSearch)
+3. `bc74002b` `refactor(tag): move category helper into tag domain`
+4. `049fef7c` `refactor(tag): route URL paths through tagUrlPath`
 
-**Status**: Not Started
+**Status**: Complete
 
 ---
 
