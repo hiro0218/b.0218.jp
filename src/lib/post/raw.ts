@@ -40,6 +40,7 @@ export function isValidFrontmatter(value: unknown): value is RawPostFrontmatter 
   const v = value as Record<string, unknown>;
   if (typeof v.title !== 'string' || !v.title.trim()) return false;
   if (typeof v.date !== 'string' && !(v.date instanceof Date)) return false;
+  if (typeof v.date === 'string' && !v.date.trim()) return false;
   if (v.updated !== undefined && typeof v.updated !== 'string' && !(v.updated instanceof Date)) return false;
   if (v.note !== undefined && typeof v.note !== 'string') return false;
   if (v.tags !== undefined && !Array.isArray(v.tags)) return false;

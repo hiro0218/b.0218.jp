@@ -37,6 +37,11 @@ describe('isValidFrontmatter', () => {
     expect(isValidFrontmatter({ title: 'x' })).toBe(false);
   });
 
+  it('date が空文字または空白のみの場合 false を返す', () => {
+    expect(isValidFrontmatter({ title: 'x', date: '' })).toBe(false);
+    expect(isValidFrontmatter({ title: 'x', date: '   ' })).toBe(false);
+  });
+
   it('null は false を返す', () => {
     expect(isValidFrontmatter(null)).toBe(false);
   });
