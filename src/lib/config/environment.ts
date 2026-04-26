@@ -8,7 +8,7 @@ export const isProduction = process.env.NODE_ENV === 'production';
 const rawBuildId = process.env.BUILD_ID;
 
 if (typeof window === 'undefined' && isProduction && !rawBuildId) {
-  throw new Error('[config/environment] BUILD_ID is required in production but was not set.');
+  console.warn('[config/environment] BUILD_ID is not set in production; OGP cache-busting will be disabled.');
 }
 
 export const buildId = rawBuildId ?? '';
