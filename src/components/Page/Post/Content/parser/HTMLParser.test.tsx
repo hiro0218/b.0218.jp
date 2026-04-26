@@ -90,6 +90,29 @@ describe('Alert ハンドラ', () => {
 });
 
 describe('LinkPreview ハンドラ', () => {
+  it('rehype0218 が出力する <script class="link-preview"> から LinkPreview を描画する', () => {
+    const json = JSON.stringify({
+      type: 'link-preview',
+      data: {
+        link: 'https://example.com',
+        card: 'summary',
+        thumbnail: 'thumb.png',
+        title: 'Script-form Example',
+        description: 'desc',
+        domain: 'example.com',
+      },
+    });
+    const { container, queryByTestId } = renderParser(
+      `<script class="link-preview" type="application/json">${json}</script>`,
+    );
+
+    const preview = queryByTestId('link-preview');
+    expect(preview).not.toBeNull();
+    expect(preview?.dataset.link).toBe('https://example.com');
+    expect(preview?.textContent).toBe('Script-form Example');
+    expect(container.querySelector('script.link-preview')).toBeNull();
+  });
+
   it('class="link-preview" と有効な JSON で LinkPreview を描画し元の div を消す', () => {
     const json = JSON.stringify({
       type: 'link-preview',
