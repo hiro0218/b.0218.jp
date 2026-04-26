@@ -24,4 +24,9 @@ describe('tagFromUrlPath', () => {
     const name = 'Vue.js & Nuxt';
     expect(tagFromUrlPath(tagUrlPath(name))).toBe(name);
   });
+
+  it('不正な % エスケープを含む入力は元の文字列をそのまま返す', () => {
+    expect(tagFromUrlPath('100%')).toBe('100%');
+    expect(tagFromUrlPath('%E3%')).toBe('%E3%');
+  });
 });
