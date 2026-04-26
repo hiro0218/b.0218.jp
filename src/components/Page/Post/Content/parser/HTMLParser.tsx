@@ -10,7 +10,6 @@ import {
   type Replacer,
 } from '../handlers';
 
-// mutator は全ノードで無条件に実行され、replacer は最初にマッチしたものでチェーンを打ち切る。
 const mutators: Mutator[] = [handleCodePen];
 
 const replacers: Replacer[] = [handleAnchor, handleAlert, handleLinkPreview, handleTable, handleZoomImage];
