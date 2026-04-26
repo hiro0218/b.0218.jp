@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { FILENAME_PAGES } from '@/constants';
-import { isValidFrontmatter, parseFrontmatter } from '@/lib/post/raw';
+import { isValidFrontmatter, parseFrontmatter, tryToIso } from '@/lib/post/raw';
 import type { Page } from '@/types/source';
 import { writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
@@ -33,11 +33,12 @@ export async function buildPage() {
       const { title, date, updated } = frontmatter;
       const content = await markdownToHtmlString(markdown);
 
+      const updatedIso = tryToIso(updated);
       pages.push({
         title,
         slug: getSlug(file),
-        date: date instanceof Date ? date.toISOString() : date,
-        ...(updated && { updated: new Date(updated).toISOString() }),
+        date: tryToIso(date) ?? '',
+        ...(updatedIso && { updated: updatedIso }),
         content,
       });
     } catch (error) {

@@ -3,7 +3,7 @@ import pLimit from 'p-limit';
 import { FILENAME_POSTS } from '@/constants';
 import { isContentPreview } from '@/lib/config/environment';
 import { convertRawPost } from '@/lib/post/convert';
-import { isValidFrontmatter, parseFrontmatter, type RawPost } from '@/lib/post/raw';
+import { isValidFrontmatter, parseFrontmatter, type RawPost, tryToIso } from '@/lib/post/raw';
 import { isPubliclyVisible } from '@/lib/post/visibility';
 import { mkdir, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
@@ -34,11 +34,8 @@ export async function buildPost() {
       slug: getSlug(file),
       content: markdown,
       title: frontmatter.title.trim(),
-      date: new Date(frontmatter.date).toISOString(),
-      updated:
-        typeof frontmatter.updated === 'string' || frontmatter.updated instanceof Date
-          ? new Date(frontmatter.updated).toISOString()
-          : undefined,
+      date: tryToIso(frontmatter.date) ?? '',
+      updated: tryToIso(frontmatter.updated),
       note: typeof frontmatter.note === 'string' ? frontmatter.note : undefined,
       tags: Array.isArray(frontmatter.tags) ? frontmatter.tags.filter((t): t is string => typeof t === 'string') : [],
       noindex: typeof frontmatter.noindex === 'boolean' ? frontmatter.noindex : undefined,
@@ -52,7 +49,7 @@ export async function buildPost() {
     rawPosts.push(raw);
   }
 
-  // shared so duplicate link-preview fragments hit cache across posts
+  // 投稿間で共有し、重複する link-preview 断片がキャッシュヒットするようにする
   const sharedCache = loadCache();
   const limit = pLimit(POST_CONCURRENCY);
   const markdownToHtml = (md: string, isSimple = false) =>

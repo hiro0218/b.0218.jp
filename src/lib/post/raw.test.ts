@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isValidFrontmatter, parseFrontmatter } from './raw';
+import { isValidFrontmatter, parseFrontmatter, tryToIso } from './raw';
 
 describe('parseFrontmatter', () => {
   it('YAML frontmatter とマークダウン本文を分離する', () => {
@@ -46,16 +46,8 @@ describe('isValidFrontmatter', () => {
     expect(isValidFrontmatter({ title: 'x', date: 'not-a-date' })).toBe(false);
   });
 
-  it('updated が parse 不能な文字列の場合 false を返す', () => {
-    expect(isValidFrontmatter({ title: 'x', date: '2025-01-01', updated: 'not-a-date' })).toBe(false);
-  });
-
-  it('updated が省略されている場合 true を返す', () => {
-    expect(isValidFrontmatter({ title: 'x', date: '2025-01-01' })).toBe(true);
-  });
-
-  it('updated が valid な ISO 文字列の場合 true を返す', () => {
-    expect(isValidFrontmatter({ title: 'x', date: '2025-01-01', updated: '2025-02-01' })).toBe(true);
+  it('updated が parse 不能な文字列でも記事は通過させる（orchestrator が coerce する）', () => {
+    expect(isValidFrontmatter({ title: 'x', date: '2025-01-01', updated: 'not-a-date' })).toBe(true);
   });
 
   it('null は false を返す', () => {
@@ -68,5 +60,31 @@ describe('isValidFrontmatter', () => {
 
   it('オプショナルフィールドが省略されていれば true を返す', () => {
     expect(isValidFrontmatter({ title: 'x', date: '2025-01-01' })).toBe(true);
+  });
+});
+
+describe('tryToIso', () => {
+  it('Date 型の値を ISO 文字列に変換する', () => {
+    expect(tryToIso(new Date('2025-01-02T03:04:05Z'))).toBe('2025-01-02T03:04:05.000Z');
+  });
+
+  it('parse 可能な文字列を ISO 文字列に変換する', () => {
+    expect(tryToIso('2025-01-02')).toBe('2025-01-02T00:00:00.000Z');
+  });
+
+  it('parse 不能な文字列は undefined を返す', () => {
+    expect(tryToIso('not-a-date')).toBeUndefined();
+  });
+
+  it('Invalid Date は undefined を返す', () => {
+    expect(tryToIso(new Date('invalid'))).toBeUndefined();
+  });
+
+  it('undefined / null / number / 空文字は undefined を返す', () => {
+    expect(tryToIso(undefined)).toBeUndefined();
+    expect(tryToIso(null)).toBeUndefined();
+    expect(tryToIso(123)).toBeUndefined();
+    expect(tryToIso('')).toBeUndefined();
+    expect(tryToIso('   ')).toBeUndefined();
   });
 });

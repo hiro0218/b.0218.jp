@@ -35,10 +35,22 @@ export function parseFrontmatter(source: string): { frontmatter: unknown; markdo
   return { frontmatter: result.data, markdown: result.content };
 }
 
-function isParsableDate(value: unknown): boolean {
-  if (value instanceof Date) return !Number.isNaN(value.getTime());
-  if (typeof value === 'string' && value.trim()) return !Number.isNaN(new Date(value).getTime());
-  return false;
+function parseDate(value: unknown): Date | null {
+  if (value instanceof Date) return Number.isNaN(value.getTime()) ? null : value;
+  if (typeof value === 'string' && value.trim()) {
+    const d = new Date(value);
+    return Number.isNaN(d.getTime()) ? null : d;
+  }
+  return null;
+}
+
+/**
+ * 不正な値や parse 不能な文字列を undefined に落として ISO 8601 文字列に正規化する。
+ * `Page.date` のように常に ISO を期待する箇所と、`updated` のように壊れていても
+ * 記事を落としたくない箇所の双方で利用する。
+ */
+export function tryToIso(value: unknown): string | undefined {
+  return parseDate(value)?.toISOString();
 }
 
 /**
@@ -51,7 +63,6 @@ export function isValidFrontmatter(value: unknown): value is RawPostFrontmatter 
   if (typeof value !== 'object' || value === null) return false;
   const v = value as Record<string, unknown>;
   if (typeof v.title !== 'string' || !v.title.trim()) return false;
-  if (!isParsableDate(v.date)) return false;
-  if (v.updated !== undefined && !isParsableDate(v.updated)) return false;
+  if (parseDate(v.date) === null) return false;
   return true;
 }
