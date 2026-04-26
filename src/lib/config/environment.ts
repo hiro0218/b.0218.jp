@@ -12,3 +12,6 @@ if (typeof window === 'undefined' && isProduction && !rawBuildId) {
 }
 
 export const buildId = rawBuildId ?? '';
+
+/** Build-time flag (IS_DEVELOPMENT env): include future-dated posts in the output. */
+export const isContentPreview = Boolean(process.env.IS_DEVELOPMENT);
