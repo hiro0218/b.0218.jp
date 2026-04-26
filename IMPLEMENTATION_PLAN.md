@@ -117,12 +117,12 @@ Stage 5 (HTML handler) ← 独立。任意タイミングで並列可
 
 **Commits** (4):
 
-1. 型定義 (RawPostFrontmatter / RawPost) を `src/lib/post/raw.ts` に
-2. `isPubliclyVisible` 抽出 + `IS_DEVELOPMENT` を config に統合
-3. `convertRawPost` を `src/lib/post/convert.ts` に抽出
-4. `buildPost` を新モジュール群を呼ぶ形に整理
+1. `0989b08d` `feat(post): add RawPost types and frontmatter parsing`
+2. `87f46845` `feat(post): extract publicly-visible filter with injected context`
+3. `0b9cf7e2` `feat(post): extract RawPost to Post conversion with injected converter`
+4. `23518134` `refactor(build): rebuild buildPost on top of post conversion modules`
 
-**Status**: Not Started
+**Status**: Complete
 
 ---
 
