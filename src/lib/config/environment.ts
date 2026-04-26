@@ -1,8 +1,5 @@
 /**
- * Application environment constants.
- *
- * Place only public-safe values here. For server-only secrets,
- * create a separate `src/lib/config/server-only.ts` module.
+ * Public-safe environment constants. Do not place server-only secrets here.
  */
 
 export const isDevelopment = process.env.NODE_ENV === 'development';
