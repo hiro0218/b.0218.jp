@@ -19,7 +19,6 @@ const POST_CONCURRENCY = 4;
 export async function buildPost() {
   const files = await getMarkdownFiles(`${PATH.from}/_posts`, 1);
 
-  // Phase 1: parse, validate, and filter by visibility
   const rawPosts: RawPost[] = [];
   const visibilityCtx = { now: new Date(), isContentPreview };
 
@@ -34,8 +33,8 @@ export async function buildPost() {
       title: frontmatter.title.trim(),
       date: new Date(frontmatter.date).toISOString(),
       updated: frontmatter.updated ? new Date(frontmatter.updated).toISOString() : undefined,
-      note: typeof frontmatter.note === 'string' ? frontmatter.note : undefined,
-      tags: frontmatter.tags || [],
+      note: frontmatter.note,
+      tags: frontmatter.tags ?? [],
       noindex: frontmatter.noindex,
     };
 
@@ -44,7 +43,7 @@ export async function buildPost() {
     rawPosts.push(raw);
   }
 
-  // Phase 2: parallel Markdown -> HTML conversion (cache shared across posts)
+  // shared so duplicate link-preview fragments hit cache across posts
   const sharedCache = loadCache();
   const limit = pLimit(POST_CONCURRENCY);
   const markdownToHtml = (md: string, isSimple = false) =>

@@ -34,11 +34,15 @@ export function parseFrontmatter(source: string): { frontmatter: unknown; markdo
   return { frontmatter: result.data, markdown: result.content };
 }
 
-/** Type guard: required frontmatter fields are present and well-typed. */
+/** Type guard: required and optional frontmatter fields are well-typed. */
 export function isValidFrontmatter(value: unknown): value is RawPostFrontmatter {
   if (typeof value !== 'object' || value === null) return false;
   const v = value as Record<string, unknown>;
   if (typeof v.title !== 'string' || !v.title.trim()) return false;
   if (typeof v.date !== 'string' && !(v.date instanceof Date)) return false;
+  if (v.updated !== undefined && typeof v.updated !== 'string' && !(v.updated instanceof Date)) return false;
+  if (v.note !== undefined && typeof v.note !== 'string') return false;
+  if (v.tags !== undefined && !Array.isArray(v.tags)) return false;
+  if (v.noindex !== undefined && typeof v.noindex !== 'boolean') return false;
   return true;
 }

@@ -40,4 +40,20 @@ describe('isValidFrontmatter', () => {
   it('null は false を返す', () => {
     expect(isValidFrontmatter(null)).toBe(false);
   });
+
+  it('note が文字列以外の場合 false を返す', () => {
+    expect(isValidFrontmatter({ title: 'x', date: '2025-01-01', note: 123 })).toBe(false);
+  });
+
+  it('tags が配列以外の場合 false を返す', () => {
+    expect(isValidFrontmatter({ title: 'x', date: '2025-01-01', tags: 'react' })).toBe(false);
+  });
+
+  it('noindex が boolean 以外の場合 false を返す', () => {
+    expect(isValidFrontmatter({ title: 'x', date: '2025-01-01', noindex: 'true' })).toBe(false);
+  });
+
+  it('オプショナルフィールドが省略されていれば true を返す', () => {
+    expect(isValidFrontmatter({ title: 'x', date: '2025-01-01' })).toBe(true);
+  });
 });

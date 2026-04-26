@@ -14,17 +14,14 @@ export async function convertRawPost(raw: RawPost, deps: ConvertRawPostDeps): Pr
   const content = (await deps.markdownToHtml(raw.content, false)).trim();
   const noteContent = raw.note ? await deps.markdownToHtml(raw.note, true) : '';
 
-  const post: Post = {
+  return {
     title: raw.title,
     slug: raw.slug,
     date: raw.date,
     content,
     tags: raw.tags,
     noindex: raw.noindex,
+    ...(raw.updated && { updated: raw.updated }),
+    ...(noteContent && { note: noteContent }),
   };
-
-  if (raw.updated) post.updated = raw.updated;
-  if (noteContent) post.note = noteContent;
-
-  return post;
 }
