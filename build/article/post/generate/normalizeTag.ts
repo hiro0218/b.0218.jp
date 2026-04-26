@@ -80,7 +80,7 @@ export function buildTagNormalizationMap(posts: Partial<Post>[]): Map<string, st
  */
 export function normalizeTags(tags: string[], normalizationMap: Map<string, string>): string[] {
   return tags.map((tag) => {
-    const normalizedKey = tag.toLowerCase();
+    const normalizedKey = tagKey(tag);
     return normalizationMap.get(normalizedKey) || tag;
   });
 }

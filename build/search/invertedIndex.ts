@@ -1,4 +1,5 @@
 import type { IpadicFeatures, Tokenizer } from 'kuromoji';
+import { tagKey } from '@/lib/tag/key';
 import type { PostSummary } from '@/types/source';
 import * as Log from '~/tools/logger';
 import { tokenizeText } from './tokenizer';
@@ -77,7 +78,7 @@ export function generateSearchIndex(
       }
 
       // タグは完全一致検索用に正規化した形でも登録
-      const normalizedTags = new Set(post.tags.map((tag) => tag.toLowerCase().trim()));
+      const normalizedTags = new Set(post.tags.map((tag) => tagKey(tag).trim()));
 
       for (const normalizedTag of normalizedTags) {
         addToIndex(normalizedTag, post.slug);
