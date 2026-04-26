@@ -55,6 +55,13 @@ describe('parser', () => {
     const section = container.querySelector('section[data-foo="bar"]');
     expect(section?.querySelector('span')?.textContent).toBe('x');
   });
+
+  it('CodePen iframe の firstChild テキストを CodePen に書き換える', () => {
+    const html =
+      '<iframe src="https://codepen.io/foo/embed/x" title="t">See the Pen &#x3C;a href="https://codepen.io/foo/pen/x">title&#x3C;/a></iframe>';
+    const result = parser(html);
+    expect(JSON.stringify(result)).toContain('"children":"CodePen"');
+  });
 });
 
 describe('Alert ハンドラ', () => {
