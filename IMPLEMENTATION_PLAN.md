@@ -142,11 +142,11 @@ Stage 5 (HTML handler) ← 独立。任意タイミングで並列可
 
 **Commits** (3):
 
-1. handlers を mutators / replacers に分類（振る舞い変更ゼロ、配列は未導入）
-2. 順序を declarative array に昇格（振る舞い変更ゼロ）
-3. テスト追加
+1. `5dbf5f1c` `refactor(parser): split node handlers into mutators and replacers`
+2. `44af64e2` `refactor(parser): drive applyHandlers from declarative arrays`
+3. `221efcfa` `test(parser): cover end-to-end dispatch and Alert/LinkPreview paths`
 
-**Status**: Not Started
+**Status**: Complete
 
 ---
 
