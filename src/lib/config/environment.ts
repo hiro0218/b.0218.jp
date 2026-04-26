@@ -1,5 +1,6 @@
 /**
- * Public-safe environment constants. Do not place server-only secrets here.
+ * クライアント露出が許される環境変数の集約モジュール。
+ * サーバ専用シークレットはここに置かない。
  */
 
 export const isDevelopment = process.env.NODE_ENV === 'development';
@@ -13,5 +14,5 @@ if (typeof window === 'undefined' && isProduction && !rawBuildId) {
 
 export const buildId = rawBuildId ?? '';
 
-/** Build-time flag (IS_DEVELOPMENT env): include future-dated posts in the output. */
+/** 環境変数 IS_DEVELOPMENT に対応するビルド時フラグ。未来日付の記事を出力に含める。 */
 export const isContentPreview = Boolean(process.env.IS_DEVELOPMENT);

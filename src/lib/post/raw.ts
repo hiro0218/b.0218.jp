@@ -1,8 +1,8 @@
 import matter from 'gray-matter';
 
 /**
- * Frontmatter shape after gray-matter parses a markdown file.
- * `date` and `updated` may be either an ISO string or a parsed Date depending on YAML.
+ * gray-matter で markdown を parse した直後の frontmatter 形状。
+ * `date` と `updated` は YAML 表記によって ISO 文字列または Date のどちらにもなり得る。
  */
 export type RawPostFrontmatter = {
   title: string;
@@ -14,8 +14,9 @@ export type RawPostFrontmatter = {
 };
 
 /**
- * Validated, slug-bound, ISO-dated input for the markdown -> Post conversion.
- * `content` is the raw markdown body; HTML conversion has not happened yet.
+ * markdown -> Post 変換に渡す中間表現。
+ * 検証済みの frontmatter に slug を割り当て、日付を ISO 文字列に正規化したもの。
+ * `content` は markdown 本文（HTML 変換前）。
  */
 export type RawPost = {
   slug: string;
@@ -28,7 +29,7 @@ export type RawPost = {
   noindex?: boolean;
 };
 
-/** Parse a markdown source into frontmatter (unvalidated) and body. */
+/** markdown ソースを frontmatter（未検証）と本文に分離する。 */
 export function parseFrontmatter(source: string): { frontmatter: unknown; markdown: string } {
   const result = matter(source);
   return { frontmatter: result.data, markdown: result.content };
@@ -41,10 +42,10 @@ function isParsableDate(value: unknown): boolean {
 }
 
 /**
- * Type guard: required title and date are well-typed.
- * Optional fields (updated/note/tags/noindex) are accepted regardless of
- * runtime shape; the orchestrator coerces them defensively so a quirky YAML
- * value never silently drops a post.
+ * 型ガード: 必須の title と date が妥当であることを保証する。
+ * オプショナルなフィールド（updated/note/tags/noindex）は実行時の形を問わず
+ * 受け入れ、orchestrator 側で防御的に coerce する。これにより quirky な YAML
+ * で記事が silently に dist から落ちることを避ける。
  */
 export function isValidFrontmatter(value: unknown): value is RawPostFrontmatter {
   if (typeof value !== 'object' || value === null) return false;
