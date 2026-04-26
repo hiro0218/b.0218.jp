@@ -67,7 +67,7 @@ export default async function Page({ params }: { params: Params }) {
         <Title paragraph={`${totalItems}件の記事`}>{pageTitle}</Title>
         <Sidebar>
           <Sidebar.Side>
-            <Sidebar.Title>{decodedSlug}</Sidebar.Title>
+            <Sidebar.Title>#{decodedSlug}</Sidebar.Title>
           </Sidebar.Side>
           <Sidebar.Main>
             <Stack>
