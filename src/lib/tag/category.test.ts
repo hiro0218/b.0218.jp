@@ -1,6 +1,6 @@
 import type { TagCategoryMap } from '@/types/source';
 
-import { getPrimaryCategory } from './tagCategory';
+import { getPrimaryCategory } from './category';
 
 const categoryMap: TagCategoryMap = {
   react: 'development',

@@ -4,8 +4,8 @@ import ArticleCard from '@/components/UI/ArticleCard';
 import Heading from '@/components/UI/Heading';
 import { Grid, Stack } from '@/components/UI/Layout';
 import { LinkMore } from '@/components/UI/LinkMore';
+import { getPrimaryCategory } from '@/lib/tag/category';
 import { getTagCategoriesJson } from '@/lib/tag/data';
-import { getPrimaryCategory } from '@/lib/utils/tagCategory';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { ArticleSummary, PostSummary } from '@/types/source';
 
