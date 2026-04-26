@@ -13,6 +13,7 @@ import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
 import { isProduction } from '@/lib/config/environment';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
 import { getTagsWithCount } from '@/lib/tag/data';
+import { tagFromUrlPath, tagUrlPath } from '@/lib/tag/url';
 
 type Params = Promise<{ slug: string }>;
 
@@ -25,13 +26,13 @@ export async function generateStaticParams() {
     .filter((tag) => tag.count >= TAG_VIEW_LIMIT)
     .map((tag) => ({
       // @note https://github.com/vercel/next.js/issues/63002
-      slug: isProduction ? tag.slug : encodeURIComponent(tag.slug),
+      slug: isProduction ? tag.slug : tagUrlPath(tag.slug),
     }));
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
-  const decodedSlug = decodeURIComponent(slug);
+  const decodedSlug = tagFromUrlPath(slug);
   const title = `Tag: ${decodedSlug}`;
 
   return getMetadata({
@@ -43,7 +44,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 
 export default async function Page({ params }: { params: Params }) {
   const { slug } = await params;
-  const decodedSlug = decodeURIComponent(slug);
+  const decodedSlug = tagFromUrlPath(slug);
   const posts = getTagPosts(decodedSlug);
 
   if (!posts) {

@@ -6,6 +6,7 @@ import { Title } from '@/components/UI/Title';
 import { SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
 import { getWebPageStructured } from '@/lib/domain/json-ld';
 import { getTagsWithCount } from '@/lib/tag/data';
+import { tagFromUrlPath, tagUrlPath } from '@/lib/tag/url';
 
 type ListItemProps = Parameters<typeof getWebPageStructured>[0]['listItem'];
 
@@ -20,8 +21,8 @@ const url = `${SITE_URL}/tags`;
 const listItem: ListItemProps = tags.slice(0, 20).map(({ slug }, i) => ({
   '@type': 'ListItem',
   position: i + 1,
-  name: decodeURIComponent(slug),
-  url: `${url}/${encodeURIComponent(slug)}`,
+  name: tagFromUrlPath(slug),
+  url: `${url}/${tagUrlPath(slug)}`,
 }));
 
 export const metadata: Metadata = getMetadata({
