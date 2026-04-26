@@ -25,20 +25,29 @@ export async function buildPost() {
   for (const file of files) {
     const source = readFileSync(`${PATH.from}/_posts/${file}`, 'utf-8');
     const { frontmatter, markdown } = parseFrontmatter(source);
-    if (!isValidFrontmatter(frontmatter)) continue;
+    if (!isValidFrontmatter(frontmatter)) {
+      Log.info(`Skip post with invalid frontmatter: ${file}`);
+      continue;
+    }
 
     const raw: RawPost = {
       slug: getSlug(file),
       content: markdown,
       title: frontmatter.title.trim(),
       date: new Date(frontmatter.date).toISOString(),
-      updated: frontmatter.updated ? new Date(frontmatter.updated).toISOString() : undefined,
-      note: frontmatter.note,
-      tags: frontmatter.tags ?? [],
-      noindex: frontmatter.noindex,
+      updated:
+        typeof frontmatter.updated === 'string' || frontmatter.updated instanceof Date
+          ? new Date(frontmatter.updated).toISOString()
+          : undefined,
+      note: typeof frontmatter.note === 'string' ? frontmatter.note : undefined,
+      tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
+      noindex: typeof frontmatter.noindex === 'boolean' ? frontmatter.noindex : undefined,
     };
 
-    if (!isPubliclyVisible(raw, visibilityCtx)) continue;
+    if (!isPubliclyVisible(raw, visibilityCtx)) {
+      Log.info(`Skip future-dated post: ${file}`);
+      continue;
+    }
 
     rawPosts.push(raw);
   }
