@@ -17,9 +17,9 @@
 
 @import 'shokika.css' layer(reset);
 
-@import './reset' layer(reset);
-@import './tools'; /* Mixins - ビルド時に処理されるためレイヤー指定不要 */
-@import './base' layer(base);
-@import './vendor' layer(vendor);
-@import './components' layer(components);
-@import './utilities' layer(utilities);
+@import './reset/index.css' layer(reset);
+@import './tools/index.css'; /* Mixins - ビルド時に処理されるためレイヤー指定不要 */
+@import './base/index.css' layer(base);
+@import './vendor/index.css' layer(vendor);
+@import './components/index.css' layer(components);
+@import './utilities/index.css' layer(utilities);

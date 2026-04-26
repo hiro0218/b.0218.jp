@@ -1,5 +1,5 @@
-@import './post-content';
-@import './data-footnotes';
-@import './data-mokuji-anchor';
-@import './data-sandbox';
-@import './table-scrollable';
+@import './post-content/index.css';
+@import './data-footnotes.css';
+@import './data-mokuji-anchor.css';
+@import './data-sandbox.css';
+@import './table-scrollable.css';
