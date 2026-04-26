@@ -19,7 +19,7 @@ vi.mock('@/components/Page/Post/LinkPreview', () => ({
   ),
 }));
 
-const { parser } = await import('./HTMLParser');
+import { parser } from './HTMLParser';
 
 const renderParser = (html: string) => render(<div>{parser(html)}</div>);
 

@@ -10,6 +10,7 @@ import {
   type Replacer,
 } from '../handlers';
 
+// mutators run unconditionally on every node; replacers short-circuit on the first match.
 const mutators: Mutator[] = [handleCodePen];
 
 const replacers: Replacer[] = [handleAnchor, handleAlert, handleLinkPreview, handleTable, handleZoomImage];
