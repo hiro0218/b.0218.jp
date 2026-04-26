@@ -38,7 +38,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return getMetadata({
     title,
     description: `${title} - ${SITE_NAME}`,
-    url: `${SITE_URL}/tags/${tagUrlPath(decodedSlug)}`,
+    // canonical URL は実際のページ URL（generateStaticParams が産出する raw slug）と
+    // 一致させる必要があるため、エンコードせずそのまま使う。sitemap.ts:49 も同形式。
+    url: `${SITE_URL}/tags/${slug}`,
   });
 }
 
