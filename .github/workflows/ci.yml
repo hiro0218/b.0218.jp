@@ -237,11 +237,18 @@ jobs:
         if: success() && github.event.number
         run: |
           if [ -f .next/analyze/__bundle_analysis_comment.txt ]; then
-            echo "body<<EOF" >> $GITHUB_OUTPUT
-            cat .next/analyze/__bundle_analysis_comment.txt >> $GITHUB_OUTPUT
-            echo EOF >> $GITHUB_OUTPUT
+            # GitHub Actions の heredoc は閉じ delimiter が単独行で出現する必要がある。
+            # ファイル末尾に改行が無いと "[content]EOF" になり parse 失敗するため明示的に補う。
+            # 同時に content 中の "EOF" 衝突を避けるためランダム delimiter を使う。
+            delimiter="GHA_BODY_$(openssl rand -hex 8)"
+            {
+              echo "body<<${delimiter}"
+              cat .next/analyze/__bundle_analysis_comment.txt
+              printf '\n'
+              echo "${delimiter}"
+            } >> "$GITHUB_OUTPUT"
           else
-            echo "body=Base bundle not available; skipped comparison." >> $GITHUB_OUTPUT
+            echo "body=Base bundle not available; skipped comparison." >> "$GITHUB_OUTPUT"
           fi
 
       - name: Comment
