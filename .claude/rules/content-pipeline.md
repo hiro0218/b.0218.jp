@@ -36,5 +36,5 @@ paths:
 
 ## 編集可能/不可
 
-- ✅ `build/**/*`, `scripts/prebuild.sh`, `src/lib/data/posts.ts`, `src/app/**/page.tsx`
+- ✅ `build/**/*`, `scripts/prebuild.sh`, `src/lib/post/`, `src/lib/tag/`, `src/lib/page/`, `src/app/**/page.tsx`
 - ❌ `_article/_posts/*.md`, 生成された JSON, 生成された OGP 画像
