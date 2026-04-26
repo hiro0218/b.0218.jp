@@ -42,6 +42,22 @@ describe('isValidFrontmatter', () => {
     expect(isValidFrontmatter({ title: 'x', date: '   ' })).toBe(false);
   });
 
+  it('date が parse 不能な文字列の場合 false を返す', () => {
+    expect(isValidFrontmatter({ title: 'x', date: 'not-a-date' })).toBe(false);
+  });
+
+  it('updated が parse 不能な文字列の場合 false を返す', () => {
+    expect(isValidFrontmatter({ title: 'x', date: '2025-01-01', updated: 'not-a-date' })).toBe(false);
+  });
+
+  it('updated が省略されている場合 true を返す', () => {
+    expect(isValidFrontmatter({ title: 'x', date: '2025-01-01' })).toBe(true);
+  });
+
+  it('updated が valid な ISO 文字列の場合 true を返す', () => {
+    expect(isValidFrontmatter({ title: 'x', date: '2025-01-01', updated: '2025-02-01' })).toBe(true);
+  });
+
   it('null は false を返す', () => {
     expect(isValidFrontmatter(null)).toBe(false);
   });

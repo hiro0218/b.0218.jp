@@ -40,7 +40,7 @@ export async function buildPost() {
           ? new Date(frontmatter.updated).toISOString()
           : undefined,
       note: typeof frontmatter.note === 'string' ? frontmatter.note : undefined,
-      tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
+      tags: Array.isArray(frontmatter.tags) ? frontmatter.tags.filter((t): t is string => typeof t === 'string') : [],
       noindex: typeof frontmatter.noindex === 'boolean' ? frontmatter.noindex : undefined,
     };
 
