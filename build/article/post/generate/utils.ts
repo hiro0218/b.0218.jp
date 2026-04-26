@@ -34,11 +34,3 @@ export const isAgentFile = (filename: string): boolean => {
   const upperFilename = filename.toUpperCase();
   return agentFiles.some((pattern) => upperFilename === pattern.toUpperCase());
 };
-
-/**
- * 必須フロントマターフィールドの存在を検証
- */
-// biome-ignore lint/suspicious/noExplicitAny: gray-matter returns any type for frontmatter data
-export const hasRequiredFrontmatter = (data: any): boolean => {
-  return !!(data?.title?.trim() && data?.date);
-};
