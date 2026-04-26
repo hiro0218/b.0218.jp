@@ -1,10 +1,11 @@
 import { Text } from 'html-react-parser';
-import type { HandlerFunction } from './types';
+import type { Mutator } from './types';
 
 /**
- * CodePenのiframeを処理し、ハイドレーション時のエスケープ文字不一致を防止する
+ * CodePen の iframe を検出して firstChild のテキストを埋め、
+ * ハイドレーション時のエスケープ文字不一致を防ぐ。
  */
-export const handleCodePen: HandlerFunction = (domNode) => {
+export const handleCodePen: Mutator = (domNode) => {
   const isCodePenIframe =
     domNode.tagName === 'iframe' &&
     typeof domNode.attribs?.src === 'string' &&
@@ -13,10 +14,6 @@ export const handleCodePen: HandlerFunction = (domNode) => {
   const firstChild = domNode.children[0];
 
   if (isCodePenIframe && firstChild instanceof Text) {
-    // ハイドレーション時にエスケープ文字が不一致しない場合があるため埋める
     firstChild.data = 'CodePen';
   }
-
-  // 元のDOMノードを使用するため、undefinedを返す
-  return undefined;
 };

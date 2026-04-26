@@ -1,11 +1,11 @@
 import { type DOMNode, domToReact } from 'html-react-parser';
 import { toSafeProps } from './attribs';
-import type { HandlerFunction } from './types';
+import type { Replacer } from './types';
 
 /**
  * tableタグを<div class="c-table-scrollable">で包括する
  */
-export const handleTable: HandlerFunction = (domNode, options) => {
+export const handleTable: Replacer = (domNode, options) => {
   if (domNode.name !== 'table') {
     return undefined;
   }

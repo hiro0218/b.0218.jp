@@ -1,14 +1,14 @@
 import type { Element } from 'html-react-parser';
 import { ZoomImage } from '@/components/UI/ZoomImage';
 import { toSafeProps } from '../attribs';
-import type { HandlerFunction } from '../types';
+import type { Replacer } from '../types';
 
 /**
  * img タグを ZoomImage に変換するハンドラー
  *
  * @remarks リンク（aタグ）内の画像は変換しない
  */
-export const handleZoomImage: HandlerFunction = (domNode) => {
+export const handleZoomImage: Replacer = (domNode) => {
   if (domNode.tagName !== 'img') {
     return undefined;
   }

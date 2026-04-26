@@ -6,11 +6,12 @@ const isTagElement = (domNode: unknown): domNode is Element => {
 };
 
 const applyHandlers = (domNode: Element, options: HTMLReactParserOptions) => {
+  handleCodePen(domNode);
+
   return (
     handleAnchor(domNode, options) ||
     handleAlert(domNode, options) ||
     handleLinkPreview(domNode, options) ||
-    handleCodePen(domNode, options) ||
     handleTable(domNode, options) ||
     handleZoomImage(domNode, options) ||
     domNode

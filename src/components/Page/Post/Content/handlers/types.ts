@@ -1,6 +1,8 @@
 import type { Element, HTMLReactParserOptions } from 'html-react-parser';
 import type { ReactElement } from 'react';
 
-export type HandlerReturn = ReactElement | Element | null | undefined;
+/** Handler that mutates a DOM node in place; the chain continues regardless. */
+export type Mutator = (domNode: Element) => void;
 
-export type HandlerFunction = (domNode: Element, options?: HTMLReactParserOptions) => HandlerReturn;
+/** Handler that produces a replacement React element, or undefined to defer to the next handler. */
+export type Replacer = (domNode: Element, options: HTMLReactParserOptions) => ReactElement | undefined;
