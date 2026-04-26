@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return getMetadata({
     title,
     description: `${title} - ${SITE_NAME}`,
-    url: `${SITE_URL}/tags/${slug}`,
+    url: `${SITE_URL}/tags/${tagUrlPath(decodedSlug)}`,
   });
 }
 
