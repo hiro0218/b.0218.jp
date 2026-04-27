@@ -12,7 +12,7 @@ import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
 import { isProduction } from '@/lib/config/environment';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
-import { getTagsWithCount } from '@/lib/tag/data';
+import { getTagsWithCount } from '@/lib/source/tag';
 import { tagFromUrlPath, tagUrlPath } from '@/lib/tag/url';
 
 type Params = Promise<{ slug: string }>;

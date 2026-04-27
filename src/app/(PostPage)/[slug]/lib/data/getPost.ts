@@ -1,6 +1,6 @@
 import { TAG_VIEW_LIMIT } from '@/constants';
 import { getPostBySlug } from '@/lib/source/post';
-import { getTagsWithCount } from '@/lib/tag/data';
+import { getTagsWithCount } from '@/lib/source/tag';
 import type { Post } from '@/types/source';
 
 const tagDataWithCount = getTagsWithCount();

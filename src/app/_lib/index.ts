@@ -2,7 +2,7 @@ import { recentPosts } from '@/app/_lib/cachedRecentPosts';
 import { getFilteredPosts } from '@/app/_lib/getFilteredPosts';
 import { getPopularPost } from '@/app/_lib/getPopularPost';
 import { TAG_VIEW_LIMIT } from '@/constants';
-import { getTagsWithCount } from '@/lib/tag/data';
+import { getTagsWithCount } from '@/lib/source/tag';
 
 import { IGNORE_TAGS, POPULAR_POST_DISPLAY_LIMIT } from './constants';
 

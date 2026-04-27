@@ -12,7 +12,8 @@ import type {
 } from 'schema-dts';
 
 import { AUTHOR_ICON, AUTHOR_NAME, SITE_NAME, SITE_URL, URL } from '@/constants';
-import { getTagCategoriesJson, getTagsWithCount } from '@/lib/tag/data';
+import { getTagsWithCount } from '@/lib/source/tag';
+import { getTagCategoriesJson } from '@/lib/tag/derived';
 import type { PopularityDetail, Post } from '@/types/source';
 
 import { convertToISO8601WithTimezone } from '../utils/date';
