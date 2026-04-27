@@ -1,5 +1,5 @@
 import { getDateAndUpdatedToSimpleFormat } from '@/app/_lib/getDateAndUpdatedToSimpleFormat';
-import type { getPostsListJson } from '@/lib/post/data';
+import type { getPostsListJson } from '@/lib/source/post';
 import type { ArchivesByYear, PostSummary } from '@/types/source';
 
 const getYear = (date: PostSummary['date']) => Number(date.slice(0, 4));

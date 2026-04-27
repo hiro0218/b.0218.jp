@@ -1,4 +1,5 @@
-import { type getPostsListJson, getPostsPopular } from '@/lib/post/data';
+import { getPostsPopular } from '@/lib/post/derived';
+import type { getPostsListJson } from '@/lib/source/post';
 import type { PostSummary } from '@/types/source';
 import { IGNORE_SLUGS } from './constants';
 import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';

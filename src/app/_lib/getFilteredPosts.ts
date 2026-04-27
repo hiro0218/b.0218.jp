@@ -1,4 +1,4 @@
-import { getPostsListJson } from '@/lib/post/data';
+import { getPostsListJson } from '@/lib/source/post';
 import type { PostSummary } from '@/types/source';
 import { IGNORE_TAGS } from './constants';
 

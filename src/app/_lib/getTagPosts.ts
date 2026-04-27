@@ -1,4 +1,4 @@
-import { getPostsListJson } from '@/lib/post/data';
+import { getPostsListJson } from '@/lib/source/post';
 import { getTagsJson } from '@/lib/tag/data';
 import type { Page } from '@/types/source';
 import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';

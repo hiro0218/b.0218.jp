@@ -1,7 +1,7 @@
 import { cache } from 'react';
 import { recentPosts as cachedRecentPosts } from '@/app/_lib/cachedRecentPosts';
 import { isPost } from '@/lib/guards';
-import { getPostsPopular } from '@/lib/post/data';
+import { getPostsPopular } from '@/lib/post/derived';
 import type { ArticleSummary, PopularityDetail } from '@/types/source';
 import { getPost, getPostsByTag, getSimilarPosts, getSimilarTags, getTagsWithCountFromSlugs } from '../data';
 import { formatPostData, formatSimilarPosts, getAlternativePosts } from '../utils';

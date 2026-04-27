@@ -17,7 +17,7 @@ import { Container } from '@/components/UI/Layout/Container';
 import { AUTHOR_NAME } from '@/constants';
 import { buildId } from '@/lib/config/environment';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/domain/json-ld';
-import { getPostsListJson } from '@/lib/post/data';
+import { getPostsListJson } from '@/lib/source/post';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';
 import { getPostPageData } from './lib/services';
 

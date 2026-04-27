@@ -1,6 +1,7 @@
-import { getPostsJson } from '@/lib/post/data';
+import type { Post } from '@/types/source';
 import { mkdir, writeFile } from '~/tools/fs';
 import * as Log from '~/tools/logger';
+import { readAllPosts } from '../shared/readAllPosts';
 import { getPath } from './post/generate/utils';
 
 const PATH = getPath();
@@ -19,7 +20,7 @@ const REGEX_ASCII_SYMBOL = /[\.\,\!\?\(\)\[\]\{\}\<\>]/;
  * titleとcontentの文字列を抽出し、<code>と</code>の間の文字を除外して重複しない文字のみを含む文字列を生成する関数
  * @returns 重複しない文字だけを含む文字列
  */
-function extractUniqueChars(data: { title: string; content: string }[]): string {
+function extractUniqueChars(data: Post[]): string {
   const uniqueCharsSet = new Set<string>();
 
   // 数字 (0-9): U+0030 - U+0039
@@ -153,7 +154,7 @@ function getCharPriority(char: string): number {
 }
 
 (async () => {
-  const data = getPostsJson();
+  const data = readAllPosts();
   const uniqueStrings = extractUniqueChars(data);
   const file = `export default ${JSON.stringify(uniqueStrings)};`;
 

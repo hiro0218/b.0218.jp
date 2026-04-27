@@ -8,7 +8,7 @@ import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
-import { getPostsListJson } from '@/lib/post/data';
+import { getPostsListJson } from '@/lib/source/post';
 import { getData } from './_lib';
 
 const posts = getPostsListJson();
