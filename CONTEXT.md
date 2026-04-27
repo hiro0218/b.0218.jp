@@ -24,6 +24,11 @@
 
 - **Page** — 非記事の固定ページ（about、privacy、search など）。Post とは区別する。
 
+### Source
+
+- **Source** — runtime が dist の永続化データを取得する seam。Post Source / Tag Source / Page Source の 3 つにドメインごとに分かれる。各 Source は dist の読み込み・キャッシュ・検証（slug pattern、ISO 日付、RawPost と Post の型区別など）を内部で完結させ、呼び出し側にはドメイン型（Post / PostSummary / Tag / TagCounts / Page）だけを返す。
+- 派生データ（PostPopularityScores、PostSimilarityMatrix、TagSimilarityScores、TagCategoryMap、検索インデックス）は Source の対象外。これらは追加ドメイン規則を持たない単なる dist 成果物として、必要な箇所で個別に load する。
+
 ## パイプライン
 
 ```

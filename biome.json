@@ -205,6 +205,26 @@
           }
         }
       }
+    },
+    {
+      "includes": ["src/lib/**/*.{ts,tsx}", "!src/lib/source/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["@/lib/source/internal/*", "@/lib/source/internal/**"],
+                    "message": "Source の internal は src/lib/source/ 内からのみ import 可能です。Source の公開 interface を経由してください"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   ]
 }
