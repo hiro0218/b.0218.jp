@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { FILENAME_POSTS } from '@/constants';
-import { isPost, isPostSummaryArray } from '@/lib/guards';
+import { isObject } from '@/lib/utils/isObject';
 import type { Post, PostSummary } from '@/types/source';
 import postsListData from '~/dist/posts-list.json';
 import { createEagerSource } from './internal/eagerSource';
@@ -8,6 +8,31 @@ import { createLazyLoader } from './internal/lazyLoader';
 
 const VALID_SLUG_PATTERN = /^[\w-]+$/;
 const POSTS_DIR = path.join(process.cwd(), 'dist', FILENAME_POSTS);
+
+function isPost(value: unknown): value is Post {
+  if (!isObject(value)) return false;
+  return (
+    typeof value.title === 'string' &&
+    typeof value.slug === 'string' &&
+    typeof value.date === 'string' &&
+    typeof value.content === 'string' &&
+    Array.isArray(value.tags)
+  );
+}
+
+function isPostSummary(value: unknown): value is PostSummary {
+  if (!isObject(value)) return false;
+  return (
+    typeof value.title === 'string' &&
+    typeof value.slug === 'string' &&
+    typeof value.date === 'string' &&
+    Array.isArray(value.tags)
+  );
+}
+
+function isPostSummaryArray(value: unknown): value is PostSummary[] {
+  return Array.isArray(value) && value.every(isPostSummary);
+}
 
 const postLoader = createLazyLoader<Post>({
   baseDir: POSTS_DIR,
