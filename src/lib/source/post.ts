@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { FILENAME_POSTS } from '@/constants';
 import { isObject } from '@/lib/utils/isObject';
+import { isStringArray } from '@/lib/utils/isStringArray';
 import type { Post, PostSummary } from '@/types/source';
 import postsListData from '~/dist/posts-list.json';
 import { createEagerSource } from './internal/eagerSource';
@@ -16,7 +17,10 @@ function isPost(value: unknown): value is Post {
     typeof value.slug === 'string' &&
     typeof value.date === 'string' &&
     typeof value.content === 'string' &&
-    Array.isArray(value.tags)
+    isStringArray(value.tags) &&
+    (value.updated === undefined || typeof value.updated === 'string') &&
+    (value.note === undefined || typeof value.note === 'string') &&
+    (value.noindex === undefined || typeof value.noindex === 'boolean')
   );
 }
 
@@ -26,7 +30,8 @@ function isPostSummary(value: unknown): value is PostSummary {
     typeof value.title === 'string' &&
     typeof value.slug === 'string' &&
     typeof value.date === 'string' &&
-    Array.isArray(value.tags)
+    isStringArray(value.tags) &&
+    (value.updated === undefined || typeof value.updated === 'string')
   );
 }
 

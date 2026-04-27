@@ -1,4 +1,5 @@
 import { isObject } from '@/lib/utils/isObject';
+import { isStringArray } from '@/lib/utils/isStringArray';
 import type { TagCounts, TagIndex } from '@/types/source';
 import tagsData from '~/dist/tags.json';
 import tagsWithCountData from '~/dist/tags-with-count.json';
@@ -6,7 +7,7 @@ import { createEagerSource } from './internal/eagerSource';
 
 function isTagIndex(value: unknown): value is TagIndex {
   if (!isObject(value)) return false;
-  return Object.values(value).every((v) => Array.isArray(v) && v.every((s) => typeof s === 'string'));
+  return Object.values(value).every(isStringArray);
 }
 
 function isTagCounts(value: unknown): value is TagCounts {

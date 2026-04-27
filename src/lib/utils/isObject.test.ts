@@ -5,7 +5,7 @@ describe('isObject', () => {
   test.each([
     [{}, true],
     [{ a: 1 }, true],
-    [[], true],
+    [[], false],
     [null, false],
     [undefined, false],
     ['string', false],

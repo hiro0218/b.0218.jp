@@ -44,7 +44,13 @@ export function createLazyLoader<T>(config: LazyLoaderConfig<T>): LazyLoader<T> 
         throw error;
       }
 
-      const parsed: unknown = JSON.parse(raw);
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(raw);
+      } catch (error: unknown) {
+        const reason = error instanceof Error ? error.message : String(error);
+        throw new Error(`[source/${config.label}] JSON parse error in ${filename}: ${reason}`);
+      }
       if (!config.validate(parsed)) {
         throw new Error(`[source/${config.label}] Invalid data in ${filename}`);
       }
