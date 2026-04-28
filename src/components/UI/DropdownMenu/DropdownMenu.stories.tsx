@@ -101,6 +101,6 @@ export const ToggleMenu: Story = {
     await expect(trigger).toHaveAttribute('aria-haspopup', 'menu');
 
     const links = canvas.getAllByRole('link');
-    await expect(links).toHaveLength(3);
+    expect(links).toHaveLength(3);
   },
 };
