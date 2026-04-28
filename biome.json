@@ -32,7 +32,8 @@
   "linter": {
     "enabled": true,
     "domains": {
-      "next": "recommended"
+      "next": "recommended",
+      "playwright": "recommended"
     },
     "rules": {
       "recommended": true,
@@ -70,7 +71,17 @@
         "noExplicitAny": "error"
       },
       "nursery": {
-        "noLeakedRender": "warn"
+        "noLeakedRender": "warn",
+        "noPlaywrightElementHandle": "warn",
+        "noPlaywrightEval": "warn",
+        "noPlaywrightForceOption": "error",
+        "noPlaywrightMissingAwait": "error",
+        "noPlaywrightNetworkidle": "error",
+        "noPlaywrightPagePause": "error",
+        "noPlaywrightUselessAwait": "warn",
+        "noPlaywrightWaitForNavigation": "error",
+        "noPlaywrightWaitForSelector": "warn",
+        "noPlaywrightWaitForTimeout": "error"
       }
     },
     "includes": [
