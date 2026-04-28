@@ -13,6 +13,6 @@ const DISABLE_MOTION_CSS = `
 
 export async function prepareStory(page: Page): Promise<void> {
   await page.addStyleTag({ content: DISABLE_MOTION_CSS });
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('load');
   await page.evaluate(() => document.fonts.ready);
 }
