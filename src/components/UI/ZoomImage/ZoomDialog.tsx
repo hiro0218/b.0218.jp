@@ -24,7 +24,7 @@ const dialogStyle = css`
     padding: 0;
     margin: 0;
     overflow: hidden;
-    background: transparent;
+    background-color: transparent;
     border: 0;
   }
 

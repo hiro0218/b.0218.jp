@@ -34,7 +34,7 @@ const Button = styled.button`
   height: var(--sizes-touch-target);
   pointer-events: auto;
   cursor: pointer;
-  background: none;
+  background-color: transparent;
   border: none;
   border-radius: var(--radii-full);
   transition: transform var(--transition-fast);

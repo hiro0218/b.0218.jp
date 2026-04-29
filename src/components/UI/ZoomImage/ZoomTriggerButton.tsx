@@ -8,7 +8,7 @@ const buttonStyle = css`
   position: relative;
   display: inline-block;
   padding: 0;
-  background: transparent;
+  background-color: transparent;
   border: none;
 
   &:hover {
@@ -42,7 +42,7 @@ const zoomIndicatorStyle = css`
   width: var(--sizes-icon-md);
   height: var(--sizes-icon-md);
   pointer-events: none;
-  background: var(--colors-gray-a-100);
+  background-color: var(--colors-gray-a-100);
   border-radius: var(--radii-full);
   opacity: 0;
   transition: opacity var(--transition-slow);

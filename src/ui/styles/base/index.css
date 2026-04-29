@@ -220,7 +220,7 @@ pre {
   padding: var(--spacing-½) var(--spacing-1);
   margin: 0;
   font-size: var(--font-sizes-sm);
-  background: var(--colors-gray-a-100);
+  background-color: var(--colors-gray-a-100);
 }
 
 /* table */
