@@ -86,6 +86,7 @@ const Item = styled.li`
   border-radius: var(--radii-sm);
   transition: background-color var(--transition-fast);
 
+  /* dot */
   &::before {
     position: absolute;
     top: var(--timeline-dot-top);
@@ -106,14 +107,15 @@ const Item = styled.li`
   &:focus-within {
     background-color: var(--colors-gray-a-100);
 
-    h3 a {
-      color: var(--colors-gray-600);
-    }
-
+    /* dot */
     &::before {
       background-color: var(--colors-gray-1000);
       border-color: var(--colors-gray-1000);
     }
+  }
+
+  &:active {
+    background-color: var(--colors-gray-a-200);
   }
 
   @container (max-width: 560px) {
