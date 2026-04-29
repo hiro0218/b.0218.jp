@@ -5,11 +5,16 @@ import { useEffect, useRef } from 'react';
 
 import type { MokujiProps } from './type';
 
+// Match the fixed header height + buffer
+const SCROLL_SPY_OFFSET_PX = 100;
+
 const MOKUJI_OPTIONS: MokujiOption = {
   anchorType: false,
   anchorLink: true,
   anchorLinkSymbol: '#',
   anchorLinkPosition: 'after',
+  scrollSpy: true,
+  scrollSpyOffset: SCROLL_SPY_OFFSET_PX,
 } as const;
 
 type ReturnProps = {
