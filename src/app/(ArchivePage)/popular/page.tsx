@@ -6,7 +6,7 @@ import { Sidebar, Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
 import { getPrimaryCategory } from '@/lib/tag/category';
-import { getTagCategoriesJson } from '@/lib/tag/data';
+import { getTagCategoriesJson } from '@/lib/tag/derived';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 
 const { popularPosts } = getData();

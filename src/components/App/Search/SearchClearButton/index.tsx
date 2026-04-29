@@ -22,7 +22,7 @@ const Button = styled.button`
   height: var(--sizes-touch-target);
   padding: 0;
   cursor: pointer;
-  background: none;
+  background-color: transparent;
   border: none;
   border-radius: var(--radii-full);
   transition: background-color var(--transition-slow);

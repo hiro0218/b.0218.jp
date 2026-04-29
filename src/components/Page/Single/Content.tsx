@@ -1,7 +1,7 @@
 import { parser } from '@/components/Page/Post/Content/parser/HTMLParser';
 import { Stack } from '@/components/UI/Layout';
 import { Title } from '@/components/UI/Title';
-import { getPagesJson } from '@/lib/page/data';
+import { getPagesJson } from '@/lib/source/page';
 
 type Props = {
   title: string;

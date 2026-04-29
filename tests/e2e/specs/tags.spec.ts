@@ -1,10 +1,15 @@
 import { expect, test } from '@playwright/test';
 
+const TAG_HREF = /^\/tags\//;
+
 test('tags page lists tag links', async ({ page }) => {
   await page.goto('/tags');
 
-  await expect(page.getByRole('main')).toBeVisible();
+  const main = page.getByRole('main');
+  await expect(main).toBeVisible();
+  await expect(main.getByRole('heading', { level: 1, name: 'Tags' })).toBeVisible();
 
-  const tagLinks = page.locator('main a[href^="/tags/"]');
-  await expect(tagLinks).not.toHaveCount(0);
+  const firstTagLink = main.getByRole('link').first();
+  await expect(firstTagLink).toBeVisible();
+  await expect(firstTagLink).toHaveAttribute('href', TAG_HREF);
 });

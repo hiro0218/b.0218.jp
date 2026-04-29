@@ -71,6 +71,8 @@ describe('tokenizeText', () => {
   });
 
   it('トークナイザがエラーを投げた場合、例外を再スローすること', () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
     const mockTokenizer = {
       tokenize: vi.fn(() => {
         throw new Error('tokenize failed');
@@ -78,5 +80,7 @@ describe('tokenizeText', () => {
     } as unknown as Tokenizer<IpadicFeatures>;
 
     expect(() => tokenizeText('test', mockTokenizer)).toThrow('tokenize failed');
+
+    errorSpy.mockRestore();
   });
 });

@@ -10,6 +10,7 @@ import { SearchDialogProvider } from '@/components/App/Header/SearchDialogContex
 import { Layout } from '@/components/App/Layout/AppLayout';
 import { MainContainer } from '@/components/App/Layout/MainContainer';
 import { PageScroll } from '@/components/App/PageScroll/PageScroll';
+import { BrowserEffects } from '@/components/Functional/BrowserEffects';
 import { ClientSideScrollRestorer } from '@/components/Functional/ClientSideScrollRestorer';
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
@@ -59,7 +60,7 @@ export const metadata: Metadata = {
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html data-scroll-behavior="smooth" lang="ja">
+    <html lang="ja">
       <body>
         <a className="skip-link" href="#main">
           メインコンテンツへスキップ
@@ -73,6 +74,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <Footer />
           </Layout>
         </SearchDialogProvider>
+        <BrowserEffects />
         <Suspense>
           <ClientSideScrollRestorer />
         </Suspense>

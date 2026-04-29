@@ -85,9 +85,9 @@ const AnchorStyle = css`
     width: var(--percent);
     height: 100%;
     content: '';
-    background: var(--fill);
+    background-color: var(--fill);
     border-radius: var(--radii-sm);
-    transition: background var(--transition-slow);
+    transition: background-color var(--transition-slow);
 
     @container (min-width: 600px) {
       width: 100%;

@@ -20,13 +20,6 @@ export type SearchResultItem = SearchProps & {
   matchedIn: MatchedIn;
 };
 
-export type RankedSearchResult = {
-  post: SearchProps;
-  priority: number;
-  matchType: MatchType;
-  matchedIn: MatchedIn;
-};
-
 export interface SearchState {
   results: SearchResultItem[];
   query: string;

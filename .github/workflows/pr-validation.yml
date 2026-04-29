@@ -59,11 +59,15 @@ jobs:
       - name: Generate Panda CSS
         run: npx panda codegen
 
-      - name: Create search data fixtures
+      - name: Create dist fixtures
         run: |
           mkdir -p dist
           echo '{}' > dist/search-index.json
           echo '[]' > dist/search-data.json
+          echo '[]' > dist/pages.json
+          echo '[]' > dist/posts-list.json
+          echo '{}' > dist/tags.json
+          echo '[]' > dist/tags-with-count.json
 
       - name: Vitest
         run: npm test

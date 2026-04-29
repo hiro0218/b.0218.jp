@@ -36,25 +36,56 @@ const Root = styled.nav`
   }
 
   a {
-    color: var(--colors-gray-900);
+    color: var(--colors-gray-800);
+    transition:
+      color var(--transition-fast),
+      background-color var(--transition-fast);
 
     &:hover {
-      text-decoration: underline;
+      background-color: var(--colors-gray-a-50);
     }
+
+    &[aria-current='true'] {
+      color: var(--colors-gray-900);
+      background-color: var(--colors-gray-a-100);
+
+      &:hover {
+        background-color: var(--colors-gray-a-100);
+      }
+
+      &::before {
+        color: var(--colors-gray-900);
+      }
+    }
+  }
+
+  /* デスクトップ幅では記事の右外側に追従固定する */
+  @media (--isDesktop) {
+    /* Container LG 内の片側余白 (Container SM の外側) = Mokuji が利用できる横幅 */
+    --mokuji-side-room: calc((var(--sizes-container-lg) - var(--sizes-container-sm)) / 2);
+
+    position: fixed;
+    inset-inline-start: calc(50% + var(--sizes-container-sm) / 2 + var(--spacing-4));
+    z-index: var(--z-index-base);
+    inline-size: calc(var(--mokuji-side-room) - var(--spacing-4));
+    max-block-size: calc(100dvh - var(--spacing-3));
+    overflow-y: auto;
+    isolation: isolate;
   }
 `;
 
 const Details = styled.details`
-  background-color: var(--colors-gray-a-100);
-  border-radius: var(--radii-md);
+  background-color: var(--colors-gray-a-50);
+  border: 1px solid var(--colors-gray-a-100);
+  border-radius: var(--radii-sm);
   transition: background-color var(--transition-slow);
 
   &:not([open]) {
     &:hover {
-      background-color: var(--colors-gray-a-200);
+      background-color: var(--colors-gray-a-100);
     }
     &:active {
-      background-color: var(--colors-gray-a-300);
+      background-color: var(--colors-gray-a-200);
     }
   }
 
@@ -68,8 +99,8 @@ const Details = styled.details`
 const IconContainer = styled.div`
   display: grid;
   place-items: center;
-  width: var(--sizes-icon-md);
-  height: var(--sizes-icon-md);
+  width: var(--sizes-icon-sm);
+  height: var(--sizes-icon-sm);
 
   [data-disclosure] {
     grid-area: 1 / 1;
@@ -103,35 +134,33 @@ const Summary = styled.summary`
 `;
 
 const DetailsContent = styled.div`
-  padding-top: var(--spacing-2);
+  padding-top: var(--spacing-1);
 
-  > ol {
-    padding: 0 var(--spacing-4) var(--spacing-3) var(--spacing-4);
+  & > ol {
+    padding: 0 var(--spacing-4) var(--spacing-3) var(--spacing-3);
     margin: 0;
-
-    > li > a {
-      font-weight: var(--font-weights-bold);
-    }
   }
 
   ol {
     list-style: none;
     counter-reset: number;
 
-    & li {
+    li {
       list-style: none;
 
       &:not(:last-child) {
         margin-bottom: var(--spacing-1);
       }
 
-      a::before {
+      & > a::before {
+        margin-right: 0.5em;
+        color: var(--colors-gray-600);
         content: counters(number, '-') '. ';
         counter-increment: number;
       }
     }
 
-    & ol {
+    ol {
       padding-left: var(--spacing-2);
       margin: var(--spacing-1) 0;
     }

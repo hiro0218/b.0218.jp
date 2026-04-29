@@ -1,7 +1,6 @@
 import { cache } from 'react';
 import { recentPosts as cachedRecentPosts } from '@/app/_lib/cachedRecentPosts';
-import { isPost } from '@/lib/guards';
-import { getPostsPopular } from '@/lib/post/data';
+import { getPostsPopular } from '@/lib/post/derived';
 import type { ArticleSummary, PopularityDetail } from '@/types/source';
 import { getPost, getPostsByTag, getSimilarPosts, getSimilarTags, getTagsWithCountFromSlugs } from '../data';
 import { formatPostData, formatSimilarPosts, getAlternativePosts } from '../utils';
@@ -27,15 +26,9 @@ export const getPostPageData = cache((slug: string): PostPageData | null => {
   // スラッグを正規化（.html拡張子を削除）
   const normalizedSlug = slug.replace('.html', '');
 
-  // 基本投稿データの取得と型検証
   const post = getPost(normalizedSlug);
 
   if (post === null) {
-    return null;
-  }
-
-  if (!isPost(post)) {
-    console.error('[getPostPageData] Invalid post data structure');
     return null;
   }
 

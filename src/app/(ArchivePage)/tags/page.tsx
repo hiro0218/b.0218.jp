@@ -5,7 +5,7 @@ import { TagSection } from '@/components/Page/_shared/TagSection';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
 import { getWebPageStructured } from '@/lib/domain/json-ld';
-import { getTagsWithCount } from '@/lib/tag/data';
+import { getTagsWithCount } from '@/lib/source/tag';
 import { tagFromUrlPath, tagUrlPath } from '@/lib/tag/url';
 
 type ListItemProps = Parameters<typeof getWebPageStructured>[0]['listItem'];

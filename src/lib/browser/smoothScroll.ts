@@ -21,15 +21,23 @@ const isSamePageLink = (anchor: HTMLAnchorElement): boolean => {
   return url.origin === location.origin && url.pathname === location.pathname;
 };
 
-// URLデコードエラーや不正なIDに対する堅牢性を確保
+// URL-encoded 形式 (例: %E8%83%8C%E6%99%AF) を id 属性に使用している場合があるため、ハッシュの生の値とデコード後の値の両方で要素を検索する
 const getTarget = (hash: string): HTMLElement | null => {
+  if (isTopHash(hash)) return document.documentElement;
+
+  const rawId = hash.slice(1);
+  const byRaw = document.getElementById(rawId);
+  if (byRaw) return byRaw;
+
   try {
-    const targetElementId = decodeURIComponent(hash.slice(1));
-    return document.getElementById(targetElementId) || (isTopHash(hash) ? document.documentElement : null);
+    const decodedId = decodeURIComponent(rawId);
+    if (decodedId !== rawId) {
+      return document.getElementById(decodedId);
+    }
   } catch (error) {
     console.error('Failed to decode URL hash:', error);
-    return null;
   }
+  return null;
 };
 
 const scrollToTarget = (element: HTMLElement): void => {
@@ -70,8 +78,8 @@ const focusOnTarget = (element: HTMLElement): void => {
 };
 
 const handleSmoothScrollClick = (event: MouseEvent): void => {
-  const eventTarget = event.target as HTMLElement | null;
-  if (!eventTarget) return;
+  const eventTarget = event.target;
+  if (!(eventTarget instanceof Element)) return;
 
   const element = eventTarget.closest<HTMLAnchorElement>('a[href*="#"]');
   if (!element) return;

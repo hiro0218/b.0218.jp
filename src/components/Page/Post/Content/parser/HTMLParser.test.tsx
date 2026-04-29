@@ -23,7 +23,10 @@ import { parser } from './HTMLParser';
 
 const renderParser = (html: string) => render(<div>{parser(html)}</div>);
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  vi.restoreAllMocks();
+});
 
 describe('parser', () => {
   it('プレーン HTML をそのまま描画する', () => {
@@ -90,9 +93,11 @@ describe('Alert ハンドラ', () => {
   });
 
   it('JSON が壊れている場合は元の div を保持する', () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const { container, queryByTestId } = renderParser('<div class="gfm-alert">not-json</div>');
     expect(queryByTestId('alert')).toBeNull();
     expect(container.querySelector('.gfm-alert')).not.toBeNull();
+    expect(errorSpy).toHaveBeenCalledWith('Failed to parse JSON:', expect.any(SyntaxError));
   });
 });
 
@@ -142,8 +147,10 @@ describe('LinkPreview ハンドラ', () => {
   });
 
   it('JSON が壊れている場合は元の div を保持する', () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const { container, queryByTestId } = renderParser('<div class="link-preview">not-json</div>');
     expect(queryByTestId('link-preview')).toBeNull();
     expect(container.querySelector('.link-preview')).not.toBeNull();
+    expect(errorSpy).toHaveBeenCalledWith('Failed to parse JSON:', expect.any(SyntaxError));
   });
 });

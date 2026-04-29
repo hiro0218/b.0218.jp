@@ -22,7 +22,7 @@ const ProgressBar = styled.div`
   width: 100%;
   height: var(--spacing-½);
   pointer-events: none;
-  background: var(--colors-accent-800);
+  background-color: var(--colors-accent-800);
   transform: scaleX(0);
   transform-origin: left;
   will-change: transform;
