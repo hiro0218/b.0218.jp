@@ -6,7 +6,6 @@ const FIBONACCI = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1
 const SPACING_SCALE = [0.5, ...FIBONACCI] as const;
 
 export const Spaces = ['½', 1, 2, 3, 4, 5, 6] as const;
-export const SPACE_KEYS = Spaces.map((space) => `--spacing-${space}` as const);
 export type SpaceGap = (typeof Spaces)[number];
 
 const spacingValues: TokenValues<'spacing'> = {} as TokenValues<'spacing'>;
