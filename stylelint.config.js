@@ -30,6 +30,24 @@ module.exports = {
     ],
     'stylelint-plugin-isolate-on-stack/no-redundant-declaration': true,
     'stylelint-plugin-isolate-on-stack/ineffective-on-background-blend': true,
+    // shorthand プロパティが longhand を暗黙的に initial 値へ上書きする事故を防ぐ
+    // - background: url/gradient を含む値 (画像・グラデーション) は shorthand を許容
+    // - font: CSS-wide keywords (inherit/initial/unset/revert) のみ許容
+    'declaration-property-value-disallowed-list': [
+      {
+        background: ['/^(?!.*(url\\(|gradient)).+$/'],
+        font: ['/^(?!(inherit|initial|unset|revert)$).+$/'],
+      },
+      {
+        message: (name) => {
+          const longhands = {
+            background: 'background-color / background-image など',
+            font: 'font-size / font-family / font-weight / line-height など',
+          };
+          return `"${name}" shorthand は省略された sub-property を initial 値で上書きします。${longhands[name]}個別プロパティを使用してください`;
+        },
+      },
+    ],
   },
   overrides: [
     {
