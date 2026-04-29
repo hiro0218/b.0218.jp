@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { getMetadata } from '@/app/_metadata';
 import { ScrollProgress } from '@/components/App/ScrollProgress';
-import { ReadingHistoryRecorder } from '@/components/Functional/ReadingHistoryRecorder';
 import { StructuredData } from '@/components/Functional/StructuredData';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { TagSection } from '@/components/Page/_shared/TagSection';
@@ -86,11 +85,9 @@ export default async function Page({ params }: { params: Params }) {
   const { title, date, updated, note, content, tagsWithCount } = post;
   const hasTweet = content.includes('twitter-tweet');
   const permalink = getPermalink(slug);
-  const tags = tagsWithCount.map((tag) => tag.slug);
 
   return (
     <>
-      <ReadingHistoryRecorder date={date} slug={slug} tags={tags} title={title} />
       <ScrollProgress />
       <StructuredData data={[getBlogPostingStructured(post, popularity), getBreadcrumbStructured(post)]} />
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}

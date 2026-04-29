@@ -85,20 +85,6 @@ export type Post = Article & PostMetadata;
  */
 export type PostSummary = ArticleSummary & WithTags;
 
-/**
- * 閲覧履歴アイテムの型定義
- */
-export type ReadingHistoryItem = Pick<Post, 'title' | 'slug' | 'date' | 'tags'> & {
-  /** 閲覧日時（UNIXタイムスタンプ） */
-  viewedAt: number;
-};
-
-/**
- * 閲覧履歴入力型
- * viewedAt は自動的に付与されるため、入力時は不要
- */
-export type ReadingHistoryInput = Omit<ReadingHistoryItem, 'viewedAt'>;
-
 // ========================================
 // インデックス・スコア型定義
 // ========================================
