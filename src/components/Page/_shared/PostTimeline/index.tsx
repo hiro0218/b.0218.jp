@@ -63,7 +63,6 @@ const List = styled.ol`
   flex-direction: column;
   gap: var(--spacing-1);
   padding-inline-start: var(--timeline-gutter);
-
   container-type: inline-size;
 
   &::before {
@@ -73,7 +72,7 @@ const List = styled.ol`
     left: var(--timeline-line-offset);
     width: var(--border-widths-thin);
     content: '';
-    background: var(--colors-gray-100);
+    background-color: var(--colors-gray-100);
   }
 `;
 
@@ -94,7 +93,7 @@ const Item = styled.li`
     width: var(--timeline-dot-size);
     height: var(--timeline-dot-size);
     content: '';
-    background: var(--colors-gray-200);
+    background-color: var(--colors-gray-200);
     border: var(--border-widths-medium) solid var(--colors-gray-500);
     border-radius: var(--radii-full);
     box-shadow: 0 0 0 3px var(--colors-body-background);
@@ -105,14 +104,14 @@ const Item = styled.li`
 
   &:hover,
   &:focus-within {
-    background: var(--colors-gray-a-100);
+    background-color: var(--colors-gray-a-100);
 
     h3 a {
       color: var(--colors-gray-600);
     }
 
     &::before {
-      background: var(--colors-gray-1000);
+      background-color: var(--colors-gray-1000);
       border-color: var(--colors-gray-1000);
     }
   }
