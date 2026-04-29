@@ -1,11 +1,15 @@
 import { expect, test } from '@playwright/test';
 
-test('home page renders main and post links', async ({ page }) => {
+const POST_HREF = /\.html$/;
+
+test('home page renders main with recent post link', async ({ page }) => {
   await page.goto('/');
 
-  await expect(page.getByRole('main')).toBeVisible();
+  const main = page.getByRole('main');
+  await expect(main).toBeVisible();
+  await expect(main.getByRole('heading', { name: '最新記事' })).toBeVisible();
 
-  const postLinks = page.locator('main a[href$=".html"]');
-  await expect(postLinks.first()).toBeVisible();
-  await expect(postLinks).not.toHaveCount(0);
+  const firstPostLink = main.getByRole('list').first().getByRole('link').first();
+  await expect(firstPostLink).toBeVisible();
+  await expect(firstPostLink).toHaveAttribute('href', POST_HREF);
 });

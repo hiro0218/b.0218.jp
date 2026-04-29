@@ -5,7 +5,7 @@ const RSS_TAG = /<rss[\s>]/;
 test('sitemap.xml is served as XML and lists URLs', async ({ request }) => {
   const res = await request.get('/sitemap.xml');
 
-  expect(res.status()).toBe(200);
+  await expect(res).toBeOK();
   expect(res.headers()['content-type']).toContain('xml');
 
   const body = await res.text();
@@ -15,7 +15,7 @@ test('sitemap.xml is served as XML and lists URLs', async ({ request }) => {
 test('feed.xml is served as RSS 2.0', async ({ request }) => {
   const res = await request.get('/feed.xml');
 
-  expect(res.status()).toBe(200);
+  await expect(res).toBeOK();
   expect(res.headers()['content-type']).toContain('xml');
 
   const body = await res.text();
@@ -25,7 +25,7 @@ test('feed.xml is served as RSS 2.0', async ({ request }) => {
 test('robots.txt declares user-agent and sitemap', async ({ request }) => {
   const res = await request.get('/robots.txt');
 
-  expect(res.status()).toBe(200);
+  await expect(res).toBeOK();
 
   const body = await res.text();
   expect(body).toContain('User-agent:');
