@@ -58,7 +58,10 @@
     ]
   },
   "browserslist": [
-    "last 2 versions and >= 1% in JP and not dead, last 2 Firefox versions"
+    "chrome 143",
+    "edge 142",
+    "firefox 145",
+    "safari 26.2"
   ],
   "prettier": {
     "plugins": [
