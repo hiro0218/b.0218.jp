@@ -121,5 +121,6 @@ const titleStyle = css`
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-md);
   color: var(--colors-gray-1000);
+  letter-spacing: var(--letter-spacings-sm);
   transition: color var(--transition-slow);
 `;

@@ -24,6 +24,7 @@ body {
   font-family: var(--fonts-family-sans-serif);
   font-weight: var(--font-weights-normal);
   font-feature-settings: 'chws' 1;
+  font-kerning: normal;
   font-synthesis: none;
   line-height: 1.875;
   color: var(--colors-gray-1000);
@@ -137,6 +138,7 @@ h6 {
   font-weight: var(--font-weights-normal);
   font-feature-settings: 'palt';
   color: var(--colors-gray-1000);
+  text-wrap: balance;
 }
 
 h1 {

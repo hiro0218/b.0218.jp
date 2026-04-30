@@ -65,10 +65,12 @@ const Title = styled.h2`
   align-items: center;
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-sm);
+  letter-spacing: var(--letter-spacings-md);
 
   & > span {
     font-size: var(--font-sizes-lg);
     font-weight: var(--font-weights-normal);
     color: var(--colors-gray-600);
+    letter-spacing: var(--letter-spacings-sm);
   }
 `;
