@@ -60,6 +60,7 @@ const headerTitleStyle = css`
   font-weight: var(--font-weights-normal);
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-1000);
+  letter-spacing: var(--letter-spacings-md);
   overflow-wrap: break-word;
 `;
 
