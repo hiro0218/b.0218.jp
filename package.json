@@ -127,7 +127,7 @@
     "@types/twitter-for-web": "0.0.6",
     "@vitejs/plugin-react": "6.0.1",
     "@vitest/coverage-v8": "4.1.5",
-    "browserslist": "4.28.1",
+    "browserslist": "4.28.2",
     "dependency-cruiser": "17.3.10",
     "esbuild": "0.28.0",
     "esbuild-register": "3.6.0",
