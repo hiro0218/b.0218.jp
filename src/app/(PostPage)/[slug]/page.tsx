@@ -17,6 +17,7 @@ import { AUTHOR_NAME } from '@/constants';
 import { buildId } from '@/lib/config/environment';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/domain/json-ld';
 import { getPostsListJson } from '@/lib/source/post';
+import { tagPath } from '@/lib/tag/navigation';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';
 import { getPostPageData } from './lib/services';
 
@@ -127,7 +128,7 @@ export default async function Page({ params }: { params: Params }) {
                 as="aside"
                 heading={`「${mostPopularTag.slug}」タグの記事`}
                 headingLevel="h2"
-                href={`/tags/${mostPopularTag.slug}`}
+                href={tagPath(mostPopularTag.slug)}
                 posts={sameTagPosts}
                 prefetch={false}
               />

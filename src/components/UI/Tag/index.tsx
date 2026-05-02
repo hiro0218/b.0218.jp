@@ -1,4 +1,5 @@
 import { Anchor } from '@/components/UI/Anchor';
+import { tagPath } from '@/lib/tag/navigation';
 import { styled } from '@/ui/styled';
 import { postTagAnchor } from '@/ui/styled/components';
 
@@ -42,7 +43,7 @@ function PostTag({ tags, hasRelTag = true }: PostTagProps) {
           <Anchor
             aria-label={count != null ? `${slug}（${count}件）` : undefined}
             className={postTagAnchor}
-            href={`/tags/${slug}`}
+            href={tagPath(slug)}
             key={slug}
             {...(hasRelTag && {
               rel: 'tag',
