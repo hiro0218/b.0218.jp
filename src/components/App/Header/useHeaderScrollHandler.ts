@@ -2,7 +2,6 @@
 'use no memo';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useEventListener } from '@/hooks/useEventListener';
 import { isSSR } from '@/lib/browser/isSSR';
 import throttle from '@/lib/utils/throttle';
 import { SPACING_BASE_PX } from '@/ui/styled/constant';
@@ -61,7 +60,13 @@ export const useHeaderScrollHandler = (): boolean => {
   // パフォーマンス劣化を防ぐためスロットリング処理
   const throttledHandleScroll = useMemo(() => throttle(handleScroll), [handleScroll]);
 
-  useEventListener('scroll', throttledHandleScroll, { passive: true });
+  useEffect(() => {
+    window.addEventListener('scroll', throttledHandleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', throttledHandleScroll);
+    };
+  }, [throttledHandleScroll]);
 
   return isHeaderVisible;
 };
