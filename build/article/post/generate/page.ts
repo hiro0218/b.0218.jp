@@ -4,7 +4,7 @@ import { isValidFrontmatter, parseFrontmatter, tryToIso } from '@/lib/post/raw';
 import type { Page } from '@/types/source';
 import { writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
-import markdownToHtmlString from '../../markdownToHtmlString';
+import { markdownToPostHtmlString } from '../../markdownToHtmlString';
 import { getMarkdownFiles, getPath, getSlug, isAgentFile } from './utils';
 
 const PATH = getPath();
@@ -31,7 +31,7 @@ export async function buildPage() {
       }
 
       const { title, date, updated } = frontmatter;
-      const content = await markdownToHtmlString(markdown);
+      const content = await markdownToPostHtmlString(markdown);
 
       const updatedIso = tryToIso(updated);
       pages.push({

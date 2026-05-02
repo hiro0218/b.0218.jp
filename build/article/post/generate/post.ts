@@ -7,7 +7,7 @@ import { isValidFrontmatter, parseFrontmatter, type RawPost, tryToIso } from '@/
 import { isPubliclyVisible } from '@/lib/post/visibility';
 import { mkdir, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
-import markdownToHtmlString from '../../markdownToHtmlString';
+import { markdownToNoteHtmlString, markdownToPostHtmlString } from '../../markdownToHtmlString';
 import { loadCache, saveCache } from '../../rehype0218';
 import { buildTagNormalizationMap, normalizeTags } from './normalizeTag';
 import { getMarkdownFiles, getPath, getSlug } from './utils';
@@ -52,10 +52,12 @@ export async function buildPost() {
   // 投稿間で共有し、重複する link-preview 断片がキャッシュヒットするようにする
   const sharedCache = loadCache();
   const limit = pLimit(POST_CONCURRENCY);
-  const markdownToHtml = (md: string, isSimple = false) =>
-    limit(() => markdownToHtmlString(md, isSimple, { sharedCache }));
+  const markdownToPostHtml = (md: string) => limit(() => markdownToPostHtmlString(md, { sharedCache }));
+  const markdownToNoteHtml = (md: string) => limit(() => markdownToNoteHtmlString(md));
 
-  const posts = await Promise.all(rawPosts.map((raw) => convertRawPost(raw, { markdownToHtml })));
+  const posts = await Promise.all(
+    rawPosts.map((raw) => convertRawPost(raw, { markdownToPostHtml, markdownToNoteHtml })),
+  );
   saveCache(sharedCache);
 
   // sort: 日付順

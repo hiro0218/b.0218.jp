@@ -17,8 +17,8 @@ import rehypeWrapImgWithFigure from './rehypeWrapImgWithFigure';
 import remarkBreaks from './remarkBreaks';
 import { shikiConfig } from './shikiConfig';
 
-async function markdownToHtmlString(markdown: string, isSimple = false, options?: Rehype0218Options): Promise<string> {
-  const baseProcessor = unified()
+const createBaseProcessor = () =>
+  unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkCjkFriendly)
@@ -28,19 +28,22 @@ async function markdownToHtmlString(markdown: string, isSimple = false, options?
     .use(rehypeMinifyWhitespace)
     .use(rehypeRaw);
 
-  const processor = isSimple
-    ? baseProcessor.use(rehypeStringify, { allowDangerousHtml: true })
-    : baseProcessor
-        .use(rehypeWrapImgWithFigure)
-        .use(rehypeGfmAlert)
-        .use(rehypeShiki, shikiConfig)
-        .use(rehype0218, options)
-        .use(rehypeRemoveComments)
-        .use(rehypeStringify, { allowDangerousHtml: true });
+export async function markdownToNoteHtmlString(markdown: string): Promise<string> {
+  const result = await createBaseProcessor().use(rehypeStringify, { allowDangerousHtml: true }).process(markdown);
+
+  return result.toString();
+}
+
+export async function markdownToPostHtmlString(markdown: string, options?: Rehype0218Options): Promise<string> {
+  const processor = createBaseProcessor()
+    .use(rehypeWrapImgWithFigure)
+    .use(rehypeGfmAlert)
+    .use(rehypeShiki, shikiConfig)
+    .use(rehype0218, options)
+    .use(rehypeRemoveComments)
+    .use(rehypeStringify, { allowDangerousHtml: true });
 
   const result = await processor.process(markdown);
 
   return result.toString();
 }
-
-export default markdownToHtmlString;
