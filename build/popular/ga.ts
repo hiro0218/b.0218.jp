@@ -4,19 +4,24 @@ import * as Log from '~/tools/logger';
 
 loadEnvConfig(process.cwd());
 
-const analyticsDataClient = new BetaAnalyticsDataClient({
-  credentials: {
-    // biome-ignore lint/style/useNamingConvention: Google APIの仕様に合わせたスネークケース
-    client_email: process.env.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL,
-    // biome-ignore lint/style/useNamingConvention: Google APIの仕様に合わせたスネークケース
-    private_key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY.split(String.raw`\n`).join('\n'),
-  },
-});
-
 const GA_DATE_RANGE = '183daysAgo';
 const GA_RESULT_LIMIT = 50;
 
-export const getPopularArticles = async () => {
+export const getPopularArticles = async (): Promise<Record<string, number>> => {
+  if (process.env.SKIP_GA === 'true') {
+    Log.info('Skip Google Analytics fetch');
+    return {};
+  }
+
+  const analyticsDataClient = new BetaAnalyticsDataClient({
+    credentials: {
+      // biome-ignore lint/style/useNamingConvention: Google APIの仕様に合わせたスネークケース
+      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL,
+      // biome-ignore lint/style/useNamingConvention: Google APIの仕様に合わせたスネークケース
+      private_key: process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY.split(String.raw`\n`).join('\n'),
+    },
+  });
+
   const [response] = await analyticsDataClient.runReport({
     property: `properties/${process.env.GA_PROPERTY_ID}`,
     dateRanges: [
