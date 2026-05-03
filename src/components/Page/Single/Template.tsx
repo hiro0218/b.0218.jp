@@ -4,7 +4,7 @@
 import type { Thing, WithContext } from 'schema-dts';
 import { StructuredData } from '@/components/Functional/StructuredData';
 import { getAboutPageStructured, getProfilePageStructured, getWebPageStructured } from '@/lib/domain/json-ld';
-import Content from './Content';
+import { Content } from './Content';
 import type { PageSlug } from './types';
 
 /**
@@ -21,7 +21,7 @@ type TemplateProps = {
  * about/privacyページで使用する
  * @param props - スラグ、タイトル、説明を含むプロパティ
  */
-export default function Template({ slug, title, description }: TemplateProps) {
+export function Template({ slug, title, description }: TemplateProps) {
   const jsonLd = (() => {
     switch (slug) {
       case 'about':

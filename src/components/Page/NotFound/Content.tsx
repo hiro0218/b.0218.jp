@@ -1,6 +1,7 @@
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { Anchor } from '@/components/UI/Anchor';
-import { Center, Stack } from '@/components/UI/Layout';
+import { Center } from '@/components/UI/Layout/Center';
+import { Stack } from '@/components/UI/Layout/Stack';
 import type { PostSummary } from '@/types/source';
 import { css } from '@/ui/styled';
 
@@ -8,7 +9,7 @@ type Props = {
   posts: PostSummary[];
 };
 
-export default function Content({ posts }: Props) {
+export function Content({ posts }: Props) {
   return (
     <Stack align="center" className={ContainerStyle} direction="vertical" gap={5} justify="center">
       <Stack gap={3}>

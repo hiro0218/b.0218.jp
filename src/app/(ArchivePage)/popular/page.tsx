@@ -1,8 +1,9 @@
 import type { Metadata } from 'next/types';
 import { getMetadata } from '@/app/_metadata';
 import { getData } from '@/app/(ArchivePage)/popular/lib/getData';
-import ArticleCard from '@/components/UI/ArticleCard';
-import { Sidebar, Stack } from '@/components/UI/Layout';
+import { ArticleCard } from '@/components/UI/ArticleCard';
+import { Sidebar } from '@/components/UI/Layout/Sidebar';
+import { Stack } from '@/components/UI/Layout/Stack';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
 import { getPrimaryCategory } from '@/lib/tag/category';

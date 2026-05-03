@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.8/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.10/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -8,7 +8,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!**/*.css", "!.github/scripts/**", "!_article/**"]
+    "includes": ["**", "!**/*.css", "!.github/scripts", "!_article"]
   },
   "formatter": {
     "enabled": true,
@@ -52,12 +52,14 @@
       },
       "performance": {
         "noDelete": "error",
+        "noBarrelFile": "error",
         "noImgElement": "warn",
         "useTopLevelRegex": "error"
       },
       "style": {
         "useBlockStatements": "off",
         "useConsistentArrayType": "warn",
+        "useExportType": "warn",
         "useImportType": "warn",
         "useNamingConvention": {
           "level": "error",
@@ -86,7 +88,7 @@
     },
     "includes": [
       "**",
-      "!_article/**",
+      "!_article",
       "!build/**",
       "!public/**",
 
@@ -111,8 +113,56 @@
         "rules": {
           "style": {
             "noRestrictedImports": {
-              "level": "off",
-              "options": {}
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["**/index", "**/index.*"],
+                    "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
+                  }
+                ]
+              }
+            },
+            "noDefaultExport": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/**/*.stories.{ts,tsx}", "src/ui/**/*.{ts,tsx}"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/components/**/*.{ts,tsx}", "!src/components/**/*.stories.{ts,tsx}"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "error"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/**/*.{ts,tsx}", "tools/**/*.{ts,tsx}"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["**/index", "**/index.*"],
+                    "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
+                  }
+                ]
+              }
             }
           }
         }
@@ -128,7 +178,13 @@
               "options": {
                 "paths": {
                   "~/styled-system/*": "@/ui/styled 経由で import してください"
-                }
+                },
+                "patterns": [
+                  {
+                    "group": ["**/index", "**/index.*"],
+                    "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
+                  }
+                ]
               }
             }
           }
@@ -148,7 +204,17 @@
                   "@/components/Page/*": "UI層からPage層への依存は禁止されています",
                   "@/components/Functional/*": "UI層からFunctional層への依存は禁止されています",
                   "~/styled-system/*": "@/ui/styled 経由で import してください"
-                }
+                },
+                "patterns": [
+                  {
+                    "group": ["**/index", "**/index.*"],
+                    "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
+                  },
+                  {
+                    "group": ["@/components/UI/*/*", "@/components/UI/*/**", "!@/components/UI/Layout/*"],
+                    "message": "UI module の内部ファイルを直接 import しないでください。公開入口を経由してください"
+                  }
+                ]
               }
             }
           }
@@ -168,7 +234,13 @@
                   "@/components/Page/*": "Functional層からPage層への依存は禁止されています",
                   "@/components/UI/*": "Functional層からUI層への依存は禁止されています",
                   "~/styled-system/*": "@/ui/styled 経由で import してください"
-                }
+                },
+                "patterns": [
+                  {
+                    "group": ["**/index", "**/index.*"],
+                    "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
+                  }
+                ]
               }
             }
           }
@@ -190,7 +262,13 @@
                   "@/components/Page/Post/*": "Page/_shared層から個別Page層への依存は禁止されています",
                   "@/components/Page/Single/*": "Page/_shared層から個別Page層への依存は禁止されています",
                   "~/styled-system/*": "@/ui/styled 経由で import してください"
-                }
+                },
+                "patterns": [
+                  {
+                    "group": ["**/index", "**/index.*"],
+                    "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
+                  }
+                ]
               }
             }
           }
@@ -213,7 +291,13 @@
                 "paths": {
                   "@/components/App/*": "Page層からApp層への依存は禁止されています",
                   "~/styled-system/*": "@/ui/styled 経由で import してください"
-                }
+                },
+                "patterns": [
+                  {
+                    "group": ["**/index", "**/index.*"],
+                    "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
+                  }
+                ]
               }
             }
           }
@@ -229,6 +313,10 @@
               "level": "error",
               "options": {
                 "patterns": [
+                  {
+                    "group": ["**/index", "**/index.*"],
+                    "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
+                  },
                   {
                     "group": ["@/lib/source/internal/*", "@/lib/source/internal/**"],
                     "message": "Source の internal は src/lib/source/ 内からのみ import 可能です。Source の公開 interface を経由してください"

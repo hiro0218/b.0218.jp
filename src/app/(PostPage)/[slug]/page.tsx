@@ -7,19 +7,19 @@ import { StructuredData } from '@/components/Functional/StructuredData';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { TagSection } from '@/components/Page/_shared/TagSection';
 import { PostContent } from '@/components/Page/Post/Content';
-import PostEdit from '@/components/Page/Post/Edit';
-import PostHeader from '@/components/Page/Post/Header';
-import PostShare from '@/components/Page/Post/Share';
+import { PostEdit } from '@/components/Page/Post/Edit';
+import { PostHeader } from '@/components/Page/Post/Header';
+import { PostShare } from '@/components/Page/Post/Share';
 import { Alert } from '@/components/UI/Alert';
-import { Stack } from '@/components/UI/Layout';
 import { Container } from '@/components/UI/Layout/Container';
+import { Stack } from '@/components/UI/Layout/Stack';
 import { AUTHOR_NAME } from '@/constants';
 import { buildId } from '@/lib/config/environment';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/domain/json-ld';
 import { getPostsListJson } from '@/lib/source/post';
 import { tagPath } from '@/lib/tag/navigation';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';
-import { getPostPageData } from './lib/services';
+import { getPostPageData } from './lib/services/getPostPageData';
 
 type Params = Promise<{ slug: string }>;
 

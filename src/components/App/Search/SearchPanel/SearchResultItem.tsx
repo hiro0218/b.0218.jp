@@ -1,7 +1,7 @@
 import { forwardRef, memo } from 'react';
 import { Anchor } from '@/components/UI/Anchor';
 import { convertPostSlugToPath } from '@/lib/utils/url';
-import { HashtagIcon, ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons/index';
+import { HashtagIcon, ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';
 import { cx } from '@/ui/styled';
 import type { MatchedIn } from '../types';
 import { AnchorStyle, FocusedContainerStyle, LinkContainerStyle } from './SearchResultItem.styles';

@@ -1,6 +1,7 @@
 import { defineConfig } from '@pandacss/dev';
 import pkg from './package.json' with { type: 'json' };
-import { dataCss, shikiCss } from './src/ui/styled/global/css';
+import { dataCss } from './src/ui/styled/global/css/data';
+import { shikiCss } from './src/ui/styled/global/css/shiki';
 import globalVars from './src/ui/styled/global/vars';
 import { keyframes } from './src/ui/styled/theme/keyframes';
 import { semanticTokens } from './src/ui/styled/theme/semanticTokens';

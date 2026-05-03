@@ -1,5 +1,5 @@
-import { parser } from '@/components/Page/Post/Content/parser/HTMLParser';
-import { Stack } from '@/components/UI/Layout';
+import { parser } from '@/components/Page/_shared/parser/HTMLParser';
+import { Stack } from '@/components/UI/Layout/Stack';
 import { Title } from '@/components/UI/Title';
 import { getPagesJson } from '@/lib/source/page';
 
@@ -11,7 +11,7 @@ type Props = {
 
 const pages = getPagesJson();
 
-export default function Content({ title, description, slug }: Props) {
+export function Content({ title, description, slug }: Props) {
   const { content } = pages.find((page) => slug === page.slug);
   const reactContent = parser(content);
 
