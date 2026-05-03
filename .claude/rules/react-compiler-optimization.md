@@ -19,3 +19,5 @@ paths:
 
 - ✅ custom hook 内の `useMemo` / `useCallback` は削除しない
 - ❌ コンポーネント内の単純な `useMemo` / `useCallback` を追加しない（React Compiler が処理）
+
+「単純」とは、props / state から派生値を作るだけ、または JSX に渡す callback を安定化するだけのケースを指す。React Compiler の対象外である module scope、server-only data function、`React.cache` / `cache()`、custom hook 内部の memoization はこの禁止に含めない。

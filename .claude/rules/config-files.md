@@ -26,7 +26,8 @@ paths:
 **詳細**:
 
 - Biome 規則: [linting.md](./linting.md)
+- Biome 設定・ルールポリシー: [linting.md](./linting.md)
 - React Compiler: [react-compiler-optimization.md](./react-compiler-optimization.md)
-- レイヤー依存: [components.md](./components.md)
+- レイヤー依存: [components.md](./components.md#-レイヤー依存関係-critical)
 - スタイリング: [styling.md](./styling.md)
 - TypeScript: [typescript.md](./typescript.md)

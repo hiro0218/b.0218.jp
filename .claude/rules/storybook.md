@@ -30,7 +30,7 @@ export const FullContent: Story = {
 
 ## 🔴 Descriptive WHY (CRITICAL)
 
-全ストーリーに `parameters.docs.description.story` を記述する。「**いつ・なぜ使うか**」を書き、「何を表示するか」は書かない。
+全ストーリーに `parameters.docs.description.story` を記述する。「**いつ・なぜ使うか**」を書き、「何を表示するか」は書かない。詳細は [components.md](./components.md#jsdoc--storybook-説明) を参照する。
 
 ```tsx
 // ✅ WHY を記述
@@ -51,30 +51,6 @@ parameters: {
   },
 },
 ```
-
-## 🟡 JSDoc 要件 (IMPORTANT)
-
-### コンポーネント本体
-
-UI コンポーネントの export 関数には `@summary` 付き JSDoc を必須とする。Storybook AI manifest が消費する。
-
-```tsx
-/**
- * 記事内で注意事項や補足情報を強調表示するアラートボックス。
- * GitHub Flavored Markdown の blockquote alert 構文に対応する。
- * @summary 注意事項・補足情報の強調表示ボックス
- */
-export function Alert({ type, html }: Props) { ... }
-```
-
-### Props JSDoc
-
-**名前 + 型で自明なら書かない**（`isVisible: boolean`, `onClose: () => void`）。以下のケースのみ記述:
-
-- ドメイン固有の意味: `type: AlertType` → `/** 重要度と視覚表現が変わる */`
-- 動作が不明: `intrinsic?: boolean` → `/** flex column + align center による内在的な中央揃え */`
-- 単位情報: `delay?: number` → `/** ホバーから表示までの遅延（ms） */`
-- 使い分けガイド: `titleTagName` → `/** 一覧ページでは h2、単体では h3 が典型 */`
 
 ## 🟡 manifest curation (IMPORTANT)
 
@@ -120,5 +96,6 @@ const config: StorybookConfig = {
 ## 参照
 
 - Props 設計: [components.md](./components.md#-props-設計-important)
+- JSDoc: [components.md](./components.md#jsdoc--storybook-説明)
 - TypeScript JSDoc: [typescript.md](./typescript.md#jsdoc)
 - [Storybook AI Best Practices](https://storybook.js.org/docs/ai/best-practices)

@@ -18,8 +18,8 @@ npm test                     # テスト実行
 ### 2. 手動レビュー（チェックリスト）
 
 - [ ] JSDoc とコメントが適切（[typescript.md](./typescript.md), [storybook.md](./storybook.md)）
-- [ ] アーキテクチャ準拠（[architecture.md](./architecture.md), [components.md](./components.md)）
-- [ ] スタイリング規約準拠（[styling.md](./styling.md), [components.md](./components.md) の Zero Margin）
+- [ ] アーキテクチャ準拠（[architecture.md](./architecture.md), [components.md](./components.md#-レイヤー依存関係-critical)）
+- [ ] スタイリング規約準拠（[styling.md](./styling.md), [components.md](./components.md#-zero-margin-principle-critical) の Zero Margin）
 - [ ] セキュリティ: ハードコードされた秘密情報がない
 - [ ] セキュリティ: ユーザー入力のバリデーション
 

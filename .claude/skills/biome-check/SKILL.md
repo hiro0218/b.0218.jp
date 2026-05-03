@@ -15,7 +15,7 @@ description: Run Biome lint/format check on modified TypeScript and JavaScript f
 
 ## Skip when
 
-- 編集が非コードファイル (`.md`, `.json`, `.yml`, `.toml`, `.css`) のみ
+- 編集が非コードファイル (`.md`, `.json`, `.yml`, `.toml`, `.css`) のみ。ただし `biome.json` を編集した場合は `npx biome check biome.json` を実行する
 - 既に直前で同じファイル群を check 済み
 
 ## Steps
@@ -34,7 +34,7 @@ description: Run Biome lint/format check on modified TypeScript and JavaScript f
 npx biome check <files...>
 ```
 
-`npm run lint` ではなく `biome` を直接呼ぶ。`npm run lint` のスコープは `src build tools` のみで `tests/` を含まない。
+編集対象ファイルを明示して `biome` を直接呼ぶ。`npm run lint` は `src build tools tests` を対象にするが、対象ファイルを限定できない。
 
 ### 3. 違反対応
 
@@ -79,6 +79,6 @@ npx biome check <files...>
 | --------------------------------------- | ----------------------- | -------------------------------- |
 | 本 Skill                                | コード編集後、commit 前 | 編集対象ファイル全て             |
 | `nano-staged` (pre-commit)              | `git commit` 直前       | staged な `**/*.{ts,tsx,js,mjs}` |
-| `npm run lint` (CI / pr-validation.yml) | PR open / sync          | `src build tools` のみ           |
+| `npm run lint` (CI / pr-validation.yml) | PR open / sync          | `src build tools tests`          |
 
 本 Skill は CI / pre-commit のすり抜け (特に `tests/` 配下) を AI セッション中に防ぐのが目的。
