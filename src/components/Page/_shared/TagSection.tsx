@@ -1,0 +1,48 @@
+import type { JSX } from 'react';
+import { Heading } from '@/components/UI/Heading';
+import { Cluster } from '@/components/UI/Layout/Cluster';
+import { Stack } from '@/components/UI/Layout/Stack';
+import { LinkMore } from '@/components/UI/LinkMore';
+import type { Props as PostTagProps } from '@/components/UI/Tag';
+import { PostTag } from '@/components/UI/Tag';
+
+type Props = {
+  heading?: string;
+  headingLevel?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  headingWeight?: 'bold' | 'normal';
+  isWideCluster?: boolean;
+  tags: PostTagProps[];
+  href?: string;
+  as?: keyof JSX.IntrinsicElements;
+};
+
+export const TagSection = ({
+  as = 'section',
+  heading,
+  headingLevel = 'h2',
+  headingWeight = 'normal',
+  tags,
+  href,
+  isWideCluster = true,
+}: Props) => {
+  if (tags.length === 0) {
+    return null;
+  }
+
+  return (
+    <Stack as={as} gap={2}>
+      {!!heading && (
+        <Heading
+          as={headingLevel}
+          isBold={headingWeight === 'bold'}
+          textSide={href && <LinkMore href={href} text="すべて見る" />}
+        >
+          {heading}
+        </Heading>
+      )}
+      <Cluster isWide={isWideCluster}>
+        <PostTag tags={tags} />
+      </Cluster>
+    </Stack>
+  );
+};

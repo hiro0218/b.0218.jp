@@ -1,8 +1,8 @@
 import type { CSSProperties, JSX, ReactNode } from 'react';
 import { css, cx } from '@/ui/styled';
-import { gapClasses } from '@/ui/styled/atomic';
+import { gapClasses } from '@/ui/styled/atomic/spacing';
 import type { SpaceGap } from '@/ui/styled/theme/tokens/spacing';
-import { containerType } from '@/ui/styled/utilities';
+import { containerType } from '@/ui/styled/utilities/container-type';
 
 type Props = {
   as?: keyof JSX.IntrinsicElements;

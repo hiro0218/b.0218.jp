@@ -1,4 +1,4 @@
-import { Stack } from '@/components/UI/Layout';
+import { Stack } from '@/components/UI/Layout/Stack';
 import { styled } from '@/ui/styled';
 import { truncateQuery } from './utils/createSearchMessage';
 

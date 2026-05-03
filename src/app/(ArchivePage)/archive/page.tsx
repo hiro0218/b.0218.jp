@@ -3,13 +3,13 @@ import { getMetadata } from '@/app/_metadata';
 import { StructuredData } from '@/components/Functional/StructuredData';
 import { PostTimeline } from '@/components/Page/_shared/PostTimeline';
 import { Chart } from '@/components/Page/Archive/Chart';
-import Heading from '@/components/UI/Heading';
-import { Stack } from '@/components/UI/Layout';
+import { Heading } from '@/components/UI/Heading';
+import { Stack } from '@/components/UI/Layout/Stack';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
 import { getPostsListJson } from '@/lib/source/post';
-import { getData } from './_lib';
+import { getData } from './_lib/getData';
 
 const posts = getPostsListJson();
 const archives = getData(posts);

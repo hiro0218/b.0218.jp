@@ -1,0 +1,55 @@
+import type { ReactNode } from 'react';
+
+import { PostDate } from '@/components/UI/Date';
+import { Cluster } from '@/components/UI/Layout/Cluster';
+import { Stack } from '@/components/UI/Layout/Stack';
+import type { Props as PostTagProps } from '@/components/UI/Tag';
+import { PostTag } from '@/components/UI/Tag';
+import type { Post } from '@/types/source';
+import { css, styled } from '@/ui/styled';
+
+type Props = Pick<Post, 'title' | 'date' | 'updated'> & {
+  tagsWithCount: PostTagProps[];
+  render?: ReactNode;
+};
+
+export function PostHeader({ title, date, updated, tagsWithCount, render }: Props) {
+  return (
+    <Stack as="header" className={headerSeparatorStyle} gap={2}>
+      <Heading>{title}</Heading>
+      <Stack className={itemStyle} gap={2}>
+        <PostDate date={date} updated={updated} />
+        <Cluster isWide={false}>
+          <PostTag tags={tagsWithCount} />
+        </Cluster>
+      </Stack>
+      {render}
+    </Stack>
+  );
+}
+
+const headerSeparatorStyle = css`
+  &::after {
+    display: block;
+    width: 100%;
+    height: var(--spacing-½);
+    margin-top: var(--spacing-4);
+    color: var(--colors-gray-400);
+    content: '';
+    background-image: repeating-linear-gradient(-45deg, currentColor, currentColor 1px, transparent 0, transparent 50%);
+    background-size: 6px 6px;
+  }
+`;
+
+const Heading = styled.h1`
+  font-weight: var(--font-weights-bolder);
+  font-feature-settings: 'palt';
+  font-kerning: normal;
+  line-height: var(--line-heights-lg);
+  word-break: auto-phrase;
+  text-wrap: balance;
+`;
+
+const itemStyle = css`
+  color: var(--colors-gray-900);
+`;

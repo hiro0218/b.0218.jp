@@ -2,8 +2,10 @@ import { cache } from 'react';
 import { recentPosts as cachedRecentPosts } from '@/app/_lib/cachedRecentPosts';
 import { getPostsPopular } from '@/lib/post/derived';
 import type { ArticleSummary, PopularityDetail } from '@/types/source';
-import { getPost, getPostsByTag, getSimilarPosts, getSimilarTags, getTagsWithCountFromSlugs } from '../data';
-import { formatPostData, formatSimilarPosts, getAlternativePosts } from '../utils';
+import { getPost, getTagsWithCountFromSlugs } from '../data/getPost';
+import { getPostsByTag, getSimilarPosts, getSimilarTags } from '../data/getSimilarContent';
+import { formatSimilarPosts, getAlternativePosts } from '../utils/filterSimilarPosts';
+import { formatPostData } from '../utils/formatPostData';
 
 /** 投稿ページの戻り値の型定義 */
 interface PostPageData {

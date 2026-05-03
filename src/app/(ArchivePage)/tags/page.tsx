@@ -6,7 +6,8 @@ import { Title } from '@/components/UI/Title';
 import { SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
 import { getWebPageStructured } from '@/lib/domain/json-ld';
 import { getTagsWithCount } from '@/lib/source/tag';
-import { tagFromUrlPath, tagUrlPath } from '@/lib/tag/url';
+import { tagPermalink } from '@/lib/tag/navigation';
+import { tagFromUrlPath } from '@/lib/tag/url';
 
 type ListItemProps = Parameters<typeof getWebPageStructured>[0]['listItem'];
 
@@ -22,7 +23,7 @@ const listItem: ListItemProps = tags.slice(0, 20).map(({ slug }, i) => ({
   '@type': 'ListItem',
   position: i + 1,
   name: tagFromUrlPath(slug),
-  url: `${url}/${tagUrlPath(slug)}`,
+  url: tagPermalink(slug),
 }));
 
 export const metadata: Metadata = getMetadata({

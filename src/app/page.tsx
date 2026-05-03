@@ -2,13 +2,13 @@ import type { Metadata } from 'next';
 import { StructuredData } from '@/components/Functional/StructuredData';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { TagSection } from '@/components/Page/_shared/TagSection';
-import { Hero } from '@/components/Page/Home';
-import Heading from '@/components/UI/Heading';
-import { Stack } from '@/components/UI/Layout';
+import { Hero } from '@/components/Page/Home/Hero';
+import { Heading } from '@/components/UI/Heading';
 import { Container } from '@/components/UI/Layout/Container';
+import { Stack } from '@/components/UI/Layout/Stack';
 import { SITE_URL } from '@/constants';
 import { getOrganizationStructured, getWebSiteStructured } from '@/lib/domain/json-ld';
-import { getData } from './_lib';
+import { getData } from './_lib/getData';
 
 const data = getData();
 const { recentPosts, popularPosts, tags } = data;

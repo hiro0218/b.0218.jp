@@ -14,6 +14,7 @@ import type {
 import { AUTHOR_ICON, AUTHOR_NAME, SITE_NAME, SITE_URL, URL } from '@/constants';
 import { getTagsWithCount } from '@/lib/source/tag';
 import { getTagCategoriesJson } from '@/lib/tag/derived';
+import { tagPermalink } from '@/lib/tag/navigation';
 import type { PopularityDetail, Post } from '@/types/source';
 
 import { convertToISO8601WithTimezone } from '../utils/date';
@@ -184,7 +185,7 @@ export const getBreadcrumbStructured = (post: Post) => {
       '@type': 'ListItem',
       position: 2,
       name: tags,
-      item: `${SITE_URL}/tags/${tags}`,
+      item: tagPermalink(tags),
     });
   }
 

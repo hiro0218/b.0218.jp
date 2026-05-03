@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import ArticleCard from '@/components/UI/ArticleCard';
+import { ArticleCard } from '@/components/UI/ArticleCard';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { ArticleSummary } from '@/types/source';
 import { ARCHIVE_CONFIG } from './constants';

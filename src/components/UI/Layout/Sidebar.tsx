@@ -1,9 +1,10 @@
 import type { NamedExoticComponent, ReactNode } from 'react';
 
 import { css, cx, styled } from '@/ui/styled';
-import { fontSizeHeadingClasses, gapClasses } from '@/ui/styled/atomic';
+import { gapClasses } from '@/ui/styled/atomic/spacing';
+import { fontSizeHeadingClasses } from '@/ui/styled/atomic/typography';
 import type { SpaceGap } from '@/ui/styled/theme/tokens/spacing';
-import { textEllipsis } from '@/ui/styled/utilities';
+import { textEllipsis } from '@/ui/styled/utilities/text-ellipsis';
 
 type Props = {
   gap?: SpaceGap;
