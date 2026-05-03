@@ -59,9 +59,7 @@ jobs:
 
       - name: Prebuild and next build
         env:
-          GA_PROPERTY_ID: ${{ secrets.GA_PROPERTY_ID }}
-          GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_CLIENT_EMAIL }}
-          GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
+          SKIP_GA: 'true'
           SKIP_OGP: 'true'
         run: |
           npm run prebuild
