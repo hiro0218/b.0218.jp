@@ -56,6 +56,9 @@ src/components/Button/Button.test.tsx
 - `waitForTimeout`, `waitUntil: 'networkidle'`, `waitForNavigation`, `{ force: true }`, `page.pause()` は禁止（Biome error）。
 - `waitForSelector`, ElementHandle, `$eval` は locator / web-first assertion へ寄せる（Biome warn）。
 
+待機は時間や通信の静止ではなく、ユーザーから見える完了状態、URL、イベントを待つ。失敗時にアプリの未完了状態を検出でき、flake を隠さないためである。
+Biome warn は既存移行の猶予であり、新規コードでの推奨ではない。
+
 | 避ける API                       | 置換先                                                                      |
 | -------------------------------- | --------------------------------------------------------------------------- |
 | `page.waitForTimeout(...)`       | `await expect(locator).toBeVisible()` / `toHaveText()` / `toHaveURL()` など |

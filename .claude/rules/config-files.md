@@ -13,6 +13,7 @@ paths:
 ## Rule: Read Before Suggest
 
 変更提案の前に、関連する設定ファイルを必ず読むこと。
+設定ファイルはプロジェクト規則の実行可能な source of truth であり、AI の一般知識より優先する。確認なしの提案は React Compiler、Biome overrides、Panda token、prebuild の実態とずれやすい。
 
 ## 必須チェック（最小）
 

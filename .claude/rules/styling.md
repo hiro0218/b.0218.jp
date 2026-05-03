@@ -22,11 +22,15 @@ paths:
 - 色 / 余白 / font-size / font-weight は CSS 変数を使用
 - 直接値 (16px / #fff / red 等) は禁止（例外は [components.md](./components.md#-zero-margin-principle-critical) の Zero Margin Principle を参照）
 - `0`、`line-height` の単位なし数値、border width、radius、z-index、opacity、transition duration はこの項目の直接値禁止対象外。ただし対応する design token が存在する場合は token を優先する
-- ただし CSS キーワード値 (`italic`, `solid`, `none`, `inherit`, `bold`, `normal` 等) は型としてキーワードしか取れないため変数化対象外
+- ただし CSS キーワード値 (`italic`, `solid`, `none`, `inherit`, `bold`, `normal` 等) は型としてキーワードしか取れないため変数化対象外。`font-weight: bold/normal` はキーワード例外だが、視覚的な強弱を設計値として選ぶ場合は token / CSS 変数を優先する
+
+色・余白・typography は design system の契約である。直接値は一貫性、テーマ変更、レビュー可能性を壊すため、例外値はデザイン判断ではなく CSS の機械的な値として扱える場合に限る。
 
 ## 🔴 Dynamic Styling (CRITICAL)
 
 - Panda CSS は静的コンパイルのため、動的値は CSS 変数経由で渡す
+
+Panda CSS は build 時に class を静的抽出する。runtime 値を `css()` に直接入れると抽出できないため、class 構造は静的に保ち、値だけ CSS custom property で渡す。
 
 ## 🟡 Shorthand vs Longhand (IMPORTANT)
 

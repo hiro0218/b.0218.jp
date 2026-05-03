@@ -10,6 +10,8 @@ paths:
 
 - 最適化提案前に必ず `next.config.mjs` の `reactCompiler` を確認
 
+`reactCompiler` の有効状態は memoization 方針の前提である。コンポーネント render の単純な安定化は compiler に任せ、対象外の境界だけ手動最適化を検討する。
+
 ## React Compiler の範囲（要点）
 
 - **コンポーネントのレンダリング内**は自動最適化される

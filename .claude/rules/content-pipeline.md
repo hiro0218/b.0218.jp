@@ -13,6 +13,8 @@ paths:
 
 - `_article/_posts/*.md` は Git submodule のため直接編集禁止
 
+`_article` は外部 source of truth、`dist/` と `public/images/ogp/` は派生物である。手動編集は `prebuild` で上書きされ、記事・検索・OGP の整合性を壊すため、生成元または生成スクリプトを修正する。
+
 ## 出力先
 
 - 生成物は `dist/` に出力する
@@ -39,5 +41,5 @@ paths:
 
 ## 編集可能/不可
 
-- ✅ `build/**/*`, `scripts/prebuild.sh`, `src/lib/post/`, `src/lib/tag/`, `src/lib/page/`, `src/app/**/page.tsx`
+- ✅ `build/**/*`, `scripts/prebuild.sh`, `src/lib/post/`, `src/lib/tag/`, `src/lib/source/`, `src/app/**/page.tsx`
 - ❌ `_article/_posts/*.md`, 生成された JSON, `public/images/ogp/*`

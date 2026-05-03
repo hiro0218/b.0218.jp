@@ -85,6 +85,8 @@ paths:
 | `noPlaywrightEval`              | warn  | locator API 推奨                                         |
 | `noPlaywrightUselessAwait`      | warn  | 不要な await の検出                                      |
 
+`warn` は新規コードでの許可ではなく、既存コード移行の猶予である。新規・変更コードでは warn でも rule の意図に沿う修正を優先し、既存ファイルを触る場合は変更箇所と近傍を無理のない範囲で寄せる。
+
 ## レイヤー依存 / import
 
 `noRestrictedImports` の overrides で UI/Functional/Page/App 層の依存方向を機械的に強制する。全レイヤーで `~/styled-system/*` の直接 import も禁止し、`@/ui/styled` 経由に統一する。
@@ -97,6 +99,7 @@ paths:
 2. SDK / 外部ライブラリの慣用パターンで逸脱が避けられない場合。
 
 例外がプロジェクト全体に及ぶなら `warn` / `off`、特定箇所に閉じるなら `biome-ignore` を使う。
+`biome-ignore` は局所的に診断を消す技術的負債である。コメントには rule id、外部制約、lint 準拠案が不適切な理由、維持すべき不変条件を含める。
 
 ## 参照
 
