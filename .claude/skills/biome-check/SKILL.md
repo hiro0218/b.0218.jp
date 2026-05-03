@@ -26,7 +26,7 @@ description: Run Biome lint/format check on modified TypeScript and JavaScript f
 
 1. 当該タスクで編集 / 作成したファイル
 2. `git status --short` の `M` / `A` / `??` から `*.{ts,tsx,js,jsx,mjs}` を抽出
-3. `_article/**`, `dist/**`, `styled-system/**`, `node_modules/**`, `.next/**` は除外 (biome.json の `files.includes` で既に除外)
+3. `_article/**`, `dist/**`, `styled-system/**`, `node_modules/**`, `.next/**` は除外する。`_article` は `files.includes`、`dist` / `styled-system` / `node_modules` / `.next` は `.gitignore` + VCS 統合で除外される
 
 ### 2. Read-only check
 
@@ -61,16 +61,7 @@ npx biome check <files...>
 
 ## プロジェクト固有の注意
 
-`.claude/rules/linting.md` で error 化されているルール (recommended 以上に厳格化):
-
-| rule                  | 意図                                            |
-| --------------------- | ----------------------------------------------- |
-| `noExplicitAny`       | TypeScript any 禁止の機械的強制                 |
-| `noUnusedVariables`   | rest siblings は許容                            |
-| `noDelete`            | パフォーマンス                                  |
-| `useTopLevelRegex`    | 関数内 regex literal 禁止、トップレベル定数化   |
-| `useNamingConvention` | PascalCase / camelCase 強制 (strictCase: false) |
-
+厳格化ルールの一覧と理由は `.claude/rules/linting.md` を参照する。
 `useTopLevelRegex` は spec ファイルでも適用される。テスト内で `expect(x).toMatch(/.../)` のような inline regex はトップレベル定数に切り出す。
 
 ## 周辺ツールとの関係
