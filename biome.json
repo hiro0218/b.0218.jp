@@ -86,14 +86,7 @@
         "noPlaywrightWaitForTimeout": "error"
       }
     },
-    "includes": [
-      "**",
-      "!_article",
-      "!build/**",
-      "!public/**",
-
-      "!**/*.config.js"
-    ]
+    "includes": ["**", "!_article", "!build/**", "!public/**", "!**/*.config.js"]
   },
   "javascript": {
     "formatter": {
@@ -259,6 +252,7 @@
                   "@/components/App/*": "Page/_shared層からApp層への依存は禁止されています",
                   "@/components/Page/Archive/*": "Page/_shared層から個別Page層への依存は禁止されています",
                   "@/components/Page/Home/*": "Page/_shared層から個別Page層への依存は禁止されています",
+                  "@/components/Page/NotFound/*": "Page/_shared層から個別Page層への依存は禁止されています",
                   "@/components/Page/Post/*": "Page/_shared層から個別Page層への依存は禁止されています",
                   "@/components/Page/Single/*": "Page/_shared層から個別Page層への依存は禁止されています",
                   "~/styled-system/*": "@/ui/styled 経由で import してください"
@@ -279,6 +273,7 @@
       "includes": [
         "src/components/Page/Archive/**/*.{ts,tsx}",
         "src/components/Page/Home/**/*.{ts,tsx}",
+        "src/components/Page/NotFound/**/*.{ts,tsx}",
         "src/components/Page/Post/**/*.{ts,tsx}",
         "src/components/Page/Single/**/*.{ts,tsx}"
       ],
