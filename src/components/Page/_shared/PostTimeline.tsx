@@ -1,7 +1,6 @@
 import { Anchor } from '@/components/UI/Anchor';
 import { Cluster } from '@/components/UI/Layout/Cluster';
 import { PostTag } from '@/components/UI/Tag';
-import { convertDateToSimpleFormat } from '@/lib/utils/date';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { ArticleSummary } from '@/types/source';
 import { css, styled } from '@/ui/styled';
@@ -9,6 +8,11 @@ import { css, styled } from '@/ui/styled';
 type Props = {
   posts: ArticleSummary[];
   prefetch?: boolean;
+};
+
+const formatTimelineDate = (date: string) => {
+  const [datePart] = date.split('T');
+  return datePart.replaceAll('-', '/');
 };
 
 /**
@@ -24,7 +28,7 @@ export const PostTimeline = ({ posts, prefetch = false }: Props) => {
     <List>
       {posts.map((post) => {
         const link = convertPostSlugToPath(post.slug);
-        const display = convertDateToSimpleFormat(new Date(post.date));
+        const display = formatTimelineDate(post.date);
         const tags = post.tags ?? [];
 
         return (
