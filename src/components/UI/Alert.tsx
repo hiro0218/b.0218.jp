@@ -1,4 +1,9 @@
-import { ExclamationCircleIcon, ExclamationTriangleIcon, InformationCircleIcon, LightBulbIcon } from '@/ui/icons';
+import {
+  ExclamationCircleIcon,
+  ExclamationTriangleIcon,
+  InformationCircleIcon,
+  LightBulbIcon,
+} from '@heroicons/react/24/outline';
 import { css } from '@/ui/styled';
 
 export type AlertType = 'note' | 'tip' | 'important' | 'warning' | 'caution';

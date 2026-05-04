@@ -25,7 +25,6 @@ const containerStyle = css`
   grid-template-rows: auto 1fr;
   grid-template-columns: var(--sizes-icon-xl) 1fr;
   gap: var(--spacing-2);
-  font-family: var(--fonts-family-monospace);
   font-size: var(--font-sizes-md);
   color: var(--colors-gray-900);
 

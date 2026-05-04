@@ -8,12 +8,18 @@ import { getWebPageStructured } from '@/lib/domain/json-ld';
 import { getTagsWithCount } from '@/lib/source/tag';
 import { tagPermalink } from '@/lib/tag/navigation';
 import { tagFromUrlPath } from '@/lib/tag/url';
+import type { TagCounts } from '@/types/source';
 
 type ListItemProps = Parameters<typeof getWebPageStructured>[0]['listItem'];
+type NavigableTag = TagCounts & { isNavigable: true };
 
-const tags = getTagsWithCount()
-  .filter((tag) => tag.count >= TAG_VIEW_LIMIT)
-  .map((tag) => ({ ...tag, isNavigable: true as const }));
+const tags = getTagsWithCount().reduce<NavigableTag[]>((filteredTags, tag) => {
+  if (tag.count >= TAG_VIEW_LIMIT) {
+    filteredTags.push({ ...tag, isNavigable: true });
+  }
+
+  return filteredTags;
+}, []);
 const title = 'Tags';
 const description = `${tags.length}件のタグ`;
 const url = `${SITE_URL}/tags`;

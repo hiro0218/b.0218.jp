@@ -50,15 +50,13 @@ vi.mock('@/components/UI/Layout/Stack', () => ({
   ),
 }));
 
-vi.mock('@/ui/icons', () => ({
+vi.mock('@heroicons/react/24/outline', () => ({
   // biome-ignore lint/style/useNamingConvention: React component mock requires PascalCase
   CodeBracketIcon: (props: Record<string, unknown>) => <svg data-testid="icon-development" {...props} />,
   // biome-ignore lint/style/useNamingConvention: React component mock requires PascalCase
   ComputerDesktopIcon: (props: Record<string, unknown>) => <svg data-testid="icon-technology" {...props} />,
   // biome-ignore lint/style/useNamingConvention: React component mock requires PascalCase
   DocumentTextIcon: (props: Record<string, unknown>) => <svg data-testid="icon-other" {...props} />,
-  // biome-ignore lint/style/useNamingConvention: constant export matching source module
-  ICON_SIZE_XS: 16,
 }));
 
 /* ------------------------------------------------------------------ */

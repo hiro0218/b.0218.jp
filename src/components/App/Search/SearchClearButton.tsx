@@ -1,4 +1,5 @@
-import { ICON_SIZE_XS, XMarkIcon } from '@/ui/icons';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { ICON_SIZE_XS } from '@/ui/iconSizes';
 import { styled } from '@/ui/styled';
 
 type Props = {

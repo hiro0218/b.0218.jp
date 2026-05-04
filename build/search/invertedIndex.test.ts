@@ -33,9 +33,9 @@ describe('generateSearchIndex', () => {
 
     const { invertedIndex, searchData } = generateSearchIndex(posts, mockTokenizer);
 
-    // react タグで両方の記事が登録される
-    expect(invertedIndex['react']).toContain('react-intro');
-    expect(invertedIndex['react']).toContain('react-advanced');
+    // react タグで両方の記事IDが登録される
+    expect(invertedIndex['react']).toContain(0);
+    expect(invertedIndex['react']).toContain(1);
 
     // searchData が正しく生成される
     expect(searchData).toHaveLength(2);
@@ -70,17 +70,26 @@ describe('generateSearchIndex', () => {
 
     const { invertedIndex } = generateSearchIndex(posts, mockTokenizer);
 
-    // 正規化されたタグ typescript に両方の slug が含まれる
-    expect(invertedIndex['typescript']).toContain('post1');
-    expect(invertedIndex['typescript']).toContain('post2');
+    // 正規化されたタグ typescript に両方の記事IDが含まれる
+    expect(invertedIndex['typescript']).toContain(0);
+    expect(invertedIndex['typescript']).toContain(1);
   });
 
-  it('トークンとタグが同じ文字列の場合、slugが重複しないこと', () => {
+  it('トークンが正規化されて転置インデックスに登録されること', () => {
+    const posts = [createPost({ title: 'React Performance', slug: 'post1', tags: [] })];
+
+    const { invertedIndex } = generateSearchIndex(posts, mockTokenizer);
+
+    expect(invertedIndex['react']).toEqual([0]);
+    expect(invertedIndex['React']).toBeUndefined();
+  });
+
+  it('トークンとタグが同じ文字列の場合、記事IDが重複しないこと', () => {
     const posts = [createPost({ title: 'react hooks', slug: 'post1', tags: ['react'] })];
 
     const { invertedIndex } = generateSearchIndex(posts, mockTokenizer);
 
-    const reactSlugs = invertedIndex['react'];
-    expect(reactSlugs).toEqual([...new Set(reactSlugs)]);
+    const reactIds = invertedIndex['react'];
+    expect(reactIds).toEqual([...new Set(reactIds)]);
   });
 });

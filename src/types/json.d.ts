@@ -1,21 +1,9 @@
+import type { SearchDataItem, SearchIndex } from '@/lib/search';
+
 /**
- * JSON ファイルのグローバル型定義
+ * JSON ファイルの型定義
  * プロジェクトルートに配置してTypeScriptのモジュール解決を支援
  */
-
-/**
- * 検索用データの型定義
- */
-interface SearchDataItem {
-  slug: string;
-  title: string;
-  tags: string[];
-}
-
-/**
- * 転置インデックスの型定義
- */
-type SearchIndex = Record<string, string[]>;
 
 /**
  * 検索サジェスト候補の型定義

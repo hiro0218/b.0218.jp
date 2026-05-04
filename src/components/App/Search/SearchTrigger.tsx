@@ -1,5 +1,6 @@
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { Tooltip } from '@/components/UI/Tooltip';
-import { ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';
+import { ICON_SIZE_XS } from '@/ui/iconSizes';
 import { styled } from '@/ui/styled';
 import { SEARCH_LABELS } from './constants';
 

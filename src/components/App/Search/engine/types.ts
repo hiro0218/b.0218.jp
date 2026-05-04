@@ -1,4 +1,1 @@
-export type SearchDataPayload = {
-  searchIndex: SearchIndex;
-  searchData: SearchDataItem[];
-};
+export type { SearchDataPayload } from '@/lib/search';

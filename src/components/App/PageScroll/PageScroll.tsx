@@ -1,7 +1,7 @@
 'use client';
 
+import { ArrowUpIcon } from '@heroicons/react/24/outline';
 import { Tooltip } from '@/components/UI/Tooltip';
-import { ArrowUpIcon } from '@/ui/icons';
 import { styled } from '@/ui/styled';
 
 export const PageScroll = () => (

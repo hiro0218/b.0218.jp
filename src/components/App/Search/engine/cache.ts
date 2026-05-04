@@ -3,6 +3,7 @@
  * @description
  * 検索結果を最大50件までキャッシュし、最も古いエントリを自動削除する
  */
+import { normalizeSearchToken } from '@/lib/search';
 import type { SearchResultItem } from '../types';
 
 export class SearchCache {
@@ -32,6 +33,6 @@ export class SearchCache {
   }
 
   static createKey(searchValue: string, dataSize: number): string {
-    return `${searchValue}-${dataSize}`;
+    return `${normalizeSearchToken(searchValue)}-${dataSize}`;
   }
 }

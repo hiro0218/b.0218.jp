@@ -1,7 +1,8 @@
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import type { ReactNode } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
-import { ChevronRightIcon, ICON_SIZE_XS } from '@/ui/icons';
+import { ICON_SIZE_XS } from '@/ui/iconSizes';
 import { css, cx } from '@/ui/styled';
 
 const linkMoreStyle = css`

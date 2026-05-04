@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import type { Ref } from 'react';
 
 import { styled } from '@/ui/styled';
 import { useToast } from './Toast/useToast';
@@ -9,6 +9,7 @@ interface ToastProps {
   message: string;
   onHideToast: () => void;
   isVisible: boolean;
+  ref?: Ref<HTMLDivElement>;
 }
 
 /**
@@ -16,7 +17,7 @@ interface ToastProps {
  * @summary 自動消去トースト通知
  * @see useToast
  */
-export const Toast = forwardRef<HTMLDivElement, ToastProps>(({ message, onHideToast, isVisible }, ref) => {
+export function Toast({ message, onHideToast, isVisible, ref }: ToastProps) {
   return (
     <Container
       aria-atomic="true"
@@ -26,12 +27,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(({ message, onHideTo
       ref={ref}
       role="status"
     >
-      {isVisible && message}
+      {isVisible ? message : null}
     </Container>
   );
-});
-
-Toast.displayName = 'Toast';
+}
 
 const Container = styled.div`
   position: fixed;

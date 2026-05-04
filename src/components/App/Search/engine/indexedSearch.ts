@@ -4,7 +4,7 @@
  * ビルド時に生成された転置インデックスを利用して、O(1)の検索を実現
  */
 
-import { tagKey } from '@/lib/tag/key';
+import { normalizeSearchToken, type SearchDataItem, type SearchIndex } from '@/lib/search';
 import type { SearchResultItem } from '../types';
 import { isEmptyQuery } from '../utils/validation';
 import type { SearchDataPayload } from './types';
@@ -36,9 +36,8 @@ interface NormalizedSearchDataItem extends SearchDataItem {
 }
 
 let initialized = false;
-let typedSearchIndex: Record<string, string[]> = {};
+let typedSearchIndex: SearchIndex = {};
 let normalizedSearchData: NormalizedSearchDataItem[] = [];
-let searchDataMap = new Map<string, NormalizedSearchDataItem>();
 let indexTokenKeys: string[] = [];
 let indexTokensByFirstChar = new Map<string, string[]>();
 let matchingTokenCache = new Map<string, TokenMatch[]>();
@@ -52,10 +51,9 @@ export function initializeSearchEngine(data: SearchDataPayload): void {
   typedSearchIndex = data.searchIndex;
   normalizedSearchData = data.searchData.map((item) => ({
     ...item,
-    titleLower: item.title.toLowerCase(),
-    tagsLower: item.tags.map(tagKey),
+    titleLower: normalizeSearchToken(item.title),
+    tagsLower: item.tags.map(normalizeSearchToken),
   }));
-  searchDataMap = new Map<string, NormalizedSearchDataItem>(normalizedSearchData.map((item) => [item.slug, item]));
   indexTokenKeys = Object.keys(typedSearchIndex);
   indexTokensByFirstChar = new Map<string, string[]>();
   matchingTokenCache = new Map<string, TokenMatch[]>();
@@ -86,7 +84,6 @@ export function resetSearchEngine(): void {
   initialized = false;
   typedSearchIndex = {};
   normalizedSearchData = [];
-  searchDataMap = new Map();
   indexTokenKeys = [];
   indexTokensByFirstChar = new Map();
   matchingTokenCache = new Map();
@@ -96,7 +93,7 @@ export function resetSearchEngine(): void {
  * 検索クエリをトークンに分割（スペース区切り + 正規化）
  */
 function tokenizeQuery(query: string): string[] {
-  const normalized = query.toLowerCase().trim();
+  const normalized = normalizeSearchToken(query);
   if (!normalized) return [];
 
   // スペースで分割して空文字を除外し、重複トークンを排除
@@ -107,6 +104,52 @@ function tokenizeQuery(query: string): string[] {
 type MatchType = 'exact' | 'partial';
 type TokenMatch = { token: string; matchType: MatchType };
 type MatchInfo = { exactMatches: number; partialMatches: number };
+type ScoredSearchResult = SearchResultItem & { id: number; score: number; order: number };
+
+function getOrCreateSet<TKey, TValue>(map: Map<TKey, Set<TValue>>, key: TKey): Set<TValue> {
+  let value = map.get(key);
+  if (!value) {
+    value = new Set<TValue>();
+    map.set(key, value);
+  }
+  return value;
+}
+
+function isBetterScoredResult(candidate: ScoredSearchResult, current: ScoredSearchResult): boolean {
+  return candidate.score > current.score || (candidate.score === current.score && candidate.order < current.order);
+}
+
+function findWorstScoredResultIndex(results: ScoredSearchResult[]): number {
+  let worstIndex = 0;
+
+  for (let i = 1; i < results.length; i++) {
+    if (isBetterScoredResult(results[worstIndex], results[i])) {
+      worstIndex = i;
+    }
+  }
+
+  return worstIndex;
+}
+
+function addTopScoredResult(results: ScoredSearchResult[], result: ScoredSearchResult): void {
+  if (results.length < MAX_SEARCH_RESULTS) {
+    results.push(result);
+    return;
+  }
+
+  const worstIndex = findWorstScoredResultIndex(results);
+  if (isBetterScoredResult(result, results[worstIndex])) {
+    results[worstIndex] = result;
+  }
+}
+
+function compareScoredResults(a: ScoredSearchResult, b: ScoredSearchResult): number {
+  return b.score - a.score || a.order - b.order;
+}
+
+function toSearchResult({ id: _id, score: _score, order: _order, ...item }: ScoredSearchResult): SearchResultItem {
+  return item;
+}
 
 /**
  * タグマッチングのスコアを計算
@@ -139,9 +182,14 @@ function calculateTagScore(tagsLower: string[], queryTokens: string[]): { score:
  */
 function calculateCompoundWordBonus(indexTokens: Set<string>, queryTokens: string[]): number {
   for (const indexToken of indexTokens) {
-    const matchCount = queryTokens.filter((qt) => indexToken.includes(qt)).length;
-    if (matchCount >= 2) {
-      return SCORE.compoundWord;
+    let matchCount = 0;
+    for (const queryToken of queryTokens) {
+      if (!indexToken.includes(queryToken)) continue;
+
+      matchCount++;
+      if (matchCount >= 2) {
+        return SCORE.compoundWord;
+      }
     }
   }
   return 0;
@@ -209,18 +257,21 @@ function findMatchingTokens(queryToken: string): TokenMatch[] {
  * マッチ位置に応じたスコアリングで結果を順位付けする。
  *
  * @param searchValue 検索クエリ文字列
- * @param excludeSlugs インデックス検索で既に見つかった記事のslugセット
+ * @param excludeIds インデックス検索で既に見つかった記事IDセット
  * @returns タイトルマッチした記事のリスト（最大100件）
  */
-function searchByTitleFallback(searchValue: string, excludeSlugs: Set<string>): SearchResultItem[] {
-  const queryLower = searchValue.toLowerCase().trim();
+function searchByTitleFallback(searchValue: string, excludeIds: Set<number>): SearchResultItem[] {
+  const queryLower = normalizeSearchToken(searchValue);
   const results: Array<SearchResultItem & { score: number }> = [];
 
-  for (const data of normalizedSearchData) {
-    if (excludeSlugs.has(data.slug)) continue;
+  for (let itemId = 0; itemId < normalizedSearchData.length; itemId++) {
+    if (excludeIds.has(itemId)) continue;
 
-    if (data.titleLower.includes(queryLower)) {
-      const matchIndex = data.titleLower.indexOf(queryLower);
+    const data = normalizedSearchData[itemId];
+    if (!data) continue;
+
+    const matchIndex = data.titleLower.indexOf(queryLower);
+    if (matchIndex !== -1) {
       let score = SCORE.titleMatch;
 
       // 完全一致ボーナス
@@ -275,46 +326,46 @@ export function performIndexedSearch(searchValue: string): SearchResultItem[] {
   }
 
   // 1. 転置インデックスから候補記事IDを取得（完全一致 + 部分一致）
-  const matchInfo = new Map<string, MatchInfo>();
-  const slugToTokens = new Map<string, Set<string>>();
-  const slugMatchedQueryTokens = new Map<string, Set<string>>();
+  const matchInfo = new Map<number, MatchInfo>();
+  const itemIdToTokens = new Map<number, Set<string>>();
+  const itemIdMatchedQueryTokens = new Map<number, Set<string>>();
 
   for (const queryToken of queryTokens) {
     for (const { token: indexToken, matchType } of findMatchingTokens(queryToken)) {
-      const slugs = typedSearchIndex[indexToken];
-      if (!slugs) continue;
+      const itemIds = typedSearchIndex[indexToken];
+      if (!itemIds) continue;
 
-      for (const slug of slugs) {
+      for (const itemId of itemIds) {
         // マッチタイプごとにカウント
-        const info = matchInfo.get(slug) ?? { exactMatches: 0, partialMatches: 0 };
+        let info = matchInfo.get(itemId);
+        if (!info) {
+          info = { exactMatches: 0, partialMatches: 0 };
+          matchInfo.set(itemId, info);
+        }
         info[matchType === 'exact' ? 'exactMatches' : 'partialMatches']++;
-        matchInfo.set(slug, info);
 
         // マッチしたindexTokenを記録
-        const tokens = slugToTokens.get(slug) ?? new Set();
-        tokens.add(indexToken);
-        slugToTokens.set(slug, tokens);
+        getOrCreateSet(itemIdToTokens, itemId).add(indexToken);
 
         // クエリトークンごとのマッチを記録（AND検索用）
-        const matched = slugMatchedQueryTokens.get(slug) ?? new Set();
-        matched.add(queryToken);
-        slugMatchedQueryTokens.set(slug, matched);
+        getOrCreateSet(itemIdMatchedQueryTokens, itemId).add(queryToken);
       }
     }
   }
 
   // 2. 候補記事を取得してスコアリング
-  const results: Array<SearchResultItem & { score: number }> = [];
-  const queryLower = searchValue.toLowerCase();
+  const results: ScoredSearchResult[] = [];
+  const queryLower = normalizeSearchToken(searchValue);
+  let resultOrder = 0;
 
-  for (const [slug, info] of matchInfo) {
+  for (const [itemId, info] of matchInfo) {
     // AND検索: 複数トークンの場合、すべてのクエリトークンにマッチしない記事を除外
     if (queryTokens.length > 1) {
-      const matchedTokens = slugMatchedQueryTokens.get(slug);
+      const matchedTokens = itemIdMatchedQueryTokens.get(itemId);
       if (!matchedTokens || matchedTokens.size < queryTokens.length) continue;
     }
 
-    const data = searchDataMap.get(slug);
+    const data = normalizedSearchData[itemId];
     if (!data) continue;
 
     // 基本スコア（完全一致は高スコア、部分一致は低スコア）
@@ -337,7 +388,7 @@ export function performIndexedSearch(searchValue: string): SearchResultItem[] {
 
     // 複合語マッチボーナス
     if (queryTokens.length > 1) {
-      const indexTokens = slugToTokens.get(slug);
+      const indexTokens = itemIdToTokens.get(itemId);
       if (indexTokens) {
         score += calculateCompoundWordBonus(indexTokens, queryTokens);
       }
@@ -349,29 +400,32 @@ export function performIndexedSearch(searchValue: string): SearchResultItem[] {
     // matchType を決定
     const matchType = determineMatchType(info, queryTokens.length);
 
-    results.push({
+    addTopScoredResult(results, {
+      id: itemId,
       slug: data.slug,
       title: data.title,
       tags: data.tags,
       matchedIn,
       matchType,
       score,
+      order: resultOrder++,
     });
   }
 
   // 3. スコア順にソートして上位N件を返す
-  results.sort((a, b) => b.score - a.score);
+  results.sort(compareScoredResults);
 
   // スコアプロパティを除外して返す
-  const indexedResults = results.slice(0, MAX_SEARCH_RESULTS).map(({ score, ...item }) => item);
+  const indexedResults = results.map(toSearchResult);
 
   if (indexedResults.length >= MAX_SEARCH_RESULTS) {
     return indexedResults;
   }
 
   // 4. タイトル直接検索で補完（インデックス検索で見つからなかった記事を追加）
-  const indexedSlugs = new Set(indexedResults.map((r) => r.slug));
-  const fallbackResults = searchByTitleFallback(searchValue, indexedSlugs);
+  // fallback に到達するのは indexedResults が 100 件未満の場合だけなので、results は候補全件を含む。
+  const indexedIds = new Set(results.map((result) => result.id));
+  const fallbackResults = searchByTitleFallback(searchValue, indexedIds);
 
   return [...indexedResults, ...fallbackResults].slice(0, MAX_SEARCH_RESULTS);
 }

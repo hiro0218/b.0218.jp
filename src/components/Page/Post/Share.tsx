@@ -1,13 +1,16 @@
 'use client';
 'use no memo';
 
+import { LinkIcon, ShareIcon } from '@heroicons/react/24/outline';
 import { useCallback, useId, useSyncExternalStore } from 'react';
 
 import { Stack } from '@/components/UI/Layout/Stack';
 import { Toast, useToast } from '@/components/UI/Toast';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { X_ACCOUNT } from '@/constants';
-import { Hatenabookmark, ICON_SIZE_SM, LinkIcon, ShareIcon, X } from '@/ui/icons';
+import { ICON_SIZE_SM } from '@/ui/iconSizes';
+import { Hatenabookmark } from '@/ui/icons/Hatenabookmark';
+import { X } from '@/ui/icons/X';
 import { css, cx } from '@/ui/styled';
 
 interface Props {

@@ -1,4 +1,4 @@
-import { clampFontSize, pxToRem } from '@/ui/lib/fonts';
+import { clampFontSize, pxToRem } from '../../../lib/fonts';
 import { getFontSizeStep } from './fontSizes/utils';
 import type { TokenValues } from './types';
 

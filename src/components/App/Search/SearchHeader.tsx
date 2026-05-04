@@ -1,10 +1,11 @@
 'use client';
 
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useTextField } from '@react-aria/textfield';
 import { mergeProps } from '@react-aria/utils';
 import { useEffect, useRef, useState } from 'react';
 
-import { ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';
+import { ICON_SIZE_XS } from '@/ui/iconSizes';
 import { css, styled } from '@/ui/styled';
 import { SearchClearButton } from './SearchClearButton';
 

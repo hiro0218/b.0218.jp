@@ -1,7 +1,8 @@
+import { CodeBracketIcon, ComputerDesktopIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
 import type { ReactNode } from 'react';
 
 import type { TagCategoryName } from '@/types/source';
-import { CodeBracketIcon, ComputerDesktopIcon, DocumentTextIcon, ICON_SIZE_XS } from '@/ui/icons';
+import { ICON_SIZE_XS } from '@/ui/iconSizes';
 
 export const CATEGORY_LABELS: Record<TagCategoryName, string> = {
   development: '開発',

@@ -9,6 +9,7 @@ import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
 import { getPostsListJson } from '@/lib/source/post';
+import type { ArchivesByYear } from '@/types/source';
 import { getData } from './_lib/getData';
 
 const posts = getPostsListJson();
@@ -26,17 +27,22 @@ export const metadata: Metadata = getMetadata({
   url: `${SITE_URL}/${slug}`,
 });
 
-const renderTimelinesByYear = (archiveData: typeof archives) =>
-  Object.keys(archiveData)
-    .toReversed()
-    .map((year) => (
-      <Stack as="section" gap={2} key={year}>
-        <Heading as="h2" id={`${year}年`} textSide={<span>{archiveData[year].length} posts</span>}>
-          {year}
-        </Heading>
-        <PostTimeline posts={archiveData[year]} />
-      </Stack>
-    ));
+function ArchiveTimelinesByYear({ archives }: { archives: ArchivesByYear }) {
+  return (
+    <>
+      {Object.keys(archives)
+        .toReversed()
+        .map((year) => (
+          <Stack as="section" gap={2} key={year}>
+            <Heading as="h2" id={`${year}年`} textSide={<span>{archives[year].length} posts</span>}>
+              {year}
+            </Heading>
+            <PostTimeline posts={archives[year]} />
+          </Stack>
+        ))}
+    </>
+  );
+}
 
 export default function Page() {
   return (
@@ -52,7 +58,7 @@ export default function Page() {
 
         <Chart archives={archives} totalPosts={totalPosts} />
 
-        {renderTimelinesByYear(archives)}
+        <ArchiveTimelinesByYear archives={archives} />
       </Stack>
     </>
   );

@@ -1,7 +1,6 @@
 import { Anchor } from '@/components/UI/Anchor';
 import { Cluster } from '@/components/UI/Layout/Cluster';
 import { PostTag } from '@/components/UI/Tag';
-import { convertDateToSimpleFormat } from '@/lib/utils/date';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { ArticleSummary } from '@/types/source';
 import { css, styled } from '@/ui/styled';
@@ -9,6 +8,11 @@ import { css, styled } from '@/ui/styled';
 type Props = {
   posts: ArticleSummary[];
   prefetch?: boolean;
+};
+
+const formatTimelineDate = (date: string) => {
+  const [datePart] = date.split('T');
+  return datePart.replaceAll('-', '/');
 };
 
 /**
@@ -24,7 +28,7 @@ export const PostTimeline = ({ posts, prefetch = false }: Props) => {
     <List>
       {posts.map((post) => {
         const link = convertPostSlugToPath(post.slug);
-        const display = convertDateToSimpleFormat(new Date(post.date));
+        const display = formatTimelineDate(post.date);
         const tags = post.tags ?? [];
 
         return (
@@ -64,6 +68,7 @@ const List = styled.ol`
   gap: var(--spacing-1);
   padding-inline-start: var(--timeline-gutter);
   container-type: inline-size;
+  isolation: isolate;
 
   &::before {
     position: absolute;
@@ -74,6 +79,43 @@ const List = styled.ol`
     content: '';
     background-color: var(--colors-gray-100);
   }
+
+  /* 未対応環境は li 自身の hover 背景を使い、対応環境だけ追随背景へ切り替える */
+  @supports (anchor-scope: --post-timeline-item) and (position-anchor: --post-timeline-item) and
+    (top: anchor(top)) and (width: anchor-size(width)) and selector(:has(*)) {
+    anchor-scope: --post-timeline-item;
+
+    &::after {
+      position: absolute;
+      top: anchor(top, 0);
+      left: anchor(left, 0);
+      z-index: 0;
+      width: anchor-size(width, 0);
+      height: anchor-size(height, 0);
+      position-anchor: --post-timeline-item;
+      pointer-events: none;
+      content: '';
+      background-color: var(--colors-gray-a-100);
+      border-radius: var(--radii-sm);
+      opacity: 0;
+      transition: none;
+    }
+
+    &:has(> li:is(:hover, :focus-within))::after {
+      opacity: 1;
+      transition:
+        top var(--transition-fast),
+        left var(--transition-fast),
+        width var(--transition-fast),
+        height var(--transition-fast),
+        background-color var(--transition-fast),
+        opacity var(--transition-fast);
+    }
+
+    &:has(> li:active)::after {
+      background-color: var(--colors-gray-a-200);
+    }
+  }
 `;
 
 const Item = styled.li`
@@ -82,7 +124,7 @@ const Item = styled.li`
   grid-template-columns: var(--timeline-date-col) 1fr;
   gap: var(--spacing-2);
   align-items: baseline;
-  padding: var(--timeline-item-pad-y) 0 var(--timeline-item-pad-y) var(--spacing-2);
+  padding: var(--timeline-item-pad-y) var(--spacing-2);
   border-radius: var(--radii-sm);
   transition: background-color var(--transition-fast);
 
@@ -118,6 +160,36 @@ const Item = styled.li`
     background-color: var(--colors-gray-a-200);
   }
 
+  @supports (anchor-scope: --post-timeline-item) and (position-anchor: --post-timeline-item) and
+    (top: anchor(top)) and (width: anchor-size(width)) and selector(:has(*)) {
+    z-index: var(--z-index-base);
+
+    &:first-child {
+      anchor-name: --post-timeline-item;
+    }
+
+    &::after {
+      position: absolute;
+      inset: calc(var(--spacing-1) / -2) 0;
+      z-index: -1;
+      content: '';
+    }
+
+    &:hover,
+    &:focus-within {
+      anchor-name: --post-timeline-item;
+      background-color: transparent;
+    }
+
+    &:active {
+      background-color: transparent;
+    }
+
+    ol:has(> li:hover) > &:focus-within:not(:hover) {
+      anchor-name: none;
+    }
+  }
+
   @container (max-width: 560px) {
     grid-template-columns: 1fr;
     gap: var(--spacing-2);
@@ -125,7 +197,6 @@ const Item = styled.li`
 `;
 
 const Time = styled.time`
-  font-family: var(--fonts-family-monospace);
   font-size: var(--font-sizes-sm);
   font-variant-numeric: tabular-nums;
   color: var(--colors-gray-600);
