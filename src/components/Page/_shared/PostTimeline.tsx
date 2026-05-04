@@ -86,7 +86,7 @@ const Item = styled.li`
   grid-template-columns: var(--timeline-date-col) 1fr;
   gap: var(--spacing-2);
   align-items: baseline;
-  padding: var(--timeline-item-pad-y) 0 var(--timeline-item-pad-y) var(--spacing-2);
+  padding: var(--timeline-item-pad-y) var(--spacing-2);
   border-radius: var(--radii-sm);
   transition: background-color var(--transition-fast);
 
