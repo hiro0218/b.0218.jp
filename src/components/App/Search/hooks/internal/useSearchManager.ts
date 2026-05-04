@@ -25,14 +25,26 @@ export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: Use
   const [isReady, setIsReady] = useState(isSearchDataReady);
   const searchWithCache = useSearchWithCache();
   const lastQueryRef = useRef('');
+  const isReadyRef = useRef(isReady);
+
+  useEffect(() => {
+    isReadyRef.current = isReady;
+  }, [isReady]);
+
+  const requestSearchData = useCallback(() => {
+    loadAndInitializeSearch()
+      .then(() => {
+        isReadyRef.current = true;
+        setIsReady(true);
+      })
+      .catch(() => {});
+  }, []);
 
   // マウント時にデータロード開始（プリフェッチ未完了時のフォールバック）
   useEffect(() => {
     if (isReady) return;
-    loadAndInitializeSearch()
-      .then(() => setIsReady(true))
-      .catch(() => {});
-  }, [isReady]);
+    requestSearchData();
+  }, [isReady, requestSearchData]);
 
   const setResults = useCallback((results: SearchState['results'], query: string) => {
     setState({
@@ -56,10 +68,10 @@ export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: Use
         return;
       }
 
-      if (!isReady) {
+      if (!isReadyRef.current) {
         // データ未ロード時はクエリを保留
         lastQueryRef.current = trimmedQuery;
-        loadAndInitializeSearch().catch(() => {});
+        requestSearchData();
         return;
       }
 
@@ -71,7 +83,7 @@ export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: Use
       setResults(results, trimmedQuery);
       lastQueryRef.current = trimmedQuery;
     },
-    [setResults, reset, searchWithCache, isReady],
+    [setResults, reset, searchWithCache, requestSearchData],
   );
 
   // isReady が true になった時、保留中クエリがあれば検索実行

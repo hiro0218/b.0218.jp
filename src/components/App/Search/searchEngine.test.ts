@@ -40,14 +40,14 @@ const posts = [
   { slug: '202403220115', tokens: ['css3', 'html5', 'web'] },
 ];
 
-const mockSearchIndex: Record<string, string[]> = {};
-for (const post of posts) {
+const mockSearchIndex: Record<string, number[]> = {};
+for (const [postId, post] of posts.entries()) {
   for (const token of post.tokens) {
     if (!mockSearchIndex[token]) {
       mockSearchIndex[token] = [];
     }
-    if (!mockSearchIndex[token].includes(post.slug)) {
-      mockSearchIndex[token].push(post.slug);
+    if (!mockSearchIndex[token].includes(postId)) {
+      mockSearchIndex[token].push(postId);
     }
   }
 }
@@ -150,6 +150,26 @@ describe('検索ロジック', () => {
     expect(results[0]).toHaveProperty('title');
     expect(results[0]).toHaveProperty('tags');
     expect(results[0]).toHaveProperty('slug');
+  });
+
+  test('検索候補が100件を超えても上位100件に制限する', () => {
+    resetSearchEngine();
+
+    const searchData = Array.from({ length: 150 }, (_, index) => ({
+      slug: `post-${index}`,
+      title: `React note ${index}`,
+      tags: index === 149 ? ['React'] : [],
+    }));
+    const searchIndex = {
+      react: searchData.map((_, index) => index),
+    };
+
+    initializeSearchEngine({ searchIndex, searchData });
+
+    const results = performPostSearch('react');
+
+    expect(results).toHaveLength(100);
+    expect(results[0].slug).toBe('post-149');
   });
 });
 

@@ -1,5 +1,5 @@
 import type { IpadicFeatures, Tokenizer } from 'kuromoji';
-import { tagKey } from '@/lib/tag/key';
+import { normalizeSearchToken, type SearchDataItem, type SearchIndex } from '@/lib/search';
 import type { PostSummary } from '@/types/source';
 import * as Log from '~/tools/logger';
 import { tokenizeText } from './tokenizer';
@@ -7,25 +7,16 @@ import { tokenizeText } from './tokenizer';
 /**
  * 転置インデックスの型定義
  * キー: トークン（単語）
- * 値: そのトークンを含む記事のslug配列
+ * 値: そのトークンを含む searchData の配列インデックス
  */
-export type InvertedIndex = Record<string, string[]>;
-
-/**
- * 検索用軽量データの型定義
- */
-export interface SearchData {
-  slug: string;
-  title: string;
-  tags: string[];
-}
+export type InvertedIndex = SearchIndex;
 
 /**
  * 転置インデックスと検索用データの生成結果
  */
 interface GenerateSearchIndexResult {
   invertedIndex: InvertedIndex;
-  searchData: SearchData[];
+  searchData: SearchDataItem[];
 }
 
 /**
@@ -44,22 +35,14 @@ export function generateSearchIndex(
   tokenizer: Tokenizer<IpadicFeatures>,
 ): GenerateSearchIndexResult {
   const invertedIndex: InvertedIndex = {};
-  const searchData: SearchData[] = [];
-  const slugSetsMap = new Map<string, Set<string>>();
+  const searchData: SearchDataItem[] = [];
 
-  function addToIndex(key: string, slug: string): void {
-    if (!slugSetsMap.has(key)) {
-      slugSetsMap.set(key, new Set());
-    }
+  function addToIndex(key: string, itemId: number): void {
     if (!invertedIndex[key]) {
       invertedIndex[key] = [];
     }
 
-    const slugSet = slugSetsMap.get(key)!;
-    if (!slugSet.has(slug)) {
-      slugSet.add(slug);
-      invertedIndex[key].push(slug);
-    }
+    invertedIndex[key].push(itemId);
   }
 
   for (const post of posts) {
@@ -70,18 +53,14 @@ export function generateSearchIndex(
 
     try {
       const tokens = tokenizeText(textToProcess, tokenizer);
-      const uniqueTokens = [...new Set(tokens)];
+      const uniqueTokens = new Set(tokens.map(normalizeSearchToken).filter((token) => token.length > 0));
+      const normalizedTags = post.tags.map(normalizeSearchToken).filter((tag) => tag.length > 0);
+      const indexKeys = new Set([...uniqueTokens, ...normalizedTags]);
+      const itemId = searchData.length;
 
       // 転置インデックスに追加
-      for (const token of uniqueTokens) {
-        addToIndex(token, post.slug);
-      }
-
-      // タグは完全一致検索用に正規化した形でも登録
-      const normalizedTags = new Set(post.tags.map((tag) => tagKey(tag).trim()));
-
-      for (const normalizedTag of normalizedTags) {
-        addToIndex(normalizedTag, post.slug);
+      for (const key of indexKeys) {
+        addToIndex(key, itemId);
       }
 
       // 検索用データに追加

@@ -100,6 +100,10 @@ describe('SearchCache', () => {
 
       expect(key).toBe('react-100');
     });
+
+    it('大文字小文字と前後スペースの違いを同じキーに正規化する', () => {
+      expect(SearchCache.createKey(' React ', 100)).toBe(SearchCache.createKey('react', 100));
+    });
   });
 
   /* ================================================================ */
