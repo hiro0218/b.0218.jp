@@ -1,6 +1,7 @@
-import kuromoji, { type IpadicFeatures, type Tokenizer } from 'kuromoji';
+import { availableParallelism } from 'node:os';
+import path from 'node:path';
+import { Worker } from 'node:worker_threads';
 import type { Post, TagSimilarityScores } from '@/types/source';
-import { STOP_WORDS_JA } from '../shared/stopWords';
 import {
   calculateBm25Idf,
   calculateDocFrequency,
@@ -8,13 +9,7 @@ import {
   calculateSublinearTf,
   filterRareTerms,
 } from './scoring';
-
-// 正規表現パターン
-const REGEX_DIGIT_ONLY = /^\d+$/;
-
-// テキスト処理パラメータ
-const CONTENT_MAX_LENGTH = 7000;
-const TITLE_WEIGHT = 3;
+import { extractTextFromPost, getTokenizer, preprocessText } from './textProcessing';
 
 // 類似度計算パラメータ
 const SIMILARITY_LIMIT = 6;
@@ -29,88 +24,109 @@ const TAG_SIMILARITY_BASE_THRESHOLD = 0.5; // タグ類似度閾値
 const TAG_SIMILARITY_JACCARD_WEIGHT = 0.4; // ジャッカード係数重み
 const TAG_SIMILARITY_RELATED_WEIGHT = 0.6; // 関連度スコア重み
 
-// トークナイザ初期化用のシングルトン
-let tokenizerPromise: Promise<Tokenizer<IpadicFeatures>> | null = null;
-
-async function getTokenizer(): Promise<Tokenizer<IpadicFeatures>> {
-  if (!tokenizerPromise) {
-    tokenizerPromise = new Promise((resolve, reject) => {
-      const builder = kuromoji.builder({ dicPath: 'node_modules/kuromoji/dict' });
-
-      const timeout = setTimeout(() => {
-        reject(new Error('形態素解析器の初期化がタイムアウトしました（60秒）'));
-      }, 60000);
-
-      builder.build((err, tokenizer) => {
-        clearTimeout(timeout);
-
-        if (err) {
-          reject(err);
-        } else {
-          resolve(tokenizer);
-        }
-      });
-    });
-  }
-
-  try {
-    return await tokenizerPromise;
-  } catch (error) {
-    console.error('[build/similarity/post] 形態素解析器の初期化に失敗:', error);
-    throw error;
-  }
-}
-
 // キャッシュの初期化
 const similarityCache = new Map<string, number>();
 const tfIdfCache = new Map<string, { vector: Record<string, number>; norm: number; size: number }>();
 
-function extractTextFromPost(post: Post): string {
-  const titleRepeated = post.title ? `${post.title} `.repeat(TITLE_WEIGHT) : '';
-  const contentSnippet = post.content ? post.content.substring(0, CONTENT_MAX_LENGTH) : '';
-  return titleRepeated + contentSnippet;
-}
-
-function isMeaningfulToken(token: IpadicFeatures): boolean {
-  const validPos = ['名詞', '動詞', '形容詞', '副詞'];
-  if (!validPos.includes(token.pos)) return false;
-
-  if (token.pos_detail_1?.includes('数') || token.pos_detail_1?.includes('接尾')) return false;
-  if (token.pos === '記号') return false;
-  if (STOP_WORDS_JA.has(token.basic_form)) return false;
-  if (token.basic_form.length <= 1) return false;
-  if (REGEX_DIGIT_ONLY.test(token.basic_form)) return false;
-
-  return true;
-}
-
-function preprocessText(text: string, tokenizerInstance: Tokenizer<IpadicFeatures>, slug?: string): string[] {
-  if (!text) {
-    return [];
-  }
-
-  try {
-    const normalizedText = text.normalize('NFKC');
-    const tokens: IpadicFeatures[] = tokenizerInstance.tokenize(normalizedText);
-    const meaningfulTokens: string[] = [];
-
-    for (const token of tokens) {
-      if (isMeaningfulToken(token)) {
-        meaningfulTokens.push(token.basic_form);
-      }
-    }
-    return meaningfulTokens;
-  } catch (error) {
-    console.error(`[build/similarity/post] テキスト前処理中にエラー${slug ? ` (記事: ${slug})` : ''}:`, error);
-    throw error;
-  }
-}
+const MAX_TOKENIZE_WORKERS = 4;
+const MIN_POSTS_FOR_WORKER_TOKENIZATION = 16;
 
 // TF-IDF計算関連の型定義
 type IdfScores = Record<string, number>;
 type TfScores = Record<string, number>;
 type TfIdfVector = Record<string, number>;
 type TfIdfNorms = Record<string, number>;
+type TokenizeJob = { index: number; slug?: string; text: string };
+type TokenizeWorkerResult = { index: number; tokens: string[]; error?: string };
+
+function getTokenizeWorkerCount(postCount: number): number {
+  if (postCount < MIN_POSTS_FOR_WORKER_TOKENIZATION) return 1;
+
+  return Math.max(1, Math.min(MAX_TOKENIZE_WORKERS, Math.max(1, availableParallelism() - 1), postCount));
+}
+
+function chunkTokenizeJobs(jobs: TokenizeJob[], workerCount: number): TokenizeJob[][] {
+  const chunkSize = Math.ceil(jobs.length / workerCount);
+  const chunks: TokenizeJob[][] = [];
+
+  for (let i = 0; i < jobs.length; i += chunkSize) {
+    chunks.push(jobs.slice(i, i + chunkSize));
+  }
+
+  return chunks;
+}
+
+async function runTokenizeWorker(jobs: TokenizeJob[]): Promise<TokenizeWorkerResult[]> {
+  return new Promise((resolve, reject) => {
+    const worker = new Worker(path.join(__dirname, 'preprocessWorker.ts'), {
+      execArgv: ['--require', 'esbuild-register'],
+    });
+    let settled = false;
+
+    worker.once('message', (message: { results?: TokenizeWorkerResult[]; error?: string }) => {
+      settled = true;
+      void worker.terminate();
+      if (message.error) {
+        reject(new Error(message.error));
+        return;
+      }
+      resolve(message.results ?? []);
+    });
+
+    worker.once('error', (error) => {
+      settled = true;
+      reject(error);
+    });
+
+    worker.once('exit', (code) => {
+      if (!settled && code !== 0) {
+        reject(new Error(`tokenize worker exited with code ${code}`));
+      }
+    });
+
+    worker.postMessage(jobs);
+  });
+}
+
+async function preprocessPosts(posts: Post[]): Promise<string[][]> {
+  const jobs = posts.map<TokenizeJob>((post, index) => ({
+    index,
+    slug: post.slug,
+    text: extractTextFromPost(post),
+  }));
+  const workerCount = getTokenizeWorkerCount(jobs.length);
+
+  if (workerCount === 1) {
+    const tokenizer = await getTokenizer();
+    return jobs.map((job) => preprocessText(job.text, tokenizer, job.slug));
+  }
+
+  try {
+    const resultChunks = await Promise.all(
+      chunkTokenizeJobs(jobs, workerCount).map((chunk) => runTokenizeWorker(chunk)),
+    );
+    const processedContents: string[][] = new Array(posts.length);
+
+    for (const chunk of resultChunks) {
+      for (const result of chunk) {
+        if (result.error) {
+          console.warn(`[getRelatedPosts] エラー (${posts[result.index]?.slug ?? result.index}):`, result.error);
+        }
+        processedContents[result.index] = result.tokens;
+      }
+    }
+
+    for (let i = 0; i < processedContents.length; i++) {
+      processedContents[i] ??= [];
+    }
+
+    return processedContents;
+  } catch (error) {
+    console.warn('[getRelatedPosts] workerでのテキスト前処理に失敗したため同期処理へフォールバックします:', error);
+    const tokenizer = await getTokenizer();
+    return jobs.map((job) => preprocessText(job.text, tokenizer, job.slug));
+  }
+}
 
 function calculateIdf(posts: Post[], processedContents: string[][]): IdfScores {
   const totalDocs = posts.length;
@@ -306,21 +322,8 @@ export async function getRelatedPosts(
     return [];
   }
 
-  // トークナイザの初期化
-  const tokenizer = await getTokenizer();
-
-  // 1. コンテンツ前処理（同期処理）
-  const processedContents: string[][] = [];
-
-  for (const post of posts) {
-    try {
-      const textToProcess = extractTextFromPost(post);
-      processedContents.push(preprocessText(textToProcess, tokenizer, post.slug));
-    } catch (error) {
-      console.warn(`[getRelatedPosts] エラー (${post.slug}):`, error instanceof Error ? error.message : error);
-      processedContents.push([]);
-    }
-  }
+  // 1. コンテンツ前処理
+  const processedContents = await preprocessPosts(posts);
 
   // 2. IDFスコア計算
   const idfScores = calculateIdf(posts, processedContents);

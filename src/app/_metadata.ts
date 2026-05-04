@@ -1,5 +1,4 @@
 import type { Metadata } from 'next/types';
-import type { PageSlug } from '@/components/Page/Single/types';
 import { SCREEN_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constants';
 
 export const openGraph: Metadata['openGraph'] = {
@@ -60,26 +59,4 @@ export const getMetadata = ({
     robots,
     other,
   };
-};
-
-/**
- * ページ設定情報の型
- */
-export type PageConfig = {
-  title: string;
-  description: string;
-};
-
-/**
- * ページの設定情報
- */
-export const PAGE_CONFIGS: Record<PageSlug, PageConfig> = {
-  about: {
-    title: 'About',
-    description: 'サイトと運営者について',
-  },
-  privacy: {
-    title: 'Privacy',
-    description: 'プライバシーポリシー',
-  },
 };

@@ -28,13 +28,16 @@ const createBaseProcessor = () =>
     .use(rehypeMinifyWhitespace)
     .use(rehypeRaw);
 
-export async function markdownToNoteHtmlString(markdown: string): Promise<string> {
-  const result = await createBaseProcessor().use(rehypeStringify, { allowDangerousHtml: true }).process(markdown);
+export function createMarkdownToNoteHtmlString(): (markdown: string) => Promise<string> {
+  const processor = createBaseProcessor().use(rehypeStringify, { allowDangerousHtml: true });
 
-  return result.toString();
+  return async (markdown: string): Promise<string> => {
+    const result = await processor.process(markdown);
+    return result.toString();
+  };
 }
 
-export async function markdownToPostHtmlString(markdown: string, options?: Rehype0218Options): Promise<string> {
+export function createMarkdownToPostHtmlString(options?: Rehype0218Options): (markdown: string) => Promise<string> {
   const processor = createBaseProcessor()
     .use(rehypeWrapImgWithFigure)
     .use(rehypeGfmAlert)
@@ -43,7 +46,16 @@ export async function markdownToPostHtmlString(markdown: string, options?: Rehyp
     .use(rehypeRemoveComments)
     .use(rehypeStringify, { allowDangerousHtml: true });
 
-  const result = await processor.process(markdown);
+  return async (markdown: string): Promise<string> => {
+    const result = await processor.process(markdown);
+    return result.toString();
+  };
+}
 
-  return result.toString();
+export async function markdownToNoteHtmlString(markdown: string): Promise<string> {
+  return createMarkdownToNoteHtmlString()(markdown);
+}
+
+export async function markdownToPostHtmlString(markdown: string, options?: Rehype0218Options): Promise<string> {
+  return createMarkdownToPostHtmlString(options)(markdown);
 }

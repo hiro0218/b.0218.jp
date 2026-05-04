@@ -7,7 +7,7 @@
 import { tagKey } from '@/lib/tag/key';
 import type { SearchResultItem } from '../types';
 import { isEmptyQuery } from '../utils/validation';
-import type { SearchDataPayload } from './searchDataLoader';
+import type { SearchDataPayload } from './types';
 
 const MAX_SEARCH_RESULTS = 100;
 const MATCHING_TOKEN_CACHE_SIZE = 200;

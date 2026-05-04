@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import { getTagPosts } from '@/app/_lib/getTagPosts';
 import { getMetadata } from '@/app/_metadata';
 import { StructuredData } from '@/components/Functional/StructuredData';
 import { Pagination } from '@/components/Page/Archive/Pagination';
@@ -13,6 +12,7 @@ import { Title } from '@/components/UI/Title';
 import { SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
 import { isProduction } from '@/lib/config/environment';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
+import { getTagPosts } from '@/lib/post/tagPosts';
 import { getTagsWithCount } from '@/lib/source/tag';
 import { tagFromUrlPath, tagUrlPath } from '@/lib/tag/url';
 

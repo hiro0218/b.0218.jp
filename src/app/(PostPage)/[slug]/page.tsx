@@ -19,7 +19,7 @@ import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText }
 import { getPostsListJson } from '@/lib/source/post';
 import { tagPath } from '@/lib/tag/navigation';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';
-import { getPostPageData } from './lib/services/getPostPageData';
+import { getPostPageData } from './_lib/services/getPostPageData';
 
 type Params = Promise<{ slug: string }>;
 

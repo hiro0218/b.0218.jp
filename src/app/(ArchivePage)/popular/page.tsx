@@ -1,6 +1,6 @@
 import type { Metadata } from 'next/types';
 import { getMetadata } from '@/app/_metadata';
-import { getData } from '@/app/(ArchivePage)/popular/lib/getData';
+import { getData } from '@/app/(ArchivePage)/popular/_lib/getData';
 import { ArticleCard } from '@/components/UI/ArticleCard';
 import { Sidebar } from '@/components/UI/Layout/Sidebar';
 import { Stack } from '@/components/UI/Layout/Stack';

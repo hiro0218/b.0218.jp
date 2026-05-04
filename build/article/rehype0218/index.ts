@@ -22,10 +22,10 @@ export interface Rehype0218Options {
 }
 
 const rehype0218 = (options?: Rehype0218Options) => {
-  const nodes = new Set<{ node: Element; index: number; parent: Element }>();
-  let imageCounter = 0;
-
   return async (tree: Root) => {
+    const nodes = new Set<{ node: Element; index: number; parent: Element }>();
+    let imageCounter = 0;
+
     visit(tree, 'element', (node: Element, index, giveParent: Root | Element | null) => {
       const parent = giveParent as Element;
 

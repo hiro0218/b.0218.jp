@@ -15,7 +15,7 @@ description: Run Biome lint/format check on modified TypeScript and JavaScript f
 
 ## Skip when
 
-- 編集が非コードファイル (`.md`, `.json`, `.yml`, `.toml`, `.css`) のみ
+- 編集が非コードファイル (`.md`, `.json`, `.yml`, `.toml`, `.css`) のみ。ただし `biome.json` を編集した場合は `npx biome check biome.json` を実行する
 - 既に直前で同じファイル群を check 済み
 
 ## Steps
@@ -26,7 +26,7 @@ description: Run Biome lint/format check on modified TypeScript and JavaScript f
 
 1. 当該タスクで編集 / 作成したファイル
 2. `git status --short` の `M` / `A` / `??` から `*.{ts,tsx,js,jsx,mjs}` を抽出
-3. `_article/**`, `dist/**`, `styled-system/**`, `node_modules/**`, `.next/**` は除外 (biome.json の `files.includes` で既に除外)
+3. `_article/**`, `dist/**`, `styled-system/**`, `node_modules/**`, `.next/**` は除外する。`_article` は `files.includes`、`dist` / `styled-system` / `node_modules` / `.next` は `.gitignore` + VCS 統合で除外される
 
 ### 2. Read-only check
 
@@ -34,7 +34,7 @@ description: Run Biome lint/format check on modified TypeScript and JavaScript f
 npx biome check <files...>
 ```
 
-`npm run lint` ではなく `biome` を直接呼ぶ。`npm run lint` のスコープは `src build tools` のみで `tests/` を含まない。
+編集対象ファイルを明示して `biome` を直接呼ぶ。`npm run lint` は `src build tools tests` を対象にするが、対象ファイルを限定できない。
 
 ### 3. 違反対応
 
@@ -61,16 +61,7 @@ npx biome check <files...>
 
 ## プロジェクト固有の注意
 
-`.claude/rules/linting.md` で error 化されているルール (recommended 以上に厳格化):
-
-| rule                  | 意図                                            |
-| --------------------- | ----------------------------------------------- |
-| `noExplicitAny`       | TypeScript any 禁止の機械的強制                 |
-| `noUnusedVariables`   | rest siblings は許容                            |
-| `noDelete`            | パフォーマンス                                  |
-| `useTopLevelRegex`    | 関数内 regex literal 禁止、トップレベル定数化   |
-| `useNamingConvention` | PascalCase / camelCase 強制 (strictCase: false) |
-
+厳格化ルールの一覧と理由は `.claude/rules/linting.md` を参照する。
 `useTopLevelRegex` は spec ファイルでも適用される。テスト内で `expect(x).toMatch(/.../)` のような inline regex はトップレベル定数に切り出す。
 
 ## 周辺ツールとの関係
@@ -79,6 +70,6 @@ npx biome check <files...>
 | --------------------------------------- | ----------------------- | -------------------------------- |
 | 本 Skill                                | コード編集後、commit 前 | 編集対象ファイル全て             |
 | `nano-staged` (pre-commit)              | `git commit` 直前       | staged な `**/*.{ts,tsx,js,mjs}` |
-| `npm run lint` (CI / pr-validation.yml) | PR open / sync          | `src build tools` のみ           |
+| `npm run lint` (CI / pr-validation.yml) | PR open / sync          | `src build tools tests`          |
 
 本 Skill は CI / pre-commit のすり抜け (特に `tests/` 配下) を AI セッション中に防ぐのが目的。

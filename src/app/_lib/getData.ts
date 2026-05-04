@@ -1,16 +1,14 @@
-import { recentPosts } from '@/app/_lib/cachedRecentPosts';
-import { getFilteredPosts } from '@/app/_lib/getFilteredPosts';
-import { getPopularPost } from '@/app/_lib/getPopularPost';
 import { TAG_VIEW_LIMIT } from '@/constants';
+import { getFilteredPosts, getPopularPost, isIgnoredPostTag, recentPosts } from '@/lib/post/list';
 import { getTagsWithCount } from '@/lib/source/tag';
 
-import { IGNORE_TAGS, POPULAR_POST_DISPLAY_LIMIT } from './constants';
+const POPULAR_POST_DISPLAY_LIMIT = 6;
 
 const tagsWithCount = getTagsWithCount();
 const filteredPosts = getFilteredPosts();
 const popularPosts = getPopularPost(filteredPosts, POPULAR_POST_DISPLAY_LIMIT);
 const tags = tagsWithCount
-  .filter(({ slug, count }) => !IGNORE_TAGS.has(slug) && count >= 10)
+  .filter(({ slug, count }) => !isIgnoredPostTag(slug) && count >= 10)
   .slice(0, 25)
   .map((tag) => ({ ...tag, isNavigable: tag.count >= TAG_VIEW_LIMIT }));
 

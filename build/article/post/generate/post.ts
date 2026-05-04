@@ -7,8 +7,14 @@ import { isValidFrontmatter, parseFrontmatter, type RawPost, tryToIso } from '@/
 import { isPubliclyVisible } from '@/lib/post/visibility';
 import { mkdir, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
-import { markdownToNoteHtmlString, markdownToPostHtmlString } from '../../markdownToHtmlString';
+import { createMarkdownToNoteHtmlString, createMarkdownToPostHtmlString } from '../../markdownToHtmlString';
 import { loadCache, saveCache } from '../../rehype0218';
+import {
+  createPostConversionCacheVersion,
+  createRawPostCacheKey,
+  loadPostConversionCache,
+  savePostConversionCache,
+} from './cache';
 import { buildTagNormalizationMap, normalizeTags } from './normalizeTag';
 import { getMarkdownFiles, getPath, getSlug } from './utils';
 
@@ -51,13 +57,37 @@ export async function buildPost() {
 
   // 投稿間で共有し、重複する link-preview 断片がキャッシュヒットするようにする
   const sharedCache = loadCache();
+  const cacheVersion = createPostConversionCacheVersion(sharedCache);
+  const conversionCache = loadPostConversionCache(cacheVersion);
+  const nextCacheEntries: typeof conversionCache.entries = {};
   const limit = pLimit(POST_CONCURRENCY);
-  const markdownToPostHtml = (md: string) => limit(() => markdownToPostHtmlString(md, { sharedCache }));
-  const markdownToNoteHtml = (md: string) => limit(() => markdownToNoteHtmlString(md));
+  const postHtmlProcessor = createMarkdownToPostHtmlString({ sharedCache });
+  const noteHtmlProcessor = createMarkdownToNoteHtmlString();
+  const markdownToPostHtml = (md: string) => limit(() => postHtmlProcessor(md));
+  const markdownToNoteHtml = (md: string) => limit(() => noteHtmlProcessor(md));
+  let cacheHits = 0;
+  let cacheMisses = 0;
 
   const posts = await Promise.all(
-    rawPosts.map((raw) => convertRawPost(raw, { markdownToPostHtml, markdownToNoteHtml })),
+    rawPosts.map(async (raw) => {
+      const key = createRawPostCacheKey(raw, cacheVersion);
+      const cached = conversionCache.entries[raw.slug];
+
+      if (cached?.key === key) {
+        cacheHits++;
+        nextCacheEntries[raw.slug] = cached;
+        return cached.post;
+      }
+
+      cacheMisses++;
+      const post = await convertRawPost(raw, { markdownToPostHtml, markdownToNoteHtml });
+      nextCacheEntries[raw.slug] = { key, post };
+      return post;
+    }),
   );
+  conversionCache.entries = nextCacheEntries;
+  savePostConversionCache(conversionCache);
+  Log.info(`Post conversion cache: ${cacheHits} hit, ${cacheMisses} miss`);
   saveCache(sharedCache);
 
   // sort: 日付順

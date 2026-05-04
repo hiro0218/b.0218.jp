@@ -7,11 +7,7 @@
  */
 
 import { initializeSearchEngine, isSearchEngineReady } from './indexedSearch';
-
-export type SearchDataPayload = {
-  searchIndex: SearchIndex;
-  searchData: SearchDataItem[];
-};
+import type { SearchDataPayload } from './types';
 
 let loadPromise: Promise<SearchDataPayload> | null = null;
 let cachedData: SearchDataPayload | null = null;

@@ -1,6 +1,7 @@
 ---
 paths:
-  - '**/*.{ts,tsx}'
+  - 'src/components/UI/**/*.{ts,tsx}'
+  - 'src/components/App/**/*.{ts,tsx}'
   - 'panda.config.mts'
 ---
 

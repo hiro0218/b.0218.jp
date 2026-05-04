@@ -18,10 +18,11 @@ paths:
 
 ## JSDoc
 
-UI コンポーネントの export 関数には JSDoc + `@summary` を付ける（Storybook AI manifest が消費）。
-詳細な Props JSDoc 判断基準・Story 記述ルールは [storybook.md](./storybook.md) を参照。
+UI コンポーネントの公開入口の export 関数には JSDoc + `@summary` を付ける（Storybook AI manifest が消費）。
+詳細な Props JSDoc 判断基準は [components.md](./components.md#jsdoc--storybook-説明) を参照。
 
 ## 参照
 
 - Props 設計: [components.md](./components.md#-props-設計-important)
+- JSDoc: [components.md](./components.md#jsdoc--storybook-説明)
 - Storybook 規約: [storybook.md](./storybook.md)

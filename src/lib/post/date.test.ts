@@ -1,6 +1,5 @@
-import { describe, expect, it } from 'vitest';
 import { convertDateToSimpleFormat } from '@/lib/utils/date';
-import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';
+import { getDateAndUpdatedToSimpleFormat } from './date';
 
 describe('getDateAndUpdatedToSimpleFormat', () => {
   it('should convert date to yyyy-mm-dd format', () => {

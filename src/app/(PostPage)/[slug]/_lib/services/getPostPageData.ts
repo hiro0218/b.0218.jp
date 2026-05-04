@@ -1,6 +1,6 @@
 import { cache } from 'react';
-import { recentPosts as cachedRecentPosts } from '@/app/_lib/cachedRecentPosts';
 import { getPostsPopular } from '@/lib/post/derived';
+import { recentPosts } from '@/lib/post/list';
 import type { ArticleSummary, PopularityDetail } from '@/types/source';
 import { getPost, getTagsWithCountFromSlugs } from '../data/getPost';
 import { getPostsByTag, getSimilarPosts, getSimilarTags } from '../data/getSimilarContent';
@@ -68,7 +68,7 @@ export const getPostPageData = cache((slug: string): PostPageData | null => {
     post: formattedPost,
     similarPost,
     similarTags,
-    recentPosts: cachedRecentPosts,
+    recentPosts,
     sameTagPosts,
     mostPopularTag,
     popularity,

@@ -1,5 +1,5 @@
-import { getDateAndUpdatedToSimpleFormat } from '@/app/_lib/getDateAndUpdatedToSimpleFormat';
-import { getTagPosts } from '@/app/_lib/getTagPosts';
+import { getDateAndUpdatedToSimpleFormat } from '@/lib/post/date';
+import { getTagPosts } from '@/lib/post/tagPosts';
 import type { ArticleSummary } from '@/types/source';
 
 const ALTERNATIVE_POSTS_LIMIT = 4;
@@ -14,7 +14,7 @@ const ALTERNATIVE_POSTS_LIMIT = 4;
  */
 export function getAlternativePosts(
   similarPosts: ArticleSummary[],
-  tag: string,
+  tag: string | undefined,
   currentSlug: string,
 ): ArticleSummary[] {
   // 既に類似記事がある場合や、タグがない場合は元の配列をそのまま返す
