@@ -61,13 +61,14 @@ const Root = styled.nav`
   @media (--isDesktop) {
     /* Container LG 内の片側余白 (Container SM の外側) = Mokuji が利用できる横幅 */
     --mokuji-side-room: calc((var(--sizes-container-lg) - var(--sizes-container-sm)) / 2);
-
     position: fixed;
     inset-inline-start: calc(50% + var(--sizes-container-sm) / 2 + var(--spacing-4));
     z-index: var(--z-index-base);
     inline-size: calc(var(--mokuji-side-room) - var(--spacing-4));
     max-block-size: calc(100dvh - var(--spacing-3));
     overflow-y: auto;
+
+    font-size: var(--font-sizes-sm);
     isolation: isolate;
   }
 `;
@@ -120,7 +121,6 @@ const Summary = styled.summary`
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-2) var(--spacing-3);
-  font-size: var(--font-sizes-md);
   font-weight: var(--font-weights-bold);
   cursor: pointer;
   user-select: none;
