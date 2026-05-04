@@ -1,15 +1,13 @@
 import { getPostsListJson } from '@/lib/source/post';
 import { getTagsJson } from '@/lib/source/tag';
-import type { Page } from '@/types/source';
-import { getDateAndUpdatedToSimpleFormat } from './getDateAndUpdatedToSimpleFormat';
-
-type ReturnProps = Omit<Page, 'content'>;
+import type { ArticleSummary } from '@/types/source';
+import { getDateAndUpdatedToSimpleFormat } from './date';
 
 const allPosts = getPostsListJson();
 const allTags = getTagsJson();
 const postsMap = new Map(allPosts.map((post) => [post.slug, post]));
 
-export const getTagPosts = (slug: string): ReturnProps[] => {
+export const getTagPosts = (slug: string): ArticleSummary[] | null => {
   const tag = allTags[slug];
 
   if (!tag) {

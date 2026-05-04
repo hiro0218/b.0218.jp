@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { initializeSearchEngine, resetSearchEngine } from '@/components/App/Search/engine/indexedSearch';
 import { performPostSearch } from '@/components/App/Search/engine/search';
-import type { SearchDataPayload } from '@/components/App/Search/engine/searchDataLoader';
 import { ensureSearchEngineSync } from '@/components/App/Search/engine/searchDataLoader';
+import type { SearchDataPayload } from '@/components/App/Search/engine/types';
 
 // searchDataLoader をモック（vi.mock はホイスティングされるため通常 import の前に適用される）
 vi.mock('@/components/App/Search/engine/searchDataLoader', () => ({

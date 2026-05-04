@@ -1,5 +1,5 @@
-import { getDateAndUpdatedToSimpleFormat } from '@/app/_lib/getDateAndUpdatedToSimpleFormat';
 import type { Props as PostTagProps } from '@/components/UI/Tag';
+import { getDateAndUpdatedToSimpleFormat } from '@/lib/post/date';
 import type { Post } from '@/types/source';
 
 type FormattedPostData = Post & {

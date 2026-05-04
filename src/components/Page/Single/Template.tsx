@@ -4,8 +4,8 @@
 import type { Thing, WithContext } from 'schema-dts';
 import { StructuredData } from '@/components/Functional/StructuredData';
 import { getAboutPageStructured, getProfilePageStructured, getWebPageStructured } from '@/lib/domain/json-ld';
+import type { PageSlug } from '@/lib/page/config';
 import { Content } from './Content';
-import type { PageSlug } from './types';
 
 /**
  * テンプレートコンポーネントのプロパティ型定義

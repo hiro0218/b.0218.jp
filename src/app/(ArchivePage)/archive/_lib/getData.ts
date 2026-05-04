@@ -1,4 +1,4 @@
-import { getDateAndUpdatedToSimpleFormat } from '@/app/_lib/getDateAndUpdatedToSimpleFormat';
+import { getDateAndUpdatedToSimpleFormat } from '@/lib/post/date';
 import type { getPostsListJson } from '@/lib/source/post';
 import type { ArchivesByYear, PostSummary } from '@/types/source';
 
