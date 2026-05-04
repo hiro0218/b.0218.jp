@@ -3,6 +3,7 @@ import type { RehypeShikiOptions } from '@shikijs/rehype';
 import { collectText } from './hastUtils';
 
 export const shikiConfig: RehypeShikiOptions = {
+  cache: new Map(),
   themes: {
     light: 'one-light',
     dark: 'one-dark-pro',
