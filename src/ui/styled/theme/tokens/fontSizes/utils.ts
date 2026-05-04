@@ -1,4 +1,4 @@
-import { SPACING_BASE_PX } from '@/ui/styled/constant';
+import { SPACING_BASE_PX } from '../../../constant';
 
 /**
  * 調和的なスケール値を計算 (1.25, 1.5, 1.75, 2.0, 2.25...)

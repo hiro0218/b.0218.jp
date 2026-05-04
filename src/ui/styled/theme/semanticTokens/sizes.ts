@@ -1,4 +1,4 @@
-import { ICON_SIZE_LG, ICON_SIZE_MD, ICON_SIZE_SM, ICON_SIZE_XL, ICON_SIZE_XS } from '@/ui/icons';
+import { ICON_SIZE_LG, ICON_SIZE_MD, ICON_SIZE_SM, ICON_SIZE_XL, ICON_SIZE_XS } from '../../../iconSizes';
 import type { TokenValues } from '../tokens/types';
 
 const sizes: TokenValues<'sizes'> = {

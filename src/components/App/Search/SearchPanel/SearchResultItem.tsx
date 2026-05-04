@@ -1,7 +1,8 @@
+import { HashtagIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { memo, type Ref } from 'react';
 import { Anchor } from '@/components/UI/Anchor';
 import { convertPostSlugToPath } from '@/lib/utils/url';
-import { HashtagIcon, ICON_SIZE_XS, MagnifyingGlassIcon } from '@/ui/icons';
+import { ICON_SIZE_XS } from '@/ui/iconSizes';
 import { cx } from '@/ui/styled';
 import type { MatchedIn } from '../types';
 import { AnchorStyle, FocusedContainerStyle, LinkContainerStyle } from './SearchResultItem.styles';

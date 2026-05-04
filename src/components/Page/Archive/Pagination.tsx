@@ -1,5 +1,6 @@
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { ChevronLeftIcon, ChevronRightIcon, ICON_SIZE_XS } from '@/ui/icons';
+import { ICON_SIZE_XS } from '@/ui/iconSizes';
 import { css, styled } from '@/ui/styled';
 
 type PaginationPageItem = {
@@ -187,13 +188,13 @@ const paginationButtonStyle = css`
   height: var(--sizes-icon-lg);
   aspect-ratio: 1;
   padding: 0;
+  font-family: inherit;
   font-size: var(--font-sizes-sm);
   font-variant-numeric: tabular-nums;
-  font-family: inherit;
   color: var(--colors-gray-900);
   text-decoration: none;
-  cursor: pointer;
   appearance: none;
+  cursor: pointer;
   background-color: transparent;
   border: 0;
   border-radius: var(--radii-full);

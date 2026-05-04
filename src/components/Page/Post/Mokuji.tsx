@@ -1,8 +1,9 @@
 'use client';
 
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 import { usePathname } from 'next/navigation';
 
-import { ChevronDownIcon, ChevronUpIcon, ICON_SIZE_XS } from '@/ui/icons';
+import { ICON_SIZE_XS } from '@/ui/iconSizes';
 import { styled } from '@/ui/styled';
 
 import type { MokujiProps } from './Mokuji/type';

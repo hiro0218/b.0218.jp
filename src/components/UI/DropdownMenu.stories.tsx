@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { act } from '@testing-library/react';
 import { expect, userEvent, within } from 'storybook/test';
 import { DropdownMenu } from '@/components/UI/DropdownMenu';
-import { GitHubLogo, ICON_SIZE_SM } from '@/ui/icons';
+import { ICON_SIZE_SM } from '@/ui/iconSizes';
+import { GitHubLogo } from '@/ui/icons/GitHubLogo';
 
 const menuTitle = (
   <>
