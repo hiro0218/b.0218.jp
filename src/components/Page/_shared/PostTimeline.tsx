@@ -125,7 +125,6 @@ const Item = styled.li`
 `;
 
 const Time = styled.time`
-  font-family: var(--fonts-family-monospace);
   font-size: var(--font-sizes-sm);
   font-variant-numeric: tabular-nums;
   color: var(--colors-gray-600);
