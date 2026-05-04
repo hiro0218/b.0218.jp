@@ -1,50 +1,65 @@
-'use client';
-
-import { useId } from 'react';
+import Link from 'next/link';
 import { ChevronLeftIcon, ChevronRightIcon, ICON_SIZE_XS } from '@/ui/icons';
 import { css, styled } from '@/ui/styled';
-import { useCurrentPage } from './Pagination/hooks/useCurrentPage';
-import { usePagination } from './Pagination/hooks/usePagination';
+
+type PaginationPageItem = {
+  type: 'page';
+  page: number;
+  href: string;
+  isCurrent: boolean;
+};
+
+type PaginationEllipsisItem = {
+  type: 'ellipsis';
+  key: string;
+};
+
+export type PaginationModel = {
+  currentPage: number;
+  totalPages: number;
+  previousHref: string | null;
+  nextHref: string | null;
+  items: (PaginationPageItem | PaginationEllipsisItem)[];
+};
 
 type PaginationProps = {
-  totalItems: number;
+  pagination: PaginationModel;
 };
 
 type NavigationButtonProps = {
   direction: 'previous' | 'next';
   currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
+  href: string | null;
 };
 
 type PageNumberButtonProps = {
-  pageNumber: number;
-  currentPage: number;
-  onPageChange: (page: number) => void;
+  item: PaginationPageItem;
 };
 
 /**
  * 前へ/次へボタン
  * スクリーンリーダー用に現在ページ情報を含むラベルを提供
  */
-const NavigationButton = ({ direction, currentPage, totalPages, onPageChange }: NavigationButtonProps) => {
+const NavigationButton = ({ direction, currentPage, href }: NavigationButtonProps) => {
   const isPrevious = direction === 'previous';
-  const targetPage = isPrevious ? currentPage - 1 : currentPage + 1;
-  const isDisabled = isPrevious ? currentPage <= 1 : currentPage >= totalPages;
   const Icon = isPrevious ? ChevronLeftIcon : ChevronRightIcon;
   const label = isPrevious ? `前のページへ（現在${currentPage}ページ）` : `次のページへ（現在${currentPage}ページ）`;
+  const icon = <Icon aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />;
+
+  if (!href) {
+    // span + aria-disabled は generic role で警告になるため、操作不能な矢印は native disabled に任せる。
+    return (
+      <button aria-label={label} className={paginationButtonStyle} data-arrow-button disabled type="button">
+        <span className="sr-only">{label}</span>
+        {icon}
+      </button>
+    );
+  }
 
   return (
-    <button
-      aria-label={label}
-      className={paginationButtonStyle}
-      data-arrow-button
-      disabled={isDisabled}
-      onClick={() => onPageChange(targetPage)}
-      type="button"
-    >
-      <Icon aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
-    </button>
+    <Link aria-label={label} className={paginationButtonStyle} data-arrow-button href={href} prefetch={false}>
+      {icon}
+    </Link>
   );
 };
 
@@ -52,69 +67,62 @@ const NavigationButton = ({ direction, currentPage, totalPages, onPageChange }: 
  * ページ番号ボタン
  * 現在ページはaria-current="page"で明示（WAI-ARIAパターン準拠）
  */
-const PageNumberButton = ({ pageNumber, currentPage, onPageChange }: PageNumberButtonProps) => {
-  const isCurrentPage = pageNumber === currentPage;
+const PageNumberButton = ({ item }: PageNumberButtonProps) => {
+  if (item.isCurrent) {
+    return (
+      <span aria-current="page" className={paginationButtonStyle}>
+        <span className="sr-only">現在のページ: </span>
+        {item.page}
+      </span>
+    );
+  }
 
   return (
-    <button
-      aria-current={isCurrentPage ? 'page' : undefined}
-      aria-label={isCurrentPage ? `現在のページ（${pageNumber}ページ）` : `${pageNumber}ページへ移動`}
-      className={paginationButtonStyle}
-      disabled={isCurrentPage}
-      onClick={() => onPageChange(pageNumber)}
-      type="button"
-    >
-      {pageNumber}
-    </button>
+    <Link aria-label={`${item.page}ページへ移動`} className={paginationButtonStyle} href={item.href} prefetch={false}>
+      {item.page}
+    </Link>
   );
 };
 
 /**
  * ページネーション付きナビゲーションを表示
  *
- * totalItems が 0 件、または 1 ページ以下の場合は null を返す（非表示）
+ * 表示モデルが 1 ページ以下の場合は null を返す（非表示）
  *
- * @param totalItems - 総アイテム数（0 以上の整数）
+ * @param pagination ページネーション表示モデル
  * @returns ページネーション UI、または null
  *
  * @example
  * ```tsx
- * <Pagination totalItems={100} />
+ * <Pagination pagination={pagination} />
  * ```
  */
-export function Pagination({ totalItems }: PaginationProps) {
-  const { currentPage, totalPages, setPage } = useCurrentPage(totalItems);
-  const paginationRange = usePagination({ currentPage, totalPages });
-  const statusId = useId();
+export function Pagination({ pagination }: PaginationProps) {
+  const { currentPage, totalPages } = pagination;
 
-  if (totalItems === 0 || paginationRange.length < 2) {
+  if (totalPages < 2 || pagination.items.length < 2) {
     return null;
   }
 
   return (
-    <PaginationNav aria-describedby={statusId} aria-label="ページネーション">
+    <PaginationNav aria-label="ページネーション">
       {/* スクリーンリーダー用の現在位置通知（視覚的には非表示） */}
-      <div aria-atomic="true" aria-live="polite" className="sr-only" id={statusId}>
+      <div aria-atomic="true" aria-live="polite" className="sr-only">
         {totalPages}ページ中{currentPage}ページ目
       </div>
 
       <ul>
         <li data-paginate="arrow">
-          <NavigationButton
-            currentPage={currentPage}
-            direction="previous"
-            onPageChange={setPage}
-            totalPages={totalPages}
-          />
+          <NavigationButton currentPage={currentPage} direction="previous" href={pagination.previousHref} />
         </li>
-        {paginationRange.map((item, index) =>
-          typeof item === 'string' ? (
-            <li data-paginate="ellipsis" key={`dots-after-${paginationRange[index - 1]}`}>
-              <EllipsisIndicator aria-hidden="true">{item}</EllipsisIndicator>
+        {pagination.items.map((item) =>
+          item.type === 'ellipsis' ? (
+            <li data-paginate="ellipsis" key={item.key}>
+              <EllipsisIndicator aria-hidden="true">...</EllipsisIndicator>
             </li>
           ) : (
-            <li data-paginate="page" key={`page-${item}`}>
-              <PageNumberButton currentPage={currentPage} onPageChange={setPage} pageNumber={item} />
+            <li data-paginate="page" key={`page-${item.page}`}>
+              <PageNumberButton item={item} />
             </li>
           ),
         )}
@@ -124,7 +132,7 @@ export function Pagination({ totalItems }: PaginationProps) {
           </PageCountDisplay>
         </li>
         <li data-paginate="arrow">
-          <NavigationButton currentPage={currentPage} direction="next" onPageChange={setPage} totalPages={totalPages} />
+          <NavigationButton currentPage={currentPage} direction="next" href={pagination.nextHref} />
         </li>
       </ul>
     </PaginationNav>
@@ -178,15 +186,22 @@ const paginationButtonStyle = css`
   width: var(--sizes-icon-lg);
   height: var(--sizes-icon-lg);
   aspect-ratio: 1;
+  padding: 0;
   font-size: var(--font-sizes-sm);
   font-variant-numeric: tabular-nums;
+  font-family: inherit;
   color: var(--colors-gray-900);
+  text-decoration: none;
   cursor: pointer;
+  appearance: none;
+  background-color: transparent;
+  border: 0;
   border-radius: var(--radii-full);
   transition: background-color var(--transition-fast);
 
   /* current */
-  &[disabled] {
+  &[aria-current='page'],
+  &:disabled {
     color: var(--colors-gray-200);
     pointer-events: none;
     cursor: not-allowed;
@@ -198,7 +213,7 @@ const paginationButtonStyle = css`
     }
   }
 
-  &:not([disabled]) {
+  &:not([aria-current='page']):not(:disabled) {
     &:hover {
       color: var(--colors-gray-900);
       background-color: var(--colors-gray-100);
