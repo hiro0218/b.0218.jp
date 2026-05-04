@@ -4,8 +4,8 @@ import { usePathname } from 'next/navigation';
 import {
   createContext,
   type ReactNode,
+  use,
   useCallback,
-  useContext,
   useEffect,
   useRef,
   useState,
@@ -158,7 +158,7 @@ export function SearchDialogProvider({ children }: { children: ReactNode }) {
 }
 
 export function useSearchDialog() {
-  const context = useContext(SearchDialogContext);
+  const context = use(SearchDialogContext);
 
   if (context === undefined) {
     throw new Error('useSearchDialog must be used within SearchDialogProvider');
