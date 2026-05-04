@@ -16,6 +16,10 @@ type StructuredDataProps = {
     | WithContext<Thing>[];
 };
 
+const serializeJsonLd = (data: StructuredDataProps['data']) => {
+  return JSON.stringify(data).replace(/</g, '\\u003c');
+};
+
 /**
  * JSON-LD 構造化データをスクリプトタグとして出力
  *
@@ -47,7 +51,8 @@ type StructuredDataProps = {
 export const StructuredData = ({ data }: StructuredDataProps) => (
   <script
     dangerouslySetInnerHTML={{
-      __html: JSON.stringify(data),
+      // JSON-LD は実行スクリプトではないため native script で出し、script break-out を防ぐため < を escape する。
+      __html: serializeJsonLd(data),
     }}
     type="application/ld+json"
   />
