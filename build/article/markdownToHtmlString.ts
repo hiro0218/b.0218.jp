@@ -52,10 +52,6 @@ export function createMarkdownToPostHtmlString(options?: Rehype0218Options): (ma
   };
 }
 
-export async function markdownToNoteHtmlString(markdown: string): Promise<string> {
-  return createMarkdownToNoteHtmlString()(markdown);
-}
-
 export async function markdownToPostHtmlString(markdown: string, options?: Rehype0218Options): Promise<string> {
   return createMarkdownToPostHtmlString(options)(markdown);
 }
