@@ -19,9 +19,8 @@ async function buildPostList(posts: Partial<Post>[]) {
 }
 
 async function copyFiles() {
-  copyDir(BUILD_PATHS.articleImages, BUILD_PATHS.publicImages).then(() => {
-    Log.info('Copy _article/images -> public/images');
-  });
+  await copyDir(BUILD_PATHS.articleImages, BUILD_PATHS.publicImages);
+  Log.info('Copy _article/images -> public/images');
 }
 
 (async () => {
