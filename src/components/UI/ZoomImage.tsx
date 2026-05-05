@@ -86,6 +86,7 @@ export function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: Z
 
   // ズーム不可の場合は通常の img 要素を返す
   if (!canZoom) {
+    // biome-ignore lint/performance/noImgElement: DOM ref と自然サイズ計測をズーム可否判定に使う
     return <img alt={alt} src={src} style={processedStyle} {...props} onLoad={handleImageLoad} ref={imgRef} />;
   }
 
@@ -103,20 +104,22 @@ export function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: Z
         zoomIn={open}
       />
 
-      {isMounted && (
+      {isMounted ? (
         <Dialog
           alt={alt}
           closeLabel={a11y.close}
           dialogImgRef={dialogImgRef}
           dialogRef={dialogRef}
+          height={props.height}
           isOpen={isOpen}
           label={a11y.dialog}
           onCancel={handleDialogCancel}
           onClose={close}
           src={src}
+          width={props.width}
           zoomImg={zoomImg}
         />
-      )}
+      ) : null}
     </>
   );
 }
