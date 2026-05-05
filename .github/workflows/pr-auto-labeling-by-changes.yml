@@ -24,6 +24,7 @@ jobs:
         id: check-production
         uses: actions/github-script@v9
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const productionPatterns = [
               /^src\//,
