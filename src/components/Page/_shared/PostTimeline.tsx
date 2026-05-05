@@ -99,7 +99,6 @@ const List = styled.ol`
       border-radius: var(--radii-sm);
       opacity: 0;
       transition: none;
-      will-change: top, left, width, height;
     }
 
     &:has(> li:is(:hover, :focus-within))::after {
@@ -111,6 +110,7 @@ const List = styled.ol`
         height var(--resize-dur) var(--resize-ease),
         background-color var(--transition-fast),
         opacity var(--transition-fast);
+      will-change: top, left, width, height;
     }
 
     &:has(> li:active)::after {
