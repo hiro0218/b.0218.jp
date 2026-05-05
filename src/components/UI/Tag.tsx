@@ -68,11 +68,9 @@ const Count = styled.span`
   justify-content: center;
   aspect-ratio: 1/1;
   padding: 0 var(--spacing-½);
-  font-family: var(--fonts-family-monospace);
-  font-size: var(--font-sizes-xs);
   font-variant-numeric: tabular-nums;
   line-height: var(--line-heights-sm);
+  color: var(--colors-gray-500);
   user-select: none;
-  background-color: var(--colors-gray-a-100);
   border-radius: var(--radii-md);
 `;
