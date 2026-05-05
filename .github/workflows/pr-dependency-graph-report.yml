@@ -7,59 +7,63 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-  pull-requests: write
-
 jobs:
-  report:
+  analyze:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
           persist-credentials: false
-          submodules: true
+          submodules: false
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v6.3.0
+        with:
+          node-version-file: '.node-version'
 
       - name: Install dependencies
-        run: bun install
+        run: npm ci --ignore-scripts
 
       - name: Detect changed files
         id: detect
         env:
           BASE_REF: ${{ github.base_ref }}
         run: |
-          files="$(git diff --name-only --diff-filter=AM "origin/$BASE_REF"...HEAD \
+          git diff --name-only --diff-filter=AM "origin/$BASE_REF"...HEAD \
             | grep -E 'src/.*\.(js|cjs|mjs|jsx|ts|tsx)$' \
-            | grep -v '\.\(spec\|test\)\.' \
-            | tr '\n' ' ' | xargs)"
+            | grep -v '\.\(spec\|test\)\.' > changed-files.txt || true
 
-          if [[ -z "$files" ]]; then
+          if [[ ! -s changed-files.txt ]]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-            echo "files=$files" >> "$GITHUB_OUTPUT"
-            # 正規表現メタ文字をエスケープ（. → \.）
-            echo "focus=$(echo "$files" | sed 's/\./\\./g' | sed 's/ /|/g')" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
+
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          node <<'NODE' > focus.txt
+          const fs = require('fs');
+          const escapeRegExp = value => value.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
+          const files = fs.readFileSync('changed-files.txt', 'utf8')
+            .split(/\r?\n/)
+            .filter(Boolean);
+
+          process.stdout.write(files.map(escapeRegExp).join('|'));
+          NODE
 
       - name: Run dependency-cruiser
         if: steps.detect.outputs.skip == 'false'
-        env:
-          FILES: ${{ steps.detect.outputs.files }}
-          FOCUS: ${{ steps.detect.outputs.focus }}
         run: |
+          mapfile -t files < changed-files.txt
+          focus="$(cat focus.txt)"
+
           # 変更ファイルの依存関係を JSON で取得
-          bunx depcruise --cache -X "^node_modules" --max-depth 3 \
-            --focus "$FOCUS" -T json $FILES > dep-result.json
+          npx --no-install depcruise --cache -X "^node_modules" --max-depth 3 \
+            --focus "$focus" -T json "${files[@]}" > dep-result.json
 
           # 影響範囲（変更ファイルに依存しているモジュール）を JSON で取得
-          bunx depcruise --cache -X "^node_modules" --max-depth 2 \
-            --reaches "$FOCUS" src -T json > dep-reaches.json 2>/dev/null || true
+          npx --no-install depcruise --cache -X "^node_modules" --max-depth 2 \
+            --reaches "$focus" src -T json > dep-reaches.json 2>/dev/null || true
 
           # JSON バリデーション（失敗時は空にする）
           if ! jq empty dep-reaches.json 2>/dev/null; then
@@ -68,8 +72,6 @@ jobs:
 
       - name: Build comment
         if: steps.detect.outputs.skip == 'false'
-        env:
-          FILES: ${{ steps.detect.outputs.files }}
         run: |
           cat > comment.md << 'HEADER'
           <!-- dependency-cruiser report -->
@@ -104,7 +106,7 @@ jobs:
             if [[ $reaches_count -gt 0 ]]; then
               # 変更ファイル自身を除外して、影響を受ける側のモジュールだけ抽出
               affected=$(jq -r '[.modules[].source] | sort | .[]' dep-reaches.json \
-                | grep -v -F -f <(echo "$FILES" | tr ' ' '\n') || true)
+                | grep -v -F -f changed-files.txt || true)
 
               if [[ -n "$affected" ]]; then
                 affected_count=$(echo "$affected" | wc -l | tr -d ' ')
@@ -121,7 +123,7 @@ jobs:
           fi
 
           # --- 依存グラフ（折りたたみ、サイズ制限付き） ---
-          mermaid_output=$(bunx depcruise-fmt -T mermaid dep-result.json)
+          mermaid_output=$(npx --no-install depcruise-fmt -T mermaid dep-result.json)
           mermaid_size=${#mermaid_output}
 
           echo -e "---\n" >> comment.md
@@ -152,19 +154,63 @@ jobs:
           依存関係を分析する対象のファイルがありませんでした。
           EOF
 
-      - name: Find existing comment
-        uses: peter-evans/find-comment@v4
-        id: fc
+      - name: Upload comment
+        uses: actions/upload-artifact@v4
         with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: 'github-actions[bot]'
-          body-includes: <!-- dependency-cruiser report -->
+          name: dependency-cruiser-comment
+          path: comment.md
+          if-no-files-found: error
 
-      - name: Update Comment
-        uses: peter-evans/create-or-update-comment@v5
+  comment:
+    runs-on: ubuntu-latest
+    needs: analyze
+    if: needs.analyze.result == 'success'
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Download comment
+        uses: actions/download-artifact@v4
         with:
-          comment-id: ${{ steps.fc.outputs.comment-id }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body-path: comment.md
-          edit-mode: replace
-          token: ${{ secrets.GITHUB_TOKEN }}
+          name: dependency-cruiser-comment
+          path: dependency-cruiser-comment
+
+      - name: Update comment
+        uses: actions/github-script@v9
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          COMMENT_PATH: dependency-cruiser-comment/comment.md
+        with:
+          script: |
+            const fs = require('fs');
+            const marker = '<!-- dependency-cruiser report -->';
+            const issueNumber = Number(process.env.PR_NUMBER);
+            const body = fs.readFileSync(process.env.COMMENT_PATH, 'utf8');
+            const { owner, repo } = context.repo;
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number: issueNumber,
+              per_page: 100,
+            });
+            const existingComment = comments.find(comment =>
+              comment.user?.login === 'github-actions[bot]' && comment.body?.includes(marker)
+            );
+
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existingComment.id,
+                body,
+              });
+              core.info(`Updated dependency-cruiser comment ${existingComment.id}`);
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: issueNumber,
+                body,
+              });
+              core.info('Created dependency-cruiser comment');
+            }
