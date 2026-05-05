@@ -14,14 +14,14 @@ export function AdsenseManager({ content }: AdsenseManagerProps) {
   return (
     <>
       <Renderer content={before} />
-      {after && (
+      {after ? (
         <>
           <AdsenseContainer>
             <Adsense />
           </AdsenseContainer>
           <Renderer content={after} />
         </>
-      )}
+      ) : null}
     </>
   );
 }
