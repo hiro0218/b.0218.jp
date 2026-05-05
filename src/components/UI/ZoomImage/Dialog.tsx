@@ -2,7 +2,7 @@
 
 import { useDialog } from '@react-aria/dialog';
 import { FocusScope } from '@react-aria/focus';
-import type { ImgHTMLAttributes, ReactNode, RefObject } from 'react';
+import type { ReactNode, RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { css } from '@/ui/styled';
 import type { ZoomImageSource } from './types';
@@ -66,8 +66,6 @@ interface DialogProps {
   isOpen: boolean;
   src: string;
   alt?: string;
-  height?: ImgHTMLAttributes<HTMLImageElement>['height'];
-  width?: ImgHTMLAttributes<HTMLImageElement>['width'];
   zoomImg?: ZoomImageSource;
   onClose: () => void;
   onCancel: (event: React.SyntheticEvent<HTMLDialogElement>) => void;
@@ -87,8 +85,6 @@ export function Dialog({
   zoomImg,
   src,
   alt,
-  height,
-  width,
   onClose,
   onCancel,
 }: DialogProps): ReactNode {
@@ -118,12 +114,10 @@ export function Dialog({
           <img
             alt={alt}
             className={dialogImageStyle}
-            height={height}
             loading="eager"
             ref={dialogImgRef}
             src={zoomImg?.src || src}
             srcSet={zoomImg?.srcSet}
-            width={width}
           />
         </button>
       </dialog>

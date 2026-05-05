@@ -165,6 +165,19 @@ describe('ZoomImage', () => {
       expect(dialog).toBeDefined();
     });
 
+    it('サムネイルの寸法属性を dialog 内の img には渡さない', () => {
+      render(<ZoomImage alt="test image" height={120} src="/test.jpg" width={160} />);
+
+      const images = screen.getAllByAltText('test image');
+      const triggerImg = images[0] as HTMLImageElement;
+      const dialogImg = images[1] as HTMLImageElement;
+
+      expect(triggerImg.getAttribute('width')).toBe('160');
+      expect(triggerImg.getAttribute('height')).toBe('120');
+      expect(dialogImg.hasAttribute('width')).toBe(false);
+      expect(dialogImg.hasAttribute('height')).toBe(false);
+    });
+
     it('ズームアイコンを表示する', () => {
       render(<ZoomImage alt="test image" src="/test.jpg" />);
 
