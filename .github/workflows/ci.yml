@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: Kesin11/actions-timeline@e018cfefea60b4f44266998551211a35a58b8097 # v3.0.0
+      - uses: Kesin11/actions-timeline@44c9c178ffb2fb1d9859614a3ffa79ccfb77565e # v3.1.0
 
       - uses: actions/checkout@v6
         with:
@@ -80,7 +80,7 @@ jobs:
     needs: build
     timeout-minutes: 15
     steps:
-      - uses: Kesin11/actions-timeline@e018cfefea60b4f44266998551211a35a58b8097 # v3.0.0
+      - uses: Kesin11/actions-timeline@44c9c178ffb2fb1d9859614a3ffa79ccfb77565e # v3.1.0
 
       - uses: actions/checkout@v6
 
@@ -172,7 +172,7 @@ jobs:
     needs: build
     timeout-minutes: 10
     steps:
-      - uses: Kesin11/actions-timeline@e018cfefea60b4f44266998551211a35a58b8097 # v3.0.0
+      - uses: Kesin11/actions-timeline@44c9c178ffb2fb1d9859614a3ffa79ccfb77565e # v3.1.0
 
       - uses: actions/checkout@v6
 
