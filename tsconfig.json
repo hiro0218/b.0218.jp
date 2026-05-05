@@ -38,6 +38,8 @@
         "name": "@styled/typescript-styled-plugin",
         "lint": {
           "validProperties": [
+            "anchor-name",
+            "position-anchor",
             "container-type",
             "container-name",
             "text-wrap"

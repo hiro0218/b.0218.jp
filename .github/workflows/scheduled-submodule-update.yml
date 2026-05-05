@@ -20,7 +20,7 @@ jobs:
         id: check
         run: |
           git submodule update --remote
-          git diff --quiet || echo "isChanged=true" >> $GITHUB_ENV
+          git diff --quiet || echo "isChanged=true" >> "$GITHUB_ENV"
 
       - name: Commit and push if changes
         if: ${{ env.isChanged == 'true' }}

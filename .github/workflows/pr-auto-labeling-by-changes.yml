@@ -20,23 +20,11 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v47.0.6
-        with:
-          # サブモジュール(_article/)を除外
-          files_ignore: |
-            _article/**
-
       - name: Check for production changes
         id: check-production
         uses: actions/github-script@v9
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const productionPatterns = [
               /^src\//,
@@ -52,7 +40,13 @@ jobs:
               /^\.gitmodules$/,
             ];
 
-            const changedFiles = `${{ steps.changed-files.outputs.all_changed_files }}`.split(' ');
+            const changedFiles = (await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            }))
+              .map(file => file.filename)
+              .filter(file => !file.startsWith('_article/'));
 
             const hasProductionChanges = changedFiles.some(file =>
               productionPatterns.some(pattern => pattern.test(file))
@@ -68,12 +62,14 @@ jobs:
 
       - name: Manage labels
         uses: actions/github-script@v9
+        env:
+          HAS_PRODUCTION_CHANGES: ${{ steps.check-production.outputs.has_production_changes }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { owner, repo } = context.repo;
             const number = context.issue.number;
-            const hasProductionChanges = '${{ steps.check-production.outputs.has_production_changes }}' === 'true';
+            const hasProductionChanges = process.env.HAS_PRODUCTION_CHANGES === 'true';
             const PRODUCTION_LABEL = 'production';
 
             // 現在のラベルを取得

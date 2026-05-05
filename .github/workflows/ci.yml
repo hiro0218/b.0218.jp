@@ -114,7 +114,7 @@ jobs:
         run: |
           ./node_modules/.bin/next start -p 3100 -H 127.0.0.1 > .next-start.log 2>&1 &
           echo $! > .next-start.pid
-          for i in $(seq 1 60); do
+          for _ in $(seq 1 60); do
             if curl -sf http://127.0.0.1:3100 > /dev/null; then
               echo "Server is ready"
               exit 0

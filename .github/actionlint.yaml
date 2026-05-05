@@ -1,0 +1,9 @@
+self-hosted-runner:
+  labels:
+    # GitHub-hosted ubuntu-slim が actionlint の固定版に未反映の場合のため許可する
+    - ubuntu-slim
+paths:
+  .github/workflows/**/*.{yml,yaml}:
+    ignore:
+      # 複数行の Markdown 生成では可読性を優先し、style 指摘のみ抑制する
+      - 'shellcheck reported issue in this script: SC2129:.+'
