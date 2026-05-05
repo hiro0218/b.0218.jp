@@ -4,6 +4,8 @@ type GoogleAdSenseProps = {
   publisherId: string;
 };
 
+const GOOGLE_FC_PRESENT_SCRIPT_ID = 'googlefc-present';
+
 export function GoogleAdSense({ publisherId }: GoogleAdSenseProps) {
   return (
     <>
@@ -17,7 +19,7 @@ export function GoogleAdSense({ publisherId }: GoogleAdSenseProps) {
         src="https://fundingchoicesmessages.google.com/i/pub-7651142413133023?ers=1"
         strategy="afterInteractive"
       />
-      <Script id="googlefc-present" strategy="afterInteractive">{`(function() {
+      <Script id={GOOGLE_FC_PRESENT_SCRIPT_ID} strategy="afterInteractive">{`(function() {
         function signalGooglefcPresent() {
           if (!window.frames['googlefcPresent']) {
             if (document.body) {
