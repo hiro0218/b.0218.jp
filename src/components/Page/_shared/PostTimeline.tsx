@@ -99,21 +99,29 @@ const List = styled.ol`
       border-radius: var(--radii-sm);
       opacity: 0;
       transition: none;
+      will-change: top, left, width, height;
     }
 
     &:has(> li:is(:hover, :focus-within))::after {
       opacity: 1;
       transition:
-        top var(--transition-fast),
-        left var(--transition-fast),
-        width var(--transition-fast),
-        height var(--transition-fast),
+        top var(--resize-dur) var(--resize-ease),
+        left var(--resize-dur) var(--resize-ease),
+        width var(--resize-dur) var(--resize-ease),
+        height var(--resize-dur) var(--resize-ease),
         background-color var(--transition-fast),
         opacity var(--transition-fast);
     }
 
     &:has(> li:active)::after {
       background-color: var(--colors-gray-a-200);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &::after {
+        transition: none !important;
+        will-change: auto;
+      }
     }
   }
 `;
