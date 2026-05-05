@@ -1,0 +1,4 @@
+self-hosted-runner:
+  labels:
+    # GitHub-hosted ubuntu-slim が actionlint の固定版に未反映の場合のため許可する
+    - ubuntu-slim
