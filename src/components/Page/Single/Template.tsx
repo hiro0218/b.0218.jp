@@ -45,7 +45,7 @@ export function Template({ slug, title, description }: TemplateProps) {
 
   return (
     <>
-      {jsonLd && <StructuredData data={jsonLd} />}
+      {jsonLd ? <StructuredData data={jsonLd} /> : null}
       <Content description={description} slug={slug} title={title} />
     </>
   );
