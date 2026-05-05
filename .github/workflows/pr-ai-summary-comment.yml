@@ -21,20 +21,22 @@ jobs:
 
       - name: Fetch PR diff
         id: fetch_diff
+        env:
+          BASE_REF_NAME: ${{ github.event.pull_request.base.ref }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          BASE_REF="origin/${{ github.event.pull_request.base.ref }}"
-          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          BASE_REF="origin/${BASE_REF_NAME}"
+          HEAD_REF="pr-head"
 
           echo "Base ref: ${BASE_REF}"
-          echo "Head SHA: ${HEAD_SHA}"
+          echo "PR number: ${PR_NUMBER}"
 
-          git fetch origin ${{ github.event.pull_request.base.ref }}
-          git fetch origin ${{ github.event.pull_request.head.ref }}
+          git fetch origin "$BASE_REF_NAME"
+          git fetch origin "pull/${PR_NUMBER}/head:${HEAD_REF}"
 
           # ファイルリストとステータスを取得
           echo "Running git diff --name-status..."
-          CHANGED_FILES=$(git diff --name-status ${BASE_REF}...${HEAD_SHA})
-          if [ $? -ne 0 ]; then
+          if ! CHANGED_FILES=$(git diff --name-status "${BASE_REF}...${HEAD_REF}"); then
             echo "Error: git diff command failed."
             exit 1
           fi
@@ -46,11 +48,11 @@ jobs:
           # ステップ出力 'files' を設定
           echo "Setting files output..."
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "files<<$EOF" >> $GITHUB_OUTPUT # <-- 出力名を 'files' に戻す
-          echo "${CHANGED_FILES}" >> $GITHUB_OUTPUT
-          echo "$EOF" >> $GITHUB_OUTPUT
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          {
+            echo "files<<$EOF"
+            echo "${CHANGED_FILES}"
+            echo "$EOF"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Run AI inference
         id: inference
