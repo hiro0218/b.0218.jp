@@ -14,7 +14,7 @@ import { BrowserEffects } from '@/components/Functional/BrowserEffects';
 import { ClientSideScrollRestorer } from '@/components/Functional/ClientSideScrollRestorer';
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
-import { AUTHOR_NAME, GOOGLE_ADSENSE, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constants';
+import { AUTHOR_NAME, GOOGLE_ADSENSE, MAIN_CONTENT_ID, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constants';
 import { isProduction } from '@/lib/config/environment';
 
 export const viewport: Viewport = {
@@ -52,6 +52,10 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.ico',
     apple: '/icon.png',
+    other: Object.values(URL).map((url) => ({
+      rel: 'me',
+      url,
+    })),
   },
   other: {
     search: '/opensearch.xml',
@@ -62,10 +66,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <html data-scroll-behavior="smooth" lang="ja">
       <body>
-        <a className="skip-link" href="#main">
+        <a className="skip-link" href={`#${MAIN_CONTENT_ID}`}>
           メインコンテンツへスキップ
         </a>
-        {isProduction && <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />}
+        {isProduction ? <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} /> : null}
         <SearchDialogProvider>
           <Layout>
             <Header />
@@ -78,20 +82,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <Suspense>
           <ClientSideScrollRestorer />
         </Suspense>
-        {isProduction && <PreconnectLinks />}
-        {
-          /**
-           * rel="me" links for identity verification (Mastodon, IndieAuth, etc.)
-           * Note: Ideally should be in <head>, but Next.js App Router metadata API
-           * doesn't support custom <link> elements. HTML5 allows <link> in <body>
-           * and browsers will process them correctly.
-           * @see https://developer.mozilla.org/ja/docs/Web/HTML/Attributes/rel/me
-           */
-          Object.entries(URL).map(([key, url]) => (
-            <link href={url} key={key} rel="me" />
-          ))
-        }
-        {isProduction && <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} />}
+        {isProduction ? <PreconnectLinks /> : null}
+        {isProduction ? <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} /> : null}
       </body>
     </html>
   );
