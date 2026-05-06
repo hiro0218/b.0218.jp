@@ -27,7 +27,7 @@ echo "✓ Article build completed"
 echo ""
 
 # 3-5. 類似度計算・検索インデックス生成・人気記事取得・タグカテゴリ分類を並列実行
-# 4つのステップは posts.json / posts-list.json / tags.json を読み込むのみで相互依存なし
+# 4つのステップは dist/posts/*.json / posts-list.json / tags.json を読み込むのみで相互依存なし
 echo -e "${GREEN}[3/4] Running similarity, search, popular, and category in parallel...${NC}"
 
 npm run build:similarity &

@@ -73,7 +73,7 @@ export type PostMetadata = WithTags & {
 };
 
 /**
- * ブログ投稿の完全型（posts.json）
+ * ブログ投稿の完全型（dist/posts/*.json）
  * すべての投稿記事情報を含む型
  */
 export type Post = Article & PostMetadata;
@@ -104,11 +104,11 @@ export type TagIndex = Record<string, string[]>;
 export type TagSimilarityScores = Record<string, Record<string, SimilarityScore>>;
 
 /**
- * 記事類似度マトリックス型（posts-similarity.json）
- * 各要素は記事slugをキーとし、他の記事との類似度マップを値とする配列
- * 実際のデータ形式：[{ "slug1": { "slug2": 0.3, ... } }, ...]
+ * 記事類似度インデックス型（posts-similarity.json）
+ * キー：記事slug、値：他の記事との類似度マップ
+ * 実際のデータ形式：{ "slug1": { "slug2": 0.3, ... }, ... }
  */
-export type PostSimilarityMatrix = Record<string, Record<string, SimilarityScore>>[];
+export type PostSimilarityIndex = Record<string, Record<string, SimilarityScore>>;
 
 /**
  * 人気度の詳細情報

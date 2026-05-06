@@ -29,11 +29,11 @@ export const Tooltip = ({ text, position = 'bottom', children, delay = 500 }: To
   return (
     <TooltipContainer ref={triggerRef} {...triggerProps}>
       {children}
-      {state.isOpen && (
+      {state.isOpen ? (
         <TooltipContent data-position={position} data-visible={state.isOpen} ref={tooltipRef} {...ariaTooltipProps}>
           {text}
         </TooltipContent>
-      )}
+      ) : null}
     </TooltipContainer>
   );
 };

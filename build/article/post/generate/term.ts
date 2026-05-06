@@ -6,7 +6,7 @@ import { getPath } from './utils';
 
 const PATH = getPath();
 
-export async function buildTerm(posts: Partial<Post>[]) {
+export async function buildTerm(posts: Post[]): Promise<void> {
   // タグの正規化キーごとに、表記バリエーションとslugを管理
   const tagVariants = new Map<
     string,

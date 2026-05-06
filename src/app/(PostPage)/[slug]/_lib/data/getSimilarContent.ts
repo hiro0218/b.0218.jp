@@ -26,13 +26,7 @@ for (let i = 0; i < cachedPostsList.length; i++) {
 }
 
 function getSimilarPostMapping(slug: string) {
-  for (let i = 0; i < cachedSimilarPosts.length; i++) {
-    const item = cachedSimilarPosts[i];
-    if (slug in item) {
-      return item[slug];
-    }
-  }
-  return null;
+  return cachedSimilarPosts[slug] ?? null;
 }
 
 /**

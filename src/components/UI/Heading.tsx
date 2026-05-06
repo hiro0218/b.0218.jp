@@ -37,9 +37,9 @@ export function Heading({ id, as: Tag = 'h1', children, textSide, textSub, isBol
     <hgroup className={containerStyle}>
       <div className={mainStyle}>
         {title}
-        {textSub && <div className={headerSubStyle}>{textSub}</div>}
+        {textSub ? <div className={headerSubStyle}>{textSub}</div> : null}
       </div>
-      {textSide && <div className={sideStyle}>{textSide}</div>}
+      {textSide ? <div className={sideStyle}>{textSide}</div> : null}
     </hgroup>
   );
 }

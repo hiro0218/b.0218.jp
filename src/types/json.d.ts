@@ -1,4 +1,4 @@
-import type { SearchDataItem, SearchIndex } from '@/lib/search';
+import type { SearchDataPayload } from '@/lib/search';
 
 /**
  * JSON ファイルの型定義
@@ -14,14 +14,9 @@ type SearchSuggestions = string[];
  * dist配下のJSONファイルに対する型定義
  * ~ エイリアスを使用したimportに対応
  */
-declare module '~/dist/search-data.json' {
-  const data: SearchDataItem[];
+declare module '~/dist/search.json' {
+  const data: SearchDataPayload;
   export default data;
-}
-
-declare module '~/dist/search-index.json' {
-  const index: SearchIndex;
-  export default index;
 }
 
 declare module '~/dist/search-suggestions.json' {

@@ -6,6 +6,7 @@ export const SCREEN_IMAGE = 'https://b.0218.jp/hiro0218_screen.png';
 export const SITE_NAME = '零弐壱蜂';
 export const SITE_DESCRIPTION = '様々な情報をストックするサイバーメモ帳';
 export const SITE_URL = 'https://b.0218.jp';
+export const MAIN_CONTENT_ID = 'main';
 
 export const URL = {
   twitter: 'https://twitter.com/hiro0218',
@@ -24,6 +25,7 @@ export const BREAKPOINT = 992;
 export const FILENAME_POSTS = 'posts';
 export const FILENAME_POSTS_LIST = 'posts-list';
 export const FILENAME_PAGES = 'pages';
+export const FILENAME_SEARCH = 'search';
 export const FILENAME_TAG_SIMILARITY = 'tags-similarity';
 export const FILENAME_POSTS_SIMILARITY = 'posts-similarity';
 export const FILENAME_POSTS_POPULAR = 'posts-popular';

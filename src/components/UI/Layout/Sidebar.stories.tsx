@@ -4,6 +4,8 @@ import { DemoBox } from '@/stories/_internal/DemoBox';
 
 import { Sidebar } from './Sidebar';
 
+const SIDEBAR_HEADING_ID = 'sidebar-heading';
+
 const defaultChildren = (
   <>
     <Sidebar.Main>
@@ -84,7 +86,7 @@ export const TitleWithCustomTag: Story = {
   args: {
     children: (
       <>
-        <Sidebar.Title id="sidebar-heading" tag="h3">
+        <Sidebar.Title id={SIDEBAR_HEADING_ID} tag="h3">
           h3 サイドバータイトル
         </Sidebar.Title>
         <Sidebar.Main>

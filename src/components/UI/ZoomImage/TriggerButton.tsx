@@ -92,6 +92,7 @@ export function TriggerButton({
       onClick={isOpen ? undefined : zoomIn}
       type="button"
     >
+      {/* biome-ignore lint/performance/noImgElement: DOM ref と onLoad をズーム可否判定に使う */}
       <img alt={alt} src={src} style={style} {...imgProps} onLoad={onImageLoad} ref={imgRef} />
       <span aria-hidden="true" className={cx(zoomIndicatorStyle, 'zoom-indicator')}>
         <MagnifyingGlassPlusIcon className={zoomIconStyle} />

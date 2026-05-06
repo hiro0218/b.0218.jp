@@ -43,12 +43,12 @@ describe('getRelatedPosts', () => {
     // デフォルトのモック実装を設定
     mockGetRelatedPosts.mockImplementation(async (posts: PostSummary[], sortedTags) => {
       if (!Array.isArray(posts) || posts.length === 0 || typeof sortedTags !== 'object' || sortedTags === null) {
-        console.warn('getRelatedPosts: Invalid input provided (posts or sortedTags). Returning empty array.');
-        return [];
+        console.warn('getRelatedPosts: Invalid input provided (posts or sortedTags). Returning empty object.');
+        return {};
       }
 
       // テスト用のシンプルな実装
-      const result = [];
+      const result = {};
 
       for (const post of posts) {
         if (!post.slug) continue;
@@ -71,7 +71,7 @@ describe('getRelatedPosts', () => {
         });
 
         if (Object.keys(relatedPosts).length > 0) {
-          result.push({ [post.slug]: relatedPosts });
+          result[post.slug] = relatedPosts;
         }
       }
 
@@ -157,18 +157,13 @@ describe('getRelatedPosts', () => {
 
     const results = await getRelatedPosts(posts, sortedTags);
 
-    // 結果が配列であることを確認
-    expect(Array.isArray(results)).toBe(true);
-
     // 有効な記事には関連記事が存在する
-    const reactIntroRelated = results.find((item) => Object.keys(item)[0] === 'react-intro');
+    const reactIntroRelated = results['react-intro'];
     expect(reactIntroRelated).toBeDefined();
-    expect(Object.keys(reactIntroRelated!['react-intro']).length).toBeGreaterThan(0);
+    expect(Object.keys(reactIntroRelated).length).toBeGreaterThan(0);
 
     // 関連度スコアが0から1の範囲内であることを確認
-    results.forEach((result) => {
-      const slug = Object.keys(result)[0];
-      const relatedPosts = result[slug];
+    Object.values(results).forEach((relatedPosts) => {
       Object.values(relatedPosts).forEach((score) => {
         expect(score).toBeGreaterThanOrEqual(0);
         expect(score).toBeLessThanOrEqual(1);
@@ -183,9 +178,7 @@ describe('getRelatedPosts', () => {
     const results = await getRelatedPosts(posts, sortedTags);
 
     // 各記事の関連記事がスコアの降順でソートされていることを確認
-    results.forEach((result) => {
-      const slug = Object.keys(result)[0];
-      const relatedPosts = result[slug];
+    Object.values(results).forEach((relatedPosts) => {
       const scores = Object.values(relatedPosts);
       for (let i = 0; i < scores.length - 1; i++) {
         expect(scores[i]).toBeGreaterThanOrEqual(scores[i + 1]);
@@ -198,24 +191,21 @@ describe('getRelatedPosts', () => {
     const sortedTags = createMockTagSimilarityMap();
 
     // テスト用のカスタム実装
-    mockGetRelatedPosts.mockResolvedValueOnce([
-      {
-        'react-intro': {
-          'typescript-react': 0.8,
-          'nextjs-ssr': 0.7,
-          'css-variables': 0.5,
-        },
+    mockGetRelatedPosts.mockResolvedValueOnce({
+      'react-intro': {
+        'typescript-react': 0.8,
+        'nextjs-ssr': 0.7,
+        'css-variables': 0.5,
       },
-    ]);
+    });
 
     const results = await getRelatedPosts(posts, sortedTags);
 
     // react-introの関連記事を確認
-    const reactIntroRelated = results.find((item) => Object.keys(item)[0] === 'react-intro');
+    const reactIntroRelated = results['react-intro'];
     if (reactIntroRelated) {
-      const relatedPosts = reactIntroRelated['react-intro'];
       // reactとjavascriptタグを持つ記事が上位に来ることを確認
-      const relatedSlugs = Object.keys(relatedPosts);
+      const relatedSlugs = Object.keys(reactIntroRelated);
       expect(relatedSlugs).toContain('typescript-react');
       expect(relatedSlugs).toContain('nextjs-ssr');
     }
@@ -228,20 +218,20 @@ describe('getRelatedPosts', () => {
     // デフォルトの実装で警告ログを出力するように設定
     mockGetRelatedPosts.mockImplementation(async (posts, sortedTags) => {
       if (!Array.isArray(posts) || posts.length === 0 || typeof sortedTags !== 'object' || sortedTags === null) {
-        console.warn('getRelatedPosts: Invalid input provided (posts or sortedTags). Returning empty array.');
-        return [];
+        console.warn('getRelatedPosts: Invalid input provided (posts or sortedTags). Returning empty object.');
+        return {};
       }
-      return [];
+      return {};
     });
 
     // 空の投稿配列
-    expect(await getRelatedPosts([], createMockTagSimilarityMap())).toEqual([]);
+    expect(await getRelatedPosts([], createMockTagSimilarityMap())).toEqual({});
 
     // nullの投稿
-    expect(await getRelatedPosts(null, createMockTagSimilarityMap())).toEqual([]);
+    expect(await getRelatedPosts(null, createMockTagSimilarityMap())).toEqual({});
 
     // nullのタグ類似度
-    expect(await getRelatedPosts(createMockPosts(), null)).toEqual([]);
+    expect(await getRelatedPosts(createMockPosts(), null)).toEqual({});
 
     // 警告が出力されたことを確認
     expect(consoleSpy).toHaveBeenCalled();
@@ -253,11 +243,11 @@ describe('getRelatedPosts', () => {
   it('トークナイザの初期化に失敗した場合は空配列を返すこと', async () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-    // エラーの場合は空配列を返すようにモック
-    mockGetRelatedPosts.mockResolvedValueOnce([]);
+    // エラーの場合は空オブジェクトを返すようにモック
+    mockGetRelatedPosts.mockResolvedValueOnce({});
 
     const result = await getRelatedPosts(createMockPosts(), createMockTagSimilarityMap());
-    expect(result).toEqual([]);
+    expect(result).toEqual({});
 
     errorSpy.mockRestore();
   });
@@ -297,30 +287,26 @@ describe('getRelatedPosts', () => {
     };
 
     // テスト用のカスタム実装
-    mockGetRelatedPosts.mockResolvedValueOnce([
-      {
-        test1: {
-          test3: 0.8, // タグが同じなので高スコア
-          test2: 0.7, // コンテンツが同じなので高スコア
-        },
+    mockGetRelatedPosts.mockResolvedValueOnce({
+      test1: {
+        test3: 0.8, // タグが同じなので高スコア
+        test2: 0.7, // コンテンツが同じなので高スコア
       },
-    ]);
+    });
 
     const results = await getRelatedPosts(specialPosts, specialTagSimilarity);
 
     // test1から見たとき、内容が同じtest2とタグが同じtest3の類似度を比較
-    const test1Related = results.find((item) => Object.keys(item)[0] === 'test1');
+    const test1Related = results.test1;
     if (test1Related) {
-      const relatedScores = test1Related['test1'];
-
       // 内容が同じでタグが異なるtest2のスコアを確認
-      expect(relatedScores['test2']).toBeGreaterThan(0);
+      expect(test1Related.test2).toBeGreaterThan(0);
 
       // タグが同じで内容が異なるtest3のスコアを確認
-      expect(relatedScores['test3']).toBeGreaterThan(0);
+      expect(test1Related.test3).toBeGreaterThan(0);
 
       // テスト用のモックでは、タグが同じtest3の方がスコアが高くなるように設定
-      expect(relatedScores['test3']).toBeGreaterThan(relatedScores['test2']);
+      expect(test1Related.test3).toBeGreaterThan(test1Related.test2);
     }
   });
 });

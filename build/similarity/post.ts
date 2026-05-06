@@ -315,11 +315,11 @@ function calculatePostSimilarity(
 export async function getRelatedPosts(
   posts: Post[],
   sortedTags: TagSimilarityScores,
-): Promise<{ [key: string]: Record<string, number> }[]> {
+): Promise<Record<string, Record<string, number>>> {
   // 入力検証
   if (!Array.isArray(posts) || posts.length === 0 || typeof sortedTags !== 'object' || sortedTags === null) {
-    console.warn('getRelatedPosts: Invalid input provided (posts or sortedTags). Returning empty array.');
-    return [];
+    console.warn('getRelatedPosts: Invalid input provided (posts or sortedTags). Returning empty object.');
+    return {};
   }
 
   // 1. コンテンツ前処理
@@ -396,7 +396,7 @@ export async function getRelatedPosts(
   }
 
   // 7. 各記事に対して関連度計算（同期処理）
-  const results: { [key: string]: Record<string, number> }[] = [];
+  const results: Record<string, Record<string, number>> = Object.create(null);
 
   for (let i = 0; i < posts.length; i++) {
     const targetPost = posts[i];
@@ -510,7 +510,7 @@ export async function getRelatedPosts(
       scoredArticles[slug] = similarityScore;
     }
 
-    results.push({ [targetPost.slug]: scoredArticles });
+    results[targetPost.slug] = scoredArticles;
   }
 
   // キャッシュクリア（モジュールグローバルなキャッシュの肥大化を防止）

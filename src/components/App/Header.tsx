@@ -34,7 +34,7 @@ export function Header() {
         </Container>
       </Layout>
 
-      {(searchDialog.isOpen || searchDialog.isClosing) && (
+      {searchDialog.isOpen || searchDialog.isClosing ? (
         <Suspense fallback={null}>
           <LazySearchDialog
             dialogRef={searchDialog.dialogRef}
@@ -42,7 +42,7 @@ export function Header() {
             onCloseAction={searchDialog.close}
           />
         </Suspense>
-      )}
+      ) : null}
     </>
   );
 }
