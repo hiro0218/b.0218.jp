@@ -1,11 +1,19 @@
+import { unlink } from 'node:fs/promises';
 import path from 'node:path';
-import { FILENAME_POSTS_LIST } from '@/constants';
+import { FILENAME_POSTS_LIST, FILENAME_SEARCH } from '@/constants';
 import type { PostSummary } from '@/types/source';
 import { BUILD_PATHS } from '~/build/shared/paths';
 import { readJSON, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
 import { generateSearchIndex } from './invertedIndex';
 import { getTokenizer } from './tokenizer';
+
+async function removeLegacySearchArtifacts(): Promise<void> {
+  await Promise.allSettled([
+    unlink(path.join(BUILD_PATHS.dist, 'search-index.json')),
+    unlink(path.join(BUILD_PATHS.dist, 'search-data.json')),
+  ]);
+}
 
 (async () => {
   try {
@@ -24,10 +32,12 @@ import { getTokenizer } from './tokenizer';
     const { invertedIndex, searchData } = generateSearchIndex(posts, tokenizer);
 
     // ファイル出力
-    await writeJSON(`${BUILD_PATHS.dist}/search-index.json`, invertedIndex);
+    await writeJSON(`${BUILD_PATHS.dist}/${FILENAME_SEARCH}.json`, {
+      searchIndex: invertedIndex,
+      searchData,
+    });
+    await removeLegacySearchArtifacts();
     Log.info(`転置インデックスを生成しました（${Object.keys(invertedIndex).length}件のトークン）`);
-
-    await writeJSON(`${BUILD_PATHS.dist}/search-data.json`, searchData);
     Log.info(`検索用軽量データを生成しました（${searchData.length}件）`);
 
     Log.info('転置インデックス生成が完了しました');

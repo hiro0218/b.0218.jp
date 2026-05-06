@@ -1,20 +1,17 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { FILENAME_POSTS_SIMILARITY, FILENAME_TAG_SIMILARITY } from '@/constants';
+import { readAllPosts } from '~/build/shared/readAllPosts';
 import * as fs from '~/tools/fs';
 import * as Log from '~/tools/logger';
 import { getRelatedPosts } from './post';
 import { getRelatedTags } from './tag';
 
 // 依存モジュールのモック
+vi.mock('~/build/shared/readAllPosts');
 vi.mock('~/tools/fs');
 vi.mock('~/tools/logger');
 vi.mock('./post');
 vi.mock('./tag');
-vi.mock('@/constant', () => ({
-  // biome-ignore lint/style/useNamingConvention: モックにはオリジナルの命名規則を維持
-  FILENAME_POSTS_SIMILARITY: 'posts-similarity',
-  // biome-ignore lint/style/useNamingConvention: モックにはオリジナルの命名規則を維持
-  FILENAME_TAG_SIMILARITY: 'tag-similarity',
-}));
 
 /**
  * 類似度計算モジュールのテスト
@@ -53,7 +50,7 @@ describe('similarity index module', () => {
     tag3: { tag2: 0.7 },
   };
 
-  const mockRelatedPosts = [{ test1: { test2: 0.75 } }, { test2: { test1: 0.75 } }];
+  const mockRelatedPosts = { test1: { test2: 0.75 }, test2: { test1: 0.75 } };
 
   // biome-ignore lint/style/useNamingConvention: テストの定数にはオリジナルの命名規則を維持
   const PATH_DIST = `${process.cwd()}/dist`;
@@ -64,11 +61,11 @@ describe('similarity index module', () => {
   beforeEach(() => {
     vi.resetAllMocks();
 
+    vi.mocked(readAllPosts).mockReturnValue(mockPostsData);
+
     // ファイル読み込みのモック - パスに基づいて適切なデータを返却
     vi.mocked(fs.readJSON).mockImplementation((path: string) => {
-      if (path.includes('posts.json')) {
-        return Promise.resolve(mockPostsData);
-      } else if (path.includes('tags.json')) {
+      if (path.includes('tags.json')) {
         return Promise.resolve(mockTagsData);
       }
       return Promise.resolve(null);
@@ -91,46 +88,46 @@ describe('similarity index module', () => {
   it('メインプロセスが正しく実行されること', async () => {
     // インデックスモジュールのメインロジックを模倣する関数
     const runIndexLogic = async () => {
-      const posts = await fs.readJSON<typeof mockPostsData>(`${PATH_DIST}/posts.json`);
+      const posts = readAllPosts();
       const tags = await fs.readJSON<typeof mockTagsData>(`${PATH_DIST}/tags.json`);
 
       // 関連タグを計算する
       const relatedTags = getRelatedTags(posts, tags);
 
-      await fs.writeJSON(`${PATH_DIST}/tag-similarity.json`, relatedTags);
-      Log.info(`Write dist/tag-similarity.json`);
+      await fs.writeJSON(`${PATH_DIST}/${FILENAME_TAG_SIMILARITY}.json`, relatedTags);
+      Log.info(`Write dist/${FILENAME_TAG_SIMILARITY}.json`);
 
       // 関連記事を計算する
       const relatedPosts = await getRelatedPosts(posts, relatedTags);
 
-      await fs.writeJSON(`${PATH_DIST}/posts-similarity.json`, relatedPosts);
-      Log.info(`Write dist/posts-similarity.json`);
+      await fs.writeJSON(`${PATH_DIST}/${FILENAME_POSTS_SIMILARITY}.json`, relatedPosts);
+      Log.info(`Write dist/${FILENAME_POSTS_SIMILARITY}.json`);
     };
 
     // 関数を実行
     await runIndexLogic();
 
     // 必要なデータが読み込まれたことを確認
-    expect(fs.readJSON).toHaveBeenCalledWith(`${PATH_DIST}/posts.json`);
+    expect(readAllPosts).toHaveBeenCalled();
     expect(fs.readJSON).toHaveBeenCalledWith(`${PATH_DIST}/tags.json`);
 
     // getRelatedTagsが呼び出されたことを確認
     expect(getRelatedTags).toHaveBeenCalledWith(mockPostsData, mockTagsData);
 
     // タグの関連度データが書き込まれたことを確認
-    expect(fs.writeJSON).toHaveBeenCalledWith(`${PATH_DIST}/tag-similarity.json`, mockRelatedTags);
+    expect(fs.writeJSON).toHaveBeenCalledWith(`${PATH_DIST}/${FILENAME_TAG_SIMILARITY}.json`, mockRelatedTags);
 
     // ログが出力されたことを確認
-    expect(Log.info).toHaveBeenCalledWith(`Write dist/tag-similarity.json`);
+    expect(Log.info).toHaveBeenCalledWith(`Write dist/${FILENAME_TAG_SIMILARITY}.json`);
 
     // getRelatedPostsが呼び出されたことを確認
     expect(getRelatedPosts).toHaveBeenCalledWith(mockPostsData, mockRelatedTags);
 
     // 記事の類似度データが書き込まれたことを確認
-    expect(fs.writeJSON).toHaveBeenCalledWith(`${PATH_DIST}/posts-similarity.json`, mockRelatedPosts);
+    expect(fs.writeJSON).toHaveBeenCalledWith(`${PATH_DIST}/${FILENAME_POSTS_SIMILARITY}.json`, mockRelatedPosts);
 
     // ログが出力されたことを確認
-    expect(Log.info).toHaveBeenCalledWith(`Write dist/posts-similarity.json`);
+    expect(Log.info).toHaveBeenCalledWith(`Write dist/${FILENAME_POSTS_SIMILARITY}.json`);
   });
 
   /**
@@ -147,16 +144,16 @@ describe('similarity index module', () => {
     // インデックスモジュールのメインロジックを模倣する関数
     const runIndexLogic = async () => {
       try {
-        const posts = await fs.readJSON<typeof mockPostsData>(`${PATH_DIST}/posts.json`);
+        const posts = readAllPosts();
         const tags = await fs.readJSON<typeof mockTagsData>(`${PATH_DIST}/tags.json`);
 
         // 関連タグを計算する
         const relatedTags = getRelatedTags(posts, tags);
-        await fs.writeJSON(`${PATH_DIST}/tag-similarity.json`, relatedTags);
+        await fs.writeJSON(`${PATH_DIST}/${FILENAME_TAG_SIMILARITY}.json`, relatedTags);
 
         // 関連記事を計算する
         const relatedPosts = await getRelatedPosts(posts, relatedTags);
-        await fs.writeJSON(`${PATH_DIST}/posts-similarity.json`, relatedPosts);
+        await fs.writeJSON(`${PATH_DIST}/${FILENAME_POSTS_SIMILARITY}.json`, relatedPosts);
 
         return true; // 成功した場合
       } catch (error) {

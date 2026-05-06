@@ -5,6 +5,7 @@ import { isContentPreview } from '@/lib/config/environment';
 import { convertRawPost } from '@/lib/post/convert';
 import { isValidFrontmatter, parseFrontmatter, type RawPost, tryToIso } from '@/lib/post/raw';
 import { isPubliclyVisible } from '@/lib/post/visibility';
+import type { Post } from '@/types/source';
 import { mkdir, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
 import { createMarkdownToNoteHtmlString, createMarkdownToPostHtmlString } from '../../markdownToHtmlString';
@@ -22,7 +23,7 @@ const PATH = getPath();
 
 const POST_CONCURRENCY = 4;
 
-export async function buildPost() {
+export async function buildPost(): Promise<Post[]> {
   const files = await getMarkdownFiles(`${PATH.from}/_posts`, 1);
 
   const rawPosts: RawPost[] = [];

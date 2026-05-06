@@ -1,8 +1,7 @@
 /**
  * 検索データの遅延読み込み・キャッシュ・プリロードAPI
  * @description
- * search-index.json と search-data.json を dynamic import で読み込み、
- * コードチャンクとデータチャンクを分離する。
+ * search.json を dynamic import で読み込む。
  * 同期的なキャッシュアクセスにより、performIndexedSearch の同期性を維持。
  */
 
@@ -20,12 +19,9 @@ export function preloadSearchData(): Promise<SearchDataPayload> {
   if (cachedData) return Promise.resolve(cachedData);
   if (loadPromise) return loadPromise;
 
-  loadPromise = Promise.all([
-    import('~/dist/search-index.json').then((m) => m.default),
-    import('~/dist/search-data.json').then((m) => m.default),
-  ])
-    .then(([searchIndex, searchData]) => {
-      cachedData = { searchIndex, searchData };
+  loadPromise = import('~/dist/search.json')
+    .then((m) => {
+      cachedData = m.default;
       return cachedData;
     })
     .catch((error) => {

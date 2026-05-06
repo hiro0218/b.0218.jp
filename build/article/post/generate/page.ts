@@ -9,7 +9,7 @@ import { getMarkdownFiles, getPath, getSlug, isAgentFile } from './utils';
 
 const PATH = getPath();
 
-export async function buildPage() {
+export async function buildPage(): Promise<void> {
   const files = await getMarkdownFiles(PATH.from);
   const pages: Page[] = [];
 
@@ -47,7 +47,6 @@ export async function buildPage() {
     }
   }
 
-  writeJSON(`${PATH.to}/${FILENAME_PAGES}.json`, pages).then(() => {
-    Log.info(`Write dist/${FILENAME_PAGES}.json`);
-  });
+  await writeJSON(`${PATH.to}/${FILENAME_PAGES}.json`, pages);
+  Log.info(`Write dist/${FILENAME_PAGES}.json`);
 }
