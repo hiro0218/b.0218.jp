@@ -58,16 +58,23 @@ const Root = styled.nav`
     }
   }
 
-  /* デスクトップ幅では記事の右外側に追従固定する */
-  @media (--isDesktop) {
+  /*
+   * 目次の最小幅 (--mokuji-min-inline-size) を本文左右に確保できる viewport でのみ固定配置する。
+   * 下限 ≒ (container-sm + 2 × (mokuji-inline-gap + mokuji-min-inline-size)) / 0.9。
+   * 「2 ×」は本文中央配置のため両側分必要、「/ 0.9」は container-lg の clamp(..., 90vw, ...) 由来。
+   */
+  @media (--isDesktop) and (min-width: 77rem) {
     /* Container LG 内の片側余白 (Container SM の外側) = Mokuji が利用できる横幅 */
+    --mokuji-min-inline-size: 12rem;
+    --mokuji-inline-gap: var(--spacing-4);
+    --mokuji-block-offset: calc(var(--spacing-5) + var(--spacing-3));
+    --mokuji-summary-block-size: var(--spacing-5);
     --mokuji-side-room: calc((var(--sizes-container-lg) - var(--sizes-container-sm)) / 2);
     position: fixed;
-    inset-inline-start: calc(50% + var(--sizes-container-sm) / 2 + var(--spacing-4));
+    inset-block-start: var(--mokuji-block-offset);
+    inset-inline-start: calc(50% + var(--sizes-container-sm) / 2 + var(--mokuji-inline-gap));
     z-index: var(--z-index-base);
-    inline-size: calc(var(--mokuji-side-room) - var(--spacing-4));
-    max-block-size: calc(100dvh - var(--spacing-3));
-    overflow-y: auto;
+    inline-size: max(var(--mokuji-min-inline-size), calc(var(--mokuji-side-room) - var(--mokuji-inline-gap)));
 
     font-size: var(--font-sizes-sm);
     isolation: isolate;
@@ -134,6 +141,13 @@ const Summary = styled.summary`
 
 const DetailsContent = styled.div`
   padding-top: var(--spacing-1);
+
+  @media (--isDesktop) and (min-width: 77rem) {
+    min-block-size: 0;
+    max-block-size: calc(100dvh - var(--mokuji-block-offset) - var(--mokuji-summary-block-size) - var(--spacing-3));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
 
   & > ol {
     padding: 0 var(--spacing-4) var(--spacing-3) var(--spacing-3);
