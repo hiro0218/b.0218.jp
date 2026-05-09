@@ -17,6 +17,10 @@ export const keyframes = defineKeyframes({
     '0%': { transform: 'rotate(0deg)' },
     '100%': { transform: 'rotate(360deg)' },
   },
+  scrollProgress: {
+    '0%': { transform: 'scaleX(0)' },
+    '100%': { transform: 'scaleX(1)' },
+  },
   floatingFade: {
     '0%': { transform: 'translateY(0)', opacity: '1' },
     '50%': { transform: 'translateY(-50%)', opacity: '0' },
