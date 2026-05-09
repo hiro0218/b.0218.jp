@@ -1,17 +1,20 @@
-'use client';
-
 import type { ReactNode } from 'react';
 import { styled } from '@/ui/styled';
-import { useScrollProgress } from './ScrollProgress/useScrollProgress';
+import { ScrollProgressFallback } from './ScrollProgress/Fallback';
+
+const SCROLL_PROGRESS_ID = 'scroll-progress';
 
 /**
- * 記事の読み進め状況を示すスクロール進捗インジケーター
- * ページ上部に固定表示される
+ * 記事の読み進め状況を示すスクロール進捗インジケーターである。
+ * ページ上部に固定表示する。
  */
 export function ScrollProgress(): ReactNode {
-  const ref = useScrollProgress();
-
-  return <ProgressBar aria-hidden="true" ref={ref} />;
+  return (
+    <>
+      <ProgressBar aria-hidden="true" id={SCROLL_PROGRESS_ID} />
+      <ScrollProgressFallback targetId={SCROLL_PROGRESS_ID} />
+    </>
+  );
 }
 
 const ProgressBar = styled.div`
@@ -26,4 +29,9 @@ const ProgressBar = styled.div`
   transform: scaleX(0);
   transform-origin: left;
   will-change: transform;
+
+  @supports (animation-timeline: scroll(root block)) {
+    animation: scroll-progress 1ms linear both;
+    animation-timeline: scroll(root block);
+  }
 `;
