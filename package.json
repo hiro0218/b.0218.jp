@@ -140,7 +140,7 @@
     "hast-util-select": "6.0.4",
     "hono": "4.12.18",
     "husky": "9.1.7",
-    "jsdom": "28.1.0",
+    "jsdom": "29.1.1",
     "knip": "6.6.2",
     "kuromoji": "0.1.2",
     "markuplint": "4.18.1",
