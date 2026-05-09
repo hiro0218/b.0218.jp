@@ -31,7 +31,7 @@ const ProgressBar = styled.div`
   will-change: transform;
 
   @supports (animation-timeline: scroll(root block)) {
-    animation: scroll-progress 1ms linear both;
+    animation: scrollProgress 1ms linear both;
     animation-timeline: scroll(root block);
   }
 `;

@@ -17,7 +17,7 @@ export const keyframes = defineKeyframes({
     '0%': { transform: 'rotate(0deg)' },
     '100%': { transform: 'rotate(360deg)' },
   },
-  'scroll-progress': {
+  scrollProgress: {
     '0%': { transform: 'scaleX(0)' },
     '100%': { transform: 'scaleX(1)' },
   },
