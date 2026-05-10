@@ -19,6 +19,11 @@ export const postTagAnchor = css`
     min-height: auto;
   }
 
+  &:is(span) {
+    color: var(--colors-gray-500);
+    user-select: none;
+  }
+
   &:hover {
     background-color: var(--colors-gray-a-200);
   }
@@ -27,11 +32,8 @@ export const postTagAnchor = css`
     background-color: var(--colors-gray-a-300);
   }
 
-  /* 要素がspanの場合 */
-  &:is(span) {
-    &:hover {
-      cursor: not-allowed;
-      background-color: var(--colors-gray-a-100);
-    }
+  &:is(span):hover {
+    cursor: not-allowed;
+    background-color: var(--colors-gray-a-100);
   }
 `;
