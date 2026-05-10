@@ -2,6 +2,8 @@ import type { RehypeShikiOptions } from '@shikijs/rehype';
 
 import { collectText } from './hastUtils';
 
+const PLAIN_TEXT_LANGS = new Set(['text', 'plaintext', 'txt', 'plain']);
+
 export const shikiConfig: RehypeShikiOptions = {
   cache: new Map(),
   themes: {
@@ -14,7 +16,7 @@ export const shikiConfig: RehypeShikiOptions = {
       name: 'add-language-attribute',
       code(node) {
         const lang = this.options.lang;
-        if (lang && lang !== 'text') {
+        if (lang && !PLAIN_TEXT_LANGS.has(lang)) {
           node.properties['data-language'] = lang;
         }
       },
