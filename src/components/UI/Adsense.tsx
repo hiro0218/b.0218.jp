@@ -23,6 +23,9 @@ function pushAd() {
   }
 }
 
+/**
+ * @summary Google AdSense 広告枠
+ */
 export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
   const pathname = usePathname();
 

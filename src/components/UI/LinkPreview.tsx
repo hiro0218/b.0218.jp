@@ -10,6 +10,9 @@ type Props = {
   domain: string;
 };
 
+/**
+ * @summary 外部リンクのカード型プレビュー
+ */
 export const LinkPreview = ({ link, card, thumbnail, title, domain, description }: Props) => {
   const decodedTitle = title.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
   return (
