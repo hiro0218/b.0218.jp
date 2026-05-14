@@ -63,7 +63,7 @@ export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: Searc
         })}
         ref={refInput}
       />
-      <div className={clearButtonWrapperStyle}>
+      <div className={clearButtonOuterStyle}>
         <SearchClearButton disabled={!inputValue} onClear={handleClear} />
       </div>
     </div>
@@ -115,7 +115,7 @@ const SearchInput = styled.input`
   }
 `;
 
-const clearButtonWrapperStyle = css`
+const clearButtonOuterStyle = css`
   display: flex;
   align-items: center;
   padding-right: var(--spacing-1);
