@@ -56,7 +56,7 @@ jobs:
 
       - name: Run AI inference
         id: inference
-        uses: actions/ai-inference@v2
+        uses: actions/ai-inference@v2.0.7
         with:
           max-tokens: 500
           prompt: |
