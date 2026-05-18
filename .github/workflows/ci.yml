@@ -14,9 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: write
-  actions: write
-  pull-requests: write
+  contents: read
 
 jobs:
   build:
@@ -25,18 +23,19 @@ jobs:
     steps:
       - uses: Kesin11/actions-timeline@44c9c178ffb2fb1d9859614a3ffa79ccfb77565e # v3.1.0
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Install Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version-file: '.node-version'
           cache: 'npm'
 
       - id: cache-node-modules
-        uses: actions/cache@v5
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
@@ -50,7 +49,7 @@ jobs:
         run: npx panda codegen
 
       - name: Restore next build cache
-        uses: actions/cache@v5
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: .next/cache
           key: next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.{ts,tsx,js,jsx}') }}
@@ -66,7 +65,7 @@ jobs:
           ./node_modules/.bin/next build --webpack
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: build-output
           path: |
@@ -79,19 +78,24 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     timeout-minutes: 15
+    outputs:
+      artifact-url: ${{ steps.artifact.outputs.artifact-url }}
+      outcome: ${{ steps.e2e.outcome }}
     steps:
       - uses: Kesin11/actions-timeline@44c9c178ffb2fb1d9859614a3ffa79ccfb77565e # v3.1.0
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
 
       - name: Install Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version-file: '.node-version'
           cache: 'npm'
 
       - id: cache-node-modules
-        uses: actions/cache@v5
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
@@ -102,7 +106,7 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Download build artifact
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: build-output
           path: .next
@@ -110,37 +114,15 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Start Next.js server
-        run: |
-          ./node_modules/.bin/next start -p 3100 -H 127.0.0.1 > .next-start.log 2>&1 &
-          echo $! > .next-start.pid
-          for _ in $(seq 1 60); do
-            if curl -sf http://127.0.0.1:3100 > /dev/null; then
-              echo "Server is ready"
-              exit 0
-            fi
-            sleep 1
-          done
-          echo "Server failed to start within 60s"
-          cat .next-start.log
-          exit 1
-
       - name: Run Playwright E2E
         id: e2e
         run: npm run e2e
         continue-on-error: ${{ github.event_name == 'pull_request' }}
 
-      - name: Stop Next.js server
-        if: always()
-        run: |
-          if [ -f .next-start.pid ]; then
-            kill "$(cat .next-start.pid)" 2>/dev/null || true
-          fi
-
       - name: Upload E2E report
         id: artifact
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: e2e-report-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
           path: |
@@ -149,21 +131,28 @@ jobs:
           retention-days: 14
           if-no-files-found: ignore
 
+  e2e-comment:
+    runs-on: ubuntu-latest
+    needs: e2e
+    if: always() && github.event_name == 'pull_request' && needs.e2e.result != 'cancelled'
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
       - name: Comment PR with E2E result
-        if: always() && github.event_name == 'pull_request'
         uses: marocchino/sticky-pull-request-comment@70d2764d1a7d5d9560b100cbea0077fc8f633987 # v3.0.2
         with:
           header: e2e
           message: |
             ## E2E
 
-            > **結果**: ${{ steps.e2e.outcome == 'success' && '成功' || '失敗 / 要確認' }}
+            > **結果**: ${{ needs.e2e.outputs.outcome == 'success' && '成功' || '失敗 / 要確認' }}
 
             ### リンク
 
             | 種別 | 参照先 |
             | --- | --- |
-            | レポート artifact | [e2e-report-${{ github.event.pull_request.number }}](${{ steps.artifact.outputs.artifact-url }}) |
+            | レポート artifact | [e2e-report-${{ github.event.pull_request.number }}](${{ needs.e2e.outputs.artifact-url }}) |
             | HTML レポート | artifact 内の `playwright-report-e2e/index.html` |
             | 実行ログ | [run #${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |
 
@@ -171,19 +160,23 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     timeout-minutes: 10
+    outputs:
+      comment-body: ${{ steps.get-comment-body.outputs.body }}
     steps:
       - uses: Kesin11/actions-timeline@44c9c178ffb2fb1d9859614a3ffa79ccfb77565e # v3.1.0
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
 
       - name: Install Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version-file: '.node-version'
           cache: 'npm'
 
       - id: cache-node-modules
-        uses: actions/cache@v5
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
@@ -197,7 +190,7 @@ jobs:
         run: npm ci --prefix .github/scripts
 
       - name: Download build artifact
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: build-output
           path: .next
@@ -206,7 +199,7 @@ jobs:
         run: node .github/scripts/report.js
 
       - name: Upload bundle
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: bundle
           path: .next/analyze/__bundle_analysis.json
@@ -249,9 +242,16 @@ jobs:
             echo "body=Base bundle not available; skipped comparison." >> "$GITHUB_OUTPUT"
           fi
 
+  bundle-analysis-comment:
+    runs-on: ubuntu-latest
+    needs: bundle-analysis
+    if: needs.bundle-analysis.result == 'success' && github.event_name == 'pull_request'
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
       - name: Comment
-        if: success() && github.event.number
         uses: marocchino/sticky-pull-request-comment@70d2764d1a7d5d9560b100cbea0077fc8f633987 # v3.0.2
         with:
           header: next-bundle-analysis
-          message: ${{ steps.get-comment-body.outputs.body }}
+          message: ${{ needs.bundle-analysis.outputs.comment-body }}
