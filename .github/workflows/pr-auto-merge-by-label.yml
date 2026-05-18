@@ -10,12 +10,16 @@ permissions:
 
 jobs:
   auto-merge:
-    if: github.event.label.name == 'auto merge'
+    if: github.event.label.name == 'auto merge' && github.actor == github.repository_owner
     runs-on: ubuntu-slim
+    timeout-minutes: 20
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
+      - name: Wait for PR checks
+        run: gh pr checks --required --watch --fail-fast "${{ github.event.pull_request.html_url }}"
+
       - name: Approve PR
         run: gh pr review "${{ github.event.pull_request.html_url }}" --approve
 
