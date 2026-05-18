@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { parser } from '@/components/Page/_shared/parser/HTMLParser';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { Title } from '@/components/UI/Title';
@@ -12,7 +13,13 @@ type Props = {
 const pages = getPagesJson();
 
 export function Content({ title, description, slug }: Props) {
-  const { content } = pages.find((page) => slug === page.slug);
+  const page = pages.find((page) => slug === page.slug);
+
+  if (!page) {
+    notFound();
+  }
+
+  const { content } = page;
   const reactContent = parser(content);
 
   return (
