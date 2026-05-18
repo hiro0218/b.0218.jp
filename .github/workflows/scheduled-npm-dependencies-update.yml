@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - develop
-      - automated-npm-update
   workflow_dispatch:
 
 permissions:
@@ -70,13 +69,21 @@ jobs:
             echo "run=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Install dependencies
+      - name: Synchronize lockfile
         if: steps.should-update.outputs.run == 'true'
-        run: npm ci --ignore-scripts
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
 
       - name: Update packages
         if: steps.should-update.outputs.run == 'true'
-        run: npm update --ignore-scripts
+        run: npm update --package-lock-only --ignore-scripts --no-audit --no-fund
+
+      - name: Normalize lockfile
+        if: steps.should-update.outputs.run == 'true'
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+
+      - name: Verify lockfile
+        if: steps.should-update.outputs.run == 'true'
+        run: npm ci --ignore-scripts --dry-run --no-audit --no-fund
 
       - name: Check for changes
         id: git-check
