@@ -6,6 +6,8 @@ const PLAIN_TEXT_LANGS = new Set(['text', 'plaintext', 'txt', 'plain']);
 
 export const shikiConfig: RehypeShikiOptions = {
   cache: new Map(),
+  langs: [],
+  lazy: true,
   themes: {
     light: 'one-light',
     dark: 'one-dark-pro',
