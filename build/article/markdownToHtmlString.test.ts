@@ -123,6 +123,16 @@ describe('createMarkdownToPostHtmlString', () => {
     expect(html).toContain('<code');
   });
 
+  it('Shiki 未対応の言語IDが含まれる場合、プレーンテキストのコードブロックを返す', async () => {
+    const markdownToHtml = createMarkdownToPostHtmlString();
+    const html = await markdownToHtml('```jsp\n<% out.println("ok"); %>\n```');
+
+    expect(html).toContain('<pre');
+    expect(html).toContain('<code');
+    expect(html).toContain('out.println');
+    expect(html).not.toContain('data-language="jsp"');
+  });
+
   it('段落内に img が含まれる場合、figure でラップした HTML を返す', async () => {
     const markdownToHtml = createMarkdownToPostHtmlString();
     const html = await markdownToHtml('![alt text](/image.png)');
