@@ -4,7 +4,7 @@ import { isValidFrontmatter, parseFrontmatter, tryToIso } from '@/lib/post/raw';
 import type { Page } from '@/types/source';
 import { writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
-import { markdownToPostHtmlString } from '../../markdownToHtmlString';
+import { createMarkdownToPostHtmlString } from '../../markdownToHtmlString';
 import { getMarkdownFiles, getPath, getSlug, isAgentFile } from './utils';
 
 const PATH = getPath();
@@ -12,6 +12,7 @@ const PATH = getPath();
 export async function buildPage(): Promise<void> {
   const files = await getMarkdownFiles(PATH.from);
   const pages: Page[] = [];
+  const markdownToPostHtml = createMarkdownToPostHtmlString();
 
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
@@ -31,7 +32,7 @@ export async function buildPage(): Promise<void> {
       }
 
       const { title, date, updated } = frontmatter;
-      const content = await markdownToPostHtmlString(markdown);
+      const content = await markdownToPostHtml(markdown);
 
       const updatedIso = tryToIso(updated);
       pages.push({
