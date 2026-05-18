@@ -2,6 +2,8 @@ import { defineConfig, devices } from '@playwright/test';
 
 const PORT = 3100;
 const HOST = '127.0.0.1';
+const BUILD_IF_MISSING = '[ -f .next/BUILD_ID ] || (SKIP_OGP=true npm run prebuild && npm run build)';
+const START_SERVER = `npm run start -- -p ${PORT} -H ${HOST}`;
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -35,9 +37,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `SKIP_OGP=true npm run prebuild && npm run build && npm run start -- -p ${PORT} -H ${HOST}`,
+    command: `(${BUILD_IF_MISSING}) && ${START_SERVER}`,
     url: `http://${HOST}:${PORT}`,
-    reuseExistingServer: true,
+    reuseExistingServer: !process.env.CI,
     timeout: 600_000,
     stdout: 'pipe',
     stderr: 'pipe',
