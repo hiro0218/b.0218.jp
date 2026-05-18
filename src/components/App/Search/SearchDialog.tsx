@@ -10,7 +10,7 @@ import useIsClient from '@/hooks/useIsClient';
 import { styled } from '@/ui/styled';
 import { SEARCH_LABELS } from './constants';
 import { useSearch } from './hooks/useSearch';
-import { SearchHeader } from './SearchHeader';
+import { SearchHeader } from './SearchDialog/SearchHeader';
 import { SearchPanel } from './SearchPanel';
 
 type Props = {

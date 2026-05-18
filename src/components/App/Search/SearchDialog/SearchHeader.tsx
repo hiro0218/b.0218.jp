@@ -16,9 +16,6 @@ interface SearchHeaderProps {
   searchQuery: string;
 }
 
-/**
- * @performance 初回マウント時のみfocusを実行し、不要な再レンダリングを防止
- */
 export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: SearchHeaderProps) {
   const refInput = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState(searchQuery);

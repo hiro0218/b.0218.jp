@@ -1,8 +1,8 @@
-'use client';
-
 import { useCallback, useEffect, useRef } from 'react';
 import useIsClient from '@/hooks/useIsClient';
 import { getSessionStorage, removeSessionStorage, setSessionStorage } from '@/lib/browser/safeSessionStorage';
+import { isObject } from '@/lib/utils/isObject';
+import { isStringArray } from '@/lib/utils/isStringArray';
 import type { SearchResultItem, SearchState as SharedSearchState } from '../../types';
 
 type SearchState = {
@@ -18,14 +18,47 @@ type StoredSearchState = SearchState & {
   timestamp: number;
 };
 
-/**
- * 検索状態をsessionStorageから同期的に読み込む
- *
- * useState の lazy initializer など、フック外からの使用を想定。
- * getSessionStorage は SSR 環境では null を返すため安全。
- */
-export const readSearchStateSync = (): SharedSearchState | null => {
-  const state = getSessionStorage<StoredSearchState>(SEARCH_STORAGE_KEY);
+const MATCH_TYPES = new Set(['EXACT', 'PARTIAL', 'EXACT_NO_SPACE', 'PARTIAL_NO_SPACE', 'MULTI_TERM_MATCH', 'NONE']);
+const MATCHED_IN = new Set(['title', 'tag', 'both']);
+
+function isSearchResultItem(value: unknown): value is SearchResultItem {
+  return (
+    isObject(value) &&
+    typeof value.slug === 'string' &&
+    typeof value.title === 'string' &&
+    isStringArray(value.tags) &&
+    typeof value.matchType === 'string' &&
+    MATCH_TYPES.has(value.matchType) &&
+    typeof value.matchedIn === 'string' &&
+    MATCHED_IN.has(value.matchedIn)
+  );
+}
+
+function isStoredSearchState(value: unknown): value is StoredSearchState {
+  return (
+    isObject(value) &&
+    typeof value.query === 'string' &&
+    Array.isArray(value.results) &&
+    value.results.every(isSearchResultItem) &&
+    Number.isFinite(value.timestamp) &&
+    (value.isOpen === undefined || typeof value.isOpen === 'boolean')
+  );
+}
+
+function readValidStoredSearchState(): StoredSearchState | null {
+  const state = getSessionStorage<unknown>(SEARCH_STORAGE_KEY);
+  if (!state) return null;
+
+  if (!isStoredSearchState(state)) {
+    removeSessionStorage(SEARCH_STORAGE_KEY);
+    return null;
+  }
+
+  return state;
+}
+
+function readFreshStoredSearchState(): StoredSearchState | null {
+  const state = readValidStoredSearchState();
   if (!state) return null;
 
   const isExpired = Date.now() - state.timestamp > STORAGE_EXPIRY;
@@ -33,6 +66,19 @@ export const readSearchStateSync = (): SharedSearchState | null => {
     removeSessionStorage(SEARCH_STORAGE_KEY);
     return null;
   }
+
+  return state;
+}
+
+/**
+ * 検索状態をsessionStorageから同期的に読み込む
+ *
+ * useState の lazy initializer など、フック外からの使用を想定。
+ * getSessionStorage は SSR 環境では null を返すため安全。
+ */
+export const readSearchStateSync = (): SharedSearchState | null => {
+  const state = readFreshStoredSearchState();
+  if (!state) return null;
 
   return { query: state.query, results: state.results };
 };
@@ -62,14 +108,8 @@ export const useSearchStatePersistence = () => {
   const loadSearchState = useCallback((): SearchState | null => {
     if (!isClient) return null;
 
-    const state = getSessionStorage<StoredSearchState>(SEARCH_STORAGE_KEY);
+    const state = readFreshStoredSearchState();
     if (!state) return null;
-
-    const isExpired = Date.now() - state.timestamp > STORAGE_EXPIRY;
-    if (isExpired) {
-      removeSessionStorage(SEARCH_STORAGE_KEY);
-      return null;
-    }
 
     const { timestamp, ...searchState } = state;
     return searchState;
@@ -86,8 +126,6 @@ export const useSearchStatePersistence = () => {
     clearSearchState,
   };
 };
-
-// ===== 状態復元 =====
 
 interface UseSearchStateRestorationProps {
   persistState: boolean;

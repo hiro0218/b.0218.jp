@@ -39,6 +39,7 @@ export function SearchEmptyState({ searchQuery }: SearchEmptyStateProps) {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-2);
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -58,16 +59,14 @@ const Title = styled.h2`
 `;
 
 const Description = styled.p`
-  margin-top: var(--spacing-2);
-  margin-bottom: 0;
+  margin: 0;
   font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-600);
 `;
 
 const Query = styled.p`
-  margin-top: var(--spacing-2);
-  margin-bottom: 0;
+  margin: 0;
   font-size: var(--font-sizes-md);
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-md);
@@ -76,7 +75,7 @@ const Query = styled.p`
 
 const Suggestion = styled.p`
   padding-left: 0;
-  margin-top: var(--spacing-4);
+  margin-top: var(--spacing-2);
   margin-bottom: 0;
   font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-md);
