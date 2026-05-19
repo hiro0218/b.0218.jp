@@ -1,5 +1,6 @@
 import { parentPort } from 'node:worker_threads';
-import { getTokenizer, preprocessText } from './textProcessing';
+import { getTokenizer } from '../shared/morphology';
+import { preprocessText } from './textProcessing';
 
 type TokenizeJob = { index: number; slug?: string; text: string };
 type TokenizeWorkerResult = { index: number; tokens: string[]; error?: string };
@@ -12,7 +13,7 @@ async function preprocessJobs(jobs: TokenizeJob[]): Promise<TokenizeWorkerResult
     try {
       results.push({
         index: job.index,
-        tokens: preprocessText(job.text, tokenizer, job.slug),
+        tokens: preprocessText(job.text, tokenizer),
       });
     } catch (error) {
       results.push({

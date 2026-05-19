@@ -2,7 +2,7 @@ import type { IpadicFeatures, Tokenizer } from 'kuromoji';
 import { normalizeSearchToken, type SearchDataItem, type SearchIndex } from '@/lib/search';
 import type { PostSummary } from '@/types/source';
 import * as Log from '~/tools/logger';
-import { tokenizeText } from './tokenizer';
+import { tokenizeMeaningfulText } from '../shared/morphology';
 
 /**
  * 転置インデックスの型定義
@@ -52,7 +52,7 @@ export function generateSearchIndex(
     const textToProcess = [post.title, ...post.tags].join(' ');
 
     try {
-      const tokens = tokenizeText(textToProcess, tokenizer);
+      const tokens = tokenizeMeaningfulText(textToProcess, tokenizer);
       const uniqueTokens = new Set(tokens.map(normalizeSearchToken).filter((token) => token.length > 0));
       const normalizedTags = post.tags.map(normalizeSearchToken).filter((tag) => tag.length > 0);
       const indexKeys = new Set([...uniqueTokens, ...normalizedTags]);

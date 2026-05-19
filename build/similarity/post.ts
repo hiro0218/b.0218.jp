@@ -2,6 +2,7 @@ import { availableParallelism } from 'node:os';
 import path from 'node:path';
 import { Worker } from 'node:worker_threads';
 import type { Post, TagSimilarityScores } from '@/types/source';
+import { getTokenizer } from '../shared/morphology';
 import {
   calculateBm25Idf,
   calculateDocFrequency,
@@ -9,7 +10,7 @@ import {
   calculateSublinearTf,
   filterRareTerms,
 } from './scoring';
-import { extractTextFromPost, getTokenizer, preprocessText } from './textProcessing';
+import { extractTextFromPost, preprocessText } from './textProcessing';
 
 // 類似度計算パラメータ
 const SIMILARITY_LIMIT = 6;
@@ -98,7 +99,7 @@ async function preprocessPosts(posts: Post[]): Promise<string[][]> {
 
   if (workerCount === 1) {
     const tokenizer = await getTokenizer();
-    return jobs.map((job) => preprocessText(job.text, tokenizer, job.slug));
+    return jobs.map((job) => preprocessText(job.text, tokenizer));
   }
 
   try {
@@ -124,7 +125,7 @@ async function preprocessPosts(posts: Post[]): Promise<string[][]> {
   } catch (error) {
     console.warn('[getRelatedPosts] workerでのテキスト前処理に失敗したため同期処理へフォールバックします:', error);
     const tokenizer = await getTokenizer();
-    return jobs.map((job) => preprocessText(job.text, tokenizer, job.slug));
+    return jobs.map((job) => preprocessText(job.text, tokenizer));
   }
 }
 

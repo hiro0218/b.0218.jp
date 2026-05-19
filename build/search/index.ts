@@ -5,8 +5,8 @@ import type { PostSummary } from '@/types/source';
 import { BUILD_PATHS } from '~/build/shared/paths';
 import { readJSON, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
+import { getTokenizer } from '../shared/morphology';
 import { generateSearchIndex } from './invertedIndex';
-import { getTokenizer } from './tokenizer';
 
 async function removeLegacySearchArtifacts(): Promise<void> {
   await Promise.allSettled([

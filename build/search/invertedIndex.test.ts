@@ -5,8 +5,8 @@ import { generateSearchIndex } from './invertedIndex';
 
 const WHITESPACE_REGEX = /\s+/;
 
-vi.mock('./tokenizer', () => ({
-  tokenizeText: vi.fn((text: string) => {
+vi.mock('../shared/morphology', () => ({
+  tokenizeMeaningfulText: vi.fn((text: string) => {
     return text.split(WHITESPACE_REGEX).filter((t) => t.length > 1);
   }),
 }));
