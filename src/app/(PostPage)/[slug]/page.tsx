@@ -32,15 +32,14 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-  const { slug: _slug } = await params;
-  const slug = _slug.replace('.html', '');
-  const data = getPostPageData(slug);
+  const { slug: rawSlug } = await params;
+  const data = getPostPageData(rawSlug);
 
   if (!data) {
     notFound();
   }
 
-  const { title, content, noindex, meta, tagsWithCount } = data.post;
+  const { slug, title, content, noindex, meta, tagsWithCount } = data.post;
   const { publishedTime, modifiedTime } = meta;
   const permalink = getPermalink(slug);
   const description = getDescriptionText(content);
@@ -74,16 +73,15 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 export default async function Page({ params }: { params: Params }) {
-  const { slug: _slug } = await params;
-  const slug = _slug.replace('.html', '');
-  const data = getPostPageData(slug);
+  const { slug: rawSlug } = await params;
+  const data = getPostPageData(rawSlug);
 
   if (!data) {
     notFound();
   }
 
   const { post, similarPost, similarTags, recentPosts, sameTagPosts, mostPopularTag, popularity } = data;
-  const { title, date, updated, note, content, tagsWithCount } = post;
+  const { slug, title, date, updated, note, content, tagsWithCount } = post;
   const hasTweet = content.includes('twitter-tweet');
   const permalink = getPermalink(slug);
 
