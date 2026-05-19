@@ -131,6 +131,26 @@ describe('ZoomImage', () => {
       expect(img.style.width).toBe('100px');
       expect(img.style.height).toBe('200px');
     });
+
+    it('文字列形式の style で React 互換の vendor prefix を適用する', () => {
+      render(<ZoomImage alt="test image" src="/test.jpg" style="-webkit-line-clamp: 2" />);
+
+      const img = screen.getByAltText('test image') as HTMLImageElement;
+      expect(img.getAttribute('style')).toContain('-webkit-line-clamp: 2');
+    });
+
+    it('文字列形式の style で値にセミコロンを含む場合も適用する', () => {
+      render(
+        <ZoomImage
+          alt="test image"
+          src="/test.jpg"
+          style='background-image: url("data:image/svg+xml;utf8,<svg></svg>")'
+        />,
+      );
+
+      const img = screen.getByAltText('test image') as HTMLImageElement;
+      expect(img.getAttribute('style')).toContain('data:image/svg+xml;utf8,<svg></svg>');
+    });
   });
 
   /* ================================================================ */
