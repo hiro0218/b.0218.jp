@@ -1,7 +1,7 @@
 import { getPostsPopular } from '@/lib/post/derived';
 import { getPostsListJson } from '@/lib/source/post';
 import type { Post, PostSummary } from '@/types/source';
-import { getDateAndUpdatedToSimpleFormat } from './date';
+import { formatPostSummary } from './summary';
 
 const RECENT_POST_DISPLAY_LIMIT = 6;
 const IGNORED_POPULAR_POST_SLUGS = new Set(['20141105125846', '20171223014544']);
@@ -17,19 +17,6 @@ const createPostsMap = (posts: ReturnType<typeof getPostsListJson>) => {
   return new Map(posts.map((post) => [post.slug, post]));
 };
 
-const transformToFormattedSummary = (posts: (PostSummary | Post)[]): PostSummary[] => {
-  return posts.map((post) => {
-    const dateFormats = getDateAndUpdatedToSimpleFormat(post.date, post.updated);
-    return {
-      title: post.title,
-      slug: post.slug,
-      date: dateFormats.date,
-      updated: dateFormats.updated,
-      tags: post.tags,
-    };
-  });
-};
-
 export const isIgnoredPostTag = (tag: string): boolean => {
   return IGNORED_POST_TAGS.has(tag);
 };
@@ -39,7 +26,7 @@ export const getFilteredPosts = (): PostSummary[] => {
 };
 
 export const getRecentPosts = (posts: (PostSummary | Post)[]): PostSummary[] => {
-  return transformToFormattedSummary(posts.slice(0, RECENT_POST_DISPLAY_LIMIT));
+  return posts.slice(0, RECENT_POST_DISPLAY_LIMIT).map(formatPostSummary);
 };
 
 export const getPopularPost = (posts: ReturnType<typeof getPostsListJson>, displayLimit: number): PostSummary[] => {
@@ -49,17 +36,7 @@ export const getPopularPost = (posts: ReturnType<typeof getPostsListJson>, displ
     .filter((slug) => !IGNORED_POPULAR_POST_SLUGS.has(slug))
     .map((slug) => postsMap.get(slug))
     .filter((post) => post !== undefined)
-    .map((post) => {
-      const dateFormats = getDateAndUpdatedToSimpleFormat(post.date, post.updated);
-
-      return {
-        title: post.title,
-        slug: post.slug,
-        date: dateFormats.date,
-        updated: dateFormats.updated,
-        tags: post.tags,
-      };
-    })
+    .map(formatPostSummary)
     .slice(0, displayLimit);
 };
 

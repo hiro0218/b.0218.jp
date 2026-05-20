@@ -3,10 +3,11 @@ import { TAG_VIEW_LIMIT } from '@/constants';
 import { getDateAndUpdatedToSimpleFormat } from '@/lib/post/date';
 import { getPostsPopular, getSimilarPosts as getSimilarPostsIndex } from '@/lib/post/derived';
 import { recentPosts } from '@/lib/post/list';
+import { formatPostSummary } from '@/lib/post/summary';
 import { getPostBySlug, getPostsListJson } from '@/lib/source/post';
 import { getTagsJson, getTagsWithCount } from '@/lib/source/tag';
 import { getSimilarTag } from '@/lib/tag/derived';
-import type { ArticleSummary, PopularityDetail, Post, PostSummary } from '@/types/source';
+import type { ArticleSummary, PopularityDetail, Post } from '@/types/source';
 
 const LIMIT_TAG_LIST = 10;
 const RELATED_POSTS_LIMIT = 4;
@@ -65,18 +66,6 @@ function getTagsWithCountFromPost(post: Post): PostPageTag[] {
     .map(createPostPageTag);
 }
 
-function formatArticleSummary(post: PostSummary | ArticleSummary): ArticleSummary {
-  const formattedDates = getDateAndUpdatedToSimpleFormat(post.date, post.updated);
-
-  return {
-    title: post.title,
-    slug: post.slug,
-    date: formattedDates.date,
-    updated: formattedDates.updated,
-    ...(post.tags && { tags: post.tags }),
-  };
-}
-
 function createPostPagePost(post: Post, postTags: PostPageTag[]): PostPagePost {
   return {
     ...post,
@@ -101,7 +90,7 @@ function getSimilarPostSummaries(slug: string): ArticleSummary[] {
   for (const postSlug of Object.keys(similarPostSlugs)) {
     const post = postsBySlug.get(postSlug);
     if (post) {
-      posts.push(formatArticleSummary(post));
+      posts.push(formatPostSummary(post));
     }
   }
 
@@ -119,7 +108,7 @@ function getPostSummariesByTag(tagSlug: string, excludeSlug: string, limit: numb
 
     const post = postsBySlug.get(postSlug);
     if (post) {
-      posts.push(formatArticleSummary(post));
+      posts.push(formatPostSummary(post));
     }
 
     if (posts.length >= limit) {
