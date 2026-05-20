@@ -75,7 +75,7 @@ export function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: Z
 
   const isMounted = useIsMounted();
 
-  const { imgRef, dialogRef, dialogImgRef, canZoom, isOpen, open, close, handleImageLoad } = useImageZoom({
+  const { imgRef, dialogRef, dialogImgRef, imageSize, canZoom, isOpen, open, close, handleImageLoad } = useImageZoom({
     hasObjectFit,
     minImageSize: MIN_IMAGE_SIZE,
   });
@@ -114,6 +114,7 @@ export function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: Z
           closeLabel={a11y.close}
           dialogImgRef={dialogImgRef}
           dialogRef={dialogRef}
+          imageSize={imageSize}
           isOpen={isOpen}
           label={a11y.dialog}
           onCancel={handleDialogCancel}

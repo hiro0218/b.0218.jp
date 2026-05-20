@@ -5,7 +5,7 @@ import { FocusScope } from '@react-aria/focus';
 import type { ReactNode, RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { css } from '@/ui/styled';
-import type { ZoomImageSource } from './types';
+import type { ImageDimensions, ZoomImageSource } from './types';
 
 const dialogStyle = css`
   &::backdrop {
@@ -66,6 +66,7 @@ interface DialogProps {
   isOpen: boolean;
   src: string;
   alt?: string;
+  imageSize?: ImageDimensions | null;
   zoomImg?: ZoomImageSource;
   onClose: () => void;
   onCancel: (event: React.SyntheticEvent<HTMLDialogElement>) => void;
@@ -83,6 +84,7 @@ export function Dialog({
   closeLabel,
   isOpen,
   zoomImg,
+  imageSize,
   src,
   alt,
   onClose,
@@ -114,10 +116,12 @@ export function Dialog({
           <img
             alt={alt}
             className={dialogImageStyle}
+            height={zoomImg?.height ?? imageSize?.height}
             loading="eager"
             ref={dialogImgRef}
             src={zoomImg?.src || src}
             srcSet={zoomImg?.srcSet}
+            width={zoomImg?.width ?? imageSize?.width}
           />
         </button>
       </dialog>

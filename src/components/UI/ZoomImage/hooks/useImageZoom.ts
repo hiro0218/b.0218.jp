@@ -2,6 +2,7 @@
 
 import type { RefObject } from 'react';
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import type { ImageDimensions } from '../types';
 
 interface UseImageZoomOptions {
   hasObjectFit?: boolean;
@@ -12,6 +13,7 @@ interface UseImageZoomReturn {
   imgRef: RefObject<HTMLImageElement | null>;
   dialogRef: RefObject<HTMLDialogElement | null>;
   dialogImgRef: RefObject<HTMLImageElement | null>;
+  imageSize: ImageDimensions | null;
   canZoom: boolean;
   isOpen: boolean;
   open: () => void;
@@ -40,7 +42,7 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
   const { hasObjectFit = false, minImageSize = 100 } = options;
   const viewTransitionName = `zoom-image-${useId().replace(/:/g, '')}`;
 
-  const [loadedImageSize, setLoadedImageSize] = useState<{ height: number; width: number } | null>(null);
+  const [loadedImageSize, setLoadedImageSize] = useState<ImageDimensions | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const isOpenRef = useRef(false);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -171,6 +173,7 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
     imgRef,
     dialogRef,
     dialogImgRef,
+    imageSize: loadedImageSize,
     canZoom,
     isOpen,
     open,
