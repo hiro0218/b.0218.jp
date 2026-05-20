@@ -6,10 +6,22 @@ const FETCH_HEADERS = { 'User-Agent': 'facebookexternalhit/1.1 (+http://www.face
 
 const FETCH_TIMEOUT = 5000;
 
-const META_TAG_REGEX =
-  /<meta\s+(?:[^>]*?\s+)?(?:property|name)=["'](?:og:|twitter:)?(title|description|image|card)["'][^>]*?content=["']([^"']*)["'][^>]*?>/gi;
-const TITLE_TAG_REGEX = /<title[^>]*>([^<]*)<\/title>/i;
-const HEAD_TAG_REGEX = /<head[^>]*>[\s\S]*?<\/head>/i;
+type NormalizedMetaDescriptor = {
+  attribute: 'name' | 'property';
+  dedupeKey: 'card' | 'description' | 'image' | 'title';
+  value: string;
+};
+
+const META_DESCRIPTORS = new Map<string, NormalizedMetaDescriptor>([
+  ['og:title', { attribute: 'property', dedupeKey: 'title', value: 'og:title' }],
+  ['twitter:title', { attribute: 'property', dedupeKey: 'title', value: 'og:title' }],
+  ['description', { attribute: 'name', dedupeKey: 'description', value: 'description' }],
+  ['og:description', { attribute: 'name', dedupeKey: 'description', value: 'description' }],
+  ['twitter:description', { attribute: 'name', dedupeKey: 'description', value: 'description' }],
+  ['og:image', { attribute: 'property', dedupeKey: 'image', value: 'og:image' }],
+  ['twitter:image', { attribute: 'property', dedupeKey: 'image', value: 'og:image' }],
+  ['twitter:card', { attribute: 'name', dedupeKey: 'card', value: 'twitter:card' }],
+]);
 
 const virtualConsole = new VirtualConsole();
 virtualConsole.on('error', () => {
@@ -17,98 +29,72 @@ virtualConsole.on('error', () => {
 });
 const { DOMParser } = new JSDOM(`<!DOCTYPE html><body></body>`, { virtualConsole }).window;
 
+function createMetaElement(
+  document: Document,
+  descriptor: Pick<NormalizedMetaDescriptor, 'attribute' | 'value'>,
+  content: string,
+): HTMLMetaElement {
+  const meta = document.createElement('meta');
+  meta.setAttribute(descriptor.attribute, descriptor.value);
+  meta.setAttribute('content', content);
+
+  return meta;
+}
+
+function getMetaDescriptor(element: HTMLMetaElement): NormalizedMetaDescriptor | undefined {
+  const name = element.getAttribute('property') ?? element.getAttribute('name');
+
+  return name ? META_DESCRIPTORS.get(name) : undefined;
+}
+
+function appendTitleFallback(document: Document, meta: HTMLMetaElement[], extractedKeys: Set<string>): void {
+  if (extractedKeys.has('title')) {
+    return;
+  }
+
+  const title = document.head.querySelector('title')?.textContent?.trim();
+  if (!title) {
+    return;
+  }
+
+  extractedKeys.add('title');
+  meta.push(createMetaElement(document, { attribute: 'property', value: 'og:title' }, title));
+}
+
 /**
  * HTML文字列からOGPやメタ情報を抽出する
  * @param html - 解析対象のHTML文字列
  * @returns メタ要素の配列またはNodeList、失敗時はnull
  */
-export const getMeta = (html: string) => {
+export const getMeta = (html: string): HTMLMetaElement[] | null => {
   if (!html) {
     return null;
   }
 
-  /**
-   * 正規表現によるメタ情報抽出
-   */
   try {
+    const document = new DOMParser().parseFromString(html, 'text/html');
     const metaTags: HTMLMetaElement[] = [];
-    const extractedProperties = new Set<string>();
-    let regexMatch;
+    const extractedKeys = new Set<string>();
 
-    // OGPとTwitterカードのメタタグを正規表現で抽出
-    while ((regexMatch = META_TAG_REGEX.exec(html)) !== null) {
-      // [全体マッチ, プロパティ名, コンテンツ値]
-      const [, propertyName, contentValue] = regexMatch;
+    for (const element of document.head.querySelectorAll('meta')) {
+      const descriptor = getMetaDescriptor(element);
+      const content = element.getAttribute('content');
 
-      // 有効なプロパティと値があり、まだ抽出していない場合のみ処理
-      if (propertyName && contentValue && !extractedProperties.has(propertyName)) {
-        // 抽出済みとしてマーク
-        extractedProperties.add(propertyName);
-
-        // 適切なプロパティ名に変換（twitterとogのプレフィックス処理）
-        const fullPropertyName = propertyName === 'card' ? 'twitter:card' : `og:${propertyName}`;
-
-        // メタタグのインターフェースを模倣するオブジェクト作成
-        const meta = {
-          getAttribute: (attrName: string) => {
-            if (attrName === 'property' || attrName === 'name') return fullPropertyName;
-            if (attrName === 'content') return contentValue;
-            return null;
-          },
-        } as unknown as HTMLMetaElement;
-        metaTags.push(meta);
-
-        // 必要な情報が揃ったら早期リターン
-        if (
-          extractedProperties.has('title') &&
-          extractedProperties.has('description') &&
-          extractedProperties.has('image')
-        ) {
-          return metaTags;
-        }
+      if (!descriptor || !content || extractedKeys.has(descriptor.dedupeKey)) {
+        continue;
       }
+
+      extractedKeys.add(descriptor.dedupeKey);
+      metaTags.push(createMetaElement(document, descriptor, content));
     }
 
-    // タイトルタグをフォールバックとして抽出（OGPタイトルがない場合）
-    if (!extractedProperties.has('title')) {
-      // titleタグを正規表現で検索
-      const titleMatch = html.match(TITLE_TAG_REGEX);
-      if (titleMatch?.[1]) {
-        // 見つかったタイトルをトリミング
-        const titleText = titleMatch[1].trim();
-
-        // og:title相当のメタタグとして扱う
-        const titleMeta = {
-          getAttribute: (attr: string) => {
-            if (attr === 'property') return 'og:title';
-            if (attr === 'content') return titleText;
-            return null;
-          },
-        } as unknown as HTMLMetaElement;
-
-        metaTags.push(titleMeta);
-      }
-    }
+    appendTitleFallback(document, metaTags, extractedKeys);
 
     if (metaTags.length > 0) {
       return metaTags;
     }
-  } catch (_) {
-    // 正規表現抽出に失敗した場合は無視して次の方法を試す
-  }
 
-  /**
-   * headを抽出し、適切なDOMパーサーで解析する
-   */
-  try {
-    const head = html.match(HEAD_TAG_REGEX);
-    if (!head || head.length === 0) {
-      return null;
-    }
-
-    // headをDOMとして解析
-    const document = new DOMParser().parseFromString(head[0], 'text/html');
-    return document.head.querySelectorAll('meta');
+    return null;
   } catch (err) {
     handleError(err, 'Error parsing HTML head');
     return null;
