@@ -1,7 +1,7 @@
 import { useKeyboard } from '@react-aria/interactions';
 import { useRouter } from 'next/navigation';
 import { type RefObject, useCallback, useState } from 'react';
-import { isHTMLElement } from '@/lib/browser/typeGuards';
+import { isHTMLElement, isInputElement } from '@/lib/browser/typeGuards';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { SearchResultItem } from '../../types';
 
@@ -68,7 +68,7 @@ export const useSearchNavigation = ({
 
       // 検索コンテキスト内のみで動作
       const isSearchContext =
-        (target.tagName === 'INPUT' && target.getAttribute('role') === 'searchbox') ||
+        (isInputElement(target) && (target.type === 'search' || target.getAttribute('role') === 'searchbox')) ||
         target.closest('[data-search-results]') !== null;
 
       if (!isSearchContext) return;

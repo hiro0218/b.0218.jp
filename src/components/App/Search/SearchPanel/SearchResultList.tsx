@@ -37,7 +37,7 @@ export function SearchResultList({
 const Container = styled.div`
   display: grid;
   gap: var(--spacing-1);
-  max-height: var(--search-content-max-height, 55vh);
+  max-height: var(--search-content-max-height);
   padding: 0;
   overflow-x: clip;
   overflow-y: auto;

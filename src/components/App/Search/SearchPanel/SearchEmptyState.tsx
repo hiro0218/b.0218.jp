@@ -43,7 +43,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-height: var(--search-content-max-height, 55vh);
+  max-height: var(--search-content-max-height);
   padding: var(--spacing-6) var(--spacing-1);
   overflow-y: auto;
   color: var(--colors-gray-600);

@@ -74,8 +74,8 @@ export const SearchDialog = ({ onCloseAction, isClosing, dialogRef }: Props) => 
 };
 
 const Dialog = styled.dialog`
-  --search-dialog-max-height: 80vh;
-  --search-content-max-height: 55vh;
+  --search-dialog-max-height: 80dvh;
+  --search-content-max-height: 55dvh;
 
   position: fixed;
   top: 0;

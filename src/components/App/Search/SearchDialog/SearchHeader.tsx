@@ -23,7 +23,7 @@ export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: Searc
   const { inputProps } = useTextField(
     {
       'aria-label': '検索キーワード',
-      type: 'text',
+      type: 'search',
       autoComplete: 'off',
       value: inputValue,
       onChange: setInputValue,
@@ -53,7 +53,6 @@ export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: Searc
       <SearchInput
         {...mergeProps(inputProps, {
           'aria-autocomplete': 'list' as const,
-          role: 'searchbox' as const,
           placeholder: '記事タイトルまたはタグを検索',
           onKeyDown,
           onKeyUp,
