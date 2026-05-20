@@ -5,7 +5,7 @@ import { Tooltip } from '@/components/UI/Tooltip';
 import { styled } from '@/ui/styled';
 
 export const PageScroll = () => (
-  <Container data-floating>
+  <Container>
     <Tooltip position="top" text="ページトップへ">
       <Button aria-label="ページトップへ" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
         <ArrowUpIcon />
