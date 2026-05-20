@@ -92,11 +92,11 @@ describe('Alert ハンドラ', () => {
     expect(container.querySelector('.gfm-alert')).toBeNull();
   });
 
-  it('JSON が壊れている場合は元の div を保持する', () => {
+  it('JSON が壊れている場合は元の div を残さない', () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const { container, queryByTestId } = renderParser('<div class="gfm-alert">not-json</div>');
     expect(queryByTestId('alert')).toBeNull();
-    expect(container.querySelector('.gfm-alert')).not.toBeNull();
+    expect(container.querySelector('.gfm-alert')).toBeNull();
     expect(errorSpy).toHaveBeenCalledWith('Failed to parse JSON:', expect.any(SyntaxError));
   });
 });
@@ -146,11 +146,11 @@ describe('LinkPreview ハンドラ', () => {
     expect(container.querySelector('.link-preview')).toBeNull();
   });
 
-  it('JSON が壊れている場合は元の div を保持する', () => {
+  it('JSON が壊れている場合は元の div を残さない', () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const { container, queryByTestId } = renderParser('<div class="link-preview">not-json</div>');
     expect(queryByTestId('link-preview')).toBeNull();
-    expect(container.querySelector('.link-preview')).not.toBeNull();
+    expect(container.querySelector('.link-preview')).toBeNull();
     expect(errorSpy).toHaveBeenCalledWith('Failed to parse JSON:', expect.any(SyntaxError));
   });
 });

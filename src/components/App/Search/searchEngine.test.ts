@@ -1,11 +1,10 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
-import { initializeSearchEngine, resetSearchEngine } from '@/components/App/Search/engine/indexedSearch';
-import { performPostSearch } from '@/components/App/Search/engine/search';
-import { ensureSearchEngineSync } from '@/components/App/Search/engine/searchDataLoader';
-import type { SearchDataPayload } from '@/components/App/Search/engine/types';
+import { initializeSearchEngine, resetSearchEngine } from './engine/indexedSearch';
+import { performPostSearch } from './engine/search';
+import { ensureSearchEngineSync } from './engine/searchDataLoader';
+import type { SearchDataPayload } from './engine/types';
 
-// searchDataLoader をモック（vi.mock はホイスティングされるため通常 import の前に適用される）
-vi.mock('@/components/App/Search/engine/searchDataLoader', () => ({
+vi.mock('./engine/searchDataLoader', () => ({
   ensureSearchEngineSync: vi.fn(() => true),
   isSearchDataReady: vi.fn(() => true),
   loadAndInitializeSearch: vi.fn(() => Promise.resolve()),
@@ -184,6 +183,11 @@ describe('エッジケース', () => {
     const cssResults = performPostSearch('css3');
     expect(cssResults.length).toBeGreaterThan(0);
     expect(cssResults.some((post) => post.slug === '202403220115')).toBe(true);
+  });
+
+  test('Object prototype 上の名前を検索しても例外を投げない', () => {
+    expect(() => performPostSearch('constructor')).not.toThrow();
+    expect(() => performPostSearch('__proto__')).not.toThrow();
   });
 });
 

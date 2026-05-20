@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - develop
-      - automated-npm-update
   workflow_dispatch:
 
 permissions:
@@ -21,27 +20,26 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
+          fetch-depth: 0
+          persist-credentials: false
           sparse-checkout: |
             package.json
             package-lock.json
             .node-version
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6.3.0
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version-file: '.node-version'
           cache: 'npm'
-
-      - name: Run git pull --rebase
-        run: git pull --rebase
 
       - name: Get changed files
         id: changed-files
         run: |
           current_branch=${GITHUB_REF#refs/heads/}
-          default_branch=$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)
+          default_branch=${{ github.event.repository.default_branch }}
 
           # 監視対象ファイルリスト
           files_to_check=("package.json" "package-lock.json")
@@ -60,17 +58,32 @@ jobs:
           # いずれかのファイルが変更された場合のフラグ
           echo "any_changed=$any_changed" >> "$GITHUB_OUTPUT"
 
-      - name: Install dependencies
-        if: steps.changed-files.outputs.any_changed == 'true'
-        run: npm ci
+      - name: Decide whether to update
+        id: should-update
+        env:
+          ANY_CHANGED: ${{ steps.changed-files.outputs.any_changed }}
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" == "schedule" || "$GITHUB_EVENT_NAME" == "workflow_dispatch" || "$ANY_CHANGED" == "true" ]]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
 
-      - name: Run nolyfill
-        if: steps.changed-files.outputs.any_changed == 'true'
-        run: npm run nolyfill
+      - name: Synchronize lockfile
+        if: steps.should-update.outputs.run == 'true'
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
 
       - name: Update packages
-        if: steps.changed-files.outputs.any_changed == 'true'
-        run: npm update
+        if: steps.should-update.outputs.run == 'true'
+        run: npm update --package-lock-only --ignore-scripts --no-audit --no-fund
+
+      - name: Normalize lockfile
+        if: steps.should-update.outputs.run == 'true'
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+
+      - name: Verify lockfile
+        if: steps.should-update.outputs.run == 'true'
+        run: npm ci --ignore-scripts --dry-run --no-audit --no-fund
 
       - name: Check for changes
         id: git-check
@@ -79,7 +92,7 @@ jobs:
 
       - name: Create Pull Request
         if: ${{ steps.git-check.outputs.changes == 'true' }}
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
           token: ${{ secrets.BOT_TOKEN }}
           base: develop

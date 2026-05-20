@@ -2,8 +2,8 @@
 
 import type { CSSProperties, ImgHTMLAttributes, JSX } from 'react';
 import { useCallback } from 'react';
+import styleToJS from 'style-to-js';
 import useIsMounted from '@/hooks/useIsMounted';
-import { parseStyleStringToObject } from '@/lib/browser/parseStyleStringToObject';
 import { Dialog } from './ZoomImage/Dialog';
 import { useImageZoom } from './ZoomImage/hooks/useImageZoom';
 import { TriggerButton } from './ZoomImage/TriggerButton';
@@ -57,7 +57,11 @@ export function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: Z
       return undefined;
     }
     if (typeof style === 'string') {
-      return parseStyleStringToObject(style);
+      try {
+        return styleToJS(style, { reactCompat: true }) as CSSProperties;
+      } catch {
+        return undefined;
+      }
     }
     return style;
   })();
@@ -71,7 +75,7 @@ export function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: Z
 
   const isMounted = useIsMounted();
 
-  const { imgRef, dialogRef, dialogImgRef, canZoom, isOpen, open, close, handleImageLoad } = useImageZoom({
+  const { imgRef, dialogRef, dialogImgRef, imageSize, canZoom, isOpen, open, close, handleImageLoad } = useImageZoom({
     hasObjectFit,
     minImageSize: MIN_IMAGE_SIZE,
   });
@@ -110,6 +114,7 @@ export function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: Z
           closeLabel={a11y.close}
           dialogImgRef={dialogImgRef}
           dialogRef={dialogRef}
+          imageSize={imageSize}
           isOpen={isOpen}
           label={a11y.dialog}
           onCancel={handleDialogCancel}

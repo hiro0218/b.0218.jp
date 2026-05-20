@@ -1,5 +1,6 @@
 import { type DOMNode, domToReact } from 'html-react-parser';
 import { LinkPreview } from '@/components/UI/LinkPreview';
+import { isObject } from '@/lib/utils/isObject';
 import { safeJsonParse } from '@/lib/utils/json';
 import type { Replacer } from './types';
 
@@ -15,6 +16,16 @@ interface LinkPreviewData {
   };
 }
 
+function isLinkPreviewData(value: unknown): value is LinkPreviewData {
+  if (!isObject(value) || value.type !== 'link-preview' || !isObject(value.data)) {
+    return false;
+  }
+
+  const { link, card, thumbnail, title, description, domain } = value.data;
+
+  return [link, card, thumbnail, title, description, domain].every((item) => typeof item === 'string');
+}
+
 /**
  * class="link-preview"を持つ要素をLinkPreviewコンポーネントに変換する
  */
@@ -25,8 +36,9 @@ export const handleLinkPreview: Replacer = (domNode) => {
 
   const json = safeJsonParse<LinkPreviewData>(domToReact(domNode.children as DOMNode[]) as string);
 
-  if (!json) {
-    return undefined;
+  if (!isLinkPreviewData(json)) {
+    // biome-ignore lint/complexity/noUselessFragments: 不正な placeholder を DOM に残さず空に置換する
+    return <></>;
   }
 
   return (

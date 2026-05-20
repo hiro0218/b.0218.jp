@@ -14,5 +14,6 @@ export type SearchDataPayload = {
 };
 
 export function normalizeSearchToken(value: string): string {
-  return tagKey(value).trim();
+  // NFKC で全角英数 (`Ｒｅａｃｔ` など) を半角に統合してから tagKey で lowercase 化する
+  return tagKey(value.normalize('NFKC')).trim();
 }

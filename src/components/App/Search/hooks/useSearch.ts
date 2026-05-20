@@ -1,116 +1,48 @@
-'use client';
-
-import { type RefObject, useCallback, useMemo, useRef } from 'react';
+import { type RefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import type { SearchResultItem } from '../types';
+import { useSearchDOMRefs } from './internal/useSearchDOMRefs';
+import { useSearchManager } from './internal/useSearchManager';
 import { useSearchNavigation } from './internal/useSearchNavigation';
-import { useSearchQuery } from './internal/useSearchQuery';
-import { useSearchUI } from './internal/useSearchUI';
+import {
+  readSearchStateSync,
+  useSearchStatePersistence,
+  useSearchStateRestoration,
+} from './internal/useSearchStatePersistence';
 
-/**
- * useSearch のオプション
- */
 export interface UseSearchOptions {
-  /** ダイアログを閉じる処理（オプション） */
   onClose?: () => void;
-
-  /** ダイアログの ref（オプション） */
   dialogRef?: RefObject<HTMLDialogElement>;
-
-  /**
-   * 検索状態を sessionStorage に永続化するか
-   *
-   * @default true
-   */
   persistState?: boolean;
-
-  /**
-   * デバウンス遅延（ミリ秒）
-   *
-   * @default 300
-   */
   debounceMs?: number;
-
-  /**
-   * ループナビゲーションを有効化
-   *
-   * @default true
-   */
   loop?: boolean;
 }
 
-/**
- * useSearch の戻り値
- */
 export interface UseSearchReturn {
-  /** 現在の検索クエリ */
   query: string;
-
-  /** 検索結果 */
   results: SearchResultItem[];
-
-  /** データ読み込み中か */
   isLoading: boolean;
-
-  /** エラー（存在する場合） */
   error: Error | null;
-
-  /** 現在フォーカスされているインデックス */
   focusedIndex: number;
-
-  /** 即座に検索を実行する */
   search: (query: string) => void;
-
-  /** デバウンス検索を実行する */
   debouncedSearch: (query: string) => void;
-
-  /** 検索結果をリセットする */
   reset: () => void;
-
-  /** ダイアログを閉じる（フォーカスリセット + onClose） */
   close: () => void;
-
-  /** 検索入力のprops */
-  inputProps: {
-    onKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  };
-
-  /** キーボードナビゲーション用のprops */
+  inputProps: { onKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void };
   containerProps: React.DOMAttributes<HTMLElement>;
-
-  /** 検索結果要素の ref を設定 */
   setResultRef: (index: number, element: HTMLDivElement | null) => void;
 }
 
 const NAV_KEYS: ReadonlySet<string> = new Set(['ArrowDown', 'ArrowUp', 'Home', 'End', 'Enter', 'Escape']);
 
 /**
- * 検索機能の統合 Facade
- *
- * @description
- * 以下のフックを統合し、シンプルな API を提供:
- * - useSearchQuery: 検索クエリ・データ管理
- * - useSearchNavigation: キーボードナビゲーション
- * - useSearchUI: DOM 参照・UI 操作
+ * @summary 検索ダイアログの状態 / DOM 参照 / キーボードナビゲーションを統合する hook。
  *
  * @example
- * ```tsx
- * const search = useSearch({
- *   onClose: handleClose,
- *   dialogRef,
- *   persistState: true,
- *   debounceMs: 300,
- *   loop: true,
- * });
- *
+ * const search = useSearch({ onClose, dialogRef });
  * <input {...search.inputProps} />
  * <div {...search.containerProps}>
- *   {search.results.map((result, index) => (
- *     <div ref={(el) => search.setResultRef(index, el)} key={result.slug}>
- *       {result.title}
- *     </div>
- *   ))}
+ *   {search.results.map((r, i) => <div ref={(el) => search.setResultRef(i, el)} key={r.slug}>{r.title}</div>)}
  * </div>
- * ```
  */
 export const useSearch = ({
   onClose,
@@ -119,93 +51,104 @@ export const useSearch = ({
   debounceMs = 300,
   loop = true,
 }: UseSearchOptions): UseSearchReturn => {
-  // ===== 検索クエリ・データ管理 =====
-  const { query, results, isLoading, error, search, debouncedSearch, reset } = useSearchQuery({
-    persistState,
-    debounceMs,
+  const {
+    state,
+    isReady,
+    debouncedSearch,
+    executeSearch,
+    reset: resetManager,
+    setResults,
+  } = useSearchManager({
+    debounceDelayMs: debounceMs,
+    getInitialState: persistState ? readSearchStateSync : undefined,
   });
 
-  // ===== ref を作成（useSearchNavigation に渡すため） =====
-  const resultsRef = useRef<SearchResultItem[]>(results);
-  resultsRef.current = results;
+  const { saveSearchState, loadSearchState, clearSearchState } = useSearchStatePersistence();
 
-  // ===== DOM 参照・UI 操作（getResultRef を先に取得） =====
-  const uiRef = useRef<ReturnType<typeof useSearchUI> | null>(null);
-  const getResultRef = useCallback((index: number) => {
-    return uiRef.current?.getResultRef(index);
-  }, []);
+  useSearchStateRestoration({ persistState, executeSearch, setResults, loadSearchState });
 
-  // ===== キーボードナビゲーション =====
+  useEffect(() => {
+    if (!persistState) return;
+    if (!state.query && state.results.length === 0) return;
+    saveSearchState({ query: state.query, results: state.results });
+  }, [persistState, state.query, state.results, saveSearchState]);
+
+  const reset = useCallback(() => {
+    resetManager();
+    clearSearchState();
+  }, [resetManager, clearSearchState]);
+
+  const { updateDOMRefs, focusInput, scrollToFocusedElement, setResultRef, getResultRef, clearExcessRefs } =
+    useSearchDOMRefs({ dialogRef });
+
+  const resultsRef = useRef<SearchResultItem[]>(state.results);
+  resultsRef.current = state.results;
+
   const { focusedIndex, resetFocus, containerProps } = useSearchNavigation({
-    resultsLength: results.length,
+    resultsLength: state.results.length,
     onClose,
     loop,
     resultsRef,
     getResultRef,
   });
 
+  useLayoutEffect(() => {
+    updateDOMRefs();
+    clearExcessRefs(state.results.length);
+  }, [updateDOMRefs, state.results.length, clearExcessRefs]);
+
+  useLayoutEffect(() => {
+    if (focusedIndex === -1) {
+      focusInput();
+      return;
+    }
+    const targetElement = getResultRef(focusedIndex);
+    if (targetElement) {
+      targetElement.focus();
+      scrollToFocusedElement(targetElement);
+    }
+  }, [focusedIndex, getResultRef, focusInput, scrollToFocusedElement]);
+
   const focusedIndexRef = useRef(focusedIndex);
   focusedIndexRef.current = focusedIndex;
 
-  // ===== DOM 参照・UI 操作（実際に初期化） =====
-  const ui = useSearchUI({
-    dialogRef,
-    focusedIndex,
-    resultsLength: results.length,
-  });
-  uiRef.current = ui;
-
-  // ===== クローズ処理 =====
   const handleClose = useCallback(() => {
     resetFocus();
     if (onClose) onClose();
   }, [resetFocus, onClose]);
 
-  // ===== 検索入力処理 =====
   const handleSearchInput = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (!(e.currentTarget instanceof HTMLInputElement) || e.nativeEvent.isComposing) {
-        return;
-      }
+      if (!(e.currentTarget instanceof HTMLInputElement) || e.nativeEvent.isComposing) return;
 
       const value = e.currentTarget.value.trim();
-      if (value === query) {
-        return;
-      }
+      if (value === state.query) return;
 
-      // Enter キーで入力にフォーカスがある場合（focusedIndex === -1）は即座実行
       if (e.key === 'Enter' && focusedIndexRef.current === -1) {
-        search(value);
+        executeSearch(value);
         return;
       }
-
-      // ナビゲーションキー以外はデバウンス検索
       if (!NAV_KEYS.has(e.key)) {
         debouncedSearch(value);
       }
     },
-    [query, search, debouncedSearch],
+    [state.query, executeSearch, debouncedSearch],
   );
 
-  const inputProps = useMemo(
-    () => ({
-      onKeyUp: handleSearchInput,
-    }),
-    [handleSearchInput],
-  );
+  const inputProps = useMemo(() => ({ onKeyUp: handleSearchInput }), [handleSearchInput]);
 
   return {
-    query,
-    results,
-    isLoading,
-    error,
+    query: state.query,
+    results: state.results,
+    isLoading: !isReady,
+    error: null,
     focusedIndex,
-    search,
+    search: executeSearch,
     debouncedSearch,
     reset,
     close: handleClose,
     inputProps,
     containerProps,
-    setResultRef: ui.setResultRef,
+    setResultRef,
   };
 };

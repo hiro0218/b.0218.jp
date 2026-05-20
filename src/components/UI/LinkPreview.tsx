@@ -10,17 +10,20 @@ type Props = {
   domain: string;
 };
 
+/**
+ * @summary 外部リンクのカード型プレビュー
+ */
 export const LinkPreview = ({ link, card, thumbnail, title, domain, description }: Props) => {
   const decodedTitle = title.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
   return (
     <Anchor data-card={card} href={link} target="_blank">
-      <Body>
+      <Body className="p-link-preview-body">
         <BodyTitle className={textEllipsis}>{decodedTitle}</BodyTitle>
         {description ? <BodyDescription data-line-clamp="1">{description}</BodyDescription> : null}
         <BodyUrl className={textEllipsis}>{domain}</BodyUrl>
       </Body>
       {thumbnail ? (
-        <Thumbnail>
+        <Thumbnail className="p-link-preview-thumbnail">
           {/* biome-ignore lint/performance/noImgElement: 任意 URL のOGPサムネイルを最適化設定に依存せず表示する */}
           <img alt="" decoding="async" height="120" loading="lazy" src={thumbnail} width="120" />
         </Thumbnail>
@@ -62,7 +65,7 @@ const Anchor = styled.a`
       }
 
       .p-link-preview-thumbnail {
-        width: calc(var(--container-width) / 230px);
+        width: min(40%, 230px);
         max-width: 230px;
         height: var(--link-preview-thumbnail-size);
       }

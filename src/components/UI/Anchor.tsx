@@ -25,9 +25,9 @@ type Props = {
  * ナビゲーション用途で使用し、ボタン操作には Button を使う。
  * @summary 内部・外部リンクの統一ラッパー
  */
-export function Anchor({ href, className, prefetch = false, title = undefined, children, ...rest }: Props) {
+export function Anchor({ href, className, prefetch, title = undefined, children, ...rest }: Props) {
   return (
-    <Link className={className} href={href} prefetch={prefetch || undefined} {...(title && { title })} {...rest}>
+    <Link className={className} href={href} prefetch={prefetch} {...(title && { title })} {...rest}>
       {children}
     </Link>
   );

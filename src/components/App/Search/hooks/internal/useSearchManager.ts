@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useSearchWithCache } from '@/components/App/Search/engine/search';
-import { isSearchDataReady, loadAndInitializeSearch } from '@/components/App/Search/engine/searchDataLoader';
 import debounce from '@/lib/utils/debounce';
+import { useSearchWithCache } from '../../engine/search';
+import { isSearchDataReady, loadAndInitializeSearch } from '../../engine/searchDataLoader';
 import type { SearchState } from '../../types';
 
 type UseSearchManagerProps = {
@@ -14,22 +14,13 @@ const initialState: SearchState = {
   query: '',
 };
 
-/**
- * 検索機能の統合管理を提供
- * @description
- * 転置インデックスベースの高速検索を使用
- * archivesパラメータは不要（ビルド時生成の検索インデックスを使用）
- */
 export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: UseSearchManagerProps = {}) => {
   const [state, setState] = useState<SearchState>(() => getInitialState?.() ?? initialState);
   const [isReady, setIsReady] = useState(isSearchDataReady);
   const searchWithCache = useSearchWithCache();
   const lastQueryRef = useRef('');
   const isReadyRef = useRef(isReady);
-
-  useEffect(() => {
-    isReadyRef.current = isReady;
-  }, [isReady]);
+  isReadyRef.current = isReady;
 
   const requestSearchData = useCallback(() => {
     loadAndInitializeSearch()
@@ -54,6 +45,7 @@ export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: Use
   }, []);
 
   const reset = useCallback(() => {
+    lastQueryRef.current = '';
     setState(initialState);
   }, []);
 

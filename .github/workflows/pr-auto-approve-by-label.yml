@@ -13,11 +13,12 @@ jobs:
     steps:
       - name: Check for auto-approve label
         id: check-label
-        uses: actions/github-script@v9
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { owner, repo, number } = context.issue;
+            const sender = context.payload.sender?.login;
             const { data: pullRequest } = await github.rest.pulls.get({
               owner,
               repo,
@@ -34,11 +35,14 @@ jobs:
             const hasApproveLabel = labels.some(label => approveLabels.includes(label));
             console.log('Has approve label:', hasApproveLabel);
 
-            return hasApproveLabel;
+            const isAuthorizedActor = sender === owner;
+            console.log('Authorized actor:', isAuthorizedActor);
+
+            return hasApproveLabel && isAuthorizedActor;
 
       - name: Approve Pull Request
         if: ${{ steps.check-label.outputs.result == 'true' }}
-        uses: actions/github-script@v9
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

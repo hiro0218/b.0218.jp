@@ -10,7 +10,7 @@ import useIsClient from '@/hooks/useIsClient';
 import { styled } from '@/ui/styled';
 import { SEARCH_LABELS } from './constants';
 import { useSearch } from './hooks/useSearch';
-import { SearchHeader } from './SearchHeader';
+import { SearchHeader } from './SearchDialog/SearchHeader';
 import { SearchPanel } from './SearchPanel';
 
 type Props = {
@@ -74,8 +74,8 @@ export const SearchDialog = ({ onCloseAction, isClosing, dialogRef }: Props) => 
 };
 
 const Dialog = styled.dialog`
-  --search-dialog-max-height: 80vh;
-  --search-content-max-height: 55vh;
+  --search-dialog-max-height: 80dvh;
+  --search-content-max-height: 55dvh;
 
   position: fixed;
   top: 0;

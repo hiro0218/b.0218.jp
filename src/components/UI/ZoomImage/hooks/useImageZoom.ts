@@ -2,6 +2,7 @@
 
 import type { RefObject } from 'react';
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import type { ImageDimensions } from '../types';
 
 interface UseImageZoomOptions {
   hasObjectFit?: boolean;
@@ -12,6 +13,7 @@ interface UseImageZoomReturn {
   imgRef: RefObject<HTMLImageElement | null>;
   dialogRef: RefObject<HTMLDialogElement | null>;
   dialogImgRef: RefObject<HTMLImageElement | null>;
+  imageSize: ImageDimensions | null;
   canZoom: boolean;
   isOpen: boolean;
   open: () => void;
@@ -33,6 +35,38 @@ function startViewTransition(callback: () => void): ViewTransition | undefined {
   return undefined;
 }
 
+function runWhenTransitionSettles(transition: ViewTransition, callback: () => void): void {
+  void transition.finished.then(callback, callback);
+}
+
+function clearViewTransitionNames(...elements: HTMLElement[]): void {
+  for (const element of elements) {
+    element.style.viewTransitionName = '';
+  }
+}
+
+function showModalSafely(dialog: HTMLDialogElement): boolean {
+  if (dialog.open) return true;
+
+  try {
+    dialog.showModal();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function closeSafely(dialog: HTMLDialogElement): boolean {
+  if (!dialog.open) return true;
+
+  try {
+    dialog.close();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /**
  * View Transitions API ベースの画像ズーム機能を提供
  */
@@ -40,7 +74,7 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
   const { hasObjectFit = false, minImageSize = 100 } = options;
   const viewTransitionName = `zoom-image-${useId().replace(/:/g, '')}`;
 
-  const [loadedImageSize, setLoadedImageSize] = useState<{ height: number; width: number } | null>(null);
+  const [loadedImageSize, setLoadedImageSize] = useState<ImageDimensions | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const isOpenRef = useRef(false);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -72,29 +106,48 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
     const dialog = dialogRef.current;
     const dialogImg = dialogImgRef.current;
 
-    isOpenRef.current = true;
-
     if (!document.startViewTransition) {
-      dialog.showModal();
+      const didOpen = showModalSafely(dialog);
+      if (!didOpen) return;
+
+      isOpenRef.current = true;
       setIsOpen(true);
       return;
     }
 
+    isOpenRef.current = true;
     isTransitioning.current = true;
     sourceImg.style.viewTransitionName = viewTransitionName;
 
-    const transition = startViewTransition(() => {
-      sourceImg.style.viewTransitionName = '';
-      dialogImg.style.viewTransitionName = viewTransitionName;
-      dialog.showModal();
-      setIsOpen(true);
-    });
+    let transition: ViewTransition | undefined;
+    try {
+      transition = startViewTransition(() => {
+        sourceImg.style.viewTransitionName = '';
+        dialogImg.style.viewTransitionName = viewTransitionName;
+        const didOpen = showModalSafely(dialog);
+        if (didOpen && isMountedRef.current) {
+          setIsOpen(true);
+        }
+      });
+    } catch {
+      clearViewTransitionNames(sourceImg, dialogImg);
+      isTransitioning.current = false;
+      isOpenRef.current = false;
+      if (isMountedRef.current) setIsOpen(false);
+      return;
+    }
 
     if (transition) {
-      transition.finished.finally(() => {
+      runWhenTransitionSettles(transition, () => {
         isTransitioning.current = false;
+        clearViewTransitionNames(sourceImg, dialogImg);
+        if (!dialog.open) {
+          isOpenRef.current = false;
+          if (isMountedRef.current) setIsOpen(false);
+        }
       });
     } else {
+      clearViewTransitionNames(sourceImg, dialogImg);
       isTransitioning.current = false;
     }
   }, [canZoom, viewTransitionName]);
@@ -109,9 +162,10 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
     const dialogImg = dialogImgRef.current;
 
     if (!document.startViewTransition) {
-      dialogImg.style.viewTransitionName = '';
-      sourceImg.style.viewTransitionName = '';
-      dialog.close();
+      const didClose = closeSafely(dialog);
+      if (!didClose) return;
+
+      clearViewTransitionNames(sourceImg, dialogImg);
       isOpenRef.current = false;
       setIsOpen(false);
       return;
@@ -126,27 +180,38 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
     // View Transition の「new」スナップショットで visible にする必要がある
     const triggerButton = sourceImg.closest('button');
 
-    const transition = startViewTransition(() => {
-      dialogImg.style.viewTransitionName = '';
-      sourceImg.style.viewTransitionName = viewTransitionName;
-      if (triggerButton) triggerButton.style.visibility = 'visible';
-      dialog.close();
-    });
+    let transition: ViewTransition | undefined;
+    try {
+      transition = startViewTransition(() => {
+        dialogImg.style.viewTransitionName = '';
+        sourceImg.style.viewTransitionName = viewTransitionName;
+        if (triggerButton) triggerButton.style.visibility = 'visible';
+        closeSafely(dialog);
+      });
+    } catch {
+      clearViewTransitionNames(sourceImg, dialogImg);
+      if (triggerButton) triggerButton.style.visibility = '';
+      isTransitioning.current = false;
+      return;
+    }
 
     if (transition) {
-      transition.finished.finally(() => {
+      runWhenTransitionSettles(transition, () => {
         isTransitioning.current = false;
-        if (!isMountedRef.current) return;
-        sourceImg.style.viewTransitionName = '';
+        clearViewTransitionNames(sourceImg, dialogImg);
         if (triggerButton) triggerButton.style.visibility = '';
+        if (dialog.open) return;
+
         isOpenRef.current = false;
-        setIsOpen(false);
+        if (isMountedRef.current) setIsOpen(false);
       });
     } else {
-      sourceImg.style.viewTransitionName = '';
+      clearViewTransitionNames(sourceImg, dialogImg);
       isTransitioning.current = false;
-      isOpenRef.current = false;
-      setIsOpen(false);
+      if (!dialog.open) {
+        isOpenRef.current = false;
+        setIsOpen(false);
+      }
     }
   }, [viewTransitionName]);
 
@@ -171,6 +236,7 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
     imgRef,
     dialogRef,
     dialogImgRef,
+    imageSize: loadedImageSize,
     canZoom,
     isOpen,
     open,

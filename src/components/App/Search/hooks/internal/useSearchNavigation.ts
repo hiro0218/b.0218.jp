@@ -1,60 +1,26 @@
-'use client';
-
 import { useKeyboard } from '@react-aria/interactions';
 import { useRouter } from 'next/navigation';
 import { type RefObject, useCallback, useState } from 'react';
-import { isHTMLElement } from '@/lib/browser/typeGuards';
+import { isHTMLElement, isInputElement } from '@/lib/browser/typeGuards';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { SearchResultItem } from '../../types';
 
-/**
- * useSearchNavigation のオプション
- */
 export interface UseSearchNavigationOptions {
-  /** 検索結果の件数 */
   resultsLength: number;
-
-  /** ダイアログを閉じる処理（オプション） */
   onClose?: () => void;
-
-  /**
-   * ループナビゲーションを有効化
-   *
-   * @default true
-   */
+  /** ループナビゲーションを有効化 (最後の次 → 最初、最初の前 → 最後) */
   loop?: boolean;
-
-  /** 検索結果の配列（Enter キー時の遷移に使用） */
   resultsRef: RefObject<SearchResultItem[]>;
-
-  /** DOM 参照取得関数（Enter キー時のクリック処理に使用） */
   getResultRef: (index: number) => HTMLDivElement | undefined;
 }
 
-/**
- * useSearchNavigation の戻り値
- */
 export interface UseSearchNavigationReturn {
-  /** 現在フォーカスされているインデックス */
   focusedIndex: number;
-
-  /** フォーカスインデックスを設定 */
   setFocusedIndex: (index: number) => void;
-
-  /** フォーカスをリセット */
   resetFocus: () => void;
-
-  /** キーボードナビゲーション用のprops */
   containerProps: ReturnType<typeof useKeyboard>['keyboardProps'];
 }
 
-/**
- * フォーカス管理、キーボードナビゲーションを統合
- *
- * @description
- * フォーカスインデックス管理と矢印キー、Home/End、Escapeの処理を提供。
- * ループナビゲーション対応（最後の次 → 最初、最初の前 → 最後）。
- */
 export const useSearchNavigation = ({
   resultsLength,
   onClose,
@@ -63,8 +29,6 @@ export const useSearchNavigation = ({
   getResultRef,
 }: UseSearchNavigationOptions): UseSearchNavigationReturn => {
   const router = useRouter();
-
-  // ===== フォーカス管理 =====
   const [focusedIndex, setFocusedIndex] = useState(-1);
 
   const resetFocus = useCallback(() => {
@@ -97,7 +61,6 @@ export const useSearchNavigation = ({
     setFocusedIndex(resultsLength > 0 ? resultsLength - 1 : -1);
   }, [resultsLength]);
 
-  // ===== キーボードナビゲーション =====
   const { keyboardProps } = useKeyboard({
     onKeyDown: (e) => {
       const target = e.target;
@@ -105,7 +68,7 @@ export const useSearchNavigation = ({
 
       // 検索コンテキスト内のみで動作
       const isSearchContext =
-        (target.tagName === 'INPUT' && target.getAttribute('role') === 'searchbox') ||
+        (isInputElement(target) && (target.type === 'search' || target.getAttribute('role') === 'searchbox')) ||
         target.closest('[data-search-results]') !== null;
 
       if (!isSearchContext) return;

@@ -10,5 +10,5 @@ const Root = styled.div`
   display: grid;
   grid-template-rows: auto 1fr auto;
   row-gap: clamp(var(--spacing-3), 3.5vw, var(--spacing-4));
-  height: 100vh;
+  min-height: 100dvh;
 `;

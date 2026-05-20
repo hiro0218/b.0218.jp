@@ -25,19 +25,62 @@ function createMockImage(overrides: Partial<HTMLImageElement> = {}): HTMLImageEl
 }
 
 function createMockDialog(overrides: Partial<HTMLDialogElement> = {}): HTMLDialogElement {
-  return {
+  const dialog = {
     open: false,
-    showModal: vi.fn(),
-    close: vi.fn(),
     style: {} as CSSStyleDeclaration,
     ...overrides,
   } as unknown as HTMLDialogElement;
+
+  dialog.showModal = vi.fn(() => {
+    dialog.open = true;
+  });
+  dialog.close = vi.fn(() => {
+    dialog.open = false;
+  });
+
+  Object.assign(dialog, overrides);
+  return dialog;
 }
 
 interface DeferredViewTransitionMock {
   startViewTransition: typeof document.startViewTransition;
   closeFinishedResolve: () => void;
   closeFinishedPromise: Promise<undefined>;
+}
+
+interface DeferredPromise {
+  promise: Promise<undefined>;
+  reject: (reason?: unknown) => void;
+  resolve: () => void;
+}
+
+function createDeferredPromise(): DeferredPromise {
+  let reject: (reason?: unknown) => void = () => {};
+  let resolve: () => void = () => {};
+  const promise = new Promise<undefined>((resolvePromise, rejectPromise) => {
+    resolve = () => resolvePromise(undefined);
+    reject = rejectPromise;
+  });
+
+  return { promise, reject, resolve };
+}
+
+function createQueuedViewTransitionMock() {
+  const transitions: DeferredPromise[] = [];
+  const startViewTransition = vi.fn((cb: () => void) => {
+    cb();
+    const transition = createDeferredPromise();
+    transitions.push(transition);
+
+    return {
+      finished: transition.promise,
+      ready: Promise.resolve(undefined),
+      updateCallbackDone: Promise.resolve(undefined),
+      skipTransition: vi.fn(),
+    } as unknown as ViewTransition;
+  });
+
+  return { startViewTransition, transitions };
 }
 
 /**
@@ -287,7 +330,7 @@ describe('useImageZoom', () => {
       expect(result.current.isOpen).toBe(true);
     });
 
-    it('View Transition API 対応時、startViewTransition 経由で showModal を呼ぶ', () => {
+    it('View Transition API 対応時、startViewTransition 経由で showModal を呼ぶ', async () => {
       const capturedCallbacks: Array<() => void> = [];
       document.startViewTransition = vi.fn((cb: () => void) => {
         capturedCallbacks.push(cb);
@@ -321,9 +364,13 @@ describe('useImageZoom', () => {
       expect(document.startViewTransition).toHaveBeenCalledOnce();
       expect(mockDialog.showModal).toHaveBeenCalledOnce();
       expect(result.current.isOpen).toBe(true);
+
+      await act(async () => {
+        await Promise.resolve();
+      });
     });
 
-    it('View Transition API 対応時、viewTransitionName を正しく切り替える', () => {
+    it('View Transition API 対応時、viewTransitionName を正しく切り替える', async () => {
       let capturedCallback: (() => void) | null = null;
       document.startViewTransition = vi.fn((cb: () => void) => {
         capturedCallback = cb;
@@ -369,6 +416,103 @@ describe('useImageZoom', () => {
       expect(imgStyle.viewTransitionName).toBe('');
       expect(dialogImgStyle.viewTransitionName).toBeTruthy();
       expect(result.current.isOpen).toBe(true);
+
+      await act(async () => {
+        await Promise.resolve();
+      });
+
+      expect(dialogImgStyle.viewTransitionName).toBe('');
+    });
+
+    it('open transition 完了後に一時的な viewTransitionName を削除する', async () => {
+      const mock = createQueuedViewTransitionMock();
+      document.startViewTransition = mock.startViewTransition;
+
+      const { result } = renderHook(() => useImageZoom({ minImageSize: 1 }));
+
+      const imgStyle = {} as CSSStyleDeclaration;
+      const dialogImgStyle = {} as CSSStyleDeclaration;
+      const mockImg = createMockImage({ naturalWidth: 200, naturalHeight: 200, style: imgStyle });
+      const mockDialog = createMockDialog();
+      const mockDialogImg = createMockImage({ style: dialogImgStyle });
+
+      Object.defineProperty(result.current.imgRef, 'current', { value: mockImg, writable: true });
+      Object.defineProperty(result.current.dialogRef, 'current', { value: mockDialog, writable: true });
+      Object.defineProperty(result.current.dialogImgRef, 'current', { value: mockDialogImg, writable: true });
+
+      act(() => {
+        result.current.handleImageLoad();
+      });
+      act(() => {
+        result.current.open();
+      });
+
+      expect(dialogImgStyle.viewTransitionName).toBeTruthy();
+
+      await act(async () => {
+        mock.transitions[0].resolve();
+        await mock.transitions[0].promise;
+      });
+
+      expect(imgStyle.viewTransitionName).toBe('');
+      expect(dialogImgStyle.viewTransitionName).toBe('');
+      expect(result.current.isOpen).toBe(true);
+    });
+
+    it('showModal が失敗した場合、内部状態を open 扱いにしない', () => {
+      document.startViewTransition = undefined;
+
+      const { result } = renderHook(() => useImageZoom({ minImageSize: 1 }));
+
+      const mockImg = createMockImage({ naturalWidth: 200, naturalHeight: 200 });
+      const mockDialog = createMockDialog();
+      const mockDialogImg = createMockImage();
+      mockDialog.showModal = vi.fn(() => {
+        throw new DOMException('dialog is not available', 'InvalidStateError');
+      });
+
+      Object.defineProperty(result.current.imgRef, 'current', { value: mockImg, writable: true });
+      Object.defineProperty(result.current.dialogRef, 'current', { value: mockDialog, writable: true });
+      Object.defineProperty(result.current.dialogImgRef, 'current', { value: mockDialogImg, writable: true });
+
+      act(() => {
+        result.current.handleImageLoad();
+      });
+      act(() => {
+        result.current.open();
+      });
+
+      expect(result.current.isOpen).toBe(false);
+      expect(mockDialog.open).toBe(false);
+    });
+
+    it('startViewTransition が throw しても open の内部状態と一時スタイルを片付ける', () => {
+      document.startViewTransition = vi.fn(() => {
+        throw new Error('transition failed');
+      });
+
+      const { result } = renderHook(() => useImageZoom({ minImageSize: 1 }));
+
+      const imgStyle = {} as CSSStyleDeclaration;
+      const dialogImgStyle = {} as CSSStyleDeclaration;
+      const mockImg = createMockImage({ naturalWidth: 200, naturalHeight: 200, style: imgStyle });
+      const mockDialog = createMockDialog();
+      const mockDialogImg = createMockImage({ style: dialogImgStyle });
+
+      Object.defineProperty(result.current.imgRef, 'current', { value: mockImg, writable: true });
+      Object.defineProperty(result.current.dialogRef, 'current', { value: mockDialog, writable: true });
+      Object.defineProperty(result.current.dialogImgRef, 'current', { value: mockDialogImg, writable: true });
+
+      act(() => {
+        result.current.handleImageLoad();
+      });
+      act(() => {
+        result.current.open();
+      });
+
+      expect(result.current.isOpen).toBe(false);
+      expect(imgStyle.viewTransitionName).toBe('');
+      expect(dialogImgStyle.viewTransitionName).toBe('');
     });
   });
 
@@ -608,6 +752,92 @@ describe('useImageZoom', () => {
 
       expect(dialogImgStyle.viewTransitionName).toBe('');
       expect(imgStyle.viewTransitionName).toBe('');
+    });
+
+    it('close transition が reject しても一時スタイルと open 状態を片付ける', async () => {
+      const mock = createQueuedViewTransitionMock();
+      document.startViewTransition = mock.startViewTransition;
+
+      const { result } = renderHook(() => useImageZoom({ minImageSize: 1 }));
+
+      const imgStyle = {} as CSSStyleDeclaration;
+      const dialogImgStyle = {} as CSSStyleDeclaration;
+      const triggerButtonStyle = { visibility: '' } as CSSStyleDeclaration;
+      const mockTriggerButton = { style: triggerButtonStyle } as HTMLButtonElement;
+      const mockImg = createMockImage({
+        naturalWidth: 200,
+        naturalHeight: 200,
+        closest: vi.fn(() => mockTriggerButton),
+        style: imgStyle,
+      });
+      const mockDialog = createMockDialog();
+      const mockDialogImg = createMockImage({ style: dialogImgStyle });
+
+      Object.defineProperty(result.current.imgRef, 'current', { value: mockImg, writable: true });
+      Object.defineProperty(result.current.dialogRef, 'current', { value: mockDialog, writable: true });
+      Object.defineProperty(result.current.dialogImgRef, 'current', { value: mockDialogImg, writable: true });
+
+      act(() => {
+        result.current.handleImageLoad();
+      });
+      act(() => {
+        result.current.open();
+      });
+
+      await act(async () => {
+        mock.transitions[0].resolve();
+        await mock.transitions[0].promise;
+      });
+
+      act(() => {
+        result.current.close();
+      });
+
+      expect(triggerButtonStyle.visibility).toBe('visible');
+
+      await act(async () => {
+        mock.transitions[1].reject(new Error('transition skipped'));
+        await mock.transitions[1].promise.catch(() => undefined);
+      });
+
+      expect(imgStyle.viewTransitionName).toBe('');
+      expect(dialogImgStyle.viewTransitionName).toBe('');
+      expect(triggerButtonStyle.visibility).toBe('');
+      expect(result.current.isOpen).toBe(false);
+    });
+
+    it('startViewTransition が throw しても close の一時スタイルを片付ける', () => {
+      document.startViewTransition = vi.fn(() => {
+        throw new Error('transition failed');
+      });
+
+      const { result } = renderHook(() => useImageZoom({ minImageSize: 1 }));
+
+      const imgStyle = {} as CSSStyleDeclaration;
+      const dialogImgStyle = {} as CSSStyleDeclaration;
+      const triggerButtonStyle = { visibility: '' } as CSSStyleDeclaration;
+      const mockTriggerButton = { style: triggerButtonStyle } as HTMLButtonElement;
+      const mockImg = createMockImage({
+        naturalWidth: 200,
+        naturalHeight: 200,
+        closest: vi.fn(() => mockTriggerButton),
+        style: imgStyle,
+      });
+      const mockDialog = createMockDialog({ open: true });
+      const mockDialogImg = createMockImage({ style: dialogImgStyle });
+
+      Object.defineProperty(result.current.imgRef, 'current', { value: mockImg, writable: true });
+      Object.defineProperty(result.current.dialogRef, 'current', { value: mockDialog, writable: true });
+      Object.defineProperty(result.current.dialogImgRef, 'current', { value: mockDialogImg, writable: true });
+
+      act(() => {
+        result.current.close();
+      });
+
+      expect(imgStyle.viewTransitionName).toBe('');
+      expect(dialogImgStyle.viewTransitionName).toBe('');
+      expect(triggerButtonStyle.visibility).toBe('');
+      expect(result.current.isOpen).toBe(false);
     });
   });
 

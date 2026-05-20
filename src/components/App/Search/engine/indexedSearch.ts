@@ -115,6 +115,13 @@ function getOrCreateSet<TKey, TValue>(map: Map<TKey, Set<TValue>>, key: TKey): S
   return value;
 }
 
+function getIndexedItemIds(token: string): number[] | undefined {
+  if (!Object.hasOwn(typedSearchIndex, token)) return undefined;
+
+  const itemIds = typedSearchIndex[token];
+  return Array.isArray(itemIds) ? itemIds : undefined;
+}
+
 function isBetterScoredResult(candidate: ScoredSearchResult, current: ScoredSearchResult): boolean {
   return candidate.score > current.score || (candidate.score === current.score && candidate.order < current.order);
 }
@@ -215,7 +222,11 @@ function determineMatchType(info: MatchInfo, queryTokenCount: number): SearchRes
 }
 
 /**
- * クエリトークンにマッチするインデックストークンを検索
+ * クエリトークンにマッチするインデックストークンを検索する。
+ *
+ * 部分一致は性能のため、先頭文字が同じ indexToken のみを走査する。
+ * 例: `script` クエリでは `javascript` (先頭 `j`) はヒットしない。
+ * 先頭文字に該当する bucket が無い場合は全 indexTokenKeys を走査する fallback がある。
  */
 function findMatchingTokens(queryToken: string): TokenMatch[] {
   const cachedMatches = matchingTokenCache.get(queryToken);
@@ -226,7 +237,7 @@ function findMatchingTokens(queryToken: string): TokenMatch[] {
   const matches: TokenMatch[] = [];
 
   // 完全一致をチェック
-  if (typedSearchIndex[queryToken] !== undefined) {
+  if (getIndexedItemIds(queryToken) !== undefined) {
     matches.push({ token: queryToken, matchType: 'exact' });
   }
 
@@ -278,8 +289,13 @@ function searchByTitleFallback(searchValue: string, excludeIds: Set<number>): Se
       if (data.titleLower === queryLower) {
         score += SCORE.fallbackExactTitle;
       }
-      // 単語境界での一致ボーナス（先頭、スペース後、括弧後）
-      else if (matchIndex === 0 || data.titleLower[matchIndex - 1] === ' ' || data.titleLower[matchIndex - 1] === ']') {
+      // 単語境界での一致ボーナス (先頭、スペース後、括弧内 `[X` および括弧後 `] X`)
+      else if (
+        matchIndex === 0 ||
+        data.titleLower[matchIndex - 1] === ' ' ||
+        data.titleLower[matchIndex - 1] === '[' ||
+        data.titleLower[matchIndex - 1] === ']'
+      ) {
         score += SCORE.fallbackWordBoundary;
       }
 
@@ -332,7 +348,7 @@ export function performIndexedSearch(searchValue: string): SearchResultItem[] {
 
   for (const queryToken of queryTokens) {
     for (const { token: indexToken, matchType } of findMatchingTokens(queryToken)) {
-      const itemIds = typedSearchIndex[indexToken];
+      const itemIds = getIndexedItemIds(indexToken);
       if (!itemIds) continue;
 
       for (const itemId of itemIds) {

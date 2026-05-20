@@ -7,6 +7,10 @@ paths:
 
 # Panda CSS スタイリング規則
 
+## 🔴 前提 (CRITICAL)
+
+本プロジェクトは PandaCSS を `syntax: 'template-literal'`（`panda.config.mts`）で採用している。利用可能な API は `css` / `styled` / `cx`（すべて `@/ui/styled` 経由）のみで、`patterns`（`stack` / `center` / `grid` / `container` 等）と `recipes` / `cva` は **生成されず利用できない**。object-literal API（`css({ color: '...' })` 等）も使用しない。
+
 ## 🔴 Import (CRITICAL)
 
 - `@/ui/styled` から `css/styled/cx` を import

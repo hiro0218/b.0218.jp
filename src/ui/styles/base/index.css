@@ -11,12 +11,10 @@
   interpolate-size: allow-keywords;
 }
 
-* {
-  scrollbar-width: thin;
-}
-
 html {
   height: 100%;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
 }
 
 body {
@@ -56,12 +54,6 @@ body {
 
   :is(&):has(dialog[open]) {
     overflow: clip;
-
-    &,
-    [data-floating] {
-      /* workaround for scrollbar gutter */
-      padding-inline-end: var(--scrollbar-width, 0);
-    }
   }
 }
 

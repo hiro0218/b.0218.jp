@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { SITE_URL } from '@/constants';
 import { getPostsListJson } from '@/lib/source/post';
 import { getTagsWithCount } from '@/lib/source/tag';
+import { tagPermalink } from '@/lib/tag/navigation';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';
 
 const posts = getPostsListJson();
@@ -46,7 +47,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
 
   const tagList: MetadataRoute.Sitemap = tags.map(({ slug }) => {
-    const permalink = `${SITE_URL}/tags/${slug}`;
+    const permalink = tagPermalink(slug);
     // このタグを持つ記事の最新日付を取得
     const tagPosts = posts.filter((post) => post.tags.includes(slug));
     const latestTagPostDate = tagPosts.length > 0 ? tagPosts[0].date : undefined;

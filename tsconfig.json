@@ -51,6 +51,7 @@
     ],
     "strictNullChecks": false,
     "types": [
+      "node",
       "vitest/globals"
     ]
   },
@@ -69,8 +70,6 @@
   "exclude": [
     "node_modules",
     "build/ogp",
-    "playwright.vrt.config.ts",
-    "playwright.e2e.config.ts",
     "tests/vrt/**/*",
     "tests/e2e/**/*"
   ]

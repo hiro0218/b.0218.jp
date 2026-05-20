@@ -15,4 +15,4 @@ if (typeof window === 'undefined' && isProduction && !rawBuildId) {
 export const buildId = rawBuildId ?? '';
 
 /** 環境変数 IS_DEVELOPMENT に対応するビルド時フラグ。未来日付の記事を出力に含める。 */
-export const isContentPreview = Boolean(process.env.IS_DEVELOPMENT);
+export const isContentPreview = process.env.IS_DEVELOPMENT === 'true';

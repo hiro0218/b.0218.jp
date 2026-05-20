@@ -26,7 +26,7 @@ const markEscapedHTML = (() => {
       regEx = new RegExp(cacheKey, 'gi');
       if (regexCache.size > 100) {
         const firstKey = regexCache.keys().next().value;
-        regexCache.delete(firstKey);
+        if (firstKey !== undefined) regexCache.delete(firstKey);
       }
       regexCache.set(cacheKey, regEx);
     }
@@ -44,10 +44,9 @@ export const createMarkedTitles = (suggestions: { title: string }[], keyword: st
   if (!splitKeyword) {
     splitKeyword = keyword.split(' ').filter((word) => word.trim() !== '');
 
-    // Mapのサイズ制限を超えた場合、最も古いエントリを削除してメモリ使用量を抑える
     if (keywordSplitCache.size > KEYWORD_CACHE_SIZE) {
       const firstKey = keywordSplitCache.keys().next().value;
-      keywordSplitCache.delete(firstKey);
+      if (firstKey !== undefined) keywordSplitCache.delete(firstKey);
     }
 
     keywordSplitCache.set(keyword, splitKeyword);

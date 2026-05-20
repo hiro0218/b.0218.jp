@@ -15,7 +15,7 @@ export function Layout({ children }: Props) {
 
   return (
     <div className={underlineStyle}>
-      <Header data-floating data-is-hide={!isHeaderShown} data-is-mounted={isMounted}>
+      <Header data-is-hide={!isHeaderShown} data-is-mounted={isMounted}>
         {children}
       </Header>
     </div>

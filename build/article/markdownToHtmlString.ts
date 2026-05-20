@@ -1,6 +1,7 @@
 import rehypeShiki from '@shikijs/rehype';
 import rehypeMinifyWhitespace from 'rehype-minify-whitespace';
 import rehypeRaw from 'rehype-raw';
+import rehypeSanitize from 'rehype-sanitize';
 import rehypeStringify from 'rehype-stringify';
 import remarkCjkFriendly from 'remark-cjk-friendly';
 import remarkGfm from 'remark-gfm';
@@ -15,23 +16,28 @@ import rehypeGfmAlert from './rehypeGfmAlert';
 import rehypeRemoveComments from './rehypeRemoveComments';
 import rehypeWrapImgWithFigure from './rehypeWrapImgWithFigure';
 import remarkBreaks from './remarkBreaks';
+import { sanitizeSchema } from './sanitizeSchema';
 import { shikiConfig } from './shikiConfig';
 
-const createBaseProcessor = () =>
-  unified()
+// rehypeRaw 直後にサニタイズし、後段プラグイン (rehypeGfmAlert / rehype0218 等) が
+// 生成する `<script type="application/json">` 等の信頼済みノードを保護対象外にする
+function createBaseProcessor() {
+  return unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkCjkFriendly)
     .use(remarkBreaks)
     .use(remarkRehype, { footnoteLabel: '注釈', allowDangerousHtml: true })
-    .use(rehypeExternalLink)
+    .use(rehypeRaw)
     .use(rehypeMinifyWhitespace)
-    .use(rehypeRaw);
+    .use(rehypeSanitize, sanitizeSchema)
+    .use(rehypeExternalLink);
+}
 
 export function createMarkdownToNoteHtmlString(): (markdown: string) => Promise<string> {
   const processor = createBaseProcessor().use(rehypeStringify, { allowDangerousHtml: true });
 
-  return async (markdown: string): Promise<string> => {
+  return async (markdown) => {
     const result = await processor.process(markdown);
     return result.toString();
   };
@@ -46,12 +52,8 @@ export function createMarkdownToPostHtmlString(options?: Rehype0218Options): (ma
     .use(rehypeRemoveComments)
     .use(rehypeStringify, { allowDangerousHtml: true });
 
-  return async (markdown: string): Promise<string> => {
+  return async (markdown) => {
     const result = await processor.process(markdown);
     return result.toString();
   };
-}
-
-export async function markdownToPostHtmlString(markdown: string, options?: Rehype0218Options): Promise<string> {
-  return createMarkdownToPostHtmlString(options)(markdown);
 }

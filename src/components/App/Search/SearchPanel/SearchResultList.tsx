@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { styled } from '@/ui/styled';
 import type { SearchResultItem as SearchResultItemType } from '../types';
 import { SearchResultItem } from './SearchResultItem';
@@ -11,13 +10,6 @@ type SearchResultListProps = {
   onLinkClick?: () => void;
 };
 
-/**
- * 検索結果のリスト表示
- *
- * @description
- * 検索結果アイテムを NavigableLink コンポーネントで表示します。
- * 空状態やメッセージの表示は親コンポーネント（SearchPanel）が担当します。
- */
 export function SearchResultList({
   results,
   markedTitles,
@@ -25,15 +17,6 @@ export function SearchResultList({
   setResultRef,
   onLinkClick,
 }: SearchResultListProps) {
-  const resultRefCallbacks = useMemo(
-    () =>
-      Array.from(
-        { length: results.length },
-        (_, index) => (element: HTMLDivElement | null) => setResultRef(index, element),
-      ),
-    [results.length, setResultRef],
-  );
-
   return (
     <Container data-search-results>
       {results.map(({ slug, matchedIn }, index) => (
@@ -42,7 +25,7 @@ export function SearchResultList({
           key={slug}
           matchedIn={matchedIn}
           onLinkClick={onLinkClick}
-          ref={resultRefCallbacks[index]}
+          ref={(element) => setResultRef(index, element)}
           slug={slug}
           title={markedTitles[index]}
         />
@@ -54,7 +37,7 @@ export function SearchResultList({
 const Container = styled.div`
   display: grid;
   gap: var(--spacing-1);
-  max-height: var(--search-content-max-height, 55vh);
+  max-height: var(--search-content-max-height);
   padding: 0;
   overflow-x: clip;
   overflow-y: auto;

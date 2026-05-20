@@ -16,9 +16,6 @@ interface SearchHeaderProps {
   searchQuery: string;
 }
 
-/**
- * @performance 初回マウント時のみfocusを実行し、不要な再レンダリングを防止
- */
 export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: SearchHeaderProps) {
   const refInput = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState(searchQuery);
@@ -26,7 +23,7 @@ export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: Searc
   const { inputProps } = useTextField(
     {
       'aria-label': '検索キーワード',
-      type: 'text',
+      type: 'search',
       autoComplete: 'off',
       value: inputValue,
       onChange: setInputValue,
@@ -56,14 +53,13 @@ export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: Searc
       <SearchInput
         {...mergeProps(inputProps, {
           'aria-autocomplete': 'list' as const,
-          role: 'searchbox' as const,
           placeholder: '記事タイトルまたはタグを検索',
           onKeyDown,
           onKeyUp,
         })}
         ref={refInput}
       />
-      <div className={clearButtonWrapperStyle}>
+      <div className={clearButtonOuterStyle}>
         <SearchClearButton disabled={!inputValue} onClear={handleClear} />
       </div>
     </div>
@@ -115,7 +111,7 @@ const SearchInput = styled.input`
   }
 `;
 
-const clearButtonWrapperStyle = css`
+const clearButtonOuterStyle = css`
   display: flex;
   align-items: center;
   padding-right: var(--spacing-1);

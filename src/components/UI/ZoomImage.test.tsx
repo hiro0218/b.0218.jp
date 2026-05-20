@@ -2,28 +2,15 @@ import { cleanup, render, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-/**
- * ZoomImage component tests
- *
- * rendering modes, accessibility, dialog behavior.
- */
-
-/* ------------------------------------------------------------------ */
-/*  Mock dependencies                                                 */
-/* ------------------------------------------------------------------ */
-
-// useIsMounted - always return true for test environment
 vi.mock('@/hooks/useIsMounted', () => ({
   default: () => true,
 }));
 
-// Panda CSS styled - return identity functions
 vi.mock('@/ui/styled', () => ({
   css: () => 'mocked-css-class',
   cx: (...args: string[]) => args.filter(Boolean).join(' '),
 }));
 
-// createPortal - render children directly instead of portaling
 vi.mock('react-dom', async () => {
   const actual = await vi.importActual('react-dom');
   return {
@@ -32,7 +19,6 @@ vi.mock('react-dom', async () => {
   };
 });
 
-// react-aria hooks
 vi.mock('@react-aria/dialog', () => ({
   useDialog: (props: Record<string, unknown>) => ({
     dialogProps: { role: 'dialog', 'aria-label': props['aria-label'] },
@@ -49,10 +35,6 @@ vi.mock('@heroicons/react/24/outline', () => ({
   MagnifyingGlassPlusIcon: (props: Record<string, unknown>) => <span data-testid="zoom-icon" {...props} />,
 }));
 
-/* ------------------------------------------------------------------ */
-/*  Mock useImageZoom with controllable return values                  */
-/* ------------------------------------------------------------------ */
-
 const mockOpen = vi.fn();
 const mockClose = vi.fn();
 const mockHandleImageLoad = vi.fn();
@@ -61,6 +43,7 @@ const defaultHookReturn = {
   imgRef: { current: null },
   dialogRef: { current: null },
   dialogImgRef: { current: null },
+  imageSize: { width: 640, height: 480 },
   canZoom: false,
   isOpen: false,
   open: mockOpen,
@@ -77,15 +60,7 @@ vi.mock('@/components/UI/ZoomImage/hooks/useImageZoom', () => ({
   }),
 }));
 
-/* ------------------------------------------------------------------ */
-/*  Import component after mocks                                      */
-/* ------------------------------------------------------------------ */
-
 import { ZoomImage } from '@/components/UI/ZoomImage';
-
-/* ------------------------------------------------------------------ */
-/*  Tests                                                             */
-/* ------------------------------------------------------------------ */
 
 describe('ZoomImage', () => {
   beforeEach(() => {
@@ -97,9 +72,6 @@ describe('ZoomImage', () => {
     cleanup();
   });
 
-  /* ================================================================ */
-  /*  Rendering: canZoom = false (plain img)                          */
-  /* ================================================================ */
   describe('canZoom が false の場合（通常の img 要素）', () => {
     it('img 要素をレンダリングする', () => {
       render(<ZoomImage alt="test image" src="/test.jpg" />);
@@ -131,11 +103,28 @@ describe('ZoomImage', () => {
       expect(img.style.width).toBe('100px');
       expect(img.style.height).toBe('200px');
     });
+
+    it('文字列形式の style で React 互換の vendor prefix を適用する', () => {
+      render(<ZoomImage alt="test image" src="/test.jpg" style="-webkit-line-clamp: 2" />);
+
+      const img = screen.getByAltText('test image') as HTMLImageElement;
+      expect(img.getAttribute('style')).toContain('-webkit-line-clamp: 2');
+    });
+
+    it('文字列形式の style で値にセミコロンを含む場合も適用する', () => {
+      render(
+        <ZoomImage
+          alt="test image"
+          src="/test.jpg"
+          style='background-image: url("data:image/svg+xml;utf8,<svg></svg>")'
+        />,
+      );
+
+      const img = screen.getByAltText('test image') as HTMLImageElement;
+      expect(img.getAttribute('style')).toContain('data:image/svg+xml;utf8,<svg></svg>');
+    });
   });
 
-  /* ================================================================ */
-  /*  Rendering: canZoom = true (button + dialog)                     */
-  /* ================================================================ */
   describe('canZoom が true の場合（ズーム可能）', () => {
     beforeEach(() => {
       hookReturnOverrides = { canZoom: true };
@@ -165,7 +154,7 @@ describe('ZoomImage', () => {
       expect(dialog).toBeDefined();
     });
 
-    it('サムネイルの寸法属性を dialog 内の img には渡さない', () => {
+    it('dialog 内の img には読み込み済み画像の実寸を渡す', () => {
       render(<ZoomImage alt="test image" height={120} src="/test.jpg" width={160} />);
 
       const images = screen.getAllByAltText('test image');
@@ -174,8 +163,8 @@ describe('ZoomImage', () => {
 
       expect(triggerImg.getAttribute('width')).toBe('160');
       expect(triggerImg.getAttribute('height')).toBe('120');
-      expect(dialogImg.hasAttribute('width')).toBe(false);
-      expect(dialogImg.hasAttribute('height')).toBe(false);
+      expect(dialogImg.getAttribute('width')).toBe('640');
+      expect(dialogImg.getAttribute('height')).toBe('480');
     });
 
     it('ズームアイコンを表示する', () => {
@@ -186,9 +175,6 @@ describe('ZoomImage', () => {
     });
   });
 
-  /* ================================================================ */
-  /*  Accessibility                                                   */
-  /* ================================================================ */
   describe('accessibility', () => {
     it('canZoom が true で alt 未指定の場合、button にデフォルトの aria-label が設定される', () => {
       hookReturnOverrides = { canZoom: true };
@@ -252,9 +238,6 @@ describe('ZoomImage', () => {
     });
   });
 
-  /* ================================================================ */
-  /*  zoomImg prop                                                    */
-  /* ================================================================ */
   describe('zoomImg prop', () => {
     beforeEach(() => {
       hookReturnOverrides = { canZoom: true };
@@ -285,13 +268,6 @@ describe('ZoomImage', () => {
     });
   });
 
-  /* ================================================================ */
-  /*  Style processing                                                */
-  /* ================================================================ */
-
-  /* ================================================================ */
-  /*  Dialog cancel handling                                          */
-  /* ================================================================ */
   describe('handleDialogCancel', () => {
     it('dialog の cancel イベント時に close が呼ばれる', () => {
       hookReturnOverrides = { canZoom: true };

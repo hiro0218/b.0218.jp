@@ -1,4 +1,4 @@
-import { copyFile, mkdir, readdir } from 'node:fs/promises';
+import { copyFile, mkdir, readdir, realpath } from 'node:fs/promises';
 import path from 'node:path';
 
 const EXCLUDED_COPY_ENTRY_NAMES = new Set(['AGENTS.md', 'CLAUDE.md', 'GEMINI.md']);
@@ -9,22 +9,46 @@ const shouldSkipCopyEntry = (name: string): boolean => {
 };
 
 export const copyDir = async (src: string, dest: string): Promise<void> => {
-  await mkdir(dest, { recursive: true });
+  const sourceRoot = await realpath(src);
+  await copyDirInternal(sourceRoot, sourceRoot, dest);
+};
 
-  const files = await readdir(src, { withFileTypes: true });
+const isInsideDirectory = (root: string, target: string): boolean => {
+  const relative = path.relative(root, target);
+  return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative));
+};
+
+const copyDirInternal = async (sourceRoot: string, srcDir: string, destDir: string): Promise<void> => {
+  await mkdir(destDir, { recursive: true });
+
+  const files = await readdir(srcDir, { withFileTypes: true });
 
   for (const file of files) {
     if (shouldSkipCopyEntry(file.name)) {
       continue;
     }
 
-    const srcPath = path.join(src, file.name);
-    const destPath = path.join(dest, file.name);
+    const srcPath = path.join(srcDir, file.name);
+    const destPath = path.join(destDir, file.name);
+
+    if (file.isSymbolicLink()) {
+      throw new Error(`Refuse to copy symbolic link: ${srcPath}`);
+    }
+
+    const realSrcPath = await realpath(srcPath);
+    if (!isInsideDirectory(sourceRoot, realSrcPath)) {
+      throw new Error(`Refuse to copy entry outside source root: ${srcPath}`);
+    }
 
     if (file.isDirectory()) {
-      await copyDir(srcPath, destPath);
-    } else {
-      await copyFile(srcPath, destPath);
+      await copyDirInternal(sourceRoot, realSrcPath, destPath);
+      continue;
     }
+
+    if (!file.isFile()) {
+      throw new Error(`Unsupported copy entry type: ${srcPath}`);
+    }
+
+    await copyFile(realSrcPath, destPath);
   }
 };

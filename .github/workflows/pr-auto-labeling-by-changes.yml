@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Check for production changes
         id: check-production
-        uses: actions/github-script@v9
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -61,7 +61,7 @@ jobs:
             }
 
       - name: Manage labels
-        uses: actions/github-script@v9
+        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
         env:
           HAS_PRODUCTION_CHANGES: ${{ steps.check-production.outputs.has_production_changes }}
         with:
