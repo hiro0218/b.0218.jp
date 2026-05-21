@@ -89,8 +89,8 @@ export const WithUpdatedDate: Story = {
   },
 };
 
-export const DevelopmentCategory: Story = {
-  name: '開発カテゴリ',
+export const WithCategory: Story = {
+  name: 'カテゴリ付き',
   args: {
     link: '/posts/example-post',
     title: 'Panda CSS でスタイリングを効率化する',
@@ -98,45 +98,17 @@ export const DevelopmentCategory: Story = {
     category: 'development',
     tags: ['CSS', 'Panda CSS'],
   },
-  parameters: {
-    docs: {
-      description: {
-        story: '開発カテゴリのアイコンと背景色が表示される。',
-      },
+  argTypes: {
+    category: {
+      control: 'select',
+      options: ['development', 'technology', 'other'],
     },
   },
-};
-
-export const TechnologyCategory: Story = {
-  name: 'テクノロジーカテゴリ',
-  args: {
-    link: '/posts/example-post',
-    title: 'AI コーディングアシスタントの活用法',
-    date: '2024-05-01',
-    category: 'technology',
-    tags: ['AI', 'Productivity'],
-  },
   parameters: {
     docs: {
       description: {
-        story: 'テクノロジーカテゴリのアイコンと背景色が表示される。',
-      },
-    },
-  },
-};
-
-export const OtherCategory: Story = {
-  name: 'その他カテゴリ',
-  args: {
-    link: '/posts/example-post',
-    title: '技術ブログを書き続けるコツ',
-    date: '2024-06-01',
-    category: 'other',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'その他カテゴリのアイコンと背景色が表示される。',
+        story:
+          'カテゴリに応じたアイコンと背景色が表示される。Controls で category を切り替えて各バリアントを確認できる。',
       },
     },
   },
@@ -182,6 +154,7 @@ export const WithTitleH2: Story = {
 };
 
 export const LongTitle: Story = {
+  tags: ['!manifest'],
   name: '長いタイトル',
   args: {
     link: '/posts/example-post',
@@ -200,6 +173,7 @@ export const LongTitle: Story = {
 };
 
 export const Narrow: Story = {
+  tags: ['!manifest'],
   name: '幅 300px',
   args: {
     link: '/posts/example-post',
@@ -226,6 +200,7 @@ export const Narrow: Story = {
 };
 
 export const Medium: Story = {
+  tags: ['!manifest'],
   name: '幅 450px',
   args: {
     link: '/posts/example-post',

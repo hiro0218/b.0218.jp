@@ -18,6 +18,12 @@ const meta = {
   args: {
     children: defaultChildren,
   },
+  argTypes: {
+    gap: {
+      control: 'select',
+      options: [0, '½', 1, 2, 3, 4, 5, 6],
+    },
+  },
 } satisfies Meta<typeof Stack>;
 
 export default meta;
@@ -48,15 +54,16 @@ export const Horizontal: Story = {
   },
 };
 
-export const CustomGap: Story = {
-  name: 'カスタム gap',
+export const WithGap: Story = {
+  name: 'gap 調整',
   args: {
     gap: 5,
   },
   parameters: {
     docs: {
       description: {
-        story: 'gap を変更して要素間のスペースを調整する。',
+        story:
+          'gap で要素間のスペースを調整する。Controls で 0（タイトなレイアウト）から 6（大きな間隔）まで切り替えて挙動を確認できる。',
       },
     },
   },
@@ -166,20 +173,6 @@ export const JustifyEnd: Story = {
     docs: {
       description: {
         story: '要素を右寄せする。',
-      },
-    },
-  },
-};
-
-export const NoGap: Story = {
-  name: 'gap なし',
-  args: {
-    gap: 0,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'gap を 0 にしたタイトなレイアウト。メニュー項目等に使用する。',
       },
     },
   },

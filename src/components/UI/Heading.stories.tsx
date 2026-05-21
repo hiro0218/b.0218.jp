@@ -8,13 +8,34 @@ const meta = {
   args: {
     children: '見出しテキスト',
   },
+  argTypes: {
+    as: {
+      control: 'select',
+      options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+    },
+  },
 } satisfies Meta<typeof Heading>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const Default: Story = {
+  name: '基本',
+  args: {
+    as: 'h2',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'ページ内の大セクション見出し。最も使用頻度が高い。Controls で as を切り替えると見出しレベルを変更できる。',
+      },
+    },
+  },
+};
+
 export const H1: Story = {
-  name: 'h1',
+  name: 'h1（主タイトル）',
   args: {
     as: 'h1',
   },
@@ -27,65 +48,8 @@ export const H1: Story = {
   },
 };
 
-export const H2: Story = {
-  name: 'h2',
-  args: {
-    as: 'h2',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'ページ内の大セクション見出し。最も使用頻度が高い。',
-      },
-    },
-  },
-};
-
-export const H3: Story = {
-  name: 'h3',
-  args: {
-    as: 'h3',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'H2 セクション内のサブセクション見出し。',
-      },
-    },
-  },
-};
-
-export const H4: Story = {
-  name: 'h4',
-  args: {
-    as: 'h4',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'H3 セクション内のさらに細かい見出し。',
-      },
-    },
-  },
-};
-
-export const H5: Story = {
-  name: 'h5',
-  args: {
-    as: 'h5',
-    children: '見出しレベル5',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '深いネストのセクション見出し。使用頻度は低い。',
-      },
-    },
-  },
-};
-
 export const H6: Story = {
-  name: 'h6',
+  name: 'h6（最深ネスト）',
   args: {
     as: 'h6',
     children: '見出しレベル6',
@@ -93,7 +57,8 @@ export const H6: Story = {
   parameters: {
     docs: {
       description: {
-        story: '最も深いネストの見出し。使用頻度は低い。',
+        story:
+          '最も深いネストの見出し。使用頻度は低い。h6 と h1 を並べてサイズの最大・最小を視覚比較するためのリファレンス。',
       },
     },
   },
