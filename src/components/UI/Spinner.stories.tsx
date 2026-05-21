@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { expect } from 'storybook/test';
 
 import { Spinner } from '@/components/UI/Spinner';
 
@@ -46,5 +47,23 @@ export const Large: Story = {
         story: '大サイズ（80px）。初回ロードなど画面全体の待機表示に使用する。',
       },
     },
+  },
+};
+
+export const CssCheck: Story = {
+  tags: ['ai-generated', '!manifest'],
+  name: 'CSS インラインスタイル検証',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Spinner が size prop からインラインスタイルで svg の幅と高さを設定することを computed style で証明する。プレビュー環境がコンポーネントの DOM とスタイルを正しく適用している証拠とする。',
+      },
+    },
+  },
+  play: ({ canvasElement }) => {
+    const svg = canvasElement.querySelector('svg');
+    if (!svg) throw new Error('Spinner svg not rendered');
+    expect(getComputedStyle(svg).width).toBe('50px');
   },
 };
