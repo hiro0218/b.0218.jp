@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, fn, userEvent, within } from 'storybook/test';
+import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
 
 import { Overlay } from '@/components/UI/Overlay';
 
@@ -92,6 +92,6 @@ export const OverlayStructure: Story = {
     const canvas = within(canvasElement);
     const overlay = canvas.getByTestId('overlay');
     await expect(overlay).toBeInTheDocument();
-    await expect(overlay).toBeVisible();
+    await waitFor(() => expect(overlay).toBeVisible());
   },
 };
