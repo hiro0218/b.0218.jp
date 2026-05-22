@@ -61,7 +61,8 @@ export const WithTitle: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Sidebar.Title を使用してレイアウト上部にタイトルを配置する。',
+        story:
+          'メイン + サイドのレイアウト全体に名前を付けて、ランドマークとして認識させたいときに使用する。タグ別アーカイブやカテゴリ別一覧など、見出しが区画の意味を表すページで使う。',
       },
     },
   },
@@ -75,7 +76,8 @@ export const CustomGap: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'メインとサイドバー間の gap を変更する。',
+        story:
+          'メインとサイドの間に強い区切りを付けたいときに使用する。サイドが補足情報や広告など、メインから視覚的に切り離して読ませたい場面で使う。',
       },
     },
   },

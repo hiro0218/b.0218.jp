@@ -20,7 +20,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: '水平中央揃えの基本形。max-width 80rem。',
+        story:
+          'コンテンツ幅を制限しつつ画面中央に配置したいときに使用する。一覧ページの本文領域や記事一覧の最外殻として典型的に使う。',
       },
     },
   },
@@ -49,7 +50,8 @@ export const Intrinsic: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'flex column + align center による内在的な中央揃え。子要素の幅に応じて縮む。',
+        story:
+          '子要素の幅を尊重したまま中央に置きたいときに使用する。固定 max-width に依存せず、見出しやボタン群のような可変幅コンテンツを画面中央に配置する場面で使う。',
       },
     },
   },
@@ -79,7 +81,8 @@ export const AsSection: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'section 要素として描画する。セマンティクスが必要な場合に使用する。',
+        story:
+          'ランドマークとして識別したい区画を中央配置する場合に使用する。スクリーンリーダーの読み上げ単位を構造化する目的で `<section>` 化したいときに使う。',
       },
     },
   },

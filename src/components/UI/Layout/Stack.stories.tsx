@@ -34,7 +34,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: '縦方向に要素を並べる基本形。デフォルト gap は 2（8px）。',
+        story:
+          '要素を縦方向に均等な間隔で積みたいときの最小構成。フォームのフィールド群やセクション内段落など、上下関係を持つ要素の標準的な並べ方として使う。',
       },
     },
   },
@@ -63,7 +64,7 @@ export const WithGap: Story = {
     docs: {
       description: {
         story:
-          'gap で要素間のスペースを調整する。Controls で 0（タイトなレイアウト）から 6（大きな間隔）まで切り替えて挙動を確認できる。',
+          '密度の異なるレイアウトを設計するときの間隔基準を確認するために使用する。Controls で 0 〜 6 を切り替え、タイトな密度か呼吸感のあるリズムかを選ぶ判断に使う。',
       },
     },
   },
@@ -157,7 +158,8 @@ export const AlignCenter: Story = {
   parameters: {
     docs: {
       description: {
-        story: '異なる高さの要素を交差軸で中央揃えする。',
+        story:
+          '異なる高さの要素を横並びにしつつ、視線の高さを揃えたいときに使用する。アイコンとテキスト、フォームラベルと入力欄など、視覚的な基準線を保ちたい組み合わせで使う。',
       },
     },
   },
@@ -172,7 +174,8 @@ export const JustifyEnd: Story = {
   parameters: {
     docs: {
       description: {
-        story: '要素を右寄せする。',
+        story:
+          'ダイアログのフッターやツールバーなど、主要操作を右端に固定したいときに使用する。primary / secondary ボタンを並べて読者の視線終端で操作させる場面で使う。',
       },
     },
   },

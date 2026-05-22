@@ -35,7 +35,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: '2 カラムグリッドの基本形。',
+        story:
+          'カラム数を固定して要素を整列させたいときの最小構成。サイドバー付き 2 カラムや、構造が安定したダッシュボードの分割表示で使う。',
       },
     },
   },
@@ -70,7 +71,8 @@ export const ThreeColumns: Story = {
   parameters: {
     docs: {
       description: {
-        story: '3 カラムグリッド。カード一覧等に使用する。',
+        story:
+          '記事カードや製品カードなど、固定の列数で整然と並べたいときに使用する。要素数が列数の倍数になることが想定できるレイアウトで使う。',
       },
     },
   },
@@ -103,7 +105,8 @@ export const AutoFit: Story = {
   parameters: {
     docs: {
       description: {
-        story: '幅に応じてカラム数が自動調整される。レスポンシブなカード一覧に最適。',
+        story:
+          'breakpoint を切らずに、要素の最小幅だけ決めてレスポンシブ対応したいときに使用する。要素数が可変で、画面幅に応じて自然に列数を増減させたい一覧で使う。',
       },
     },
   },
@@ -117,7 +120,8 @@ export const WithGap: Story = {
   parameters: {
     docs: {
       description: {
-        story: '広い gap を指定したグリッド。',
+        story:
+          'カード同士を視覚的に独立した塊として読ませたいときに使用する。情報密度を下げて要素間に呼吸感を持たせたい一覧で使う。',
       },
     },
   },

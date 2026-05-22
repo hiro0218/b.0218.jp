@@ -44,7 +44,8 @@ export const WideGap: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'gap を広げて要素間の余白を増やす。',
+        story:
+          'タグやチップを並べる際に、選択しやすさや読みやすさを優先したいときに使用する。タッチ操作で誤タップを避けたい場面や、密度を下げて重要度を強調したい場面で使う。',
       },
     },
   },
