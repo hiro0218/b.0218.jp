@@ -31,57 +31,49 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * 記事本文中で外部リンクを OGP カード形式で表示する標準形。
+ *
+ * @summary 記事本文中で外部リンクを OGP カード形式で表示する標準形
+ */
 export const Default: Story = {
   name: '基本',
-  parameters: {
-    docs: {
-      description: {
-        story: '記事本文中で外部リンクを OGP カード形式で表示する標準形。',
-      },
-    },
-  },
 };
 
+/**
+ * OGP 画像が取得できなかった場合の表示。本文領域が全幅になる。
+ *
+ * @summary OGP 画像が取得できなかった場合の表示
+ */
 export const WithoutThumbnail: Story = {
   name: 'サムネイルなし',
   args: {
     thumbnail: '',
   },
-  parameters: {
-    docs: {
-      description: {
-        story: 'OGP 画像が取得できなかった場合の表示。本文領域が全幅になる。',
-      },
-    },
-  },
 };
 
+/**
+ * OGP の summary_large_image タイプ。広いコンテナで description が表示される。
+ *
+ * @summary OGP の summary_large_image タイプ
+ */
 export const LargeImage: Story = {
   name: '大画像カード',
   args: {
     card: 'summary_large_image',
   },
-  parameters: {
-    docs: {
-      description: {
-        story: 'OGP の summary_large_image タイプ。広いコンテナで description が表示される。',
-      },
-    },
-  },
 };
 
+/**
+ * タイトルの HTML エンティティをデコードして表示することを検証する。
+ *
+ * @summary タイトルの HTML エンティティをデコードして表示することを検証する
+ */
 export const HtmlEntitiesInTitle: Story = {
   tags: ['ai-generated', '!manifest'],
   name: 'HTML エンティティを含むタイトル',
   args: {
     title: '&lt;script&gt; タグと &amp; を含む例',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'タイトルの HTML エンティティをデコードして表示することを検証する。',
-      },
-    },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

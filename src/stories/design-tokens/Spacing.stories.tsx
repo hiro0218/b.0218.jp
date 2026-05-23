@@ -61,4 +61,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * スペーシングトークンの段階差とCSS変数名を一覧で確認する。
+ *
+ * @summary スペーシングトークン一覧
+ */
 export const Scale: Story = { name: 'スペーシングスケール' };

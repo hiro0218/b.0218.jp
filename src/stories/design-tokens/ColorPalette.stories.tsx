@@ -103,4 +103,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * Solid、Alias、Transparentを含む色トークンのCSS変数名と表示色を一覧で確認する。
+ *
+ * @summary カラートークン一覧
+ */
 export const AllColors: Story = { name: '全カラーパレット' };

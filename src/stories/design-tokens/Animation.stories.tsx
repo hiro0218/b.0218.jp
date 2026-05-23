@@ -156,4 +156,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * イージング、デュレーション、キーフレームのトークンを実際の動きで確認する。
+ *
+ * @summary アニメーショントークン一覧
+ */
 export const EasingsAndDurations: Story = { name: 'イージング・デュレーション' };

@@ -30,18 +30,20 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * カラム数を固定して要素を整列させたいときの最小構成。サイドバー付き 2 カラムや、構造が安定したダッシュボードの分割表示で使う。
+ *
+ * @summary カラム数を固定して要素を整列させたいときの最小構成
+ */
 export const Default: Story = {
   name: '基本',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'カラム数を固定して要素を整列させたいときの最小構成。サイドバー付き 2 カラムや、構造が安定したダッシュボードの分割表示で使う。',
-      },
-    },
-  },
 };
 
+/**
+ * 記事カードや製品カードなど、固定の列数で整然と並べたいときに使用する。要素数が列数の倍数になることが想定できるレイアウトで使う。
+ *
+ * @summary 記事カードや製品カードなど、固定の列数で整然と並べたいときに使用する
+ */
 export const ThreeColumns: Story = {
   name: '3カラム',
   args: {
@@ -68,16 +70,13 @@ export const ThreeColumns: Story = {
       </>
     ),
   },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          '記事カードや製品カードなど、固定の列数で整然と並べたいときに使用する。要素数が列数の倍数になることが想定できるレイアウトで使う。',
-      },
-    },
-  },
 };
 
+/**
+ * breakpoint を切らずに、要素の最小幅だけ決めてレスポンシブ対応したいときに使用する。要素数が可変で、画面幅に応じて自然に列数を増減させたい一覧で使う。
+ *
+ * @summary breakpoint を切らずに、要素の最小幅だけ決めてレスポンシブ対応したいときに使用する
+ */
 export const AutoFit: Story = {
   name: 'auto-fit',
   args: {
@@ -102,27 +101,16 @@ export const AutoFit: Story = {
       </>
     ),
   },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'breakpoint を切らずに、要素の最小幅だけ決めてレスポンシブ対応したいときに使用する。要素数が可変で、画面幅に応じて自然に列数を増減させたい一覧で使う。',
-      },
-    },
-  },
 };
 
+/**
+ * カード同士を視覚的に独立した塊として読ませたいときに使用する。情報密度を下げて要素間に呼吸感を持たせたい一覧で使う。
+ *
+ * @summary カード同士を視覚的に独立した塊として読ませたいときに使用する
+ */
 export const WithGap: Story = {
   name: '広い gap',
   args: {
     gap: 5,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'カード同士を視覚的に独立した塊として読ませたいときに使用する。情報密度を下げて要素間に呼吸感を持たせたい一覧で使う。',
-      },
-    },
   },
 };

@@ -25,6 +25,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * 基本的なドロップダウンメニュー。右寄せで展開する。
+ *
+ * @summary 基本的なドロップダウンメニュー
+ */
 export const Default: Story = {
   name: '基本',
   args: {
@@ -37,15 +42,13 @@ export const Default: Story = {
       </>
     ),
   },
-  parameters: {
-    docs: {
-      description: {
-        story: '基本的なドロップダウンメニュー。右寄せで展開する。',
-      },
-    },
-  },
 };
 
+/**
+ * メニューを左寄せで展開する。右端に配置されたトリガーで使用する。
+ *
+ * @summary メニューを左寄せで展開する
+ */
 export const PositionLeft: Story = {
   name: '左寄せ',
   args: {
@@ -58,13 +61,6 @@ export const PositionLeft: Story = {
       </>
     ),
   },
-  parameters: {
-    docs: {
-      description: {
-        story: 'メニューを左寄せで展開する。右端に配置されたトリガーで使用する。',
-      },
-    },
-  },
 };
 
 const menuItems = (
@@ -75,19 +71,17 @@ const menuItems = (
   </>
 );
 
+/**
+ * トリガーをクリックするとメニューが展開され、aria-expanded / aria-haspopup が更新されることを検証する。
+ *
+ * @summary トリガーをクリックするとメニューが展開され、aria-expanded / aria-haspopup が更新されることを検証する
+ */
 export const ToggleMenu: Story = {
   tags: ['!manifest'],
   name: '開閉操作',
   args: {
     title: menuTitle,
     children: menuItems,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'トリガーをクリックするとメニューが展開され、aria-expanded / aria-haspopup が更新されることを検証する。',
-      },
-    },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

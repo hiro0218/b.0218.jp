@@ -22,49 +22,43 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * オーバーレイが表示されている状態。モーダルやズーム画像の背面に使用する。
+ *
+ * @summary オーバーレイが表示されている状態
+ */
 export const Default: Story = {
   name: '表示状態',
   args: {
     onCloseAction: fn(),
     isOpen: true,
   },
-  parameters: {
-    docs: {
-      description: {
-        story: 'オーバーレイが表示されている状態。モーダルやズーム画像の背面に使用する。',
-      },
-    },
-  },
 };
 
+/**
+ * オーバーレイが非表示の状態。
+ *
+ * @summary オーバーレイが非表示の状態
+ */
 export const Closed: Story = {
   name: '非表示状態',
   args: {
     onCloseAction: fn(),
     isOpen: false,
   },
-  parameters: {
-    docs: {
-      description: {
-        story: 'オーバーレイが非表示の状態。',
-      },
-    },
-  },
 };
 
+/**
+ * オーバーレイをクリックすると onCloseAction が発火することを検証するインタラクションテスト。
+ *
+ * @summary オーバーレイをクリックすると onCloseAction が発火することを検証するインタラクションテスト
+ */
 export const ClickToClose: Story = {
   tags: ['!manifest'],
   name: 'クリックで閉じる',
   args: {
     onCloseAction: fn(),
     isOpen: true,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'オーバーレイをクリックすると onCloseAction が発火することを検証するインタラクションテスト。',
-      },
-    },
   },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
@@ -74,19 +68,17 @@ export const ClickToClose: Story = {
   },
 };
 
+/**
+ * isOpen=true のとき DOM に存在し可視であることを検証するスモークテスト。
+ *
+ * @summary isOpen=true のとき DOM に存在し可視であることを検証するスモークテスト
+ */
 export const OverlayStructure: Story = {
   tags: ['!manifest'],
   name: 'DOM 構造確認',
   args: {
     onCloseAction: fn(),
     isOpen: true,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'isOpen=true のとき DOM に存在し可視であることを検証するスモークテスト。',
-      },
-    },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

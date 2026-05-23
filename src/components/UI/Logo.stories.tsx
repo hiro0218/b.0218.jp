@@ -10,13 +10,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * サイトロゴの基本表示。ヘッダーに配置しトップページへのリンクとして機能する。
+ *
+ * @summary サイトロゴの基本表示
+ */
 export const Default: Story = {
   name: '基本',
-  parameters: {
-    docs: {
-      description: {
-        story: 'サイトロゴの基本表示。ヘッダーに配置しトップページへのリンクとして機能する。',
-      },
-    },
-  },
 };

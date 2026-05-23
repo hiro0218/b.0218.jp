@@ -14,6 +14,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * トーストが表示されている状態。クリップボードコピー等の操作フィードバックに使用する。
+ *
+ * @summary トーストが表示されている状態
+ */
 export const Visible: Story = {
   name: '表示状態',
   args: {
@@ -21,15 +26,13 @@ export const Visible: Story = {
     isVisible: true,
     onHideToast: fn(),
   },
-  parameters: {
-    docs: {
-      description: {
-        story: 'トーストが表示されている状態。クリップボードコピー等の操作フィードバックに使用する。',
-      },
-    },
-  },
 };
 
+/**
+ * トーストが非表示の状態。自動消去後やアニメーション完了後の状態。
+ *
+ * @summary トーストが非表示の状態
+ */
 export const Hidden: Story = {
   name: '非表示状態',
   args: {
@@ -37,15 +40,13 @@ export const Hidden: Story = {
     isVisible: false,
     onHideToast: fn(),
   },
-  parameters: {
-    docs: {
-      description: {
-        story: 'トーストが非表示の状態。自動消去後やアニメーション完了後の状態。',
-      },
-    },
-  },
 };
 
+/**
+ * トーストをクリックすると onHideToast が発火することを検証するインタラクションテスト。
+ *
+ * @summary トーストをクリックすると onHideToast が発火することを検証するインタラクションテスト
+ */
 export const ClickToDismiss: Story = {
   tags: ['!manifest'],
   name: 'クリックで閉じる',
@@ -53,13 +54,6 @@ export const ClickToDismiss: Story = {
     message: 'クリックで閉じます',
     isVisible: true,
     onHideToast: fn(),
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'トーストをクリックすると onHideToast が発火することを検証するインタラクションテスト。',
-      },
-    },
   },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);

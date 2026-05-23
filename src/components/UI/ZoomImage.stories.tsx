@@ -22,21 +22,24 @@ function placeholder(w: number, h: number): string {
 const Img600x400 = placeholder(600, 400);
 const Img80x80 = placeholder(80, 80);
 
+/**
+ * 標準サイズの画像。クリックでモーダルズームできる。
+ *
+ * @summary 標準サイズの画像
+ */
 export const Default: Story = {
   name: '基本',
   args: {
     src: Img600x400,
     alt: 'TypeScript の型推論フロー図',
   },
-  parameters: {
-    docs: {
-      description: {
-        story: '標準サイズの画像。クリックでモーダルズームできる。',
-      },
-    },
-  },
 };
 
+/**
+ * カスタム className を適用した画像。
+ *
+ * @summary カスタム className を適用した画像
+ */
 export const WithClassName: Story = {
   name: 'className 付き',
   args: {
@@ -44,30 +47,26 @@ export const WithClassName: Story = {
     alt: 'コンポーネント構成図',
     className: 'custom-image',
   },
-  parameters: {
-    docs: {
-      description: {
-        story: 'カスタム className を適用した画像。',
-      },
-    },
-  },
 };
 
+/**
+ * 100px 以下の画像はズーム不可。アイコンや小さいサムネイルに該当する。
+ *
+ * @summary 100px 以下の画像はズーム不可
+ */
 export const SmallImage: Story = {
   name: '小さい画像（ズーム不可）',
   args: {
     src: Img80x80,
     alt: 'アイコン画像',
   },
-  parameters: {
-    docs: {
-      description: {
-        story: '100px 以下の画像はズーム不可。アイコンや小さいサムネイルに該当する。',
-      },
-    },
-  },
 };
 
+/**
+ * ズームボタンをクリックして dialog が表示されることを検証するインタラクションテスト。
+ *
+ * @summary ズームボタンをクリックして dialog が表示されることを検証するインタラクションテスト
+ */
 export const ClickToZoom: Story = {
   tags: ['!manifest'],
   name: 'ズーム操作',
@@ -76,13 +75,6 @@ export const ClickToZoom: Story = {
     alt: 'ズーム操作テスト画像',
     a11yOptions: {
       buttonZoomLabel: '画像をズーム',
-    },
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'ズームボタンをクリックして dialog が表示されることを検証するインタラクションテスト。',
-      },
     },
   },
   play: async ({ canvasElement }) => {

@@ -74,4 +74,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * フォントサイズとフォントウェイトのスケールを実際の文例で確認する。
+ *
+ * @summary タイポグラフィトークン一覧
+ */
 export const FontSizesAndWeights: Story = { name: 'フォントサイズ・ウェイト' };

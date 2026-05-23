@@ -13,21 +13,24 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * サイト内リンクの基本形。Next.js Link でクライアントサイドナビゲーションを行う。
+ *
+ * @summary サイト内リンクの基本形
+ */
 export const Default: Story = {
   name: '基本',
   args: {
     href: '/example',
     children: 'リンクテキスト',
   },
-  parameters: {
-    docs: {
-      description: {
-        story: 'サイト内リンクの基本形。Next.js Link でクライアントサイドナビゲーションを行う。',
-      },
-    },
-  },
 };
 
+/**
+ * title 属性でホバー時にリンク先の補足情報を表示する。
+ *
+ * @summary title 属性でホバー時にリンク先の補足情報を表示する
+ */
 export const WithTitle: Story = {
   name: 'title 属性付き',
   args: {
@@ -35,26 +38,17 @@ export const WithTitle: Story = {
     title: 'サンプルリンク',
     children: 'タイトル付きリンク',
   },
-  parameters: {
-    docs: {
-      description: {
-        story: 'title 属性でホバー時にリンク先の補足情報を表示する。',
-      },
-    },
-  },
 };
 
+/**
+ * 外部 URL へのリンク。ドメインが異なる場合に自動で外部リンク扱いになる。
+ *
+ * @summary 外部 URL へのリンク
+ */
 export const ExternalLink: Story = {
   name: '外部リンク',
   args: {
     href: 'https://example.com',
     children: '外部リンク',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '外部 URL へのリンク。ドメインが異なる場合に自動で外部リンク扱いになる。',
-      },
-    },
   },
 };
