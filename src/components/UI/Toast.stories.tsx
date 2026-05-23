@@ -6,52 +6,50 @@ import { Toast } from '@/components/UI/Toast';
 const meta = {
   title: 'UI/Toast',
   component: Toast,
-  parameters: {
-    layout: 'fullscreen',
-  },
+  parameters: { layout: 'fullscreen' },
 } satisfies Meta<typeof Toast>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * トーストが表示されている状態。クリップボードコピー等の操作フィードバックに使用する。
+ * 表示中のトースト。コードブロック横の「コピー」ボタンを押した直後のような、一過性のフィードバックを担う。
  *
- * @summary トーストが表示されている状態
+ * @summary 表示中
  */
 export const Visible: Story = {
-  name: '表示状態',
+  name: '表示',
   args: {
-    message: 'クリップボードにコピーしました',
+    message: 'コードをコピーしました',
     isVisible: true,
     onHideToast: fn(),
   },
 };
 
 /**
- * トーストが非表示の状態。自動消去後やアニメーション完了後の状態。
+ * 非表示状態。アニメーションが完了したあと DOM が残っていても操作の邪魔にならないことを目視確認する。
  *
- * @summary トーストが非表示の状態
+ * @summary 非表示
  */
 export const Hidden: Story = {
-  name: '非表示状態',
+  name: '非表示',
   args: {
-    message: 'この通知は非表示です',
+    message: 'この通知は隠れている',
     isVisible: false,
     onHideToast: fn(),
   },
 };
 
 /**
- * トーストをクリックすると onHideToast が発火することを検証するインタラクションテスト。
+ * トーストをクリックすると `onHideToast` が呼ばれることを検証する。ユーザーが手動で閉じる経路の保証。
  *
- * @summary トーストをクリックすると onHideToast が発火することを検証するインタラクションテスト
+ * @summary クリックで onHideToast 発火
  */
 export const ClickToDismiss: Story = {
   tags: ['!manifest'],
   name: 'クリックで閉じる',
   args: {
-    message: 'クリックで閉じます',
+    message: 'クリックすると閉じる',
     isVisible: true,
     onHideToast: fn(),
   },

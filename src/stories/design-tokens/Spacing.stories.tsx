@@ -23,7 +23,7 @@ const SpacingBar = ({ name, variable, basePx }: { name: string; variable: string
       style={{
         height: '2rem',
         width: `var(${variable})`,
-        background: 'var(--colors-blue-600)',
+        backgroundColor: 'var(--colors-blue-600)',
         borderRadius: 'var(--radii-sm)',
         minWidth: '4px',
       }}
@@ -52,7 +52,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'スペーシングトークンの一覧。Fibonacci 数列ベース（0.5, 1, 2, 3, 5, 8, 13）で定義されており、gap / padding / margin の値選定に使用する。',
+          'Fibonacci スケール（0.5, 1, 2, 3, 5, 8, 13）の全段階を視覚化した標本。gap / padding を新規に決めるときに、ここから 1 段だけ動かすのか 2 段動かすのかを判断する。',
       },
     },
   },
@@ -62,8 +62,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * スペーシングトークンの段階差とCSS変数名を一覧で確認する。
+ * Fibonacci スケールの各段階を実際の幅で並べた標本。CSS 変数名と px 換算値を 1 画面で照合する。
  *
- * @summary スペーシングトークン一覧
+ * @summary Fibonacci スケール標本
  */
 export const Scale: Story = { name: 'スペーシングスケール' };

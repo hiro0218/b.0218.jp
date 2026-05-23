@@ -12,46 +12,42 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * 標準サイズ（50px）のスピナー。ページ全体の読み込み表示に使用する。
+ * 標準サイズ（50px）。コンテンツ領域の読み込み中表示に置く。
  *
- * @summary 標準サイズ（50px）のスピナー
+ * @summary 標準サイズ 50px
  */
 export const Default: Story = {
   name: '基本',
 };
 
 /**
- * 小サイズ（24px）。ボタン内やインラインの読み込み表示に使用する。
+ * 24px。ボタン内やインライン文中の即時フィードバックに置く小型版。
  *
- * @summary 小サイズ（24px）
+ * @summary 小型 24px
  */
 export const Small: Story = {
   name: '小サイズ',
-  args: {
-    size: 24,
-  },
+  args: { size: 24 },
 };
 
 /**
- * 大サイズ（80px）。初回ロードなど画面全体の待機表示に使用する。
+ * 80px。初回ロードなど画面全体に置いて待機を明示する大型版。
  *
- * @summary 大サイズ（80px）
+ * @summary 大型 80px
  */
 export const Large: Story = {
   name: '大サイズ',
-  args: {
-    size: 80,
-  },
+  args: { size: 80 },
 };
 
 /**
- * Spinner が size prop からインラインスタイルで svg の幅と高さを設定することを computed style で証明する。プレビュー環境がコンポーネントの DOM とスタイルを正しく適用している証拠とする。
+ * size prop が computed style の `width` に反映されることを検証する標本。プレビュー環境のスタイル適用が壊れていないことの保証。
  *
- * @summary Spinner が size prop からインラインスタイルで svg の幅と高さを設定することを computed style で証明…
+ * @summary size → computed style 反映の検証
  */
 export const CssCheck: Story = {
-  tags: ['ai-generated', '!manifest'],
-  name: 'CSS インラインスタイル検証',
+  tags: ['!manifest'],
+  name: 'CSS 反映検証',
   play: ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const status = canvas.getByRole('status');

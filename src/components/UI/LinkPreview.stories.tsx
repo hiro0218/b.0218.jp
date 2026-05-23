@@ -15,16 +15,14 @@ const meta = {
   title: 'UI/LinkPreview',
   component: LinkPreview,
   tags: ['ai-generated'],
-  parameters: {
-    layout: 'padded',
-  },
+  parameters: { layout: 'padded' },
   args: {
-    link: 'https://example.com/page',
+    link: 'https://html.spec.whatwg.org/',
     card: 'summary',
     thumbnail: Thumbnail,
-    title: 'リンク先ページのタイトル',
-    description: 'リンク先ページの概要文を補足として表示する。',
-    domain: 'example.com',
+    title: 'HTML Living Standard',
+    description: 'WHATWG が編纂する HTML の単一の仕様。「HTML5」のバージョン区切りに代わる現行標準。',
+    domain: 'html.spec.whatwg.org',
   },
 } satisfies Meta<typeof LinkPreview>;
 
@@ -32,46 +30,42 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * 記事本文中で外部リンクを OGP カード形式で表示する標準形。
+ * 記事本文中で外部リンクを OGP カード形式に展開する標準形。サムネイル付きの `summary` レイアウト。
  *
- * @summary 記事本文中で外部リンクを OGP カード形式で表示する標準形
+ * @summary OGP カードの標準
  */
 export const Default: Story = {
   name: '基本',
 };
 
 /**
- * OGP 画像が取得できなかった場合の表示。本文領域が全幅になる。
+ * サムネイルが取得できなかったときの描画。本文領域が全幅に広がる。
  *
- * @summary OGP 画像が取得できなかった場合の表示
+ * @summary サムネイル取得失敗時
  */
 export const WithoutThumbnail: Story = {
   name: 'サムネイルなし',
-  args: {
-    thumbnail: '',
-  },
+  args: { thumbnail: '' },
 };
 
 /**
- * OGP の summary_large_image タイプ。広いコンテナで description が表示される。
+ * OGP の `summary_large_image` 形式。広いコンテナで `description` まで読ませたいときに使う。
  *
- * @summary OGP の summary_large_image タイプ
+ * @summary 大画像カード
  */
 export const LargeImage: Story = {
   name: '大画像カード',
-  args: {
-    card: 'summary_large_image',
-  },
+  args: { card: 'summary_large_image' },
 };
 
 /**
- * タイトルの HTML エンティティをデコードして表示することを検証する。
+ * `&lt;script&gt;` のようなエンティティを正しくデコードして描画することの検証。OGP 取得時のエスケープが二重にならない保証。
  *
- * @summary タイトルの HTML エンティティをデコードして表示することを検証する
+ * @summary HTML エンティティのデコード検証
  */
 export const HtmlEntitiesInTitle: Story = {
   tags: ['ai-generated', '!manifest'],
-  name: 'HTML エンティティを含むタイトル',
+  name: 'エンティティ含むタイトル',
   args: {
     title: '&lt;script&gt; タグと &amp; を含む例',
   },

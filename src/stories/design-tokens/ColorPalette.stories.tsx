@@ -5,7 +5,9 @@ import { Stack } from '@/components/UI/Layout/Stack';
 import { toKebab } from '@/stories/_internal/utils';
 import colorTokens from '@/ui/styled/theme/tokens/colors';
 
-function scaleEntries(tokenKey: string): { name: string; variable: string }[] {
+type Swatch = { name: string; variable: string };
+
+function scaleEntries(tokenKey: string): Swatch[] {
   const data = (colorTokens as Record<string, Record<string, unknown>>)[tokenKey];
   const cssName = toKebab(tokenKey);
   return Object.keys(data)
@@ -18,14 +20,14 @@ function scaleEntries(tokenKey: string): { name: string; variable: string }[] {
     }));
 }
 
-const ColorSwatch = ({ name, variable }: { name: string; variable: string }) => (
+const ColorSwatch = ({ name, variable }: Swatch) => (
   <Stack align="center" direction="horizontal" gap={2}>
     <div
       style={{
         width: '3rem',
         height: '3rem',
         borderRadius: 'var(--radii-sm)',
-        background: `var(${variable})`,
+        backgroundColor: `var(${variable})`,
         border: 'var(--border-widths-thin) solid var(--colors-gray-300)',
       }}
     />
@@ -36,7 +38,7 @@ const ColorSwatch = ({ name, variable }: { name: string; variable: string }) => 
   </Stack>
 );
 
-const ColorGroup = ({ title, scales }: { title: string; scales: { name: string; variable: string }[] }) => (
+const ColorGroup = ({ title, scales }: { title: string; scales: Swatch[] }) => (
   <Stack as="section" gap={1}>
     <h3>{title}</h3>
     <Grid columns="auto-fit" gap={1} minItemWidth="280px">
@@ -61,51 +63,81 @@ const TRANSPARENT_COLORS = [
   { key: 'whiteA', title: 'whiteA (transparent-white)' },
 ] as const;
 
-const ColorPalettePage = () => (
-  <Stack gap={3}>
-    <h2>Color Palette</h2>
-    {SOLID_COLORS.map((color) => (
-      <ColorGroup key={color} scales={scaleEntries(color)} title={color.charAt(0).toUpperCase() + color.slice(1)} />
-    ))}
-
-    <h2>Alias Colors</h2>
-    {ALIAS_COLORS.map(({ key, title }) => (
-      <ColorGroup key={key} scales={scaleEntries(key)} title={title} />
-    ))}
-
-    <h2>Transparent Colors</h2>
-    {TRANSPARENT_COLORS.map(({ key, title }) => (
-      <ColorGroup key={key} scales={scaleEntries(key)} title={title} />
-    ))}
-
-    <h2>Base</h2>
-    <Stack direction="horizontal" gap={3}>
-      <ColorSwatch name="white" variable="--colors-white" />
-      <ColorSwatch name="black" variable="--colors-black" />
-    </Stack>
-  </Stack>
-);
-
-const meta = {
+const meta: Meta = {
   title: 'Design Tokens/ColorPalette',
-  component: ColorPalettePage,
   tags: ['!manifest'],
   parameters: {
     docs: {
       description: {
         component:
-          'サイト全体で使用する色トークンの一覧。Solid / Alias / Transparent の各スケールを CSS 変数として参照できる。新規色を追加する前に既存トークンとの重複を確認する用途で使用する。',
+          'Adobe Spectrum を基盤とした色スケール。新規色を増やす前に、既存トークンで意図に届くかをここで判断する。',
       },
     },
   },
-} satisfies Meta<typeof ColorPalettePage>;
+};
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj;
 
 /**
- * Solid、Alias、Transparentを含む色トークンのCSS変数名と表示色を一覧で確認する。
+ * 不透明な基本スケール（Gray / Blue / Green / Red / Orange / Yellow / Purple / Pink）。背景・テキスト・ボーダーなどコア用途で参照する。
  *
- * @summary カラートークン一覧
+ * @summary Solid スケール
  */
-export const AllColors: Story = { name: '全カラーパレット' };
+export const Solid: Story = {
+  name: 'Solid',
+  render: () => (
+    <Stack gap={3}>
+      {SOLID_COLORS.map((color) => (
+        <ColorGroup key={color} scales={scaleEntries(color)} title={color.charAt(0).toUpperCase() + color.slice(1)} />
+      ))}
+    </Stack>
+  ),
+};
+
+/**
+ * Solid スケールの role 別エイリアス（Accent / Grass / Sky / Teal）。Solid の具体色を意味で隠したい箇所で参照する。
+ *
+ * @summary Alias（意味エイリアス）
+ */
+export const Alias: Story = {
+  name: 'Alias',
+  render: () => (
+    <Stack gap={3}>
+      {ALIAS_COLORS.map(({ key, title }) => (
+        <ColorGroup key={key} scales={scaleEntries(key)} title={title} />
+      ))}
+    </Stack>
+  ),
+};
+
+/**
+ * 透明度スケール（grayA / whiteA）。背面コンテンツを透過させる overlay / chip 背景などで使う。
+ *
+ * @summary Transparent スケール
+ */
+export const Transparent: Story = {
+  name: 'Transparent',
+  render: () => (
+    <Stack gap={3}>
+      {TRANSPARENT_COLORS.map(({ key, title }) => (
+        <ColorGroup key={key} scales={scaleEntries(key)} title={title} />
+      ))}
+    </Stack>
+  ),
+};
+
+/**
+ * テーマに依存しない素のベース色（white / black）。border、shadow などで素の白黒が必要な場面で参照する。
+ *
+ * @summary Base（white / black）
+ */
+export const Base: Story = {
+  name: 'Base',
+  render: () => (
+    <Stack direction="horizontal" gap={3}>
+      <ColorSwatch name="white" variable="--colors-white" />
+      <ColorSwatch name="black" variable="--colors-black" />
+    </Stack>
+  ),
+};

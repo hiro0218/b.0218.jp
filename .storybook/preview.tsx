@@ -2,26 +2,65 @@ import '@/ui/styles/globals.css';
 
 import type { Preview } from '@storybook/nextjs-vite';
 
-import { getStorybookSurfaceStyle, storybookBaseStyles } from '@/stories/_internal/StorySurface';
+import {
+  getStorybookSurfaceStyle,
+  normalizeLayout,
+  StoryCenteredFrame,
+  StorySpecimenFooter,
+  StorySpecimenHeader,
+  storySurfaceClass,
+} from '@/stories/_internal/StorySurface';
+
+const surfaceFrameResetStyle = `
+  body.sb-show-main {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    align-items: stretch !important;
+  }
+  body.sb-show-main #storybook-root {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-height: none !important;
+    box-sizing: border-box;
+  }
+`;
 
 const preview: Preview = {
   tags: ['autodocs'],
   decorators: [
     (Story, context) => {
-      const layout = (context.parameters.layout as string | undefined) ?? 'padded';
+      const layout = normalizeLayout(context.parameters.layout);
+      const showSpecimenChrome = context.viewMode !== 'docs';
+
+      const renderedStory =
+        layout === 'centered' ? (
+          <StoryCenteredFrame>
+            <Story />
+          </StoryCenteredFrame>
+        ) : (
+          <div>
+            <Story />
+          </div>
+        );
 
       return (
-        <div
-          data-storybook-surface=""
-          style={{
-            color: 'var(--colors-gray-1000)',
-            backgroundColor: 'var(--colors-body-background)',
-            ...getStorybookSurfaceStyle(layout),
-          }}
-        >
-          <style>{storybookBaseStyles}</style>
-          <Story />
-        </div>
+        <>
+          <style>{surfaceFrameResetStyle}</style>
+          <div className={storySurfaceClass} style={getStorybookSurfaceStyle(layout)}>
+            {showSpecimenChrome ? (
+              <StorySpecimenHeader
+                componentTitle={context.title}
+                layout={layout}
+                storyId={context.id}
+                storyName={context.name}
+              />
+            ) : null}
+            {renderedStory}
+            {showSpecimenChrome ? <StorySpecimenFooter layout={layout} /> : null}
+          </div>
+        </>
       );
     },
   ],

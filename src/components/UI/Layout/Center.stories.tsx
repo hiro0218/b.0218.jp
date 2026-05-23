@@ -8,7 +8,7 @@ const meta = {
   title: 'UI/Layout/Center',
   component: Center,
   args: {
-    children: <DemoBox>中央揃えコンテンツ</DemoBox>,
+    children: <DemoBox>max-inline-size に対する中央寄せ</DemoBox>,
   },
 } satisfies Meta<typeof Center>;
 
@@ -16,61 +16,64 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * コンテンツ幅を制限しつつ画面中央に配置したいときに使用する。一覧ページの本文領域や記事一覧の最外殻として典型的に使う。
+ * 最大幅を持つ単一の中央カラム。記事一覧ページの最外殻として典型的に置く。
  *
- * @summary コンテンツ幅を制限しつつ画面中央に配置したいときに使用する
+ * @summary 最外殻の中央カラム
  */
 export const Default: Story = {
   name: '基本',
 };
 
 /**
- * 左右に内側余白を付与する。モバイル幅での端ぶつかりを防ぐ。
+ * 左右に内側余白を足してモバイル幅での端ぶつかりを防ぐ派生。
  *
- * @summary 左右に内側余白を付与する
+ * @summary モバイル端の余白付き
  */
 export const WithGutters: Story = {
-  name: 'ガター付き',
-  args: {
-    gutters: 3,
-  },
+  name: 'gutter 付き',
+  args: { gutters: 3 },
 };
 
 /**
- * 子要素の幅を尊重したまま中央に置きたいときに使用する。固定 max-width に依存せず、見出しやボタン群のような可変幅コンテンツを画面中央に配置する場面で使う。
+ * `max-width` ではなく子要素自身の幅を尊重して中央に置く派生（flex column + align center）。見出しやボタン群のように、可変幅コンテンツを中央に揃えるときに使う。
  *
- * @summary 子要素の幅を尊重したまま中央に置きたいときに使用する
+ * @summary 内在幅の中央寄せ
  */
 export const Intrinsic: Story = {
-  name: '内在的な中央揃え',
+  name: '内在的な中央寄せ',
   args: {
     intrinsic: true,
-    children: <DemoBox>内在的な中央揃え（flex column + align center）</DemoBox>,
+    children: <DemoBox>子要素の幅を尊重した中央寄せ</DemoBox>,
   },
 };
 
 /**
- * max-width をカスタム値に変更する。狭いコンテンツ幅が必要な場合に使用する。
+ * `max-width` を任意の値に上書きする派生。デフォルトのコンテンツ幅では広すぎる箇所で絞る。
  *
- * @summary max-width をカスタム値に変更する
+ * @summary max-width のカスタム
  */
 export const CustomMaxWidth: Story = {
-  name: 'カスタム max-width',
+  name: 'max-width 上書き',
   args: {
     maxWidth: '40rem',
-    children: <DemoBox>幅を狭めた中央揃え（max 40rem）</DemoBox>,
+    children: <DemoBox>40rem に絞った中央寄せ</DemoBox>,
   },
 };
 
 /**
- * ランドマークとして識別したい区画を中央配置する場合に使用する。スクリーンリーダーの読み上げ単位を構造化する目的で `<section>` 化したいときに使う。
+ * `<section>` として描画する派生。スクリーンリーダーが区画として読み上げるためには見出しまたは `aria-label` でランドマークに名前を与える必要があるため、利用時は内部に見出しを伴うのが基本となる。
  *
- * @summary ランドマークとして識別したい区画を中央配置する場合に使用する
+ * @summary section ランドマーク化（見出し付き）
  */
 export const AsSection: Story = {
   name: 'section 要素',
   args: {
     as: 'section',
-    children: <DemoBox>section 要素として描画</DemoBox>,
+    children: (
+      <>
+        <h2>section の名前</h2>
+        <DemoBox>section ランドマークの中身</DemoBox>
+      </>
+    ),
   },
 };

@@ -43,7 +43,7 @@ const EasingDemo = ({ name, variable }: { name: string; variable: string }) => {
           height: '2.5rem',
           overflow: 'hidden',
           borderRadius: 'var(--radii-sm)',
-          background: 'var(--colors-gray-100)',
+          backgroundColor: 'var(--colors-gray-100)',
           containerType: 'inline-size',
         }}
       >
@@ -55,7 +55,7 @@ const EasingDemo = ({ name, variable }: { name: string; variable: string }) => {
             width: '2rem',
             height: '2rem',
             borderRadius: 'var(--radii-sm)',
-            background: 'var(--colors-blue-600)',
+            backgroundColor: 'var(--colors-blue-600)',
             transform: active ? 'translateX(calc(100cqi - 2.5rem - 4px))' : 'translateX(0)',
             transition: `transform 0.6s var(${variable})`,
             willChange: 'transform',
@@ -75,7 +75,7 @@ const DurationBar = ({ name, variable, value }: { name: string; variable: string
       style={{
         height: '1.5rem',
         width: `${parseFloat(value) * 500}px`,
-        background: 'var(--colors-green-600)',
+        backgroundColor: 'var(--colors-green-600)',
         borderRadius: 'var(--radii-sm)',
         minWidth: '20px',
       }}
@@ -97,7 +97,7 @@ const KeyframeDemo = ({ name }: { name: string }) => {
           width: '3rem',
           height: '3rem',
           borderRadius: 'var(--radii-sm)',
-          background: 'var(--colors-accent-600)',
+          backgroundColor: 'var(--colors-accent-600)',
           animation: playing ? `${name} 0.8s ease forwards` : 'none',
         }}
       />
@@ -114,51 +114,66 @@ const KeyframeDemo = ({ name }: { name: string }) => {
   );
 };
 
-const AnimationPage = () => (
-  <Stack gap={3}>
-    <h2>Easings</h2>
-    <Stack gap={2}>
-      {EASINGS.map((e) => (
-        <EasingDemo key={e.name} name={e.name} variable={e.variable} />
-      ))}
-    </Stack>
-
-    <h2>Durations</h2>
-    <Stack gap={1}>
-      {DURATIONS.map((d) => (
-        <DurationBar key={d.name} name={d.name} value={d.value} variable={d.variable} />
-      ))}
-    </Stack>
-
-    <h2>Keyframes</h2>
-    <Cluster gap={3}>
-      {KEYFRAMES.map((k) => (
-        <KeyframeDemo key={k} name={k} />
-      ))}
-    </Cluster>
-  </Stack>
-);
-
-const meta = {
+const meta: Meta = {
   title: 'Design Tokens/Animation',
-  component: AnimationPage,
   tags: ['!manifest'],
   parameters: {
     docs: {
       description: {
         component:
-          'アニメーション関連トークンの一覧。イージング・デュレーション・キーフレームを実際の動きで確認できる。UI トランジションの統一性を保つ際に参照する。',
+          'モーション関連トークン（easing / duration / keyframe）。UI トランジションを新規に決めるときに、既存トークンで意図に届くかをここで動かして判断する。',
       },
     },
   },
-} satisfies Meta<typeof AnimationPage>;
+};
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj;
 
 /**
- * イージング、デュレーション、キーフレームのトークンを実際の動きで確認する。
+ * イージング曲線を実際の移動アニメーションで比較する標本。曲線の感触の違いを目で確認したい場面で使う。
  *
- * @summary アニメーショントークン一覧
+ * @summary Easings 比較
  */
-export const EasingsAndDurations: Story = { name: 'イージング・デュレーション' };
+export const Easings: Story = {
+  name: 'Easings',
+  render: () => (
+    <Stack gap={2}>
+      {EASINGS.map((e) => (
+        <EasingDemo key={e.name} name={e.name} variable={e.variable} />
+      ))}
+    </Stack>
+  ),
+};
+
+/**
+ * 各 duration トークンの長さを横バーの幅として並べた標本。連続した time scale での相対感を把握したい場面で使う。
+ *
+ * @summary Durations 比較
+ */
+export const Durations: Story = {
+  name: 'Durations',
+  render: () => (
+    <Stack gap={1}>
+      {DURATIONS.map((d) => (
+        <DurationBar key={d.name} name={d.name} value={d.value} variable={d.variable} />
+      ))}
+    </Stack>
+  ),
+};
+
+/**
+ * キーフレームを Play ボタンで実行する標本。トースト・モーダル・スピナーなど、既存アニメーション資産の挙動確認に使う。
+ *
+ * @summary Keyframes 一覧
+ */
+export const Keyframes: Story = {
+  name: 'Keyframes',
+  render: () => (
+    <Cluster gap={3}>
+      {KEYFRAMES.map((k) => (
+        <KeyframeDemo key={k} name={k} />
+      ))}
+    </Cluster>
+  ),
+};

@@ -11,9 +11,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * サイトロゴの基本表示。ヘッダーに配置しトップページへのリンクとして機能する。
+ * グローバルヘッダーに置くサイト識別ロゴ。クリックでトップへ戻る役割を持つ。
  *
- * @summary サイトロゴの基本表示
+ * @summary ヘッダー設置のサイトロゴ
  */
 export const Default: Story = {
   name: '基本',

@@ -6,7 +6,7 @@ const meta = {
   title: 'UI/Heading',
   component: Heading,
   args: {
-    children: '見出しテキスト',
+    children: '記事本文中のセクション見出し',
   },
   argTypes: {
     as: {
@@ -20,92 +20,80 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * ページ内の大セクション見出し。最も使用頻度が高い。Controls で as を切り替えると見出しレベルを変更できる。
+ * 記事本文中で最も多く現れる中見出し。Controls で `as` を切り替えるとレベルを変えられる。
  *
- * @summary ページ内の大セクション見出し
+ * @summary 中見出しの基準
  */
 export const Default: Story = {
-  name: '基本',
-  args: {
-    as: 'h2',
-  },
+  name: '基本（h2）',
+  args: { as: 'h2' },
 };
 
 /**
- * ページの主タイトル。1 ページに 1 つのみ使用する。
+ * ページタイトルとしての h1。一覧ページや記事詳細の最上位見出しに 1 つだけ置く。
  *
- * @summary ページの主タイトル
+ * @summary ページ最上位見出し
  */
 export const H1: Story = {
-  name: 'h1（主タイトル）',
-  args: {
-    as: 'h1',
-  },
+  name: 'h1',
+  args: { as: 'h1', children: '記事一覧' },
 };
 
 /**
- * 最も深いネストの見出し。使用頻度は低い。h6 と h1 を並べてサイズの最大・最小を視覚比較するためのリファレンス。
+ * 最深層のサブ見出し。スケールの下限を視覚的に押さえるためのリファレンス。実運用での出現頻度は低い。
  *
- * @summary 最も深いネストの見出し
+ * @summary スケール下限の参照
  */
 export const H6: Story = {
-  name: 'h6（最深ネスト）',
-  args: {
-    as: 'h6',
-    children: '見出しレベル6',
-  },
+  name: 'h6',
+  args: { as: 'h6', children: '注釈レベルの見出し' },
 };
 
 /**
- * 太字スタイルで強調した見出し。
+ * 通常より太い見出し。同じ階層内でさらに強調したい箇所に限定する。
  *
- * @summary 太字スタイルで強調した見出し
+ * @summary 太字の強調派生
  */
 export const Bold: Story = {
   name: '太字',
-  args: {
-    as: 'h2',
-    isBold: true,
-  },
+  args: { as: 'h2', isBold: true },
 };
 
 /**
- * 見出し右側に件数などの補助テキストを表示する。
+ * 見出しの行末に件数や日付を補助情報として並置する派生。タグページの「TypeScript (12)」のような表記に使う。
  *
- * @summary 見出し右側に件数などの補助テキストを表示する
+ * @summary 行末の補助テキスト
  */
 export const WithTextSide: Story = {
   name: 'サイドテキスト',
-  args: {
-    as: 'h2',
-    textSide: '(10)',
-  },
+  args: { as: 'h2', textSide: '(12)' },
 };
 
 /**
- * 見出し下部に補足説明を表示する。
+ * 見出し直下に説明文を吊るす派生。セクションの導入が長くなりそうなときに 1 行だけ前置きを置く。
  *
- * @summary 見出し下部に補足説明を表示する
+ * @summary 直下の補足テキスト
  */
 export const WithTextSub: Story = {
   name: '補足テキスト',
   args: {
     as: 'h2',
-    textSub: '補足テキスト',
+    textSub: '記事を category 別に絞り込んで一覧できる',
   },
 };
 
 /**
- * サイドテキストと補足テキストの両方を表示する最大構成。
+ * サイドテキストと補足テキストを両方付けた最大構成の確認用標本。
  *
- * @summary サイドテキストと補足テキストの両方を表示する最大構成
+ * @summary 最大構成の確認用標本
  */
 export const WithTextSideAndSub: Story = {
   tags: ['!manifest'],
   name: 'サイド + 補足',
   args: {
     as: 'h2',
-    textSide: '(10)',
-    textSub: '補足テキスト',
+    children: 'TypeScript',
+    textSide: '(12)',
+    textSub: 'TypeScript / Biome / Oxfmt などの記事',
   },
 };

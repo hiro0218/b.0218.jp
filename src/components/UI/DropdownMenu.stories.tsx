@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { act } from '@testing-library/react';
 import { expect, userEvent, within } from 'storybook/test';
+
 import { DropdownMenu } from '@/components/UI/DropdownMenu';
 import { ICON_SIZE_SM } from '@/ui/iconSizes';
 import { GitHubLogo } from '@/ui/icons/GitHubLogo';
@@ -17,18 +17,16 @@ const MENU_TRIGGER_NAME = /Feedback/;
 const meta = {
   title: 'UI/DropdownMenu',
   component: DropdownMenu,
-  parameters: {
-    layout: 'centered',
-  },
+  parameters: { layout: 'centered' },
 } satisfies Meta<typeof DropdownMenu>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * 基本的なドロップダウンメニュー。右寄せで展開する。
+ * トリガーの右端揃えで展開する標準形。記事フッターのフィードバックボタンが典型。
  *
- * @summary 基本的なドロップダウンメニュー
+ * @summary 右寄せ展開の標準
  */
 export const Default: Story = {
   name: '基本',
@@ -36,18 +34,18 @@ export const Default: Story = {
     title: menuTitle,
     children: (
       <>
-        <a href="/about">概要</a>
-        <a href="/blog">ブログ</a>
-        <a href="/contact">お問い合わせ</a>
+        <a href="https://github.com/example/repo/issues/new">不具合を報告</a>
+        <a href="https://github.com/example/repo/edit/main/article.md">記事を編集</a>
+        <a href="https://github.com/example/repo">リポジトリを開く</a>
       </>
     ),
   },
 };
 
 /**
- * メニューを左寄せで展開する。右端に配置されたトリガーで使用する。
+ * トリガーの左端揃えで展開する派生。トリガーが画面右端に寄っているときに、メニューが画面外に出ないように使う。
  *
- * @summary メニューを左寄せで展開する
+ * @summary 左寄せ展開の派生
  */
 export const PositionLeft: Story = {
   name: '左寄せ',
@@ -56,40 +54,38 @@ export const PositionLeft: Story = {
     menuHorizontalPosition: 'left',
     children: (
       <>
-        <a href="/about">概要</a>
-        <a href="/blog">ブログ</a>
+        <a href="/posts">記事一覧</a>
+        <a href="/tags">タグ一覧</a>
       </>
     ),
   },
 };
 
-const menuItems = (
+const interactionMenuItems = (
   <>
-    <a href="/item-1">項目 1</a>
-    <a href="/item-2">項目 2</a>
-    <a href="/item-3">項目 3</a>
+    <a href="/posts/202605021758">[TypeScript] Barrel ファイルを廃止する</a>
+    <a href="/posts/202604271115">[Codex] refresh token already used</a>
+    <a href="/posts/202603081143">仕様駆動開発（SDD）とフロントエンドの相性</a>
   </>
 );
 
 /**
- * トリガーをクリックするとメニューが展開され、aria-expanded / aria-haspopup が更新されることを検証する。
+ * トリガークリックで `aria-expanded` と `aria-haspopup` が正しく更新されることを検証する。アクセシビリティ契約の保証。
  *
- * @summary トリガーをクリックするとメニューが展開され、aria-expanded / aria-haspopup が更新されることを検証する
+ * @summary 開閉時の ARIA 更新検証
  */
 export const ToggleMenu: Story = {
   tags: ['!manifest'],
   name: '開閉操作',
   args: {
     title: menuTitle,
-    children: menuItems,
+    children: interactionMenuItems,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('button', { name: MENU_TRIGGER_NAME });
 
-    await act(async () => {
-      await userEvent.click(trigger);
-    });
+    await userEvent.click(trigger);
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
     await expect(trigger).toHaveAttribute('aria-haspopup', 'menu');
 

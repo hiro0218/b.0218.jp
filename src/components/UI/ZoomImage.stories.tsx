@@ -7,9 +7,7 @@ import { ZoomImage } from '@/components/UI/ZoomImage';
 const meta = {
   title: 'UI/ZoomImage',
   component: ZoomImage,
-  parameters: {
-    layout: 'centered',
-  },
+  parameters: { layout: 'centered' },
 } satisfies Meta<typeof ZoomImage>;
 
 export default meta;
@@ -23,9 +21,9 @@ const Img600x400 = placeholder(600, 400);
 const Img80x80 = placeholder(80, 80);
 
 /**
- * 標準サイズの画像。クリックでモーダルズームできる。
+ * 通常サイズの画像。クリックで dialog に拡大表示する。記事本文中のスクリーンショットや図解で使う。
  *
- * @summary 標準サイズの画像
+ * @summary クリックで拡大
  */
 export const Default: Story = {
   name: '基本',
@@ -36,9 +34,9 @@ export const Default: Story = {
 };
 
 /**
- * カスタム className を適用した画像。
+ * 任意の `className` を渡せることの確認。記事 CMS 側から特定スタイルを当てるためのフック。
  *
- * @summary カスタム className を適用した画像
+ * @summary className 受け渡し
  */
 export const WithClassName: Story = {
   name: 'className 付き',
@@ -50,36 +48,36 @@ export const WithClassName: Story = {
 };
 
 /**
- * 100px 以下の画像はズーム不可。アイコンや小さいサムネイルに該当する。
+ * 100px 以下の画像はズーム対象外。サムネイルやアイコンを誤ってズーム可能にしないための閾値。
  *
- * @summary 100px 以下の画像はズーム不可
+ * @summary 閾値以下はズーム不可
  */
 export const SmallImage: Story = {
-  name: '小さい画像（ズーム不可）',
+  name: '小画像',
   args: {
     src: Img80x80,
-    alt: 'アイコン画像',
+    alt: 'アイコン',
   },
 };
 
 /**
- * ズームボタンをクリックして dialog が表示されることを検証するインタラクションテスト。
+ * ズームボタン押下で `<dialog>` が `showModal` 経由で開くこと、閉じるボタンが存在することを検証する。
  *
- * @summary ズームボタンをクリックして dialog が表示されることを検証するインタラクションテスト
+ * @summary dialog 開閉の動作検証
  */
 export const ClickToZoom: Story = {
   tags: ['!manifest'],
   name: 'ズーム操作',
   args: {
     src: Img600x400,
-    alt: 'ズーム操作テスト画像',
+    alt: 'ズーム操作テスト用',
     a11yOptions: {
       buttonZoomLabel: '画像をズーム',
     },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const image = canvas.getByAltText('ズーム操作テスト画像');
+    const image = canvas.getByAltText('ズーム操作テスト用');
 
     Object.defineProperties(image, {
       complete: { value: true, configurable: true },
@@ -87,7 +85,6 @@ export const ClickToZoom: Story = {
       naturalWidth: { value: 600, configurable: true },
     });
 
-    // Storybook テスト環境（jsdom）では showModal/close が未実装のためポリフィル
     if (!HTMLDialogElement.prototype.showModal) {
       Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
         configurable: true,
@@ -110,9 +107,7 @@ export const ClickToZoom: Story = {
       await fireEvent.load(image);
     });
     const trigger = await canvas.findByRole('button', { name: '画像をズーム' });
-    await act(async () => {
-      await userEvent.click(trigger);
-    });
+    await userEvent.click(trigger);
 
     const body = within(document.body);
     const dialog = await body.findByRole('dialog');

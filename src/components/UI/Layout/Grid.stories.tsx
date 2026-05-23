@@ -6,15 +6,15 @@ import { Grid } from './Grid';
 
 const defaultChildren = (
   <>
-    <DemoBox minHeight="50px">セル 1</DemoBox>
+    <DemoBox minHeight="50px">記事 — 01</DemoBox>
     <DemoBox color="var(--colors-green-200)" minHeight="50px">
-      セル 2
+      記事 — 02
     </DemoBox>
     <DemoBox color="var(--colors-red-200)" minHeight="50px">
-      セル 3
+      記事 — 03
     </DemoBox>
     <DemoBox color="var(--colors-blue-300)" minHeight="50px">
-      セル 4
+      記事 — 04
     </DemoBox>
   </>
 );
@@ -31,18 +31,18 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * カラム数を固定して要素を整列させたいときの最小構成。サイドバー付き 2 カラムや、構造が安定したダッシュボードの分割表示で使う。
+ * 列数を固定して整列させる基本形。サイドバー付き 2 カラムや、要素数が偶数で揃うダッシュボードに使う。
  *
- * @summary カラム数を固定して要素を整列させたいときの最小構成
+ * @summary 固定列数
  */
 export const Default: Story = {
   name: '基本',
 };
 
 /**
- * 記事カードや製品カードなど、固定の列数で整然と並べたいときに使用する。要素数が列数の倍数になることが想定できるレイアウトで使う。
+ * 記事カードを列数固定で整列させる派生。要素数が列数の倍数になる前提で構造を作るときに選ぶ。
  *
- * @summary 記事カードや製品カードなど、固定の列数で整然と並べたいときに使用する
+ * @summary 3 カラム固定
  */
 export const ThreeColumns: Story = {
   name: '3カラム',
@@ -51,21 +51,21 @@ export const ThreeColumns: Story = {
     gap: 2,
     children: (
       <>
-        <DemoBox minHeight="50px">セル 1</DemoBox>
+        <DemoBox minHeight="50px">記事 — 01</DemoBox>
         <DemoBox color="var(--colors-green-200)" minHeight="50px">
-          セル 2
+          記事 — 02
         </DemoBox>
         <DemoBox color="var(--colors-red-200)" minHeight="50px">
-          セル 3
+          記事 — 03
         </DemoBox>
         <DemoBox color="var(--colors-blue-300)" minHeight="50px">
-          セル 4
+          記事 — 04
         </DemoBox>
         <DemoBox color="var(--colors-green-300)" minHeight="50px">
-          セル 5
+          記事 — 05
         </DemoBox>
         <DemoBox color="var(--colors-red-300)" minHeight="50px">
-          セル 6
+          記事 — 06
         </DemoBox>
       </>
     ),
@@ -73,9 +73,9 @@ export const ThreeColumns: Story = {
 };
 
 /**
- * breakpoint を切らずに、要素の最小幅だけ決めてレスポンシブ対応したいときに使用する。要素数が可変で、画面幅に応じて自然に列数を増減させたい一覧で使う。
+ * `auto-fit + minmax` で要素の最小幅だけ決めるレスポンシブ派生。breakpoint を切らずに列数が自然に増減する。
  *
- * @summary breakpoint を切らずに、要素の最小幅だけ決めてレスポンシブ対応したいときに使用する
+ * @summary auto-fit による可変列
  */
 export const AutoFit: Story = {
   name: 'auto-fit',
@@ -85,18 +85,18 @@ export const AutoFit: Story = {
     gap: 2,
     children: (
       <>
-        <DemoBox minHeight="50px">自動 1</DemoBox>
+        <DemoBox minHeight="50px">記事 — 01</DemoBox>
         <DemoBox color="var(--colors-green-200)" minHeight="50px">
-          自動 2
+          記事 — 02
         </DemoBox>
         <DemoBox color="var(--colors-red-200)" minHeight="50px">
-          自動 3
+          記事 — 03
         </DemoBox>
         <DemoBox color="var(--colors-blue-300)" minHeight="50px">
-          自動 4
+          記事 — 04
         </DemoBox>
         <DemoBox color="var(--colors-green-300)" minHeight="50px">
-          自動 5
+          記事 — 05
         </DemoBox>
       </>
     ),
@@ -104,13 +104,11 @@ export const AutoFit: Story = {
 };
 
 /**
- * カード同士を視覚的に独立した塊として読ませたいときに使用する。情報密度を下げて要素間に呼吸感を持たせたい一覧で使う。
+ * `gap` を広く取って、カード同士を独立した塊として読ませる派生。情報密度を下げて呼吸感を作りたい一覧で使う。
  *
- * @summary カード同士を視覚的に独立した塊として読ませたいときに使用する
+ * @summary 広い gap
  */
 export const WithGap: Story = {
   name: '広い gap',
-  args: {
-    gap: 5,
-  },
+  args: { gap: 5 },
 };
