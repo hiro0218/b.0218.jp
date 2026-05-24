@@ -175,7 +175,7 @@ jobs:
           path: dependency-cruiser-comment
 
       - name: Update comment
-        uses: actions/github-script@373c709c69115d41ff229c7e5df9f8788daa9553 # v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           COMMENT_PATH: dependency-cruiser-comment/comment.md
