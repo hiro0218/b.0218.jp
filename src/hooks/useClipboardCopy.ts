@@ -2,7 +2,11 @@
 
 import { useCallback, useMemo } from 'react';
 
-export type ClipboardCopyResult = { status: 'copied' } | { status: 'failed'; error: Error } | { status: 'unsupported' };
+type ClipboardCopiedResult = { status: 'copied' };
+type ClipboardCopyFailedResult = { status: 'failed'; error: Error };
+type ClipboardCopyUnsupportedResult = { status: 'unsupported' };
+
+export type ClipboardCopyResult = ClipboardCopiedResult | ClipboardCopyFailedResult | ClipboardCopyUnsupportedResult;
 
 export function useClipboardCopy() {
   const copyText = useCallback(async (text: string): Promise<ClipboardCopyResult> => {
