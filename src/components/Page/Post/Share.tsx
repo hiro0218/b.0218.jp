@@ -1,13 +1,16 @@
 'use client';
 'use no memo';
 
-import { LinkIcon, ShareIcon } from '@heroicons/react/24/outline';
-import { useCallback, useId, useRef, useSyncExternalStore } from 'react';
+import { CheckIcon, LinkIcon, NoSymbolIcon, ShareIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useCallback, useId, useRef, useState, useSyncExternalStore } from 'react';
+
+import { IconSwap, type IconSwapActiveIcon } from '@/components/UI/IconSwap';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { Toast, useToast } from '@/components/UI/Toast';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { X_ACCOUNT } from '@/constants';
 import { useClipboardCopy } from '@/hooks/useClipboardCopy';
+import { useTimeout } from '@/hooks/useTimeout';
 import { ICON_SIZE_SM } from '@/ui/iconSizes';
 import { Hatenabookmark } from '@/ui/icons/Hatenabookmark';
 import { X } from '@/ui/icons/X';
@@ -17,6 +20,18 @@ interface Props {
   title: string;
   url: string;
 }
+
+type CopyPermalinkState = 'idle' | 'copying' | 'copied' | 'failed' | 'unsupported';
+
+const FEEDBACK_TIMEOUT_MS = 2000;
+
+const COPY_PERMALINK_LABELS: Record<CopyPermalinkState, string> = {
+  idle: 'ページのURLをコピー',
+  copying: 'コピー中',
+  copied: 'コピーしました',
+  failed: 'コピーに失敗しました',
+  unsupported: 'このブラウザはコピーに未対応',
+};
 
 // React Compiler との互換性のため、subscribe 関数を外部で定義
 const emptySubscribe = () => () => {};
@@ -28,32 +43,41 @@ export function PostShare({ title, url }: Props) {
   const isShareSupported = useSyncExternalStore(emptySubscribe, getNavigatorShareSnapshot, getServerSnapshot);
   const { ref, showToast, hideToast, message, isVisible } = useToast('記事のURLをコピーしました');
   const { copyText } = useClipboardCopy();
+  const { schedule: scheduleCopyStateReset, cancel: cancelCopyStateReset } = useTimeout();
+  const [copyState, setCopyState] = useState<CopyPermalinkState>('idle');
   const isCopyingRef = useRef(false);
   const classNames = cx('link-style--hover-effect', ShareButtonStyle);
 
   const onClickCopyPermalink = useCallback(async () => {
-    if (isCopyingRef.current) return;
+    if (isCopyingRef.current || copyState === 'unsupported') return;
     isCopyingRef.current = true;
+    cancelCopyStateReset();
+    setCopyState('copying');
 
     try {
       const result = await copyText(url);
 
       if (result.status === 'copied') {
+        setCopyState('copied');
         showToast();
+        scheduleCopyStateReset(() => setCopyState('idle'), FEEDBACK_TIMEOUT_MS);
         return;
       }
 
       if (result.status === 'unsupported') {
+        setCopyState('unsupported');
         console.error('[PostShare] Clipboard API not supported');
         return;
       }
 
+      setCopyState('failed');
       console.error('[PostShare] Failed to copy text:', result.error);
       showToast('コピーに失敗しました');
+      scheduleCopyStateReset(() => setCopyState('idle'), FEEDBACK_TIMEOUT_MS);
     } finally {
       isCopyingRef.current = false;
     }
-  }, [copyText, showToast, url]);
+  }, [cancelCopyStateReset, copyState, copyText, scheduleCopyStateReset, showToast, url]);
 
   const onClickShare = useCallback(() => {
     if (!isShareSupported) return;
@@ -70,6 +94,10 @@ export function PostShare({ title, url }: Props) {
         }
       });
   }, [isShareSupported, title, url]);
+
+  const CopyFeedbackIcon = copyState === 'failed' ? XMarkIcon : copyState === 'unsupported' ? NoSymbolIcon : CheckIcon;
+  const showCopyFeedbackIcon = copyState === 'copied' || copyState === 'failed' || copyState === 'unsupported';
+  const activeCopyIcon: IconSwapActiveIcon = showCopyFeedbackIcon ? 'secondary' : 'primary';
 
   return (
     <aside aria-labelledby={labelledbyId}>
@@ -99,9 +127,20 @@ export function PostShare({ title, url }: Props) {
             <Hatenabookmark height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
           </a>
         </Tooltip>
-        <Tooltip text="ページのURLをコピー">
-          <button aria-label="ページのURLをコピー" className={classNames} onClick={onClickCopyPermalink} type="button">
-            <LinkIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+        <Tooltip text={COPY_PERMALINK_LABELS[copyState]}>
+          <button
+            aria-label={COPY_PERMALINK_LABELS[copyState]}
+            className={classNames}
+            data-state={copyState}
+            disabled={copyState === 'unsupported'}
+            onClick={onClickCopyPermalink}
+            type="button"
+          >
+            <IconSwap
+              activeIcon={activeCopyIcon}
+              primaryIcon={<LinkIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />}
+              secondaryIcon={<CopyFeedbackIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />}
+            />
           </button>
         </Tooltip>
         {isShareSupported ? (
@@ -139,5 +178,21 @@ const ShareButtonStyle = css`
 
   &:active {
     transform: scale(0.96);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &[data-state='copied'] {
+    color: var(--colors-grass-1200);
+  }
+
+  &[data-state='failed'] {
+    color: var(--colors-red-1200);
+  }
+
+  &[data-state='unsupported'] {
+    color: var(--colors-gray-500);
   }
 `;
