@@ -9,6 +9,7 @@ import { ICON_SIZE_SM } from '@/ui/iconSizes';
 import { styled } from '@/ui/styled';
 
 type CopyState = 'idle' | 'copying' | 'copied' | 'failed' | 'unsupported';
+type CopyFeedbackState = Extract<CopyState, 'copied' | 'failed' | 'unsupported'>;
 
 const FEEDBACK_TIMEOUT_MS = 2000;
 
@@ -19,6 +20,20 @@ const COPY_LABELS: Record<CopyState, string> = {
   failed: 'コピーに失敗しました',
   unsupported: 'このブラウザはコピーに未対応',
 };
+
+const COPY_FEEDBACK_ICONS = {
+  copied: CheckIcon,
+  failed: XMarkIcon,
+  unsupported: NoSymbolIcon,
+} satisfies Record<CopyFeedbackState, typeof CheckIcon>;
+
+function isCopyFeedbackState(state: CopyState): state is CopyFeedbackState {
+  return state === 'copied' || state === 'failed' || state === 'unsupported';
+}
+
+function getCopyFeedbackIcon(state: CopyState) {
+  return isCopyFeedbackState(state) ? COPY_FEEDBACK_ICONS[state] : CheckIcon;
+}
 
 type CodeBlockProps = {
   preProps?: Record<string, unknown>;
@@ -75,8 +90,8 @@ export function CodeBlock({ preProps, children }: CodeBlockProps) {
     }, FEEDBACK_TIMEOUT_MS);
   };
 
-  const FeedbackIcon = state === 'failed' ? XMarkIcon : state === 'unsupported' ? NoSymbolIcon : CheckIcon;
-  const showFeedbackIcon = state === 'copied' || state === 'failed' || state === 'unsupported';
+  const FeedbackIcon = getCopyFeedbackIcon(state);
+  const showFeedbackIcon = isCopyFeedbackState(state);
   const activeIcon: IconSwapActiveIcon = showFeedbackIcon ? 'secondary' : 'primary';
   const announcement = showFeedbackIcon ? COPY_LABELS[state] : '';
 
@@ -89,7 +104,7 @@ export function CodeBlock({ preProps, children }: CodeBlockProps) {
         aria-label={COPY_LABELS[state]}
         data-slot="copy-button"
         data-state={state}
-        disabled={state === 'unsupported'}
+        disabled={state === 'copying' || state === 'unsupported'}
         onClick={handleCopy}
         type="button"
       >
