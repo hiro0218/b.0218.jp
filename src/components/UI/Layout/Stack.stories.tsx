@@ -6,9 +6,9 @@ import { Stack } from './Stack';
 
 const defaultChildren = (
   <>
-    <DemoBox>要素 1</DemoBox>
-    <DemoBox color="var(--colors-green-200)">要素 2</DemoBox>
-    <DemoBox color="var(--colors-red-200)">要素 3</DemoBox>
+    <DemoBox>記事 — TypeScript</DemoBox>
+    <DemoBox color="var(--colors-green-200)">記事 — Biome</DemoBox>
+    <DemoBox color="var(--colors-red-200)">記事 — Oxfmt</DemoBox>
   </>
 );
 
@@ -18,50 +18,51 @@ const meta = {
   args: {
     children: defaultChildren,
   },
+  argTypes: {
+    gap: {
+      control: 'select',
+      options: [0, '½', 1, 2, 3, 4, 5, 6],
+    },
+  },
 } satisfies Meta<typeof Stack>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * 縦方向の等間隔配置。子要素自身に `margin` を持たせず、親が `gap` で関係を作る Every Layout の基本パターン。
+ *
+ * @summary 縦方向の等間隔
+ */
 export const Default: Story = {
   name: '基本',
-  parameters: {
-    docs: {
-      description: {
-        story: '縦方向に要素を並べる基本形。デフォルト gap は 2（8px）。',
-      },
-    },
-  },
 };
 
+/**
+ * 横方向に並べる派生。ヘッダーの左右配置やツールバーに使う。
+ *
+ * @summary 横方向の並び
+ */
 export const Horizontal: Story = {
   name: '横方向',
-  args: {
-    direction: 'horizontal',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '横方向に要素を並べる。ヘッダーやツールバーに使用する。',
-      },
-    },
-  },
+  args: { direction: 'horizontal' },
 };
 
-export const CustomGap: Story = {
-  name: 'カスタム gap',
-  args: {
-    gap: 5,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'gap を変更して要素間のスペースを調整する。',
-      },
-    },
-  },
+/**
+ * `gap` を Fibonacci スケールから選択する。0〜6 を切り替えて、密度のリズムを判断する用。
+ *
+ * @summary gap スケールの確認
+ */
+export const WithGap: Story = {
+  name: 'gap 調整',
+  args: { gap: 5 },
 };
 
+/**
+ * 横方向 + `space-between` でヘッダー的なレイアウトを作る派生。左にロゴ、右にナビという典型に使う。
+ *
+ * @summary 両端配置のヘッダー
+ */
 export const WithAlignment: Story = {
   name: '配置指定',
   args: {
@@ -69,15 +70,13 @@ export const WithAlignment: Story = {
     align: 'center',
     justify: 'space-between',
   },
-  parameters: {
-    docs: {
-      description: {
-        story: '横方向で配置を指定する。space-between でヘッダーレイアウト等に使用する。',
-      },
-    },
-  },
 };
 
+/**
+ * 横方向で折り返しを許可する派生。タグ列のように要素数が可変な並びに使う。
+ *
+ * @summary 折り返しのタグ列
+ */
 export const WithWrap: Story = {
   name: '折り返し',
   args: {
@@ -86,52 +85,48 @@ export const WithWrap: Story = {
     gap: 2,
     children: (
       <>
-        <DemoBox>折り返し 1</DemoBox>
-        <DemoBox color="var(--colors-green-200)">折り返し 2</DemoBox>
-        <DemoBox color="var(--colors-red-200)">折り返し 3</DemoBox>
-        <DemoBox color="var(--colors-blue-300)">折り返し 4</DemoBox>
-        <DemoBox color="var(--colors-green-300)">折り返し 5</DemoBox>
-        <DemoBox color="var(--colors-red-300)">折り返し 6</DemoBox>
+        <DemoBox>TypeScript</DemoBox>
+        <DemoBox color="var(--colors-green-200)">Biome</DemoBox>
+        <DemoBox color="var(--colors-red-200)">CSS</DemoBox>
+        <DemoBox color="var(--colors-blue-300)">設計</DemoBox>
+        <DemoBox color="var(--colors-green-300)">AI</DemoBox>
+        <DemoBox color="var(--colors-red-300)">Next.js</DemoBox>
       </>
     ),
   },
-  parameters: {
-    docs: {
-      description: {
-        story: '横方向で折り返しを有効にする。タグ一覧等の可変個数の要素に使用する。',
-      },
-    },
-  },
 };
 
+/**
+ * `<ul>` として描画する派生。リストとしての意味を持たせたいときに使う。
+ *
+ * @summary ul リスト要素
+ */
 export const AsList: Story = {
-  name: 'ul 要素',
+  name: 'ul リスト',
   args: {
     as: 'ul',
     gap: 1,
     children: (
       <>
         <li>
-          <DemoBox>リスト項目 1</DemoBox>
+          <DemoBox>記事 — TypeScript</DemoBox>
         </li>
         <li>
-          <DemoBox color="var(--colors-green-200)">リスト項目 2</DemoBox>
+          <DemoBox color="var(--colors-green-200)">記事 — Biome</DemoBox>
         </li>
         <li>
-          <DemoBox color="var(--colors-red-200)">リスト項目 3</DemoBox>
+          <DemoBox color="var(--colors-red-200)">記事 — Oxfmt</DemoBox>
         </li>
       </>
     ),
   },
-  parameters: {
-    docs: {
-      description: {
-        story: 'ul 要素として描画する。セマンティクスが必要なリストに使用する。',
-      },
-    },
-  },
 };
 
+/**
+ * 高さの異なる要素を横並びにし、視線の基準線を中央で揃える派生。アイコンとテキスト、フォームのラベルと入力欄など。
+ *
+ * @summary 異なる高さの中央揃え
+ */
 export const AlignCenter: Story = {
   name: '中央揃え',
   args: {
@@ -139,48 +134,25 @@ export const AlignCenter: Story = {
     align: 'center',
     children: (
       <>
-        <DemoBox>小さい</DemoBox>
+        <DemoBox>小</DemoBox>
         <DemoBox color="var(--colors-green-200)">
           <div style={{ paddingBlock: '2rem' }}>大きい要素</div>
         </DemoBox>
-        <DemoBox color="var(--colors-red-200)">中くらい</DemoBox>
+        <DemoBox color="var(--colors-red-200)">中</DemoBox>
       </>
     ),
   },
-  parameters: {
-    docs: {
-      description: {
-        story: '異なる高さの要素を交差軸で中央揃えする。',
-      },
-    },
-  },
 };
 
+/**
+ * 主操作を右端に固定する派生。ダイアログのフッターやツールバーで、副ボタン → 主ボタンの流れに使う。
+ *
+ * @summary 右端寄せのアクション群
+ */
 export const JustifyEnd: Story = {
   name: '右寄せ',
   args: {
     direction: 'horizontal',
     justify: 'flex-end',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '要素を右寄せする。',
-      },
-    },
-  },
-};
-
-export const NoGap: Story = {
-  name: 'gap なし',
-  args: {
-    gap: 0,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'gap を 0 にしたタイトなレイアウト。メニュー項目等に使用する。',
-      },
-    },
   },
 };

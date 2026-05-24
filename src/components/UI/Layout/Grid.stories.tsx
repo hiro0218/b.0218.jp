@@ -6,15 +6,15 @@ import { Grid } from './Grid';
 
 const defaultChildren = (
   <>
-    <DemoBox minHeight="50px">セル 1</DemoBox>
+    <DemoBox minHeight="50px">記事 — 01</DemoBox>
     <DemoBox color="var(--colors-green-200)" minHeight="50px">
-      セル 2
+      記事 — 02
     </DemoBox>
     <DemoBox color="var(--colors-red-200)" minHeight="50px">
-      セル 3
+      記事 — 03
     </DemoBox>
     <DemoBox color="var(--colors-blue-300)" minHeight="50px">
-      セル 4
+      記事 — 04
     </DemoBox>
   </>
 );
@@ -30,17 +30,20 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * 列数を固定して整列させる基本形。サイドバー付き 2 カラムや、要素数が偶数で揃うダッシュボードに使う。
+ *
+ * @summary 固定列数
+ */
 export const Default: Story = {
   name: '基本',
-  parameters: {
-    docs: {
-      description: {
-        story: '2 カラムグリッドの基本形。',
-      },
-    },
-  },
 };
 
+/**
+ * 記事カードを列数固定で整列させる派生。要素数が列数の倍数になる前提で構造を作るときに選ぶ。
+ *
+ * @summary 3 カラム固定
+ */
 export const ThreeColumns: Story = {
   name: '3カラム',
   args: {
@@ -48,34 +51,32 @@ export const ThreeColumns: Story = {
     gap: 2,
     children: (
       <>
-        <DemoBox minHeight="50px">セル 1</DemoBox>
+        <DemoBox minHeight="50px">記事 — 01</DemoBox>
         <DemoBox color="var(--colors-green-200)" minHeight="50px">
-          セル 2
+          記事 — 02
         </DemoBox>
         <DemoBox color="var(--colors-red-200)" minHeight="50px">
-          セル 3
+          記事 — 03
         </DemoBox>
         <DemoBox color="var(--colors-blue-300)" minHeight="50px">
-          セル 4
+          記事 — 04
         </DemoBox>
         <DemoBox color="var(--colors-green-300)" minHeight="50px">
-          セル 5
+          記事 — 05
         </DemoBox>
         <DemoBox color="var(--colors-red-300)" minHeight="50px">
-          セル 6
+          記事 — 06
         </DemoBox>
       </>
     ),
   },
-  parameters: {
-    docs: {
-      description: {
-        story: '3 カラムグリッド。カード一覧等に使用する。',
-      },
-    },
-  },
 };
 
+/**
+ * `auto-fit + minmax` で要素の最小幅だけ決めるレスポンシブ派生。breakpoint を切らずに列数が自然に増減する。
+ *
+ * @summary auto-fit による可変列
+ */
 export const AutoFit: Story = {
   name: 'auto-fit',
   args: {
@@ -84,41 +85,30 @@ export const AutoFit: Story = {
     gap: 2,
     children: (
       <>
-        <DemoBox minHeight="50px">自動 1</DemoBox>
+        <DemoBox minHeight="50px">記事 — 01</DemoBox>
         <DemoBox color="var(--colors-green-200)" minHeight="50px">
-          自動 2
+          記事 — 02
         </DemoBox>
         <DemoBox color="var(--colors-red-200)" minHeight="50px">
-          自動 3
+          記事 — 03
         </DemoBox>
         <DemoBox color="var(--colors-blue-300)" minHeight="50px">
-          自動 4
+          記事 — 04
         </DemoBox>
         <DemoBox color="var(--colors-green-300)" minHeight="50px">
-          自動 5
+          記事 — 05
         </DemoBox>
       </>
     ),
   },
-  parameters: {
-    docs: {
-      description: {
-        story: '幅に応じてカラム数が自動調整される。レスポンシブなカード一覧に最適。',
-      },
-    },
-  },
 };
 
+/**
+ * `gap` を広く取って、カード同士を独立した塊として読ませる派生。情報密度を下げて呼吸感を作りたい一覧で使う。
+ *
+ * @summary 広い gap
+ */
 export const WithGap: Story = {
   name: '広い gap',
-  args: {
-    gap: 5,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '広い gap を指定したグリッド。',
-      },
-    },
-  },
+  args: { gap: 5 },
 };

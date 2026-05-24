@@ -8,63 +8,48 @@ const meta = {
   title: 'UI/Layout/Container',
   component: Container,
   args: {
-    children: <DemoBox>コンテナ内のコンテンツ — max-width による幅制限を確認</DemoBox>,
+    children: <DemoBox>max-inline-size による幅制限ゾーン</DemoBox>,
   },
 } satisfies Meta<typeof Container>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * トップページや記事一覧の最外殻として置く幅。情報を横にスキャンするブラウジングを前提とした太めの値。
+ *
+ * @summary 一覧用の標準幅
+ */
 export const Default: Story = {
-  name: '基本（一覧）',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          '記事一覧・トップページなど、情報をスキャンするブラウジング向けレイアウトに使用する。size 省略時のフォールバックでもある。',
-      },
-    },
-  },
+  name: '一覧用',
 };
 
+/**
+ * 記事本文用の絞り幅。1 行あたりの文字数を抑え、読書としての可読性を取りに行く。
+ *
+ * @summary 記事本文用の絞り幅
+ */
 export const Small: Story = {
-  name: '小サイズ（記事本文）',
-  args: {
-    size: 'small',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '記事本文など、1 行あたりの文字数を絞りたい集中読書向けレイアウトに使用する。',
-      },
-    },
-  },
+  name: '記事本文',
+  args: { size: 'small' },
 };
 
+/**
+ * サイトヘッダーのように両端いっぱいまで使う chrome 用。コンテンツ幅というよりは画面端からの gutter のみ与える。
+ *
+ * @summary chrome 用の全幅
+ */
 export const Large: Story = {
-  name: '大サイズ（サイトchrome）',
-  args: {
-    size: 'large',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'サイトヘッダーなど、両端まで要素を配置したい全幅 chrome レイアウトに使用する。',
-      },
-    },
-  },
+  name: 'サイト chrome',
+  args: { size: 'large' },
 };
 
+/**
+ * 左右の内側余白を切る派生。親側で余白を完全に管理したいネスト用途で使う。
+ *
+ * @summary gutter 無効化
+ */
 export const WithoutSpace: Story = {
   name: '余白なし',
-  args: {
-    space: false,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '左右の余白を無効にする。親要素が余白を管理する場合に使用する。',
-      },
-    },
-  },
+  args: { space: false },
 };

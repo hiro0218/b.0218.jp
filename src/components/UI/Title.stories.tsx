@@ -6,64 +6,55 @@ const meta = {
   title: 'UI/Title',
   component: Title,
   args: {
-    children: 'ページタイトル',
+    children: '記事一覧',
   },
 } satisfies Meta<typeof Title>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * ページ最上位のタイトル。`<h1>` として描画される。
+ *
+ * @summary ページ h1 タイトル
+ */
 export const Default: Story = {
   name: '基本',
-  parameters: {
-    docs: {
-      description: {
-        story: 'ページタイトルの基本形。h1 要素として描画される。',
-      },
-    },
-  },
 };
 
+/**
+ * タイトル直下に説明文を吊るす派生。ページ全体の趣旨を 1 行で説明したいときに使う。
+ *
+ * @summary 直下の説明文付き
+ */
 export const WithParagraph: Story = {
   name: '説明文付き',
   args: {
-    paragraph: 'ページの内容を簡潔に説明するテキストです。',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'タイトル直下に説明文を表示する。ページの概要を伝える場合に使用する。',
-      },
-    },
+    paragraph: 'TypeScript・React・CSS を中心にした技術メモと、ときどき雑記。',
   },
 };
 
+/**
+ * 記事タイトルなど、折り返しを起こさざるをえない長文が来た場合の標本。`text-wrap: balance` の効きが見える。
+ *
+ * @summary 長文ページタイトル
+ */
 export const LongTitle: Story = {
-  name: '長いタイトル',
+  name: '長文',
   args: {
-    children: 'TypeScriptの型システムを活用したReactコンポーネント設計パターンについての詳細な解説と実践的なアプローチ',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '長いタイトルの折り返し表示を確認する。',
-      },
-    },
+    children: '確証バイアスを避けるためにAIには逆の視点でも確認する',
   },
 };
 
+/**
+ * アーカイブページの最上位タイトル + 概要。タグやカテゴリの一覧ページで、何が並ぶページなのかを冒頭で示す。
+ *
+ * @summary アーカイブの導入
+ */
 export const WithComplexParagraph: Story = {
   name: 'タイトル + 説明文',
   args: {
-    children: '記事一覧',
-    paragraph:
-      'Web開発に関する技術記事をまとめています。TypeScript、React、Next.jsなどのフロントエンド技術を中心に発信しています。',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'タイトルと長めの説明文を組み合わせた表示。アーカイブページ等に使用する。',
-      },
-    },
+    children: 'TypeScript',
+    paragraph: 'TypeScript の型システム、エコシステム、Biome や Oxfmt との組み合わせに関する記事のアーカイブ。',
   },
 };

@@ -1,18 +1,110 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { ComponentProps } from 'react';
 
 import { ArticleCard } from '@/components/UI/ArticleCard';
+import { StoryFrame, StoryGrid, StoryStack, StoryWidth } from '@/stories/_internal/StorySurface';
+
+const POST_LINK = '/posts/example';
+
+const DEFAULT_ARGS = {
+  link: POST_LINK,
+  title: '[Codex] refresh token already usedエラーの対処',
+  date: '2026-04-27',
+} satisfies ComponentProps<typeof ArticleCard>;
+
+const FULL_ARGS = {
+  link: POST_LINK,
+  title: '[TypeScript] パフォーマンスとAI AgentのためにBarrelファイルを廃止する',
+  date: '2026-05-02',
+  updated: '2026-05-04',
+  excerpt:
+    'index.ts でまとめる Barrel ファイルは、Tree Shaking の効きにくさ・dev server の初期化連鎖・AI コード追跡コストを生む。入口の自明性を保ったまま 3 つのコストを抑える設計を組めるか。',
+  tags: ['Biome', 'TypeScript', '設計'],
+  category: 'development',
+} satisfies ComponentProps<typeof ArticleCard>;
+
+const EXCERPT_ARGS = {
+  link: POST_LINK,
+  title: '仕様駆動開発（SDD）とフロントエンドの相性',
+  date: '2026-03-08',
+  excerpt: '「仕様さえ渡せばAIが実装できる」という期待が高まる中、フロントエンドにこの前提はそのまま乗らない。',
+} satisfies ComponentProps<typeof ArticleCard>;
+
+const TAGS_ARGS = {
+  link: POST_LINK,
+  title: '[CSS] `:hover` などのネスト時の親要素参照（`&`）有無による挙動の違い',
+  date: '2024-08-02',
+  tags: ['CSS', 'CSS in JS', 'Sass'],
+} satisfies ComponentProps<typeof ArticleCard>;
+
+const UPDATED_ARGS = {
+  link: POST_LINK,
+  title: 'PrettierからOxfmtへの移行はMarkdownプロジェクトで有効か',
+  date: '2026-03-31',
+  updated: '2026-04-12',
+  excerpt:
+    'Prettier 互換を掲げる Rust 製フォーマッタ Oxfmt が Markdown プロジェクトでも同様の高速化をもたらすか検証した。',
+} satisfies ComponentProps<typeof ArticleCard>;
+
+const CATEGORY_ARGS = {
+  link: POST_LINK,
+  title: '[感想] Eorzean Symphony FINAL FANTASY XIV Orchestra Concert 2025',
+  date: '2025-12-29',
+  category: 'other',
+  tags: ['イベント', 'レビュー', '雑記'],
+} satisfies ComponentProps<typeof ArticleCard>;
+
+const LONG_TITLE_ARGS = {
+  link: POST_LINK,
+  title:
+    '確証バイアスを避けるためにAIには逆の視点でも確認する、というメタ手法を実運用に落とすときに具体的なプロンプトを残しておきたかったので書く',
+  date: '2025-11-26',
+  excerpt: '質問の前提と AI の応答が同じ方向に寄ることがある。反対側の立場で聞くと、その偏りを確認しやすい。',
+} satisfies ComponentProps<typeof ArticleCard>;
+
+const NARROW_ARGS = {
+  link: POST_LINK,
+  title: '[Git] GPG署名エラー（pinentry）の解決方法',
+  date: '2026-03-15',
+  category: 'development',
+  tags: ['Git', 'macOS', 'GPG'],
+  excerpt: 'git commit 時の GPG 署名がある時点から失敗するようになり、pinentry-curses の入力が動かなくなった。',
+} satisfies ComponentProps<typeof ArticleCard>;
+
+const MEDIUM_ARGS = {
+  link: POST_LINK,
+  title: '[GitHub] リアクション絵文字の意味は公式に定義されていない',
+  date: '2026-02-18',
+  category: 'other',
+  tags: ['GitHub', '絵文字', '調査'],
+  excerpt: '👍 を「賛成」、👎 を「反対」と使う場面は多いが、その意味付けは公式には存在しない。',
+} satisfies ComponentProps<typeof ArticleCard>;
+
+const REFERENCE_EXCERPT_ARGS = {
+  link: POST_LINK,
+  title: '仕様駆動開発（SDD）とフロントエンドの相性',
+  date: '2026-03-08',
+  excerpt: '仕様の品質が成果物の品質を直接左右するため、フロントエンドでは仕様の完全化が構造的に難しい。',
+} satisfies ComponentProps<typeof ArticleCard>;
+
+const REFERENCE_UPDATED_ARGS = {
+  link: POST_LINK,
+  title: '[CSS] `:hover` などのネスト時の親要素参照（`&`）有無による挙動の違い',
+  date: '2024-08-02',
+  updated: '2026-01-15',
+  excerpt: '`&` の有無でセレクタの解釈が変わる。検証してどちらを採るべきか整理した。',
+} satisfies ComponentProps<typeof ArticleCard>;
 
 const meta = {
   title: 'UI/ArticleCard',
   component: ArticleCard,
-  parameters: {
-    layout: 'centered',
-  },
+  args: DEFAULT_ARGS,
+  parameters: { layout: 'padded' },
   decorators: [
     (Story) => (
-      <div style={{ width: '600px' }}>
+      <StoryWidth maxInlineSize="600px">
         <Story />
-      </div>
+      </StoryWidth>
     ),
   ],
 } satisfies Meta<typeof ArticleCard>;
@@ -20,233 +112,186 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * タイトルと日付だけのスキャン優先表示。古い記事の年表的な一覧で、本文プレビューを出すと密度が上がりすぎるときに選ぶ。
+ *
+ * @summary 最小情報、年表的な一覧向け
+ */
 export const Default: Story = {
   name: '基本',
-  args: {
-    link: '/posts/example-post',
-    title: 'TypeScript 5.0 の新機能まとめ',
-    date: '2024-01-15',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '最小限の必須 Props のみ指定した基本形。タイトルと日付のみ表示される。',
-      },
-    },
-  },
 };
 
+/**
+ * 概要を 1〜2 文添える形。クリックで開くか迷うところに導線を 1 つ足したい一覧で選ぶ。
+ *
+ * @summary 開く前に内容判断を助ける概要付き
+ */
 export const WithExcerpt: Story = {
-  name: '概要文付き',
-  args: {
-    link: '/posts/example-post',
-    title: 'Next.js App Router の設計パターン',
-    date: '2024-02-20',
-    excerpt:
-      'App Router を使った実践的な設計パターンについて解説します。Server Components と Client Components の使い分けがポイントです。',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '概要文付きで記事の内容を事前に把握できる。一覧ページでの標準的な表示形式。',
-      },
-    },
-  },
+  name: '概要付き',
+  args: EXCERPT_ARGS,
 };
 
+/**
+ * タグを併記する形。狭幅では非表示になるので、必須情報をタグに乗せない。
+ *
+ * @summary 補助情報としてのタグ表示
+ */
 export const WithTags: Story = {
   name: 'タグ付き',
-  args: {
-    link: '/posts/example-post',
-    title: 'React 19 の新機能と移行ガイド',
-    date: '2024-03-10',
-    tags: ['React', 'TypeScript', 'Next.js'],
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'タグ付き。コンテナ幅 480px 以下ではタグが非表示になる。',
-      },
-    },
-  },
+  args: TAGS_ARGS,
 };
 
+/**
+ * 公開日と更新日の両方を出す形。古い記事を直したときに鮮度を一覧で伝えるために選ぶ。
+ *
+ * @summary 公開後に内容を更新した記事
+ */
 export const WithUpdatedDate: Story = {
   name: '更新日付き',
-  args: {
-    link: '/posts/example-post',
-    title: 'CSS Container Queries の実践ガイド',
-    date: '2024-01-01',
-    updated: '2024-06-15',
-    excerpt: 'Container Queries を使ったレスポンシブデザインの新しいアプローチを紹介します。',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '更新日がある場合、投稿日に取り消し線が付き更新日が併記される。',
-      },
+  args: UPDATED_ARGS,
+};
+
+/**
+ * カテゴリで左上のアイコンと色が変わる。development / technology / other を Controls で切り替えて確認できる。
+ *
+ * @summary 大分類アイコン付き
+ */
+export const WithCategory: Story = {
+  name: 'カテゴリ付き',
+  args: CATEGORY_ARGS,
+  argTypes: {
+    category: {
+      control: 'select',
+      options: ['development', 'technology', 'other'],
     },
   },
 };
 
-export const DevelopmentCategory: Story = {
-  name: '開発カテゴリ',
-  args: {
-    link: '/posts/example-post',
-    title: 'Panda CSS でスタイリングを効率化する',
-    date: '2024-04-01',
-    category: 'development',
-    tags: ['CSS', 'Panda CSS'],
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '開発カテゴリのアイコンと背景色が表示される。',
-      },
-    },
-  },
+/**
+ * 一覧ページ用に h2 を直に出す形。トップレベル見出しとしてカードを並べるときに必要になる。
+ *
+ * @summary トップレベル見出しとしての h2
+ */
+export const WithTitleH2: Story = {
+  name: 'h2 見出し',
+  args: { titleTagName: 'h2' },
 };
 
-export const TechnologyCategory: Story = {
-  name: 'テクノロジーカテゴリ',
-  args: {
-    link: '/posts/example-post',
-    title: 'AI コーディングアシスタントの活用法',
-    date: '2024-05-01',
-    category: 'technology',
-    tags: ['AI', 'Productivity'],
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'テクノロジーカテゴリのアイコンと背景色が表示される。',
-      },
-    },
-  },
-};
-
-export const OtherCategory: Story = {
-  name: 'その他カテゴリ',
-  args: {
-    link: '/posts/example-post',
-    title: '技術ブログを書き続けるコツ',
-    date: '2024-06-01',
-    category: 'other',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'その他カテゴリのアイコンと背景色が表示される。',
-      },
-    },
-  },
-};
-
+/**
+ * 全 props を埋めた最大構成。アンカーやマージンが他要素と干渉していないかを目視確認する用の標本。
+ *
+ * @summary 全 props 指定の最大構成
+ */
 export const FullContent: Story = {
   tags: ['!manifest'],
-  name: '全属性',
-  args: {
-    link: '/posts/example-post',
-    title: 'Storybook v10 で Next.js アプリのコンポーネントカタログを構築する完全ガイド',
-    date: '2024-01-15',
-    updated: '2024-07-01',
-    excerpt:
-      'Storybook v10 の新機能を活用して、Next.js アプリケーションのコンポーネントカタログを効率的に構築する方法を詳しく解説します。',
-    tags: ['Storybook', 'Next.js', 'React', 'Testing'],
-    category: 'development',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '全 Props を指定したリファレンス。レイアウトの最大構成を確認するために使用する。',
-      },
-    },
-  },
+  name: '最大構成',
+  args: FULL_ARGS,
 };
 
-export const WithTitleH2: Story = {
-  name: 'h2 タイトル',
-  args: {
-    link: '/posts/example-post',
-    title: 'TypeScript 5.0 の新機能まとめ',
-    date: '2024-01-15',
-    titleTagName: 'h2',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '見出しレベルを h2 に変更。一覧ページのトップレベルで使用する場合に指定する。',
-      },
-    },
-  },
-};
-
+/**
+ * 連結記号なしで折り返せない長文タイトルの破綻チェック。line-clamp と word-break の組み合わせが効いている確認。
+ *
+ * @summary 長文タイトルの折り返しチェック
+ */
 export const LongTitle: Story = {
-  name: '長いタイトル',
-  args: {
-    link: '/posts/example-post',
-    title:
-      'TypeScript と React Server Components を組み合わせたモダンなフルスタック Web アプリケーション開発の実践的アプローチについて詳しく解説する',
-    date: '2024-01-15',
-    excerpt: '非常に長いタイトルのテキストオーバーフローを確認するためのストーリーです。',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: '長いタイトルのテキストオーバーフロー（line-clamp）を確認するためのストーリー。',
-      },
-    },
-  },
+  tags: ['!manifest'],
+  name: '長文タイトル',
+  args: LONG_TITLE_ARGS,
 };
 
+/**
+ * コンテナ 300px 以下の状態。カテゴリバッジは上段に逃げ、タグは省略される。
+ *
+ * @summary 狭幅レイアウト 300px
+ */
 export const Narrow: Story = {
-  name: '幅 300px',
-  args: {
-    link: '/posts/example-post',
-    title: 'コンテナ幅 300px での表示確認',
-    date: '2024-01-15',
-    category: 'development',
-    tags: ['React', 'TypeScript'],
-    excerpt: 'コンテナ幅 320px 以下でカテゴリバッジが上部に移動し、480px 以下でタグが非表示になる。',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'コンテナ幅 300px。320px 以下でカテゴリバッジが上部に移動する。',
-      },
-    },
-  },
+  tags: ['!manifest'],
+  name: '300px',
+  args: NARROW_ARGS,
   decorators: [
     (Story) => (
-      <div style={{ width: '300px' }}>
+      <StoryWidth inlineSize="300px">
         <Story />
-      </div>
+      </StoryWidth>
     ),
   ],
 };
 
+/**
+ * コンテナ 450px。ヘッダーは横並びを保ち、タグだけが落ちる中間状態。
+ *
+ * @summary 中間幅 450px
+ */
 export const Medium: Story = {
-  name: '幅 450px',
-  args: {
-    link: '/posts/example-post',
-    title: 'コンテナ幅 450px での表示確認',
-    date: '2024-01-15',
-    category: 'technology',
-    tags: ['CSS', 'Container Queries'],
-    excerpt: 'コンテナ幅 320px〜480px ではヘッダーは横並び、タグは非表示。',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'コンテナ幅 450px。タグは非表示でヘッダーは横並びの中間状態。',
-      },
-    },
-  },
+  tags: ['!manifest'],
+  name: '450px',
+  args: MEDIUM_ARGS,
   decorators: [
     (Story) => (
-      <div style={{ width: '450px' }}>
+      <StoryWidth inlineSize="450px">
         <Story />
-      </div>
+      </StoryWidth>
     ),
   ],
+};
+
+/**
+ * 構成差を 1 画面で並べた標本群。どの props 組み合わせが情報密度上どこに着地するかを比較する用。
+ *
+ * @summary 構成差の比較標本
+ */
+export const VariantReference: Story = {
+  tags: ['!manifest'],
+  name: '構成差の比較',
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <StoryGrid minItemWidth="20rem">
+      <StoryFrame caption="タイトルと日付だけ。年表的な一覧向け。" label="01 — minimal" title="最小構成">
+        <ArticleCard {...DEFAULT_ARGS} />
+      </StoryFrame>
+      <StoryFrame caption="開く前に内容判断を助ける概要。" label="02 — excerpt" title="概要付き">
+        <ArticleCard {...REFERENCE_EXCERPT_ARGS} />
+      </StoryFrame>
+      <StoryFrame caption="鮮度を伝える更新日表記。" label="03 — updated" title="更新日付き">
+        <ArticleCard {...REFERENCE_UPDATED_ARGS} />
+      </StoryFrame>
+      <StoryFrame caption="大分類のアイコンと色で読み分け。" label="04 — categorized" title="カテゴリ付き">
+        <ArticleCard {...CATEGORY_ARGS} />
+      </StoryFrame>
+    </StoryGrid>
+  ),
+};
+
+/**
+ * コンテナ幅の閾値ごとに、何が省略されるかを縦に並べた標本群。レスポンシブ設計時の確認用。
+ *
+ * @summary 幅別レスポンシブ標本
+ */
+export const ResponsiveReference: Story = {
+  tags: ['!manifest'],
+  name: '幅別レスポンシブ',
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <StoryStack>
+      <StoryFrame
+        caption="カテゴリバッジが上段に移動し、タグは省略される。"
+        inlineSize="300px"
+        label="01"
+        title="狭幅 — 300px"
+      >
+        <ArticleCard {...FULL_ARGS} />
+      </StoryFrame>
+      <StoryFrame
+        caption="ヘッダーは横並びを保つが、タグは省略される。"
+        inlineSize="450px"
+        label="02"
+        title="中間 — 450px"
+      >
+        <ArticleCard {...FULL_ARGS} />
+      </StoryFrame>
+      <StoryFrame caption="カテゴリ・概要・タグまで揃う標準幅。" inlineSize="600px" label="03" title="標準 — 600px">
+        <ArticleCard {...FULL_ARGS} />
+      </StoryFrame>
+    </StoryStack>
+  ),
 };

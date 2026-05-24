@@ -6,11 +6,11 @@ import { Cluster } from './Cluster';
 
 const defaultChildren = (
   <>
-    <DemoBox compact>タグ 1</DemoBox>
-    <DemoBox color="var(--colors-green-200)">タグ 2</DemoBox>
-    <DemoBox color="var(--colors-red-200)">タグ 3</DemoBox>
-    <DemoBox color="var(--colors-blue-300)">タグ 4</DemoBox>
-    <DemoBox color="var(--colors-green-300)">タグ 5</DemoBox>
+    <DemoBox compact>TypeScript</DemoBox>
+    <DemoBox color="var(--colors-green-200)">Biome</DemoBox>
+    <DemoBox color="var(--colors-red-200)">CSS</DemoBox>
+    <DemoBox color="var(--colors-blue-300)">設計</DemoBox>
+    <DemoBox color="var(--colors-green-300)">AI</DemoBox>
   </>
 );
 
@@ -25,52 +25,49 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * 折り返しを前提とした水平配置。要素数が可変なタグ列・バッジ列に使う。
+ *
+ * @summary タグ列の基本形
+ */
 export const Default: Story = {
   name: '基本',
-  parameters: {
-    docs: {
-      description: {
-        story: '横方向に折り返す要素の集まり。タグやバッジの一覧に使用する。',
-      },
-    },
-  },
 };
 
+/**
+ * `gap` を広めに取ったタグ列。タッチ操作の誤タップ回避や、要素の独立性を強調したい場面に使う。
+ *
+ * @summary 広い gap のタグ列
+ */
 export const WideGap: Story = {
   name: '広い gap',
-  args: {
-    gap: 5,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'gap を広げて要素間の余白を増やす。',
-      },
-    },
-  },
+  args: { gap: 5 },
 };
 
+/**
+ * 子要素を均等幅に配分する派生。要素数が固定の主要ナビに使う。
+ *
+ * @summary 均等幅の主要ナビ
+ */
 export const Wide: Story = {
   name: '均等配分',
   args: {
     isWide: true,
     children: (
       <>
-        <DemoBox compact>均等配分</DemoBox>
-        <DemoBox color="var(--colors-green-200)">均等配分</DemoBox>
-        <DemoBox color="var(--colors-red-200)">均等配分</DemoBox>
+        <DemoBox compact>記事</DemoBox>
+        <DemoBox color="var(--colors-green-200)">タグ</DemoBox>
+        <DemoBox color="var(--colors-red-200)">アーカイブ</DemoBox>
       </>
     ),
   },
-  parameters: {
-    docs: {
-      description: {
-        story: '子要素を均等幅に配分する。ナビゲーション等に使用する。',
-      },
-    },
-  },
 };
 
+/**
+ * `<nav>` として描画する派生。サイト内のナビゲーション領域として意味づける。
+ *
+ * @summary nav ランドマーク化
+ */
 export const AsNav: Story = {
   name: 'nav 要素',
   args: {
@@ -79,16 +76,9 @@ export const AsNav: Story = {
     children: (
       <>
         <DemoBox compact>ホーム</DemoBox>
-        <DemoBox color="var(--colors-green-200)">概要</DemoBox>
-        <DemoBox color="var(--colors-red-200)">お問い合わせ</DemoBox>
+        <DemoBox color="var(--colors-green-200)">記事</DemoBox>
+        <DemoBox color="var(--colors-red-200)">タグ</DemoBox>
       </>
     ),
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'nav 要素として描画する。ナビゲーションのセマンティクスが必要な場合に使用する。',
-      },
-    },
   },
 };

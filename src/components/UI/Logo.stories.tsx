@@ -10,13 +10,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * グローバルヘッダーに置くサイト識別ロゴ。クリックでトップへ戻る役割を持つ。
+ *
+ * @summary ヘッダー設置のサイトロゴ
+ */
 export const Default: Story = {
   name: '基本',
-  parameters: {
-    docs: {
-      description: {
-        story: 'サイトロゴの基本表示。ヘッダーに配置しトップページへのリンクとして機能する。',
-      },
-    },
-  },
 };
