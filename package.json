@@ -107,7 +107,7 @@
     "react-dom": "19.2.6",
     "react-stately": "3.46.0",
     "shokika.css": "1.8.0",
-    "style-to-js": "1.1.21"
+    "style-to-js": "2.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.15",
