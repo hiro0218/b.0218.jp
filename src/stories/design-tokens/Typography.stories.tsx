@@ -4,6 +4,22 @@ import { Stack } from '@/components/UI/Layout/Stack';
 import fontSizesValues from '@/ui/styled/theme/tokens/fontSizes';
 import fontWeightsValues from '@/ui/styled/theme/tokens/fontWeights';
 
+const meta: Meta = {
+  title: 'Design Tokens/Typography',
+  tags: ['!manifest'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'タイポグラフィ関連トークン（font-size / font-weight）。新しい階層を作る前に既存スケールでまかなえないかを判断するためのリファレンス。',
+      },
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
 const FONT_SIZES = Object.keys(fontSizesValues).map((name) => ({
   name,
   variable: `--font-sizes-${name}`,
@@ -38,22 +54,6 @@ const FontWeightSample = ({ name, variable, value }: { name: string; variable: s
     <p style={{ fontSize: '1.125rem', fontWeight: value, lineHeight: 1.5, margin: 0 }}>{SAMPLE_TEXT}</p>
   </Stack>
 );
-
-const meta: Meta = {
-  title: 'Design Tokens/Typography',
-  tags: ['!manifest'],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          'タイポグラフィ関連トークン（font-size / font-weight）。新しい階層を作る前に既存スケールでまかなえないかを判断するためのリファレンス。',
-      },
-    },
-  },
-};
-
-export default meta;
-type Story = StoryObj<typeof meta>;
 
 /**
  * font-size の全段階を和欧混植の実文例で比較する標本。階層を増やすか既存スケールから選ぶかの判断に使う。

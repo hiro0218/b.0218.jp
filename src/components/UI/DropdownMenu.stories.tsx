@@ -5,6 +5,15 @@ import { DropdownMenu } from '@/components/UI/DropdownMenu';
 import { ICON_SIZE_SM } from '@/ui/iconSizes';
 import { GitHubLogo } from '@/ui/icons/GitHubLogo';
 
+const meta = {
+  title: 'UI/DropdownMenu',
+  component: DropdownMenu,
+  parameters: { layout: 'centered' },
+} satisfies Meta<typeof DropdownMenu>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
 const menuTitle = (
   <>
     <span className="sr-only">Feedback</span>
@@ -14,14 +23,13 @@ const menuTitle = (
 
 const MENU_TRIGGER_NAME = /Feedback/;
 
-const meta = {
-  title: 'UI/DropdownMenu',
-  component: DropdownMenu,
-  parameters: { layout: 'centered' },
-} satisfies Meta<typeof DropdownMenu>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
+const interactionMenuItems = (
+  <>
+    <a href="/posts/202605021758">[TypeScript] Barrel ファイルを廃止する</a>
+    <a href="/posts/202604271115">[Codex] refresh token already used</a>
+    <a href="/posts/202603081143">仕様駆動開発（SDD）とフロントエンドの相性</a>
+  </>
+);
 
 /**
  * トリガーの右端揃えで展開する標準形。記事フッターのフィードバックボタンが典型。
@@ -60,14 +68,6 @@ export const PositionLeft: Story = {
     ),
   },
 };
-
-const interactionMenuItems = (
-  <>
-    <a href="/posts/202605021758">[TypeScript] Barrel ファイルを廃止する</a>
-    <a href="/posts/202604271115">[Codex] refresh token already used</a>
-    <a href="/posts/202603081143">仕様駆動開発（SDD）とフロントエンドの相性</a>
-  </>
-);
 
 /**
  * トリガークリックで `aria-expanded` と `aria-haspopup` が正しく更新されることを検証する。アクセシビリティ契約の保証。

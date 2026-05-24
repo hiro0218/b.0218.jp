@@ -5,6 +5,22 @@ import { Stack } from '@/components/UI/Layout/Stack';
 import { toKebab } from '@/stories/_internal/utils';
 import colorTokens from '@/ui/styled/theme/tokens/colors';
 
+const meta: Meta = {
+  title: 'Design Tokens/ColorPalette',
+  tags: ['!manifest'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'Adobe Spectrum を基盤とした色スケール。新規色を増やす前に、既存トークンで意図に届くかをここで判断する。',
+      },
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
 type Swatch = { name: string; variable: string };
 
 function scaleEntries(tokenKey: string): Swatch[] {
@@ -62,22 +78,6 @@ const TRANSPARENT_COLORS = [
   { key: 'grayA', title: 'grayA (transparent-black)' },
   { key: 'whiteA', title: 'whiteA (transparent-white)' },
 ] as const;
-
-const meta: Meta = {
-  title: 'Design Tokens/ColorPalette',
-  tags: ['!manifest'],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          'Adobe Spectrum を基盤とした色スケール。新規色を増やす前に、既存トークンで意図に届くかをここで判断する。',
-      },
-    },
-  },
-};
-
-export default meta;
-type Story = StoryObj<typeof meta>;
 
 /**
  * 不透明な基本スケール（Gray / Blue / Green / Red / Orange / Yellow / Purple / Pink）。背景・テキスト・ボーダーなどコア用途で参照する。

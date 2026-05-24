@@ -8,6 +8,22 @@ import { keyframes } from '@/ui/styled/theme/keyframes';
 import durationValues from '@/ui/styled/theme/tokens/durations';
 import easingValues from '@/ui/styled/theme/tokens/easings';
 
+const meta: Meta = {
+  title: 'Design Tokens/Animation',
+  tags: ['!manifest'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'モーション関連トークン（easing / duration / keyframe）。UI トランジションを新規に決めるときに、既存トークンで意図に届くかをここで動かして判断する。',
+      },
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
 const EASINGS = Object.keys(easingValues).map((name) => ({
   name,
   variable: `--easings-${toKebab(name)}`,
@@ -113,22 +129,6 @@ const KeyframeDemo = ({ name }: { name: string }) => {
     </Stack>
   );
 };
-
-const meta: Meta = {
-  title: 'Design Tokens/Animation',
-  tags: ['!manifest'],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          'モーション関連トークン（easing / duration / keyframe）。UI トランジションを新規に決めるときに、既存トークンで意図に届くかをここで動かして判断する。',
-      },
-    },
-  },
-};
-
-export default meta;
-type Story = StoryObj<typeof meta>;
 
 /**
  * イージング曲線を実際の移動アニメーションで比較する標本。曲線の感触の違いを目で確認したい場面で使う。
