@@ -22,6 +22,7 @@ interface Props {
 }
 
 type CopyPermalinkState = 'idle' | 'copying' | 'copied' | 'failed' | 'unsupported';
+type CopyPermalinkFeedbackState = Extract<CopyPermalinkState, 'copied' | 'failed' | 'unsupported'>;
 
 const FEEDBACK_TIMEOUT_MS = 2000;
 
@@ -32,6 +33,20 @@ const COPY_PERMALINK_LABELS: Record<CopyPermalinkState, string> = {
   failed: 'コピーに失敗しました',
   unsupported: 'このブラウザはコピーに未対応',
 };
+
+const COPY_PERMALINK_FEEDBACK_ICONS = {
+  copied: CheckIcon,
+  failed: XMarkIcon,
+  unsupported: NoSymbolIcon,
+} satisfies Record<CopyPermalinkFeedbackState, typeof CheckIcon>;
+
+function isCopyPermalinkFeedbackState(state: CopyPermalinkState): state is CopyPermalinkFeedbackState {
+  return state === 'copied' || state === 'failed' || state === 'unsupported';
+}
+
+function getCopyPermalinkFeedbackIcon(state: CopyPermalinkState) {
+  return isCopyPermalinkFeedbackState(state) ? COPY_PERMALINK_FEEDBACK_ICONS[state] : CheckIcon;
+}
 
 // React Compiler との互換性のため、subscribe 関数を外部で定義
 const emptySubscribe = () => () => {};
@@ -95,8 +110,8 @@ export function PostShare({ title, url }: Props) {
       });
   }, [isShareSupported, title, url]);
 
-  const CopyFeedbackIcon = copyState === 'failed' ? XMarkIcon : copyState === 'unsupported' ? NoSymbolIcon : CheckIcon;
-  const showCopyFeedbackIcon = copyState === 'copied' || copyState === 'failed' || copyState === 'unsupported';
+  const CopyFeedbackIcon = getCopyPermalinkFeedbackIcon(copyState);
+  const showCopyFeedbackIcon = isCopyPermalinkFeedbackState(copyState);
   const activeCopyIcon: IconSwapActiveIcon = showCopyFeedbackIcon ? 'secondary' : 'primary';
 
   return (
