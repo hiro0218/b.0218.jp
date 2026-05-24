@@ -2,12 +2,12 @@
 'use no memo';
 
 import { LinkIcon, ShareIcon } from '@heroicons/react/24/outline';
-import { useCallback, useId, useSyncExternalStore } from 'react';
-
+import { useCallback, useId, useRef, useSyncExternalStore } from 'react';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { Toast, useToast } from '@/components/UI/Toast';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { X_ACCOUNT } from '@/constants';
+import { useClipboardCopy } from '@/hooks/useClipboardCopy';
 import { ICON_SIZE_SM } from '@/ui/iconSizes';
 import { Hatenabookmark } from '@/ui/icons/Hatenabookmark';
 import { X } from '@/ui/icons/X';
@@ -27,22 +27,33 @@ export function PostShare({ title, url }: Props) {
   const labelledbyId = useId();
   const isShareSupported = useSyncExternalStore(emptySubscribe, getNavigatorShareSnapshot, getServerSnapshot);
   const { ref, showToast, hideToast, message, isVisible } = useToast('記事のURLをコピーしました');
+  const { copyText } = useClipboardCopy();
+  const isCopyingRef = useRef(false);
   const classNames = cx('link-style--hover-effect', ShareButtonStyle);
 
   const onClickCopyPermalink = useCallback(async () => {
-    if (!navigator?.clipboard) {
-      console.error('[PostShare] Clipboard API not supported');
-      return;
-    }
+    if (isCopyingRef.current) return;
+    isCopyingRef.current = true;
 
     try {
-      await navigator.clipboard.writeText(url);
-      showToast();
-    } catch (error) {
-      console.error('[PostShare] Failed to copy text:', error);
+      const result = await copyText(url);
+
+      if (result.status === 'copied') {
+        showToast();
+        return;
+      }
+
+      if (result.status === 'unsupported') {
+        console.error('[PostShare] Clipboard API not supported');
+        return;
+      }
+
+      console.error('[PostShare] Failed to copy text:', result.error);
       showToast('コピーに失敗しました');
+    } finally {
+      isCopyingRef.current = false;
     }
-  }, [showToast, url]);
+  }, [copyText, showToast, url]);
 
   const onClickShare = useCallback(() => {
     if (!isShareSupported) return;
