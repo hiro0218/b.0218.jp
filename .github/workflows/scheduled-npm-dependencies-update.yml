@@ -12,6 +12,10 @@ permissions:
   contents: write
   pull-requests: write
 
+concurrency:
+  group: npm-update
+  cancel-in-progress: true
+
 jobs:
   npm-update:
     env:
@@ -34,6 +38,19 @@ jobs:
         with:
           node-version-file: '.node-version'
           cache: 'npm'
+
+      - name: Check existing PR
+        id: check-pr
+        env:
+          GH_TOKEN: ${{ secrets.BOT_TOKEN }}
+        run: |
+          pr_number=$(gh pr list --head automated-npm-update --base develop --state open --json number --jq '.[0].number // empty')
+          if [[ -n "$pr_number" ]]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "number=$pr_number" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Get changed files
         id: changed-files
@@ -62,8 +79,9 @@ jobs:
         id: should-update
         env:
           ANY_CHANGED: ${{ steps.changed-files.outputs.any_changed }}
+          PR_EXISTS: ${{ steps.check-pr.outputs.exists }}
         run: |
-          if [[ "$GITHUB_EVENT_NAME" == "schedule" || "$GITHUB_EVENT_NAME" == "workflow_dispatch" || "$ANY_CHANGED" == "true" ]]; then
+          if [[ "$GITHUB_EVENT_NAME" == "schedule" || "$GITHUB_EVENT_NAME" == "workflow_dispatch" || "$ANY_CHANGED" == "true" || "$PR_EXISTS" == "true" ]]; then
             echo "run=true" >> "$GITHUB_OUTPUT"
           else
             echo "run=false" >> "$GITHUB_OUTPUT"
@@ -102,3 +120,11 @@ jobs:
           body: 'Automated changes by GitHub Actions'
           branch: automated-npm-update
           delete-branch: true
+
+      - name: Close PR if no changes remain
+        if: ${{ steps.should-update.outputs.run == 'true' && steps.git-check.outputs.changes != 'true' && steps.check-pr.outputs.exists == 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.BOT_TOKEN }}
+          PR_NUMBER: ${{ steps.check-pr.outputs.number }}
+        run: |
+          gh pr close "$PR_NUMBER" --delete-branch --comment "developブランチへの取り込み完了により差分が解消したため、自動クローズします。"
