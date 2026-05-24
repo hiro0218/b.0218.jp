@@ -11,5 +11,8 @@ export const handleCodeBlock: Replacer = (domNode, options) => {
     return undefined;
   }
 
-  return <CodeBlock preProps={toSafeProps(domNode)}>{domToReact(domNode.children as DOMNode[], options)}</CodeBlock>;
+  const preProps = toSafeProps(domNode);
+  const children = domToReact(domNode.children as DOMNode[], options);
+
+  return <CodeBlock preProps={preProps}>{children}</CodeBlock>;
 };
