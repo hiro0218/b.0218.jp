@@ -128,7 +128,7 @@ const meta: Meta = {
 };
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
 /**
  * イージング曲線を実際の移動アニメーションで比較する標本。曲線の感触の違いを目で確認したい場面で使う。

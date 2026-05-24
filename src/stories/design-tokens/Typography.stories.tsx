@@ -53,7 +53,7 @@ const meta: Meta = {
 };
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
 /**
  * font-size の全段階を和欧混植の実文例で比較する標本。階層を増やすか既存スケールから選ぶかの判断に使う。

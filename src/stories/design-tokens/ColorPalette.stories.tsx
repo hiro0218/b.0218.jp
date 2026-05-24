@@ -77,7 +77,7 @@ const meta: Meta = {
 };
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<typeof meta>;
 
 /**
  * 不透明な基本スケール（Gray / Blue / Green / Red / Orange / Yellow / Purple / Pink）。背景・テキスト・ボーダーなどコア用途で参照する。
