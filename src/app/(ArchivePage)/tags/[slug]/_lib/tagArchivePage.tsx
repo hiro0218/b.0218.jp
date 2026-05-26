@@ -8,11 +8,10 @@ import { Sidebar } from '@/components/UI/Layout/Sidebar';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { Title } from '@/components/UI/Title';
 import { TAG_VIEW_LIMIT } from '@/constants';
-import { isProduction } from '@/lib/config/environment';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
 import { getTagPosts } from '@/lib/post/tagPosts';
 import { getTagsWithCount } from '@/lib/source/tag';
-import { tagFromUrlPath, tagUrlPath } from '@/lib/tag/url';
+import { tagFromUrlPath } from '@/lib/tag/url';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import {
   createTagArchiveMetadataModel,
@@ -45,22 +44,14 @@ function getRoutableTags() {
   return getTagsWithCount().filter((tag) => tag.count >= TAG_VIEW_LIMIT);
 }
 
-function getStaticSlugParam(slug: string): string {
-  // production は sitemap/canonical と同じ raw Tag を使い、dev だけ手元確認用に URL-safe へ寄せる。
-  // @note https://github.com/vercel/next.js/issues/63002
-  return isProduction ? slug : tagUrlPath(slug);
-}
-
 export function getTagStaticParams(): StaticTagParam[] {
   return getRoutableTags().map((tag) => ({
-    slug: getStaticSlugParam(tag.slug),
+    slug: tag.slug,
   }));
 }
 
 export function getTagPaginationStaticParams(): StaticTagPageParam[] {
-  return getRoutableTags().flatMap((tag) => {
-    return createTagArchivePaginationStaticParams(getStaticSlugParam(tag.slug), tag.count);
-  });
+  return getRoutableTags().flatMap((tag) => createTagArchivePaginationStaticParams(tag.slug, tag.count));
 }
 
 export function getTagArchiveMetadata({ slug, currentPage = 1 }: TagArchiveMetadataOptions): Metadata {
