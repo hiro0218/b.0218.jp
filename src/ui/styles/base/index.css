@@ -24,9 +24,12 @@ body {
   font-feature-settings: 'chws' 1;
   font-kerning: normal;
   font-synthesis: none;
-  line-height: 1.875;
+  line-height: var(--line-heights-body);
   color: var(--colors-gray-1000);
   line-break: strict;
+  /* progressive enhancement: Chrome 123+ で約物の自動字詰めを有効化。未対応ブラウザは normal にフォールバック */
+  /* stylelint-disable-next-line plugin/browser-compat */
+  text-spacing-trim: trim-start;
   background-color: var(--colors-body-background);
   -webkit-font-smoothing: subpixel-antialiased;
 
