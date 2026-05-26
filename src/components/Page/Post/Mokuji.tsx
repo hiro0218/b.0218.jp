@@ -60,19 +60,19 @@ const Root = styled.nav`
 
   /*
    * 目次の最小幅 (--mokuji-min-inline-size) を本文左右に確保できる viewport でのみ固定配置する。
-   * 下限 ≒ (container-sm + 2 × (mokuji-inline-gap + mokuji-min-inline-size)) / 0.9。
-   * 「2 ×」は本文中央配置のため両側分必要、「/ 0.9」は container-lg の clamp(..., 90vw, ...) 由来。
+   * container-lg (max 80rem) が確保される viewport (>= 80rem) で
+   * (container-lg - container-article) / 2 = 15rem ≥ mokuji-inline-gap + mokuji-min-inline-size (14.5rem) を満たす。
    */
-  @media (--isDesktop) and (min-width: 77rem) {
-    /* Container LG 内の片側余白 (Container SM の外側) = Mokuji が利用できる横幅 */
+  @media (--isDesktop) and (min-width: 80rem) {
+    /* Container LG 内の片側余白 (Container Article の外側) = Mokuji が利用できる横幅 */
     --mokuji-min-inline-size: 12rem;
     --mokuji-inline-gap: var(--spacing-4);
     --mokuji-block-offset: calc(var(--spacing-5) + var(--spacing-3));
     --mokuji-summary-block-size: var(--spacing-5);
-    --mokuji-side-room: calc((var(--sizes-container-lg) - var(--sizes-container-sm)) / 2);
+    --mokuji-side-room: calc((var(--sizes-container-lg) - var(--sizes-container-article)) / 2);
     position: fixed;
     inset-block-start: var(--mokuji-block-offset);
-    inset-inline-start: calc(50% + var(--sizes-container-sm) / 2 + var(--mokuji-inline-gap));
+    inset-inline-start: calc(50% + var(--sizes-container-article) / 2 + var(--mokuji-inline-gap));
     z-index: var(--z-index-base);
     inline-size: max(var(--mokuji-min-inline-size), calc(var(--mokuji-side-room) - var(--mokuji-inline-gap)));
 
