@@ -10,7 +10,9 @@ const sizes: TokenValues<'sizes'> = {
   'container-sm': { value: 'clamp(16rem, 90vw, 42rem)' },
   'container-md': { value: 'clamp(16rem, 90vw, 48rem)' },
   'container-lg': { value: 'clamp(16rem, 90vw, 80rem)' },
+  'container-article': { value: '50rem' },
   'touch-target': { value: '44px' },
+  'link-preview-thumbnail': { value: '120px' },
 };
 
 export default sizes;
