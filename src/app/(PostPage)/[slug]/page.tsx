@@ -11,7 +11,6 @@ import { PostEdit } from '@/components/Page/Post/Edit';
 import { PostHeader } from '@/components/Page/Post/Header';
 import { PostShare } from '@/components/Page/Post/Share';
 import { Alert } from '@/components/UI/Alert';
-import { Container } from '@/components/UI/Layout/Container';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { AUTHOR_NAME } from '@/constants';
 import { buildId } from '@/lib/config/environment';
@@ -90,51 +89,49 @@ export default async function Page({ params }: { params: Params }) {
       <ScrollProgress />
       <StructuredData data={[getBlogPostingStructured(post, popularity), getBreadcrumbStructured(post)]} />
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
-      <Container size="small" space={false}>
-        <Stack gap={6}>
-          <Stack as="article" gap={4}>
-            <PostHeader
-              date={date}
-              render={
-                <>
-                  <PostShare title={title} url={permalink} />
-                  {!!note && <Alert hideLabel={true} html={note} type="note" />}
-                </>
-              }
-              tagsWithCount={tagsWithCount}
-              title={title}
-              updated={updated}
-            />
-            <PostContent content={content} />
-            <Stack direction="horizontal" justify="space-between">
-              <PostShare title={title} url={permalink} />
-              <PostEdit slug={slug} />
-            </Stack>
-          </Stack>
-          <Stack as="footer" gap={5}>
-            <TagSection
-              as="aside"
-              heading="関連タグ"
-              headingLevel="h2"
-              headingWeight="normal"
-              isWideCluster={false}
-              tags={similarTags}
-            />
-            <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
-            {mostPopularTag && sameTagPosts.length > 0 && (
-              <PostSection
-                as="aside"
-                heading={`「${mostPopularTag.slug}」タグの記事`}
-                headingLevel="h2"
-                href={tagPath(mostPopularTag.slug)}
-                posts={sameTagPosts}
-                prefetch={false}
-              />
-            )}
-            <PostSection as="aside" heading="最新記事" headingLevel="h2" href="/archive" posts={recentPosts} />
+      <Stack gap={6}>
+        <Stack as="article" gap={4}>
+          <PostHeader
+            date={date}
+            render={
+              <>
+                <PostShare title={title} url={permalink} />
+                {!!note && <Alert hideLabel={true} html={note} type="note" />}
+              </>
+            }
+            tagsWithCount={tagsWithCount}
+            title={title}
+            updated={updated}
+          />
+          <PostContent content={content} />
+          <Stack direction="horizontal" justify="space-between">
+            <PostShare title={title} url={permalink} />
+            <PostEdit slug={slug} />
           </Stack>
         </Stack>
-      </Container>
+        <Stack as="footer" gap={5}>
+          <TagSection
+            as="aside"
+            heading="関連タグ"
+            headingLevel="h2"
+            headingWeight="normal"
+            isWideCluster={false}
+            tags={similarTags}
+          />
+          <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
+          {mostPopularTag && sameTagPosts.length > 0 && (
+            <PostSection
+              as="aside"
+              heading={`「${mostPopularTag.slug}」タグの記事`}
+              headingLevel="h2"
+              href={tagPath(mostPopularTag.slug)}
+              posts={sameTagPosts}
+              prefetch={false}
+            />
+          )}
+          <PostSection as="aside" heading="最新記事" headingLevel="h2" href="/archive" posts={recentPosts} />
+        </Stack>
+      </Stack>
     </>
   );
 }

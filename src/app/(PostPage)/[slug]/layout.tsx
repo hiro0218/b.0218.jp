@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Container } from '@/components/UI/Layout/Container';
+import { PostContainer } from '@/components/Page/Post/PostContainer';
 import { Stack } from '@/components/UI/Layout/Stack';
 
 type Props = {
@@ -8,10 +8,10 @@ type Props = {
 
 export default function PostPageLayout({ children }: Props) {
   return (
-    <Container size="default">
+    <PostContainer>
       <Stack as="section" gap={4}>
         {children}
       </Stack>
-    </Container>
+    </PostContainer>
   );
 }
