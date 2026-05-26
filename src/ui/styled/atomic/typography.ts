@@ -50,14 +50,18 @@ export const fontSizeHeadingClasses = {
 } as const;
 
 /**
- * 見出しフォントサイズの Atomic CSS クラスマップ（Heading コンポーネント用）
+ * 見出しフォントサイズの Atomic CSS クラスマップ（UI Heading コンポーネント用）
  *
- * Heading コンポーネント専用のフォントサイズマッピングを提供します。
- * 見出しタグに応じて動的に適用されます（例: `headingFontSizeClasses[tag]`）。
+ * UI Heading は本文 (`.post-content` 内の `h2-h6`) とは別系統の SectionTitle を表す。
+ * ArticleCard / Hero / TagSection など、ページ内の小区画見出しに用いる。
+ * セマンティックなタグ階層 (h1-h6) を保ちつつ、視覚サイズを意図的にダウンスケールして
+ * カード内・セクション内で完結する見出し密度を作る。
  *
- * マッピング:
- * - h1, h2 → var(--font-sizes-h4)
- * - h3, h4, h5, h6 → var(--font-sizes-h5)
+ * - h1, h2 → h4 サイズ（カード／セクションの主見出し）
+ * - h3, h4, h5, h6 → h5 サイズ（カード／セクション内の副見出し）
+ *
+ * 本文 Heading の階層は `src/ui/styles/components/post-content/index.css` 側で
+ * `font-sizes.h2`〜`h6` のフルスケールを使う。両者は別オブジェクトとして扱う。
  */
 export const headingFontSizeClasses = {
   h1: css`
