@@ -45,7 +45,7 @@ const Heading = styled.h1`
   font-weight: var(--font-weights-bolder);
   font-feature-settings: 'palt';
   font-kerning: normal;
-  line-height: var(--line-heights-lg);
+  line-height: var(--line-heights-heading-tight);
   word-break: auto-phrase;
   text-wrap: balance;
 `;
