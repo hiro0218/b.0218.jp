@@ -33,12 +33,11 @@ export const LinkPreview = ({ link, card, thumbnail, title, domain, description 
 };
 
 const Anchor = styled.a`
-  --link-preview-thumbnail-size: 120px;
+  --link-preview-thumbnail-size: var(--sizes-link-preview-thumbnail);
 
   display: flex;
   align-items: center;
   height: var(--link-preview-thumbnail-size);
-  margin: var(--spacing-3) 0;
   container-type: inline-size;
   overflow: hidden;
   color: var(--colors-gray-900);

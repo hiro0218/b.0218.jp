@@ -1,6 +1,7 @@
 import reactHtmlParser, { type Element, type HTMLReactParserOptions } from 'html-react-parser';
 import { handleAlert } from '../handlers/AlertHandler';
 import { handleAnchor } from '../handlers/AnchorHandler';
+import { handleCodeBlock } from '../handlers/CodeBlockHandler';
 import { handleCodePen } from '../handlers/CodePenHandler';
 import { handleLinkPreview } from '../handlers/LinkPreviewHandler';
 import { handleTable } from '../handlers/TableHandler';
@@ -9,7 +10,14 @@ import { handleZoomImage } from '../handlers/ZoomImage/ZoomImageHandler';
 
 const mutators: Mutator[] = [handleCodePen];
 
-const replacers: Replacer[] = [handleAnchor, handleAlert, handleLinkPreview, handleTable, handleZoomImage];
+const replacers: Replacer[] = [
+  handleAnchor,
+  handleAlert,
+  handleLinkPreview,
+  handleTable,
+  handleZoomImage,
+  handleCodeBlock,
+];
 
 // rehypeGfmAlert は blockquote を <script type="application/json" class="gfm-alert"> に変換するため、
 // htmlparser2 の type が 'script' / 'style' になる要素もハンドラ対象に含める。

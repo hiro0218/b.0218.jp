@@ -3,8 +3,28 @@
   line-height: var(--line-heights-article);
   color: var(--colors-gray-700);
 
+  /* Reading rhythm: Paragraph 連続を主とした既定の隣接間隔。 */
   & > * + * {
-    margin-top: var(--spacing-3);
+    margin-top: var(--spacing-post-content-flow-reading);
+  }
+
+  /* Reference isolation: CodeBlock / Table の前後は隔離する。
+     pre は CodeBlock コンポーネントで [data-code-block] にラップされ、
+     table は TableHandler で .c-table-scrollable にラップされる。
+     Figure / hr は固有の margin を持つため対象外。 */
+  & > * + :is([data-code-block], .c-table-scrollable) {
+    margin-top: var(--spacing-post-content-flow-reference);
+  }
+  & > :is([data-code-block], .c-table-scrollable) + * {
+    margin-top: var(--spacing-post-content-flow-reference);
+  }
+
+  /* Navigation block: LinkPreview の前後はカードとして隔離する。 */
+  & > * + a[data-card] {
+    margin-top: var(--spacing-post-content-flow-navigation);
+  }
+  & > a[data-card] + * {
+    margin-top: var(--spacing-post-content-flow-navigation);
   }
 
   & > * > :is(p, div) {
@@ -36,8 +56,9 @@
       font-size: 1em;
     }
 
+    /* Heading 直後: 直結関係 (詰め気味) */
     & + :where(*) {
-      margin-top: var(--spacing-2);
+      margin-top: var(--spacing-post-content-flow-heading-tight);
     }
 
     & + :is(h2, h3, h4, h5, h6) {
@@ -58,7 +79,7 @@
 
   h2 {
     padding-bottom: var(--spacing-½);
-    margin-top: clamp(var(--spacing-4), 2.8em, var(--spacing-5));
+    margin-top: clamp(var(--spacing-post-content-flow-section), 2.8em, var(--spacing-5));
     line-height: var(--line-heights-md);
     border-bottom: var(--border-widths-thin) solid var(--colors-gray-400);
 
@@ -81,6 +102,11 @@
     margin-top: clamp(var(--spacing-3), 2em, var(--spacing-4));
   }
 
+  h5,
+  h6 {
+    font-weight: var(--font-weights-bold);
+  }
+
   > :where(p) {
     letter-spacing: var(--letter-spacings-md);
     /* stylelint-disable */
@@ -88,6 +114,9 @@
     /* stylelint-enable */
     text-wrap: pretty;
     overflow-wrap: break-word;
+    /* progressive enhancement: Safari で句読点の行末ぶら下げを有効化。未対応ブラウザは none にフォールバック */
+    /* stylelint-disable-next-line plugin/browser-compat */
+    hanging-punctuation: allow-end;
   }
 
   /* workaround */
