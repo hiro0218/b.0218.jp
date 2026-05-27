@@ -132,7 +132,7 @@ export function PostShare({ title, url }: Props) {
           <a
             aria-label="Xでポスト"
             className={classNames}
-            href={`https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}&via=${X_ACCOUNT}`}
+            href={`https://x.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}&via=${X_ACCOUNT}`}
             rel="noreferrer"
             target="_blank"
           >
