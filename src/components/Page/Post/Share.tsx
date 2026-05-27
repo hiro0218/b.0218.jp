@@ -51,20 +51,28 @@ function getCopyPermalinkFeedbackIcon(state: CopyPermalinkState) {
 // React Compiler との互換性のため、subscribe 関数を外部で定義
 const emptySubscribe = () => () => {};
 const getNavigatorShareSnapshot = () => typeof navigator !== 'undefined' && !!navigator.share;
+const getNavigatorClipboardSnapshot = () =>
+  typeof navigator !== 'undefined' && typeof navigator.clipboard?.writeText === 'function';
 const getServerSnapshot = () => false;
 
 export function PostShare({ title, url }: Props) {
   const labelledbyId = useId();
   const isShareSupported = useSyncExternalStore(emptySubscribe, getNavigatorShareSnapshot, getServerSnapshot);
+  const isClipboardWriteSupported = useSyncExternalStore(
+    emptySubscribe,
+    getNavigatorClipboardSnapshot,
+    getServerSnapshot,
+  );
   const { ref, showToast, hideToast, message, isVisible } = useToast('記事のURLをコピーしました');
   const { copyText } = useClipboardCopy();
   const { schedule: scheduleCopyStateReset, cancel: cancelCopyStateReset } = useTimeout();
   const [copyState, setCopyState] = useState<CopyPermalinkState>('idle');
+  const displayCopyState: CopyPermalinkState = isClipboardWriteSupported ? copyState : 'unsupported';
   const isCopyingRef = useRef(false);
   const classNames = cx('link-style--hover-effect', ShareButtonStyle);
 
   const onClickCopyPermalink = useCallback(async () => {
-    if (isCopyingRef.current || copyState === 'unsupported') return;
+    if (isCopyingRef.current || displayCopyState === 'unsupported') return;
     isCopyingRef.current = true;
     cancelCopyStateReset();
     setCopyState('copying');
@@ -92,7 +100,7 @@ export function PostShare({ title, url }: Props) {
     } finally {
       isCopyingRef.current = false;
     }
-  }, [cancelCopyStateReset, copyState, copyText, scheduleCopyStateReset, showToast, url]);
+  }, [cancelCopyStateReset, copyText, displayCopyState, scheduleCopyStateReset, showToast, url]);
 
   const onClickShare = useCallback(() => {
     if (!isShareSupported) return;
@@ -110,8 +118,8 @@ export function PostShare({ title, url }: Props) {
       });
   }, [isShareSupported, title, url]);
 
-  const CopyFeedbackIcon = getCopyPermalinkFeedbackIcon(copyState);
-  const showCopyFeedbackIcon = isCopyPermalinkFeedbackState(copyState);
+  const CopyFeedbackIcon = getCopyPermalinkFeedbackIcon(displayCopyState);
+  const showCopyFeedbackIcon = isCopyPermalinkFeedbackState(displayCopyState);
   const activeCopyIcon: IconSwapActiveIcon = showCopyFeedbackIcon ? 'secondary' : 'primary';
 
   return (
@@ -142,12 +150,12 @@ export function PostShare({ title, url }: Props) {
             <Hatenabookmark height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
           </a>
         </Tooltip>
-        <Tooltip text={COPY_PERMALINK_LABELS[copyState]}>
+        <Tooltip text={COPY_PERMALINK_LABELS[displayCopyState]}>
           <button
-            aria-label={COPY_PERMALINK_LABELS[copyState]}
+            aria-label={COPY_PERMALINK_LABELS[displayCopyState]}
             className={classNames}
-            data-state={copyState}
-            disabled={copyState === 'unsupported'}
+            data-state={displayCopyState}
+            disabled={displayCopyState === 'unsupported'}
             onClick={onClickCopyPermalink}
             type="button"
           >
