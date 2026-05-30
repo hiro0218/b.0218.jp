@@ -6,14 +6,18 @@ import type { ReactNode } from 'react';
 import { useId, useRef } from 'react';
 import { useMenuTriggerState } from 'react-stately';
 
+import { IconButton } from '@/components/UI/IconButton';
+
 import { Popover } from './DropdownMenu/Popover';
-import { Container, Trigger } from './DropdownMenu/styles';
+import { Container } from './DropdownMenu/styles';
 
 type MenuPosition = 'left' | 'right';
 
 export type DropdownMenuProps = {
-  /** メニュートリガーに表示するコンテンツ */
+  /** メニュートリガーに表示するコンテンツ（アイコン等） */
   title: ReactNode;
+  /** トリガーの aria-label。アイコン主体のトリガーで操作意図を読み上げできるよう必須にする */
+  triggerLabel: string;
   /** メニュー内のリンク要素 */
   children: ReactNode;
   menuHorizontalPosition?: MenuPosition;
@@ -24,7 +28,7 @@ export type DropdownMenuProps = {
  * React Aria でアクセシビリティ対応済み。
  * @summary クリック開閉ドロップダウンメニュー
  */
-export function DropdownMenu({ title, children, menuHorizontalPosition = 'right' }: DropdownMenuProps) {
+export function DropdownMenu({ title, triggerLabel, children, menuHorizontalPosition = 'right' }: DropdownMenuProps) {
   const state = useMenuTriggerState({});
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -41,16 +45,17 @@ export function DropdownMenu({ title, children, menuHorizontalPosition = 'right'
 
   return (
     <Container ref={containerRef}>
-      <Trigger
+      <IconButton
         {...buttonProps}
         aria-expanded={state.isOpen}
         aria-haspopup="menu"
-        className="link-style--hover-effect"
+        aria-label={triggerLabel}
+        data-active={state.isOpen}
         id={triggerId}
         ref={triggerRef}
       >
         {title}
-      </Trigger>
+      </IconButton>
       <Popover
         aria-labelledby={triggerId}
         autoFocus={state.focusStrategy}
