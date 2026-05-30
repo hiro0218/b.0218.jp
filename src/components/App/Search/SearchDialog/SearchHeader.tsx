@@ -106,6 +106,12 @@ const SearchInput = styled.input`
     color: var(--colors-gray-600);
   }
 
+  /* stylelint-disable-next-line plugin/browser-compat */
+  &::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
   &:focus {
     outline: none;
   }
