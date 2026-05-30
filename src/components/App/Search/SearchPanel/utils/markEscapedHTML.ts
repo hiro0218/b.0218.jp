@@ -1,6 +1,3 @@
-import escapeHTML from '@/lib/utils/escapeHTML';
-
-const HIGHLIGHT_TAG_NAME = 'mark';
 const keywordSplitCache = new Map<string, string[]>();
 const KEYWORD_CACHE_SIZE = 50;
 
@@ -8,18 +5,28 @@ const escapeRegExp = (string: string): string => {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 };
 
-const markEscapedHTML = (() => {
+/**
+ * ハイライト描画用のタイトルセグメント。
+ * `marked` が true の区間を `<mark>` で強調する。
+ */
+export type TitleSegment = {
+  text: string;
+  marked: boolean;
+  /** タイトル内の開始位置。React リストの key に使用する */
+  start: number;
+};
+
+const buildSegments = (() => {
   const regexCache = new Map<string, RegExp>();
 
-  return (text: string, markTexts: string[]) => {
-    const escapedText = escapeHTML(text);
+  return (text: string, markTexts: string[]): TitleSegment[] => {
+    const nonEmptyMarks = markTexts.filter((t) => t.trim() !== '');
 
-    if (markTexts.length === 0 || markTexts.every((t) => t.trim() === '')) {
-      return escapedText;
+    if (nonEmptyMarks.length === 0) {
+      return [{ text, marked: false, start: 0 }];
     }
 
-    const escapedMarkTexts = markTexts.map(escapeRegExp);
-    const cacheKey = escapedMarkTexts.join('|');
+    const cacheKey = nonEmptyMarks.map(escapeRegExp).join('|');
 
     let regEx = regexCache.get(cacheKey);
     if (!regEx) {
@@ -31,14 +38,34 @@ const markEscapedHTML = (() => {
       regexCache.set(cacheKey, regEx);
     }
 
-    return escapedText.replace(regEx, `<${HIGHLIGHT_TAG_NAME}>$&</${HIGHLIGHT_TAG_NAME}>`);
+    const segments: TitleSegment[] = [];
+    let lastIndex = 0;
+
+    for (const match of text.matchAll(regEx)) {
+      const start = match.index ?? 0;
+      if (start > lastIndex) {
+        segments.push({ text: text.slice(lastIndex, start), marked: false, start: lastIndex });
+      }
+      segments.push({ text: match[0], marked: true, start });
+      lastIndex = start + match[0].length;
+    }
+
+    if (lastIndex < text.length) {
+      segments.push({ text: text.slice(lastIndex), marked: false, start: lastIndex });
+    }
+
+    return segments;
   };
 })();
 
 /**
- * XSS対策のためHTMLエスケープした上でキーワード部分を<mark>タグでマークアップ
+ * キーワードに一致する区間をハイライトするためのセグメント配列を生成する。
+ *
+ * @description
+ * 結果は React の children として描画する前提のため、HTML エスケープは行わない
+ * （React が自動でエスケープするため XSS の懸念はない）。
  */
-export const createMarkedTitles = (suggestions: { title: string }[], keyword: string) => {
+export const createMarkedTitles = (suggestions: { title: string }[], keyword: string): TitleSegment[][] => {
   let splitKeyword = keywordSplitCache.get(keyword);
 
   if (!splitKeyword) {
@@ -52,5 +79,5 @@ export const createMarkedTitles = (suggestions: { title: string }[], keyword: st
     keywordSplitCache.set(keyword, splitKeyword);
   }
 
-  return suggestions.map(({ title }) => markEscapedHTML(title, splitKeyword));
+  return suggestions.map(({ title }) => buildSegments(title, splitKeyword));
 };

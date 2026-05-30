@@ -1,10 +1,11 @@
 import { styled } from '@/ui/styled';
 import type { SearchResultItem as SearchResultItemType } from '../types';
 import { SearchResultItem } from './SearchResultItem';
+import type { TitleSegment } from './utils/markEscapedHTML';
 
 type SearchResultListProps = {
   results: SearchResultItemType[];
-  markedTitles: string[];
+  markedTitles: TitleSegment[][];
   focusedIndex: number;
   setResultRef: (index: number, element: HTMLDivElement | null) => void;
   onLinkClick?: () => void;
@@ -27,7 +28,7 @@ export function SearchResultList({
           onLinkClick={onLinkClick}
           ref={(element) => setResultRef(index, element)}
           slug={slug}
-          title={markedTitles[index]}
+          titleSegments={markedTitles[index]}
         />
       ))}
     </Container>

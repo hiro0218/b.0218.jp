@@ -1,4 +1,4 @@
-import { type RefObject, useCallback, useRef } from 'react';
+import { type RefObject, useRef } from 'react';
 
 interface UseSearchDOMRefsProps {
   dialogRef?: RefObject<HTMLDialogElement>;
@@ -16,9 +16,13 @@ export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const searchResultsRef = useRef<HTMLElement | null>(null);
   const actualDialogRef = dialogRef || internalDialogRef;
-  const resultRefs = useRef(new Map<number, HTMLDivElement>());
+  const resultRefsStore = useRef<Map<number, HTMLDivElement> | null>(null);
+  if (resultRefsStore.current === null) {
+    resultRefsStore.current = new Map<number, HTMLDivElement>();
+  }
+  const resultRefs = resultRefsStore.current;
 
-  const updateDOMRefs = useCallback(() => {
+  const updateDOMRefs = () => {
     const dialog = actualDialogRef.current;
     if (!dialog) return;
 
@@ -33,9 +37,9 @@ export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps) => {
     if (!searchResultsRef.current?.isConnected) {
       searchResultsRef.current = dialog.querySelector<HTMLElement>('[data-search-results]');
     }
-  }, [actualDialogRef]);
+  };
 
-  const focusInput = useCallback(() => {
+  const focusInput = () => {
     const input = inputRef.current;
     const dialog = actualDialogRef.current;
 
@@ -43,37 +47,37 @@ export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps) => {
       input.focus();
       searchResultsRef.current?.scrollTo({ top: 0, behavior: 'auto' });
     }
-  }, [actualDialogRef]);
+  };
 
-  const scrollToFocusedElement = useCallback((targetElement: HTMLElement) => {
+  const scrollToFocusedElement = (targetElement: HTMLElement) => {
     if (!searchResultsRef.current) return;
 
     targetElement.scrollIntoView({
       block: 'nearest',
       behavior: 'auto',
     });
-  }, []);
+  };
 
-  const setResultRef = useCallback((index: number, element: HTMLDivElement | null) => {
+  const setResultRef = (index: number, element: HTMLDivElement | null) => {
     if (element) {
-      resultRefs.current.set(index, element);
+      resultRefs.set(index, element);
     } else {
-      resultRefs.current.delete(index);
+      resultRefs.delete(index);
     }
-  }, []);
+  };
 
-  const getResultRef = useCallback((index: number) => {
-    return resultRefs.current.get(index);
-  }, []);
+  const getResultRef = (index: number) => {
+    return resultRefs.get(index);
+  };
 
-  const clearExcessRefs = useCallback((maxSize: number) => {
-    const currentSize = resultRefs.current.size;
+  const clearExcessRefs = (maxSize: number) => {
+    const currentSize = resultRefs.size;
     if (currentSize <= maxSize) return;
 
     for (let i = maxSize; i < currentSize; i++) {
-      resultRefs.current.delete(i);
+      resultRefs.delete(i);
     }
-  }, []);
+  };
 
   return {
     updateDOMRefs,

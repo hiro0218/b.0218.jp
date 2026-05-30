@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import useIsClient from '@/hooks/useIsClient';
 import { getSessionStorage, removeSessionStorage, setSessionStorage } from '@/lib/browser/safeSessionStorage';
 import { isObject } from '@/lib/utils/isObject';
@@ -90,22 +90,19 @@ export const readSearchStateSync = (): SharedSearchState | null => {
 export const useSearchStatePersistence = () => {
   const isClient = useIsClient();
 
-  const saveSearchState = useCallback(
-    (state: SearchState) => {
-      if (!isClient) return;
+  const saveSearchState = (state: SearchState) => {
+    if (!isClient) return;
 
-      const storedState: StoredSearchState = {
-        ...state,
-        isOpen: state.isOpen ?? true,
-        timestamp: Date.now(),
-      };
+    const storedState: StoredSearchState = {
+      ...state,
+      isOpen: state.isOpen ?? true,
+      timestamp: Date.now(),
+    };
 
-      setSessionStorage(SEARCH_STORAGE_KEY, storedState);
-    },
-    [isClient],
-  );
+    setSessionStorage(SEARCH_STORAGE_KEY, storedState);
+  };
 
-  const loadSearchState = useCallback((): SearchState | null => {
+  const loadSearchState = (): SearchState | null => {
     if (!isClient) return null;
 
     const state = readFreshStoredSearchState();
@@ -113,12 +110,12 @@ export const useSearchStatePersistence = () => {
 
     const { timestamp, ...searchState } = state;
     return searchState;
-  }, [isClient]);
+  };
 
-  const clearSearchState = useCallback(() => {
+  const clearSearchState = () => {
     if (!isClient) return;
     removeSessionStorage(SEARCH_STORAGE_KEY);
-  }, [isClient]);
+  };
 
   return {
     saveSearchState,
@@ -147,21 +144,21 @@ export const useSearchStateRestoration = ({
   setResults,
   loadSearchState,
 }: UseSearchStateRestorationProps) => {
-  const savedStateRef = useRef<ReturnType<typeof loadSearchState>>(null);
   const hasHydratedResultsRef = useRef(false);
   const hasExecutedRestorationRef = useRef(false);
 
-  const tryRestoreSearchState = useCallback(() => {
+  // sessionStorage からの復元はマウント時に一度だけ実行する。
+  // hasHydrated/hasExecuted フラグで二重実行を防ぐ（loadSearchState は冪等なので再読込しても安全）。
+  useEffect(() => {
     if (!persistState) return;
 
-    const savedState = savedStateRef.current ?? loadSearchState();
+    const savedState = loadSearchState();
     if (!savedState?.query) return;
 
     // 初回ハイドレーション: キャッシュされた結果を即座に表示
     if (!hasHydratedResultsRef.current) {
       setResults(savedState.results ?? [], savedState.query);
       hasHydratedResultsRef.current = true;
-      savedStateRef.current = savedState;
     }
 
     if (hasExecutedRestorationRef.current) {
@@ -172,20 +169,4 @@ export const useSearchStateRestoration = ({
     executeSearch(savedState.query);
     hasExecutedRestorationRef.current = true;
   }, [executeSearch, loadSearchState, persistState, setResults]);
-
-  // 初回マウント時の状態初期化
-  // biome-ignore lint/correctness/useExhaustiveDependencies: 初回マウント時のみ実行
-  useEffect(() => {
-    if (!persistState) return;
-
-    savedStateRef.current = loadSearchState();
-    hasHydratedResultsRef.current = false;
-    hasExecutedRestorationRef.current = false;
-    tryRestoreSearchState();
-  }, []);
-
-  // 復元を試行
-  useEffect(() => {
-    tryRestoreSearchState();
-  }, [tryRestoreSearchState]);
 };

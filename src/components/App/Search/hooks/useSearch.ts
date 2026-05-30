@@ -1,4 +1,4 @@
-import { type RefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
+import { type RefObject, useEffect, useLayoutEffect, useRef } from 'react';
 import type { SearchResultItem } from '../types';
 import { useSearchDOMRefs } from './internal/useSearchDOMRefs';
 import { useSearchManager } from './internal/useSearchManager';
@@ -73,16 +73,18 @@ export const useSearch = ({
     saveSearchState({ query: state.query, results: state.results });
   }, [persistState, state.query, state.results, saveSearchState]);
 
-  const reset = useCallback(() => {
+  const reset = () => {
     resetManager();
     clearSearchState();
-  }, [resetManager, clearSearchState]);
+  };
 
   const { updateDOMRefs, focusInput, scrollToFocusedElement, setResultRef, getResultRef, clearExcessRefs } =
     useSearchDOMRefs({ dialogRef });
 
   const resultsRef = useRef<SearchResultItem[]>(state.results);
-  resultsRef.current = state.results;
+  useEffect(() => {
+    resultsRef.current = state.results;
+  }, [state.results]);
 
   const { focusedIndex, resetFocus, containerProps } = useSearchNavigation({
     resultsLength: state.results.length,
@@ -104,38 +106,38 @@ export const useSearch = ({
     }
     const targetElement = getResultRef(focusedIndex);
     if (targetElement) {
-      targetElement.focus();
+      const focusTarget = targetElement.querySelector('a') ?? targetElement;
+      focusTarget.focus();
       scrollToFocusedElement(targetElement);
     }
   }, [focusedIndex, getResultRef, focusInput, scrollToFocusedElement]);
 
   const focusedIndexRef = useRef(focusedIndex);
-  focusedIndexRef.current = focusedIndex;
+  useEffect(() => {
+    focusedIndexRef.current = focusedIndex;
+  }, [focusedIndex]);
 
-  const handleClose = useCallback(() => {
+  const handleClose = () => {
     resetFocus();
     if (onClose) onClose();
-  }, [resetFocus, onClose]);
+  };
 
-  const handleSearchInput = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (!(e.currentTarget instanceof HTMLInputElement) || e.nativeEvent.isComposing) return;
+  const handleSearchInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!(e.currentTarget instanceof HTMLInputElement) || e.nativeEvent.isComposing) return;
 
-      const value = e.currentTarget.value.trim();
-      if (value === state.query) return;
+    const value = e.currentTarget.value.trim();
+    if (value === state.query) return;
 
-      if (e.key === 'Enter' && focusedIndexRef.current === -1) {
-        executeSearch(value);
-        return;
-      }
-      if (!NAV_KEYS.has(e.key)) {
-        debouncedSearch(value);
-      }
-    },
-    [state.query, executeSearch, debouncedSearch],
-  );
+    if (e.key === 'Enter' && focusedIndexRef.current === -1) {
+      executeSearch(value);
+      return;
+    }
+    if (!NAV_KEYS.has(e.key)) {
+      debouncedSearch(value);
+    }
+  };
 
-  const inputProps = useMemo(() => ({ onKeyUp: handleSearchInput }), [handleSearchInput]);
+  const inputProps = { onKeyUp: handleSearchInput };
 
   return {
     query: state.query,

@@ -1,6 +1,6 @@
 import { useKeyboard } from '@react-aria/interactions';
 import { useRouter } from 'next/navigation';
-import { type RefObject, useCallback, useState } from 'react';
+import { type RefObject, useState } from 'react';
 import { isHTMLElement, isInputElement } from '@/lib/browser/typeGuards';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { SearchResultItem } from '../../types';
@@ -31,35 +31,35 @@ export const useSearchNavigation = ({
   const router = useRouter();
   const [focusedIndex, setFocusedIndex] = useState(-1);
 
-  const resetFocus = useCallback(() => {
+  const resetFocus = () => {
     setFocusedIndex(-1);
-  }, []);
+  };
 
-  const moveUp = useCallback(() => {
+  const moveUp = () => {
     setFocusedIndex((prev) => {
       if (loop) {
         return prev > -1 ? prev - 1 : resultsLength - 1;
       }
       return Math.max(-1, prev - 1);
     });
-  }, [resultsLength, loop]);
+  };
 
-  const moveDown = useCallback(() => {
+  const moveDown = () => {
     setFocusedIndex((prev) => {
       if (loop) {
         return prev < resultsLength - 1 ? prev + 1 : -1;
       }
       return Math.min(resultsLength - 1, prev + 1);
     });
-  }, [resultsLength, loop]);
+  };
 
-  const moveToFirst = useCallback(() => {
+  const moveToFirst = () => {
     setFocusedIndex(resultsLength > 0 ? 0 : -1);
-  }, [resultsLength]);
+  };
 
-  const moveToLast = useCallback(() => {
+  const moveToLast = () => {
     setFocusedIndex(resultsLength > 0 ? resultsLength - 1 : -1);
-  }, [resultsLength]);
+  };
 
   const { keyboardProps } = useKeyboard({
     onKeyDown: (e) => {

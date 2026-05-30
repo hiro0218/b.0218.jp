@@ -11,6 +11,27 @@ import type { SearchDataPayload } from './types';
 let loadPromise: Promise<SearchDataPayload> | null = null;
 let cachedData: SearchDataPayload | null = null;
 
+const readyListeners = new Set<() => void>();
+
+function notifyReady(): void {
+  for (const listener of readyListeners) {
+    listener();
+  }
+}
+
+/**
+ * 検索データの準備完了を購読する。
+ * @description
+ * `useSyncExternalStore` の subscribe として使用する。データロード完了時にリスナーへ通知する。
+ * @returns 購読解除関数
+ */
+export function subscribeSearchDataReady(listener: () => void): () => void {
+  readyListeners.add(listener);
+  return () => {
+    readyListeners.delete(listener);
+  };
+}
+
 /**
  * 検索データをプリロード（二重ロード防止付き）
  * @returns ロード済みデータの Promise
@@ -22,6 +43,7 @@ export function preloadSearchData(): Promise<SearchDataPayload> {
   loadPromise = import('~/dist/search.json')
     .then((m) => {
       cachedData = m.default;
+      notifyReady();
       return cachedData;
     })
     .catch((error) => {
