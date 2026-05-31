@@ -1,14 +1,15 @@
-/**
- * 検索エンジンの統合APIを提供するモジュール
- * @description
- * 転置インデックスベースの高速検索とキャッシュを統合し、UIコンポーネント向けの検索APIを提供する
- */
-
+import { useCallback, useRef } from 'react';
 import type { SearchResultItem } from '../types';
 import { isEmptyQuery } from '../utils/validation';
 import { SearchCache } from './cache';
 import { performIndexedSearch } from './indexedSearch';
 import { ensureSearchEngineSync } from './searchDataLoader';
+
+/**
+ * 検索エンジンの統合APIを提供するモジュール
+ * @description
+ * 転置インデックスベースの高速検索とキャッシュを統合し、UIコンポーネント向けの検索APIを提供する
+ */
 
 /**
  * UIコンポーネント用最適化検索API
@@ -34,26 +35,27 @@ export const performPostSearch = (searchValue: string): SearchResultItem[] => {
  * @description
  * リアルタイム検索のUX向上のため同一検索語の結果をキャッシュ
  * パフォーマンス制約：LRU方式で最大50件まで保持（メモリ使用量制限）
- *
- * React Compiler が cache インスタンスと返却関数を自動メモ化するため、手動メモ化は不要。
  * @returns キャッシュ機能付き検索実行関数
  */
 export const useSearchWithCache = () => {
-  const cache = new SearchCache();
+  const cacheRef = useRef<SearchCache | null>(null);
+  if (cacheRef.current === null) {
+    cacheRef.current = new SearchCache();
+  }
 
-  return (searchValue: string): SearchResultItem[] => {
+  return useCallback((searchValue: string): SearchResultItem[] => {
     if (!searchValue) return [];
 
     const cacheKey = SearchCache.createKey(searchValue, 0);
 
-    const cachedResult = cache.get(cacheKey);
+    const cachedResult = cacheRef.current?.get(cacheKey);
     if (cachedResult) {
       return cachedResult;
     }
 
     const results = performPostSearch(searchValue);
-    cache.set(cacheKey, results);
+    cacheRef.current?.set(cacheKey, results);
 
     return results;
-  };
+  }, []);
 };

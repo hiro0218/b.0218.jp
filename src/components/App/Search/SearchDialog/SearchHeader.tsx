@@ -10,15 +10,25 @@ import { css, styled } from '@/ui/styled';
 import { SearchClearButton } from './SearchClearButton';
 
 interface SearchHeaderProps {
-  onKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  activeDescendantId?: string;
+  listId: string;
+  onValueChange: (value: string) => void;
   onClear: () => void;
   searchQuery: string;
 }
 
-export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: SearchHeaderProps) {
+export function SearchHeader({ activeDescendantId, listId, onValueChange, onClear, searchQuery }: SearchHeaderProps) {
   const refInput = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState(searchQuery);
+
+  useEffect(() => {
+    setInputValue(searchQuery);
+  }, [searchQuery]);
+
+  const handleValueChange = (value: string) => {
+    setInputValue(value);
+    onValueChange(value);
+  };
 
   const { inputProps } = useTextField(
     {
@@ -26,7 +36,7 @@ export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: Searc
       type: 'search',
       autoComplete: 'off',
       value: inputValue,
-      onChange: setInputValue,
+      onChange: handleValueChange,
       inputMode: 'search',
     },
     refInput,
@@ -52,10 +62,12 @@ export function SearchHeader({ onKeyUp, onKeyDown, onClear, searchQuery }: Searc
       </span>
       <SearchInput
         {...mergeProps(inputProps, {
+          'aria-activedescendant': activeDescendantId,
           'aria-autocomplete': 'list' as const,
+          'aria-controls': listId,
+          'aria-expanded': true,
           placeholder: '記事タイトルまたはタグを検索',
-          onKeyDown,
-          onKeyUp,
+          role: 'combobox' as const,
         })}
         ref={refInput}
       />
@@ -82,6 +94,7 @@ const headerStyle = css`
 
   &:focus-within {
     background-color: var(--colors-gray-a-100);
+    box-shadow: inset 0 0 0 var(--border-widths-medium) var(--colors-gray-a-1000);
   }
 `;
 

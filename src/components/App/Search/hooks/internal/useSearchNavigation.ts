@@ -1,6 +1,6 @@
 import { useKeyboard } from '@react-aria/interactions';
 import { useRouter } from 'next/navigation';
-import { type RefObject, useState } from 'react';
+import { type RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { isHTMLElement, isInputElement } from '@/lib/browser/typeGuards';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { SearchResultItem } from '../../types';
@@ -11,7 +11,7 @@ export interface UseSearchNavigationOptions {
   /** ループナビゲーションを有効化 (最後の次 → 最初、最初の前 → 最後) */
   loop?: boolean;
   resultsRef: RefObject<SearchResultItem[]>;
-  getResultRef: (index: number) => HTMLDivElement | undefined;
+  onSubmitQuery?: (query: string) => void;
 }
 
 export interface UseSearchNavigationReturn {
@@ -26,49 +26,89 @@ export const useSearchNavigation = ({
   onClose,
   loop = true,
   resultsRef,
-  getResultRef,
+  onSubmitQuery,
 }: UseSearchNavigationOptions): UseSearchNavigationReturn => {
   const router = useRouter();
   const [focusedIndex, setFocusedIndex] = useState(-1);
+  const focusedIndexRef = useRef(focusedIndex);
 
-  const resetFocus = () => {
-    setFocusedIndex(-1);
-  };
+  const commitFocusedIndex = useCallback((nextIndex: number) => {
+    focusedIndexRef.current = nextIndex;
+    setFocusedIndex(nextIndex);
+  }, []);
+
+  useEffect(() => {
+    const currentIndex = focusedIndexRef.current;
+    const nextIndex = resultsLength === 0 ? -1 : currentIndex >= resultsLength ? resultsLength - 1 : currentIndex;
+    if (nextIndex !== currentIndex) {
+      commitFocusedIndex(nextIndex);
+    }
+  }, [commitFocusedIndex, resultsLength]);
+
+  const resetFocus = useCallback(() => {
+    commitFocusedIndex(-1);
+  }, [commitFocusedIndex]);
+
+  const selectIndex = useCallback(
+    (index: number) => {
+      const nextIndex = resultsLength === 0 || index < 0 ? -1 : Math.min(index, resultsLength - 1);
+      commitFocusedIndex(nextIndex);
+    },
+    [commitFocusedIndex, resultsLength],
+  );
 
   const moveUp = () => {
-    setFocusedIndex((prev) => {
-      if (loop) {
-        return prev > -1 ? prev - 1 : resultsLength - 1;
-      }
-      return Math.max(-1, prev - 1);
-    });
+    if (resultsLength === 0) {
+      commitFocusedIndex(-1);
+      return;
+    }
+
+    const currentIndex = focusedIndexRef.current;
+    const nextIndex = loop
+      ? currentIndex <= 0
+        ? resultsLength - 1
+        : currentIndex - 1
+      : Math.max(-1, currentIndex - 1);
+    commitFocusedIndex(nextIndex);
   };
 
   const moveDown = () => {
-    setFocusedIndex((prev) => {
-      if (loop) {
-        return prev < resultsLength - 1 ? prev + 1 : -1;
-      }
-      return Math.min(resultsLength - 1, prev + 1);
-    });
+    if (resultsLength === 0) {
+      commitFocusedIndex(-1);
+      return;
+    }
+
+    const currentIndex = focusedIndexRef.current;
+    const nextIndex = loop
+      ? currentIndex >= resultsLength - 1
+        ? 0
+        : currentIndex + 1
+      : Math.min(resultsLength - 1, currentIndex + 1);
+    commitFocusedIndex(nextIndex);
   };
 
   const moveToFirst = () => {
-    setFocusedIndex(resultsLength > 0 ? 0 : -1);
+    const nextIndex = resultsLength > 0 ? 0 : -1;
+    commitFocusedIndex(nextIndex);
   };
 
   const moveToLast = () => {
-    setFocusedIndex(resultsLength > 0 ? resultsLength - 1 : -1);
+    const nextIndex = resultsLength > 0 ? resultsLength - 1 : -1;
+    commitFocusedIndex(nextIndex);
   };
 
   const { keyboardProps } = useKeyboard({
     onKeyDown: (e) => {
       const target = e.target;
       if (!isHTMLElement(target)) return;
+      if (e.nativeEvent.isComposing || e.nativeEvent.keyCode === 229) return;
 
       // 検索コンテキスト内のみで動作
       const isSearchContext =
-        (isInputElement(target) && (target.type === 'search' || target.getAttribute('role') === 'searchbox')) ||
+        (isInputElement(target) &&
+          (target.type === 'search' ||
+            target.getAttribute('role') === 'searchbox' ||
+            target.getAttribute('role') === 'combobox')) ||
         target.closest('[data-search-results]') !== null;
 
       if (!isSearchContext) return;
@@ -96,33 +136,25 @@ export const useSearchNavigation = ({
 
         case 'Enter': {
           e.preventDefault();
-          const currentIndex = focusedIndex;
+          const currentIndex = focusedIndexRef.current;
           const results = resultsRef.current;
           if (!results || currentIndex < 0 || currentIndex >= results.length) {
+            if (isInputElement(target)) {
+              onSubmitQuery?.(target.value);
+            }
             break;
           }
 
-          const resultElement = getResultRef(currentIndex);
-          if (resultElement) {
-            const anchor = resultElement.querySelector('a');
-            if (anchor) {
-              anchor.click();
-              break;
-            }
-          }
-
-          // フォールバック: DOM取得失敗時の代替処理
           const result = results[currentIndex];
           if (result) {
             router.push(convertPostSlugToPath(result.slug));
-            if (onClose) onClose();
           }
           break;
         }
 
         case 'Escape':
           e.preventDefault();
-          if (onClose) onClose();
+          onClose?.();
           break;
       }
     },
@@ -130,7 +162,7 @@ export const useSearchNavigation = ({
 
   return {
     focusedIndex,
-    setFocusedIndex,
+    setFocusedIndex: selectIndex,
     resetFocus,
     containerProps: keyboardProps,
   };

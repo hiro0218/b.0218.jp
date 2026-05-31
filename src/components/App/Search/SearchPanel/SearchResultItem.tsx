@@ -9,11 +9,14 @@ import { AnchorStyle, FocusedContainerStyle, LinkContainerStyle } from './Search
 import type { TitleSegment } from './utils/markEscapedHTML';
 
 type SearchResultItemProps = {
+  id: string;
+  index: number;
   slug: string;
   titleSegments: TitleSegment[];
   isFocused: boolean;
   matchedIn: MatchedIn;
   onLinkClick?: () => void;
+  onMouseMove: (index: number) => void;
   ref?: Ref<HTMLDivElement>;
 };
 
@@ -26,18 +29,33 @@ type SearchResultItemProps = {
  * リンク自体に roving tabindex を適用し、フォーカス中の項目だけをタブ順に含める。
  */
 export function SearchResultItem({
+  id,
+  index,
   slug,
   titleSegments,
   isFocused,
   matchedIn,
   onLinkClick,
+  onMouseMove,
   ref,
 }: SearchResultItemProps) {
   const link = convertPostSlugToPath(slug);
+  const handleMouseMove = () => {
+    onMouseMove(index);
+  };
 
   return (
-    <div className={cx(LinkContainerStyle, isFocused ? FocusedContainerStyle : undefined)} ref={ref}>
-      <Anchor className={AnchorStyle} href={link} onClick={onLinkClick} prefetch={false} tabIndex={isFocused ? 0 : -1}>
+    <div
+      aria-selected={isFocused}
+      className={cx(LinkContainerStyle, isFocused ? FocusedContainerStyle : undefined)}
+      data-selected={isFocused}
+      id={id}
+      onMouseMove={handleMouseMove}
+      ref={ref}
+      role="option"
+      tabIndex={-1}
+    >
+      <Anchor className={AnchorStyle} href={link} onClick={onLinkClick} prefetch={false} tabIndex={-1}>
         {matchedIn === 'tag' ? (
           <HashtagIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
         ) : (

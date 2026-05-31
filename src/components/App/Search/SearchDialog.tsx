@@ -62,7 +62,9 @@ export const SearchDialog = ({ onCloseAction, isClosing, dialogRef }: Props) => 
         <SearchHeader {...search.inputProps} onClear={search.reset} searchQuery={search.query} />
         <SearchPanel
           focusedIndex={search.focusedIndex}
+          listId={search.inputProps.listId}
           onLinkClick={search.close}
+          onResultMouseMove={search.setFocusedIndex}
           results={search.results}
           searchQuery={search.query}
           setResultRef={search.setResultRef}

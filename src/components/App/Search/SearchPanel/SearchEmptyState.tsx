@@ -17,7 +17,7 @@ export function SearchEmptyState({ searchQuery }: SearchEmptyStateProps) {
   // 初期状態: 検索キーワード未入力
   if (!searchQuery) {
     return (
-      <Container aria-live="polite" role="status">
+      <Container>
         <Title>入力して記事を検索する</Title>
         <Description>タイトルやタグからキーワードで検索できます</Description>
       </Container>
@@ -28,7 +28,7 @@ export function SearchEmptyState({ searchQuery }: SearchEmptyStateProps) {
   const displayQuery = truncateQuery(searchQuery);
 
   return (
-    <Container aria-live="polite" role="status">
+    <Container>
       <Title>検索結果が見つかりません</Title>
       <Query>「{displayQuery}」</Query>
       <Suggestion>検索条件を変えるなどして、もう一度お試しください。</Suggestion>

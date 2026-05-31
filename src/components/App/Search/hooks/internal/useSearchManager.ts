@@ -1,4 +1,4 @@
-import { useEffect, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import debounce from '@/lib/utils/debounce';
 import { useSearchWithCache } from '../../engine/search';
 import { isSearchDataReady, loadAndInitializeSearch, subscribeSearchDataReady } from '../../engine/searchDataLoader';
@@ -22,35 +22,38 @@ export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: Use
   const isReady = useSyncExternalStore(subscribeSearchDataReady, isSearchDataReady, getReadyServerSnapshot);
   const searchWithCache = useSearchWithCache();
 
-  const setResults = (results: SearchState['results'], query: string) => {
+  const setResults = useCallback((results: SearchState['results'], query: string) => {
     setState({ results, query });
-  };
+  }, []);
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setState(initialState);
-  };
+  }, []);
 
   /** 即座実行が必要な場合はこれを直接使用 */
-  const executeSearch = (query: string) => {
-    const trimmedQuery = query.trim();
+  const executeSearch = useCallback(
+    (query: string) => {
+      const trimmedQuery = query.trim();
 
-    if (!trimmedQuery) {
-      reset();
-      return;
-    }
+      if (!trimmedQuery) {
+        reset();
+        return;
+      }
 
-    if (!isSearchDataReady()) {
-      // データ未ロード時はロード完了後に検索を実行する（React の自動バッチングで最新クエリの結果が反映される）
-      loadAndInitializeSearch()
-        .then(() => {
-          setResults(searchWithCache(trimmedQuery), trimmedQuery);
-        })
-        .catch(() => {});
-      return;
-    }
+      if (!isSearchDataReady()) {
+        // データ未ロード時はロード完了後に検索を実行する（React の自動バッチングで最新クエリの結果が反映される）
+        loadAndInitializeSearch()
+          .then(() => {
+            setResults(searchWithCache(trimmedQuery), trimmedQuery);
+          })
+          .catch(() => {});
+        return;
+      }
 
-    setResults(searchWithCache(trimmedQuery), trimmedQuery);
-  };
+      setResults(searchWithCache(trimmedQuery), trimmedQuery);
+    },
+    [reset, searchWithCache, setResults],
+  );
 
   // マウント時にデータロードを開始（プリフェッチ未完了時のフォールバック）
   useEffect(() => {
@@ -58,7 +61,7 @@ export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: Use
     loadAndInitializeSearch().catch(() => {});
   }, [isReady]);
 
-  const debouncedSearch = debounce(executeSearch, debounceDelayMs);
+  const debouncedSearch = useMemo(() => debounce(executeSearch, debounceDelayMs), [debounceDelayMs, executeSearch]);
 
   useEffect(() => {
     return () => {

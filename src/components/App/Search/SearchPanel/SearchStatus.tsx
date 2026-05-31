@@ -16,7 +16,7 @@ export function SearchStatus({ resultsCount, searchQuery }: SearchStatusProps) {
   const statusMessage = createSearchStatusMessage({ resultsCount, searchQuery });
 
   return (
-    <div aria-live="polite" className="sr-only">
+    <div aria-atomic="true" aria-live="polite" className="sr-only" role="status">
       {statusMessage}
     </div>
   );

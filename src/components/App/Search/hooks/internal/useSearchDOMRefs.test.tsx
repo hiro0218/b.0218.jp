@@ -14,14 +14,14 @@ function SearchDOMRefsHarness() {
 
   return (
     <dialog open ref={dialogRef}>
-      <input aria-label="検索キーワード" type="search" />
+      <input aria-expanded="true" aria-label="検索キーワード" role="combobox" />
       <div data-search-results />
     </dialog>
   );
 }
 
 describe('useSearchDOMRefs', () => {
-  it('type="search" の入力欄を検索入力として取得して focus する', () => {
+  it('combobox の入力欄を検索入力として取得して focus する', () => {
     Object.defineProperty(HTMLElement.prototype, 'scrollTo', {
       configurable: true,
       value: vi.fn(),
@@ -29,6 +29,6 @@ describe('useSearchDOMRefs', () => {
 
     render(<SearchDOMRefsHarness />);
 
-    expect(document.activeElement).toBe(screen.getByRole('searchbox', { name: '検索キーワード' }));
+    expect(document.activeElement).toBe(screen.getByRole('combobox', { name: '検索キーワード' }));
   });
 });

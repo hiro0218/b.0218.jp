@@ -3,6 +3,7 @@ import { css } from '@/ui/styled';
 export const LinkContainerStyle = css`
   cursor: pointer;
   user-select: none;
+  scroll-margin-block: var(--spacing-1);
   border-radius: var(--radii-md);
 `;
 
@@ -27,8 +28,9 @@ export const AnchorStyle = css`
     background-color: var(--colors-gray-a-200);
   }
 
-  &:focus {
-    outline: none;
+  &:focus-visible {
+    outline: var(--border-widths-medium) solid var(--colors-gray-a-1000);
+    outline-offset: var(--spacing-½);
     background-color: transparent;
   }
 

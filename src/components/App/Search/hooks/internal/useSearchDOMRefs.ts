@@ -29,7 +29,9 @@ export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps) => {
     internalDialogRef.current = dialog;
 
     if (!inputRef.current?.isConnected) {
-      const input = dialog.querySelector<HTMLInputElement>('input[type="search"], input[role="searchbox"]');
+      const input = dialog.querySelector<HTMLInputElement>(
+        'input[type="search"], input[role="searchbox"], input[role="combobox"]',
+      );
       if (input) inputRef.current = input;
     }
 
