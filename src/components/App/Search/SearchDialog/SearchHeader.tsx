@@ -94,7 +94,6 @@ const headerStyle = css`
 
   &:focus-within {
     background-color: var(--colors-gray-a-100);
-    box-shadow: inset 0 0 0 var(--border-widths-medium) var(--colors-gray-a-1000);
   }
 `;
 

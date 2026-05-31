@@ -19,7 +19,7 @@ export function SearchResultMessage({ resultsCount, searchQuery }: SearchResultM
 }
 
 const ResultsSummary = styled.div`
-  padding: var(--spacing-1) var(--spacing-½);
+  padding: var(--spacing-1) var(--spacing-1);
   font-size: var(--font-sizes-xs);
   line-height: var(--line-heights-xs);
   color: var(--colors-gray-600);

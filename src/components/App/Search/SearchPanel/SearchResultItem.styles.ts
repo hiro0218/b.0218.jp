@@ -9,7 +9,6 @@ export const LinkContainerStyle = css`
 
 export const FocusedContainerStyle = css`
   background-color: var(--colors-gray-100);
-  box-shadow: inset 0 0 0 var(--border-widths-medium) var(--colors-gray-a-1000);
 `;
 
 export const AnchorStyle = css`
