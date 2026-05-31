@@ -78,8 +78,15 @@ export const useSearch = ({
     saveSearchState({ query: state.query, results: state.results });
   }, [persistState, state.query, state.results, saveSearchState]);
 
-  const { updateDOMRefs, focusInput, scrollToFocusedElement, setResultRef, getResultRef, clearExcessRefs } =
-    useSearchDOMRefs({ dialogRef });
+  const {
+    updateDOMRefs,
+    focusInput,
+    resetResultScroll,
+    scrollToFocusedElement,
+    setResultRef,
+    getResultRef,
+    clearExcessRefs,
+  } = useSearchDOMRefs({ dialogRef });
 
   const resultsRef = useRef<SearchResultItem[]>(state.results);
   const shouldScrollFocusedResultRef = useRef(true);
@@ -111,6 +118,7 @@ export const useSearch = ({
   useLayoutEffect(() => {
     if (focusedIndex === -1) {
       focusInput();
+      resetResultScroll();
       return;
     }
 
@@ -121,7 +129,7 @@ export const useSearch = ({
       focusInput();
       scrollToFocusedElement(targetElement);
     }
-  }, [focusedIndex, getResultRef, focusInput, scrollToFocusedElement]);
+  }, [focusedIndex, getResultRef, focusInput, resetResultScroll, scrollToFocusedElement]);
 
   const setFocusedIndexFromMouse = (index: number) => {
     shouldScrollFocusedResultRef.current = false;
@@ -151,6 +159,8 @@ export const useSearch = ({
 
     if (trimmedValue === state.query) return;
 
+    shouldScrollFocusedResultRef.current = true;
+    resetFocus();
     debouncedSearch(value);
   };
 
