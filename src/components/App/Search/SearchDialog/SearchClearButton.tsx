@@ -26,10 +26,20 @@ const Button = styled.button`
   background-color: transparent;
   border: none;
   border-radius: var(--radii-full);
-  transition: background-color var(--transition-slow);
+  transition:
+    background-color var(--transition-slow),
+    transform var(--transition-fast);
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 
   &:hover {
     background-color: var(--colors-gray-a-100);
+  }
+
+  &:active {
+    transform: scale(0.96);
   }
 
   &:disabled {
