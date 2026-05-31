@@ -2,7 +2,7 @@
  * Adobe Spectrum カラートークン定義
  *
  * @description
- * Adobe Spectrumのcolor-palette.jsonから数値ベースのカラースケール（25-1600）を抽出し、
+ * Adobe Spectrumのcolor-paletteトークンから数値ベースのカラースケール（25-1600）を抽出し、
  * Panda CSSのセマンティックトークンとして利用可能な形式に変換する。
  *
  * @see https://spectrum.adobe.com/page/color-system/
@@ -17,10 +17,10 @@
  *   color: "colors.gray.900",            // テキスト
  * });
  */
-import colorPalette from '@adobe/spectrum-tokens/src/color-palette.json' with { type: 'json' };
+import colorPalette from '@adobe/spectrum-tokens/dist/json/variables.json' with { type: 'json' };
 
 /**
- * Adobe Spectrum color-palette.jsonの型定義
+ * Adobe Spectrum color-paletteトークンの型定義
  *
  * @property sets.light.value - ライトテーマ用のカラー値（ソリッドカラー用）
  * @property sets.dark.value - ダークテーマ用のカラー値（ダークモード用）
