@@ -54,6 +54,10 @@ const getNavigatorShareSnapshot = () => typeof navigator !== 'undefined' && !!na
 const getNavigatorClipboardSnapshot = () =>
   typeof navigator !== 'undefined' && typeof navigator.clipboard?.writeText === 'function';
 const getServerSnapshot = () => false;
+// クリップボード API はサーバー / 判定確定前では楽観的に「対応」とみなす。
+// 初回レンダーで未対応 (secondary アイコン) を出すと、クライアントでの判定確定時に
+// IconSwap が secondary -> primary へ不要にアニメートしてしまうため。
+const getClipboardServerSnapshot = () => true;
 
 export function PostShare({ title, url }: Props) {
   const labelledbyId = useId();
@@ -61,7 +65,7 @@ export function PostShare({ title, url }: Props) {
   const isClipboardWriteSupported = useSyncExternalStore(
     emptySubscribe,
     getNavigatorClipboardSnapshot,
-    getServerSnapshot,
+    getClipboardServerSnapshot,
   );
   const { ref, showToast, hideToast, message, isVisible } = useToast('記事のURLをコピーしました');
   const { copyText } = useClipboardCopy();
