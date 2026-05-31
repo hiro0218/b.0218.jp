@@ -60,9 +60,7 @@ const buildSegments = (() => {
 
 /**
  * キーワードに一致する区間をハイライトするためのセグメント配列を生成する。
- *
- * @description
- * 結果は React の children として描画する前提のため、HTML エスケープは行わない
+ * React の children として描画する前提のため HTML エスケープは行わない
  * （React が自動でエスケープするため XSS の懸念はない）。
  */
 export const createMarkedTitles = (suggestions: { title: string }[], keyword: string): TitleSegment[][] => {

@@ -21,12 +21,7 @@ type SearchResultItemProps = {
 };
 
 /**
- * 検索結果アイテム
- *
- * @description
- * 個別の検索結果を表示するコンポーネント。
- * キーボードナビゲーションに対応し、フォーカス状態を視覚的に表現します。
- * リンク自体に roving tabindex を適用し、フォーカス中の項目だけをタブ順に含める。
+ * @summary 検索結果の 1 件。roving tabindex を適用し、フォーカス中の項目だけをタブ順に含める。
  */
 export function SearchResultItem({
   id,

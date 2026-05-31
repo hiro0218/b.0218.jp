@@ -6,15 +6,9 @@ interface SearchEmptyStateProps {
 }
 
 /**
- * 検索の Empty State UI
- *
- * @description
- * 2つの状態を表示:
- * 1. 初期状態（searchQuery が空）: 検索を促すメッセージ
- * 2. 結果0件（searchQuery がある）: 結果なしメッセージと提案
+ * @summary 検索結果なし状態の UI。未入力と 0 件の 2 状態を切り替える。
  */
 export function SearchEmptyState({ searchQuery }: SearchEmptyStateProps) {
-  // 初期状態: 検索キーワード未入力
   if (!searchQuery) {
     return (
       <Container>
@@ -24,7 +18,6 @@ export function SearchEmptyState({ searchQuery }: SearchEmptyStateProps) {
     );
   }
 
-  // 結果0件: 検索キーワードはあるが結果なし
   const displayQuery = truncateQuery(searchQuery);
 
   return (

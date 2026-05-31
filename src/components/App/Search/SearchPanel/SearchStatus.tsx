@@ -6,11 +6,9 @@ type SearchStatusProps = {
 };
 
 /**
- * スクリーンリーダー向けの検索ステータスメッセージ
- *
- * @description
- * aria-live="polite" により、検索結果の変化をスクリーンリーダーユーザーに通知します。
- * 視覚的には表示されません（sr-only）。
+ * @summary スクリーンリーダー向け検索ステータス。
+ * aria-live="polite" により検索結果の変化をスクリーンリーダーユーザーに通知する。
+ * 視覚的には表示されない（sr-only）。
  */
 export function SearchStatus({ resultsCount, searchQuery }: SearchStatusProps) {
   const statusMessage = createSearchStatusMessage({ resultsCount, searchQuery });

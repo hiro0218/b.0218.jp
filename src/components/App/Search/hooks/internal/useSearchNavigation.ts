@@ -110,7 +110,6 @@ export const useSearchNavigation = ({
       if (!isHTMLElement(target)) return;
       if (e.nativeEvent.isComposing || e.nativeEvent.keyCode === 229) return;
 
-      // 検索コンテキスト内のみで動作
       const isSearchContext =
         (isInputElement(target) &&
           (target.type === 'search' ||

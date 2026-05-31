@@ -18,13 +18,6 @@ const getScrollPadding = (container: HTMLElement) => {
   };
 };
 
-/**
- * 検索UI用のDOM参照と操作を管理
- * @description
- * - DOM参照管理（dialog, input, searchResults）
- * - DOM操作（入力フォーカス、スクロール）
- * - 検索結果要素への参照管理（Map）
- */
 export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps) => {
   const internalDialogRef = useRef<HTMLDialogElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);

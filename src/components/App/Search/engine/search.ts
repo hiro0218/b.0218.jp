@@ -5,21 +5,6 @@ import { SearchCache } from './cache';
 import { performIndexedSearch } from './indexedSearch';
 import { ensureSearchEngineSync } from './searchDataLoader';
 
-/**
- * 検索エンジンの統合APIを提供するモジュール
- * @description
- * 転置インデックスベースの高速検索とキャッシュを統合し、UIコンポーネント向けの検索APIを提供する
- */
-
-/**
- * UIコンポーネント用最適化検索API
- * @description
- * 転置インデックスを利用した高速検索（O(1)）
- * ビルド時に生成された検索インデックスを使用
- *
- * @param searchValue 検索クエリ文字列
- * @returns 優先度順ソート済み検索結果（最大100件）
- */
 export const performPostSearch = (searchValue: string): SearchResultItem[] => {
   if (isEmptyQuery(searchValue)) {
     return [];
@@ -31,11 +16,7 @@ export const performPostSearch = (searchValue: string): SearchResultItem[] => {
 };
 
 /**
- * キャッシュ付き検索フック
- * @description
- * リアルタイム検索のUX向上のため同一検索語の結果をキャッシュ
- * パフォーマンス制約：LRU方式で最大50件まで保持（メモリ使用量制限）
- * @returns キャッシュ機能付き検索実行関数
+ * リアルタイム検索のUX向上のため同一検索語の結果をキャッシュ。LRU方式で最大50件まで保持（メモリ使用量制限）
  */
 export const useSearchWithCache = () => {
   const cacheRef = useRef<SearchCache | null>(null);

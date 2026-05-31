@@ -71,8 +71,6 @@ function readFreshStoredSearchState(): StoredSearchState | null {
 }
 
 /**
- * 検索状態をsessionStorageから同期的に読み込む
- *
  * useState の lazy initializer など、フック外からの使用を想定。
  * getSessionStorage は SSR 環境では null を返すため安全。
  */
@@ -83,10 +81,7 @@ export const readSearchStateSync = (): SharedSearchState | null => {
   return { query: state.query, results: state.results };
 };
 
-/**
- * 検索状態をsessionStorageで永続化するフック
- * 画面遷移後も検索結果を維持するために使用
- */
+/** 画面遷移後も検索結果を維持するために使用 */
 export const useSearchStatePersistence = () => {
   const isClient = useIsClient();
 
@@ -131,13 +126,6 @@ interface UseSearchStateRestorationProps {
   loadSearchState: () => { query: string; results: SearchResultItem[] } | null;
 }
 
-/**
- * sessionStorage から検索状態を復元し、検索を再実行するフック
- *
- * @description
- * - キャッシュされた結果を即座に表示（初回ハイドレーション）
- * - 転置インデックスによる検索を再実行して最新結果を取得
- */
 export const useSearchStateRestoration = ({
   persistState,
   executeSearch,
@@ -155,7 +143,6 @@ export const useSearchStateRestoration = ({
     const savedState = loadSearchState();
     if (!savedState?.query) return;
 
-    // 初回ハイドレーション: キャッシュされた結果を即座に表示
     if (!hasHydratedResultsRef.current) {
       setResults(savedState.results ?? [], savedState.query);
       hasHydratedResultsRef.current = true;

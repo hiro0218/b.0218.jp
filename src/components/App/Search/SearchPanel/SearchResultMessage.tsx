@@ -7,10 +7,7 @@ type SearchResultMessageProps = {
 };
 
 /**
- * 視覚的な検索結果サマリーメッセージ
- *
- * @description
- * 検索結果の件数とキーワードを視覚的に表示します。
+ * @summary 検索結果の件数とキーワードを視覚的に表示するサマリー。
  */
 export function SearchResultMessage({ resultsCount, searchQuery }: SearchResultMessageProps) {
   const resultMessage = createSearchResultMessage({ resultsCount, searchQuery });

@@ -1,6 +1,4 @@
 /**
- * 検索データの遅延読み込み・キャッシュ・プリロードAPI
- * @description
  * search.json を dynamic import で読み込む。
  * 同期的なキャッシュアクセスにより、performIndexedSearch の同期性を維持。
  */
@@ -20,10 +18,7 @@ function notifyReady(): void {
 }
 
 /**
- * 検索データの準備完了を購読する。
- * @description
  * `useSyncExternalStore` の subscribe として使用する。データロード完了時にリスナーへ通知する。
- * @returns 購読解除関数
  */
 export function subscribeSearchDataReady(listener: () => void): () => void {
   readyListeners.add(listener);
@@ -34,7 +29,6 @@ export function subscribeSearchDataReady(listener: () => void): () => void {
 
 /**
  * 検索データをプリロード（二重ロード防止付き）
- * @returns ロード済みデータの Promise
  */
 export function preloadSearchData(): Promise<SearchDataPayload> {
   if (cachedData) return Promise.resolve(cachedData);
@@ -59,10 +53,6 @@ export async function loadAndInitializeSearch(): Promise<void> {
   initializeSearchEngine(data);
 }
 
-/**
- * 同期キャッシュからエンジン初期化を試行
- * @returns エンジン初期化済みなら true
- */
 export function ensureSearchEngineSync(): boolean {
   if (isSearchEngineReady()) return true;
   if (!cachedData) return false;
