@@ -12,6 +12,7 @@ export interface UseSearchNavigationOptions {
   loop?: boolean;
   resultsRef: RefObject<SearchResultItem[]>;
   onSubmitQuery?: (query: string) => void;
+  onKeyboardNavigation?: () => void;
 }
 
 export interface UseSearchNavigationReturn {
@@ -27,6 +28,7 @@ export const useSearchNavigation = ({
   loop = true,
   resultsRef,
   onSubmitQuery,
+  onKeyboardNavigation,
 }: UseSearchNavigationOptions): UseSearchNavigationReturn => {
   const router = useRouter();
   const [focusedIndex, setFocusedIndex] = useState(-1);
@@ -52,12 +54,14 @@ export const useSearchNavigation = ({
   const selectIndex = useCallback(
     (index: number) => {
       const nextIndex = resultsLength === 0 || index < 0 ? -1 : Math.min(index, resultsLength - 1);
+      if (nextIndex === focusedIndexRef.current) return;
       commitFocusedIndex(nextIndex);
     },
     [commitFocusedIndex, resultsLength],
   );
 
   const moveUp = () => {
+    onKeyboardNavigation?.();
     if (resultsLength === 0) {
       commitFocusedIndex(-1);
       return;
@@ -73,6 +77,7 @@ export const useSearchNavigation = ({
   };
 
   const moveDown = () => {
+    onKeyboardNavigation?.();
     if (resultsLength === 0) {
       commitFocusedIndex(-1);
       return;
@@ -88,11 +93,13 @@ export const useSearchNavigation = ({
   };
 
   const moveToFirst = () => {
+    onKeyboardNavigation?.();
     const nextIndex = resultsLength > 0 ? 0 : -1;
     commitFocusedIndex(nextIndex);
   };
 
   const moveToLast = () => {
+    onKeyboardNavigation?.();
     const nextIndex = resultsLength > 0 ? resultsLength - 1 : -1;
     commitFocusedIndex(nextIndex);
   };

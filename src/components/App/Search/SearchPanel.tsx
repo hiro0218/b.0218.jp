@@ -12,7 +12,7 @@ type SearchPanelProps = {
   searchQuery: string;
   focusedIndex: number;
   listId: string;
-  onResultMouseMove: (index: number) => void;
+  onResultMouseEnter: (index: number) => void;
   setResultRef: (index: number, element: HTMLDivElement | null) => void;
   onLinkClick?: () => void;
 };
@@ -22,7 +22,7 @@ export function SearchPanel({
   searchQuery,
   focusedIndex,
   listId,
-  onResultMouseMove,
+  onResultMouseEnter,
   setResultRef,
   onLinkClick,
 }: SearchPanelProps) {
@@ -41,7 +41,7 @@ export function SearchPanel({
             listId={listId}
             markedTitles={markedTitles}
             onLinkClick={onLinkClick}
-            onResultMouseMove={onResultMouseMove}
+            onResultMouseEnter={onResultMouseEnter}
             results={results}
             setResultRef={setResultRef}
           />

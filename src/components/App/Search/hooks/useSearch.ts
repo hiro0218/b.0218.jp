@@ -82,6 +82,7 @@ export const useSearch = ({
     useSearchDOMRefs({ dialogRef });
 
   const resultsRef = useRef<SearchResultItem[]>(state.results);
+  const shouldScrollFocusedResultRef = useRef(true);
   useEffect(() => {
     resultsRef.current = state.results;
   }, [state.results]);
@@ -97,6 +98,9 @@ export const useSearch = ({
     loop,
     resultsRef,
     onSubmitQuery: submitSearch,
+    onKeyboardNavigation: () => {
+      shouldScrollFocusedResultRef.current = true;
+    },
   });
 
   useLayoutEffect(() => {
@@ -105,14 +109,24 @@ export const useSearch = ({
   }, [updateDOMRefs, state.results.length, clearExcessRefs]);
 
   useLayoutEffect(() => {
-    focusInput();
-    if (focusedIndex === -1) return;
+    if (focusedIndex === -1) {
+      focusInput();
+      return;
+    }
+
+    if (!shouldScrollFocusedResultRef.current) return;
 
     const targetElement = getResultRef(focusedIndex);
     if (targetElement) {
+      focusInput();
       scrollToFocusedElement(targetElement);
     }
   }, [focusedIndex, getResultRef, focusInput, scrollToFocusedElement]);
+
+  const setFocusedIndexFromMouse = (index: number) => {
+    shouldScrollFocusedResultRef.current = false;
+    setFocusedIndex(index);
+  };
 
   const reset = () => {
     debouncedSearch.cancel();
@@ -160,6 +174,6 @@ export const useSearch = ({
     inputProps,
     containerProps,
     setResultRef,
-    setFocusedIndex,
+    setFocusedIndex: setFocusedIndexFromMouse,
   };
 };

@@ -16,7 +16,7 @@ type SearchResultItemProps = {
   isFocused: boolean;
   matchedIn: MatchedIn;
   onLinkClick?: () => void;
-  onMouseMove: (index: number) => void;
+  onMouseEnter: (index: number) => void;
   ref?: Ref<HTMLDivElement>;
 };
 
@@ -36,12 +36,12 @@ export function SearchResultItem({
   isFocused,
   matchedIn,
   onLinkClick,
-  onMouseMove,
+  onMouseEnter,
   ref,
 }: SearchResultItemProps) {
   const link = convertPostSlugToPath(slug);
-  const handleMouseMove = () => {
-    onMouseMove(index);
+  const handleMouseEnter = () => {
+    onMouseEnter(index);
   };
 
   return (
@@ -50,7 +50,7 @@ export function SearchResultItem({
       className={cx(LinkContainerStyle, isFocused ? FocusedContainerStyle : undefined)}
       data-selected={isFocused}
       id={id}
-      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
       ref={ref}
       role="option"
       tabIndex={-1}

@@ -10,7 +10,7 @@ type SearchResultListProps = {
   markedTitles: TitleSegment[][];
   focusedIndex: number;
   listId: string;
-  onResultMouseMove: (index: number) => void;
+  onResultMouseEnter: (index: number) => void;
   setResultRef: (index: number, element: HTMLDivElement | null) => void;
   onLinkClick?: () => void;
 };
@@ -20,7 +20,7 @@ export function SearchResultList({
   markedTitles,
   focusedIndex,
   listId,
-  onResultMouseMove,
+  onResultMouseEnter,
   setResultRef,
   onLinkClick,
 }: SearchResultListProps) {
@@ -66,7 +66,7 @@ export function SearchResultList({
             key={slug}
             matchedIn={matchedIn}
             onLinkClick={onLinkClick}
-            onMouseMove={onResultMouseMove}
+            onMouseEnter={onResultMouseEnter}
             ref={(element) => setResultRef(index, element)}
             slug={slug}
             titleSegments={markedTitles[index]}
