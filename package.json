@@ -82,7 +82,7 @@
   "dependencies": {
     "@adobe/spectrum-tokens": "14.11.0",
     "@heroicons/react": "2.2.0",
-    "@next/third-parties": "16.2.6",
+    "@next/third-parties": "16.2.7",
     "@pandacss/dev": "1.11.1",
     "@pandacss/types": "1.11.1",
     "@react-aria/button": "3.15.1",
@@ -101,10 +101,10 @@
     "hast-util-to-html": "9.0.5",
     "html-react-parser": "6.1.1",
     "mokuji.js": "5.2.0",
-    "next": "16.2.6",
+    "next": "16.2.7",
     "next-scroll-restorer": "0.11.0",
-    "react": "19.2.6",
-    "react-dom": "19.2.6",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
     "react-stately": "3.47.0",
     "shokika.css": "1.8.0",
     "style-to-js": "2.0.0"
