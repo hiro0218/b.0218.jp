@@ -14,5 +14,5 @@ jobs:
     steps:
       - name: Assign author to PR
         env:
-          GH_TOKEN: ${{ secrets.HIRO0218_NO_PASSPHRASE }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh pr edit "${{ github.event.pull_request.number }}" --repo "${{ github.repository }}" --add-assignee "${{ github.event.pull_request.user.login }}"
