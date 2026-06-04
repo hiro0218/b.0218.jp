@@ -114,9 +114,9 @@ export function CodeBlock({ preProps, children }: CodeBlockProps) {
           secondaryIcon={<FeedbackIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />}
         />
       </CopyButton>
-      <Announcement aria-live="polite" role="status">
+      <span aria-live="polite" className="sr-only" role="status">
         {announcement}
-      </Announcement>
+      </span>
     </Root>
   );
 }
@@ -177,13 +177,4 @@ const CopyButton = styled.button`
   &[data-state='unsupported'] {
     color: var(--colors-gray-500);
   }
-`;
-
-const Announcement = styled.span`
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
 `;
