@@ -63,11 +63,11 @@ function renderInner(props: IconButtonProps) {
 }
 
 function renderButton(props: ButtonProps) {
-  const { tooltip, as, className, children, ref, size = 'md', type = 'button', ...rest } = props;
+  const { tooltip, as, className, children, ref, size, type = 'button', ...rest } = props;
   return (
     <button
       className={cx('link-style--hover-effect', IconButtonStyle, className)}
-      data-size={size}
+      data-size={size === 'touch' ? size : undefined}
       ref={ref}
       type={type}
       {...rest}
@@ -78,11 +78,11 @@ function renderButton(props: ButtonProps) {
 }
 
 function renderLink(props: LinkProps) {
-  const { tooltip, as, className, children, href, prefetch, size = 'md', ...rest } = props;
+  const { tooltip, as, className, children, href, prefetch, size, ...rest } = props;
   return (
     <Anchor
       className={cx('link-style--hover-effect', IconButtonStyle, className)}
-      data-size={size}
+      data-size={size === 'touch' ? size : undefined}
       href={href}
       prefetch={prefetch}
       {...rest}
@@ -93,11 +93,11 @@ function renderLink(props: LinkProps) {
 }
 
 function renderExternalLink(props: ExternalLinkProps) {
-  const { tooltip, as, className, children, ref, href, size = 'md', ...rest } = props;
+  const { tooltip, as, className, children, ref, href, size, ...rest } = props;
   return (
     <a
       className={cx('link-style--hover-effect', IconButtonStyle, className)}
-      data-size={size}
+      data-size={size === 'touch' ? size : undefined}
       href={href}
       ref={ref}
       {...rest}
