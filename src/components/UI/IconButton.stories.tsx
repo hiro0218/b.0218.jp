@@ -94,3 +94,17 @@ export const InternalLink: Story = {
     children: <MagnifyingGlassIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />,
   },
 };
+
+/**
+ * 一辺 44px に縮めた派生。検索ダイアログのクリアボタンのように、コンパクトな行内へ収めつつ最小タッチターゲットを確保したい場面で使う。
+ * @summary touch サイズ（44px）
+ */
+export const TouchSize: Story = {
+  name: 'touch サイズ',
+  args: {
+    'aria-label': '検索キーワードをクリア',
+    size: 'touch',
+    children: <MagnifyingGlassIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />,
+    onClick: fn(),
+  },
+};

@@ -11,6 +11,8 @@ type CommonProps = {
   tooltip?: string;
   /** メニュー展開中などに hover overlay を強制表示する */
   'data-active'?: boolean;
+  /** 一辺サイズ。'md' = 48px（既定）、'touch' = 44px（コンパクトな配置でのタッチターゲット） */
+  size?: 'md' | 'touch';
   /** state-based color など、配置先固有の追加スタイル */
   className?: string;
 };
@@ -46,6 +48,7 @@ export type IconButtonProps = ButtonProps | LinkProps | ExternalLinkProps;
 /**
  * アイコン 1 つを内包する円形の操作要素。`as` で `<button>` / 内部リンク / 外部リンクを切り替える。
  * hover / focus / `data-active='true'` で半透明グレーのオーバーレイがスケールアニメーションで現れる。
+ * `size` で一辺を 48px（既定）/ 44px（touch）に切り替える。
  * @summary 円形アイコンボタン（button / 内部リンク / 外部リンク）
  */
 export function IconButton(props: IconButtonProps) {
@@ -60,19 +63,26 @@ function renderInner(props: IconButtonProps) {
 }
 
 function renderButton(props: ButtonProps) {
-  const { tooltip, as, className, children, ref, type = 'button', ...rest } = props;
+  const { tooltip, as, className, children, ref, size = 'md', type = 'button', ...rest } = props;
   return (
-    <button className={cx('link-style--hover-effect', IconButtonStyle, className)} ref={ref} type={type} {...rest}>
+    <button
+      className={cx('link-style--hover-effect', IconButtonStyle, className)}
+      data-size={size}
+      ref={ref}
+      type={type}
+      {...rest}
+    >
       {children}
     </button>
   );
 }
 
 function renderLink(props: LinkProps) {
-  const { tooltip, as, className, children, href, prefetch, ...rest } = props;
+  const { tooltip, as, className, children, href, prefetch, size = 'md', ...rest } = props;
   return (
     <Anchor
       className={cx('link-style--hover-effect', IconButtonStyle, className)}
+      data-size={size}
       href={href}
       prefetch={prefetch}
       {...rest}
@@ -83,10 +93,11 @@ function renderLink(props: LinkProps) {
 }
 
 function renderExternalLink(props: ExternalLinkProps) {
-  const { tooltip, as, className, children, ref, href, ...rest } = props;
+  const { tooltip, as, className, children, ref, href, size = 'md', ...rest } = props;
   return (
     <a
       className={cx('link-style--hover-effect', IconButtonStyle, className)}
+      data-size={size}
       href={href}
       ref={ref}
       {...rest}
@@ -125,6 +136,11 @@ const IconButtonStyle = css`
 
   &:disabled {
     cursor: not-allowed;
+  }
+
+  &[data-size='touch'] {
+    width: var(--sizes-touch-target);
+    height: var(--sizes-touch-target);
   }
 
   &[data-active='true']::after {
