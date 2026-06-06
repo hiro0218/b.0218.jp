@@ -64,7 +64,7 @@ export class ScreenshotGenerator {
     }
   }
 
-  private async filterNewPosts(posts: { slug: string }[]): Promise<{ slug: string }[]> {
+  private async filterNewPosts<PostLike extends { slug: string }>(posts: PostLike[]): Promise<PostLike[]> {
     const existingFiles = await readdir(OGP_CONFIG.output.dir).catch(() => [] as string[]);
     const existingSet = new Set(existingFiles);
 
