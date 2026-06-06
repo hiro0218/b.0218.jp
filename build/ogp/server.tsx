@@ -24,12 +24,24 @@ const sanitizeTitle = (title: string): string => {
     .replace(/'/g, '&#x27;');
 };
 
+const parseTags = (tags: string | undefined): string[] => {
+  if (!tags) {
+    return [];
+  }
+
+  return tags
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter((tag) => tag.length > 0);
+};
+
 app.get('/', (c) => {
   const defaultTitle = OGP_CONFIG.debug ? DUMMY_TITLE : '';
   const rawTitle = c.req.query('title') || defaultTitle;
   const title = sanitizeTitle(rawTitle);
+  const tags = parseTags(c.req.query('tags'));
 
-  return c.html(<Template title={title} />);
+  return c.html(<Template tags={tags} title={title} />);
 });
 
 serve(

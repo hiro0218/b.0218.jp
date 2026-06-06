@@ -1,49 +1,30 @@
 /** @jsxImportSource hono/jsx */
-import spectrumTokens from '@adobe/spectrum-tokens/dist/json/variables.json' with { type: 'json' };
 import { css, Style } from 'hono/css';
 import { html } from 'hono/html';
-import type { FC } from 'hono/jsx';
+import type { Child, FC } from 'hono/jsx';
+
+import { getOgpTheme, type OgpTheme } from './theme';
 
 type Props = {
+  tags?: string[];
   title: string;
 };
 
-type SpectrumColorToken = {
-  sets?: {
-    light?: {
-      value?: string;
-    };
-  };
-  value?: string | number;
+type BaseProps = {
+  children?: Child;
+  theme: OgpTheme;
 };
 
-const spectrumColorTokens = spectrumTokens as unknown as Record<string, SpectrumColorToken>;
-
-const getLightColor = (tokenName: string): string => {
-  const value = spectrumColorTokens[tokenName]?.sets?.light?.value;
-
-  if (!value) {
-    throw new Error(`Spectrum light color token not found: ${tokenName}`);
-  }
-
-  return value;
-};
-
-const getColorValue = (tokenName: string): string => {
-  const value = spectrumColorTokens[tokenName]?.value;
-
-  if (typeof value !== 'string') {
-    throw new Error(`Spectrum color token not found: ${tokenName}`);
-  }
-
-  return value;
-};
-
-const ogpColors = {
-  background: getLightColor('gray-200'),
-  text: getLightColor('gray-800'),
-  decoration: getColorValue('transparent-black-75'),
-} as const;
+const getThemeStyle = (theme: OgpTheme): string =>
+  [
+    `--ogp-background-color: ${theme.background}`,
+    `--ogp-text-color: ${theme.text}`,
+    `--ogp-footer-text-color: ${theme.footerText}`,
+    `--ogp-decoration-end-color: ${theme.decorationEnd}`,
+    `--ogp-decoration-end-opacity: ${theme.decorationEndOpacity}`,
+    `--ogp-decoration-start-color: ${theme.decorationStart}`,
+    `--ogp-decoration-start-opacity: ${theme.decorationStartOpacity}`,
+  ].join('; ');
 
 const cssGlobal = css`
   *,
@@ -53,14 +34,14 @@ const cssGlobal = css`
   }
 
   html {
-    background-color: ${ogpColors.background};
+    background-color: var(--ogp-background-color);
   }
 
   body {
     width: 1200px;
     height: 630px;
     margin: 0;
-    color: ${ogpColors.text};
+    color: var(--ogp-text-color);
 
     &::before,
     &::after {
@@ -71,11 +52,14 @@ const cssGlobal = css`
       height: 100%;
       pointer-events: none;
       content: '';
-      background-color: ${ogpColors.decoration};
+      background-color: var(--ogp-decoration-start-color);
+      opacity: var(--ogp-decoration-start-opacity);
       clip-path: polygon(0% 0%, 100% 0%, 0 max(10vw, 80px), 0% 100%);
     }
 
     &::after {
+      background-color: var(--ogp-decoration-end-color);
+      opacity: var(--ogp-decoration-end-opacity);
       clip-path: polygon(0% 0%, 100% 0%, 100% max(20vw, 300px));
     }
   }
@@ -122,12 +106,13 @@ const cssFooter = css`
   width: 100%;
   font-size: 24px;
   font-weight: 600;
+  color: var(--ogp-footer-text-color);
   text-align: left;
 `;
 
-const Base: FC = ({ children }) => {
+const Base: FC<BaseProps> = ({ children, theme }) => {
   return html`<!doctype html>
-    <html lang="ja">
+    <html lang="ja" style="${getThemeStyle(theme)}">
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
@@ -147,9 +132,12 @@ const Base: FC = ({ children }) => {
     </html>`;
 };
 
-export const Template: FC<Props> = ({ title }) => {
+export const Template: FC<Props> = ({ tags = [], title }) => {
+  const theme = getOgpTheme(tags);
+  const domain = 'b.0218.jp';
+
   return (
-    <Base>
+    <Base theme={theme}>
       <Style>{cssGlobal}</Style>
       <main className={cssMain}>
         <header className={cssHeader}>
@@ -157,7 +145,7 @@ export const Template: FC<Props> = ({ title }) => {
             {title}
           </h1>
         </header>
-        <footer className={cssFooter}>b.0218.jp</footer>
+        <footer className={cssFooter}>{domain}</footer>
       </main>
     </Base>
   );
