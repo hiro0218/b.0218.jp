@@ -1,3 +1,5 @@
+/** @jsxImportSource hono/jsx */
+import spectrumTokens from '@adobe/spectrum-tokens/dist/json/variables.json' with { type: 'json' };
 import { css, Style } from 'hono/css';
 import { html } from 'hono/html';
 import type { FC } from 'hono/jsx';
@@ -5,6 +7,43 @@ import type { FC } from 'hono/jsx';
 type Props = {
   title: string;
 };
+
+type SpectrumColorToken = {
+  sets?: {
+    light?: {
+      value?: string;
+    };
+  };
+  value?: string | number;
+};
+
+const spectrumColorTokens = spectrumTokens as unknown as Record<string, SpectrumColorToken>;
+
+const getLightColor = (tokenName: string): string => {
+  const value = spectrumColorTokens[tokenName]?.sets?.light?.value;
+
+  if (!value) {
+    throw new Error(`Spectrum light color token not found: ${tokenName}`);
+  }
+
+  return value;
+};
+
+const getColorValue = (tokenName: string): string => {
+  const value = spectrumColorTokens[tokenName]?.value;
+
+  if (typeof value !== 'string') {
+    throw new Error(`Spectrum color token not found: ${tokenName}`);
+  }
+
+  return value;
+};
+
+const ogpColors = {
+  background: getLightColor('gray-200'),
+  text: getLightColor('gray-800'),
+  decoration: getColorValue('transparent-black-75'),
+} as const;
 
 const cssGlobal = css`
   *,
@@ -14,14 +53,14 @@ const cssGlobal = css`
   }
 
   html {
-    background-color: #e4e4e4;
+    background-color: ${ogpColors.background};
   }
 
   body {
     width: 1200px;
     height: 630px;
     margin: 0;
-    color: #333;
+    color: ${ogpColors.text};
 
     &::before,
     &::after {
@@ -32,7 +71,7 @@ const cssGlobal = css`
       height: 100%;
       pointer-events: none;
       content: '';
-      background-color: #0000000f;
+      background-color: ${ogpColors.decoration};
       clip-path: polygon(0% 0%, 100% 0%, 0 max(10vw, 80px), 0% 100%);
     }
 
@@ -86,7 +125,7 @@ const cssFooter = css`
   text-align: left;
 `;
 
-const Base: FC = (props) => {
+const Base: FC = ({ children }) => {
   return html`<!doctype html>
     <html lang="ja">
       <head>
@@ -103,19 +142,19 @@ const Base: FC = (props) => {
         />
       </head>
       <body>
-        ${props.children}
+        ${children}
       </body>
     </html>`;
 };
 
-export const Template: FC = (props: Props) => {
+export const Template: FC<Props> = ({ title }) => {
   return (
     <Base>
       <Style>{cssGlobal}</Style>
       <main className={cssMain}>
         <header className={cssHeader}>
           <h1 className={cssHeading} id="title">
-            {props.title}
+            {title}
           </h1>
         </header>
         <footer className={cssFooter}>b.0218.jp</footer>
