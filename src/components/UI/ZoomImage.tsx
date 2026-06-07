@@ -1,12 +1,7 @@
-'use client';
-
 import type { CSSProperties, ImgHTMLAttributes, JSX } from 'react';
-import { useCallback } from 'react';
 import styleToJS from 'style-to-js';
-import useIsMounted from '@/hooks/useIsMounted';
-import { Dialog } from './ZoomImage/Dialog';
-import { useImageZoom } from './ZoomImage/hooks/useImageZoom';
-import { TriggerButton } from './ZoomImage/TriggerButton';
+import { styled } from '@/ui/styled';
+import { Controller } from './ZoomImage/Controller';
 import type { ZoomImageSource } from './ZoomImage/types';
 
 const MIN_IMAGE_SIZE = 100;
@@ -73,56 +68,31 @@ export function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: Z
     close: a11yOptions?.closeLabel || DEFAULT_A11Y.closeLabel,
   };
 
-  const isMounted = useIsMounted();
-
-  const { imgRef, dialogRef, dialogImgRef, imageSize, canZoom, isOpen, open, close, handleImageLoad } = useImageZoom({
-    hasObjectFit,
-    minImageSize: MIN_IMAGE_SIZE,
-  });
-
-  const handleDialogCancel = useCallback(
-    (event: React.SyntheticEvent<HTMLDialogElement>) => {
-      event.preventDefault();
-      close();
-    },
-    [close],
-  );
-
-  // ズーム不可の場合は通常の img 要素を返す
-  if (!canZoom) {
-    // biome-ignore lint/performance/noImgElement: DOM ref と自然サイズ計測をズーム可否判定に使う
-    return <img alt={alt} src={src} style={processedStyle} {...props} onLoad={handleImageLoad} ref={imgRef} />;
+  if (hasObjectFit) {
+    // biome-ignore lint/performance/noImgElement: 記事 HTML 由来の img 属性を保持するため
+    return <img alt={alt} src={src} style={processedStyle} {...props} />;
   }
 
   return (
-    <>
-      <TriggerButton
+    <Root data-zoom-image="">
+      {/* biome-ignore lint/performance/noImgElement: 記事 HTML 由来の img 属性を保持するため */}
+      <img alt={alt} data-zoom-image-source="" src={src} style={processedStyle} {...props} />
+      <Controller
         alt={alt}
-        imgProps={props}
-        imgRef={imgRef}
-        isOpen={isOpen}
-        label={a11y.buttonZoom}
-        onImageLoad={handleImageLoad}
+        closeLabel={a11y.close}
+        dialogLabel={a11y.dialog}
+        minImageSize={MIN_IMAGE_SIZE}
         src={src}
-        style={processedStyle}
-        zoomIn={open}
+        triggerLabel={a11y.buttonZoom}
+        zoomImg={zoomImg}
       />
-
-      {isMounted ? (
-        <Dialog
-          alt={alt}
-          closeLabel={a11y.close}
-          dialogImgRef={dialogImgRef}
-          dialogRef={dialogRef}
-          imageSize={imageSize}
-          isOpen={isOpen}
-          label={a11y.dialog}
-          onCancel={handleDialogCancel}
-          onClose={close}
-          src={src}
-          zoomImg={zoomImg}
-        />
-      ) : null}
-    </>
+    </Root>
   );
 }
+
+const Root = styled.span`
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: middle;
+`;

@@ -35,11 +35,22 @@ const dialogStyle = css`
 `;
 
 const dialogImageButtonStyle = css`
-  display: contents;
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  padding: 0;
   cursor: zoom-out;
+  background-color: transparent;
+  border: 0;
+
+  &:focus-visible {
+    outline: var(--border-widths-medium) solid var(--colors-focus-ring);
+    outline-offset: 2px;
+  }
 `;
 
 const dialogImageStyle = css`
+  display: block;
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;

@@ -19,6 +19,7 @@ interface UseImageZoomReturn {
   open: () => void;
   close: () => void;
   handleImageLoad: () => void;
+  setImageElement: (image: HTMLImageElement | null) => void;
 }
 
 /**
@@ -87,6 +88,20 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
     !hasObjectFit &&
     loadedImageSize !== null &&
     (loadedImageSize.width >= minImageSize || loadedImageSize.height >= minImageSize);
+
+  const setImageElement = useCallback((image: HTMLImageElement | null) => {
+    if (imgRef.current === image) return;
+
+    imgRef.current = image;
+    setLoadedImageSize(null);
+
+    if (image?.complete && image.naturalWidth) {
+      setLoadedImageSize({
+        height: image.naturalHeight,
+        width: image.naturalWidth,
+      });
+    }
+  }, []);
 
   const handleImageLoad = useCallback(() => {
     const img = imgRef.current;
@@ -176,21 +191,15 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
     // 「old」スナップショット用に viewTransitionName を明示的に設定
     dialogImg.style.viewTransitionName = viewTransitionName;
 
-    // ソース画像の親ボタンは isOpen 中 visibility: hidden のため、
-    // View Transition の「new」スナップショットで visible にする必要がある
-    const triggerButton = sourceImg.closest('button');
-
     let transition: ViewTransition | undefined;
     try {
       transition = startViewTransition(() => {
         dialogImg.style.viewTransitionName = '';
         sourceImg.style.viewTransitionName = viewTransitionName;
-        if (triggerButton) triggerButton.style.visibility = 'visible';
         closeSafely(dialog);
       });
     } catch {
       clearViewTransitionNames(sourceImg, dialogImg);
-      if (triggerButton) triggerButton.style.visibility = '';
       isTransitioning.current = false;
       return;
     }
@@ -199,7 +208,6 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
       runWhenTransitionSettles(transition, () => {
         isTransitioning.current = false;
         clearViewTransitionNames(sourceImg, dialogImg);
-        if (triggerButton) triggerButton.style.visibility = '';
         if (dialog.open) return;
 
         isOpenRef.current = false;
@@ -242,5 +250,6 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
     open,
     close,
     handleImageLoad,
+    setImageElement,
   };
 }

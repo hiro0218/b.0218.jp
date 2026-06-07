@@ -1,15 +1,30 @@
 import { cleanup, render, screen } from '@testing-library/react';
-import type { ReactNode } from 'react';
+import { createElement, type ReactNode } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('@/hooks/useIsMounted', () => ({
   default: () => true,
 }));
 
-vi.mock('@/ui/styled', () => ({
-  css: () => 'mocked-css-class',
-  cx: (...args: string[]) => args.filter(Boolean).join(' '),
-}));
+function createStyledComponent(tag: string) {
+  return ({ children, ...props }: { children?: ReactNode } & Record<string, unknown>) =>
+    createElement(tag, props, children);
+}
+
+vi.mock('@/ui/styled', () => {
+  const styled = new Proxy(
+    {},
+    {
+      get: (_target, tag: string) => () => createStyledComponent(tag),
+    },
+  );
+
+  return {
+    css: () => 'mocked-css-class',
+    cx: (...args: string[]) => args.filter(Boolean).join(' '),
+    styled,
+  };
+});
 
 vi.mock('react-dom', async () => {
   const actual = await vi.importActual('react-dom');
@@ -38,6 +53,7 @@ vi.mock('@heroicons/react/24/outline', () => ({
 const mockOpen = vi.fn();
 const mockClose = vi.fn();
 const mockHandleImageLoad = vi.fn();
+const mockSetImageElement = vi.fn();
 
 const defaultHookReturn = {
   imgRef: { current: null },
@@ -49,6 +65,7 @@ const defaultHookReturn = {
   open: mockOpen,
   close: mockClose,
   handleImageLoad: mockHandleImageLoad,
+  setImageElement: mockSetImageElement,
 };
 
 let hookReturnOverrides: Partial<typeof defaultHookReturn> = {};
@@ -137,13 +154,14 @@ describe('ZoomImage', () => {
       expect(button).toBeDefined();
     });
 
-    it('button 内に img 要素をレンダリングする', () => {
+    it('静的な img 要素と同じ root 内に button をレンダリングする', () => {
       render(<ZoomImage alt="test image" src="/test.jpg" />);
 
       const button = screen.getByRole('button');
-      const img = button.querySelector('img');
-      expect(img).not.toBeNull();
-      expect(img?.getAttribute('alt')).toBe('test image');
+      const img = screen.getAllByAltText('test image')[0];
+
+      expect(button.querySelector('img')).toBeNull();
+      expect(img.closest('[data-zoom-image]')).toBe(button.closest('[data-zoom-image]'));
     });
 
     it('dialog 要素をレンダリングする', () => {
