@@ -24,6 +24,19 @@ function renderCodeBlock() {
   );
 }
 
+function renderMultipleCodeBlocks() {
+  return render(
+    <>
+      <CodeBlock>
+        <code>const first = 1;</code>
+      </CodeBlock>
+      <CodeBlock>
+        <code>const second = 2;</code>
+      </CodeBlock>
+    </>,
+  );
+}
+
 describe('CodeBlock', () => {
   beforeEach(() => {
     Reflect.deleteProperty(navigator, 'clipboard');
@@ -59,6 +72,17 @@ describe('CodeBlock', () => {
     expect(clipboard.writeText).toHaveBeenCalledWith('const answer = 42;');
     expect(button.getAttribute('data-state')).toBe('copied');
     expect(screen.getByRole('status').textContent).toBe('コピーしました');
+  });
+
+  it('複数のコードブロックがある場合、クリックした button と同じブロックの内容をコピーする', async () => {
+    const clipboard = mockClipboard(async () => undefined);
+    renderMultipleCodeBlocks();
+
+    const buttons = screen.getAllByRole('button', { name: 'コードをコピー' });
+    fireEvent.click(buttons[1]);
+
+    await screen.findByRole('button', { name: 'コピーしました' });
+    expect(clipboard.writeText).toHaveBeenCalledWith('const second = 2;');
   });
 
   it('Clipboard API が reject した場合、失敗状態を表示する', async () => {
