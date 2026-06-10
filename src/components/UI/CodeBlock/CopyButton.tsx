@@ -95,10 +95,10 @@ export function CopyButton() {
   return (
     <>
       <Button
+        aria-disabled={state === 'copying' || state === 'unsupported' || undefined}
         aria-label={COPY_LABELS[state]}
         data-slot="copy-button"
         data-state={state}
-        disabled={state === 'copying' || state === 'unsupported'}
         onClick={handleCopy}
         ref={buttonRef}
         type="button"
@@ -144,7 +144,7 @@ const Button = styled.button`
     opacity: 1;
   }
 
-  &:disabled {
+  &[aria-disabled='true'] {
     cursor: not-allowed;
     opacity: 0.6;
   }
