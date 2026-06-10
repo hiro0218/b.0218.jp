@@ -23,7 +23,6 @@ export function IconSwap({ activeIcon, primaryIcon, secondaryIcon }: IconSwapPro
 
 const Root = styled.span`
   --icon-swap-dur: 200ms;
-  --icon-swap-blur: 2px;
   --icon-swap-start-scale: 0.25;
   --icon-swap-ease: ease-in-out;
   position: relative;
@@ -32,14 +31,12 @@ const Root = styled.span`
   &[data-active-icon='primary'] > [data-icon='primary'],
   &[data-active-icon='secondary'] > [data-icon='secondary'] {
     opacity: 1;
-    filter: blur(0);
     transform: scale(1);
   }
 
   &[data-active-icon='primary'] > [data-icon='secondary'],
   &[data-active-icon='secondary'] > [data-icon='primary'] {
     opacity: 0;
-    filter: blur(var(--icon-swap-blur));
     transform: scale(var(--icon-swap-start-scale));
   }
 
@@ -56,7 +53,5 @@ const IconSlot = styled.span`
   place-items: center;
   transition:
     opacity var(--icon-swap-dur) var(--icon-swap-ease),
-    filter var(--icon-swap-dur) var(--icon-swap-ease),
     transform var(--icon-swap-dur) var(--icon-swap-ease);
-  will-change: opacity, filter, transform;
 `;
