@@ -59,7 +59,7 @@ describe('CodeBlock', () => {
     const button = screen.getByRole('button', { name: 'コードをコピー' });
 
     expect(button.getAttribute('data-state')).toBe('idle');
-    expect(button.hasAttribute('disabled')).toBe(false);
+    expect(button.getAttribute('aria-disabled')).toBeNull();
   });
 
   it('Clipboard API に書き込めた場合、成功状態を表示する', async () => {
@@ -98,17 +98,17 @@ describe('CodeBlock', () => {
     expect(screen.getByRole('status').textContent).toBe('コピーに失敗しました');
   });
 
-  it('Clipboard API が使えない場合、unsupported 状態にして button を disabled にする', async () => {
+  it('Clipboard API が使えない場合、unsupported 状態にして button を aria-disabled にする', async () => {
     renderCodeBlock();
 
     fireEvent.click(screen.getByRole('button', { name: 'コードをコピー' }));
 
     const button = await screen.findByRole('button', { name: 'このブラウザはコピーに未対応' });
     expect(button.getAttribute('data-state')).toBe('unsupported');
-    expect(button.hasAttribute('disabled')).toBe(true);
+    expect(button.getAttribute('aria-disabled')).toBe('true');
   });
 
-  it('コピー中の場合、button を disabled にする', async () => {
+  it('コピー中の場合、button を aria-disabled にする', async () => {
     let resolveCopy: () => void = () => {};
     mockClipboard(
       () =>
@@ -122,7 +122,7 @@ describe('CodeBlock', () => {
 
     const button = await screen.findByRole('button', { name: 'コピー中' });
     expect(button.getAttribute('data-state')).toBe('copying');
-    expect(button.hasAttribute('disabled')).toBe(true);
+    expect(button.getAttribute('aria-disabled')).toBe('true');
 
     await act(async () => {
       resolveCopy();
