@@ -1,7 +1,7 @@
 'use client';
 
 import type { RefObject } from 'react';
-import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { ImageDimensions } from '../types';
 
 interface UseImageZoomOptions {
@@ -21,6 +21,9 @@ interface UseImageZoomReturn {
   handleImageLoad: () => void;
   setImageElement: (image: HTMLImageElement | null) => void;
 }
+
+/** base/index.css の ::view-transition-*(zoom-image) と対応する固定名。modal で同時に 1 つしか開かないため instance ごとの一意化は不要である */
+const VIEW_TRANSITION_NAME = 'zoom-image';
 
 /**
  * View Transition 対応のフォールバック付きラッパー
@@ -73,7 +76,6 @@ function closeSafely(dialog: HTMLDialogElement): boolean {
  */
 export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomReturn {
   const { hasObjectFit = false, minImageSize = 100 } = options;
-  const viewTransitionName = `zoom-image-${useId().replace(/:/g, '')}`;
 
   const [loadedImageSize, setLoadedImageSize] = useState<ImageDimensions | null>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -132,13 +134,13 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
 
     isOpenRef.current = true;
     isTransitioning.current = true;
-    sourceImg.style.viewTransitionName = viewTransitionName;
+    sourceImg.style.viewTransitionName = VIEW_TRANSITION_NAME;
 
     let transition: ViewTransition | undefined;
     try {
       transition = startViewTransition(() => {
         sourceImg.style.viewTransitionName = '';
-        dialogImg.style.viewTransitionName = viewTransitionName;
+        dialogImg.style.viewTransitionName = VIEW_TRANSITION_NAME;
         const didOpen = showModalSafely(dialog);
         if (didOpen && isMountedRef.current) {
           setIsOpen(true);
@@ -165,16 +167,26 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
       clearViewTransitionNames(sourceImg, dialogImg);
       isTransitioning.current = false;
     }
-  }, [canZoom, viewTransitionName]);
+  }, [canZoom]);
 
   const close = useCallback(() => {
     if (isTransitioning.current) return;
 
     const dialog = dialogRef.current;
-    if (!imgRef.current || !dialog || !dialogImgRef.current || !dialog.open) return;
+    if (!imgRef.current || !dialog || !dialogImgRef.current) return;
 
     const sourceImg = imgRef.current;
     const dialogImg = dialogImgRef.current;
+
+    // cancel を経ずに dialog が閉じられた場合（CloseWatcher の強制 close など）は状態だけ同期する
+    if (!dialog.open) {
+      if (isOpenRef.current) {
+        clearViewTransitionNames(sourceImg, dialogImg);
+        isOpenRef.current = false;
+        setIsOpen(false);
+      }
+      return;
+    }
 
     if (!document.startViewTransition) {
       const didClose = closeSafely(dialog);
@@ -189,13 +201,13 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
     isTransitioning.current = true;
 
     // 「old」スナップショット用に viewTransitionName を明示的に設定
-    dialogImg.style.viewTransitionName = viewTransitionName;
+    dialogImg.style.viewTransitionName = VIEW_TRANSITION_NAME;
 
     let transition: ViewTransition | undefined;
     try {
       transition = startViewTransition(() => {
         dialogImg.style.viewTransitionName = '';
-        sourceImg.style.viewTransitionName = viewTransitionName;
+        sourceImg.style.viewTransitionName = VIEW_TRANSITION_NAME;
         closeSafely(dialog);
       });
     } catch {
@@ -221,9 +233,10 @@ export function useImageZoom(options: UseImageZoomOptions = {}): UseImageZoomRet
         setIsOpen(false);
       }
     }
-  }, [viewTransitionName]);
+  }, []);
 
   useEffect(() => {
+    isMountedRef.current = true;
     return () => {
       isMountedRef.current = false;
     };

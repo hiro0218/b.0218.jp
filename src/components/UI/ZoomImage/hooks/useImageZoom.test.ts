@@ -2,7 +2,7 @@ import { act, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useImageZoom } from './useImageZoom';
 
-const ZOOM_IMAGE_TRANSITION_NAME_PATTERN = /^zoom-image-/;
+const ZOOM_IMAGE_TRANSITION_NAME = 'zoom-image';
 
 /**
  * useImageZoom hook unit tests
@@ -665,7 +665,7 @@ describe('useImageZoom', () => {
       });
 
       // transition callback 中は source image が「new」スナップショット対象になる
-      expect(imgStyle.viewTransitionName).toMatch(ZOOM_IMAGE_TRANSITION_NAME_PATTERN);
+      expect(imgStyle.viewTransitionName).toBe(ZOOM_IMAGE_TRANSITION_NAME);
       expect(dialogImgStyle.viewTransitionName).toBe('');
 
       // transition.finished 後に一時スタイルが空に戻る
@@ -793,7 +793,7 @@ describe('useImageZoom', () => {
         result.current.close();
       });
 
-      expect(imgStyle.viewTransitionName).toMatch(ZOOM_IMAGE_TRANSITION_NAME_PATTERN);
+      expect(imgStyle.viewTransitionName).toBe(ZOOM_IMAGE_TRANSITION_NAME);
       expect(dialogImgStyle.viewTransitionName).toBe('');
 
       await act(async () => {
