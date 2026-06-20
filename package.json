@@ -131,7 +131,7 @@
     "@types/react-dom": "19.2.3",
     "@types/twitter-for-web": "0.0.6",
     "@vitejs/plugin-react": "6.0.2",
-    "@vitest/coverage-v8": "4.1.6",
+    "@vitest/coverage-v8": "4.1.8",
     "browserslist": "4.28.2",
     "dependency-cruiser": "17.4.0",
     "esbuild": "0.28.0",
