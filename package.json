@@ -181,7 +181,7 @@
     "typescript": "6.0.3",
     "unified": "11.0.5",
     "unist-util-visit": "5.1.0",
-    "vitest": "4.1.6"
+    "vitest": "4.1.8"
   },
   "engines": {
     "vscode": "^1.104.0"
