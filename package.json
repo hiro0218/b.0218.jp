@@ -80,7 +80,7 @@
     "@types/react-dom": "19.2.3"
   },
   "dependencies": {
-    "@adobe/spectrum-tokens": "14.12.0",
+    "@adobe/spectrum-tokens": "14.13.0",
     "@heroicons/react": "2.2.0",
     "@next/third-parties": "16.2.7",
     "@pandacss/dev": "1.11.2",
@@ -105,7 +105,7 @@
     "next-scroll-restorer": "0.11.0",
     "react": "19.2.7",
     "react-dom": "19.2.7",
-    "react-stately": "3.47.0",
+    "react-stately": "3.48.0",
     "shokika.css": "1.8.0",
     "style-to-js": "2.0.0"
   },
