@@ -54,6 +54,7 @@ export const PostTimeline = ({ posts, prefetch = false }: Props) => {
 };
 
 const List = styled.ol`
+  --resize-dur: 500ms;
   --timeline-gutter: var(--spacing-3);
   --timeline-item-pad-y: var(--spacing-2);
   --timeline-date-col: var(--spacing-6);
@@ -81,8 +82,8 @@ const List = styled.ol`
   }
 
   /* 未対応環境は li 自身の hover 背景を使い、対応環境だけ追随背景へ切り替える */
-  @supports (anchor-scope: --post-timeline-item) and (position-anchor: --post-timeline-item) and
-    (top: anchor(top)) and (width: anchor-size(width)) and selector(:has(*)) {
+  @supports (anchor-scope: --post-timeline-item) and (position-anchor: --post-timeline-item) and (top: anchor(top)) and
+    (width: anchor-size(width)) and selector(:has(*)) {
     anchor-scope: --post-timeline-item;
 
     &::after {
@@ -98,19 +99,22 @@ const List = styled.ol`
       background-color: var(--colors-gray-a-100);
       border-radius: var(--radii-sm);
       opacity: 0;
+      transform: scale(0.98);
       transition: none;
     }
 
     &:has(> li:is(:hover, :focus-within))::after {
       opacity: 1;
+      transform: scale(1);
       transition:
-        top var(--resize-dur) var(--resize-ease),
-        left var(--resize-dur) var(--resize-ease),
-        width var(--resize-dur) var(--resize-ease),
-        height var(--resize-dur) var(--resize-ease),
+        top var(--resize-dur) var(--easings-ease-spring2),
+        left var(--resize-dur) var(--easings-ease-spring2),
+        width var(--resize-dur) var(--easings-ease-spring2),
+        height var(--resize-dur) var(--easings-ease-spring2),
+        transform var(--transition-fast),
         background-color var(--transition-fast),
         opacity var(--transition-fast);
-      will-change: top, left, width, height;
+      will-change: top, left, width, height, transform;
     }
 
     &:has(> li:active)::after {
@@ -168,8 +172,8 @@ const Item = styled.li`
     background-color: var(--colors-gray-a-200);
   }
 
-  @supports (anchor-scope: --post-timeline-item) and (position-anchor: --post-timeline-item) and
-    (top: anchor(top)) and (width: anchor-size(width)) and selector(:has(*)) {
+  @supports (anchor-scope: --post-timeline-item) and (position-anchor: --post-timeline-item) and (top: anchor(top)) and
+    (width: anchor-size(width)) and selector(:has(*)) {
     z-index: var(--z-index-base);
 
     &:first-child {
