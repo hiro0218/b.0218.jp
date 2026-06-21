@@ -70,6 +70,7 @@ const List = styled.ol`
   padding-inline-start: var(--timeline-gutter);
   container-type: inline-size;
   isolation: isolate;
+  transition: opacity var(--transition-slow);
 
   &::before {
     position: absolute;
@@ -79,6 +80,11 @@ const List = styled.ol`
     width: var(--border-widths-thin);
     content: '';
     background-color: var(--colors-gray-100);
+  }
+
+  /* hoverしていない他の要素 */
+  &:has(> li:hover) > li:not(:hover) {
+    opacity: 0.6;
   }
 
   /* 未対応環境は li 自身の hover 背景を使い、対応環境だけ追随背景へ切り替える */
@@ -138,7 +144,13 @@ const Item = styled.li`
   align-items: baseline;
   padding: var(--timeline-item-pad-y) var(--spacing-2);
   border-radius: var(--radii-sm);
-  transition: background-color var(--transition-fast);
+  transition:
+    background-color var(--transition-fast),
+    opacity var(--transition-fast);
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: background-color var(--transition-fast);
+  }
 
   /* dot */
   &::before {
