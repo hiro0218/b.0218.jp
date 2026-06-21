@@ -11,16 +11,26 @@ type SearchPanelProps = {
   results: SearchResultItem[];
   searchQuery: string;
   focusedIndex: number;
+  listId: string;
+  onResultMouseEnter: (index: number) => void;
   setResultRef: (index: number, element: HTMLDivElement | null) => void;
   onLinkClick?: () => void;
 };
 
-export function SearchPanel({ results, searchQuery, focusedIndex, setResultRef, onLinkClick }: SearchPanelProps) {
+export function SearchPanel({
+  results,
+  searchQuery,
+  focusedIndex,
+  listId,
+  onResultMouseEnter,
+  setResultRef,
+  onLinkClick,
+}: SearchPanelProps) {
   const markedTitles = createMarkedTitles(results, searchQuery);
   const hasResults = results.length > 0;
 
   return (
-    <SearchMain aria-atomic="true" aria-label="サイト内検索" aria-live="polite">
+    <SearchMain aria-label="サイト内検索">
       <SearchStatus resultsCount={results.length} searchQuery={searchQuery} />
 
       {hasResults ? (
@@ -28,8 +38,10 @@ export function SearchPanel({ results, searchQuery, focusedIndex, setResultRef, 
           <SearchResultMessage resultsCount={results.length} searchQuery={searchQuery} />
           <SearchResultList
             focusedIndex={focusedIndex}
+            listId={listId}
             markedTitles={markedTitles}
             onLinkClick={onLinkClick}
+            onResultMouseEnter={onResultMouseEnter}
             results={results}
             setResultRef={setResultRef}
           />

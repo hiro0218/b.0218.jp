@@ -7,10 +7,7 @@ type SearchFooterProps = {
 };
 
 /**
- * 検索パネルのフッター
- *
- * @description
- * キーボードショートカットの案内とGoogle検索へのリンクを表示します。
+ * @summary キーボードショートカット案内と Google 検索リンクを表示するフッター。
  */
 export function SearchFooter({ searchQuery }: SearchFooterProps) {
   const query = searchQuery ? `site:b.0218.jp ${searchQuery}` : 'site:b.0218.jp';

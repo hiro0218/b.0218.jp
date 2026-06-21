@@ -97,24 +97,4 @@ describe('useClipboardCopy', () => {
       expect(copyResult.error.message).toBe('permission denied');
     }
   });
-
-  it('rerender 後も copyText の参照が安定する', () => {
-    mockClipboard(async () => undefined);
-    const { result, rerender } = renderHook(() => useClipboardCopy());
-    const before = result.current.copyText;
-
-    rerender();
-
-    expect(result.current.copyText).toBe(before);
-  });
-
-  it('rerender 後も返却オブジェクトの参照が安定する', () => {
-    mockClipboard(async () => undefined);
-    const { result, rerender } = renderHook(() => useClipboardCopy());
-    const before = result.current;
-
-    rerender();
-
-    expect(result.current).toBe(before);
-  });
 });

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 
+import { Stack } from '@/components/UI/Layout/Stack';
 import { css, cx } from '@/ui/styled';
 import { fontWeightClasses, headingFontSizeClasses } from '@/ui/styled/atomic/typography';
 
@@ -34,21 +35,15 @@ export function Heading({ id, as: Tag = 'h1', children, textSide, textSub, isBol
   }
 
   return (
-    <hgroup className={containerStyle}>
+    <Stack align="center" as="hgroup" direction="horizontal" gap={1}>
       <div className={mainStyle}>
         {title}
         {textSub ? <div className={headerSubStyle}>{textSub}</div> : null}
       </div>
       {textSide ? <div className={sideStyle}>{textSide}</div> : null}
-    </hgroup>
+    </Stack>
   );
 }
-
-const containerStyle = css`
-  display: flex;
-  gap: var(--spacing-1);
-  align-items: center;
-`;
 
 const mainStyle = css`
   flex: 1 1 auto;
@@ -63,7 +58,7 @@ const headerTitleStyle = css`
 `;
 
 const sideStyle = css`
-  color: var(--colors-gray-900);
+  color: var(--colors-gray-600);
 `;
 
 const headerSubStyle = css`

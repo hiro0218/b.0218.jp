@@ -75,7 +75,7 @@ export function Popover({
 }
 
 type MenuItemProps = {
-  item: Node<object>;
+  item: Node<unknown>;
   state: ReturnType<typeof useTreeState>;
   onAction: () => void;
 };

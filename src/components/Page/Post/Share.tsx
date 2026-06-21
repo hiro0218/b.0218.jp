@@ -4,17 +4,17 @@
 import { CheckIcon, LinkIcon, NoSymbolIcon, ShareIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useCallback, useId, useRef, useState, useSyncExternalStore } from 'react';
 
+import { IconButton } from '@/components/UI/IconButton';
 import { IconSwap, type IconSwapActiveIcon } from '@/components/UI/IconSwap';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { Toast, useToast } from '@/components/UI/Toast';
-import { Tooltip } from '@/components/UI/Tooltip';
 import { X_ACCOUNT } from '@/constants';
 import { useClipboardCopy } from '@/hooks/useClipboardCopy';
 import { useTimeout } from '@/hooks/useTimeout';
 import { ICON_SIZE_SM } from '@/ui/iconSizes';
 import { Hatenabookmark } from '@/ui/icons/Hatenabookmark';
 import { X } from '@/ui/icons/X';
-import { css, cx } from '@/ui/styled';
+import { css } from '@/ui/styled';
 
 interface Props {
   title: string;
@@ -54,6 +54,10 @@ const getNavigatorShareSnapshot = () => typeof navigator !== 'undefined' && !!na
 const getNavigatorClipboardSnapshot = () =>
   typeof navigator !== 'undefined' && typeof navigator.clipboard?.writeText === 'function';
 const getServerSnapshot = () => false;
+// クリップボード API はサーバー / 判定確定前では楽観的に「対応」とみなす。
+// 初回レンダーで未対応 (secondary アイコン) を出すと、クライアントでの判定確定時に
+// IconSwap が secondary -> primary へ不要にアニメートしてしまうため。
+const getClipboardServerSnapshot = () => true;
 
 export function PostShare({ title, url }: Props) {
   const labelledbyId = useId();
@@ -61,7 +65,7 @@ export function PostShare({ title, url }: Props) {
   const isClipboardWriteSupported = useSyncExternalStore(
     emptySubscribe,
     getNavigatorClipboardSnapshot,
-    getServerSnapshot,
+    getClipboardServerSnapshot,
   );
   const { ref, showToast, hideToast, message, isVisible } = useToast('記事のURLをコピーしました');
   const { copyText } = useClipboardCopy();
@@ -69,7 +73,6 @@ export function PostShare({ title, url }: Props) {
   const [copyState, setCopyState] = useState<CopyPermalinkState>('idle');
   const displayCopyState: CopyPermalinkState = isClipboardWriteSupported ? copyState : 'unsupported';
   const isCopyingRef = useRef(false);
-  const classNames = cx('link-style--hover-effect', ShareButtonStyle);
 
   const onClickCopyPermalink = useCallback(async () => {
     if (isCopyingRef.current || displayCopyState === 'unsupported') return;
@@ -128,54 +131,44 @@ export function PostShare({ title, url }: Props) {
         このページをシェアする
       </h2>
       <Stack direction="horizontal" gap={1}>
-        <Tooltip text="Xでポスト">
-          <a
-            aria-label="Xでポスト"
-            className={classNames}
-            href={`https://x.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}&via=${X_ACCOUNT}`}
-            rel="noreferrer"
-            target="_blank"
-          >
-            <X height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-          </a>
-        </Tooltip>
-        <Tooltip text="はてなブックマークでブックマーク">
-          <a
-            aria-label="はてなブックマークでブックマーク"
-            className={classNames}
-            href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`}
-            rel="noreferrer"
-            target="_blank"
-          >
-            <Hatenabookmark height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-          </a>
-        </Tooltip>
-        <Tooltip text={COPY_PERMALINK_LABELS[displayCopyState]}>
-          <button
-            aria-label={COPY_PERMALINK_LABELS[displayCopyState]}
-            className={classNames}
-            data-state={displayCopyState}
-            disabled={displayCopyState === 'unsupported'}
-            onClick={onClickCopyPermalink}
-            type="button"
-          >
-            <IconSwap
-              activeIcon={activeCopyIcon}
-              primaryIcon={<LinkIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />}
-              secondaryIcon={<CopyFeedbackIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />}
-            />
-          </button>
-        </Tooltip>
+        <IconButton
+          aria-label="Xでポスト"
+          as="externalLink"
+          href={`https://x.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}&via=${X_ACCOUNT}`}
+          tooltip="Xでポスト"
+        >
+          <X height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+        </IconButton>
+        <IconButton
+          aria-label="はてなブックマークでブックマーク"
+          as="externalLink"
+          href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`}
+          tooltip="はてなブックマークでブックマーク"
+        >
+          <Hatenabookmark height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+        </IconButton>
+        <IconButton
+          aria-label={COPY_PERMALINK_LABELS[displayCopyState]}
+          className={copyStateColorStyle}
+          data-state={displayCopyState}
+          disabled={displayCopyState === 'unsupported'}
+          onClick={onClickCopyPermalink}
+          tooltip={COPY_PERMALINK_LABELS[displayCopyState]}
+        >
+          <IconSwap
+            activeIcon={activeCopyIcon}
+            primaryIcon={<LinkIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />}
+            secondaryIcon={<CopyFeedbackIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />}
+          />
+        </IconButton>
         {isShareSupported ? (
-          <Tooltip text="その他：共有">
-            <button aria-label="その他：共有" className={classNames} onClick={onClickShare} type="button">
-              <ShareIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-            </button>
-          </Tooltip>
-        ) : (
-          <button aria-label="共有に未対応" className={classNames} disabled type="button">
+          <IconButton aria-label="その他：共有" onClick={onClickShare} tooltip="その他：共有">
             <ShareIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-          </button>
+          </IconButton>
+        ) : (
+          <IconButton aria-label="共有に未対応" disabled>
+            <ShareIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+          </IconButton>
         )}
       </Stack>
       <Toast isVisible={isVisible} message={message} onHideToast={hideToast} ref={ref} />
@@ -183,30 +176,7 @@ export function PostShare({ title, url }: Props) {
   );
 }
 
-const ShareButtonStyle = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: calc(var(--sizes-icon-sm) * 2);
-  height: calc(var(--sizes-icon-sm) * 2);
-  transition: transform var(--transition-fast);
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
-
-  &::after {
-    border-radius: var(--radii-full);
-  }
-
-  &:active {
-    transform: scale(0.96);
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-  }
-
+const copyStateColorStyle = css`
   &[data-state='copied'] {
     color: var(--colors-grass-1200);
   }

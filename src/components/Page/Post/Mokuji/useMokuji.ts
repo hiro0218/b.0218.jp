@@ -19,12 +19,14 @@ const MOKUJI_OPTIONS: MokujiOption = {
 
 type ReturnProps = {
   mokujiContainerRef: RefObject<HTMLDivElement>;
+  mokujiDetailsRef: RefObject<HTMLDetailsElement>;
   mokujiListContainerRef: RefObject<HTMLDivElement>;
 };
 
 export const useMokuji = ({ refContent }: MokujiProps): ReturnProps => {
   const pathname = usePathname();
   const mokujiContainerRef = useRef<HTMLDivElement>(null);
+  const mokujiDetailsRef = useRef<HTMLDetailsElement>(null);
   const mokujiListContainerRef = useRef<HTMLDivElement>(null);
   const mokujiInstanceRef = useRef<MokujiResult | null>(null);
   const previousContentRef = useRef<HTMLElement | undefined>(undefined);
@@ -64,6 +66,10 @@ export const useMokuji = ({ refContent }: MokujiProps): ReturnProps => {
       return;
     }
 
+    // 固定配置かどうかは Mokuji.tsx のメディアクエリの適用結果 (position: fixed) から読み、breakpoint の二重管理を避ける
+    const isFixedLayout = () => getComputedStyle(mokujiContainerElement).position === 'fixed';
+    let scrollFollowObserver: MutationObserver | null = null;
+
     const result = MokujiJs(articleContentElement, MOKUJI_OPTIONS);
     if (result) {
       mokujiInstanceRef.current = result;
@@ -73,12 +79,31 @@ export const useMokuji = ({ refContent }: MokujiProps): ReturnProps => {
       if (hasMokujiItems) {
         mokujiListElement.appendChild(result.list);
         mokujiContainerElement.setAttribute('data-visible', 'true');
+
+        // 固定配置時は常時表示のサイドバーとして振る舞うため、開いた状態を初期値にする
+        if (mokujiDetailsRef.current && isFixedLayout()) {
+          mokujiDetailsRef.current.open = true;
+        }
+
+        // 固定配置ではリストが overflow するため、scroll spy の現在地が隠れたら追従スクロールする。
+        // インライン配置で scrollIntoView を呼ぶとページ全体がスクロールしてしまうため固定配置に限定する
+        scrollFollowObserver = new MutationObserver(() => {
+          if (!isFixedLayout()) return;
+          const activeAnchor = mokujiListElement.querySelector("a[aria-current='true']");
+          activeAnchor?.scrollIntoView({ block: 'nearest' });
+        });
+        scrollFollowObserver.observe(mokujiListElement, {
+          attributes: true,
+          attributeFilter: ['aria-current'],
+          subtree: true,
+        });
       } else {
         mokujiContainerElement.setAttribute('data-visible', 'false');
       }
     }
 
     return () => {
+      scrollFollowObserver?.disconnect();
       if (mokujiInstanceRef.current?.destroy) {
         mokujiInstanceRef.current.destroy();
         mokujiInstanceRef.current = null;
@@ -87,5 +112,5 @@ export const useMokuji = ({ refContent }: MokujiProps): ReturnProps => {
     };
   }, [pathname, refContent]);
 
-  return { mokujiContainerRef, mokujiListContainerRef };
+  return { mokujiContainerRef, mokujiDetailsRef, mokujiListContainerRef };
 };

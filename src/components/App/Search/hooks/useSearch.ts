@@ -1,5 +1,6 @@
-import { type RefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
+import { type RefObject, useEffect, useId, useLayoutEffect, useRef } from 'react';
 import type { SearchResultItem } from '../types';
+import { createSearchResultId } from '../utils/resultId';
 import { useSearchDOMRefs } from './internal/useSearchDOMRefs';
 import { useSearchManager } from './internal/useSearchManager';
 import { useSearchNavigation } from './internal/useSearchNavigation';
@@ -27,12 +28,15 @@ export interface UseSearchReturn {
   debouncedSearch: (query: string) => void;
   reset: () => void;
   close: () => void;
-  inputProps: { onKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void };
+  inputProps: {
+    activeDescendantId?: string;
+    listId: string;
+    onValueChange: (value: string) => void;
+  };
   containerProps: React.DOMAttributes<HTMLElement>;
   setResultRef: (index: number, element: HTMLDivElement | null) => void;
+  setFocusedIndex: (index: number) => void;
 }
-
-const NAV_KEYS: ReadonlySet<string> = new Set(['ArrowDown', 'ArrowUp', 'Home', 'End', 'Enter', 'Escape']);
 
 /**
  * @summary 検索ダイアログの状態 / DOM 参照 / キーボードナビゲーションを統合する hook。
@@ -51,6 +55,7 @@ export const useSearch = ({
   debounceMs = 300,
   loop = true,
 }: UseSearchOptions): UseSearchReturn => {
+  const listId = useId();
   const {
     state,
     isReady,
@@ -73,23 +78,36 @@ export const useSearch = ({
     saveSearchState({ query: state.query, results: state.results });
   }, [persistState, state.query, state.results, saveSearchState]);
 
-  const reset = useCallback(() => {
-    resetManager();
-    clearSearchState();
-  }, [resetManager, clearSearchState]);
-
-  const { updateDOMRefs, focusInput, scrollToFocusedElement, setResultRef, getResultRef, clearExcessRefs } =
-    useSearchDOMRefs({ dialogRef });
+  const {
+    updateDOMRefs,
+    focusInput,
+    resetResultScroll,
+    scrollToFocusedElement,
+    setResultRef,
+    getResultRef,
+    clearExcessRefs,
+  } = useSearchDOMRefs({ dialogRef });
 
   const resultsRef = useRef<SearchResultItem[]>(state.results);
-  resultsRef.current = state.results;
+  const shouldScrollFocusedResultRef = useRef(true);
+  useEffect(() => {
+    resultsRef.current = state.results;
+  }, [state.results]);
 
-  const { focusedIndex, resetFocus, containerProps } = useSearchNavigation({
+  const submitSearch = (query: string) => {
+    debouncedSearch.cancel();
+    executeSearch(query);
+  };
+
+  const { focusedIndex, resetFocus, setFocusedIndex, containerProps } = useSearchNavigation({
     resultsLength: state.results.length,
     onClose,
     loop,
     resultsRef,
-    getResultRef,
+    onSubmitQuery: submitSearch,
+    onKeyboardNavigation: () => {
+      shouldScrollFocusedResultRef.current = true;
+    },
   });
 
   useLayoutEffect(() => {
@@ -100,42 +118,58 @@ export const useSearch = ({
   useLayoutEffect(() => {
     if (focusedIndex === -1) {
       focusInput();
+      resetResultScroll();
       return;
     }
+
+    if (!shouldScrollFocusedResultRef.current) return;
+
     const targetElement = getResultRef(focusedIndex);
     if (targetElement) {
-      targetElement.focus();
+      focusInput();
       scrollToFocusedElement(targetElement);
     }
-  }, [focusedIndex, getResultRef, focusInput, scrollToFocusedElement]);
+  }, [focusedIndex, getResultRef, focusInput, resetResultScroll, scrollToFocusedElement]);
 
-  const focusedIndexRef = useRef(focusedIndex);
-  focusedIndexRef.current = focusedIndex;
+  const setFocusedIndexFromMouse = (index: number) => {
+    shouldScrollFocusedResultRef.current = false;
+    setFocusedIndex(index);
+  };
 
-  const handleClose = useCallback(() => {
+  const reset = () => {
+    debouncedSearch.cancel();
+    resetManager();
+    resetFocus();
+    clearSearchState();
+  };
+
+  const handleClose = () => {
+    debouncedSearch.cancel();
     resetFocus();
     if (onClose) onClose();
-  }, [resetFocus, onClose]);
+  };
 
-  const handleSearchInput = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (!(e.currentTarget instanceof HTMLInputElement) || e.nativeEvent.isComposing) return;
+  const handleSearchInput = (value: string) => {
+    const trimmedValue = value.trim();
 
-      const value = e.currentTarget.value.trim();
-      if (value === state.query) return;
+    if (!trimmedValue) {
+      reset();
+      return;
+    }
 
-      if (e.key === 'Enter' && focusedIndexRef.current === -1) {
-        executeSearch(value);
-        return;
-      }
-      if (!NAV_KEYS.has(e.key)) {
-        debouncedSearch(value);
-      }
-    },
-    [state.query, executeSearch, debouncedSearch],
-  );
+    if (trimmedValue === state.query) return;
 
-  const inputProps = useMemo(() => ({ onKeyUp: handleSearchInput }), [handleSearchInput]);
+    shouldScrollFocusedResultRef.current = true;
+    resetFocus();
+    debouncedSearch(value);
+  };
+
+  const activeResult = focusedIndex >= 0 ? state.results[focusedIndex] : undefined;
+  const inputProps = {
+    activeDescendantId: activeResult ? createSearchResultId(activeResult.slug) : undefined,
+    listId,
+    onValueChange: handleSearchInput,
+  };
 
   return {
     query: state.query,
@@ -150,5 +184,6 @@ export const useSearch = ({
     inputProps,
     containerProps,
     setResultRef,
+    setFocusedIndex: setFocusedIndexFromMouse,
   };
 };

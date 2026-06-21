@@ -3,6 +3,7 @@ import { type Browser, chromium, type Page } from 'playwright-chromium';
 import * as Log from '~/tools/logger';
 
 import { OGP_CONFIG } from './config';
+import { getOgpTheme } from './theme';
 import type { Post, WorkerMessage, WorkerTaskMessage } from './types';
 
 let browser: Browser | null = null;
@@ -26,9 +27,20 @@ process.on('message', async (msg: WorkerTaskMessage) => {
   }
 });
 
-async function setTitleAndWaitForFonts(page: Page, title: string): Promise<void> {
+async function setPostDataAndWaitForFonts(page: Page, post: Pick<Post, 'tags' | 'title'>): Promise<void> {
+  const theme = getOgpTheme(post.tags);
+
   await page.evaluate(
-    async ({ title, fontWaitTimeout, fontCheckInterval }) => {
+    async ({ title, theme, fontWaitTimeout, fontCheckInterval }) => {
+      const rootStyle = document.documentElement.style;
+      rootStyle.setProperty('--ogp-background-color', theme.background);
+      rootStyle.setProperty('--ogp-text-color', theme.text);
+      rootStyle.setProperty('--ogp-footer-text-color', theme.footerText);
+      rootStyle.setProperty('--ogp-decoration-end-color', theme.decorationEnd);
+      rootStyle.setProperty('--ogp-decoration-end-opacity', theme.decorationEndOpacity);
+      rootStyle.setProperty('--ogp-decoration-start-color', theme.decorationStart);
+      rootStyle.setProperty('--ogp-decoration-start-opacity', theme.decorationStartOpacity);
+
       document.getElementById('title')!.textContent = title;
 
       if (document.fonts.check('900 56px "Noto Sans JP"')) {
@@ -46,7 +58,8 @@ async function setTitleAndWaitForFonts(page: Page, title: string): Promise<void>
       await document.fonts.ready;
     },
     {
-      title,
+      title: post.title,
+      theme,
       fontWaitTimeout: OGP_CONFIG.screenshot.fontWaitTimeout,
       fontCheckInterval: OGP_CONFIG.screenshot.fontCheckInterval,
     },
@@ -143,15 +156,15 @@ async function initializePagePool(serverUrl: string): Promise<void> {
       timeout: OGP_CONFIG.screenshot.pageGotoTimeout,
     });
 
-    await setTitleAndWaitForFonts(page, 'Cache Warming');
+    await setPostDataAndWaitForFonts(page, { tags: [], title: 'Cache Warming' });
     pagePool.push(page);
   }
 }
 
 async function captureScreenshot(page: Page, post: Post): Promise<void> {
-  const { title, slug } = post;
+  const { slug } = post;
 
-  await setTitleAndWaitForFonts(page, title);
+  await setPostDataAndWaitForFonts(page, post);
 
   await page.screenshot({
     fullPage: false,

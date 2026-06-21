@@ -8,22 +8,24 @@
     margin-top: var(--spacing-post-content-flow-reading);
   }
 
-  /* Reference isolation: CodeBlock / Table の前後は隔離する。
+  /* Reference isolation: CodeBlock / Table と本文の境界を隔離する。
      pre は CodeBlock コンポーネントで [data-code-block] にラップされ、
      table は TableHandler で .c-table-scrollable にラップされる。
-     Figure / hr は固有の margin を持つため対象外。 */
-  & > * + :is([data-code-block], .c-table-scrollable) {
+     見出しと隣接する場合は見出し側の section / heading-tight を優先するため除外する。
+     Figure / hr は固有の margin を持つが、CodeBlock / Table に後続する場合は
+     specificity の高いこの reference 側が margin-top を上書きする。 */
+  & > :not(:is(h2, h3, h4, h5, h6)) + :is([data-code-block], .c-table-scrollable) {
     margin-top: var(--spacing-post-content-flow-reference);
   }
-  & > :is([data-code-block], .c-table-scrollable) + * {
+  & > :is([data-code-block], .c-table-scrollable) + :not(:is(h2, h3, h4, h5, h6)) {
     margin-top: var(--spacing-post-content-flow-reference);
   }
 
-  /* Navigation block: LinkPreview の前後はカードとして隔離する。 */
-  & > * + a[data-card] {
+  /* Navigation block: LinkPreview のカードを本文から隔離する。見出し隣接は見出し側を優先するため除外する。 */
+  & > :not(:is(h2, h3, h4, h5, h6)) + a[data-card] {
     margin-top: var(--spacing-post-content-flow-navigation);
   }
-  & > a[data-card] + * {
+  & > a[data-card] + :not(:is(h2, h3, h4, h5, h6)) {
     margin-top: var(--spacing-post-content-flow-navigation);
   }
 
@@ -78,19 +80,18 @@
   }
 
   h2 {
-    padding-bottom: var(--spacing-½);
+    padding-bottom: var(--spacing-1);
     margin-top: clamp(var(--spacing-post-content-flow-section), 2.8em, var(--spacing-5));
     line-height: var(--line-heights-md);
-    border-bottom: var(--border-widths-thin) solid var(--colors-gray-400);
 
-    &:first-of-type {
+    /* 記事が見出しで始まる場合のみ上余白を消す */
+    &:first-child {
       margin-top: auto;
     }
   }
 
   h3 {
     margin-top: clamp(var(--spacing-3), 2.2em, var(--spacing-5));
-    margin-bottom: var(--spacing-1);
   }
 
   h4,
@@ -130,7 +131,6 @@
 
   blockquote {
     padding: var(--spacing-2) var(--spacing-3);
-    font-size: var(--font-sizes-sm);
     color: var(--colors-gray-600);
     border-left: var(--spacing-½) solid var(--colors-gray-400);
 

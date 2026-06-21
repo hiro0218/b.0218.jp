@@ -15,6 +15,10 @@ html {
   height: 100%;
   scrollbar-gutter: stable;
   scrollbar-width: thin;
+  /* stylelint-disable plugin/browser-compat */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* stylelint-enable plugin/browser-compat */
 }
 
 body {
@@ -27,6 +31,9 @@ body {
   line-height: var(--line-heights-body);
   color: var(--colors-gray-1000);
   line-break: strict;
+  /* progressive enhancement: 和欧間の自動アキを明示。未対応ブラウザは従来表示にフォールバック */
+  /* stylelint-disable-next-line plugin/browser-compat */
+  text-autospace: normal;
   /* progressive enhancement: Chrome 123+ で約物の自動字詰めを有効化。未対応ブラウザは normal にフォールバック */
   /* stylelint-disable-next-line plugin/browser-compat */
   text-spacing-trim: trim-start;
@@ -292,7 +299,7 @@ button {
 
 del {
   font-size: var(--font-sizes-sm);
-  color: var(--colors-gray-900);
+  color: var(--colors-gray-600);
 
   &[datetime] {
     &::before {

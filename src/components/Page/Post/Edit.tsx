@@ -12,12 +12,8 @@ export function PostEdit({ slug }: Props) {
     <aside>
       <DropdownMenu
         menuHorizontalPosition="right"
-        title={
-          <>
-            <span className="sr-only">Feedback</span>
-            <GitHubLogo height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-          </>
-        }
+        title={<GitHubLogo height={ICON_SIZE_SM} width={ICON_SIZE_SM} />}
+        triggerLabel="Feedback"
       >
         <a
           className={anchorStyle}

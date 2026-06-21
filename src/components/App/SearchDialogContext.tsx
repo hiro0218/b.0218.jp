@@ -1,36 +1,11 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import {
-  createContext,
-  type ReactNode,
-  use,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  useSyncExternalStore,
-} from 'react';
+import { createContext, type ReactNode, use, useCallback, useEffect, useRef, useState } from 'react';
 import type { OverlayTriggerProps } from 'react-stately';
 import { useOverlayTriggerState } from 'react-stately';
 import { useRequestAnimationFrame } from '@/hooks/useRequestAnimationFrame';
 import { useTimeout } from '@/hooks/useTimeout';
-
-const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
-
-function subscribeReducedMotion(callback: () => void) {
-  const mq = window.matchMedia(REDUCED_MOTION_QUERY);
-  mq.addEventListener('change', callback);
-  return () => mq.removeEventListener('change', callback);
-}
-
-function getReducedMotionSnapshot() {
-  return window.matchMedia(REDUCED_MOTION_QUERY).matches;
-}
-
-function getReducedMotionServerSnapshot() {
-  return false;
-}
 
 type SearchDialogContextType = {
   isOpen: boolean;
@@ -48,17 +23,15 @@ interface UseDialogStateOptions extends Partial<OverlayTriggerProps> {
 }
 
 function useDialogState(options?: UseDialogStateOptions) {
-  const { animated = true, duration: baseDuration = 200, ...overlayOptions } = options ?? {};
+  // baseDuration は close アニメーション (CSS の --transition-normal = 0.15s) と同期させる
+  const { animated = true, duration: baseDuration = 150, ...overlayOptions } = options ?? {};
 
   const state = useOverlayTriggerState(overlayOptions);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [isClosing, setIsClosing] = useState(false);
-  const prefersReducedMotion = useSyncExternalStore(
-    subscribeReducedMotion,
-    getReducedMotionSnapshot,
-    getReducedMotionServerSnapshot,
-  );
-  const duration = animated && !prefersReducedMotion ? baseDuration : 0;
+  // reduced-motion 時の動きの抑制は CSS (@media prefers-reduced-motion) が担当する。
+  // duration を 0 にせず保持することで、reduced-motion でも opacity の fade だけは残す。
+  const duration = animated ? baseDuration : 0;
   const { schedule: scheduleRaf, cancel: cancelRaf } = useRequestAnimationFrame();
   const { schedule: scheduleTimeout, cancel: cancelTimeout } = useTimeout();
 

@@ -1,7 +1,5 @@
 /**
- * LRU キャッシュエンジン
- * @description
- * 検索結果を最大50件までキャッシュし、最も古いエントリを自動削除する
+ * LRU キャッシュ。最大50件まで保持し、超過時は最も古いエントリを削除する。
  */
 import { normalizeSearchToken } from '@/lib/search';
 import type { SearchResultItem } from '../types';

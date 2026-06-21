@@ -54,6 +54,7 @@ export const PostTimeline = ({ posts, prefetch = false }: Props) => {
 };
 
 const List = styled.ol`
+  --resize-dur: 500ms;
   --timeline-gutter: var(--spacing-3);
   --timeline-item-pad-y: var(--spacing-2);
   --timeline-date-col: var(--spacing-6);
@@ -69,6 +70,7 @@ const List = styled.ol`
   padding-inline-start: var(--timeline-gutter);
   container-type: inline-size;
   isolation: isolate;
+  transition: opacity var(--transition-slow);
 
   &::before {
     position: absolute;
@@ -80,9 +82,14 @@ const List = styled.ol`
     background-color: var(--colors-gray-100);
   }
 
+  /* hoverしていない他の要素 */
+  &:has(> li:hover) > li:not(:hover) {
+    opacity: 0.6;
+  }
+
   /* 未対応環境は li 自身の hover 背景を使い、対応環境だけ追随背景へ切り替える */
-  @supports (anchor-scope: --post-timeline-item) and (position-anchor: --post-timeline-item) and
-    (top: anchor(top)) and (width: anchor-size(width)) and selector(:has(*)) {
+  @supports (anchor-scope: --post-timeline-item) and (position-anchor: --post-timeline-item) and (top: anchor(top)) and
+    (width: anchor-size(width)) and selector(:has(*)) {
     anchor-scope: --post-timeline-item;
 
     &::after {
@@ -98,23 +105,27 @@ const List = styled.ol`
       background-color: var(--colors-gray-a-100);
       border-radius: var(--radii-sm);
       opacity: 0;
+      transform: scale(0.98);
       transition: none;
     }
 
     &:has(> li:is(:hover, :focus-within))::after {
       opacity: 1;
+      transform: scale(1);
       transition:
-        top var(--resize-dur) var(--resize-ease),
-        left var(--resize-dur) var(--resize-ease),
-        width var(--resize-dur) var(--resize-ease),
-        height var(--resize-dur) var(--resize-ease),
+        top var(--resize-dur) var(--easings-ease-spring2),
+        left var(--resize-dur) var(--easings-ease-spring2),
+        width var(--resize-dur) var(--easings-ease-spring2),
+        height var(--resize-dur) var(--easings-ease-spring2),
+        transform var(--transition-fast),
         background-color var(--transition-fast),
         opacity var(--transition-fast);
-      will-change: top, left, width, height;
+      will-change: top, left, width, height, transform;
     }
 
     &:has(> li:active)::after {
       background-color: var(--colors-gray-a-200);
+      transform: scale(0.98);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -134,7 +145,14 @@ const Item = styled.li`
   align-items: baseline;
   padding: var(--timeline-item-pad-y) var(--spacing-2);
   border-radius: var(--radii-sm);
-  transition: background-color var(--transition-fast);
+  transition:
+    background-color var(--transition-fast),
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: background-color var(--transition-fast);
+  }
 
   /* dot */
   &::before {
@@ -166,10 +184,11 @@ const Item = styled.li`
 
   &:active {
     background-color: var(--colors-gray-a-200);
+    transform: scale(0.98);
   }
 
-  @supports (anchor-scope: --post-timeline-item) and (position-anchor: --post-timeline-item) and
-    (top: anchor(top)) and (width: anchor-size(width)) and selector(:has(*)) {
+  @supports (anchor-scope: --post-timeline-item) and (position-anchor: --post-timeline-item) and (top: anchor(top)) and
+    (width: anchor-size(width)) and selector(:has(*)) {
     z-index: var(--z-index-base);
 
     &:first-child {
@@ -191,6 +210,7 @@ const Item = styled.li`
 
     &:active {
       background-color: transparent;
+      transform: none;
     }
 
     ol:has(> li:hover) > &:focus-within:not(:hover) {

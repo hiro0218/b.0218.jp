@@ -1,6 +1,4 @@
 /**
- * 転置インデックスを使用した高速検索エンジン
- * @description
  * ビルド時に生成された転置インデックスを利用して、O(1)の検索を実現
  */
 
@@ -12,7 +10,6 @@ import type { SearchDataPayload } from './types';
 const MAX_SEARCH_RESULTS = 100;
 const MATCHING_TOKEN_CACHE_SIZE = 200;
 
-/** スコアリング定数 */
 const SCORE = {
   exactMatch: 10,
   partialMatch: 3,
@@ -27,7 +24,6 @@ const SCORE = {
   fallbackEarlyPosition: 10,
 } as const;
 
-/** クエリトークン分割用正規表現 */
 const WHITESPACE_REGEX = /\s+/;
 
 interface NormalizedSearchDataItem extends SearchDataItem {
@@ -89,14 +85,10 @@ export function resetSearchEngine(): void {
   matchingTokenCache = new Map();
 }
 
-/**
- * 検索クエリをトークンに分割（スペース区切り + 正規化）
- */
 function tokenizeQuery(query: string): string[] {
   const normalized = normalizeSearchToken(query);
   if (!normalized) return [];
 
-  // スペースで分割して空文字を除外し、重複トークンを排除
   const tokens = normalized.split(WHITESPACE_REGEX).filter((token) => token.length > 0);
   return [...new Set(tokens)];
 }
@@ -158,10 +150,6 @@ function toSearchResult({ id: _id, score: _score, order: _order, ...item }: Scor
   return item;
 }
 
-/**
- * タグマッチングのスコアを計算
- * @returns スコアとマッチ有無
- */
 function calculateTagScore(tagsLower: string[], queryTokens: string[]): { score: number; hasMatch: boolean } {
   let score = 0;
   let hasMatch = false;
@@ -202,18 +190,12 @@ function calculateCompoundWordBonus(indexTokens: Set<string>, queryTokens: strin
   return 0;
 }
 
-/**
- * matchedIn を決定
- */
 function determineMatchedIn(hasTitleMatch: boolean, hasTagMatch: boolean): 'title' | 'tag' | 'both' {
   if (hasTitleMatch && hasTagMatch) return 'both';
   if (hasTagMatch) return 'tag';
   return 'title';
 }
 
-/**
- * matchType を決定
- */
 function determineMatchType(info: MatchInfo, queryTokenCount: number): SearchResultItem['matchType'] {
   if (queryTokenCount > 1 && info.exactMatches > 0) return 'MULTI_TERM_MATCH';
   if (info.exactMatches > 0) return 'EXACT';
@@ -236,12 +218,11 @@ function findMatchingTokens(queryToken: string): TokenMatch[] {
 
   const matches: TokenMatch[] = [];
 
-  // 完全一致をチェック
   if (getIndexedItemIds(queryToken) !== undefined) {
     matches.push({ token: queryToken, matchType: 'exact' });
   }
 
-  // 部分一致検索（完全一致したトークンは除く）
+  // 部分一致は性能のため、先頭文字が同じ indexToken のみを走査する（fallback あり）
   const candidateTokens = indexTokensByFirstChar.get(queryToken[0]) ?? indexTokenKeys;
   for (const indexToken of candidateTokens) {
     if (indexToken !== queryToken && indexToken.includes(queryToken)) {
@@ -261,15 +242,7 @@ function findMatchingTokens(queryToken: string): TokenMatch[] {
 }
 
 /**
- * タイトル直接検索（補完用）
- * @description
- * 全記事のタイトルに対して部分一致検索を実行し、
- * インデックス検索で見つからなかった記事を補完する。
- * マッチ位置に応じたスコアリングで結果を順位付けする。
- *
- * @param searchValue 検索クエリ文字列
- * @param excludeIds インデックス検索で既に見つかった記事IDセット
- * @returns タイトルマッチした記事のリスト（最大100件）
+ * タイトル直接検索（補完用）。インデックス検索で見つからなかった記事を補完する。
  */
 function searchByTitleFallback(searchValue: string, excludeIds: Set<number>): SearchResultItem[] {
   const queryLower = normalizeSearchToken(searchValue);
@@ -285,7 +258,6 @@ function searchByTitleFallback(searchValue: string, excludeIds: Set<number>): Se
     if (matchIndex !== -1) {
       let score = SCORE.titleMatch;
 
-      // 完全一致ボーナス
       if (data.titleLower === queryLower) {
         score += SCORE.fallbackExactTitle;
       }
@@ -299,7 +271,6 @@ function searchByTitleFallback(searchValue: string, excludeIds: Set<number>): Se
         score += SCORE.fallbackWordBoundary;
       }
 
-      // 早期出現ボーナス（タイトル先頭に近いほど高スコア）
       score += Math.max(0, SCORE.fallbackEarlyPosition - Math.floor(matchIndex / 10));
 
       results.push({
@@ -313,22 +284,15 @@ function searchByTitleFallback(searchValue: string, excludeIds: Set<number>): Se
     }
   }
 
-  // スコア順にソート（同点の場合はタイトル順）
+  // 同点の場合はタイトル順
   results.sort((a, b) => {
     if (a.score !== b.score) return b.score - a.score;
     return a.title.localeCompare(b.title, 'ja');
   });
 
-  // スコアプロパティを除外して返す
   return results.slice(0, MAX_SEARCH_RESULTS).map(({ score, ...item }) => item);
 }
 
-/**
- * 転置インデックスを使った高速検索（部分一致対応）
- *
- * @param searchValue 検索クエリ文字列
- * @returns 優先度順ソート済み検索結果（最大100件）
- */
 export function performIndexedSearch(searchValue: string): SearchResultItem[] {
   if (!initialized) return [];
 
@@ -341,7 +305,7 @@ export function performIndexedSearch(searchValue: string): SearchResultItem[] {
     return [];
   }
 
-  // 1. 転置インデックスから候補記事IDを取得（完全一致 + 部分一致）
+  // 1. 転置インデックスから候補記事IDを取得
   const matchInfo = new Map<number, MatchInfo>();
   const itemIdToTokens = new Map<number, Set<string>>();
   const itemIdMatchedQueryTokens = new Map<number, Set<string>>();
@@ -352,7 +316,6 @@ export function performIndexedSearch(searchValue: string): SearchResultItem[] {
       if (!itemIds) continue;
 
       for (const itemId of itemIds) {
-        // マッチタイプごとにカウント
         let info = matchInfo.get(itemId);
         if (!info) {
           info = { exactMatches: 0, partialMatches: 0 };
@@ -360,16 +323,15 @@ export function performIndexedSearch(searchValue: string): SearchResultItem[] {
         }
         info[matchType === 'exact' ? 'exactMatches' : 'partialMatches']++;
 
-        // マッチしたindexTokenを記録
         getOrCreateSet(itemIdToTokens, itemId).add(indexToken);
 
-        // クエリトークンごとのマッチを記録（AND検索用）
+        // AND検索用：クエリトークンごとのマッチを記録
         getOrCreateSet(itemIdMatchedQueryTokens, itemId).add(queryToken);
       }
     }
   }
 
-  // 2. 候補記事を取得してスコアリング
+  // 2. 候補記事をスコアリング
   const results: ScoredSearchResult[] = [];
   const queryLower = normalizeSearchToken(searchValue);
   let resultOrder = 0;
@@ -384,25 +346,21 @@ export function performIndexedSearch(searchValue: string): SearchResultItem[] {
     const data = normalizedSearchData[itemId];
     if (!data) continue;
 
-    // 基本スコア（完全一致は高スコア、部分一致は低スコア）
     let score = info.exactMatches * SCORE.exactMatch + info.partialMatches * SCORE.partialMatch;
 
-    // タイトルマッチボーナス
     const hasTitleMatch = data.titleLower.includes(queryLower);
     if (hasTitleMatch) {
       score += SCORE.titleMatch;
     }
 
-    // タグマッチングボーナス
     const tagResult = calculateTagScore(data.tagsLower, queryTokens);
     score += tagResult.score;
 
-    // 複数トークンが全て完全一致した場合のボーナス（AND検索）
+    // AND検索で全トークンが完全一致した場合のボーナス
     if (queryTokens.length > 1 && info.exactMatches === queryTokens.length) {
       score += SCORE.allTokensExact;
     }
 
-    // 複合語マッチボーナス
     if (queryTokens.length > 1) {
       const indexTokens = itemIdToTokens.get(itemId);
       if (indexTokens) {
@@ -410,10 +368,7 @@ export function performIndexedSearch(searchValue: string): SearchResultItem[] {
       }
     }
 
-    // matchedIn を決定
     const matchedIn = determineMatchedIn(hasTitleMatch, tagResult.hasMatch);
-
-    // matchType を決定
     const matchType = determineMatchType(info, queryTokens.length);
 
     addTopScoredResult(results, {
@@ -431,7 +386,6 @@ export function performIndexedSearch(searchValue: string): SearchResultItem[] {
   // 3. スコア順にソートして上位N件を返す
   results.sort(compareScoredResults);
 
-  // スコアプロパティを除外して返す
   const indexedResults = results.map(toSearchResult);
 
   if (indexedResults.length >= MAX_SEARCH_RESULTS) {

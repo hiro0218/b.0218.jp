@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { SITE_URL } from '@/constants';
-import { getPostsListJson } from '@/lib/source/post';
+import { getPostBySlug, getPostsListJson } from '@/lib/source/post';
 import { getTagsWithCount } from '@/lib/source/tag';
 import { tagPermalink } from '@/lib/tag/navigation';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';
@@ -22,7 +22,8 @@ const pages = [
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // 最新記事の日付を取得
-  const latestPostDate = posts.length > 0 ? posts[0].date : undefined;
+  const sitemapPosts = posts.filter((post) => getPostBySlug(post.slug)?.noindex !== true);
+  const latestPostDate = sitemapPosts.length > 0 ? sitemapPosts[0].date : undefined;
 
   const pageList: MetadataRoute.Sitemap = pages.map(({ path, priority, usesLatestPostDate, changeFrequency }) => {
     return {
@@ -33,7 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
-  const postList: MetadataRoute.Sitemap = posts.map((post) => {
+  const postList: MetadataRoute.Sitemap = sitemapPosts.map((post) => {
     const ogpImage = `${getOgpImage(post.slug)}`;
     const permalink = getPermalink(post.slug);
 
@@ -49,7 +50,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const tagList: MetadataRoute.Sitemap = tags.map(({ slug }) => {
     const permalink = tagPermalink(slug);
     // このタグを持つ記事の最新日付を取得
-    const tagPosts = posts.filter((post) => post.tags.includes(slug));
+    const tagPosts = sitemapPosts.filter((post) => post.tags.includes(slug));
     const latestTagPostDate = tagPosts.length > 0 ? tagPosts[0].date : undefined;
 
     return {

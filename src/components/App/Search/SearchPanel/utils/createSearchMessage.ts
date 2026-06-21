@@ -5,11 +5,6 @@ type SearchMessageOptions = {
 
 const MAX_QUERY_DISPLAY_LENGTH = 20;
 
-/**
- * 検索クエリを表示用に省略する
- * @param query - 検索クエリ
- * @returns 省略された検索クエリ
- */
 export const truncateQuery = (query: string): string => {
   if (query.length <= MAX_QUERY_DISPLAY_LENGTH) {
     return query;

@@ -14,12 +14,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const menuTitle = (
-  <>
-    <span className="sr-only">Feedback</span>
-    <GitHubLogo height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-  </>
-);
+const menuTitle = <GitHubLogo height={ICON_SIZE_SM} width={ICON_SIZE_SM} />;
 
 const MENU_TRIGGER_NAME = /Feedback/;
 
@@ -40,6 +35,7 @@ export const Default: Story = {
   name: '基本',
   args: {
     title: menuTitle,
+    triggerLabel: 'Feedback',
     children: (
       <>
         <a href="https://github.com/example/repo/issues/new">不具合を報告</a>
@@ -59,6 +55,7 @@ export const PositionLeft: Story = {
   name: '左寄せ',
   args: {
     title: menuTitle,
+    triggerLabel: 'Feedback',
     menuHorizontalPosition: 'left',
     children: (
       <>
@@ -79,6 +76,7 @@ export const ToggleMenu: Story = {
   name: '開閉操作',
   args: {
     title: menuTitle,
+    triggerLabel: 'Feedback',
     children: interactionMenuItems,
   },
   play: async ({ canvasElement }) => {

@@ -62,7 +62,9 @@ export const SearchDialog = ({ onCloseAction, isClosing, dialogRef }: Props) => 
         <SearchHeader {...search.inputProps} onClear={search.reset} searchQuery={search.query} />
         <SearchPanel
           focusedIndex={search.focusedIndex}
+          listId={search.inputProps.listId}
           onLinkClick={search.close}
+          onResultMouseEnter={search.setFocusedIndex}
           results={search.results}
           searchQuery={search.query}
           setResultRef={search.setResultRef}
@@ -100,28 +102,32 @@ const Dialog = styled.dialog`
   }
 
   &[open][data-closing='true'] {
-    animation: zoomOut var(--transition-slow) forwards;
+    animation: zoomOut var(--transition-normal) forwards;
   }
 
   @media (prefers-reduced-motion: reduce) {
     &[open] {
-      animation: none;
+      animation: fadeIn var(--transition-normal);
     }
 
     &[open][data-closing='true'] {
-      animation: none;
+      animation: fadeOut var(--transition-normal) forwards;
     }
   }
 
-  &::backdrop {
+  &[open]::backdrop {
     cursor: pointer;
     background-color: var(--colors-overlay-backgrounds);
-    transition:
-      background-color var(--transition-slow),
-      opacity var(--transition-slow);
+    opacity: 1;
+    transition: opacity var(--transition-slow);
+
+    @starting-style {
+      opacity: 0;
+    }
   }
 
-  &[data-closing='true']::backdrop {
+  &[open][data-closing='true']::backdrop {
     opacity: 0;
+    transition: opacity var(--transition-normal);
   }
 `;

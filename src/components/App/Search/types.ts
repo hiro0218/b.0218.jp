@@ -5,10 +5,7 @@ export type SearchProps = Pick<Post, 'title' | 'tags' | 'slug'> & {
 };
 
 /**
- * マッチタイプ
- *
- * @description
- * 検索結果のマッチパターンを表す型。
+ * 検索結果のマッチパターン。
  * 優先度順: EXACT > PARTIAL > EXACT_NO_SPACE > MULTI_TERM_MATCH > PARTIAL_NO_SPACE > NONE
  */
 export type MatchType = 'EXACT' | 'PARTIAL' | 'EXACT_NO_SPACE' | 'PARTIAL_NO_SPACE' | 'MULTI_TERM_MATCH' | 'NONE';

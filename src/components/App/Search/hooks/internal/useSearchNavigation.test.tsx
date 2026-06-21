@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { useRef } from 'react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { SearchResultItem } from '../../types';
 import { useSearchNavigation } from './useSearchNavigation';
 
@@ -17,26 +17,17 @@ const results: SearchResultItem[] = [
 
 function SearchNavigationHarness() {
   const resultsRef = useRef(results);
-  const resultRefs = useRef(new Map<number, HTMLDivElement>());
   const navigation = useSearchNavigation({
     resultsLength: results.length,
     resultsRef,
-    getResultRef: (index) => resultRefs.current.get(index),
   });
 
   return (
     <div {...navigation.containerProps}>
-      <input aria-label="検索キーワード" type="search" />
+      <input aria-expanded="true" aria-label="検索キーワード" role="combobox" />
       <div data-search-results>
         {results.map((result, index) => (
-          <div
-            data-focused={navigation.focusedIndex === index}
-            key={result.slug}
-            ref={(element) => {
-              if (element) resultRefs.current.set(index, element);
-            }}
-            tabIndex={-1}
-          >
+          <div data-focused={navigation.focusedIndex === index} key={result.slug} tabIndex={-1}>
             {result.title}
           </div>
         ))}
@@ -47,11 +38,33 @@ function SearchNavigationHarness() {
 }
 
 describe('useSearchNavigation', () => {
-  it('type="search" の入力欄から ArrowDown で検索結果へ移動する', () => {
+  beforeEach(() => {
+    mockPush.mockClear();
+  });
+
+  it('combobox の入力欄から ArrowDown で検索結果へ移動する', () => {
     render(<SearchNavigationHarness />);
 
-    fireEvent.keyDown(screen.getByRole('searchbox', { name: '検索キーワード' }), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('combobox', { name: '検索キーワード' }), { key: 'ArrowDown' });
 
     expect(screen.getByLabelText('focused index').textContent).toBe('0');
+  });
+
+  it('loop 有効時は ArrowUp で最後の検索結果へ移動する', () => {
+    render(<SearchNavigationHarness />);
+
+    fireEvent.keyDown(screen.getByRole('combobox', { name: '検索キーワード' }), { key: 'ArrowUp' });
+
+    expect(screen.getByLabelText('focused index').textContent).toBe('1');
+  });
+
+  it('Enter で選択中の検索結果へ遷移する', () => {
+    render(<SearchNavigationHarness />);
+    const input = screen.getByRole('combobox', { name: '検索キーワード' });
+
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    fireEvent.keyDown(input, { key: 'Enter' });
+
+    expect(mockPush).toHaveBeenCalledWith('/first-post.html');
   });
 });

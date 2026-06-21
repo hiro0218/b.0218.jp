@@ -71,8 +71,6 @@ function readFreshStoredSearchState(): StoredSearchState | null {
 }
 
 /**
- * 検索状態をsessionStorageから同期的に読み込む
- *
  * useState の lazy initializer など、フック外からの使用を想定。
  * getSessionStorage は SSR 環境では null を返すため安全。
  */
@@ -83,10 +81,7 @@ export const readSearchStateSync = (): SharedSearchState | null => {
   return { query: state.query, results: state.results };
 };
 
-/**
- * 検索状態をsessionStorageで永続化するフック
- * 画面遷移後も検索結果を維持するために使用
- */
+/** 画面遷移後も検索結果を維持するために使用 */
 export const useSearchStatePersistence = () => {
   const isClient = useIsClient();
 
@@ -134,34 +129,26 @@ interface UseSearchStateRestorationProps {
   loadSearchState: () => { query: string; results: SearchResultItem[] } | null;
 }
 
-/**
- * sessionStorage から検索状態を復元し、検索を再実行するフック
- *
- * @description
- * - キャッシュされた結果を即座に表示（初回ハイドレーション）
- * - 転置インデックスによる検索を再実行して最新結果を取得
- */
 export const useSearchStateRestoration = ({
   persistState,
   executeSearch,
   setResults,
   loadSearchState,
 }: UseSearchStateRestorationProps) => {
-  const savedStateRef = useRef<ReturnType<typeof loadSearchState>>(null);
   const hasHydratedResultsRef = useRef(false);
   const hasExecutedRestorationRef = useRef(false);
 
-  const tryRestoreSearchState = useCallback(() => {
+  // sessionStorage からの復元はマウント時に一度だけ実行する。
+  // hasHydrated/hasExecuted フラグで二重実行を防ぐ（loadSearchState は冪等なので再読込しても安全）。
+  useEffect(() => {
     if (!persistState) return;
 
-    const savedState = savedStateRef.current ?? loadSearchState();
+    const savedState = loadSearchState();
     if (!savedState?.query) return;
 
-    // 初回ハイドレーション: キャッシュされた結果を即座に表示
     if (!hasHydratedResultsRef.current) {
       setResults(savedState.results ?? [], savedState.query);
       hasHydratedResultsRef.current = true;
-      savedStateRef.current = savedState;
     }
 
     if (hasExecutedRestorationRef.current) {
@@ -172,20 +159,4 @@ export const useSearchStateRestoration = ({
     executeSearch(savedState.query);
     hasExecutedRestorationRef.current = true;
   }, [executeSearch, loadSearchState, persistState, setResults]);
-
-  // 初回マウント時の状態初期化
-  // biome-ignore lint/correctness/useExhaustiveDependencies: 初回マウント時のみ実行
-  useEffect(() => {
-    if (!persistState) return;
-
-    savedStateRef.current = loadSearchState();
-    hasHydratedResultsRef.current = false;
-    hasExecutedRestorationRef.current = false;
-    tryRestoreSearchState();
-  }, []);
-
-  // 復元を試行
-  useEffect(() => {
-    tryRestoreSearchState();
-  }, [tryRestoreSearchState]);
 };

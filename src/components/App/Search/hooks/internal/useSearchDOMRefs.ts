@@ -4,19 +4,30 @@ interface UseSearchDOMRefsProps {
   dialogRef?: RefObject<HTMLDialogElement>;
 }
 
-/**
- * 検索UI用のDOM参照と操作を管理
- * @description
- * - DOM参照管理（dialog, input, searchResults）
- * - DOM操作（入力フォーカス、スクロール）
- * - 検索結果要素への参照管理（Map）
- */
+const toPixels = (value: string) => {
+  const pixels = Number.parseFloat(value);
+  return Number.isFinite(pixels) ? pixels : 0;
+};
+
+const getScrollPadding = (container: HTMLElement) => {
+  const styles = getComputedStyle(container);
+
+  return {
+    blockStart: toPixels(styles.scrollPaddingBlockStart || styles.scrollPaddingTop),
+    blockEnd: toPixels(styles.scrollPaddingBlockEnd || styles.scrollPaddingBottom),
+  };
+};
+
 export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps) => {
   const internalDialogRef = useRef<HTMLDialogElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const searchResultsRef = useRef<HTMLElement | null>(null);
   const actualDialogRef = dialogRef || internalDialogRef;
-  const resultRefs = useRef(new Map<number, HTMLDivElement>());
+  const resultRefsStore = useRef<Map<number, HTMLDivElement> | null>(null);
+  if (resultRefsStore.current === null) {
+    resultRefsStore.current = new Map<number, HTMLDivElement>();
+  }
+  const resultRefs = resultRefsStore.current;
 
   const updateDOMRefs = useCallback(() => {
     const dialog = actualDialogRef.current;
@@ -25,7 +36,9 @@ export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps) => {
     internalDialogRef.current = dialog;
 
     if (!inputRef.current?.isConnected) {
-      const input = dialog.querySelector<HTMLInputElement>('input[type="search"], input[role="searchbox"]');
+      const input = dialog.querySelector<HTMLInputElement>(
+        'input[type="search"], input[role="searchbox"], input[role="combobox"]',
+      );
       if (input) inputRef.current = input;
     }
 
@@ -40,44 +53,68 @@ export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps) => {
     const dialog = actualDialogRef.current;
 
     if (input && dialog?.open) {
-      input.focus();
-      searchResultsRef.current?.scrollTo({ top: 0, behavior: 'auto' });
+      input.focus({ preventScroll: true });
     }
   }, [actualDialogRef]);
 
+  const resetResultScroll = useCallback(() => {
+    searchResultsRef.current?.scrollTo({ top: 0, behavior: 'auto' });
+  }, []);
+
   const scrollToFocusedElement = useCallback((targetElement: HTMLElement) => {
-    if (!searchResultsRef.current) return;
+    const container = targetElement.closest<HTMLElement>('[data-search-results]') ?? searchResultsRef.current;
+    if (!container) return;
 
-    targetElement.scrollIntoView({
-      block: 'nearest',
-      behavior: 'auto',
-    });
+    searchResultsRef.current = container;
+
+    const containerRect = container.getBoundingClientRect();
+    const targetRect = targetElement.getBoundingClientRect();
+    const padding = getScrollPadding(container);
+    const upperEdge = containerRect.top + padding.blockStart;
+    const lowerEdge = containerRect.bottom - padding.blockEnd;
+    const isAboveViewport = targetRect.top < upperEdge;
+    const isBelowViewport = targetRect.bottom > lowerEdge;
+
+    if (!isAboveViewport && !isBelowViewport) return;
+
+    const scrollOffset = isAboveViewport ? targetRect.top - upperEdge : targetRect.bottom - lowerEdge;
+    container.scrollTo({ top: container.scrollTop + scrollOffset, behavior: 'auto' });
   }, []);
 
-  const setResultRef = useCallback((index: number, element: HTMLDivElement | null) => {
-    if (element) {
-      resultRefs.current.set(index, element);
-    } else {
-      resultRefs.current.delete(index);
-    }
-  }, []);
+  const setResultRef = useCallback(
+    (index: number, element: HTMLDivElement | null) => {
+      if (element) {
+        resultRefs.set(index, element);
+      } else {
+        resultRefs.delete(index);
+      }
+    },
+    [resultRefs],
+  );
 
-  const getResultRef = useCallback((index: number) => {
-    return resultRefs.current.get(index);
-  }, []);
+  const getResultRef = useCallback(
+    (index: number) => {
+      return resultRefs.get(index);
+    },
+    [resultRefs],
+  );
 
-  const clearExcessRefs = useCallback((maxSize: number) => {
-    const currentSize = resultRefs.current.size;
-    if (currentSize <= maxSize) return;
+  const clearExcessRefs = useCallback(
+    (maxSize: number) => {
+      const currentSize = resultRefs.size;
+      if (currentSize <= maxSize) return;
 
-    for (let i = maxSize; i < currentSize; i++) {
-      resultRefs.current.delete(i);
-    }
-  }, []);
+      for (let i = maxSize; i < currentSize; i++) {
+        resultRefs.delete(i);
+      }
+    },
+    [resultRefs],
+  );
 
   return {
     updateDOMRefs,
     focusInput,
+    resetResultScroll,
     scrollToFocusedElement,
     setResultRef,
     getResultRef,

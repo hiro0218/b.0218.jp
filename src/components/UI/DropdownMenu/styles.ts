@@ -5,22 +5,6 @@ export const Container = styled.div`
   display: flex;
 `;
 
-export const Trigger = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: calc(var(--sizes-icon-sm) * 2);
-  height: calc(var(--sizes-icon-sm) * 2);
-
-  &:has(+ [aria-expanded='true']) {
-    &::after {
-      background-color: var(--colors-gray-a-200);
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-`;
-
 export const Content = styled.div`
   position: absolute;
   top: 100%;

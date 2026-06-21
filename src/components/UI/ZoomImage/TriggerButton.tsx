@@ -1,13 +1,17 @@
 'use client';
 
 import { MagnifyingGlassPlusIcon } from '@heroicons/react/24/outline';
-import type { CSSProperties, ImgHTMLAttributes, ReactNode, RefObject } from 'react';
+import type { ReactNode } from 'react';
 import { css, cx } from '@/ui/styled';
 
 const buttonStyle = css`
-  position: relative;
-  display: inline-block;
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
   padding: 0;
+  cursor: zoom-in;
   background-color: transparent;
   border: none;
 
@@ -25,12 +29,10 @@ const buttonStyle = css`
 
 const buttonVisibleClass = css`
   visibility: visible;
-  cursor: zoom-in;
 `;
 
 const buttonHiddenClass = css`
   visibility: hidden;
-  cursor: zoom-in;
 `;
 
 const zoomIndicatorStyle = css`
@@ -63,26 +65,10 @@ interface TriggerButtonProps {
   label: string;
   isOpen: boolean;
   zoomIn: () => void;
-  alt?: string;
-  src: string;
-  style?: CSSProperties;
-  imgProps: Omit<ImgHTMLAttributes<HTMLImageElement>, 'alt' | 'src' | 'style' | 'onLoad' | 'ref'>;
-  onImageLoad: () => void;
-  imgRef: RefObject<HTMLImageElement | null>;
 }
 
 /** 画像をクリックしてズームモーダルを開くためのボタン */
-export function TriggerButton({
-  label,
-  isOpen,
-  zoomIn,
-  alt,
-  src,
-  style,
-  imgProps,
-  onImageLoad,
-  imgRef,
-}: TriggerButtonProps): ReactNode {
+export function TriggerButton({ label, isOpen, zoomIn }: TriggerButtonProps): ReactNode {
   return (
     <button
       aria-disabled={isOpen || undefined}
@@ -92,8 +78,6 @@ export function TriggerButton({
       onClick={isOpen ? undefined : zoomIn}
       type="button"
     >
-      {/* biome-ignore lint/performance/noImgElement: DOM ref と onLoad をズーム可否判定に使う */}
-      <img alt={alt} src={src} style={style} {...imgProps} onLoad={onImageLoad} ref={imgRef} />
       <span aria-hidden="true" className={cx(zoomIndicatorStyle, 'zoom-indicator')}>
         <MagnifyingGlassPlusIcon className={zoomIconStyle} />
       </span>

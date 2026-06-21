@@ -1,6 +1,7 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { IconButton } from '@/components/UI/IconButton';
 import { ICON_SIZE_XS } from '@/ui/iconSizes';
-import { styled } from '@/ui/styled';
+import { css } from '@/ui/styled';
 
 type Props = {
   onClear: () => void;
@@ -9,35 +10,20 @@ type Props = {
 
 export function SearchClearButton({ onClear, disabled = false }: Props) {
   return (
-    <Button aria-label="検索キーワードをクリア" disabled={disabled} onClick={onClear} type="button">
+    <IconButton
+      aria-label="検索キーワードをクリア"
+      className={disabledStyle}
+      disabled={disabled}
+      onClick={onClear}
+      size="touch"
+    >
       <XMarkIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
-    </Button>
+    </IconButton>
   );
 }
 
-const Button = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--sizes-touch-target);
-  height: var(--sizes-touch-target);
-  padding: 0;
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-  border-radius: var(--radii-full);
-  transition: background-color var(--transition-slow);
-
-  &:hover {
-    background-color: var(--colors-gray-a-100);
-  }
-
+const disabledStyle = css`
   &:disabled {
-    cursor: not-allowed;
     opacity: 0.3;
-  }
-
-  svg {
-    color: var(--colors-gray-900);
   }
 `;

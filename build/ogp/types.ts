@@ -1,4 +1,4 @@
-export type Post = { title: string; slug: string };
+export type Post = { title: string; slug: string; tags: string[] };
 
 export type WorkerMessage =
   | { type: 'completed'; index?: number }

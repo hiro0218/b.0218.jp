@@ -17,6 +17,7 @@ type ContentProp =
 type Props = {
   title?: string;
   className?: string;
+  tabIndex?: number;
 } & LinkProps &
   ContentProp;
 

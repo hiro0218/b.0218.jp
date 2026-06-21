@@ -2,6 +2,8 @@ import { act, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useImageZoom } from './useImageZoom';
 
+const ZOOM_IMAGE_TRANSITION_NAME = 'zoom-image';
+
 /**
  * useImageZoom hook unit tests
  *
@@ -626,22 +628,21 @@ describe('useImageZoom', () => {
       expect(result.current.isOpen).toBe(false);
     });
 
-    it('close() で triggerButton が見つかった場合、visibility を制御する', async () => {
+    it('close() で source image に viewTransitionName を設定し、完了後に片付ける', async () => {
       const mock = createDeferredViewTransitionMock();
       document.startViewTransition = mock.startViewTransition;
 
       const { result } = renderHook(() => useImageZoom({ minImageSize: 1 }));
 
-      const triggerButtonStyle = { visibility: '' } as CSSStyleDeclaration;
-      const mockTriggerButton = { style: triggerButtonStyle } as HTMLButtonElement;
-
+      const imgStyle = {} as CSSStyleDeclaration;
+      const dialogImgStyle = {} as CSSStyleDeclaration;
       const mockImg = createMockImage({
         naturalWidth: 200,
         naturalHeight: 200,
-        closest: vi.fn(() => mockTriggerButton),
+        style: imgStyle,
       });
       const mockDialog = createMockDialog({ open: true });
-      const mockDialogImg = createMockImage();
+      const mockDialogImg = createMockImage({ style: dialogImgStyle });
 
       Object.defineProperty(result.current.imgRef, 'current', { value: mockImg, writable: true });
       Object.defineProperty(result.current.dialogRef, 'current', { value: mockDialog, writable: true });
@@ -663,16 +664,18 @@ describe('useImageZoom', () => {
         result.current.close();
       });
 
-      // transition callback 中に visibility が 'visible' に設定される
-      expect(triggerButtonStyle.visibility).toBe('visible');
+      // transition callback 中は source image が「new」スナップショット対象になる
+      expect(imgStyle.viewTransitionName).toBe(ZOOM_IMAGE_TRANSITION_NAME);
+      expect(dialogImgStyle.viewTransitionName).toBe('');
 
-      // transition.finished 後に visibility が空に戻る
+      // transition.finished 後に一時スタイルが空に戻る
       await act(async () => {
         mock.closeFinishedResolve();
         await mock.closeFinishedPromise;
       });
 
-      expect(triggerButtonStyle.visibility).toBe('');
+      expect(imgStyle.viewTransitionName).toBe('');
+      expect(dialogImgStyle.viewTransitionName).toBe('');
     });
 
     it('isTransitioning が true の場合、close() は何もしない（二重 close 防止）', async () => {
@@ -762,12 +765,9 @@ describe('useImageZoom', () => {
 
       const imgStyle = {} as CSSStyleDeclaration;
       const dialogImgStyle = {} as CSSStyleDeclaration;
-      const triggerButtonStyle = { visibility: '' } as CSSStyleDeclaration;
-      const mockTriggerButton = { style: triggerButtonStyle } as HTMLButtonElement;
       const mockImg = createMockImage({
         naturalWidth: 200,
         naturalHeight: 200,
-        closest: vi.fn(() => mockTriggerButton),
         style: imgStyle,
       });
       const mockDialog = createMockDialog();
@@ -793,7 +793,8 @@ describe('useImageZoom', () => {
         result.current.close();
       });
 
-      expect(triggerButtonStyle.visibility).toBe('visible');
+      expect(imgStyle.viewTransitionName).toBe(ZOOM_IMAGE_TRANSITION_NAME);
+      expect(dialogImgStyle.viewTransitionName).toBe('');
 
       await act(async () => {
         mock.transitions[1].reject(new Error('transition skipped'));
@@ -802,7 +803,6 @@ describe('useImageZoom', () => {
 
       expect(imgStyle.viewTransitionName).toBe('');
       expect(dialogImgStyle.viewTransitionName).toBe('');
-      expect(triggerButtonStyle.visibility).toBe('');
       expect(result.current.isOpen).toBe(false);
     });
 
@@ -815,12 +815,9 @@ describe('useImageZoom', () => {
 
       const imgStyle = {} as CSSStyleDeclaration;
       const dialogImgStyle = {} as CSSStyleDeclaration;
-      const triggerButtonStyle = { visibility: '' } as CSSStyleDeclaration;
-      const mockTriggerButton = { style: triggerButtonStyle } as HTMLButtonElement;
       const mockImg = createMockImage({
         naturalWidth: 200,
         naturalHeight: 200,
-        closest: vi.fn(() => mockTriggerButton),
         style: imgStyle,
       });
       const mockDialog = createMockDialog({ open: true });
@@ -836,7 +833,6 @@ describe('useImageZoom', () => {
 
       expect(imgStyle.viewTransitionName).toBe('');
       expect(dialogImgStyle.viewTransitionName).toBe('');
-      expect(triggerButtonStyle.visibility).toBe('');
       expect(result.current.isOpen).toBe(false);
     });
   });
