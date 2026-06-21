@@ -132,7 +132,6 @@
 
   blockquote {
     padding: var(--spacing-2) var(--spacing-3);
-    font-size: var(--font-sizes-sm);
     color: var(--colors-gray-600);
     border-left: var(--spacing-½) solid var(--colors-gray-400);
 
