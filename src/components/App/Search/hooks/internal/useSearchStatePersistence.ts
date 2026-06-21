@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import useIsClient from '@/hooks/useIsClient';
 import { getSessionStorage, removeSessionStorage, setSessionStorage } from '@/lib/browser/safeSessionStorage';
 import { isObject } from '@/lib/utils/isObject';
@@ -85,19 +85,22 @@ export const readSearchStateSync = (): SharedSearchState | null => {
 export const useSearchStatePersistence = () => {
   const isClient = useIsClient();
 
-  const saveSearchState = (state: SearchState) => {
-    if (!isClient) return;
+  const saveSearchState = useCallback(
+    (state: SearchState) => {
+      if (!isClient) return;
 
-    const storedState: StoredSearchState = {
-      ...state,
-      isOpen: state.isOpen ?? true,
-      timestamp: Date.now(),
-    };
+      const storedState: StoredSearchState = {
+        ...state,
+        isOpen: state.isOpen ?? true,
+        timestamp: Date.now(),
+      };
 
-    setSessionStorage(SEARCH_STORAGE_KEY, storedState);
-  };
+      setSessionStorage(SEARCH_STORAGE_KEY, storedState);
+    },
+    [isClient],
+  );
 
-  const loadSearchState = (): SearchState | null => {
+  const loadSearchState = useCallback((): SearchState | null => {
     if (!isClient) return null;
 
     const state = readFreshStoredSearchState();
@@ -105,12 +108,12 @@ export const useSearchStatePersistence = () => {
 
     const { timestamp, ...searchState } = state;
     return searchState;
-  };
+  }, [isClient]);
 
-  const clearSearchState = () => {
+  const clearSearchState = useCallback(() => {
     if (!isClient) return;
     removeSessionStorage(SEARCH_STORAGE_KEY);
-  };
+  }, [isClient]);
 
   return {
     saveSearchState,

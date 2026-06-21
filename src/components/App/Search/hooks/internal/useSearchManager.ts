@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import debounce from '@/lib/utils/debounce';
 import { useSearchWithCache } from '../../engine/search';
 import { isSearchDataReady, loadAndInitializeSearch, subscribeSearchDataReady } from '../../engine/searchDataLoader';
@@ -18,6 +18,7 @@ const getReadyServerSnapshot = () => false;
 
 export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: UseSearchManagerProps = {}) => {
   const [state, setState] = useState<SearchState>(() => getInitialState?.() ?? initialState);
+  const searchRequestIdRef = useRef(0);
   // 検索データの準備状態は外部ストア（searchDataLoader のキャッシュ）を単一の真実として購読する
   const isReady = useSyncExternalStore(subscribeSearchDataReady, isSearchDataReady, getReadyServerSnapshot);
   const searchWithCache = useSearchWithCache();
@@ -27,6 +28,7 @@ export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: Use
   }, []);
 
   const reset = useCallback(() => {
+    searchRequestIdRef.current += 1;
     setState(initialState);
   }, []);
 
@@ -40,17 +42,22 @@ export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: Use
         return;
       }
 
+      const requestId = searchRequestIdRef.current + 1;
+      searchRequestIdRef.current = requestId;
+      const commitResults = () => {
+        if (searchRequestIdRef.current !== requestId) return;
+        setResults(searchWithCache(trimmedQuery), trimmedQuery);
+      };
+
       if (!isSearchDataReady()) {
         // データ未ロード時はロード完了後に検索を実行する（React の自動バッチングで最新クエリの結果が反映される）
         loadAndInitializeSearch()
-          .then(() => {
-            setResults(searchWithCache(trimmedQuery), trimmedQuery);
-          })
+          .then(commitResults)
           .catch(() => {});
         return;
       }
 
-      setResults(searchWithCache(trimmedQuery), trimmedQuery);
+      commitResults();
     },
     [reset, searchWithCache, setResults],
   );

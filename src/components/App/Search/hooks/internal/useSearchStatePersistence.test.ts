@@ -60,6 +60,19 @@ test('saveSearchState が呼ばれた場合、timestamp 付きで sessionStorage
   );
 });
 
+test('rerender しても返却関数の参照を維持する', () => {
+  setupClock();
+
+  const { result, rerender } = renderHook(() => useSearchStatePersistence());
+  const { saveSearchState, loadSearchState, clearSearchState } = result.current;
+
+  rerender();
+
+  expect(result.current.saveSearchState).toBe(saveSearchState);
+  expect(result.current.loadSearchState).toBe(loadSearchState);
+  expect(result.current.clearSearchState).toBe(clearSearchState);
+});
+
 test('loadSearchState で有効な状態が存在する場合、timestamp を除いて返す', () => {
   setupClock();
   const state = createSearchState();
