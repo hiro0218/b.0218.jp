@@ -125,6 +125,7 @@ const List = styled.ol`
 
     &:has(> li:active)::after {
       background-color: var(--colors-gray-a-200);
+      transform: scale(0.98);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -146,7 +147,8 @@ const Item = styled.li`
   border-radius: var(--radii-sm);
   transition:
     background-color var(--transition-fast),
-    opacity var(--transition-fast);
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
 
   @media (prefers-reduced-motion: reduce) {
     transition: background-color var(--transition-fast);
@@ -182,6 +184,7 @@ const Item = styled.li`
 
   &:active {
     background-color: var(--colors-gray-a-200);
+    transform: scale(0.98);
   }
 
   @supports (anchor-scope: --post-timeline-item) and (position-anchor: --post-timeline-item) and (top: anchor(top)) and
@@ -207,6 +210,7 @@ const Item = styled.li`
 
     &:active {
       background-color: transparent;
+      transform: none;
     }
 
     ol:has(> li:hover) > &:focus-within:not(:hover) {
