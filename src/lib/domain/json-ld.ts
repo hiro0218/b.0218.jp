@@ -13,16 +13,25 @@ import type {
 
 import { AUTHOR_ICON, AUTHOR_NAME, SITE_NAME, SITE_URL, URL } from '@/constants';
 import { getTagsWithCount } from '@/lib/source/tag';
+import { getPrimaryCategory } from '@/lib/tag/category';
 import { getTagCategoriesJson } from '@/lib/tag/derived';
 import { tagPermalink } from '@/lib/tag/navigation';
-import type { PopularityDetail, Post } from '@/types/source';
+import type { PopularityDetail, Post, TagCategoryName } from '@/types/source';
 
 import { convertToISO8601WithTimezone } from '../utils/date';
-import { getOgpImage, getPermalink } from '../utils/url';
+import { getPermalink } from '../utils/url';
 
 const EMOJI_REGEX = /[\p{Extended_Pictographic}\p{Emoji_Component}\p{Regional_Indicator}]/gu;
 
 const KNOWS_ABOUT_LIMIT = 10;
+const SCHEMA_IMAGE_BY_CATEGORY: Record<TagCategoryName, string> = {
+  development: `${SITE_URL}/thumbnail/develop.png`,
+  technology: `${SITE_URL}/thumbnail/tech.png`,
+  other: `${SITE_URL}/thumbnail/note.png`,
+};
+const SCHEMA_IMAGE_FALLBACK = `${SITE_URL}/thumbnail/etc.png`;
+const SCHEMA_IMAGE_MOVIE = `${SITE_URL}/thumbnail/movie.png`;
+const MOVIE_TAGS = new Set(['名探偵コナン']);
 
 /** 記事タグから著者の knowsAbout を算出（development カテゴリの上位タグ） */
 const getKnowsAbout = (): string[] => {
@@ -45,6 +54,14 @@ const AUTHOR = {
   knowsAbout: getKnowsAbout(),
   description: 'バックエンド開発を経て、CSS設計・Web標準・アクセシビリティを探求するフロントエンドエンジニア',
 } as const;
+
+export const getBlogPostingImage = (post: Pick<Post, 'tags'>): string => {
+  if (post.tags.some((tag) => MOVIE_TAGS.has(tag))) return SCHEMA_IMAGE_MOVIE;
+
+  const category = getPrimaryCategory(post.tags, getTagCategoriesJson());
+
+  return category ? SCHEMA_IMAGE_BY_CATEGORY[category] : SCHEMA_IMAGE_FALLBACK;
+};
 
 export const getDescriptionText = (postContent: string): string => {
   return (
@@ -140,7 +157,7 @@ export const getBlogPostingStructured = (post: Post, popularity?: PopularityDeta
       ...AUTHOR,
     },
     description: getDescriptionText(post.content),
-    image: [getOgpImage(post.slug)],
+    image: [getBlogPostingImage(post)],
     publisher: {
       '@type': 'Organization',
       name: SITE_NAME,
