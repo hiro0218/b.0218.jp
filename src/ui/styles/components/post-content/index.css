@@ -80,10 +80,9 @@
   }
 
   h2 {
-    padding-bottom: var(--spacing-½);
+    padding-bottom: var(--spacing-1);
     margin-top: clamp(var(--spacing-post-content-flow-section), 2.8em, var(--spacing-5));
     line-height: var(--line-heights-md);
-    border-bottom: var(--border-widths-thin) solid var(--colors-gray-400);
 
     /* 記事が見出しで始まる場合のみ上余白を消す */
     &:first-child {
