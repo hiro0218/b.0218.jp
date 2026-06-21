@@ -58,7 +58,7 @@ const headerTitleStyle = css`
 `;
 
 const sideStyle = css`
-  color: var(--colors-gray-900);
+  color: var(--colors-gray-600);
 `;
 
 const headerSubStyle = css`
