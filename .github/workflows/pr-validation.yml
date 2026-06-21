@@ -88,6 +88,8 @@ jobs:
           echo '[]' > dist/posts-list.json
           echo '{}' > dist/tags.json
           echo '[]' > dist/tags-with-count.json
+          echo '{"CSS":"development","AI":"technology","雑記":"other"}' > dist/tag-categories.json
+          echo '{}' > dist/tags-similarity.json
 
       - name: Vitest
         run: npm test
