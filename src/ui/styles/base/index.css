@@ -299,7 +299,7 @@ button {
 
 del {
   font-size: var(--font-sizes-sm);
-  color: var(--colors-gray-900);
+  color: var(--colors-gray-600);
 
   &[datetime] {
     &::before {
