@@ -43,11 +43,16 @@ const Root = styled.nav`
     border-radius: var(--radii-md);
     transition:
       color var(--transition-fast),
-      background-color var(--transition-fast);
+      background-color var(--transition-fast),
+      transform var(--transition-fast);
 
     &:hover {
       color: var(--colors-gray-900);
       background-color: var(--colors-gray-a-75);
+    }
+
+    &:active {
+      transform: scale(0.98);
     }
 
     &[aria-current='true'] {
@@ -154,11 +159,14 @@ const Summary = styled.summary`
   @media (--isDesktop) and (min-width: 80rem) {
     gap: var(--spacing-½);
     justify-content: flex-start;
+    min-block-size: var(--mokuji-summary-block-size);
     padding: var(--spacing-½) var(--spacing-1);
     font-size: var(--font-sizes-xs);
     color: var(--colors-gray-600);
     letter-spacing: var(--letter-spacings-md);
-    transition: color var(--transition-fast);
+    transition:
+      color var(--transition-fast),
+      transform var(--transition-fast);
 
     &:hover {
       color: var(--colors-gray-900);
