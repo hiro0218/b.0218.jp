@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.10/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.0/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -36,7 +36,7 @@
       "playwright": "recommended"
     },
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "a11y": {
         "noNoninteractiveTabindex": "warn",
         "noSvgWithoutTitle": "off"
@@ -53,7 +53,7 @@
       "performance": {
         "noDelete": "error",
         "noBarrelFile": "error",
-        "noImgElement": "warn",
+        "noImgElement": "off",
         "useTopLevelRegex": "error"
       },
       "style": {
@@ -70,10 +70,10 @@
         "noDangerouslySetInnerHtml": "off"
       },
       "suspicious": {
-        "noExplicitAny": "error"
+        "noExplicitAny": "error",
+        "noLeakedRender": "warn"
       },
       "nursery": {
-        "noLeakedRender": "warn",
         "noPlaywrightElementHandle": "warn",
         "noPlaywrightEval": "warn",
         "noPlaywrightForceOption": "error",

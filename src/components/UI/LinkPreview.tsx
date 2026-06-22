@@ -24,7 +24,6 @@ export const LinkPreview = ({ link, card, thumbnail, title, domain, description 
       </Body>
       {thumbnail ? (
         <Thumbnail className="p-link-preview-thumbnail">
-          {/* biome-ignore lint/performance/noImgElement: 任意 URL のOGPサムネイルを最適化設定に依存せず表示する */}
           <img alt="" decoding="async" height="120" loading="lazy" src={thumbnail} width="120" />
         </Thumbnail>
       ) : null}
