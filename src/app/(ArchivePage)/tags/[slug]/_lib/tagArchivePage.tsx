@@ -7,10 +7,11 @@ import { ArticleCard } from '@/components/UI/ArticleCard';
 import { Sidebar } from '@/components/UI/Layout/Sidebar';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { Title } from '@/components/UI/Title';
-import { TAG_VIEW_LIMIT } from '@/constants';
+import { SITE_NAME } from '@/constants';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
 import { getTagPosts } from '@/lib/post/tagPosts';
-import { getTagsWithCount } from '@/lib/source/tag';
+import { tagFeedPermalink } from '@/lib/tag/navigation';
+import { getRoutableTagStaticParams, getRoutableTags } from '@/lib/tag/routing';
 import { tagFromUrlPath } from '@/lib/tag/url';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import {
@@ -20,11 +21,8 @@ import {
   parseTagPageSegment,
 } from './tagArchiveModel';
 
-type StaticTagParam = {
+type StaticTagPageParam = {
   slug: string;
-};
-
-type StaticTagPageParam = StaticTagParam & {
   page: string;
 };
 
@@ -40,14 +38,8 @@ type TagArchivePageProps = {
 
 const pageTitle = 'Tag';
 
-function getRoutableTags() {
-  return getTagsWithCount().filter((tag) => tag.count >= TAG_VIEW_LIMIT);
-}
-
-export function getTagStaticParams(): StaticTagParam[] {
-  return getRoutableTags().map((tag) => ({
-    slug: tag.slug,
-  }));
+export function getTagStaticParams() {
+  return getRoutableTagStaticParams();
 }
 
 export function getTagPaginationStaticParams(): StaticTagPageParam[] {
@@ -62,6 +54,14 @@ export function getTagArchiveMetadata({ slug, currentPage = 1 }: TagArchiveMetad
     title: metadata.title,
     description: metadata.description,
     url: metadata.canonicalUrl,
+    alternates: {
+      types: {
+        'application/rss+xml': [
+          { title: SITE_NAME, url: '/feed.xml' },
+          { title: `Tag: ${decodedSlug}`, url: tagFeedPermalink(decodedSlug) },
+        ],
+      },
+    },
   });
 }
 

@@ -10,3 +10,13 @@ export function tagPath(name: string): `/tags/${string}` {
 export function tagPermalink(name: string): string {
   return `${SITE_URL}${tagPath(name)}`;
 }
+
+/** Tag 表示名からタグ RSS のパスを作る。 */
+export function tagFeedPath(name: string): `/tags/${string}/feed.xml` {
+  return `${tagPath(name)}/feed.xml`;
+}
+
+/** Tag 表示名からタグ RSS の絶対 URL を作る。 */
+export function tagFeedPermalink(name: string): string {
+  return `${SITE_URL}${tagFeedPath(name)}`;
+}
