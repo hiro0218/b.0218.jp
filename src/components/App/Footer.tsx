@@ -23,6 +23,9 @@ export function Footer() {
               {title}
             </Anchor>
           ))}
+          <a href="/feed.xml" rel="noopener alternate" target="_blank" type="application/rss+xml">
+            RSS
+          </a>
         </Nav>
         <small className={copyrightStyle}>© hiro</small>
       </Container>
