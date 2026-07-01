@@ -111,7 +111,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.1",
-    "@google-analytics/data": "5.2.2",
+    "@google-analytics/data": "6.1.0",
     "@hono/node-server": "2.0.6",
     "@markuplint/jsx-parser": "4.18.3",
     "@markuplint/react-spec": "4.18.0",
