@@ -178,7 +178,7 @@ export function PostShare({ title, url }: Props) {
 
 const copyStateColorStyle = css`
   &[data-state='copied'] {
-    color: var(--colors-grass-1200);
+    color: var(--colors-copy-success-icon);
   }
 
   &[data-state='failed'] {

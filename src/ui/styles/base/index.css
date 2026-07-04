@@ -3,7 +3,7 @@
 /* stylelint-disable-next-line */
 ::selection {
   color: var(--colors-gray-1000);
-  background-color: var(--colors-gray-a-300);
+  background-color: var(--colors-selection-background);
 }
 
 :where(:root) {
