@@ -41,7 +41,7 @@ export const PostTimeline = ({ posts, prefetch = false }: Props) => {
                 </Anchor>
               </Title>
               {tags.length > 0 && (
-                <Cluster className={tagsStyle} gap={1}>
+                <Cluster className={tagsStyle} gap={100}>
                   <PostTag tags={tags.map((slug) => ({ slug }))} />
                 </Cluster>
               )}
@@ -55,18 +55,18 @@ export const PostTimeline = ({ posts, prefetch = false }: Props) => {
 
 const List = styled.ol`
   --resize-dur: 500ms;
-  --timeline-gutter: var(--spacing-3);
-  --timeline-item-pad-y: var(--spacing-2);
-  --timeline-date-col: var(--spacing-6);
-  --timeline-line-offset: var(--spacing-1);
-  --timeline-dot-size: calc((var(--spacing-1) + var(--spacing-2)) / 2);
+  --timeline-gutter: var(--spacing-400);
+  --timeline-item-pad-y: var(--spacing-300);
+  --timeline-date-col: var(--spacing-1000);
+  --timeline-line-offset: var(--spacing-100);
+  --timeline-dot-size: var(--spacing-200);
   --timeline-dot-top: calc(
     var(--timeline-item-pad-y) + (var(--font-sizes-md) * var(--line-heights-sm) - var(--timeline-dot-size)) / 2
   );
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-1);
+  gap: var(--spacing-100);
   padding-inline-start: var(--timeline-gutter);
   container-type: inline-size;
   isolation: isolate;
@@ -141,9 +141,9 @@ const Item = styled.li`
   position: relative;
   display: grid;
   grid-template-columns: var(--timeline-date-col) 1fr;
-  gap: var(--spacing-2);
+  gap: var(--spacing-300);
   align-items: baseline;
-  padding: var(--timeline-item-pad-y) var(--spacing-2);
+  padding: var(--timeline-item-pad-y) var(--spacing-300);
   border-radius: var(--radii-sm);
   transition:
     background-color var(--transition-fast),
@@ -197,7 +197,7 @@ const Item = styled.li`
 
     &::after {
       position: absolute;
-      inset: calc(var(--spacing-1) / -2) 0;
+      inset: calc(var(--spacing-100) / -2) 0;
       z-index: -1;
       content: '';
     }
@@ -220,7 +220,7 @@ const Item = styled.li`
 
   @container (max-width: 560px) {
     grid-template-columns: 1fr;
-    gap: var(--spacing-2);
+    gap: var(--spacing-300);
   }
 `;
 
@@ -234,7 +234,7 @@ const Time = styled.time`
 const Body = styled.div`
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2);
+  gap: var(--spacing-300);
   min-width: 0;
 `;
 
@@ -266,7 +266,7 @@ const tagsStyle = css`
   /* PostTag は tag の navigable 状態で anchor/span を切り替えるため両方に適用 */
   > :where(a, span) {
     min-height: auto;
-    padding: var(--spacing-½) var(--spacing-1);
+    padding: var(--spacing-75) var(--spacing-100);
     font-size: var(--font-sizes-xs);
     border-radius: var(--radii-sm);
   }

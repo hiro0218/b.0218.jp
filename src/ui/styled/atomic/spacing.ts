@@ -12,25 +12,25 @@ export const gapClasses = {
   0: css`
     gap: 0;
   `,
-  '½': css`
-    gap: var(--spacing-½);
+  75: css`
+    gap: var(--spacing-75);
   `,
-  1: css`
-    gap: var(--spacing-1);
+  100: css`
+    gap: var(--spacing-100);
   `,
-  2: css`
-    gap: var(--spacing-2);
+  300: css`
+    gap: var(--spacing-300);
   `,
-  3: css`
-    gap: var(--spacing-3);
+  400: css`
+    gap: var(--spacing-400);
   `,
-  4: css`
-    gap: var(--spacing-4);
+  600: css`
+    gap: var(--spacing-600);
   `,
-  5: css`
-    gap: var(--spacing-5);
+  800: css`
+    gap: var(--spacing-800);
   `,
-  6: css`
-    gap: var(--spacing-6);
+  1000: css`
+    gap: var(--spacing-1000);
   `,
 } as const satisfies Record<SpaceGap | 0, string>;

@@ -21,7 +21,7 @@ const meta = {
   argTypes: {
     gap: {
       control: 'select',
-      options: [0, '½', 1, 2, 3, 4, 5, 6],
+      options: [0, 75, 100, 300, 400, 600, 800, 1000],
     },
   },
 } satisfies Meta<typeof Stack>;
@@ -49,13 +49,13 @@ export const Horizontal: Story = {
 };
 
 /**
- * `gap` を Fibonacci スケールから選択する。0〜6 を切り替えて、密度のリズムを判断する用。
+ * `gap` を Adobe Spectrum spacing スケールから選択する。段階を切り替えて、密度のリズムを判断する用。
  *
  * @summary gap スケールの確認
  */
 export const WithGap: Story = {
   name: 'gap 調整',
-  args: { gap: 5 },
+  args: { gap: 800 },
 };
 
 /**
@@ -82,7 +82,7 @@ export const WithWrap: Story = {
   args: {
     direction: 'horizontal',
     wrap: 'wrap',
-    gap: 2,
+    gap: 300,
     children: (
       <>
         <DemoBox>TypeScript</DemoBox>
@@ -105,7 +105,7 @@ export const AsList: Story = {
   name: 'ul リスト',
   args: {
     as: 'ul',
-    gap: 1,
+    gap: 100,
     children: (
       <>
         <li>

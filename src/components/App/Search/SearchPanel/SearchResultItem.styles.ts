@@ -3,7 +3,7 @@ import { css } from '@/ui/styled';
 export const LinkContainerStyle = css`
   cursor: pointer;
   user-select: none;
-  scroll-margin-block: var(--spacing-1);
+  scroll-margin-block: var(--spacing-100);
   border-radius: var(--radii-md);
 `;
 
@@ -13,9 +13,9 @@ export const FocusedContainerStyle = css`
 
 export const AnchorStyle = css`
   display: flex;
-  gap: var(--spacing-2);
+  gap: var(--spacing-300);
   align-items: center;
-  padding: var(--spacing-1) var(--spacing-2);
+  padding: var(--spacing-100) var(--spacing-300);
   font-size: var(--font-sizes-sm);
   border-radius: var(--radii-md);
 
@@ -29,7 +29,7 @@ export const AnchorStyle = css`
 
   &:focus-visible {
     outline: var(--border-widths-medium) solid var(--colors-gray-a-1000);
-    outline-offset: var(--spacing-½);
+    outline-offset: var(--spacing-75);
     background-color: transparent;
   }
 

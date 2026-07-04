@@ -9,6 +9,6 @@ export const Layout = ({ children }: { children: ReactNode }) => {
 const Root = styled.div`
   display: grid;
   grid-template-rows: auto 1fr auto;
-  row-gap: clamp(var(--spacing-3), 3.5vw, var(--spacing-4));
+  row-gap: clamp(var(--spacing-400), 3.5vw, var(--spacing-600));
   min-height: 100dvh;
 `;

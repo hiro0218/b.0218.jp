@@ -34,10 +34,10 @@ export function Toast({ message, onHideToast, isVisible, ref }: ToastProps) {
 
 const Container = styled.div`
   position: fixed;
-  bottom: var(--spacing-1);
-  left: var(--spacing-1);
+  bottom: var(--spacing-100);
+  left: var(--spacing-100);
   z-index: var(--z-index-base);
-  padding: var(--spacing-1) var(--spacing-2);
+  padding: var(--spacing-100) var(--spacing-300);
   font-size: var(--font-sizes-xs);
   color: var(--colors-dark-foregrounds);
   white-space: nowrap;

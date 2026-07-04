@@ -118,8 +118,8 @@ export function CopyButton() {
 
 const Button = styled.button`
   position: absolute;
-  top: var(--spacing-1);
-  right: var(--spacing-1);
+  top: var(--spacing-100);
+  right: var(--spacing-100);
   display: grid;
   place-items: center;
   width: var(--sizes-touch-target);

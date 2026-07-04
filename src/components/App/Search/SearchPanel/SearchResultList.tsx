@@ -83,11 +83,11 @@ const Container = styled.div`
   padding: 0;
   overflow-x: clip;
   overflow-y: auto;
-  scroll-padding-block: var(--spacing-1);
+  scroll-padding-block: var(--spacing-100);
   transition: height var(--transition-slow);
 
   &:not(:empty) {
-    padding: var(--spacing-½) var(--spacing-1);
+    padding: var(--spacing-75) var(--spacing-100);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -97,5 +97,5 @@ const Container = styled.div`
 
 const Sizer = styled.div`
   display: grid;
-  gap: var(--spacing-1);
+  gap: var(--spacing-100);
 `;

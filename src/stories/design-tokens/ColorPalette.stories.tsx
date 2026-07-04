@@ -37,7 +37,7 @@ function scaleEntries(tokenKey: string): Swatch[] {
 }
 
 const ColorSwatch = ({ name, variable }: Swatch) => (
-  <Stack align="center" direction="horizontal" gap={2}>
+  <Stack align="center" direction="horizontal" gap={300}>
     <div
       style={{
         width: '3rem',
@@ -55,9 +55,9 @@ const ColorSwatch = ({ name, variable }: Swatch) => (
 );
 
 const ColorGroup = ({ title, scales }: { title: string; scales: Swatch[] }) => (
-  <Stack as="section" gap={1}>
+  <Stack as="section" gap={100}>
     <h3>{title}</h3>
-    <Grid columns="auto-fit" gap={1} minItemWidth="280px">
+    <Grid columns="auto-fit" gap={100} minItemWidth="280px">
       {scales.map((s) => (
         <ColorSwatch key={s.variable} name={s.name} variable={s.variable} />
       ))}
@@ -87,7 +87,7 @@ const TRANSPARENT_COLORS = [
 export const Solid: Story = {
   name: 'Solid',
   render: () => (
-    <Stack gap={3}>
+    <Stack gap={400}>
       {SOLID_COLORS.map((color) => (
         <ColorGroup key={color} scales={scaleEntries(color)} title={color.charAt(0).toUpperCase() + color.slice(1)} />
       ))}
@@ -103,7 +103,7 @@ export const Solid: Story = {
 export const Alias: Story = {
   name: 'Alias',
   render: () => (
-    <Stack gap={3}>
+    <Stack gap={400}>
       {ALIAS_COLORS.map(({ key, title }) => (
         <ColorGroup key={key} scales={scaleEntries(key)} title={title} />
       ))}
@@ -119,7 +119,7 @@ export const Alias: Story = {
 export const Transparent: Story = {
   name: 'Transparent',
   render: () => (
-    <Stack gap={3}>
+    <Stack gap={400}>
       {TRANSPARENT_COLORS.map(({ key, title }) => (
         <ColorGroup key={key} scales={scaleEntries(key)} title={title} />
       ))}
@@ -135,7 +135,7 @@ export const Transparent: Story = {
 export const Base: Story = {
   name: 'Base',
   render: () => (
-    <Stack direction="horizontal" gap={3}>
+    <Stack direction="horizontal" gap={400}>
       <ColorSwatch name="white" variable="--colors-white" />
       <ColorSwatch name="black" variable="--colors-black" />
     </Stack>

@@ -33,7 +33,7 @@ function ArchiveTimelinesByYear({ archives }: { archives: ArchivesByYear }) {
       {Object.keys(archives)
         .toReversed()
         .map((year) => (
-          <Stack as="section" gap={2} key={year}>
+          <Stack as="section" gap={300} key={year}>
             <Heading as="h2" id={`${year}年`} textSide={<span>{archives[year].length} posts</span>}>
               {year}
             </Heading>
@@ -53,7 +53,7 @@ export default function Page() {
           description,
         })}
       />
-      <Stack as="article" gap={4}>
+      <Stack as="article" gap={600}>
         <Title paragraph={description}>{title}</Title>
 
         <Chart archives={archives} totalPosts={totalPosts} />

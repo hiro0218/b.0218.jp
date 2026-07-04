@@ -42,7 +42,7 @@ const Root = styled.nav`
 const Container = styled.ol`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-  gap: var(--spacing-1);
+  gap: var(--spacing-100);
   padding: 0;
   margin: 0;
   list-style: none;
@@ -58,11 +58,11 @@ const AnchorStyle = css`
   position: relative;
   display: grid;
   grid-template-columns: max-content 1fr;
-  column-gap: var(--spacing-1);
+  column-gap: var(--spacing-100);
   align-items: center;
   width: 100%;
   min-height: var(--sizes-touch-target);
-  padding: var(--spacing-1) var(--spacing-2);
+  padding: var(--spacing-100) var(--spacing-300);
   overflow: hidden;
   font-size: var(--font-sizes-sm);
   font-variant-numeric: tabular-nums;

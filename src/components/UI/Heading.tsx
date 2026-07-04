@@ -35,7 +35,7 @@ export function Heading({ id, as: Tag = 'h1', children, textSide, textSub, isBol
   }
 
   return (
-    <Stack align="center" as="hgroup" direction="horizontal" gap={1}>
+    <Stack align="center" as="hgroup" direction="horizontal" gap={100}>
       <div className={mainStyle}>
         {title}
         {textSub ? <div className={headerSubStyle}>{textSub}</div> : null}

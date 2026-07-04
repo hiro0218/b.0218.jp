@@ -27,6 +27,6 @@ export function AdsenseManager({ content }: AdsenseManagerProps) {
 }
 
 export const AdsenseContainer = styled.div`
-  margin: var(--spacing-4) 0;
+  margin: var(--spacing-600) 0;
   text-align: center;
 `;

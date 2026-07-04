@@ -23,7 +23,7 @@ export function Content({ title, description, slug }: Props) {
   const reactContent = parser(content);
 
   return (
-    <Stack gap={4}>
+    <Stack gap={600}>
       <Title paragraph={description}>{title}</Title>
       <article className="post-content">{reactContent}</article>
     </Stack>

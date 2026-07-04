@@ -46,7 +46,7 @@ export function ArticleCard({
   const Title = titleTagName;
 
   return (
-    <Stack className={containerStyle} gap={1}>
+    <Stack className={containerStyle} gap={100}>
       <Header category={category}>
         <PostDate date={date} updated={updated} />
       </Header>
@@ -60,7 +60,7 @@ export function ArticleCard({
 }
 
 const containerStyle = css`
-  --container-space: var(--spacing-3);
+  --container-space: var(--spacing-400);
   --hover-color: var(--colors-accent-1100);
 
   contain-intrinsic-size: 0 200px;

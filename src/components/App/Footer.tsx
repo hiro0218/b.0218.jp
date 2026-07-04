@@ -34,14 +34,14 @@ export function Footer() {
 }
 
 const Root = styled.footer`
-  padding: var(--spacing-5) 0;
-  margin-top: var(--spacing-6);
+  padding: var(--spacing-800) 0;
+  margin-top: var(--spacing-1000);
   border-top: var(--border-widths-thin) solid var(--colors-gray-200);
 `;
 
 const ContainerStyle = css`
   display: grid;
-  gap: var(--spacing-2);
+  gap: var(--spacing-300);
   margin: auto;
   font-size: var(--font-sizes-md);
   color: var(--colors-gray-1000);
@@ -49,21 +49,21 @@ const ContainerStyle = css`
 
 const LogoContainer = styled.div`
   display: flex;
-  margin-left: calc(var(--spacing-1) * -1);
+  margin-left: calc(var(--spacing-100) * -1);
 `;
 
 const Nav = styled.nav`
   display: inline-flex;
   flex-wrap: wrap;
-  gap: var(--spacing-3);
+  gap: var(--spacing-400);
   align-items: center;
-  margin-left: calc(var(--spacing-1) * -1);
+  margin-left: calc(var(--spacing-100) * -1);
   font-family: var(--fonts-family-monospace);
   font-size: var(--font-sizes-sm);
 `;
 
 const copyrightStyle = css`
-  margin-top: var(--spacing-2);
+  margin-top: var(--spacing-300);
   font-size: var(--font-sizes-xs);
   font-weight: var(--font-weights-bold);
   color: var(--colors-gray-600);

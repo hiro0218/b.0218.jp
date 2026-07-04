@@ -81,9 +81,9 @@ export function SearchHeader({ activeDescendantId, listId, onValueChange, onClea
 const headerStyle = css`
   position: relative;
   display: flex;
-  gap: var(--spacing-1);
+  gap: var(--spacing-100);
   align-items: center;
-  padding: var(--spacing-½) 0 var(--spacing-½) var(--spacing-2);
+  padding: var(--spacing-75) 0 var(--spacing-75) var(--spacing-300);
   background-color: var(--colors-gray-a-50);
   border-radius: var(--radii-sm);
   transition: background-color var(--transition-slow);
@@ -100,13 +100,13 @@ const headerStyle = css`
 const headerIconStyle = css`
   display: grid;
   place-items: center;
-  width: var(--spacing-3);
-  height: var(--spacing-3);
+  width: var(--spacing-400);
+  height: var(--spacing-400);
 `;
 
 const SearchInput = styled.input`
   width: 100%;
-  height: var(--spacing-4);
+  height: var(--spacing-600);
   padding: 0;
   font-size: var(--font-sizes-md);
   cursor: text;
@@ -132,5 +132,5 @@ const SearchInput = styled.input`
 const clearButtonOuterStyle = css`
   display: flex;
   align-items: center;
-  padding-right: var(--spacing-1);
+  padding-right: var(--spacing-100);
 `;

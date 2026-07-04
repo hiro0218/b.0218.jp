@@ -86,7 +86,7 @@ export function TagArchivePage({ slug, currentPage = 1 }: TagArchivePageProps) {
           description: model.structuredData.description,
         })}
       />
-      <Stack as="section" gap={4}>
+      <Stack as="section" gap={600}>
         <Title paragraph={`${model.totalItems}件の記事`}>{pageTitle}</Title>
         <Sidebar>
           <Sidebar.Side>

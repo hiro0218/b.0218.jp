@@ -30,7 +30,7 @@ export const TagSection = ({
   }
 
   return (
-    <Stack as={as} gap={2}>
+    <Stack as={as} gap={300}>
       {!!heading && (
         <Heading
           as={headingLevel}

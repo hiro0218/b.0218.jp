@@ -37,8 +37,8 @@ const buttonHiddenClass = css`
 
 const zoomIndicatorStyle = css`
   position: absolute;
-  top: var(--spacing-1);
-  right: var(--spacing-1);
+  top: var(--spacing-100);
+  right: var(--spacing-100);
   display: grid;
   place-items: center;
   width: var(--sizes-icon-md);
@@ -56,8 +56,8 @@ const zoomIndicatorStyle = css`
 
 const zoomIconStyle = css`
   display: block;
-  width: var(--spacing-2);
-  height: var(--spacing-2);
+  width: var(--spacing-300);
+  height: var(--spacing-300);
   color: var(--colors-gray-1000);
 `;
 

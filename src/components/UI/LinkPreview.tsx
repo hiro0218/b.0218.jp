@@ -59,7 +59,7 @@ const Anchor = styled.a`
   &[data-card='summary_large_image'] {
     @container (min-width: 500px) {
       .p-link-preview-body {
-        padding: var(--spacing-2);
+        padding: var(--spacing-300);
       }
 
       .p-link-preview-thumbnail {
@@ -75,8 +75,8 @@ const Body = styled.span`
   display: block;
   flex: 1 1;
   width: calc(100% - var(--link-preview-thumbnail-size));
-  padding: 0 var(--spacing-2);
-  padding-left: var(--spacing-2);
+  padding: 0 var(--spacing-300);
+  padding-left: var(--spacing-300);
 `;
 
 const BodyTitle = styled.span`
@@ -87,7 +87,7 @@ const BodyTitle = styled.span`
 
 const BodyDescription = styled.span`
   display: none;
-  margin-top: var(--spacing-½);
+  margin-top: var(--spacing-75);
   font-size: var(--font-sizes-sm);
   color: var(--colors-gray-800);
 

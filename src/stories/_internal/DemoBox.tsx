@@ -17,7 +17,7 @@ export function DemoBox({ children, color = 'var(--colors-blue-200)', minHeight,
     <div
       style={{
         backgroundColor: color,
-        padding: compact ? 'var(--spacing-1) var(--spacing-2)' : 'var(--spacing-2)',
+        padding: compact ? 'var(--spacing-100) var(--spacing-300)' : 'var(--spacing-300)',
         borderRadius: 'var(--radii-sm)',
         ...(minHeight != null && { minHeight }),
       }}

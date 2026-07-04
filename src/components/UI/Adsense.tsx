@@ -69,7 +69,7 @@ const Ins = () => {
 const containerStyle = css`
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-2);
+  gap: var(--spacing-300);
   align-items: center;
   justify-content: center;
   margin: 0 auto;

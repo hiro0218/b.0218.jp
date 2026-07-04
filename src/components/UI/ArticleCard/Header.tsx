@@ -25,7 +25,7 @@ export function Header({ category, children }: Props) {
 
 const Container = styled.div`
   display: flex;
-  gap: var(--spacing-2);
+  gap: var(--spacing-300);
   align-items: center;
   justify-content: space-between;
 
@@ -38,7 +38,7 @@ const Container = styled.div`
 const CategoryBadge = styled.span`
   display: inline-flex;
   align-items: center;
-  padding: var(--spacing-½);
+  padding: var(--spacing-75);
   border-radius: var(--radii-sm);
 
   @container (max-width: 320px) {
@@ -46,7 +46,7 @@ const CategoryBadge = styled.span`
     place-items: center;
     order: -1;
     width: 100%;
-    height: var(--spacing-5);
+    height: var(--spacing-800);
 
     & > svg {
       width: var(--sizes-icon-md);

@@ -9,7 +9,7 @@ type Props = {
 export default function PostPageLayout({ children }: Props) {
   return (
     <PostContainer>
-      <Stack as="section" gap={4}>
+      <Stack as="section" gap={600}>
         {children}
       </Stack>
     </PostContainer>

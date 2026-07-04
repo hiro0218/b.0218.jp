@@ -30,13 +30,13 @@ export default function Page() {
       <h1 className="sr-only">トップページ</h1>
 
       <Container size="default">
-        <Stack gap={5}>
+        <Stack gap={800}>
           <section>
             <Hero />
           </section>
-          <Stack gap={3}>
+          <Stack gap={400}>
             <Heading as="h2">記事</Heading>
-            <Stack gap={5}>
+            <Stack gap={800}>
               <PostSection
                 heading="最新記事"
                 headingLevel="h3"

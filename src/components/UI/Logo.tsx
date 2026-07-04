@@ -12,7 +12,7 @@ export const Logo = () => {
       className={cx(
         'link-style link-style--hover-effect',
         css`
-          padding: var(--spacing-1);
+          padding: var(--spacing-100);
           pointer-events: auto;
         `,
       )}

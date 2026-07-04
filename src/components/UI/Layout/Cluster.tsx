@@ -32,7 +32,7 @@ const wideStyle = css`
  * 横並びで自動折り返しするレイアウト。タグやバッジ等の可変個数の要素に使用する。
  * @summary 横並び自動折り返しレイアウト
  */
-export function Cluster({ as: Tag = 'div', children, isWide, gap = 1, className, ...props }: Props) {
+export function Cluster({ as: Tag = 'div', children, isWide, gap = 100, className, ...props }: Props) {
   const style = { '--cluster-gap': `var(--spacing-${gap})` } as CSSProperties;
 
   return (

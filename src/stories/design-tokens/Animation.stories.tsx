@@ -41,13 +41,13 @@ const EasingDemo = ({ name, variable }: { name: string; variable: string }) => {
   const [active, setActive] = useState(false);
 
   return (
-    <Stack gap={1}>
-      <Stack align="center" direction="horizontal" gap={1}>
+    <Stack gap={100}>
+      <Stack align="center" direction="horizontal" gap={100}>
         <span>{name}</span>
         <code>{variable}</code>
         <button
           onClick={() => setActive((prev) => !prev)}
-          style={{ padding: 'var(--spacing-1) var(--spacing-2)' }}
+          style={{ padding: 'var(--spacing-100) var(--spacing-300)' }}
           type="button"
         >
           {active ? 'Reset' : 'Play'}
@@ -83,7 +83,7 @@ const EasingDemo = ({ name, variable }: { name: string; variable: string }) => {
 };
 
 const DurationBar = ({ name, variable, value }: { name: string; variable: string; value: string }) => (
-  <Stack align="center" direction="horizontal" gap={2}>
+  <Stack align="center" direction="horizontal" gap={300}>
     <div style={{ width: '80px', textAlign: 'right', flexShrink: 0 }}>
       <div>{name}</div>
     </div>
@@ -106,7 +106,7 @@ const KeyframeDemo = ({ name }: { name: string }) => {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <Stack align="center" gap={1} style={{ minWidth: '120px' }}>
+    <Stack align="center" gap={100} style={{ minWidth: '120px' }}>
       <div
         onAnimationEnd={() => setPlaying(false)}
         style={{
@@ -121,7 +121,7 @@ const KeyframeDemo = ({ name }: { name: string }) => {
       <button
         disabled={playing}
         onClick={() => setPlaying(true)}
-        style={{ padding: 'var(--spacing-1) var(--spacing-2)' }}
+        style={{ padding: 'var(--spacing-100) var(--spacing-300)' }}
         type="button"
       >
         Play
@@ -138,7 +138,7 @@ const KeyframeDemo = ({ name }: { name: string }) => {
 export const Easings: Story = {
   name: 'Easings',
   render: () => (
-    <Stack gap={2}>
+    <Stack gap={300}>
       {EASINGS.map((e) => (
         <EasingDemo key={e.name} name={e.name} variable={e.variable} />
       ))}
@@ -154,7 +154,7 @@ export const Easings: Story = {
 export const Durations: Story = {
   name: 'Durations',
   render: () => (
-    <Stack gap={1}>
+    <Stack gap={100}>
       {DURATIONS.map((d) => (
         <DurationBar key={d.name} name={d.name} value={d.value} variable={d.variable} />
       ))}
@@ -170,7 +170,7 @@ export const Durations: Story = {
 export const Keyframes: Story = {
   name: 'Keyframes',
   render: () => (
-    <Cluster gap={3}>
+    <Cluster gap={400}>
       {KEYFRAMES.map((k) => (
         <KeyframeDemo key={k} name={k} />
       ))}

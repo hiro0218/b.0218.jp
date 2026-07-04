@@ -34,7 +34,7 @@ const Title = ({ id, tag = 'h2', children }: TitleProps) => {
         textEllipsis,
         fontSizeHeadingClasses.h3,
         css`
-          scroll-margin-top: var(--spacing-1);
+          scroll-margin-top: var(--spacing-100);
         `,
       )}
       id={id}
@@ -64,7 +64,7 @@ const stickyStyle = css`
 
   @media (--isDesktop) {
     position: sticky;
-    top: var(--spacing-1);
+    top: var(--spacing-100);
   }
 `;
 
@@ -89,7 +89,7 @@ const Side = ({ children }: ChildProps) => {
  * Sidebar.Main、Sidebar.Side、Sidebar.Title の compound component で構成する。
  * @summary 2 カラムサイドバーレイアウト
  */
-export const Sidebar = (({ children, gap = 3 }: Props) => {
+export const Sidebar = (({ children, gap = 400 }: Props) => {
   return <Container className={gapClasses[gap]}>{children}</Container>;
 }) as NamedExoticComponent<Props> & {
   // biome-ignore lint/style/useNamingConvention: compound component pattern requires PascalCase

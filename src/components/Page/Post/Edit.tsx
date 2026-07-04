@@ -39,7 +39,7 @@ export function PostEdit({ slug }: Props) {
 const anchorStyle = css`
   display: flex;
   align-items: center;
-  padding: var(--spacing-½) var(--spacing-1);
+  padding: var(--spacing-75) var(--spacing-100);
   font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-1000);

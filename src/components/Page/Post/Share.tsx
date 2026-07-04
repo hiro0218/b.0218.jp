@@ -130,7 +130,7 @@ export function PostShare({ title, url }: Props) {
       <h2 className="sr-only" id={labelledbyId}>
         このページをシェアする
       </h2>
-      <Stack direction="horizontal" gap={1}>
+      <Stack direction="horizontal" gap={100}>
         <IconButton
           aria-label="Xでポスト"
           as="externalLink"

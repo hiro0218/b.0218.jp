@@ -32,12 +32,12 @@ export function SearchEmptyState({ searchQuery }: SearchEmptyStateProps) {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2);
+  gap: var(--spacing-300);
   align-items: center;
   justify-content: center;
   width: 100%;
   max-height: var(--search-content-max-height);
-  padding: var(--spacing-6) var(--spacing-1);
+  padding: var(--spacing-1000) var(--spacing-100);
   overflow-y: auto;
   color: var(--colors-gray-600);
   text-align: center;
@@ -68,7 +68,7 @@ const Query = styled.p`
 
 const Suggestion = styled.p`
   padding-left: 0;
-  margin-top: var(--spacing-2);
+  margin-top: var(--spacing-300);
   margin-bottom: 0;
   font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-md);
