@@ -105,13 +105,11 @@ const List = styled.ol`
       background-color: var(--colors-gray-a-100);
       border-radius: var(--radii-sm);
       opacity: 0;
-      transform: scale(0.98);
       transition: none;
     }
 
     &:has(> li:is(:hover, :focus-within))::after {
       opacity: 1;
-      transform: scale(1);
       transition:
         top var(--resize-dur) var(--easings-ease-spring2),
         left var(--resize-dur) var(--easings-ease-spring2),
@@ -125,7 +123,6 @@ const List = styled.ol`
 
     &:has(> li:active)::after {
       background-color: var(--colors-gray-a-200);
-      transform: scale(0.98);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -182,11 +179,6 @@ const Item = styled.li`
     }
   }
 
-  &:active {
-    background-color: var(--colors-gray-a-200);
-    transform: scale(0.98);
-  }
-
   @supports (anchor-scope: --post-timeline-item) and (position-anchor: --post-timeline-item) and (top: anchor(top)) and
     (width: anchor-size(width)) and selector(:has(*)) {
     z-index: var(--z-index-base);
@@ -220,13 +212,14 @@ const Item = styled.li`
 
   @container (max-width: 560px) {
     grid-template-columns: 1fr;
-    gap: var(--spacing-300);
+    gap: var(--spacing-100);
   }
 `;
 
 const Time = styled.time`
   font-size: var(--font-sizes-sm);
   font-variant-numeric: tabular-nums;
+  line-height: var(--line-heights-sm);
   color: var(--colors-gray-600);
   white-space: nowrap;
 `;
@@ -244,7 +237,7 @@ const Title = styled.h3`
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-sm);
   letter-spacing: var(--letter-spacings-sm);
-  text-wrap: balance;
+  text-wrap: unset;
 
   a {
     color: inherit;
