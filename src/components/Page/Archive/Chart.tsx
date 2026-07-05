@@ -53,7 +53,7 @@ const ChartItem = styled.li`
 `;
 
 const AnchorStyle = css`
-  --fill: var(--colors-gray-100);
+  --fill: var(--colors-gray-a-100);
 
   position: relative;
   display: grid;
@@ -100,7 +100,7 @@ const AnchorStyle = css`
   }
 
   &:hover {
-    --fill: var(--colors-gray-200);
+    --fill: var(--colors-gray-a-200);
 
     color: var(--colors-gray-900);
     background-color: var(--colors-gray-a-75);
