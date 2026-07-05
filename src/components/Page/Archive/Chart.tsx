@@ -14,12 +14,15 @@ export const Chart = ({ archives, totalPosts }: Props) => {
     return null;
   }
 
+  // バー幅は最多の年を基準に正規化する。
+  const maxPostCount = Math.max(...years.map((year) => archives[year].length));
+
   return (
     <Root aria-label={`年別アーカイブ（全${totalPosts}件）`}>
       <Container>
         {years.map((year) => {
           const postCount = archives[year].length;
-          const percent = `${((postCount / totalPosts) * 100).toFixed(2)}%`;
+          const percent = `${((postCount / maxPostCount) * 100).toFixed(2)}%`;
 
           return (
             <ChartItem key={year} style={{ '--percent': percent } as React.CSSProperties}>
