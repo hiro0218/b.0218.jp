@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getMetadata } from '@/app/_metadata';
 import { StructuredData } from '@/components/Functional/StructuredData';
+import { PostTimeline } from '@/components/Page/_shared/PostTimeline';
 import { Pagination } from '@/components/Page/Archive/Pagination';
-import { ArticleCard } from '@/components/UI/ArticleCard';
 import { Sidebar } from '@/components/UI/Layout/Sidebar';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { Title } from '@/components/UI/Title';
@@ -13,7 +13,6 @@ import { getTagPosts } from '@/lib/post/tagPosts';
 import { tagFeedPermalink } from '@/lib/tag/navigation';
 import { getRoutableTagStaticParams, getRoutableTags } from '@/lib/tag/routing';
 import { tagFromUrlPath } from '@/lib/tag/url';
-import { convertPostSlugToPath } from '@/lib/utils/url';
 import {
   createTagArchiveMetadataModel,
   createTagArchivePageModel,
@@ -93,19 +92,7 @@ export function TagArchivePage({ slug, currentPage = 1 }: TagArchivePageProps) {
             <Sidebar.Title>#{model.tag}</Sidebar.Title>
           </Sidebar.Side>
           <Sidebar.Main>
-            <Stack>
-              {model.posts.map(({ date, slug, title, updated }) => {
-                return (
-                  <ArticleCard
-                    date={date}
-                    key={slug}
-                    link={convertPostSlugToPath(slug)}
-                    title={title}
-                    updated={updated}
-                  />
-                );
-              })}
-            </Stack>
+            <PostTimeline posts={model.posts} />
           </Sidebar.Main>
         </Sidebar>
         <Pagination pagination={model.pagination} />

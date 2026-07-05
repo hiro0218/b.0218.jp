@@ -1,14 +1,10 @@
 import type { Metadata } from 'next/types';
 import { getMetadata } from '@/app/_metadata';
 import { getData } from '@/app/(ArchivePage)/popular/_lib/getData';
-import { ArticleCard } from '@/components/UI/ArticleCard';
+import { PostTimeline } from '@/components/Page/_shared/PostTimeline';
 import { Sidebar } from '@/components/UI/Layout/Sidebar';
-import { Stack } from '@/components/UI/Layout/Stack';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
-import { getPrimaryCategory } from '@/lib/tag/category';
-import { getTagCategoriesJson } from '@/lib/tag/derived';
-import { convertPostSlugToPath } from '@/lib/utils/url';
 
 const { popularPosts } = getData();
 const slug = 'popular';
@@ -22,8 +18,6 @@ export const metadata: Metadata = getMetadata({
   url: `${SITE_URL}/${slug}`,
 });
 
-const categoryMap = getTagCategoriesJson();
-
 export default function Page() {
   return (
     <>
@@ -33,23 +27,7 @@ export default function Page() {
           <Sidebar.Title>{pageTitle}</Sidebar.Title>
         </Sidebar.Side>
         <Sidebar.Main>
-          <Stack>
-            {popularPosts.map(({ date, slug, tags, title, updated }) => {
-              const link = convertPostSlugToPath(slug);
-              const category = getPrimaryCategory(tags, categoryMap);
-              return (
-                <ArticleCard
-                  category={category}
-                  date={date}
-                  key={slug}
-                  link={link}
-                  tags={tags}
-                  title={title}
-                  updated={updated}
-                />
-              );
-            })}
-          </Stack>
+          <PostTimeline posts={popularPosts} />
         </Sidebar.Main>
       </Sidebar>
     </>
