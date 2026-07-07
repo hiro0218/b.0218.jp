@@ -173,9 +173,6 @@
             "noRestrictedImports": {
               "level": "error",
               "options": {
-                "paths": {
-                  "~/styled-system/*": "@/ui/styled 経由で import してください"
-                },
                 "patterns": [
                   {
                     "group": ["**/index", "**/index.*"],
@@ -184,6 +181,10 @@
                   {
                     "group": ["@/lib/distLoader/*", "@/lib/distLoader/**"],
                     "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"
+                  },
+                  {
+                    "group": ["~/styled-system/*", "~/styled-system/**"],
+                    "message": "@/ui/styled 経由で import してください"
                   }
                 ]
               }
@@ -200,12 +201,6 @@
             "noRestrictedImports": {
               "level": "error",
               "options": {
-                "paths": {
-                  "@/components/App/*": "UI層からApp層への依存は禁止されています",
-                  "@/components/Page/*": "UI層からPage層への依存は禁止されています",
-                  "@/components/Functional/*": "UI層からFunctional層への依存は禁止されています",
-                  "~/styled-system/*": "@/ui/styled 経由で import してください"
-                },
                 "patterns": [
                   {
                     "group": ["**/index", "**/index.*"],
@@ -218,6 +213,22 @@
                   {
                     "group": ["@/lib/distLoader/*", "@/lib/distLoader/**"],
                     "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"
+                  },
+                  {
+                    "group": ["@/components/App/*", "@/components/App/**"],
+                    "message": "UI層からApp層への依存は禁止されています"
+                  },
+                  {
+                    "group": ["@/components/Page/*", "@/components/Page/**"],
+                    "message": "UI層からPage層への依存は禁止されています"
+                  },
+                  {
+                    "group": ["@/components/Functional/*", "@/components/Functional/**"],
+                    "message": "UI層からFunctional層への依存は禁止されています"
+                  },
+                  {
+                    "group": ["~/styled-system/*", "~/styled-system/**"],
+                    "message": "@/ui/styled 経由で import してください"
                   }
                 ]
               }
@@ -234,12 +245,6 @@
             "noRestrictedImports": {
               "level": "error",
               "options": {
-                "paths": {
-                  "@/components/App/*": "Functional層からApp層への依存は禁止されています",
-                  "@/components/Page/*": "Functional層からPage層への依存は禁止されています",
-                  "@/components/UI/*": "Functional層からUI層への依存は禁止されています",
-                  "~/styled-system/*": "@/ui/styled 経由で import してください"
-                },
                 "patterns": [
                   {
                     "group": ["**/index", "**/index.*"],
@@ -248,6 +253,22 @@
                   {
                     "group": ["@/lib/distLoader/*", "@/lib/distLoader/**"],
                     "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"
+                  },
+                  {
+                    "group": ["@/components/App/*", "@/components/App/**"],
+                    "message": "Functional層からApp層への依存は禁止されています"
+                  },
+                  {
+                    "group": ["@/components/Page/*", "@/components/Page/**"],
+                    "message": "Functional層からPage層への依存は禁止されています"
+                  },
+                  {
+                    "group": ["@/components/UI/*", "@/components/UI/**"],
+                    "message": "Functional層からUI層への依存は禁止されています"
+                  },
+                  {
+                    "group": ["~/styled-system/*", "~/styled-system/**"],
+                    "message": "@/ui/styled 経由で import してください"
                   }
                 ]
               }
@@ -264,15 +285,6 @@
             "noRestrictedImports": {
               "level": "error",
               "options": {
-                "paths": {
-                  "@/components/App/*": "Page/_shared層からApp層への依存は禁止されています",
-                  "@/components/Page/Archive/*": "Page/_shared層から個別Page層への依存は禁止されています",
-                  "@/components/Page/Home/*": "Page/_shared層から個別Page層への依存は禁止されています",
-                  "@/components/Page/NotFound/*": "Page/_shared層から個別Page層への依存は禁止されています",
-                  "@/components/Page/Post/*": "Page/_shared層から個別Page層への依存は禁止されています",
-                  "@/components/Page/Single/*": "Page/_shared層から個別Page層への依存は禁止されています",
-                  "~/styled-system/*": "@/ui/styled 経由で import してください"
-                },
                 "patterns": [
                   {
                     "group": ["**/index", "**/index.*"],
@@ -281,6 +293,34 @@
                   {
                     "group": ["@/lib/distLoader/*", "@/lib/distLoader/**"],
                     "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"
+                  },
+                  {
+                    "group": ["@/components/App/*", "@/components/App/**"],
+                    "message": "Page/_shared層からApp層への依存は禁止されています"
+                  },
+                  {
+                    "group": ["@/components/Page/Archive/*", "@/components/Page/Archive/**"],
+                    "message": "Page/_shared層から個別Page層への依存は禁止されています"
+                  },
+                  {
+                    "group": ["@/components/Page/Home/*", "@/components/Page/Home/**"],
+                    "message": "Page/_shared層から個別Page層への依存は禁止されています"
+                  },
+                  {
+                    "group": ["@/components/Page/NotFound/*", "@/components/Page/NotFound/**"],
+                    "message": "Page/_shared層から個別Page層への依存は禁止されています"
+                  },
+                  {
+                    "group": ["@/components/Page/Post/*", "@/components/Page/Post/**"],
+                    "message": "Page/_shared層から個別Page層への依存は禁止されています"
+                  },
+                  {
+                    "group": ["@/components/Page/Single/*", "@/components/Page/Single/**"],
+                    "message": "Page/_shared層から個別Page層への依存は禁止されています"
+                  },
+                  {
+                    "group": ["~/styled-system/*", "~/styled-system/**"],
+                    "message": "@/ui/styled 経由で import してください"
                   }
                 ]
               }
@@ -303,10 +343,6 @@
             "noRestrictedImports": {
               "level": "error",
               "options": {
-                "paths": {
-                  "@/components/App/*": "Page層からApp層への依存は禁止されています",
-                  "~/styled-system/*": "@/ui/styled 経由で import してください"
-                },
                 "patterns": [
                   {
                     "group": ["**/index", "**/index.*"],
@@ -315,6 +351,14 @@
                   {
                     "group": ["@/lib/distLoader/*", "@/lib/distLoader/**"],
                     "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"
+                  },
+                  {
+                    "group": ["@/components/App/*", "@/components/App/**"],
+                    "message": "Page層からApp層への依存は禁止されています"
+                  },
+                  {
+                    "group": ["~/styled-system/*", "~/styled-system/**"],
+                    "message": "@/ui/styled 経由で import してください"
                   }
                 ]
               }
