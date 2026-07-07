@@ -1,4 +1,5 @@
 import type { Element, ElementContent } from 'hast';
+import { LINK_PREVIEW_CLASS_NAME, serializeLinkPreviewData } from '@/lib/domain/embeddedContent';
 import type { LinkPreviewCache } from './cache';
 import { getCachedOgp, hasCachedError, setCacheEntry } from './cache';
 import { getHTML, getMeta } from './dom';
@@ -20,23 +21,20 @@ const setPreviewLinkNodes = (node: Element, domain: string, ogp: OpgProps) => {
 
   try {
     node.properties = {
-      className: 'link-preview',
+      className: LINK_PREVIEW_CLASS_NAME,
     };
     node.tagName = 'script';
     node.properties.type = 'application/json';
 
     const data = {
       type: 'text',
-      value: JSON.stringify({
-        type: 'link-preview',
-        data: {
-          card: ogp?.card || 'summary',
-          link: href,
-          thumbnail: ogp.image,
-          title: ogp.title,
-          description: ogp.description ? ogp.description.substring(0, 50) : '',
-          domain: domain,
-        },
+      value: serializeLinkPreviewData({
+        card: ogp?.card || 'summary',
+        link: href,
+        thumbnail: ogp.image,
+        title: ogp.title,
+        description: ogp.description ? ogp.description.substring(0, 50) : '',
+        domain: domain,
       }),
     };
 

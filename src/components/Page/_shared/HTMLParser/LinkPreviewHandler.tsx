@@ -1,36 +1,14 @@
 import { type DOMNode, domToReact } from 'html-react-parser';
 import { LinkPreview } from '@/components/UI/LinkPreview';
-import { isObject } from '@/lib/utils/isObject';
+import { isLinkPreviewData, LINK_PREVIEW_CLASS_NAME, type LinkPreviewData } from '@/lib/domain/embeddedContent';
 import { safeJsonParse } from '@/lib/utils/json';
 import type { Replacer } from './types';
-
-interface LinkPreviewData {
-  type: 'link-preview';
-  data: {
-    link: string;
-    card: string;
-    thumbnail: string;
-    title: string;
-    description: string;
-    domain: string;
-  };
-}
-
-function isLinkPreviewData(value: unknown): value is LinkPreviewData {
-  if (!isObject(value) || value.type !== 'link-preview' || !isObject(value.data)) {
-    return false;
-  }
-
-  const { link, card, thumbnail, title, description, domain } = value.data;
-
-  return [link, card, thumbnail, title, description, domain].every((item) => typeof item === 'string');
-}
 
 /**
  * class="link-preview"を持つ要素をLinkPreviewコンポーネントに変換する
  */
 export const handleLinkPreview: Replacer = (domNode) => {
-  if (domNode.attribs?.class !== 'link-preview') {
+  if (domNode.attribs?.class !== LINK_PREVIEW_CLASS_NAME) {
     return undefined;
   }
 

@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { parser } from '@/components/Page/_shared/parser/HTMLParser';
+import { parser } from '@/components/Page/_shared/HTMLParser';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { Title } from '@/components/UI/Title';
 import { getPagesJson } from '@/lib/source/page';

@@ -1,12 +1,12 @@
 import reactHtmlParser, { type Element, type HTMLReactParserOptions } from 'html-react-parser';
-import { handleAlert } from '../handlers/AlertHandler';
-import { handleAnchor } from '../handlers/AnchorHandler';
-import { handleCodeBlock } from '../handlers/CodeBlockHandler';
-import { handleCodePen } from '../handlers/CodePenHandler';
-import { handleLinkPreview } from '../handlers/LinkPreviewHandler';
-import { handleTable } from '../handlers/TableHandler';
-import type { Mutator, Replacer } from '../handlers/types';
-import { handleZoomImage } from '../handlers/ZoomImage/ZoomImageHandler';
+import { handleAlert } from './HTMLParser/AlertHandler';
+import { handleAnchor } from './HTMLParser/AnchorHandler';
+import { handleCodeBlock } from './HTMLParser/CodeBlockHandler';
+import { handleCodePen } from './HTMLParser/CodePenHandler';
+import { handleLinkPreview } from './HTMLParser/LinkPreviewHandler';
+import { handleTable } from './HTMLParser/TableHandler';
+import type { Mutator, Replacer } from './HTMLParser/types';
+import { handleZoomImage } from './HTMLParser/ZoomImage/ZoomImageHandler';
 
 const mutators: Mutator[] = [handleCodePen];
 

@@ -4,6 +4,7 @@ import { toHtml } from 'hast-util-to-html';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
+import { GFM_ALERT_CLASS_NAME, serializeAlertData } from '@/lib/domain/embeddedContent';
 import { isElementNode, isTextNode } from '../hastUtils';
 
 const ALERT_TYPES = ['[!NOTE]', '[!IMPORTANT]', '[!WARNING]', '[!TIP]', '[!CAUTION]'];
@@ -55,7 +56,7 @@ const rehypeGfmAlert: Plugin = () => {
       }
 
       node.properties = {
-        className: 'gfm-alert',
+        className: GFM_ALERT_CLASS_NAME,
         'data-alert-type': alertType.toLowerCase(),
       };
 
@@ -78,12 +79,9 @@ const rehypeGfmAlert: Plugin = () => {
       node.children = [
         {
           type: 'text',
-          value: JSON.stringify({
-            type: 'alert',
-            data: {
-              type: alertType.toLowerCase(),
-              text: alertText,
-            },
+          value: serializeAlertData({
+            type: alertType.toLowerCase(),
+            text: alertText,
           }),
         },
       ];
