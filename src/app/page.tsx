@@ -6,12 +6,21 @@ import { Hero } from '@/components/Page/Home/Hero';
 import { Heading } from '@/components/UI/Heading';
 import { Container } from '@/components/UI/Layout/Container';
 import { Stack } from '@/components/UI/Layout/Stack';
-import { SITE_URL } from '@/constants';
+import { SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
 import { getOrganizationStructured, getWebSiteStructured } from '@/lib/domain/json-ld';
-import { getData } from './_lib/getData';
+import { getFilteredPosts, getPopularPost, getRecentPosts, isIgnoredPostTag } from '@/lib/post/list';
+import { getTagsWithCount } from '@/lib/source/tag';
 
-const data = getData();
-const { recentPosts, popularPosts, tags } = data;
+const POPULAR_POST_DISPLAY_LIMIT = 6;
+
+const tagsWithCount = getTagsWithCount();
+const recentPosts = getRecentPosts();
+const filteredPosts = getFilteredPosts();
+const popularPosts = getPopularPost(filteredPosts, POPULAR_POST_DISPLAY_LIMIT);
+const tags = tagsWithCount
+  .filter(({ slug, count }) => !isIgnoredPostTag(slug) && count >= 10)
+  .slice(0, 25)
+  .map((tag) => ({ ...tag, isNavigable: tag.count >= TAG_VIEW_LIMIT }));
 
 export const metadata: Metadata = {
   alternates: {

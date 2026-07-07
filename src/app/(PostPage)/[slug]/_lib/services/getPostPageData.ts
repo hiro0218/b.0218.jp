@@ -2,7 +2,7 @@ import { cache } from 'react';
 import { TAG_VIEW_LIMIT } from '@/constants';
 import { getDateAndUpdatedToSimpleFormat } from '@/lib/post/date';
 import { getPostsPopular, getSimilarPosts as getSimilarPostsIndex } from '@/lib/post/derived';
-import { recentPosts } from '@/lib/post/list';
+import { getRecentPosts } from '@/lib/post/list';
 import { formatPostSummary } from '@/lib/post/summary';
 import { getPostBySlug, getPostsListJson } from '@/lib/source/post';
 import { getTagsJson, getTagsWithCount } from '@/lib/source/tag';
@@ -199,7 +199,7 @@ export const getPostPageData = cache((slug: string): PostPageData | null => {
     post: formattedPost,
     similarPost,
     similarTags,
-    recentPosts,
+    recentPosts: getRecentPosts(),
     sameTagPosts,
     mostPopularTag,
     popularity,

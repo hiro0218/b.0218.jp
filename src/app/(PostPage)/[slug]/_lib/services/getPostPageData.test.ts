@@ -127,7 +127,7 @@ vi.mock('@/lib/tag/derived', () => ({
 }));
 
 vi.mock('@/lib/post/list', () => ({
-  recentPosts: RECENT_POSTS,
+  getRecentPosts: () => RECENT_POSTS,
 }));
 
 const { getPostPageData } = await import('./getPostPageData');

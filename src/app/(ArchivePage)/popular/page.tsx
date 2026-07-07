@@ -1,12 +1,15 @@
 import type { Metadata } from 'next/types';
 import { getMetadata } from '@/app/_metadata';
-import { getData } from '@/app/(ArchivePage)/popular/_lib/getData';
 import { PostTimeline } from '@/components/Page/_shared/PostTimeline';
 import { Sidebar } from '@/components/UI/Layout/Sidebar';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
+import { getPopularPost } from '@/lib/post/list';
+import { getPostsListJson } from '@/lib/source/post';
 
-const { popularPosts } = getData();
+const POST_DISPLAY_LIMIT = 20;
+
+const popularPosts = getPopularPost(getPostsListJson(), POST_DISPLAY_LIMIT);
 const slug = 'popular';
 const title = 'Popular';
 const pageTitle = '定番記事';
