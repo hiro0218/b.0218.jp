@@ -27,7 +27,7 @@
 ### Source
 
 - **Source** — runtime が dist の永続化データを取得する seam。Post Source / Tag Source / Page Source の 3 つにドメインごとに分かれる。各 Source は dist の読み込み・キャッシュ・型 shape 検証（slug pattern を含む）を内部で完結させ、呼び出し側にはドメイン型（Post / PostSummary / Tag / TagCounts / Page）だけを返す。
-- 派生データ（PostPopularityScores、PostSimilarityMatrix、TagSimilarityScores、TagCategoryMap、検索インデックス）は Source の対象外。これらは追加ドメイン規則を持たない単なる dist 成果物として、必要な箇所で個別に load する。
+- 派生データ（PostPopularityScores、PostSimilarityMatrix、TagSimilarityScores、TagCategoryMap、検索インデックス）は Source の対象外。これらは追加ドメイン規則を持たない単なる dist 成果物として、必要な箇所で個別に load する。ただし壊れた dist を検出する fail-fast の仕組み（読み込み・キャッシュ・shape 検証・失敗時 throw）は `src/lib/distLoader/` の共有機構（Source・派生データ双方が対等に使うドメイン非依存の実装）を利用する。共有するのは機構のみで、派生データが Source に昇格するわけではない。
 
 ## パイプライン
 

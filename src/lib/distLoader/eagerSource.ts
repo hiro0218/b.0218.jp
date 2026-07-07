@@ -20,7 +20,7 @@ export function createEagerSource<T>(config: EagerSourceConfig<T>): EagerSource<
       if (cached !== undefined) return cached;
 
       if (!config.validate(config.data)) {
-        throw new Error(`[source/${config.label}] Invalid data`);
+        throw new Error(`[dist/${config.label}] Invalid data`);
       }
 
       cached = config.data;

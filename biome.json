@@ -112,6 +112,10 @@
                   {
                     "group": ["**/index", "**/index.*"],
                     "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
+                  },
+                  {
+                    "group": ["@/lib/distLoader/*", "@/lib/distLoader/**"],
+                    "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"
                   }
                 ]
               }
@@ -176,6 +180,10 @@
                   {
                     "group": ["**/index", "**/index.*"],
                     "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
+                  },
+                  {
+                    "group": ["@/lib/distLoader/*", "@/lib/distLoader/**"],
+                    "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"
                   }
                 ]
               }
@@ -206,6 +214,10 @@
                   {
                     "group": ["@/components/UI/*/*", "@/components/UI/*/**", "!@/components/UI/Layout/*"],
                     "message": "UI module の内部ファイルを直接 import しないでください。公開入口を経由してください"
+                  },
+                  {
+                    "group": ["@/lib/distLoader/*", "@/lib/distLoader/**"],
+                    "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"
                   }
                 ]
               }
@@ -232,6 +244,10 @@
                   {
                     "group": ["**/index", "**/index.*"],
                     "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
+                  },
+                  {
+                    "group": ["@/lib/distLoader/*", "@/lib/distLoader/**"],
+                    "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"
                   }
                 ]
               }
@@ -261,6 +277,10 @@
                   {
                     "group": ["**/index", "**/index.*"],
                     "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
+                  },
+                  {
+                    "group": ["@/lib/distLoader/*", "@/lib/distLoader/**"],
+                    "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"
                   }
                 ]
               }
@@ -291,6 +311,10 @@
                   {
                     "group": ["**/index", "**/index.*"],
                     "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
+                  },
+                  {
+                    "group": ["@/lib/distLoader/*", "@/lib/distLoader/**"],
+                    "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"
                   }
                 ]
               }
@@ -311,10 +335,6 @@
                   {
                     "group": ["**/index", "**/index.*"],
                     "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
-                  },
-                  {
-                    "group": ["@/lib/source/internal/*", "@/lib/source/internal/**"],
-                    "message": "Source の internal は src/lib/source/ 内からのみ import 可能です。Source の公開 interface を経由してください"
                   }
                 ]
               }

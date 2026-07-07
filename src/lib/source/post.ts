@@ -1,11 +1,11 @@
 import path from 'node:path';
 import { FILENAME_POSTS } from '@/constants';
+import { createEagerSource } from '@/lib/distLoader/eagerSource';
+import { createLazyLoader } from '@/lib/distLoader/lazyLoader';
 import { isObject } from '@/lib/utils/isObject';
 import { isStringArray } from '@/lib/utils/isStringArray';
 import type { Post, PostSummary } from '@/types/source';
 import postsListData from '~/dist/posts-list.json';
-import { createEagerSource } from './internal/eagerSource';
-import { createLazyLoader } from './internal/lazyLoader';
 
 const VALID_SLUG_PATTERN = /^[\w-]+$/;
 const POSTS_DIR = path.join(process.cwd(), 'dist', FILENAME_POSTS);

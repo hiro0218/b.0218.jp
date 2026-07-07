@@ -1,9 +1,9 @@
+import { createEagerSource } from '@/lib/distLoader/eagerSource';
 import { isObject } from '@/lib/utils/isObject';
 import { isStringArray } from '@/lib/utils/isStringArray';
 import type { TagCounts, TagIndex } from '@/types/source';
 import tagsData from '~/dist/tags.json';
 import tagsWithCountData from '~/dist/tags-with-count.json';
-import { createEagerSource } from './internal/eagerSource';
 
 function isTagIndex(value: unknown): value is TagIndex {
   if (!isObject(value)) return false;
