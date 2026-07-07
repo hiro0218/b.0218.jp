@@ -2,9 +2,6 @@ import { readFileSync } from 'node:fs';
 import pLimit from 'p-limit';
 import { FILENAME_POSTS } from '@/constants';
 import { isContentPreview } from '@/lib/config/environment';
-import { convertRawPost } from '@/lib/post/convert';
-import { isValidFrontmatter, parseFrontmatter, type RawPost, tryToIso } from '@/lib/post/raw';
-import { isPubliclyVisible } from '@/lib/post/visibility';
 import type { Post } from '@/types/source';
 import { mkdir, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
@@ -16,8 +13,11 @@ import {
   loadPostConversionCache,
   savePostConversionCache,
 } from './cache';
+import { convertRawPost } from './convert';
 import { buildTagNormalizationMap, normalizeTags } from './normalizeTag';
+import { isValidFrontmatter, parseFrontmatter, type RawPost, tryToIso } from './raw';
 import { getMarkdownFiles, getPath, getSlug } from './utils';
+import { isPubliclyVisible } from './visibility';
 
 const PATH = getPath();
 
@@ -39,7 +39,7 @@ export async function buildPost(): Promise<Post[]> {
 
     const raw: RawPost = {
       slug: getSlug(file),
-      content: markdown,
+      markdown,
       title: frontmatter.title.trim(),
       date: tryToIso(frontmatter.date) ?? '',
       updated: tryToIso(frontmatter.updated),

@@ -7,7 +7,7 @@
 ### 記事
 
 - **Post** — 公開された記事。HTML 本体・メタデータ・タグを持つ。`dist/posts/<slug>.json` に永続化される。
-- **RawPost** — Post の素。markdown 本文と検証済み frontmatter から組み立てる中間表現。slug 確定済・日付 ISO 化済・HTML 化はまだ。
+- **RawPost** — Post の素。markdown 本文と検証済み frontmatter から組み立てる中間表現。slug 確定済・日付 ISO 化済・HTML 化はまだ。本文フィールドは意図的に `markdown` と命名しており、`Post.content` との相互代入をコンパイル時に弾くための非対称である。`content` に揃えてはならない。
 - **RawPostFrontmatter** — gray-matter で parse した直後の frontmatter。`title` と `date` が必須。
 - **PostSummary** — Post から `content` を除いた一覧用の軽量型。`dist/posts-list.json` に永続化される。
 - **PostList** — PostSummary の date 降順配列。

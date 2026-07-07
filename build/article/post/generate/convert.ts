@@ -15,7 +15,7 @@ export type ConvertRawPostDeps = {
 /** 注入された markdown コンバータを使って RawPost から Post を構築する。 */
 export async function convertRawPost(raw: RawPost, deps: ConvertRawPostDeps): Promise<Post> {
   const [content, noteContent] = await Promise.all([
-    deps.markdownToPostHtml(raw.content).then((html) => html.trim()),
+    deps.markdownToPostHtml(raw.markdown).then((html) => html.trim()),
     raw.note ? deps.markdownToNoteHtml(raw.note) : Promise.resolve(''),
   ]);
 
