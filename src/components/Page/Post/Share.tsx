@@ -67,7 +67,9 @@ export function PostShare({ title, url }: Props) {
     getNavigatorClipboardSnapshot,
     getClipboardServerSnapshot,
   );
-  const { ref, showToast, hideToast, message, isVisible } = useToast('記事のURLをコピーしました');
+  const { ref, showToast, hideToast, message, isVisible } = useToast(
+    '記事のURLをコピーしました！🎉シェアをお願いします！🙏',
+  );
   const { copyText } = useClipboardCopy();
   const { schedule: scheduleCopyStateReset, cancel: cancelCopyStateReset } = useTimeout();
   const [copyState, setCopyState] = useState<CopyPermalinkState>('idle');
