@@ -29,10 +29,16 @@ export type SpaceGap = 75 | 100 | 300 | 400 | 600 | 800 | 1000;
 const spacingValues: TokenValues<'spacing'> = {};
 
 for (const key of SPACING_SCALE) {
-  const token = (spacingTokens as unknown as Record<string, { value: string }>)[`spacing-${key}`];
+  const token = (spacingTokens as unknown as Record<string, { value: string } | undefined>)[`spacing-${key}`];
+
+  // @adobe/spectrum-tokens の更新で token 名が消えた・変わった場合に codegen 時点で検知する
+  if (!token) {
+    throw new Error(`spacing-${key} not found in @adobe/spectrum-tokens variables.json`);
+  }
+
   const px = Number(token.value.replace('px', ''));
 
-  // @adobe/spectrum-tokens の更新でスケール値が変わった場合に codegen 時点で検知する
+  // スケール値の変更を codegen 時点で検知する（px 以外の書式に変わった場合も NaN 比較で必ず throw される）
   if (px !== EXPECTED_PX[key]) {
     throw new Error(`spacing-${key} expected ${EXPECTED_PX[key]}px but got ${token.value}`);
   }
