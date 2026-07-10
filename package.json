@@ -80,7 +80,7 @@
     "@types/react-dom": "19.2.3"
   },
   "dependencies": {
-    "@adobe/spectrum-tokens": "14.13.2",
+    "@adobe/spectrum-tokens": "14.14.0",
     "@heroicons/react": "2.2.0",
     "@next/third-parties": "16.2.10",
     "@pandacss/dev": "1.11.4",
