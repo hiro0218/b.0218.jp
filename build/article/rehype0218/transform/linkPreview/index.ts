@@ -21,7 +21,7 @@ const setPreviewLinkNodes = (node: Element, domain: string, ogp: OpgProps) => {
 
   try {
     node.properties = {
-      className: LINK_PREVIEW_CLASS_NAME,
+      className: [LINK_PREVIEW_CLASS_NAME],
     };
     node.tagName = 'script';
     node.properties.type = 'application/json';

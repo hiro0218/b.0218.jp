@@ -56,7 +56,7 @@ const rehypeGfmAlert: Plugin = () => {
       }
 
       node.properties = {
-        className: GFM_ALERT_CLASS_NAME,
+        className: [GFM_ALERT_CLASS_NAME],
         'data-alert-type': alertType.toLowerCase(),
       };
 
