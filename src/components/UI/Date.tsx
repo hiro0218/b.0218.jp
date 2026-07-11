@@ -14,17 +14,7 @@ export function PostDate({ date, updated }: Props) {
 
   return (
     <Stack className={timeStyle} direction="horizontal" gap={100}>
-      <time
-        className={
-          hasModified
-            ? css`
-                color: var(--colors-gray-600);
-                text-decoration: line-through;
-              `
-            : undefined
-        }
-        dateTime={date}
-      >
+      <time className={hasModified ? modifiedStyle : undefined} dateTime={date}>
         {date}
       </time>
       {!!hasModified && <time dateTime={updated}>{updated}</time>}
@@ -35,4 +25,9 @@ export function PostDate({ date, updated }: Props) {
 const timeStyle = css`
   font-variant-numeric: tabular-nums;
   color: var(--colors-gray-700);
+`;
+
+const modifiedStyle = css`
+  color: var(--colors-gray-600);
+  text-decoration: line-through;
 `;
