@@ -22,8 +22,11 @@ const readImageDimensions = (buffer: Buffer): ImageDimensions | null => {
   }
 };
 
+// 全 img ノードで使い回すため module scope で1回だけ生成する
+const QUERY_OR_HASH_PATTERN = /[?#]/;
+
 const resolveArticleImagePath = (src: string): string | null => {
-  const [pathname] = src.split(/[?#]/);
+  const [pathname] = src.split(QUERY_OR_HASH_PATTERN);
   if (!pathname.startsWith('/images/')) return null;
 
   let relativePath: string;
