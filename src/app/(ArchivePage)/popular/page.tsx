@@ -1,7 +1,6 @@
 import type { Metadata } from 'next/types';
 import { getMetadata } from '@/app/_metadata';
-import { PostTimeline } from '@/components/Page/_shared/PostTimeline';
-import { Sidebar } from '@/components/UI/Layout/Sidebar';
+import { PostSection } from '@/components/Page/_shared/PostSection';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
 import { getPopularPost } from '@/lib/post/list';
@@ -25,14 +24,7 @@ export default function Page() {
   return (
     <>
       <Title paragraph={description}>{title}</Title>
-      <Sidebar>
-        <Sidebar.Side>
-          <Sidebar.Title>{pageTitle}</Sidebar.Title>
-        </Sidebar.Side>
-        <Sidebar.Main>
-          <PostTimeline posts={popularPosts} />
-        </Sidebar.Main>
-      </Sidebar>
+      <PostSection heading={pageTitle} layout="timeline" posts={popularPosts} />
     </>
   );
 }

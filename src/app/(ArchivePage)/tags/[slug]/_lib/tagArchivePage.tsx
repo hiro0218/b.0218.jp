@@ -2,9 +2,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getMetadata } from '@/app/_metadata';
 import { StructuredData } from '@/components/Functional/StructuredData';
-import { PostTimeline } from '@/components/Page/_shared/PostTimeline';
+import { PostSection } from '@/components/Page/_shared/PostSection';
 import { Pagination } from '@/components/Page/Archive/Pagination';
-import { Sidebar } from '@/components/UI/Layout/Sidebar';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { Title } from '@/components/UI/Title';
 import { SITE_NAME } from '@/constants';
@@ -87,14 +86,7 @@ export function TagArchivePage({ slug, currentPage = 1 }: TagArchivePageProps) {
       />
       <Stack as="section" gap={600}>
         <Title paragraph={`${model.totalItems}件の記事`}>{pageTitle}</Title>
-        <Sidebar>
-          <Sidebar.Side>
-            <Sidebar.Title>#{model.tag}</Sidebar.Title>
-          </Sidebar.Side>
-          <Sidebar.Main>
-            <PostTimeline posts={model.posts} />
-          </Sidebar.Main>
-        </Sidebar>
+        <PostSection heading={`#${model.tag}`} layout="timeline" posts={model.posts} />
         <Pagination pagination={model.pagination} />
       </Stack>
     </>
