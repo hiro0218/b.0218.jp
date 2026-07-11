@@ -52,7 +52,7 @@ export const PostSection = ({
         </Heading>
       )}
       {layout === 'timeline' ? (
-        <PostTimeline posts={posts} prefetch={prefetch} />
+        <PostTimeline posts={posts} prefetch={prefetch} titleTagName={nextHeadingLevel} />
       ) : (
         <Grid columns="auto-fit" gap={300}>
           {posts.map(({ date, slug, tags, title, updated }) => {
