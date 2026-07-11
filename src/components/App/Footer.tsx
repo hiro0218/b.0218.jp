@@ -23,7 +23,13 @@ export function Footer() {
               {title}
             </Anchor>
           ))}
-          <a href="/feed.xml" rel="noopener alternate" target="_blank" type="application/rss+xml">
+          <a
+            className="link-style link-style--hover-effect"
+            href="/feed.xml"
+            rel="noopener alternate"
+            target="_blank"
+            type="application/rss+xml"
+          >
             RSS
           </a>
         </Nav>
