@@ -8,6 +8,8 @@ import { css, styled } from '@/ui/styled';
 type Props = {
   posts: ArticleSummary[];
   prefetch?: boolean;
+  /** 呼び出し元セクション見出しの次のレベルを渡す（既定 h3） */
+  titleTagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 };
 
 const formatTimelineDate = (date: string) => {
@@ -19,10 +21,12 @@ const formatTimelineDate = (date: string) => {
  * 記事を縦タイムライン形式で表示する。左の縦罫線と各項目頭の円ドットで時系列の連続性を示す。
  * @summary 記事タイムラインリスト
  */
-export const PostTimeline = ({ posts, prefetch = false }: Props) => {
+export const PostTimeline = ({ posts, prefetch = false, titleTagName = 'h3' }: Props) => {
   if (posts.length === 0) {
     return null;
   }
+
+  const Title = titleTagName;
 
   return (
     <List>
@@ -35,7 +39,7 @@ export const PostTimeline = ({ posts, prefetch = false }: Props) => {
           <Item key={post.slug}>
             <Time dateTime={post.date}>{display}</Time>
             <Body>
-              <Title>
+              <Title className={titleStyle}>
                 <Anchor className={titleAnchorStyle} href={link} prefetch={prefetch}>
                   {post.title}
                 </Anchor>
@@ -231,13 +235,14 @@ const Body = styled.div`
   min-width: 0;
 `;
 
-const Title = styled.h3`
+const titleStyle = css`
   margin: 0;
   font-size: var(--font-sizes-md);
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-sm);
   letter-spacing: var(--letter-spacings-sm);
-  text-wrap: unset;
+  /* global の h1-h6 balance と同値だが意図を固定する明示。pretty は CJK 混在タイトルの孤立行に効かず、balance は行数を増やさずに解消する（一覧 610 件でも再レイアウト負荷は誤差） */
+  text-wrap: balance;
 
   a {
     color: inherit;
