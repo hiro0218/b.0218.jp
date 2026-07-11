@@ -25,8 +25,13 @@ export const isIgnoredPostTag = (tag: string): boolean => {
   return IGNORED_POST_TAGS.has(tag);
 };
 
+// トップページ (filteredPosts) と getRecentPosts の両方から呼ばれ、
+// その都度無視タグ判定込みで全記事を再フィルタしていたためメモ化する。
+// 他の派生キャッシュと同様 SSG はビルド時に一度しか呼ばないため結果は不変。
+let filteredPostsCache: PostSummary[] | undefined;
 export const getFilteredPosts = (): PostSummary[] => {
-  return getPostsListJson().filter((post) => !post.tags.some(isIgnoredPostTag));
+  filteredPostsCache ??= getPostsListJson().filter((post) => !post.tags.some(isIgnoredPostTag));
+  return filteredPostsCache;
 };
 
 const sliceRecentPosts = (posts: (PostSummary | Post)[]): PostSummary[] => {
