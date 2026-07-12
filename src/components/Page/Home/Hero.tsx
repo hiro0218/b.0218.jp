@@ -6,7 +6,7 @@ export function Hero() {
   return (
     <div className={containerStyle}>
       <Avatar>
-        <img alt="" height={100} src="/hiro0218.svg" width={100} />
+        <img alt="" fetchPriority="high" height={100} src="/hiro0218.svg" width={100} />
       </Avatar>
       <Title>
         hiro<span> ─ web developer</span>
