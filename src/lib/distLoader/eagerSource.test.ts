@@ -27,7 +27,7 @@ describe('createEagerSource', () => {
       label: 'sample',
     });
 
-    expect(() => source.get()).toThrow('[source/sample] Invalid data');
+    expect(() => source.get()).toThrow('[dist/sample] Invalid data');
   });
 
   test('複数回呼び出した場合、同一参照を返す', () => {

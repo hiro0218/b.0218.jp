@@ -41,7 +41,7 @@ export const Default: Story = {
  */
 export const WideGap: Story = {
   name: '広い gap',
-  args: { gap: 5 },
+  args: { gap: 800 },
 };
 
 /**
@@ -72,7 +72,7 @@ export const AsNav: Story = {
   name: 'nav 要素',
   args: {
     as: 'nav',
-    gap: 2,
+    gap: 300,
     children: (
       <>
         <DemoBox compact>ホーム</DemoBox>

@@ -40,7 +40,7 @@ describe('createLazyLoader', () => {
     writeFileSync(path.join(baseDir, 'bad.json'), JSON.stringify({ wrong: 'shape' }));
     const loader = createLazyLoader({ baseDir, validate: isSampleItem, label: 'sample' });
 
-    expect(() => loader.load('bad.json')).toThrow('[source/sample] Invalid data in bad.json');
+    expect(() => loader.load('bad.json')).toThrow('[dist/sample] Invalid data in bad.json');
   });
 
   test('同じファイルを 2 回読んだ場合、同一参照を返す', () => {
@@ -89,12 +89,12 @@ describe('createLazyLoader', () => {
   test('baseDir 外を指す相対パスの場合、path traversal として throw する', () => {
     const loader = createLazyLoader({ baseDir, validate: isSampleItem, label: 'sample' });
 
-    expect(() => loader.load('../escape.json')).toThrow('[source/sample] Filename escapes baseDir');
+    expect(() => loader.load('../escape.json')).toThrow('[dist/sample] Filename escapes baseDir');
   });
 
   test('絶対パスの filename の場合、path traversal として throw する', () => {
     const loader = createLazyLoader({ baseDir, validate: isSampleItem, label: 'sample' });
 
-    expect(() => loader.load('/etc/passwd')).toThrow('[source/sample] Filename escapes baseDir');
+    expect(() => loader.load('/etc/passwd')).toThrow('[dist/sample] Filename escapes baseDir');
   });
 });

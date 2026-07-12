@@ -8,12 +8,26 @@ import { Stack } from '@/components/UI/Layout/Stack';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
+import { getDateAndUpdatedToSimpleFormat } from '@/lib/post/date';
 import { getPostsListJson } from '@/lib/source/post';
-import type { ArchivesByYear } from '@/types/source';
-import { getData } from './_lib/getData';
+import type { ArchivesByYear, PostSummary } from '@/types/source';
+
+const getYear = (date: PostSummary['date']) => Number(date.slice(0, 4));
+
+const sortPostsBySlug = (posts: ReturnType<typeof getPostsListJson>) =>
+  posts.toSorted((a, b) => b.slug.localeCompare(a.slug));
+
+const groupPostsByYear = (posts: PostSummary[]): ArchivesByYear => {
+  const transformedPosts = posts.map((post) => ({
+    ...post,
+    ...getDateAndUpdatedToSimpleFormat(post.date),
+  }));
+
+  return Object.groupBy(transformedPosts, (post) => String(getYear(post.date))) as ArchivesByYear;
+};
 
 const posts = getPostsListJson();
-const archives = getData(posts);
+const archives = groupPostsByYear(sortPostsBySlug(posts));
 const totalPosts = posts.length;
 const slug = 'archive';
 const title = 'Archive';
@@ -33,7 +47,7 @@ function ArchiveTimelinesByYear({ archives }: { archives: ArchivesByYear }) {
       {Object.keys(archives)
         .toReversed()
         .map((year) => (
-          <Stack as="section" gap={2} key={year}>
+          <Stack as="section" gap={300} key={year}>
             <Heading as="h2" id={`${year}年`} textSide={<span>{archives[year].length} posts</span>}>
               {year}
             </Heading>
@@ -53,7 +67,7 @@ export default function Page() {
           description,
         })}
       />
-      <Stack as="article" gap={4}>
+      <Stack as="article" gap={600}>
         <Title paragraph={description}>{title}</Title>
 
         <Chart archives={archives} totalPosts={totalPosts} />

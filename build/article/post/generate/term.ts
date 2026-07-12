@@ -7,11 +7,16 @@ import { getPath } from './utils';
 const PATH = getPath();
 
 export async function buildTerm(posts: Post[]): Promise<void> {
-  // タグの正規化キーごとに、表記バリエーションとslugを管理
-  const tagVariants = new Map<
+  // タグの正規化キーごとに、代表表記とslugを管理する。
+  // posts は buildPost() で正規化済み（同一 tagKey のタグは全記事で同一表記に統一済み。
+  // post.ts の buildTagNormalizationMap + normalizeTags 参照）である前提であり、
+  // この前提により表記ゆれの多数決は不要で、初出表記＝正規化済み表記になる。
+  // 未正規化の posts を渡す新しい呼び出し元を作る場合は正規化を先に通すこと
+  // （現在の呼び出し元は build/article/index.ts の 1 箇所のみ）。
+  const tagGroups = new Map<
     string,
     {
-      variants: Map<string, number>;
+      tag: string;
       slugs: Set<string>;
     }
   >();
@@ -26,39 +31,26 @@ export async function buildTerm(posts: Post[]): Promise<void> {
 
     for (const tag of tags) {
       const normalizedKey = tagKey(tag);
-      let entry = tagVariants.get(normalizedKey);
+      let entry = tagGroups.get(normalizedKey);
 
       if (!entry) {
         entry = {
-          variants: new Map<string, number>(),
+          tag,
           slugs: new Set<string>(),
         };
-        tagVariants.set(normalizedKey, entry);
+        tagGroups.set(normalizedKey, entry);
       }
 
-      // 表記の出現回数をカウント
-      entry.variants.set(tag, (entry.variants.get(tag) || 0) + 1);
       entry.slugs.add(slug);
     }
   }
 
-  // 最頻出表記を選択してマップを構築
   const tagsMap: {
     [key: string]: string[];
   } = {};
 
-  for (const [_normalizedKey, entry] of tagVariants) {
-    // 最も出現回数が多い表記を選択
-    const mostFrequentTag = Array.from(entry.variants.entries()).sort((a, b) => {
-      // 出現回数で降順ソート
-      if (b[1] !== a[1]) {
-        return b[1] - a[1];
-      }
-      // 同数の場合は辞書順（アルファベット順）
-      return a[0].localeCompare(b[0]);
-    })[0][0];
-
-    tagsMap[mostFrequentTag] = Array.from(entry.slugs);
+  for (const entry of tagGroups.values()) {
+    tagsMap[entry.tag] = Array.from(entry.slugs);
   }
 
   await writeJSON(`${PATH.to}/tags.json`, tagsMap);
@@ -73,6 +65,6 @@ export async function buildTerm(posts: Post[]): Promise<void> {
     })
     .sort((a, b) => b.count - a.count); // 件数の多い順にソート
 
-  await writeJSON(`${PATH.to}/tags-with-count.json`, [...tagsWithCount]);
+  await writeJSON(`${PATH.to}/tags-with-count.json`, tagsWithCount);
   Log.info('Write dist/tags-with-count.json');
 }

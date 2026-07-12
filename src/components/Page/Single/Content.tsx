@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { parser } from '@/components/Page/_shared/parser/HTMLParser';
+import { parser } from '@/components/Page/_shared/HTMLParser';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { Title } from '@/components/UI/Title';
 import { getPagesJson } from '@/lib/source/page';
@@ -23,7 +23,7 @@ export function Content({ title, description, slug }: Props) {
   const reactContent = parser(content);
 
   return (
-    <Stack gap={4}>
+    <Stack gap={600}>
       <Title paragraph={description}>{title}</Title>
       <article className="post-content">{reactContent}</article>
     </Stack>

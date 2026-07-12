@@ -11,13 +11,13 @@ type Props = {
 
 export function Content({ posts }: Props) {
   return (
-    <Stack align="center" className={ContainerStyle} direction="vertical" gap={5} justify="center">
-      <Stack gap={3}>
+    <Stack align="center" className={ContainerStyle} direction="vertical" gap={800} justify="center">
+      <Stack gap={400}>
         <Stack as="header" className={HeaderStyle}>
           <h1>404</h1>
           <p>お探しのページは見つかりませんでした</p>
         </Stack>
-        <Stack gap={3}>
+        <Stack gap={400}>
           <p>URLが変更・削除された可能性があります。</p>
           <Center intrinsic maxWidth="160px">
             <Anchor className={PrimaryAnchorStyle} href="/">
@@ -26,7 +26,7 @@ export function Content({ posts }: Props) {
           </Center>
         </Stack>
       </Stack>
-      <Stack className={LatestPostContainerStyle} gap={2}>
+      <Stack className={LatestPostContainerStyle} gap={300}>
         <PostSection as="section" heading="" headingLevel="h2" href="/archive" posts={posts.slice(0, 4)} />
       </Stack>
     </Stack>
@@ -35,7 +35,7 @@ export function Content({ posts }: Props) {
 
 const ContainerStyle = css`
   width: 100%;
-  padding-inline: var(--spacing-4);
+  padding-inline: var(--spacing-600);
 `;
 
 const LatestPostContainerStyle = css`
@@ -57,7 +57,7 @@ const HeaderStyle = css`
 
 const PrimaryAnchorStyle = css`
   width: 100%;
-  padding: var(--spacing-1) var(--spacing-2);
+  padding: var(--spacing-100) var(--spacing-300);
   font-size: var(--font-sizes-sm);
   color: var(--colors-white);
   white-space: nowrap;

@@ -16,11 +16,13 @@ export type RawPostFrontmatter = {
 /**
  * markdown -> Post 変換に渡す中間表現。
  * 検証済みの frontmatter に slug を割り当て、日付を ISO 文字列に正規化したもの。
- * `content` は markdown 本文（HTML 変換前）。
+ * フィールド名を markdown とし Post.content（HTML文字列）とあえて異なる名前にすることで、
+ * 変換前後の取り違え（HTML化し忘れ等）を型エラーとして検出できるようにしている。
+ * 他の全フィールドは Post と一致するため、この名前の違いが唯一の判別点になる。
  */
 export type RawPost = {
   slug: string;
-  content: string;
+  markdown: string;
   title: string;
   date: string;
   updated?: string;

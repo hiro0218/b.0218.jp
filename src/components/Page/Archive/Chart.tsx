@@ -14,12 +14,15 @@ export const Chart = ({ archives, totalPosts }: Props) => {
     return null;
   }
 
+  // バー幅は最多の年を基準に正規化する。
+  const maxPostCount = Math.max(...years.map((year) => archives[year].length));
+
   return (
     <Root aria-label={`年別アーカイブ（全${totalPosts}件）`}>
       <Container>
         {years.map((year) => {
           const postCount = archives[year].length;
-          const percent = `${((postCount / totalPosts) * 100).toFixed(2)}%`;
+          const percent = `${((postCount / maxPostCount) * 100).toFixed(2)}%`;
 
           return (
             <ChartItem key={year} style={{ '--percent': percent } as React.CSSProperties}>
@@ -42,7 +45,7 @@ const Root = styled.nav`
 const Container = styled.ol`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-  gap: var(--spacing-1);
+  gap: var(--spacing-100);
   padding: 0;
   margin: 0;
   list-style: none;
@@ -53,16 +56,16 @@ const ChartItem = styled.li`
 `;
 
 const AnchorStyle = css`
-  --fill: var(--colors-gray-100);
+  --fill: var(--colors-gray-a-100);
 
   position: relative;
   display: grid;
   grid-template-columns: max-content 1fr;
-  column-gap: var(--spacing-1);
+  column-gap: var(--spacing-100);
   align-items: center;
   width: 100%;
   min-height: var(--sizes-touch-target);
-  padding: var(--spacing-1) var(--spacing-2);
+  padding: var(--spacing-100) var(--spacing-300);
   overflow: hidden;
   font-size: var(--font-sizes-sm);
   font-variant-numeric: tabular-nums;
@@ -100,7 +103,7 @@ const AnchorStyle = css`
   }
 
   &:hover {
-    --fill: var(--colors-gray-200);
+    --fill: var(--colors-gray-a-200);
 
     color: var(--colors-gray-900);
     background-color: var(--colors-gray-a-75);

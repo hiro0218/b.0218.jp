@@ -34,8 +34,8 @@ const FONT_WEIGHTS = Object.entries(fontWeightsValues).map(([name, def]) => ({
 const SAMPLE_TEXT = 'The quick brown fox jumps over the lazy dog. 素早い茶色の狐が怠惰な犬を飛び越える。';
 
 const FontSizeSample = ({ name, variable }: { name: string; variable: string }) => (
-  <Stack gap="½">
-    <Stack align="baseline" direction="horizontal" gap={1}>
+  <Stack gap={75}>
+    <Stack align="baseline" direction="horizontal" gap={100}>
       <span style={{ minWidth: '120px' }}>{name}</span>
       <code>{variable}</code>
     </Stack>
@@ -44,8 +44,8 @@ const FontSizeSample = ({ name, variable }: { name: string; variable: string }) 
 );
 
 const FontWeightSample = ({ name, variable, value }: { name: string; variable: string; value: number }) => (
-  <Stack gap="½">
-    <Stack align="baseline" direction="horizontal" gap={1}>
+  <Stack gap={75}>
+    <Stack align="baseline" direction="horizontal" gap={100}>
       <span style={{ minWidth: '80px' }}>{name}</span>
       <code>
         {variable} ({value})
@@ -63,7 +63,7 @@ const FontWeightSample = ({ name, variable, value }: { name: string; variable: s
 export const FontSizes: Story = {
   name: 'Font sizes',
   render: () => (
-    <Stack gap={2}>
+    <Stack gap={300}>
       {FONT_SIZES.map((fs) => (
         <FontSizeSample key={fs.name} name={fs.name} variable={fs.variable} />
       ))}
@@ -79,7 +79,7 @@ export const FontSizes: Story = {
 export const FontWeights: Story = {
   name: 'Font weights',
   render: () => (
-    <Stack gap={2}>
+    <Stack gap={300}>
       {FONT_WEIGHTS.map((fw) => (
         <FontWeightSample key={fw.name} name={fw.name} value={fw.value} variable={fw.variable} />
       ))}

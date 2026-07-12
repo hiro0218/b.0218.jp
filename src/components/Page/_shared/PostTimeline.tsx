@@ -8,6 +8,8 @@ import { css, styled } from '@/ui/styled';
 type Props = {
   posts: ArticleSummary[];
   prefetch?: boolean;
+  /** 呼び出し元セクション見出しの次のレベルを渡す（既定 h3） */
+  titleTagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 };
 
 const formatTimelineDate = (date: string) => {
@@ -19,10 +21,12 @@ const formatTimelineDate = (date: string) => {
  * 記事を縦タイムライン形式で表示する。左の縦罫線と各項目頭の円ドットで時系列の連続性を示す。
  * @summary 記事タイムラインリスト
  */
-export const PostTimeline = ({ posts, prefetch = false }: Props) => {
+export const PostTimeline = ({ posts, prefetch = false, titleTagName = 'h3' }: Props) => {
   if (posts.length === 0) {
     return null;
   }
+
+  const Title = titleTagName;
 
   return (
     <List>
@@ -35,13 +39,13 @@ export const PostTimeline = ({ posts, prefetch = false }: Props) => {
           <Item key={post.slug}>
             <Time dateTime={post.date}>{display}</Time>
             <Body>
-              <Title>
+              <Title className={titleStyle}>
                 <Anchor className={titleAnchorStyle} href={link} prefetch={prefetch}>
                   {post.title}
                 </Anchor>
               </Title>
               {tags.length > 0 && (
-                <Cluster className={tagsStyle} gap={1}>
+                <Cluster className={tagsStyle} gap={100}>
                   <PostTag tags={tags.map((slug) => ({ slug }))} />
                 </Cluster>
               )}
@@ -55,18 +59,18 @@ export const PostTimeline = ({ posts, prefetch = false }: Props) => {
 
 const List = styled.ol`
   --resize-dur: 500ms;
-  --timeline-gutter: var(--spacing-3);
-  --timeline-item-pad-y: var(--spacing-2);
-  --timeline-date-col: var(--spacing-6);
-  --timeline-line-offset: var(--spacing-1);
-  --timeline-dot-size: calc((var(--spacing-1) + var(--spacing-2)) / 2);
+  --timeline-gutter: var(--spacing-400);
+  --timeline-item-pad-y: var(--spacing-300);
+  --timeline-date-col: var(--spacing-1000);
+  --timeline-line-offset: var(--spacing-100);
+  --timeline-dot-size: var(--spacing-200);
   --timeline-dot-top: calc(
     var(--timeline-item-pad-y) + (var(--font-sizes-md) * var(--line-heights-sm) - var(--timeline-dot-size)) / 2
   );
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-1);
+  gap: var(--spacing-100);
   padding-inline-start: var(--timeline-gutter);
   container-type: inline-size;
   isolation: isolate;
@@ -105,13 +109,11 @@ const List = styled.ol`
       background-color: var(--colors-gray-a-100);
       border-radius: var(--radii-sm);
       opacity: 0;
-      transform: scale(0.98);
       transition: none;
     }
 
     &:has(> li:is(:hover, :focus-within))::after {
       opacity: 1;
-      transform: scale(1);
       transition:
         top var(--resize-dur) var(--easings-ease-spring2),
         left var(--resize-dur) var(--easings-ease-spring2),
@@ -125,7 +127,6 @@ const List = styled.ol`
 
     &:has(> li:active)::after {
       background-color: var(--colors-gray-a-200);
-      transform: scale(0.98);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -141,9 +142,9 @@ const Item = styled.li`
   position: relative;
   display: grid;
   grid-template-columns: var(--timeline-date-col) 1fr;
-  gap: var(--spacing-2);
+  gap: var(--spacing-300);
   align-items: baseline;
-  padding: var(--timeline-item-pad-y) var(--spacing-2);
+  padding: var(--timeline-item-pad-y) var(--spacing-300);
   border-radius: var(--radii-sm);
   transition:
     background-color var(--transition-fast),
@@ -182,11 +183,6 @@ const Item = styled.li`
     }
   }
 
-  &:active {
-    background-color: var(--colors-gray-a-200);
-    transform: scale(0.98);
-  }
-
   @supports (anchor-scope: --post-timeline-item) and (position-anchor: --post-timeline-item) and (top: anchor(top)) and
     (width: anchor-size(width)) and selector(:has(*)) {
     z-index: var(--z-index-base);
@@ -197,7 +193,7 @@ const Item = styled.li`
 
     &::after {
       position: absolute;
-      inset: calc(var(--spacing-1) / -2) 0;
+      inset: calc(var(--spacing-100) / -2) 0;
       z-index: -1;
       content: '';
     }
@@ -220,13 +216,14 @@ const Item = styled.li`
 
   @container (max-width: 560px) {
     grid-template-columns: 1fr;
-    gap: var(--spacing-2);
+    gap: var(--spacing-100);
   }
 `;
 
 const Time = styled.time`
   font-size: var(--font-sizes-sm);
   font-variant-numeric: tabular-nums;
+  line-height: var(--line-heights-sm);
   color: var(--colors-gray-600);
   white-space: nowrap;
 `;
@@ -234,16 +231,17 @@ const Time = styled.time`
 const Body = styled.div`
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2);
+  gap: var(--spacing-300);
   min-width: 0;
 `;
 
-const Title = styled.h3`
+const titleStyle = css`
   margin: 0;
   font-size: var(--font-sizes-md);
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-sm);
   letter-spacing: var(--letter-spacings-sm);
+  /* global の h1-h6 balance と同値だが意図を固定する明示。pretty は CJK 混在タイトルの孤立行に効かず、balance は行数を増やさずに解消する（一覧 610 件でも再レイアウト負荷は誤差） */
   text-wrap: balance;
 
   a {
@@ -266,7 +264,7 @@ const tagsStyle = css`
   /* PostTag は tag の navigable 状態で anchor/span を切り替えるため両方に適用 */
   > :where(a, span) {
     min-height: auto;
-    padding: var(--spacing-½) var(--spacing-1);
+    padding: var(--spacing-75) var(--spacing-100);
     font-size: var(--font-sizes-xs);
     border-radius: var(--radii-sm);
   }

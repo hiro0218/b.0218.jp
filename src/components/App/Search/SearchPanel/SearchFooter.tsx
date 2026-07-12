@@ -16,8 +16,8 @@ export function SearchFooter({ searchQuery }: SearchFooterProps) {
 
   return (
     <Footer>
-      <Stack direction="horizontal" gap={1} justify="space-between">
-        <Stack align="center" direction="horizontal" gap={1} justify="space-between">
+      <Stack direction="horizontal" gap={100} justify="space-between">
+        <Stack align="center" direction="horizontal" gap={100} justify="space-between">
           <span>
             <kbd>↑</kbd>
             <kbd>↓</kbd>選択
@@ -37,7 +37,7 @@ export function SearchFooter({ searchQuery }: SearchFooterProps) {
 }
 
 const Footer = styled.footer`
-  padding: var(--spacing-1) var(--spacing-1);
+  padding: var(--spacing-100) var(--spacing-100);
   font-size: var(--font-sizes-xs);
   color: var(--colors-gray-900);
   text-align: right;
@@ -58,8 +58,8 @@ const Footer = styled.footer`
     justify-content: center;
     min-width: var(--sizes-icon-sm);
     height: var(--sizes-icon-sm);
-    padding: var(--spacing-½);
-    margin: 0 var(--spacing-½);
+    padding: var(--spacing-75);
+    margin: 0 var(--spacing-75);
     font-size: var(--font-sizes-xs);
     background-color: var(--colors-gray-a-100);
     border-radius: var(--radii-sm);

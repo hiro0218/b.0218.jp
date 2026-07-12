@@ -125,7 +125,7 @@ export function getStorybookSurfaceStyle(layout: StorySurfaceLayout): CSSPropert
   }
   return {
     minBlockSize: '100vh',
-    padding: 'var(--spacing-4)',
+    padding: 'var(--spacing-600)',
     display: 'grid',
     gridTemplateRows: 'auto 1fr auto',
   };
@@ -147,8 +147,8 @@ export function StorySpecimenHeader({ componentTitle, storyName, layout, storyId
       style={{
         display: 'grid',
         gap: '6px',
-        paddingBlockEnd: 'var(--spacing-2)',
-        marginBlockEnd: 'var(--spacing-3)',
+        paddingBlockEnd: 'var(--spacing-300)',
+        marginBlockEnd: 'var(--spacing-400)',
         borderBlockEnd: '1px solid var(--colors-gray-300)',
       }}
     >
@@ -180,8 +180,8 @@ export function StorySpecimenFooter({ layout }: { layout: StorySurfaceLayout }) 
       className={specimenMetaClass}
       style={{
         ...specimenMetaRowStyle,
-        marginBlockStart: 'var(--spacing-4)',
-        paddingBlockStart: 'var(--spacing-2)',
+        marginBlockStart: 'var(--spacing-600)',
+        paddingBlockStart: 'var(--spacing-300)',
         borderBlockStart: '1px solid var(--colors-gray-200)',
       }}
     >
@@ -206,11 +206,11 @@ export function StoryWidth({ children, inlineSize = '100%', maxInlineSize }: Sto
   );
 }
 
-export function StoryStack({ children, gap = 'var(--spacing-3)', style }: StoryStackProps) {
+export function StoryStack({ children, gap = 'var(--spacing-400)', style }: StoryStackProps) {
   return <div style={{ ...stackStyle, gap, ...style }}>{children}</div>;
 }
 
-export function StoryGrid({ children, gap = 'var(--spacing-3)', minItemWidth = '18rem', style }: StoryGridProps) {
+export function StoryGrid({ children, gap = 'var(--spacing-400)', minItemWidth = '18rem', style }: StoryGridProps) {
   return (
     <div
       style={{
@@ -230,9 +230,9 @@ export function StoryFrame({ label, title, caption, inlineSize, children }: Stor
     <div
       style={{
         display: 'grid',
-        gap: 'var(--spacing-2)',
+        gap: 'var(--spacing-300)',
         minInlineSize: 0,
-        paddingInlineStart: 'var(--spacing-2)',
+        paddingInlineStart: 'var(--spacing-300)',
         borderInlineStart: '2px solid var(--colors-gray-300)',
       }}
     >

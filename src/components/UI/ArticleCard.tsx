@@ -1,4 +1,4 @@
-import type { ComponentProps, ReactNode } from 'react';
+import type { ComponentProps } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
 import { PostDate } from '@/components/UI/Date';
@@ -6,7 +6,6 @@ import { Stack } from '@/components/UI/Layout/Stack';
 import type { TagCategoryName } from '@/types/source';
 import { css, cx } from '@/ui/styled';
 
-import { Excerpt } from './ArticleCard/Excerpt';
 import { Header } from './ArticleCard/Header';
 import { Tags } from './ArticleCard/Tags';
 
@@ -17,7 +16,6 @@ type Props = {
   title: string;
   /** 見出しの HTML 要素。一覧ページでは h2、単体では h3 が典型 */
   titleTagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  excerpt?: ReactNode | string;
   date: PostDateProps['date'];
   updated?: PostDateProps['updated'];
   tags?: string[];
@@ -37,7 +35,6 @@ export function ArticleCard({
   title,
   date,
   updated,
-  excerpt,
   tags,
   category,
   titleTagName = 'h3',
@@ -46,21 +43,20 @@ export function ArticleCard({
   const Title = titleTagName;
 
   return (
-    <Stack className={containerStyle} gap={1}>
+    <Stack className={containerStyle} gap={100}>
       <Header category={category}>
         <PostDate date={date} updated={updated} />
       </Header>
       <Anchor className={anchorStyle} href={link} prefetch={prefetch}>
         <Title className={cx('line-clamp-2', titleStyle)}>{title}</Title>
       </Anchor>
-      {!!excerpt && <Excerpt excerpt={excerpt} />}
       {!!tags && <Tags tags={tags} />}
     </Stack>
   );
 }
 
 const containerStyle = css`
-  --container-space: var(--spacing-3);
+  --container-space: var(--spacing-400);
   --hover-color: var(--colors-accent-1100);
 
   contain-intrinsic-size: 0 200px;

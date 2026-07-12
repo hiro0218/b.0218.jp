@@ -15,6 +15,22 @@ type Props = {
   children: ReactNode;
 };
 
+const gridBaseStyle = css`
+  display: grid;
+
+  @container (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const gridColumnsAutoFitStyle = css`
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min-item-width), 100%), 1fr));
+`;
+
+const gridColumnsFixedStyle = css`
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+`;
+
 /**
  * CSS Grid ベースのグリッドレイアウト。固定カラム数または auto-fit に対応。
  * @summary CSS Grid レイアウト（固定/auto-fit）
@@ -28,22 +44,7 @@ export const Grid = ({
   className,
   ...props
 }: Props) => {
-  const gridStyle = cx(
-    css`
-      display: grid;
-
-      @container (max-width: 480px) {
-        grid-template-columns: 1fr;
-      }
-    `,
-    columns === 'auto-fit'
-      ? css`
-          grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min-item-width), 100%), 1fr));
-        `
-      : css`
-          grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
-        `,
-  );
+  const gridStyle = cx(gridBaseStyle, columns === 'auto-fit' ? gridColumnsAutoFitStyle : gridColumnsFixedStyle);
 
   const style = {
     ...(columns === 'auto-fit' && { '--grid-min-item-width': minItemWidth }),

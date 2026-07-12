@@ -118,8 +118,8 @@ export function CopyButton() {
 
 const Button = styled.button`
   position: absolute;
-  top: var(--spacing-1);
-  right: var(--spacing-1);
+  top: var(--spacing-100);
+  right: var(--spacing-100);
   display: grid;
   place-items: center;
   width: var(--sizes-touch-target);
@@ -154,7 +154,7 @@ const Button = styled.button`
   }
 
   &[data-state='copied'] {
-    color: var(--colors-grass-1200);
+    color: var(--colors-copy-success-icon);
   }
 
   &[data-state='failed'] {

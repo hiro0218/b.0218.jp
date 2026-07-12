@@ -29,10 +29,6 @@ vi.mock('@/ui/styled/components/postTagAnchor', () => ({
   postTagAnchor: 'mocked-post-tag-anchor',
 }));
 
-vi.mock('@/ui/styled/utilities/text-ellipsis', () => ({
-  textEllipsis: 'mocked-text-ellipsis',
-}));
-
 vi.mock('@/components/UI/Anchor', () => ({
   // biome-ignore lint/style/useNamingConvention: React component mock requires PascalCase
   Anchor: ({ children, ...props }: { children?: ReactNode } & Record<string, unknown>) => <a {...props}>{children}</a>,

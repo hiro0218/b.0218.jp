@@ -69,13 +69,11 @@ export function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: Z
   };
 
   if (hasObjectFit) {
-    // biome-ignore lint/performance/noImgElement: 記事 HTML 由来の img 属性を保持するため
     return <img alt={alt} src={src} style={processedStyle} {...props} />;
   }
 
   return (
     <Root data-zoom-image="">
-      {/* biome-ignore lint/performance/noImgElement: 記事 HTML 由来の img 属性を保持するため */}
       <img alt={alt} data-zoom-image-source="" src={src} style={processedStyle} {...props} />
       <Controller
         alt={alt}

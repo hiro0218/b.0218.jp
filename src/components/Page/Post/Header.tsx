@@ -15,9 +15,9 @@ type Props = Pick<Post, 'title' | 'date' | 'updated'> & {
 
 export function PostHeader({ title, date, updated, tagsWithCount, render }: Props) {
   return (
-    <Stack as="header" className={headerSeparatorStyle} gap={2}>
+    <Stack as="header" className={headerSeparatorStyle} gap={300}>
       <Heading>{title}</Heading>
-      <Stack className={itemStyle} gap={2}>
+      <Stack className={itemStyle} gap={300}>
         <PostDate date={date} updated={updated} />
         <Cluster isWide={false}>
           <PostTag tags={tagsWithCount} />
@@ -32,8 +32,8 @@ const headerSeparatorStyle = css`
   &::after {
     display: block;
     width: 100%;
-    height: var(--spacing-½);
-    margin-top: var(--spacing-4);
+    height: var(--spacing-75);
+    margin-top: var(--spacing-600);
     color: var(--colors-gray-400);
     content: '';
     background-image: repeating-linear-gradient(-45deg, currentColor, currentColor 1px, transparent 0, transparent 50%);

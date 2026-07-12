@@ -26,35 +26,26 @@ const Container = styled.div`
   flex-wrap: wrap;
 `;
 
+const titleStyle = css`
+  scroll-margin-top: var(--spacing-100);
+`;
+
 const Title = ({ id, tag = 'h2', children }: TitleProps) => {
   const SidebarHeading = tag;
   return (
-    <SidebarHeading
-      className={cx(
-        textEllipsis,
-        fontSizeHeadingClasses.h3,
-        css`
-          scroll-margin-top: var(--spacing-1);
-        `,
-      )}
-      id={id}
-    >
+    <SidebarHeading className={cx(textEllipsis, fontSizeHeadingClasses.h3, titleStyle)} id={id}>
       {children}
     </SidebarHeading>
   );
 };
 
+const mainStyle = css`
+  flex: 7;
+  min-inline-size: min(100%, 30rem);
+`;
+
 const Main = ({ children }: ChildProps) => {
-  return (
-    <div
-      className={css`
-        flex: 7;
-        min-inline-size: min(100%, 30rem);
-      `}
-    >
-      {children}
-    </div>
-  );
+  return <div className={mainStyle}>{children}</div>;
 };
 
 const stickyStyle = css`
@@ -64,24 +55,17 @@ const stickyStyle = css`
 
   @media (--isDesktop) {
     position: sticky;
-    top: var(--spacing-1);
+    top: var(--spacing-100);
   }
 `;
 
+const sideStyle = css`
+  flex: 3;
+  min-inline-size: min(100%, 10rem);
+`;
+
 const Side = ({ children }: ChildProps) => {
-  return (
-    <div
-      className={cx(
-        css`
-          flex: 3;
-          min-inline-size: min(100%, 10rem);
-        `,
-        stickyStyle,
-      )}
-    >
-      {children}
-    </div>
-  );
+  return <div className={cx(sideStyle, stickyStyle)}>{children}</div>;
 };
 
 /**
@@ -89,7 +73,7 @@ const Side = ({ children }: ChildProps) => {
  * Sidebar.Main、Sidebar.Side、Sidebar.Title の compound component で構成する。
  * @summary 2 カラムサイドバーレイアウト
  */
-export const Sidebar = (({ children, gap = 3 }: Props) => {
+export const Sidebar = (({ children, gap = 400 }: Props) => {
   return <Container className={gapClasses[gap]}>{children}</Container>;
 }) as NamedExoticComponent<Props> & {
   // biome-ignore lint/style/useNamingConvention: compound component pattern requires PascalCase

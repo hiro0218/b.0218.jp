@@ -61,10 +61,10 @@ export function Alert({ type, html, hideLabel = false }: Props) {
 
 const containerStyle = css`
   display: grid;
-  grid-template-columns: calc(var(--spacing-1)) 1fr;
-  column-gap: var(--spacing-2);
+  grid-template-columns: calc(var(--spacing-100)) 1fr;
+  column-gap: var(--spacing-300);
   align-items: flex-start;
-  padding: var(--spacing-2) var(--spacing-3);
+  padding: var(--spacing-300) var(--spacing-400);
   font-size: var(--font-sizes-sm);
   color: var(--alert-color);
   background-color: var(--alert-background);

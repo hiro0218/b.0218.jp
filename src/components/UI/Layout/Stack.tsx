@@ -11,14 +11,14 @@ type Props<T extends ElementType = 'div'> = {
    * 子要素間のスペース（gap）
    *
    * @remarks
-   * - デフォルト値は `2` (8px)
+   * - デフォルト値は `300` (16px)
    * - `gap={0}` は特定のユースケース（タイトなレイアウト）でのみ使用すること
    * - Zero Margin Principle: 子要素は自身のマージンを持たず、親の gap で間隔を制御
    *
    * @example
    * ```tsx
    * // 通常のスペース
-   * <Stack gap={4}>
+   * <Stack gap={600}>
    *   <Card />
    *   <Card />
    * </Stack>
@@ -48,7 +48,7 @@ export const Stack = <T extends ElementType = 'div'>({
   as,
   children,
   direction = 'vertical',
-  gap = 2,
+  gap = 300,
   align,
   justify,
   wrap,

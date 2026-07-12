@@ -48,7 +48,7 @@ export const ThreeColumns: Story = {
   name: '3カラム',
   args: {
     columns: 3,
-    gap: 2,
+    gap: 300,
     children: (
       <>
         <DemoBox minHeight="50px">記事 — 01</DemoBox>
@@ -82,7 +82,7 @@ export const AutoFit: Story = {
   args: {
     columns: 'auto-fit',
     minItemWidth: '12rem',
-    gap: 2,
+    gap: 300,
     children: (
       <>
         <DemoBox minHeight="50px">記事 — 01</DemoBox>
@@ -110,5 +110,5 @@ export const AutoFit: Story = {
  */
 export const WithGap: Story = {
   name: '広い gap',
-  args: { gap: 5 },
+  args: { gap: 800 },
 };

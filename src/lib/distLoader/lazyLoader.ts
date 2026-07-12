@@ -30,7 +30,7 @@ export function createLazyLoader<T>(config: LazyLoaderConfig<T>): LazyLoader<T> 
       const fullPath = path.resolve(baseResolved, filename);
       const relative = path.relative(baseResolved, fullPath);
       if (relative === '' || relative.startsWith('..') || path.isAbsolute(relative)) {
-        throw new Error(`[source/${config.label}] Filename escapes baseDir: ${filename}`);
+        throw new Error(`[dist/${config.label}] Filename escapes baseDir: ${filename}`);
       }
 
       let raw: string;
@@ -49,10 +49,10 @@ export function createLazyLoader<T>(config: LazyLoaderConfig<T>): LazyLoader<T> 
         parsed = JSON.parse(raw);
       } catch (error: unknown) {
         const reason = error instanceof Error ? error.message : String(error);
-        throw new Error(`[source/${config.label}] JSON parse error in ${filename}: ${reason}`);
+        throw new Error(`[dist/${config.label}] JSON parse error in ${filename}: ${reason}`);
       }
       if (!config.validate(parsed)) {
-        throw new Error(`[source/${config.label}] Invalid data in ${filename}`);
+        throw new Error(`[dist/${config.label}] Invalid data in ${filename}`);
       }
 
       cache.set(filename, parsed);

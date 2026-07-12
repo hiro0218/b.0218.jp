@@ -145,7 +145,7 @@ const PaginationNav = styled.nav`
 
   ul {
     display: flex;
-    gap: var(--spacing-1);
+    gap: var(--spacing-100);
     align-items: center;
     justify-content: center;
     list-style: none;
@@ -243,7 +243,7 @@ const PageCountDisplay = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 var(--spacing-1);
+  padding: 0 var(--spacing-100);
   font-size: var(--font-sizes-sm);
   color: var(--colors-gray-900);
 `;

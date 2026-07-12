@@ -36,7 +36,7 @@
     top: 0;
     left: 0;
     z-index: var(--z-index-overlay);
-    padding: var(--spacing-2) var(--spacing-4);
+    padding: var(--spacing-300) var(--spacing-600);
     font-weight: var(--font-weights-bold);
     color: var(--colors-gray-100);
     background-color: var(--colors-gray-1000);

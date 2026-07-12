@@ -41,7 +41,7 @@ export const PostSection = ({
   const nextHeadingLevel = `h${Number(headingLevel[1]) + 1}` as Props['headingLevel'];
 
   return (
-    <Stack as={as} gap={3}>
+    <Stack as={as} gap={400}>
       {!!heading && (
         <Heading
           as={headingLevel}
@@ -52,9 +52,9 @@ export const PostSection = ({
         </Heading>
       )}
       {layout === 'timeline' ? (
-        <PostTimeline posts={posts} prefetch={prefetch} />
+        <PostTimeline posts={posts} prefetch={prefetch} titleTagName={nextHeadingLevel} />
       ) : (
-        <Grid columns="auto-fit" gap={2}>
+        <Grid columns="auto-fit" gap={300}>
           {posts.map(({ date, slug, tags, title, updated }) => {
             const link = convertPostSlugToPath(slug);
             const category = getPrimaryCategory(tags, categoryMap);

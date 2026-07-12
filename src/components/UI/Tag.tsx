@@ -67,10 +67,10 @@ const Count = styled.span`
   align-items: center;
   justify-content: center;
   aspect-ratio: 1/1;
-  padding: 0 var(--spacing-½);
+  padding: 0 var(--spacing-75);
   font-variant-numeric: tabular-nums;
   line-height: var(--line-heights-sm);
-  color: var(--colors-gray-500);
+  color: var(--colors-gray-700);
   user-select: none;
   border-radius: var(--radii-md);
 `;

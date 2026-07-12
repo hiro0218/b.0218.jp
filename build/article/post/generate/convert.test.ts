@@ -4,7 +4,7 @@ import type { RawPost } from './raw';
 
 const baseRaw: RawPost = {
   slug: 'hello',
-  content: 'hello body',
+  markdown: 'hello body',
   title: 'Hello',
   date: '2025-01-01T00:00:00.000Z',
   tags: ['intro'],

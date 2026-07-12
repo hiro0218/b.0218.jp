@@ -1,4 +1,4 @@
-import { parser } from '@/components/Page/_shared/parser/HTMLParser';
+import { parser } from '@/components/Page/_shared/HTMLParser';
 import { Adsense } from '@/components/UI/Adsense';
 import type { Post } from '@/types/source';
 import { AdsenseContainer, AdsenseManager } from './Content/AdsenseManager';

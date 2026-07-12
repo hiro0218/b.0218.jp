@@ -126,7 +126,7 @@ const IconButtonStyle = css`
     transition: none;
   }
 
-  &::after {
+  &::before {
     border-radius: var(--radii-full);
   }
 
@@ -143,7 +143,7 @@ const IconButtonStyle = css`
     height: var(--sizes-touch-target);
   }
 
-  &[data-active='true']::after {
+  &[data-active='true']::before {
     background-color: var(--colors-gray-a-200);
     opacity: 1;
     transform: scale(1);

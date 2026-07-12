@@ -17,7 +17,7 @@ export const shikiCss = defineGlobalStyles({
   // Language label
   'pre > code[data-language]::before': {
     content: 'attr(data-language)',
-    marginBottom: 'var(--spacing-½)',
+    marginBottom: 'var(--spacing-75)',
     display: 'block',
     fontSize: 'var(--font-sizes-xs)',
     color: 'var(--colors-gray-500)',

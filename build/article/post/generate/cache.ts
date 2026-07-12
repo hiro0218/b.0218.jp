@@ -1,9 +1,9 @@
 import { createHash } from 'node:crypto';
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import type { RawPost } from '@/lib/post/raw';
 import type { Post } from '@/types/source';
 import type { LinkPreviewCache } from '../../rehype0218';
+import type { RawPost } from './raw';
 
 type CacheEntry = {
   key: string;

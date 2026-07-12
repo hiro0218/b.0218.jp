@@ -3,12 +3,17 @@
 /* stylelint-disable-next-line */
 ::selection {
   color: var(--colors-gray-1000);
-  background-color: var(--colors-gray-a-300);
+  background-color: var(--colors-selection-background);
 }
 
 :where(:root) {
   /* stylelint-disable-next-line */
   interpolate-size: allow-keywords;
+}
+
+html,
+body {
+  overscroll-behavior-y: none;
 }
 
 html {
@@ -105,7 +110,7 @@ figure {
     font-size: var(--font-sizes-sm);
 
     > * + * {
-      margin-top: var(--spacing-1);
+      margin-top: var(--spacing-100);
     }
 
     img {
@@ -214,14 +219,14 @@ pre {
 
   & > code {
     display: block;
-    padding: var(--spacing-3);
+    padding: var(--spacing-400);
     font-size: inherit;
     background-color: var(--colors-gray-a-50);
   }
 }
 
 :not(pre) > code {
-  padding: var(--spacing-½) var(--spacing-1);
+  padding: var(--spacing-75) var(--spacing-100);
   margin: 0;
   font-size: var(--font-sizes-sm);
   background-color: var(--colors-gray-a-100);
@@ -234,7 +239,7 @@ table {
   background-color: var(--colors-white);
 
   caption {
-    margin: var(--spacing-1) 0;
+    margin: var(--spacing-100) 0;
     color: var(--colors-gray-900);
     text-align: center;
   }
@@ -242,7 +247,7 @@ table {
 
 th,
 td {
-  padding: var(--spacing-1) var(--spacing-2);
+  padding: var(--spacing-100) var(--spacing-300);
   vertical-align: top;
   white-space: nowrap;
   border-top: var(--border-widths-thin) solid var(--colors-gray-400);

@@ -176,9 +176,6 @@ module.exports = {
         pathNot: [
           '[.](spec|test)[.](js|mjs|cjs|ts|ls|coffee|litcoffee|coffee[.]md)$',
           '[.]stories[.](js|mjs|cjs|ts|tsx)$',
-          // raw.ts は build パイプライン専用モジュール。gray-matter は prebuild でのみ使用され、
-          // ランタイム（Next.js）バンドルには含まれない。
-          '^src/lib/post/raw\\.ts$',
         ],
       },
       to: {

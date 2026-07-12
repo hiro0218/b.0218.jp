@@ -16,8 +16,8 @@ export const PageScroll = () => (
 
 const Container = styled.div`
   position: fixed;
-  right: var(--spacing-3);
-  bottom: var(--spacing-3);
+  right: var(--spacing-400);
+  bottom: var(--spacing-400);
   z-index: var(--z-index-base);
   aspect-ratio: 1/1;
   isolation: isolate;
@@ -36,7 +36,7 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-2);
+  padding: var(--spacing-300);
   color: var(--colors-gray-1000);
   cursor: pointer;
   background-color: var(--colors-gray-a-100);

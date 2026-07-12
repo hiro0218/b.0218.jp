@@ -21,5 +21,5 @@ export function PostContainer({ children, className }: Props) {
 }
 
 const Root = styled.div`
-  padding-inline: clamp(var(--spacing-2), 3vw, var(--spacing-3));
+  padding-inline: clamp(var(--spacing-300), 3vw, var(--spacing-400));
 `;

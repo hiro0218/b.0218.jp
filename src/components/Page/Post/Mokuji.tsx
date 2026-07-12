@@ -38,7 +38,7 @@ const Root = styled.nav`
 
   a {
     display: block;
-    padding: var(--spacing-½) var(--spacing-1);
+    padding: var(--spacing-75) var(--spacing-100);
     color: var(--colors-gray-600);
     border-radius: var(--radii-md);
     transition:
@@ -73,9 +73,9 @@ const Root = styled.nav`
   @media (--isDesktop) and (min-width: 80rem) {
     /* Container LG 内の片側余白 (Container Article の外側) = Mokuji が利用できる横幅 */
     --mokuji-min-inline-size: 12rem;
-    --mokuji-inline-gap: var(--spacing-4);
-    --mokuji-block-offset: calc(var(--spacing-5) + var(--spacing-3));
-    --mokuji-summary-block-size: var(--spacing-4);
+    --mokuji-inline-gap: var(--spacing-600);
+    --mokuji-block-offset: calc(var(--spacing-800) + var(--spacing-400));
+    --mokuji-summary-block-size: var(--spacing-600);
     --mokuji-side-room: calc((var(--sizes-container-lg) - var(--sizes-container-article)) / 2);
     position: fixed;
     inset-block-start: var(--mokuji-block-offset);
@@ -145,7 +145,7 @@ const Summary = styled.summary`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-2) var(--spacing-3);
+  padding: var(--spacing-300) var(--spacing-400);
   font-weight: var(--font-weights-bolder);
   cursor: pointer;
   user-select: none;
@@ -157,10 +157,10 @@ const Summary = styled.summary`
 
   /* 固定配置時は見出しではなくカテゴリラベルとして控えめに表示する */
   @media (--isDesktop) and (min-width: 80rem) {
-    gap: var(--spacing-½);
+    gap: var(--spacing-75);
     justify-content: flex-start;
     min-block-size: var(--mokuji-summary-block-size);
-    padding: var(--spacing-½) var(--spacing-1);
+    padding: var(--spacing-75) var(--spacing-100);
     font-size: var(--font-sizes-xs);
     color: var(--colors-gray-600);
     letter-spacing: var(--letter-spacings-md);
@@ -177,7 +177,7 @@ const Summary = styled.summary`
 const DetailsContent = styled.div`
   & > ol {
     /* リンク自体の inline padding と合わせて Summary のテキスト位置に揃える */
-    padding: 0 var(--spacing-2) var(--spacing-2);
+    padding: 0 var(--spacing-300) var(--spacing-300);
     margin: 0;
   }
 
@@ -188,25 +188,25 @@ const DetailsContent = styled.div`
       list-style: none;
 
       &:not(:last-child) {
-        margin-bottom: var(--spacing-½);
+        margin-bottom: var(--spacing-75);
       }
     }
 
     ol {
-      padding-left: var(--spacing-2);
-      margin: var(--spacing-½) 0;
+      padding-left: var(--spacing-300);
+      margin: var(--spacing-75) 0;
     }
   }
 
   @media (--isDesktop) and (min-width: 80rem) {
-    max-block-size: calc(100dvh - var(--mokuji-block-offset) - var(--mokuji-summary-block-size) - var(--spacing-3));
-    padding-top: var(--spacing-½);
+    max-block-size: calc(100dvh - var(--mokuji-block-offset) - var(--mokuji-summary-block-size) - var(--spacing-400));
+    padding-top: var(--spacing-75);
     overflow-y: auto;
     overscroll-behavior: contain;
 
     & > ol {
       /* overflow-y: auto のスクロールバーとリンクの間に余白を確保する */
-      padding: 0 var(--spacing-1) var(--spacing-2) 0;
+      padding: 0 var(--spacing-100) var(--spacing-300) 0;
     }
   }
 `;

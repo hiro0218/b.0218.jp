@@ -2,11 +2,11 @@ import { css } from '@/ui/styled';
 
 export const postTagAnchor = css`
   display: inline-flex;
-  gap: var(--spacing-1);
+  gap: var(--spacing-100);
   align-items: center;
   justify-content: center;
   min-height: var(--sizes-touch-target);
-  padding: var(--spacing-½) var(--spacing-2);
+  padding: var(--spacing-75) var(--spacing-300);
   font-size: var(--font-sizes-sm);
   line-height: var(--line-heights-sm);
   color: var(--colors-gray-700);

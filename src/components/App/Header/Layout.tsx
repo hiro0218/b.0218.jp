@@ -23,7 +23,7 @@ export function Layout({ children }: Props) {
 }
 
 const underlineStyle = css`
-  height: var(--spacing-5);
+  height: var(--spacing-800);
 `;
 
 const Header = styled.header`
@@ -32,7 +32,7 @@ const Header = styled.header`
   right: 0;
   left: 0;
   z-index: var(--z-index-header);
-  height: var(--spacing-5);
+  height: var(--spacing-800);
   margin: 0 auto;
   pointer-events: none;
   isolation: isolate;

@@ -2,17 +2,16 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getMetadata } from '@/app/_metadata';
 import { StructuredData } from '@/components/Functional/StructuredData';
+import { PostSection } from '@/components/Page/_shared/PostSection';
 import { Pagination } from '@/components/Page/Archive/Pagination';
-import { ArticleCard } from '@/components/UI/ArticleCard';
-import { Sidebar } from '@/components/UI/Layout/Sidebar';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { Title } from '@/components/UI/Title';
-import { TAG_VIEW_LIMIT } from '@/constants';
+import { SITE_NAME } from '@/constants';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
 import { getTagPosts } from '@/lib/post/tagPosts';
-import { getTagsWithCount } from '@/lib/source/tag';
+import { tagFeedPermalink } from '@/lib/tag/navigation';
+import { getRoutableTagStaticParams, getRoutableTags } from '@/lib/tag/routing';
 import { tagFromUrlPath } from '@/lib/tag/url';
-import { convertPostSlugToPath } from '@/lib/utils/url';
 import {
   createTagArchiveMetadataModel,
   createTagArchivePageModel,
@@ -20,11 +19,8 @@ import {
   parseTagPageSegment,
 } from './tagArchiveModel';
 
-type StaticTagParam = {
+type StaticTagPageParam = {
   slug: string;
-};
-
-type StaticTagPageParam = StaticTagParam & {
   page: string;
 };
 
@@ -40,14 +36,8 @@ type TagArchivePageProps = {
 
 const pageTitle = 'Tag';
 
-function getRoutableTags() {
-  return getTagsWithCount().filter((tag) => tag.count >= TAG_VIEW_LIMIT);
-}
-
-export function getTagStaticParams(): StaticTagParam[] {
-  return getRoutableTags().map((tag) => ({
-    slug: tag.slug,
-  }));
+export function getTagStaticParams() {
+  return getRoutableTagStaticParams();
 }
 
 export function getTagPaginationStaticParams(): StaticTagPageParam[] {
@@ -62,6 +52,14 @@ export function getTagArchiveMetadata({ slug, currentPage = 1 }: TagArchiveMetad
     title: metadata.title,
     description: metadata.description,
     url: metadata.canonicalUrl,
+    alternates: {
+      types: {
+        'application/rss+xml': [
+          { title: SITE_NAME, url: '/feed.xml' },
+          { title: `Tag: ${decodedSlug}`, url: tagFeedPermalink(decodedSlug) },
+        ],
+      },
+    },
   });
 }
 
@@ -86,28 +84,9 @@ export function TagArchivePage({ slug, currentPage = 1 }: TagArchivePageProps) {
           description: model.structuredData.description,
         })}
       />
-      <Stack as="section" gap={4}>
+      <Stack as="section" gap={600}>
         <Title paragraph={`${model.totalItems}件の記事`}>{pageTitle}</Title>
-        <Sidebar>
-          <Sidebar.Side>
-            <Sidebar.Title>#{model.tag}</Sidebar.Title>
-          </Sidebar.Side>
-          <Sidebar.Main>
-            <Stack>
-              {model.posts.map(({ date, slug, title, updated }) => {
-                return (
-                  <ArticleCard
-                    date={date}
-                    key={slug}
-                    link={convertPostSlugToPath(slug)}
-                    title={title}
-                    updated={updated}
-                  />
-                );
-              })}
-            </Stack>
-          </Sidebar.Main>
-        </Sidebar>
+        <PostSection heading={`#${model.tag}`} layout="timeline" posts={model.posts} />
         <Pagination pagination={model.pagination} />
       </Stack>
     </>

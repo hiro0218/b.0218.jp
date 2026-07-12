@@ -70,7 +70,7 @@ export const WithTitle: Story = {
  */
 export const CustomGap: Story = {
   name: 'gap カスタム',
-  args: { gap: 5 },
+  args: { gap: 800 },
 };
 
 /**

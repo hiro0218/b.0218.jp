@@ -1,5 +1,11 @@
 import { cleanup, render } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import {
+  GFM_ALERT_CLASS_NAME,
+  LINK_PREVIEW_CLASS_NAME,
+  serializeAlertData,
+  serializeLinkPreviewData,
+} from '@/lib/domain/embeddedContent';
 
 vi.mock('@/components/UI/Alert', () => ({
   // biome-ignore lint/style/useNamingConvention: React components must be PascalCase
@@ -69,9 +75,9 @@ describe('parser', () => {
 
 describe('Alert ハンドラ', () => {
   it('rehypeGfmAlert が出力する <script class="gfm-alert"> から Alert を描画する', () => {
-    const json = JSON.stringify({ type: 'alert', data: { type: 'note', text: 'note body' } });
+    const json = serializeAlertData({ type: 'note', text: 'note body' });
     const { container, queryByTestId } = renderParser(
-      `<script class="gfm-alert" type="application/json">${json}</script>`,
+      `<script class="${GFM_ALERT_CLASS_NAME}" type="application/json">${json}</script>`,
     );
 
     const alert = queryByTestId('alert');
@@ -82,8 +88,8 @@ describe('Alert ハンドラ', () => {
   });
 
   it('class="gfm-alert" と有効な JSON で Alert を描画し元の div を消す', () => {
-    const json = JSON.stringify({ type: 'alert', data: { type: 'warning', text: 'warn body' } });
-    const { container, queryByTestId } = renderParser(`<div class="gfm-alert">${json}</div>`);
+    const json = serializeAlertData({ type: 'warning', text: 'warn body' });
+    const { container, queryByTestId } = renderParser(`<div class="${GFM_ALERT_CLASS_NAME}">${json}</div>`);
 
     const alert = queryByTestId('alert');
     expect(alert).not.toBeNull();
@@ -94,7 +100,7 @@ describe('Alert ハンドラ', () => {
 
   it('JSON が壊れている場合は元の div を残さない', () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    const { container, queryByTestId } = renderParser('<div class="gfm-alert">not-json</div>');
+    const { container, queryByTestId } = renderParser(`<div class="${GFM_ALERT_CLASS_NAME}">not-json</div>`);
     expect(queryByTestId('alert')).toBeNull();
     expect(container.querySelector('.gfm-alert')).toBeNull();
     expect(errorSpy).toHaveBeenCalledWith('Failed to parse JSON:', expect.any(SyntaxError));
@@ -103,19 +109,16 @@ describe('Alert ハンドラ', () => {
 
 describe('LinkPreview ハンドラ', () => {
   it('rehype0218 が出力する <script class="link-preview"> から LinkPreview を描画する', () => {
-    const json = JSON.stringify({
-      type: 'link-preview',
-      data: {
-        link: 'https://example.com',
-        card: 'summary',
-        thumbnail: 'thumb.png',
-        title: 'Script-form Example',
-        description: 'desc',
-        domain: 'example.com',
-      },
+    const json = serializeLinkPreviewData({
+      link: 'https://example.com',
+      card: 'summary',
+      thumbnail: 'thumb.png',
+      title: 'Script-form Example',
+      description: 'desc',
+      domain: 'example.com',
     });
     const { container, queryByTestId } = renderParser(
-      `<script class="link-preview" type="application/json">${json}</script>`,
+      `<script class="${LINK_PREVIEW_CLASS_NAME}" type="application/json">${json}</script>`,
     );
 
     const preview = queryByTestId('link-preview');
@@ -126,18 +129,15 @@ describe('LinkPreview ハンドラ', () => {
   });
 
   it('class="link-preview" と有効な JSON で LinkPreview を描画し元の div を消す', () => {
-    const json = JSON.stringify({
-      type: 'link-preview',
-      data: {
-        link: 'https://example.com',
-        card: 'card.png',
-        thumbnail: 'thumb.png',
-        title: 'Example',
-        description: 'desc',
-        domain: 'example.com',
-      },
+    const json = serializeLinkPreviewData({
+      link: 'https://example.com',
+      card: 'card.png',
+      thumbnail: 'thumb.png',
+      title: 'Example',
+      description: 'desc',
+      domain: 'example.com',
     });
-    const { container, queryByTestId } = renderParser(`<div class="link-preview">${json}</div>`);
+    const { container, queryByTestId } = renderParser(`<div class="${LINK_PREVIEW_CLASS_NAME}">${json}</div>`);
 
     const preview = queryByTestId('link-preview');
     expect(preview).not.toBeNull();
@@ -148,7 +148,7 @@ describe('LinkPreview ハンドラ', () => {
 
   it('JSON が壊れている場合は元の div を残さない', () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    const { container, queryByTestId } = renderParser('<div class="link-preview">not-json</div>');
+    const { container, queryByTestId } = renderParser(`<div class="${LINK_PREVIEW_CLASS_NAME}">not-json</div>`);
     expect(queryByTestId('link-preview')).toBeNull();
     expect(container.querySelector('.link-preview')).toBeNull();
     expect(errorSpy).toHaveBeenCalledWith('Failed to parse JSON:', expect.any(SyntaxError));

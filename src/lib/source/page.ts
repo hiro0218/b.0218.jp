@@ -1,7 +1,7 @@
+import { createEagerSource } from '@/lib/distLoader/eagerSource';
 import { isObject } from '@/lib/utils/isObject';
 import type { Page } from '@/types/source';
 import pagesData from '~/dist/pages.json';
-import { createEagerSource } from './internal/eagerSource';
 
 function isPage(value: unknown): value is Page {
   if (!isObject(value)) return false;

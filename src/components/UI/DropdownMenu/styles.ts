@@ -12,7 +12,7 @@ export const Content = styled.div`
   visibility: hidden;
   min-width: max-content;
   height: fit-content;
-  padding: var(--spacing-½);
+  padding: var(--spacing-75);
   pointer-events: none;
   background-color: var(--colors-white);
   border: var(--border-widths-thin) solid var(--colors-gray-a-200);
@@ -55,7 +55,7 @@ export const MenuItemContainer = styled.div`
   & > a {
     display: flex;
     align-items: center;
-    padding: var(--spacing-½) var(--spacing-1);
+    padding: var(--spacing-75) var(--spacing-100);
     line-height: var(--line-heights-lg);
     border-radius: var(--radii-sm);
   }

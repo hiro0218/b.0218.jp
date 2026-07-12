@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 import { Adsense } from '@/components/UI/Adsense';
 import { splitReactNode } from '@/lib/react/splitReactNode';
 import { styled } from '@/ui/styled';
-import { Renderer } from './Renderer';
 
 type AdsenseManagerProps = {
   content: ReactNode;
@@ -13,13 +12,13 @@ export function AdsenseManager({ content }: AdsenseManagerProps) {
 
   return (
     <>
-      <Renderer content={before} />
+      <div className="post-content">{before}</div>
       {after ? (
         <>
           <AdsenseContainer>
             <Adsense />
           </AdsenseContainer>
-          <Renderer content={after} />
+          <div className="post-content">{after}</div>
         </>
       ) : null}
     </>
@@ -27,6 +26,6 @@ export function AdsenseManager({ content }: AdsenseManagerProps) {
 }
 
 export const AdsenseContainer = styled.div`
-  margin: var(--spacing-4) 0;
+  margin: var(--spacing-600) 0;
   text-align: center;
 `;

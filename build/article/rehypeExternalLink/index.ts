@@ -23,7 +23,7 @@ export default function rehypeExternalLink() {
       }
 
       if (!isInternalHref(href)) node.properties.target = '_blank';
-      if (node.properties.target === '_blank') node.properties.rel = SAFE_BLANK_TARGET_REL;
+      if (node.properties.target === '_blank') node.properties.rel = [SAFE_BLANK_TARGET_REL];
     });
   };
 }

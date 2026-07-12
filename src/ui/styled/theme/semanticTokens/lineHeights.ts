@@ -1,5 +1,5 @@
 const semanticLineHeightTokens = {
-  article: { value: { base: '2' } },
+  article: { value: { base: '{lineHeights.lg}' } },
   body: { value: { base: '1.875' } },
   'heading-tight': { value: { base: '1.7' } },
 };

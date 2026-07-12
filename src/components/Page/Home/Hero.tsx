@@ -24,7 +24,7 @@ const containerStyle = css`
   display: grid;
   grid-template-rows: auto 1fr;
   grid-template-columns: var(--sizes-icon-xl) 1fr;
-  gap: var(--spacing-2);
+  gap: var(--spacing-300);
   font-size: var(--font-sizes-md);
   color: var(--colors-gray-900);
 
@@ -60,7 +60,7 @@ const Avatar = styled.div`
 
 const Title = styled.h2`
   display: flex;
-  gap: var(--spacing-1);
+  gap: var(--spacing-100);
   align-items: center;
   font-weight: var(--font-weights-bold);
   line-height: var(--line-heights-sm);

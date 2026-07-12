@@ -11,7 +11,7 @@
   /* Reference isolation: CodeBlock / Table と本文の境界を隔離する。
      pre は CodeBlock コンポーネントで [data-code-block] にラップされ、
      table は TableHandler で .c-table-scrollable にラップされる。
-     見出しと隣接する場合は見出し側の section / heading-tight を優先するため除外する。
+     見出しと隣接する場合は見出し側の margin-top / heading-tight を優先するため除外する。
      Figure / hr は固有の margin を持つが、CodeBlock / Table に後続する場合は
      specificity の高いこの reference 側が margin-top を上書きする。 */
   & > :not(:is(h2, h3, h4, h5, h6)) + :is([data-code-block], .c-table-scrollable) {
@@ -30,8 +30,8 @@
   }
 
   & > * > :is(p, div) {
-    margin-top: var(--spacing-1);
-    margin-bottom: var(--spacing-1);
+    margin-top: var(--spacing-100);
+    margin-bottom: var(--spacing-100);
   }
 
   h2,
@@ -40,8 +40,9 @@
   h5,
   h6 {
     position: relative;
-    margin-bottom: var(--spacing-2);
+    margin-bottom: var(--spacing-300);
     container-type: inline-size;
+    font-weight: var(--font-weights-bold);
     font-feature-settings: 'palt';
     font-kerning: normal;
     line-height: var(--line-heights-sm);
@@ -80,9 +81,8 @@
   }
 
   h2 {
-    padding-bottom: var(--spacing-1);
-    margin-top: clamp(var(--spacing-post-content-flow-section), 2.8em, var(--spacing-5));
-    line-height: var(--line-heights-md);
+    padding-bottom: var(--spacing-100);
+    margin-top: var(--spacing-800);
 
     /* 記事が見出しで始まる場合のみ上余白を消す */
     &:first-child {
@@ -91,21 +91,13 @@
   }
 
   h3 {
-    margin-top: clamp(var(--spacing-3), 2.2em, var(--spacing-5));
+    margin-top: var(--spacing-700);
   }
 
   h4,
-  h5 {
-    margin-top: clamp(var(--spacing-3), 2em, var(--spacing-5));
-  }
-
-  h6 {
-    margin-top: clamp(var(--spacing-3), 2em, var(--spacing-4));
-  }
-
   h5,
   h6 {
-    font-weight: var(--font-weights-bold);
+    margin-top: var(--spacing-600);
   }
 
   > :where(p) {
@@ -130,9 +122,10 @@
   }
 
   blockquote {
-    padding: var(--spacing-2) var(--spacing-3);
+    padding: var(--spacing-300) var(--spacing-400);
     color: var(--colors-gray-600);
-    border-left: var(--spacing-½) solid var(--colors-gray-400);
+    letter-spacing: var(--letter-spacings-md);
+    border-left: var(--spacing-75) solid var(--colors-gray-400);
 
     cite {
       display: block;
@@ -144,10 +137,10 @@
 
   ul,
   ol {
-    padding-inline-start: var(--spacing-3);
+    padding-inline-start: var(--spacing-400);
 
     & + pre {
-      margin-inline-start: var(--spacing-3);
+      margin-inline-start: var(--spacing-400);
     }
   }
 
@@ -156,18 +149,19 @@
   }
 
   li {
-    margin-block-start: var(--spacing-½);
+    margin-block-start: var(--spacing-75);
+    letter-spacing: var(--letter-spacings-md);
 
     &:first-of-type {
       margin-block-start: 0;
     }
 
     blockquote {
-      margin-top: var(--spacing-1);
+      margin-top: var(--spacing-100);
     }
 
     ul:last-of-type {
-      margin-block-end: var(--spacing-1);
+      margin-block-end: var(--spacing-100);
     }
   }
 
@@ -193,7 +187,7 @@
     }
 
     summary {
-      padding: var(--spacing-1) var(--spacing-2);
+      padding: var(--spacing-100) var(--spacing-300);
       font-size: var(--font-sizes-sm);
       font-weight: var(--font-weights-bold);
       background-color: var(--colors-white);
@@ -203,7 +197,7 @@
     }
 
     &::details-content {
-      margin: var(--spacing-2);
+      margin: var(--spacing-300);
       font-size: var(--font-sizes-sm);
 
       > *:first-of-type {
@@ -234,11 +228,11 @@
   }
 
   figure {
-    margin: clamp(var(--spacing-3), 2.4em, var(--spacing-5)) auto;
+    margin: var(--spacing-600) auto;
   }
 
   figcaption {
-    margin-top: var(--spacing-½);
+    margin-top: var(--spacing-75);
     font-size: var(--font-sizes-sm);
     color: var(--colors-gray-600);
   }
@@ -247,13 +241,13 @@
     display: flex;
     align-items: center;
     width: 80%;
-    margin: var(--spacing-5) auto;
+    margin: var(--spacing-600) auto;
     border: 0;
 
     &::after {
       display: block;
       width: 100%;
-      height: var(--spacing-1);
+      height: var(--spacing-100);
       color: var(--colors-gray-400);
       content: '';
       background-image: repeating-linear-gradient(

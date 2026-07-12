@@ -89,8 +89,8 @@ export default async function Page({ params }: { params: Params }) {
       <ScrollProgress />
       <StructuredData data={[getBlogPostingStructured(post, popularity), getBreadcrumbStructured(post)]} />
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
-      <Stack gap={6}>
-        <Stack as="article" gap={4}>
+      <Stack gap={1000}>
+        <Stack as="article" gap={600}>
           <PostHeader
             date={date}
             render={
@@ -109,7 +109,7 @@ export default async function Page({ params }: { params: Params }) {
             <PostEdit slug={slug} />
           </Stack>
         </Stack>
-        <Stack as="footer" gap={5}>
+        <Stack as="footer" gap={800}>
           <TagSection
             as="aside"
             heading="関連タグ"

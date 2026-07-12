@@ -31,7 +31,7 @@ export const Default: Story = {
  */
 export const WithGutters: Story = {
   name: 'gutter 付き',
-  args: { gutters: 3 },
+  args: { gutters: 400 },
 };
 
 /**

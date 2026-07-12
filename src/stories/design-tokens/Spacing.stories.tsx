@@ -1,20 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
 import { Stack } from '@/components/UI/Layout/Stack';
-import { SPACING_BASE_PX } from '@/ui/styled/constant';
-import spacingValues, { Spaces } from '@/ui/styled/theme/tokens/spacing';
+import spacingValues from '@/ui/styled/theme/tokens/spacing';
 
-const SPACES = Spaces.map((space) => {
-  const basePx = Math.round(parseFloat(String(spacingValues[space].value)) * 16);
-  return {
-    name: space === '½' ? '1/2' : String(space),
-    variable: `--spacing-${space}`,
-    basePx,
-  };
-});
+const SPACES = Object.keys(spacingValues)
+  .map(Number)
+  .sort((a, b) => a - b)
+  .map((key) => {
+    const basePx = Math.round(parseFloat(String(spacingValues[key].value)) * 16);
+    return { name: String(key), variable: `--spacing-${key}`, basePx };
+  });
 
 const SpacingBar = ({ name, variable, basePx }: { name: string; variable: string; basePx: number }) => (
-  <Stack align="center" direction="horizontal" gap={2}>
+  <Stack align="center" direction="horizontal" gap={300}>
     <div style={{ minWidth: '120px', textAlign: 'right', flexShrink: 0 }}>
       <div>{name}</div>
       <code>{variable}</code>
@@ -33,10 +31,10 @@ const SpacingBar = ({ name, variable, basePx }: { name: string; variable: string
 );
 
 const SpacingPage = () => (
-  <Stack gap={3}>
+  <Stack gap={400}>
     <h2>Spacing Scale</h2>
-    <p>Fibonacci sequence base (base = {SPACING_BASE_PX}px): 0.5, 1, 2, 3, 5, 8, 13</p>
-    <Stack gap={1}>
+    <p>Adobe Spectrum spacing スケール（2px〜96px、12 段）</p>
+    <Stack gap={100}>
       {SPACES.map((s) => (
         <SpacingBar basePx={s.basePx} key={s.variable} name={s.name} variable={s.variable} />
       ))}
@@ -52,7 +50,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Fibonacci スケール（0.5, 1, 2, 3, 5, 8, 13）の全段階を視覚化した標本。gap / padding を新規に決めるときに、ここから 1 段だけ動かすのか 2 段動かすのかを判断する。',
+          'Adobe Spectrum spacing スケール（2px〜96px、12 段）の全段階を視覚化した標本。gap / padding を新規に決めるときに、ここから 1 段だけ動かすのか 2 段動かすのかを判断する。',
       },
     },
   },
@@ -62,8 +60,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Fibonacci スケールの各段階を実際の幅で並べた標本。CSS 変数名と px 換算値を 1 画面で照合する。
+ * Adobe Spectrum spacing スケールの各段階を実際の幅で並べた標本。CSS 変数名と px 換算値を 1 画面で照合する。
  *
- * @summary Fibonacci スケール標本
+ * @summary Spectrum spacing スケール標本
  */
 export const Scale: Story = { name: 'スペーシングスケール' };

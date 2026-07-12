@@ -13,7 +13,7 @@
   text-decoration: none;
   user-select: none;
 
-  &::after {
+  &::before {
     display: none;
     border-radius: var(--radii-full);
   }
@@ -21,7 +21,7 @@
   &:hover,
   &:focus,
   &:focus-within {
-    &::after {
+    &::before {
       border-radius: var(--radii-full);
     }
   }
@@ -31,7 +31,7 @@
   }
 
   @container (min-width: 768px) {
-    &::after {
+    &::before {
       display: block;
     }
   }

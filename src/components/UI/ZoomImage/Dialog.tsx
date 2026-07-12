@@ -123,7 +123,6 @@ export function Dialog({
         ref={dialogRef}
       >
         <button aria-label={closeLabel} className={dialogImageButtonStyle} onClick={onClose} type="button">
-          {/* biome-ignore lint/performance/noImgElement: srcSet を含む原寸画像をダイアログでそのまま表示する */}
           <img
             alt={alt}
             className={dialogImageStyle}

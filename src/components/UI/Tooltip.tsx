@@ -47,7 +47,7 @@ const TooltipContent = styled.span`
   position: absolute;
   left: 50%;
   z-index: var(--z-index-base);
-  padding: var(--spacing-½) var(--spacing-1);
+  padding: var(--spacing-75) var(--spacing-100);
   font-size: var(--font-sizes-xs);
   line-height: var(--line-heights-md);
   color: var(--colors-dark-foregrounds);
@@ -62,12 +62,12 @@ const TooltipContent = styled.span`
     opacity var(--transition-slow);
 
   &[data-position='top'] {
-    bottom: calc(100% + var(--spacing-½));
+    bottom: calc(100% + var(--spacing-75));
     transform: translate(-50%, 100%);
   }
 
   &[data-position='bottom'] {
-    top: calc(100% + var(--spacing-½));
+    top: calc(100% + var(--spacing-75));
     transform: translate(-50%, -100%);
   }
 

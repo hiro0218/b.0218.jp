@@ -67,7 +67,9 @@ export function PostShare({ title, url }: Props) {
     getNavigatorClipboardSnapshot,
     getClipboardServerSnapshot,
   );
-  const { ref, showToast, hideToast, message, isVisible } = useToast('記事のURLをコピーしました');
+  const { ref, showToast, hideToast, message, isVisible } = useToast(
+    '記事のURLをコピーしました！🎉シェアをお願いします！🙏',
+  );
   const { copyText } = useClipboardCopy();
   const { schedule: scheduleCopyStateReset, cancel: cancelCopyStateReset } = useTimeout();
   const [copyState, setCopyState] = useState<CopyPermalinkState>('idle');
@@ -130,7 +132,7 @@ export function PostShare({ title, url }: Props) {
       <h2 className="sr-only" id={labelledbyId}>
         このページをシェアする
       </h2>
-      <Stack direction="horizontal" gap={1}>
+      <Stack direction="horizontal" gap={100}>
         <IconButton
           aria-label="Xでポスト"
           as="externalLink"
@@ -178,7 +180,7 @@ export function PostShare({ title, url }: Props) {
 
 const copyStateColorStyle = css`
   &[data-state='copied'] {
-    color: var(--colors-grass-1200);
+    color: var(--colors-copy-success-icon);
   }
 
   &[data-state='failed'] {

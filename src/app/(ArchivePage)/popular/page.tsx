@@ -1,16 +1,14 @@
 import type { Metadata } from 'next/types';
 import { getMetadata } from '@/app/_metadata';
-import { getData } from '@/app/(ArchivePage)/popular/_lib/getData';
-import { ArticleCard } from '@/components/UI/ArticleCard';
-import { Sidebar } from '@/components/UI/Layout/Sidebar';
-import { Stack } from '@/components/UI/Layout/Stack';
+import { PostSection } from '@/components/Page/_shared/PostSection';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
-import { getPrimaryCategory } from '@/lib/tag/category';
-import { getTagCategoriesJson } from '@/lib/tag/derived';
-import { convertPostSlugToPath } from '@/lib/utils/url';
+import { getPopularPost } from '@/lib/post/list';
+import { getPostsListJson } from '@/lib/source/post';
 
-const { popularPosts } = getData();
+const POST_DISPLAY_LIMIT = 20;
+
+const popularPosts = getPopularPost(getPostsListJson(), POST_DISPLAY_LIMIT);
 const slug = 'popular';
 const title = 'Popular';
 const pageTitle = '定番記事';
@@ -22,36 +20,11 @@ export const metadata: Metadata = getMetadata({
   url: `${SITE_URL}/${slug}`,
 });
 
-const categoryMap = getTagCategoriesJson();
-
 export default function Page() {
   return (
     <>
       <Title paragraph={description}>{title}</Title>
-      <Sidebar>
-        <Sidebar.Side>
-          <Sidebar.Title>{pageTitle}</Sidebar.Title>
-        </Sidebar.Side>
-        <Sidebar.Main>
-          <Stack>
-            {popularPosts.map(({ date, slug, tags, title, updated }) => {
-              const link = convertPostSlugToPath(slug);
-              const category = getPrimaryCategory(tags, categoryMap);
-              return (
-                <ArticleCard
-                  category={category}
-                  date={date}
-                  key={slug}
-                  link={link}
-                  tags={tags}
-                  title={title}
-                  updated={updated}
-                />
-              );
-            })}
-          </Stack>
-        </Sidebar.Main>
-      </Sidebar>
+      <PostSection heading={pageTitle} layout="timeline" posts={popularPosts} />
     </>
   );
 }

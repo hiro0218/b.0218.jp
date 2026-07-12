@@ -47,11 +47,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
+  // タグごとの最新記事日付を1パスで収集する。sitemapPosts は date 降順
+  // (src/lib/source/post.ts の getPostsListJson が保証) なので、タグの初出時点の date がそのタグの最新記事日付になる。
+  // 以前は tags.map の内側で毎回 sitemapPosts 全体を filter しており、タグ数×記事数の走査になっていた。
+  const latestTagPostDateMap = new Map<string, string>();
+
+  for (const post of sitemapPosts) {
+    for (const tag of post.tags) {
+      if (!latestTagPostDateMap.has(tag)) {
+        latestTagPostDateMap.set(tag, post.date);
+      }
+    }
+  }
+
   const tagList: MetadataRoute.Sitemap = tags.map(({ slug }) => {
     const permalink = tagPermalink(slug);
-    // このタグを持つ記事の最新日付を取得
-    const tagPosts = sitemapPosts.filter((post) => post.tags.includes(slug));
-    const latestTagPostDate = tagPosts.length > 0 ? tagPosts[0].date : undefined;
+    const latestTagPostDate = latestTagPostDateMap.get(slug);
 
     return {
       url: permalink,

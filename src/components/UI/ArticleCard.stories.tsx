@@ -17,17 +17,8 @@ const FULL_ARGS = {
   title: '[TypeScript] パフォーマンスとAI AgentのためにBarrelファイルを廃止する',
   date: '2026-05-02',
   updated: '2026-05-04',
-  excerpt:
-    'index.ts でまとめる Barrel ファイルは、Tree Shaking の効きにくさ・dev server の初期化連鎖・AI コード追跡コストを生む。入口の自明性を保ったまま 3 つのコストを抑える設計を組めるか。',
   tags: ['Biome', 'TypeScript', '設計'],
   category: 'development',
-} satisfies ComponentProps<typeof ArticleCard>;
-
-const EXCERPT_ARGS = {
-  link: POST_LINK,
-  title: '仕様駆動開発（SDD）とフロントエンドの相性',
-  date: '2026-03-08',
-  excerpt: '「仕様さえ渡せばAIが実装できる」という期待が高まる中、フロントエンドにこの前提はそのまま乗らない。',
 } satisfies ComponentProps<typeof ArticleCard>;
 
 const TAGS_ARGS = {
@@ -42,8 +33,6 @@ const UPDATED_ARGS = {
   title: 'PrettierからOxfmtへの移行はMarkdownプロジェクトで有効か',
   date: '2026-03-31',
   updated: '2026-04-12',
-  excerpt:
-    'Prettier 互換を掲げる Rust 製フォーマッタ Oxfmt が Markdown プロジェクトでも同様の高速化をもたらすか検証した。',
 } satisfies ComponentProps<typeof ArticleCard>;
 
 const CATEGORY_ARGS = {
@@ -59,7 +48,6 @@ const LONG_TITLE_ARGS = {
   title:
     '確証バイアスを避けるためにAIには逆の視点でも確認する、というメタ手法を実運用に落とすときに具体的なプロンプトを残しておきたかったので書く',
   date: '2025-11-26',
-  excerpt: '質問の前提と AI の応答が同じ方向に寄ることがある。反対側の立場で聞くと、その偏りを確認しやすい。',
 } satisfies ComponentProps<typeof ArticleCard>;
 
 const NARROW_ARGS = {
@@ -68,7 +56,6 @@ const NARROW_ARGS = {
   date: '2026-03-15',
   category: 'development',
   tags: ['Git', 'macOS', 'GPG'],
-  excerpt: 'git commit 時の GPG 署名がある時点から失敗するようになり、pinentry-curses の入力が動かなくなった。',
 } satisfies ComponentProps<typeof ArticleCard>;
 
 const MEDIUM_ARGS = {
@@ -77,14 +64,6 @@ const MEDIUM_ARGS = {
   date: '2026-02-18',
   category: 'other',
   tags: ['GitHub', '絵文字', '調査'],
-  excerpt: '👍 を「賛成」、👎 を「反対」と使う場面は多いが、その意味付けは公式には存在しない。',
-} satisfies ComponentProps<typeof ArticleCard>;
-
-const REFERENCE_EXCERPT_ARGS = {
-  link: POST_LINK,
-  title: '仕様駆動開発（SDD）とフロントエンドの相性',
-  date: '2026-03-08',
-  excerpt: '仕様の品質が成果物の品質を直接左右するため、フロントエンドでは仕様の完全化が構造的に難しい。',
 } satisfies ComponentProps<typeof ArticleCard>;
 
 const REFERENCE_UPDATED_ARGS = {
@@ -92,7 +71,6 @@ const REFERENCE_UPDATED_ARGS = {
   title: '[CSS] `:hover` などのネスト時の親要素参照（`&`）有無による挙動の違い',
   date: '2024-08-02',
   updated: '2026-01-15',
-  excerpt: '`&` の有無でセレクタの解釈が変わる。検証してどちらを採るべきか整理した。',
 } satisfies ComponentProps<typeof ArticleCard>;
 
 const meta = {
@@ -113,22 +91,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * タイトルと日付だけのスキャン優先表示。古い記事の年表的な一覧で、本文プレビューを出すと密度が上がりすぎるときに選ぶ。
+ * タイトルと日付だけのスキャン優先表示。年表的な一覧で情報密度を抑えたいときの基準形。
  *
  * @summary 最小情報、年表的な一覧向け
  */
 export const Default: Story = {
   name: '基本',
-};
-
-/**
- * 概要を 1〜2 文添える形。クリックで開くか迷うところに導線を 1 つ足したい一覧で選ぶ。
- *
- * @summary 開く前に内容判断を助ける概要付き
- */
-export const WithExcerpt: Story = {
-  name: '概要付き',
-  args: EXCERPT_ARGS,
 };
 
 /**
@@ -249,13 +217,10 @@ export const VariantReference: Story = {
       <StoryFrame caption="タイトルと日付だけ。年表的な一覧向け。" label="01 — minimal" title="最小構成">
         <ArticleCard {...DEFAULT_ARGS} />
       </StoryFrame>
-      <StoryFrame caption="開く前に内容判断を助ける概要。" label="02 — excerpt" title="概要付き">
-        <ArticleCard {...REFERENCE_EXCERPT_ARGS} />
-      </StoryFrame>
-      <StoryFrame caption="鮮度を伝える更新日表記。" label="03 — updated" title="更新日付き">
+      <StoryFrame caption="鮮度を伝える更新日表記。" label="02 — updated" title="更新日付き">
         <ArticleCard {...REFERENCE_UPDATED_ARGS} />
       </StoryFrame>
-      <StoryFrame caption="大分類のアイコンと色で読み分け。" label="04 — categorized" title="カテゴリ付き">
+      <StoryFrame caption="大分類のアイコンと色で読み分け。" label="03 — categorized" title="カテゴリ付き">
         <ArticleCard {...CATEGORY_ARGS} />
       </StoryFrame>
     </StoryGrid>
@@ -289,7 +254,7 @@ export const ResponsiveReference: Story = {
       >
         <ArticleCard {...FULL_ARGS} />
       </StoryFrame>
-      <StoryFrame caption="カテゴリ・概要・タグまで揃う標準幅。" inlineSize="600px" label="03" title="標準 — 600px">
+      <StoryFrame caption="カテゴリ・タグまで揃う標準幅。" inlineSize="600px" label="03" title="標準 — 600px">
         <ArticleCard {...FULL_ARGS} />
       </StoryFrame>
     </StoryStack>
