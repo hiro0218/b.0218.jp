@@ -71,7 +71,6 @@ const ALIAS_COLORS = [
   { key: 'accent', title: 'Accent (= Blue)' },
   { key: 'grass', title: 'Grass (= Green)' },
   { key: 'sky', title: 'Sky (= Cyan)' },
-  { key: 'teal', title: 'Teal (= Magenta)' },
 ] as const;
 
 const TRANSPARENT_COLORS = [
@@ -96,7 +95,7 @@ export const Solid: Story = {
 };
 
 /**
- * Solid スケールの role 別エイリアス（Accent / Grass / Sky / Teal）。Solid の具体色を意味で隠したい箇所で参照する。
+ * Solid スケールの role 別エイリアス（Accent / Grass / Sky）。Solid の具体色を意味で隠したい箇所で参照する。
  *
  * @summary Alias（意味エイリアス）
  */

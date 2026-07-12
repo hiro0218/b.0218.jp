@@ -35,19 +35,22 @@ interface ColorValue {
 }
 
 /**
- * Adobe Spectrum カラースケールの数値定義と用途
+ * カラースケール数値の読み方と用途の目安
  *
- * @see https://spectrum.adobe.com/page/using-color/
- *
- * スケール値と推奨用途:
- * - 25-100: 背景（gray-100が基本背景色）
- * - 200-500: 境界線・無効状態（gray-300が標準ボーダー）
- * - 600-800: ホバー・強調表示
- * - 900-1600: テキスト・アイコン（gray-900以上で4.5:1のコントラスト比を確保）
- *
- * @note
- * 値が大きくなるほど背景とのコントラストが高くなる。
+ * 数値は背景に対するコントラストの段階を表す。値が大きいほど背景とのコントラストが高く、
  * ライトテーマでは暗く、ダークテーマでは明るくなる。
+ *
+ * 用途の目安（Spectrum の規定ではなく、本リポジトリの運用実態に基づく区分）:
+ * - 25-100: 背景面（bodyBackground は gray-50）
+ * - 200-500: 境界線・無効状態（ArticleCard の枠線は gray-200）
+ * - 600-800: テキスト以外の静的な装飾（ScrollProgress のバーは accent-800）
+ * - 900-1600: テキスト・アイコン・状態色（テキストは gray-900 以上を使い、4.5:1 のコントラスト比を確保する）
+ *
+ * hover / focus の状態色は帯域内で段階を上げる方式ではなく、ニュートラルなグレーから
+ * アクセント色相への切り替えで表現する（focusRing は accent-900、ArticleCard の hover は accent-1100）。
+ * 判断基準は .claude/rules/design-principles.md の「色の運用」を参照。
+ *
+ * @see https://spectrum.adobe.com/page/using-color/ - コントラスト段階と背景レイヤーの一般的な考え方の参考（上記区分の出典ではない）
  */
 type RegularColorScale =
   | 100
@@ -96,7 +99,6 @@ type ColorTokens = {
   // 別名カラー
   grass: ColorScale<RegularColorScale>;
   sky: ColorScale<RegularColorScale>;
-  teal: ColorScale<RegularColorScale>;
   accent: ColorScale<RegularColorScale>;
 
   // 透明カラー
@@ -206,7 +208,7 @@ function createDarkColorScale(colorName: string): ColorScale<GrayScale> {
  * ソリッドカラー・透明カラー・ダークテーマの3カテゴリを含む。
  *
  * @property blue, gray, green, etc. - ソリッドカラースケール
- * @property grass, sky, teal, accent - エイリアスカラー（既存カラーへのマッピング）
+ * @property grass, sky, accent - エイリアスカラー（既存カラーへのマッピング）
  * @property grayA, whiteA - 透明カラースケール（オーバーレイ用）
  * @property grayDark, grayDarkA - ダークテーマ用カラー
  */
@@ -224,7 +226,6 @@ const colorTokens: ColorTokens = {
   black: { value: colorPalette.black.value },
   grass: createSolidColorScale('green', REGULAR_COLOR_SCALES),
   sky: createSolidColorScale('cyan', REGULAR_COLOR_SCALES),
-  teal: createSolidColorScale('magenta', REGULAR_COLOR_SCALES),
   accent: createSolidColorScale('blue', REGULAR_COLOR_SCALES),
 
   // 透明カラー
