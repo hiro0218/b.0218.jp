@@ -86,6 +86,8 @@ jobs:
           echo '[]' > dist/search-data.json
           echo '[]' > dist/pages.json
           echo '[]' > dist/posts-list.json
+          echo '{}' > dist/posts-popular.json
+          echo '{}' > dist/posts-similarity.json
           echo '{}' > dist/tags.json
           echo '[]' > dist/tags-with-count.json
           echo '{"CSS":"development","AI":"technology","雑記":"other"}' > dist/tag-categories.json
