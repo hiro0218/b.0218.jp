@@ -50,6 +50,10 @@ const Anchor = styled.a`
     border-color: var(--colors-gray-a-400);
   }
 
+  &:active {
+    background-color: var(--colors-gray-100);
+  }
+
   &[target='_blank']::after {
     content: none;
   }
