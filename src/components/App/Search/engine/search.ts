@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react';
 import type { SearchResultItem } from '../types';
 import { isEmptyQuery } from '../utils/validation';
 import { SearchCache } from './cache';
-import { performIndexedSearch } from './indexedSearch';
+import { isSearchEngineReady, performIndexedSearch } from './indexedSearch';
 import { ensureSearchEngineSync } from './searchDataLoader';
 
 export const performPostSearch = (searchValue: string): SearchResultItem[] => {
@@ -27,7 +27,7 @@ export const useSearchWithCache = () => {
   return useCallback((searchValue: string): SearchResultItem[] => {
     if (!searchValue) return [];
 
-    const cacheKey = SearchCache.createKey(searchValue, 0);
+    const cacheKey = SearchCache.createKey(searchValue);
 
     const cachedResult = cacheRef.current?.get(cacheKey);
     if (cachedResult) {
@@ -35,7 +35,10 @@ export const useSearchWithCache = () => {
     }
 
     const results = performPostSearch(searchValue);
-    cacheRef.current?.set(cacheKey, results);
+    // エンジン未初期化の空結果を保存すると、初期化完了後も同じクエリに空が返り続けるため保存しない
+    if (isSearchEngineReady()) {
+      cacheRef.current?.set(cacheKey, results);
+    }
 
     return results;
   }, []);

@@ -1,4 +1,5 @@
 import { type RefObject, useCallback, useRef } from 'react';
+import { SEARCH_INPUT_SELECTOR, SEARCH_RESULTS_SELECTOR } from '../../constants';
 
 interface UseSearchDOMRefsProps {
   dialogRef?: RefObject<HTMLDialogElement>;
@@ -36,15 +37,13 @@ export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps) => {
     internalDialogRef.current = dialog;
 
     if (!inputRef.current?.isConnected) {
-      const input = dialog.querySelector<HTMLInputElement>(
-        'input[type="search"], input[role="searchbox"], input[role="combobox"]',
-      );
+      const input = dialog.querySelector<HTMLInputElement>(SEARCH_INPUT_SELECTOR);
       if (input) inputRef.current = input;
     }
 
     // searchResults は条件付きレンダリングのため、要素が存在しない場合は null を許容
     if (!searchResultsRef.current?.isConnected) {
-      searchResultsRef.current = dialog.querySelector<HTMLElement>('[data-search-results]');
+      searchResultsRef.current = dialog.querySelector<HTMLElement>(SEARCH_RESULTS_SELECTOR);
     }
   }, [actualDialogRef]);
 
@@ -62,7 +61,7 @@ export const useSearchDOMRefs = ({ dialogRef }: UseSearchDOMRefsProps) => {
   }, []);
 
   const scrollToFocusedElement = useCallback((targetElement: HTMLElement) => {
-    const container = targetElement.closest<HTMLElement>('[data-search-results]') ?? searchResultsRef.current;
+    const container = targetElement.closest<HTMLElement>(SEARCH_RESULTS_SELECTOR) ?? searchResultsRef.current;
     if (!container) return;
 
     searchResultsRef.current = container;

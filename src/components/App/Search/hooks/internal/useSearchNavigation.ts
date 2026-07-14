@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { type RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { isHTMLElement, isInputElement } from '@/lib/browser/typeGuards';
 import { convertPostSlugToPath } from '@/lib/utils/url';
+import { SEARCH_INPUT_SELECTOR, SEARCH_RESULTS_SELECTOR } from '../../constants';
 import type { SearchResultItem } from '../../types';
 
 export interface UseSearchNavigationOptions {
@@ -110,12 +111,8 @@ export const useSearchNavigation = ({
       if (!isHTMLElement(target)) return;
       if (e.nativeEvent.isComposing || e.nativeEvent.keyCode === 229) return;
 
-      const isSearchContext =
-        (isInputElement(target) &&
-          (target.type === 'search' ||
-            target.getAttribute('role') === 'searchbox' ||
-            target.getAttribute('role') === 'combobox')) ||
-        target.closest('[data-search-results]') !== null;
+      // SearchHeader の入力欄か検索結果リスト内でのみ発火させる（契約セレクタは constants.ts で一元管理）
+      const isSearchContext = target.matches(SEARCH_INPUT_SELECTOR) || target.closest(SEARCH_RESULTS_SELECTOR) !== null;
 
       if (!isSearchContext) return;
 

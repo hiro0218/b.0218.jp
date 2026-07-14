@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { ICON_SIZE_XS } from '@/ui/iconSizes';
 import { css, styled } from '@/ui/styled';
+import { SEARCH_LABELS } from '../constants';
 import { SearchClearButton } from './SearchClearButton';
 
 interface SearchHeaderProps {
@@ -66,7 +67,7 @@ export function SearchHeader({ activeDescendantId, listId, onValueChange, onClea
           'aria-autocomplete': 'list' as const,
           'aria-controls': listId,
           'aria-expanded': true,
-          placeholder: '記事タイトルまたはタグを検索',
+          placeholder: SEARCH_LABELS.searchPlaceholder,
           role: 'combobox' as const,
         })}
         ref={refInput}

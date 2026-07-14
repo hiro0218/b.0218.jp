@@ -95,14 +95,14 @@ describe('SearchCache', () => {
   /*  createKey                                                        */
   /* ================================================================ */
   describe('createKey', () => {
-    it('searchValue と dataSize を結合したキーを生成する', () => {
-      const key = SearchCache.createKey('react', 100);
+    it('searchValue を正規化したキーを生成する', () => {
+      const key = SearchCache.createKey('react');
 
-      expect(key).toBe('react-100');
+      expect(key).toBe('react');
     });
 
     it('大文字小文字と前後スペースの違いを同じキーに正規化する', () => {
-      expect(SearchCache.createKey(' React ', 100)).toBe(SearchCache.createKey('react', 100));
+      expect(SearchCache.createKey(' React ')).toBe(SearchCache.createKey('react'));
     });
   });
 

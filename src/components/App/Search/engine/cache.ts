@@ -30,7 +30,7 @@ export class SearchCache {
     this.cache.set(key, value);
   }
 
-  static createKey(searchValue: string, dataSize: number): string {
-    return `${normalizeSearchToken(searchValue)}-${dataSize}`;
+  static createKey(searchValue: string): string {
+    return normalizeSearchToken(searchValue);
   }
 }

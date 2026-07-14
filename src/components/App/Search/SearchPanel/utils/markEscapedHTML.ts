@@ -1,3 +1,5 @@
+import { QUERY_WHITESPACE_REGEX } from '../../constants';
+
 const keywordSplitCache = new Map<string, string[]>();
 const KEYWORD_CACHE_SIZE = 50;
 
@@ -67,7 +69,7 @@ export const createMarkedTitles = (suggestions: { title: string }[], keyword: st
   let splitKeyword = keywordSplitCache.get(keyword);
 
   if (!splitKeyword) {
-    splitKeyword = keyword.split(' ').filter((word) => word.trim() !== '');
+    splitKeyword = keyword.split(QUERY_WHITESPACE_REGEX).filter((word) => word.trim() !== '');
 
     if (keywordSplitCache.size > KEYWORD_CACHE_SIZE) {
       const firstKey = keywordSplitCache.keys().next().value;

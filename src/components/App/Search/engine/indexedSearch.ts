@@ -3,6 +3,7 @@
  */
 
 import { normalizeSearchToken, type SearchDataItem, type SearchIndex } from '@/lib/search';
+import { QUERY_WHITESPACE_REGEX } from '../constants';
 import type { SearchResultItem } from '../types';
 import { isEmptyQuery } from '../utils/validation';
 import type { SearchDataPayload } from './types';
@@ -23,8 +24,6 @@ const SCORE = {
   fallbackWordBoundary: 20,
   fallbackEarlyPosition: 10,
 } as const;
-
-const WHITESPACE_REGEX = /\s+/;
 
 interface NormalizedSearchDataItem extends SearchDataItem {
   titleLower: string;
@@ -89,7 +88,7 @@ function tokenizeQuery(query: string): string[] {
   const normalized = normalizeSearchToken(query);
   if (!normalized) return [];
 
-  const tokens = normalized.split(WHITESPACE_REGEX).filter((token) => token.length > 0);
+  const tokens = normalized.split(QUERY_WHITESPACE_REGEX).filter((token) => token.length > 0);
   return [...new Set(tokens)];
 }
 

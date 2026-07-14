@@ -1,4 +1,5 @@
 import { styled } from '@/ui/styled';
+import { SEARCH_LABELS } from './constants';
 import { SearchEmptyState } from './SearchPanel/SearchEmptyState';
 import { SearchFooter } from './SearchPanel/SearchFooter';
 import { SearchResultList } from './SearchPanel/SearchResultList';
@@ -30,7 +31,7 @@ export function SearchPanel({
   const hasResults = results.length > 0;
 
   return (
-    <SearchMain aria-label="サイト内検索">
+    <SearchMain aria-label={SEARCH_LABELS.siteSearch}>
       <SearchStatus resultsCount={results.length} searchQuery={searchQuery} />
 
       {hasResults ? (
