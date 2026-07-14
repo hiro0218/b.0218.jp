@@ -110,7 +110,7 @@ module.exports = {
     {
       name: 'not-to-deprecated',
       comment:
-        'このモジュールは非推奨のnpmモジュール（またはそのバージョン）に依存しています。遅いバージョンにアップグレードするか、代わりとなるモジュールを見つけてください。非推奨のモジュールはセキュリティリスクとなる可能性があります。',
+        'このモジュールは非推奨のnpmモジュール（またはそのバージョン）に依存しています。新しいバージョンにアップグレードするか、代わりとなるモジュールを見つけてください。非推奨のモジュールはセキュリティリスクとなる可能性があります。',
       severity: 'warn',
       from: {},
       to: {
@@ -174,7 +174,7 @@ module.exports = {
       from: {
         path: '^(src)',
         pathNot: [
-          '[.](spec|test)[.](js|mjs|cjs|ts|ls|coffee|litcoffee|coffee[.]md)$',
+          '[.](spec|test)[.](js|mjs|cjs|jsx|ts|tsx|ls|coffee|litcoffee|coffee[.]md)$',
           '[.]stories[.](js|mjs|cjs|ts|tsx)$',
         ],
       },

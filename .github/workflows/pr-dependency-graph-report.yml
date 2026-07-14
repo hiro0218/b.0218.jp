@@ -31,16 +31,32 @@ jobs:
         env:
           BASE_REF: ${{ github.base_ref }}
         run: |
-          git diff --name-only --diff-filter=AM "origin/$BASE_REF"...HEAD \
-            | grep -E 'src/.*\.(js|cjs|mjs|jsx|ts|tsx)$' \
+          # PR の変更ファイル一覧を取得する。Renamed(R) も対象に含める。
+          # git のリネーム検出が効くとき、リネームは新パスのみが出力される。
+          git diff --name-only --diff-filter=AMR "origin/$BASE_REF"...HEAD > all-changed.txt || true
+
+          # 依存解析対象の src コードファイルを抽出する（spec/test は除外）。
+          grep -E 'src/.*\.(js|cjs|mjs|jsx|ts|tsx)$' all-changed.txt \
             | grep -v '\.\(spec\|test\)\.' > changed-files.txt || true
 
+          # ルート直下の設定ファイル変更を検出する。これらは依存ルール・依存分類・
+          # パス解決の全体に影響し、未変更ファイルの違反状況まで変わりうるため、
+          # 変更ファイルに絞らず src 全体を走査する full モードへ切り替える。
+          if grep -E -q '^(package\.json|\.dependency-cruiser\.js|tsconfig\.json)$' all-changed.txt; then
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "mode=full" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # 変更 src コードファイルがなければスキップする（従来どおり）。
           if [[ ! -s changed-files.txt ]]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
+          # 変更 src ファイルに絞った targeted モード（従来どおり）。
           echo "skip=false" >> "$GITHUB_OUTPUT"
+          echo "mode=targeted" >> "$GITHUB_OUTPUT"
           node <<'NODE' > focus.txt
           const fs = require('fs');
           const escapeRegExp = value => value.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
@@ -53,21 +69,34 @@ jobs:
 
       - name: Run dependency-cruiser
         if: steps.detect.outputs.skip == 'false'
+        env:
+          MODE: ${{ steps.detect.outputs.mode }}
         run: |
-          mapfile -t files < changed-files.txt
-          focus="$(cat focus.txt)"
+          if [[ "$MODE" == 'full' ]]; then
+            # 設定ファイル変更時: スコープを絞る対象の変更 src ファイルが定まらないため、
+            # src 全体を走査する。出力は従来と同じ depcruise JSON 形式で、
+            # 後続の Build comment ステップがそのまま消費できる。
+            npx --no-install depcruise --cache -X "^node_modules" -T json src > dep-result.json
 
-          # 変更ファイルの依存関係を JSON で取得
-          npx --no-install depcruise --cache -X "^node_modules" --max-depth 3 \
-            --focus "$focus" -T json "${files[@]}" > dep-result.json
+            # 影響範囲（--reaches: 変更に依存するモジュール）は設定変更トリガーの
+            # 全走査では意味を持たないため dep-reaches.json は生成しない
+            # （Build comment は非存在時に影響範囲セクションをスキップする）。
+          else
+            mapfile -t files < changed-files.txt
+            focus="$(cat focus.txt)"
 
-          # 影響範囲（変更ファイルに依存しているモジュール）を JSON で取得
-          npx --no-install depcruise --cache -X "^node_modules" --max-depth 2 \
-            --reaches "$focus" src -T json > dep-reaches.json 2>/dev/null || true
+            # 変更ファイルの依存関係を JSON で取得
+            npx --no-install depcruise --cache -X "^node_modules" --max-depth 3 \
+              --focus "$focus" -T json "${files[@]}" > dep-result.json
 
-          # JSON バリデーション（失敗時は空にする）
-          if ! jq empty dep-reaches.json 2>/dev/null; then
-            rm -f dep-reaches.json
+            # 影響範囲（変更ファイルに依存しているモジュール）を JSON で取得
+            npx --no-install depcruise --cache -X "^node_modules" --max-depth 2 \
+              --reaches "$focus" src -T json > dep-reaches.json 2>/dev/null || true
+
+            # JSON バリデーション（失敗時は空にする）
+            if ! jq empty dep-reaches.json 2>/dev/null; then
+              rm -f dep-reaches.json
+            fi
           fi
 
       - name: Build comment
@@ -92,9 +121,12 @@ jobs:
             echo '| 深刻度 | ルール | 対象ファイル | 依存先 | 説明 |' >> comment.md
             echo '|---|---|---|---|---|' >> comment.md
             jq -r '
-              (.summary.violations // [])[]
+              (.summary.ruleSetUsed.forbidden // []) as $rules
+              | (.summary.violations // [])[]
               | select(.rule.severity == "error" or .rule.severity == "warn")
-              | "| \(.rule.severity) | `\(.rule.name)` | `\(.from)` | `\(.to)` | \(.comment // "-") |"
+              | .rule.name as $name
+              | ([$rules[] | select(.name == $name) | .comment] | first // "-") as $comment
+              | "| \(.rule.severity) | `\(.rule.name)` | `\(.from)` | `\(.to)` | \($comment) |"
             ' dep-result.json >> comment.md
             echo '' >> comment.md
           fi
@@ -106,7 +138,7 @@ jobs:
             if [[ $reaches_count -gt 0 ]]; then
               # 変更ファイル自身を除外して、影響を受ける側のモジュールだけ抽出
               affected=$(jq -r '[.modules[].source] | sort | .[]' dep-reaches.json \
-                | grep -v -F -f changed-files.txt || true)
+                | grep -v -x -F -f changed-files.txt || true)
 
               if [[ -n "$affected" ]]; then
                 affected_count=$(echo "$affected" | wc -l | tr -d ' ')
@@ -132,7 +164,9 @@ jobs:
           echo '' >> comment.md
           echo '```mermaid' >> comment.md
           if [[ $mermaid_size -gt 50000 ]]; then
-            echo "$mermaid_output" | head -c 50000 >> comment.md
+            # head -c はバイト単位で切断され構文の途中で終わりうるため、
+            # 不完全な最終行を sed で落として mermaid 構文を壊さないようにする
+            echo "$mermaid_output" | head -c 50000 | sed '$d' >> comment.md
             echo '' >> comment.md
             echo '%% グラフが大きいため省略されました' >> comment.md
           else
