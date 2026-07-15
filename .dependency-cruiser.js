@@ -135,9 +135,18 @@ module.exports = {
       from: {},
       to: {
         couldNotResolve: true,
-        // dist/*.json は prebuild で生成されるビルド成果物のため lint 時には存在しない。
-        // 生成済みかどうかは build パイプラインの責務であり、依存関係解析の対象外とする。
-        pathNot: '^~/dist/.*\\.json$',
+        pathNot: [
+          // dist/*.json は prebuild で生成されるビルド成果物のため lint 時には存在しない。
+          // 生成済みかどうかは build パイプラインの責務であり、依存関係解析の対象外とする。
+          '^~/dist/.*\\.json$',
+          // styled-system は Panda CSS が `panda codegen`（npm prepare script）で生成する
+          // 成果物で、--ignore-scripts でインストールする環境（CI 等）には実体が存在しない。
+          // dist/*.json と同様、生成の要否は build パイプラインの責務とし解析対象外とする。
+          // (/.*)? のような入れ子量指定子は safe-regex の star-height チェックに
+          // 弾かれるため、量指定子を含まない2パターンに分けている。
+          '^~/styled-system$',
+          '^~/styled-system/',
+        ],
       },
     },
     {
