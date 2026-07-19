@@ -35,7 +35,7 @@ jobs:
           cache: 'npm'
 
       - id: cache-node-modules
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
         with:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
@@ -49,7 +49,7 @@ jobs:
         run: npx panda codegen
 
       - name: Restore next build cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
         with:
           path: .next/cache
           key: next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.{ts,tsx,js,jsx}') }}
@@ -95,7 +95,7 @@ jobs:
           cache: 'npm'
 
       - id: cache-node-modules
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
         with:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
@@ -176,7 +176,7 @@ jobs:
           cache: 'npm'
 
       - id: cache-node-modules
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
         with:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
