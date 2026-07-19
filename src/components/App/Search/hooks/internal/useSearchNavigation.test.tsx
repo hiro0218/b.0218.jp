@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { useRef } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { SEARCH_RESULTS_MARKER_PROPS } from '../../constants';
 import type { SearchResultItem } from '../../types';
 import { useSearchNavigation } from './useSearchNavigation';
 
@@ -25,7 +26,7 @@ function SearchNavigationHarness() {
   return (
     <div {...navigation.containerProps}>
       <input aria-expanded="true" aria-label="検索キーワード" role="combobox" />
-      <div data-search-results>
+      <div {...SEARCH_RESULTS_MARKER_PROPS}>
         {results.map((result, index) => (
           <div data-focused={navigation.focusedIndex === index} key={result.slug} tabIndex={-1}>
             {result.title}

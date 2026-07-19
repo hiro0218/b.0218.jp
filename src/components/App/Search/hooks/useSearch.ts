@@ -21,11 +21,7 @@ export interface UseSearchOptions {
 export interface UseSearchReturn {
   query: string;
   results: SearchResultItem[];
-  isLoading: boolean;
-  error: Error | null;
   focusedIndex: number;
-  search: (query: string) => void;
-  debouncedSearch: (query: string) => void;
   reset: () => void;
   close: () => void;
   inputProps: {
@@ -58,11 +54,9 @@ export const useSearch = ({
   const listId = useId();
   const {
     state,
-    isReady,
     debouncedSearch,
     executeSearch,
     reset: resetManager,
-    setResults,
   } = useSearchManager({
     debounceDelayMs: debounceMs,
     getInitialState: persistState ? readSearchStateSync : undefined,
@@ -70,7 +64,7 @@ export const useSearch = ({
 
   const { saveSearchState, loadSearchState, clearSearchState } = useSearchStatePersistence();
 
-  useSearchStateRestoration({ persistState, executeSearch, setResults, loadSearchState });
+  useSearchStateRestoration({ persistState, executeSearch, loadSearchState });
 
   useEffect(() => {
     if (!persistState) return;
@@ -157,11 +151,15 @@ export const useSearch = ({
       return;
     }
 
-    if (trimmedValue === state.query) return;
+    if (trimmedValue === state.query) {
+      // 実行済みクエリへ戻った場合、予約済みの古い検索が後から発火して入力欄と結果が食い違うのを防ぐ
+      debouncedSearch.cancel();
+      return;
+    }
 
     shouldScrollFocusedResultRef.current = true;
     resetFocus();
-    debouncedSearch(value);
+    debouncedSearch(trimmedValue);
   };
 
   const activeResult = focusedIndex >= 0 ? state.results[focusedIndex] : undefined;
@@ -174,11 +172,7 @@ export const useSearch = ({
   return {
     query: state.query,
     results: state.results,
-    isLoading: !isReady,
-    error: null,
     focusedIndex,
-    search: executeSearch,
-    debouncedSearch,
     reset,
     close: handleClose,
     inputProps,

@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { type RefObject, useLayoutEffect, useRef } from 'react';
 import { describe, expect, it, vi } from 'vitest';
+import { SEARCH_RESULTS_MARKER_PROPS } from '../../constants';
 import { useSearchDOMRefs } from './useSearchDOMRefs';
 
 function SearchDOMRefsHarness() {
@@ -15,7 +16,7 @@ function SearchDOMRefsHarness() {
   return (
     <dialog open ref={dialogRef}>
       <input aria-expanded="true" aria-label="検索キーワード" role="combobox" />
-      <div data-search-results />
+      <div {...SEARCH_RESULTS_MARKER_PROPS} />
     </dialog>
   );
 }
@@ -34,7 +35,7 @@ function SearchResultScrollHarness() {
   return (
     <dialog open ref={dialogRef}>
       <input aria-expanded="true" aria-label="検索キーワード" role="combobox" />
-      <div data-search-results />
+      <div {...SEARCH_RESULTS_MARKER_PROPS} />
     </dialog>
   );
 }
@@ -75,7 +76,7 @@ function SearchFocusedElementScrollHarness() {
   return (
     <dialog open ref={dialogRef}>
       <input aria-expanded="true" aria-label="検索キーワード" role="combobox" />
-      <div data-search-results ref={containerRef}>
+      <div {...SEARCH_RESULTS_MARKER_PROPS} ref={containerRef}>
         <div ref={targetRef} />
       </div>
     </dialog>

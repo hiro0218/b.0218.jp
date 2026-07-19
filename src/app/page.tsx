@@ -6,7 +6,7 @@ import { Hero } from '@/components/Page/Home/Hero';
 import { Heading } from '@/components/UI/Heading';
 import { Container } from '@/components/UI/Layout/Container';
 import { Stack } from '@/components/UI/Layout/Stack';
-import { SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
 import { getOrganizationStructured, getWebSiteStructured } from '@/lib/domain/json-ld';
 import { getFilteredPosts, getPopularPost, getRecentPosts, isIgnoredPostTag } from '@/lib/post/list';
 import { getTagsWithCount } from '@/lib/source/tag';
@@ -23,6 +23,9 @@ const tags = tagsWithCount
   .map((tag) => ({ ...tag, isNavigable: tag.count >= TAG_VIEW_LIMIT }));
 
 export const metadata: Metadata = {
+  title: {
+    absolute: `${SITE_NAME} - ${SITE_DESCRIPTION}`,
+  },
   alternates: {
     canonical: SITE_URL,
   },
@@ -36,7 +39,7 @@ export default function Page() {
     <>
       <StructuredData data={[webSiteStructured, organizationStructured]} />
 
-      <h1 className="sr-only">トップページ</h1>
+      <h1 className="sr-only">{`${SITE_NAME} - ${SITE_DESCRIPTION}`}</h1>
 
       <Container size="default">
         <Stack gap={800}>

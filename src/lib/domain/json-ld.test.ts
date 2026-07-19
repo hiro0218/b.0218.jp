@@ -36,4 +36,13 @@ describe('getBlogPostingStructured', () => {
   it('schema.org image にカテゴリ別サムネイルを設定する', () => {
     expect(getBlogPostingStructured(createPost(['CSS'])).image).toEqual(['https://b.0218.jp/thumbnail/develop.png']);
   });
+
+  it('author は about ページを指す @id 参照と、Google 推奨の name/url を返す', () => {
+    expect(getBlogPostingStructured(createPost(['CSS'])).author).toEqual({
+      '@type': 'Person',
+      '@id': 'https://b.0218.jp/about',
+      name: 'hiro',
+      url: 'https://b.0218.jp/about',
+    });
+  });
 });

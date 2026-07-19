@@ -1,6 +1,10 @@
 import { Stack } from '@/components/UI/Layout/Stack';
+import { SITE_URL } from '@/constants';
 import { styled } from '@/ui/styled';
 import { truncateQuery } from './utils/createSearchMessage';
+
+// Google の site: 検索スコープ。SITE_URL からホスト名を導出し、ドメイン変更時の直書き残留を防ぐ
+const SITE_SEARCH_SCOPE = `site:${new URL(SITE_URL).host}`;
 
 type SearchFooterProps = {
   searchQuery?: string;
@@ -10,7 +14,7 @@ type SearchFooterProps = {
  * @summary キーボードショートカット案内と Google 検索リンクを表示するフッター。
  */
 export function SearchFooter({ searchQuery }: SearchFooterProps) {
-  const query = searchQuery ? `site:b.0218.jp ${searchQuery}` : 'site:b.0218.jp';
+  const query = searchQuery ? `${SITE_SEARCH_SCOPE} ${searchQuery}` : SITE_SEARCH_SCOPE;
   const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
   const displayQuery = searchQuery ? truncateQuery(searchQuery) : '';
 

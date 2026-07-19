@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { styled } from '@/ui/styled';
+import { SEARCH_LABELS, SEARCH_RESULTS_MARKER_PROPS } from '../constants';
 import type { SearchResultItem as SearchResultItemType } from '../types';
 import { createSearchResultId } from '../utils/resultId';
 import { SearchResultItem } from './SearchResultItem';
@@ -56,7 +57,13 @@ export function SearchResultList({
   }, []);
 
   return (
-    <Container aria-label="検索結果" data-search-results id={listId} ref={containerRef} role="listbox">
+    <Container
+      aria-label={SEARCH_LABELS.searchResults}
+      id={listId}
+      ref={containerRef}
+      role="listbox"
+      {...SEARCH_RESULTS_MARKER_PROPS}
+    >
       <Sizer ref={sizerRef}>
         {results.map(({ slug, matchedIn }, index) => (
           <SearchResultItem

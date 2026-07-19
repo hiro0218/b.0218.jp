@@ -78,10 +78,8 @@ export const useSearchManager = ({ debounceDelayMs = 300, getInitialState }: Use
 
   return {
     state,
-    isReady,
     debouncedSearch,
     executeSearch,
     reset,
-    setResults,
   };
 };

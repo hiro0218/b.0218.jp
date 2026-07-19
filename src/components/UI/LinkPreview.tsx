@@ -32,13 +32,11 @@ export const LinkPreview = ({ link, card, thumbnail, title, domain, description 
 };
 
 const Anchor = styled.a`
-  --link-preview-thumbnail-size: var(--sizes-link-preview-thumbnail);
-
   display: flex;
   align-items: center;
-  height: var(--link-preview-thumbnail-size);
+  height: var(--sizes-link-preview-thumbnail);
   container-type: inline-size;
-  overflow: hidden;
+  overflow: clip;
   color: var(--colors-gray-900);
   text-decoration: none;
   text-decoration-line: unset;
@@ -52,6 +50,10 @@ const Anchor = styled.a`
     border-color: var(--colors-gray-a-400);
   }
 
+  &:active {
+    background-color: var(--colors-gray-100);
+  }
+
   &[target='_blank']::after {
     content: none;
   }
@@ -63,9 +65,11 @@ const Anchor = styled.a`
       }
 
       .p-link-preview-thumbnail {
-        width: min(40%, 230px);
-        max-width: 230px;
-        height: var(--link-preview-thumbnail-size);
+        --thumbnail-height: 230px;
+
+        width: min(40%, var(--thumbnail-height));
+        max-width: var(--thumbnail-height);
+        height: var(--sizes-link-preview-thumbnail);
       }
     }
   }
@@ -74,7 +78,7 @@ const Anchor = styled.a`
 const Body = styled.span`
   display: block;
   flex: 1 1;
-  width: calc(100% - var(--link-preview-thumbnail-size));
+  width: calc(100% - var(--sizes-link-preview-thumbnail));
   padding: 0 var(--spacing-300);
   padding-left: var(--spacing-300);
 `;
@@ -89,7 +93,8 @@ const BodyDescription = styled.span`
   display: none;
   margin-top: var(--spacing-75);
   font-size: var(--font-sizes-sm);
-  color: var(--colors-gray-800);
+  line-height: var(--line-heights-sm);
+  color: var(--colors-gray-600);
 
   @container (min-width: 500px) {
     display: block;
@@ -98,8 +103,10 @@ const BodyDescription = styled.span`
 
 const BodyUrl = styled.span`
   display: block;
+  margin-top: var(--spacing-100);
   font-size: var(--font-sizes-xs);
-  color: var(--colors-gray-600);
+  line-height: var(--line-heights-xs);
+  color: var(--colors-gray-700);
 `;
 
 const Thumbnail = styled.span`
@@ -107,9 +114,10 @@ const Thumbnail = styled.span`
   flex-shrink: 0;
   flex-basis: auto;
   flex-direction: column;
-  width: var(--link-preview-thumbnail-size);
-  height: var(--link-preview-thumbnail-size);
-  overflow: hidden;
+  width: var(--sizes-link-preview-thumbnail);
+  height: stretch;
+  height: var(--sizes-link-preview-thumbnail);
+  overflow: clip;
   user-select: none;
 
   img {

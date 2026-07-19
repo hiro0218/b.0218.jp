@@ -110,7 +110,7 @@ module.exports = {
     {
       name: 'not-to-deprecated',
       comment:
-        'このモジュールは非推奨のnpmモジュール（またはそのバージョン）に依存しています。遅いバージョンにアップグレードするか、代わりとなるモジュールを見つけてください。非推奨のモジュールはセキュリティリスクとなる可能性があります。',
+        'このモジュールは非推奨のnpmモジュール（またはそのバージョン）に依存しています。新しいバージョンにアップグレードするか、代わりとなるモジュールを見つけてください。非推奨のモジュールはセキュリティリスクとなる可能性があります。',
       severity: 'warn',
       from: {},
       to: {
@@ -135,9 +135,18 @@ module.exports = {
       from: {},
       to: {
         couldNotResolve: true,
-        // dist/*.json は prebuild で生成されるビルド成果物のため lint 時には存在しない。
-        // 生成済みかどうかは build パイプラインの責務であり、依存関係解析の対象外とする。
-        pathNot: '^~/dist/.*\\.json$',
+        pathNot: [
+          // dist/*.json は prebuild で生成されるビルド成果物のため lint 時には存在しない。
+          // 生成済みかどうかは build パイプラインの責務であり、依存関係解析の対象外とする。
+          '^~/dist/.*\\.json$',
+          // styled-system は Panda CSS が `panda codegen`（npm prepare script）で生成する
+          // 成果物で、--ignore-scripts でインストールする環境（CI 等）には実体が存在しない。
+          // dist/*.json と同様、生成の要否は build パイプラインの責務とし解析対象外とする。
+          // (/.*)? のような入れ子量指定子は safe-regex の star-height チェックに
+          // 弾かれるため、量指定子を含まない2パターンに分けている。
+          '^~/styled-system$',
+          '^~/styled-system/',
+        ],
       },
     },
     {
@@ -174,7 +183,7 @@ module.exports = {
       from: {
         path: '^(src)',
         pathNot: [
-          '[.](spec|test)[.](js|mjs|cjs|ts|ls|coffee|litcoffee|coffee[.]md)$',
+          '[.](spec|test)[.](js|mjs|cjs|jsx|ts|tsx|ls|coffee|litcoffee|coffee[.]md)$',
           '[.]stories[.](js|mjs|cjs|ts|tsx)$',
         ],
       },
