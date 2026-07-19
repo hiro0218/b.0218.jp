@@ -16,6 +16,7 @@ export const URL = {
   zenn: 'https://zenn.dev/hiro',
   codepen: 'https://codepen.io/hiro0218',
   speakerdeck: 'https://speakerdeck.com/hiro0218',
+  connpass: 'https://connpass.com/user/hiro0218/',
 } as const;
 
 export const X_ACCOUNT = 'hiro0218';
