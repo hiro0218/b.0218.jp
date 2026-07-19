@@ -9,7 +9,7 @@ export const SITE_URL = 'https://b.0218.jp';
 export const MAIN_CONTENT_ID = 'main';
 
 export const URL = {
-  twitter: 'https://twitter.com/hiro0218',
+  x: 'https://x.com/hiro0218',
   github: 'https://github.com/hiro0218',
   npm: 'https://www.npmjs.com/~hiro0218',
   qiita: 'https://qiita.com/hiro0218',
