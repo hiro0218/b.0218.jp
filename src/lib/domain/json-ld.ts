@@ -44,8 +44,12 @@ const getKnowsAbout = (): string[] => {
     .map((tag) => tag.slug);
 };
 
+/** 記事側 JSON-LD の author から参照される Person の識別子 */
+const AUTHOR_ID = `${SITE_URL}/about`;
+
 const AUTHOR = {
   '@type': 'Person',
+  '@id': AUTHOR_ID,
   name: AUTHOR_NAME,
   image: AUTHOR_ICON,
   url: `${SITE_URL}/about`,
@@ -154,7 +158,10 @@ export const getBlogPostingStructured = (post: Post, popularity?: PopularityDeta
     dateModified: convertToISO8601WithTimezone(post.updated || post.date),
     ...(post.tags ? { keywords: post.tags } : {}),
     author: {
-      ...AUTHOR,
+      '@type': 'Person',
+      '@id': AUTHOR_ID,
+      name: AUTHOR.name,
+      url: AUTHOR.url,
     },
     description: getDescriptionText(post.content),
     image: [getBlogPostingImage(post)],
