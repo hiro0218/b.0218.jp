@@ -57,7 +57,7 @@ jobs:
 
       - name: Run AI inference
         id: inference
-        uses: actions/ai-inference@v2.0.7
+        uses: actions/ai-inference@v2.1.0
         with:
           max-tokens: 500
           prompt: |
@@ -82,7 +82,7 @@ jobs:
             ```
 
       - name: Comment
-        uses: marocchino/sticky-pull-request-comment@d4d6b0936434b21bc8345ad45a440c5f7d2c40ff # v3
+        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3
         with:
           header: ai-summary-comment
           message: ${{ steps.inference.outputs.response }}
