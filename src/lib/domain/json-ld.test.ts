@@ -40,7 +40,7 @@ describe('getBlogPostingStructured', () => {
   it('author は about ページを指す @id 参照と、Google 推奨の name/url を返す', () => {
     expect(getBlogPostingStructured(createPost(['CSS'])).author).toEqual({
       '@type': 'Person',
-      '@id': 'https://b.0218.jp/about#hiro',
+      '@id': 'https://b.0218.jp/about',
       name: 'hiro',
       url: 'https://b.0218.jp/about',
     });
