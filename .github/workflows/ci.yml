@@ -45,16 +45,17 @@ jobs:
         name: Install dependencies
         run: npm ci --ignore-scripts
 
-      - name: Generate Panda CSS
-        run: npx panda codegen
+      - parallel:
+          - name: Generate Panda CSS
+            run: npx panda codegen
 
-      - name: Restore next build cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
-        with:
-          path: .next/cache
-          key: next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.{ts,tsx,js,jsx}') }}
-          restore-keys: |
-            next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
+          - name: Restore next build cache
+            uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
+            with:
+              path: .next/cache
+              key: next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.{ts,tsx,js,jsx}') }}
+              restore-keys: |
+                next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
 
       - name: Prebuild and next build
         env:
@@ -105,14 +106,15 @@ jobs:
         name: Install dependencies
         run: npm ci --ignore-scripts
 
-      - name: Download build artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          name: build-output
-          path: .next
+      - parallel:
+          - name: Download build artifact
+            uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+            with:
+              name: build-output
+              path: .next
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+          - name: Install Playwright browsers
+            run: npx playwright install --with-deps chromium
 
       - name: Run Playwright E2E
         id: e2e
@@ -186,14 +188,15 @@ jobs:
         name: Install dependencies
         run: npm ci --ignore-scripts
 
-      - name: Install bundle analysis scripts dependencies
-        run: npm ci --prefix .github/scripts
+      - parallel:
+          - name: Install bundle analysis scripts dependencies
+            run: npm ci --prefix .github/scripts
 
-      - name: Download build artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          name: build-output
-          path: .next
+          - name: Download build artifact
+            uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+            with:
+              name: build-output
+              path: .next
 
       - name: Analyze bundle
         run: node .github/scripts/report.js

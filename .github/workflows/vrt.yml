@@ -50,6 +50,7 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Install Playwright browsers
+        background: true
         run: npx playwright install --with-deps chromium
 
       - name: Restore Storybook build cache
@@ -65,6 +66,7 @@ jobs:
 
       - name: Download baseline snapshots from master
         if: github.event_name == 'pull_request'
+        background: true
         uses: dawidd6/action-download-artifact@b6e2e70617bc3265edd6dab6c906732b2f1ae151 # v21
         with:
           workflow: vrt.yml
@@ -72,6 +74,9 @@ jobs:
           name: vrt-baseline
           path: tests/vrt/__snapshots__
           if_no_artifact_found: warn
+
+      - name: Wait for background setup steps
+        wait-all:
 
       - name: Run Playwright VRT
         id: vrt
