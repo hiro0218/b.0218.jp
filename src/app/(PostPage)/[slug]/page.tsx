@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { getMetadata } from '@/app/_metadata';
-import { ScrollProgress } from '@/components/App/ScrollProgress';
+import { ScrollProgress, scrollProgressTarget, scrollProgressTargetAttrs } from '@/components/App/ScrollProgress';
 import { StructuredData } from '@/components/Functional/StructuredData';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { TagSection } from '@/components/Page/_shared/TagSection';
@@ -86,11 +86,11 @@ export default async function Page({ params }: { params: Params }) {
 
   return (
     <>
-      <ScrollProgress />
       <StructuredData data={[getBlogPostingStructured(post, popularity), getBreadcrumbStructured(post)]} />
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
       <Stack gap={1000}>
-        <Stack as="article" gap={600}>
+        <Stack as="article" className={scrollProgressTarget} gap={600} {...scrollProgressTargetAttrs}>
+          <ScrollProgress />
           <PostHeader
             date={date}
             render={
