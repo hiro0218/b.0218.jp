@@ -9,7 +9,10 @@ test('archive page leads to a post detail', async ({ page }) => {
   const main = page.getByRole('main');
   await expect(main).toBeVisible();
 
-  const firstPostLink = main.getByRole('list').first().getByRole('link').first();
+  // main 内には Chart（年別ジャンプナビゲーション、#年 アンカー）の list が
+  // 記事一覧より先に存在するため、list/section の位置ではなく実際の記事詳細 URL
+  // パターン（.html）で対象リンクを直接特定する。
+  const firstPostLink = main.locator('a[href$=".html"]').first();
   await expect(firstPostLink).toBeVisible();
   await expect(firstPostLink).toHaveAttribute('href', POST_HREF);
 

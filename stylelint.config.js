@@ -25,7 +25,9 @@ module.exports = {
     'plugin/browser-compat': [
       true,
       {
-        ignore: ['properties.animation-timeline', 'properties.scroll-timeline'],
+        allow: {
+          features: ['properties.animation-timeline', 'properties.scroll-timeline', 'properties.view-timeline-name'],
+        },
       },
     ],
     'stylelint-plugin-isolate-on-stack/no-redundant-declaration': true,

@@ -21,9 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: Kesin11/actions-timeline@44c9c178ffb2fb1d9859614a3ffa79ccfb77565e # v3.1.0
+      - uses: Kesin11/actions-timeline@7bf79990b7c09f5dfb570ac30b814ca597bd538e # v3.1.1
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v6
         with:
           persist-credentials: false
           submodules: true
@@ -35,7 +35,7 @@ jobs:
           cache: 'npm'
 
       - id: cache-node-modules
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
         with:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
@@ -45,16 +45,17 @@ jobs:
         name: Install dependencies
         run: npm ci --ignore-scripts
 
-      - name: Generate Panda CSS
-        run: npx panda codegen
+      - parallel:
+          - name: Generate Panda CSS
+            run: npx panda codegen
 
-      - name: Restore next build cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
-        with:
-          path: .next/cache
-          key: next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.{ts,tsx,js,jsx}') }}
-          restore-keys: |
-            next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
+          - name: Restore next build cache
+            uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
+            with:
+              path: .next/cache
+              key: next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.{ts,tsx,js,jsx}') }}
+              restore-keys: |
+                next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
 
       - name: Prebuild and next build
         env:
@@ -82,9 +83,9 @@ jobs:
       artifact-url: ${{ steps.artifact.outputs.artifact-url }}
       outcome: ${{ steps.e2e.outcome }}
     steps:
-      - uses: Kesin11/actions-timeline@44c9c178ffb2fb1d9859614a3ffa79ccfb77565e # v3.1.0
+      - uses: Kesin11/actions-timeline@7bf79990b7c09f5dfb570ac30b814ca597bd538e # v3.1.1
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v6
         with:
           persist-credentials: false
 
@@ -95,7 +96,7 @@ jobs:
           cache: 'npm'
 
       - id: cache-node-modules
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
         with:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
@@ -105,14 +106,15 @@ jobs:
         name: Install dependencies
         run: npm ci --ignore-scripts
 
-      - name: Download build artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          name: build-output
-          path: .next
+      - parallel:
+          - name: Download build artifact
+            uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+            with:
+              name: build-output
+              path: .next
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+          - name: Install Playwright browsers
+            run: npx playwright install --with-deps chromium
 
       - name: Run Playwright E2E
         id: e2e
@@ -163,9 +165,9 @@ jobs:
     outputs:
       comment-body: ${{ steps.get-comment-body.outputs.body }}
     steps:
-      - uses: Kesin11/actions-timeline@44c9c178ffb2fb1d9859614a3ffa79ccfb77565e # v3.1.0
+      - uses: Kesin11/actions-timeline@7bf79990b7c09f5dfb570ac30b814ca597bd538e # v3.1.1
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v6
         with:
           persist-credentials: false
 
@@ -176,7 +178,7 @@ jobs:
           cache: 'npm'
 
       - id: cache-node-modules
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
         with:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
@@ -186,14 +188,15 @@ jobs:
         name: Install dependencies
         run: npm ci --ignore-scripts
 
-      - name: Install bundle analysis scripts dependencies
-        run: npm ci --prefix .github/scripts
+      - parallel:
+          - name: Install bundle analysis scripts dependencies
+            run: npm ci --prefix .github/scripts
 
-      - name: Download build artifact
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          name: build-output
-          path: .next
+          - name: Download build artifact
+            uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+            with:
+              name: build-output
+              path: .next
 
       - name: Analyze bundle
         run: node .github/scripts/report.js

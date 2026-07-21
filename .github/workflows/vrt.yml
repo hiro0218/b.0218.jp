@@ -25,9 +25,9 @@ jobs:
       outcome: ${{ steps.vrt.outcome }}
       section: ${{ steps.diffs.outputs.section }}
     steps:
-      - uses: Kesin11/actions-timeline@44c9c178ffb2fb1d9859614a3ffa79ccfb77565e # v3.1.0
+      - uses: Kesin11/actions-timeline@7bf79990b7c09f5dfb570ac30b814ca597bd538e # v3.1.1
 
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v6
         with:
           persist-credentials: false
           submodules: true
@@ -39,7 +39,7 @@ jobs:
           cache: 'npm'
 
       - id: cache-node-modules
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
         with:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
@@ -50,11 +50,12 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Install Playwright browsers
+        background: true
         run: npx playwright install --with-deps chromium
 
       - name: Restore Storybook build cache
         id: sb-cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
         with:
           path: storybook-static
           key: storybook-${{ runner.os }}-${{ hashFiles('.storybook/**', 'src/components/UI/**/*.{ts,tsx,css}', 'src/stories/**/*.{ts,tsx,css}', 'src/lib/**/*.{ts,tsx}', 'src/ui/**/*.{ts,tsx}', 'panda.config.mts', 'package-lock.json') }}
@@ -65,6 +66,7 @@ jobs:
 
       - name: Download baseline snapshots from master
         if: github.event_name == 'pull_request'
+        background: true
         uses: dawidd6/action-download-artifact@b6e2e70617bc3265edd6dab6c906732b2f1ae151 # v21
         with:
           workflow: vrt.yml
@@ -72,6 +74,9 @@ jobs:
           name: vrt-baseline
           path: tests/vrt/__snapshots__
           if_no_artifact_found: warn
+
+      - name: Wait for background setup steps
+        wait-all:
 
       - name: Run Playwright VRT
         id: vrt

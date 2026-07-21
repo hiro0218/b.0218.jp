@@ -1,29 +1,35 @@
-import { useEffect } from 'react';
+import { type RefObject, useEffect } from 'react';
 import throttle from '@/lib/utils/throttle';
 
-function calculateScrollProgress(): number {
-  const scrollTop = window.scrollY;
-  const docHeight = document.documentElement.scrollHeight;
-  const windowHeight = window.innerHeight;
+/**
+ * 対象要素が viewport 上端に到達してから、対象要素の下端が viewport 下端に到達するまでを
+ * 0→1 として進捗を計算する（CSS `animation-range: contain` と同じ区間の定義）。
+ * 対象要素が viewport に収まるほど短い場合は、常に 0 を返す（contain は本来この場合も
+ * 区間を定義するが、この関数は簡略化している）。
+ */
+function calculateScrollProgress(target: HTMLElement): number {
+  const rect = target.getBoundingClientRect();
+  const scrollableHeight = rect.height - window.innerHeight;
 
-  if (docHeight <= windowHeight) return 0;
+  if (scrollableHeight <= 0) return 0;
 
-  const scrollableHeight = docHeight - windowHeight;
-  const ratio = scrollTop / scrollableHeight;
+  const ratio = -rect.top / scrollableHeight;
 
   return Math.max(0, Math.min(1, ratio));
 }
 
-export function useScrollProgressFallback(targetId: string): void {
+export function useScrollProgressFallback(barRef: RefObject<HTMLDivElement | null>, targetAttr: string): void {
   useEffect(() => {
-    if (CSS.supports('animation-timeline: scroll(root block)')) return;
+    // 判定条件は ScrollProgress/Bar.tsx の @supports 条件と文字列を一致させること
+    if (CSS.supports('(view-timeline-name: --scroll-progress) and (animation-range: contain)')) return;
 
-    const progressBar = document.getElementById(targetId);
+    const progressBar = barRef.current;
+    const target = document.querySelector(`[${targetAttr}]`);
 
-    if (!progressBar) return;
+    if (!progressBar || !(target instanceof HTMLElement)) return;
 
     const updateProgress = () => {
-      const progress = calculateScrollProgress();
+      const progress = calculateScrollProgress(target);
       progressBar.style.transform = `scaleX(${progress})`;
     };
 
@@ -38,5 +44,5 @@ export function useScrollProgressFallback(targetId: string): void {
       window.removeEventListener('scroll', throttledUpdate);
       window.removeEventListener('resize', throttledUpdate);
     };
-  }, [targetId]);
+  }, [barRef, targetAttr]);
 }
