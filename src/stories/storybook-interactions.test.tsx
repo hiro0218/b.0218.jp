@@ -1,4 +1,3 @@
-/// <reference types="vite/client" />
 import { composeStories, setProjectAnnotations } from '@storybook/react';
 import { cleanup, render } from '@testing-library/react';
 import type { ComponentType } from 'react';
@@ -14,7 +13,11 @@ type PlayableStory = ComponentType & {
   play?: (context: { canvasElement: HTMLElement }) => Promise<void> | void;
 };
 
-const storyModules = import.meta.glob<StoryFileModule>('../components/UI/**/*.stories.tsx', { eager: true });
+// Next.js の ImportMeta.glob 型定義はジェネリックを取らないため、型引数指定ではなくキャストで型を付ける。
+const storyModules = import.meta.glob('../components/UI/**/*.stories.tsx', { eager: true }) as Record<
+  string,
+  StoryFileModule
+>;
 
 const STORY_PATH_PATTERN = /UI\/(.+)\.stories\.tsx$/;
 
