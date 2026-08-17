@@ -83,11 +83,13 @@
   h2 {
     padding-bottom: var(--spacing-100);
     margin-top: var(--spacing-800);
+  }
 
-    /* 記事が見出しで始まる場合のみ上余白を消す */
-    &:first-child {
-      margin-top: auto;
-    }
+  /* 記事が見出しで始まる場合のみ上余白を消す。AdsenseManager が広告で本文を
+     複数の .post-content に分割した場合、2番目以降のブロックは要素として先頭ではない
+     ため :first-of-type の対象外になり、通常の間隔がそのまま保たれる */
+  &:first-of-type > h2:first-child {
+    margin-top: auto;
   }
 
   h3 {
@@ -163,6 +165,11 @@
     ul:last-of-type {
       margin-block-end: var(--spacing-100);
     }
+  }
+
+  /* 読み込み完了までは背景色をプレースホルダーとして見せる。画像が全面を覆うため完了後は隠れる */
+  img {
+    background-color: var(--colors-gray-a-300);
   }
 
   iframe {

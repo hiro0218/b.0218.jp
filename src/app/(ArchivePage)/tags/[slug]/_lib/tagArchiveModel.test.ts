@@ -28,16 +28,16 @@ describe('parseTagPageSegment', () => {
 describe('createTagArchiveMetadataModel', () => {
   it('1ページ目の場合、タグの canonical URL を返す', () => {
     expect(createTagArchiveMetadataModel({ routeSlug: 'TypeScript', tag: 'TypeScript' })).toEqual({
-      title: 'Tag: TypeScript',
-      description: 'Tag: TypeScript - 零弐壱蜂',
+      title: 'TypeScript',
+      description: 'TypeScriptの記事一覧',
       canonicalUrl: 'https://b.0218.jp/tags/TypeScript',
     });
   });
 
   it('2ページ目以降の場合、ページ番号つきの canonical URL を返す', () => {
     expect(createTagArchiveMetadataModel({ routeSlug: 'TypeScript', tag: 'TypeScript', currentPage: 2 })).toEqual({
-      title: 'Tag: TypeScript - Page 2',
-      description: 'Tag: TypeScript - Page 2 - 零弐壱蜂',
+      title: 'TypeScript（2ページ目）',
+      description: 'TypeScriptの記事一覧（2ページ目）',
       canonicalUrl: 'https://b.0218.jp/tags/TypeScript/2',
     });
   });

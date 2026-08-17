@@ -20,7 +20,7 @@ const tags = getTagsWithCount().reduce<NavigableTag[]>((filteredTags, tag) => {
 
   return filteredTags;
 }, []);
-const title = 'Tags';
+const title = 'タグ';
 const description = `${tags.length}件のタグ`;
 const url = `${SITE_URL}/tags`;
 

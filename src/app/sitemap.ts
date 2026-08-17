@@ -1,9 +1,11 @@
 import type { MetadataRoute } from 'next';
+import { createTagArchivePaginationStaticParams } from '@/app/(ArchivePage)/tags/[slug]/_lib/tagArchiveModel';
 import { SITE_URL } from '@/constants';
 import { getPostBySlug, getPostsListJson } from '@/lib/source/post';
 import { getTagsWithCount } from '@/lib/source/tag';
 import { tagPermalink } from '@/lib/tag/navigation';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';
+import type { Post, PostSummary } from '@/types/source';
 
 const posts = getPostsListJson();
 const tags = getTagsWithCount();
@@ -20,10 +22,45 @@ const pages = [
   { path: 'privacy', priority: 0.5, usesLatestPostDate: false, changeFrequency: 'yearly' as const },
 ] as const;
 
+type SitemapPost = PostSummary & {
+  lastModified: string;
+};
+
+/** Google は lastmod を再クロール判断に使うので、公開日より更新日を優先する。 */
+function getPostLastModified(summary: PostSummary, full: Post | null): string {
+  return full?.updated ?? summary.updated ?? full?.date ?? summary.date;
+}
+
+function getLatestLastModified(items: readonly Pick<SitemapPost, 'lastModified'>[]): string | undefined {
+  if (items.length === 0) {
+    return undefined;
+  }
+
+  return items.reduce(
+    (latest, item) => (item.lastModified > latest ? item.lastModified : latest),
+    items[0].lastModified,
+  );
+}
+
+function toSitemapPost(summary: PostSummary): SitemapPost | null {
+  const full = getPostBySlug(summary.slug);
+
+  if (full?.noindex === true) {
+    return null;
+  }
+
+  return {
+    ...summary,
+    lastModified: getPostLastModified(summary, full),
+  };
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  // 最新記事の日付を取得
-  const sitemapPosts = posts.filter((post) => getPostBySlug(post.slug)?.noindex !== true);
-  const latestPostDate = sitemapPosts.length > 0 ? sitemapPosts[0].date : undefined;
+  const sitemapPosts = posts.flatMap((post) => {
+    const sitemapPost = toSitemapPost(post);
+    return sitemapPost ? [sitemapPost] : [];
+  });
+  const latestPostDate = getLatestLastModified(sitemapPosts);
 
   const pageList: MetadataRoute.Sitemap = pages.map(({ path, priority, usesLatestPostDate, changeFrequency }) => {
     return {
@@ -40,36 +77,44 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     return {
       url: permalink,
-      lastModified: post.date,
+      lastModified: post.lastModified,
       changeFrequency: 'monthly',
       priority: 0.7,
       images: [ogpImage],
     };
   });
 
-  // タグごとの最新記事日付を1パスで収集する。sitemapPosts は date 降順
-  // (src/lib/source/post.ts の getPostsListJson が保証) なので、タグの初出時点の date がそのタグの最新記事日付になる。
-  // 以前は tags.map の内側で毎回 sitemapPosts 全体を filter しており、タグ数×記事数の走査になっていた。
+  // タグごとの最終更新を 1 パスで収集する。updated を見るため date 降順の初出では足りない。
   const latestTagPostDateMap = new Map<string, string>();
 
   for (const post of sitemapPosts) {
     for (const tag of post.tags) {
-      if (!latestTagPostDateMap.has(tag)) {
-        latestTagPostDateMap.set(tag, post.date);
+      const current = latestTagPostDateMap.get(tag);
+      if (current === undefined || post.lastModified > current) {
+        latestTagPostDateMap.set(tag, post.lastModified);
       }
     }
   }
 
-  const tagList: MetadataRoute.Sitemap = tags.map(({ slug }) => {
+  const tagList: MetadataRoute.Sitemap = tags.flatMap(({ slug, count }) => {
     const permalink = tagPermalink(slug);
     const latestTagPostDate = latestTagPostDateMap.get(slug);
-
-    return {
+    const firstPage: MetadataRoute.Sitemap[number] = {
       url: permalink,
       lastModified: latestTagPostDate,
       changeFrequency: 'weekly',
       priority: 0.5,
     };
+
+    // 2 ページ目以降も独立 URL なので、1 ページ目と同じ lastmod で列挙する。
+    const extraPages = createTagArchivePaginationStaticParams(slug, count).map(({ page }) => ({
+      url: `${permalink}/${page}`,
+      lastModified: latestTagPostDate,
+      changeFrequency: 'weekly' as const,
+      priority: 0.5,
+    }));
+
+    return [firstPage, ...extraPages];
   });
 
   return [...pageList, ...postList, ...tagList];

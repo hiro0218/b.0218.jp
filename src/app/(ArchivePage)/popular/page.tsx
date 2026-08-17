@@ -10,13 +10,12 @@ const POST_DISPLAY_LIMIT = 20;
 
 const popularPosts = getPopularPost(getPostsListJson(), POST_DISPLAY_LIMIT);
 const slug = 'popular';
-const title = 'Popular';
-const pageTitle = '定番記事';
+const title = '定番記事';
 const description = `${popularPosts.length}件の記事`;
 
 export const metadata: Metadata = getMetadata({
   title,
-  description: `${pageTitle} - ${description}`,
+  description: `${title} - ${description}`,
   url: `${SITE_URL}/${slug}`,
 });
 
@@ -24,7 +23,7 @@ export default function Page() {
   return (
     <>
       <Title paragraph={description}>{title}</Title>
-      <PostSection heading={pageTitle} layout="timeline" posts={popularPosts} />
+      <PostSection layout="timeline" posts={popularPosts} />
     </>
   );
 }

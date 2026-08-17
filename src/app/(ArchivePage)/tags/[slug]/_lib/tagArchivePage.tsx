@@ -34,8 +34,6 @@ type TagArchivePageProps = {
   currentPage?: number;
 };
 
-const pageTitle = 'Tag';
-
 export function getTagStaticParams() {
   return getRoutableTagStaticParams();
 }
@@ -56,7 +54,7 @@ export function getTagArchiveMetadata({ slug, currentPage = 1 }: TagArchiveMetad
       types: {
         'application/rss+xml': [
           { title: SITE_NAME, url: '/feed.xml' },
-          { title: `Tag: ${decodedSlug}`, url: tagFeedPermalink(decodedSlug) },
+          { title: decodedSlug, url: tagFeedPermalink(decodedSlug) },
         ],
       },
     },
@@ -85,8 +83,14 @@ export function TagArchivePage({ slug, currentPage = 1 }: TagArchivePageProps) {
         })}
       />
       <Stack as="section" gap={600}>
-        <Title paragraph={`${model.totalItems}件の記事`}>{pageTitle}</Title>
-        <PostSection heading={`#${model.tag}`} layout="timeline" posts={model.posts} />
+        <Title
+          paragraph={
+            currentPage > 1 ? `${model.totalItems}件の記事（${currentPage}ページ目）` : `${model.totalItems}件の記事`
+          }
+        >
+          {model.tag}
+        </Title>
+        <PostSection layout="timeline" posts={model.posts} />
         <Pagination pagination={model.pagination} />
       </Stack>
     </>
