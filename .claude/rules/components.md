@@ -27,6 +27,8 @@ paths:
 
 Feature Module は、`App/` 内で独自 hooks / engine / types を持つ自己完結 module を指す。外部からは公開入口のみ import する。
 
+Feature Module 構造は `Page/` 配下のドメインにも適用できる。ページ種別に閉じた機能が独自の hooks / engine / utils / types を必要とする場合、`App/` へ昇格させたり `src/hooks/` などの汎用層へ置いたりせず、`Page/<Domain>/` 内に同じ自己完結構造で配置する。`App/` と `Page/` の判定基準はスコープである。サイト横断で使われる機能（ヘッダー、検索、レイアウトなど）は `App/`、特定のページ種別に閉じる機能（記事ページの目次など）は `Page/<Domain>/` に置く。外部からは公開入口のみ import する規約、およびレイヤー依存ルール（`Page` から `App` への依存禁止、`Page/_shared` から個別ドメインへの依存禁止）は、`Page/` 配下の Feature Module 内部にもそのまま適用される。
+
 ### module 境界
 
 「module 外」は、その module directory の外側にある runtime code を指す。module 内の test / Storybook が内部詳細を直接検証する場合は例外としてよい。
