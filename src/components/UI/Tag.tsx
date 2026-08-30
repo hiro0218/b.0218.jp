@@ -41,7 +41,6 @@ export function PostTag({ tags, hasRelTag = true }: PostTagProps) {
 
         return isAnchor ? (
           <Anchor
-            aria-label={count != null ? `${slug}（${count}件）` : undefined}
             className={postTagAnchor}
             href={tagPath(slug)}
             key={slug}
@@ -50,7 +49,16 @@ export function PostTag({ tags, hasRelTag = true }: PostTagProps) {
             })}
           >
             {slug}
-            {count != null && <Count aria-hidden="true">{count}</Count>}
+            {/**
+             * aria-label は使わない。可視テキスト（slug+件数）とラベルの文字列が一致しないと
+             * WCAG 2.5.3 (Label in Name) 違反になるため、可視テキストの並びに「件」だけ読み上げ用に足す
+             */}
+            {count != null && (
+              <Count>
+                {count}
+                <span className="sr-only">件</span>
+              </Count>
+            )}
           </Anchor>
         ) : (
           <span aria-hidden="true" className={postTagAnchor} key={slug}>
