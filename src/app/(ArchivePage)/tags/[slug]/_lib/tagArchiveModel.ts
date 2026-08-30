@@ -31,7 +31,7 @@ type TagArchivePageModel = {
   pagination: PaginationModel;
 };
 
-type StaticTagPageParam = {
+export type StaticTagPageParam = {
   slug: string;
   page: string;
 };

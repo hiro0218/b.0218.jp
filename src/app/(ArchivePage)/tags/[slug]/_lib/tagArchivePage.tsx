@@ -12,17 +12,13 @@ import { getTagPosts } from '@/lib/post/tagPosts';
 import { tagFeedPermalink } from '@/lib/tag/navigation';
 import { getRoutableTagStaticParams, getRoutableTags } from '@/lib/tag/routing';
 import { tagFromUrlPath } from '@/lib/tag/url';
+import type { StaticTagPageParam } from './tagArchiveModel';
 import {
   createTagArchiveMetadataModel,
   createTagArchivePageModel,
   createTagArchivePaginationStaticParams,
   parseTagPageSegment,
 } from './tagArchiveModel';
-
-type StaticTagPageParam = {
-  slug: string;
-  page: string;
-};
 
 type TagArchiveMetadataOptions = {
   slug: string;
