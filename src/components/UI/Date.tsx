@@ -17,7 +17,14 @@ export function PostDate({ date, updated }: Props) {
       <time className={hasModified ? modifiedStyle : undefined} dateTime={date}>
         {date}
       </time>
-      {!!hasModified && <time dateTime={updated}>{updated}</time>}
+      {!!hasModified && (
+        <Stack direction="horizontal" gap={75}>
+          <span aria-hidden="true" className="sr-only">
+            更新:
+          </span>
+          <time dateTime={updated}>{updated}</time>
+        </Stack>
+      )}
     </Stack>
   );
 }
