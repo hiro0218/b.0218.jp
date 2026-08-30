@@ -5,8 +5,9 @@ import { loadAndInitializeSearch } from '@/components/App/Search/engine/searchDa
 import { SearchTrigger } from '@/components/App/Search/SearchTrigger';
 import { Container } from '@/components/UI/Layout/Container';
 import { Logo } from '@/components/UI/Logo';
-import { css } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 import { Layout } from './Header/Layout';
+import { HeaderNavigation } from './Header/Navigation';
 import { useSearchDialog } from './SearchDialogContext';
 
 const importSearchDialog = () => import('@/components/App/Search/SearchDialog');
@@ -29,8 +30,13 @@ export function Header() {
     <>
       <Layout>
         <Container className={HeaderContainerStyle} size={'large'} space={false}>
-          <Logo />
-          <SearchTrigger onPrefetch={prefetchSearchDialog} openDialogAction={searchDialog.open} />
+          <LogoContainer>
+            <Logo />
+          </LogoContainer>
+          <NavigationGroup>
+            <HeaderNavigation />
+            <SearchTrigger onPrefetch={prefetchSearchDialog} openDialogAction={searchDialog.open} />
+          </NavigationGroup>
         </Container>
       </Layout>
 
@@ -54,4 +60,15 @@ const HeaderContainerStyle = css`
   height: 100%;
   padding: 0;
   margin: 0 auto;
+`;
+
+const LogoContainer = styled.div`
+  display: flex;
+  flex-shrink: 0;
+`;
+
+const NavigationGroup = styled.div`
+  display: flex;
+  gap: var(--spacing-100);
+  align-items: center;
 `;
