@@ -1,10 +1,7 @@
 import { styled } from '@/ui/styled';
-import { createSearchResultMessage } from './utils/createSearchMessage';
+import { createSearchResultMessage, type SearchMessageOptions } from './utils/createSearchMessage';
 
-type SearchResultMessageProps = {
-  resultsCount: number;
-  searchQuery: string;
-};
+type SearchResultMessageProps = SearchMessageOptions;
 
 /**
  * @summary 検索結果の件数とキーワードを視覚的に表示するサマリー。

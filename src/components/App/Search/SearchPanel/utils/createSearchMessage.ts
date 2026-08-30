@@ -1,4 +1,4 @@
-type SearchMessageOptions = {
+export type SearchMessageOptions = {
   resultsCount: number;
   searchQuery: string;
 };
