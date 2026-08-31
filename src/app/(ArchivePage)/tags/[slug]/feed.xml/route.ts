@@ -24,8 +24,8 @@ export async function GET(_request: Request, { params }: { params: Params }) {
   const posts = getPostsListJson().filter((post) => post.tags.includes(tag.slug));
   const tagUrl = tagPermalink(tag.slug);
   const feed = createPostsRssFeed({
-    title: `Tag: ${tag.slug} | ${SITE_NAME}`,
-    description: `${tag.slug} タグの記事一覧 - ${SITE_NAME}`,
+    title: `${tag.slug} | ${SITE_NAME}`,
+    description: `${tag.slug}の記事一覧 - ${SITE_NAME}`,
     id: tagUrl,
     link: tagUrl,
     feedUrl: tagFeedPermalink(tag.slug),

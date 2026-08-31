@@ -31,6 +31,7 @@ export function Mokuji({ refContent }: MokujiProps) {
 
 const Root = styled.nav`
   font-size: var(--font-sizes-sm);
+  background-color: var(--colors-white);
 
   &[data-visible='false'] {
     display: none;
@@ -39,7 +40,7 @@ const Root = styled.nav`
   a {
     display: block;
     padding: var(--spacing-75) var(--spacing-100);
-    color: var(--colors-gray-600);
+    color: var(--colors-gray-900);
     border-radius: var(--radii-md);
     transition:
       color var(--transition-fast),
@@ -47,7 +48,6 @@ const Root = styled.nav`
       transform var(--transition-fast);
 
     &:hover {
-      color: var(--colors-gray-900);
       background-color: var(--colors-gray-a-75);
     }
 
@@ -56,7 +56,6 @@ const Root = styled.nav`
     }
 
     &[aria-current='true'] {
-      color: var(--colors-gray-900);
       background-color: var(--colors-gray-a-100);
 
       &:hover {
@@ -77,11 +76,13 @@ const Root = styled.nav`
     --mokuji-block-offset: calc(var(--spacing-800) + var(--spacing-400));
     --mokuji-summary-block-size: var(--spacing-600);
     --mokuji-side-room: calc((var(--sizes-container-lg) - var(--sizes-container-article)) / 2);
+
     position: fixed;
     inset-block-start: var(--mokuji-block-offset);
     inset-inline-start: calc(50% + var(--sizes-container-article) / 2 + var(--mokuji-inline-gap));
     z-index: var(--z-index-base);
     inline-size: max(var(--mokuji-min-inline-size), calc(var(--mokuji-side-room) - var(--mokuji-inline-gap)));
+    background-color: transparent;
     isolation: isolate;
   }
 `;
@@ -162,14 +163,14 @@ const Summary = styled.summary`
     min-block-size: var(--mokuji-summary-block-size);
     padding: var(--spacing-75) var(--spacing-100);
     font-size: var(--font-sizes-xs);
-    color: var(--colors-gray-600);
+    color: var(--colors-gray-900);
     letter-spacing: var(--letter-spacings-md);
     transition:
       color var(--transition-fast),
       transform var(--transition-fast);
 
     &:hover {
-      color: var(--colors-gray-900);
+      color: var(--colors-accent-1100);
     }
   }
 `;

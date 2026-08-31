@@ -67,4 +67,7 @@ export const keyframes = defineKeyframes({
       transform: 'scale3d(0.95, 0.95, 0.95)',
     },
   },
+  skeletonShimmer: {
+    '100%': { transform: 'translateX(200%)' },
+  },
 });

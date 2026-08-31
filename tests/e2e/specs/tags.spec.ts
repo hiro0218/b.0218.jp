@@ -7,7 +7,7 @@ test('tags page lists tag links', async ({ page }) => {
 
   const main = page.getByRole('main');
   await expect(main).toBeVisible();
-  await expect(main.getByRole('heading', { level: 1, name: 'Tags' })).toBeVisible();
+  await expect(main.getByRole('heading', { level: 1, name: 'タグ' })).toBeVisible();
 
   const firstTagLink = main.getByRole('link').first();
   await expect(firstTagLink).toBeVisible();

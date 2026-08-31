@@ -2,13 +2,7 @@ import { Anchor } from '@/components/UI/Anchor';
 import { Container } from '@/components/UI/Layout/Container';
 import { Logo } from '@/components/UI/Logo';
 import { css, styled } from '@/ui/styled';
-
-const Links = [
-  { title: 'about', href: '/about' },
-  { title: 'tags', href: '/tags' },
-  { title: 'popular', href: '/popular' },
-  { title: 'archive', href: '/archive' },
-] as const;
+import { NAVIGATION_LINKS } from './navigationLinks';
 
 export function Footer() {
   return (
@@ -18,7 +12,7 @@ export function Footer() {
           <Logo />
         </LogoContainer>
         <Nav aria-label="フッターナビゲーション">
-          {Links.map(({ title, href }) => (
+          {NAVIGATION_LINKS.map(({ title, href }) => (
             <Anchor className="link-style link-style--hover-effect" href={href} key={href}>
               {title}
             </Anchor>

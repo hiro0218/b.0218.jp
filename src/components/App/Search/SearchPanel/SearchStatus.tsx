@@ -1,9 +1,6 @@
-import { createSearchStatusMessage } from './utils/createSearchMessage';
+import { createSearchStatusMessage, type SearchMessageOptions } from './utils/createSearchMessage';
 
-type SearchStatusProps = {
-  resultsCount: number;
-  searchQuery: string;
-};
+type SearchStatusProps = SearchMessageOptions;
 
 /**
  * @summary スクリーンリーダー向け検索ステータス。

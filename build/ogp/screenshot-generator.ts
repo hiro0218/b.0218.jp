@@ -8,6 +8,15 @@ import * as Log from '~/tools/logger';
 import { OGP_CONFIG } from './config';
 import { WorkerPool } from './worker-pool';
 
+export function selectPostsWithoutImages<PostLike extends { slug: string }>(
+  posts: PostLike[],
+  existingFiles: string[],
+  ext: string,
+): PostLike[] {
+  const existingSet = new Set(existingFiles);
+  return posts.filter((post) => !existingSet.has(`${post.slug}.${ext}`));
+}
+
 export class ScreenshotGenerator {
   private workerPool: WorkerPool | null = null;
 
@@ -66,8 +75,7 @@ export class ScreenshotGenerator {
 
   private async filterNewPosts<PostLike extends { slug: string }>(posts: PostLike[]): Promise<PostLike[]> {
     const existingFiles = await readdir(OGP_CONFIG.output.dir).catch(() => [] as string[]);
-    const existingSet = new Set();
 
-    return posts.filter((post) => !existingSet.has(`${post.slug}.${OGP_CONFIG.output.ext}`));
+    return selectPostsWithoutImages(posts, existingFiles, OGP_CONFIG.output.ext);
   }
 }

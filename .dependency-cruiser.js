@@ -1,4 +1,17 @@
 /** @type {import('dependency-cruiser').IConfiguration} */
+
+// src/lib/ 配下のドメイン間で許可する依存方向。新しいドメインディレクトリを追加する場合はここに1行足せば
+// lib-no-technical-to-domain / lib-hierarchy-* ルールへ自動反映される(手動での7箇所同期を避けるため)。
+const LIB_ALLOWED_DEPS = {
+  source: [],
+  tag: ['source'],
+  post: ['source'],
+  domain: ['source', 'tag'],
+  feed: ['source', 'domain'],
+  page: [],
+};
+const LIB_DOMAINS = Object.keys(LIB_ALLOWED_DEPS);
+
 module.exports = {
   forbidden: [
     /* rules from the 'recommended' preset: */
@@ -58,6 +71,35 @@ module.exports = {
       },
     },
     {
+      name: 'lib-no-technical-to-domain',
+      comment: `lib の技術的関心(browser/config/distLoader/utils)はドメイン(${LIB_DOMAINS.join('/')})に依存しません。汎用層へのドメイン混入を防ぎます。`,
+      severity: 'error',
+      from: {
+        path: '^src/lib/(browser|config|distLoader|utils)/',
+      },
+      to: {
+        path: `^src/lib/(${LIB_DOMAINS.join('|')})/`,
+      },
+    },
+    ...LIB_DOMAINS.map((domain) => {
+      const allowed = LIB_ALLOWED_DEPS[domain];
+      const forbiddenDomains = LIB_DOMAINS.filter((other) => other !== domain && !allowed.includes(other));
+      return {
+        name: `lib-hierarchy-${domain}`,
+        comment:
+          allowed.length > 0
+            ? `lib/${domain} が依存してよいドメインは ${allowed.join(' と ')} のみです。`
+            : `lib/${domain} は他のドメインに依存しません。`,
+        severity: 'error',
+        from: {
+          path: `^src/lib/${domain}/`,
+        },
+        to: {
+          path: `^src/lib/(${forbiddenDomains.join('|')})/`,
+        },
+      };
+    }),
+    {
       name: 'no-orphans',
       comment:
         'このモジュールは孤立しており、恐らくもはや使用されていない可能性があります。使用するか削除するか、あるいは依存関係の設定でこのモジュールに対する例外を追加してください。このルールはデフォルトでは、いくつかの特定のファイル（例：.eslintrc.jsやtsconfig.json）には適用されません。',
@@ -71,6 +113,14 @@ module.exports = {
           '(^|/)(babel|webpack|next|stylelint)[.]config[.](js|cjs|mjs|ts|json)$', // other configs
           '^src/pages', // Next.js pages
           '^src/app', // Next.js App Router
+          // panda.config.mts が import する6ファイル。解析対象 src 外からの参照のため orphan 判定される。
+          // vars.ts 以外は自身も何かを import しており偶然 orphan を免れているだけなので、まとめて明示する。
+          '^src/ui/styled/global/css/data\\.ts$',
+          '^src/ui/styled/global/css/shiki\\.ts$',
+          '^src/ui/styled/global/vars\\.ts$',
+          '^src/ui/styled/theme/keyframes\\.ts$',
+          '^src/ui/styled/theme/semanticTokens\\.ts$',
+          '^src/ui/styled/theme/tokens\\.ts$',
         ],
       },
       to: {},
@@ -223,7 +273,10 @@ module.exports = {
        for a complete list
     */
     doNotFollow: {
-      path: 'node_modules',
+      path: [
+        'node_modules',
+        '^styled-system', // Panda CSS 生成コード。内部依存(型循環含む)は解析対象外とする
+      ],
     },
 
     /* conditions specifying which dependencies to exclude

@@ -1,5 +1,5 @@
 import type { PaginationModel } from '@/components/Page/Archive/Pagination';
-import { SITE_NAME, SITE_URL } from '@/constants';
+import { SITE_URL } from '@/constants';
 import { tagPath } from '@/lib/tag/navigation';
 import type { ArticleSummary } from '@/types/source';
 
@@ -31,7 +31,7 @@ type TagArchivePageModel = {
   pagination: PaginationModel;
 };
 
-type StaticTagPageParam = {
+export type StaticTagPageParam = {
   slug: string;
   page: string;
 };
@@ -99,7 +99,14 @@ function getTagArchiveCanonicalUrl(routeSlug: string, currentPage: number): stri
 }
 
 function getTagArchiveTitle(tag: string, currentPage: number): string {
-  return currentPage > 1 ? `Tag: ${tag} - Page ${currentPage}` : `Tag: ${tag}`;
+  // 主題はタグ名。英語の "Tag:" / "Page N" は本文言語とずれ、title link の差し替え対象になる。
+  return currentPage > 1 ? `${tag}（${currentPage}ページ目）` : tag;
+}
+
+function getTagArchiveDescription(tag: string, currentPage: number): string {
+  const description = `${tag}の記事一覧`;
+
+  return currentPage > 1 ? `${description}（${currentPage}ページ目）` : description;
 }
 
 function createPaginationModel(tag: string, currentPage: number, totalPages: number): PaginationModel {
@@ -145,11 +152,9 @@ export function createTagArchiveMetadataModel({
   tag: string;
   currentPage?: number;
 }): TagArchiveMetadataModel {
-  const title = getTagArchiveTitle(tag, currentPage);
-
   return {
-    title,
-    description: `${title} - ${SITE_NAME}`,
+    title: getTagArchiveTitle(tag, currentPage),
+    description: getTagArchiveDescription(tag, currentPage),
     canonicalUrl: getTagArchiveCanonicalUrl(routeSlug, currentPage),
   };
 }

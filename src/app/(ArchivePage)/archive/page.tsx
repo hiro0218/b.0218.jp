@@ -30,10 +30,9 @@ const posts = getPostsListJson();
 const archives = groupPostsByYear(sortPostsBySlug(posts));
 const totalPosts = posts.length;
 const slug = 'archive';
-const title = 'Archive';
-const pageTitle = '記事一覧';
+const title = '記事一覧';
 const paragraph = `${totalPosts}件の記事`;
-const description = `${pageTitle} - ${paragraph}`;
+const description = `${title} - ${paragraph}`;
 
 export const metadata: Metadata = getMetadata({
   title,
@@ -63,12 +62,12 @@ export default function Page() {
     <>
       <StructuredData
         data={getCollectionPageStructured({
-          name: pageTitle,
+          name: title,
           description,
         })}
       />
       <Stack as="article" gap={600}>
-        <Title paragraph={description}>{title}</Title>
+        <Title paragraph={paragraph}>{title}</Title>
 
         <Chart archives={archives} totalPosts={totalPosts} />
 
