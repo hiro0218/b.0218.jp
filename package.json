@@ -124,7 +124,7 @@
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
     "@types/twitter-for-web": "0.0.6",
-    "@vitejs/plugin-react": "6.0.5",
+    "@vitejs/plugin-react": "6.1.0",
     "@vitest/coverage-v8": "4.1.11",
     "browserslist": "4.28.8",
     "dependency-cruiser": "18.2.0",
