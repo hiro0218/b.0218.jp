@@ -73,7 +73,7 @@
     "trailingComma": "all"
   },
   "dependencies": {
-    "@adobe/spectrum-tokens": "14.15.0",
+    "@adobe/spectrum-tokens": "15.1.0",
     "@heroicons/react": "2.2.0",
     "@next/third-parties": "16.3.3",
     "@pandacss/dev": "1.12.0",
