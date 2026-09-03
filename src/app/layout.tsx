@@ -13,6 +13,7 @@ import { SearchDialogProvider } from '@/components/App/SearchDialogContext';
 import { BrowserEffects } from '@/components/Functional/BrowserEffects';
 import { ClientSideScrollRestorer } from '@/components/Functional/ClientSideScrollRestorer';
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
+import { GooglePublisherScript } from '@/components/Functional/GooglePublisher';
 import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
 import { AUTHOR_NAME, GOOGLE_ADSENSE, MAIN_CONTENT_ID, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constants';
 import { isProduction } from '@/lib/config/environment';
@@ -84,6 +85,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </Suspense>
         {isProduction ? <PreconnectLinks /> : null}
         {isProduction ? <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} /> : null}
+        <GooglePublisherScript />
       </body>
     </html>
   );

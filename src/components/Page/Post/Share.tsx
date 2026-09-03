@@ -3,7 +3,7 @@
 
 import { CheckIcon, LinkIcon, NoSymbolIcon, ShareIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useCallback, useId, useRef, useState, useSyncExternalStore } from 'react';
-
+import { GooglePublisherButton } from '@/components/Functional/GooglePublisher';
 import { IconButton } from '@/components/UI/IconButton';
 import { IconSwap, type IconSwapActiveIcon } from '@/components/UI/IconSwap';
 import { Stack } from '@/components/UI/Layout/Stack';
@@ -172,6 +172,7 @@ export function PostShare({ title, url }: Props) {
             <ShareIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
           </IconButton>
         )}
+        <GooglePublisherButton />
       </Stack>
       <Toast isVisible={isVisible} message={message} onHideToast={hideToast} ref={ref} />
     </aside>
