@@ -14,4 +14,5 @@ export const BUILD_PATHS = {
   posts: path.join(ROOT, '_article', '_posts'),
   articleImages: path.join(ROOT, '_article', 'images'),
   publicImages: path.join(ROOT, 'public', 'images'),
+  activitiesJson: path.join(ROOT, '_article', 'activities.json'),
 } as const;

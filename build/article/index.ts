@@ -1,9 +1,9 @@
 import { unlink } from 'node:fs/promises';
 import { loadEnvConfig } from '@next/env';
-import { FILENAME_POSTS_LIST } from '@/constants';
-import type { Post } from '@/types/source';
+import { FILENAME_ACTIVITIES, FILENAME_POSTS_LIST } from '@/constants';
+import type { Activities, Post } from '@/types/source';
 import { BUILD_PATHS } from '~/build/shared/paths';
-import { copyDir, writeJSON } from '~/tools/fs';
+import { copyDir, readJSON, writeJSON } from '~/tools/fs';
 import * as Log from '~/tools/logger';
 import { buildPage, buildPost, buildTerm } from './post/generate';
 import { getPath } from './post/generate/utils';
@@ -23,11 +23,24 @@ async function copyFiles(): Promise<void> {
   Log.info('Copy _article/images -> public/images');
 }
 
+async function writeActivitiesJson(): Promise<void> {
+  const activities = await readJSON<Activities>(BUILD_PATHS.activitiesJson);
+  await writeJSON(`${PATH.to}/${FILENAME_ACTIVITIES}.json`, activities);
+  Log.info(`Write dist/${FILENAME_ACTIVITIES}.json`);
+}
+
 async function removeLegacyArticleArtifacts(): Promise<void> {
   await unlink(`${PATH.to}/uniqueChars.ts`).catch(() => undefined);
 }
 
 (async () => {
   const posts = await buildPost();
-  await Promise.all([buildTerm(posts), buildPostList(posts), buildPage(), copyFiles(), removeLegacyArticleArtifacts()]);
+  await Promise.all([
+    buildTerm(posts),
+    buildPostList(posts),
+    buildPage(),
+    copyFiles(),
+    writeActivitiesJson(),
+    removeLegacyArticleArtifacts(),
+  ]);
 })();
