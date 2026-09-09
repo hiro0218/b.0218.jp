@@ -3,8 +3,14 @@
  */
 import type { Thing, WithContext } from 'schema-dts';
 import { StructuredData } from '@/components/Functional/StructuredData';
-import { getAboutPageStructured, getProfilePageStructured, getWebPageStructured } from '@/lib/domain/json-ld';
+import {
+  getAboutPageStructured,
+  getActivitiesStructured,
+  getProfilePageStructured,
+  getWebPageStructured,
+} from '@/lib/domain/json-ld';
 import type { PageSlug } from '@/lib/page/config';
+import { getActivitiesJson } from '@/lib/source/activities';
 import { Content } from './Content';
 
 /**
@@ -31,6 +37,7 @@ export function Template({ slug, title, description }: TemplateProps) {
             description: 'サイトと運営者について',
           }),
           getProfilePageStructured(),
+          getActivitiesStructured(getActivitiesJson()),
         ];
       case 'privacy':
         return getWebPageStructured({
