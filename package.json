@@ -178,6 +178,9 @@
     "unist-util-visit": "5.1.0",
     "vitest": "4.1.11"
   },
+  "overrides": {
+    "react-stately": "$react-stately"
+  },
   "engines": {
     "vscode": "^1.104.0"
   },
