@@ -1,6 +1,5 @@
 'use client';
-
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ListIcon, XIcon } from '@phosphor-icons/react';
 import { useInteractOutside } from '@react-aria/interactions';
 import { useEffect, useRef, useState } from 'react';
 import { NAVIGATION_LINKS } from '@/components/App/navigationLinks';
@@ -53,7 +52,7 @@ export function HeaderNavigation() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isExpanded]);
 
-  const ToggleIcon = isExpanded ? XMarkIcon : Bars3Icon;
+  const ToggleIcon = isExpanded ? XIcon : ListIcon;
 
   return (
     <Root ref={rootRef}>

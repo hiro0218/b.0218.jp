@@ -1,6 +1,7 @@
 'use client';
 
-import { CheckIcon, ClipboardDocumentIcon, NoSymbolIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { CheckIcon, CopyIcon, ProhibitIcon } from '@phosphor-icons/react';
+
 import { useEffect, useRef, useState } from 'react';
 
 import { IconSwap, type IconSwapActiveIcon } from '@/components/UI/IconSwap';
@@ -23,16 +24,16 @@ const COPY_LABELS: Record<CopyState, string> = {
 
 const COPY_FEEDBACK_ICONS = {
   copied: CheckIcon,
-  failed: XMarkIcon,
-  unsupported: NoSymbolIcon,
-} satisfies Record<CopyFeedbackState, typeof CheckIcon>;
+  failed: ProhibitIcon,
+  unsupported: ProhibitIcon,
+} satisfies Record<CopyFeedbackState, typeof CopyIcon>;
 
 function isCopyFeedbackState(state: CopyState): state is CopyFeedbackState {
   return state === 'copied' || state === 'failed' || state === 'unsupported';
 }
 
 function getCopyFeedbackIcon(state: CopyState) {
-  return isCopyFeedbackState(state) ? COPY_FEEDBACK_ICONS[state] : CheckIcon;
+  return isCopyFeedbackState(state) ? COPY_FEEDBACK_ICONS[state] : CopyIcon;
 }
 
 function getCodeText(button: HTMLButtonElement | null) {
@@ -105,7 +106,7 @@ export function CopyButton() {
       >
         <IconSwap
           activeIcon={activeIcon}
-          primaryIcon={<ClipboardDocumentIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />}
+          primaryIcon={<CopyIcon height={ICON_SIZE_SM} weight="duotone" width={ICON_SIZE_SM} />}
           secondaryIcon={<FeedbackIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />}
         />
       </Button>

@@ -1,4 +1,4 @@
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { CaretLeftIcon, CaretRightIcon, DotsThreeIcon } from '@phosphor-icons/react/ssr';
 import Link from 'next/link';
 import { ICON_SIZE_XS } from '@/ui/iconSizes';
 import { css, styled } from '@/ui/styled';
@@ -43,7 +43,7 @@ type PageNumberButtonProps = {
  */
 const NavigationButton = ({ direction, currentPage, href }: NavigationButtonProps) => {
   const isPrevious = direction === 'previous';
-  const Icon = isPrevious ? ChevronLeftIcon : ChevronRightIcon;
+  const Icon = isPrevious ? CaretLeftIcon : CaretRightIcon;
   const label = isPrevious ? `前のページへ（現在${currentPage}ページ）` : `次のページへ（現在${currentPage}ページ）`;
   const icon = <Icon aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />;
 
@@ -119,7 +119,9 @@ export function Pagination({ pagination }: PaginationProps) {
         {pagination.items.map((item) =>
           item.type === 'ellipsis' ? (
             <li data-paginate="ellipsis" key={item.key}>
-              <EllipsisIndicator aria-hidden="true">...</EllipsisIndicator>
+              <EllipsisIndicator aria-hidden="true">
+                <DotsThreeIcon />
+              </EllipsisIndicator>
             </li>
           ) : (
             <li data-paginate="page" key={`page-${item.page}`}>

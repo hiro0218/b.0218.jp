@@ -1,6 +1,6 @@
 'use client';
 
-import { MagnifyingGlassPlusIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassPlusIcon } from '@phosphor-icons/react/ssr';
 import type { ReactNode } from 'react';
 import { css, cx } from '@/ui/styled';
 

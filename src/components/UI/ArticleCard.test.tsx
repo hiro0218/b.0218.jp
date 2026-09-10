@@ -46,13 +46,13 @@ vi.mock('@/components/UI/Layout/Stack', () => ({
   ),
 }));
 
-vi.mock('@heroicons/react/24/outline', () => ({
+vi.mock('@phosphor-icons/react/ssr', () => ({
   // biome-ignore lint/style/useNamingConvention: React component mock requires PascalCase
-  CodeBracketIcon: (props: Record<string, unknown>) => <svg data-testid="icon-development" {...props} />,
+  CodeIcon: (props: Record<string, unknown>) => <svg data-testid="icon-development" {...props} />,
   // biome-ignore lint/style/useNamingConvention: React component mock requires PascalCase
-  ComputerDesktopIcon: (props: Record<string, unknown>) => <svg data-testid="icon-technology" {...props} />,
+  DesktopIcon: (props: Record<string, unknown>) => <svg data-testid="icon-technology" {...props} />,
   // biome-ignore lint/style/useNamingConvention: React component mock requires PascalCase
-  DocumentTextIcon: (props: Record<string, unknown>) => <svg data-testid="icon-other" {...props} />,
+  FilesIcon: (props: Record<string, unknown>) => <svg data-testid="icon-other" {...props} />,
 }));
 
 /* ------------------------------------------------------------------ */
@@ -124,7 +124,7 @@ describe('ArticleCard', () => {
   /*  Category icons                                                  */
   /* ================================================================ */
   describe('カテゴリアイコン', () => {
-    it('development カテゴリの場合、CodeBracketIcon が描画される', () => {
+    it('development カテゴリの場合、CodeIcon が描画される', () => {
       render(<ArticleCard category="development" date="2024-01-01" link="/posts/test" title="テスト記事" />);
 
       expect(screen.getByTestId('icon-development')).toBeDefined();
@@ -132,7 +132,7 @@ describe('ArticleCard', () => {
       expect(screen.queryByTestId('icon-other')).toBeNull();
     });
 
-    it('technology カテゴリの場合、ComputerDesktopIcon が描画される', () => {
+    it('technology カテゴリの場合、DesktopIcon が描画される', () => {
       render(<ArticleCard category="technology" date="2024-01-01" link="/posts/test" title="テスト記事" />);
 
       expect(screen.getByTestId('icon-technology')).toBeDefined();
@@ -140,7 +140,7 @@ describe('ArticleCard', () => {
       expect(screen.queryByTestId('icon-other')).toBeNull();
     });
 
-    it('other カテゴリの場合、DocumentTextIcon が描画される', () => {
+    it('other カテゴリの場合、FilesIcon が描画される', () => {
       render(<ArticleCard category="other" date="2024-01-01" link="/posts/test" title="テスト記事" />);
 
       expect(screen.getByTestId('icon-other')).toBeDefined();

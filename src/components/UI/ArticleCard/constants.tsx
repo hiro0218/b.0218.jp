@@ -1,4 +1,5 @@
-import { CodeBracketIcon, ComputerDesktopIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
+import { CodeIcon, DesktopIcon, FilesIcon } from '@phosphor-icons/react/ssr';
+
 import type { ReactNode } from 'react';
 
 import type { TagCategoryName } from '@/types/source';
@@ -11,7 +12,7 @@ export const CATEGORY_LABELS: Record<TagCategoryName, string> = {
 };
 
 export const CATEGORY_ICONS: Record<TagCategoryName, ReactNode> = {
-  development: <CodeBracketIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
-  technology: <ComputerDesktopIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
-  other: <DocumentTextIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
+  development: <CodeIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />,
+  technology: <DesktopIcon height={ICON_SIZE_XS} weight="duotone" width={ICON_SIZE_XS} />,
+  other: <FilesIcon height={ICON_SIZE_XS} weight="duotone" width={ICON_SIZE_XS} />,
 };

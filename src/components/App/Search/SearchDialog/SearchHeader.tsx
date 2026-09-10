@@ -1,6 +1,6 @@
 'use client';
 
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon } from '@phosphor-icons/react';
 import { useTextField } from '@react-aria/textfield';
 import { mergeProps } from '@react-aria/utils';
 import { useEffect, useRef, useState } from 'react';

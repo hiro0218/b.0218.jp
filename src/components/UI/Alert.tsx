@@ -1,9 +1,4 @@
-import {
-  ExclamationCircleIcon,
-  ExclamationTriangleIcon,
-  InformationCircleIcon,
-  LightBulbIcon,
-} from '@heroicons/react/24/outline';
+import { InfoIcon, LightbulbIcon, WarningCircleIcon, WarningIcon, WarningOctagonIcon } from '@phosphor-icons/react/ssr';
 import { css } from '@/ui/styled';
 
 export type AlertType = 'note' | 'tip' | 'important' | 'warning' | 'caution';
@@ -17,11 +12,11 @@ type Props = {
 };
 
 const ALERT_ICONS: Record<AlertType, React.ReactNode> = {
-  note: <InformationCircleIcon aria-hidden="true" />,
-  tip: <InformationCircleIcon aria-hidden="true" />,
-  important: <LightBulbIcon aria-hidden="true" />,
-  warning: <ExclamationTriangleIcon aria-hidden="true" />,
-  caution: <ExclamationCircleIcon aria-hidden="true" />,
+  note: <InfoIcon aria-hidden="true" />,
+  tip: <LightbulbIcon aria-hidden="true" />,
+  important: <WarningCircleIcon aria-hidden="true" />,
+  warning: <WarningIcon aria-hidden="true" />,
+  caution: <WarningOctagonIcon aria-hidden="true" />,
 };
 
 const ALERT_LABELS: Record<AlertType, string> = {

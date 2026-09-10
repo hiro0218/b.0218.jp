@@ -1,4 +1,5 @@
-import { HashtagIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { HashIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
+
 import { Fragment, type Ref } from 'react';
 import { Anchor } from '@/components/UI/Anchor';
 import { convertPostSlugToPath } from '@/lib/utils/url';
@@ -52,7 +53,7 @@ export function SearchResultItem({
     >
       <Anchor className={AnchorStyle} href={link} onClick={onLinkClick} prefetch={false} tabIndex={-1}>
         {matchedIn === 'tag' ? (
-          <HashtagIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
+          <HashIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
         ) : (
           <MagnifyingGlassIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
         )}
