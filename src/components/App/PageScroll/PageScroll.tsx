@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowUpIcon } from '@heroicons/react/24/outline';
+import { CaretLineUpIcon } from '@phosphor-icons/react';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { styled } from '@/ui/styled';
 
@@ -8,7 +8,7 @@ export const PageScroll = () => (
   <Container>
     <Tooltip position="top" text="ページトップへ">
       <Button aria-label="ページトップへ" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-        <ArrowUpIcon />
+        <CaretLineUpIcon />
       </Button>
     </Tooltip>
   </Container>

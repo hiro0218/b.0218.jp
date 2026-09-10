@@ -31,6 +31,7 @@ export const FILENAME_TAG_SIMILARITY = 'tags-similarity';
 export const FILENAME_POSTS_SIMILARITY = 'posts-similarity';
 export const FILENAME_POSTS_POPULAR = 'posts-popular';
 export const FILENAME_TAG_CATEGORIES = 'tag-categories';
+export const FILENAME_ACTIVITIES = 'activities';
 
 /**
  * タグ一覧を生成するために必要なタグ件数

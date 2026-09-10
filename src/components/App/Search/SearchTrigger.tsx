@@ -1,4 +1,4 @@
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon } from '@phosphor-icons/react';
 
 import { IconButton } from '@/components/UI/IconButton';
 import { ICON_SIZE_XS } from '@/ui/iconSizes';

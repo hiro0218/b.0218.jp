@@ -1,4 +1,4 @@
-import { ArrowDownTrayIcon, MagnifyingGlassIcon, ShareIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, ShareNetworkIcon, TrayArrowDownIcon } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { fn } from 'storybook/test';
 
@@ -36,7 +36,7 @@ export const WithTooltip: Story = {
   args: {
     'aria-label': '共有する',
     tooltip: '共有する',
-    children: <ShareIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />,
+    children: <ShareNetworkIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />,
     onClick: fn(),
   },
 };
@@ -49,7 +49,7 @@ export const Disabled: Story = {
   name: 'disabled',
   args: {
     'aria-label': 'この環境ではコピーできない',
-    children: <ArrowDownTrayIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />,
+    children: <TrayArrowDownIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />,
     disabled: true,
   },
 };
@@ -62,7 +62,7 @@ export const ForcedActive: Story = {
   name: 'data-active 強制表示',
   args: {
     'aria-label': 'メニューを開く',
-    children: <ShareIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />,
+    children: <ShareNetworkIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />,
     'data-active': true,
   },
 };
@@ -77,7 +77,7 @@ export const ExternalLink: Story = {
     'aria-label': 'X で記事を共有',
     as: 'externalLink',
     href: 'https://x.com/intent/tweet',
-    children: <ShareIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />,
+    children: <ShareNetworkIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />,
   },
 };
 

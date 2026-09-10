@@ -90,6 +90,7 @@ jobs:
       - name: Create dist fixtures
         run: |
           mkdir -p dist
+          echo '{"companies":[],"works":[]}' > dist/activities.json
           echo '{}' > dist/search-index.json
           echo '[]' > dist/search-data.json
           echo '[]' > dist/pages.json

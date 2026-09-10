@@ -1,10 +1,14 @@
 import type {
   AboutPage,
+  Article,
   BlogPosting,
   BreadcrumbList,
   CollectionPage,
+  Event,
+  ItemList,
   ListItem,
   Organization,
+  PresentationDigitalDocument,
   ProfilePage,
   WebPage,
   WebSite,
@@ -16,7 +20,14 @@ import { getTagsWithCount } from '@/lib/source/tag';
 import { getPrimaryCategory } from '@/lib/tag/category';
 import { getTagCategoriesJson } from '@/lib/tag/derived';
 import { tagPermalink } from '@/lib/tag/navigation';
-import type { PopularityDetail, Post, TagCategoryName } from '@/types/source';
+import type {
+  Activities,
+  ActivityCompany,
+  ActivityWork,
+  PopularityDetail,
+  Post,
+  TagCategoryName,
+} from '@/types/source';
 
 import { convertToISO8601WithTimezone } from '../utils/date';
 import { getPermalink } from '../utils/url';
@@ -46,6 +57,14 @@ const getKnowsAbout = (): string[] => {
 
 /** 記事側 JSON-LD の author から参照される Person の識別子 */
 const AUTHOR_ID = `${SITE_URL}/about`;
+
+/** 記事・活動実績など、簡略化した Person 参照を必要とする箇所で共有する */
+const AUTHOR_REF = {
+  '@type': 'Person' as const,
+  '@id': AUTHOR_ID,
+  name: AUTHOR_NAME,
+  url: `${SITE_URL}/about`,
+} as const;
 
 const AUTHOR = {
   '@type': 'Person',
@@ -157,12 +176,7 @@ export const getBlogPostingStructured = (post: Post, popularity?: PopularityDeta
     datePublished: convertToISO8601WithTimezone(post.date),
     dateModified: convertToISO8601WithTimezone(post.updated || post.date),
     ...(post.tags ? { keywords: post.tags } : {}),
-    author: {
-      '@type': 'Person',
-      '@id': AUTHOR_ID,
-      name: AUTHOR.name,
-      url: AUTHOR.url,
-    },
+    author: AUTHOR_REF,
     description: getDescriptionText(post.content),
     image: [getBlogPostingImage(post)],
     publisher: {
@@ -267,5 +281,68 @@ export const getCollectionPageStructured = ({
     '@type': 'CollectionPage',
     name: name,
     description: description,
+  };
+};
+
+/** activities.json の work 1件を、種別に応じた schema.org 型へ変換する */
+const getActivityWorkItem = (
+  work: ActivityWork,
+  company: ActivityCompany | undefined,
+): PresentationDigitalDocument | Article | Event => {
+  const publisher = company
+    ? {
+        '@type': 'Organization' as const,
+        name: company.name,
+        url: company.url,
+      }
+    : undefined;
+
+  switch (work.type) {
+    case 'slide':
+      return {
+        '@type': 'PresentationDigitalDocument',
+        name: work.title,
+        url: work.url,
+        author: AUTHOR_REF,
+        ...(publisher ? { publisher } : {}),
+      };
+    case 'blog':
+      return {
+        '@type': 'Article',
+        headline: work.title,
+        url: work.url,
+        author: AUTHOR_REF,
+        ...(publisher ? { publisher } : {}),
+      };
+    case 'event':
+      return {
+        '@type': 'Event',
+        name: work.title,
+        url: work.url,
+        performer: AUTHOR_REF,
+        ...(work.date ? { startDate: convertToISO8601WithTimezone(work.date) } : {}),
+        ...(publisher ? { organizer: publisher } : {}),
+      };
+  }
+};
+
+/** 登壇資料・寄稿記事・イベント登壇の活動実績一覧を ItemList として出力する */
+export const getActivitiesStructured = (activities: Activities): WithContext<ItemList> => {
+  const companyById = new Map(activities.companies.map((company) => [company.id, company]));
+
+  // event は activities.json 側のデータが不完全なため、出力対象から一時的に除外する
+  const itemListElement: ListItem[] = activities.works
+    .filter((work) => work.type !== 'event')
+    .map((work, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: getActivityWorkItem(work, work.companyId ? companyById.get(work.companyId) : undefined),
+    }));
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: '登壇・執筆実績',
+    itemListElement,
   };
 };

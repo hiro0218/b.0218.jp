@@ -1,4 +1,5 @@
-import { ChevronRightIcon } from '@heroicons/react/24/outline';
+import { CaretRightIcon } from '@phosphor-icons/react/ssr';
+
 import type { ReactNode } from 'react';
 
 import { Anchor } from '@/components/UI/Anchor';
@@ -17,7 +18,7 @@ export function LinkMore({ href, text }: { href: string; text: string | ReactNod
   return (
     <Anchor className={cx('link-style link-style--hover-effect', linkMoreStyle)} href={href}>
       {text}
-      <ChevronRightIcon aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
+      <CaretRightIcon aria-hidden="true" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
     </Anchor>
   );
 }

@@ -1,7 +1,8 @@
 'use client';
 'use no memo';
 
-import { CheckIcon, LinkIcon, NoSymbolIcon, ShareIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { CheckIcon, LinkIcon, ProhibitIcon, ShareNetworkIcon, XIcon, XLogoIcon } from '@phosphor-icons/react';
+
 import { useCallback, useId, useRef, useState, useSyncExternalStore } from 'react';
 import { GooglePublisherButton } from '@/components/Functional/GooglePublisher';
 import { IconButton } from '@/components/UI/IconButton';
@@ -13,7 +14,6 @@ import { useClipboardCopy } from '@/hooks/useClipboardCopy';
 import { useTimeout } from '@/hooks/useTimeout';
 import { ICON_SIZE_SM } from '@/ui/iconSizes';
 import { Hatenabookmark } from '@/ui/icons/Hatenabookmark';
-import { X } from '@/ui/icons/X';
 import { css } from '@/ui/styled';
 
 interface Props {
@@ -36,8 +36,8 @@ const COPY_PERMALINK_LABELS: Record<CopyPermalinkState, string> = {
 
 const COPY_PERMALINK_FEEDBACK_ICONS = {
   copied: CheckIcon,
-  failed: XMarkIcon,
-  unsupported: NoSymbolIcon,
+  failed: XIcon,
+  unsupported: ProhibitIcon,
 } satisfies Record<CopyPermalinkFeedbackState, typeof CheckIcon>;
 
 function isCopyPermalinkFeedbackState(state: CopyPermalinkState): state is CopyPermalinkFeedbackState {
@@ -139,7 +139,7 @@ export function PostShare({ title, url }: Props) {
           href={`https://x.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}&via=${X_ACCOUNT}`}
           tooltip="Xでポスト"
         >
-          <X height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+          <XLogoIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
         </IconButton>
         <IconButton
           aria-label="はてなブックマークでブックマーク"
@@ -165,11 +165,11 @@ export function PostShare({ title, url }: Props) {
         </IconButton>
         {isShareSupported ? (
           <IconButton aria-label="その他：共有" onClick={onClickShare} tooltip="その他：共有">
-            <ShareIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+            <ShareNetworkIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
           </IconButton>
         ) : (
           <IconButton aria-label="共有に未対応" disabled>
-            <ShareIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
+            <ShareNetworkIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
           </IconButton>
         )}
         <GooglePublisherButton />

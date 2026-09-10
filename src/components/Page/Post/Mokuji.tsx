@@ -1,6 +1,7 @@
 'use client';
 
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
+import { CaretDownIcon, CaretUpIcon } from '@phosphor-icons/react/ssr';
+
 import { usePathname } from 'next/navigation';
 
 import { ICON_SIZE_XS } from '@/ui/iconSizes';
@@ -19,8 +20,8 @@ export function Mokuji({ refContent }: MokujiProps) {
         <Summary>
           目次
           <IconContainer>
-            <ChevronDownIcon data-disclosure="closed" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
-            <ChevronUpIcon data-disclosure="open" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
+            <CaretDownIcon data-disclosure="closed" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
+            <CaretUpIcon data-disclosure="open" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
           </IconContainer>
         </Summary>
         <DetailsContent ref={mokujiListContainerRef} />

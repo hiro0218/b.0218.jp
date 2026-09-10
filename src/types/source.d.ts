@@ -159,3 +159,43 @@ export type TagCategoryMap = Record<string, TagCategoryName>;
  * 実際のデータ形式：{ "2025": [PostSummary, ...], "2024": [...], ... }
  */
 export type ArchivesByYear = Record<string, PostSummary[]>;
+
+// ========================================
+// 活動実績型定義（activities.json）
+// ========================================
+
+/**
+ * 活動実績に関連する組織
+ */
+export type ActivityCompany = {
+  id: string;
+  name: string;
+  url: string;
+};
+
+/**
+ * 活動実績の種別
+ */
+export type ActivityWorkType = 'slide' | 'blog' | 'event';
+
+/**
+ * 登壇資料・寄稿記事・イベント登壇などの活動実績1件
+ */
+export type ActivityWork = {
+  type: ActivityWorkType;
+  title: string;
+  url: string;
+  /** 関連する組織の id（ActivityCompany['id']）。組織に属さない場合は null */
+  companyId: string | null;
+  /** 開催日時（ISO 8601形式）。event のみ設定される */
+  date?: string;
+};
+
+/**
+ * 活動実績型（activities.json）
+ * about ページの構造化データ（登壇・執筆実績）の元データ
+ */
+export type Activities = {
+  companies: ActivityCompany[];
+  works: ActivityWork[];
+};
