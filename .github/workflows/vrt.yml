@@ -162,6 +162,7 @@ jobs:
 
             <details>
             <summary>詳細</summary>
+
             | 種別 | 参照先 |
             | --- | --- |
             | 差分 artifact | [vrt-diff-${{ github.event.pull_request.number }}](${{ needs.vrt.outputs.artifact-url }}) |
@@ -169,4 +170,5 @@ jobs:
             | 実行ログ | [run #${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |
 
             ${{ needs.vrt.outputs.section }}
+
             </details>
