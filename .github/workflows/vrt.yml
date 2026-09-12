@@ -158,7 +158,7 @@ jobs:
           message: |
             ## Storybook VRT
 
-            > **結果**: ${{ (needs.vrt.outputs.outcome == 'success' && '差分なし') || (needs.vrt.outputs.outcome == 'failure' && '差分あり / 要確認') || 'ビルド失敗 / VRT 実行不可' }}
+            **結果**: ${{ (needs.vrt.outputs.outcome == 'success' && '🟢 差分なし') || (needs.vrt.outputs.outcome == 'failure' && '🔴 差分あり / 要確認') || '🔴 ビルド失敗 / VRT 実行不可' }}
 
             <details>
             <summary>詳細</summary>

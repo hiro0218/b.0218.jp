@@ -148,7 +148,7 @@ jobs:
           message: |
             ## E2E
 
-            > **結果**: ${{ needs.e2e.outputs.outcome == 'success' && '成功' || '失敗 / 要確認' }}
+            **結果**: ${{ needs.e2e.outputs.outcome == 'success' && '🟢 成功' || '🔴 失敗 / 要確認' }}
 
             <details>
             <summary>詳細</summary>
