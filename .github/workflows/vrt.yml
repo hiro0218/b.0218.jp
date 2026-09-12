@@ -67,7 +67,7 @@ jobs:
       - name: Download baseline snapshots from master
         if: github.event_name == 'pull_request'
         background: true
-        uses: dawidd6/action-download-artifact@b6e2e70617bc3265edd6dab6c906732b2f1ae151 # v21
+        uses: dawidd6/action-download-artifact@d63b86af1b34672e53c440b1b83979861906bad7 # v24
         with:
           workflow: vrt.yml
           branch: master
@@ -158,9 +158,10 @@ jobs:
           message: |
             ## Storybook VRT
 
-            > **結果**: ${{ (needs.vrt.outputs.outcome == 'success' && '差分なし') || (needs.vrt.outputs.outcome == 'failure' && '差分あり / 要確認') || 'ビルド失敗 / VRT 実行不可' }}
+            **結果**: ${{ (needs.vrt.outputs.outcome == 'success' && '🟢 差分なし') || (needs.vrt.outputs.outcome == 'failure' && '🔴 差分あり / 要確認') || '🔴 ビルド失敗 / VRT 実行不可' }}
 
-            ### リンク
+            <details>
+            <summary>詳細</summary>
 
             | 種別 | 参照先 |
             | --- | --- |
@@ -169,3 +170,5 @@ jobs:
             | 実行ログ | [run #${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |
 
             ${{ needs.vrt.outputs.section }}
+
+            </details>
