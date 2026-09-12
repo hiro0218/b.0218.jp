@@ -160,8 +160,8 @@ jobs:
 
             > **結果**: ${{ (needs.vrt.outputs.outcome == 'success' && '差分なし') || (needs.vrt.outputs.outcome == 'failure' && '差分あり / 要確認') || 'ビルド失敗 / VRT 実行不可' }}
 
-            ### リンク
-
+            <details>
+            <summary>詳細</summary>
             | 種別 | 参照先 |
             | --- | --- |
             | 差分 artifact | [vrt-diff-${{ github.event.pull_request.number }}](${{ needs.vrt.outputs.artifact-url }}) |
@@ -169,3 +169,4 @@ jobs:
             | 実行ログ | [run #${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |
 
             ${{ needs.vrt.outputs.section }}
+            </details>
