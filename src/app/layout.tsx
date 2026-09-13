@@ -71,10 +71,6 @@ export const metadata: Metadata = {
         rel: 'webmention',
         url: WEBMENTION.endpoint,
       },
-      {
-        rel: 'pingback',
-        url: WEBMENTION.pingback,
-      },
     ],
   },
   other: {
