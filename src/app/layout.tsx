@@ -15,7 +15,16 @@ import { ClientSideScrollRestorer } from '@/components/Functional/ClientSideScro
 import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { GooglePublisherScript } from '@/components/Functional/GooglePublisher';
 import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
-import { AUTHOR_NAME, GOOGLE_ADSENSE, MAIN_CONTENT_ID, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constants';
+import {
+  AUTHOR_NAME,
+  GOOGLE_ADSENSE,
+  MAIN_CONTENT_ID,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+  URL,
+  WEBMENTION,
+} from '@/constants';
 import { isProduction } from '@/lib/config/environment';
 
 export const viewport: Viewport = {
@@ -53,10 +62,20 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.ico',
     apple: '/icon.png',
-    other: Object.values(URL).map((url) => ({
-      rel: 'me',
-      url,
-    })),
+    other: [
+      ...Object.values(URL).map((url) => ({
+        rel: 'me',
+        url,
+      })),
+      {
+        rel: 'webmention',
+        url: WEBMENTION.endpoint,
+      },
+      {
+        rel: 'pingback',
+        url: WEBMENTION.pingback,
+      },
+    ],
   },
   other: {
     search: '/opensearch.xml',
