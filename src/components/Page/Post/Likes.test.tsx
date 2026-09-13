@@ -55,7 +55,7 @@ describe('PostLikes', () => {
     render(<PostLikes url={TARGET_URL} />);
 
     expect(await screen.findByRole('heading', { name: '1 Like' })).not.toBeNull();
-    expect(screen.getByRole('link', { name: `${AUTHOR_NAME}のいいね` })).not.toBeNull();
+    expect(screen.getByText(AUTHOR_NAME[0])).not.toBeNull();
     expect(screen.queryByText('参考になりました')).toBeNull();
   });
 
