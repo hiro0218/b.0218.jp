@@ -80,6 +80,21 @@ const nextConfig = {
 
     return config;
   },
+
+  async redirects() {
+    return [
+      {
+        source: '/.well-known/host-meta',
+        destination: 'https://fed.brid.gy/.well-known/host-meta',
+        permanent: false,
+      },
+      {
+        source: '/.well-known/webfinger',
+        destination: 'https://fed.brid.gy/.well-known/webfinger',
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -15,7 +15,6 @@ export const MAIN_CONTENT_ID = 'main';
  */
 export const WEBMENTION = {
   endpoint: `https://webmention.io/${DOMAIN}/webmention`,
-  pingback: `https://webmention.io/${DOMAIN}/xmlrpc`,
   mentionsApi: 'https://webmention.io/api/mentions.jf2',
 } as const;
 
