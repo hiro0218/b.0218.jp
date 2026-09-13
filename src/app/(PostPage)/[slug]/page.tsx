@@ -9,6 +9,7 @@ import { TagSection } from '@/components/Page/_shared/TagSection';
 import { PostContent } from '@/components/Page/Post/Content';
 import { PostEdit } from '@/components/Page/Post/Edit';
 import { PostHeader } from '@/components/Page/Post/Header';
+import { PostLikes } from '@/components/Page/Post/Likes';
 import { PostShare } from '@/components/Page/Post/Share';
 import { Alert } from '@/components/UI/Alert';
 import { Stack } from '@/components/UI/Layout/Stack';
@@ -108,6 +109,7 @@ export default async function Page({ params }: { params: Params }) {
             <PostShare title={title} url={permalink} />
             <PostEdit slug={slug} />
           </Stack>
+          <PostLikes url={permalink} />
         </Stack>
         <Stack as="footer" gap={800}>
           <TagSection

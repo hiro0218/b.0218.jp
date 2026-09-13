@@ -148,15 +148,18 @@ jobs:
           message: |
             ## E2E
 
-            > **結果**: ${{ needs.e2e.outputs.outcome == 'success' && '成功' || '失敗 / 要確認' }}
+            **結果**: ${{ needs.e2e.outputs.outcome == 'success' && '🟢 成功' || '🔴 失敗 / 要確認' }}
 
-            ### リンク
+            <details>
+            <summary>詳細</summary>
 
             | 種別 | 参照先 |
             | --- | --- |
             | レポート artifact | [e2e-report-${{ github.event.pull_request.number }}](${{ needs.e2e.outputs.artifact-url }}) |
             | HTML レポート | artifact 内の `playwright-report-e2e/index.html` |
             | 実行ログ | [run #${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |
+
+            </details>
 
   bundle-analysis:
     runs-on: ubuntu-latest
@@ -209,7 +212,7 @@ jobs:
           overwrite: true
 
       - name: Download base branch bundle stats
-        uses: dawidd6/action-download-artifact@b6e2e70617bc3265edd6dab6c906732b2f1ae151 # v21
+        uses: dawidd6/action-download-artifact@d63b86af1b34672e53c440b1b83979861906bad7 # v24
         if: success() && github.event.number
         with:
           workflow: ci.yml

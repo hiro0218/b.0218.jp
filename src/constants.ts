@@ -5,8 +5,19 @@ export const SCREEN_IMAGE = 'https://b.0218.jp/hiro0218_screen.png';
 
 export const SITE_NAME = '零弐壱蜂';
 export const SITE_DESCRIPTION = '様々な情報をストックするサイバーメモ帳';
-export const SITE_URL = 'https://b.0218.jp';
+export const DOMAIN = 'b.0218.jp';
+export const SITE_URL = `https://${DOMAIN}`;
 export const MAIN_CONTENT_ID = 'main';
+
+/**
+ * webmention.io の受信口と Mentions API。
+ * username はドメインそのもの（サインイン後のダッシュボード表記と一致させる）。
+ */
+export const WEBMENTION = {
+  endpoint: `https://webmention.io/${DOMAIN}/webmention`,
+  pingback: `https://webmention.io/${DOMAIN}/xmlrpc`,
+  mentionsApi: 'https://webmention.io/api/mentions.jf2',
+} as const;
 
 export const URL = {
   x: 'https://x.com/hiro0218',
