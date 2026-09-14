@@ -16,11 +16,16 @@ type Props = Pick<Post, 'title' | 'date' | 'updated'> & {
 export function PostHeader({ title, date, updated, tagsWithCount, render }: Props) {
   return (
     <Stack as="header" className={headerSeparatorStyle} gap={300}>
-      <Heading>{title}</Heading>
+      {/**
+       * Bridgy Fed 向け microformats2 のためのクラスを付与
+       * p-name / dt-published / dt-updated / p-category は Bridgy Fed 向け microformats2
+       * （constants.ts の BRIDGY_FED_URL 参照）。このページ(h-entry)だけに閉じるようここで付与し、UI/ 側は汎用のまま保つ
+       */}
+      <Heading className="p-name">{title}</Heading>
       <Stack className={itemStyle} gap={300}>
-        <PostDate date={date} updated={updated} />
+        <PostDate date={date} publishedClassName="dt-published" updated={updated} updatedClassName="dt-updated" />
         <Cluster isWide={false}>
-          <PostTag tags={tagsWithCount} />
+          <PostTag hasCategoryMicroformat={true} tags={tagsWithCount} />
         </Cluster>
       </Stack>
       {render}

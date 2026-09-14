@@ -1,0 +1,37 @@
+name: notify-bridgy-fed
+
+on:
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'true の場合、送信対象をログに出すだけで実際には送信しない'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  deployments: read
+
+jobs:
+  notify:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment.environment == 'Production')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+        with:
+          persist-credentials: false
+
+      - name: Notify Bridgy Fed
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ANCHOR_DEPLOYMENT_ID: ${{ github.event.deployment.id }}
+          ANCHOR_SHA: ${{ github.event.deployment.sha }}
+          ANCHOR_CREATED_AT: ${{ github.event.deployment.created_at }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: bash scripts/notify-bridgy-fed.sh

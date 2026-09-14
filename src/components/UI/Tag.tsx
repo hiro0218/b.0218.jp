@@ -1,6 +1,6 @@
 import { Anchor } from '@/components/UI/Anchor';
 import { tagPath } from '@/lib/tag/navigation';
-import { styled } from '@/ui/styled';
+import { cx, styled } from '@/ui/styled';
 import { postTagAnchor } from '@/ui/styled/components/postTagAnchor';
 
 export type Props = {
@@ -15,13 +15,15 @@ type PostTagProps = {
   tags: Props[];
   /** rel="tag" 属性を付与する */
   hasRelTag?: boolean;
+  /** p-category（microformats2）を付与する */
+  hasCategoryMicroformat?: boolean;
 };
 
 /**
  * 記事に付与されたタグ一覧を表示する。リンク付きとテキストのみの混在に対応。
  * @summary 記事タグ一覧（リンク/テキスト混在対応）
  */
-export function PostTag({ tags, hasRelTag = true }: PostTagProps) {
+export function PostTag({ tags, hasCategoryMicroformat = false, hasRelTag = true }: PostTagProps) {
   if (tags.length === 0) {
     return null;
   }
@@ -48,7 +50,7 @@ export function PostTag({ tags, hasRelTag = true }: PostTagProps) {
               rel: 'tag',
             })}
           >
-            {slug}
+            {hasCategoryMicroformat ? <span className="p-category">{slug}</span> : slug}
             {/**
              * aria-label は使わない。可視テキスト（slug+件数）とラベルの文字列が一致しないと
              * WCAG 2.5.3 (Label in Name) 違反になるため、可視テキストの並びに「件」だけ読み上げ用に足す
@@ -61,7 +63,7 @@ export function PostTag({ tags, hasRelTag = true }: PostTagProps) {
             )}
           </Anchor>
         ) : (
-          <span aria-hidden="true" className={postTagAnchor} key={slug}>
+          <span aria-hidden="true" className={cx(postTagAnchor, hasCategoryMicroformat && 'p-category')} key={slug}>
             {slug}
           </span>
         );

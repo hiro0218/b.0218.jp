@@ -15,7 +15,7 @@ import type {
   WithContext,
 } from 'schema-dts';
 
-import { AUTHOR_ICON, AUTHOR_NAME, SITE_NAME, SITE_URL, URL } from '@/constants';
+import { AUTHOR_ICON, AUTHOR_NAME, AUTHOR_URL, SITE_NAME, SITE_URL, URL } from '@/constants';
 import { getTagsWithCount } from '@/lib/source/tag';
 import { getPrimaryCategory } from '@/lib/tag/category';
 import { getTagCategoriesJson } from '@/lib/tag/derived';
@@ -56,7 +56,7 @@ const getKnowsAbout = (): string[] => {
 };
 
 /** 記事側 JSON-LD の author から参照される Person の識別子 */
-const AUTHOR_ID = `${SITE_URL}/about`;
+const AUTHOR_ID = AUTHOR_URL;
 
 /** 記事・活動実績など、簡略化した Person 参照を必要とする箇所で共有する */
 const AUTHOR_REF = {

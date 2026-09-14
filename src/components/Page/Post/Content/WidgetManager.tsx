@@ -26,5 +26,11 @@ export function WidgetManager({ children, contentRef }: WidgetManagerProps) {
     }
   }, [pathname, contentRef]);
 
-  return <section ref={contentRef}>{children}</section>;
+  // e-content は Bridgy Fed 等の microformats2 パーサー向け
+  // 広告分割で本文が複数の .post-content に分かれるため、全体を包むこの要素だけに付ける（workaround）
+  return (
+    <section className="e-content" ref={contentRef}>
+      {children}
+    </section>
+  );
 }

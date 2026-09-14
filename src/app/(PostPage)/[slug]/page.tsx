@@ -13,12 +13,13 @@ import { PostLikes } from '@/components/Page/Post/Likes';
 import { PostShare } from '@/components/Page/Post/Share';
 import { Alert } from '@/components/UI/Alert';
 import { Stack } from '@/components/UI/Layout/Stack';
-import { AUTHOR_NAME } from '@/constants';
+import { AUTHOR_NAME, AUTHOR_URL, BRIDGY_FED_URL } from '@/constants';
 import { buildId } from '@/lib/config/environment';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/domain/json-ld';
 import { getPostsListJson } from '@/lib/source/post';
 import { tagPath } from '@/lib/tag/navigation';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';
+import { cx } from '@/ui/styled';
 import { getPostPageData } from './_lib/services/getPostPageData';
 
 type Params = Promise<{ slug: string }>;
@@ -90,7 +91,23 @@ export default async function Page({ params }: { params: Params }) {
       <StructuredData data={[getBlogPostingStructured(post, popularity), getBreadcrumbStructured(post)]} />
       {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
       <Stack gap={1000}>
-        <Stack as="article" className={scrollProgressTarget} gap={600} {...scrollProgressTargetAttrs}>
+        <Stack as="article" className={cx(scrollProgressTarget, 'h-entry')} gap={600} {...scrollProgressTargetAttrs}>
+          {/**
+           * Bridgy Fed が ActivityPub へ変換する際に読む microformats2 プロパティ
+           */}
+          <div hidden>
+            <a className="u-url" href={permalink}>
+              {permalink}
+            </a>
+            <a className="p-author h-card" href={AUTHOR_URL} rel="author">
+              {AUTHOR_NAME}
+            </a>
+            {/**
+             * biome-ignore lint/a11y/useAnchorContent: 親 div が hidden のため実際には誰にも到達不能
+             * Bridgy Fed 公式ドキュメントの例が空リンクを要求
+             */}
+            <a className="u-bridgy-fed" href={BRIDGY_FED_URL} />
+          </div>
           <ScrollProgress />
           <PostHeader
             date={date}
