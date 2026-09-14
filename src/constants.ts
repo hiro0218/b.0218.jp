@@ -7,6 +7,7 @@ export const SITE_NAME = '零弐壱蜂';
 export const SITE_DESCRIPTION = '様々な情報をストックするサイバーメモ帳';
 export const DOMAIN = 'b.0218.jp';
 export const SITE_URL = `https://${DOMAIN}`;
+export const AUTHOR_URL = `${SITE_URL}/about`;
 export const MAIN_CONTENT_ID = 'main';
 
 /**
@@ -17,6 +18,12 @@ export const WEBMENTION = {
   endpoint: `https://webmention.io/${DOMAIN}/webmention`,
   mentionsApi: 'https://webmention.io/api/mentions.jf2',
 } as const;
+
+/**
+ * Bridgy Fed（Webmention経由でFediverseへ配信するブリッジサービス）の同意リンク先
+ * 記事ページの microformats2（h-entry/p-name/e-content/dt-published/dt-updated/p-author/h-card/p-category/u-url/u-bridgy-fed）と組み合わせて配信対象になることを示す
+ */
+export const BRIDGY_FED_URL = 'https://fed.brid.gy/';
 
 export const URL = {
   x: 'https://x.com/hiro0218',
