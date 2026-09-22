@@ -7,6 +7,9 @@ type Props = {
   archives: ArchivesByYear;
 };
 
+/** ページ内の他セクションから年別一覧へ戻るためのアンカー ID。href 側と id 側で共有する。 */
+export const YEAR_INDEX_ANCHOR_ID = '年別一覧';
+
 export const Chart = ({ archives, totalPosts }: Props) => {
   const years = Object.keys(archives).toReversed();
 
@@ -18,7 +21,7 @@ export const Chart = ({ archives, totalPosts }: Props) => {
   const maxPostCount = Math.max(...years.map((year) => archives[year].length));
 
   return (
-    <Root aria-label={`年別アーカイブ（全${totalPosts}件）`}>
+    <Root aria-label={`年別アーカイブ（全${totalPosts}件）`} id={YEAR_INDEX_ANCHOR_ID}>
       <Container>
         {years.map((year) => {
           const postCount = archives[year].length;
@@ -40,6 +43,8 @@ export const Chart = ({ archives, totalPosts }: Props) => {
 
 const Root = styled.nav`
   width: 100%;
+  /* 固定ヘッダーの高さ分だけジャンプ先をずらし、先頭行がヘッダーに隠れないようにする */
+  scroll-margin-top: var(--spacing-800);
 `;
 
 const Container = styled.ol`

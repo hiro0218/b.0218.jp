@@ -2,9 +2,10 @@ import type { Metadata } from 'next';
 import { getMetadata } from '@/app/_metadata';
 import { StructuredData } from '@/components/Functional/StructuredData';
 import { PostTimeline } from '@/components/Page/_shared/PostTimeline';
-import { Chart } from '@/components/Page/Archive/Chart';
+import { Chart, YEAR_INDEX_ANCHOR_ID } from '@/components/Page/Archive/Chart';
 import { Heading } from '@/components/UI/Heading';
 import { Stack } from '@/components/UI/Layout/Stack';
+import { LinkMore } from '@/components/UI/LinkMore';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
@@ -46,7 +47,16 @@ function ArchiveTimelinesByYear({ archives }: { archives: ArchivesByYear }) {
         .toReversed()
         .map((year) => (
           <Stack as="section" gap={300} key={year}>
-            <Heading as="h2" id={`${year}年`} textSide={<span>{archives[year].length} posts</span>}>
+            <Heading
+              as="h2"
+              id={`${year}年`}
+              textSide={
+                <Stack direction="horizontal" gap={100}>
+                  <span>{archives[year].length} posts</span>
+                  <LinkMore href={`#${YEAR_INDEX_ANCHOR_ID}`} text="年別一覧へ" />
+                </Stack>
+              }
+            >
               {year}
             </Heading>
             <PostTimeline posts={archives[year]} />
