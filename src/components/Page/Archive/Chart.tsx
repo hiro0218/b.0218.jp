@@ -21,7 +21,10 @@ export const Chart = ({ archives, totalPosts }: Props) => {
   const maxPostCount = Math.max(...years.map((year) => archives[year].length));
 
   return (
-    <Root aria-label={`年別アーカイブ（全${totalPosts}件）`} id={YEAR_INDEX_ANCHOR_ID}>
+    // tabIndex=-1: Next.js のハッシュ遷移は着地要素へ scrollIntoView 後に focus() を呼ぶが、
+    // <nav> は tabindex なしでは focus 不能で no-op になる。それを可能にし、キーボード操作でも
+    // 「年別一覧へ」クリック後の次の Tab がこの一覧内から続くようにする。
+    <Root aria-label={`年別アーカイブ（全${totalPosts}件）`} id={YEAR_INDEX_ANCHOR_ID} tabIndex={-1}>
       <Container>
         {years.map((year) => {
           const postCount = archives[year].length;

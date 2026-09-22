@@ -16,17 +16,28 @@ type Props = {
   textSub?: ReactNode;
   isBold?: boolean;
   className?: string;
+  /** ハッシュリンクの着地先にする場合は -1 を指定する（Next.js のハッシュ遷移後の focus() を有効にするため） */
+  tabIndex?: number;
 };
 
 /**
  * セクション見出しコンポーネント。補助テキストやサブテキストを付与できる。
  * @summary セクション見出し（補助テキスト対応）
  */
-export function Heading({ className, id, as: Tag = 'h1', children, textSide, textSub, isBold = false }: Props) {
+export function Heading({
+  className,
+  id,
+  as: Tag = 'h1',
+  children,
+  textSide,
+  textSub,
+  isBold = false,
+  tabIndex,
+}: Props) {
   const titleClassName = cx(headerTitleStyle, headingFontSizeClasses[Tag], isBold && fontWeightClasses.bold);
 
   const title = (
-    <Tag className={cx(className, titleClassName)} id={id}>
+    <Tag className={cx(className, titleClassName)} id={id} tabIndex={tabIndex}>
       {children}
     </Tag>
   );

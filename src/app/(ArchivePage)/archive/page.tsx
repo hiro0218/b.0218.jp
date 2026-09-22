@@ -50,8 +50,9 @@ function ArchiveTimelinesByYear({ archives }: { archives: ArchivesByYear }) {
             <Heading
               as="h2"
               id={`${year}年`}
+              tabIndex={-1}
               textSide={
-                <Stack direction="horizontal" gap={100}>
+                <Stack align="center" direction="horizontal" gap={100}>
                   <span>{archives[year].length} posts</span>
                   <LinkMore href={`#${YEAR_INDEX_ANCHOR_ID}`} text="年別一覧へ" />
                 </Stack>
