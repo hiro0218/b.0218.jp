@@ -14,9 +14,6 @@ import type { ArchivesByYear, PostSummary } from '@/types/source';
 
 const getYear = (date: PostSummary['date']) => Number(date.slice(0, 4));
 
-const sortPostsBySlug = (posts: ReturnType<typeof getPostsListJson>) =>
-  posts.toSorted((a, b) => b.slug.localeCompare(a.slug));
-
 const groupPostsByYear = (posts: PostSummary[]): ArchivesByYear => {
   const transformedPosts = posts.map((post) => ({
     ...post,
@@ -27,7 +24,7 @@ const groupPostsByYear = (posts: PostSummary[]): ArchivesByYear => {
 };
 
 const posts = getPostsListJson();
-const archives = groupPostsByYear(sortPostsBySlug(posts));
+const archives = groupPostsByYear(posts);
 const totalPosts = posts.length;
 const slug = 'archive';
 const title = '記事一覧';
