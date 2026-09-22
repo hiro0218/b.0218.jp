@@ -3,7 +3,7 @@ import type { Post } from '@/types/source';
 import { toPostSummary } from './toPostSummary';
 
 describe('toPostSummary', () => {
-  it('記事本文と投稿専用メタデータを除外すること', () => {
+  it('記事本文と注釈（note）を除外し、noindexは維持すること', () => {
     const posts: Post[] = [
       {
         title: 'Test',
@@ -26,6 +26,7 @@ describe('toPostSummary', () => {
         date: '2024-01-01',
         updated: '2024-01-02',
         tags: ['a'],
+        noindex: true,
       },
     ]);
   });

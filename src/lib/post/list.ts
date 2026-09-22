@@ -30,7 +30,7 @@ export const isIgnoredPostTag = (tag: string): boolean => {
 // 他の派生キャッシュと同様 SSG はビルド時に一度しか呼ばないため結果は不変。
 let filteredPostsCache: PostSummary[] | undefined;
 export const getFilteredPosts = (): PostSummary[] => {
-  filteredPostsCache ??= getPostsListJson().filter((post) => !post.tags.some(isIgnoredPostTag));
+  filteredPostsCache ??= getPostsListJson().filter((post) => !post.noindex && !post.tags.some(isIgnoredPostTag));
   return filteredPostsCache;
 };
 

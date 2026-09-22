@@ -23,7 +23,9 @@ const groupPostsByYear = (posts: PostSummary[]): ArchivesByYear => {
   return Object.groupBy(transformedPosts, (post) => String(getYear(post.date))) as ArchivesByYear;
 };
 
-const posts = getPostsListJson();
+// アーカイブは完全な記事索引として扱うため、宣伝用の棚 (getFilteredPosts) が行うタグ除外は適用しない。
+// noindex (サンプル記事等、一覧から隠すべき投稿) だけを除く。
+const posts = getPostsListJson().filter((post) => !post.noindex);
 const archives = groupPostsByYear(posts);
 const totalPosts = posts.length;
 const slug = 'archive';

@@ -8,6 +8,7 @@ export function toPostSummary(posts: Post[]): PostSummary[] {
       date: post.date,
       ...(post.updated && { updated: post.updated }),
       tags: post.tags,
+      ...(post.noindex && { noindex: post.noindex }),
     };
   });
 }
