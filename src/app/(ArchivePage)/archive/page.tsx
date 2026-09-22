@@ -12,6 +12,7 @@ import { getCollectionPageStructured } from '@/lib/domain/json-ld';
 import { getDateAndUpdatedToSimpleFormat } from '@/lib/post/date';
 import { getPostsListJson } from '@/lib/source/post';
 import type { ArchivesByYear, PostSummary } from '@/types/source';
+import { css } from '@/ui/styled';
 
 const getYear = (date: PostSummary['date']) => Number(date.slice(0, 4));
 
@@ -40,6 +41,11 @@ export const metadata: Metadata = getMetadata({
   url: `${SITE_URL}/${slug}`,
 });
 
+// 固定ヘッダーの高さ分だけジャンプ先をずらし、年別一覧からの着地後に見出しがヘッダーへ隠れないようにする
+const yearHeadingStyle = css`
+  scroll-margin-top: var(--spacing-800);
+`;
+
 function ArchiveTimelinesByYear({ archives }: { archives: ArchivesByYear }) {
   return (
     <>
@@ -49,6 +55,7 @@ function ArchiveTimelinesByYear({ archives }: { archives: ArchivesByYear }) {
           <Stack as="section" gap={300} key={year}>
             <Heading
               as="h2"
+              className={yearHeadingStyle}
               id={`${year}年`}
               tabIndex={-1}
               textSide={

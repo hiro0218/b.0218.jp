@@ -106,7 +106,7 @@ const AnchorStyle = css`
   & > [data-part='count'] {
     grid-column: 2;
     justify-self: end;
-    color: var(--colors-gray-600);
+    color: var(--colors-gray-900);
     white-space: nowrap;
   }
 
