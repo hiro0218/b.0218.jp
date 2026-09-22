@@ -41,8 +41,11 @@ export const metadata: Metadata = getMetadata({
   url: `${SITE_URL}/${slug}`,
 });
 
-// 固定ヘッダーの高さ分だけジャンプ先をずらし、年別一覧からの着地後に見出しがヘッダーへ隠れないようにする
+// 固定ヘッダーの高さ分だけジャンプ先をずらし、年別一覧からの着地後に見出しがヘッダーへ隠れないようにする。
+// h2 は display: block でブロック幅いっぱいに広がるため、fit-content で外接矩形をテキスト幅に絞り、
+// hash 遷移後の focus リングが入力欄のように見えるのを防ぐ。
 const yearHeadingStyle = css`
+  width: fit-content;
   scroll-margin-top: var(--spacing-800);
 `;
 
