@@ -33,6 +33,8 @@ const pointerEventsStyle = css`
 
 const Button = styled.button`
   gap: var(--spacing-75);
+  /* ナビのトグルボタン（44px）と並んだ際にタップ領域が狭くならないよう下限を揃える */
+  min-width: var(--sizes-touch-target);
   cursor: pointer;
 `;
 
@@ -43,5 +45,8 @@ const Label = styled.span`
     display: inline;
     font-family: var(--fonts-family-monospace);
     font-size: var(--font-sizes-sm);
+    /* button 要素は独自の line-height を持つため、他のナビリンク（body の line-height を継承）と
+       高さを揃えるために明示する */
+    line-height: var(--line-heights-body);
   }
 `;
