@@ -3,16 +3,16 @@ import { getMetadata } from '@/app/_metadata';
 import { StructuredData } from '@/components/Functional/StructuredData';
 import { PostTimeline } from '@/components/Page/_shared/PostTimeline';
 import { Chart, YEAR_INDEX_ANCHOR_ID } from '@/components/Page/Archive/Chart';
+import { Anchor } from '@/components/UI/Anchor';
 import { Heading } from '@/components/UI/Heading';
 import { Stack } from '@/components/UI/Layout/Stack';
-import { LinkMore } from '@/components/UI/LinkMore';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
 import { getDateAndUpdatedToSimpleFormat } from '@/lib/post/date';
 import { getPostsListJson } from '@/lib/source/post';
 import type { ArchivesByYear, PostSummary } from '@/types/source';
-import { css } from '@/ui/styled';
+import { css, cx } from '@/ui/styled';
 
 const getYear = (date: PostSummary['date']) => Number(date.slice(0, 4));
 
@@ -46,6 +46,10 @@ const yearHeadingStyle = css`
   scroll-margin-top: var(--spacing-800);
 `;
 
+const yearIndexLinkStyle = css`
+  font-size: var(--font-sizes-sm);
+`;
+
 function ArchiveTimelinesByYear({ archives }: { archives: ArchivesByYear }) {
   return (
     <>
@@ -61,7 +65,12 @@ function ArchiveTimelinesByYear({ archives }: { archives: ArchivesByYear }) {
               textSide={
                 <Stack align="center" direction="horizontal" gap={100}>
                   <span>{archives[year].length} posts</span>
-                  <LinkMore href={`#${YEAR_INDEX_ANCHOR_ID}`} text="年別一覧へ" />
+                  <Anchor
+                    className={cx('link-style', 'link-style--hover-effect', yearIndexLinkStyle)}
+                    href={`#${YEAR_INDEX_ANCHOR_ID}`}
+                  >
+                    年別一覧
+                  </Anchor>
                 </Stack>
               }
             >
