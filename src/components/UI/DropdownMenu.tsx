@@ -6,7 +6,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 
 import { IconButton } from '@/components/UI/IconButton';
 
-import { Container, Content } from './DropdownMenu/styles';
+import { Container, Content, triggerAnchorStyle } from './DropdownMenu/styles';
 
 type MenuPosition = 'left' | 'right';
 
@@ -17,6 +17,7 @@ export type DropdownMenuProps = {
   triggerLabel: string;
   /** メニュー内のリンク要素 */
   children: ReactNode;
+  /** 既定の展開方向。Anchor Positioning 対応ブラウザでは、画面からはみ出す場合に左右・上下を自動で反転する */
   menuHorizontalPosition?: MenuPosition;
 };
 
@@ -73,6 +74,7 @@ export function DropdownMenu({ title, triggerLabel, children, menuHorizontalPosi
         aria-controls={panelId}
         aria-expanded={isExpanded}
         aria-label={triggerLabel}
+        className={triggerAnchorStyle}
         data-active={isExpanded}
         onClick={() => setIsExpanded((current) => !current)}
         ref={triggerRef}

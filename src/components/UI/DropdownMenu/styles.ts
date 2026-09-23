@@ -1,8 +1,22 @@
-import { styled } from '@/ui/styled';
+import { css, styled } from '@/ui/styled';
 
 export const Container = styled.div`
   position: relative;
   display: flex;
+
+  /* 同じページに複数のドロップダウンがあっても、各パネルが自分のトリガーだけを基準にするようアンカー名の有効範囲を閉じる */
+  @supports (anchor-scope: --dropdown-trigger) and (position-anchor: --dropdown-trigger) and (position-area: bottom) and
+    (position-try-fallbacks: flip-inline) {
+    anchor-scope: --dropdown-trigger;
+  }
+`;
+
+/** トリガーを Anchor Positioning のアンカーにする。対応ブラウザでのみ有効 */
+export const triggerAnchorStyle = css`
+  @supports (anchor-scope: --dropdown-trigger) and (position-anchor: --dropdown-trigger) and (position-area: bottom) and
+    (position-try-fallbacks: flip-inline) {
+    anchor-name: --dropdown-trigger;
+  }
 `;
 
 export const Content = styled.div`
@@ -55,6 +69,29 @@ export const Content = styled.div`
       opacity: 1;
       transform: scale(1);
       animation: none;
+    }
+  }
+
+  /*
+   * 対応ブラウザではトリガーに紐づけて viewport 基準で配置し、はみ出す場合は左右・上下を自動で反転する。
+   * 未対応ブラウザは上の absolute 配置のまま。
+   * position: fixed にするのは、はみ出し判定の基準（包含ブロック）を Container ではなく viewport にするため。
+   * 一度反転した向きは、収まる限りそのまま維持される（Chrome で確認した挙動。下に余白があっても上に出ることがある）。
+   */
+  @supports (anchor-scope: --dropdown-trigger) and (position-anchor: --dropdown-trigger) and (position-area: bottom) and
+    (position-try-fallbacks: flip-inline) {
+    position: fixed;
+    position-anchor: --dropdown-trigger;
+    position-try-fallbacks: flip-inline, flip-block, flip-block flip-inline;
+
+    &[data-position='left'] {
+      inset: auto;
+      position-area: bottom span-right;
+    }
+
+    &[data-position='right'] {
+      inset: auto;
+      position-area: bottom span-left;
     }
   }
 `;
