@@ -20,9 +20,9 @@ const MENU_TRIGGER_NAME = /Feedback/;
 
 const interactionMenuItems = (
   <>
-    <a href="/posts/202605021758">[TypeScript] Barrel ファイルを廃止する</a>
-    <a href="/posts/202604271115">[Codex] refresh token already used</a>
-    <a href="/posts/202603081143">仕様駆動開発（SDD）とフロントエンドの相性</a>
+    <a href="#barrel-file">[TypeScript] Barrel ファイルを廃止する</a>
+    <a href="#refresh-token">[Codex] refresh token already used</a>
+    <a href="#sdd">仕様駆動開発（SDD）とフロントエンドの相性</a>
   </>
 );
 
@@ -68,10 +68,10 @@ export const PositionLeft: Story = {
 };
 
 /**
- * トリガークリックで `aria-expanded` と `aria-controls` が正しく更新され、Esc キーで閉じてトリガーへ focus が
- * 戻ることを検証する。disclosure パターンのアクセシビリティ契約の保証。
+ * トリガークリックで `aria-expanded` / `aria-controls` が更新され、リンク選択・外側クリック・Esc キーのいずれでも
+ * 閉じ、リンク選択と Esc ではトリガーへ focus が戻ることを検証する。disclosure パターンのアクセシビリティ契約の保証。
  *
- * @summary 開閉操作と Esc クローズの検証
+ * @summary 開閉操作と閉じ方の検証
  */
 export const ToggleMenu: Story = {
   tags: ['!manifest'],
@@ -95,6 +95,20 @@ export const ToggleMenu: Story = {
     const links = canvas.getAllByRole('link');
     expect(links).toHaveLength(3);
 
+    // リンク選択で閉じてトリガーへ focus が戻る
+    await userEvent.click(links[0]);
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    await expect(trigger).toHaveFocus();
+
+    // 外側クリックで閉じる（useInteractOutside は focus を戻さない）
+    await userEvent.click(trigger);
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await userEvent.click(canvasElement);
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+
+    // Esc キーで閉じてトリガーへ focus が戻る（最後を今と同じ状態にして VRT の見た目を変えないため、Escape を最後に置く）
+    await userEvent.click(trigger);
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
     await userEvent.keyboard('{Escape}');
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
     await expect(trigger).toHaveFocus();
