@@ -32,10 +32,21 @@ const pointerEventsStyle = css`
 `;
 
 const Button = styled.button`
-  gap: var(--spacing-75);
-  /* ナビのトグルボタン（44px）と並んだ際にタップ領域が狭くならないよう下限を揃える */
+  justify-content: center;
   min-width: var(--sizes-touch-target);
   cursor: pointer;
+
+  &::before {
+    border-radius: var(--radii-full);
+  }
+
+  @media (--isDesktop) {
+    gap: var(--spacing-75);
+
+    &::before {
+      border-radius: var(--radii-sm);
+    }
+  }
 `;
 
 const Label = styled.span`
