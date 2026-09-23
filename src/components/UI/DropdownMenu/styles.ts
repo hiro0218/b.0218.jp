@@ -35,28 +35,26 @@ export const Content = styled.div`
     transform-origin: 100% 0;
   }
 
-  &[aria-expanded='true'] {
+  &[data-expanded='true'] {
     visibility: visible;
     pointer-events: auto;
     transition-delay: 0s;
     animation: dropdownEnter var(--transition-slow) forwards;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    &[aria-expanded='true'] {
-      opacity: 1;
-      transform: scale(1);
-      animation: none;
-    }
-  }
-`;
-
-export const MenuItemContainer = styled.div`
   & > a {
     display: flex;
     align-items: center;
     padding: var(--spacing-75) var(--spacing-100);
     line-height: var(--line-heights-lg);
     border-radius: var(--radii-sm);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &[data-expanded='true'] {
+      opacity: 1;
+      transform: scale(1);
+      animation: none;
+    }
   }
 `;

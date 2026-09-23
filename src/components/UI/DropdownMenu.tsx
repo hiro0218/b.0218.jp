@@ -1,15 +1,12 @@
 'use client';
 
-import { useButton } from '@react-aria/button';
 import { useInteractOutside } from '@react-aria/interactions';
-import type { ReactNode } from 'react';
-import { useId, useRef } from 'react';
-import { useMenuTriggerState } from 'react-stately';
+import type { MouseEvent, ReactNode } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 
 import { IconButton } from '@/components/UI/IconButton';
 
-import { Popover } from './DropdownMenu/Popover';
-import { Container } from './DropdownMenu/styles';
+import { Container, Content } from './DropdownMenu/styles';
 
 type MenuPosition = 'left' | 'right';
 
@@ -25,47 +22,71 @@ export type DropdownMenuProps = {
 
 /**
  * クリック操作で開閉するドロップダウンメニュー。
- * React Aria でアクセシビリティ対応済み。
- * @summary クリック開閉ドロップダウンメニュー
+ * 中身はコマンド選択ではなくリンクの一覧なので、ARIA menu パターン（role="menu"/menuitem）ではなく
+ * disclosure パターン（トリガーの aria-expanded/aria-controls + 素の <a> を並べたパネル）で実装する。
+ * （menu パターンでは menuitem が <a> を包む構造になり、menuitem 上の Enter でリンクが開かない）
+ * @summary クリック開閉ドロップダウンメニュー（disclosure パターン）
  */
 export function DropdownMenu({ title, triggerLabel, children, menuHorizontalPosition = 'right' }: DropdownMenuProps) {
-  const state = useMenuTriggerState({});
+  const [isExpanded, setIsExpanded] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const triggerId = useId();
+  const panelId = useId();
 
-  const { buttonProps } = useButton({ onPress: () => state.toggle() }, triggerRef);
-
-  // メニュー外クリックで閉じる（開いている場合のみハンドラを設定）
+  // パネル外クリックで閉じる（開いている場合のみハンドラを設定）
   useInteractOutside({
     ref: containerRef,
-    onInteractOutside: state.isOpen ? () => state.close() : undefined,
+    isDisabled: !isExpanded,
+    onInteractOutside: () => setIsExpanded(false),
   });
+
+  // 展開中のみ Esc キーで閉じ、トリガーへ focus を戻す
+  // （閉じるとパネルが visibility: hidden になり、中に focus が残っていると body に落ちるため）
+  useEffect(() => {
+    if (!isExpanded) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      // 検索ダイアログなど他の <dialog> 内で発生した Esc はそちら側の close に委ね、背後のパネルまで閉じない
+      if ((event.target as HTMLElement | null)?.closest('dialog[open]')) return;
+
+      setIsExpanded(false);
+      triggerRef.current?.focus();
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isExpanded]);
+
+  // リンククリックで閉じてトリガーへ focus を戻す（Esc と同じ理由。閉じた後の focus 迷子を防ぐ）
+  const handlePanelClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (!(event.target instanceof Element)) return;
+    if (!event.target.closest('a')) return;
+
+    setIsExpanded(false);
+    triggerRef.current?.focus();
+  };
 
   return (
     <Container ref={containerRef}>
       <IconButton
-        {...buttonProps}
-        aria-expanded={state.isOpen}
-        aria-haspopup="menu"
+        aria-controls={panelId}
+        aria-expanded={isExpanded}
         aria-label={triggerLabel}
-        data-active={state.isOpen}
-        id={triggerId}
+        data-active={isExpanded}
+        onClick={() => setIsExpanded((current) => !current)}
         ref={triggerRef}
       >
         {title}
       </IconButton>
-      <Popover
-        aria-labelledby={triggerId}
-        autoFocus={state.focusStrategy}
+      <Content
+        data-expanded={isExpanded}
         data-position={menuHorizontalPosition}
-        isOpen={state.isOpen}
-        menuRef={menuRef}
-        onClose={state.close}
+        id={panelId}
+        onClick={handlePanelClick}
       >
         {children}
-      </Popover>
+      </Content>
     </Container>
   );
 }

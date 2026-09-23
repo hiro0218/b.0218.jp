@@ -67,9 +67,10 @@ export const PositionLeft: Story = {
 };
 
 /**
- * トリガークリックで `aria-expanded` と `aria-haspopup` が正しく更新されることを検証する。アクセシビリティ契約の保証。
+ * トリガークリックで `aria-expanded` と `aria-controls` が正しく更新され、Esc キーで閉じてトリガーへ focus が
+ * 戻ることを検証する。disclosure パターンのアクセシビリティ契約の保証。
  *
- * @summary 開閉時の ARIA 更新検証
+ * @summary 開閉操作と Esc クローズの検証
  */
 export const ToggleMenu: Story = {
   tags: ['!manifest'],
@@ -85,9 +86,16 @@ export const ToggleMenu: Story = {
 
     await userEvent.click(trigger);
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
-    await expect(trigger).toHaveAttribute('aria-haspopup', 'menu');
+
+    const panelId = trigger.getAttribute('aria-controls');
+    expect(panelId).toBeTruthy();
+    expect(document.getElementById(panelId ?? '')).not.toBeNull();
 
     const links = canvas.getAllByRole('link');
     expect(links).toHaveLength(3);
+
+    await userEvent.keyboard('{Escape}');
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    await expect(trigger).toHaveFocus();
   },
 };
