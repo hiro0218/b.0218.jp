@@ -1,3 +1,5 @@
+# This workflow is managed by gh actions-lock.
+
 name: 'Storybook VRT'
 
 on:
@@ -25,21 +27,21 @@ jobs:
       outcome: ${{ steps.vrt.outcome }}
       section: ${{ steps.diffs.outputs.section }}
     steps:
-      - uses: Kesin11/actions-timeline@57fc93f20c6da7fbc14063c6d24a2a5627c799ad # v3.2.0
+      - uses: Kesin11/actions-timeline@v3.2.0
 
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
           submodules: true
 
       - name: Install Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@v7.0.0
         with:
           node-version-file: '.node-version'
           cache: 'npm'
 
       - id: cache-node-modules
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
+        uses: actions/cache@v6.1.0
         with:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
@@ -55,7 +57,7 @@ jobs:
 
       - name: Restore Storybook build cache
         id: sb-cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
+        uses: actions/cache@v6.1.0
         with:
           path: storybook-static
           key: storybook-${{ runner.os }}-${{ hashFiles('.storybook/**', 'src/components/UI/**/*.{ts,tsx,css}', 'src/stories/**/*.{ts,tsx,css}', 'src/lib/**/*.{ts,tsx}', 'src/ui/**/*.{ts,tsx}', 'panda.config.mts', 'package-lock.json') }}
@@ -67,7 +69,7 @@ jobs:
       - name: Download baseline snapshots from master
         if: github.event_name == 'pull_request'
         background: true
-        uses: dawidd6/action-download-artifact@d63b86af1b34672e53c440b1b83979861906bad7 # v24
+        uses: dawidd6/action-download-artifact@v3.1.4
         with:
           workflow: vrt.yml
           branch: master
@@ -90,7 +92,7 @@ jobs:
 
       - name: Upload baseline snapshots (master branch)
         if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/master' && steps.vrt.outcome == 'success'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: vrt-baseline
           path: tests/vrt/__snapshots__
@@ -134,7 +136,7 @@ jobs:
       - name: Upload diff report (PR)
         id: artifact
         if: always() && github.event_name == 'pull_request'
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: vrt-diff-${{ github.event.pull_request.number }}
           path: |
@@ -152,7 +154,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Comment PR with VRT result
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
         with:
           header: storybook-vrt
           message: |
