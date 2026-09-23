@@ -76,7 +76,6 @@ export const Content = styled.div`
    * 対応ブラウザではトリガーに紐づけて viewport 基準で配置し、はみ出す場合は左右・上下を自動で反転する。
    * 未対応ブラウザは上の absolute 配置のまま。
    * position: fixed にするのは、はみ出し判定の基準（包含ブロック）を Container ではなく viewport にするため。
-   * 一度反転した向きは、収まる限りそのまま維持される（Chrome で確認した挙動。下に余白があっても上に出ることがある）。
    */
   @supports (anchor-scope: --dropdown-trigger) and (position-anchor: --dropdown-trigger) and (position-area: bottom) and
     (position-try-fallbacks: flip-inline) {
@@ -84,6 +83,16 @@ export const Content = styled.div`
     position-anchor: --dropdown-trigger;
     position-try-fallbacks: flip-inline, flip-block, flip-block flip-inline;
 
+    /*
+     * 閉じている間はボックスごと消す。Chrome はボックスが残る限り、一度選んだ反転の向きを開閉をまたいで記憶し、
+     * 読み進めて画面下から入ってくるトリガーでは上向きが記憶されて、下に余白があっても常に上に開いてしまうため
+     * （position-try-fallbacks: none への切り替えでは記憶は消えない。Chrome 153 で確認）。
+     */
+    &[data-expanded='false'] {
+      display: none;
+    }
+
+    /* 基底の top: 100% と、&[data-position] の left: 0 / right: 0 を打ち消す。同じ詳細度で後勝ちにするため同じセレクタに書く */
     &[data-position='left'] {
       inset: auto;
       position-area: bottom span-right;
