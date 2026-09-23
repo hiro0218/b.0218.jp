@@ -1,7 +1,7 @@
 'use client';
 
 import { useInteractOutside } from '@react-aria/interactions';
-import type { MouseEvent, ReactNode } from 'react';
+import type { FocusEvent, MouseEvent, ReactNode } from 'react';
 import { useEffect, useId, useRef, useState } from 'react';
 
 import { IconButton } from '@/components/UI/IconButton';
@@ -26,6 +26,8 @@ export type DropdownMenuProps = {
  * 中身はコマンド選択ではなくリンクの一覧なので、ARIA menu パターン（role="menu"/menuitem）ではなく
  * disclosure パターン（トリガーの aria-expanded/aria-controls + 素の <a> を並べたパネル）で実装する。
  * （React Aria の useMenuItem を div に当てて <a> を包む構造では、menuitem 上の Enter でリンクが開かない）
+ * 閉じる条件は外側クリック / Esc / リンク起動 / フォーカスがパネルの外へ移動。開いてもフォーカスはトリガーに留める
+ * （disclosure の慣例）。Esc とリンク起動ではトリガーへ戻し、外側クリックとフォーカス移動では戻さない。
  * @summary クリック開閉ドロップダウンメニュー（disclosure パターン）
  */
 export function DropdownMenu({ title, triggerLabel, children, menuHorizontalPosition = 'right' }: DropdownMenuProps) {
@@ -42,7 +44,7 @@ export function DropdownMenu({ title, triggerLabel, children, menuHorizontalPosi
   });
 
   // 展開中のみ Esc キーで閉じ、トリガーへ focus を戻す
-  // （閉じるとパネルが visibility: hidden になり、中に focus が残っていると body に落ちるため）
+  // （閉じるとパネルは inert になり、フェード後に display: none になるため、中に focus が残っていると body に落ちる）
   useEffect(() => {
     if (!isExpanded) return;
 
@@ -68,8 +70,17 @@ export function DropdownMenu({ title, triggerLabel, children, menuHorizontalPosi
     triggerRef.current?.focus();
   };
 
+  // フォーカスがトリガーとパネルの外へ移ったら閉じる(Tab でパネルを通り過ぎても開いたままにしない)。
+  // relatedTarget が無い場合(ウィンドウ切り替え、フォーカスできない場所のクリック)は閉じない。
+  // 前者は戻ってきたときに状態を保つため、後者は useInteractOutside が受け持つため。移動先のフォーカスは奪い返さない。
+  const handleBlur = (event: FocusEvent<HTMLDivElement>) => {
+    if (!(event.relatedTarget instanceof Node)) return;
+    if (event.currentTarget.contains(event.relatedTarget)) return;
+    setIsExpanded(false);
+  };
+
   return (
-    <Container ref={containerRef}>
+    <Container onBlur={handleBlur} ref={containerRef}>
       <IconButton
         aria-controls={panelId}
         aria-expanded={isExpanded}
@@ -85,6 +96,8 @@ export function DropdownMenu({ title, triggerLabel, children, menuHorizontalPosi
         data-expanded={isExpanded}
         data-position={menuHorizontalPosition}
         id={panelId}
+        // 閉じるフェード中もボックスが残るので、その間に操作・フォーカスされないようにする
+        inert={isExpanded ? undefined : true}
         onClick={handlePanelClick}
       >
         {children}
