@@ -25,7 +25,7 @@ export type DropdownMenuProps = {
  * クリック操作で開閉するドロップダウンメニュー。
  * 中身はコマンド選択ではなくリンクの一覧なので、ARIA menu パターン（role="menu"/menuitem）ではなく
  * disclosure パターン（トリガーの aria-expanded/aria-controls + 素の <a> を並べたパネル）で実装する。
- * （menu パターンでは menuitem が <a> を包む構造になり、menuitem 上の Enter でリンクが開かない）
+ * （React Aria の useMenuItem を div に当てて <a> を包む構造では、menuitem 上の Enter でリンクが開かない）
  * @summary クリック開閉ドロップダウンメニュー（disclosure パターン）
  */
 export function DropdownMenu({ title, triggerLabel, children, menuHorizontalPosition = 'right' }: DropdownMenuProps) {
