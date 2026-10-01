@@ -109,7 +109,7 @@
     "@markuplint/jsx-parser": "5.0.0",
     "@markuplint/react-spec": "5.0.0",
     "@playwright/test": "1.63.0",
-    "@prettier/plugin-oxc": "0.2.2",
+    "@prettier/plugin-oxc": "0.2.3",
     "@shikijs/rehype": "4.4.3",
     "@storybook/addon-a11y": "10.6.0",
     "@storybook/addon-docs": "10.6.0",
