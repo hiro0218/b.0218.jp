@@ -142,7 +142,7 @@
     "jsdom": "28.1.0",
     "knip": "6.33.0",
     "kuromoji": "0.1.2",
-    "markuplint": "5.0.0",
+    "markuplint": "5.0.1",
     "mdast-util-find-and-replace": "3.0.2",
     "nano-staged": "1.0.2",
     "next-build-id": "3.0.0",
