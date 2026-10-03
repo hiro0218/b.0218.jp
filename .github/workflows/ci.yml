@@ -55,7 +55,9 @@ jobs:
             uses: actions/cache@v6.1.0
             with:
               path: .next/cache
-              key: next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**/*.{ts,tsx,js,jsx}') }}
+              # hashFiles は {ts,tsx} のような波括弧を展開せず、一致なしを空文字にする。
+              # 波括弧を使うとキーがソースの変更に追従せず、ビルドキャッシュが更新されなくなる。
+              key: next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**') }}
               restore-keys: |
                 next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
 

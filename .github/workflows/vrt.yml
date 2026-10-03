@@ -60,7 +60,12 @@ jobs:
         uses: actions/cache@v6.1.0
         with:
           path: storybook-static
-          key: storybook-${{ runner.os }}-${{ hashFiles('.storybook/**', 'src/components/UI/**/*.{ts,tsx,css}', 'src/stories/**/*.{ts,tsx,css}', 'src/lib/**/*.{ts,tsx}', 'src/ui/**/*.{ts,tsx}', 'panda.config.mts', 'package-lock.json') }}
+          # Storybook のビルド入力をすべてキーに含める(stories が import で辿る src、設定ファイル、staticDirs の public)。
+          # 入力が漏れると、変更後も古い storybook-static を復元して Build Storybook を飛ばし、
+          # 古い UI に対する VRT が成功してしまう。
+          # hashFiles は {ts,tsx} のような波括弧を展開せず、一致なしを空文字にするため、波括弧は使わない。
+          # restore-keys は付けない(部分一致で古いビルドを復元しないため)。
+          key: storybook-${{ runner.os }}-${{ hashFiles('.storybook/**', 'src/**', 'public/**', '*.config.*', 'package.json', 'package-lock.json', 'tsconfig.json') }}
 
       - name: Build Storybook
         if: steps.sb-cache.outputs.cache-hit != 'true'
