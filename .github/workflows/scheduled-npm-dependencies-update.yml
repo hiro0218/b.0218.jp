@@ -22,12 +22,25 @@ jobs:
   npm-update:
     env:
       pr_title: '[Automated] Update NPM dependencies'
+      # lockfile の生成に使う npm。.node-version(24.12.0)同梱の npm 11.6.2 は、optional な依存に連なる peer
+      # (markuplint 経由の eslint など)を lockfile から落として書き出し、npm ci の検証に通らなくなる
+      # (npm 11.12.1 以降では起きないことを確認済み)。生成だけ新しい npm で行い、検証(Verify lockfile)は
+      # .node-version の npm で行う。新しい npm が生成した lockfile は、npm 11.6.2・11.12.1・11.17.0・11.19.0・
+      # 11.21.0 の npm ci で通ることを確認済みである。
+      # 逆に、11.6.2 時代の lockfile は 11.12.1 以降の npm ci に通らない(@emnapi/runtime などが lockfile に無い)。
+      # そのため .node-version を 24.15 以降へ上げるのは、この workflow が作る PR で lockfile を再生成して
+      # マージした後にする。上げ終えたら、この指定と各 npx を外して npm に戻す。
+      lockfile_npm: 'npm@11.21.0'
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v7.0.1
         with:
+          # PR の base(develop)と同じブランチを常に取得する。schedule は既定で master を取得するため、
+          # 指定しないと master の lockfile を更新して develop へ rebase することになる
+          # (create-pull-request は base と一貫したチェックアウトを前提にしている)。
+          ref: develop
           fetch-depth: 0
           persist-credentials: false
           sparse-checkout: |
@@ -91,15 +104,15 @@ jobs:
 
       - name: Synchronize lockfile
         if: steps.should-update.outputs.run == 'true'
-        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+        run: npx --yes "$lockfile_npm" install --package-lock-only --ignore-scripts --no-audit --no-fund
 
       - name: Update packages
         if: steps.should-update.outputs.run == 'true'
-        run: npm update --package-lock-only --ignore-scripts --no-audit --no-fund
+        run: npx --yes "$lockfile_npm" update --package-lock-only --ignore-scripts --no-audit --no-fund
 
       - name: Normalize lockfile
         if: steps.should-update.outputs.run == 'true'
-        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+        run: npx --yes "$lockfile_npm" install --package-lock-only --ignore-scripts --no-audit --no-fund
 
       - name: Verify lockfile
         if: steps.should-update.outputs.run == 'true'
