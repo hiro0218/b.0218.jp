@@ -4,8 +4,10 @@ name: 'Storybook VRT'
 
 on:
   pull_request:
+    # develop 宛ての PR(Dependabot の npm 更新など)も検証する。対象外だと、最初の検証が develop から master への PR になる。
     branches:
       - master
+      - develop
   push:
     branches:
       - master
