@@ -12,6 +12,13 @@ workflows:
         - 'dawidd6/action-download-artifact@v3.1.4'
         - 'kesin11/actions-timeline@v3.2.0'
         - 'marocchino/sticky-pull-request-comment@v3.0.5'
+    '.github/workflows/cwv.yml':
+        - 'actions/cache@v6.1.0'
+        - 'actions/checkout@v7.0.1'
+        - 'actions/setup-node@v7.0.0'
+        - 'actions/upload-artifact@v7.0.1'
+        - 'kesin11/actions-timeline@v3.2.0'
+        - 'marocchino/sticky-pull-request-comment@v3.0.5'
     '.github/workflows/deps-dependabot-auto-merge.yml':
         - 'dependabot/fetch-metadata@v3.1.0'
     '.github/workflows/deps-vulnerability-check.yml':
