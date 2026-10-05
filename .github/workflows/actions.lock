@@ -9,7 +9,7 @@ workflows:
         - 'actions/download-artifact@v8.0.1'
         - 'actions/setup-node@v7.0.0'
         - 'actions/upload-artifact@v7.0.1'
-        - 'dawidd6/action-download-artifact@v3.1.4'
+        - 'dawidd6/action-download-artifact@v24'
         - 'kesin11/actions-timeline@v3.2.0'
         - 'marocchino/sticky-pull-request-comment@v3.0.5'
     '.github/workflows/cwv.yml':
@@ -50,7 +50,7 @@ workflows:
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-node@v7.0.0'
         - 'actions/upload-artifact@v7.0.1'
-        - 'dawidd6/action-download-artifact@v3.1.4'
+        - 'dawidd6/action-download-artifact@v24'
         - 'kesin11/actions-timeline@v3.2.0'
         - 'marocchino/sticky-pull-request-comment@v3.0.5'
 dependencies:
@@ -94,8 +94,8 @@ dependencies:
         commit: 'sha1-043fb46d1a93c77aae656e7c1c64a875d1fc6a0a'
         owner_id: 44036562
         repo_id: 192625955
-    'dawidd6/action-download-artifact@v3.1.4':
-        ref: 'v3.1.4'
+    'dawidd6/action-download-artifact@v24':
+        ref: 'v24'
         commit: 'sha1-d63b86af1b34672e53c440b1b83979861906bad7'
         owner_id: 9713907
         repo_id: 239218448

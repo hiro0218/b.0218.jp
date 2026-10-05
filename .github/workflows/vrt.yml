@@ -76,7 +76,7 @@ jobs:
       - name: Download baseline snapshots from master
         if: github.event_name == 'pull_request'
         background: true
-        uses: dawidd6/action-download-artifact@v3.1.4
+        uses: dawidd6/action-download-artifact@v24
         with:
           workflow: vrt.yml
           branch: master
