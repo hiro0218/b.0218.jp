@@ -75,7 +75,7 @@
   "dependencies": {
     "@adobe/spectrum-tokens": "15.4.1",
     "@next/third-parties": "16.3.5",
-    "@pandacss/dev": "1.12.1",
+    "@pandacss/dev": "2.1.1",
     "@pandacss/types": "1.12.1",
     "@phosphor-icons/react": "2.1.10",
     "@react-aria/button": "3.15.1",
@@ -126,7 +126,7 @@
     "@types/twitter-for-web": "0.0.6",
     "@vitejs/plugin-react": "6.1.1",
     "@vitest/coverage-v8": "5.0.1",
-    "browserslist": "4.28.9",
+    "browserslist": "4.29.0",
     "dependency-cruiser": "18.2.0",
     "esbuild": "0.28.2",
     "esbuild-register": "3.6.0",
