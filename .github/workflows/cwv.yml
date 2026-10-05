@@ -29,7 +29,8 @@ permissions:
 jobs:
   cwv:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # モバイルとデスクトップの両方を測るため、計測だけで約 12 分かかる見込み(モバイルだけだった初回の実測は約 6 分)。
+    timeout-minutes: 30
     outputs:
       artifact-url: ${{ steps.artifact.outputs.artifact-url }}
       body: ${{ steps.summary.outputs.body }}

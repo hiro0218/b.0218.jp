@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# 代表ページの Core Web Vitals(LCP / CLS / TBT)を Lighthouse で測り、LHR(JSON)を出力ディレクトリへ置く。
-# .github/workflows/cwv.yml から呼ぶ。事前に next build が済んでいること。
+# 代表ページの Core Web Vitals(LCP / CLS / TBT)を、モバイルとデスクトップの両方で Lighthouse で測り、
+# LHR(JSON)を出力ディレクトリへ置く。.github/workflows/cwv.yml から呼ぶ。事前に next build が済んでいること。
 #
 # 使い方: bash scripts/cwv-measure.sh <lighthouse の実行ファイル> <出力ディレクトリ>
 #
@@ -14,6 +14,10 @@ out_dir="${2:?出力ディレクトリを指定してください}"
 port=3101
 base="http://127.0.0.1:${port}"
 runs=3 # 中央値を取るため奇数にする。1 回だと外れ値がそのまま表に出る
+
+# CWV はモバイルとデスクトップを別々に評価する(web.dev)ため、両方測る。
+# desktop は Lighthouse の desktop プリセット(画面・回線・CPU の設定がデスクトップ用)で測る。
+form_factors=(mobile desktop)
 
 # src/app のルートテンプレート 9 種類から 1 件ずつ選び、記事だけは HTML サイズが最大のものも加える。
 # prerender 済みの全ページは測りきれないため、型ごとの代表で見る。
@@ -66,33 +70,51 @@ server_pid=$!
 trap 'rm -f "$lh_log"; kill "$server_pid"' EXIT
 curl --silent --show-error --fail --retry 30 --retry-delay 1 --retry-connrefused --output /dev/null "${base}/"
 
-# ページごとに runs 回ずつ測る。ファイル名の連番は出力を衝突させないためだけに使う
-# (表の並びは集計側が LHR の fetchTime で決める)。
+# 端末ごとにページごとに runs 回ずつ測る。ファイル名の連番は出力を衝突させないためだけに使う
+# (表の並びは集計側が LHR の fetchTime と formFactor で決める)。
 #
-# Lighthouse は進捗(LH:status)を 1 回あたり約 150 行 stderr に出し、30 回で 4,400 行を超える。
+# Lighthouse は進捗(LH:status)を 1 回あたり約 150 行 stderr に出し、60 回で 8,800 行を超える。
 # 成功時は捨て、失敗したときだけ全文を出す。--quiet は失敗の原因まで消すため使わない。
-# 失敗時のエラー文は URL を含まないため、どのページかはこちらで出す。
+# 失敗時のエラー文は URL を含まないため、どの端末のどのページかはこちらで出す。
 # --disable-full-page-screenshot は、指標に使わない全ページのスクリーンショット
 # (1 回あたり約 1.2 秒、LHR の約 15%)を撮らないために付ける。トレースの停止後に撮られるため、指標には影響しない。
+# --skip-audits は、指標に使わない 3 監査を外して 1 回あたり約 0.5 秒縮める。この 3 つだけが要る gatherer も
+# トレースの停止後に動くため、指標には影響しない(交互 4 回の測定で LCP / TBT / CLS は変わらなかった)。
 # --no-sandbox は、CI の Linux ではサンドボックスが使えず Chrome の起動に失敗することがあるため付ける。
 # 開くのは自前のページだけで、この job は書き込み権限も秘密情報も持たないため問題ない
 # (記事の一部は CodePen の埋め込みと webmention.io の取得を含み、これらは止めていない)。
 mkdir -p "$out_dir"
-index=0
-for path in "${paths[@]}"; do
-  index=$((index + 1))
-  for run in $(seq 1 "$runs"); do
-    "$lighthouse_bin" "${base}${path}" \
-      --only-categories=performance \
-      --output=json \
-      --output-path="${out_dir}/$(printf '%02d' "$index")-${run}.json" \
-      --chrome-flags='--headless=new --no-sandbox --disable-gpu' \
-      --disable-full-page-screenshot \
-      "${blocked_flags[@]}" 2>"$lh_log" || {
-      echo "::error::${path} の測定に失敗した(${run}/${runs})。404 などでページが無い場合は scripts/cwv-measure.sh の paths を見直す"
-      cat "$lh_log" >&2
+for form_factor in "${form_factors[@]}"; do
+  # mobile は Lighthouse の既定と同じ値を明示する。配列を空にしないため
+  # (bash 3.2 は set -u のとき、空の配列の展開に失敗する)。
+  # 未知の端末は mobile として測らず、ここで止める(form_factors に足したら、ここにも足す)。
+  case "$form_factor" in
+    mobile) device_flags=(--form-factor=mobile) ;;
+    desktop) device_flags=(--preset=desktop) ;;
+    *)
+      echo "::error::cwv-measure.sh が対応していない端末です: ${form_factor}。device_flags をここに足す"
       exit 1
-    }
-    echo "measured ${path} (${run}/${runs})"
+      ;;
+  esac
+
+  index=0
+  for path in "${paths[@]}"; do
+    index=$((index + 1))
+    for run in $(seq 1 "$runs"); do
+      "$lighthouse_bin" "${base}${path}" \
+        --only-categories=performance \
+        --output=json \
+        --output-path="${out_dir}/${form_factor}-$(printf '%02d' "$index")-${run}.json" \
+        --chrome-flags='--headless=new --no-sandbox --disable-gpu' \
+        --disable-full-page-screenshot \
+        --skip-audits=bf-cache,unsized-images,unused-css-rules \
+        "${device_flags[@]}" \
+        "${blocked_flags[@]}" 2>"$lh_log" || {
+        echo "::error::${form_factor} の ${path} の測定に失敗した(${run}/${runs})。404 などでページが無い場合は scripts/cwv-measure.sh の paths を見直す"
+        cat "$lh_log" >&2
+        exit 1
+      }
+      echo "measured ${form_factor} ${path} (${run}/${runs})"
+    done
   done
 done

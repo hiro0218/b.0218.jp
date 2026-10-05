@@ -6,12 +6,16 @@ type Metrics = { lcp: number; cls: number; tbt: number };
 // 3 指標がすべて good になる値。しきい値の境界を試す指標だけを上書きして使う。
 const GOOD: Metrics = { lcp: 2000, cls: 0.01, tbt: 50 };
 
-// 集計が読むフィールドだけを持つ LHR を作る。fetchTime は並び順のテストだけが明示し、他は既定値でよい。
-const makeLhr = (path: string, metrics: Metrics, fetchTime = '2026-10-05T00:00:00Z'): Lhr => ({
+// 集計が読むフィールドだけを持つ LHR を作る。fetchTime は並び順のテストだけが、formFactor は端末のテストだけが明示し、他は既定値でよい。
+const makeLhr = (
+  path: string,
+  metrics: Metrics,
+  { fetchTime = '2026-10-05T00:00:00Z', formFactor = 'mobile' } = {},
+): Lhr => ({
   fetchTime,
   requestedUrl: `http://127.0.0.1:3101${path}`,
   lighthouseVersion: '13.5.0',
-  configSettings: { formFactor: 'mobile', throttlingMethod: 'simulate', blockedUrlPatterns: ['*ads.example*'] },
+  configSettings: { formFactor, throttlingMethod: 'simulate', blockedUrlPatterns: ['*ads.example*'] },
   audits: {
     'largest-contentful-paint': { numericValue: metrics.lcp },
     'cumulative-layout-shift': { numericValue: metrics.cls },
@@ -50,11 +54,64 @@ test.each([
 
 test('ページは測定した順(fetchTime の昇順)に並べる', () => {
   // 入力の並びは測定順と逆にしておく
-  const reports = [makeLhr('/archive', GOOD, '2026-10-05T00:00:02Z'), makeLhr('/', GOOD, '2026-10-05T00:00:01Z')];
+  const reports = [
+    makeLhr('/archive', GOOD, { fetchTime: '2026-10-05T00:00:02Z' }),
+    makeLhr('/', GOOD, { fetchTime: '2026-10-05T00:00:01Z' }),
+  ];
 
   const table = summarize(reports);
 
   expect(table.indexOf('| `/` |')).toBeLessThan(table.indexOf('| `/archive` |'));
+});
+
+test('SP と PC がある場合、測定順によらず SP、PC の順に表を出す', () => {
+  // PC を先に測った入力にしておく
+  const reports = [
+    makeLhr('/', GOOD, { fetchTime: '2026-10-05T00:00:01Z', formFactor: 'desktop' }),
+    makeLhr('/', GOOD, { fetchTime: '2026-10-05T00:00:02Z', formFactor: 'mobile' }),
+  ];
+
+  const table = summarize(reports);
+
+  expect(table.indexOf('### SP(モバイル)')).toBeGreaterThanOrEqual(0);
+  expect(table.indexOf('### SP(モバイル)')).toBeLessThan(table.indexOf('### PC(デスクトップ)'));
+});
+
+test('PC の場合、TBT は PC 用の境界で、LCP は端末共通の境界で判定する', () => {
+  // TBT 151ms は SP では good(200ms 以下)、PC では needs improvement(150ms 超)になる。
+  const metrics = { ...GOOD, lcp: 2501, tbt: 151 };
+  const reports = [makeLhr('/', metrics, { formFactor: 'mobile' }), makeLhr('/', metrics, { formFactor: 'desktop' })];
+
+  const [mobile, desktop] = summarize(reports).split('### PC(デスクトップ)');
+
+  expect(mobile).toContain('| `/` | 🟡 2.50 s | 🟢 0.010 | 🟢 151 ms |');
+  expect(desktop).toContain('| `/` | 🟡 2.50 s | 🟢 0.010 | 🟡 151 ms |');
+});
+
+test('2 端末を 3 回ずつ測った場合、端末ごとに中央値を出し、回数は 3 回と書く', () => {
+  const measure = (formFactor: string, lcps: number[]) =>
+    lcps.map((lcp) => makeLhr('/', { ...GOOD, lcp }, { formFactor }));
+  // 端末をまたいで中央値を取ると 2.10 s になり、回数を数えると 6 回になる値にしておく
+  const reports = [...measure('mobile', [3000, 9000, 3200]), ...measure('desktop', [1000, 1200, 1100])];
+
+  const [mobile, desktop] = summarize(reports).split('### PC(デスクトップ)');
+
+  expect(mobile).toContain('3.20 s');
+  expect(desktop).toContain('1.10 s');
+  expect(desktop).toContain('3 回測った中央値');
+});
+
+test('ページごとの測定回数が揃っていない場合、エラーを投げる', () => {
+  const reports = [makeLhr('/', GOOD), makeLhr('/', GOOD), makeLhr('/archive', GOOD)];
+
+  expect(() => summarize(reports)).toThrow('揃っていません');
+});
+
+test('PC だけの場合、SP の表と境界は出さない', () => {
+  const note = summarize([makeLhr('/', GOOD, { formFactor: 'desktop' })]);
+
+  expect(note).toContain('### PC(デスクトップ)');
+  expect(note).not.toContain('SP');
 });
 
 test('測定条件を注記に含める', () => {
@@ -62,7 +119,7 @@ test('測定条件を注記に含める', () => {
 
   const note = summarize(reports);
 
-  expect(note).toContain('Lighthouse 13.5.0 (mobile, simulate)');
+  expect(note).toContain('Lighthouse 13.5.0 (simulate)');
   expect(note).toContain('3 回測った中央値');
   expect(note).toContain('ブロックして測った');
 });
@@ -71,9 +128,16 @@ test('判定を絵文字で表示する場合、絵文字の意味を凡例と�
   expect(summarize([makeLhr('/', GOOD)])).toContain('🟢 good / 🟡 needs improvement / 🔴 poor');
 });
 
-test('注記を作る場合、判定の境界を絵文字と不等号つきで含める', () => {
-  expect(summarize([makeLhr('/', GOOD)])).toContain(
-    'LCP 🟢 ≤ 2.50 s / 🔴 > 4.00 s、CLS 🟢 ≤ 0.100 / 🔴 > 0.250、TBT 🟢 ≤ 200 ms / 🔴 > 600 ms',
+test('注記を作る場合、判定の境界を端末ごとに、絵文字と不等号つきで含める', () => {
+  const reports = [makeLhr('/', GOOD, { formFactor: 'mobile' }), makeLhr('/', GOOD, { formFactor: 'desktop' })];
+
+  const note = summarize(reports);
+
+  expect(note).toContain(
+    'SP(モバイル)の境界: LCP 🟢 ≤ 2.50 s / 🔴 > 4.00 s、CLS 🟢 ≤ 0.100 / 🔴 > 0.250、TBT 🟢 ≤ 200 ms / 🔴 > 600 ms',
+  );
+  expect(note).toContain(
+    'PC(デスクトップ)の境界: LCP 🟢 ≤ 2.50 s / 🔴 > 4.00 s、CLS 🟢 ≤ 0.100 / 🔴 > 0.250、TBT 🟢 ≤ 150 ms / 🔴 > 350 ms',
   );
 });
 
@@ -94,9 +158,8 @@ test('指標が欠けたレポートの場合、ページと指標名を含む�
   expect(() => summarize([report])).toThrow('/archive の largest-contentful-paint');
 });
 
-test('formFactor が mobile 以外のレポートの場合、判定の境界が合わないためエラーを投げる', () => {
-  const report = makeLhr('/', GOOD);
-  report.configSettings.formFactor = 'desktop';
+test('境界が未定義の formFactor のレポートの場合、その名前を含むエラーを投げる', () => {
+  const report = makeLhr('/', GOOD, { formFactor: 'tablet' });
 
-  expect(() => summarize([report])).toThrow('desktop');
+  expect(() => summarize([report])).toThrow('tablet');
 });
