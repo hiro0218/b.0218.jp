@@ -131,11 +131,12 @@ jobs:
       - name: Comment PR with Core Web Vitals
         uses: marocchino/sticky-pull-request-comment@v3.0.5
         with:
+          # header は隠しマーカーとして本文の末尾に付く(<!-- Sticky Pull Request Commentcore-web-vitals -->)。
+          # 同じ PR で何度実行しても、このマーカーを持つ既存のコメントを更新し、新しいコメントは増やさない。
+          # 他のワークフローのコメントとは別の値にして、互いを上書きしないようにする。
           header: core-web-vitals
           message: |
             ## Core Web Vitals
-
-            参考表示であり、マージの条件ではありません。対象コミット: ${{ github.event.pull_request.head.sha }}
 
             ${{ needs.cwv.outputs.body || '計測に失敗しました。実行ログで原因を確認してください。' }}
 

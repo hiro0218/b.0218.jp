@@ -26,22 +26,22 @@ test('3 回測ったページの場合、各指標の中央値を表示する', 
     makeLhr('/', { lcp: 2200, cls: 0.02, tbt: 20 }),
   ];
 
-  expect(summarize(reports)).toContain('| `/` | 2.20 s (good) | 0.010 (good) | 20 ms (good) |');
+  expect(summarize(reports)).toContain('| `/` | 🟢 2.20 s | 🟢 0.010 | 🟢 20 ms |');
 });
 
 test.each([
-  ['LCP が 2500ms の場合、good と判定する', { lcp: 2500 }, '2.50 s (good)'],
-  ['LCP が 2501ms の場合、needs improvement と判定する', { lcp: 2501 }, '2.50 s (needs improvement)'],
-  ['LCP が 4000ms の場合、needs improvement と判定する', { lcp: 4000 }, '4.00 s (needs improvement)'],
-  ['LCP が 4001ms の場合、poor と判定する', { lcp: 4001 }, '4.00 s (poor)'],
-  ['CLS が 0.1 の場合、good と判定する', { cls: 0.1 }, '0.100 (good)'],
-  ['CLS が 0.101 の場合、needs improvement と判定する', { cls: 0.101 }, '0.101 (needs improvement)'],
-  ['CLS が 0.25 の場合、needs improvement と判定する', { cls: 0.25 }, '0.250 (needs improvement)'],
-  ['CLS が 0.251 の場合、poor と判定する', { cls: 0.251 }, '0.251 (poor)'],
-  ['TBT が 200ms の場合、good と判定する', { tbt: 200 }, '200 ms (good)'],
-  ['TBT が 201ms の場合、needs improvement と判定する', { tbt: 201 }, '201 ms (needs improvement)'],
-  ['TBT が 600ms の場合、needs improvement と判定する', { tbt: 600 }, '600 ms (needs improvement)'],
-  ['TBT が 601ms の場合、poor と判定する', { tbt: 601 }, '601 ms (poor)'],
+  ['LCP が 2500ms の場合、good と判定する', { lcp: 2500 }, '🟢 2.50 s'],
+  ['LCP が 2501ms の場合、needs improvement と判定する', { lcp: 2501 }, '🟡 2.50 s'],
+  ['LCP が 4000ms の場合、needs improvement と判定する', { lcp: 4000 }, '🟡 4.00 s'],
+  ['LCP が 4001ms の場合、poor と判定する', { lcp: 4001 }, '🔴 4.00 s'],
+  ['CLS が 0.1 の場合、good と判定する', { cls: 0.1 }, '🟢 0.100'],
+  ['CLS が 0.101 の場合、needs improvement と判定する', { cls: 0.101 }, '🟡 0.101'],
+  ['CLS が 0.25 の場合、needs improvement と判定する', { cls: 0.25 }, '🟡 0.250'],
+  ['CLS が 0.251 の場合、poor と判定する', { cls: 0.251 }, '🔴 0.251'],
+  ['TBT が 200ms の場合、good と判定する', { tbt: 200 }, '🟢 200 ms'],
+  ['TBT が 201ms の場合、needs improvement と判定する', { tbt: 201 }, '🟡 201 ms'],
+  ['TBT が 600ms の場合、needs improvement と判定する', { tbt: 600 }, '🟡 600 ms'],
+  ['TBT が 601ms の場合、poor と判定する', { tbt: 601 }, '🔴 601 ms'],
 ])('%s', (_name, override, expected) => {
   const report = makeLhr('/', { ...GOOD, ...override });
 
@@ -65,6 +65,16 @@ test('測定条件を注記に含める', () => {
   expect(note).toContain('Lighthouse 13.5.0 (mobile, simulate)');
   expect(note).toContain('3 回測った中央値');
   expect(note).toContain('ブロックして測った');
+});
+
+test('判定を絵文字で表示する場合、絵文字の意味を凡例として注記に含める', () => {
+  expect(summarize([makeLhr('/', GOOD)])).toContain('🟢 good / 🟡 needs improvement / 🔴 poor');
+});
+
+test('注記を作る場合、判定の境界を絵文字と不等号つきで含める', () => {
+  expect(summarize([makeLhr('/', GOOD)])).toContain(
+    'LCP 🟢 ≤ 2.50 s / 🔴 > 4.00 s、CLS 🟢 ≤ 0.100 / 🔴 > 0.250、TBT 🟢 ≤ 200 ms / 🔴 > 600 ms',
+  );
 });
 
 test('ブロックしたパターンが無い場合、ブロックした旨を注記に含めない', () => {

@@ -64,7 +64,10 @@ function median(values: number[]): number {
   return sorted.length % 2 === 1 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
 }
 
-function rate(value: number, { good, poor }: { good: number; poor: number }): string {
+// 判定ごとの絵文字。表のセルに出し、凡例も同じ定義から作る。
+const RATING_EMOJI = { good: '🟢', 'needs improvement': '🟡', poor: '🔴' };
+
+function rate(value: number, { good, poor }: { good: number; poor: number }): keyof typeof RATING_EMOJI {
   if (value <= good) return 'good';
   return value <= poor ? 'needs improvement' : 'poor';
 }
@@ -88,7 +91,7 @@ export function summarize(reports: Lhr[]): string {
   const rows = [...runsByPage].map(([page, runs]) => {
     const cells = METRICS.map((metric) => {
       const value = median(runs.map((lhr) => readMetric(lhr, metric.id)));
-      return `${metric.format(value)} (${rate(value, metric)})`;
+      return `${RATING_EMOJI[rate(value, metric)]} ${metric.format(value)}`;
     });
     return `| \`${page}\` | ${cells.join(' | ')} |`;
   });
@@ -98,9 +101,14 @@ export function summarize(reports: Lhr[]): string {
   const blockedNote = configSettings.blockedUrlPatterns?.length
     ? '外部の広告・計測スクリプトの通信をブロックして測った'
     : '';
+  // 境界は絵文字と不等号で書き、どの値から色が変わるか(以下か超か)を注記だけで読めるようにする。
   const boundaries = METRICS.map(
-    (metric) => `${metric.label} ${metric.format(metric.good)} / ${metric.format(metric.poor)}`,
+    (metric) =>
+      `${metric.label} ${RATING_EMOJI.good} ≤ ${metric.format(metric.good)} / ${RATING_EMOJI.poor} > ${metric.format(metric.poor)}`,
   );
+  const legend = Object.entries(RATING_EMOJI)
+    .map(([name, emoji]) => `${emoji} ${name}`)
+    .join(' / ');
 
   return [
     `| ページ | ${METRICS.map((metric) => metric.label).join(' | ')} |`,
@@ -109,7 +117,7 @@ export function summarize(reports: Lhr[]): string {
     '',
     `<sub>Lighthouse ${lighthouseVersion} (${configSettings.formFactor}, ${configSettings.throttlingMethod})で ${firstPageRuns.length} 回測った中央値。${blockedNote}ラボ値で、実ユーザーの値とは異なる。</sub>`,
     '',
-    `<sub>判定の境界(good / poor): ${boundaries.join('、')}。</sub>`,
+    `<sub>判定: ${legend}。境界は ${boundaries.join('、')}。</sub>`,
     '',
   ].join('\n');
 }
