@@ -71,4 +71,9 @@ const NavigationGroup = styled.div`
   display: flex;
   gap: var(--spacing-100);
   align-items: center;
+
+  /* デスクトップではナビリンク同士の間隔（Nav の gap-400）と検索ボタンの間隔をそろえる */
+  @media (--isDesktop) {
+    gap: var(--spacing-400);
+  }
 `;

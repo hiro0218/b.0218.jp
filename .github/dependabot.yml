@@ -5,6 +5,8 @@ updates:
   # GitHub Actions
   - package-ecosystem: 'github-actions'
     directory: '/'
+    # npm と同じく develop 宛てにする。必須チェックの ruleset を develop に集約するため。
+    target-branch: 'develop'
     schedule:
       interval: 'weekly'
     cooldown:
@@ -24,3 +26,13 @@ updates:
     open-pull-requests-limit: 10
     cooldown:
       default-days: 7
+    # 自動マージの条件(deps-dependabot-auto-merge.yml)の区切りに合わせて、PR の数を減らす。
+    # fetch-metadata は PR 内で最も高い update-type と dependency-type を返すため、
+    # まとめても自動マージの判定は変わらない。major と、minor 以上の本番依存は個別の PR にして確認する。
+    groups:
+      npm-dev-minor-patch:
+        dependency-type: 'development'
+        update-types: ['minor', 'patch']
+      npm-prod-patch:
+        dependency-type: 'production'
+        update-types: ['patch']

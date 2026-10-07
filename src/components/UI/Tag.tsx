@@ -50,7 +50,11 @@ export function PostTag({ tags, hasCategoryMicroformat = false, hasRelTag = true
               rel: 'tag',
             })}
           >
-            {hasCategoryMicroformat ? <span className="p-category">{slug}</span> : slug}
+            {/**
+             * noLeakedRender は三項演算子の else 側に変数を置くと指摘する（slug は string でリークしない）。
+             * 回避のため否定条件で分岐を入れ替えており、span を常に付けると DOM が変わるため採らない
+             */}
+            {!hasCategoryMicroformat ? slug : <span className="p-category">{slug}</span>}
             {/**
              * aria-label は使わない。可視テキスト（slug+件数）とラベルの文字列が一致しないと
              * WCAG 2.5.3 (Label in Name) 違反になるため、可視テキストの並びに「件」だけ読み上げ用に足す
