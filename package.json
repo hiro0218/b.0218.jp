@@ -73,7 +73,7 @@
     "trailingComma": "all"
   },
   "dependencies": {
-    "@adobe/spectrum-tokens": "15.4.1",
+    "@adobe/spectrum-tokens": "15.5.0",
     "@next/third-parties": "16.4.3",
     "@pandacss/dev": "1.12.1",
     "@pandacss/types": "1.12.1",
@@ -98,7 +98,7 @@
     "next-scroll-restorer": "0.11.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "react-stately": "3.50.0",
+    "react-stately": "3.51.0",
     "shokika.css": "1.8.0",
     "style-to-js": "2.0.2"
   },
