@@ -1,7 +1,8 @@
 'use client';
 
-import { lazy, Suspense } from 'react';
+import { useEffect, useState } from 'react';
 import { loadAndInitializeSearch } from '@/components/App/Search/engine/searchDataLoader';
+import type { SearchDialog } from '@/components/App/Search/SearchDialog';
 import { SearchTrigger } from '@/components/App/Search/SearchTrigger';
 import { Container } from '@/components/UI/Layout/Container';
 import { Logo } from '@/components/UI/Logo';
@@ -11,8 +12,6 @@ import { HeaderNavigation } from './Header/Navigation';
 import { useSearchDialog } from './SearchDialogContext';
 
 const importSearchDialog = () => import('@/components/App/Search/SearchDialog');
-
-const LazySearchDialog = lazy(() => importSearchDialog().then((m) => ({ default: m.SearchDialog })));
 
 let prefetchStarted = false;
 const prefetchSearchDialog = () => {
@@ -25,6 +24,24 @@ const prefetchSearchDialog = () => {
 
 export function Header() {
   const searchDialog = useSearchDialog();
+  const [LoadedSearchDialog, setLoadedSearchDialog] = useState<typeof SearchDialog | null>(null);
+
+  // / キーの経路は SearchDialogContext 内にありここから見えない。click と合わせて 1 か所で扱うため、
+  // isOpen を見て、開いた時点で未読み込みなら読み込む。
+  // Why not: React.lazy と Suspense。fallback を一度出すと、先読み済みでも React の throttle
+  // (FALLBACK_THROTTLE_MS = 300)で表示が約 300 ms 遅れる(実測: click と / キーのどちらも約 315 ms)。
+  // Why not: 失敗の放置。isOpen が残ると描画の待機が終わらず、/ キーも「開いている」と判定されて再試行できない。
+  // 失敗したら閉じる。閉じる途中は読み込まない(close() の再描画で effect が再実行され、二重に取得するため)。
+  useEffect(() => {
+    if (!searchDialog.isOpen || searchDialog.isClosing || LoadedSearchDialog) return;
+
+    importSearchDialog()
+      .then((m) => setLoadedSearchDialog(() => m.SearchDialog))
+      .catch((error) => {
+        console.error('Failed to load SearchDialog:', error);
+        searchDialog.close();
+      });
+  }, [LoadedSearchDialog, searchDialog]);
 
   return (
     <>
@@ -40,14 +57,12 @@ export function Header() {
         </Container>
       </Layout>
 
-      {searchDialog.isOpen || searchDialog.isClosing ? (
-        <Suspense fallback={null}>
-          <LazySearchDialog
-            dialogRef={searchDialog.dialogRef}
-            isClosing={searchDialog.isClosing}
-            onCloseAction={searchDialog.close}
-          />
-        </Suspense>
+      {LoadedSearchDialog && (searchDialog.isOpen || searchDialog.isClosing) ? (
+        <LoadedSearchDialog
+          dialogRef={searchDialog.dialogRef}
+          isClosing={searchDialog.isClosing}
+          onCloseAction={searchDialog.close}
+        />
       ) : null}
     </>
   );
