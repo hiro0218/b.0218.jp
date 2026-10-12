@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 /* ------------------------------------------------------------------ */
@@ -106,6 +106,29 @@ describe('TriggerButton', () => {
       const button = screen.getByRole('button');
       button.click();
       expect(zoomIn).not.toHaveBeenCalled();
+    });
+  });
+
+  /* ================================================================ */
+  /*  Prefetch signal                                                 */
+  /* ================================================================ */
+  describe('先読みの合図', () => {
+    it('ポインタが乗った場合、onPrefetch が呼ばれる', () => {
+      const onPrefetch = vi.fn();
+      render(<TriggerButton isOpen={false} label="画像をズーム" onPrefetch={onPrefetch} zoomIn={vi.fn()} />);
+
+      fireEvent.pointerEnter(screen.getByRole('button'));
+
+      expect(onPrefetch).toHaveBeenCalledOnce();
+    });
+
+    it('フォーカスされた場合、onPrefetch が呼ばれる', () => {
+      const onPrefetch = vi.fn();
+      render(<TriggerButton isOpen={false} label="画像をズーム" onPrefetch={onPrefetch} zoomIn={vi.fn()} />);
+
+      fireEvent.focus(screen.getByRole('button'));
+
+      expect(onPrefetch).toHaveBeenCalledOnce();
     });
   });
 });
