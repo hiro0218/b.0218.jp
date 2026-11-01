@@ -112,7 +112,7 @@
     "@prettier/plugin-oxc": "0.2.3",
     "@shikijs/rehype": "4.5.0",
     "@storybook/addon-a11y": "10.6.1",
-    "@storybook/addon-docs": "10.6.1",
+    "@storybook/addon-docs": "10.6.3",
     "@storybook/nextjs-vite": "10.6.1",
     "@storybook/react": "10.6.1",
     "@testing-library/react": "16.3.3",
