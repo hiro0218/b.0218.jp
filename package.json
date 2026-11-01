@@ -165,7 +165,7 @@
     "remark-parse": "11.0.0",
     "remark-rehype": "11.1.2",
     "schema-dts": "2.1.0",
-    "storybook": "10.6.1",
+    "storybook": "10.6.3",
     "stylelint": "17.16.0",
     "stylelint-browser-compat": "1.0.0-beta.198",
     "stylelint-config-recess-order": "7.8.0",
