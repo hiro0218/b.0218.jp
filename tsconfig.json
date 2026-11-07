@@ -40,6 +40,7 @@
           "validProperties": [
             "anchor-name",
             "position-anchor",
+            "position-area",
             "container-type",
             "container-name",
             "text-wrap"

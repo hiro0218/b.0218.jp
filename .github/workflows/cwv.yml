@@ -1,0 +1,142 @@
+# This workflow is managed by gh actions-lock.
+
+name: 'Core Web Vitals'
+
+on:
+  pull_request:
+    # develop 宛ての PR(Dependabot の npm 更新など)も対象にする。ci.yml と同じ。
+    branches:
+      - master
+      - develop
+    # 表示だけの参考ワークフローなので、ページの表示に影響しない変更(ドキュメント、Claude の設定、.github 配下)では走らせない。
+    # ただしこのファイル自身の変更は、.github 配下でも走らせる。paths は後に書いたパターンが優先される。
+    paths:
+      - '**'
+      - '!**/*.md'
+      - '!docs/**'
+      - '!.claude/**'
+      - '!.github/**'
+      - '.github/workflows/cwv.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  cwv:
+    runs-on: ubuntu-latest
+    # モバイルとデスクトップの両方を測るため、計測だけで約 12 分かかる見込み(モバイルだけだった初回の実測は約 6 分)。
+    timeout-minutes: 30
+    outputs:
+      artifact-url: ${{ steps.artifact.outputs.artifact-url }}
+      body: ${{ steps.summary.outputs.body }}
+    steps:
+      - uses: Kesin11/actions-timeline@v3.2.0
+
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+          submodules: true
+
+      - name: Install Node.js
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version-file: '.node-version'
+          cache: 'npm'
+
+      - id: cache-node-modules
+        uses: actions/cache@v6.1.0
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
+
+      - if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - parallel:
+          - name: Generate Panda CSS
+            run: npx panda codegen
+
+          - name: Restore next build cache
+            uses: actions/cache@v6.1.0
+            with:
+              path: .next/cache
+              # ci.yml の build ジョブと同じキーにして、ビルドキャッシュを共有する。
+              # hashFiles は {ts,tsx} のような波括弧を展開しないため、波括弧は使わない。
+              key: next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**') }}
+              restore-keys: |
+                next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
+
+          # Lighthouse は package.json に入れず、この計測だけで使う。バージョンはここで固定する。
+          - name: Install Lighthouse
+            run: npm install --prefix "$RUNNER_TEMP/lighthouse" --no-audit --no-fund --ignore-scripts lighthouse@13.5.0
+
+      # ci.yml の build ジョブと同じビルドを自前で行う。別ワークフローの成果物は受け取れないため。
+      - name: Prebuild and next build
+        env:
+          SKIP_GA: 'true'
+          SKIP_OGP: 'true'
+        run: |
+          npm run prebuild
+          ./node_modules/.bin/next build --webpack
+
+      - name: Measure Core Web Vitals
+        run: bash scripts/cwv-measure.sh "$RUNNER_TEMP/lighthouse/node_modules/.bin/lighthouse" cwv-reports
+
+      - name: Summarize
+        id: summary
+        run: |
+          node --require esbuild-register scripts/cwv-summary.ts cwv-reports > cwv-summary.md
+          {
+            echo '## Core Web Vitals'
+            echo
+            cat cwv-summary.md
+          } >> "$GITHUB_STEP_SUMMARY"
+          # 複数行の出力は、区切り文字が本文と衝突しないようランダムにする(ci.yml の bundle-analysis と同じ)。
+          # 本文の末尾に改行が無いと区切り文字が本文の行末に付いて壊れるため、printf で補う。
+          delimiter="GHA_BODY_$(openssl rand -hex 8)"
+          {
+            echo "body<<${delimiter}"
+            cat cwv-summary.md
+            printf '\n'
+            echo "${delimiter}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Upload Lighthouse reports
+        id: artifact
+        if: always()
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: cwv-reports-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
+          path: cwv-reports
+          retention-days: 14
+          if-no-files-found: ignore
+
+  cwv-comment:
+    runs-on: ubuntu-latest
+    needs: cwv
+    # 新しい push に置き換えられて run が cancel されたときだけ飛ばす。ci.yml の e2e-comment と違い、
+    # needs.cwv.result が cancelled かどうかは見ない。cwv ジョブが timeout した場合も cancelled になりうる
+    # (コミュニティの報告で、公式 docs に明記は無い)ため、その場合は失敗として投稿し、古い成功表を残さない。
+    if: github.event_name == 'pull_request' && !cancelled()
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Comment PR with Core Web Vitals
+        uses: marocchino/sticky-pull-request-comment@v3.0.5
+        with:
+          # header は隠しマーカーとして本文の末尾に付く(<!-- Sticky Pull Request Commentcore-web-vitals -->)。
+          # 同じ PR で何度実行しても、このマーカーを持つ既存のコメントを更新し、新しいコメントは増やさない。
+          # 他のワークフローのコメントとは別の値にして、互いを上書きしないようにする。
+          header: core-web-vitals
+          message: |
+            ## Core Web Vitals
+
+            ${{ needs.cwv.outputs.body || '計測に失敗しました。実行ログで原因を確認してください。' }}

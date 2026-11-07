@@ -3,15 +3,14 @@ import { getMetadata } from '@/app/_metadata';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
-import { getPopularPost } from '@/lib/post/list';
-import { getPostsListJson } from '@/lib/source/post';
+import { getFilteredPosts, getPopularPost } from '@/lib/post/list';
 
 const POST_DISPLAY_LIMIT = 20;
 
-const popularPosts = getPopularPost(getPostsListJson(), POST_DISPLAY_LIMIT);
+const popularPosts = getPopularPost(getFilteredPosts(), POST_DISPLAY_LIMIT);
 const slug = 'popular';
 const title = '定番記事';
-const description = `${popularPosts.length}件の記事`;
+const description = `${popularPosts.length}件の記事（アクセス数とはてなブックマーク数をもとに選出）`;
 
 export const metadata: Metadata = getMetadata({
   title,

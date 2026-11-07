@@ -2,12 +2,22 @@
 
 import { CaretLineUpIcon } from '@phosphor-icons/react';
 import { Tooltip } from '@/components/UI/Tooltip';
+import { MAIN_CONTENT_ID } from '@/constants';
 import { styled } from '@/ui/styled';
+
+// Container は scroll-driven animation で scrollY < 120px の間 visibility: hidden になる。
+// クリック元のボタン自身にフォーカスを残そうとすると、その非表示化に巻き込まれてブラウザが
+// フォーカスを document.body へ落としてしまう。skip-link と同じ着地点（メインコンテンツ先頭）へ
+// 明示的に移し、キーボード操作後の位置を見失わせない。
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById(MAIN_CONTENT_ID)?.focus({ preventScroll: true });
+};
 
 export const PageScroll = () => (
   <Container>
     <Tooltip position="top" text="ページトップへ">
-      <Button aria-label="ページトップへ" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+      <Button aria-label="ページトップへ" onClick={scrollToTop}>
         <CaretLineUpIcon />
       </Button>
     </Tooltip>

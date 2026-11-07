@@ -1,3 +1,5 @@
+# This workflow is managed by gh actions-lock.
+
 name: Dependabot Auto Merge
 
 on:
@@ -17,7 +19,7 @@ jobs:
     steps:
       - name: Fetch dependabot metadata
         id: metadata
-        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3
+        uses: dependabot/fetch-metadata@v3.1.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -32,10 +34,12 @@ jobs:
 
           SHOULD_MERGE=false
 
-          # GitHub Actions: any version
+          # GitHub Actions: patch or minor (major は破壊的変更を含みうるため手動で確認する)
           if [[ "$ECOSYSTEM" == "github_actions" ]]; then
-            SHOULD_MERGE=true
-            echo "→ GitHub Actions bump: auto-merge"
+            if [[ "$UPDATE_TYPE" == "version-update:semver-patch" || "$UPDATE_TYPE" == "version-update:semver-minor" ]]; then
+              SHOULD_MERGE=true
+              echo "→ GitHub Actions $UPDATE_TYPE: auto-merge"
+            fi
 
           # npm devDependencies: patch or minor
           elif [[ "$DEP_TYPE" == "direct:development" ]]; then
@@ -58,12 +62,11 @@ jobs:
 
           echo "should_merge=$SHOULD_MERGE" >> "$GITHUB_OUTPUT"
 
-      - name: Approve and merge
+      # マージの条件(必須チェック)は develop の ruleset が持つ。ここでは auto-merge を有効にするだけで、
+      # 必須チェックがすべて成功した時点で GitHub がマージする(チェックの完了をワークフロー側で待たない)。
+      - name: Enable auto-merge
         if: steps.evaluate.outputs.should_merge == 'true'
         env:
           GH_TOKEN: ${{ secrets.BOT_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
-        run: |
-          gh pr checks --required --watch --fail-fast "$PR_URL"
-          gh pr review --approve "$PR_URL"
-          gh pr merge --merge "$PR_URL"
+        run: gh pr merge --auto --merge "$PR_URL"

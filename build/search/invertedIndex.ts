@@ -46,7 +46,7 @@ export function generateSearchIndex(
   }
 
   for (const post of posts) {
-    if (!post.slug) continue;
+    if (!post.slug || post.noindex) continue;
 
     // タイトルとタグを結合してトークン化（1回のみ）
     const textToProcess = [post.title, ...post.tags].join(' ');

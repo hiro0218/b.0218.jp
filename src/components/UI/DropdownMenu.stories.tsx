@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 
 import { DropdownMenu } from '@/components/UI/DropdownMenu';
 import { ICON_SIZE_SM } from '@/ui/iconSizes';
@@ -20,9 +20,9 @@ const MENU_TRIGGER_NAME = /Feedback/;
 
 const interactionMenuItems = (
   <>
-    <a href="/posts/202605021758">[TypeScript] Barrel ファイルを廃止する</a>
-    <a href="/posts/202604271115">[Codex] refresh token already used</a>
-    <a href="/posts/202603081143">仕様駆動開発（SDD）とフロントエンドの相性</a>
+    <a href="#barrel-file">[TypeScript] Barrel ファイルを廃止する</a>
+    <a href="#refresh-token">[Codex] refresh token already used</a>
+    <a href="#sdd">仕様駆動開発（SDD）とフロントエンドの相性</a>
   </>
 );
 
@@ -47,7 +47,8 @@ export const Default: Story = {
 };
 
 /**
- * トリガーの左端揃えで展開する派生。トリガーが画面右端に寄っているときに、メニューが画面外に出ないように使う。
+ * トリガーの左端揃えで右方向へ展開する派生。トリガーが画面左端に寄っているときの既定方向として使う
+ * （Anchor Positioning 対応ブラウザでは、はみ出す場合に自動で反転する）。
  *
  * @summary 左寄せ展開の派生
  */
@@ -67,9 +68,11 @@ export const PositionLeft: Story = {
 };
 
 /**
- * トリガークリックで `aria-expanded` と `aria-haspopup` が正しく更新されることを検証する。アクセシビリティ契約の保証。
+ * トリガークリックで `aria-expanded` / `aria-controls` が更新され、リンク選択・外側クリック・フォーカス移動・
+ * Esc キーのいずれでも閉じ、リンク選択と Esc ではトリガーへ focus が戻ることを検証する。フォーカス移動で閉じる場合は
+ * 移動先のフォーカスを奪わない。disclosure パターンのアクセシビリティ契約の保証。
  *
- * @summary 開閉時の ARIA 更新検証
+ * @summary 開閉操作と閉じ方の検証
  */
 export const ToggleMenu: Story = {
   tags: ['!manifest'],
@@ -85,9 +88,42 @@ export const ToggleMenu: Story = {
 
     await userEvent.click(trigger);
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
-    await expect(trigger).toHaveAttribute('aria-haspopup', 'menu');
+
+    const panelId = trigger.getAttribute('aria-controls');
+    expect(panelId).toBeTruthy();
+    expect(document.getElementById(panelId ?? '')).not.toBeNull();
 
     const links = canvas.getAllByRole('link');
     expect(links).toHaveLength(3);
+
+    // リンク選択で閉じてトリガーへ focus が戻る
+    await userEvent.click(links[0]);
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    await expect(trigger).toHaveFocus();
+
+    // 外側クリックで閉じる（useInteractOutside は focus を戻さない）
+    await userEvent.click(trigger);
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await userEvent.click(canvasElement);
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+
+    // フォーカスがパネルの外へ移ると閉じる（Tab でパネルを通り過ぎても開いたままにしない）。移動先のフォーカスは奪い返さない
+    await userEvent.click(trigger);
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    const outside = canvasElement.ownerDocument.createElement('button');
+    outside.type = 'button';
+    outside.textContent = 'outside';
+    canvasElement.after(outside);
+    outside.focus();
+    await waitFor(() => expect(trigger).toHaveAttribute('aria-expanded', 'false'));
+    await expect(outside).toHaveFocus();
+    outside.remove();
+
+    // Esc キーで閉じてトリガーへ focus が戻る（最後を今と同じ状態にして VRT の見た目を変えないため、Escape を最後に置く）
+    await userEvent.click(trigger);
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await userEvent.keyboard('{Escape}');
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    await expect(trigger).toHaveFocus();
   },
 };

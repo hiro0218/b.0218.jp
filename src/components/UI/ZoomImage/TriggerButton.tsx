@@ -65,10 +65,12 @@ interface TriggerButtonProps {
   label: string;
   isOpen: boolean;
   zoomIn: () => void;
+  /** ポインタが乗った(タッチの開始を含む)・フォーカスされたときに呼ぶ。ズームダイアログの先読みの合図 */
+  onPrefetch?: () => void;
 }
 
 /** 画像をクリックしてズームモーダルを開くためのボタン */
-export function TriggerButton({ label, isOpen, zoomIn }: TriggerButtonProps): ReactNode {
+export function TriggerButton({ label, isOpen, zoomIn, onPrefetch }: TriggerButtonProps): ReactNode {
   return (
     <button
       aria-disabled={isOpen || undefined}
@@ -76,6 +78,8 @@ export function TriggerButton({ label, isOpen, zoomIn }: TriggerButtonProps): Re
       aria-label={label}
       className={cx(buttonStyle, isOpen ? buttonHiddenClass : buttonVisibleClass)}
       onClick={isOpen ? undefined : zoomIn}
+      onFocus={onPrefetch}
+      onPointerEnter={onPrefetch}
       type="button"
     >
       <span aria-hidden="true" className={cx(zoomIndicatorStyle, 'zoom-indicator')}>

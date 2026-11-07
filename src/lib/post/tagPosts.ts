@@ -3,7 +3,8 @@ import { getTagsJson } from '@/lib/source/tag';
 import type { ArticleSummary } from '@/types/source';
 import { getDateAndUpdatedToSimpleFormat } from './date';
 
-const allPosts = getPostsListJson();
+// noindex 投稿 (サンプル記事等) はタグアーカイブの一覧からも除く。
+const allPosts = getPostsListJson().filter((post) => !post.noindex);
 const allTags = getTagsJson();
 const postsMap = new Map(allPosts.map((post) => [post.slug, post]));
 

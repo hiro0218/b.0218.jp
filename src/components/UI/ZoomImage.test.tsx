@@ -1,10 +1,6 @@
-import { cleanup, render, screen } from '@testing-library/react';
-import { createElement, type ReactNode } from 'react';
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { createElement, type ReactElement, type ReactNode } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-
-vi.mock('@/hooks/useIsMounted', () => ({
-  default: () => true,
-}));
 
 function createStyledComponent(tag: string) {
   return ({ children, ...props }: { children?: ReactNode } & Record<string, unknown>) =>
@@ -78,6 +74,25 @@ vi.mock('@/components/UI/ZoomImage/hooks/useImageZoom', () => ({
 }));
 
 import { ZoomImage } from '@/components/UI/ZoomImage';
+
+// dialog は hover / focus を合図に遅延して描画される。動的 import の完了を待つこの手順は、
+// 「操作するまで描画しない」テストと共有する。待ちが足りないと、描画を前提にする肯定側のテストが落ちるため、
+// 否定側だけが先に判定して、変異を入れても通る空振りを防げる
+async function settleDialogImport() {
+  await act(async () => {
+    await vi.dynamicImportSettled();
+  });
+}
+
+// 合図を送り、描画を待ってから dialog を返す
+async function renderWithDialog(ui: ReactElement) {
+  render(ui);
+  fireEvent.pointerEnter(screen.getByRole('button'));
+  await settleDialogImport();
+
+  // 閉じた dialog は accessibility tree に含まれないため hidden: true を指定
+  return screen.getByRole('dialog', { hidden: true });
+}
 
 describe('ZoomImage', () => {
   beforeEach(() => {
@@ -164,16 +179,17 @@ describe('ZoomImage', () => {
       expect(img.closest('[data-zoom-image]')).toBe(button.closest('[data-zoom-image]'));
     });
 
-    it('dialog 要素をレンダリングする', () => {
+    it('操作するまで dialog 要素をレンダリングしない', async () => {
       render(<ZoomImage alt="test image" src="/test.jpg" />);
 
-      // 閉じた dialog は accessibility tree に含まれないため hidden: true を指定
-      const dialog = screen.getByRole('dialog', { hidden: true });
-      expect(dialog).toBeDefined();
+      // 読み込み中の動的 import が終わるのを待ってから、描画されていないことを確かめる(すぐに確かめると空振りする)
+      await settleDialogImport();
+
+      expect(screen.queryByRole('dialog', { hidden: true })).toBeNull();
     });
 
-    it('dialog 内の img には読み込み済み画像の実寸を渡す', () => {
-      render(<ZoomImage alt="test image" height={120} src="/test.jpg" width={160} />);
+    it('dialog 内の img には読み込み済み画像の実寸を渡す', async () => {
+      await renderWithDialog(<ZoomImage alt="test image" height={120} src="/test.jpg" width={160} />);
 
       const images = screen.getAllByAltText('test image');
       const triggerImg = images[0] as HTMLImageElement;
@@ -203,22 +219,20 @@ describe('ZoomImage', () => {
       expect(button.getAttribute('aria-label')).toBe('画像をズーム');
     });
 
-    it('alt テキストが button と dialog の aria-label に使用される', () => {
+    it('alt テキストが button と dialog の aria-label に使用される', async () => {
       hookReturnOverrides = { canZoom: true };
 
-      render(<ZoomImage alt="風景写真" src="/test.jpg" />);
+      const dialog = await renderWithDialog(<ZoomImage alt="風景写真" src="/test.jpg" />);
 
       const button = screen.getByRole('button');
       expect(button.getAttribute('aria-label')).toBe('風景写真');
-
-      const dialog = screen.getByRole('dialog', { hidden: true });
       expect(dialog.getAttribute('aria-label')).toBe('風景写真');
     });
 
-    it('a11yOptions でカスタム aria-label を設定できる', () => {
+    it('a11yOptions でカスタム aria-label を設定できる', async () => {
       hookReturnOverrides = { canZoom: true };
 
-      render(
+      const dialog = await renderWithDialog(
         <ZoomImage
           a11yOptions={{
             buttonZoomLabel: 'カスタムズーム',
@@ -231,15 +245,13 @@ describe('ZoomImage', () => {
 
       const button = screen.getByRole('button');
       expect(button.getAttribute('aria-label')).toBe('カスタムズーム');
-
-      const dialog = screen.getByRole('dialog', { hidden: true });
       expect(dialog.getAttribute('aria-label')).toBe('カスタムダイアログ');
     });
 
-    it('dialog 内の img が button で囲まれキーボード操作可能', () => {
+    it('dialog 内の img が button で囲まれキーボード操作可能', async () => {
       hookReturnOverrides = { canZoom: true };
 
-      render(<ZoomImage alt="test" src="/test.jpg" />);
+      await renderWithDialog(<ZoomImage alt="test" src="/test.jpg" />);
 
       const images = screen.getAllByAltText('test');
       const dialogImg = images[1]; // 2番目が dialog 内の img
@@ -261,24 +273,26 @@ describe('ZoomImage', () => {
       hookReturnOverrides = { canZoom: true };
     });
 
-    it('zoomImg が指定された場合、dialog 内の img が zoomImg.src を使用する', () => {
-      render(<ZoomImage alt="test" src="/thumb.jpg" zoomImg={{ src: '/full.jpg' }} />);
+    it('zoomImg が指定された場合、dialog 内の img が zoomImg.src を使用する', async () => {
+      await renderWithDialog(<ZoomImage alt="test" src="/thumb.jpg" zoomImg={{ src: '/full.jpg' }} />);
 
       const images = screen.getAllByAltText('test');
       const dialogImg = images[1] as HTMLImageElement;
       expect(dialogImg.src).toContain('/full.jpg');
     });
 
-    it('zoomImg.srcSet が指定された場合、dialog 内の img に srcSet が設定される', () => {
-      render(<ZoomImage alt="test" src="/thumb.jpg" zoomImg={{ src: '/full.jpg', srcSet: '/full-2x.jpg 2x' }} />);
+    it('zoomImg.srcSet が指定された場合、dialog 内の img に srcSet が設定される', async () => {
+      await renderWithDialog(
+        <ZoomImage alt="test" src="/thumb.jpg" zoomImg={{ src: '/full.jpg', srcSet: '/full-2x.jpg 2x' }} />,
+      );
 
       const images = screen.getAllByAltText('test');
       const dialogImg = images[1] as HTMLImageElement;
       expect(dialogImg.srcset).toBe('/full-2x.jpg 2x');
     });
 
-    it('zoomImg が未指定の場合、dialog 内の img は元の src を使用する', () => {
-      render(<ZoomImage alt="test" src="/original.jpg" />);
+    it('zoomImg が未指定の場合、dialog 内の img は元の src を使用する', async () => {
+      await renderWithDialog(<ZoomImage alt="test" src="/original.jpg" />);
 
       const images = screen.getAllByAltText('test');
       const dialogImg = images[1] as HTMLImageElement;
@@ -287,12 +301,10 @@ describe('ZoomImage', () => {
   });
 
   describe('handleDialogCancel', () => {
-    it('dialog の cancel イベント時に close が呼ばれる', () => {
+    it('dialog の cancel イベント時に close が呼ばれる', async () => {
       hookReturnOverrides = { canZoom: true };
 
-      render(<ZoomImage alt="test" src="/test.jpg" />);
-
-      const dialog = screen.getByRole('dialog', { hidden: true });
+      const dialog = await renderWithDialog(<ZoomImage alt="test" src="/test.jpg" />);
 
       const cancelEvent = new Event('cancel', { bubbles: true, cancelable: true });
       dialog.dispatchEvent(cancelEvent);

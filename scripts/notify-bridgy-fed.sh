@@ -91,26 +91,55 @@ if [[ "$file_count" -ge 300 ]]; then
   exit 1
 fi
 
-mapfile -t slugs < <(echo "$compare" | jq -r '
+# スラッグはサイト側の getSlug(build/article/post/generate/utils.ts)と同じく、ディレクトリを除いた
+# ファイル名(拡張子なし)にする。記事は _posts 直下か 1 階層下のディレクトリに置かれ(getMarkdownFiles の
+# maxDepth=1)、サイトの URL にディレクトリは含まれない。パスのままスラッグにすると、ディレクトリ内の記事は
+# 404 になり送信に失敗する。
+# 内容の変わらない rename(ディレクトリ間の移動)は URL も内容も変わらないため対象外にする。
+added=()
+modified=()
+while IFS=$'\t' read -r change slug; do
+  if [[ "$change" == "added" ]]; then
+    added+=("$slug")
+  else
+    modified+=("$slug")
+  fi
+done < <(echo "$compare" | jq -r '
   .files[]
   | select(.status != "removed")
-  | select(.filename | test("^_posts/.+\\.md$"))
-  | .filename
-  | sub("^_posts/"; "")
-  | sub("\\.md$"; "")
+  | select(.status != "renamed" or .changes > 0)
+  | select(.filename | test("^_posts/([^/]+/)?[^/]+\\.md$"))
+  | "\(.status)\t\(.filename | split("/") | last | sub("\\.md$"; ""))"
 ')
 
-if [[ ${#slugs[@]} -eq 0 ]]; then
+if [[ ${#added[@]} -eq 0 && ${#modified[@]} -eq 0 ]]; then
   log "対象記事なし"
   exit 0
 fi
 
-log "candidate slugs: ${slugs[*]}"
+log "candidate slugs: added=${added[*]:-なし} modified=${modified[*]:-なし}"
 
 # 5) 暴走ガード: 窓の計算が壊れて大量の記事が一斉配信されるのを防ぐ(不可逆な操作のため必須)
-if [[ ${#slugs[@]} -gt $MAX_TARGETS ]]; then
-  log "::error::対象記事数(${#slugs[@]})がMAX_TARGETS(${MAX_TARGETS})を超えています。窓の計算が壊れている可能性があるため送信を中止します: ${slugs[*]}"
+#    窓の計算が壊れると差分に大量の新規記事が現れるため、新規記事数で中止を判断する。
+#    更新記事は、過去記事の一括修正(リンク切れの修正・書式の変更など)でも増える。この場合に中止すると
+#    同じ窓の新規記事まで送信できなくなるため、更新分だけ送信せずに続行する。
+if [[ ${#added[@]} -gt $MAX_TARGETS ]]; then
+  log "::error::新規記事数(${#added[@]})がMAX_TARGETS(${MAX_TARGETS})を超えています。窓の計算が壊れている可能性があるため送信を中止します: ${added[*]}"
   exit 1
+fi
+
+if [[ ${#modified[@]} -gt $MAX_TARGETS ]]; then
+  log "::warning::更新記事数(${#modified[@]})がMAX_TARGETS(${MAX_TARGETS})を超えています。過去記事の一括修正とみなし、更新分は送信しません: ${modified[*]}"
+  modified=()
+fi
+
+slugs=()
+if [[ ${#added[@]} -gt 0 ]]; then slugs+=("${added[@]}"); fi
+if [[ ${#modified[@]} -gt 0 ]]; then slugs+=("${modified[@]}"); fi
+
+if [[ ${#slugs[@]} -eq 0 ]]; then
+  log "送信対象なし(更新分は一括修正のためスキップ)"
+  exit 0
 fi
 
 # 6) 公開状態の確認とwebmention送信

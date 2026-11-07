@@ -17,6 +17,7 @@ import { GooglePublisherScript } from '@/components/Functional/GooglePublisher';
 import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
 import {
   AUTHOR_NAME,
+  DOMAIN,
   GOOGLE_ADSENSE,
   MAIN_CONTENT_ID,
   SITE_DESCRIPTION,
@@ -73,9 +74,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  other: {
-    search: '/opensearch.xml',
-  },
 };
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -85,6 +83,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <a className="skip-link" href={`#${MAIN_CONTENT_ID}`}>
           メインコンテンツへスキップ
         </a>
+        <link href="/opensearch.xml" rel="search" title={DOMAIN} type="application/opensearchdescription+xml" />
         {isProduction ? <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} /> : null}
         <SearchDialogProvider>
           <Layout>

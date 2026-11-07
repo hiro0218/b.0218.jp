@@ -81,9 +81,9 @@ export type Post = Article & PostMetadata;
 /**
  * ブログ投稿の要約型（posts-list.json）
  * 一覧ページやサイドバーなどで使用する軽量な型
- * 実際のデータ形式：[{ title, slug, date, tags }, ...]
+ * 実際のデータ形式：[{ title, slug, date, tags, noindex? }, ...]
  */
-export type PostSummary = ArticleSummary & WithTags;
+export type PostSummary = ArticleSummary & WithTags & Pick<PostMetadata, 'noindex'>;
 
 // ========================================
 // インデックス・スコア型定義

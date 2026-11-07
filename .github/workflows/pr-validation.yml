@@ -1,9 +1,13 @@
+# This workflow is managed by gh actions-lock.
+
 name: 'PR Validation'
 
 on:
   pull_request:
+    # develop 宛ての PR(Dependabot の npm 更新など)も検証する。対象外だと、最初の検証が develop から master への PR になる。
     branches:
       - master
+      - develop
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -17,11 +21,11 @@ jobs:
     name: GitHub Actions Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      - uses: actions/setup-go@v7.0.0
         with:
           go-version: 'stable'
           cache: false
@@ -41,17 +45,17 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - uses: actions/setup-node@v7.0.0
         with:
           node-version-file: '.node-version'
           cache: 'npm'
 
       - id: cache-node-modules
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        uses: actions/cache@v6.1.0
         with:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}
@@ -66,17 +70,17 @@ jobs:
     name: Unit Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v6
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - uses: actions/setup-node@v7.0.0
         with:
           node-version-file: '.node-version'
           cache: 'npm'
 
       - id: cache-node-modules
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        uses: actions/cache@v6.1.0
         with:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('package-lock.json') }}

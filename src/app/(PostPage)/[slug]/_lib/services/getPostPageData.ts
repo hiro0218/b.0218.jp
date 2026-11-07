@@ -40,7 +40,9 @@ interface PostPageData {
 }
 
 const postsList = getPostsListJson();
-const postsBySlug = new Map(postsList.map((post) => [post.slug, post]));
+// 関連記事・同タグ記事の候補から noindex 投稿 (サンプル記事等) を除く。
+// 表示中の記事自体は getPostBySlug 経由で別途取得するため、ここでの除外の影響を受けない。
+const postsBySlug = new Map(postsList.filter((post) => !post.noindex).map((post) => [post.slug, post]));
 const tagsIndex = getTagsJson();
 const tagsWithCount = getTagsWithCount();
 const tagsWithCountBySlug = new Map(tagsWithCount.map((tag) => [tag.slug, tag]));
