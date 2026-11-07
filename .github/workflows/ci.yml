@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: Kesin11/actions-timeline@v3.2.0
+      - uses: Kesin11/actions-timeline@460b1f8a750077029ad3589824d371b200e91dcf # v3.2.1
 
       - uses: actions/checkout@v7.0.1
         with:
@@ -89,7 +89,7 @@ jobs:
       artifact-url: ${{ steps.artifact.outputs.artifact-url }}
       outcome: ${{ steps.e2e.outcome }}
     steps:
-      - uses: Kesin11/actions-timeline@v3.2.0
+      - uses: Kesin11/actions-timeline@460b1f8a750077029ad3589824d371b200e91dcf # v3.2.1
 
       - uses: actions/checkout@v7.0.1
         with:
@@ -174,7 +174,7 @@ jobs:
     outputs:
       comment-body: ${{ steps.get-comment-body.outputs.body }}
     steps:
-      - uses: Kesin11/actions-timeline@v3.2.0
+      - uses: Kesin11/actions-timeline@460b1f8a750077029ad3589824d371b200e91dcf # v3.2.1
 
       - uses: actions/checkout@v7.0.1
         with:
