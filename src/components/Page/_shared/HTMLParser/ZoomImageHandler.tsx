@@ -1,13 +1,8 @@
 import type { Element } from 'html-react-parser';
 import { ZoomImage } from '@/components/UI/ZoomImage';
-import { toSafeProps } from '../attribs';
-import type { Replacer } from '../types';
+import { toSafeProps } from './attribs';
+import type { Replacer } from './types';
 
-/**
- * img タグを ZoomImage に変換するハンドラー
- *
- * @remarks リンク（aタグ）内の画像は変換しない
- */
 export const handleZoomImage: Replacer = (domNode) => {
   if (domNode.tagName !== 'img') {
     return undefined;
@@ -28,9 +23,6 @@ export const handleZoomImage: Replacer = (domNode) => {
   return <ZoomImage {...props} alt={typeof alt === 'string' ? alt : ''} src={src} />;
 };
 
-/**
- * 要素が a タグの内側にあるかを再帰的にチェック
- */
 function isInsideAnchor(element: Element): boolean {
   const parent = element.parent;
 
@@ -45,9 +37,6 @@ function isInsideAnchor(element: Element): boolean {
   return isInsideAnchor(parent);
 }
 
-/**
- * html-react-parser の Node が Element 型かを判定
- */
 function isElement(node: unknown): node is Element {
   if (typeof node !== 'object' || node === null) {
     return false;

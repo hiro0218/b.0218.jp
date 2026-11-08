@@ -1,11 +1,8 @@
 import { type DOMNode, domToReact } from 'html-react-parser';
-import { Anchor } from '@/components/UI/Anchor';
+import Link from 'next/link';
 import { toSafeProps } from './attribs';
 import type { Replacer } from './types';
 
-/**
- * 先頭が「/」で始まるhref属性を持つaタグをAnchorコンポーネントに変換する
- */
 export const handleAnchor: Replacer = (domNode, options) => {
   const href = domNode.attribs?.href;
 
@@ -14,8 +11,8 @@ export const handleAnchor: Replacer = (domNode, options) => {
   }
 
   return (
-    <Anchor {...toSafeProps(domNode)} href={href}>
+    <Link {...toSafeProps(domNode)} href={href}>
       {domToReact(domNode.children as DOMNode[], options)}
-    </Anchor>
+    </Link>
   );
 };

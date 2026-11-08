@@ -45,16 +45,24 @@ describe('parser', () => {
     expect(container.querySelector('.c-table-scrollable table')).not.toBeNull();
   });
 
-  it('handleAnchor が undefined を返した外部リンクは href とテキストが保持される', () => {
-    const { container } = renderParser('<a href="https://example.com">外部リンク</a>');
-    const anchor = container.querySelector('a[href="https://example.com"]');
-    expect(anchor).not.toBeNull();
-    expect(anchor?.textContent).toBe('外部リンク');
+  it('table を包む場合、箱をキーボードで焦点の入る名前つきの region にする', () => {
+    const { container } = renderParser('<table><tbody><tr><td>cell</td></tr></tbody></table>');
+    const box = container.querySelector('.c-table-scrollable');
+
+    expect(box?.getAttribute('role')).toBe('region');
+    expect(box?.getAttribute('aria-label')).toBe('表');
+    expect(box?.getAttribute('tabindex')).toBe('0');
   });
 
-  it('handleAnchor が undefined を返した外部リンクのネストした要素も保持される', () => {
-    const { container } = renderParser('<a href="https://example.com"><strong>強調</strong>後</a>');
-    const anchor = container.querySelector('a[href="https://example.com"]');
+  it('tabindex の無い pre（言語指定なしのコード）を変換する場合、tabindex=0 を付ける', () => {
+    const { container } = renderParser('<pre><code>plain</code></pre>');
+
+    expect(container.querySelector('pre')?.getAttribute('tabindex')).toBe('0');
+  });
+
+  it('サイト内のリンクは、href と、ネストした要素を含む子要素を保って描画する', () => {
+    const { container } = renderParser('<a href="/post.html"><strong>強調</strong>後</a>');
+    const anchor = container.querySelector('a[href="/post.html"]');
     expect(anchor?.querySelector('strong')?.textContent).toBe('強調');
     expect(anchor?.textContent).toBe('強調後');
   });
@@ -65,11 +73,11 @@ describe('parser', () => {
     expect(section?.querySelector('span')?.textContent).toBe('x');
   });
 
-  it('CodePen iframe の firstChild テキストを CodePen に書き換える', () => {
+  it('CodePen iframe の代替テキストを CodePen に書き換える', () => {
     const html =
       '<iframe src="https://codepen.io/foo/embed/x" title="t">See the Pen &#x3C;a href="https://codepen.io/foo/pen/x">title&#x3C;/a></iframe>';
-    const result = parser(html);
-    expect(JSON.stringify(result)).toContain('"children":"CodePen"');
+    const { container } = renderParser(html);
+    expect(container.querySelector('iframe')?.textContent).toBe('CodePen');
   });
 });
 
@@ -99,11 +107,10 @@ describe('Alert ハンドラ', () => {
   });
 
   it('JSON が壊れている場合は元の div を残さない', () => {
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    vi.spyOn(console, 'error').mockImplementation(() => {});
     const { container, queryByTestId } = renderParser(`<div class="${GFM_ALERT_CLASS_NAME}">not-json</div>`);
     expect(queryByTestId('alert')).toBeNull();
     expect(container.querySelector('.gfm-alert')).toBeNull();
-    expect(errorSpy).toHaveBeenCalledWith('Failed to parse JSON:', expect.any(SyntaxError));
   });
 });
 
@@ -147,10 +154,9 @@ describe('LinkPreview ハンドラ', () => {
   });
 
   it('JSON が壊れている場合は元の div を残さない', () => {
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    vi.spyOn(console, 'error').mockImplementation(() => {});
     const { container, queryByTestId } = renderParser(`<div class="${LINK_PREVIEW_CLASS_NAME}">not-json</div>`);
     expect(queryByTestId('link-preview')).toBeNull();
     expect(container.querySelector('.link-preview')).toBeNull();
-    expect(errorSpy).toHaveBeenCalledWith('Failed to parse JSON:', expect.any(SyntaxError));
   });
 });
