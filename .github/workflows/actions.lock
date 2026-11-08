@@ -10,7 +10,7 @@ workflows:
         - 'actions/setup-node@v7.0.0'
         - 'actions/upload-artifact@v7.0.1'
         - 'dawidd6/action-download-artifact@v24'
-        - 'kesin11/actions-timeline@v3.2.0'
+        - 'kesin11/actions-timeline@460b1f8a750077029ad3589824d371b200e91dcf'
         - 'marocchino/sticky-pull-request-comment@v3.0.5'
     '.github/workflows/cwv.yml':
         - 'actions/cache@v6.1.0'
@@ -51,7 +51,7 @@ workflows:
         - 'actions/setup-node@v7.0.0'
         - 'actions/upload-artifact@v7.0.1'
         - 'dawidd6/action-download-artifact@v24'
-        - 'kesin11/actions-timeline@v3.2.0'
+        - 'kesin11/actions-timeline@460b1f8a750077029ad3589824d371b200e91dcf'
         - 'marocchino/sticky-pull-request-comment@v3.0.5'
 dependencies:
     'actions/cache@v6.1.0':
@@ -104,6 +104,11 @@ dependencies:
         commit: 'sha1-25dd0e34f4fe68f24cc83900b1fe3fe149efef98'
         owner_id: 27347476
         repo_id: 371068214
+    'kesin11/actions-timeline@460b1f8a750077029ad3589824d371b200e91dcf':
+        ref: 'v3.2.1'
+        commit: 'sha1-460b1f8a750077029ad3589824d371b200e91dcf'
+        owner_id: 1324862
+        repo_id: 681708168
     'kesin11/actions-timeline@v3.2.0':
         ref: 'v3.2.0'
         commit: 'sha1-57fc93f20c6da7fbc14063c6d24a2a5627c799ad'
