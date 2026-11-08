@@ -1,6 +1,5 @@
+import Link from 'next/link';
 import { PostSection } from '@/components/Page/_shared/PostSection';
-import { Anchor } from '@/components/UI/Anchor';
-import { Center } from '@/components/UI/Layout/Center';
 import { Stack } from '@/components/UI/Layout/Stack';
 import type { PostSummary } from '@/types/source';
 import { css } from '@/ui/styled';
@@ -19,15 +18,15 @@ export function Content({ posts }: Props) {
         </Stack>
         <Stack gap={400}>
           <p>URLが変更・削除された可能性があります。</p>
-          <Center intrinsic maxWidth="160px">
-            <Anchor className={PrimaryAnchorStyle} href="/">
+          <div className={HomeLinkBoxStyle}>
+            <Link className={PrimaryAnchorStyle} href="/">
               トップへ戻る
-            </Anchor>
-          </Center>
+            </Link>
+          </div>
         </Stack>
       </Stack>
       <Stack className={LatestPostContainerStyle} gap={300}>
-        <PostSection as="section" heading="" headingLevel="h2" href="/archive" posts={posts.slice(0, 4)} />
+        <PostSection posts={posts.slice(0, 4)} />
       </Stack>
     </Stack>
   );
@@ -51,8 +50,18 @@ const HeaderStyle = css`
 
   p {
     font-size: var(--font-sizes-sm);
-    color: var(--colors-gray-600);
+    color: var(--colors-gray-700);
   }
+`;
+
+// clamp(16rem, 100%, 160px) にせず、16rem だけを指定する。clamp は下限の 16rem が上限の 160px に勝ち、値が常に 16rem になるため
+const HomeLinkBoxStyle = css`
+  box-sizing: content-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-inline-size: 16rem;
+  margin-inline: auto;
 `;
 
 const PrimaryAnchorStyle = css`
