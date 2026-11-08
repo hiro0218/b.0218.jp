@@ -23,33 +23,6 @@ export const fontWeightClasses = {
 } as const;
 
 /**
- * フォントサイズ（h1〜h6）の Atomic CSS クラスマップ
- *
- * 各見出しレベルに対応するフォントサイズスタイルを提供します。
- * フォントサイズ変数に直接対応（例: `fontSizeHeadingClasses.h3` → `var(--font-sizes-h3)`）。
- */
-export const fontSizeHeadingClasses = {
-  h1: css`
-    font-size: var(--font-sizes-h1);
-  `,
-  h2: css`
-    font-size: var(--font-sizes-h2);
-  `,
-  h3: css`
-    font-size: var(--font-sizes-h3);
-  `,
-  h4: css`
-    font-size: var(--font-sizes-h4);
-  `,
-  h5: css`
-    font-size: var(--font-sizes-h5);
-  `,
-  h6: css`
-    font-size: var(--font-sizes-h6);
-  `,
-} as const;
-
-/**
  * 見出しフォントサイズの Atomic CSS クラスマップ（UI Heading コンポーネント用）
  *
  * UI Heading は本文 (`.post-content` 内の `h2-h6`) とは別系統の SectionTitle を表す。

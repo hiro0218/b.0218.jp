@@ -9,10 +9,6 @@ export const keyframes = defineKeyframes({
     '0%': { opacity: '1' },
     '100%': { visibility: 'hidden', opacity: '0' },
   },
-  rotate: {
-    '0%': { transform: 'rotate(0deg)' },
-    '100%': { transform: 'rotate(360deg)' },
-  },
   scrollProgress: {
     '0%': { transform: 'scaleX(0)' },
     '100%': { transform: 'scaleX(1)' },
@@ -62,8 +58,5 @@ export const keyframes = defineKeyframes({
       opacity: '0',
       transform: 'scale3d(0.95, 0.95, 0.95)',
     },
-  },
-  skeletonShimmer: {
-    '100%': { transform: 'translateX(200%)' },
   },
 });
