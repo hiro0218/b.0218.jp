@@ -96,6 +96,7 @@ jobs:
           mkdir -p dist
           echo '{"companies":[],"works":[]}' > dist/activities.json
           echo '{}' > dist/search-index.json
+          echo '{}' > dist/search.json
           echo '[]' > dist/search-data.json
           echo '[]' > dist/pages.json
           echo '[]' > dist/posts-list.json
