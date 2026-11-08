@@ -1,17 +1,16 @@
 import type { JSX } from 'react';
-import { Heading } from '@/components/UI/Heading';
+import { Heading, type HeadingLevel } from '@/components/UI/Heading';
 import { Cluster } from '@/components/UI/Layout/Cluster';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { LinkMore } from '@/components/UI/LinkMore';
-import type { Props as PostTagProps } from '@/components/UI/Tag';
+import type { PostTagItem } from '@/components/UI/Tag';
 import { PostTag } from '@/components/UI/Tag';
 
 type Props = {
   heading?: string;
-  headingLevel?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  headingWeight?: 'bold' | 'normal';
+  headingLevel?: Exclude<HeadingLevel, 'h1'>;
   isWideCluster?: boolean;
-  tags: PostTagProps[];
+  tags: PostTagItem[];
   href?: string;
   as?: keyof JSX.IntrinsicElements;
 };
@@ -20,7 +19,6 @@ export const TagSection = ({
   as = 'section',
   heading,
   headingLevel = 'h2',
-  headingWeight = 'normal',
   tags,
   href,
   isWideCluster = true,
@@ -30,18 +28,14 @@ export const TagSection = ({
   }
 
   return (
-    <Stack as={as} gap={300}>
+    <Stack as={as} gap={500}>
       {!!heading && (
-        <Heading
-          as={headingLevel}
-          isBold={headingWeight === 'bold'}
-          textSide={href && <LinkMore href={href} text="すべて見る" />}
-        >
+        <Heading as={headingLevel} isBold textSide={href && <LinkMore href={href} text="すべて見る" />}>
           {heading}
         </Heading>
       )}
       <Cluster isWide={isWideCluster}>
-        <PostTag tags={tags} />
+        <PostTag size="pill" tags={tags} />
       </Cluster>
     </Stack>
   );

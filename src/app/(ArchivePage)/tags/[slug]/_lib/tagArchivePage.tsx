@@ -3,15 +3,16 @@ import { notFound } from 'next/navigation';
 import { getMetadata } from '@/app/_metadata';
 import { StructuredData } from '@/components/Functional/StructuredData';
 import { PostSection } from '@/components/Page/_shared/PostSection';
+import { pageSections } from '@/components/Page/_shared/pageSections';
 import { TagSection } from '@/components/Page/_shared/TagSection';
 import { Pagination } from '@/components/Page/Archive/Pagination';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { Title } from '@/components/UI/Title';
-import { SITE_NAME } from '@/constants';
+import { SITE_FEED_PATH, SITE_NAME } from '@/constants';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
 import { getTagPosts } from '@/lib/post/tagPosts';
 import { getSimilarTag } from '@/lib/tag/derived';
-import { tagFeedPermalink } from '@/lib/tag/navigation';
+import { tagFeedPermalink, tagPath } from '@/lib/tag/navigation';
 import { getRoutableTagStaticParams, getRoutableTags } from '@/lib/tag/routing';
 import { tagFromUrlPath } from '@/lib/tag/url';
 import type { StaticTagPageParam } from './tagArchiveModel';
@@ -19,6 +20,7 @@ import {
   createTagArchiveMetadataModel,
   createTagArchivePageModel,
   createTagArchivePaginationStaticParams,
+  getTagArchivePageHref,
   parseTagPageSegment,
 } from './tagArchiveModel';
 
@@ -78,7 +80,7 @@ export function getTagArchiveMetadata({ slug, currentPage = 1 }: TagArchiveMetad
     alternates: {
       types: {
         'application/rss+xml': [
-          { title: SITE_NAME, url: '/feed.xml' },
+          { title: SITE_NAME, url: SITE_FEED_PATH },
           { title: decodedSlug, url: tagFeedPermalink(decodedSlug) },
         ],
       },
@@ -100,6 +102,7 @@ export function TagArchivePage({ slug, currentPage = 1 }: TagArchivePageProps) {
   }
 
   const similarTags = getSimilarTags(decodedSlug);
+  const basePath = tagPath(decodedSlug);
 
   return (
     <>
@@ -109,25 +112,24 @@ export function TagArchivePage({ slug, currentPage = 1 }: TagArchivePageProps) {
           description: model.structuredData.description,
         })}
       />
-      <Stack as="section" gap={600}>
-        <Title
-          paragraph={
-            currentPage > 1 ? `${model.totalItems}件の記事（${currentPage}ページ目）` : `${model.totalItems}件の記事`
-          }
-        >
-          {model.tag}
-        </Title>
-        <PostSection layout="timeline" posts={model.posts} />
-        <Pagination pagination={model.pagination} />
-        <TagSection
-          as="aside"
-          heading="関連タグ"
-          headingLevel="h2"
-          headingWeight="normal"
-          isWideCluster={false}
-          tags={similarTags}
-        />
-      </Stack>
+      <Title
+        paragraph={
+          currentPage > 1 ? `${model.totalItems}件の記事（${currentPage}ページ目）` : `${model.totalItems}件の記事`
+        }
+      >
+        {model.tag}
+      </Title>
+      <div className={pageSections}>
+        <Stack gap={800}>
+          <PostSection layout="timeline" posts={model.posts} />
+          <Pagination
+            currentPage={currentPage}
+            getPageHref={(page) => getTagArchivePageHref(basePath, page)}
+            totalPages={model.totalPages}
+          />
+        </Stack>
+        <TagSection as="aside" heading="関連タグ" headingLevel="h2" isWideCluster={false} tags={similarTags} />
+      </div>
     </>
   );
 }

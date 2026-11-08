@@ -1,25 +1,24 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Script from 'next/script';
 import { getMetadata } from '@/app/_metadata';
-import { ScrollProgress, scrollProgressTarget, scrollProgressTargetAttrs } from '@/components/App/ScrollProgress';
 import { StructuredData } from '@/components/Functional/StructuredData';
 import { PostSection } from '@/components/Page/_shared/PostSection';
+import { pageSections } from '@/components/Page/_shared/pageSections';
 import { TagSection } from '@/components/Page/_shared/TagSection';
+import { PostActions } from '@/components/Page/Post/Actions';
 import { PostContent } from '@/components/Page/Post/Content';
 import { PostEdit } from '@/components/Page/Post/Edit';
 import { PostHeader } from '@/components/Page/Post/Header';
 import { PostLikes } from '@/components/Page/Post/Likes';
+import { PostArticle } from '@/components/Page/Post/PostArticle';
 import { PostShare } from '@/components/Page/Post/Share';
 import { Alert } from '@/components/UI/Alert';
-import { Stack } from '@/components/UI/Layout/Stack';
 import { AUTHOR_NAME, AUTHOR_URL, BRIDGY_FED_URL } from '@/constants';
 import { buildId } from '@/lib/config/environment';
 import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText } from '@/lib/domain/json-ld';
 import { getPostsListJson } from '@/lib/source/post';
 import { tagPath } from '@/lib/tag/navigation';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';
-import { cx } from '@/ui/styled';
 import { getPostPageData } from './_lib/services/getPostPageData';
 
 type Params = Promise<{ slug: string }>;
@@ -83,15 +82,13 @@ export default async function Page({ params }: { params: Params }) {
 
   const { post, similarPost, similarTags, recentPosts, sameTagPosts, mostPopularTag, popularity } = data;
   const { slug, title, date, updated, note, content, tagsWithCount } = post;
-  const hasTweet = content.includes('twitter-tweet');
   const permalink = getPermalink(slug);
 
   return (
     <>
       <StructuredData data={[getBlogPostingStructured(post, popularity), getBreadcrumbStructured(post)]} />
-      {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
-      <Stack gap={1000}>
-        <Stack as="article" className={cx(scrollProgressTarget, 'h-entry')} gap={600} {...scrollProgressTargetAttrs}>
+      <div className={pageSections}>
+        <PostArticle className="h-entry">
           {/**
            * Bridgy Fed が ActivityPub へ変換する際に読む microformats2 プロパティ
            */}
@@ -108,35 +105,19 @@ export default async function Page({ params }: { params: Params }) {
              */}
             <a className="u-bridgy-fed" href={BRIDGY_FED_URL} />
           </div>
-          <ScrollProgress />
-          <PostHeader
-            date={date}
-            render={
-              <>
-                <PostShare title={title} url={permalink} />
-                {!!note && <Alert hideLabel={true} html={note} type="note" />}
-              </>
-            }
-            tagsWithCount={tagsWithCount}
-            title={title}
-            updated={updated}
-          />
+          <PostHeader date={date} tagsWithCount={tagsWithCount} title={title} updated={updated}>
+            <PostShare title={title} url={permalink} />
+            {!!note && <Alert hideLabel={true} html={note} type="note" />}
+          </PostHeader>
           <PostContent content={content} />
-          <Stack direction="horizontal" justify="space-between">
+          <PostActions>
             <PostShare title={title} url={permalink} />
             <PostEdit slug={slug} />
-          </Stack>
-          <PostLikes url={permalink} />
-        </Stack>
-        <Stack as="footer" gap={800}>
-          <TagSection
-            as="aside"
-            heading="関連タグ"
-            headingLevel="h2"
-            headingWeight="normal"
-            isWideCluster={false}
-            tags={similarTags}
-          />
+            <PostLikes url={permalink} />
+          </PostActions>
+        </PostArticle>
+        <footer className={pageSections}>
+          <TagSection as="aside" heading="関連タグ" headingLevel="h2" isWideCluster={false} tags={similarTags} />
           <PostSection as="aside" heading="関連記事" headingLevel="h2" posts={similarPost} />
           {mostPopularTag && sameTagPosts.length > 0 && (
             <PostSection
@@ -149,8 +130,8 @@ export default async function Page({ params }: { params: Params }) {
             />
           )}
           <PostSection as="aside" heading="最新記事" headingLevel="h2" href="/archive" posts={recentPosts} />
-        </Stack>
-      </Stack>
+        </footer>
+      </div>
     </>
   );
 }

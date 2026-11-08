@@ -1,4 +1,6 @@
-import { Anchor } from '@/components/UI/Anchor';
+import Link from 'next/link';
+import { timelineGrid, timelineMainColumn, timelineSideColumn } from '@/components/Page/_shared/timelineGrid';
+import type { HeadingLevel } from '@/components/UI/Heading';
 import { Cluster } from '@/components/UI/Layout/Cluster';
 import { PostTag } from '@/components/UI/Tag';
 import { convertPostSlugToPath } from '@/lib/utils/url';
@@ -9,16 +11,12 @@ type Props = {
   posts: ArticleSummary[];
   prefetch?: boolean;
   /** 呼び出し元セクション見出しの次のレベルを渡す（既定 h3） */
-  titleTagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-};
-
-const formatTimelineDate = (date: string) => {
-  const [datePart] = date.split('T');
-  return datePart.replaceAll('-', '/');
+  titleTagName?: HeadingLevel;
 };
 
 /**
- * 記事を縦タイムライン形式で表示する。左の縦罫線と各項目頭の円ドットで時系列の連続性を示す。
+ * タグをリンクにしない。行全体が題名のリンクになるため。
+ * 日付は呼び出し側が表示用（YYYY/MM/DD。getDateAndUpdatedToSimpleFormat）に整えた値を、そのまま出す。
  * @summary 記事タイムラインリスト
  */
 export const PostTimeline = ({ posts, prefetch = false, titleTagName = 'h3' }: Props) => {
@@ -29,66 +27,56 @@ export const PostTimeline = ({ posts, prefetch = false, titleTagName = 'h3' }: P
   const Title = titleTagName;
 
   return (
-    <List>
-      {posts.map((post) => {
-        const link = convertPostSlugToPath(post.slug);
-        const display = formatTimelineDate(post.date);
-        const tags = post.tags ?? [];
+    <Root>
+      <List>
+        {posts.map((post) => {
+          const link = convertPostSlugToPath(post.slug);
+          const tags = post.tags ?? [];
 
-        return (
-          <Item key={post.slug}>
-            <Time dateTime={post.date}>{display}</Time>
-            <Body>
-              <Title className={titleStyle}>
-                <Anchor className={titleAnchorStyle} href={link} prefetch={prefetch}>
-                  {post.title}
-                </Anchor>
-              </Title>
-              {tags.length > 0 && (
-                <Cluster className={tagsStyle} gap={100}>
-                  <PostTag tags={tags.map((slug) => ({ slug }))} />
-                </Cluster>
-              )}
-            </Body>
-          </Item>
-        );
-      })}
-    </List>
+          return (
+            <Item className={timelineGrid} key={post.slug}>
+              <Time className={timelineSideColumn} dateTime={post.date}>
+                {post.date}
+              </Time>
+              <Body className={timelineMainColumn}>
+                <Title className={titleStyle}>
+                  <Link className={titleAnchorStyle} data-row-link href={link} prefetch={prefetch}>
+                    {post.title}
+                  </Link>
+                </Title>
+                {tags.length > 0 && (
+                  <Cluster gap={100}>
+                    <PostTag size="chip" tags={tags.map((slug) => ({ slug }))} />
+                  </Cluster>
+                )}
+              </Body>
+            </Item>
+          );
+        })}
+      </List>
+    </Root>
   );
 };
 
+// 負の margin は、Root でなく内側の List にだけ置く。Root 自身は margin を持たないため（Zero Margin Principle）
+const Root = styled.div`
+  display: flow-root;
+`;
+
 const List = styled.ol`
   --resize-dur: 500ms;
-  --timeline-gutter: var(--spacing-400);
-  --timeline-item-pad-y: var(--spacing-300);
-  --timeline-date-col: var(--spacing-1000);
-  --timeline-line-offset: var(--spacing-100);
-  --timeline-dot-size: var(--spacing-200);
-  --timeline-dot-top: calc(
-    var(--timeline-item-pad-y) + (var(--font-sizes-md) * var(--line-heights-sm) - var(--timeline-dot-size)) / 2
-  );
+  --timeline-item-pad-y: var(--spacing-400);
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100);
-  padding-inline-start: var(--timeline-gutter);
+  margin-top: calc(var(--timeline-item-pad-y) * -1);
+  margin-bottom: calc(var(--timeline-item-pad-y) * -1);
   container-type: inline-size;
   isolation: isolate;
   transition: opacity var(--transition-slow);
 
-  &::before {
-    position: absolute;
-    top: var(--timeline-line-offset);
-    bottom: var(--timeline-line-offset);
-    left: var(--timeline-line-offset);
-    width: var(--border-widths-thin);
-    content: '';
-    background-color: var(--colors-gray-100);
-  }
-
-  /* hoverしていない他の要素 */
-  &:has(> li:hover) > li:not(:hover) {
-    opacity: 0.6;
+  /* 他の行の不透明度を 0.6・0.8 にしない。文字は不透明度の分だけ地（#f8f8f8）に近づき、タグ（面 #e2e2e2 の上の gray-700）が 4.5:1 を割る。
+     0.8 は 3.89:1 で、0.87 以上なら 4.5:1 を保てる */
+  &:has(a[data-row-link]:hover) > li:not(:has(a[data-row-link]:hover)) {
+    opacity: 0.9;
   }
 
   /* 未対応環境は li 自身の hover 背景を使い、対応環境だけ追随背景へ切り替える */
@@ -106,13 +94,13 @@ const List = styled.ol`
       position-anchor: --post-timeline-item;
       pointer-events: none;
       content: '';
-      background-color: var(--colors-gray-a-100);
-      border-radius: var(--radii-sm);
+      background-color: var(--colors-gray-a-75);
+      border-radius: var(--radii-md);
       opacity: 0;
       transition: none;
     }
 
-    &:has(> li:is(:hover, :focus-within))::after {
+    &:has(a[data-row-link]:is(:hover, :focus-visible))::after {
       opacity: 1;
       transition:
         top var(--resize-dur) var(--easings-ease-spring2),
@@ -125,8 +113,8 @@ const List = styled.ol`
       will-change: top, left, width, height, transform;
     }
 
-    &:has(> li:active)::after {
-      background-color: var(--colors-gray-a-200);
+    &:has(a[data-row-link]:active)::after {
+      background-color: var(--colors-gray-a-300);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -140,12 +128,11 @@ const List = styled.ol`
 
 const Item = styled.li`
   position: relative;
-  display: grid;
-  grid-template-columns: var(--timeline-date-col) 1fr;
-  gap: var(--spacing-300);
-  align-items: baseline;
+  row-gap: var(--spacing-75);
   padding: var(--timeline-item-pad-y) var(--spacing-300);
-  border-radius: var(--radii-sm);
+  margin-right: calc(var(--spacing-300) * -1);
+  margin-left: calc(var(--spacing-300) * -1);
+  border-radius: var(--radii-md);
   transition:
     background-color var(--transition-fast),
     opacity var(--transition-fast),
@@ -155,32 +142,17 @@ const Item = styled.li`
     transition: background-color var(--transition-fast);
   }
 
-  /* dot */
-  &::before {
-    position: absolute;
-    top: var(--timeline-dot-top);
-    left: calc(var(--timeline-line-offset) - (var(--timeline-gutter) + var(--timeline-dot-size) / 2));
-    width: var(--timeline-dot-size);
-    height: var(--timeline-dot-size);
-    content: '';
-    background-color: var(--colors-gray-200);
-    border: var(--border-widths-medium) solid var(--colors-gray-500);
-    border-radius: var(--radii-full);
-    box-shadow: 0 0 0 3px var(--colors-body-background);
-    transition:
-      background-color var(--transition-fast),
-      border-color var(--transition-fast);
+  &:has(a[data-row-link]:hover) {
+    background-color: var(--colors-gray-a-75);
   }
 
-  &:hover,
-  &:focus-within {
-    background-color: var(--colors-gray-a-100);
+  &:has(a[data-row-link]:active) {
+    background-color: var(--colors-gray-a-300);
+  }
 
-    /* dot */
-    &::before {
-      background-color: var(--colors-gray-1000);
-      border-color: var(--colors-gray-1000);
-    }
+  &:has(a[data-row-link]:focus-visible) {
+    outline: var(--border-widths-medium) solid var(--colors-focus-ring);
+    outline-offset: var(--border-widths-medium);
   }
 
   @supports (anchor-scope: --post-timeline-item) and (position-anchor: --post-timeline-item) and (top: anchor(top)) and
@@ -191,56 +163,52 @@ const Item = styled.li`
       anchor-name: --post-timeline-item;
     }
 
-    &::after {
-      position: absolute;
-      inset: calc(var(--spacing-100) / -2) 0;
-      z-index: -1;
-      content: '';
-    }
-
-    &:hover,
-    &:focus-within {
+    &:has(a[data-row-link]:is(:hover, :focus-visible)) {
       anchor-name: --post-timeline-item;
       background-color: transparent;
     }
 
-    &:active {
+    &:has(a[data-row-link]:active) {
       background-color: transparent;
-      transform: none;
     }
 
-    ol:has(> li:hover) > &:focus-within:not(:hover) {
+    /* hover 中は、hover した行以外を追随の基準にしない。キーボードの焦点が別の行に残っていると、hover を無視してその行へ追随するため */
+    ol:has(a[data-row-link]:hover) > &:not(:has(a[data-row-link]:hover)) {
       anchor-name: none;
     }
   }
 
-  @container (max-width: 560px) {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-100);
+  @container (min-width: 40rem) {
+    align-items: baseline;
   }
 `;
 
 const Time = styled.time`
+  font-family: var(--fonts-family-monospace);
   font-size: var(--font-sizes-sm);
-  font-variant-numeric: tabular-nums;
-  line-height: var(--line-heights-sm);
-  color: var(--colors-gray-600);
+  line-height: var(--grid-line-height-body);
+  color: var(--colors-gray-700);
   white-space: nowrap;
+
+  @container (min-width: 40rem) {
+    line-height: 1;
+  }
 `;
 
 const Body = styled.div`
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-300);
-  min-width: 0;
+  gap: var(--spacing-100);
 `;
 
 const titleStyle = css`
-  margin: 0;
-  font-size: var(--font-sizes-md);
-  font-weight: var(--font-weights-bold);
-  line-height: var(--line-heights-sm);
-  letter-spacing: var(--letter-spacings-sm);
+  font-size: var(--font-sizes-lg);
+  /* 題名の太さを 700 にしない。一覧のページで文字の大半が太字になると、見出しは目立たないため */
+  font-weight: var(--font-weights-normal);
+  /* 行の高さを見出しと同じ sm（28px）にしない。2 行に折り返すと、本文より行が詰まって見えるため */
+  line-height: var(--grid-line-height-md);
+  color: var(--colors-gray-900);
+  word-break: auto-phrase;
   /* global の h1-h6 balance と同値だが意図を固定する明示。pretty は CJK 混在タイトルの孤立行に効かず、balance は行数を増やさずに解消する（一覧 610 件でも再レイアウト負荷は誤差） */
   text-wrap: balance;
 
@@ -254,18 +222,12 @@ const titleAnchorStyle = css`
   &::before {
     position: absolute;
     inset: 0;
-    z-index: var(--z-index-base);
     cursor: pointer;
     content: '';
   }
-`;
 
-const tagsStyle = css`
-  /* PostTag は tag の navigable 状態で anchor/span を切り替えるため両方に適用 */
-  > :where(a, span) {
-    min-height: auto;
-    padding: var(--spacing-75) var(--spacing-100);
-    font-size: var(--font-sizes-xs);
-    border-radius: var(--radii-sm);
+  /* 焦点の枠で題名の文字だけを囲まず、行（Item）に出す。行全体が題名のリンクの押せる範囲になるため */
+  &:focus-visible {
+    box-shadow: none;
   }
 `;

@@ -1,9 +1,9 @@
-import { Anchor } from '@/components/UI/Anchor';
+import Link from 'next/link';
 import { tagPath } from '@/lib/tag/navigation';
-import { cx, styled } from '@/ui/styled';
+import { css, cx, styled } from '@/ui/styled';
 import { postTagAnchor } from '@/ui/styled/components/postTagAnchor';
 
-export type Props = {
+export type PostTagItem = {
   slug: string;
   /** タグに紐づく記事数 */
   count?: number;
@@ -12,18 +12,45 @@ export type Props = {
 };
 
 type PostTagProps = {
-  tags: Props[];
-  /** rel="tag" 属性を付与する */
-  hasRelTag?: boolean;
-  /** p-category（microformats2）を付与する */
-  hasCategoryMicroformat?: boolean;
+  tags: PostTagItem[];
+  /** 大きさ。chip は記事の冒頭・一覧の行の小さい形、pill はタグの一覧の大きい形 */
+  size: 'chip' | 'pill';
+  /** タグ名に付けるクラス（microformats2 の p-category など）。リンクはタグ名を包む span に、リンクでないタグは span 自身に付く */
+  labelClassName?: string;
 };
+
+const chipStyle = css`
+  padding: var(--spacing-50) var(--spacing-100);
+  font-size: var(--font-sizes-sm);
+  /* 行の高さを 21px のままにしない。行の中のタグが 25px になり、4px の縦グリッドに乗らないため */
+  line-height: var(--grid-line-height-sm);
+  border-radius: var(--radii-md);
+
+  &:is(a) {
+    min-width: var(--tap-target-inline);
+    min-height: var(--tap-target-inline);
+  }
+`;
+
+const pillStyle = css`
+  padding: var(--spacing-75) var(--spacing-300);
+  font-size: var(--font-sizes-sm);
+  /* 行の高さを文字の大きさ（14px）の sm（24px）にしない。pill の文字を本文（16px）へ寄せたときに、高さが変わってしまう */
+  line-height: var(--grid-line-height-body);
+  border-radius: var(--radii-md);
+
+  &:is(a) {
+    min-height: var(--control-min-size);
+  }
+`;
+
+const sizeStyle = { chip: chipStyle, pill: pillStyle };
 
 /**
  * 記事に付与されたタグ一覧を表示する。リンク付きとテキストのみの混在に対応。
  * @summary 記事タグ一覧（リンク/テキスト混在対応）
  */
-export function PostTag({ tags, hasCategoryMicroformat = false, hasRelTag = true }: PostTagProps) {
+export function PostTag({ tags, size, labelClassName }: PostTagProps) {
   if (tags.length === 0) {
     return null;
   }
@@ -35,6 +62,7 @@ export function PostTag({ tags, hasCategoryMicroformat = false, hasRelTag = true
 
     return b.count - a.count;
   });
+  const tagClassName = cx(postTagAnchor, sizeStyle[size]);
 
   return (
     <>
@@ -42,19 +70,12 @@ export function PostTag({ tags, hasCategoryMicroformat = false, hasRelTag = true
         const isAnchor = isNavigable ?? false;
 
         return isAnchor ? (
-          <Anchor
-            className={postTagAnchor}
-            href={tagPath(slug)}
-            key={slug}
-            {...(hasRelTag && {
-              rel: 'tag',
-            })}
-          >
+          <Link className={tagClassName} href={tagPath(slug)} key={slug} rel="tag">
             {/**
              * noLeakedRender は三項演算子の else 側に変数を置くと指摘する（slug は string でリークしない）。
              * 回避のため否定条件で分岐を入れ替えており、span を常に付けると DOM が変わるため採らない
              */}
-            {!hasCategoryMicroformat ? slug : <span className="p-category">{slug}</span>}
+            {!labelClassName ? slug : <span className={labelClassName}>{slug}</span>}
             {/**
              * aria-label は使わない。可視テキスト（slug+件数）とラベルの文字列が一致しないと
              * WCAG 2.5.3 (Label in Name) 違反になるため、可視テキストの並びに「件」だけ読み上げ用に足す
@@ -65,9 +86,9 @@ export function PostTag({ tags, hasCategoryMicroformat = false, hasRelTag = true
                 <span className="sr-only">件</span>
               </Count>
             )}
-          </Anchor>
+          </Link>
         ) : (
-          <span aria-hidden="true" className={cx(postTagAnchor, hasCategoryMicroformat && 'p-category')} key={slug}>
+          <span aria-hidden="true" className={cx(tagClassName, labelClassName)} key={slug}>
             {slug}
           </span>
         );
@@ -83,8 +104,7 @@ const Count = styled.span`
   aspect-ratio: 1/1;
   padding: 0 var(--spacing-75);
   font-variant-numeric: tabular-nums;
-  line-height: var(--line-heights-sm);
-  color: var(--colors-gray-500);
+  line-height: var(--grid-line-height-sm);
   user-select: none;
   border-radius: var(--radii-md);
 `;
