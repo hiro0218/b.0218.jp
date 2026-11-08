@@ -71,18 +71,18 @@ interface TriggerButtonProps {
 
 /** 画像をクリックしてズームモーダルを開くためのボタン */
 export function TriggerButton({ label, isOpen, zoomIn, onPrefetch }: TriggerButtonProps): ReactNode {
+  // 開いている間だけ aria-disabled を付けず、onClick も外さない。visibility: hidden で隠れたボタンでは効く場面がない（二重の open は useImageZoom が止める）
   return (
     <button
-      aria-disabled={isOpen || undefined}
       aria-expanded={isOpen}
       aria-label={label}
       className={cx(buttonStyle, isOpen ? buttonHiddenClass : buttonVisibleClass)}
-      onClick={isOpen ? undefined : zoomIn}
+      onClick={zoomIn}
       onFocus={onPrefetch}
       onPointerEnter={onPrefetch}
       type="button"
     >
-      <span aria-hidden="true" className={cx(zoomIndicatorStyle, 'zoom-indicator')}>
+      <span aria-hidden="true" className={zoomIndicatorStyle}>
         <MagnifyingGlassPlusIcon className={zoomIconStyle} />
       </span>
     </button>

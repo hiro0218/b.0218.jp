@@ -1,29 +1,23 @@
 'use client';
 
-import type { SyntheticEvent } from 'react';
-import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import type { ImgHTMLAttributes, SyntheticEvent } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import type { Dialog } from './Dialog';
 import { useImageZoom } from './hooks/useImageZoom';
 import { TriggerButton } from './TriggerButton';
-import type { ZoomImageSource } from './types';
 
-type ControllerProps = {
+type ControllerProps = ImgHTMLAttributes<HTMLImageElement> & {
   src: string;
   triggerLabel: string;
   dialogLabel: string;
   closeLabel: string;
   minImageSize: number;
-  alt?: string;
-  zoomImg?: ZoomImageSource;
 };
 
 const importDialog = () => import('./Dialog');
 
-function getSourceImage(anchor: HTMLElement | null) {
-  return anchor?.closest('[data-zoom-image]')?.querySelector<HTMLImageElement>('img[data-zoom-image-source]') ?? null;
-}
-
+// サーバー側で描画した img を data 属性と目印の要素から探さず、Controller の中で描画する。探すと、描画側と探す側が属性名だけでつながり、片方の変更で黙って壊れる
 export function Controller({
   alt,
   src,
@@ -31,30 +25,14 @@ export function Controller({
   dialogLabel,
   closeLabel,
   minImageSize,
-  zoomImg,
+  ...imgProps
 }: ControllerProps) {
-  const anchorRef = useRef<HTMLSpanElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
   const [LoadedDialog, setLoadedDialog] = useState<typeof Dialog | null>(null);
-  const { dialogRef, dialogImgRef, imageSize, canZoom, isOpen, open, close, handleImageLoad, setImageElement } =
-    useImageZoom({
-      minImageSize,
-    });
-
-  useLayoutEffect(() => {
-    const img = getSourceImage(anchorRef.current);
-    setImageElement(img);
-
-    if (!img) {
-      return () => setImageElement(null);
-    }
-
-    img.addEventListener('load', handleImageLoad);
-
-    return () => {
-      img.removeEventListener('load', handleImageLoad);
-      setImageElement(null);
-    };
-  }, [handleImageLoad, setImageElement]);
+  const { dialogRef, dialogImgRef, imageSize, canZoom, isOpen, open, close, handleImageLoad } = useImageZoom({
+    imgRef,
+    minImageSize,
+  });
 
   const handleDialogCancel = useCallback(
     (event: SyntheticEvent<HTMLDialogElement>) => {
@@ -68,11 +46,10 @@ export function Controller({
   // ズームは操作してから必要になるため、トリガーへの hover / focus を合図に読み込み、読み込み後に描画する。
   // 押された場合は、描画(flushSync)まで終えてから open する。open はその押下の promise にだけつなぐ
   // (失敗した取得のあと別の hover が成功しても、押していない open が起きないようにする)。
-  // Why not: canZoom になった時点で常に描画する(従来)。ズーム画像のない記事も含め、全記事がこの JS を読むため。
-  // Why not: React.lazy と Suspense。fallback を出すと、読み込みが終わっても React の throttle で
+  // canZoom になった時点で常に描画する形にも、Dialog を値で import する形にもしない(import type だけで取り込む)。どちらも、ズーム画像のない記事も含め、全記事の初期 JS に Dialog が入る。
+  // React.lazy と Suspense を使わない。fallback を出すと、読み込みが終わっても React の throttle で
   // 表示まで最低 300 ms 待たされる(実測。hover なしの初回ズームが約 320 ms 遅れた)ため、完了を state で受ける。
-  // Why not: Dialog を値で import する。import type だけで取り込む(静的 import は全記事の初期 JS に戻る)。
-  // Why not: 失敗を未処理の拒否のままにする。chunk の 404 でコンソールが落ち、押しても何も起きない。
+  // 失敗を未処理の拒否のままにしない。chunk の 404 でコンソールが落ち、押しても何も起きない。
   const loadDialog = () => {
     // 描画済みなら再取得も flushSync もしない。focus の戻りや hover のたびに同期フラッシュしないため
     if (dialogRef.current) return Promise.resolve();
@@ -103,7 +80,7 @@ export function Controller({
 
   return (
     <>
-      <span data-zoom-image-controller="" hidden ref={anchorRef} />
+      <img alt={alt} src={src} {...imgProps} onLoad={handleImageLoad} ref={imgRef} />
       {canZoom ? (
         <TriggerButton isOpen={isOpen} label={triggerLabel} onPrefetch={prefetchDialog} zoomIn={handleZoomIn} />
       ) : null}
@@ -119,7 +96,6 @@ export function Controller({
           onCancel={handleDialogCancel}
           onClose={close}
           src={src}
-          zoomImg={zoomImg}
         />
       ) : null}
     </>
