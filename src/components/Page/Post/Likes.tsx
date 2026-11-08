@@ -12,8 +12,7 @@ type Props = {
 };
 
 /**
- * 記事へのいいね（like-of）を webmention.io から取得して表示
- * ビルド成果を動的にしないため、マウント後に取得し、0 件・失敗時は何も出さない
+ * サーバー側で取得しない。ビルド成果が動的になるため
  * @summary 記事への Webmention いいね一覧
  */
 export function PostLikes({ url }: Props) {
@@ -27,6 +26,7 @@ export function PostLikes({ url }: Props) {
       .then(setLikes)
       .catch((error: unknown) => {
         if (isAbortError(error)) return;
+        console.error('Failed to load likes:', error);
         setLikes([]);
       });
 
@@ -59,7 +59,10 @@ async function fetchLikes(targetUrl: string, signal: AbortSignal): Promise<Like[
   })}`;
   const response = await fetch(requestUrl, { signal });
 
-  if (!response.ok) return [];
+  if (!response.ok) {
+    console.error('Failed to load likes:', response.status);
+    return [];
+  }
 
   return parseLikes(await response.json());
 }
