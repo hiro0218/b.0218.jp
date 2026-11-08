@@ -24,6 +24,8 @@ describe('initializeSmoothScroll', () => {
     return event;
   };
 
+  const runImmediately = (task: () => void) => task();
+
   it('mokuji.js v5 形式の URL-encoded id にそのままヒットするアンカーを解決する', () => {
     document.body.innerHTML = `
       <a id="link" href="#%E8%83%8C%E6%99%AF">背景</a>
@@ -32,7 +34,7 @@ describe('initializeSmoothScroll', () => {
     const heading = document.getElementById('%E8%83%8C%E6%99%AF') as HTMLElement;
     const scrollSpy = vi.spyOn(heading, 'scrollIntoView').mockImplementation(() => {});
 
-    cleanup = initializeSmoothScroll();
+    cleanup = initializeSmoothScroll(runImmediately);
     const event = dispatchClickOn('#link');
 
     expect(event.defaultPrevented).toBe(true);
@@ -47,7 +49,7 @@ describe('initializeSmoothScroll', () => {
     const heading = document.getElementById('背景') as HTMLElement;
     const scrollSpy = vi.spyOn(heading, 'scrollIntoView').mockImplementation(() => {});
 
-    cleanup = initializeSmoothScroll();
+    cleanup = initializeSmoothScroll(runImmediately);
     const event = dispatchClickOn('#link');
 
     expect(event.defaultPrevented).toBe(true);
@@ -58,17 +60,69 @@ describe('initializeSmoothScroll', () => {
     document.body.innerHTML = `<a id="link" href="#top">Top</a>`;
     const scrollSpy = vi.spyOn(document.documentElement, 'scrollIntoView').mockImplementation(() => {});
 
-    cleanup = initializeSmoothScroll();
+    cleanup = initializeSmoothScroll(runImmediately);
     const event = dispatchClickOn('#link');
 
     expect(event.defaultPrevented).toBe(true);
     expect(scrollSpy).toHaveBeenCalledOnce();
   });
 
+  it('URL を更新したあとの処理を預ける仲介を渡した場合、預けた処理が実行されるまでスクロールしない', () => {
+    document.body.innerHTML = `
+      <a id="link" href="#section">Section</a>
+      <h2 id="section">Section</h2>
+    `;
+    const heading = document.getElementById('section') as HTMLElement;
+    const scrollSpy = vi.spyOn(heading, 'scrollIntoView').mockImplementation(() => {});
+    const pushStateSpy = vi.spyOn(history, 'pushState');
+    const runAfterUrlUpdate = vi.fn();
+
+    cleanup = initializeSmoothScroll(runAfterUrlUpdate);
+    dispatchClickOn('#link');
+
+    expect(pushStateSpy).toHaveBeenCalledWith({}, '', '#section');
+    expect(runAfterUrlUpdate).toHaveBeenCalledOnce();
+    expect(scrollSpy).not.toHaveBeenCalled();
+
+    runAfterUrlUpdate.mock.calls[0][0]();
+
+    expect(scrollSpy).toHaveBeenCalledOnce();
+  });
+
+  it('#top の場合は URL を更新せず、預けずにすぐスクロールする', () => {
+    document.body.innerHTML = `<a id="link" href="#top">Top</a>`;
+    const scrollSpy = vi.spyOn(document.documentElement, 'scrollIntoView').mockImplementation(() => {});
+    const pushStateSpy = vi.spyOn(history, 'pushState');
+    const runAfterUrlUpdate = vi.fn();
+
+    cleanup = initializeSmoothScroll(runAfterUrlUpdate);
+    dispatchClickOn('#link');
+
+    expect(pushStateSpy).not.toHaveBeenCalled();
+    expect(runAfterUrlUpdate).not.toHaveBeenCalled();
+    expect(scrollSpy).toHaveBeenCalledOnce();
+  });
+
+  it('動きを減らす設定の場合は instant、そうでない場合は smooth でスクロールする', () => {
+    document.body.innerHTML = `
+      <a id="link" href="#section">Section</a>
+      <h2 id="section">Section</h2>
+    `;
+    const heading = document.getElementById('section') as HTMLElement;
+    const scrollSpy = vi.spyOn(heading, 'scrollIntoView').mockImplementation(() => {});
+
+    cleanup = initializeSmoothScroll(runImmediately);
+    dispatchClickOn('#link');
+    window.matchMedia = vi.fn().mockReturnValue({ matches: true } as MediaQueryList);
+    dispatchClickOn('#link');
+
+    expect(scrollSpy.mock.calls).toEqual([[{ behavior: 'smooth' }], [{ behavior: 'instant' }]]);
+  });
+
   it('存在しない id の場合は preventDefault しない', () => {
     document.body.innerHTML = `<a id="link" href="#nonexistent">Missing</a>`;
 
-    cleanup = initializeSmoothScroll();
+    cleanup = initializeSmoothScroll(runImmediately);
     const event = dispatchClickOn('#link');
 
     expect(event.defaultPrevented).toBe(false);
@@ -82,7 +136,7 @@ describe('initializeSmoothScroll', () => {
     const heading = document.getElementById('section') as HTMLElement;
     const scrollSpy = vi.spyOn(heading, 'scrollIntoView').mockImplementation(() => {});
 
-    cleanup = initializeSmoothScroll();
+    cleanup = initializeSmoothScroll(runImmediately);
     cleanup();
 
     const event = dispatchClickOn('#link');
