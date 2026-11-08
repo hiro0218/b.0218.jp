@@ -1,19 +1,22 @@
+/* ヘッダー + 16px の余白を省かない。「戻る」で上へ戻ると、隠れていたヘッダーが再表示され、着地した番号を覆うため */
+[data-footnote-ref],
+[data-footnotes] li {
+  scroll-margin-top: calc(var(--sizes-header) + var(--spacing-300));
+}
+
 [data-footnotes] {
   padding-top: var(--spacing-400);
-  margin-top: var(--spacing-1000);
+  margin-top: var(--spacing-section);
   font-size: var(--font-sizes-sm);
-  color: var(--colors-gray-800);
+  /* 行の高さを継承に任せない。本文の行の高さ（長さ）は、font-size が違う要素にもそのまま継承されるため */
+  line-height: var(--grid-line-height-sm);
+  /* opacity: 0.6 で薄くしない。色によらず実効のコントラスト比が地へ近づき、gray-800 でも 3.94:1 まで下がるため */
+  color: var(--colors-gray-700);
   border-top: var(--border-widths-thin) solid var(--colors-gray-400);
 
   li {
     padding-left: var(--spacing-75);
     counter-increment: steps;
-    opacity: 0.6;
-    transition: opacity var(--durations-slow) var(--easings-ease-in-out-quint);
-
-    &:hover {
-      opacity: 1;
-    }
 
     /* stylelint-disable-next-line */
     &::marker {
@@ -36,6 +39,12 @@
   }
 
   [data-footnote-backref] {
+    /* 矢印 1 字（約 15 × 20px）のままにしない。WCAG 2.5.8 の 24px 四方に足りないため、padding で広げる（約 27 × 28px）。
+       横の padding は残さず、同じだけ負の margin で打ち消す。残すと、矢印の位置・行末の折り返しが変わる。
+       左右を同じ幅にしない。直前が外部リンクのとき、そのリンクの端（アイコン）の押せる範囲を奪うため。
+       min-width / min-height は使わない。inline には効かない。inline-block では、矢印の右へ約 9px の幅が増える。行末の折り返しも変わりうるため */
+    padding: var(--spacing-75) var(--spacing-100) var(--spacing-75) var(--spacing-75);
+    margin-inline: calc(var(--spacing-75) * -1) calc(var(--spacing-100) * -1);
     text-decoration-line: none;
   }
 }

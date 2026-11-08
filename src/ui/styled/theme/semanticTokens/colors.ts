@@ -15,8 +15,6 @@ const semanticColorTokens = {
   overlayBackgrounds: { value: { base: '{colors.grayA.500}' } },
   /** ページ全体の背景（背景色に合わせた切り抜き表現にも使う） */
   bodyBackground: { value: { base: '{colors.gray.50}' } },
-  /** コピー成功状態のアイコン（CopyButton / Share） */
-  copySuccessIcon: { value: { base: '{colors.grass.1200}' } },
   /** インタラクティブ要素の :focus-visible 表示 */
   focusRing: { value: { base: '{colors.accent.900}' } },
   /** テキスト選択（::selection）の背景 */

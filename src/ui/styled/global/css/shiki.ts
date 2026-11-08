@@ -20,7 +20,7 @@ export const shikiCss = defineGlobalStyles({
     marginBottom: 'var(--spacing-75)',
     display: 'block',
     fontSize: 'var(--font-sizes-xs)',
-    color: 'var(--colors-gray-500)',
+    color: 'var(--colors-gray-700)',
     pointerEvents: 'none',
   },
 

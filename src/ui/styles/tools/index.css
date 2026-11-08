@@ -11,15 +11,11 @@
 @define-mixin link-style {
   display: inline-flex;
   align-items: center;
-  min-height: var(--sizes-touch-target);
-  padding: var(--spacing-75) var(--spacing-100);
+  /* 押せる大きさを幅（992px）で切り替えない。640〜991px のマウスの画面でも 44px になり、見出しの行が伸びるため */
+  min-height: var(--tap-target);
+  padding: var(--spacing-75) var(--link-padding-inline);
   color: var(--colors-gray-1000);
   border-radius: var(--radii-sm);
-
-  @media (--isDesktop) {
-    /* stylelint-disable-next-line no-invalid-position-declaration */
-    min-height: auto;
-  }
 }
 
 @define-mixin link-style--hover-effect {

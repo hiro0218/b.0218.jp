@@ -34,24 +34,6 @@ interface ColorValue {
   value?: string | number;
 }
 
-/**
- * カラースケール数値の読み方と用途の目安
- *
- * 数値は背景に対するコントラストの段階を表す。値が大きいほど背景とのコントラストが高く、
- * ライトテーマでは暗く、ダークテーマでは明るくなる。
- *
- * 用途の目安（Spectrum の規定ではなく、本リポジトリの運用実態に基づく区分）:
- * - 25-100: 背景面（bodyBackground は gray-50）
- * - 200-500: 境界線・無効状態（ArticleCard の枠線は gray-200）
- * - 600-800: テキスト以外の静的な装飾（ScrollProgress のバーは accent-800）
- * - 900-1600: テキスト・アイコン・状態色（テキストは gray-900 以上を使い、4.5:1 のコントラスト比を確保する）
- *
- * hover / focus の状態色は帯域内で段階を上げる方式ではなく、ニュートラルなグレーから
- * アクセント色相への切り替えで表現する（focusRing は accent-900、ArticleCard の hover は accent-1100）。
- * 判断基準は .claude/rules/design-principles.md の「色の運用」を参照。
- *
- * @see https://spectrum.adobe.com/page/using-color/ - コントラスト段階と背景レイヤーの一般的な考え方の参考（上記区分の出典ではない）
- */
 type RegularColorScale =
   | 100
   | 200
@@ -70,6 +52,7 @@ type RegularColorScale =
   | 1500
   | 1600;
 
+/** 文字色に gray-600 を無条件では使わない。地と白の上では 4.5:1 に届くが、フッター・hover の面・タグの面・帯の上では届かないため。 */
 type GrayScale = 25 | 50 | 75 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 1000;
 
 type TransparentScale = 25 | 50 | 75 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 1000;

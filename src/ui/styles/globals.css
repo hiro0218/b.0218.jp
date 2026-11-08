@@ -1,23 +1,7 @@
-/**
- * CSSアーキテクチャ: ITCSS + CSS Cascade Layers
- *
- * レイヤーの詳細度（低 → 高）:
- * 1. reset      - CSSリセット（shokika.css、Next.js固有のリセット）
- * 2. base       - 素のHTML要素（h1、p、a等）
- * 3. tokens     - デザイントークン（Panda CSS - ビルド時に注入）
- * 4. vendor     - サードパーティライブラリ（highlight.js、twitter）
- * 5. components - UIコンポーネント（post-content、footnotes等）
- * 6. recipes    - Panda CSSレシピ（ビルド時に注入）
- *                 注: template literal構文では現状利用不可
- * 7. utilities  - ヘルパークラス（最高優先度）
- *
- * 注: Tools（PostCSS Mixins）はビルド時に処理され、実行時には存在しない
- */
 @layer reset, base, tokens, vendor, components, recipes, utilities;
 
 @import 'shokika.css' layer(reset);
 
-@import './reset/index.css' layer(reset);
 @import './tools/index.css'; /* Mixins - ビルド時に処理されるためレイヤー指定不要 */
 @import './base/index.css' layer(base);
 @import './vendor/index.css' layer(vendor);

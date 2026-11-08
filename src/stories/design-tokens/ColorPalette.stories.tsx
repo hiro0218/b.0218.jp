@@ -57,7 +57,7 @@ const ColorSwatch = ({ name, variable }: Swatch) => (
 const ColorGroup = ({ title, scales }: { title: string; scales: Swatch[] }) => (
   <Stack as="section" gap={100}>
     <h3>{title}</h3>
-    <Grid columns="auto-fit" gap={100} minItemWidth="280px">
+    <Grid gap={100} minItemWidth="280px">
       {scales.map((s) => (
         <ColorSwatch key={s.variable} name={s.name} variable={s.variable} />
       ))}
