@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { styled } from '@/ui/styled';
 
-export type IconSwapActiveIcon = 'primary' | 'secondary';
+type IconSwapActiveIcon = 'primary' | 'secondary';
 
 type IconSwapProps = {
   activeIcon: IconSwapActiveIcon;
@@ -22,7 +22,7 @@ export function IconSwap({ activeIcon, primaryIcon, secondaryIcon }: IconSwapPro
 }
 
 const Root = styled.span`
-  --icon-swap-dur: 200ms;
+  --icon-swap-dur: var(--durations-slow);
   --icon-swap-start-scale: 0.25;
   --icon-swap-ease: ease-in-out;
   position: relative;

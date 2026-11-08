@@ -54,12 +54,19 @@ describe('CodeBlock', () => {
   });
 
   it('初期状態ではコピー可能な button を描画する', () => {
+    mockClipboard(async () => undefined);
     renderCodeBlock();
 
     const button = screen.getByRole('button', { name: 'コードをコピー' });
 
     expect(button.getAttribute('data-state')).toBe('idle');
     expect(button.getAttribute('aria-disabled')).toBeNull();
+  });
+
+  it('pre を描画する場合、横にスクロールするコードをキーボードで動かせるよう tabindex=0 を付ける', () => {
+    const { container } = renderCodeBlock();
+
+    expect(container.querySelector('pre')?.getAttribute('tabindex')).toBe('0');
   });
 
   it('Clipboard API に書き込めた場合、成功状態を表示する', async () => {
@@ -98,14 +105,23 @@ describe('CodeBlock', () => {
     expect(screen.getByRole('status').textContent).toBe('コピーに失敗しました');
   });
 
-  it('Clipboard API が使えない場合、unsupported 状態にして button を aria-disabled にする', async () => {
+  it('Clipboard API が使えない場合、押す前から unsupported 状態にして button を aria-disabled にする', () => {
     renderCodeBlock();
+
+    const button = screen.getByRole('button', { name: 'このブラウザはコピーに未対応' });
+    expect(button.getAttribute('data-state')).toBe('unsupported');
+    expect(button.getAttribute('aria-disabled')).toBe('true');
+    expect(screen.getByRole('status').textContent).toBe('このブラウザはコピーに未対応');
+  });
+
+  it('コードが空の場合、押しても書き込まず、状態を変えない', () => {
+    const clipboard = mockClipboard(async () => undefined);
+    render(<CodeBlock>{''}</CodeBlock>);
 
     fireEvent.click(screen.getByRole('button', { name: 'コードをコピー' }));
 
-    const button = await screen.findByRole('button', { name: 'このブラウザはコピーに未対応' });
-    expect(button.getAttribute('data-state')).toBe('unsupported');
-    expect(button.getAttribute('aria-disabled')).toBe('true');
+    expect(clipboard.writeText).not.toHaveBeenCalled();
+    expect(screen.getByRole('button', { name: 'コードをコピー' }).getAttribute('data-state')).toBe('idle');
   });
 
   it('コピー中の場合、button を aria-disabled にする', async () => {
@@ -123,6 +139,7 @@ describe('CodeBlock', () => {
     const button = await screen.findByRole('button', { name: 'コピー中' });
     expect(button.getAttribute('data-state')).toBe('copying');
     expect(button.getAttribute('aria-disabled')).toBe('true');
+    expect(screen.getByRole('status').textContent).toBe('');
 
     await act(async () => {
       resolveCopy();

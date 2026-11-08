@@ -5,7 +5,6 @@ import { useCallback, useEffect, useRef } from 'react';
 interface UseTimeoutReturn {
   schedule: (callback: () => void, delay: number) => void;
   cancel: () => void;
-  isPending: () => boolean;
 }
 
 /**
@@ -31,9 +30,7 @@ export function useTimeout(): UseTimeoutReturn {
     }, delay);
   }, []);
 
-  const isPending = useCallback(() => timeoutIdRef.current !== null, []);
-
   useEffect(() => cancel, [cancel]);
 
-  return { schedule, cancel, isPending };
+  return { schedule, cancel };
 }
