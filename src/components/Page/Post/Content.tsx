@@ -1,7 +1,7 @@
+import Script from 'next/script';
 import { parser } from '@/components/Page/_shared/HTMLParser';
-import { Adsense } from '@/components/UI/Adsense';
 import type { Post } from '@/types/source';
-import { AdsenseContainer, AdsenseManager } from './Content/AdsenseManager';
+import { AdsenseManager } from './Content/AdsenseManager';
 import { Client } from './Content/Client';
 
 type ContentProps = {
@@ -10,16 +10,14 @@ type ContentProps = {
 
 export function PostContent({ content }: ContentProps) {
   const parsedContent = parser(content);
+  const hasTweet = content.includes('twitter-tweet');
 
   return (
-    <Client
-      adsense={
-        <AdsenseContainer>
-          <Adsense />
-        </AdsenseContainer>
-      }
-    >
-      <AdsenseManager content={parsedContent} />
-    </Client>
+    <>
+      {hasTweet && <Script src="https://platform.twitter.com/widgets.js" strategy="lazyOnload" />}
+      <Client>
+        <AdsenseManager content={parsedContent} />
+      </Client>
+    </>
   );
 }

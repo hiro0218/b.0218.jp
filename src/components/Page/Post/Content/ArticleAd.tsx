@@ -1,18 +1,11 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import type { CSSProperties } from 'react';
 import { useEffect } from 'react';
 
 import { GOOGLE_ADSENSE } from '@/constants';
 import { isDevelopment } from '@/lib/config/environment';
 import { css, styled } from '@/ui/styled';
-
-type Size = {
-  adsWidth?: number;
-  adsHeight?: number;
-};
-type Props = Size;
 
 function pushAd() {
   try {
@@ -24,32 +17,24 @@ function pushAd() {
 }
 
 /**
- * @summary Google AdSense 広告枠
+ * @summary 記事の本文の流れの中に置く Google AdSense 広告枠。前後の余白も持つ。
  */
-export function Adsense({ adsWidth = 336, adsHeight = 280 }: Props) {
+export function ArticleAd() {
   const pathname = usePathname();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname is a trigger to reload ads on route change
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname を依存配列から外さない。ルートが変わるたびに広告を読み込み直す契機にしているため
   useEffect(() => {
     pushAd();
   }, [pathname]);
 
-  const adsStyle = {
-    '--ads-height': `${adsHeight}px`,
-    '--ads-width': `${adsWidth}px`,
-    backgroundColor: isDevelopment ? 'var(--colors-gray-100)' : undefined,
-  } as CSSProperties;
-
-  /**
-   * aria-label
-   * @link https://support.google.com/adsense/answer/4533986?hl=ja
-   */
   return (
-    <aside aria-label="スポンサーリンク" className={containerStyle} key={pathname}>
-      <Ads style={adsStyle}>
-        <Ins />
-      </Ads>
-    </aside>
+    <Outer>
+      <aside aria-label="スポンサーリンク" className={containerStyle} key={pathname}>
+        <Ads style={isDevelopment ? { backgroundColor: 'var(--colors-gray-100)' } : undefined}>
+          <Ins />
+        </Ads>
+      </aside>
+    </Outer>
   );
 }
 
@@ -66,6 +51,11 @@ const Ins = () => {
   );
 };
 
+const Outer = styled.div`
+  margin: var(--spacing-400) 0;
+  text-align: center;
+`;
+
 const containerStyle = css`
   display: flex;
   flex-wrap: wrap;
@@ -79,5 +69,6 @@ const containerStyle = css`
 
 const Ads = styled.div`
   flex: 1 1 250px;
-  height: var(--ads-height);
+  /* 高さを広告の読み込みに任せず固定する。任せると、読み込みの前後で本文の位置が動く */
+  height: 280px;
 `;
