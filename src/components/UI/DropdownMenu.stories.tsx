@@ -47,27 +47,6 @@ export const Default: Story = {
 };
 
 /**
- * トリガーの左端揃えで右方向へ展開する派生。トリガーが画面左端に寄っているときの既定方向として使う
- * （Anchor Positioning 対応ブラウザでは、はみ出す場合に自動で反転する）。
- *
- * @summary 左寄せ展開の派生
- */
-export const PositionLeft: Story = {
-  name: '左寄せ',
-  args: {
-    title: menuTitle,
-    triggerLabel: 'Feedback',
-    menuHorizontalPosition: 'left',
-    children: (
-      <>
-        <a href="/posts">記事一覧</a>
-        <a href="/tags">タグ一覧</a>
-      </>
-    ),
-  },
-};
-
-/**
  * トリガークリックで `aria-expanded` / `aria-controls` が更新され、リンク選択・外側クリック・フォーカス移動・
  * Esc キーのいずれでも閉じ、リンク選択と Esc ではトリガーへ focus が戻ることを検証する。フォーカス移動で閉じる場合は
  * 移動先のフォーカスを奪わない。disclosure パターンのアクセシビリティ契約の保証。

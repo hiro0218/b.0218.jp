@@ -1,14 +1,12 @@
 'use client';
 
 import { useInteractOutside } from '@react-aria/interactions';
-import type { FocusEvent, MouseEvent, ReactNode } from 'react';
-import { useEffect, useId, useRef, useState } from 'react';
+import type { FocusEvent, KeyboardEvent, MouseEvent, ReactNode } from 'react';
+import { useId, useRef, useState } from 'react';
 
 import { IconButton } from '@/components/UI/IconButton';
 
 import { Container, Content, triggerAnchorStyle } from './DropdownMenu/styles';
-
-type MenuPosition = 'left' | 'right';
 
 export type DropdownMenuProps = {
   /** メニュートリガーに表示するコンテンツ（アイコン等） */
@@ -17,20 +15,14 @@ export type DropdownMenuProps = {
   triggerLabel: string;
   /** メニュー内のリンク要素 */
   children: ReactNode;
-  /** 既定の展開方向。Anchor Positioning 対応ブラウザでは、画面からはみ出す場合に左右・上下を自動で反転する */
-  menuHorizontalPosition?: MenuPosition;
 };
 
 /**
- * クリック操作で開閉するドロップダウンメニュー。
- * 中身はコマンド選択ではなくリンクの一覧なので、ARIA menu パターン（role="menu"/menuitem）ではなく
- * disclosure パターン（トリガーの aria-expanded/aria-controls + 素の <a> を並べたパネル）で実装する。
- * （React Aria の useMenuItem を div に当てて <a> を包む構造では、menuitem 上の Enter でリンクが開かない）
- * 閉じる条件は外側クリック / Esc / リンク起動 / フォーカスがパネルの外へ移動。開いてもフォーカスはトリガーに留める
- * （disclosure の慣例）。Esc とリンク起動ではトリガーへ戻し、外側クリックとフォーカス移動では戻さない。
+ * ARIA menu パターン（role="menu"/menuitem）にしない。中身はコマンド選択ではなくリンクの一覧のため、disclosure パターンにする。
+ * React Aria の useMenuItem を div に当てて <a> を包む構造にしない。この構造では、menuitem 上の Enter でリンクが開かない。
  * @summary クリック開閉ドロップダウンメニュー（disclosure パターン）
  */
-export function DropdownMenu({ title, triggerLabel, children, menuHorizontalPosition = 'right' }: DropdownMenuProps) {
+export function DropdownMenu({ title, triggerLabel, children }: DropdownMenuProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -44,22 +36,20 @@ export function DropdownMenu({ title, triggerLabel, children, menuHorizontalPosi
   });
 
   // 展開中のみ Esc キーで閉じ、トリガーへ focus を戻す
-  // （閉じるとパネルは inert になり、フェード後に display: none になるため、中に focus が残っていると body に落ちる）
-  useEffect(() => {
-    if (!isExpanded) return;
+  // 閉じたあとにフォーカスをパネルの中へ残さない。閉じたパネルは inert になる。フェードが終わると display: none になり、フォーカスは body へ落ちる。
+  // document の keydown は使わない。使うと、検索ダイアログなど他の dialog の Esc まで拾い、除外する特例が要る
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (!isExpanded || event.key !== 'Escape') return;
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') return;
-      // 検索ダイアログなど他の <dialog> 内で発生した Esc はそちら側の close に委ね、背後のパネルまで閉じない
-      if ((event.target as HTMLElement | null)?.closest('dialog[open]')) return;
+    setIsExpanded(false);
+    triggerRef.current?.focus();
+  };
 
-      setIsExpanded(false);
-      triggerRef.current?.focus();
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isExpanded]);
+  // クリックでのフォーカス移動に任せず、開くときにトリガーへフォーカスを置く。macOS の Safari・Firefox はクリックでボタンにフォーカスが当たらず、Esc をこの要素の中で受けられなくなる
+  const handleTriggerClick = () => {
+    if (!isExpanded) triggerRef.current?.focus();
+    setIsExpanded((current) => !current);
+  };
 
   // リンククリックで閉じてトリガーへ focus を戻す（Esc と同じ理由。閉じた後の focus 迷子を防ぐ）
   const handlePanelClick = (event: MouseEvent<HTMLDivElement>) => {
@@ -80,21 +70,20 @@ export function DropdownMenu({ title, triggerLabel, children, menuHorizontalPosi
   };
 
   return (
-    <Container onBlur={handleBlur} ref={containerRef}>
+    <Container onBlur={handleBlur} onKeyDown={handleKeyDown} ref={containerRef}>
       <IconButton
         aria-controls={panelId}
         aria-expanded={isExpanded}
         aria-label={triggerLabel}
         className={triggerAnchorStyle}
         data-active={isExpanded}
-        onClick={() => setIsExpanded((current) => !current)}
+        onClick={handleTriggerClick}
         ref={triggerRef}
       >
         {title}
       </IconButton>
       <Content
         data-expanded={isExpanded}
-        data-position={menuHorizontalPosition}
         id={panelId}
         // 閉じるフェード中もボックスが残るので、その間に操作・フォーカスされないようにする
         inert={isExpanded ? undefined : true}

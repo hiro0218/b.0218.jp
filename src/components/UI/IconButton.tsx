@@ -1,6 +1,6 @@
+import Link from 'next/link';
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode, Ref } from 'react';
 
-import { Anchor } from '@/components/UI/Anchor';
 import { Tooltip } from '@/components/UI/Tooltip';
 import { css, cx } from '@/ui/styled';
 
@@ -11,7 +11,7 @@ type CommonProps = {
   tooltip?: string;
   /** メニュー展開中などに hover overlay を強制表示する */
   'data-active'?: boolean;
-  /** 一辺サイズ。'md' = 48px（既定）、'touch' = 44px（コンパクトな配置でのタッチターゲット） */
+  /** 一辺の長さ。'md'（既定）はタッチの画面 44px・マウスの画面 36px、'touch' は常に 44px（コンパクトな配置でのタッチターゲット） */
   size?: 'md' | 'touch';
   /** state-based color など、配置先固有の追加スタイル */
   className?: string;
@@ -48,73 +48,35 @@ export type IconButtonProps = ButtonProps | LinkProps | ExternalLinkProps;
 /**
  * アイコン 1 つを内包する円形の操作要素。`as` で `<button>` / 内部リンク / 外部リンクを切り替える。
  * hover / focus / `data-active='true'` で半透明グレーのオーバーレイがスケールアニメーションで現れる。
- * `size` で一辺を 48px（既定）/ 44px（touch）に切り替える。
  * @summary 円形アイコンボタン（button / 内部リンク / 外部リンク）
  */
-export function IconButton(props: IconButtonProps) {
-  const inner = renderInner(props);
-  return props.tooltip ? <Tooltip text={props.tooltip}>{inner}</Tooltip> : inner;
-}
+export function IconButton({ tooltip, className, size, ...element }: IconButtonProps) {
+  const shared = {
+    className: cx('link-style--hover-effect', IconButtonStyle, className),
+    'data-size': size === 'touch' ? size : undefined,
+  };
 
-function renderInner(props: IconButtonProps) {
-  if (props.as === 'link') return renderLink(props);
-  if (props.as === 'externalLink') return renderExternalLink(props);
-  return renderButton(props);
-}
+  let inner: ReactNode;
+  if (element.as === 'link') {
+    const { as, ...rest } = element;
+    inner = <Link {...shared} {...rest} />;
+  } else if (element.as === 'externalLink') {
+    const { as, ...rest } = element;
+    inner = <a {...shared} {...rest} rel="noreferrer" target="_blank" />;
+  } else {
+    const { as, type = 'button', ...rest } = element;
+    inner = <button {...shared} {...rest} type={type} />;
+  }
 
-function renderButton(props: ButtonProps) {
-  const { tooltip, as, className, children, ref, size, type = 'button', ...rest } = props;
-  return (
-    <button
-      className={cx('link-style--hover-effect', IconButtonStyle, className)}
-      data-size={size === 'touch' ? size : undefined}
-      ref={ref}
-      type={type}
-      {...rest}
-    >
-      {children}
-    </button>
-  );
-}
-
-function renderLink(props: LinkProps) {
-  const { tooltip, as, className, children, href, prefetch, size, ...rest } = props;
-  return (
-    <Anchor
-      className={cx('link-style--hover-effect', IconButtonStyle, className)}
-      data-size={size === 'touch' ? size : undefined}
-      href={href}
-      prefetch={prefetch}
-      {...rest}
-    >
-      {children}
-    </Anchor>
-  );
-}
-
-function renderExternalLink(props: ExternalLinkProps) {
-  const { tooltip, as, className, children, ref, href, size, ...rest } = props;
-  return (
-    <a
-      className={cx('link-style--hover-effect', IconButtonStyle, className)}
-      data-size={size === 'touch' ? size : undefined}
-      href={href}
-      ref={ref}
-      {...rest}
-      rel="noreferrer"
-      target="_blank"
-    >
-      {children}
-    </a>
-  );
+  return tooltip ? <Tooltip text={tooltip}>{inner}</Tooltip> : inner;
 }
 
 const IconButtonStyle = css`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: calc(var(--sizes-icon-sm) * 2);
-  height: calc(var(--sizes-icon-sm) * 2);
+  width: var(--control-min-size);
+  height: var(--control-min-size);
   color: var(--colors-gray-1000);
   cursor: pointer;
   background-color: transparent;

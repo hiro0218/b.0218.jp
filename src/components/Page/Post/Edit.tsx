@@ -7,43 +7,37 @@ type Props = {
   slug: string;
 };
 
+const CONTENT_REPOSITORY_URL = 'https://github.com/hiro0218/article';
+
 export function PostEdit({ slug }: Props) {
+  const filePath = `master/_posts/${slug}.md`;
+  const editUrl = `${CONTENT_REPOSITORY_URL}/edit/${filePath}`;
+  const rawUrl = `${CONTENT_REPOSITORY_URL}/blob/${filePath}`;
+
   return (
     <aside>
-      <DropdownMenu
-        menuHorizontalPosition="right"
-        title={<GitHubLogo height={ICON_SIZE_SM} width={ICON_SIZE_SM} />}
-        triggerLabel="Feedback"
-      >
-        <a
-          className={anchorStyle}
-          href={`https://github.com/hiro0218/article/edit/master/_posts/${slug}.md`}
-          rel="noreferrer"
-          target="_blank"
-        >
-          Edit on GitHub
-        </a>
-        <a
-          className={anchorStyle}
-          href={`https://github.com/hiro0218/article/blob/master/_posts/${slug}.md`}
-          rel="noreferrer"
-          target="_blank"
-        >
-          View raw file on GitHub
-        </a>
-      </DropdownMenu>
+      <div className={insetStyle}>
+        <DropdownMenu title={<GitHubLogo height={ICON_SIZE_SM} width={ICON_SIZE_SM} />} triggerLabel="Feedback">
+          <a className={anchorStyle} href={editUrl} rel="noreferrer" target="_blank">
+            Edit on GitHub
+          </a>
+          <a className={anchorStyle} href={rawUrl} rel="noreferrer" target="_blank">
+            View raw file on GitHub
+          </a>
+        </DropdownMenu>
+      </div>
     </aside>
   );
 }
 
+// 負の margin を aside 自身に付けない。部品のルートに外側の余白を持たせない（Zero Margin Principle）ため
+const insetStyle = css`
+  margin: calc((var(--control-min-size) - var(--sizes-icon-sm)) / -2);
+`;
+
 const anchorStyle = css`
-  display: flex;
-  align-items: center;
-  padding: var(--spacing-75) var(--spacing-100);
   font-size: var(--font-sizes-sm);
-  line-height: var(--line-heights-sm);
   color: var(--colors-gray-1000);
-  border-radius: var(--radii-xs);
 
   &:hover {
     background-color: var(--colors-gray-a-100);

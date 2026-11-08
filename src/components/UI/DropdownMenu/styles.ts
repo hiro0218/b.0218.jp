@@ -22,6 +22,7 @@ export const triggerAnchorStyle = css`
 export const Content = styled.div`
   position: absolute;
   top: 100%;
+  right: 0;
   z-index: var(--z-index-base);
 
   /*
@@ -55,14 +56,6 @@ export const Content = styled.div`
     display var(--transition-normal);
   transition-behavior: allow-discrete;
 
-  &[data-position='left'] {
-    left: 0;
-  }
-
-  &[data-position='right'] {
-    right: 0;
-  }
-
   &[data-expanded='true'] {
     display: block;
     opacity: 1;
@@ -79,6 +72,7 @@ export const Content = styled.div`
   & > a {
     display: flex;
     align-items: center;
+    min-height: var(--tap-target);
     padding: var(--spacing-75) var(--spacing-100);
     line-height: var(--line-heights-lg);
     border-radius: var(--radii-sm);
@@ -96,18 +90,12 @@ export const Content = styled.div`
   @supports (anchor-scope: --dropdown-trigger) and (position-anchor: --dropdown-trigger) and (position-area: bottom) and
     (position-try-fallbacks: flip-inline) {
     position: fixed;
+
+    /* 基底の top: 100% と right: 0 より前に inset: auto を書かない。同じ詳細度のため、後ろに書いたものが勝つ */
+    inset: auto;
+
+    position-area: bottom span-left;
     position-anchor: --dropdown-trigger;
     position-try-fallbacks: flip-inline, flip-block, flip-block flip-inline;
-
-    /* 基底の top: 100% と、&[data-position] の left: 0 / right: 0 を打ち消す。同じ詳細度で後勝ちにするため同じセレクタに書く */
-    &[data-position='left'] {
-      inset: auto;
-      position-area: bottom span-right;
-    }
-
-    &[data-position='right'] {
-      inset: auto;
-      position-area: bottom span-left;
-    }
   }
 `;
