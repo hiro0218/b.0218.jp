@@ -1,5 +1,17 @@
-import { act, cleanup, render, screen } from '@testing-library/react';
-import { afterEach, expect, type Mock, test, vi } from 'vitest';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { afterEach, beforeAll, beforeEach, expect, test, vi } from 'vitest';
+
+// AnimationEvent は import より後に用意しない。React DOM が読み込み時にその有無で animationend の購読名を決めるが、jsdom には無いため
+vi.hoisted(() => {
+  class AnimationEventStub extends Event {
+    animationName: string;
+    constructor(type: string, init: EventInit & { animationName?: string } = {}) {
+      super(type, init);
+      this.animationName = init.animationName ?? '';
+    }
+  }
+  Object.defineProperty(globalThis, 'AnimationEvent', { configurable: true, value: AnimationEventStub });
+});
 
 // jsdom には window.matchMedia が無く、実物の HeaderNavigation は mount 時に落ちるため、これだけ置き換える
 vi.mock('./Header/Navigation', () => ({
@@ -7,111 +19,91 @@ vi.mock('./Header/Navigation', () => ({
   HeaderNavigation: () => null,
 }));
 
-let searchDialog: { isOpen: boolean; isClosing: boolean; close: Mock };
-let shouldFailToLoad = false;
-let failedImportAttempts = 0;
-
-vi.mock('./SearchDialogContext', () => ({
-  useSearchDialog: () => searchDialog,
+const router = vi.hoisted(() => ({ push: vi.fn() }));
+vi.mock('next/navigation', () => ({
+  usePathname: () => '/',
+  useRouter: () => router,
 }));
 
-function StubSearchDialog({ isClosing }: { isClosing?: boolean }) {
-  return <div data-closing={String(isClosing)} data-testid="search-dialog" />;
-}
-
-// import() の拒否(chunk の取得失敗)は、拒否する then をモジュールに持たせて再現する。
-// importSearchDialog は Header.tsx 内で閉じて差し替えられず、factory も 1 回しか評価されないため、then の中でフラグを見る。
-// then は import() 1 回につき 1 回読まれるので、失敗時に読まれた回数が、読み込みを試みた回数になる
-vi.mock('@/components/App/Search/SearchDialog', () => ({
-  // biome-ignore lint/style/useNamingConvention: React component mock requires PascalCase
-  SearchDialog: StubSearchDialog,
-  // biome-ignore lint/suspicious/noThenProperty: import() の拒否を再現するため、意図して then を持たせる(失敗させない間は undefined)
-  get then() {
-    if (!shouldFailToLoad) return undefined;
-
-    failedImportAttempts += 1;
-    return (_resolve: unknown, reject: (reason: Error) => void) => reject(new Error('chunk load failed'));
+vi.mock('~/dist/search.json', () => ({
+  default: {
+    searchIndex: { css: [0] },
+    searchData: [{ slug: 'css-basics', title: 'CSS の基礎', tags: ['CSS'] }],
   },
 }));
 
 import { Header } from '@/components/App/Header';
+import { SearchProvider } from '@/components/App/Search/SearchProvider';
 
-// 検索ダイアログは開いた時点で動的に読み込まれる。import の完了を待ってから確かめる
-async function settleDialogImport() {
-  await act(async () => {
-    await vi.dynamicImportSettled();
+beforeAll(() => {
+  Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
+    configurable: true,
+    value(this: HTMLDialogElement) {
+      this.setAttribute('open', '');
+    },
   });
-}
-
-// 返す関数は、Provider が描画のたびに新しい object を返すのと同じく、更新のたびに新しい object を渡して描画し直す
-function renderHeader({ failToLoad = false } = {}) {
-  searchDialog = { isOpen: false, isClosing: false, close: vi.fn() };
-  shouldFailToLoad = failToLoad;
-  failedImportAttempts = 0;
-  const { rerender } = render(<Header />);
-
-  return (changes: Partial<typeof searchDialog>) => {
-    searchDialog = { ...searchDialog, ...changes };
-    rerender(<Header />);
-  };
-}
-
-afterEach(() => {
-  cleanup();
-  vi.restoreAllMocks();
+  Object.defineProperty(HTMLDialogElement.prototype, 'close', {
+    configurable: true,
+    value(this: HTMLDialogElement) {
+      this.removeAttribute('open');
+    },
+  });
+  Object.defineProperty(HTMLElement.prototype, 'scrollTo', { configurable: true, value: vi.fn() });
+  Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', { configurable: true, value: vi.fn() });
+  vi.stubGlobal(
+    'ResizeObserver',
+    class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    },
+  );
 });
 
-test('閉じている場合、検索ダイアログを描画しない', async () => {
+// 検索ダイアログは、最初のテストの中で初めて読み込ませない。全体の並列実行では、初回の読み込みが findBy の既定の待ち時間（1 秒）を超え、最初のテストが落ちるため
+beforeAll(async () => {
+  await import('@/components/App/Search/SearchDialog');
+});
+
+beforeEach(() => {
+  router.push.mockClear();
+  localStorage.clear();
+  sessionStorage.clear();
+});
+
+afterEach(cleanup);
+
+function renderHeader() {
+  render(
+    <SearchProvider popularPosts={[]}>
+      <Header />
+    </SearchProvider>,
+  );
+}
+
+test('ヘッダーの検索ボタンを押した場合、検索ダイアログを開いて、入力欄に焦点を置く', async () => {
   renderHeader();
-  await settleDialogImport();
 
-  expect(screen.queryByTestId('search-dialog')).toBeNull();
+  fireEvent.click(screen.getByRole('button', { name: '記事検索' }));
+
+  const input = await screen.findByRole('combobox', { name: '検索キーワード' });
+  expect(document.activeElement).toBe(input);
 });
 
-test('開いた場合、読み込みが終わってから検索ダイアログを描画する', async () => {
-  const update = renderHeader();
+test('検索結果の記事を Enter で開いた場合、記事へ移動し、閉じるアニメーションの終わりでダイアログを外す', async () => {
+  renderHeader();
+  fireEvent.click(screen.getByRole('button', { name: '記事検索' }));
+  const input = await screen.findByRole('combobox', { name: '検索キーワード' });
 
-  update({ isOpen: true });
-  await settleDialogImport();
+  fireEvent.change(input, { target: { value: 'css' } });
+  await screen.findByRole('option', { name: 'CSS の基礎' });
+  fireEvent.keyDown(input, { key: 'Enter' });
 
-  expect(screen.getByTestId('search-dialog')).toBeDefined();
-});
+  expect(router.push).toHaveBeenCalledWith('/css-basics.html');
+  const dialog = screen.getByRole('dialog', { name: '記事検索' });
+  expect(dialog.getAttribute('data-closing')).toBe('true');
 
-test('閉じる途中の間は描画を保ち、閉じ終えたら外す', async () => {
-  const update = renderHeader();
-  update({ isOpen: true });
-  await settleDialogImport();
+  fireEvent.animationEnd(dialog, { animationName: 'zoomOut' });
 
-  update({ isOpen: false, isClosing: true });
-  expect(screen.getByTestId('search-dialog').getAttribute('data-closing')).toBe('true');
-
-  update({ isClosing: false });
-  expect(screen.queryByTestId('search-dialog')).toBeNull();
-});
-
-test('読み込みに失敗した場合、ログを残してダイアログを閉じ、何も描画しない', async () => {
-  const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
-  const update = renderHeader({ failToLoad: true });
-
-  update({ isOpen: true });
-  await settleDialogImport();
-
-  expect(consoleError).toHaveBeenCalledWith('Failed to load SearchDialog:', expect.any(Error));
-  expect(searchDialog.close).toHaveBeenCalled();
-  expect(screen.queryByTestId('search-dialog')).toBeNull();
-});
-
-test('読み込みに失敗して閉じる途中の間は、読み込み直さない', async () => {
-  vi.spyOn(console, 'error').mockImplementation(() => undefined);
-  const update = renderHeader({ failToLoad: true });
-
-  update({ isOpen: true });
-  await settleDialogImport();
-  expect(failedImportAttempts).toBe(1);
-
-  // 失敗時の close() が Provider を描画し直した状態
-  update({ isClosing: true });
-  await settleDialogImport();
-
-  expect(failedImportAttempts).toBe(1);
+  expect(screen.queryByRole('dialog')).toBeNull();
 });
