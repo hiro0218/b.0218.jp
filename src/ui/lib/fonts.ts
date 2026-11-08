@@ -1,4 +1,4 @@
-import { BREAKPOINT as MAX_VIEWPORT } from '../../constants';
+import breakpoints from '../breakpoints.json';
 
 const BASE_FONT_SIZE = 16;
 
@@ -8,6 +8,8 @@ export const pxToRem = (px: `${number}px` | number): `${number}rem` => {
 };
 
 const MIN_VIEWPORT = 430;
+// constants.ts の BREAKPOINT を使わない。URL や広告の値を持つサイト定数に、Panda のトークン生成が依存するため
+const MAX_VIEWPORT = breakpoints.desktopPx;
 
 export const clampFontSize = (maxValue: number, minValue: number) => {
   if (maxValue === minValue) {

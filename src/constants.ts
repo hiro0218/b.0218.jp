@@ -1,3 +1,5 @@
+import breakpoints from '@/ui/breakpoints.json';
+
 export const AUTHOR_NAME = 'hiro';
 export const AUTHOR_ICON = 'https://b.0218.jp/hiro0218.png';
 
@@ -9,6 +11,8 @@ export const DOMAIN = 'b.0218.jp';
 export const SITE_URL = `https://${DOMAIN}`;
 export const AUTHOR_URL = `${SITE_URL}/about`;
 export const MAIN_CONTENT_ID = 'main';
+/** ルートのディレクトリ名（src/app/feed.xml/）と同じにする */
+export const SITE_FEED_PATH = '/feed.xml';
 
 /**
  * webmention.io の受信口と Mentions API。
@@ -38,7 +42,11 @@ export const URL = {
 
 export const X_ACCOUNT = 'hiro0218';
 
-export const BREAKPOINT = 992;
+/**
+ * CSS の @media (--isDesktop) と同じ値（px）。数値を直書きせず、postcss.config.cjs と同じ src/ui/breakpoints.json から読む。
+ * 変えるときは JSON を書き換える。
+ */
+export const BREAKPOINT = breakpoints.desktopPx;
 
 export const FILENAME_POSTS = 'posts';
 export const FILENAME_POSTS_LIST = 'posts-list';
