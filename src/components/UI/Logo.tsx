@@ -1,10 +1,10 @@
-import { Anchor } from '@/components/UI/Anchor';
+import Link from 'next/link';
 import { SITE_NAME } from '@/constants';
 import { css, cx } from '@/ui/styled';
+import { stateLayerControl } from '@/ui/styled/components/stateLayerControl';
 
 const anchorStyle = css`
-  padding: var(--spacing-100);
-  pointer-events: auto;
+  padding-inline: var(--control-padding-inline);
 `;
 
 /**
@@ -13,8 +13,8 @@ const anchorStyle = css`
  */
 export const Logo = () => {
   return (
-    <Anchor className={cx('link-style link-style--hover-effect', anchorStyle)} href="/" prefetch={false}>
+    <Link className={cx(stateLayerControl, anchorStyle)} href="/" prefetch={false}>
       <img alt={SITE_NAME} height="25" src="/logo.v2.svg" width="80" />
-    </Anchor>
+    </Link>
   );
 };

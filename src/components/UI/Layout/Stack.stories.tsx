@@ -73,30 +73,6 @@ export const WithAlignment: Story = {
 };
 
 /**
- * 横方向で折り返しを許可する派生。タグ列のように要素数が可変な並びに使う。
- *
- * @summary 折り返しのタグ列
- */
-export const WithWrap: Story = {
-  name: '折り返し',
-  args: {
-    direction: 'horizontal',
-    wrap: 'wrap',
-    gap: 300,
-    children: (
-      <>
-        <DemoBox>TypeScript</DemoBox>
-        <DemoBox color="var(--colors-green-200)">Biome</DemoBox>
-        <DemoBox color="var(--colors-red-200)">CSS</DemoBox>
-        <DemoBox color="var(--colors-blue-300)">設計</DemoBox>
-        <DemoBox color="var(--colors-green-300)">AI</DemoBox>
-        <DemoBox color="var(--colors-red-300)">Next.js</DemoBox>
-      </>
-    ),
-  },
-};
-
-/**
  * `<ul>` として描画する派生。リストとしての意味を持たせたいときに使う。
  *
  * @summary ul リスト要素

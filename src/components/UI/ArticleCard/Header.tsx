@@ -1,9 +1,9 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 import type { TagCategoryName } from '@/types/source';
 import { styled } from '@/ui/styled';
 
-import { CATEGORY_ICONS, CATEGORY_LABELS } from './constants';
+import { CATEGORIES } from './constants';
 
 type Props = {
   category?: TagCategoryName;
@@ -11,12 +11,23 @@ type Props = {
 };
 
 export function Header({ category, children }: Props) {
+  const badge = category ? CATEGORIES[category] : undefined;
+
   return (
     <Container>
       {children}
-      {!!category && (
-        <CategoryBadge aria-label={CATEGORY_LABELS[category]} data-category={category} role="img">
-          {CATEGORY_ICONS[category]}
+      {!!badge && (
+        <CategoryBadge
+          aria-label={badge.label}
+          role="img"
+          style={
+            {
+              '--category-color': badge.color,
+              '--category-background-color': badge.backgroundColor,
+            } as CSSProperties
+          }
+        >
+          {badge.icon}
         </CategoryBadge>
       )}
     </Container>
@@ -39,6 +50,8 @@ const CategoryBadge = styled.span`
   display: inline-flex;
   align-items: center;
   padding: var(--spacing-75);
+  color: var(--category-color);
+  background-color: var(--category-background-color);
   border-radius: var(--radii-sm);
 
   @container (max-width: 320px) {
@@ -52,20 +65,5 @@ const CategoryBadge = styled.span`
       width: var(--sizes-icon-md);
       height: var(--sizes-icon-md);
     }
-  }
-
-  &[data-category='development'] {
-    color: var(--colors-blue-900);
-    background-color: var(--colors-blue-100);
-  }
-
-  &[data-category='technology'] {
-    color: var(--colors-green-900);
-    background-color: var(--colors-green-100);
-  }
-
-  &[data-category='other'] {
-    color: var(--colors-gray-800);
-    background-color: var(--colors-gray-75);
   }
 `;

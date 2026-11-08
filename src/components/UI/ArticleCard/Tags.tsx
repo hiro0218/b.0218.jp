@@ -20,6 +20,7 @@ export function Tags({ tags }: Props) {
 const Container = styled.div`
   display: flex;
   gap: var(--spacing-100);
+  padding-top: var(--spacing-75);
   margin-top: auto;
   overflow: clip;
   mask-image: linear-gradient(to right, transparent, black 0, black calc(100% - 2em), transparent);
@@ -32,5 +33,10 @@ const Container = styled.div`
 const TagItem = styled.span`
   padding: var(--spacing-75) var(--spacing-100);
   font-size: var(--font-sizes-xs);
+  line-height: var(--grid-line-height-sm);
   border-radius: var(--radii-sm);
+
+  @media not all and (--isDesktop) {
+    min-height: var(--sizes-touch-target);
+  }
 `;

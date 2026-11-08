@@ -4,7 +4,7 @@ import { Stack } from '@/components/UI/Layout/Stack';
 import { css, cx } from '@/ui/styled';
 import { fontWeightClasses, headingFontSizeClasses } from '@/ui/styled/atomic/typography';
 
-type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+export type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 type Props = {
   id?: string;
@@ -12,8 +12,6 @@ type Props = {
   children: ReactNode;
   /** 見出し右側に表示する補助テキスト（件数など） */
   textSide?: ReactNode;
-  /** 見出し下部に表示する補足テキスト */
-  textSub?: ReactNode;
   isBold?: boolean;
   className?: string;
   /** ハッシュリンクの着地先にする場合は -1 を指定する（Next.js のハッシュ遷移後の focus() を有効にするため） */
@@ -21,20 +19,15 @@ type Props = {
 };
 
 /**
- * セクション見出しコンポーネント。補助テキストやサブテキストを付与できる。
  * @summary セクション見出し（補助テキスト対応）
  */
-export function Heading({
-  className,
-  id,
-  as: Tag = 'h1',
-  children,
-  textSide,
-  textSub,
-  isBold = false,
-  tabIndex,
-}: Props) {
-  const titleClassName = cx(headerTitleStyle, headingFontSizeClasses[Tag], isBold && fontWeightClasses.bold);
+export function Heading({ className, id, as: Tag = 'h1', children, textSide, isBold = false, tabIndex }: Props) {
+  // normal に bold を重ねず、1 つだけ選ぶ。重ねると、同じ font-weight を持つ 2 つの class のうち、勝つ方が CSS の出力順で決まる
+  const titleClassName = cx(
+    headerTitleStyle,
+    headingFontSizeClasses[Tag],
+    fontWeightClasses[isBold ? 'bold' : 'normal'],
+  );
 
   const title = (
     <Tag className={cx(className, titleClassName)} id={id} tabIndex={tabIndex}>
@@ -42,17 +35,14 @@ export function Heading({
     </Tag>
   );
 
-  if (!textSide && !textSub) {
+  if (!textSide) {
     return title;
   }
 
   return (
     <Stack align="center" as="hgroup" direction="horizontal" gap={100}>
-      <div className={mainStyle}>
-        {title}
-        {textSub ? <div className={headerSubStyle}>{textSub}</div> : null}
-      </div>
-      {textSide ? <div className={sideStyle}>{textSide}</div> : null}
+      <div className={mainStyle}>{title}</div>
+      <div className={sideStyle}>{textSide}</div>
     </Stack>
   );
 }
@@ -62,8 +52,7 @@ const mainStyle = css`
 `;
 
 const headerTitleStyle = css`
-  font-weight: var(--font-weights-normal);
-  line-height: var(--line-heights-sm);
+  line-height: var(--grid-line-height-sm);
   color: var(--colors-gray-1000);
   letter-spacing: var(--letter-spacings-md);
   overflow-wrap: break-word;
@@ -71,10 +60,4 @@ const headerTitleStyle = css`
 
 const sideStyle = css`
   color: var(--colors-gray-600);
-`;
-
-const headerSubStyle = css`
-  font-weight: var(--font-weights-normal);
-  color: var(--colors-gray-900);
-  overflow-wrap: break-word;
 `;

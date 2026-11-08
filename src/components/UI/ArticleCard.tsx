@@ -1,10 +1,11 @@
+import Link from 'next/link';
 import type { ComponentProps } from 'react';
 
-import { Anchor } from '@/components/UI/Anchor';
 import { PostDate } from '@/components/UI/Date';
+import type { HeadingLevel } from '@/components/UI/Heading';
 import { Stack } from '@/components/UI/Layout/Stack';
 import type { TagCategoryName } from '@/types/source';
-import { css, cx } from '@/ui/styled';
+import { css } from '@/ui/styled';
 
 import { Header } from './ArticleCard/Header';
 import { Tags } from './ArticleCard/Tags';
@@ -15,7 +16,7 @@ type Props = {
   link: string;
   title: string;
   /** 見出しの HTML 要素。一覧ページでは h2、単体では h3 が典型 */
-  titleTagName?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  titleTagName?: HeadingLevel;
   date: PostDateProps['date'];
   updated?: PostDateProps['updated'];
   tags?: string[];
@@ -47,9 +48,9 @@ export function ArticleCard({
       <Header category={category}>
         <PostDate date={date} updated={updated} />
       </Header>
-      <Anchor className={anchorStyle} href={link} prefetch={prefetch}>
-        <Title className={cx('line-clamp-2', titleStyle)}>{title}</Title>
-      </Anchor>
+      <Link className={anchorStyle} href={link} prefetch={prefetch}>
+        <Title className={titleStyle}>{title}</Title>
+      </Link>
       {!!tags && <Tags tags={tags} />}
     </Stack>
   );
@@ -64,7 +65,6 @@ const containerStyle = css`
   contain: layout style;
   container-type: inline-size;
   content-visibility: auto;
-  word-break: break-all;
   background-color: var(--colors-white);
   border-radius: var(--radii-sm);
   box-shadow: 0 0 0 var(--border-widths-thin) var(--colors-gray-200);
@@ -82,7 +82,7 @@ const containerStyle = css`
 
   time {
     font-size: var(--font-sizes-sm);
-    line-height: var(--line-heights-xs);
+    line-height: var(--grid-line-height-sm);
   }
 `;
 
@@ -110,11 +110,15 @@ const anchorStyle = css`
   }
 `;
 
+// 行数の上限（line-clamp）を付けない。付けると、関連記事の題名の大半が途中で切れる。
+// word-break: break-all にしない。英単語が DATABA|SE のように途中で折れる
 const titleStyle = css`
   font-size: var(--font-sizes-sm);
   font-weight: var(--font-weights-bold);
-  line-height: var(--line-heights-md);
+  line-height: var(--grid-line-height-sm);
   color: var(--colors-gray-1000);
   letter-spacing: var(--letter-spacings-sm);
+  word-break: auto-phrase;
+  overflow-wrap: anywhere;
   transition: color var(--transition-slow);
 `;

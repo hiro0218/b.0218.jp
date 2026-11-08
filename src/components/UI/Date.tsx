@@ -1,9 +1,10 @@
 import { Stack } from '@/components/UI/Layout/Stack';
 import { isSameDay } from '@/lib/utils/date';
-import type { Post } from '@/types/source';
 import { css, cx } from '@/ui/styled';
 
-type Props = Pick<Post, 'date' | 'updated'> & {
+type Props = {
+  date: string;
+  updated?: string;
   /** 投稿日 time 要素へ追加する className（呼び出し元固有の用途向け。例: microformats2 の dt-published） */
   publishedClassName?: string;
   /** 更新日 time 要素へ追加する className（例: microformats2 の dt-updated） */
@@ -27,7 +28,7 @@ export function PostDate({ date, publishedClassName, updated, updatedClassName }
           <span aria-hidden="true" className="sr-only">
             更新:
           </span>
-          <time className={updatedClassName} dateTime={updated}>
+          <time className={cx(updatedClassName, updatedStyle)} dateTime={updated}>
             {updated}
           </time>
         </Stack>
@@ -39,6 +40,11 @@ export function PostDate({ date, publishedClassName, updated, updatedClassName }
 const timeStyle = css`
   font-variant-numeric: tabular-nums;
   color: var(--colors-gray-700);
+`;
+
+// 更新日の色を、親の timeStyle（副の文字色）のままにしない。取り消し線の投稿日とほぼ同じ濃さになり、更新日が目立たないため
+const updatedStyle = css`
+  color: var(--colors-gray-900);
 `;
 
 const modifiedStyle = css`

@@ -157,7 +157,7 @@ export const FullContent: Story = {
 };
 
 /**
- * 連結記号なしで折り返せない長文タイトルの破綻チェック。line-clamp と word-break の組み合わせが効いている確認。
+ * 連結記号なしで折り返せない長文タイトルの破綻チェック。題名を省略せず、文節での折り返し（word-break: auto-phrase）と、入りきらない長い語だけの途中の折り返し（overflow-wrap: anywhere）で収まることの確認。
  *
  * @summary 長文タイトルの折り返しチェック
  */

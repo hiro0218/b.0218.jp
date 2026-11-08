@@ -68,32 +68,3 @@ export const WithTextSide: Story = {
   name: 'サイドテキスト',
   args: { as: 'h2', textSide: '(12)' },
 };
-
-/**
- * 見出し直下に説明文を吊るす派生。セクションの導入が長くなりそうなときに 1 行だけ前置きを置く。
- *
- * @summary 直下の補足テキスト
- */
-export const WithTextSub: Story = {
-  name: '補足テキスト',
-  args: {
-    as: 'h2',
-    textSub: '記事を category 別に絞り込んで一覧できる',
-  },
-};
-
-/**
- * サイドテキストと補足テキストを両方付けた最大構成の確認用標本。
- *
- * @summary 最大構成の確認用標本
- */
-export const WithTextSideAndSub: Story = {
-  tags: ['!manifest'],
-  name: 'サイド + 補足',
-  args: {
-    as: 'h2',
-    children: 'TypeScript',
-    textSide: '(12)',
-    textSub: 'TypeScript / Biome / Oxfmt などの記事',
-  },
-};

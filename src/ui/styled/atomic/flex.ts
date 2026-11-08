@@ -31,14 +31,6 @@ export type FlexJustify = Extract<
 >;
 
 /**
- * Flexbox flex-wrap プロパティの型定義
- *
- * Flexboxコンテナ内のアイテムの折り返し方法を指定します。
- * レイアウトコンポーネントのプロパティ型として使用されます。
- */
-export type FlexWrap = Extract<CSSProperties['flexWrap'], 'nowrap' | 'wrap' | 'wrap-reverse'>;
-
-/**
  * Flexbox基本スタイル（display: flex）
  *
  * 全てのFlexboxコンテナに適用される基本スタイルです。
@@ -98,24 +90,6 @@ export const justifyClasses = {
   `,
   'space-evenly': css`
     justify-content: space-evenly;
-  `,
-} as const;
-
-/**
- * Flexbox flex-wrap の Atomic CSS クラスマップ
- *
- * アイテムの折り返し方法のスタイルを提供します。
- * プロパティ値に応じて動的に適用されます（例: `wrapClasses[wrap]`）。
- */
-export const wrapClasses = {
-  nowrap: css`
-    flex-wrap: nowrap;
-  `,
-  wrap: css`
-    flex-wrap: wrap;
-  `,
-  'wrap-reverse': css`
-    flex-wrap: wrap-reverse;
   `,
 } as const;
 
