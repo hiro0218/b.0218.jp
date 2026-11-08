@@ -31,56 +31,22 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * 列数を固定して整列させる基本形。サイドバー付き 2 カラムや、要素数が偶数で揃うダッシュボードに使う。
+ * アイテムの最小幅だけを決め、幅に応じて列数が自然に増減する基本形。breakpoint を切らずに記事カードなどを並べたいときに使う。
  *
- * @summary 固定列数
+ * @summary 幅に応じて列数が変わる
  */
 export const Default: Story = {
   name: '基本',
 };
 
 /**
- * 記事カードを列数固定で整列させる派生。要素数が列数の倍数になる前提で構造を作るときに選ぶ。
+ * 最小幅を狭めて、同じ幅でも列数を増やす派生。カードより小さい要素（タグ・サムネイル）を並べるときに使う。
  *
- * @summary 3 カラム固定
- */
-export const ThreeColumns: Story = {
-  name: '3カラム',
-  args: {
-    columns: 3,
-    gap: 300,
-    children: (
-      <>
-        <DemoBox minHeight="50px">記事 — 01</DemoBox>
-        <DemoBox color="var(--colors-green-200)" minHeight="50px">
-          記事 — 02
-        </DemoBox>
-        <DemoBox color="var(--colors-red-200)" minHeight="50px">
-          記事 — 03
-        </DemoBox>
-        <DemoBox color="var(--colors-blue-300)" minHeight="50px">
-          記事 — 04
-        </DemoBox>
-        <DemoBox color="var(--colors-green-300)" minHeight="50px">
-          記事 — 05
-        </DemoBox>
-        <DemoBox color="var(--colors-red-300)" minHeight="50px">
-          記事 — 06
-        </DemoBox>
-      </>
-    ),
-  },
-};
-
-/**
- * `auto-fit + minmax` で要素の最小幅だけ決めるレスポンシブ派生。breakpoint を切らずに列数が自然に増減する。
- *
- * @summary auto-fit による可変列
+ * @summary 最小幅の指定
  */
 export const AutoFit: Story = {
-  name: 'auto-fit',
+  name: '最小幅の指定',
   args: {
-    columns: 'auto-fit',
     minItemWidth: '12rem',
     gap: 300,
     children: (
@@ -101,14 +67,4 @@ export const AutoFit: Story = {
       </>
     ),
   },
-};
-
-/**
- * `gap` を広く取って、カード同士を独立した塊として読ませる派生。情報密度を下げて呼吸感を作りたい一覧で使う。
- *
- * @summary 広い gap
- */
-export const WithGap: Story = {
-  name: '広い gap',
-  args: { gap: 800 },
 };
