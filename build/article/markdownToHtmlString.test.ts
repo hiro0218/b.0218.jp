@@ -1,3 +1,5 @@
+// @vitest-environment node
+// jsdom で動かさない。Shiki 4.6 が WASM の展開に使う Blob#stream() が、jsdom の Blob に無いため。
 import { describe, expect, it } from 'vitest';
 import { createMarkdownToNoteHtmlString, createMarkdownToPostHtmlString } from './markdownToHtmlString';
 
