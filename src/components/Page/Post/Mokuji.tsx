@@ -3,19 +3,24 @@
 import { CaretDownIcon, CaretUpIcon } from '@phosphor-icons/react/ssr';
 
 import { usePathname } from 'next/navigation';
+import type { RefObject } from 'react';
 
 import { ICON_SIZE_XS } from '@/ui/iconSizes';
 import { styled } from '@/ui/styled';
 
-import type { MokujiProps } from './Mokuji/type';
 import { useMokuji } from './Mokuji/useMokuji';
 
-export function Mokuji({ refContent }: MokujiProps) {
+type Props = {
+  refContent: RefObject<HTMLDivElement>;
+  className?: string;
+};
+
+export function Mokuji({ refContent, className }: Props) {
   const pathname = usePathname();
-  const { mokujiContainerRef, mokujiDetailsRef, mokujiListContainerRef } = useMokuji({ refContent });
+  const { mokujiContainerRef, mokujiDetailsRef, mokujiListContainerRef } = useMokuji({ refContent, pathname });
 
   return (
-    <Root key={pathname} ref={mokujiContainerRef}>
+    <Root aria-label="目次" className={className} key={pathname} ref={mokujiContainerRef}>
       <Details ref={mokujiDetailsRef}>
         <Summary>
           目次
@@ -31,7 +36,9 @@ export function Mokuji({ refContent }: MokujiProps) {
 }
 
 const Root = styled.nav`
+  /* 項目の大きさは、列の幅で変えない。16rem 以上の列だけ 16px にすると、項目の間隔が 32 から 36 に変わり、ナビ・タグ・日付（14px）より目次だけが大きく見える */
   font-size: var(--font-sizes-sm);
+  line-height: var(--grid-line-height-sm);
   background-color: var(--colors-white);
 
   &[data-visible='false'] {
@@ -39,9 +46,14 @@ const Root = styled.nav`
   }
 
   a {
-    display: block;
+    display: flex;
+    align-items: center;
+    min-height: var(--tap-target);
     padding: var(--spacing-75) var(--spacing-100);
-    color: var(--colors-gray-900);
+    /* 現在の項目を除き、文字色を主（gray-900）にしない。隣の本文（副）より目次だけが濃く見えるため */
+    color: var(--colors-gray-700);
+    /* 列を広げない。列の幅は、記事の幅を削らずに余った分で決まるため */
+    word-break: auto-phrase;
     border-radius: var(--radii-md);
     transition:
       color var(--transition-fast),
@@ -57,6 +69,7 @@ const Root = styled.nav`
     }
 
     &[aria-current='true'] {
+      color: var(--colors-gray-900);
       background-color: var(--colors-gray-a-100);
 
       &:hover {
@@ -65,24 +78,16 @@ const Root = styled.nav`
     }
   }
 
-  /*
-   * 目次の最小幅 (--mokuji-min-inline-size) を本文左右に確保できる viewport でのみ固定配置する。
-   * container-lg (max 80rem) が確保される viewport (>= 80rem) で
-   * (container-lg - container-article) / 2 = 15rem ≥ mokuji-inline-gap + mokuji-min-inline-size (14.5rem) を満たす。
-   */
-  @media (--isDesktop) and (min-width: 80rem) {
-    /* Container LG 内の片側余白 (Container Article の外側) = Mokuji が利用できる横幅 */
-    --mokuji-min-inline-size: 12rem;
-    --mokuji-inline-gap: var(--spacing-600);
-    --mokuji-block-offset: calc(var(--spacing-800) + var(--spacing-400));
+  /* position: fixed を使わない。使うと、列の位置を画面の中央から計算し直すことになり、記事の終わりを過ぎてもフッターの上に残るため */
+  @media (--isPostTwoColumn) {
+    --mokuji-block-offset: calc(var(--sizes-header) + var(--spacing-400));
     --mokuji-summary-block-size: var(--spacing-600);
-    --mokuji-side-room: calc((var(--sizes-container-lg) - var(--sizes-container-article)) / 2);
 
-    position: fixed;
-    inset-block-start: var(--mokuji-block-offset);
-    inset-inline-start: calc(50% + var(--sizes-container-article) / 2 + var(--mokuji-inline-gap));
+    /* 目次と PostContainer の間に、位置指定の要素を挟まない。inset: 0 と grid-column の基準は、最も近い位置指定の祖先である PostContainer（position: relative の格子）のため */
+    position: absolute;
+    inset: 0;
     z-index: var(--z-index-base);
-    inline-size: max(var(--mokuji-min-inline-size), calc(var(--mokuji-side-room) - var(--mokuji-inline-gap)));
+    grid-column: 2 / 3;
     background-color: transparent;
     isolation: isolate;
   }
@@ -108,8 +113,9 @@ const Details = styled.details`
     transform: scale(1);
   }
 
-  /* 固定配置時は箱の装飾を外し、ラベルとリンクだけを浮かせる */
-  @media (--isDesktop) and (min-width: 80rem) {
+  @media (--isPostTwoColumn) {
+    position: sticky;
+    inset-block-start: var(--mokuji-block-offset);
     border: none;
     border-radius: 0;
 
@@ -147,8 +153,10 @@ const Summary = styled.summary`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-300) var(--spacing-400);
-  font-weight: var(--font-weights-bolder);
+  min-block-size: var(--spacing-700);
+  padding: 0 var(--spacing-300);
+  /* font-weight を 900 にしない。900 はページ見出しだけに使うため */
+  font-weight: var(--font-weights-bold);
   cursor: pointer;
   user-select: none;
 
@@ -157,13 +165,13 @@ const Summary = styled.summary`
     display: none;
   }
 
-  /* 固定配置時は見出しではなくカテゴリラベルとして控えめに表示する */
-  @media (--isDesktop) and (min-width: 80rem) {
+  @media (--isPostTwoColumn) {
     gap: var(--spacing-75);
     justify-content: flex-start;
     min-block-size: var(--mokuji-summary-block-size);
     padding: var(--spacing-75) var(--spacing-100);
-    font-size: var(--font-sizes-xs);
+    /* 12px・900 にしない。項目（14px）より小さいのに太さだけが強く、目次全体が小さく見えるため */
+    font-weight: var(--font-weights-normal);
     color: var(--colors-gray-900);
     letter-spacing: var(--letter-spacings-md);
     transition:
@@ -188,27 +196,33 @@ const DetailsContent = styled.div`
 
     li {
       list-style: none;
-
-      &:not(:last-child) {
-        margin-bottom: var(--spacing-75);
-      }
     }
 
     ol {
       padding-left: var(--spacing-300);
-      margin: var(--spacing-75) 0;
+      margin: 0;
     }
   }
 
-  @media (--isDesktop) and (min-width: 80rem) {
+  @media (--isPostTwoColumn) {
+    /* 箱の内側の余白を省かない。焦点の枠は項目の外に出るので、省くと overflow の箱の縁で切れる。
+       項目の padding を減らして左に寄せない。ホバーの面が、枠の分だけ左に狭くなるため */
+    --mokuji-focus-ring-room: var(--focus-ring-width);
+
     max-block-size: calc(100dvh - var(--mokuji-block-offset) - var(--mokuji-summary-block-size) - var(--spacing-400));
+    padding-inline-start: var(--mokuji-focus-ring-room);
     padding-top: var(--spacing-75);
+    margin-inline-start: calc(var(--mokuji-focus-ring-room) * -1);
     overflow-y: auto;
     overscroll-behavior: contain;
 
     & > ol {
       /* overflow-y: auto のスクロールバーとリンクの間に余白を確保する */
       padding: 0 var(--spacing-100) var(--spacing-300) 0;
+    }
+
+    a {
+      scroll-margin-block: var(--mokuji-focus-ring-room);
     }
   }
 `;
