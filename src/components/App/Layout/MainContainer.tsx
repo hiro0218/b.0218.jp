@@ -12,4 +12,5 @@ export const MainContainer = ({ children }: { children: ReactNode }) => {
 
 const Main = styled.main`
   min-inline-size: 0;
+  padding-top: var(--spacing-page);
 `;
