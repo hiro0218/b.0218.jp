@@ -4,10 +4,11 @@ import { toHtml } from 'hast-util-to-html';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
-import { GFM_ALERT_CLASS_NAME, serializeAlertData } from '@/lib/domain/embeddedContent';
+import { ALERT_KINDS, type AlertKind, GFM_ALERT_CLASS_NAME, serializeAlertData } from '@/lib/domain/embeddedContent';
 import { isElementNode, isTextNode } from '../hastUtils';
 
-const ALERT_TYPES = ['[!NOTE]', '[!IMPORTANT]', '[!WARNING]', '[!TIP]', '[!CAUTION]'];
+// ラベルの文字列を、ALERT_KINDS とは別にここへ並べない。並べると、綴りの違う種別が型を通る。runtime の検証で弾かれ、記事の alert が消える
+const ALERT_KIND_BY_LABEL = new Map<string, AlertKind>(ALERT_KINDS.map((kind) => [`[!${kind.toUpperCase()}]`, kind]));
 
 /**
  *
@@ -47,9 +48,9 @@ const rehypeGfmAlert: Plugin = () => {
       if (!isTextNode(firstChild)) return;
 
       // アラートラベルでない場合は対象外
-      const alertType = getAlertLabel(firstChild.value);
+      const alertKind = ALERT_KIND_BY_LABEL.get(firstChild.value);
 
-      if (!alertType) return;
+      if (!alertKind) return;
 
       if (!node.properties) {
         node.properties = {};
@@ -57,7 +58,7 @@ const rehypeGfmAlert: Plugin = () => {
 
       node.properties = {
         className: [GFM_ALERT_CLASS_NAME],
-        'data-alert-type': alertType.toLowerCase(),
+        'data-alert-type': alertKind,
       };
 
       // @ts-ignore blockquoteを<script type="application/json">に変更する
@@ -80,7 +81,7 @@ const rehypeGfmAlert: Plugin = () => {
         {
           type: 'text',
           value: serializeAlertData({
-            type: alertType.toLowerCase(),
+            type: alertKind,
             text: alertText,
           }),
         },
@@ -91,14 +92,6 @@ const rehypeGfmAlert: Plugin = () => {
 
 export default rehypeGfmAlert;
 
-const getAlertLabel = (value: string): string => {
-  if (ALERT_TYPES.includes(value)) {
-    return value.slice(2, -1);
-  }
-
-  return '';
-};
-
 const removeLabelElement = (nodes: ElementContent[]): ElementContent[] => {
   let labelIndex = -1;
 
@@ -107,7 +100,7 @@ const removeLabelElement = (nodes: ElementContent[]): ElementContent[] => {
     if (labelIndex !== -1 && index > labelIndex + 1) return true;
 
     // 最初のラベルを取り除く
-    if (labelIndex === -1 && isTextNode(node) && ALERT_TYPES.includes(node.value)) {
+    if (labelIndex === -1 && isTextNode(node) && ALERT_KIND_BY_LABEL.has(node.value)) {
       labelIndex = index;
       return false;
     }
