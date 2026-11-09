@@ -1,9 +1,9 @@
 import { SearchTrigger } from '@/components/App/Search/SearchTrigger';
 import { Container } from '@/components/UI/Layout/Container';
-import { Logo } from '@/components/UI/Logo';
 import { css, styled } from '@/ui/styled';
 import { Layout } from './Header/Layout';
 import { HeaderNavigation } from './Header/Navigation';
+import { Logo } from './Logo';
 
 export function Header() {
   return (

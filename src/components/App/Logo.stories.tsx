@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { Logo } from '@/components/UI/Logo';
+import { Logo } from '@/components/App/Logo';
 
 const meta = {
+  // title を App/Logo に改めない。VRT が id の接頭辞 ui- で対象を絞り、基準画像の名前も id から決まるため
   title: 'UI/Logo',
   component: Logo,
 } satisfies Meta<typeof Logo>;

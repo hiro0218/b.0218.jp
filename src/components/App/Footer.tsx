@@ -1,10 +1,10 @@
 import { Container } from '@/components/UI/Layout/Container';
 import { Stack } from '@/components/UI/Layout/Stack';
-import { Logo } from '@/components/UI/Logo';
 import { AUTHOR_NAME, SITE_FEED_PATH } from '@/constants';
 import { css, cx, styled } from '@/ui/styled';
 import { postLayoutFooter } from '@/ui/styled/components/postLayout';
 import { stateLayerControl } from '@/ui/styled/components/stateLayerControl';
+import { Logo } from './Logo';
 import { NavigationLink } from './NavigationLink';
 import { NAVIGATION_LINKS } from './navigationLinks';
 
