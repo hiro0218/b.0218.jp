@@ -40,10 +40,10 @@ paths=(
 # (/archive は 8 回中 4 回が 8.5 秒、残りが 2.4 秒に割れ、3 回の中央値でも吸収できない)。
 # 止めると最大 3.5 秒に収まった(2026-10-05 の手元測定。下の 11 パターンで確認した構成)。
 # 実際に通信が起きて止まるのは次の 4 ホストだけで、残りは入口が動いた場合の下流の通信先である。
-#   googletagmanager.com               src/app/layout.tsx の GoogleAnalytics
+#   googletagmanager.com               src/components/Functional/ThirdPartyScripts.tsx の GoogleAnalytics
 #   googlesyndication.com              src/components/Functional/GoogleAdSense.tsx
 #   fundingchoicesmessages.google.com  src/components/Functional/GoogleAdSense.tsx
-#   news.google.com                    src/components/Functional/GooglePublisher.tsx
+#   news.google.com                    src/components/Functional/ThirdPartyScripts.tsx の publisher.js
 # 外部の <Script> を足したら、ここにも足す。
 blocked_patterns=(
   '*googlesyndication.com*'
