@@ -21,7 +21,7 @@ paths:
 | `App/`        | サイト全体の shell、global UI、URL / storage / search dialog などサイト横断状態、自己完結した Feature Module を置く最上位層                                             |
 
 視覚 DOM を描画するコンポーネントは `UI/` / `Page/` / `App/` のいずれかに置く。視覚 DOM と非表示の副作用を混ぜず、表示コンポーネントの再利用性と副作用境界を保つためである。
-既存 `UI/` にはドメイン語やサイト設定を含む公開 API が残っているが、影響範囲未確認のまま移動・改名しない。新規にドメイン責務を持つ表示を作る場合は、原則として `Page/` または `App/` に置く。
+ドメイン語やサイト設定を含む表示は、原則として `UI/` に置かず、`Page/` または `App/` に置く。`UI/` の公開 API を移動・改名するときは、影響範囲（import 元、Storybook の `title`、VRT の基準画像）を確かめてから行う。
 
 ## Feature Module
 
@@ -45,11 +45,11 @@ Feature Module 構造は `Page/` 配下のドメインにも適用できる。�
 
 ### 配置型
 
-| 配置型 | 用途                         | 例                                                            |
-| ------ | ---------------------------- | ------------------------------------------------------------- |
-| A      | 単一コンポーネント           | `UI/Heading.tsx`（+ `UI/Heading.stories.tsx`）                |
-| B      | 親 = 公開入口、子 = 内部実装 | `UI/ArticleCard.tsx` + `UI/ArticleCard/{Header,Tags,...}.tsx` |
-| C      | 並列 primitive 群            | `UI/Layout/{Stack,Container,Sidebar,...}.tsx`                 |
+| 配置型 | 用途                         | 例                                                                                |
+| ------ | ---------------------------- | --------------------------------------------------------------------------------- |
+| A      | 単一コンポーネント           | `UI/Heading.tsx`（+ `UI/Heading.stories.tsx`）                                    |
+| B      | 親 = 公開入口、子 = 内部実装 | `Page/_shared/ArticleCard.tsx` + `Page/_shared/ArticleCard/{Header,Tags,...}.tsx` |
+| C      | 並列 primitive 群            | `UI/Layout/{Stack,Container,Sidebar,...}.tsx`                                     |
 
 「公開入口」は外部から import される公開ファイル。配置型 B では親同名ファイル、配置型 A / C ではコンポーネントファイル自体を指す。
 
@@ -64,7 +64,7 @@ Feature Module 構造は `Page/` 配下のドメインにも適用できる。�
 公開入口を同名ファイルとし、内部実装を同名ディレクトリに置く。テストは対象ファイルと同ディレクトリに置く。内部実装単体のテストは、独自ロジックや複雑な分岐を単独で検証する価値があるときだけ作る。
 
 ```txt
-src/components/UI/
+src/components/Page/_shared/
   ArticleCard.tsx              # 公開入口
   ArticleCard.test.tsx         # 公開入口のテスト
   ArticleCard.stories.tsx      # 公開入口の Storybook
