@@ -37,8 +37,8 @@ workflows:
     '.github/workflows/pr-validation.yml':
         - 'actions/cache@v6.1.0'
         - 'actions/checkout@v7.0.1'
-        - 'actions/setup-go@v7.0.0'
         - 'actions/setup-node@v7.0.0'
+        - 'jdx/jactionlint@v2.5.0'
     '.github/workflows/scheduled-npm-dependencies-update.yml':
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-node@v7.0.0'
@@ -79,11 +79,6 @@ dependencies:
         commit: 'sha1-3a2844b7e9c422d3c10d287c895573f7108da1b3'
         owner_id: 44036562
         repo_id: 205262760
-    'actions/setup-go@v7.0.0':
-        ref: 'v7.0.0'
-        commit: 'sha1-b7ad1dad31e06c5925ef5d2fc7ad053ef454303e'
-        owner_id: 44036562
-        repo_id: 192624594
     'actions/setup-node@v7.0.0':
         ref: 'v7.0.0'
         commit: 'sha1-820762786026740c76f36085b0efc47a31fe5020'
@@ -104,6 +99,18 @@ dependencies:
         commit: 'sha1-25dd0e34f4fe68f24cc83900b1fe3fe149efef98'
         owner_id: 27347476
         repo_id: 371068214
+    'github/codeql-action@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2':
+        ref: 'v4.38.2'
+        commit: 'sha1-2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2'
+        owner_id: 9919
+        repo_id: 259445878
+    'jdx/jactionlint@v2.5.0':
+        ref: 'v2.5.0'
+        commit: 'sha1-9e87e8f34edfc00b849a27807e26eff9d00b936d'
+        owner_id: 216188
+        repo_id: 1404951382
+        uses:
+            - 'github/codeql-action@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2'
     'kesin11/actions-timeline@460b1f8a750077029ad3589824d371b200e91dcf':
         ref: 'v3.2.1'
         commit: 'sha1-460b1f8a750077029ad3589824d371b200e91dcf'

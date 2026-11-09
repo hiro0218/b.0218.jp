@@ -1,3 +1,5 @@
+# default プロファイルにしない。missing-timeout・concurrency-limits などの方針規則が加わり、現状の workflow が通らないため
+profile: correctness
 self-hosted-runner:
   labels:
     # GitHub-hosted ubuntu-slim が actionlint の固定版に未反映の場合のため許可する
