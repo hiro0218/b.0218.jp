@@ -62,7 +62,7 @@ Feature Module 構造は `Page/` 配下のドメインにも適用できる。�
 | ------ | ---------------------------- | --------------------------------------------------------------------------------- |
 | A      | 単一コンポーネント           | `UI/Heading.tsx`（+ `UI/Heading.stories.tsx`）                                    |
 | B      | 親 = 公開入口、子 = 内部実装 | `Page/_shared/ArticleCard.tsx` + `Page/_shared/ArticleCard/{Header,Tags,...}.tsx` |
-| C      | 並列 primitive 群            | `UI/Layout/{Stack,Container,Sidebar,...}.tsx`                                     |
+| C      | 並列 primitive 群            | `UI/Layout/{Stack,Container,Cluster,...}.tsx`                                     |
 
 「公開入口」は外部から import される公開ファイル。配置型 B では親同名ファイル、配置型 A / C ではコンポーネントファイル自体を指す。
 
@@ -168,7 +168,7 @@ Props JSDoc は名前と型で自明なら書かない。次の場合だけ書�
 ## レスポンシブ / 状態管理
 
 - 新しいレスポンシブ CSS を書く前に「あらゆる幅でどう見えるべきか」を確認する。
-- `@media (--isDesktop)` は PostCSS で生成する custom media である。`position: fixed / sticky`、タッチ vs マウスの操作差異、viewport 全幅を使う場合の最終手段とする。コンポーネントを配置先の幅に追従させ、ページ固有 breakpoint へ結合しないためである。
+- `@media (--isDesktop)`・`(--isWide)`・`(--isPostTwoColumn)` は PostCSS が `src/ui/breakpoints.json` から生成する custom media である。`position: fixed / sticky`、タッチ vs マウスの操作差異、viewport 全幅を使う場合の最終手段とする。コンポーネントを配置先の幅に追従させ、ページ固有 breakpoint へ結合しないためである。
 - 連続的な値は `clamp()`、container 内では `cqw`、段階的な配置変更は `flex-wrap` / Grid `auto-fit` / `@container` を優先する。
 - クライアント側でシリアライズ可能な状態（フィルタ、ページネーション等）は URL パラメータで管理する。SSG ページの動的セグメントは `generateStaticParams` で列挙する。
 - サーバー状態をクライアントストアに複製しない。

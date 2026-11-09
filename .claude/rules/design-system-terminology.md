@@ -33,7 +33,7 @@ UI 命名から、責務・HTML/CSS の実体・再利用範囲・変更影響�
 
 | 再利用範囲                    | 命名方針                                                               | 例                                                                         |
 | ----------------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| 汎用 UI primitive             | ドメインや配置先に依存しない責務名にする                               | `Center`, `Grid`, `Stack`, `NavigationLink`                                |
+| 汎用 UI primitive             | ドメインや配置先に依存しない責務名にする                               | `Cluster`, `Grid`, `Stack`, `NavigationLink`                               |
 | Page / App 固有コンポーネント | 配置先や責務を scope prefix で示す                                     | `HeaderNavigation`, `PostContent`, `ArticleListSectionInner`               |
 | 配置型 B の内部子要素         | 親ディレクトリで scope が決まる。scope prefix を付けず責務名のみにする | `ArticleCard/Header.tsx` の `Header`、`ArticleCard/Footer.tsx` の `Footer` |
 
