@@ -1,7 +1,7 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, expect, it } from 'vitest';
 
-import { ArticleCard } from '@/components/UI/ArticleCard';
+import { ArticleCard } from '@/components/Page/_shared/ArticleCard';
 
 afterEach(() => {
   cleanup();

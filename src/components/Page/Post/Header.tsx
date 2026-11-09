@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 
-import { PostDate } from '@/components/UI/Date';
+import { PostDate } from '@/components/Page/_shared/Date';
+import type { PostTagItem } from '@/components/Page/_shared/Tag';
+import { PostTag } from '@/components/Page/_shared/Tag';
 import { Cluster } from '@/components/UI/Layout/Cluster';
 import { Stack } from '@/components/UI/Layout/Stack';
-import type { PostTagItem } from '@/components/UI/Tag';
-import { PostTag } from '@/components/UI/Tag';
 import type { Post } from '@/types/source';
 import { css, styled } from '@/ui/styled';
 

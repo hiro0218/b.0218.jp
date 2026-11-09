@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { ComponentProps } from 'react';
 
-import { PostDate } from '@/components/UI/Date';
+import { PostDate } from '@/components/Page/_shared/Date';
 import type { HeadingLevel } from '@/components/UI/Heading';
 import { Stack } from '@/components/UI/Layout/Stack';
 import type { TagCategoryName } from '@/types/source';

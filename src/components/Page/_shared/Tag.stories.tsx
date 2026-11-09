@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { PostTag } from '@/components/UI/Tag';
+import { PostTag } from '@/components/Page/_shared/Tag';
 
 const meta = {
+  // title を Page/Tag に改めない。VRT が id の接頭辞 ui- で対象を絞り、基準画像の名前も id から決まるため
   title: 'UI/Tag',
   component: PostTag,
   parameters: { layout: 'centered' },

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import type { ComponentProps } from 'react';
 
-import { ArticleCard } from '@/components/UI/ArticleCard';
+import { ArticleCard } from '@/components/Page/_shared/ArticleCard';
 import { StoryFrame, StoryGrid, StoryStack, StoryWidth } from '@/stories/_internal/StorySurface';
 
 const POST_LINK = '/posts/example';
@@ -74,6 +74,7 @@ const REFERENCE_UPDATED_ARGS = {
 } satisfies ComponentProps<typeof ArticleCard>;
 
 const meta = {
+  // title を Page/ArticleCard に改めない。VRT が id の接頭辞 ui- で対象を絞り、基準画像の名前も id から決まるため
   title: 'UI/ArticleCard',
   component: ArticleCard,
   args: DEFAULT_ARGS,

@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { PostDate } from '@/components/UI/Date';
+import { PostDate } from '@/components/Page/_shared/Date';
 
 const meta = {
+  // title を Page/Date に改めない。VRT が id の接頭辞 ui- で対象を絞り、基準画像の名前も id から決まるため
   title: 'UI/Date',
   component: PostDate,
 } satisfies Meta<typeof PostDate>;

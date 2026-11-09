@@ -1,8 +1,8 @@
 import Link from 'next/link';
+import { PostTag } from '@/components/Page/_shared/Tag';
 import { timelineGrid, timelineMainColumn, timelineSideColumn } from '@/components/Page/_shared/timelineGrid';
 import type { HeadingLevel } from '@/components/UI/Heading';
 import { Cluster } from '@/components/UI/Layout/Cluster';
-import { PostTag } from '@/components/UI/Tag';
 import { convertPostSlugToPath } from '@/lib/utils/url';
 import type { ArticleSummary } from '@/types/source';
 import { css, styled } from '@/ui/styled';

@@ -1,10 +1,10 @@
 import type { JSX } from 'react';
+import type { PostTagItem } from '@/components/Page/_shared/Tag';
+import { PostTag } from '@/components/Page/_shared/Tag';
 import { Heading, type HeadingLevel } from '@/components/UI/Heading';
 import { Cluster } from '@/components/UI/Layout/Cluster';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { LinkMore } from '@/components/UI/LinkMore';
-import type { PostTagItem } from '@/components/UI/Tag';
-import { PostTag } from '@/components/UI/Tag';
 
 type Props = {
   heading?: string;

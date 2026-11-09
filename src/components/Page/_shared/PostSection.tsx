@@ -1,6 +1,6 @@
 import type { JSX } from 'react';
+import { ArticleCard } from '@/components/Page/_shared/ArticleCard';
 import { PostTimeline } from '@/components/Page/_shared/PostTimeline';
-import { ArticleCard } from '@/components/UI/ArticleCard';
 import { Heading, type HeadingLevel } from '@/components/UI/Heading';
 import { Grid } from '@/components/UI/Layout/Grid';
 import { Stack } from '@/components/UI/Layout/Stack';
