@@ -36,6 +36,13 @@ paths:
 
 Panda CSS は build 時に class を静的抽出する。runtime 値を `css()` に直接入れると抽出できないため、class 構造は静的に保ち、値だけ CSS custom property で渡す。
 
+## 🟡 css テンプレートの呼び出し位置 (IMPORTANT)
+
+- 補間なしの `` css`...` `` はモジュールスコープ定数に hoist し、コンポーネントの render 本体内で呼ばない
+- 動的な切り替えは、hoist 済み定数を三項演算子で選択する（例: `UI/ZoomImage/TriggerButton.tsx`）
+
+`css()` は呼び出しごとにテンプレート文字列をパースする（メモ化されるのはクラス名の算出のみ）。render 本体内で呼ぶと SSG では全ページ分の無駄なパースになる。React Compiler の自動 memoize はコンポーネントインスタンス内の再レンダーにのみ効くため、この問題は防げない（[react-compiler-optimization.md](./react-compiler-optimization.md) 参照）。
+
 ## 🟡 Shorthand vs Longhand (IMPORTANT)
 
 shorthand プロパティは省略された sub-property を **initial 値で暗黙的に上書き** するため、別箇所で設定した longhand が壊れる事故が起きやすい。以下の shorthand は原則禁止し、個別プロパティを使う。
