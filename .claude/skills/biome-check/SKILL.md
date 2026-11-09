@@ -15,7 +15,7 @@ description: Run Biome lint/format check on modified TypeScript and JavaScript f
 
 ## Skip when
 
-- 編集が非コードファイル (`.md`, `.json`, `.yml`, `.toml`, `.css`) のみ。ただし `biome.json` を編集した場合は `npx biome check biome.json` を実行する
+- 編集が非コードファイル (`.md`, `.json`, `.yml`, `.toml`, `.css`) のみ。ただし `biome.json` を編集した場合は `./node_modules/.bin/biome check biome.json` を実行する
 - 既に直前で同じファイル群を check 済み
 
 ## Steps
@@ -31,7 +31,7 @@ description: Run Biome lint/format check on modified TypeScript and JavaScript f
 ### 2. Read-only check
 
 ```bash
-npx biome check <files...>
+./node_modules/.bin/biome check <files...>
 ```
 
 編集対象ファイルを明示して `biome` を直接呼ぶ。`npm run lint` は `src build tools tests` を対象にするが、対象ファイルを限定できない。
@@ -45,14 +45,14 @@ npx biome check <files...>
 - 必要に応じて `biome.json` の該当 rule 設定を読む
 - 修正方針:
   - **意図的な逸脱**でない限り、コード側を修正する (rule を抑制しない)
-  - 安全な auto-fix のみ適用したい場合は `npx biome check --write <files>`
+  - 安全な auto-fix のみ適用したい場合は `./node_modules/.bin/biome check --write <files>`
     - `--write` は safe fix のみ自動適用される。構造変更を伴う fix (例: `useTopLevelRegex` の定数化、`useExportType` の `import type` への書き換え) は **手動修正が必要**
   - `--unsafe` は使わない (semantics が変わる可能性)
   - rule 抑制 (`biome-ignore`) を検討する場合は `.claude/rules/linting.md` の該当節を参照する。原則は「局所的な正当化」または「SDK 慣用パターン」のみ
 
 ### 4. 再 check
 
-`npx biome check <files...>` を再実行し 0 errors を確認。warnings は方針に応じて対応 (プロジェクトでは warn は記録のみで blocking しない例が多い)。
+`./node_modules/.bin/biome check <files...>` を再実行し 0 errors を確認。warnings は方針に応じて対応 (プロジェクトでは warn は記録のみで blocking しない例が多い)。
 
 ### 5. 報告
 
