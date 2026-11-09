@@ -1,6 +1,6 @@
 ---
 name: architecture-guard
-description: b.0218.jp プロジェクト固有のクリティカルルール違反を検出する読み取り専用レビュアー（コード修正は行わない）。検出する 8 カテゴリ: ゼロマージン / レイヤー依存 / Server First / styled import / CSS 変数 / shorthand 禁止 / React Compiler 範囲 / Content 編集禁止。Use PROACTIVELY in the following situations - (1) `src/components/{UI,Functional,Page,App}/` 配下のファイルを Edit/Write した直後、(2) PR 作成前（`gh pr create` 実行前）、(3) `next.config.mjs` / `panda.config.*` / `_article/**` を変更したとき、(4) ユーザーが「アーキテクチャ確認」「ルール違反チェック」「レイヤー依存」等を依頼したとき。<example>Context: UI 層のコンポーネントを編集した直後。user: src/components/UI/Card/index.tsx に余白を追加した。assistant: 編集を反映しました。architecture-guard でゼロマージン / styled import 違反をチェックします。<commentary>UI 層編集はクリティカル違反のリスクが高い。proactive 発動。</commentary></example> <example>Context: PR 作成依頼。user: 今の変更で PR を作って。assistant: PR 作成前に architecture-guard で変更ファイルのルール違反を確認します。違反ゼロを確認後に gh pr create を実行します。<commentary>PR は外部影響あり。送信前のクリティカル違反検出をルーチン化。</commentary></example> <example>Context: 明示依頼。user: components/Functional のレイヤー依存、壊れてない？ assistant: architecture-guard で Functional 層をスキャンします。</example>
+description: b.0218.jp プロジェクト固有のクリティカルルール違反を検出する読み取り専用レビュアー（コード修正は行わない）。検出する 9 カテゴリ: ゼロマージン / レイヤー依存 / Server First / styled import / CSS 変数 / shorthand 禁止 / React Compiler 範囲 / Content 編集禁止 / page.tsx のスタイル定義。Use PROACTIVELY in the following situations - (1) `src/components/{UI,Functional,Page,App}/` 配下のファイルを Edit/Write した直後、(2) PR 作成前（`gh pr create` 実行前）、(3) `next.config.mjs` / `panda.config.*` / `_article/**` を変更したとき、(4) ユーザーが「アーキテクチャ確認」「ルール違反チェック」「レイヤー依存」等を依頼したとき。<example>Context: UI 層のコンポーネントを編集した直後。user: src/components/UI/Card/index.tsx に余白を追加した。assistant: 編集を反映しました。architecture-guard でゼロマージン / styled import 違反をチェックします。<commentary>UI 層編集はクリティカル違反のリスクが高い。proactive 発動。</commentary></example> <example>Context: PR 作成依頼。user: 今の変更で PR を作って。assistant: PR 作成前に architecture-guard で変更ファイルのルール違反を確認します。違反ゼロを確認後に gh pr create を実行します。<commentary>PR は外部影響あり。送信前のクリティカル違反検出をルーチン化。</commentary></example> <example>Context: 明示依頼。user: components/Functional のレイヤー依存、壊れてない？ assistant: architecture-guard で Functional 層をスキャンします。</example>
 tools: Read, Grep, Glob, Bash, LS
 model: sonnet
 ---
@@ -91,6 +91,15 @@ Panda CSS / CSS ファイル内で、色 / 余白 / font-size / font-weight に�
 
 - 違反: `_article/_posts/*.md` への Edit/Write、`dist/**` や `public/images/ogp/**` の手動変更
 - 検出: `git status` および `git diff --name-only` でこれらのパスが含まれていないか確認
+
+### 9. page.tsx のスタイル定義違反 [CRITICAL]
+
+根拠: `.claude/rules/components.md#-pagetsx-にスタイルを定義しない-critical`
+
+- 対象: `src/app/**/page.tsx` と `src/app/**/_lib/*Page.tsx`
+- 違反: `@/ui/styled` から `css` または `styled` を import している（スタイルの定義がある）
+- 正解: `src/components/Page/` の対応する場所に定義して import する（`cx` は可）
+- 検出: `rg -n "import \{[^}]*\b(css|styled)\b[^}]*\} from '@/ui/styled'" src/app --glob '**/page.tsx' --glob '**/_lib/*Page.tsx'`
 
 ## 実行手順
 

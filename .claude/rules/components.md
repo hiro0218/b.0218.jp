@@ -41,6 +41,19 @@ Feature Module 構造は `Page/` 配下のドメインにも適用できる。�
 
 依存方向と import 禁止パターンは [biome.json](../../biome.json) の `noRestrictedImports` overrides と [.dependency-cruiser.js](../../.dependency-cruiser.js) で機械的に強制する。詳細は [linting.md](./linting.md) を参照する。
 
+## 🔴 page.tsx にスタイルを定義しない (CRITICAL)
+
+`src/app/**/page.tsx` と、その本体の `src/app/**/_lib/*Page.tsx` に、`styled`・`css` の定義を置かない。この 2 種類のファイルは、データの取得と Page 層の部品の組み立てだけにする。スタイルは `src/components/Page/` の対応する場所に定義して import する。
+
+| 定義を使うページ | 置く場所                | 例                                                       |
+| ---------------- | ----------------------- | -------------------------------------------------------- |
+| 1 つのページだけ | `Page/<ページ>/` の部品 | `Page/Archive/ArchiveIntro.tsx`、`Page/Post/Actions.tsx` |
+| 複数のページ     | `Page/_shared/`         | `Page/_shared/pageSections.ts`                           |
+
+- ページの対応: ホームは `Page/Home/`、アーカイブとタグ一覧は `Page/Archive/`、記事は `Page/Post/`、固定ページは `Page/Single/`。
+- 強制: [biome.json](../../biome.json) の `noRestrictedImports` が、これらのファイルによる `@/ui/styled` の `css`・`styled` の import を error にする。`cx` は許す。
+- 対象外: `layout.tsx`・`not-found.tsx`・`route.ts` など、`page.tsx` 以外のファイル。
+
 ## 🟡 ファイル配置パターン (IMPORTANT)
 
 ### 配置型

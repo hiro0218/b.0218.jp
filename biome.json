@@ -166,6 +166,36 @@
       }
     },
     {
+      "includes": ["src/app/**/page.tsx", "src/app/**/_lib/*Page.tsx"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@/ui/styled": {
+                    "importNames": ["css", "styled"],
+                    "message": "page.tsx にスタイルを定義しないでください。src/components/Page/ の対応する場所に定義して import してください"
+                  }
+                },
+                "patterns": [
+                  {
+                    "group": ["**/index", "**/index.*"],
+                    "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
+                  },
+                  {
+                    "group": ["@/lib/distLoader/*", "@/lib/distLoader/**"],
+                    "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "includes": ["src/components/App/**/*.{ts,tsx}"],
       "linter": {
         "rules": {

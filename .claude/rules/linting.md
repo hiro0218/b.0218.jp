@@ -91,6 +91,8 @@ paths:
 
 `noRestrictedImports` の overrides で UI/Functional/Page/App 層の依存方向を機械的に強制する。全レイヤーで `~/styled-system/*` の直接 import も禁止し、`@/ui/styled` 経由に統一する。
 
+`src/app/**/page.tsx` と `src/app/**/_lib/*Page.tsx` では、`@/ui/styled` の `css`・`styled` の import も禁止する（[components.md](./components.md#-pagetsx-にスタイルを定義しない-critical)）。この override は、`src/**/*.{ts,tsx}` の override より後ろに置く。同じ rule の options は、後ろの override が置き換えるため、前に置くと効かない。
+
 ## biome-ignore の使用基準
 
 以下のいずれかに該当する場合に許可する。理由コメントは必須である。
