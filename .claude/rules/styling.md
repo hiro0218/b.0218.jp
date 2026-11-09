@@ -67,6 +67,7 @@ shorthand プロパティは省略された sub-property を **initial 値で暗
 ## 参照
 
 - Zero Margin: [components.md](./components.md#-zero-margin-principle-critical)
+- デザイン原則・トークン階層: [design-principles.md](./design-principles.md)
 
 ## Web パフォーマンス
 
