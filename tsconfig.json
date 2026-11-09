@@ -69,8 +69,6 @@
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "tests/vrt/**/*",
-    "tests/e2e/**/*"
+    "node_modules"
   ]
 }
