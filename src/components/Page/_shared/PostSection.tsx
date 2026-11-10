@@ -8,7 +8,7 @@ import { LinkMore } from '@/components/UI/LinkMore';
 import { getPrimaryCategory } from '@/lib/tag/category';
 import { getTagCategoriesJson } from '@/lib/tag/derived';
 import { convertPostSlugToPath } from '@/lib/utils/url';
-import type { ArticleSummary, PostSummary } from '@/types/source';
+import type { ArticleSummary } from '@/types/source';
 import { css } from '@/ui/styled';
 
 const CHILD_HEADING_LEVEL = { h2: 'h3', h3: 'h4', h4: 'h5', h5: 'h6' } as const satisfies Partial<
@@ -18,7 +18,7 @@ const CHILD_HEADING_LEVEL = { h2: 'h3', h3: 'h4', h4: 'h5', h5: 'h6' } as const 
 type Props = {
   heading?: string;
   headingLevel?: keyof typeof CHILD_HEADING_LEVEL;
-  posts: (PostSummary | (ArticleSummary & { tags?: string[] }))[];
+  posts: ArticleSummary[];
   href?: string;
   as?: keyof JSX.IntrinsicElements;
   prefetch?: boolean;
