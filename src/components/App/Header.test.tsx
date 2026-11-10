@@ -13,11 +13,12 @@ vi.hoisted(() => {
   Object.defineProperty(globalThis, 'AnimationEvent', { configurable: true, value: AnimationEventStub });
 });
 
-// jsdom には window.matchMedia が無く、実物の HeaderNavigation は mount 時に落ちるため、これだけ置き換える
-vi.mock('./Header/Navigation', () => ({
-  // biome-ignore lint/style/useNamingConvention: React component mock requires PascalCase
-  HeaderNavigation: () => null,
-}));
+// HeaderNavigation を vi.mock で置き換えない。内部ファイルのパスに結びつくため。jsdom に無い window.matchMedia だけを置く
+window.matchMedia = vi.fn().mockReturnValue({
+  matches: false,
+  addEventListener: vi.fn(),
+  removeEventListener: vi.fn(),
+} as unknown as MediaQueryList);
 
 const router = vi.hoisted(() => ({ push: vi.fn() }));
 vi.mock('next/navigation', () => ({
@@ -105,5 +106,6 @@ test('検索結果の記事を Enter で開いた場合、記事へ移動し、�
 
   fireEvent.animationEnd(dialog, { animationName: 'zoomOut' });
 
-  expect(screen.queryByRole('dialog')).toBeNull();
+  // queryByRole('dialog') で確かめない。閉じた dialog も role の検索から外れ、外し忘れと区別できないため
+  expect(document.querySelector('dialog')).toBeNull();
 });

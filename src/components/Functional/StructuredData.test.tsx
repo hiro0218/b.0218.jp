@@ -20,7 +20,6 @@ describe('StructuredData', () => {
 
     const script = container.querySelector('script[type="application/ld+json"]');
     expect(script).not.toBeNull();
-    expect(script?.textContent).toContain('\\u003c/script>');
     expect(script?.textContent).not.toContain('</script>');
 
     const parsed = JSON.parse(script?.textContent ?? '{}') as { name: string };

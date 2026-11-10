@@ -52,13 +52,17 @@ it('本番の場合、計測と広告のスクリプト、5 ホストへの prec
       'https://fundingchoicesmessages.google.com',
     ]),
   );
-  expect(scriptNames().map((name) => (name.startsWith('http') ? new URL(name).host : name))).toEqual([
-    'ga:G-TEST',
-    'pagead2.googlesyndication.com',
-    'fundingchoicesmessages.google.com',
-    'googlefc-present',
-    'news.google.com',
-  ]);
+  // script の順序も検査しない。ここでは Script を DOM へ直接出すモックで、本物の next/script が差し込む順序とは別のため
+  const scripts = scriptNames().map((name) => (name.startsWith('http') ? new URL(name).host : name));
+  expect(scripts.toSorted()).toEqual(
+    [
+      'ga:G-TEST',
+      'pagead2.googlesyndication.com',
+      'fundingchoicesmessages.google.com',
+      'googlefc-present',
+      'news.google.com',
+    ].toSorted(),
+  );
 });
 
 it('本番以外の場合、publisher.js だけを出す', () => {

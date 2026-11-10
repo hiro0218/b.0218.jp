@@ -1,4 +1,4 @@
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, beforeAll, beforeEach, expect, it, vi } from 'vitest';
 
 import { PostContent } from './Content';
@@ -38,16 +38,24 @@ afterEach(() => {
 
 const TWO_HEADINGS = '<h2>見出し1</h2><p>本文1</p><h2>見出し2</h2><p>本文2</p>';
 
+// 枠の子の要素名の列で比べない。広告の外枠の要素を替えるだけで、順序が同じでも落ちるため
+const follows = (earlier: Element, later: Element) =>
+  (earlier.compareDocumentPosition(later) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+
 it('目次、本文、広告を、この順に 1 つの枠の中へ並べる', () => {
   const { container } = render(<PostContent content="<h2>はじめに</h2><p>本文</p>" />);
 
   const root = container.firstElementChild;
-  expect(Array.from(root?.children ?? []).map((child) => child.tagName)).toEqual(['NAV', 'SECTION', 'DIV']);
-  expect(root?.children[0].getAttribute('aria-label')).toBe('目次');
-  expect(root?.children[1].classList.contains('e-content')).toBe(true);
+  const toc = screen.getByRole('navigation', { name: '目次' });
+  const body = container.querySelector('section.e-content');
+  const ad = screen.getByRole('complementary', { name: 'スポンサーリンク' });
+  if (!body) throw new Error('section.e-content が見つからない');
+
+  expect([toc, body, ad].every((part) => root?.contains(part))).toBe(true);
+  expect(follows(toc, body)).toBe(true);
+  expect(follows(body, ad)).toBe(true);
   // 見出しの文字は完全一致で比べない。目次が末尾に「#」のリンクを足すため
-  expect(root?.children[1].querySelector('.post-content h2')?.textContent).toContain('はじめに');
-  expect(root?.children[2].querySelector('aside')?.getAttribute('aria-label')).toBe('スポンサーリンク');
+  expect(body.querySelector('.post-content h2')?.textContent).toContain('はじめに');
 });
 
 it('見出しが 2 つある本文の場合、本文のあいだと末尾に広告を 1 つずつ置く', () => {

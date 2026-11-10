@@ -34,7 +34,8 @@ const renderToHtml = (html: string) => renderToStaticMarkup(<div>{parser(html)}<
 describe('HTMLParser integration', () => {
   it('rehypeGfmAlert が実際に変換した HTML から Alert を復元する', async () => {
     const markdown = ['> [!NOTE]', '> これはラウンドトリップテスト用のノートです。'].join('\n');
-    const html = await createMarkdownToPostHtmlString()(markdown);
+    // sharedCache を省かない。省くと node_modules/.cache/link-preview.json を読み書きし、書き込めない環境でバグが無くても落ちるため
+    const html = await createMarkdownToPostHtmlString({ sharedCache: {} })(markdown);
 
     expect(renderToHtml(html)).toContain(
       '<div data-alert-type="note" data-testid="alert">これはラウンドトリップテスト用のノートです。</div>',

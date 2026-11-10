@@ -19,15 +19,12 @@ afterEach(() => {
 });
 
 it('広告の枠にスポンサーリンクという名前を付け、AdSense の ins を置く', () => {
-  const { container } = render(<ArticleAd />);
+  render(<ArticleAd />);
 
   const aside = screen.getByRole('complementary', { name: 'スポンサーリンク' });
   const ins = aside.querySelector('ins.adsbygoogle');
   expect(ins?.getAttribute('data-ad-client')).toBe(GOOGLE_ADSENSE.CLIENT);
   expect(ins?.getAttribute('data-ad-slot')).toBe(GOOGLE_ADSENSE.SLOT);
-  expect(container.children).toHaveLength(1);
-  expect(container.firstElementChild?.children).toHaveLength(1);
-  expect(container.firstElementChild?.firstElementChild).toBe(aside);
 });
 
 it('描画した場合、AdSense に広告を 1 つ要求する', () => {

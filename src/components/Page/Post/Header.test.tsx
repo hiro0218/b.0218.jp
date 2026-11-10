@@ -19,6 +19,10 @@ it('題名を見出しに、日付とタグを並べて描画する', () => {
   expect(screen.getByRole('link', { name: (name) => name.includes('react') })).toBeDefined();
 });
 
+// header の子の個数や階層で比べない。内側の Stack を 1 つ外すだけで、並びが同じでも落ちるため
+const follows = (earlier: Element, later: Element) =>
+  (earlier.compareDocumentPosition(later) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+
 it('children を渡した場合、題名・日付・タグの後ろに描画する', () => {
   const { container } = render(
     <PostHeader {...baseProps}>
@@ -26,11 +30,11 @@ it('children を渡した場合、題名・日付・タグの後ろに描画す�
     </PostHeader>,
   );
 
-  const header = container.querySelector('header');
-  const children = Array.from(header?.children ?? []);
-  expect(children).toHaveLength(2);
-  expect(children[0].querySelector('h1')).not.toBeNull();
-  expect(children[1].textContent).toBe('差し込み');
+  const inserted = screen.getByText('差し込み');
+  expect(container.querySelector('header')?.contains(inserted)).toBe(true);
+  expect(follows(screen.getByRole('heading', { level: 1, name: '記事の題名' }), inserted)).toBe(true);
+  expect(follows(screen.getByText('2024/01/02'), inserted)).toBe(true);
+  expect(follows(screen.getByRole('link', { name: (name) => name.includes('react') }), inserted)).toBe(true);
 });
 
 it('リンクのタグの場合、タグ名を p-category の span で包み、rel="tag" を付ける', () => {

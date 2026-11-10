@@ -17,7 +17,11 @@ function scrollTo(y: number) {
 function isShown() {
   // hidden を除いて探さない。隠している間は visibility: hidden で読み上げの対象から外れ、見つからなくなるため
   const button = screen.getByRole('button', { hidden: true, name: 'ページトップへ' });
-  return button.closest('[data-is-shown]')?.getAttribute('data-is-shown') === 'true';
+  const root = button.closest('[data-is-shown]');
+  // 属性が無いときに false を返さない。属性名を変えたとき、「出さない」の検査が空振りで通るため
+  if (!root) throw new Error('data-is-shown を持つ要素が見つからない');
+
+  return root.getAttribute('data-is-shown') === 'true';
 }
 
 afterEach(() => {

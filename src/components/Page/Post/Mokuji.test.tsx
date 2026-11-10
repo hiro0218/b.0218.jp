@@ -2,6 +2,7 @@ import { cleanup, render, screen } from '@testing-library/react';
 import { StrictMode, useRef } from 'react';
 import { afterEach, beforeAll, expect, test, vi } from 'vitest';
 
+import { HEADER_HEIGHT_PX } from '@/ui/styled/constant';
 import { Mokuji } from './Mokuji';
 
 vi.mock('next/navigation', () => ({ usePathname: () => '/test' }));
@@ -79,10 +80,13 @@ test('StrictMode で effect が 2 回実行されても、目次の一覧は 1 �
   expect(nav.querySelectorAll('li')).toHaveLength(2);
 });
 
-test('現在地の判定は、固定ヘッダーの高さに余白を足した 100px だけ、画面の上端から下げた位置を基準にする', () => {
+// 100px のような具体値で比べない。ヘッダーの高さや余白を調整すると、基準が正しいままでも落ちるため。
+// 16px は post-content/index.css の scroll-margin-top の余白。基準がこれより上だと、目次のリンクで着地した見出しが現在地にならない
+test('現在地の判定は、見出しの着地位置（固定ヘッダーの高さ + 16px）以上、画面の上端から下げた位置を基準にする', () => {
   observerOptions.length = 0;
 
   render(<Article html="<h2>はじめに</h2>" />);
 
-  expect(observerOptions.at(-1)?.rootMargin).toBe('-100px 0px 0px 0px');
+  const offset = -Number.parseFloat(observerOptions.at(-1)?.rootMargin ?? '0');
+  expect(offset).toBeGreaterThanOrEqual(HEADER_HEIGHT_PX + 16);
 });

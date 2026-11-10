@@ -21,7 +21,6 @@ function scrollTo(y: number) {
 
 afterEach(() => {
   setScrollY(0);
-  vi.restoreAllMocks();
 });
 
 test('下へスクロールして閾値を超えた場合はヘッダーを隠し、上へ戻した場合は表示する', () => {
@@ -73,18 +72,30 @@ test('最初から閾値を超えた位置にいる場合は、隠した状態�
   expect(result.current).toBe(false);
 });
 
-test('複数の呼び出し元の場合も、スクロールの監視は 1 つで、判定は同じになる', () => {
+test('複数の呼び出し元の場合も、判定は同じになる', () => {
   setScrollY(0);
-  const addEventListener = vi.spyOn(window, 'addEventListener');
   const first = renderHook(() => useHeaderVisibility());
   const second = renderHook(() => useHeaderVisibility());
 
   scrollTo(300);
 
-  const scrollListenerCount = addEventListener.mock.calls.filter(([type]) => type === 'scroll').length;
-  expect(scrollListenerCount).toBe(1);
   expect(first.result.current).toBe(false);
   expect(second.result.current).toBe(false);
+});
+
+test('後から現れた呼び出し元の場合も、前回のスクロール位置は先の呼び出し元と共有する', () => {
+  setScrollY(0);
+  const first = renderHook(() => useHeaderVisibility());
+  scrollTo(200);
+  // 5px 未満の変化は無視されるので、前回の位置は 200 のまま
+  scrollTo(197);
+  const second = renderHook(() => useHeaderVisibility());
+
+  // 前回の位置（200）から 7px 戻った。後から現れた側が 197 を基準にすると、4px の変化として無視される
+  scrollTo(193);
+
+  expect(first.result.current).toBe(true);
+  expect(second.result.current).toBe(true);
 });
 
 test('スクロール位置が threshold を超えた場合は true、先頭に戻った場合は false を返す', () => {

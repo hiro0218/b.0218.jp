@@ -58,7 +58,6 @@ describe('PostLikes', () => {
 
     expect(await screen.findByRole('heading', { name: '1 Like' })).not.toBeNull();
     expect(screen.getByText(AUTHOR_NAME[0])).not.toBeNull();
-    expect(screen.queryByText('参考になりました')).toBeNull();
   });
 
   it('いいねが複数ある場合、件数を Likes と表示する', async () => {

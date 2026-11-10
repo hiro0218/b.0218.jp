@@ -1,4 +1,4 @@
-import { beforeEach, expect, test, vi } from 'vitest';
+import { beforeAll, beforeEach, expect, test, vi } from 'vitest';
 
 let shouldFailToLoad = false;
 let failedLoadAttempts = 0;
@@ -22,6 +22,12 @@ async function importLoader() {
   vi.resetModules();
   return import('./engineLoader');
 }
+
+// 最初の import を、読み込みを失敗させるテストの中で起こさない。最初の import だけ、vitest が factory の拒否を別のエラーに包み、
+// 単独実行やシャッフル順で、そのテストがバグなしで落ちるため
+beforeAll(async () => {
+  await import('~/dist/search.json');
+});
 
 beforeEach(() => {
   shouldFailToLoad = false;

@@ -351,14 +351,16 @@ it('dialog 自身で Tab を押した場合、閉じない', async () => {
   expect(trigger.getAttribute('aria-expanded')).toBe('true');
 });
 
-it('cancel を経ずに dialog だけが閉じていた場合、閉じ直さず、トリガーの開閉の状態だけを合わせる', async () => {
+it('cancel を経ずに dialog だけが閉じていた場合、閉じる遷移を始め直さず、トリガーの開閉の状態だけを合わせる', async () => {
+  const calls = mockViewTransition();
   const { trigger, dialog } = await openDialog();
-  const close = vi.spyOn(HTMLDialogElement.prototype, 'close');
+  // 開く遷移が終わるまで、閉じる操作は無視される。終わらせてから確かめる
+  await calls[0].finish();
   dialog.removeAttribute('open');
 
   fireEvent(dialog, new Event('cancel', { bubbles: true, cancelable: true }));
 
-  expect(close).not.toHaveBeenCalled();
+  expect(calls).toHaveLength(1);
   expect(trigger.getAttribute('aria-expanded')).toBe('false');
 });
 
