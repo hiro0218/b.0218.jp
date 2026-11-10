@@ -16,6 +16,7 @@ export function WidgetManager({ contentRef }: WidgetManagerProps) {
       return;
     }
 
+    // twttr?. の ? を外さない。widgets.js は Page/Post/Content.tsx が tweet を含む記事だけで読み込むため、twttr が無い記事がある
     window.twttr?.widgets.load(contentRef.current);
   }, [pathname, contentRef]);
 

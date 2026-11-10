@@ -83,7 +83,8 @@ const Root = styled.nav`
     --mokuji-block-offset: calc(var(--sizes-header) + var(--spacing-400));
     --mokuji-summary-block-size: var(--spacing-600);
 
-    /* 目次と PostContainer の間に、位置指定の要素を挟まない。inset: 0 と grid-column の基準は、最も近い位置指定の祖先である PostContainer（position: relative の格子）のため */
+    /* 目次と PostContainer の間に、位置指定の要素を挟まない。inset: 0 と grid-column の基準は、最も近い位置指定の祖先である PostContainer（position: relative の格子）のため。
+       position: absolute も外さない。useMokuji.ts が、この値で 2 列目に置く配置かを判定し、開いた状態にして追従スクロールもするため */
     position: absolute;
     inset: 0;
     z-index: var(--z-index-base);

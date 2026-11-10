@@ -1,5 +1,7 @@
 import { css, styled } from '@/ui/styled';
 
+// @supports の条件を、Container・triggerAnchorStyle・Content の 3 か所のうち 1 つだけ変えない。3 つが同時に有効になる前提のため、
+// 一部だけ有効なブラウザでは、アンカー名・有効範囲・配置が食い違う
 export const Container = styled.div`
   position: relative;
   display: flex;

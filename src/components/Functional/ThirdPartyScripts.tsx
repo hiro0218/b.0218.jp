@@ -24,6 +24,7 @@ export function ThirdPartyScripts() {
           <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} />
         </>
       ) : null}
+      {/* publisher.js を外さない。Page/Post/Share.tsx の google-add-preferred-source-btn の要素を、このスクリプトがボタンに置き換えるため */}
       <Script async src="https://news.google.com/swg/js/v1/publisher.js" />
     </>
   );

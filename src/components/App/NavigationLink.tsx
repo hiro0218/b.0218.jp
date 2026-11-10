@@ -32,6 +32,7 @@ export function NavigationLink({ href, children, onClick }: Props) {
   );
 }
 
+// --navigation-link-padding の名前を変えない。Footer.tsx の Nav がこの名前で余白を上書きし、同じ値の負の margin で先頭の項目の左端をそろえているため
 const linkStyle = css`
   padding-inline: var(--navigation-link-padding, var(--control-padding-inline));
   font-family: var(--fonts-family-monospace);

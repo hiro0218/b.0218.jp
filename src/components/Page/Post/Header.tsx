@@ -18,8 +18,8 @@ export function PostHeader({ title, date, updated, tagsWithCount, children }: Pr
     <Stack as="header" className={headerSeparatorStyle} gap={400}>
       <Stack gap={300}>
         {/**
-         * Bridgy Fed 向けの microformats2 のクラスは、UI/ 側の部品に持たせず、このページ（h-entry）でだけ付ける。
-         * UI/ 側を汎用のまま保つため
+         * Bridgy Fed 向けの microformats2 のクラスは、共有部品（Page/_shared の PostDate・PostTag）に固定で持たせず、このページ（h-entry）でだけ付ける。
+         * 一覧（ArticleCard・PostTimeline）でも使う共有部品を、汎用のまま保つため
          */}
         <Heading className="p-name">{title}</Heading>
         <Meta>
