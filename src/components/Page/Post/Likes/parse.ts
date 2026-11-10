@@ -7,7 +7,7 @@ export type Like = {
   authorPhoto: string | null;
 };
 
-const LIKE_PROPERTY = 'like-of';
+export const LIKE_PROPERTY = 'like-of';
 const DEFAULT_AUTHOR_NAME = '匿名';
 
 function asNonEmptyString(value: unknown): string | null {

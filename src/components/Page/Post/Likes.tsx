@@ -5,7 +5,7 @@ import { Avatar, AvatarGroup } from '@/components/UI/Avatar/Avatar';
 import { Heading } from '@/components/UI/Heading';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { WEBMENTION } from '@/constants';
-import { type Like, parseLikes } from './Likes/parse';
+import { LIKE_PROPERTY, type Like, parseLikes } from './Likes/parse';
 
 type Props = {
   url: string;
@@ -54,7 +54,7 @@ export function PostLikes({ url }: Props) {
 async function fetchLikes(targetUrl: string, signal: AbortSignal): Promise<Like[]> {
   const requestUrl = `${WEBMENTION.mentionsApi}?${new URLSearchParams({
     target: targetUrl,
-    'wm-property': 'like-of',
+    'wm-property': LIKE_PROPERTY,
     'per-page': '50',
   })}`;
   const response = await fetch(requestUrl, { signal });
