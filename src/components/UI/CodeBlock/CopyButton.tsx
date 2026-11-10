@@ -30,8 +30,8 @@ export function CopyButton() {
       <Button
         aria-disabled={state === 'copying' || state === 'unsupported' || undefined}
         aria-label={label}
+        // data-slot を外さない。CodeBlock.tsx の hover の規則が、この属性でボタンを選んで表示にするため（外すと、マウスでボタンが出なくなる）
         data-slot="copy-button"
-        data-state={state}
         onClick={handleCopy}
         ref={buttonRef}
         type="button"
