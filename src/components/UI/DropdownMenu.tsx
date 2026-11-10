@@ -1,10 +1,10 @@
 'use client';
 
-import { useInteractOutside } from '@react-aria/interactions';
-import type { FocusEvent, KeyboardEvent, MouseEvent, ReactNode } from 'react';
-import { useId, useRef, useState } from 'react';
+import type { FocusEvent, MouseEvent, ReactNode } from 'react';
+import { useId } from 'react';
 
 import { IconButton } from '@/components/UI/IconButton';
+import { useDisclosure } from '@/hooks/useDisclosure';
 
 import { Container, Content, triggerAnchorStyle } from './DropdownMenu/styles';
 
@@ -23,41 +23,15 @@ export type DropdownMenuProps = {
  * @summary クリック開閉ドロップダウンメニュー（disclosure パターン）
  */
 export function DropdownMenu({ title, triggerLabel, children }: DropdownMenuProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const { isExpanded, rootRef, triggerRef, collapse, collapseToTrigger, handleKeyDown, toggle } = useDisclosure();
   const panelId = useId();
-
-  // パネル外クリックで閉じる（開いている場合のみハンドラを設定）
-  useInteractOutside({
-    ref: containerRef,
-    isDisabled: !isExpanded,
-    onInteractOutside: () => setIsExpanded(false),
-  });
-
-  // 展開中のみ Esc キーで閉じ、トリガーへ focus を戻す
-  // 閉じたあとにフォーカスをパネルの中へ残さない。閉じたパネルは inert になる。フェードが終わると display: none になり、フォーカスは body へ落ちる。
-  // document の keydown は使わない。使うと、検索ダイアログなど他の dialog の Esc まで拾い、除外する特例が要る
-  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (!isExpanded || event.key !== 'Escape') return;
-
-    setIsExpanded(false);
-    triggerRef.current?.focus();
-  };
-
-  // クリックでのフォーカス移動に任せず、開くときにトリガーへフォーカスを置く。macOS の Safari・Firefox はクリックでボタンにフォーカスが当たらず、Esc をこの要素の中で受けられなくなる
-  const handleTriggerClick = () => {
-    if (!isExpanded) triggerRef.current?.focus();
-    setIsExpanded((current) => !current);
-  };
 
   // リンククリックで閉じてトリガーへ focus を戻す（Esc と同じ理由。閉じた後の focus 迷子を防ぐ）
   const handlePanelClick = (event: MouseEvent<HTMLDivElement>) => {
     if (!(event.target instanceof Element)) return;
     if (!event.target.closest('a')) return;
 
-    setIsExpanded(false);
-    triggerRef.current?.focus();
+    collapseToTrigger();
   };
 
   // フォーカスがトリガーとパネルの外へ移ったら閉じる(Tab でパネルを通り過ぎても開いたままにしない)。
@@ -66,18 +40,18 @@ export function DropdownMenu({ title, triggerLabel, children }: DropdownMenuProp
   const handleBlur = (event: FocusEvent<HTMLDivElement>) => {
     if (!(event.relatedTarget instanceof Node)) return;
     if (event.currentTarget.contains(event.relatedTarget)) return;
-    setIsExpanded(false);
+    collapse();
   };
 
   return (
-    <Container onBlur={handleBlur} onKeyDown={handleKeyDown} ref={containerRef}>
+    <Container onBlur={handleBlur} onKeyDown={handleKeyDown} ref={rootRef}>
       <IconButton
         aria-controls={panelId}
         aria-expanded={isExpanded}
         aria-label={triggerLabel}
         className={triggerAnchorStyle}
         data-active={isExpanded}
-        onClick={handleTriggerClick}
+        onClick={toggle}
         ref={triggerRef}
       >
         {title}

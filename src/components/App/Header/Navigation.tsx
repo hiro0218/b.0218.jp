@@ -1,11 +1,10 @@
 'use client';
 import { ListIcon, XIcon } from '@phosphor-icons/react';
-import { useInteractOutside } from '@react-aria/interactions';
-import type { KeyboardEvent } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { NavigationLink } from '@/components/App/NavigationLink';
 import { NAVIGATION_LINKS } from '@/components/App/navigationLinks';
 import { BREAKPOINT } from '@/constants';
+import { useDisclosure } from '@/hooks/useDisclosure';
 import { ICON_SIZE_XS } from '@/ui/iconSizes';
 import { css, cx, styled } from '@/ui/styled';
 import { stateLayerControl } from '@/ui/styled/components/stateLayerControl';
@@ -13,15 +12,7 @@ import { stateLayerControl } from '@/ui/styled/components/stateLayerControl';
 const NAVIGATION_ID = 'header-navigation';
 
 export function HeaderNavigation() {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const rootRef = useRef<HTMLDivElement>(null);
-  const toggleButtonRef = useRef<HTMLButtonElement>(null);
-
-  useInteractOutside({
-    ref: rootRef,
-    isDisabled: !isExpanded,
-    onInteractOutside: () => setIsExpanded(false),
-  });
+  const { isExpanded, rootRef, triggerRef, collapse, handleKeyDown, toggle } = useDisclosure();
 
   // デスクトップ幅になった時点で state をリセットする
   // リセットしないと、モバイルで開いたままデスクトップ幅を経由してモバイル幅に戻した際、
@@ -29,26 +20,12 @@ export function HeaderNavigation() {
   useEffect(() => {
     const mediaQuery = window.matchMedia(`(min-width: ${BREAKPOINT}px)`);
     const handleChange = (event: MediaQueryListEvent) => {
-      if (event.matches) setIsExpanded(false);
+      if (event.matches) collapse();
     };
 
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
-
-  // document の keydown では受けない。検索ダイアログなど他の dialog の Esc まで拾い、除外する特例が要るため
-  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (!isExpanded || event.key !== 'Escape') return;
-
-    setIsExpanded(false);
-    toggleButtonRef.current?.focus();
-  };
-
-  // フォーカスをクリックの移動に任せない。macOS の Safari・Firefox はクリックでボタンにフォーカスが当たらず、Esc をこの要素の中で受けられなくなるため
-  const handleToggleClick = () => {
-    if (!isExpanded) toggleButtonRef.current?.focus();
-    setIsExpanded((current) => !current);
-  };
+  }, [collapse]);
 
   const ToggleIcon = isExpanded ? XIcon : ListIcon;
 
@@ -59,15 +36,15 @@ export function HeaderNavigation() {
         aria-expanded={isExpanded}
         aria-label={isExpanded ? 'ナビゲーションを閉じる' : 'ナビゲーションを開く'}
         className={cx(stateLayerControl, toggleStyle)}
-        onClick={handleToggleClick}
-        ref={toggleButtonRef}
+        onClick={toggle}
+        ref={triggerRef}
         type="button"
       >
         <ToggleIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
       </button>
       <Nav aria-label="ヘッダー" data-expanded={isExpanded} id={NAVIGATION_ID}>
         {NAVIGATION_LINKS.map(({ title, href }) => (
-          <NavigationLink href={href} key={href} onClick={() => setIsExpanded(false)}>
+          <NavigationLink href={href} key={href} onClick={collapse}>
             {title}
           </NavigationLink>
         ))}
