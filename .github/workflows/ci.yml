@@ -72,7 +72,7 @@ jobs:
           ./node_modules/.bin/next build --webpack
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: build-output
           path: |
@@ -130,7 +130,7 @@ jobs:
       - name: Upload E2E report
         id: artifact
         if: always()
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: e2e-report-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
           path: |
@@ -211,7 +211,7 @@ jobs:
         run: node .github/scripts/report.js
 
       - name: Upload bundle
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: bundle
           path: .next/analyze/__bundle_analysis.json

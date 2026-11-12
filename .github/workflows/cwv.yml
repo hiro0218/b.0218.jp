@@ -111,7 +111,7 @@ jobs:
       - name: Upload Lighthouse reports
         id: artifact
         if: always()
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: cwv-reports-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.run_id }}
           path: cwv-reports
