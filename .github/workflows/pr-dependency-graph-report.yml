@@ -21,7 +21,7 @@ jobs:
           persist-credentials: false
           submodules: false
 
-      - uses: actions/setup-node@v7.0.0
+      - uses: actions/setup-node@v7.1.0
         with:
           node-version-file: '.node-version'
 
