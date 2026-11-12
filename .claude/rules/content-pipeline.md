@@ -1,7 +1,6 @@
 ---
 paths:
   - '_article/**/*'
-  - 'scripts/prebuild.sh'
   - 'build/**/*'
   - 'dist/**/*'
   - 'public/images/ogp/**'
@@ -23,7 +22,7 @@ paths:
 ## Prebuild
 
 - `npm run prebuild` を必ず実行する
-- 実体は `bash scripts/prebuild.sh`
+- 実体は `bash build/prebuild.sh`
 - 実行すると `git submodule update --remote` で `_article` を追跡ブランチの最新コミットへ進める。この副作用で `git status` に `_article` の変更が現れることがある(記事内容の書き換えではない)
 
 ## パイプライン手順（要点）
@@ -39,9 +38,9 @@ paths:
 
 `SKIP_OGP=true npm run prebuild` は OGP 出力や OGP メタデータに関係しないローカル確認でのみ使う。`build/ogp/**`、OGP URL、OGP 画像生成条件を変更した場合、最終確認ではスキップしない。
 
-正確な手順は `scripts/prebuild.sh` を参照。
+正確な手順は `build/prebuild.sh` を参照。
 
 ## 編集可能/不可
 
-- ✅ `build/**/*`, `scripts/prebuild.sh`, `src/lib/post/`, `src/lib/tag/`, `src/lib/source/`, `src/app/**/page.tsx`
+- ✅ `build/**/*`, `src/lib/post/`, `src/lib/tag/`, `src/lib/source/`, `src/app/**/page.tsx`
 - ❌ `_article/_posts/*.md`, 生成された JSON, `public/images/ogp/*`

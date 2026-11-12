@@ -1,7 +1,7 @@
 import type { IpadicFeatures, Tokenizer } from 'kuromoji';
 import { normalizeSearchToken, type SearchDataItem, type SearchIndex } from '@/lib/search';
 import type { PostSummary } from '@/types/source';
-import * as Log from '~/tools/logger';
+import * as Log from '~/build/shared/logger';
 import { tokenizeMeaningfulText } from '../shared/morphology';
 
 /**

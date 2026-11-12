@@ -1,7 +1,7 @@
 import { tagKey } from '@/lib/tag/key';
 import type { Post } from '@/types/source';
-import { writeJSON } from '~/tools/fs';
-import * as Log from '~/tools/logger';
+import { writeJSON } from '~/build/shared/fs';
+import * as Log from '~/build/shared/logger';
 import { getPath } from './utils';
 
 const PATH = getPath();

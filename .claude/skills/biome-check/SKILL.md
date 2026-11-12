@@ -34,7 +34,7 @@ description: Run Biome lint/format check on modified TypeScript and JavaScript f
 ./node_modules/.bin/biome check <files...>
 ```
 
-編集対象ファイルを明示して `biome` を直接呼ぶ。`npm run lint` は `src build tools tests` を対象にするが、対象ファイルを限定できない。
+編集対象ファイルを明示して `biome` を直接呼ぶ。`npm run lint` は `src build scripts tests` を対象にするが、対象ファイルを限定できない。
 
 ### 3. 違反対応
 
@@ -70,6 +70,6 @@ description: Run Biome lint/format check on modified TypeScript and JavaScript f
 | --------------------------------------- | ----------------------- | -------------------------------- |
 | 本 Skill                                | コード編集後、commit 前 | 編集対象ファイル全て             |
 | `nano-staged` (pre-commit)              | `git commit` 直前       | staged な `**/*.{ts,tsx,js,mjs}` |
-| `npm run lint` (CI / pr-validation.yml) | PR open / sync          | `src build tools tests`          |
+| `npm run lint` (CI / pr-validation.yml) | PR open / sync          | `src build scripts tests`        |
 
 本 Skill は CI / pre-commit のすり抜け (特に `tests/` 配下) を AI セッション中に防ぐのが目的。

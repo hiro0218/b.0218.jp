@@ -1,7 +1,7 @@
 import { FILENAME_POSTS_POPULAR } from '@/constants';
+import { writeJSON } from '~/build/shared/fs';
+import * as Log from '~/build/shared/logger';
 import { BUILD_PATHS } from '~/build/shared/paths';
-import { writeJSON } from '~/tools/fs';
-import * as Log from '~/tools/logger';
 import { getPopularArticles } from './ga';
 import { getBookmarkArticles } from './hatena';
 

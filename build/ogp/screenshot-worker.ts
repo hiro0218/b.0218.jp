@@ -1,6 +1,6 @@
 import { type Browser, chromium, type Page } from 'playwright-chromium';
 
-import * as Log from '~/tools/logger';
+import * as Log from '~/build/shared/logger';
 
 import { OGP_CONFIG } from './config';
 import { getOgpTheme } from './theme';

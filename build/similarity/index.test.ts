@@ -1,15 +1,15 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { FILENAME_POSTS_SIMILARITY, FILENAME_TAG_SIMILARITY } from '@/constants';
+import * as fs from '~/build/shared/fs';
+import * as Log from '~/build/shared/logger';
 import { readAllPosts } from '~/build/shared/readAllPosts';
-import * as fs from '~/tools/fs';
-import * as Log from '~/tools/logger';
 import { getRelatedPosts } from './post';
 import { getRelatedTags } from './tag';
 
 // 依存モジュールのモック
 vi.mock('~/build/shared/readAllPosts');
-vi.mock('~/tools/fs');
-vi.mock('~/tools/logger');
+vi.mock('~/build/shared/fs');
+vi.mock('~/build/shared/logger');
 vi.mock('./post');
 vi.mock('./tag');
 

@@ -146,7 +146,7 @@
       }
     },
     {
-      "includes": ["src/**/*.{ts,tsx}", "tools/**/*.{ts,tsx}"],
+      "includes": ["src/**/*.{ts,tsx}"],
       "linter": {
         "rules": {
           "style": {

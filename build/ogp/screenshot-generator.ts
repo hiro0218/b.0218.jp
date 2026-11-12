@@ -4,9 +4,9 @@ import path from 'node:path';
 
 import { FILENAME_POSTS_LIST } from '@/constants';
 import type { PostSummary } from '@/types/source';
+import { mkdir, readJSON } from '~/build/shared/fs';
+import * as Log from '~/build/shared/logger';
 import { BUILD_PATHS } from '~/build/shared/paths';
-import { mkdir, readJSON } from '~/tools/fs';
-import * as Log from '~/tools/logger';
 
 import { OGP_CONFIG } from './config';
 import { WorkerPool } from './worker-pool';

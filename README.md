@@ -32,7 +32,7 @@ This project is designed to complete heavy processing—such as ML inference and
 
 ### 1. Prebuild pipeline: from submodule to `dist/`
 
-When `npm run build` runs, npm's pre-script mechanism automatically runs `prebuild` (`scripts/prebuild.sh`) first. Everything from fetching article data via the Git submodule, through article conversion, the parallel processing of similarity/search/popular articles/tag categorization, to OG image generation—all interaction with external systems (GitHub, linked sites, Google Analytics, Hatena Bookmark) is consolidated into this stage.
+When `npm run build` runs, npm's pre-script mechanism automatically runs `prebuild` (`build/prebuild.sh`) first. Everything from fetching article data via the Git submodule, through article conversion, the parallel processing of similarity/search/popular articles/tag categorization, to OG image generation—all interaction with external systems (GitHub, linked sites, Google Analytics, Hatena Bookmark) is consolidated into this stage.
 
 ```mermaid
 sequenceDiagram
