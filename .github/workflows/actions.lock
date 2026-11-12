@@ -17,7 +17,7 @@ workflows:
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-node@v7.1.0'
         - 'actions/upload-artifact@v7.0.2'
-        - 'kesin11/actions-timeline@v3.2.0'
+        - 'kesin11/actions-timeline@v3.2.1'
         - 'marocchino/sticky-pull-request-comment@v3.0.5'
     '.github/workflows/deps-dependabot-auto-merge.yml':
         - 'dependabot/fetch-metadata@v3.1.0'
@@ -116,9 +116,9 @@ dependencies:
         commit: 'sha1-460b1f8a750077029ad3589824d371b200e91dcf'
         owner_id: 1324862
         repo_id: 681708168
-    'kesin11/actions-timeline@v3.2.0':
-        ref: 'v3.2.0'
-        commit: 'sha1-57fc93f20c6da7fbc14063c6d24a2a5627c799ad'
+    'kesin11/actions-timeline@v3.2.1':
+        ref: 'v3.2.1'
+        commit: 'sha1-460b1f8a750077029ad3589824d371b200e91dcf'
         owner_id: 1324862
         repo_id: 681708168
     'marocchino/sticky-pull-request-comment@v3.0.5':
