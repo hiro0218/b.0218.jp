@@ -9,14 +9,16 @@ const GOOGLE_FC_PRESENT_SCRIPT_ID = 'googlefc-present';
 export function GoogleAdSense({ publisherId }: GoogleAdSenseProps) {
   return (
     <>
+      <link crossOrigin="anonymous" href="https://pagead2.googlesyndication.com" rel="preconnect" />
       <Script
         async
         crossOrigin="anonymous"
         src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${publisherId}`}
         strategy="afterInteractive"
       />
+      <link crossOrigin="anonymous" href="https://fundingchoicesmessages.google.com" rel="preconnect" />
       <Script
-        src="https://fundingchoicesmessages.google.com/i/pub-7651142413133023?ers=1"
+        src={`https://fundingchoicesmessages.google.com/i/${publisherId.replace('ca-', '')}?ers=1`}
         strategy="afterInteractive"
       />
       <Script id={GOOGLE_FC_PRESENT_SCRIPT_ID} strategy="afterInteractive">{`(function() {

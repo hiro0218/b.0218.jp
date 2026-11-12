@@ -24,8 +24,14 @@ export const gapClasses = {
   400: css`
     gap: var(--spacing-400);
   `,
+  500: css`
+    gap: var(--spacing-500);
+  `,
   600: css`
     gap: var(--spacing-600);
+  `,
+  700: css`
+    gap: var(--spacing-700);
   `,
   800: css`
     gap: var(--spacing-800);

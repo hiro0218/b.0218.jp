@@ -1,7 +1,6 @@
 import { Fragment, type ReactNode } from 'react';
-import { Adsense } from '@/components/UI/Adsense';
-import { styled } from '@/ui/styled';
 import { splitContentForAds } from './AdsenseManager/splitContentForAds';
+import { ArticleAd } from './ArticleAd';
 
 type AdsenseManagerProps = {
   content: ReactNode;
@@ -17,11 +16,7 @@ export function AdsenseManager({ content }: AdsenseManagerProps) {
         return (
           // biome-ignore lint/suspicious/noArrayIndexKey: sections は記事本文から静的に導出され、レンダリング中に順序や件数が変わらない
           <Fragment key={index}>
-            {isContinued ? (
-              <AdsenseContainer>
-                <Adsense />
-              </AdsenseContainer>
-            ) : null}
+            {isContinued ? <ArticleAd /> : null}
             <div className="post-content">{section}</div>
           </Fragment>
         );
@@ -29,8 +24,3 @@ export function AdsenseManager({ content }: AdsenseManagerProps) {
     </>
   );
 }
-
-export const AdsenseContainer = styled.div`
-  margin: var(--spacing-600) 0;
-  text-align: center;
-`;

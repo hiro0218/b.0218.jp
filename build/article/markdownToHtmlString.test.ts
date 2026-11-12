@@ -1,3 +1,5 @@
+// @vitest-environment node
+// jsdom で動かさない。Shiki 4.6 が WASM の展開に使う Blob#stream() が、jsdom の Blob に無いため。
 import { describe, expect, it } from 'vitest';
 import { createMarkdownToNoteHtmlString, createMarkdownToPostHtmlString } from './markdownToHtmlString';
 
@@ -85,6 +87,28 @@ describe('createMarkdownToNoteHtmlString', () => {
 
     expect(html).not.toContain('javascript:');
     expect(html).not.toContain('alert(1)');
+  });
+
+  it('注釈が含まれる場合、番号と戻るの href がどれも存在する id を指す HTML を返す', async () => {
+    const markdownToHtml = createMarkdownToNoteHtmlString();
+    const html = await markdownToHtml('本文[^1]と[^memo]と再び[^1]。\n\n[^1]: 一つ目。\n[^memo]: 二つ目。');
+
+    const ids = [...html.matchAll(/ id="([^"]+)"/g)].map((match) => match[1]);
+    const hrefs = [...html.matchAll(/ href="#([^"]+)"/g)].map((match) => match[1]);
+
+    expect(hrefs).toHaveLength(6);
+    for (const href of hrefs) expect(ids).toContain(href);
+    expect(html).not.toContain('user-content-user-content-');
+    expect(html).toContain('aria-describedby="user-content-footnote-label"');
+    expect(html).toContain('id="user-content-footnote-label"');
+  });
+
+  it('生 HTML に id と name が含まれる場合、DOM clobbering 対策の接頭辞を付けた HTML を返す', async () => {
+    const markdownToHtml = createMarkdownToNoteHtmlString();
+    const html = await markdownToHtml('<h2 id="top">見出し</h2><a name="old"></a>');
+
+    expect(html).toContain('id="user-content-top"');
+    expect(html).toContain('name="user-content-old"');
   });
 });
 

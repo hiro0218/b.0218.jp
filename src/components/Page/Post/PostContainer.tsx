@@ -1,25 +1,24 @@
 import type { ReactNode } from 'react';
-import { Center } from '@/components/UI/Layout/Center';
 import { styled } from '@/ui/styled';
+import { postLayoutFrame } from '@/ui/styled/components/postLayout';
 
 type Props = {
   children: ReactNode;
-  className?: string;
 };
 
 /**
- * @summary 記事本文の内容幅を制御する Container。max 50rem (800px) で中央寄せし、左右に viewport 適応の gutter を確保する。
+ * @summary 記事ページの枠。本文と目次の 2 列を中央に寄せる。1024px 未満は 1 列で、目次は本文の中に置く。
  */
-export function PostContainer({ children, className }: Props) {
+export function PostContainer({ children }: Props) {
+  // data-post-layout を外さない。記事ページのフッターが、:root:has([data-post-layout]) で記事ページかを判定するため
   return (
-    <Root>
-      <Center className={className} maxWidth="var(--sizes-container-article)" minWidth="0px">
-        {children}
-      </Center>
+    <Root className={postLayoutFrame} data-post-layout>
+      {children}
     </Root>
   );
 }
 
+// position: relative を外さない。Mokuji が position: absolute で枠の 2 列目へ重なるときの基準にするため
 const Root = styled.div`
-  padding-inline: clamp(var(--spacing-300), 3vw, var(--spacing-400));
+  position: relative;
 `;

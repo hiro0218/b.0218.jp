@@ -1,7 +1,7 @@
 import { type ChildProcess, spawn } from 'node:child_process';
 import { join } from 'node:path';
 
-import * as Log from '~/tools/logger';
+import * as Log from '~/build/shared/logger';
 
 import { OGP_CONFIG } from './config';
 

@@ -12,8 +12,6 @@ import { removeEmptyParagraph } from './transform/paragraph';
 export type { LinkPreviewCache };
 export { loadCache, saveCache };
 
-// import { wrapAll } from './transform/wrapAll';
-
 const MAX_CONCURRENCY = 5;
 
 export interface Rehype0218Options {
@@ -89,8 +87,6 @@ const rehype0218 = (options?: Rehype0218Options) => {
     if (!options?.sharedCache) {
       saveCache(cache);
     }
-
-    // wrapAll(tree);
   };
 };
 

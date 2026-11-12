@@ -14,6 +14,8 @@ export const fontSizesHeading: TokenValues<'fontSizes'> = {
 const fontSizesValues: TokenValues<'fontSizes'> = {
   // heading
   ...fontSizesHeading,
+  // display を h1 と同じ大きさにしない。h2 との比 1.3 以上を保つため、h1 より 6px 大きい 36→40px にする
+  display: { value: clampFontSize(getFontSizeStep(15), getFontSizeStep(13)) },
   // size
   xs: { value: pxToRem(getFontSizeStep(1)) },
   sm: { value: pxToRem(getFontSizeStep(2)) },

@@ -1,7 +1,7 @@
 import type { IpadicFeatures, Tokenizer } from 'kuromoji';
 import { normalizeSearchToken, type SearchDataItem, type SearchIndex } from '@/lib/search';
 import type { PostSummary } from '@/types/source';
-import * as Log from '~/tools/logger';
+import * as Log from '~/build/shared/logger';
 import { tokenizeMeaningfulText } from '../shared/morphology';
 
 /**
@@ -46,7 +46,7 @@ export function generateSearchIndex(
   }
 
   for (const post of posts) {
-    if (!post.slug) continue;
+    if (!post.slug || post.noindex) continue;
 
     // タイトルとタグを結合してトークン化（1回のみ）
     const textToProcess = [post.title, ...post.tags].join(' ');

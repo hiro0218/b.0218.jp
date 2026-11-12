@@ -38,11 +38,11 @@ paths:
 
 ## npm scripts / AI 実行
 
-- `npm run lint`: `biome check src build tools tests`
-- `npm run lint:write`: `biome check --write --unsafe src build tools tests`
-- 編集ファイルだけを確認する場合は `npx biome check <files...>` を直接実行する。
+- `npm run lint`: `biome check src build scripts tests`
+- `npm run lint:write`: `biome check --write --unsafe src build scripts tests`
+- 編集ファイルだけを確認する場合は `./node_modules/.bin/biome check <files...>` を直接実行する(`npx biome check` はこの作業環境で失敗することがある。詳細は [CLAUDE.md](../../CLAUDE.md) の npx 既知問題を参照)。
 - AI セッション中の自動修正では [biome-check Skill](../skills/biome-check/SKILL.md) を優先し、`--unsafe` は使わない。
-- `biome.json` を編集した場合は、非コードファイルだけの変更でも `npx biome check biome.json` で設定ファイル自体を検証する。
+- `biome.json` を編集した場合は、非コードファイルだけの変更でも `./node_modules/.bin/biome check biome.json` で設定ファイル自体を検証する。
 
 ## 意図的な例外
 
@@ -90,6 +90,8 @@ paths:
 ## レイヤー依存 / import
 
 `noRestrictedImports` の overrides で UI/Functional/Page/App 層の依存方向を機械的に強制する。全レイヤーで `~/styled-system/*` の直接 import も禁止し、`@/ui/styled` 経由に統一する。
+
+`src/app/**/page.tsx` と `src/app/**/_lib/*Page.tsx` では、`@/ui/styled` の `css`・`styled` の import も禁止する（[components.md](./components.md#-pagetsx-にスタイルを定義しない-critical)）。この override は、`src/**/*.{ts,tsx}` の override より後ろに置く。同じ rule の options は、後ろの override が置き換えるため、前に置くと効かない。
 
 ## biome-ignore の使用基準
 

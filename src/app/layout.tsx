@@ -1,6 +1,5 @@
 import '@/ui/styles/globals.css';
 
-import { GoogleAnalytics } from '@next/third-parties/google';
 import type { Metadata, Viewport } from 'next/types';
 import { Suspense } from 'react';
 import { openGraph } from '@/app/_metadata';
@@ -9,23 +8,29 @@ import { Header } from '@/components/App/Header';
 import { Layout } from '@/components/App/Layout/AppLayout';
 import { MainContainer } from '@/components/App/Layout/MainContainer';
 import { PageScroll } from '@/components/App/PageScroll/PageScroll';
-import { SearchDialogProvider } from '@/components/App/SearchDialogContext';
+import { SearchProvider } from '@/components/App/Search/SearchProvider';
 import { BrowserEffects } from '@/components/Functional/BrowserEffects';
 import { ClientSideScrollRestorer } from '@/components/Functional/ClientSideScrollRestorer';
-import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
-import { GooglePublisherScript } from '@/components/Functional/GooglePublisher';
-import { PreconnectLinks } from '@/components/Functional/PreconnectLinks';
+import { ThirdPartyScripts } from '@/components/Functional/ThirdPartyScripts';
 import {
   AUTHOR_NAME,
-  GOOGLE_ADSENSE,
+  DOMAIN,
   MAIN_CONTENT_ID,
   SITE_DESCRIPTION,
+  SITE_FEED_PATH,
   SITE_NAME,
   SITE_URL,
   URL,
   WEBMENTION,
 } from '@/constants';
-import { isProduction } from '@/lib/config/environment';
+import { getFilteredPosts, getPopularPost } from '@/lib/post/list';
+
+// post 全体は渡さず、slug と title だけにする。クライアントへ渡した値は、全ページの RSC payload に載るため
+const SEARCH_POPULAR_POST_LIMIT = 5;
+const searchPopularPosts = getPopularPost(getFilteredPosts(), SEARCH_POPULAR_POST_LIMIT).map(({ slug, title }) => ({
+  slug,
+  title,
+}));
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -47,7 +52,7 @@ export const metadata: Metadata = {
   ],
   alternates: {
     types: {
-      'application/rss+xml': '/feed.xml',
+      'application/rss+xml': SITE_FEED_PATH,
     },
   },
   openGraph: openGraph,
@@ -73,9 +78,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  other: {
-    search: '/opensearch.xml',
-  },
 };
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -85,22 +87,20 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <a className="skip-link" href={`#${MAIN_CONTENT_ID}`}>
           メインコンテンツへスキップ
         </a>
-        {isProduction ? <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} /> : null}
-        <SearchDialogProvider>
+        <link href="/opensearch.xml" rel="search" title={DOMAIN} type="application/opensearchdescription+xml" />
+        <SearchProvider popularPosts={searchPopularPosts}>
           <Layout>
             <Header />
             <MainContainer>{children}</MainContainer>
             <PageScroll />
             <Footer />
           </Layout>
-        </SearchDialogProvider>
+        </SearchProvider>
         <BrowserEffects />
         <Suspense>
           <ClientSideScrollRestorer />
         </Suspense>
-        {isProduction ? <PreconnectLinks /> : null}
-        {isProduction ? <GoogleAdSense publisherId={GOOGLE_ADSENSE.CLIENT} /> : null}
-        <GooglePublisherScript />
+        <ThirdPartyScripts />
       </body>
     </html>
   );

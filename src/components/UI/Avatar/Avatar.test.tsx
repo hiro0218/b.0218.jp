@@ -34,11 +34,14 @@ describe('Avatar', () => {
     expect(screen.getByText('A')).not.toBeNull();
   });
 
-  it('size を指定した場合、width/height に反映する', () => {
-    const { container } = render(<Avatar name={NAME} size={48} src={SRC} />);
+  // 一辺の長さそのものを固定しない。見た目の設計値のため
+  it('画像を表示する場合、width / height 属性と CSS 変数が同じ長さの正方形にする', () => {
+    const { container } = render(<Avatar name={NAME} src={SRC} />);
     const img = container.querySelector('img');
+    const side = img?.getAttribute('width');
 
-    expect(img?.getAttribute('width')).toBe('48');
-    expect(img?.getAttribute('height')).toBe('48');
+    expect(side).toBeTruthy();
+    expect(img?.getAttribute('height')).toBe(side);
+    expect(img?.style.getPropertyValue('--avatar-size')).toBe(`${side}px`);
   });
 });

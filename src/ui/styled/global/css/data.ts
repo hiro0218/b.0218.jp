@@ -1,9 +1,4 @@
 import type { GlobalStyleObject } from '@pandacss/types';
 
-/**
- * Data attribute-based global CSS
- *
- * @note spacingDataStyles was removed and migrated to Atomic CSS (gapClasses).
- *       See: src/ui/styled/atomic/flex.ts
- */
+/** 余白は data 属性にせず、Atomic CSS の gapClasses で扱う（src/ui/styled/atomic/spacing.ts）。 */
 export const dataCss: GlobalStyleObject = {};

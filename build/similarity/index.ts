@@ -1,9 +1,9 @@
 import { FILENAME_POSTS_SIMILARITY, FILENAME_TAG_SIMILARITY } from '@/constants';
 import type { TagIndex } from '@/types/source';
+import { readJSON, writeJSON } from '~/build/shared/fs';
+import * as Log from '~/build/shared/logger';
 import { BUILD_PATHS } from '~/build/shared/paths';
 import { readAllPosts } from '~/build/shared/readAllPosts';
-import { readJSON, writeJSON } from '~/tools/fs';
-import * as Log from '~/tools/logger';
 
 import { getRelatedPosts } from './post';
 import { getRelatedTags } from './tag';

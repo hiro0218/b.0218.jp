@@ -4,11 +4,10 @@ export type Like = {
   id: string;
   url: string;
   authorName: string;
-  authorUrl: string | null;
   authorPhoto: string | null;
 };
 
-const LIKE_PROPERTY = 'like-of';
+export const LIKE_PROPERTY = 'like-of';
 const DEFAULT_AUTHOR_NAME = '匿名';
 
 function asNonEmptyString(value: unknown): string | null {
@@ -42,7 +41,6 @@ function parseLike(value: unknown): Like | null {
     id,
     url,
     authorName: asNonEmptyString(author?.name) ?? DEFAULT_AUTHOR_NAME,
-    authorUrl: asHttpUrl(author?.url),
     authorPhoto: asHttpsUrl(author?.photo),
   };
 }

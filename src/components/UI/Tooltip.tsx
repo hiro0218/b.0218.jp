@@ -9,18 +9,17 @@ type TooltipProps = {
   text: string;
   position?: 'top' | 'bottom';
   children: React.ReactElement;
-  /** ホバーから表示までの遅延（ms） */
-  delay?: number;
 };
+
+const SHOW_DELAY_MS = 500;
 
 /**
  * ホバーでテキストを表示するツールチップ。React Aria でアクセシビリティ対応済み。
  * @summary ホバーツールチップ
  */
-export const Tooltip = ({ text, position = 'bottom', children, delay = 500 }: TooltipProps) => {
-  const state = useTooltipTriggerState({ delay });
+export const Tooltip = ({ text, position = 'bottom', children }: TooltipProps) => {
+  const state = useTooltipTriggerState({ delay: SHOW_DELAY_MS });
   const triggerRef = useRef<HTMLSpanElement>(null);
-  const tooltipRef = useRef<HTMLSpanElement>(null);
 
   const { triggerProps, tooltipProps } = useTooltipTrigger({ isDisabled: false }, state, triggerRef);
 
@@ -30,7 +29,7 @@ export const Tooltip = ({ text, position = 'bottom', children, delay = 500 }: To
     <TooltipContainer ref={triggerRef} {...triggerProps}>
       {children}
       {state.isOpen ? (
-        <TooltipContent data-position={position} data-visible={state.isOpen} ref={tooltipRef} {...ariaTooltipProps}>
+        <TooltipContent data-position={position} {...ariaTooltipProps}>
           {text}
         </TooltipContent>
       ) : null}
@@ -43,6 +42,7 @@ const TooltipContainer = styled.span`
   display: inline-block;
 `;
 
+// opacity / transform の transition を付けない。開いている間だけマウントする要素は、transition が最初のスタイル計算では走らず効かない（出すなら @starting-style か animation）
 const TooltipContent = styled.span`
   position: absolute;
   left: 50%;
@@ -56,27 +56,13 @@ const TooltipContent = styled.span`
   user-select: none;
   background-color: var(--colors-dark-backgrounds);
   border-radius: var(--radii-sm);
-  opacity: 0;
-  transition:
-    transform var(--transition-fast),
-    opacity var(--transition-slow);
+  transform: translate(-50%, 0%);
 
   &[data-position='top'] {
     bottom: calc(100% + var(--spacing-75));
-    transform: translate(-50%, 100%);
   }
 
   &[data-position='bottom'] {
     top: calc(100% + var(--spacing-75));
-    transform: translate(-50%, -100%);
-  }
-
-  &[data-visible='true'] {
-    opacity: 1;
-    transform: translate(-50%, 0%);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
   }
 `;

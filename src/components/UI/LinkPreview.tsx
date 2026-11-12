@@ -16,6 +16,7 @@ type Props = {
 export const LinkPreview = ({ link, card, thumbnail, title, domain, description }: Props) => {
   const decodedTitle = title.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&');
   return (
+    // a 要素と data-card を、本文 CSS（post-content/index.css）と別に変えない。CSS が a[data-card] で選ぶため
     <Anchor data-card={card} href={link} target="_blank">
       <Body className="p-link-preview-body">
         <BodyTitle className={textEllipsis}>{decodedTitle}</BodyTitle>
@@ -93,8 +94,8 @@ const BodyDescription = styled.span`
   display: none;
   margin-top: var(--spacing-75);
   font-size: var(--font-sizes-sm);
-  line-height: var(--line-heights-sm);
-  color: var(--colors-gray-600);
+  line-height: var(--grid-line-height-sm);
+  color: var(--colors-gray-700);
 
   @container (min-width: 500px) {
     display: block;
@@ -105,7 +106,7 @@ const BodyUrl = styled.span`
   display: block;
   margin-top: var(--spacing-100);
   font-size: var(--font-sizes-xs);
-  line-height: var(--line-heights-xs);
+  line-height: var(--grid-line-height-sm);
   color: var(--colors-gray-700);
 `;
 

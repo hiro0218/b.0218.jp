@@ -71,9 +71,6 @@ export const ClickToZoom: Story = {
   args: {
     src: Img600x400,
     alt: 'ズーム操作テスト用',
-    a11yOptions: {
-      buttonZoomLabel: '画像をズーム',
-    },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -106,7 +103,7 @@ export const ClickToZoom: Story = {
     await act(async () => {
       await fireEvent.load(image);
     });
-    const trigger = await canvas.findByRole('button', { name: '画像をズーム' });
+    const trigger = await canvas.findByRole('button', { name: 'ズーム操作テスト用' });
     await userEvent.click(trigger);
 
     const body = within(document.body);

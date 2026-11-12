@@ -54,13 +54,16 @@ export function Alert({ type, html, hideLabel = false }: Props) {
   );
 }
 
+// 行の高さを記事本文の倍率（2 倍 = 28）から引き継がない。14px の文字には sm（縦グリッドで 24）が合うため
 const containerStyle = css`
   display: grid;
-  grid-template-columns: calc(var(--spacing-100)) 1fr;
-  column-gap: var(--spacing-300);
+  grid-template-columns: var(--sizes-icon-xs) 1fr;
+  row-gap: var(--spacing-75);
+  column-gap: var(--spacing-200);
   align-items: flex-start;
-  padding: var(--spacing-300) var(--spacing-400);
+  padding: var(--spacing-300);
   font-size: var(--font-sizes-sm);
+  line-height: var(--grid-line-height-sm);
   color: var(--alert-color);
   background-color: var(--alert-background);
   border-radius: var(--radii-md);

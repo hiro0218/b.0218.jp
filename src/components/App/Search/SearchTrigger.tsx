@@ -1,32 +1,29 @@
+'use client';
+
 import { MagnifyingGlassIcon } from '@phosphor-icons/react';
 
-import { IconButton } from '@/components/UI/IconButton';
 import { ICON_SIZE_XS } from '@/ui/iconSizes';
-import { css } from '@/ui/styled';
+import { stateLayerControl } from '@/ui/styled/components/stateLayerControl';
 
 import { SEARCH_LABELS } from './constants';
+import { SEARCH_SHORTCUT_KEY } from './keyboard';
+import { useSearchOpener } from './SearchProvider';
 
-type Props = {
-  openDialogAction: () => void;
-  onPrefetch?: () => void;
-};
+export function SearchTrigger() {
+  const { open, prefetch } = useSearchOpener();
 
-export function SearchTrigger({ openDialogAction, onPrefetch }: Props) {
   return (
-    <IconButton
+    <button
       aria-haspopup="dialog"
+      aria-keyshortcuts={SEARCH_SHORTCUT_KEY}
       aria-label={SEARCH_LABELS.searchTitle}
-      className={pointerEventsStyle}
-      onClick={openDialogAction}
-      onFocus={onPrefetch}
-      onMouseEnter={onPrefetch}
-      tooltip={SEARCH_LABELS.searchTitle}
+      className={stateLayerControl}
+      onClick={open}
+      onFocus={prefetch}
+      onMouseEnter={prefetch}
+      type="button"
     >
       <MagnifyingGlassIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
-    </IconButton>
+    </button>
   );
 }
-
-const pointerEventsStyle = css`
-  pointer-events: auto;
-`;

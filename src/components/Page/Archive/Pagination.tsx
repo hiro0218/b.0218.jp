@@ -15,16 +15,13 @@ type PaginationEllipsisItem = {
   key: string;
 };
 
-export type PaginationModel = {
-  currentPage: number;
-  totalPages: number;
-  previousHref: string | null;
-  nextHref: string | null;
-  items: (PaginationPageItem | PaginationEllipsisItem)[];
-};
+type PaginationItem = PaginationPageItem | PaginationEllipsisItem;
 
 type PaginationProps = {
-  pagination: PaginationModel;
+  currentPage: number;
+  totalPages: number;
+  /** URL の規則（1 ページ目の URL の正規化など）は、呼び出し側が決める */
+  getPageHref: (page: number) => string;
 };
 
 type NavigationButtonProps = {
@@ -85,25 +82,38 @@ const PageNumberButton = ({ item }: PageNumberButtonProps) => {
   );
 };
 
-/**
- * ページネーション付きナビゲーションを表示
- *
- * 表示モデルが 1 ページ以下の場合は null を返す（非表示）
- *
- * @param pagination ページネーション表示モデル
- * @returns ページネーション UI、または null
- *
- * @example
- * ```tsx
- * <Pagination pagination={pagination} />
- * ```
- */
-export function Pagination({ pagination }: PaginationProps) {
-  const { currentPage, totalPages } = pagination;
+const PAGINATION_ELLIPSIS = '...';
 
-  if (totalPages < 2 || pagination.items.length < 2) {
+function range(start: number, end: number): number[] {
+  return Array.from({ length: end - start + 1 }, (_, idx) => idx + start);
+}
+
+// 前後の数（siblingCount）を変数にしない。呼び出しは 1 通りで、変数にすると各枠の数を式で求めることになり、読み取りにくい
+function getPaginationRange(currentPage: number, totalPages: number): (number | typeof PAGINATION_ELLIPSIS)[] {
+  if (totalPages <= 6) return range(1, totalPages);
+  if (currentPage <= 3) return [...range(1, 5), PAGINATION_ELLIPSIS, totalPages];
+  if (currentPage >= totalPages - 3) return [1, PAGINATION_ELLIPSIS, ...range(totalPages - 4, totalPages)];
+
+  return [1, PAGINATION_ELLIPSIS, currentPage - 1, currentPage, currentPage + 1, PAGINATION_ELLIPSIS, totalPages];
+}
+
+/**
+ * @param currentPage 1 始まりのページ番号
+ */
+export function Pagination({ currentPage, totalPages, getPageHref }: PaginationProps) {
+  if (totalPages < 2) {
     return null;
   }
+
+  const previousHref = currentPage > 1 ? getPageHref(currentPage - 1) : null;
+  const nextHref = currentPage < totalPages ? getPageHref(currentPage + 1) : null;
+  const items = getPaginationRange(currentPage, totalPages).map((item, index): PaginationItem => {
+    if (item === PAGINATION_ELLIPSIS) {
+      return { type: 'ellipsis', key: `ellipsis-${index}` };
+    }
+
+    return { type: 'page', page: item, href: getPageHref(item), isCurrent: item === currentPage };
+  });
 
   return (
     <PaginationNav aria-label="ページネーション">
@@ -114,9 +124,9 @@ export function Pagination({ pagination }: PaginationProps) {
 
       <ul>
         <li data-paginate="arrow">
-          <NavigationButton currentPage={currentPage} direction="previous" href={pagination.previousHref} />
+          <NavigationButton currentPage={currentPage} direction="previous" href={previousHref} />
         </li>
-        {pagination.items.map((item) =>
+        {items.map((item) =>
           item.type === 'ellipsis' ? (
             <li data-paginate="ellipsis" key={item.key}>
               <EllipsisIndicator aria-hidden="true">
@@ -135,7 +145,7 @@ export function Pagination({ pagination }: PaginationProps) {
           </PageCountDisplay>
         </li>
         <li data-paginate="arrow">
-          <NavigationButton currentPage={currentPage} direction="next" href={pagination.nextHref} />
+          <NavigationButton currentPage={currentPage} direction="next" href={nextHref} />
         </li>
       </ul>
     </PaginationNav>

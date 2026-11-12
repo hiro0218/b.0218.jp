@@ -1,4 +1,4 @@
-import * as Log from '~/tools/logger';
+import * as Log from '~/build/shared/logger';
 
 const SEED = 42;
 const MAX_ITERATIONS = 100;

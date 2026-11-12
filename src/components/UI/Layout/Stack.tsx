@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, ElementType } from 'react';
 import { cx } from '@/ui/styled';
-import type { FlexAlign, FlexJustify, FlexWrap } from '@/ui/styled/atomic/flex';
-import { alignClasses, directionClasses, flexBaseStyle, justifyClasses, wrapClasses } from '@/ui/styled/atomic/flex';
+import type { FlexAlign, FlexJustify } from '@/ui/styled/atomic/flex';
+import { alignClasses, directionClasses, flexBaseStyle, justifyClasses } from '@/ui/styled/atomic/flex';
 import { gapClasses } from '@/ui/styled/atomic/spacing';
 import type { SpaceGap } from '@/ui/styled/theme/tokens/spacing';
 
@@ -36,8 +36,7 @@ type Props<T extends ElementType = 'div'> = {
   align?: FlexAlign;
   /** 主軸の配置 */
   justify?: FlexJustify;
-  wrap?: FlexWrap;
-} & Omit<ComponentPropsWithoutRef<T>, 'as' | 'gap' | 'direction' | 'align' | 'justify' | 'wrap'>;
+} & Omit<ComponentPropsWithoutRef<T>, 'as' | 'gap' | 'direction' | 'align' | 'justify'>;
 
 /**
  * 子要素を縦または横方向に並べるレイアウトコンポーネント。
@@ -51,7 +50,6 @@ export const Stack = <T extends ElementType = 'div'>({
   gap = 300,
   align,
   justify,
-  wrap,
   className,
   ...props
 }: Props<T>) => {
@@ -64,7 +62,6 @@ export const Stack = <T extends ElementType = 'div'>({
         directionClasses[direction],
         align && alignClasses[align],
         justify && justifyClasses[justify],
-        wrap && wrapClasses[wrap],
         gapClasses[gap],
       )}
       {...props}

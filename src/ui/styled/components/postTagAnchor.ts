@@ -1,26 +1,18 @@
 import { css } from '@/ui/styled';
 
+// 既定の大きさ（min-height・padding・font-size・line-height・border-radius）をここに置かない。使う側が同じプロパティを上書きすると、勝ち負けは CSS の出力順で決まるため
 export const postTagAnchor = css`
   display: inline-flex;
   gap: var(--spacing-100);
   align-items: center;
   justify-content: center;
-  min-height: var(--sizes-touch-target);
-  padding: var(--spacing-75) var(--spacing-300);
-  font-size: var(--font-sizes-sm);
-  line-height: var(--line-heights-sm);
   color: var(--colors-gray-700);
   text-align: center;
   white-space: nowrap;
   background-color: var(--colors-gray-a-100);
-  border-radius: var(--radii-md);
 
-  @media (--isDesktop) {
-    min-height: auto;
-  }
-
+  /* リンクでないタグ（span）の文字色を gray-500 で弱めない。面の上で 2.49:1 になり、文字が読めないため */
   &:is(span) {
-    color: var(--colors-gray-500);
     user-select: none;
   }
 

@@ -1,0 +1,47 @@
+import type { Element } from 'html-react-parser';
+import { ZoomImage } from '@/components/UI/ZoomImage';
+import { toSafeProps } from './attribs';
+import type { Replacer } from './types';
+
+export const handleZoomImage: Replacer = (domNode) => {
+  if (domNode.tagName !== 'img') {
+    return undefined;
+  }
+
+  if (isInsideAnchor(domNode)) {
+    return undefined;
+  }
+
+  const src = domNode.attribs?.src;
+
+  if (!src) {
+    return undefined;
+  }
+
+  const { alt, ...props } = toSafeProps(domNode);
+
+  return <ZoomImage {...props} alt={typeof alt === 'string' ? alt : ''} src={src} />;
+};
+
+function isInsideAnchor(element: Element): boolean {
+  const parent = element.parent;
+
+  if (!parent || !isElement(parent)) {
+    return false;
+  }
+
+  if (parent.name === 'a') {
+    return true;
+  }
+
+  return isInsideAnchor(parent);
+}
+
+function isElement(node: unknown): node is Element {
+  if (typeof node !== 'object' || node === null) {
+    return false;
+  }
+
+  const element = node as Partial<Element>;
+  return element.type === 'tag' && typeof element.name === 'string';
+}

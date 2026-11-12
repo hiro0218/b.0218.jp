@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.6.6/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -48,7 +48,8 @@
             "ignoreRestSiblings": true
           }
         },
-        "useExhaustiveDependencies": "warn"
+        "useExhaustiveDependencies": "warn",
+        "noPlaywrightMissingAwait": "error"
       },
       "performance": {
         "noDelete": "error",
@@ -64,26 +65,25 @@
         "useNamingConvention": {
           "level": "error",
           "options": { "strictCase": false }
-        }
+        },
+        "noPlaywrightElementHandle": "warn",
+        "noPlaywrightEval": "warn",
+        "noPlaywrightWaitForSelector": "warn"
       },
       "security": {
         "noDangerouslySetInnerHtml": "off"
       },
       "suspicious": {
         "noExplicitAny": "error",
-        "noLeakedRender": "warn"
-      },
-      "nursery": {
-        "noPlaywrightElementHandle": "warn",
-        "noPlaywrightEval": "warn",
+        "noLeakedRender": "warn",
         "noPlaywrightForceOption": "error",
-        "noPlaywrightMissingAwait": "error",
         "noPlaywrightNetworkidle": "error",
         "noPlaywrightPagePause": "error",
-        "noPlaywrightUselessAwait": "warn",
         "noPlaywrightWaitForNavigation": "error",
-        "noPlaywrightWaitForSelector": "warn",
         "noPlaywrightWaitForTimeout": "error"
+      },
+      "complexity": {
+        "noPlaywrightUselessAwait": "warn"
       }
     },
     "includes": ["**", "!_article", "!build/**", "!public/**", "!**/*.config.js"]
@@ -146,7 +146,7 @@
       }
     },
     {
-      "includes": ["src/**/*.{ts,tsx}", "tools/**/*.{ts,tsx}"],
+      "includes": ["src/**/*.{ts,tsx}"],
       "linter": {
         "rules": {
           "style": {
@@ -157,6 +157,36 @@
                   {
                     "group": ["**/index", "**/index.*"],
                     "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/app/**/page.tsx", "src/app/**/_lib/*Page.tsx"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "paths": {
+                  "@/ui/styled": {
+                    "importNames": ["css", "styled"],
+                    "message": "page.tsx にスタイルを定義しないでください。src/components/Page/ の対応する場所に定義して import してください"
+                  }
+                },
+                "patterns": [
+                  {
+                    "group": ["**/index", "**/index.*"],
+                    "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"
+                  },
+                  {
+                    "group": ["@/lib/distLoader/*", "@/lib/distLoader/**"],
+                    "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"
                   }
                 ]
               }

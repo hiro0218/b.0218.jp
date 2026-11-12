@@ -1,8 +1,8 @@
 import { FILENAME_TAG_CATEGORIES } from '@/constants';
 import type { TagIndex } from '@/types/source';
+import { readJSON, writeJSON } from '~/build/shared/fs';
+import * as Log from '~/build/shared/logger';
 import { BUILD_PATHS } from '~/build/shared/paths';
-import { readJSON, writeJSON } from '~/tools/fs';
-import * as Log from '~/tools/logger';
 
 import { classifyTags } from './classifyTags';
 import { buildJaccardAdjacency } from './jaccard';

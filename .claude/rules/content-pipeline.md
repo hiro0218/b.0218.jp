@@ -1,7 +1,6 @@
 ---
 paths:
   - '_article/**/*'
-  - 'scripts/prebuild.sh'
   - 'build/**/*'
   - 'dist/**/*'
   - 'public/images/ogp/**'
@@ -13,7 +12,7 @@ paths:
 
 - `_article/_posts/*.md` は Git submodule のため直接編集禁止
 
-`_article` は外部 source of truth、`dist/` と `public/images/ogp/` は派生物である。手動編集は `prebuild` で上書きされ、記事・検索・OGP の整合性を壊すため、生成元または生成スクリプトを修正する。
+`_article` は外部 source of truth(別リポジトリ `https://github.com/hiro0218/article.git`。詳細は `.gitmodules` を参照)、`dist/` と `public/images/ogp/` は派生物である。手動編集は `prebuild` で上書きされ、記事・検索・OGP の整合性を壊すため、記事内容の修正は `_article` の参照先リポジトリ側で行い、パイプライン処理自体の修正は生成スクリプト側で行う。
 
 ## 出力先
 
@@ -23,23 +22,25 @@ paths:
 ## Prebuild
 
 - `npm run prebuild` を必ず実行する
-- 実体は `bash scripts/prebuild.sh`
+- 実体は `bash build/prebuild.sh`
+- 実行すると `git submodule update --remote` で `_article` を追跡ブランチの最新コミットへ進める。この副作用で `git status` に `_article` の変更が現れることがある(記事内容の書き換えではない)
 
 ## パイプライン手順（要点）
 
-1. `build:article` → `dist/*.json`（順次）
-2. 以下を並列実行:
+1. `git submodule update --remote` で `_article` を追跡ブランチの最新コミットへ更新
+2. `build:article` → `dist/*.json`（順次）
+3. 以下を並列実行:
    - `build:similarity` → `dist/*.json`
    - `build:search` → `dist/*.json`
    - `build:popular` → `dist/*.json`
    - `build:category` → `dist/*.json`
-3. `build:ogp` → `public/images/ogp/*.jpg`（`SKIP_OGP=true` でスキップ可）
+4. `build:ogp` → `public/images/ogp/*.jpg`（`SKIP_OGP=true` でスキップ可）
 
 `SKIP_OGP=true npm run prebuild` は OGP 出力や OGP メタデータに関係しないローカル確認でのみ使う。`build/ogp/**`、OGP URL、OGP 画像生成条件を変更した場合、最終確認ではスキップしない。
 
-正確な手順は `scripts/prebuild.sh` を参照。
+正確な手順は `build/prebuild.sh` を参照。
 
 ## 編集可能/不可
 
-- ✅ `build/**/*`, `scripts/prebuild.sh`, `src/lib/post/`, `src/lib/tag/`, `src/lib/source/`, `src/app/**/page.tsx`
+- ✅ `build/**/*`, `src/lib/post/`, `src/lib/tag/`, `src/lib/source/`, `src/app/**/page.tsx`
 - ❌ `_article/_posts/*.md`, 生成された JSON, `public/images/ogp/*`

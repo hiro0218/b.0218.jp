@@ -1,6 +1,6 @@
 import cluster from 'node:cluster';
 
-import * as Log from '~/tools/logger';
+import * as Log from '~/build/shared/logger';
 
 import { OGP_CONFIG } from './config';
 import { ScreenshotGenerator } from './screenshot-generator';

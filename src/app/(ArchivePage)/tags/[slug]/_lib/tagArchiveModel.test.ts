@@ -3,6 +3,7 @@ import {
   createTagArchiveMetadataModel,
   createTagArchivePageModel,
   createTagArchivePaginationStaticParams,
+  getTagArchivePageHref,
   parseTagPageSegment,
 } from './tagArchiveModel';
 
@@ -53,8 +54,23 @@ describe('createTagArchivePaginationStaticParams', () => {
   });
 });
 
+describe('getTagArchivePageHref', () => {
+  it('1ページ目の場合、ページ番号を付けないタグページの URL を返す', () => {
+    expect(getTagArchivePageHref('/tags/TypeScript', 1)).toBe('/tags/TypeScript');
+  });
+
+  it('2ページ目以降の場合、タグページの URL の後ろにページ番号を付ける', () => {
+    expect(getTagArchivePageHref('/tags/TypeScript', 2)).toBe('/tags/TypeScript/2');
+  });
+
+  it('基準の URL が / で終わる場合、/ を重ねずにページ番号を付ける', () => {
+    expect(getTagArchivePageHref('/tags/TypeScript/', 3)).toBe('/tags/TypeScript/3');
+    expect(getTagArchivePageHref('/tags/TypeScript/', 1)).toBe('/tags/TypeScript');
+  });
+});
+
 describe('createTagArchivePageModel', () => {
-  it('1ページ目の場合、先頭の記事と pagination model を返す', () => {
+  it('1ページ目の場合、先頭の記事と全ページ数を返す', () => {
     const model = createTagArchivePageModel({
       routeSlug: 'TypeScript',
       tag: 'TypeScript',
@@ -74,15 +90,10 @@ describe('createTagArchivePageModel', () => {
       'post-9',
       'post-10',
     ]);
-    expect(model?.pagination.previousHref).toBeNull();
-    expect(model?.pagination.nextHref).toBe('/tags/TypeScript/2');
-    expect(model?.pagination.items).toEqual([
-      { type: 'page', page: 1, href: '/tags/TypeScript', isCurrent: true },
-      { type: 'page', page: 2, href: '/tags/TypeScript/2', isCurrent: false },
-    ]);
+    expect(model?.totalPages).toBe(2);
   });
 
-  it('2ページ目の場合、該当ページの記事と前後リンクを返す', () => {
+  it('2ページ目の場合、該当ページの記事と全ページ数を返す', () => {
     const model = createTagArchivePageModel({
       routeSlug: 'TypeScript',
       tag: 'TypeScript',
@@ -91,8 +102,7 @@ describe('createTagArchivePageModel', () => {
     });
 
     expect(model?.posts.map((post) => post.slug)).toEqual(['post-11', 'post-12']);
-    expect(model?.pagination.previousHref).toBe('/tags/TypeScript');
-    expect(model?.pagination.nextHref).toBeNull();
+    expect(model?.totalPages).toBe(2);
   });
 
   it('範囲外ページの場合、null を返す', () => {

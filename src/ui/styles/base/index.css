@@ -7,8 +7,58 @@
 }
 
 :where(:root) {
+  /* title は幅で広げず、48 に固定する。見出しの文字から 1 行目の文字までを、一覧の行どうしの間と等しくするため。
+     部品ごとに media を書かず、ここで 1 度だけ切り替える。部品ごとに書くと、同じ判断が複数の部品へ散るため */
+  --spacing-page: var(--spacing-700);
+  --spacing-title: var(--spacing-700);
+  --spacing-section: var(--spacing-800);
+
+  /* 押せる大きさは 3 つを使い分ける。タッチの画面は 44px 以上（--tap-target-inline だけ 32px）。
+     --tap-target は、マウスの画面で見た目の大きさのまま（目次の項目・コードのコピーなど）。
+     --control-min-size は、マウスの画面でも 36px を保つ（アイコンだけのボタン・タグの一覧のタグなど）。
+     --tap-target-inline は、行の中の小さなリンク（タグ）用で、マウスの画面は見た目のまま。auto は最小の大きさを課さない */
+  --control-min-size: var(--sizes-touch-target);
+  --tap-target: var(--sizes-touch-target);
+  --tap-target-inline: var(--spacing-500);
+
+  --control-padding-inline: var(--spacing-300);
+  --link-padding-inline: var(--spacing-100);
+
+  --grid-line-height-sm: round(up, calc(var(--line-heights-sm) * 1em), var(--spacing-75));
+  --grid-line-height-md: round(up, calc(var(--line-heights-md) * 1em), var(--spacing-75));
+  /* body は 1em にせず、1rem（本文の 16px）で解決する。部品の文字が本文より小さくても、高さを本文の 1 行（32px）にそろえるため */
+  --grid-line-height-body: round(up, calc(var(--line-heights-body) * 1rem), var(--spacing-75));
+  /* 640px 未満は行間 2 にしない。1 行が 21 字ほどと短い。行間 2 だと段落がばらけて見えるため */
+  --grid-line-height-article: round(up, calc(var(--line-heights-md) * 1em), var(--spacing-75));
+
+  /* 列の式・列間を、PostContainer と Footer で別々に持たない。2 か所が同じ格子を使うため。
+     列間を列の式から離さない。式が列間を引くため */
+  --post-layout-gap: var(--spacing-600);
+  --post-layout-columns: minmax(0, var(--sizes-container-article))
+    minmax(12rem, min(20rem, calc(100% - var(--sizes-container-article) - var(--post-layout-gap))));
+
+  /* outline は消さず、透明のまま残す。ハイコントラスト表示（forced-colors）で影が描かれないときだけ、システムの色の枠として出るため。
+     outline と outline-offset だけで枠を描かない。box-shadow: none で a の枠を消す部品がある。その部品は、代わりに行へ枠を出す（PostTimeline の題名のリンク）。
+     outline は box-shadow: none で消せず、行の枠と二重になるため */
+  --focus-ring-width: calc(var(--border-widths-medium) * 2);
+  --focus-ring-shadow:
+    0 0 0 var(--border-widths-medium) var(--colors-body-background),
+    0 0 0 var(--focus-ring-width) var(--colors-focus-ring);
+
   /* stylelint-disable-next-line */
   interpolate-size: allow-keywords;
+
+  @media (--isWide) {
+    --spacing-page: var(--spacing-800);
+    --spacing-section: var(--spacing-1000);
+    --grid-line-height-article: round(up, calc(var(--line-heights-article) * 1em), var(--spacing-75));
+  }
+
+  @media (--isWide) and (pointer: fine) {
+    --control-min-size: var(--sizes-control);
+    --tap-target: auto;
+    --tap-target-inline: auto;
+  }
 }
 
 html,
@@ -67,6 +117,7 @@ body {
     clip-path: polygon(0% 0%, 100% 0%, 100% max(20vw, 300px));
   }
 
+  /* この規則を外さない。SearchDialog（showModal）と ZoomImage の dialog は、開いている間の背面のスクロール止めをこれに頼るため */
   :is(&):has(dialog[open]) {
     overflow: clip;
   }
@@ -98,9 +149,17 @@ a {
   }
 
   &:focus-visible {
-    outline: 0;
-    box-shadow: 0 0 0 var(--border-widths-medium) var(--colors-focus-ring);
+    outline: var(--border-widths-medium) solid transparent;
+    outline-offset: var(--border-widths-medium);
+    box-shadow: var(--focus-ring-shadow);
   }
+}
+
+/* 詳細度を :where の 0 から上げない。部品側の outline の指定が必ず勝つようにするため。
+   ブラウザ既定の枠（outline: auto）のままにしない。ページトップへ・目次の summary・main・見出しだけ、太さ・色が他の枠と違うため */
+:where(button, input, select, textarea, summary, [tabindex]):where(:focus-visible) {
+  outline: var(--border-widths-medium) solid var(--colors-focus-ring);
+  outline-offset: var(--border-widths-medium);
 }
 
 figure {

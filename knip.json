@@ -8,15 +8,13 @@
     "src/app/**/sitemap.ts",
     "src/app/_metadata.ts",
     "build/**/*.{ts,tsx}",
-    "tools/**/*.{ts,tsx}",
     "vitest.config.{ts,mts}",
     "panda.config.{ts,mts}",
     "next.config.{js,mjs,ts}"
   ],
   "project": [
     "src/**/*.{ts,tsx}",
-    "build/**/*.{ts,tsx}",
-    "tools/**/*.{ts,tsx}"
+    "build/**/*.{ts,tsx}"
   ],
   "ignore": [
     "**/*.test.{ts,tsx}"

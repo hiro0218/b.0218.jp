@@ -31,7 +31,8 @@ function isPostSummary(value: unknown): value is PostSummary {
     typeof value.slug === 'string' &&
     typeof value.date === 'string' &&
     isStringArray(value.tags) &&
-    (value.updated === undefined || typeof value.updated === 'string')
+    (value.updated === undefined || typeof value.updated === 'string') &&
+    (value.noindex === undefined || typeof value.noindex === 'boolean')
   );
 }
 

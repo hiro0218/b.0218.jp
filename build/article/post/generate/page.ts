@@ -1,8 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { FILENAME_PAGES } from '@/constants';
 import type { Page } from '@/types/source';
-import { writeJSON } from '~/tools/fs';
-import * as Log from '~/tools/logger';
+import { writeJSON } from '~/build/shared/fs';
+import * as Log from '~/build/shared/logger';
 import { createMarkdownToPostHtmlString } from '../../markdownToHtmlString';
 import { isValidFrontmatter, parseFrontmatter, tryToIso } from './raw';
 import { getMarkdownFiles, getPath, getSlug, isAgentFile } from './utils';

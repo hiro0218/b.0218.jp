@@ -1,7 +1,3 @@
-/**
- * Adobe Spectrum spacing スケール（primitive 12 段、2px〜96px）から抽出した余白トークン。
- * gap API（{@link SpaceGap}）はサイトで使用する 7 段の subset のみを公開する。
- */
 import spacingTokens from '@adobe/spectrum-tokens/dist/json/variables.json' with { type: 'json' };
 
 import { pxToRem } from '../../../lib/fonts';
@@ -24,7 +20,7 @@ const EXPECTED_PX: Record<(typeof SPACING_SCALE)[number], number> = {
   1000: 96,
 };
 
-export type SpaceGap = 75 | 100 | 300 | 400 | 600 | 800 | 1000;
+export type SpaceGap = 75 | 100 | 300 | 400 | 500 | 600 | 700 | 800 | 1000;
 
 const spacingValues: TokenValues<'spacing'> = {};
 

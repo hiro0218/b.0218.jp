@@ -1,5 +1,3 @@
-import type { Ref } from 'react';
-
 import { styled } from '@/ui/styled';
 import { useToast } from './Toast/useToast';
 
@@ -9,7 +7,6 @@ interface ToastProps {
   message: string;
   onHideToast: () => void;
   isVisible: boolean;
-  ref?: Ref<HTMLDivElement>;
 }
 
 /**
@@ -17,16 +14,9 @@ interface ToastProps {
  * @summary 自動消去トースト通知
  * @see useToast
  */
-export function Toast({ message, onHideToast, isVisible, ref }: ToastProps) {
+export function Toast({ message, onHideToast, isVisible }: ToastProps) {
   return (
-    <Container
-      aria-atomic="true"
-      aria-live="polite"
-      data-visible={isVisible}
-      onClick={onHideToast}
-      ref={ref}
-      role="status"
-    >
+    <Container aria-atomic="true" aria-live="polite" data-visible={isVisible} onClick={onHideToast} role="status">
       {isVisible ? message : null}
     </Container>
   );
@@ -61,9 +51,5 @@ const Container = styled.div`
     pointer-events: auto;
     opacity: 1;
     transform: translateY(0);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: opacity var(--transition-slow);
   }
 `;

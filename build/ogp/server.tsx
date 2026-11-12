@@ -2,7 +2,7 @@
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono/tiny';
 
-import * as Log from '~/tools/logger';
+import * as Log from '~/build/shared/logger';
 
 import { OGP_CONFIG } from './config';
 import { Template } from './template';

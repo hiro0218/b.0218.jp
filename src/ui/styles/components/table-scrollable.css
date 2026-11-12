@@ -46,4 +46,16 @@
   animation-timeline: --table-scroll-timeline;
   /* stylelint-disable-next-line plugin/browser-compat */
   scroll-timeline: --table-scroll-timeline x;
+
+  /* キーボードで焦点が来たときの枠は、箱の内側に引く。ベース CSS の既定（外側に 2px あけて引く box-shadow・外向きの outline）は使わない。
+     外側の枠は、箱の外側を切る mask に切られて見えないため */
+  &:focus-visible {
+    outline: var(--border-widths-medium) solid var(--colors-focus-ring);
+    outline-offset: calc(var(--border-widths-medium) * -1);
+  }
+
+  /* ベース CSS の th, td（左右 16）を変えない。表以外にも使うため、ここで上書きする */
+  & :is(th, td) {
+    padding: var(--spacing-100);
+  }
 }

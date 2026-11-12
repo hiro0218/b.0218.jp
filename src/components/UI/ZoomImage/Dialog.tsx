@@ -5,7 +5,7 @@ import { FocusScope } from '@react-aria/focus';
 import type { ReactNode, RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import { css } from '@/ui/styled';
-import type { ImageDimensions, ZoomImageSource } from './types';
+import type { ImageDimensions } from './types';
 
 const dialogStyle = css`
   &::backdrop {
@@ -78,7 +78,6 @@ interface DialogProps {
   src: string;
   alt?: string;
   imageSize?: ImageDimensions | null;
-  zoomImg?: ZoomImageSource;
   onClose: () => void;
   onCancel: (event: React.SyntheticEvent<HTMLDialogElement>) => void;
 }
@@ -94,7 +93,6 @@ export function Dialog({
   label,
   closeLabel,
   isOpen,
-  zoomImg,
   imageSize,
   src,
   alt,
@@ -108,8 +106,10 @@ export function Dialog({
     dialogRef,
   );
 
+  // FocusScope の autoFocus={isOpen} を使わず、開いたときのフォーカスは showModal に任せる。
+  // FocusScope は最初の描画の値しか読まず、Dialog は先読みで閉じたまま描画されるため、autoFocus は効かない。
   return createPortal(
-    <FocusScope autoFocus={isOpen} contain={isOpen} restoreFocus>
+    <FocusScope contain={isOpen} restoreFocus>
       <dialog
         {...dialogProps}
         className={dialogStyle}
@@ -126,12 +126,11 @@ export function Dialog({
           <img
             alt={alt}
             className={dialogImageStyle}
-            height={zoomImg?.height ?? imageSize?.height}
+            height={imageSize?.height}
             loading="eager"
             ref={dialogImgRef}
-            src={zoomImg?.src || src}
-            srcSet={zoomImg?.srcSet}
-            width={zoomImg?.width ?? imageSize?.width}
+            src={src}
+            width={imageSize?.width}
           />
         </button>
       </dialog>

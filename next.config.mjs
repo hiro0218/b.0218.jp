@@ -26,11 +26,9 @@ const nextConfig = {
     ...getStaticGenerationConfig(),
     webpackBuildWorker: true,
     optimizePackageImports: [
-      '@react-aria/button',
       '@react-aria/dialog',
       '@react-aria/focus',
       '@react-aria/interactions',
-      '@react-aria/menu',
       '@react-aria/overlays',
       '@react-aria/textfield',
       '@react-aria/tooltip',

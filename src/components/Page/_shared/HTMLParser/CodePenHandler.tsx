@@ -1,4 +1,4 @@
-import type { Mutator } from './types';
+import type { Element } from 'html-react-parser';
 
 type TextNode = { type: 'text'; data: string };
 
@@ -13,7 +13,7 @@ const isTextNode = (node: unknown): node is TextNode => {
  * html-react-parser から re-export される Text クラスは内部で使われる
  * インスタンスと一致しないため (instanceof は常に false)、type 文字列で判定する。
  */
-export const handleCodePen: Mutator = (domNode) => {
+export const handleCodePen = (domNode: Element): void => {
   const isCodePenIframe =
     domNode.tagName === 'iframe' &&
     typeof domNode.attribs?.src === 'string' &&

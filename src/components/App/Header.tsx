@@ -1,55 +1,23 @@
-'use client';
-
-import { lazy, Suspense } from 'react';
-import { loadAndInitializeSearch } from '@/components/App/Search/engine/searchDataLoader';
 import { SearchTrigger } from '@/components/App/Search/SearchTrigger';
 import { Container } from '@/components/UI/Layout/Container';
-import { Logo } from '@/components/UI/Logo';
 import { css, styled } from '@/ui/styled';
 import { Layout } from './Header/Layout';
 import { HeaderNavigation } from './Header/Navigation';
-import { useSearchDialog } from './SearchDialogContext';
-
-const importSearchDialog = () => import('@/components/App/Search/SearchDialog');
-
-const LazySearchDialog = lazy(() => importSearchDialog().then((m) => ({ default: m.SearchDialog })));
-
-let prefetchStarted = false;
-const prefetchSearchDialog = () => {
-  if (prefetchStarted) return;
-  prefetchStarted = true;
-  Promise.all([importSearchDialog(), loadAndInitializeSearch()]).catch(() => {
-    prefetchStarted = false;
-  });
-};
+import { Logo } from './Logo';
 
 export function Header() {
-  const searchDialog = useSearchDialog();
-
   return (
-    <>
-      <Layout>
-        <Container className={HeaderContainerStyle} size={'large'} space={false}>
-          <LogoContainer>
-            <Logo />
-          </LogoContainer>
-          <NavigationGroup>
-            <HeaderNavigation />
-            <SearchTrigger onPrefetch={prefetchSearchDialog} openDialogAction={searchDialog.open} />
-          </NavigationGroup>
-        </Container>
-      </Layout>
-
-      {searchDialog.isOpen || searchDialog.isClosing ? (
-        <Suspense fallback={null}>
-          <LazySearchDialog
-            dialogRef={searchDialog.dialogRef}
-            isClosing={searchDialog.isClosing}
-            onCloseAction={searchDialog.close}
-          />
-        </Suspense>
-      ) : null}
-    </>
+    <Layout>
+      <Container className={HeaderContainerStyle} size={'large'}>
+        <LogoContainer>
+          <Logo />
+        </LogoContainer>
+        <NavigationGroup>
+          <HeaderNavigation />
+          <SearchTrigger />
+        </NavigationGroup>
+      </Container>
+    </Layout>
   );
 }
 
@@ -58,17 +26,23 @@ const HeaderContainerStyle = css`
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: 0;
   margin: 0 auto;
 `;
 
 const LogoContainer = styled.div`
   display: flex;
   flex-shrink: 0;
+  margin-left: calc(var(--control-padding-inline) * -1);
 `;
 
 const NavigationGroup = styled.div`
   display: flex;
-  gap: var(--spacing-100);
+  gap: var(--spacing-75);
   align-items: center;
+  margin-right: calc((var(--control-min-size) - var(--sizes-icon-xs)) / -2);
+
+  /* ナビと検索の間は、ナビの項目どうし（文字の間 40）と同じ幅にしない。同じだと、別のまとまりと読めない */
+  @media (--isDesktop) {
+    gap: var(--spacing-400);
+  }
 `;

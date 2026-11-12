@@ -3,20 +3,43 @@
   line-height: var(--line-heights-article);
   color: var(--colors-gray-700);
 
+  /* .post-content 自身に付けない。行の高さは長さとして子へ継承され、pre（14px）や表の行間が広がるため。 */
+  & > :is(p, ul, ol, blockquote) {
+    line-height: var(--grid-line-height-article);
+  }
+
+  /* コードブロック（pre）と表は、上の長さの行の高さを継承せず、単位なしの 2 に戻す。
+     継承した場合、リストの中の pre（14px）は 36px、引用の中の表（16px）も 36px になり、外（28px・32px）より高くなる。
+     長さ（--grid-line-height-article）を付けない。640px 未満では 1.75 倍の値になり、外の表の行が 32px から 28px へ変わるため */
+  :is(pre, table) {
+    line-height: var(--line-heights-article);
+  }
+
+  /* 行の中の小さな要素（インラインコード・脚注番号）は、上の行の高さ（長さ）を継承せず、字の大きさのまま（1）にする。
+     継承した場合、その行だけ行の箱が数 px 伸びる。段落が縦グリッド（4px）から外れるため */
+  :is(code, sup):not(pre *) {
+    line-height: 1;
+  }
+
+  /* インラインコードは overflow-wrap で折らない。行に収まらない語を次の行へ送ってから折るため、前の行が「ただ、」だけの短い行になる。
+     overflow-wrap: anywhere も使わない。折り返しの位置は break-word と同じになる。390px の実測でも、短い行は減らないため */
+  :not(pre) > code {
+    word-break: break-all;
+  }
+
+  /* リストの点（::marker）は、本文の行の高さ（長さ）を継承せず 1 にする。継承した場合、Firefox は点の書体の基準線がずれる。li が 0.5〜1px 伸びて格子から外れるため */
+  /* stylelint-disable-next-line plugin/browser-compat */
+  li::marker {
+    line-height: 1;
+  }
+
   /* Reading rhythm: Paragraph 連続を主とした既定の隣接間隔。 */
   & > * + * {
     margin-top: var(--spacing-post-content-flow-reading);
   }
 
-  /* Reference isolation: CodeBlock / Table と本文の境界を隔離する。
-     pre は CodeBlock コンポーネントで [data-code-block] にラップされ、
-     table は TableHandler で .c-table-scrollable にラップされる。
-     見出しと隣接する場合は見出し側の margin-top / heading-tight を優先するため除外する。
-     Figure / hr は固有の margin を持つが、CodeBlock / Table に後続する場合は
-     specificity の高いこの reference 側が margin-top を上書きする。 */
-  & > :not(:is(h2, h3, h4, h5, h6)) + :is([data-code-block], .c-table-scrollable) {
-    margin-top: var(--spacing-post-content-flow-reference);
-  }
+  /* コード・表の前は隔離しない。資料は、前を本文と同じ group、あとだけ block にしているため。
+     見出しは隔離の対象に含めない。見出し側の margin-top / heading-tight を優先するため */
   & > :is([data-code-block], .c-table-scrollable) + :not(:is(h2, h3, h4, h5, h6)) {
     margin-top: var(--spacing-post-content-flow-reference);
   }
@@ -45,11 +68,12 @@
     font-weight: var(--font-weights-bold);
     font-feature-settings: 'palt';
     font-kerning: normal;
-    line-height: var(--line-heights-sm);
+    line-height: var(--grid-line-height-sm);
     letter-spacing: var(--letter-spacings-md);
     word-break: auto-phrase;
     text-wrap: balance;
-    scroll-margin-top: 1em;
+    /* 着地した見出しの上の余白を 1em にしない。見出しの大きさ次第で 18〜30px となり、ヘッダーに重なるため */
+    scroll-margin-top: calc(var(--sizes-header) + var(--spacing-300));
 
     blockquote > &:first-of-type {
       margin-top: 0;
@@ -68,10 +92,15 @@
       margin-top: 0;
     }
 
-    /* mokuji */
+    /* hover だけで「#」のリンクを見せない。opacity 0 のままだと、キーボードで焦点が来ても枠ごと見えない（WCAG 2.4.7）。
+       :focus は使わない。マウスで押した直後は残り、hover が外れても出たままになるため */
     & > [data-mokuji-anchor] {
       opacity: 0;
       transition: opacity var(--transition-slow);
+
+      &:focus-visible {
+        opacity: 1;
+      }
     }
     &:hover {
       & > [data-mokuji-anchor] {
@@ -80,9 +109,9 @@
     }
   }
 
+  /* h2 の padding-bottom は使わない。見出しの下は stack（heading-tight）だけで決め、見出しの高さを行の高さに揃えるため。 */
   h2 {
-    padding-bottom: var(--spacing-100);
-    margin-top: var(--spacing-800);
+    margin-top: var(--spacing-section);
   }
 
   /* 記事が見出しで始まる場合のみ上余白を消す。AdsenseManager が広告で本文を
@@ -123,16 +152,31 @@
     }
   }
 
+  /* 外部リンクの矢印（ベース CSS）に行の高さを持たせない。inline-block が行の高さの分だけ箱を持つ。
+     リンクを含む行だけ 3px ほど高くなり、縦グリッド（4px）から外れるため */
+  a[target='_blank']::after {
+    line-height: 0;
+  }
+
+  /* 引用の中の段落を、流れの margin（上下 8）のままにしない。段落の間だけが詰まり、面の内側の余白と釣り合わないため。 */
   blockquote {
-    padding: var(--spacing-300) var(--spacing-400);
+    padding: var(--spacing-400);
     color: var(--colors-gray-600);
     letter-spacing: var(--letter-spacings-md);
     border-left: var(--spacing-75) solid var(--colors-gray-400);
 
+    & > :is(p, div) {
+      margin-block: 0;
+    }
+
+    & > :is(p, div) + :is(p, div) {
+      margin-top: var(--spacing-400);
+    }
+
     cite {
       display: block;
       font-size: var(--font-sizes-xs);
-      line-height: var(--line-heights-sm);
+      line-height: var(--grid-line-height-sm);
       color: var(--colors-gray-600);
     }
   }
@@ -146,8 +190,9 @@
     }
   }
 
+  /* 入れ子の一覧の下に 8 を足さない。次の項目との間だけが 4 の倍の 8 になる。項目の間隔がそろわないため。 */
   :where(li) > :is(ul, ol) {
-    margin-block-start: 0;
+    margin-block-start: var(--spacing-75);
   }
 
   li {
@@ -160,10 +205,6 @@
 
     blockquote {
       margin-top: var(--spacing-100);
-    }
-
-    ul:last-of-type {
-      margin-block-end: var(--spacing-100);
     }
   }
 

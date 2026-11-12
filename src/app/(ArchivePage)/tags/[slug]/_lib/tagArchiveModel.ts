@@ -1,10 +1,7 @@
-import type { PaginationModel } from '@/components/Page/Archive/Pagination';
 import { SITE_URL } from '@/constants';
-import { tagPath } from '@/lib/tag/navigation';
 import type { ArticleSummary } from '@/types/source';
 
 const TAG_ARCHIVE_ITEMS_PER_PAGE = 10;
-const PAGINATION_ELLIPSIS = '...';
 
 type TagArchiveMetadataModel = {
   title: string;
@@ -28,7 +25,7 @@ type TagArchivePageModel = {
     name: string;
     description: string;
   };
-  pagination: PaginationModel;
+  totalPages: number;
 };
 
 export type StaticTagPageParam = {
@@ -44,45 +41,7 @@ function calculateTotalPages(totalItems: number): number {
   return Math.ceil(totalItems / TAG_ARCHIVE_ITEMS_PER_PAGE);
 }
 
-function range(start: number, end: number): number[] {
-  return Array.from({ length: end - start + 1 }, (_, idx) => idx + start);
-}
-
-function getPaginationRange(currentPage: number, totalPages: number): (number | typeof PAGINATION_ELLIPSIS)[] {
-  if (totalPages <= 0) {
-    return [];
-  }
-
-  const siblingCount = 1;
-  // 先頭・現在ページ周辺・末尾を常に残すため、表示枠を超えた分だけ ellipsis に畳む。
-  const totalPageNumbers = siblingCount + 5;
-  if (totalPageNumbers >= totalPages) {
-    return range(1, totalPages);
-  }
-
-  const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
-  const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPages);
-  const shouldShowLeftDots = leftSiblingIndex > 2;
-  const shouldShowRightDots = rightSiblingIndex < totalPages - 2;
-
-  if (!shouldShowLeftDots && shouldShowRightDots) {
-    const leftItemCount = 3 + 2 * siblingCount;
-    return [...range(1, leftItemCount), PAGINATION_ELLIPSIS, totalPages];
-  }
-
-  if (shouldShowLeftDots && !shouldShowRightDots) {
-    const rightItemCount = 3 + 2 * siblingCount;
-    return [1, PAGINATION_ELLIPSIS, ...range(totalPages - rightItemCount + 1, totalPages)];
-  }
-
-  if (shouldShowLeftDots && shouldShowRightDots) {
-    return [1, PAGINATION_ELLIPSIS, ...range(leftSiblingIndex, rightSiblingIndex), PAGINATION_ELLIPSIS, totalPages];
-  }
-
-  return range(1, totalPages);
-}
-
-function getTagArchivePageHref(basePath: string, page: number): string {
+export function getTagArchivePageHref(basePath: string, page: number): string {
   const normalizedBasePath = basePath.endsWith('/') && basePath !== '/' ? basePath.slice(0, -1) : basePath;
 
   if (page <= 1) {
@@ -107,29 +66,6 @@ function getTagArchiveDescription(tag: string, currentPage: number): string {
   const description = `${tag}の記事一覧`;
 
   return currentPage > 1 ? `${description}（${currentPage}ページ目）` : description;
-}
-
-function createPaginationModel(tag: string, currentPage: number, totalPages: number): PaginationModel {
-  const basePath = tagPath(tag);
-
-  return {
-    currentPage,
-    totalPages,
-    previousHref: currentPage > 1 ? getTagArchivePageHref(basePath, currentPage - 1) : null,
-    nextHref: currentPage < totalPages ? getTagArchivePageHref(basePath, currentPage + 1) : null,
-    items: getPaginationRange(currentPage, totalPages).map((item, index) => {
-      if (item === PAGINATION_ELLIPSIS) {
-        return { type: 'ellipsis', key: `ellipsis-${index}` };
-      }
-
-      return {
-        type: 'page',
-        page: item,
-        href: getTagArchivePageHref(basePath, item),
-        isCurrent: item === currentPage,
-      };
-    }),
-  };
 }
 
 export function parseTagPageSegment(page: string): number | null {
@@ -199,6 +135,6 @@ export function createTagArchivePageModel({
       name: metadata.title,
       description: metadata.description,
     },
-    pagination: createPaginationModel(tag, currentPage, totalPages),
+    totalPages,
   };
 }

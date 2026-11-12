@@ -1,5 +1,6 @@
 import { isObject } from '@/lib/utils/isObject';
 import { isStringArray } from '@/lib/utils/isStringArray';
+import { safeJsonParse } from '@/lib/utils/json';
 
 /**
  * Post / Page の HTML 本文に埋め込まれる「埋め込みコンテンツ」の共有契約。
@@ -47,6 +48,12 @@ export function isLinkPreviewData(value: unknown): value is LinkPreviewData {
   return isStringArray([link, card, thumbnail, title, description, domain]);
 }
 
+export function parseLinkPreviewData(json: string): LinkPreviewData | null {
+  const value = safeJsonParse<unknown>(json);
+
+  return isLinkPreviewData(value) ? value : null;
+}
+
 /**
  * build が埋め込む link-preview の JSON 文字列を組み立てる。
  * OGP 取得結果に image が無い場合 thumbnail は undefined になり得る。JSON.stringify は
@@ -68,9 +75,9 @@ export const GFM_ALERT_CLASS_NAME = 'gfm-alert';
 // 契約（build が書き込み runtime が検証する値集合）と UI（描画バリアント）は別レイヤーの語彙のため
 // import による結合はしない。乖離が起きた場合は AlertHandler が isAlertData 通過後の値を
 // <Alert type={...}> に渡す箇所で、UI が未対応の値を持つ形の代入エラーとして検出される。
-export type AlertKind = 'note' | 'tip' | 'important' | 'warning' | 'caution';
+export const ALERT_KINDS = ['note', 'tip', 'important', 'warning', 'caution'] as const;
 
-const ALERT_KINDS = new Set<AlertKind>(['note', 'tip', 'important', 'warning', 'caution']);
+export type AlertKind = (typeof ALERT_KINDS)[number];
 
 export type AlertData = {
   type: 'alert';
@@ -86,19 +93,21 @@ export function isAlertData(value: unknown): value is AlertData {
     return false;
   }
 
-  return (
-    typeof value.data.type === 'string' &&
-    ALERT_KINDS.has(value.data.type as AlertKind) &&
-    typeof value.data.text === 'string'
-  );
+  const { type, text } = value.data;
+
+  return typeof text === 'string' && ALERT_KINDS.some((kind) => kind === type);
+}
+
+export function parseAlertData(json: string): AlertData | null {
+  const value = safeJsonParse<unknown>(json);
+
+  return isAlertData(value) ? value : null;
 }
 
 /**
- * build が埋め込む alert の JSON 文字列を組み立てる。
- * build 側は markdown のラベル文字列（[!NOTE] 等）を slice/lowercase して type を得ており、
- * TypeScript 上は string までしか絞り込めない。種別の厳密なチェックは runtime 側の
- * isAlertData（ALERT_KINDS）が担い、既存のガード挙動を保持している。
+ * type を string にしない。string のまま渡せると、build で未知の種別が通る。
+ * runtime の isAlertData は未知の種別を弾くため、記事内の alert が理由不明のまま消える。
  */
-export function serializeAlertData(data: { type: string; text: string }): string {
+export function serializeAlertData(data: AlertData['data']): string {
   return JSON.stringify({ type: 'alert', data });
 }

@@ -40,7 +40,6 @@ describe('parseLikes', () => {
         id: '900',
         url: MENTION_URL,
         authorName: AUTHOR_NAME,
-        authorUrl: AUTHOR_URL,
         authorPhoto: AUTHOR_ICON,
       },
     ]);

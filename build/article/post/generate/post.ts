@@ -3,8 +3,8 @@ import pLimit from 'p-limit';
 import { FILENAME_POSTS } from '@/constants';
 import { isContentPreview } from '@/lib/config/environment';
 import type { Post } from '@/types/source';
-import { mkdir, writeJSON } from '~/tools/fs';
-import * as Log from '~/tools/logger';
+import { mkdir, writeJSON } from '~/build/shared/fs';
+import * as Log from '~/build/shared/logger';
 import { createMarkdownToNoteHtmlString, createMarkdownToPostHtmlString } from '../../markdownToHtmlString';
 import { loadCache, saveCache } from '../../rehype0218';
 import {

@@ -8,11 +8,10 @@ type Props = {
   /** alt 代わりの識別名。画像が無い/失敗した場合はイニシャルとして表示する */
   name: string;
   src: string | null;
-  /** 一辺のサイズ（px）。省略時は 32px */
-  size?: number;
 };
 
-const DEFAULT_SIZE_PX = 32;
+const SIZE_PX = 32;
+const style = { '--avatar-size': `${SIZE_PX}px` } as CSSProperties;
 
 /**
  * ユーザーの画像を表示し、画像が無い・読み込みに失敗した場合はイニシャル 1 文字にフォールバックする。
@@ -20,9 +19,8 @@ const DEFAULT_SIZE_PX = 32;
  * 本プロジェクトでは単一コンポーネント + 素の img の onError で同等の挙動を実装する。
  * @summary アバター画像（イニシャルフォールバック対応）
  */
-export function Avatar({ name, src, size = DEFAULT_SIZE_PX }: Props) {
+export function Avatar({ name, src }: Props) {
   const [failed, setFailed] = useState(false);
-  const style = { '--avatar-size': `${size}px` } as CSSProperties;
 
   if (!src || failed) {
     const initial = [...name][0] ?? '';
@@ -38,13 +36,13 @@ export function Avatar({ name, src, size = DEFAULT_SIZE_PX }: Props) {
       alt=""
       className={cx(baseStyle, imageStyle)}
       decoding="async"
-      height={size}
+      height={SIZE_PX}
       loading="lazy"
       onError={() => setFailed(true)}
       referrerPolicy="no-referrer"
       src={src}
       style={style}
-      width={size}
+      width={SIZE_PX}
     />
   );
 }
@@ -87,7 +85,7 @@ const groupStyle = css`
   & > * {
     margin-inline-start: calc(var(--spacing-100) * -1);
     border-radius: var(--radii-full);
-    box-shadow: 0 0 0 2px var(--colors-gray-50);
+    box-shadow: 0 0 0 var(--border-widths-medium) var(--colors-body-background);
   }
 
   & > *:first-child {

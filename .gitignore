@@ -114,6 +114,9 @@ test-results/
 playwright-report-e2e/
 test-results-e2e/
 
+## Vitest
+.vitest/
+
 ## knip
 knip-report.json
 .knip-cache/

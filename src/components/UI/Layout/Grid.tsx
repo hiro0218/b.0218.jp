@@ -1,61 +1,29 @@
-import type { CSSProperties, JSX, ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { css, cx } from '@/ui/styled';
 import { gapClasses } from '@/ui/styled/atomic/spacing';
 import type { SpaceGap } from '@/ui/styled/theme/tokens/spacing';
-import { containerType } from '@/ui/styled/utilities/container-type';
 
 type Props = {
-  as?: keyof JSX.IntrinsicElements;
-  gap?: SpaceGap | 0;
-  /** カラム数。'auto-fit' で幅に応じた自動調整 */
-  columns?: number | 'auto-fit';
-  /** auto-fit 時の各アイテムの最小幅 */
   minItemWidth?: string;
+  gap?: SpaceGap;
   className?: string;
   children: ReactNode;
 };
 
-const gridBaseStyle = css`
+const gridStyle = css`
   display: grid;
-
-  @container (max-width: 480px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const gridColumnsAutoFitStyle = css`
   grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min-item-width), 100%), 1fr));
 `;
 
-const gridColumnsFixedStyle = css`
-  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
-`;
-
 /**
- * CSS Grid ベースのグリッドレイアウト。固定カラム数または auto-fit に対応。
- * @summary CSS Grid レイアウト（固定/auto-fit）
+ * @summary CSS Grid レイアウト（auto-fit）
  */
-export const Grid = ({
-  as: GridTag = 'div',
-  children,
-  gap,
-  columns = 2,
-  minItemWidth = '16rem',
-  className,
-  ...props
-}: Props) => {
-  const gridStyle = cx(gridBaseStyle, columns === 'auto-fit' ? gridColumnsAutoFitStyle : gridColumnsFixedStyle);
-
-  const style = {
-    ...(columns === 'auto-fit' && { '--grid-min-item-width': minItemWidth }),
-    ...(typeof columns === 'number' && { '--grid-columns': columns }),
-  } as CSSProperties;
-
-  const gapClass = gap !== undefined ? gapClasses[gap] : undefined;
+export const Grid = ({ children, minItemWidth = '16rem', gap, className }: Props) => {
+  const style = { '--grid-min-item-width': minItemWidth } as CSSProperties;
 
   return (
-    <GridTag {...props} className={cx(containerType, gridStyle, gapClass, className)} style={style}>
+    <div className={cx(gridStyle, gap !== undefined && gapClasses[gap], className)} style={style}>
       {children}
-    </GridTag>
+    </div>
   );
 };

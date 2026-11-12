@@ -8,6 +8,8 @@
   width: 1.5em;
   height: 1.5em;
   margin: auto;
+  /* 押せる範囲を行の高さまで縮めない。タッチの画面で押しにくくなるため */
+  margin-block: min(0px, calc((1lh - var(--sizes-touch-target)) / 2));
   font-size: 1em;
   color: var(--colors-gray-a-900);
   text-decoration: none;
@@ -30,7 +32,8 @@
     color: var(--colors-gray-1000);
   }
 
-  @container (min-width: 768px) {
+  /* 円の表示条件を、見出しの幅 768px 以上にしない。1024px から記事が 2 列となり、見出しの幅は 689.6px になる。1024〜1111px で円が消えるため */
+  @container (min-width: 40rem) {
     &::before {
       display: block;
     }

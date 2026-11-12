@@ -1,10 +1,6 @@
 import { defineKeyframes } from '@pandacss/dev';
 
 export const keyframes = defineKeyframes({
-  dropdownEnter: {
-    '0%': { opacity: '0', transform: 'scale(0.95)' },
-    '100%': { opacity: '1', transform: 'scale(1)' },
-  },
   fadeIn: {
     '0%': { opacity: '0' },
     '100%': { opacity: '1' },
@@ -12,10 +8,6 @@ export const keyframes = defineKeyframes({
   fadeOut: {
     '0%': { opacity: '1' },
     '100%': { visibility: 'hidden', opacity: '0' },
-  },
-  rotate: {
-    '0%': { transform: 'rotate(0deg)' },
-    '100%': { transform: 'rotate(360deg)' },
   },
   scrollProgress: {
     '0%': { transform: 'scaleX(0)' },
@@ -66,8 +58,5 @@ export const keyframes = defineKeyframes({
       opacity: '0',
       transform: 'scale3d(0.95, 0.95, 0.95)',
     },
-  },
-  skeletonShimmer: {
-    '100%': { transform: 'translateX(200%)' },
   },
 });

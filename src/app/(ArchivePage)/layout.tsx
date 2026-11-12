@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Container } from '@/components/UI/Layout/Container';
-import { Stack } from '@/components/UI/Layout/Stack';
+import { styled } from '@/ui/styled';
 
 type Props = {
   children: ReactNode;
@@ -9,9 +9,13 @@ type Props = {
 export default function ArchivePageLayout({ children }: Props) {
   return (
     <Container size="default">
-      <Stack as="section" gap={600}>
-        {children}
-      </Stack>
+      <Page>{children}</Page>
     </Container>
   );
 }
+
+const Page = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-title);
+`;

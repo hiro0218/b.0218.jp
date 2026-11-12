@@ -1,28 +1,18 @@
 import type { Post } from '@/types/source';
 
-export type SearchProps = Pick<Post, 'title' | 'tags' | 'slug'>;
+export type PopularPost = Pick<Post, 'slug' | 'title'>;
 
-/** 検索結果のマッチパターンの全値。型と実行時バリデーションの単一の真実源 */
-export const MATCH_TYPE_VALUES = ['EXACT', 'PARTIAL', 'MULTI_TERM_MATCH', 'NONE'] as const;
+/** 検索語が空のときは suggestions（最近の検索・よく読まれている記事）、あれば results（検索結果） */
+export type SearchMode = 'suggestions' | 'results';
 
-/**
- * 検索結果のマッチパターン。
- * インデックス検索は MULTI_TERM_MATCH > EXACT > PARTIAL、タイトルフォールバック検索は常に PARTIAL を返す。
- * NONE は determineMatchType の網羅性のためにあり、実際の検索結果には現れない。
- */
-export type MatchType = (typeof MATCH_TYPE_VALUES)[number];
-
-/** 検索結果のマッチ箇所の全値。MATCH_TYPE_VALUES と同じく実行時バリデーションと型の単一の真実源 */
-export const MATCHED_IN_VALUES = ['title', 'tag', 'both'] as const;
-
-export type MatchedIn = (typeof MATCHED_IN_VALUES)[number];
-
-export type SearchResultItem = SearchProps & {
-  matchType: MatchType;
-  matchedIn: MatchedIn;
-};
-
-export interface SearchState {
-  results: SearchResultItem[];
-  query: string;
-}
+/** 一覧（listbox）の 1 行。並びの添字が、↑↓ で移るフォーカスの位置と一致する */
+export type SearchOption =
+  | { kind: 'recent'; id: string; query: string }
+  | {
+      kind: 'post';
+      id: string;
+      slug: string;
+      title: string;
+      /** タグだけに一致した行で、一致したタグ。一致をタイトルの太字だけで示さず、行末に出す。太字では理由が見えないため */
+      matchedTag?: string;
+    };

@@ -1,43 +1,11 @@
-import type { CSSProperties, ImgHTMLAttributes, JSX } from 'react';
-import styleToJS from 'style-to-js';
+import type { ImgHTMLAttributes, JSX } from 'react';
 import { styled } from '@/ui/styled';
 import { Controller } from './ZoomImage/Controller';
-import type { ZoomImageSource } from './ZoomImage/types';
 
 const MIN_IMAGE_SIZE = 100;
 
-interface A11yOptions {
-  /**
-   * ズームトリガーボタンの aria-label
-   * @default '画像をズーム'
-   */
-  buttonZoomLabel?: string;
-
-  /**
-   * ズームダイアログの aria-label
-   * @default '画像のズーム表示'
-   */
-  dialogLabel?: string;
-
-  /**
-   * ズームダイアログの閉じるボタンの aria-label
-   * @default '閉じる'
-   */
-  closeLabel?: string;
-}
-
-type ZoomImageProps = Omit<ImgHTMLAttributes<HTMLImageElement>, 'style'> & {
+type ZoomImageProps = ImgHTMLAttributes<HTMLImageElement> & {
   src: string;
-  style?: CSSProperties | string;
-  /** ズーム時に表示する別画像のソース */
-  zoomImg?: ZoomImageSource;
-  a11yOptions?: A11yOptions;
-};
-
-const DEFAULT_A11Y: Required<A11yOptions> = {
-  buttonZoomLabel: '画像をズーム',
-  dialogLabel: '画像のズーム表示',
-  closeLabel: '閉じる',
 };
 
 /**
@@ -46,43 +14,22 @@ const DEFAULT_A11Y: Required<A11yOptions> = {
  * トリガー画像の位置から画面中央へスムーズに遷移する。
  * @summary クリックでモーダルズームする画像
  */
-export function ZoomImage({ alt, src, style, zoomImg, a11yOptions, ...props }: ZoomImageProps): JSX.Element {
-  const processedStyle: CSSProperties | undefined = (() => {
-    if (!style) {
-      return undefined;
-    }
-    if (typeof style === 'string') {
-      try {
-        return styleToJS(style, { reactCompat: true }) as CSSProperties;
-      } catch {
-        return undefined;
-      }
-    }
-    return style;
-  })();
-  const hasObjectFit = !!(processedStyle && 'objectFit' in processedStyle && processedStyle.objectFit);
-
-  const a11y = {
-    buttonZoom: a11yOptions?.buttonZoomLabel || alt || DEFAULT_A11Y.buttonZoomLabel,
-    dialog: a11yOptions?.dialogLabel || alt || DEFAULT_A11Y.dialogLabel,
-    close: a11yOptions?.closeLabel || DEFAULT_A11Y.closeLabel,
-  };
-
-  if (hasObjectFit) {
-    return <img alt={alt} src={src} style={processedStyle} {...props} />;
+export function ZoomImage({ alt, src, style, ...props }: ZoomImageProps): JSX.Element {
+  if (style?.objectFit) {
+    return <img alt={alt} src={src} style={style} {...props} />;
   }
 
   return (
-    <Root data-zoom-image="">
-      <img alt={alt} data-zoom-image-source="" src={src} style={processedStyle} {...props} />
+    <Root>
       <Controller
         alt={alt}
-        closeLabel={a11y.close}
-        dialogLabel={a11y.dialog}
+        closeLabel="閉じる"
+        dialogLabel={alt || '画像のズーム表示'}
         minImageSize={MIN_IMAGE_SIZE}
         src={src}
-        triggerLabel={a11y.buttonZoom}
-        zoomImg={zoomImg}
+        style={style}
+        triggerLabel={alt || '画像をズーム'}
+        {...props}
       />
     </Root>
   );

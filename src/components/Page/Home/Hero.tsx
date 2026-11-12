@@ -1,31 +1,34 @@
 import Link from 'next/link';
+import { timelineGrid, timelineMainColumn, timelineSideColumn } from '@/components/Page/_shared/timelineGrid';
 import { SITE_DESCRIPTION } from '@/constants';
-import { css, styled } from '@/ui/styled';
+import { css, cx, styled } from '@/ui/styled';
+import { containerType } from '@/ui/styled/utilities/container-type';
 
 export function Hero() {
   return (
-    <div className={containerStyle}>
-      <Avatar>
-        <img alt="" fetchPriority="high" height={100} src="/hiro0218.svg" width={100} />
-      </Avatar>
-      <Title>
-        hiro<span> ─ web developer</span>
-      </Title>
-      <p>
-        {SITE_DESCRIPTION}
-        <br />
-        <Link href="/about">about</Link>
-      </p>
+    <div className={containerType}>
+      <div className={cx(timelineGrid, gridStyle)}>
+        <Avatar className={timelineSideColumn}>
+          <img alt="" fetchPriority="high" height={100} src="/hiro0218.svg" width={100} />
+        </Avatar>
+        <Body className={timelineMainColumn}>
+          <Title>
+            hiro<span> ─ web developer</span>
+          </Title>
+          <p>
+            {SITE_DESCRIPTION}
+            <br />
+            <Link href="/about">about</Link>
+          </p>
+        </Body>
+      </div>
     </div>
   );
 }
 
-const containerStyle = css`
-  display: grid;
-  grid-template-rows: auto 1fr;
-  grid-template-columns: var(--sizes-icon-xl) 1fr;
-  gap: var(--spacing-300);
-  font-size: var(--font-sizes-md);
+const gridStyle = css`
+  row-gap: var(--spacing-400);
+  align-items: start;
   color: var(--colors-gray-900);
 
   a {
@@ -39,17 +42,16 @@ const containerStyle = css`
     }
   }
 
+  /* 説明の色を gray-600 にしない。ページ上部の帯の上で 4.5:1 に届かず、名前だけが目立つため */
   p {
-    line-height: var(--line-heights-lg);
-    color: var(--colors-gray-600);
+    font-size: var(--font-sizes-lg);
+    line-height: var(--grid-line-height-md);
   }
 `;
 
 const Avatar = styled.div`
   display: grid;
-  grid-row: 1 / -1;
   place-items: center;
-  width: var(--sizes-icon-xl);
 
   img {
     flex-shrink: 0;
@@ -58,18 +60,29 @@ const Avatar = styled.div`
   }
 `;
 
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  min-width: 0;
+`;
+
+// 名前の大きさと太さを、ベース CSS の h2（26→30px）・bold にしない。ほかのページの先頭の見出しより小さく、Home だけ見出しが弱く見えるため。
+// 肩書きを中央にそろえず、名前と文字の下端（ベースライン）をそろえる。中央にそろえると、大きな名前の中ほどに浮くため
 const Title = styled.h2`
   display: flex;
   gap: var(--spacing-100);
-  align-items: center;
-  font-weight: var(--font-weights-bold);
-  line-height: var(--line-heights-sm);
-  letter-spacing: var(--letter-spacings-md);
+  align-items: baseline;
+  font-size: var(--font-sizes-display);
+  font-weight: var(--font-weights-bolder);
+  line-height: var(--grid-line-height-sm);
 
+  /* 肩書きの行の高さは、名前の行の高さ（60px）を引き継がず 1 にする。引き継ぐと、ベースラインをそろえたときに肩書きの箱が下へはみ出し、見出し全体が 9px 高くなるため */
   & > span {
     font-size: var(--font-sizes-lg);
     font-weight: var(--font-weights-normal);
-    color: var(--colors-gray-600);
+    line-height: 1;
+    color: var(--colors-gray-700);
     letter-spacing: var(--letter-spacings-sm);
   }
 `;

@@ -5,11 +5,10 @@ import { handleCodeBlock } from './HTMLParser/CodeBlockHandler';
 import { handleCodePen } from './HTMLParser/CodePenHandler';
 import { handleLinkPreview } from './HTMLParser/LinkPreviewHandler';
 import { handleTable } from './HTMLParser/TableHandler';
-import type { Mutator, Replacer } from './HTMLParser/types';
-import { handleZoomImage } from './HTMLParser/ZoomImage/ZoomImageHandler';
+import type { Replacer } from './HTMLParser/types';
+import { handleZoomImage } from './HTMLParser/ZoomImageHandler';
 
-const mutators: Mutator[] = [handleCodePen];
-
+// h2 を置き換える replacer は足さない。splitContentForAds（広告の挿入位置）は child.type === 'h2' で見出しを探す。置き換えると、広告の入る位置が無くなるため
 const replacers: Replacer[] = [
   handleAnchor,
   handleAlert,
@@ -28,7 +27,7 @@ const isReplaceableElement = (domNode: unknown): domNode is Element => {
 };
 
 const applyHandlers = (domNode: Element, options: HTMLReactParserOptions) => {
-  for (const mutate of mutators) mutate(domNode);
+  handleCodePen(domNode);
 
   for (const replace of replacers) {
     const result = replace(domNode, options);

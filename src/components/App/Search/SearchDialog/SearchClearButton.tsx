@@ -1,30 +1,28 @@
-import { XCircleIcon } from '@phosphor-icons/react';
-
-import { IconButton } from '@/components/UI/IconButton';
-import { ICON_SIZE_XS } from '@/ui/iconSizes';
-import { css } from '@/ui/styled';
+import { css, cx } from '@/ui/styled';
+import { stateLayerControl } from '@/ui/styled/components/stateLayerControl';
+import { SEARCH_LABELS } from '../constants';
 
 type Props = {
   onClear: () => void;
-  disabled?: boolean;
 };
 
-export function SearchClearButton({ onClear, disabled = false }: Props) {
+/**
+ * @summary 入力した語を消す、言葉のボタン（SearchHeader）。
+ * アイコンの × にしない。ダイアログの角にある「検索を閉じる」の × と取り違えるため。
+ */
+export function SearchClearButton({ onClear }: Props) {
   return (
-    <IconButton
-      aria-label="検索キーワードをクリア"
-      className={disabledStyle}
-      disabled={disabled}
-      onClick={onClear}
-      size="touch"
-    >
-      <XCircleIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
-    </IconButton>
+    <button className={cx(stateLayerControl, clearButtonStyle)} onClick={onClear} type="button">
+      {SEARCH_LABELS.clearQuery}
+    </button>
   );
 }
 
-const disabledStyle = css`
-  &:disabled {
-    opacity: 0.3;
-  }
+// stateLayerControl の既定（アイコンだけのボタン向けの正方形）のままにしない。語が折り返してしまうため
+const clearButtonStyle = css`
+  flex-shrink: 0;
+  padding-inline: var(--spacing-100);
+  font-family: inherit;
+  font-size: var(--font-sizes-sm);
+  white-space: nowrap;
 `;

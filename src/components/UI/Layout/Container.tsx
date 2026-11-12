@@ -3,17 +3,12 @@ import { css, cx, styled } from '@/ui/styled';
 
 type Props = {
   /** コンテナの最大幅バリアント */
-  size?: 'small' | 'default' | 'large';
-  /** 左右の内側余白を付与する */
-  space?: boolean;
+  size?: 'default' | 'large';
   children: ReactNode;
   className?: string;
 };
 
 const sizeStyles = {
-  small: css`
-    max-width: var(--sizes-container-sm);
-  `,
   default: css`
     max-width: var(--sizes-container-md);
   `,
@@ -27,15 +22,11 @@ const Root = styled.div`
   margin: auto;
 `;
 
-const spaceStyle = css`
-  padding-block: 0;
-  padding-inline: clamp(var(--spacing-300), 3vw, var(--spacing-400));
-`;
-
 /**
- * ページ幅を制御するコンテナ。3 段階のサイズバリアントを持つ。
- * @summary ページ幅制御コンテナ（small/default/large）
+ * 左右の余白は、幅を 90vw（上限つき）にして生まれる端の隙間だけで作る。
+ * 内側に padding を足さない。足すと、隙間が二重になり、本文の端がヘッダーのロゴや検索アイコンの端とそろわない。
+ * @summary ページ幅制御コンテナ（default/large）
  */
-export function Container({ size = 'default', space = true, children, className }: Props): ReactNode {
-  return <Root className={cx(className, space && spaceStyle, sizeStyles[size])}>{children}</Root>;
+export function Container({ size = 'default', children, className }: Props): ReactNode {
+  return <Root className={cx(className, sizeStyles[size])}>{children}</Root>;
 }
