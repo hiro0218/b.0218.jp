@@ -99,7 +99,7 @@ jobs:
 
       - name: Upload baseline snapshots (master branch)
         if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/master' && steps.vrt.outcome == 'success'
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: vrt-baseline
           path: tests/vrt/__snapshots__
@@ -143,7 +143,7 @@ jobs:
       - name: Upload diff report (PR)
         id: artifact
         if: always() && github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: vrt-diff-${{ github.event.pull_request.number }}
           path: |
