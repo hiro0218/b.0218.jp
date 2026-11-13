@@ -42,7 +42,7 @@ workflows:
     '.github/workflows/scheduled-npm-dependencies-update.yml':
         - 'actions/checkout@v7.0.1'
         - 'actions/setup-node@v7.1.0'
-        - 'peter-evans/create-pull-request@v8.1.1'
+        - 'peter-evans/create-pull-request@v8.1.2'
     '.github/workflows/scheduled-submodule-update.yml':
         - 'actions/checkout@v7.0.1'
     '.github/workflows/vrt.yml':
@@ -126,8 +126,8 @@ dependencies:
         commit: 'sha1-5770ad5eb8f42dd2c4f34da00c94c5381e49af88'
         owner_id: 128431
         repo_id: 223043916
-    'peter-evans/create-pull-request@v8.1.1':
-        ref: 'v8.1.1'
-        commit: 'sha1-5f6978faf089d4d20b00c7766989d076bb2fc7f1'
+    'peter-evans/create-pull-request@v8.1.2':
+        ref: 'v8.1.2'
+        commit: 'sha1-15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8'
         owner_id: 18365890
         repo_id: 197176365
