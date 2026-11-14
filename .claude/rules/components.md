@@ -39,7 +39,7 @@ Feature Module 構造は `Page/` 配下のドメインにも適用できる。�
 
 ## 🔴 レイヤー依存関係 (CRITICAL)
 
-依存方向と import 禁止パターンは [biome.json](../../biome.json) の `noRestrictedImports` overrides と [.dependency-cruiser.js](../../.dependency-cruiser.js) で機械的に強制する。詳細は [linting.md](./linting.md) を参照する。
+依存方向と import 禁止パターンは、[biome.json](../../biome.json) の `noRestrictedImports` overrides が lint の error にし、[.dependency-cruiser.js](../../.dependency-cruiser.js) が PR の依存関係レポートに違反として示す。層ごとの禁止先と、どちらが検出するかは [linting.md](./linting.md#レイヤー依存--import) にまとめている。
 
 ## 🔴 page.tsx にスタイルを定義しない (CRITICAL)
 

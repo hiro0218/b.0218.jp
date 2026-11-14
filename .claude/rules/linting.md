@@ -9,12 +9,19 @@ paths:
 
 ## 設定方針
 
-`recommended: true` + 例外のみ override する。Biome アップデートで recommended に追加されるルールは自動的に有効になる。
+`"preset": "recommended"` + 例外のみ override する。Biome アップデートで recommended に追加されるルールは自動的に有効になる。
 
-| ドメイン     | 設定          | 補足                                                                   |
-| ------------ | ------------- | ---------------------------------------------------------------------- |
-| `next`       | `recommended` | Next.js プロジェクトのため有効                                         |
-| `playwright` | `recommended` | E2E/VRT で Playwright を使用。nursery ルールは別途明示宣言が必要である |
+| ドメイン     | 設定          | 補足                                                                                                                                                              |
+| ------------ | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `next`       | `recommended` | Next.js プロジェクトのため有効                                                                                                                                    |
+| `playwright` | `recommended` | E2E/VRT で Playwright を使用。下の「Playwright・JSX」の表の Playwright ルールは、`noPlaywrightMissingAwait` を除き recommended に含まれないため、個別に有効にする |
+
+### Assist
+
+| アクション            | 設定 | 補足               |
+| --------------------- | ---- | ------------------ |
+| `organizeImports`     | on   | import 並び替え    |
+| `useSortedAttributes` | on   | JSX 属性の並び替え |
 
 ## ファイル除外
 
@@ -52,24 +59,25 @@ paths:
 | --------------------------- | ---- | ------------------------------------------------------------------------------------------- |
 | `noDangerouslySetInnerHtml` | off  | ブログが HTML をレンダリングする（JSON-LD、検索ハイライト、Alert）。`WithChildren` 版は有効 |
 | `noSvgWithoutTitle`         | off  | 装飾アイコンは `aria-hidden` で対応済み                                                     |
-| `useBlockStatements`        | off  | 単一式の if/arrow は波括弧なしを許容                                                        |
+| `useBlockStatements`        | off  | 非 recommended で既定でも無効。単一式の if/arrow は波括弧なしを許容する                     |
 | `noNoninteractiveTabindex`  | warn | カスタムウィジェットでの意図的な使用あり                                                    |
 | `useExhaustiveDependencies` | warn | pathname トリガー等の意図的な依存省略を許容                                                 |
-| `useImportType`             | warn | 段階的な移行のため                                                                          |
-| `noImgElement`              | warn | ZoomImage・Logo 等で意図的に `<img>` を使用                                                 |
+| `useImportType`             | warn | recommended の既定も warn。段階的な移行のため error にしない                                |
+| `noImgElement`              | off  | ZoomImage・Logo 等で意図的に `<img>` を使用                                                 |
 
 ### 厳格化・追加（recommended 以上）
 
-| ルール                   | 設定  | 理由                                                                               |
-| ------------------------ | ----- | ---------------------------------------------------------------------------------- |
-| `noExplicitAny`          | error | TypeScript `any` 禁止を機械的に強制                                                |
-| `noUnusedVariables`      | error | `ignoreRestSiblings: true` で分割代入の残余は許容                                  |
-| `noDelete`               | error | パフォーマンス。非 recommended だが明示的に追加                                    |
-| `useTopLevelRegex`       | error | パフォーマンス。非 recommended だが明示的に追加                                    |
-| `useConsistentArrayType` | warn  | 非 recommended。プロジェクトでは `T[]` 短縮記法を推奨                              |
-| `useNamingConvention`    | error | 非 recommended。`strictCase: false` で PascalCase/camelCase を強制、完全一致は不要 |
+| ルール                   | 設定  | 理由                                                                                          |
+| ------------------------ | ----- | --------------------------------------------------------------------------------------------- |
+| `noExplicitAny`          | error | TypeScript `any` 禁止を機械的に強制                                                           |
+| `noUnusedVariables`      | error | `ignoreRestSiblings: true` で分割代入の残余は許容                                             |
+| `noDelete`               | error | パフォーマンス。非 recommended だが明示的に追加                                               |
+| `noBarrelFile`           | error | パフォーマンス。非 recommended だが明示的に追加。re-export を集めた barrel ファイルを作らない |
+| `useTopLevelRegex`       | error | パフォーマンス。非 recommended だが明示的に追加                                               |
+| `useConsistentArrayType` | warn  | 非 recommended。プロジェクトでは `T[]` 短縮記法を推奨                                         |
+| `useNamingConvention`    | error | 非 recommended。`strictCase: false` で PascalCase/camelCase を強制、完全一致は不要            |
 
-### Nursery / Playwright
+### Playwright・JSX
 
 | ルール                          | 設定  | 理由                                                     |
 | ------------------------------- | ----- | -------------------------------------------------------- |
@@ -89,7 +97,17 @@ paths:
 
 ## レイヤー依存 / import
 
-`noRestrictedImports` の overrides で UI/Functional/Page/App 層の依存方向を機械的に強制する。全レイヤーで `~/styled-system/*` の直接 import も禁止し、`@/ui/styled` 経由に統一する。
+層ごとに、import しない先を次の表に示す。biome は `noRestrictedImports` の overrides で lint の error にする（コミット時の nano-staged と、`.github/workflows/pr-validation.yml` の `npm run lint`）。dependency-cruiser は `.dependency-cruiser.js` の規則に当たる import を PR の依存関係レポート（`.github/workflows/pr-dependency-graph-report.yml`）に示すが、違反があってもワークフローは失敗しない。
+
+| import する側   | import しない先                                                      | 検出                      |
+| --------------- | -------------------------------------------------------------------- | ------------------------- |
+| `UI/`           | `App/`・`Page/`・`Functional/`                                       | biome・dependency-cruiser |
+| `Functional/`   | `App/`・`Page/`・`UI/`                                               | biome・dependency-cruiser |
+| `Page/`         | `App/`                                                               | biome・dependency-cruiser |
+| `Page/_shared/` | 個別のページ（`Archive/`・`Home/`・`NotFound/`・`Post/`・`Single/`） | biome                     |
+| `App/`          | `Page/`                                                              | dependency-cruiser        |
+
+`src/` では `**/index` の import（barrel 経由の import）を禁止し、`noBarrelFile` で barrel ファイルも作らせない。全レイヤーで `~/styled-system/*` の直接 import も禁止し、`@/ui/styled` 経由に統一する。
 
 `src/app/**/page.tsx` と `src/app/**/_lib/*Page.tsx` では、`@/ui/styled` の `css`・`styled` の import も禁止する（[components.md](./components.md#-pagetsx-にスタイルを定義しない-critical)）。この override は、`src/**/*.{ts,tsx}` の override より後ろに置く。同じ rule の options は、後ろの override が置き換えるため、前に置くと効かない。
 
