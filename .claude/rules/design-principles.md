@@ -54,7 +54,7 @@ semantic token の定義には、名前だけで利用箇所が読み取れな�
 
 色は、色相の多さではなく意味の差で使い分ける。
 
-- 基本はニュートラルなグレー（`gray-*` / `grayA-*`）を使う。`accent-*` は同じグレーの濃度別名（1100 以降は black）で、フォーカスとホバーの強調に使う。色相では強調しない。
+- 基本はニュートラルなグレー（`gray-*` / `grayA-*`）を使う。強調に色相を使うのはフォーカス表示だけで、`accent-*`（Spectrum の blue のパレット）を使う。それ以外は色相で強調しない。
 - 状態色（green / red / yellow / purple など）は、Alert のように意味が定義された部品に限る。
 - **単発の強調色を追加しない**。1 箇所だけの装飾のために新しい色相を持ち込まない。
 - 新しい色の役割を追加する場合は、色名ではなく役割名で命名する（`blueBox` ではなく `notePanel`）。追加時にコントラスト、非カラー情報での代替、ダークテーマへの耐性を確認する。
@@ -81,14 +81,12 @@ semantic token の定義には、名前だけで利用箇所が読み取れな�
 | 帯 2 枚の重なり（黒 9% を 2 枚）  | 3.07     | 5.07     |
 | current の面が帯 2 枚の上に載る所 | 2.35     | 3.89     |
 
-gray-600 が 4.5:1 に届くのは、白と地の上だけである。gray-500 以下は地の上でも届かない（3.05:1）。base CSS などに残る gray-1000 の文字色は未移行であり、新規・変更コードでは踏襲しない。
+gray-600 が 4.5:1 に届くのは、白と地の上だけである。gray-500 以下は地の上でも届かない（3.05:1）。current の面が帯 2 枚の上に載る所では、副の gray-700 でも 3.89:1 で 4.5:1 を下回るため、その面に副の文字を置かない。base CSS（`src/ui/styles/base/index.css`）などに残る gray-1000 の文字色は未移行であり、新規・変更コードでは踏襲しない。
 
-インタラクティブ状態（hover / focus / active）の色は、色相を変えず濃度で差を付ける。
+hover / active の色は、色相を変えず濃度で差を付ける。
 
-- **フォーカス表示**: `:focus-visible` の標準表示は semantic token の `focusRing`（`accent-900` = gray-900）に任せる。コンポーネントごとに独自のフォーカス色を定義しない。
-- **hover / active の強調**: 既定は `gray-1000`。hover はより濃いインク（`accent-1100` = black）へ上げる。切り替え色は部品ごとの判断として component-local な CSS custom property に閉じる（例: ArticleCard は `--hover-color: var(--colors-accent-1100)` を定義し、既定のテキスト `gray-1000` と枠線 `gray-200` を hover で切り替える。active は色を変えず線幅で差を付ける）。
-
-`focusRing` の `accent-900`（gray-900）と ArticleCard の `accent-1100`（black）が異なるのは層の違いによる。focusRing はサイト全体を一括で動かす固定役割、hover 色は部品内に閉じた判断であり、値を無理に統一しない。テキストの色は、載る面で 4.5:1 以上になる段から選ぶ（既定は主 gray-900・副 gray-700）。current の面が帯の重なる所に載ると、副の gray-700 でも 3.89:1 になり 4.5:1 を下回るので、その面に副を置かない。
+- **フォーカス表示**: `:focus-visible` の標準表示は semantic token の `focusRing`（`accent-900`、#3b63fb）に任せる。コンポーネントごとに独自のフォーカス色を定義しない。
+- **hover / active の強調**: 切り替え色は部品ごとの判断として component-local な CSS custom property に閉じる。ArticleCard の hover（`--hover-color: var(--colors-accent-1100)` で、文字と枠線を青に切り替える）は未移行であり、新規・変更コードでは踏襲しない。
 
 同じ意図の色参照が複数箇所に散り始めたら、semantic token への昇格を検討する。閾値の考え方は [components.md](./components.md) の共通化基準に合わせる。
 
@@ -97,13 +95,13 @@ gray-600 が 4.5:1 に届くのは、白と地の上だけである。gray-500 �
 余白は Spectrum spacing スケール（`--spacing-50`〜`--spacing-1000`、2〜96px の 12 段）を唯一の尺度とする。
 値は `@adobe/spectrum-tokens` から抽出し、期待 px 値と照合してから公開する（[tokens/spacing.ts](../../src/ui/styled/theme/tokens/spacing.ts)。パッケージ更新による暗黙のスケール変動を codegen 時に検知するため）。primitive 12 段は長期固定の契約として扱う。
 
-- layout primitive の gap API（`SpaceGap`）は、サイトのリズムを構成する subset（75 / 100 / 300 / 400 / 500 / 600 / 700 / 800 / 1000）に制限する。段を増やす場合は実際の利用箇所を提示する（500 は格子・タグの一覧の見出しと内容の間隔 row で、PostSection の card と TagSection が使う。700 は見出しと行の並びの間隔 title（ページ見出しと同じ値）で、PostSection の timeline と年ごとの区切りが使う）。
+- layout primitive の gap API（`SpaceGap`）は、サイトのリズムを構成する subset（75 / 100 / 300 / 400 / 500 / 600 / 700 / 800 / 1000）に制限する。段を増やす場合は実際の利用箇所を提示する（500 は格子・タグの一覧で見出しと内容の間に使い、PostSection の card と TagSection が使う。700 は見出しと行の並びの間に使い、base CSS の `--spacing-title` と同じ値である。PostSection の timeline と ArchiveTimelinesByYear の年ごとの区切りが使う）。
 - 600 以降の隣接段は比が 1.2〜1.33 倍で知覚差が小さい。段は役割（title / page / section など。base CSS の `--spacing-*`）ごとに 1 つ割り当て、画面幅で同じ役割を広げる切り替えは隣接段でよい（page 700→800）。title は幅で広げない（48）。最も大きな区切りの section は段飛ばし（800→1000）にする。
 - スケールにない寸法を calc() の合成で作らない。オフセットや反転（`* -1` など）の算術は許容する。
 
 ## 線と面
 
-- 影と枠線は使わない。線はフォーカス枠とリンクの下線に限る（リデザイン引き継ぎ資料の tokens/colors.css 原則 1）。
+- 影と枠線は使わない。線はフォーカス枠とリンクの下線に限る。
 - 面（`grayA-75` の fill、フッターの `gray-75` など）は背景から情報単位を分けるために使い、選択状態（current）は面で示す（太字にしない）。
 - 階層を作るときは、余白と面で分ける。既存コードに残る枠線・影（ArticleCard の枠線、base CSS の pre・table の罫線など）は未移行であり、新規・変更コードでは踏襲しない。
 - カードの中に装飾カードを重ねて階層を作らない。
