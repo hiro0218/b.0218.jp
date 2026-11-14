@@ -104,8 +104,8 @@ describe('PostLikes', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('取得に失敗した場合、応答がいいねの形をしていても何も描画せず、ステータスを 1 回だけ console.error に出す', async () => {
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+  it('取得に失敗した場合、応答がいいねの形をしていても何も描画せず、ステータスを 1 回だけ console.warn に出す', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const fetchMock = mockFetchJson(
       {
         type: 'feed',
@@ -126,11 +126,11 @@ describe('PostLikes', () => {
     await flushFetch(fetchMock);
 
     expect(container.firstChild).toBeNull();
-    expect(errorSpy.mock.calls).toEqual([['Failed to load likes:', 503]]);
+    expect(warnSpy.mock.calls).toEqual([['Failed to load likes:', 503]]);
   });
 
-  it('fetch が例外を投げた場合、何も描画せず、原因を 1 回だけ console.error に出す', async () => {
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+  it('fetch が例外を投げた場合、何も描画せず、原因を 1 回だけ console.warn に出す', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const error = new TypeError('Failed to fetch');
     const fetchMock = vi.fn().mockRejectedValue(error);
     vi.stubGlobal('fetch', fetchMock);
@@ -139,10 +139,11 @@ describe('PostLikes', () => {
     await flushFetch(fetchMock);
 
     expect(container.firstChild).toBeNull();
-    expect(errorSpy.mock.calls).toEqual([['Failed to load likes:', error]]);
+    expect(warnSpy.mock.calls).toEqual([['Failed to load likes:', error]]);
   });
 
   it('アンマウントで fetch が中断された場合、失敗として記録しない', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const fetchMock = vi.fn().mockImplementation(
       (_requestUrl: string, { signal }: { signal: AbortSignal }) =>
@@ -156,6 +157,7 @@ describe('PostLikes', () => {
     unmount();
     await flushFetch(fetchMock);
 
+    expect(warnSpy).not.toHaveBeenCalled();
     expect(errorSpy).not.toHaveBeenCalled();
   });
 
