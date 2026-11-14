@@ -83,7 +83,6 @@ src/components/Page/_shared/
   ArticleCard.stories.tsx      # 公開入口の Storybook
   ArticleCard/
     Header.tsx                 # 内部実装
-    Excerpt.tsx
     Tags.tsx
 ```
 
@@ -159,8 +158,8 @@ export function ArticleCard(props: ArticleCardProps) {
 Props JSDoc は名前と型で自明なら書かない。次の場合だけ書く。
 
 - ドメイン固有の意味: `type: AlertType` -> `/** 重要度と視覚表現が変わる */`
-- 動作が不明: `intrinsic?: boolean` -> `/** flex column + align center による内在的な中央揃え */`
-- 単位情報: `delay?: number` -> `/** ホバーから表示までの遅延（ms） */`
+- 動作が不明: `tooltip?: string` -> `/** ホバー時のツールチップ文字列。指定すると Tooltip でラップする */`
+- 単位情報: `size?: 'md' | 'touch'` -> `/** 一辺の長さ。'md'（既定）はタッチの画面 44px・マウスの画面 36px、'touch' は常に 44px（コンパクトな配置でのタッチターゲット） */`
 - 使い分けガイド: `titleTagName` -> `/** 一覧ページでは h2、単体では h3 が典型 */`
 
 ストーリーの記述方針は [storybook.md](./storybook.md) を参照する。responsive や visual state のストーリーでも、幅や見た目だけを説明せず、その状態を保証したい利用文脈を書く。全 variant の一覧や最大構成を確認したい場合は複合ストーリーとして扱い、[storybook.md](./storybook.md) の manifest 除外規則に従う。

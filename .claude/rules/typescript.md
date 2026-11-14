@@ -9,11 +9,11 @@ paths:
 
 - `any` を使用しない
 - 型のみの import は `import type`
-- 絶対パス import を使用（`@/*` は `src/*`、`~/*` はリポジトリルート）
+- 絶対パス import を使用（`@/*` は `src/*`、`~/*` はリポジトリルート）。配置型 B の公開入口と内部実装の間、内部実装どうしは相対 import にする（[components.md](./components.md#import--命名)）
 
 ## 🟡 推奨
 
-- Import order: 外部 → 内部 → コンポーネント → 型 → スタイル/定数
+- import の並びは Biome の `organizeImports` に任せ、手で並べない（コミット時の `biome check --write` が並べ替える。[linting.md](./linting.md)）
 - 命名: コンポーネントは PascalCase、ユーティリティは camelCase
 
 ## JSDoc

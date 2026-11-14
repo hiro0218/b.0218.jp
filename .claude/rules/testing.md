@@ -20,8 +20,8 @@ paths:
 ユニットテストのファイルは対象ファイルと同じディレクトリに配置する。`__tests__` / `__test__` ディレクトリは使用しない。
 
 ```txt
-src/components/Button/Button.tsx
-src/components/Button/Button.test.tsx
+src/components/Page/_shared/ArticleCard.tsx
+src/components/Page/_shared/ArticleCard.test.tsx
 ```
 
 統合テスト、E2E、VRT は `tests/` に配置可能である。
@@ -29,7 +29,7 @@ src/components/Button/Button.test.tsx
 ## Unit Test Style
 
 - カバレッジ目標は 80%以上。
-- ファイル名は `src/utils/helper.ts` -> `src/utils/helper.test.ts`。
+- ファイル名は `src/lib/tag/routing.ts` -> `src/lib/tag/routing.test.ts`。
 - AAA パターンを守る。
 - テスト名は日本語で「〜の場合、〜を返す」形式にする。
 - 外部 API、ファイルシステム、時刻依存はモックする。
@@ -37,8 +37,8 @@ src/components/Button/Button.test.tsx
 
 ## Visual Regression
 
-- スクリーンショットは主要ブレークポイント（320, 768, 1024, 1440）で取得する。
-- 対象は記事詳細、記事一覧、アーカイブページ。
+- Playwright で Storybook のストーリーを撮影し、ベースラインと比べる。対象のストーリーと、ベースラインの取得・更新の手順は [tests/vrt/README.md](../../tests/vrt/README.md) に従う。
+- 撮影は Chrome のデスクトップの 1 種類（ビューポートは幅 1280px・高さ 800px）で行う（`playwright.vrt.config.ts`）。
 - ライトモードのみ（ダークモード未対応）。
 
 ## Accessibility
@@ -67,7 +67,7 @@ Biome warn は既存移行の猶予であり、新規コードでの推奨では
 | `locator.click({ force: true })` | クリック可能状態を妨げる原因を修正し、通常の `click()` を使う               |
 | `page.waitForSelector(...)`      | `page.getByRole(...)` などの locator + web-first assertion                  |
 
-検索時は `waitForTimeout|networkidle|waitUntil.*networkidle|waitForNavigation|force: true|waitForSelector|page\\.pause` を見る。
+検索時は `waitForTimeout|networkidle|waitUntil.*networkidle|waitForNavigation|force: true|waitForSelector|page\.pause` を見る。
 
 ## Cross-Browser
 

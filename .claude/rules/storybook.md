@@ -69,7 +69,8 @@ parameters: {
 const config: StorybookConfig = {
   framework: '@storybook/nextjs-vite',
   stories: [...],
-  addons: ['@storybook/addon-a11y'],
+  addons: ['@storybook/addon-a11y', '@storybook/addon-docs'],
+  staticDirs: ['../public'],
   typescript: {
     reactDocgen: 'react-docgen-typescript',
   },

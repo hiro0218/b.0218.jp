@@ -10,7 +10,7 @@ paths:
 - デフォルトは Server Component
 - `'use client'` は client-only hooks（`useState`, `useEffect`, `useRef` など）/ イベントハンドラー / ブラウザAPI 使用時のみ
 - SSG 前提でビルド時データロードを優先
-- ランタイム `fetch` は基本的に不要（ビルド時にエラー検出可能にする）
+- ランタイム `fetch` は、ビルド時に取得するとビルド成果が動的になるデータに限る（`src/components/Page/Post/Likes.tsx` の Webmention のいいね）。ほかのデータはビルド時に読み込み、取得の失敗をビルドで検出する
 
 ## 🔴 page.tsx の責務 (CRITICAL)
 

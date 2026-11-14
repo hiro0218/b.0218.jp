@@ -64,11 +64,6 @@ shorthand プロパティは省略された sub-property を **initial 値で暗
 - 上記以外の shorthand (`border`, `border-radius`, `transition`, `animation`, `padding`, `margin`, `inset` 等) は禁止対象外。慣用的な使用を許容
 - JSX inline style (`style={{ background: ..., font: ... }}`) は Stylelint 対象外。`backgroundColor` / `fontSize` 等の longhand を使うこと
 
-## 参照
-
-- Zero Margin: [components.md](./components.md#-zero-margin-principle-critical)
-- デザイン原則・トークン階層: [design-principles.md](./design-principles.md)
-
 ## Web パフォーマンス
 
 | メトリクス | 目標    |
@@ -86,3 +81,8 @@ shorthand プロパティは省略された sub-property を **initial 値で暗
 - フォントは `font-display: swap`、プリロードは最も使用頻度の高いウェイトのみにする。
 - 動的コンテンツによるレイアウトシフトを避ける。
 - サードパーティスクリプトは async/defer を使う。
+
+## 参照
+
+- Zero Margin: [components.md](./components.md#-zero-margin-principle-critical)
+- デザイン原則・トークン階層: [design-principles.md](./design-principles.md)

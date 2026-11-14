@@ -10,7 +10,6 @@ paths:
 ## panda MCP
 
 - トークン追加・変更前に `get_tokens` / `get_semantic_tokens` で既存トークンとの重複を確認
-- レシピ確認は `get_recipes`、テキストスタイルは `get_text_styles`
 
 ## React Aria MCP
 

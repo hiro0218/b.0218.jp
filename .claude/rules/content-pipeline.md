@@ -21,7 +21,7 @@ paths:
 
 ## Prebuild
 
-- `npm run prebuild` を必ず実行する
+- `npm run build`・`npm run dev` の前に `npm run prebuild` を実行する（`src/` が `dist/*.json` を静的 import するため）
 - 実体は `bash build/prebuild.sh`
 - 実行すると `git submodule update --remote` で `_article` を追跡ブランチの最新コミットへ進める。この副作用で `git status` に `_article` の変更が現れることがある(記事内容の書き換えではない)
 
