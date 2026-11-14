@@ -15,7 +15,7 @@ import type {
   WithContext,
 } from 'schema-dts';
 
-import { AUTHOR_ICON, AUTHOR_NAME, AUTHOR_URL, SITE_NAME, SITE_URL, URL } from '@/constants';
+import { AUTHOR_ICON, AUTHOR_NAME, AUTHOR_URL, SITE_DESCRIPTION, SITE_NAME, SITE_URL, URL } from '@/constants';
 import { getTagsWithCount } from '@/lib/source/tag';
 import { getPrimaryCategory } from '@/lib/tag/category';
 import { getTagCategoriesJson } from '@/lib/tag/derived';
@@ -245,6 +245,7 @@ export const getBreadcrumbStructured = (post: Post) => {
 
 /**
  * @see https://developers.google.com/search/docs/appearance/structured-data/logo?hl=ja
+ * @see https://developers.google.com/search/docs/appearance/structured-data/organization?hl=ja
  */
 export const getOrganizationStructured = (): WithContext<Organization> => {
   return {
@@ -253,6 +254,13 @@ export const getOrganizationStructured = (): WithContext<Organization> => {
     name: SITE_NAME,
     url: SITE_URL,
     logo: AUTHOR_ICON,
+    description: SITE_DESCRIPTION,
+    // 国より細かい住所(都道府県・市区町村・番地)、email、telephone は入れない。公開している連絡先はお問い合わせフォームだけで、個人の連絡先を載せるかは運営者の判断になるため
+    // contactPoint も入れない。url の宛先にする /contact を作らないため
+    address: {
+      '@type': 'PostalAddress',
+      addressCountry: 'JP',
+    },
   };
 };
 
