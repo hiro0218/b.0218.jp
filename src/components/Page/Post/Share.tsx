@@ -108,7 +108,7 @@ export function PostShare({ title, url }: Props) {
           )}
         </Stack>
         {/* この空の要素を消さない。サイト全体で読み込む Google の publisher.js が、この要素をボタンに置き換えるため */}
-        <div {...{ 'google-add-preferred-source-btn': '' }} data-lang="ja"></div>
+        <div {...{ 'google-add-preferred-source-btn': '' }} className={googleButtonStyle} data-lang="ja"></div>
       </Row>
       <Toast isVisible={isVisible} message={message} onHideToast={hideToast} />
     </aside>
@@ -127,4 +127,10 @@ const Row = styled.div`
 // insetStyle を Row に付けない。面のある Google のボタンまで文字の端より左（タッチの画面で 10px）へ出て、前後の間隔も食うため
 const insetStyle = css`
   margin: calc((var(--control-min-size) - var(--sizes-icon-sm)) / -2);
+`;
+
+// ボタンが入るまで空のままにしない。publisher.js が後から幅 253.5px・高さ 40px のボタンを入れると、折り返しと行の高さが変わり、下の本文が押し下げられるため
+const googleButtonStyle = css`
+  min-width: 254px;
+  min-height: 40px;
 `;
