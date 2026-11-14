@@ -55,7 +55,8 @@
     ],
     "**/*.md": [
       "prettier --write --cache --experimental-cli"
-    ]
+    ],
+    "*": "secretlint --no-glob"
   },
   "browserslist": [
     "chrome 143",
@@ -106,6 +107,7 @@
     "@markuplint/react-spec": "5.4.0",
     "@playwright/test": "1.64.1",
     "@prettier/plugin-oxc": "0.2.3",
+    "@secretlint/secretlint-rule-preset-recommend": "13.1.0",
     "@shikijs/rehype": "4.6.0",
     "@storybook/addon-a11y": "10.6.7",
     "@storybook/addon-docs": "10.6.7",
@@ -159,6 +161,7 @@
     "remark-parse": "11.0.0",
     "remark-rehype": "11.1.2",
     "schema-dts": "2.1.0",
+    "secretlint": "13.1.0",
     "storybook": "10.6.7",
     "stylelint": "17.16.0",
     "stylelint-browser-compat": "1.0.0-beta.200",

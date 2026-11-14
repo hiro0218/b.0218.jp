@@ -26,7 +26,8 @@
     "@markuplint/react-spec",
     "@styled/typescript-styled-plugin",
     "@types/gtag.js",
-    "@types/twitter-for-web"
+    "@types/twitter-for-web",
+    "@secretlint/secretlint-rule-preset-recommend"
   ],
   "ignoreExportsUsedInFile": true,
   "includeEntryExports": true
