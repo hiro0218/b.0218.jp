@@ -63,7 +63,6 @@ paths:
   - 文書内の概要
   - [`.github/copilot-instructions.md`](../../.github/copilot-instructions.md) の「クリティカルルール」の表
   - 規則文書に付けた「参照」の節
-  - 規則の内容を検出手順として写した `.claude/agents/architecture-guard.md`
 - 同じ内容が複数の文書に書かれている場合は、`rg` で探して、正となるコード・設定と照合してそろえる。たとえば prebuild の流れは、`build/prebuild.sh` を正として、README.md、CONTEXT.md、[content-pipeline.md](./content-pipeline.md) に書かれている
 - 文書や見出しを改名・移動・削除したら、そこへのリンクを `rg` で探して直す（見出しへのリンクは `#見出し名` の形）。`#` 以下は見出しの文字列から作られるため、見出し先頭の絵文字や末尾の `(CRITICAL)` を付け外すと、リンクが切れる。たとえば `components.md#-zero-margin-principle-critical` の先頭の `-` は、見出しが絵文字で始まるために付く
 - 用語や表記を変えると決めたら、変える範囲の全ての出現箇所を直し、旧表記が残っていないことを `rg` で確かめる
