@@ -2,7 +2,7 @@
 
 import { MagnifyingGlassPlusIcon } from '@phosphor-icons/react/ssr';
 import type { ReactNode } from 'react';
-import { css, cx } from '@/ui/styled';
+import { css } from '@/ui/styled';
 
 const buttonStyle = css`
   position: absolute;
@@ -21,18 +21,15 @@ const buttonStyle = css`
     }
   }
 
+  /* ボタン自体を visibility: hidden にしない。閉じる時点でボタンが隠れていると、ブラウザが焦点を戻せないため。開いている間は、虫眼鏡の表示だけを隠す */
+  &[aria-expanded='true'] > * {
+    visibility: hidden;
+  }
+
   &:focus-visible {
     outline: var(--border-widths-medium) solid var(--colors-focus-ring);
     outline-offset: 2px;
   }
-`;
-
-const buttonVisibleClass = css`
-  visibility: visible;
-`;
-
-const buttonHiddenClass = css`
-  visibility: hidden;
 `;
 
 const zoomIndicatorStyle = css`
@@ -71,12 +68,12 @@ interface TriggerButtonProps {
 
 /** 画像をクリックしてズームモーダルを開くためのボタン */
 export function TriggerButton({ label, isOpen, zoomIn, onPrefetch }: TriggerButtonProps): ReactNode {
-  // 開いている間だけ aria-disabled を付けず、onClick も外さない。visibility: hidden で隠れたボタンでは効く場面がない（二重の open は useImageZoom が止める）
+  // 開いている間だけ aria-disabled を付けず、onClick も外さない。開いている間は、モーダルの dialog がボタンを操作できなくする。閉じる遷移の最中の押下は useImageZoom が止める
   return (
     <button
       aria-expanded={isOpen}
       aria-label={label}
-      className={cx(buttonStyle, isOpen ? buttonHiddenClass : buttonVisibleClass)}
+      className={buttonStyle}
       onClick={zoomIn}
       onFocus={onPrefetch}
       onPointerEnter={onPrefetch}
