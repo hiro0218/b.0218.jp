@@ -100,3 +100,29 @@ test('クリックでフォーカスが移らない場合も、開いた直後�
   expect(toggle.getAttribute('aria-expanded')).toBe('false');
   expect(document.activeElement).toBe(toggle);
 });
+
+test('展開中に焦点がナビの外へ移った場合、閉じる', () => {
+  render(
+    <>
+      <HeaderNavigation />
+      <button type="button">ナビの外</button>
+    </>,
+  );
+  const toggle = screen.getByRole('button', { name: 'ナビゲーションを開く' });
+  fireEvent.click(toggle);
+
+  act(() => screen.getByRole('button', { name: 'ナビの外' }).focus());
+
+  expect(toggle.getAttribute('aria-expanded')).toBe('false');
+});
+
+test('展開中に焦点がナビの項目から別の項目へ移った場合、閉じない', () => {
+  render(<HeaderNavigation />);
+  const toggle = screen.getByRole('button', { name: 'ナビゲーションを開く' });
+  fireEvent.click(toggle);
+  act(() => screen.getByRole('link', { name: 'tags' }).focus());
+
+  act(() => screen.getByRole('link', { name: 'popular' }).focus());
+
+  expect(toggle.getAttribute('aria-expanded')).toBe('true');
+});

@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, expect, test } from 'vitest';
 
 import { useDisclosure } from './useDisclosure';
@@ -6,12 +6,12 @@ import { useDisclosure } from './useDisclosure';
 afterEach(cleanup);
 
 function Disclosure() {
-  const { isExpanded, rootRef, triggerRef, handleKeyDown, toggle } = useDisclosure();
+  const { isExpanded, rootProps, triggerRef, toggle } = useDisclosure();
 
   return (
     <>
-      <div ref={rootRef}>
-        <button aria-expanded={isExpanded} onClick={toggle} onKeyDown={handleKeyDown} ref={triggerRef} type="button">
+      <div {...rootProps}>
+        <button aria-expanded={isExpanded} onClick={toggle} ref={triggerRef} type="button">
           開く
         </button>
         <button type="button">領域の中</button>
@@ -54,6 +54,36 @@ test('開いている間に領域の中を操作した場合、閉じない', ()
   fireEvent.click(trigger);
 
   press(screen.getByRole('button', { name: '領域の中' }));
+
+  expect(trigger.getAttribute('aria-expanded')).toBe('true');
+});
+
+test('開いている間に焦点が領域の外へ移った場合、閉じる', () => {
+  render(<Disclosure />);
+  const trigger = screen.getByRole('button', { name: '開く' });
+  fireEvent.click(trigger);
+
+  act(() => screen.getByRole('button', { name: '領域の外' }).focus());
+
+  expect(trigger.getAttribute('aria-expanded')).toBe('false');
+});
+
+test('開いている間に焦点が領域の中で移った場合、閉じない', () => {
+  render(<Disclosure />);
+  const trigger = screen.getByRole('button', { name: '開く' });
+  fireEvent.click(trigger);
+
+  act(() => screen.getByRole('button', { name: '領域の中' }).focus());
+
+  expect(trigger.getAttribute('aria-expanded')).toBe('true');
+});
+
+test('開いている間に移動先のない焦点の喪失が起きた場合、閉じない', () => {
+  render(<Disclosure />);
+  const trigger = screen.getByRole('button', { name: '開く' });
+  fireEvent.click(trigger);
+
+  fireEvent.blur(trigger);
 
   expect(trigger.getAttribute('aria-expanded')).toBe('true');
 });

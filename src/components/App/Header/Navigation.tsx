@@ -12,7 +12,7 @@ import { stateLayerControl } from '@/ui/styled/components/stateLayerControl';
 const NAVIGATION_ID = 'header-navigation';
 
 export function HeaderNavigation() {
-  const { isExpanded, rootRef, triggerRef, collapse, handleKeyDown, toggle } = useDisclosure();
+  const { isExpanded, rootProps, triggerRef, collapse, toggle } = useDisclosure();
 
   // デスクトップ幅になった時点で state をリセットする
   // リセットしないと、モバイルで開いたままデスクトップ幅を経由してモバイル幅に戻した際、
@@ -30,7 +30,7 @@ export function HeaderNavigation() {
   const ToggleIcon = isExpanded ? XIcon : ListIcon;
 
   return (
-    <Root onKeyDown={handleKeyDown} ref={rootRef}>
+    <Root {...rootProps}>
       <button
         aria-controls={NAVIGATION_ID}
         aria-expanded={isExpanded}
