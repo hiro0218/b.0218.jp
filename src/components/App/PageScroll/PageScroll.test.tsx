@@ -60,6 +60,16 @@ test('上へ戻しても、先頭から 120px 以内の場合は出さない', (
   expect(isShown()).toBe(false);
 });
 
+test('キーボードでボタンにフォーカスした場合、待たずにツールチップの文言を出す', () => {
+  render(<PageScroll />);
+
+  // フォーカスの前にキー操作を送る。ポインタ操作のあとのフォーカスは、React Aria がツールチップの合図にしない
+  fireEvent.keyDown(document.body, { key: 'Tab' });
+  act(() => screen.getByRole('button', { hidden: true, name: 'ページトップへ' }).focus());
+
+  expect(screen.getByRole('tooltip', { hidden: true }).textContent).toBe('ページトップへ');
+});
+
 test('動きを減らす設定の場合、ボタンを押すと先頭へ即座に移動する', () => {
   window.matchMedia = vi.fn().mockReturnValue({ matches: true } as MediaQueryList);
   const scrollToSpy = vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
