@@ -2,8 +2,8 @@
 
 import type { ReactNode } from 'react';
 import { useRef } from 'react';
+import { Mokuji } from '@/components/Page/Post/Mokuji';
 import { css, cx } from '@/ui/styled';
-import { Mokuji } from '../Mokuji';
 import { ArticleAd } from './ArticleAd';
 import { WidgetManager } from './WidgetManager';
 
