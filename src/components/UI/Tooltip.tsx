@@ -47,6 +47,7 @@ const TooltipContainer = styled.span`
 `;
 
 // opacity / transform の transition を付けない。開いている間だけマウントする要素は、transition が最初のスタイル計算では走らず効かない（出すなら @starting-style か animation）
+// pointer-events: none を付けない。ポインタを載せても開いたままにする（WCAG 1.4.13）には、ツールチップ自身がポインタを受ける必要があるため
 const TooltipContent = styled.span`
   position: absolute;
   left: 50%;
@@ -56,7 +57,6 @@ const TooltipContent = styled.span`
   line-height: var(--line-heights-md);
   color: var(--colors-dark-foregrounds);
   white-space: nowrap;
-  pointer-events: none;
   user-select: none;
   background-color: var(--colors-dark-backgrounds);
   border-radius: var(--radii-sm);
