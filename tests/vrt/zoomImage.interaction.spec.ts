@@ -74,3 +74,43 @@ test('Tab を繰り返し押した場合も、焦点は dialog の外へ出な�
     await expect(page.locator(FOCUS_OUTSIDE_DIALOG)).toHaveCount(0);
   }
 });
+
+// 背面のスクロール止めは、dialog 側ではなく base/index.css の body:has(dialog[open]) が担う
+test('dialog を開いている間、背面のページをスクロールさせない', async ({ page }) => {
+  await openDialog(page);
+
+  await expect(page.locator('body')).toHaveCSS('overflow', 'clip');
+});
+
+// 開く遷移は 0.3 秒ほどで終わるため、遷移の準備ができた時点で記録する
+test('動きを減らす設定で開く場合、画像の移動のアニメーションを動かさない', async ({ page }) => {
+  await page.addInitScript(() => {
+    const durations: number[] = [];
+    Object.assign(window, { zoomImageDurations: durations });
+    const startViewTransition = document.startViewTransition.bind(document);
+    document.startViewTransition = (callback) => {
+      const transition = startViewTransition(callback);
+      transition.ready.then(
+        () => {
+          for (const animation of document.getAnimations()) {
+            const effect = animation.effect as KeyframeEffect | null;
+            if (effect?.pseudoElement?.includes('zoom-image')) {
+              durations.push(Number(effect.getComputedTiming().duration));
+            }
+          }
+        },
+        () => {},
+      );
+      return transition;
+    };
+  });
+  await openDialog(page);
+
+  const durations = await page.evaluate(
+    () => (window as unknown as { zoomImageDurations: number[] }).zoomImageDurations,
+  );
+
+  // 記録が空のまま通さない。確かめたことにならないため
+  expect(durations.length).toBeGreaterThan(0);
+  expect(durations.filter((duration) => duration !== 0)).toEqual([]);
+});

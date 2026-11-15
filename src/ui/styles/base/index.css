@@ -429,7 +429,9 @@ del {
     animation-timing-function: var(--easings-ease-out-quint);
   }
 
+  /* old と new だけを 0s にしない。group の位置と大きさの移動（既定 0.25s）が、動きを減らす設定でも残るため */
   @media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(zoom-image),
     ::view-transition-old(zoom-image),
     ::view-transition-new(zoom-image) {
       animation-duration: 0s;
