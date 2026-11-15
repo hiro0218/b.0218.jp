@@ -36,12 +36,12 @@ export const Chart = ({ years, totalPosts }: Props) => {
 
           return (
             <ChartItem key={year} style={{ '--percent': percent } as React.CSSProperties}>
-              <Link
-                aria-label={`${year}年の記事一覧（${postCount}件）`}
-                className={AnchorStyle}
-                href={`#${yearAnchorId(year)}`}
-              >
-                <span data-part="year">{year}</span>
+              {/* aria-label を付けない。見える文字（年と「N posts」）を含まない名前は、音声操作で呼べないため */}
+              <Link className={AnchorStyle} href={`#${yearAnchorId(year)}`}>
+                <span data-part="year">
+                  {year}
+                  <span className="sr-only">年の記事一覧</span>
+                </span>
                 <span data-part="count">{postCount} posts</span>
               </Link>
             </ChartItem>
