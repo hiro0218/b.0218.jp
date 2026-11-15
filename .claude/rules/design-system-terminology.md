@@ -82,6 +82,13 @@ Web 標準で意味が定まっている語は再定義しない（HTML/CSS/ARIA
 
 React コンポーネントであることだけを理由に、すべてを `Component` と説明しない。
 
+`primitive` が指すのは、次の 2 つだけである。
+
+- `UI/Layout/` の layout primitive（[components.md](./components.md#-every-layout-原則-important)）
+- デザイントークンの primitive 階層（[design-principles.md](./design-principles.md)）
+
+状態や操作を束ねる hook・部品の分割には使わない。「機能」を層の名前にしない。業務の知識を持つ部品は `Page/` と `App/` に置き、`Functional/` は視覚 DOM を持たない副作用コンポーネントの層である。
+
 ## 🟡 テキスト用語 (IMPORTANT)
 
 `Text` は正式名称として広すぎる。公開 API、Storybook、JSDoc では具体化する。

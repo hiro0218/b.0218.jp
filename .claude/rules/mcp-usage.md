@@ -15,7 +15,7 @@ paths:
 
 - インタラクティブコンポーネント（ボタン、ダイアログ、メニュー等）実装前に参照
 - WAI-ARIA パターンの正確な props と振る舞いを確認
-- 独自実装より React Aria のフックを優先
+- 手段は、ネイティブ、React Aria のフック、自作の順に選ぶ（[components.md](./components.md#-dynamic-element-important)）
 
 ## next-devtools MCP
 

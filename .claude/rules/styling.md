@@ -36,10 +36,27 @@ paths:
 
 Panda CSS は build 時に class を静的抽出する。runtime 値を `css()` に直接入れると抽出できないため、class 構造は静的に保ち、値だけ CSS custom property で渡す。
 
+## 🟡 状態とスタイル (IMPORTANT)
+
+部品の状態をスタイルへ出す手段は、次の順に選ぶ。
+
+1. ネイティブの状態: `:disabled`・`[open]`・`:focus-visible` など
+2. ARIA の状態: `[aria-current='page']` など（`Page/Archive/Pagination.tsx`）
+3. `data-<状態>={boolean}` を属性として出し、`[data-<状態>='true']` で選ぶ（`UI/Toast.tsx` の `data-visible`）
+4. 値が連続して変わるものは、CSS 変数で渡す（上の「Dynamic Styling」）
+
+React は `data-x={false}` を `data-x="false"` として描画する。属性の有無で選ぶ `[data-x]` は `false` のときも一致するので、必ず `[data-x='true']` で選ぶ。
+
+`stateLayer`（`src/ui/styled/components/stateLayerControl.ts`）は、hover と active の層を `background-image` で重ねる。重ねる側の class に `background-image` を持たせない。同じ property を持つ class と合成すると、適用順が定まらないためである。
+
+`data-slot` は、部品の境界を越えて選ぶときだけ付ける。例: 親の部品が、子の部品の中の要素を選ぶ（`UI/CodeBlock/CopyButton.tsx` の `copy-button` を `UI/CodeBlock.tsx` が選ぶ）。
+
 ## 🟡 css テンプレートの呼び出し位置 (IMPORTANT)
 
 - 補間なしの `` css`...` `` はモジュールスコープ定数に hoist し、コンポーネントの render 本体内で呼ばない
-- 動的な切り替えは、hoist 済み定数を三項演算子で選択する（例: `UI/ZoomImage/TriggerButton.tsx`）
+- 動的な切り替えは、hoist 済み定数から選ぶ。条件式か対応表で選ぶ
+  - 条件式の例: `UI/Layout/Cluster.tsx` の `isWide && wideStyle`
+  - 対応表の例: `UI/Layout/Container.tsx` の `sizeStyles[size]`
 
 `css()` は呼び出しごとにテンプレート文字列をパースする（メモ化されるのはクラス名の算出のみ）。render 本体内で呼ぶと SSG では全ページ分の無駄なパースになる。React Compiler の自動 memoize はコンポーネントインスタンス内の再レンダーにのみ効くため、この問題は防げない（[react-compiler-optimization.md](./react-compiler-optimization.md) 参照）。
 
