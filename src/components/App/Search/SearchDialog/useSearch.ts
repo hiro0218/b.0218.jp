@@ -257,27 +257,27 @@ export function useSearch({ popularPosts, inputRef, onRequestClose }: UseSearchO
     if (isImeComposing(event.nativeEvent)) return;
 
     const count = rows.length;
+    // 行が無いときは preventDefault しない。0 件のときに、入力欄の Home・End（カーソルの移動）まで止めると、語を直せなくなるため
     const moveTo = (index: number) => {
+      if (count === 0) return;
+
+      event.preventDefault();
       shouldScrollRef.current = true;
       setFocusedIndex(index);
     };
 
     switch (event.key) {
       case 'ArrowDown':
-        event.preventDefault();
-        if (count > 0) moveTo(focusedIndex >= count - 1 ? 0 : focusedIndex + 1);
+        moveTo(focusedIndex >= count - 1 ? 0 : focusedIndex + 1);
         break;
       case 'ArrowUp':
-        event.preventDefault();
-        if (count > 0) moveTo(focusedIndex <= 0 ? count - 1 : focusedIndex - 1);
+        moveTo(focusedIndex <= 0 ? count - 1 : focusedIndex - 1);
         break;
       case 'Home':
-        event.preventDefault();
-        if (count > 0) moveTo(0);
+        moveTo(0);
         break;
       case 'End':
-        event.preventDefault();
-        if (count > 0) moveTo(count - 1);
+        moveTo(count - 1);
         break;
       case 'Enter': {
         event.preventDefault();
