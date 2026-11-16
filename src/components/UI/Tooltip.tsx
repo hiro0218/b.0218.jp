@@ -9,7 +9,7 @@ import { styled } from '@/ui/styled';
 type TooltipProps = {
   text: string;
   position?: 'top' | 'bottom';
-  /** 焦点を取れる 1 つの要素。ホバーとフォーカスの props を、この要素へ渡す */
+  /** 焦点を取れる 1 つの要素。ホバーとフォーカスの props を、この要素へ渡す。Client Component の中で作った要素にする（Server Component が作った要素は lazy の node で届くことがあり、props を足せない） */
   children: ReactElement<HTMLAttributes<HTMLElement>>;
 };
 

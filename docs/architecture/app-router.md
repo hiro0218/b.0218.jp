@@ -5,7 +5,7 @@ Next.js の App Router について、レンダリング、client 境界、`page
 ## 🔴 Server First / SSG (CRITICAL)
 
 - デフォルトは Server Component
-- `'use client'` は client-only hooks（`useState`, `useEffect`, `useRef` など）/ イベントハンドラー / ブラウザAPI 使用時のみ
+- `'use client'` は client-only hooks（`useState`, `useEffect`, `useRef` など）/ イベントハンドラー / ブラウザAPI 使用時のみ。例外は `UI/IconButton.tsx` で、`UI/Tooltip.tsx` へ渡す要素を Client Component の中で作るために付ける（理由は、そのファイル冒頭のコメント）
 - SSG 前提でビルド時データロードを優先
 - ランタイム `fetch` は、ビルド時に取得するとビルド成果が動的になるデータに限る（`src/components/Page/Post/Likes.tsx` の Webmention のいいね）。ほかのデータはビルド時に読み込み、取得の失敗をビルドで検出する
 
