@@ -51,14 +51,22 @@ npm run vrt:ui
 
 Playwright UI でストーリーごとの撮影・比較を対話的に確認できる。
 
-## スコープ（Phase 1）
+## スコープ
 
 `tests/vrt/helpers/load-stories.ts` の `INCLUDE_PREFIXES` で対象を絞り込む。
 
-- 現在: `components-ui-alert--` で始まるストーリーのみ
+- 現在: `ui-` で始まるストーリー（`title` が `UI/` で始まるもの）のみ
 - 除外タグ: `!manifest`, `!vrt` のいずれかを持つストーリーは対象外
 
-Phase 2 以降で対象を広げる場合は、該当定数を空配列 `[]` に変更すると全ストーリーが対象になる。
+対象を広げる場合は、該当定数を空配列 `[]` に変更すると全ストーリーが対象になる。
+
+## インタラクションの spec
+
+`tests/vrt/` の `*.interaction.spec.ts` は、スクリーンショットを撮らず、ストーリーを実ブラウザで操作して確かめる。
+
+- 現在は 2 つある。`zoomImage.interaction.spec.ts` は ZoomImage の開閉・焦点・キー操作・背面のスクロール止め・動きを減らす設定を、`tooltip.interaction.spec.ts` はツールチップへポインタを載せても開いたままであることを確かめる
+- `npm run vrt` が、撮影の spec と同じ設定（`playwright.vrt.config.ts`）で実行する。ストーリーのビルド（`npm run vrt:build`）が前提である
+- 失敗しても、CI のコメントは「差分あり」と表示する。画像の差分ではなく操作の失敗なので、`playwright-report` で失敗した spec を確かめる
 
 ## CI 挙動
 

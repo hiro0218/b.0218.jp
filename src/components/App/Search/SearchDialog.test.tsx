@@ -437,6 +437,39 @@ test('Home・End で先頭・末尾の行を選ぶ', () => {
   expect(getSelectedId()).toBe('search-result-p1');
 });
 
+test('選んでいる行から ↑ を押した場合、1 つ前の行を選ぶ', () => {
+  renderDialog({
+    popularPosts: [
+      { slug: 'p1', title: '記事 1' },
+      { slug: 'p2', title: '記事 2' },
+    ],
+  });
+  fireEvent.keyDown(getInput(), { key: 'End' });
+
+  fireEvent.keyDown(getInput(), { key: 'ArrowUp' });
+
+  expect(getSelectedId()).toBe('search-result-p1');
+});
+
+test.each(['ArrowDown', 'ArrowUp', 'Home', 'End'])(
+  '行が無い状態で %s を押した場合、入力欄の既定の動作を止めない',
+  (key) => {
+    renderDialog({ popularPosts: [] });
+
+    // fireEvent は、preventDefault されなかったときだけ true を返す
+    expect(fireEvent.keyDown(getInput(), { key })).toBe(true);
+  },
+);
+
+test.each(['ArrowDown', 'ArrowUp', 'Home', 'End'])(
+  '行がある状態で %s を押した場合、入力欄の既定の動作を止める',
+  (key) => {
+    renderDialog({ popularPosts: [{ slug: 'p1', title: '記事 1' }] });
+
+    expect(fireEvent.keyDown(getInput(), { key })).toBe(false);
+  },
+);
+
 test('最近の検索とよく読まれている記事の境目でも、↓ で次の行へ 1 つずつ移る', () => {
   localStorage.setItem(RECENT_KEY, JSON.stringify(['css']));
   renderDialog();

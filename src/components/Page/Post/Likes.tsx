@@ -26,7 +26,8 @@ export function PostLikes({ url }: Props) {
       .then(setLikes)
       .catch((error: unknown) => {
         if (isAbortError(error)) return;
-        console.error('Failed to load likes:', error);
+        // console.error にしない。webmention.io の不調や通信の遮断は想定内の失敗で、error にすると Next.js の dev overlay が Issue を出し続けるため
+        console.warn('Failed to load likes:', error);
         setLikes([]);
       });
 
@@ -60,7 +61,7 @@ async function fetchLikes(targetUrl: string, signal: AbortSignal): Promise<Like[
   const response = await fetch(requestUrl, { signal });
 
   if (!response.ok) {
-    console.error('Failed to load likes:', response.status);
+    console.warn('Failed to load likes:', response.status);
     return [];
   }
 

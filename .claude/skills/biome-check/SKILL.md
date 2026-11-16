@@ -5,7 +5,7 @@ description: Run Biome lint/format check on modified TypeScript and JavaScript f
 
 # Biome Check
 
-プロジェクト規約 (`biome.json` + `.claude/rules/linting.md`) に従って lint / format 違反を検出・修正する。
+プロジェクト規約 (`biome.json` + `docs/tooling/linting.md`) に従って lint / format 違反を検出・修正する。
 
 ## When to use
 
@@ -41,18 +41,18 @@ description: Run Biome lint/format check on modified TypeScript and JavaScript f
 **自動修正を即時適用しない**。ルールを理解してから対応する:
 
 - 違反の rule id (例: `lint/performance/useTopLevelRegex`) を確認
-- `.claude/rules/linting.md` でプロジェクト固有の意図を確認 (recommended からの override や厳格化の理由)
+- `docs/tooling/linting.md` でプロジェクト固有の意図を確認 (recommended からの override や厳格化の理由)
 - 必要に応じて `biome.json` の該当 rule 設定を読む
 - 修正方針:
   - **意図的な逸脱**でない限り、コード側を修正する (rule を抑制しない)
   - 安全な auto-fix のみ適用したい場合は `./node_modules/.bin/biome check --write <files>`
-    - `--write` は safe fix のみ自動適用される。構造変更を伴う fix (例: `useTopLevelRegex` の定数化、`useExportType` の `import type` への書き換え) は **手動修正が必要**
+    - `--write` は safe fix のみ自動適用される。fix を持たない rule (例: `useTopLevelRegex` の定数化) は手動で直す
   - `--unsafe` は使わない (semantics が変わる可能性)
-  - rule 抑制 (`biome-ignore`) を検討する場合は `.claude/rules/linting.md` の該当節を参照する。原則は「局所的な正当化」または「SDK 慣用パターン」のみ
+  - rule 抑制 (`biome-ignore`) を検討する場合は `docs/tooling/linting.md` の該当節を参照する。原則は「局所的な正当化」または「SDK 慣用パターン」のみ
 
 ### 4. 再 check
 
-`./node_modules/.bin/biome check <files...>` を再実行し 0 errors を確認。warnings は方針に応じて対応 (プロジェクトでは warn は記録のみで blocking しない例が多い)。
+`./node_modules/.bin/biome check <files...>` を再実行し 0 errors を確認。warnings は `docs/tooling/linting.md` の方針に従う (新規・変更コードは rule の意図に沿って直し、既存コードは変更箇所と近傍を寄せる)。
 
 ### 5. 報告
 
@@ -61,7 +61,7 @@ description: Run Biome lint/format check on modified TypeScript and JavaScript f
 
 ## プロジェクト固有の注意
 
-厳格化ルールの一覧と理由は `.claude/rules/linting.md` を参照する。
+厳格化ルールの一覧と理由は `docs/tooling/linting.md` を参照する。
 `useTopLevelRegex` は spec ファイルでも適用される。テスト内で `expect(x).toMatch(/.../)` のような inline regex はトップレベル定数に切り出す。
 
 ## 周辺ツールとの関係

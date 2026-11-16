@@ -24,21 +24,21 @@ type PaginationProps = {
   getPageHref: (page: number) => string;
 };
 
-type NavigationButtonProps = {
+type PaginationArrowProps = {
   direction: 'previous' | 'next';
   currentPage: number;
   href: string | null;
 };
 
-type PageNumberButtonProps = {
+type PageNumberProps = {
   item: PaginationPageItem;
 };
 
 /**
- * 前へ/次へボタン
+ * 前へ/次への矢印
  * スクリーンリーダー用に現在ページ情報を含むラベルを提供
  */
-const NavigationButton = ({ direction, currentPage, href }: NavigationButtonProps) => {
+const PaginationArrow = ({ direction, currentPage, href }: PaginationArrowProps) => {
   const isPrevious = direction === 'previous';
   const Icon = isPrevious ? CaretLeftIcon : CaretRightIcon;
   const label = isPrevious ? `前のページへ（現在${currentPage}ページ）` : `次のページへ（現在${currentPage}ページ）`;
@@ -47,7 +47,7 @@ const NavigationButton = ({ direction, currentPage, href }: NavigationButtonProp
   if (!href) {
     // span + aria-disabled は generic role で警告になるため、操作不能な矢印は native disabled に任せる。
     return (
-      <button aria-label={label} className={paginationButtonStyle} data-arrow-button disabled type="button">
+      <button aria-label={label} className={paginationControlStyle} data-arrow-button disabled type="button">
         <span className="sr-only">{label}</span>
         {icon}
       </button>
@@ -55,20 +55,20 @@ const NavigationButton = ({ direction, currentPage, href }: NavigationButtonProp
   }
 
   return (
-    <Link aria-label={label} className={paginationButtonStyle} data-arrow-button href={href} prefetch={false}>
+    <Link aria-label={label} className={paginationControlStyle} data-arrow-button href={href} prefetch={false}>
       {icon}
     </Link>
   );
 };
 
 /**
- * ページ番号ボタン
+ * ページ番号
  * 現在ページはaria-current="page"で明示（WAI-ARIAパターン準拠）
  */
-const PageNumberButton = ({ item }: PageNumberButtonProps) => {
+const PageNumber = ({ item }: PageNumberProps) => {
   if (item.isCurrent) {
     return (
-      <span aria-current="page" className={paginationButtonStyle}>
+      <span aria-current="page" className={paginationControlStyle}>
         <span className="sr-only">現在のページ: </span>
         {item.page}
       </span>
@@ -76,7 +76,7 @@ const PageNumberButton = ({ item }: PageNumberButtonProps) => {
   }
 
   return (
-    <Link aria-label={`${item.page}ページへ移動`} className={paginationButtonStyle} href={item.href} prefetch={false}>
+    <Link aria-label={`${item.page}ページへ移動`} className={paginationControlStyle} href={item.href} prefetch={false}>
       {item.page}
     </Link>
   );
@@ -124,7 +124,7 @@ export function Pagination({ currentPage, totalPages, getPageHref }: PaginationP
 
       <ul>
         <li data-paginate="arrow">
-          <NavigationButton currentPage={currentPage} direction="previous" href={previousHref} />
+          <PaginationArrow currentPage={currentPage} direction="previous" href={previousHref} />
         </li>
         {items.map((item) =>
           item.type === 'ellipsis' ? (
@@ -135,7 +135,7 @@ export function Pagination({ currentPage, totalPages, getPageHref }: PaginationP
             </li>
           ) : (
             <li data-paginate="page" key={`page-${item.page}`}>
-              <PageNumberButton item={item} />
+              <PageNumber item={item} />
             </li>
           ),
         )}
@@ -145,7 +145,7 @@ export function Pagination({ currentPage, totalPages, getPageHref }: PaginationP
           </PageCountDisplay>
         </li>
         <li data-paginate="arrow">
-          <NavigationButton currentPage={currentPage} direction="next" href={nextHref} />
+          <PaginationArrow currentPage={currentPage} direction="next" href={nextHref} />
         </li>
       </ul>
     </PaginationNav>
@@ -189,7 +189,7 @@ const PaginationNav = styled.nav`
   }
 `;
 
-const paginationButtonStyle = css`
+const paginationControlStyle = css`
   display: flex;
   flex-grow: 0;
   flex-shrink: 0;

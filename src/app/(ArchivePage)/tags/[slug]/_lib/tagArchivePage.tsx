@@ -1,6 +1,14 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getMetadata } from '@/app/_metadata';
+import type { StaticTagPageParam } from '@/app/(ArchivePage)/tags/[slug]/_lib/tagArchiveModel';
+import {
+  createTagArchiveMetadataModel,
+  createTagArchivePageModel,
+  createTagArchivePaginationStaticParams,
+  getTagArchivePageHref,
+  parseTagPageSegment,
+} from '@/app/(ArchivePage)/tags/[slug]/_lib/tagArchiveModel';
 import { StructuredData } from '@/components/Functional/StructuredData';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { pageSections } from '@/components/Page/_shared/pageSections';
@@ -15,14 +23,6 @@ import { getSimilarTag } from '@/lib/tag/derived';
 import { tagFeedPermalink, tagPath } from '@/lib/tag/navigation';
 import { getRoutableTagStaticParams, getRoutableTags } from '@/lib/tag/routing';
 import { tagFromUrlPath } from '@/lib/tag/url';
-import type { StaticTagPageParam } from './tagArchiveModel';
-import {
-  createTagArchiveMetadataModel,
-  createTagArchivePageModel,
-  createTagArchivePaginationStaticParams,
-  getTagArchivePageHref,
-  parseTagPageSegment,
-} from './tagArchiveModel';
 
 type TagArchiveMetadataOptions = {
   slug: string;

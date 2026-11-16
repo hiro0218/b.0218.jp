@@ -58,7 +58,8 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: '記事に webmention 経由のいいねが複数付いた状態を示す。著者写真の有無が混在するケースを含む。',
+        story:
+          '記事に webmention 経由のいいねが複数付いたときの標準の見え方を確かめるときに使う。著者写真のある人とない人が混ざっても、並びが揃うことの確認を含む。',
       },
     },
   },

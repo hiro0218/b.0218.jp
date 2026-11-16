@@ -1,0 +1,115 @@
+# Linting / Biome 規則
+
+## 設定方針
+
+`"preset": "recommended"` + 例外のみ override する。Biome アップデートで recommended に追加されるルールは自動的に有効になる。
+
+| ドメイン     | 設定          | 補足                                                                                                                                                              |
+| ------------ | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `next`       | `recommended` | Next.js プロジェクトのため有効                                                                                                                                    |
+| `playwright` | `recommended` | E2E/VRT で Playwright を使用。下の「Playwright・JSX」の表の Playwright ルールは、`noPlaywrightMissingAwait` を除き recommended に含まれないため、個別に有効にする |
+
+### Assist
+
+| アクション            | 設定 | 補足               |
+| --------------------- | ---- | ------------------ |
+| `organizeImports`     | on   | import 並び替え    |
+| `useSortedAttributes` | on   | JSX 属性の並び替え |
+
+## ファイル除外
+
+### `files.includes`（全ツール共通）
+
+| パターン           | 理由                               |
+| ------------------ | ---------------------------------- |
+| `!**/*.css`        | CSS は Stylelint + Prettier で処理 |
+| `!.github/scripts` | CI スクリプトは対象外              |
+| `!_article`        | Git submodule（読み取り専用）      |
+
+`.gitignore` に記載されたパターン（`.next`, `dist`, `styled-system` など）は VCS 統合で自動除外される。
+
+### `linter.includes`（リンターのみ）
+
+| パターン          | 理由                                              |
+| ----------------- | ------------------------------------------------- |
+| `!build/**`       | ビルドスクリプト。formatter は適用、linter は除外 |
+| `!public/**`      | 静的アセット                                      |
+| `!**/*.config.js` | 設定ファイルは lint 対象外                        |
+
+## npm scripts / AI 実行
+
+- `npm run lint`: `biome check src build scripts tests`
+- `npm run lint:write`: `biome check --write --unsafe src build scripts tests`
+- 編集ファイルだけを確認する場合は `./node_modules/.bin/biome check <files...>` を直接実行する(`npx biome check` はこの作業環境で失敗することがある。詳細は [CLAUDE.md](../../CLAUDE.md) の npx 既知問題を参照)。
+- AI セッション中の自動修正では [biome-check Skill](../../.claude/skills/biome-check/SKILL.md) を優先し、`--unsafe` は使わない。
+- `biome.json` を編集した場合は、非コードファイルだけの変更でも `./node_modules/.bin/biome check biome.json` で設定ファイル自体を検証する。
+
+## 意図的な例外
+
+### 無効化・緩和（recommended からの変更）
+
+| ルール                      | 設定 | 理由                                                                                        |
+| --------------------------- | ---- | ------------------------------------------------------------------------------------------- |
+| `noDangerouslySetInnerHtml` | off  | ブログが HTML をレンダリングする（JSON-LD、検索ハイライト、Alert）。`WithChildren` 版は有効 |
+| `noSvgWithoutTitle`         | off  | 装飾アイコンは `aria-hidden` で対応済み                                                     |
+| `useBlockStatements`        | off  | 非 recommended で既定でも無効。単一式の if/arrow は波括弧なしを許容する                     |
+| `noNoninteractiveTabindex`  | warn | カスタムウィジェットでの意図的な使用あり                                                    |
+| `useExhaustiveDependencies` | warn | pathname トリガー等の意図的な依存省略を許容                                                 |
+| `useImportType`             | warn | recommended の既定も warn。段階的な移行のため error にしない                                |
+| `noImgElement`              | off  | ZoomImage・Logo 等で意図的に `<img>` を使用                                                 |
+
+### 厳格化・追加（recommended 以上）
+
+| ルール                   | 設定  | 理由                                                                                          |
+| ------------------------ | ----- | --------------------------------------------------------------------------------------------- |
+| `noExplicitAny`          | error | TypeScript `any` 禁止を機械的に強制                                                           |
+| `noUnusedVariables`      | error | `ignoreRestSiblings: true` で分割代入の残余は許容                                             |
+| `noDelete`               | error | パフォーマンス。非 recommended だが明示的に追加                                               |
+| `noBarrelFile`           | error | パフォーマンス。非 recommended だが明示的に追加。re-export を集めた barrel ファイルを作らない |
+| `useTopLevelRegex`       | error | パフォーマンス。非 recommended だが明示的に追加                                               |
+| `useConsistentArrayType` | warn  | 非 recommended。プロジェクトでは `T[]` 短縮記法を推奨                                         |
+| `useNamingConvention`    | error | 非 recommended。`strictCase: false` で PascalCase/camelCase を強制、完全一致は不要            |
+
+### Playwright・JSX
+
+| ルール                          | 設定  | 理由                                                                  |
+| ------------------------------- | ----- | --------------------------------------------------------------------- |
+| `noLeakedRender`                | warn  | `{count && <Comp />}` の誤りを将来検出する監視                        |
+| `noPlaywrightNetworkidle`       | error | [testing.md](../conventions/testing.md) の deterministic な待機に整合 |
+| `noPlaywrightWaitForTimeout`    | error | タイムアウトベースのアサーション禁止                                  |
+| `noPlaywrightWaitForNavigation` | error | deprecated API でレースが起きやすい                                   |
+| `noPlaywrightForceOption`       | error | `{ force: true }` は根本的な問題を隠す                                |
+| `noPlaywrightMissingAwait`      | error | async API の await 漏れは致命的バグ                                   |
+| `noPlaywrightPagePause`         | error | `page.pause()` の commit 残留を防ぐ                                   |
+| `noPlaywrightWaitForSelector`   | warn  | locator API 推奨。既存コード移行のため warn                           |
+| `noPlaywrightElementHandle`     | warn  | locator API 推奨                                                      |
+| `noPlaywrightEval`              | warn  | locator API 推奨                                                      |
+| `noPlaywrightUselessAwait`      | warn  | 不要な await の検出                                                   |
+
+`warn` は新規コードでの許可ではなく、既存コード移行の猶予である。新規・変更コードでは warn でも rule の意図に沿う修正を優先し、既存ファイルを触る場合は変更箇所と近傍を無理のない範囲で寄せる。
+
+## レイヤー依存 / import
+
+層ごとの import の向きと、biome・dependency-cruiser のどちらが検出するかは、[layers.md](../architecture/layers.md#-レイヤー依存関係-critical) の表にまとめている。
+
+`src/` では `**/index` の import（barrel 経由の import）を禁止し、`noBarrelFile` で barrel ファイルも作らせない。全レイヤーで `~/styled-system/*` の直接 import も禁止し、`@/ui/styled` 経由に統一する。
+
+`src/app/**/page.tsx` と `src/app/**/_lib/*Page.tsx` では、`@/ui/styled` の `css`・`styled` の import も禁止する（[app-router.md](../architecture/app-router.md#-pagetsx-にスタイルを定義しない-critical)）。この override は、`src/**/*.{ts,tsx}` の override より後ろに置く。同じ rule の options は、後ろの override が置き換えるため、前に置くと効かない。
+
+## biome-ignore の使用基準
+
+以下のいずれかに該当する場合に許可する。理由コメントは必須である。
+
+1. ルールの意図には合致するが、この箇所では別の制約により例外が妥当な場合。
+2. SDK / 外部ライブラリの慣用パターンで逸脱が避けられない場合。
+
+例外がプロジェクト全体に及ぶなら `warn` / `off`、特定箇所に閉じるなら `biome-ignore` を使う。
+`biome-ignore` は局所的に診断を消す技術的負債である。コメントには rule id、外部制約、lint 準拠案が不適切な理由、維持すべき不変条件を含める。
+
+## 参照
+
+- レイヤー依存: [layers.md](../architecture/layers.md#-レイヤー依存関係-critical)
+- TypeScript 規約: [typescript.md](../conventions/typescript.md)
+- スタイリング: [styling.md](../conventions/styling.md)
+- 設定ファイル: [config-files.md](./config-files.md)
+- E2E/VRT: [testing.md](../conventions/testing.md)

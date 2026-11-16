@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 const TAG_HREF = /^\/tags\//;
 
-test('tags page lists tag links', async ({ page }) => {
+test('タグ一覧を開いた場合、タグへのリンクを並べる', async ({ page }) => {
   await page.goto('/tags');
 
   const main = page.getByRole('main');

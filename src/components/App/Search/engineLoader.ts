@@ -1,4 +1,4 @@
-import { createSearchEngine, type SearchEngine } from './engine';
+import { createSearchEngine, type SearchEngine } from '@/components/App/Search/engine';
 
 // 失敗した Promise は enginePromise に残さず、次の呼び出しでやり直す。
 // 残すと、通信の一時的な失敗が再読み込みまで続くため

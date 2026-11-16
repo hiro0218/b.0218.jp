@@ -1,6 +1,6 @@
+import { SEARCH_LABELS } from '@/components/App/Search/constants';
 import { css, cx } from '@/ui/styled';
 import { stateLayerControl } from '@/ui/styled/components/stateLayerControl';
-import { SEARCH_LABELS } from '../constants';
 
 type Props = {
   onClear: () => void;

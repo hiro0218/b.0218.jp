@@ -1,8 +1,8 @@
 import { GoogleAnalytics } from '@next/third-parties/google';
 import Script from 'next/script';
+import { GoogleAdSense } from '@/components/Functional/GoogleAdSense';
 import { GOOGLE_ADSENSE } from '@/constants';
 import { isProduction } from '@/lib/config/environment';
-import { GoogleAdSense } from './GoogleAdSense';
 
 /**
  * @summary 外部サービスのスクリプトと、その接続先への preconnect を 1 か所で読み込む。計測と広告は本番だけ。

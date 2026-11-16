@@ -137,6 +137,41 @@ test('tooltip を指定した場合、ポインタを乗せて待つと tooltip 
   expect(screen.getByRole('tooltip').textContent).toBe('X で共有する');
 });
 
+test.each([
+  [
+    'button',
+    <IconButton aria-label="共有" key="button" tooltip="X で共有する">
+      icon
+    </IconButton>,
+  ],
+  [
+    'link',
+    <IconButton aria-label="共有" as="link" href="/a" key="link" tooltip="X で共有する">
+      icon
+    </IconButton>,
+  ],
+  [
+    'externalLink',
+    <IconButton
+      aria-label="共有"
+      as="externalLink"
+      href="https://example.com"
+      key="externalLink"
+      tooltip="X で共有する"
+    >
+      icon
+    </IconButton>,
+  ],
+])('%s で tooltip を指定した場合、キーボードで焦点を当てると、待たずに tooltip の文言を出す', (_name, element) => {
+  render(element);
+
+  // フォーカスの前にキー操作を送る。ポインタ操作のあとのフォーカスは、React Aria が tooltip の合図にしない
+  fireEvent.keyDown(document.body, { key: 'Tab' });
+  act(() => screen.getByLabelText('共有').focus());
+
+  expect(screen.getByRole('tooltip').textContent).toBe('X で共有する');
+});
+
 test('tooltip を指定しない場合、ポインタを乗せても tooltip を出さない', () => {
   vi.useFakeTimers();
   render(<IconButton aria-label="共有">icon</IconButton>);

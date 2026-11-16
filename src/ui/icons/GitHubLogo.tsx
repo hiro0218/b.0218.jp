@@ -1,4 +1,4 @@
-import type { IconProps } from './type';
+import type { IconProps } from '@/ui/icons/type';
 
 export const GitHubLogo = ({ color = 'currentColor', ref, ...props }: IconProps) => {
   return (

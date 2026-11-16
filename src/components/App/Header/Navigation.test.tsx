@@ -5,7 +5,7 @@ vi.mock('next/navigation', () => ({
   usePathname: () => '/',
 }));
 
-import { HeaderNavigation } from './Navigation';
+import { Navigation } from './Navigation';
 
 window.matchMedia = vi.fn().mockReturnValue({
   matches: false,
@@ -14,7 +14,7 @@ window.matchMedia = vi.fn().mockReturnValue({
 } as unknown as MediaQueryList);
 
 test('展開中にナビの中で Esc を押した場合、閉じてトリガーへフォーカスを戻す', () => {
-  render(<HeaderNavigation />);
+  render(<Navigation />);
   const toggle = screen.getByRole('button', { name: 'ナビゲーションを開く' });
   fireEvent.click(toggle);
   const link = screen.getByRole('link', { name: 'tags' });
@@ -29,7 +29,7 @@ test('展開中にナビの中で Esc を押した場合、閉じてトリガー
 test('展開中に別の dialog（検索など）の中で Esc を押した場合、ナビは閉じない', () => {
   render(
     <>
-      <HeaderNavigation />
+      <Navigation />
       <dialog open>
         <button type="button">検索を閉じる</button>
       </dialog>
@@ -44,7 +44,7 @@ test('展開中に別の dialog（検索など）の中で Esc を押した場�
 });
 
 test('展開中にナビの項目を押した場合、閉じる', () => {
-  render(<HeaderNavigation />);
+  render(<Navigation />);
   const toggle = screen.getByRole('button', { name: 'ナビゲーションを開く' });
   fireEvent.click(toggle);
 
@@ -59,7 +59,7 @@ test('展開中にナビの項目を押した場合、閉じる', () => {
 test('展開中にナビの外を操作した場合、閉じる', () => {
   render(
     <>
-      <HeaderNavigation />
+      <Navigation />
       <button type="button">ナビの外</button>
     </>,
   );
@@ -81,7 +81,7 @@ test('展開中にデスクトップ幅になった場合、閉じる', () => {
     addEventListener: (_type: string, listener: (event: MediaQueryListEvent) => void) => changeListeners.push(listener),
     removeEventListener: vi.fn(),
   } as unknown as MediaQueryList);
-  render(<HeaderNavigation />);
+  render(<Navigation />);
   const toggle = screen.getByRole('button', { name: 'ナビゲーションを開く' });
   fireEvent.click(toggle);
 
@@ -91,7 +91,7 @@ test('展開中にデスクトップ幅になった場合、閉じる', () => {
 });
 
 test('クリックでフォーカスが移らない場合も、開いた直後に Esc を押すと閉じ、トリガーにフォーカスがある', () => {
-  render(<HeaderNavigation />);
+  render(<Navigation />);
   const toggle = screen.getByRole('button', { name: 'ナビゲーションを開く' });
   fireEvent.click(toggle);
 
@@ -99,4 +99,30 @@ test('クリックでフォーカスが移らない場合も、開いた直後�
 
   expect(toggle.getAttribute('aria-expanded')).toBe('false');
   expect(document.activeElement).toBe(toggle);
+});
+
+test('展開中に焦点がナビの外へ移った場合、閉じる', () => {
+  render(
+    <>
+      <Navigation />
+      <button type="button">ナビの外</button>
+    </>,
+  );
+  const toggle = screen.getByRole('button', { name: 'ナビゲーションを開く' });
+  fireEvent.click(toggle);
+
+  act(() => screen.getByRole('button', { name: 'ナビの外' }).focus());
+
+  expect(toggle.getAttribute('aria-expanded')).toBe('false');
+});
+
+test('展開中に焦点がナビの項目から別の項目へ移った場合、閉じない', () => {
+  render(<Navigation />);
+  const toggle = screen.getByRole('button', { name: 'ナビゲーションを開く' });
+  fireEvent.click(toggle);
+  act(() => screen.getByRole('link', { name: 'tags' }).focus());
+
+  act(() => screen.getByRole('link', { name: 'popular' }).focus());
+
+  expect(toggle.getAttribute('aria-expanded')).toBe('true');
 });

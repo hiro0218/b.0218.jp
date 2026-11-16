@@ -21,7 +21,7 @@ export type Lhr = {
 // good 以下は good、poor を超えると poor、その間は needs improvement と判定する。
 // LCP・CLS は web.dev の Core Web Vitals の値で、SP(mobile)と PC(desktop)で共通である。
 // TBT は CWV ではなく Lighthouse の採点区分で、PC だけ別の値を持つ(desktop)。
-// good(SP の値)は .claude/rules/styling.md の Web パフォーマンスの目標値と同じ。poor は次の出典の区分に合わせた値である。
+// good(SP の値)は docs/conventions/performance.md の Web パフォーマンスの目標値と同じ。poor は次の出典の区分に合わせた値である。
 //   LCP / CLS: https://web.dev/articles/defining-core-web-vitals-thresholds
 //   TBT: https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time
 // INP はページを読み込むだけの計測では得られないため扱わない(TBT で代用する)。

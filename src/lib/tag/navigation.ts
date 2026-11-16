@@ -1,5 +1,5 @@
 import { SITE_URL } from '@/constants';
-import { tagUrlPath } from './url';
+import { tagUrlPath } from '@/lib/tag/url';
 
 /** Tag 表示名からタグページのパスを作る。 */
 export function tagPath(name: string): `/tags/${string}` {

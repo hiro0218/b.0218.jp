@@ -1,7 +1,7 @@
 import { getPostsPopular } from '@/lib/post/derived';
+import { formatPostSummary } from '@/lib/post/summary';
 import { getPostsListJson } from '@/lib/source/post';
 import type { Post, PostSummary } from '@/types/source';
-import { formatPostSummary } from './summary';
 
 const RECENT_POST_DISPLAY_LIMIT = 6;
 const IGNORED_POPULAR_POST_SLUGS = new Set(['20141105125846', '20171223014544']);

@@ -19,16 +19,16 @@ npm run dev       # https://localhost:8080 (HTTPSのみ)
 
 ## 🔴 クリティカルルール
 
-| ルール           | 概要                                                    | 正規定義                                                                              |
-| ---------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| ゼロマージン     | UIコンポーネントは外部マージンを設定しない              | [components.md](.claude/rules/components.md#-zero-margin-principle-critical)          |
-| レイヤー依存     | UI / Functional は独立、Page → UI/Functional            | [components.md](.claude/rules/components.md#-レイヤー依存関係-critical)               |
-| page のスタイル  | `page.tsx` に styled・css を定義しない。Page 層に置く   | [components.md](.claude/rules/components.md#-pagetsx-にスタイルを定義しない-critical) |
-| Server First     | デフォルトは Server Component                           | [architecture.md](.claude/rules/architecture.md#-server-first--ssg-critical)          |
-| React Compiler   | 最適化前に `next.config.mjs` を確認                     | [react-compiler-optimization.md](.claude/rules/react-compiler-optimization.md)        |
-| Content 編集禁止 | `_article/_posts/*.md` は Git submodule（直接編集禁止） | [content-pipeline.md](.claude/rules/content-pipeline.md)                              |
+| ルール           | 概要                                                    | 正規定義                                                                                  |
+| ---------------- | ------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| ゼロマージン     | UIコンポーネントは外部マージンを設定しない              | [layout.md](docs/components/layout.md#-zero-margin-principle-critical)                    |
+| レイヤー依存     | UI / Functional は独立、Page → UI/Functional            | [layers.md](docs/architecture/layers.md#-レイヤー依存関係-critical)                       |
+| page のスタイル  | `page.tsx` に styled・css を定義しない。Page 層に置く   | [app-router.md](docs/architecture/app-router.md#-pagetsx-にスタイルを定義しない-critical) |
+| Server First     | デフォルトは Server Component                           | [app-router.md](docs/architecture/app-router.md#-server-first--ssg-critical)              |
+| React Compiler   | 最適化前に `next.config.mjs` を確認                     | [performance.md](docs/conventions/performance.md#-重要ルール-critical)                    |
+| Content 編集禁止 | `_article/_posts/*.md` は Git submodule（直接編集禁止） | [content-pipeline.md](docs/architecture/content-pipeline.md)                              |
 
-詳細ルールは `.claude/rules/` に配置（自動読み込み）。
+詳細ルールは [`docs/`](docs/README.md) の、内容に合う文書に置く。Claude Code は、作業するディレクトリの `.claude/rules/docs.md` が取り込む文書を、そのディレクトリのファイルに触れたときに読み込む。ディレクトリに属さない文書は、`.claude/rules/always.md` が常に読み込む。そのほかの文書は、`.claude/rules/` の案内（`paths` と文書へのリンク）に従って、`Read` で読む。
 
 ---
 

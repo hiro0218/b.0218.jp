@@ -2,10 +2,10 @@
 
 import { usePathname } from 'next/navigation';
 import { createContext, type ReactNode, use, useEffect, useEffectEvent, useRef, useState } from 'react';
-import { loadSearchEngine } from './engineLoader';
-import { isImeComposing, SEARCH_SHORTCUT_KEY } from './keyboard';
-import type { SearchDialog } from './SearchDialog';
-import type { PopularPost } from './types';
+import { loadSearchEngine } from '@/components/App/Search/engineLoader';
+import { isImeComposing, SEARCH_SHORTCUT_KEY } from '@/components/App/Search/keyboard';
+import type { SearchDialog } from '@/components/App/Search/SearchDialog';
+import type { PopularPost } from '@/components/App/Search/types';
 
 type Status = 'closed' | 'open' | 'closing';
 
@@ -17,7 +17,7 @@ type SearchOpener = {
 
 const SearchOpenerContext = createContext<SearchOpener | undefined>(undefined);
 
-const importSearchDialog = () => import('./SearchDialog');
+const importSearchDialog = () => import('@/components/App/Search/SearchDialog');
 
 // 先読みの失敗を報告しない。開く操作（open）が読み込み直し、そこで失敗を報告するため
 const prefetch = () => {

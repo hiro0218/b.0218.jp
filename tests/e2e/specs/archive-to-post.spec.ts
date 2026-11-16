@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 const POST_HREF = /^\/.+\.html$/;
 const POST_URL = /\.html$/;
 
-test('archive page leads to a post detail', async ({ page }) => {
+test('アーカイブの記事リンクを押した場合、記事の詳細ページへ移動する', async ({ page }) => {
   await page.goto('/archive');
 
   const main = page.getByRole('main');

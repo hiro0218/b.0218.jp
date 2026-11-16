@@ -1,3 +1,7 @@
+'use client';
+
+// Server Component にしない。Server Component が作った要素は lazy の node で届くことがあり、Tooltip が cloneElement すると type が undefined になる（Element type is invalid）ため
+
 import Link from 'next/link';
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode, Ref } from 'react';
 

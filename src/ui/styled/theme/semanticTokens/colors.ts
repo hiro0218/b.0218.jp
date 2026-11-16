@@ -4,7 +4,7 @@
  * @description
  * パレット（tokens/colors.ts の Spectrum スケール）のうち、複数箇所を同じ判断で動かす値と
  * サイト全体の役割を表す値だけを役割名で公開する。
- * 追加・命名の判断基準は .claude/rules/design-principles.md を参照。
+ * 追加・命名の判断基準は docs/design-system/tokens.md を参照。
  */
 const semanticColorTokens = {
   /** 反転面（Tooltip / Toast などの暗い面）の背景 */

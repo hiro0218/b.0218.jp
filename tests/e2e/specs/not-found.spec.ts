@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('unknown URL renders 404 not-found content', async ({ page }) => {
+test('存在しない URL を開いた場合、404 の見出しと案内文を表示する', async ({ page }) => {
   const response = await page.goto('/__definitely_not_a_page__');
 
   expect(response?.status()).toBe(404);

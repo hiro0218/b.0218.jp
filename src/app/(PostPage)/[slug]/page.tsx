@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getMetadata } from '@/app/_metadata';
+import { getPostPageData } from '@/app/(PostPage)/[slug]/_lib/services/getPostPageData';
 import { StructuredData } from '@/components/Functional/StructuredData';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { pageSections } from '@/components/Page/_shared/pageSections';
@@ -19,7 +20,6 @@ import { getBlogPostingStructured, getBreadcrumbStructured, getDescriptionText }
 import { getPostsListJson } from '@/lib/source/post';
 import { tagPath } from '@/lib/tag/navigation';
 import { getOgpImage, getPermalink } from '@/lib/utils/url';
-import { getPostPageData } from './_lib/services/getPostPageData';
 
 type Params = Promise<{ slug: string }>;
 

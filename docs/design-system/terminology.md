@@ -1,10 +1,3 @@
----
-description: UI 命名・用語の正規規則。命名から責務・HTML/CSS 実体・再利用範囲・変更影響が読めるようにする。実装、Storybook、JSDoc、レビュー時の正式名称に適用する。
-paths:
-  - '**/components/**/*.{ts,tsx,css}'
-  - '**/ui/**/*.{ts,tsx}'
----
-
 # Design System 用語規則
 
 ## 目的
@@ -31,15 +24,15 @@ UI 命名から、責務・HTML/CSS の実体・再利用範囲・変更影響�
 
 名称は再利用範囲に合わせる。汎用 UI primitive、Page / App 固有コンポーネント、内部子要素を同じ粒度の名前にしない（名前から再利用範囲と変更影響を読めるようにするため）。
 
-| 再利用範囲                    | 命名方針                                                               | 例                                                                         |
-| ----------------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| 汎用 UI primitive             | ドメインや配置先に依存しない責務名にする                               | `Cluster`, `Grid`, `Stack`, `NavigationLink`                               |
-| Page / App 固有コンポーネント | 配置先や責務を scope prefix で示す                                     | `HeaderNavigation`, `PostContent`, `ArticleListSectionInner`               |
-| 配置型 B の内部子要素         | 親ディレクトリで scope が決まる。scope prefix を付けず責務名のみにする | `ArticleCard/Header.tsx` の `Header`、`ArticleCard/Footer.tsx` の `Footer` |
+| 再利用範囲                    | 命名方針                                                               | 例                                                                     |
+| ----------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 汎用 UI primitive             | ドメインや配置先に依存しない責務名にする                               | `Cluster`, `Grid`, `Stack`                                             |
+| Page / App 固有コンポーネント | 配置先や責務を scope prefix で示す                                     | `PostShare`, `PostContent`, `ArchiveIntro`                             |
+| 配置型 B の内部子要素         | 親ディレクトリで scope が決まる。scope prefix を付けず責務名のみにする | `ArticleCard/Header.tsx` の `Header`、`ArticleCard/Tags.tsx` の `Tags` |
 
 既存 primitive で責務を満たせる場合は、新しい名前を増やさない。
 新規名は、公開 API なら汎用名、特定ページや section の内部要素なら scope prefix 付きの名前にする。
-再利用範囲が不明なレビューでは決め打ちせず、「汎用なら scope なしの責務名（例: `Navigation`）、特定 scope 専用なら scope prefix 付き（例: `HeaderNavigation`）」と両案を条件付きで提案する。
+再利用範囲が不明なレビューでは決め打ちせず、「汎用なら scope なしの責務名、特定 scope 専用なら scope prefix 付き（例: `PostShare`）」と両案を条件付きで提案する。
 
 ## 🔴 Web 標準語との衝突回避 (CRITICAL)
 
@@ -82,6 +75,13 @@ Web 標準で意味が定まっている語は再定義しない（HTML/CSS/ARIA
 
 React コンポーネントであることだけを理由に、すべてを `Component` と説明しない。
 
+`primitive` が指すのは、次の 2 つだけである。
+
+- `UI/Layout/` の layout primitive（[layout.md](../components/layout.md#-every-layout-原則-important)）
+- デザイントークンの primitive 階層（[tokens.md](./tokens.md#-トークン階層-important)）
+
+状態や操作を束ねる hook・部品の分割には使わない。「機能」を層の名前にしない。業務の知識を持つ部品は `Page/` と `App/` に置き、`Functional/` は視覚 DOM を持たない副作用コンポーネントの層である。
+
 ## 🟡 テキスト用語 (IMPORTANT)
 
 `Text` は正式名称として広すぎる。公開 API、Storybook、JSDoc では具体化する。
@@ -97,16 +97,16 @@ React コンポーネントであることだけを理由に、すべてを `Com
 
 ## 判定フロー
 
-新しい UI 名称を追加する前に、上の各 CRITICAL セクションを順に判定する。違反があれば別案へ。
+新しい UI 名称を追加する前に、次の項目を順に判定する。違反があれば別案へ。
 
 1. **Web 標準語と衝突しないか** — 本ファイル「Web 標準語との衝突回避」セクション
-2. **責務 / 実体を表しているか** — 視覚特性 (`Round`, `Big` 等) ではなく責務・HTML/CSS 実体・スコープを反映する（命名の共通原則）
+2. **責務 / 実体を表しているか** — 視覚特性 (`Round`, `Big` 等) ではなく責務・HTML/CSS 実体・スコープを反映する（本ファイル「目的」セクション）
 3. **既存名を巻き込み改名していないか** — 本ファイル「既存語の扱い」セクション
 4. **`Container` / scope 付き責務名で代替できるか** — 本ファイル「構造・余白・レイアウト用語」セクション
 5. **再利用範囲に合った粒度か** — 本ファイル「公開範囲とスコープ修飾」セクション
-6. **レイヤー境界と矛盾しないか** — `UI/` / `Page/` / `App/` / `Functional/` の責務と一致するか（[components.md](./components.md) の「レイヤー定義」参照）
+6. **レイヤー境界と矛盾しないか** — `UI/` / `Page/` / `App/` / `Functional/` の責務と一致するか（[layers.md](../architecture/layers.md#レイヤー定義) の「レイヤー定義」参照）
 
 ## 参照
 
-- コンポーネント規則: [components.md](./components.md)
-- スタイリング規則: [styling.md](./styling.md)
+- コンポーネントの層と配置: [layers.md](../architecture/layers.md)、[file-placement.md](../architecture/file-placement.md)
+- スタイリング規則: [styling.md](../conventions/styling.md)

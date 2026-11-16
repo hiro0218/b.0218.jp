@@ -2,7 +2,12 @@ import type { ListItem } from 'schema-dts';
 
 import type { Activities, Post } from '@/types/source';
 
-import { getActivitiesStructured, getBlogPostingImage, getBlogPostingStructured } from './json-ld';
+import {
+  getActivitiesStructured,
+  getBlogPostingImage,
+  getBlogPostingStructured,
+  getOrganizationStructured,
+} from './json-ld';
 
 const createPost = (tags: string[]): Post => ({
   slug: 'example',
@@ -46,6 +51,20 @@ describe('getBlogPostingStructured', () => {
       name: 'hiro',
       url: 'https://b.0218.jp/about',
     });
+  });
+});
+
+describe('getOrganizationStructured', () => {
+  it('description にサイトの説明を設定する', () => {
+    expect(getOrganizationStructured()).toEqual(
+      expect.objectContaining({ description: '様々な情報をストックするサイバーメモ帳' }),
+    );
+  });
+
+  it('address は国だけを持つ PostalAddress を返す', () => {
+    expect(getOrganizationStructured()).toEqual(
+      expect.objectContaining({ address: { '@type': 'PostalAddress', addressCountry: 'JP' } }),
+    );
   });
 });
 

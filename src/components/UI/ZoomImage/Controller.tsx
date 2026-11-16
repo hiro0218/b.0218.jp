@@ -4,8 +4,8 @@ import type { ImgHTMLAttributes, SyntheticEvent } from 'react';
 import { useCallback, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import type { Dialog } from './Dialog';
-import { useImageZoom } from './hooks/useImageZoom';
 import { TriggerButton } from './TriggerButton';
+import { useImageZoom } from './useImageZoom';
 
 type ControllerProps = ImgHTMLAttributes<HTMLImageElement> & {
   src: string;

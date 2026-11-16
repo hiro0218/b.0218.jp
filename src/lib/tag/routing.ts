@@ -1,7 +1,7 @@
 import { TAG_VIEW_LIMIT } from '@/constants';
 import { getTagsWithCount } from '@/lib/source/tag';
+import { tagFromUrlPath } from '@/lib/tag/url';
 import type { TagCounts } from '@/types/source';
-import { tagFromUrlPath } from './url';
 
 // getRoutableTagByRouteSlug がフィードルートから多数回呼ばれ、
 // その都度全タグを再フィルタしていたためメモ化する。返却配列は呼び出し元間で共有参照になるため

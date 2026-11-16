@@ -80,7 +80,7 @@ const ProgressBar = styled.div`
   width: 100%;
   height: var(--spacing-75);
   pointer-events: none;
-  background-color: var(--colors-accent-800);
+  background-color: var(--colors-gray-700);
   transform: scaleX(0);
   transform-origin: left;
   will-change: transform;

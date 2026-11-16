@@ -1,12 +1,12 @@
 import { CaretLineUpIcon } from '@phosphor-icons/react/ssr';
 import { PostTimeline } from '@/components/Page/_shared/PostTimeline';
+import { YEAR_INDEX_ANCHOR_ID, type YearPostCount, yearAnchorId } from '@/components/Page/Archive/Chart';
 import { Heading } from '@/components/UI/Heading';
 import { IconButton } from '@/components/UI/IconButton';
 import { Stack } from '@/components/UI/Layout/Stack';
 import type { ArchivesByYear } from '@/types/source';
 import { ICON_SIZE_XS } from '@/ui/iconSizes';
 import { css } from '@/ui/styled';
-import { YEAR_INDEX_ANCHOR_ID, type YearPostCount, yearAnchorId } from './Chart';
 
 // 固定ヘッダーの高さ分だけジャンプ先をずらし、年別一覧からの着地後に見出しがヘッダーへ隠れないようにする。
 // h2 は display: block でブロック幅いっぱいに広がるため、fit-content で外接矩形をテキスト幅に絞り、

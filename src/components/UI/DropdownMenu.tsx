@@ -1,6 +1,6 @@
 'use client';
 
-import type { FocusEvent, MouseEvent, ReactNode } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 import { useId } from 'react';
 
 import { IconButton } from '@/components/UI/IconButton';
@@ -23,7 +23,7 @@ export type DropdownMenuProps = {
  * @summary クリック開閉ドロップダウンメニュー（disclosure パターン）
  */
 export function DropdownMenu({ title, triggerLabel, children }: DropdownMenuProps) {
-  const { isExpanded, rootRef, triggerRef, collapse, collapseToTrigger, handleKeyDown, toggle } = useDisclosure();
+  const { isExpanded, rootProps, triggerRef, collapseToTrigger, toggle } = useDisclosure();
   const panelId = useId();
 
   // リンククリックで閉じてトリガーへ focus を戻す（Esc と同じ理由。閉じた後の focus 迷子を防ぐ）
@@ -34,17 +34,8 @@ export function DropdownMenu({ title, triggerLabel, children }: DropdownMenuProp
     collapseToTrigger();
   };
 
-  // フォーカスがトリガーとパネルの外へ移ったら閉じる(Tab でパネルを通り過ぎても開いたままにしない)。
-  // relatedTarget が無い場合(ウィンドウ切り替え、フォーカスできない場所のクリック)は閉じない。
-  // 前者は戻ってきたときに状態を保つため、後者は useInteractOutside が受け持つため。移動先のフォーカスは奪い返さない。
-  const handleBlur = (event: FocusEvent<HTMLDivElement>) => {
-    if (!(event.relatedTarget instanceof Node)) return;
-    if (event.currentTarget.contains(event.relatedTarget)) return;
-    collapse();
-  };
-
   return (
-    <Container onBlur={handleBlur} onKeyDown={handleKeyDown} ref={rootRef}>
+    <Container {...rootProps}>
       <IconButton
         aria-controls={panelId}
         aria-expanded={isExpanded}

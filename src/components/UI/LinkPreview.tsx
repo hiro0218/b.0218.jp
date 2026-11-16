@@ -33,9 +33,11 @@ export const LinkPreview = ({ link, card, thumbnail, title, domain, description 
 };
 
 const Anchor = styled.a`
+  --thumbnail-size: 120px;
+
   display: flex;
   align-items: center;
-  height: var(--sizes-link-preview-thumbnail);
+  height: var(--thumbnail-size);
   container-type: inline-size;
   overflow: clip;
   color: var(--colors-gray-900);
@@ -70,7 +72,6 @@ const Anchor = styled.a`
 
         width: min(40%, var(--thumbnail-height));
         max-width: var(--thumbnail-height);
-        height: var(--sizes-link-preview-thumbnail);
       }
     }
   }
@@ -79,7 +80,7 @@ const Anchor = styled.a`
 const Body = styled.span`
   display: block;
   flex: 1 1;
-  width: calc(100% - var(--sizes-link-preview-thumbnail));
+  width: calc(100% - var(--thumbnail-size));
   padding: 0 var(--spacing-300);
   padding-left: var(--spacing-300);
 `;
@@ -115,9 +116,9 @@ const Thumbnail = styled.span`
   flex-shrink: 0;
   flex-basis: auto;
   flex-direction: column;
-  width: var(--sizes-link-preview-thumbnail);
+  width: var(--thumbnail-size);
   height: stretch;
-  height: var(--sizes-link-preview-thumbnail);
+  height: var(--thumbnail-size);
   overflow: clip;
   user-select: none;
 
