@@ -46,13 +46,13 @@ description: Run Biome lint/format check on modified TypeScript and JavaScript f
 - 修正方針:
   - **意図的な逸脱**でない限り、コード側を修正する (rule を抑制しない)
   - 安全な auto-fix のみ適用したい場合は `./node_modules/.bin/biome check --write <files>`
-    - `--write` は safe fix のみ自動適用される。構造変更を伴う fix (例: `useTopLevelRegex` の定数化、`useExportType` の `import type` への書き換え) は **手動修正が必要**
+    - `--write` は safe fix のみ自動適用される。fix を持たない rule (例: `useTopLevelRegex` の定数化) は手動で直す
   - `--unsafe` は使わない (semantics が変わる可能性)
   - rule 抑制 (`biome-ignore`) を検討する場合は `docs/tooling/linting.md` の該当節を参照する。原則は「局所的な正当化」または「SDK 慣用パターン」のみ
 
 ### 4. 再 check
 
-`./node_modules/.bin/biome check <files...>` を再実行し 0 errors を確認。warnings は方針に応じて対応 (プロジェクトでは warn は記録のみで blocking しない例が多い)。
+`./node_modules/.bin/biome check <files...>` を再実行し 0 errors を確認。warnings は `docs/tooling/linting.md` の方針に従う (新規・変更コードは rule の意図に沿って直し、既存コードは変更箇所と近傍を寄せる)。
 
 ### 5. 報告
 
