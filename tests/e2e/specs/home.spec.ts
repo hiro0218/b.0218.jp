@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 const POST_HREF = /\.html$/;
 
-test('home page renders main with recent post link', async ({ page }) => {
+test('トップページを開いた場合、最新記事へのリンクを表示する', async ({ page }) => {
   await page.goto('/');
 
   const main = page.getByRole('main');
