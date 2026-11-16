@@ -82,7 +82,7 @@ export const ExternalLink: Story = {
 };
 
 /**
- * 内部ページへの遷移。Next.js の Link を経由したクライアントサイド遷移で、`prefetch` 制御も可能。
+ * アイコンだけのボタンで、サイト内の別ページへ移動させるときに使う。Next.js の Link を経由するので、遷移はクライアント側で行われ、`prefetch` も制御できる。
  * @summary 内部リンク
  */
 export const InternalLink: Story = {

@@ -14,7 +14,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * ページ最上位のタイトル。`<h1>` として描画される。
+ * 一覧ページや固定ページの冒頭に、ページの主題を示す見出しとして 1 つだけ置くときに使う。`<h1>` として描画される。
  *
  * @summary ページ h1 タイトル
  */
