@@ -18,7 +18,7 @@
 
 - 色 / 余白 / font-size / font-weight は CSS 変数を使用
 - 直接値 (16px / #fff / red 等) は禁止（例外は [layout.md](../components/layout.md#-zero-margin-principle-critical) の Zero Margin Principle を参照）
-- `0`、`line-height` の単位なし数値、border width、radius、z-index、opacity、transition duration はこの項目の直接値禁止対象外。ただし対応する design token が存在する場合は token を優先する
+- `0`、`line-height` の単位なし数値、border width、radius、z-index、opacity、transition duration、`font-size: 1em`（親の大きさに揃える）、sr-only の `margin: -1px`（視覚的に隠す）はこの項目の直接値禁止対象外。ただし対応する design token が存在する場合は token を優先する
 - ただし CSS キーワード値 (`italic`, `solid`, `none`, `inherit`, `bold`, `normal` 等) は型としてキーワードしか取れないため変数化対象外。`font-weight: bold/normal` はキーワード例外だが、視覚的な強弱を設計値として選ぶ場合は token / CSS 変数を優先する
 
 色・余白・typography は design system の契約である。直接値は一貫性、テーマ変更、レビュー可能性を壊すため、例外値はデザイン判断ではなく CSS の機械的な値として扱える場合に限る。

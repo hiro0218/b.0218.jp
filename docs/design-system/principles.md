@@ -28,7 +28,7 @@ Spectrum の Inclusive design の前提は、本サイトでは次の形で扱�
 
 - 影と枠線は使わない。線はフォーカス枠とリンクの下線に限る。
 - 面（`grayA-75` の fill、フッターの `gray-75` など）は背景から情報単位を分けるために使い、選択状態（current）は面で示す（太字にしない）。
-- 階層を作るときは、余白と面で分ける。既存コードに残る枠線・影（ArticleCard の枠線、base CSS の pre・table の罫線など）は未移行であり、新規・変更コードでは踏襲しない。
+- 階層を作るときは、余白と面で分ける。既存コードに残る枠線・影（ArticleCard の枠線、base CSS の pre・table の罫線、Alert・DropdownMenu・CopyButton・LinkPreview・Mokuji の枠線と影、記事本文の CSS の枠線と罫線など）は未移行であり、新規・変更コードでは踏襲しない。
 - カードの中に装飾カードを重ねて階層を作らない。
 
 ## デザイン品質

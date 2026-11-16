@@ -32,7 +32,7 @@ React Compiler を前提にした最適化の規則と、Web パフォーマン�
 | TBT        | < 200ms |
 
 - 画像には `width` と `height` を明示する。
-- ヒーロー画像のみ `loading="eager"` + `fetchpriority="high"` を使う。
+- ヒーロー画像のみ `loading="eager"` + `fetchpriority="high"` を使う。例外は、先読みで閉じたまま描画する dialog の画像（`UI/ZoomImage/Dialog.tsx`）で、`loading="eager"` だけを使う。
 - Below-the-fold は `loading="lazy"` を使う。
 - AVIF / WebP を優先する。
 - フォントは `font-display: swap`、プリロードは最も使用頻度の高いウェイトのみにする。

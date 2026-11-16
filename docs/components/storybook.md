@@ -24,7 +24,7 @@ export const FullContent: Story = {
 
 ## 🔴 Descriptive WHY (CRITICAL)
 
-全ストーリーに `parameters.docs.description.story` を記述する。「**いつ・なぜ使うか**」を書き、「何を表示するか」は書かない。詳細は [props-and-jsdoc.md](./props-and-jsdoc.md#jsdoc--storybook-説明) を参照する。
+全ストーリーに説明を書く。書き方は、`parameters.docs.description.story` と、export 直前の JSDoc のどちらでもよい。Storybook が JSDoc を同じ `parameters.docs.description.story` に変換するため、表示は変わらない（Storybook 10.6.7 の `enrichCsfStory` で確かめた）。両方あるときは `parameters.docs.description.story` が表示される。「**いつ・なぜ使うか**」を書き、「何を表示するか」は書かない。詳細は [props-and-jsdoc.md](./props-and-jsdoc.md#jsdoc--storybook-説明) を参照する。
 
 ```tsx
 // ✅ WHY を記述
@@ -83,7 +83,7 @@ const config: StorybookConfig = {
 ## チェックリスト（新規ストーリー作成時）
 
 - [ ] 1 ストーリー 1 概念
-- [ ] `parameters.docs.description.story` に WHY を記述
+- [ ] 説明（`parameters.docs.description.story` か JSDoc）に WHY を記述
 - [ ] コンポーネント本体に `@summary` 付き JSDoc
 - [ ] テスト/複合ストーリーには `tags: ['!manifest']`
 - [ ] `parameters.layout` の指定が適切（`centered` / `padded` / `fullscreen`）

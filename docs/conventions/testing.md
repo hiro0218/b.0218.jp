@@ -62,6 +62,7 @@ src/components/Page/_shared/ArticleCard.test.tsx
 ## E2E
 
 - Playwright（chromium のみ）を使用する。
+- テスト名は日本語で、「〜の場合、〜する」の形にする（Unit Test Style と同じ）。
 - 手動 dev server は HTTPS 必須: `https://localhost:8080`。
 - Playwright E2E は `playwright.e2e.config.ts` の `webServer` と `baseURL` に従う（現在は `http://127.0.0.1:3100`）。
 - タイムアウトベースのアサーションを避け、deterministic な待機を使用する。

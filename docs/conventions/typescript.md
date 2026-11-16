@@ -4,7 +4,10 @@
 
 - `any` を使用しない
 - 型のみの import は `import type`
-- 絶対パス import を使用（`@/*` は `src/*`、`~/*` はリポジトリルート）。配置型 B の公開入口と内部実装の間、内部実装どうしは相対 import にする（[file-placement.md](../architecture/file-placement.md#import--命名)）
+- 絶対パス import を使用（`@/*` は `src/*`、`~/*` はリポジトリルート）。相対 import にするのは、次の場合だけである
+  - 配置型 B の公開入口と内部実装の間、内部実装どうし（[file-placement.md](../architecture/file-placement.md#import--命名)）
+  - `build/`、`tests/`、テスト（`*.test.*`）、ストーリー（`*.stories.*`）のファイル
+  - `panda.config.mts` から import で辿れる `src/ui/styled/theme/**` と `src/ui/lib/fonts.ts`。どちらも相対 import で、設定の読み込みで `@/` が解決されるかは未確認である
 
 ## 🟡 推奨
 

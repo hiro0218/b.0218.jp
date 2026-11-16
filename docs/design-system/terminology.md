@@ -27,12 +27,12 @@ UI 命名から、責務・HTML/CSS の実体・再利用範囲・変更影響�
 | 再利用範囲                    | 命名方針                                                               | 例                                                                     |
 | ----------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
 | 汎用 UI primitive             | ドメインや配置先に依存しない責務名にする                               | `Cluster`, `Grid`, `Stack`                                             |
-| Page / App 固有コンポーネント | 配置先や責務を scope prefix で示す                                     | `HeaderNavigation`, `PostContent`, `ArchiveIntro`                      |
+| Page / App 固有コンポーネント | 配置先や責務を scope prefix で示す                                     | `PostShare`, `PostContent`, `ArchiveIntro`                             |
 | 配置型 B の内部子要素         | 親ディレクトリで scope が決まる。scope prefix を付けず責務名のみにする | `ArticleCard/Header.tsx` の `Header`、`ArticleCard/Tags.tsx` の `Tags` |
 
 既存 primitive で責務を満たせる場合は、新しい名前を増やさない。
 新規名は、公開 API なら汎用名、特定ページや section の内部要素なら scope prefix 付きの名前にする。
-再利用範囲が不明なレビューでは決め打ちせず、「汎用なら scope なしの責務名（例: `Navigation`）、特定 scope 専用なら scope prefix 付き（例: `HeaderNavigation`）」と両案を条件付きで提案する。
+再利用範囲が不明なレビューでは決め打ちせず、「汎用なら scope なしの責務名、特定 scope 専用なら scope prefix 付き（例: `PostShare`）」と両案を条件付きで提案する。
 
 ## 🔴 Web 標準語との衝突回避 (CRITICAL)
 
