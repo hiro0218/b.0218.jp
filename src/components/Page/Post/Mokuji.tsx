@@ -175,12 +175,11 @@ const Summary = styled.summary`
     font-weight: var(--font-weights-normal);
     color: var(--colors-gray-900);
     letter-spacing: var(--letter-spacings-md);
-    transition:
-      color var(--transition-fast),
-      transform var(--transition-fast);
+    border-radius: var(--radii-md);
+    transition: background-color var(--transition-fast);
 
     &:hover {
-      color: var(--colors-accent-1100);
+      background-color: var(--colors-gray-a-75);
     }
   }
 `;
