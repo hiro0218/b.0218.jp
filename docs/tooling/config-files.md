@@ -1,13 +1,3 @@
----
-paths:
-  - 'next.config.mjs'
-  - 'biome.json'
-  - 'panda.config.mts'
-  - 'tsconfig.json'
-  - 'postcss.config.cjs'
-  - 'package.json'
----
-
 # Config Files Verification
 
 ## Rule: Read Before Suggest
@@ -27,7 +17,7 @@ paths:
 **詳細**:
 
 - Biome 設定・規則: [linting.md](./linting.md)
-- React Compiler: [react-compiler-optimization.md](./react-compiler-optimization.md)
-- レイヤー依存: [components.md](./components.md#-レイヤー依存関係-critical)
-- スタイリング: [styling.md](./styling.md)
-- TypeScript: [typescript.md](./typescript.md)
+- React Compiler: [performance.md](../conventions/performance.md)
+- レイヤー依存: [layers.md](../architecture/layers.md#-レイヤー依存関係-critical)
+- スタイリング: [styling.md](../conventions/styling.md)
+- TypeScript: [typescript.md](../conventions/typescript.md)

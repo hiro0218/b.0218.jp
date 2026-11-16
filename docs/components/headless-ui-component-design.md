@@ -2,28 +2,28 @@
 
 ## 目的
 
-この文書は、状態や操作を持つ UI コンポーネント（以下、部品）の構造を選ぶ基準を定める。部品を作る、直す、レビューするときに使う。「する・しない」の規範は `.claude/rules/` が持つ。この文書は、その理由と、構造を分けるかどうかの判断基準を持つ。
+この文書は、状態や操作を持つ UI コンポーネント（以下、部品）の構造を選ぶ基準を定める。部品を作る、直す、レビューするときに使う。「する・しない」の規範は、[`docs/` の各文書](../README.md)が持つ。この文書は、その理由と、構造を分けるかどうかの判断基準を持つ。
 
 目的は 2 つある。
 
 - キーボード操作、フォーカス管理、ARIA を、一から書かずに済ませる。
 - 変更 1 回あたりの保守費用を下げる。費用は、変更の手間と、壊したときの被害で測る。手間は、変更箇所を見つけて理解し、直し、確かめる作業である。ファイルの数では測らない。
 
-対象は、`src/components/` の `UI/`、`Page/`、`App/` にある部品のうち、状態や操作を持つもの（[Dynamic Element](../.claude/rules/design-system-terminology.md#-用語分類軸-important)）である。ページの組み立て、デザイントークン、layout primitive は対象外である。それぞれ [architecture.md](../.claude/rules/architecture.md)、[design-principles.md](../.claude/rules/design-principles.md)、[components.md の Every Layout 原則](../.claude/rules/components.md#-every-layout-原則-important)が扱う。
+対象は、`src/components/` の `UI/`、`Page/`、`App/` にある部品のうち、状態や操作を持つもの（[Dynamic Element](../design-system/terminology.md#-用語分類軸-important)）である。ページの組み立て、デザイントークン、layout primitive は対象外である。それぞれ [app-router.md](../architecture/app-router.md)、[tokens.md](../design-system/tokens.md)、[layout.md の Every Layout 原則](./layout.md#-every-layout-原則-important)が扱う。
 
 前提は、静的生成（SSG）、Panda CSS、日本語だけのサイト、WCAG 2.2 AA を下限とするアクセシビリティである。
 
 ## 設計原則
 
-1. 振る舞いは、ネイティブ、React Aria の hook、自作の順に選ぶ。自作は、前の 2 つにない分だけにする。自作が増えるほど、キーボード操作、フォーカス、ARIA の保守を自分で負うためである。React Aria の hook は、1 つの仕事だけを担うものを組み合わせて使う。例は `UI/Tooltip.tsx` で、`useTooltipTriggerState`、`useTooltipTrigger`、`useTooltip` を組み合わせる。順位の詳細は [components.md の手段の優先順位](../.claude/rules/components.md#手段の優先順位)に従う。
-2. 部品の状態と操作は、1 つの hook にまとめる。画面からの操作と、コードからの呼び出しは、同じ関数を通す。コードから操作を呼ぶ必要が出たときに、画面からの操作と同じ結果で呼べるためである。例は `App/Search/SearchProvider.tsx` で、検索ボタン（`App/Search/SearchTrigger.tsx`）と `/` キーが、同じ `open` を呼ぶ。部品が小さいうちは、hook を部品の本体に書く（[components.md の Dynamic Element](../.claude/rules/components.md#-dynamic-element-important)）。計算は、部品を通すと確かめにくくなった時点で、純粋関数に切り出す（[Functional Core, Imperative Shell](https://www.destroyallsoftware.com/screencasts/catalog/functional-core-imperative-shell)）。
-3. スタイルは、部品が公開した約束だけを参照する。約束は、ネイティブの状態、ARIA、`data-<状態>`、CSS 変数の順に選ぶ（[styling.md の状態とスタイル](../.claude/rules/styling.md#-状態とスタイル-important)）。例は `UI/Toast.tsx` で、表示の状態を `data-visible` で出し、スタイルは `[data-visible='true']` で選ぶ。別のファイルが頼る約束は、コメントだけで守らず、共有の定数、属性、テストにする。約束を変えたときに、壊れる箇所を型やテストが示すためである。
+1. 振る舞いは、ネイティブ、React Aria の hook、自作の順に選ぶ。自作は、前の 2 つにない分だけにする。自作が増えるほど、キーボード操作、フォーカス、ARIA の保守を自分で負うためである。React Aria の hook は、1 つの仕事だけを担うものを組み合わせて使う。例は `UI/Tooltip.tsx` で、`useTooltipTriggerState`、`useTooltipTrigger`、`useTooltip` を組み合わせる。順位の詳細は [dynamic-element.md の手段の優先順位](./dynamic-element.md#手段の優先順位)に従う。
+2. 部品の状態と操作は、1 つの hook にまとめる。画面からの操作と、コードからの呼び出しは、同じ関数を通す。コードから操作を呼ぶ必要が出たときに、画面からの操作と同じ結果で呼べるためである。例は `App/Search/SearchProvider.tsx` で、検索ボタン（`App/Search/SearchTrigger.tsx`）と `/` キーが、同じ `open` を呼ぶ。部品が小さいうちは、hook を部品の本体に書く（[dynamic-element.md の Dynamic Element](./dynamic-element.md#-dynamic-element-important)）。計算は、部品を通すと確かめにくくなった時点で、純粋関数に切り出す（[Functional Core, Imperative Shell](https://www.destroyallsoftware.com/screencasts/catalog/functional-core-imperative-shell)）。
+3. スタイルは、部品が公開した約束だけを参照する。約束は、ネイティブの状態、ARIA、`data-<状態>`、CSS 変数の順に選ぶ（[styling.md の状態とスタイル](../conventions/styling.md#-状態とスタイル-important)）。例は `UI/Toast.tsx` で、表示の状態を `data-visible` で出し、スタイルは `[data-visible='true']` で選ぶ。別のファイルが頼る約束は、コメントだけで守らず、共有の定数、属性、テストにする。約束を変えたときに、壊れる箇所を型やテストが示すためである。
 
-   約束は、要素に届いて初めて効く。受け取った props は、描画する要素へ渡す（[components.md の状態と公開 API](../.claude/rules/components.md#状態と公開-api)）。ホバーとフォーカスの props は、焦点を取れる要素そのものに付ける。React Aria の `useFocus` は、自分自身へのフォーカスしか受けないためである。子のボタンを包む `span` に付けると、ボタンにフォーカスが当たっても開かない。`UI/Tooltip.tsx` は、子の要素へ props を渡す。
+   約束は、要素に届いて初めて効く。受け取った props は、描画する要素へ渡す（[dynamic-element.md の状態と公開 API](./dynamic-element.md#状態と公開-api)）。ホバーとフォーカスの props は、焦点を取れる要素そのものに付ける。React Aria の `useFocus` は、自分自身へのフォーカスしか受けないためである。子のボタンを包む `span` に付けると、ボタンにフォーカスが当たっても開かない。`UI/Tooltip.tsx` は、子の要素へ props を渡す。
 
-   操作できる部位には、すべてアクセシブルな名前を付ける。名前は、見える文字を含める（WCAG 2.5.3）。含まない名前は、axe の自動検査が検出する（[testing.md の Accessibility](../.claude/rules/testing.md#accessibility)）。
+   操作できる部位には、すべてアクセシブルな名前を付ける。名前は、見える文字を含める（WCAG 2.5.3）。含まない名前は、axe の自動検査が検出する（[testing.md の Accessibility](../conventions/testing.md#accessibility)）。
 
-4. 業務の知識は `Page/` と `App/` に置き、`UI/` に持ち込まない。部品は操作を公開し、`Page/` と `App/` が、その操作を業務上の操作に結びつける。例は `Page/Archive/Pagination.tsx` で、ページの URL の作り方を、`getPageHref` として呼び出し側から受け取る。層の定義は [components.md のレイヤー定義](../.claude/rules/components.md#レイヤー定義)に従う。
+4. 業務の知識は `Page/` と `App/` に置き、`UI/` に持ち込まない。部品は操作を公開し、`Page/` と `App/` が、その操作を業務上の操作に結びつける。例は `Page/Archive/Pagination.tsx` で、ページの URL の作り方を、`getPageHref` として呼び出し側から受け取る。層の定義は [layers.md のレイヤー定義](../architecture/layers.md#レイヤー定義)に従う。
 
 ## 構造を分けるかの判断基準
 
@@ -68,12 +68,12 @@
 - ロールとアクセシブルな名前で要素を探し、利用者と同じ操作で確かめる（[Testing Library の指針](https://testing-library.com/docs/guiding-principles/)）。
 - キーボード操作と ARIA 属性の期待値は、WAI-ARIA Authoring Practices の該当するパターンに合わせる（例: [Listbox](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/)）。React Aria の挙動がこれと異なる場合は、React Aria の挙動を採り、テストに理由を書く。
 - テストするのは、部品が利用者に見せる挙動である。React Aria の内部の実装は、重ねてテストしない。React Aria の更新のたびに、このリポジトリのテストまで直すことになるためである。
-- ブラウザが決める挙動は、実ブラウザで確かめる。置き場は [testing.md の対話する部品のテスト](../.claude/rules/testing.md#-対話する部品のテスト-important)に従う。
+- ブラウザが決める挙動は、実ブラウザで確かめる。置き場は [testing.md の対話する部品のテスト](../conventions/testing.md#-対話する部品のテスト-important)に従う。
 - ブラウザの API を使う部品は、サーバーでのレンダリングで例外が出ないことも確かめる（`UI/ZoomImage.test.tsx`）。
 
 ## 概念と置き場の対応
 
-層と配置の正は、[components.md のファイル配置パターン](../.claude/rules/components.md#-ファイル配置パターン-important)である。
+層と配置の正は、[file-placement.md のファイル配置パターン](../architecture/file-placement.md#-ファイル配置パターン-important)である。
 
 | 概念                      | 置き場                                                    | 例                                                    |
 | ------------------------- | --------------------------------------------------------- | ----------------------------------------------------- |
@@ -87,7 +87,7 @@
 
 見た目を部品の中へ閉じ込めると、同じ見た目を別の要素へ当てるときに複製が要る。そのため、複数の部品が使う見た目は、共有のスタイルとして置く（[UI Affordances](https://fractaledmind.com/2025/12/01/ui-affordances/)）。
 
-`primitive` は、layout primitive とデザイントークンの階層だけを指す（[design-system-terminology.md](../.claude/rules/design-system-terminology.md#-用語分類軸-important)）。状態と操作をまとめる hook には使わない。「機能」も層の名前にしない。業務の知識を持つ部品は `Page/` と `App/` に置き、`Functional/` は視覚 DOM を持たない副作用の層である。import の向きと、barrel（`index.ts`）の禁止は、[linting.md](../.claude/rules/linting.md#レイヤー依存--import)が定める。
+`primitive` は、layout primitive とデザイントークンの階層だけを指す（[terminology.md](../design-system/terminology.md#-用語分類軸-important)）。状態と操作をまとめる hook には使わない。「機能」も層の名前にしない。業務の知識を持つ部品は `Page/` と `App/` に置き、`Functional/` は視覚 DOM を持たない副作用の層である。import の向きは [layers.md](../architecture/layers.md#-レイヤー依存関係-critical)、barrel（`index.ts`）の禁止は [linting.md](../tooling/linting.md#レイヤー依存--import)が定める。
 
 ## 採っていないもの
 
@@ -109,20 +109,21 @@
 | CSS 変数の名前にコンポーネント名を含める決まり        | 部品の中でしか使わない変数に、接頭辞は要らない                        | 用途で名付ける（`Chart.tsx` の `--percent`）                     |
 | 実装の前に、チームで合意を取る手続き                  | 規則に、合意を取る相手が定められていない                              | 公開 API を変える前に、影響範囲を確かめる                        |
 
-代わりにしていることの正は、[components.md](../.claude/rules/components.md)、[styling.md](../.claude/rules/styling.md)、[architecture.md](../.claude/rules/architecture.md#-client-境界と遅延読み込み-important)、[design-principles.md](../.claude/rules/design-principles.md#-トークン階層-important)である。
+代わりにしていることの正は、[dynamic-element.md](./dynamic-element.md)、[props-and-jsdoc.md](./props-and-jsdoc.md)、[styling.md](../conventions/styling.md)、[app-router.md](../architecture/app-router.md#-client-境界と遅延読み込み-important)、[tokens.md](../design-system/tokens.md#-トークン階層-important)である。
 
 ## 未確認と限界
 
 - 測定は近似である。変更行の分類は、テンプレートの位置だけで決めた。期間を変えると、比率は変わりうる。
 - 検索の作り直しと、共有 hook の置き換えは、構造を変えた理由がコミットに記録されていない。共有 hook は `src/hooks/useDialog.ts` で、2025-09-12 から 2026-01-17 まで存在した。再び共有 hook を作るときは、`git log -- src/hooks/useDialog.ts` で、当時の構成を先に確かめる。
 - 「WAI-ARIA のパターンがある汎用の部品は、境界の約束が安定しやすい」は、実測していない。
-- 個別ページどうし（`Page/Archive/` と `Page/Post/` など）の import を禁じる規則は、[linting.md](../.claude/rules/linting.md#レイヤー依存--import) に無い。2026-11-15 時点で、そのような import は 0 件である。
+- 個別ページどうし（`Page/Archive/` と `Page/Post/` など）の import を禁じる規則は、[layers.md](../architecture/layers.md#-レイヤー依存関係-critical) に無い。2026-11-15 時点で、そのような import は 0 件である。
 
 ## 参照
 
-- 層、配置、手段の優先順位、状態と公開 API: [components.md](../.claude/rules/components.md)
-- 状態とスタイル: [styling.md](../.claude/rules/styling.md)
-- 対話する部品のテスト: [testing.md](../.claude/rules/testing.md)
-- client 境界と遅延読み込み: [architecture.md](../.claude/rules/architecture.md)
-- import の向き: [linting.md](../.claude/rules/linting.md)
-- 用語: [design-system-terminology.md](../.claude/rules/design-system-terminology.md)
+- 層、import の向き: [layers.md](../architecture/layers.md)
+- 配置: [file-placement.md](../architecture/file-placement.md)
+- 手段の優先順位、状態と公開 API: [dynamic-element.md](./dynamic-element.md)
+- 状態とスタイル: [styling.md](../conventions/styling.md)
+- 対話する部品のテスト: [testing.md](../conventions/testing.md)
+- client 境界と遅延読み込み: [app-router.md](../architecture/app-router.md)
+- 用語: [terminology.md](../design-system/terminology.md)

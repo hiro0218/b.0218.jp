@@ -1,10 +1,3 @@
----
-description: UI 命名・用語の正規規則。命名から責務・HTML/CSS 実体・再利用範囲・変更影響が読めるようにする。実装、Storybook、JSDoc、レビュー時の正式名称に適用する。
-paths:
-  - '**/components/**/*.{ts,tsx,css}'
-  - '**/ui/**/*.{ts,tsx}'
----
-
 # Design System 用語規則
 
 ## 目的
@@ -84,8 +77,8 @@ React コンポーネントであることだけを理由に、すべてを `Com
 
 `primitive` が指すのは、次の 2 つだけである。
 
-- `UI/Layout/` の layout primitive（[components.md](./components.md#-every-layout-原則-important)）
-- デザイントークンの primitive 階層（[design-principles.md](./design-principles.md)）
+- `UI/Layout/` の layout primitive（[layout.md](../components/layout.md#-every-layout-原則-important)）
+- デザイントークンの primitive 階層（[tokens.md](./tokens.md#-トークン階層-important)）
 
 状態や操作を束ねる hook・部品の分割には使わない。「機能」を層の名前にしない。業務の知識を持つ部品は `Page/` と `App/` に置き、`Functional/` は視覚 DOM を持たない副作用コンポーネントの層である。
 
@@ -111,9 +104,9 @@ React コンポーネントであることだけを理由に、すべてを `Com
 3. **既存名を巻き込み改名していないか** — 本ファイル「既存語の扱い」セクション
 4. **`Container` / scope 付き責務名で代替できるか** — 本ファイル「構造・余白・レイアウト用語」セクション
 5. **再利用範囲に合った粒度か** — 本ファイル「公開範囲とスコープ修飾」セクション
-6. **レイヤー境界と矛盾しないか** — `UI/` / `Page/` / `App/` / `Functional/` の責務と一致するか（[components.md](./components.md) の「レイヤー定義」参照）
+6. **レイヤー境界と矛盾しないか** — `UI/` / `Page/` / `App/` / `Functional/` の責務と一致するか（[layers.md](../architecture/layers.md#レイヤー定義) の「レイヤー定義」参照）
 
 ## 参照
 
-- コンポーネント規則: [components.md](./components.md)
-- スタイリング規則: [styling.md](./styling.md)
+- コンポーネントの層と配置: [layers.md](../architecture/layers.md)、[file-placement.md](../architecture/file-placement.md)
+- スタイリング規則: [styling.md](../conventions/styling.md)

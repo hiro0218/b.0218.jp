@@ -1,11 +1,3 @@
----
-paths:
-  - '_article/**/*'
-  - 'build/**/*'
-  - 'dist/**/*'
-  - 'public/images/ogp/**'
----
-
 # コンテンツパイプライン規則
 
 ## 🔴 重要ルール (CRITICAL)

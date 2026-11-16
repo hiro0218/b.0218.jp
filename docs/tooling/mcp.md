@@ -1,10 +1,3 @@
----
-paths:
-  - 'src/components/UI/**/*.{ts,tsx}'
-  - 'src/components/App/**/*.{ts,tsx}'
-  - 'panda.config.mts'
----
-
 # MCP サーバー使用ガイドライン
 
 ## panda MCP
@@ -15,7 +8,7 @@ paths:
 
 - インタラクティブコンポーネント（ボタン、ダイアログ、メニュー等）実装前に参照
 - WAI-ARIA パターンの正確な props と振る舞いを確認
-- 手段は、ネイティブ、React Aria のフック、自作の順に選ぶ（[components.md](./components.md#-dynamic-element-important)）
+- 手段は、ネイティブ、React Aria のフック、自作の順に選ぶ（[dynamic-element.md](../components/dynamic-element.md#-dynamic-element-important)）
 
 ## next-devtools MCP
 

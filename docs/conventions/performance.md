@@ -1,10 +1,6 @@
----
-paths:
-  - 'next.config.mjs'
-  - 'src/**/*.{ts,tsx}'
----
+# パフォーマンス規則
 
-# パフォーマンス最適化規則
+React Compiler を前提にした最適化の規則と、Web パフォーマンスの目標値・実装規則を定める。
 
 ## 🔴 重要ルール (CRITICAL)
 
@@ -24,3 +20,21 @@ paths:
 - ❌ コンポーネント内・custom hook 内に単純な `useMemo` / `useCallback` を追加しない（React Compiler が処理）
 
 「単純」とは、props / state から派生値を作るだけ、または JSX に渡す callback を安定化するだけのケースを指す。React Compiler の対象外である module scope、server-only data function、`React.cache` / `cache()` の memoization と、上記の最適化されない関数の中の memoization は、この禁止に含めない。
+
+## Web パフォーマンス
+
+| メトリクス | 目標    |
+| ---------- | ------- |
+| LCP        | < 2.5s  |
+| INP        | < 200ms |
+| CLS        | < 0.1   |
+| FCP        | < 1.5s  |
+| TBT        | < 200ms |
+
+- 画像には `width` と `height` を明示する。
+- ヒーロー画像のみ `loading="eager"` + `fetchpriority="high"` を使う。
+- Below-the-fold は `loading="lazy"` を使う。
+- AVIF / WebP を優先する。
+- フォントは `font-display: swap`、プリロードは最も使用頻度の高いウェイトのみにする。
+- 動的コンテンツによるレイアウトシフトを避ける。
+- サードパーティスクリプトは async/defer を使う。
