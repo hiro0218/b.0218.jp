@@ -20,6 +20,8 @@ import { getTagsWithCount } from '@/lib/source/tag';
 import { getPrimaryCategory } from '@/lib/tag/category';
 import { getTagCategoriesJson } from '@/lib/tag/derived';
 import { tagPermalink } from '@/lib/tag/navigation';
+import { convertToISO8601WithTimezone } from '@/lib/utils/date';
+import { getPermalink } from '@/lib/utils/url';
 import type {
   Activities,
   ActivityCompany,
@@ -28,9 +30,6 @@ import type {
   Post,
   TagCategoryName,
 } from '@/types/source';
-
-import { convertToISO8601WithTimezone } from '../utils/date';
-import { getPermalink } from '../utils/url';
 
 const EMOJI_REGEX = /[\p{Extended_Pictographic}\p{Emoji_Component}\p{Regional_Indicator}]/gu;
 

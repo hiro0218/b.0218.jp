@@ -5,18 +5,17 @@ import { useDialog } from '@react-aria/dialog';
 import { FocusScope } from '@react-aria/focus';
 import { type AnimationEvent, type MouseEvent, type SyntheticEvent, useId, useLayoutEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-
+import { SEARCH_LABELS } from '@/components/App/Search/constants';
+import type { PopularPost } from '@/components/App/Search/types';
 import { ICON_SIZE_XS } from '@/ui/iconSizes';
 import { styled } from '@/ui/styled';
 import { stateLayer } from '@/ui/styled/components/stateLayerControl';
-import { SEARCH_LABELS } from './constants';
 import { SearchEmptyState } from './SearchDialog/SearchEmptyState';
 import { SearchFooter } from './SearchDialog/SearchFooter';
 import { SearchHeader } from './SearchDialog/SearchHeader';
 import { SearchResultList } from './SearchDialog/SearchResultList';
 import { truncateQuery } from './SearchDialog/truncateQuery';
 import { useSearch } from './SearchDialog/useSearch';
-import type { PopularPost } from './types';
 
 // Dialog の CSS（data-closing の animation）と別の名前にしない。食い違うと、閉じるアニメーションの終わりを拾えず、ダイアログが閉じないまま残るため
 const EXIT_ANIMATIONS = new Set(['zoomOut', 'fadeOut']);

@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
-import { getTagArchiveMetadata, getTagStaticParams, TagArchivePage } from './_lib/tagArchivePage';
+import {
+  getTagArchiveMetadata,
+  getTagStaticParams,
+  TagArchivePage,
+} from '@/app/(ArchivePage)/tags/[slug]/_lib/tagArchivePage';
 
 type Params = Promise<{ slug: string }>;
 

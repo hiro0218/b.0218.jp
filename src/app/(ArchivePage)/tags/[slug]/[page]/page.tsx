@@ -5,7 +5,7 @@ import {
   getTagPaginationStaticParams,
   parseTagPageSegment,
   TagArchivePage,
-} from '../_lib/tagArchivePage';
+} from '@/app/(ArchivePage)/tags/[slug]/_lib/tagArchivePage';
 
 type Params = Promise<{ slug: string; page: string }>;
 

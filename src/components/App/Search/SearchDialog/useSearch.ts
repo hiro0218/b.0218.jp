@@ -9,6 +9,10 @@ import {
   useRef,
   useState,
 } from 'react';
+import type { SearchResult } from '@/components/App/Search/engine';
+import { getLoadedSearchEngine, loadSearchEngine } from '@/components/App/Search/engineLoader';
+import { isImeComposing } from '@/components/App/Search/keyboard';
+import type { PopularPost, SearchMode, SearchOption } from '@/components/App/Search/types';
 import { useTimeout } from '@/hooks/useTimeout';
 import { getLocalStorage, setLocalStorage } from '@/lib/browser/safeLocalStorage';
 import { getSessionStorage, removeSessionStorage, setSessionStorage } from '@/lib/browser/safeSessionStorage';
@@ -16,10 +20,6 @@ import { normalizeSearchToken } from '@/lib/search';
 import { isObject } from '@/lib/utils/isObject';
 import { isStringArray } from '@/lib/utils/isStringArray';
 import { convertPostSlugToPath } from '@/lib/utils/url';
-import type { SearchResult } from '../engine';
-import { getLoadedSearchEngine, loadSearchEngine } from '../engineLoader';
-import { isImeComposing } from '../keyboard';
-import type { PopularPost, SearchMode, SearchOption } from '../types';
 
 const DEBOUNCE_MS = 300;
 

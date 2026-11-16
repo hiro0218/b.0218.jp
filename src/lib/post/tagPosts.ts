@@ -1,7 +1,7 @@
+import { getDateAndUpdatedToSimpleFormat } from '@/lib/post/date';
 import { getPostsListJson } from '@/lib/source/post';
 import { getTagsJson } from '@/lib/source/tag';
 import type { ArticleSummary } from '@/types/source';
-import { getDateAndUpdatedToSimpleFormat } from './date';
 
 // noindex 投稿 (サンプル記事等) はタグアーカイブの一覧からも除く。
 const allPosts = getPostsListJson().filter((post) => !post.noindex);

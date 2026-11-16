@@ -1,8 +1,8 @@
 import { type KeyboardEvent, type RefObject, useEffect, useRef } from 'react';
+import { SEARCH_LABELS } from '@/components/App/Search/constants';
+import { tokenizeQuery } from '@/components/App/Search/engine';
+import type { SearchMode, SearchOption } from '@/components/App/Search/types';
 import { styled } from '@/ui/styled';
-import { SEARCH_LABELS } from '../constants';
-import { tokenizeQuery } from '../engine';
-import type { SearchMode, SearchOption } from '../types';
 import { PostOption } from './PostOption';
 import { RecentOption } from './RecentOption';
 

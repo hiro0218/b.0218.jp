@@ -1,11 +1,9 @@
 import { CheckIcon, ProhibitIcon, XIcon } from '@phosphor-icons/react/ssr';
 import type { ReactNode } from 'react';
-
+import { IconSwap } from '@/components/UI/IconSwap';
 import { type ClipboardCopyState, isCopyResultState } from '@/hooks/useClipboardCopy';
 import { ICON_SIZE_SM } from '@/ui/iconSizes';
 import { styled } from '@/ui/styled';
-
-import { IconSwap } from './IconSwap';
 
 type CopyFeedbackIconProps = {
   state: ClipboardCopyState;

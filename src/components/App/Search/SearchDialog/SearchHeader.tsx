@@ -4,10 +4,9 @@ import { MagnifyingGlassIcon } from '@phosphor-icons/react';
 import { useTextField } from '@react-aria/textfield';
 import { mergeProps } from '@react-aria/utils';
 import type { KeyboardEvent, RefObject } from 'react';
-
+import { SEARCH_LABELS } from '@/components/App/Search/constants';
 import { ICON_SIZE_XS } from '@/ui/iconSizes';
 import { css, styled } from '@/ui/styled';
-import { SEARCH_LABELS } from '../constants';
 import { SearchClearButton } from './SearchClearButton';
 
 interface SearchHeaderProps {
