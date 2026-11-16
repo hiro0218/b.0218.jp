@@ -2,7 +2,7 @@
 
 import type { RefObject } from 'react';
 import { useCallback, useLayoutEffect, useRef, useState } from 'react';
-import type { ImageDimensions } from '../types';
+import type { ImageDimensions } from './types';
 
 interface UseImageZoomOptions {
   imgRef: RefObject<HTMLImageElement | null>;

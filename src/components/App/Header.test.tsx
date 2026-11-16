@@ -13,7 +13,7 @@ vi.hoisted(() => {
   Object.defineProperty(globalThis, 'AnimationEvent', { configurable: true, value: AnimationEventStub });
 });
 
-// HeaderNavigation を vi.mock で置き換えない。内部ファイルのパスに結びつくため。jsdom に無い window.matchMedia だけを置く
+// Navigation を vi.mock で置き換えない。内部ファイルのパスに結びつくため。jsdom に無い window.matchMedia だけを置く
 window.matchMedia = vi.fn().mockReturnValue({
   matches: false,
   addEventListener: vi.fn(),

@@ -11,7 +11,7 @@ import { stateLayerControl } from '@/ui/styled/components/stateLayerControl';
 
 const NAVIGATION_ID = 'header-navigation';
 
-export function HeaderNavigation() {
+export function Navigation() {
   const { isExpanded, rootProps, triggerRef, collapse, toggle } = useDisclosure();
 
   // デスクトップ幅になった時点で state をリセットする
