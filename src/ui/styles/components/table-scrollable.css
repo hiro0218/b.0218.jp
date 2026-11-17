@@ -30,6 +30,7 @@
 .c-table-scrollable {
   display: grid;
   overflow-x: auto;
+  cursor: revert;
   scroll-snap-type: x mandatory;
   /* 
    * テーブルの左右にフェードをかけるためのマスク。
