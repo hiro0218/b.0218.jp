@@ -136,8 +136,10 @@ export function SearchResultList({
   );
 }
 
+// height に --search-list-height（内容の全高）をそのまま渡さない。max-height を超える分は見えないまま遷移が進むため。
+// max-height を外さない。--search-list-height を書く前は宣言ごと無効になり、height が auto に落ちるため
 const Container = styled.div`
-  height: var(--search-list-height, auto);
+  height: min(var(--search-list-height), var(--search-content-max-height));
   max-height: var(--search-content-max-height);
   overflow-x: clip;
   overflow-y: auto;
