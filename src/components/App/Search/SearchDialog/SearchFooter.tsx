@@ -3,22 +3,30 @@ import { SearchGoogleLink } from './SearchGoogleLink';
 
 type SearchFooterProps = {
   searchQuery: string;
+  /** 一覧（候補か結果）があるか。無いときは、↓ の案内を出さない */
+  hasList: boolean;
+  /** 一覧の行を選んでいるか。選んでいないときは、↑ と Enter の案内を出さない */
+  hasSelection: boolean;
 };
 
 /**
- * @summary キー操作の案内と、Google 検索へのリンクを出すフッター。
+ * @summary キー操作の案内と、Google 検索へのリンクを出すフッター。案内は、一覧の有無と選択の有無で切り替え、いま使えない操作（行を選んでいないときの ↑ と Enter）は出さない。
  */
-export function SearchFooter({ searchQuery }: SearchFooterProps) {
+export function SearchFooter({ searchQuery, hasList, hasSelection }: SearchFooterProps) {
   return (
     <Footer>
       <KeyHints>
-        <span>
-          <kbd>↑</kbd>
-          <kbd>↓</kbd>選択
-        </span>
-        <span>
-          <kbd>Enter</kbd>開く
-        </span>
+        {hasList ? (
+          <span>
+            {hasSelection ? <kbd>↑</kbd> : null}
+            <kbd>↓</kbd>選択
+          </span>
+        ) : null}
+        {hasSelection ? (
+          <span>
+            <kbd>Enter</kbd>開く
+          </span>
+        ) : null}
         <span>
           <kbd>Esc</kbd>閉じる
         </span>

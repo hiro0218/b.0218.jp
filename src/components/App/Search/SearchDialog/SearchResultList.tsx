@@ -18,7 +18,6 @@ type SearchResultListProps = {
   rows: SearchOption[];
   focusedIndex: number;
   onKeyDown: (event: KeyboardEvent<HTMLElement>) => void;
-  onRowMouseMove: (index: number) => void;
   setRowRef: (index: number, element: HTMLElement | null) => void;
   onRecentSelect: (query: string) => void;
   onPostSelect: () => void;
@@ -35,7 +34,6 @@ export function SearchResultList({
   rows,
   focusedIndex,
   onKeyDown,
-  onRowMouseMove,
   setRowRef,
   onRecentSelect,
   onPostSelect,
@@ -81,7 +79,6 @@ export function SearchResultList({
         index={index}
         isSelected={focusedIndex === index}
         key={option.id}
-        onMouseMove={onRowMouseMove}
         onSelect={onRecentSelect}
         query={option.query}
         setRef={setRowRef}
@@ -95,7 +92,6 @@ export function SearchResultList({
         key={option.id}
         matchedTag={option.matchedTag}
         onClick={onPostSelect}
-        onMouseMove={onRowMouseMove}
         setRef={setRowRef}
         slug={option.slug}
         title={option.title}
@@ -144,6 +140,7 @@ const Container = styled.div`
   overflow-x: clip;
   overflow-y: auto;
   scroll-padding-block: var(--spacing-100);
+  scrollbar-width: thin;
   transition: height var(--transition-slow);
 
   @media (prefers-reduced-motion: reduce) {

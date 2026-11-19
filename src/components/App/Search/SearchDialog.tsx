@@ -14,6 +14,7 @@ import { SearchEmptyState } from './SearchDialog/SearchEmptyState';
 import { SearchFooter } from './SearchDialog/SearchFooter';
 import { SearchHeader } from './SearchDialog/SearchHeader';
 import { SearchResultList } from './SearchDialog/SearchResultList';
+import { SearchSummary } from './SearchDialog/SearchSummary';
 import { truncateQuery } from './SearchDialog/truncateQuery';
 import { useSearch } from './SearchDialog/useSearch';
 
@@ -55,6 +56,8 @@ export function SearchDialog({ popularPosts, isClosing, onRequestCloseAction, on
     const dialog = dialogRef.current;
     if (!dialog.open) dialog.showModal();
     inputRef.current.focus({ preventScroll: true });
+    // 復元した語を、末尾にカーソルを置いただけにしない。新しい語を打つと前回の語に続いて入り、先に消さないと検索し直せないため
+    inputRef.current.select();
   }, []);
 
   const handleBackdropClick = (event: MouseEvent<HTMLDialogElement>) => {
@@ -126,6 +129,10 @@ export function SearchDialog({ popularPosts, isClosing, onRequestCloseAction, on
               {statusMessage}
             </div>
 
+            {search.mode === 'results' ? (
+              <SearchSummary count={search.results?.length ?? null} query={search.query} />
+            ) : null}
+
             {hasList ? (
               <SearchResultList
                 focusedIndex={search.focusedIndex}
@@ -135,7 +142,6 @@ export function SearchDialog({ popularPosts, isClosing, onRequestCloseAction, on
                 onKeyDown={search.handleKeyDown}
                 onPostSelect={search.selectPost}
                 onRecentSelect={search.searchRecent}
-                onRowMouseMove={search.hoverRow}
                 query={search.query}
                 rows={search.rows}
                 setRowRef={search.setRowRef}
@@ -145,7 +151,7 @@ export function SearchDialog({ popularPosts, isClosing, onRequestCloseAction, on
             {hasNoResults ? (
               <SearchEmptyState searchQuery={search.query} />
             ) : (
-              <SearchFooter searchQuery={search.query} />
+              <SearchFooter hasList={hasList} hasSelection={search.focusedIndex >= 0} searchQuery={search.query} />
             )}
           </SearchMain>
         </Surface>

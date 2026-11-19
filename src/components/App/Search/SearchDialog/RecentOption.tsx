@@ -10,7 +10,6 @@ type Props = {
   index: number;
   isSelected: boolean;
   onSelect: (query: string) => void;
-  onMouseMove: (index: number) => void;
   /** 行の要素を、フォーカス位置の添字で引けるよう登録する（スクロールに使う）。安定した関数を渡す */
   setRef: (index: number, element: HTMLElement | null) => void;
 };
@@ -18,14 +17,13 @@ type Props = {
 /**
  * @summary 最近の検索の語。選ぶと、その語で検索し直す。
  */
-export function RecentOption({ id, query, index, isSelected, onSelect, onMouseMove, setRef }: Props) {
+export function RecentOption({ id, query, index, isSelected, onSelect, setRef }: Props) {
   return (
     <button
       aria-selected={isSelected}
       className={cx(optionStyle, recentChipStyle)}
       id={id}
       onClick={() => onSelect(query)}
-      onMouseMove={() => onMouseMove(index)}
       ref={(element) => setRef(index, element)}
       role="option"
       tabIndex={-1}

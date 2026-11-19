@@ -17,7 +17,6 @@ type Props = {
   isSelected: boolean;
   /** 移動はリンク自身が行う */
   onClick: () => void;
-  onMouseMove: (index: number) => void;
   /** 行の要素を、フォーカス位置の添字で引けるよう登録する（スクロールに使う）。安定した関数を渡す */
   setRef: (index: number, element: HTMLElement | null) => void;
 };
@@ -38,19 +37,9 @@ function splitByMatches(title: string, pattern: RegExp | null) {
  * @summary 記事の行。
  * option の中にリンクを置かず、リンク自体を option にする。置くと nested-interactive になるため。
  * roving tabindex は使わない。フォーカスは入力欄に置いたまま、選ばれた行は aria-activedescendant と aria-selected で示すため。
+ * hover で選択を動かさない。hover は面の色だけにし、選択は ↑↓ だけが動かす。動かすと、↑↓ で選んだ行がポインターの下の行に奪われ、hover と選択が同じ行に重なるため。
  */
-export function PostOption({
-  id,
-  slug,
-  title,
-  matchedTag,
-  highlight,
-  index,
-  isSelected,
-  onClick,
-  onMouseMove,
-  setRef,
-}: Props) {
+export function PostOption({ id, slug, title, matchedTag, highlight, index, isSelected, onClick, setRef }: Props) {
   return (
     <Link
       aria-selected={isSelected}
@@ -58,9 +47,6 @@ export function PostOption({
       href={convertPostSlugToPath(slug)}
       id={id}
       onClick={onClick}
-      // mouseenter は使わない。ポインターを動かさなくても、一覧の入れ替えや ↑↓ のスクロールで、下に来た行へ mouseenter が起きる。
-      // mouseenter が、自動で選んだ 1 件目や ↑↓ で選んだ行を奪い、Enter で開く行が変わるため
-      onMouseMove={() => onMouseMove(index)}
       prefetch={false}
       // 一覧側で行ごとの関数を作って渡さない。フォーカスが動くたびに全行（最大 100）の ref が変わり、next/link を含む全行が再描画されるため
       ref={(element) => setRef(index, element)}

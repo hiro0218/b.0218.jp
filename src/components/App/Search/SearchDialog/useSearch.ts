@@ -116,7 +116,6 @@ export function useSearch({ popularPosts, inputRef, onRequestClose }: UseSearchO
   const timeout = useTimeout();
   const listRef = useRef<HTMLDivElement>(null);
   const rowRefs = useRef(new Map<number, HTMLElement>());
-  const shouldScrollRef = useRef(true);
 
   // 保存済みの語（前回の検索・最近の検索）を、開いている間に読み直さない。ダイアログは開くたびに mount し直されるので、初期化の 1 回だけ読めば足りる
   const [recentQueries] = useState(readRecentQueries);
@@ -152,9 +151,10 @@ export function useSearch({ popularPosts, inputRef, onRequestClose }: UseSearchO
     if (query !== '') setSessionStorage(SEARCH_STATE_KEY, { query, timestamp: Date.now() });
   }, [query]);
 
-  // useEffect を使わない。結果の描画のあとに選ぶと、選択の無い状態が 1 フレーム見える
+  // 結果の先頭を自動で選ばない。自動で選ぶと、入力の途中で入れ替わる結果の先頭を、Enter が開いてしまうため。↓ を押したときに初めて結果へ入る。
+  // biome-ignore lint/correctness/useExhaustiveDependencies: results を依存配列から外さない。何も選んでいないまま結果が入れ替わっても、一覧を先頭へ戻す契機にしているため
   useLayoutEffect(() => {
-    if (results !== null && results.length > 0) setFocusedIndex(0);
+    listRef.current?.scrollTo({ top: 0, behavior: 'auto' });
   }, [results]);
 
   useLayoutEffect(() => {
@@ -164,14 +164,13 @@ export function useSearch({ popularPosts, inputRef, onRequestClose }: UseSearchO
     }
 
     const row = rowRefs.current.get(focusedIndex);
-    if (!shouldScrollRef.current || !listRef.current || !row) return;
+    if (!listRef.current || !row) return;
 
     inputRef.current?.focus({ preventScroll: true });
     scrollRowIntoView(listRef.current, row);
   }, [focusedIndex, inputRef]);
 
   const run = (nextQuery: string) => {
-    shouldScrollRef.current = true;
     setQuery(nextQuery);
     setResults(searchLoaded(nextQuery));
     setFocusedIndex(-1);
@@ -239,11 +238,6 @@ export function useSearch({ popularPosts, inputRef, onRequestClose }: UseSearchO
     close();
   };
 
-  const hoverRow = (index: number) => {
-    shouldScrollRef.current = false;
-    setFocusedIndex(index);
-  };
-
   const setRowRef = useCallback((index: number, element: HTMLElement | null) => {
     if (element) {
       rowRefs.current.set(index, element);
@@ -254,7 +248,11 @@ export function useSearch({ popularPosts, inputRef, onRequestClose }: UseSearchO
 
   // キー操作を入力欄だけに付けない。クリックで焦点が行へ移ることがあり、そのときにキー操作を受けられなくなる
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
-    if (isImeComposing(event.nativeEvent)) return;
+    if (isImeComposing(event.nativeEvent)) {
+      // 変換中の Esc を既定のままにしない。ダイアログの cancel が先に走り、変換の取り消しでなく、ダイアログが閉じてしまうため
+      if (event.key === 'Escape') event.preventDefault();
+      return;
+    }
 
     const count = rows.length;
     // 行が無いときは preventDefault しない。0 件のときに、入力欄の Home・End（カーソルの移動）まで止めると、語を直せなくなるため
@@ -262,16 +260,17 @@ export function useSearch({ popularPosts, inputRef, onRequestClose }: UseSearchO
       if (count === 0) return;
 
       event.preventDefault();
-      shouldScrollRef.current = true;
       setFocusedIndex(index);
     };
 
     switch (event.key) {
       case 'ArrowDown':
-        moveTo(focusedIndex >= count - 1 ? 0 : focusedIndex + 1);
+        // 末尾の ↓ で先頭へ戻らない。↓ を押し続けたとき、末尾で止まらずに先頭へ飛ぶと、一覧の終わりが分からなくなるため
+        moveTo(Math.min(focusedIndex + 1, count - 1));
         break;
       case 'ArrowUp':
-        moveTo(focusedIndex <= 0 ? count - 1 : focusedIndex - 1);
+        // 何も選んでいないときの ↑ は、入力欄のカーソル移動に任せる。先頭の ↑ は、選択を外して入力欄へ戻す
+        if (focusedIndex >= 0) moveTo(focusedIndex - 1);
         break;
       case 'Home':
         moveTo(0);
@@ -313,7 +312,6 @@ export function useSearch({ popularPosts, inputRef, onRequestClose }: UseSearchO
     clear,
     close,
     handleKeyDown,
-    hoverRow,
     searchRecent,
     selectPost,
     setRowRef,

@@ -142,6 +142,12 @@ test('dialog は見出しと説明で名前づけされる', () => {
   expect(screen.getByRole('dialog', { name: '記事検索' }).getAttribute('aria-describedby')).toBeTruthy();
 });
 
+test('スマートフォンのキーボードの確定キーを「検索」にする', () => {
+  renderDialog();
+
+  expect(getInput().getAttribute('enterkeyhint')).toBe('search');
+});
+
 test('未入力の場合、最近の検索と、よく読まれている記事を並べ、何も選ばない', () => {
   localStorage.setItem(RECENT_KEY, JSON.stringify(['Next.js']));
   renderDialog();
@@ -169,7 +175,7 @@ test('保存された最近の検索が 5 件を超える場合、先頭の 5 �
   expect(getOptionTexts()).toEqual(['a', 'b', 'c', 'd', 'e']);
 });
 
-test('入力して 300ms 待った場合、検索結果を出し、1 件目を選ぶ', () => {
+test('入力して 300ms 待った場合、検索結果を出し、何も選ばない', () => {
   vi.useFakeTimers();
   renderDialog();
 
@@ -186,21 +192,23 @@ test('入力して 300ms 待った場合、検索結果を出し、1 件目を�
   expect(screen.getByRole('listbox', { name: '検索結果' })).toBeDefined();
   expect(screen.queryByRole('group')).toBeNull();
   expect(getOptionTexts()).toEqual(['CSS の基礎', 'React と CSS の設計']);
-  expect(getSelectedId()).toBe('search-result-css-basics');
+  expect(getSelectedId()).toBeNull();
 });
 
-test('入力を変えた場合、新しい結果が出るまで選択を外し、出たら 1 件目を選び直す', () => {
+test('入力を変えた場合、選択を外し、新しい結果が出ても何も選ばない', () => {
   vi.useFakeTimers();
   renderDialog();
   typeQuery('css');
+  fireEvent.keyDown(getInput(), { key: 'ArrowDown' });
+  expect(getSelectedId()).toBe('search-result-css-basics');
 
   fireEvent.change(getInput(), { target: { value: 'react' } });
-  expect(getInput().hasAttribute('aria-activedescendant')).toBe(false);
+  expect(getSelectedId()).toBeNull();
 
   act(() => {
     vi.advanceTimersByTime(300);
   });
-  expect(getSelectedId()).toBe('search-result-react-css');
+  expect(getSelectedId()).toBeNull();
 });
 
 test('実行済みの語へ戻る入力の場合、予約済みの検索を発火させない', () => {
@@ -248,6 +256,7 @@ test('0 件の場合、一致する記事が無いことと Google 検索を結�
   expect(screen.getByText('zz&qq').closest('p')?.textContent).toBe('「zz&qq」に一致する記事はありません');
   expect(screen.queryByRole('listbox')).toBeNull();
   expect(screen.queryByText('Enter')).toBeNull();
+  expect(screen.queryByText('「zz&qq」の検索結果 0 件')).toBeNull();
   const googleLink = screen.getByRole('link', { name: 'Google で「zz&qq」を検索（外部サイト）' });
   expect(googleLink.getAttribute('target')).toBe('_blank');
   const url = new URL(googleLink.getAttribute('href') ?? '');
@@ -255,14 +264,22 @@ test('0 件の場合、一致する記事が無いことと Google 検索を結�
   expect(url.searchParams.get('q')).toBe(`site:${new URL(SITE_URL).host} zz&qq`);
 });
 
-test('結果がある場合、フッターにキー操作の案内と Google 検索を出す', () => {
+test('結果がある場合、フッターに Google 検索とキー操作の案内を出し、案内は選択の有無で切り替える', () => {
   vi.useFakeTimers();
   renderDialog();
 
   typeQuery('css');
 
-  expect(screen.getByText('Enter')).toBeDefined();
   expect(screen.getByRole('link', { name: 'Google で「css」を検索（外部サイト）' })).toBeDefined();
+  expect(screen.getByText('Esc')).toBeDefined();
+  expect(screen.getByText('↓')).toBeDefined();
+  expect(screen.queryByText('↑')).toBeNull();
+  expect(screen.queryByText('Enter')).toBeNull();
+
+  fireEvent.keyDown(getInput(), { key: 'ArrowDown' });
+
+  expect(screen.getByText('↑')).toBeDefined();
+  expect(screen.getByText('Enter')).toBeDefined();
 });
 
 test('0 件で一覧が無い場合、combobox は一覧を指さず、閉じた状態を示す', () => {
@@ -289,7 +306,7 @@ test('タグだけに一致した行は一致したタグを出し、タイト�
   expect(within(tagOnly).getByText('React')).toBeDefined();
 });
 
-test('検索結果の件数は画面に出さず、件数と検索語を読み上げの領域だけに出す', () => {
+test('検索結果の件数と検索語を、画面と読み上げの領域に 1 回ずつ出す', () => {
   vi.useFakeTimers();
   renderDialog();
 
@@ -298,6 +315,7 @@ test('検索結果の件数は画面に出さず、件数と検索語を読み�
   const status = screen.getByRole('status');
   expect(status.textContent).toBe('2件の検索結果が見つかりました。「css」の検索結果です。');
   expect(status.className).toContain('sr-only');
+  expect(screen.getByText('「css」の検索結果 2 件').getAttribute('aria-hidden')).toBe('true');
 });
 
 test('0 件の場合も、検索語つきで 0 件と読み上げる', () => {
@@ -324,13 +342,14 @@ test('未入力で候補を出している場合、候補の数を検索結果�
   expect(screen.getByRole('status').textContent).toBe('');
 });
 
-test('エンジンの読み込み待ちの間は、結果も 0 件の案内も出さず、読み上げもしない。読み込みが済んだら結果を出す', async () => {
+test('エンジンの読み込み待ちの間は、検索中と出し、結果も 0 件の案内も出さず、読み上げもしない。読み込みが済んだら結果を出す', async () => {
   vi.useFakeTimers();
   const finishLoading = stubEngineLoading();
   renderDialog();
 
   typeQuery('css');
 
+  expect(screen.getByText('「css」を検索しています...')).toBeDefined();
   expect(screen.queryByRole('listbox')).toBeNull();
   expect(screen.queryByText('に一致する記事はありません', { exact: false })).toBeNull();
   expect(screen.getByRole('status').textContent).toBe('');
@@ -338,8 +357,9 @@ test('エンジンの読み込み待ちの間は、結果も 0 件の案内も�
 
   await finishLoading();
 
+  expect(screen.queryByText('「css」を検索しています...')).toBeNull();
   expect(getOptionTexts()).toEqual(['CSS の基礎', 'React と CSS の設計']);
-  expect(getSelectedId()).toBe('search-result-css-basics');
+  expect(getSelectedId()).toBeNull();
 });
 
 test('エンジンの読み込み待ち中に入力を消した場合、古い検索結果を反映しない', async () => {
@@ -352,8 +372,6 @@ test('エンジンの読み込み待ち中に入力を消した場合、古い�
   await finishLoading();
 
   expect(screen.getByRole('listbox', { name: '検索の候補' })).toBeDefined();
-  // 候補の表示だけで済ませない。古い結果が入ると、候補の 1 件目を自動で選んでしまうため
-  expect(getInput().hasAttribute('aria-activedescendant')).toBe(false);
 });
 
 test('エンジンの読み込みに失敗した場合、ログを残して結果を待ったままにし、次の入力でやり直す', async () => {
@@ -393,20 +411,22 @@ test('消去ボタンは入力があるときだけ出し、押すと入力・�
   expect(screen.queryByRole('button', { name: 'キーワードを消す' })).toBeNull();
 });
 
-test('↓ を押した場合、1 件目から順に選び、末尾の次は先頭へ戻る', () => {
+test('↓ を押した場合、何も選んでいない状態から 1 件目を選んで順に進み、末尾では動かない', () => {
   vi.useFakeTimers();
   renderDialog();
   typeQuery('css');
-  fireEvent.keyDown(getInput(), { key: 'Home' });
+
+  fireEvent.keyDown(getInput(), { key: 'ArrowDown' });
+  expect(getSelectedId()).toBe('search-result-css-basics');
 
   fireEvent.keyDown(getInput(), { key: 'ArrowDown' });
   expect(getSelectedId()).toBe('search-result-react-css');
 
   fireEvent.keyDown(getInput(), { key: 'ArrowDown' });
-  expect(getSelectedId()).toBe('search-result-css-basics');
+  expect(getSelectedId()).toBe('search-result-react-css');
 });
 
-test('何も選んでいない状態で ↑ を押した場合、末尾を選び、先頭の前は末尾へ戻る', () => {
+test('先頭の行で ↑ を押した場合は選択を外して入力欄へ戻し、何も選んでいない状態の ↑ は何もしない', () => {
   renderDialog({
     popularPosts: [
       { slug: 'p1', title: '記事 1' },
@@ -415,11 +435,13 @@ test('何も選んでいない状態で ↑ を押した場合、末尾を選び
   });
 
   fireEvent.keyDown(getInput(), { key: 'ArrowUp' });
-  expect(getSelectedId()).toBe('search-result-p2');
+  expect(getSelectedId()).toBeNull();
 
   fireEvent.keyDown(getInput(), { key: 'Home' });
+  expect(getSelectedId()).toBe('search-result-p1');
+
   fireEvent.keyDown(getInput(), { key: 'ArrowUp' });
-  expect(getSelectedId()).toBe('search-result-p2');
+  expect(getSelectedId()).toBeNull();
 });
 
 test('Home・End で先頭・末尾の行を選ぶ', () => {
@@ -461,14 +483,20 @@ test.each(['ArrowDown', 'ArrowUp', 'Home', 'End'])(
   },
 );
 
-test.each(['ArrowDown', 'ArrowUp', 'Home', 'End'])(
-  '行がある状態で %s を押した場合、入力欄の既定の動作を止める',
-  (key) => {
-    renderDialog({ popularPosts: [{ slug: 'p1', title: '記事 1' }] });
+test.each(['ArrowDown', 'Home', 'End'])('行がある状態で %s を押した場合、入力欄の既定の動作を止める', (key) => {
+  renderDialog({ popularPosts: [{ slug: 'p1', title: '記事 1' }] });
 
-    expect(fireEvent.keyDown(getInput(), { key })).toBe(false);
-  },
-);
+  expect(fireEvent.keyDown(getInput(), { key })).toBe(false);
+});
+
+test('↑ は、行を選んでいるときだけ入力欄の既定の動作を止める', () => {
+  renderDialog({ popularPosts: [{ slug: 'p1', title: '記事 1' }] });
+  expect(fireEvent.keyDown(getInput(), { key: 'ArrowUp' })).toBe(true);
+
+  fireEvent.keyDown(getInput(), { key: 'ArrowDown' });
+
+  expect(fireEvent.keyDown(getInput(), { key: 'ArrowUp' })).toBe(false);
+});
 
 test('最近の検索とよく読まれている記事の境目でも、↓ で次の行へ 1 つずつ移る', () => {
   localStorage.setItem(RECENT_KEY, JSON.stringify(['css']));
@@ -490,7 +518,7 @@ test('一覧の行へ焦点が移っていても、キーで選択を動かし�
 
   fireEvent.keyDown(first, { key: 'ArrowDown' });
 
-  expect(getSelectedId()).toBe('search-result-react-css');
+  expect(getSelectedId()).toBe('search-result-css-basics');
   expect(document.activeElement).toBe(getInput());
 });
 
@@ -498,6 +526,7 @@ test('選択中の記事で Enter を押した場合、引いた語を最近の�
   vi.useFakeTimers();
   const { onRequestCloseAction } = renderDialog();
   typeQuery('css');
+  fireEvent.keyDown(getInput(), { key: 'ArrowDown' });
 
   fireEvent.keyDown(getInput(), { key: 'Enter' });
 
@@ -588,22 +617,27 @@ test('IME の変換中のキーは、操作として扱わない', () => {
 
   expect(router.push).not.toHaveBeenCalled();
   expect(onRequestCloseAction).not.toHaveBeenCalled();
-  expect(getSelectedId()).toBe('search-result-css-basics');
+  expect(getSelectedId()).toBeNull();
 });
 
-test('マウスが行の上で動いた場合だけ行を選び、そのときはスクロールしない', () => {
+test('IME の変換中の Esc は、dialog 既定の閉じ方まで止める', () => {
+  renderDialog();
+
+  // fireEvent は、preventDefault されたときに false を返す
+  expect(fireEvent.keyDown(getInput(), { key: 'Escape', isComposing: true })).toBe(false);
+});
+
+test('マウスが行の上で動いても、選択を動かさない', () => {
   vi.useFakeTimers();
   renderDialog();
   typeQuery('css');
   const [, second] = getOptions();
-  scrollIntoView.mockClear();
+  fireEvent.keyDown(getInput(), { key: 'ArrowDown' });
 
   fireEvent.mouseEnter(second);
-  expect(getSelectedId()).toBe('search-result-css-basics');
-
   fireEvent.mouseMove(second);
-  expect(getSelectedId()).toBe('search-result-react-css');
-  expect(scrollIntoView).not.toHaveBeenCalled();
+
+  expect(getSelectedId()).toBe('search-result-css-basics');
 });
 
 function stubRect(element: Element, top: number, bottom: number) {
@@ -627,7 +661,7 @@ test('選んだ行が一覧の下にはみ出す場合、一覧自体をスク�
   const list = screen.getByRole('listbox');
   list.scrollTop = 100;
   stubRect(list, 0, 200);
-  stubRect(getOptions()[1], 220, 260);
+  stubRect(getOptions()[0], 220, 260);
   scrollTo.mockClear();
 
   fireEvent.keyDown(getInput(), { key: 'ArrowDown' });
@@ -640,7 +674,7 @@ test('一覧が自分ではスクロールしない低い画面でも、選ん�
   renderDialog();
   typeQuery('css');
   stubRect(screen.getByRole('listbox'), 0, 200);
-  stubRect(getOptions()[1], 40, 80);
+  stubRect(getOptions()[0], 40, 80);
   scrollTo.mockClear();
   scrollIntoView.mockClear();
 
@@ -665,9 +699,21 @@ test('選択が外れた場合、一覧を先頭へ戻す', () => {
   vi.useFakeTimers();
   renderDialog();
   typeQuery('css');
+  fireEvent.keyDown(getInput(), { key: 'ArrowDown' });
   scrollTo.mockClear();
 
   fireEvent.change(getInput(), { target: { value: 'react' } });
+
+  expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'auto' });
+});
+
+test('何も選んでいなくても、結果が入れ替わった場合、一覧を先頭へ戻す', () => {
+  vi.useFakeTimers();
+  renderDialog();
+  typeQuery('css');
+  scrollTo.mockClear();
+
+  typeQuery('react');
 
   expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'auto' });
 });
@@ -682,13 +728,21 @@ test('検索した語を、時刻つきで sessionStorage に保存する', () =
   expect(JSON.parse(sessionStorage.getItem(STATE_KEY) ?? 'null')).toEqual({ query: 'css', timestamp: Date.now() });
 });
 
-test('保存された語がある場合、開いたときに入力欄へ戻し、結果を計算し直して 1 件目を選ぶ', () => {
+test('保存された語がある場合、開いたときに入力欄へ戻し、結果を計算し直す', () => {
   sessionStorage.setItem(STATE_KEY, JSON.stringify({ query: 'css', timestamp: Date.now() }));
   renderDialog();
 
   expect(getInput().value).toBe('css');
   expect(getOptionTexts()).toEqual(['CSS の基礎', 'React と CSS の設計']);
-  expect(getSelectedId()).toBe('search-result-css-basics');
+  expect(getSelectedId()).toBeNull();
+});
+
+test('保存された語がある場合、入力欄の語を全て選択して開く', () => {
+  sessionStorage.setItem(STATE_KEY, JSON.stringify({ query: 'css', timestamp: Date.now() }));
+  renderDialog();
+
+  expect(getInput().selectionStart).toBe(0);
+  expect(getInput().selectionEnd).toBe('css'.length);
 });
 
 test('保存された語がある場合、エンジンの読み込みが済むのを待って結果を出す', async () => {
@@ -733,6 +787,7 @@ test('記事を開いた場合、引いた語を最近の検索の先頭へ足�
   localStorage.setItem(RECENT_KEY, JSON.stringify(['Next.js']));
   renderDialog();
   typeQuery('css');
+  fireEvent.keyDown(getInput(), { key: 'ArrowDown' });
 
   fireEvent.keyDown(getInput(), { key: 'Enter' });
 
@@ -744,6 +799,7 @@ test('大文字小文字・全角半角だけが違う語は、重複させず�
   localStorage.setItem(RECENT_KEY, JSON.stringify(['Next.js', 'ＣＳＳ']));
   renderDialog();
   typeQuery('css');
+  fireEvent.keyDown(getInput(), { key: 'ArrowDown' });
 
   fireEvent.keyDown(getInput(), { key: 'Enter' });
 
@@ -755,6 +811,7 @@ test('最近の検索が上限（5 件）を超える場合、古い語から落
   localStorage.setItem(RECENT_KEY, JSON.stringify(['a', 'b', 'c', 'd', 'e']));
   renderDialog();
   typeQuery('css');
+  fireEvent.keyDown(getInput(), { key: 'ArrowDown' });
 
   fireEvent.keyDown(getInput(), { key: 'Enter' });
 
@@ -766,6 +823,7 @@ test('開いた後に別のタブが語を保存していた場合、その語�
   renderDialog();
   localStorage.setItem(RECENT_KEY, JSON.stringify(['別のタブの語']));
   typeQuery('css');
+  fireEvent.keyDown(getInput(), { key: 'ArrowDown' });
 
   fireEvent.keyDown(getInput(), { key: 'Enter' });
 

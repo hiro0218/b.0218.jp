@@ -98,6 +98,7 @@ test('検索結果の記事を Enter で開いた場合、記事へ移動し、�
 
   fireEvent.change(input, { target: { value: 'css' } });
   await screen.findByRole('option', { name: 'CSS の基礎' });
+  fireEvent.keyDown(input, { key: 'ArrowDown' });
   fireEvent.keyDown(input, { key: 'Enter' });
 
   expect(router.push).toHaveBeenCalledWith('/css-basics.html');
