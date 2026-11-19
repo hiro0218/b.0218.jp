@@ -1,4 +1,4 @@
-export const SEARCH_SHORTCUT_KEY = '/';
+const SEARCH_SHORTCUT_KEY = '/';
 
 /** aria-keyshortcuts の値。「/」に加えて、Cmd・Ctrl+K でも開く */
 export const SEARCH_ARIA_KEYSHORTCUTS = '/ Meta+K Control+K';
