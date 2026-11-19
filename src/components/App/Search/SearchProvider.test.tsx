@@ -112,7 +112,7 @@ test('開くときに、検索データの読み込みも並行して始める',
 
 test('ボタンの aria-keyshortcuts が示す / キーでも開く', async () => {
   renderProvider();
-  expect(getTrigger().getAttribute('aria-keyshortcuts')).toBe('/');
+  expect(getTrigger().getAttribute('aria-keyshortcuts')).toBe('/ Meta+K Control+K');
 
   const wasNotPrevented = fireEvent.keyDown(document.body, { key: '/' });
   await settleDialogImport();
@@ -121,17 +121,39 @@ test('ボタンの aria-keyshortcuts が示す / キーでも開く', async () =
   expect(getDialog()).toBeDefined();
 });
 
-test('入力欄・IME の変換中・ほかのキーの場合、/ キーで開かない', async () => {
+test.each([
+  ['Cmd', { metaKey: true }],
+  ['Ctrl', { ctrlKey: true }],
+])('%s+K でも開く', async (_label, modifier) => {
+  renderProvider();
+
+  const wasNotPrevented = fireEvent.keyDown(document.body, { key: 'k', ...modifier });
+  await settleDialogImport();
+
+  expect(wasNotPrevented).toBe(false);
+  expect(getDialog()).toBeDefined();
+});
+
+test('入力欄・IME の変換中・ほかのキーの場合、開かない', async () => {
   renderProvider();
   const input = screen.getByLabelText('別の入力欄');
 
   const typedInInput = fireEvent.keyDown(input, { key: '/' });
+  const modifierKInInput = fireEvent.keyDown(input, { key: 'k', metaKey: true });
   const composing = fireEvent.keyDown(document.body, { key: '/', isComposing: true });
   const processKey = fireEvent.keyDown(document.body, { key: '/', keyCode: 229 });
   const otherKey = fireEvent.keyDown(document.body, { key: 'a' });
+  const plainK = fireEvent.keyDown(document.body, { key: 'k' });
   await settleDialogImport();
 
-  expect([typedInInput, composing, processKey, otherKey]).toEqual([true, true, true, true]);
+  expect([typedInInput, modifierKInInput, composing, processKey, otherKey, plainK]).toEqual([
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+  ]);
   expect(queryDialog()).toBeNull();
 });
 

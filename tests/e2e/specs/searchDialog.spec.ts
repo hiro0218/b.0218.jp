@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, type Locator, type Page, test } from '@playwright/test';
 import {
   getSearchInput,
   openSearchDialogByTrigger,
@@ -90,6 +90,57 @@ test('結果が一覧の高さを超える場合、End で選んだ行は、一�
 
   await expect(dialog.getByRole('option', { selected: true })).toBeInViewport({ ratio: 1 });
 });
+
+const paint = (option: Locator) => option.evaluate((element) => getComputedStyle(element).backgroundColor);
+
+// 最近の検索の語を 2 件置いて開き、↓ で selectedIndex 番目まで進める。0・1 番目が語、2 番目からが記事の行
+async function openWithSelection(page: Page, selectedIndex: number) {
+  await page.addInitScript(() => localStorage.setItem('recent-searches', JSON.stringify(['css', 'react'])));
+  await page.goto('/');
+  const dialog = await openSearchDialogByTrigger(page);
+  for (let count = 0; count <= selectedIndex; count += 1) await page.keyboard.press('ArrowDown');
+
+  return { options: dialog.getByRole('option'), current: dialog.getByRole('option', { selected: true }) };
+}
+
+// 単体テストにしない。jsdom は Panda の CSS を読み込まず、色と transition を比べられないため。
+// 語と行は色の決め方が別々なので、どちらも確かめる
+for (const { kind, selectedIndex, hoveredIndex } of [
+  { kind: '最近の検索の語', selectedIndex: 0, hoveredIndex: 1 },
+  { kind: '候補の記事の行', selectedIndex: 2, hoveredIndex: 3 },
+]) {
+  test(`マウスを載せただけの${kind}と、選んでいる${kind}は、別の色で示す`, async ({ page }) => {
+    const { options, current } = await openWithSelection(page, selectedIndex);
+    const hovered = options.nth(hoveredIndex);
+
+    await hovered.hover();
+
+    expect(await paint(hovered)).not.toBe(await paint(current));
+  });
+
+  // 選んでいる語・行の色を、hover の色との勝ち負けに任せない。生成される CSS では hover が選択中に勝ち、マウスを載せた間だけ濃さが薄くなるため
+  test(`選んでいる${kind}にマウスを載せた場合も、色は載せる前と変えない`, async ({ page }) => {
+    const { current } = await openWithSelection(page, selectedIndex);
+    const before = await paint(current);
+
+    await current.hover();
+
+    expect(await paint(current)).toBe(before);
+  });
+
+  // 選ばれていない語・行を transition: none にしない。マウスを載せただけの行が即座に染まり、サイトのほかの一覧と動きがそろわないため
+  test(`選んでいる${kind}は色を即座に、マウスを載せただけの${kind}は一覧の行と同じ速さで切り替える`, async ({
+    page,
+  }) => {
+    const { options, current } = await openWithSelection(page, selectedIndex);
+    const hovered = options.nth(hoveredIndex);
+
+    await hovered.hover();
+
+    await expect(current).toHaveCSS('transition-duration', '0s');
+    await expect(hovered).toHaveCSS('transition-duration', '0.1s');
+  });
+}
 
 test('閉じるボタンを押した場合、検索ダイアログを閉じる', async ({ page }) => {
   await page.goto('/');

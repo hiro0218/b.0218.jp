@@ -54,6 +54,7 @@ export function SearchHeader({
             'aria-autocomplete': 'list' as const,
             'aria-controls': hasList ? listId : undefined,
             'aria-expanded': hasList,
+            enterKeyHint: 'search' as const,
             onKeyDown,
             placeholder: SEARCH_LABELS.searchPlaceholder,
             role: 'combobox' as const,

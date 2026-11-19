@@ -19,8 +19,10 @@ export const optionStyle = css`
 `;
 
 // 選ばれた行を太字にせず、面だけで示す。太字にすると文字の幅が変わり、折り返しの位置が動く。
-// hover・選択中・active の書く順を変えない。3 つは詳細度が同じで、書く順で優先が決まる。
-// min-height に --control-min-size を使わない。マウスの画面では 36px に縮み、行が詰まる
+// hover を :hover だけで書かない。生成される CSS は書いた順でなく 選択中・hover・active の順に並び、選択中の行にマウスを載せると hover が勝って濃さが薄くなるため。
+// 選択中を除く条件を、:where で包まずに :not だけにしない。詳細度が active より高くなり、押している間も hover が勝つため。
+// min-height に --control-min-size を使わない。マウスの画面では 36px に縮み、行が詰まる。
+// タイトルの text-wrap を balance にしない。全行の幅をそろえるために、1 行に収まる語まで次の行へ送られ、右側が空く
 export const postRowStyle = css`
   display: flex;
   gap: var(--spacing-300);
@@ -28,7 +30,7 @@ export const postRowStyle = css`
   min-height: var(--sizes-touch-target);
   padding: var(--spacing-100) var(--spacing-300);
 
-  &:hover {
+  &:hover:where(:not([aria-selected='true'])) {
     background-color: var(--colors-gray-a-75);
   }
 
@@ -43,6 +45,8 @@ export const postRowStyle = css`
   & > :first-child {
     flex: 1;
     min-width: 0;
+    word-break: auto-phrase;
+    text-wrap: pretty;
   }
 
   mark {
@@ -64,6 +68,9 @@ export const matchedTagStyle = css`
   color: var(--colors-gray-700);
 `;
 
+// 選択中を、hover と同じ黒 12% にしない。マウスを載せた chip と ↑↓ で選んだ chip を見分けられないため。
+// hover・選択中・active を、background-image の層にしない。transition が効かず、切り替えが即座になって、タグや一覧の行と動きがそろわないため。
+// hover を :hover だけで書かない。理由は postRowStyle の注と同じ
 export const recentChipStyle = css`
   display: inline-flex;
   gap: var(--spacing-75);
@@ -72,12 +79,12 @@ export const recentChipStyle = css`
   padding-inline: var(--spacing-100) var(--spacing-300);
   background-color: var(--colors-gray-a-100);
 
-  &:hover {
+  &:hover:where(:not([aria-selected='true'])) {
     background-color: var(--colors-gray-a-200);
   }
 
   &[aria-selected='true'] {
-    background-color: var(--colors-gray-a-200);
+    background-color: var(--colors-gray-a-300);
   }
 
   &:active {

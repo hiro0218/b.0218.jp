@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { createContext, type ReactNode, use, useEffect, useEffectEvent, useRef, useState } from 'react';
 import { loadSearchEngine } from '@/components/App/Search/engineLoader';
-import { isImeComposing, SEARCH_SHORTCUT_KEY } from '@/components/App/Search/keyboard';
+import { isImeComposing, isSearchShortcut } from '@/components/App/Search/keyboard';
 import type { SearchDialog } from '@/components/App/Search/SearchDialog';
 import type { PopularPost } from '@/components/App/Search/types';
 
@@ -64,7 +64,7 @@ export function SearchProvider({ popularPosts, children }: SearchProviderProps) 
 
   // listener を status ごとに登録し直さない。useEffectEvent で最新の status を読めるので、登録は 1 回で済む
   const handleShortcut = useEffectEvent((event: KeyboardEvent) => {
-    if (status !== 'closed' || event.key !== SEARCH_SHORTCUT_KEY || isImeComposing(event)) return;
+    if (status !== 'closed' || !isSearchShortcut(event) || isImeComposing(event)) return;
 
     const target = event.target as HTMLElement;
     if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable) return;

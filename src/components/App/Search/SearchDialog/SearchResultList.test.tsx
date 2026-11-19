@@ -43,7 +43,6 @@ function renderList(props: Partial<ComponentProps<typeof SearchResultList>> = {}
       onKeyDown={vi.fn()}
       onPostSelect={vi.fn()}
       onRecentSelect={vi.fn()}
-      onRowMouseMove={vi.fn()}
       query=""
       rows={[resultOption]}
       setRowRef={vi.fn()}
