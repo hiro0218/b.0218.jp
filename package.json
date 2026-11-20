@@ -22,7 +22,7 @@
     "lint:css": "stylelint \"src/**/*.{css,ts,tsx}\"",
     "lint:markup": "markuplint \"src/**/*.{jsx,tsx}\"",
     "lint:write": "biome check --write --unsafe src build scripts tests",
-    "prepare": "husky && playwright install --only-shell && panda codegen",
+    "prepare": "husky && playwright install chromium-headless-shell && panda codegen",
     "start": "next start",
     "storybook": "panda codegen && storybook dev -p 6006",
     "build-storybook": "panda codegen && storybook build",
