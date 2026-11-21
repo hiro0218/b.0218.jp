@@ -6,7 +6,7 @@ import { useId } from 'react';
 import { IconButton } from '@/components/UI/IconButton';
 import { useDisclosure } from '@/hooks/useDisclosure';
 
-import { Container, Content, triggerAnchorStyle } from './DropdownMenu/styles';
+import { Content, Root, triggerAnchorStyle } from './DropdownMenu/styles';
 
 export type DropdownMenuProps = {
   /** メニュートリガーに表示するコンテンツ（アイコン等） */
@@ -35,7 +35,7 @@ export function DropdownMenu({ title, triggerLabel, children }: DropdownMenuProp
   };
 
   return (
-    <Container {...rootProps}>
+    <Root {...rootProps}>
       <IconButton
         aria-controls={panelId}
         aria-expanded={isExpanded}
@@ -56,6 +56,6 @@ export function DropdownMenu({ title, triggerLabel, children }: DropdownMenuProp
       >
         {children}
       </Content>
-    </Container>
+    </Root>
   );
 }

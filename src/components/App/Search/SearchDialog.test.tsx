@@ -365,6 +365,7 @@ test('エンジンの読み込み待ちの間は、検索中と出し、結果�
 test('エンジンの読み込み待ち中に入力を消した場合、古い検索結果を反映しない', async () => {
   vi.useFakeTimers();
   const finishLoading = stubEngineLoading();
+  const search = vi.spyOn(engine, 'search');
   renderDialog();
 
   typeQuery('css');
@@ -372,6 +373,8 @@ test('エンジンの読み込み待ち中に入力を消した場合、古い�
   await finishLoading();
 
   expect(screen.getByRole('listbox', { name: '検索の候補' })).toBeDefined();
+  // 候補の表示だけで済ませない。入力が空のあいだは、古い結果が入っても候補が出たままで、見分けられないため
+  expect(search).not.toHaveBeenCalled();
 });
 
 test('エンジンの読み込みに失敗した場合、ログを残して結果を待ったままにし、次の入力でやり直す', async () => {

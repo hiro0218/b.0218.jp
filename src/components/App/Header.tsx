@@ -1,6 +1,6 @@
 import { Logo } from '@/components/App/Logo';
 import { SearchTrigger } from '@/components/App/Search/SearchTrigger';
-import { Container } from '@/components/UI/Layout/Container';
+import { SectionInner } from '@/components/UI/Layout/SectionInner';
 import { css, styled } from '@/ui/styled';
 import { Layout } from './Header/Layout';
 import { Navigation } from './Header/Navigation';
@@ -8,20 +8,20 @@ import { Navigation } from './Header/Navigation';
 export function Header() {
   return (
     <Layout>
-      <Container className={HeaderContainerStyle} size={'large'}>
-        <LogoContainer>
+      <SectionInner className={HeaderInnerStyle} size={'large'}>
+        <LogoOuter>
           <Logo />
-        </LogoContainer>
+        </LogoOuter>
         <NavigationGroup>
           <Navigation />
           <SearchTrigger />
         </NavigationGroup>
-      </Container>
+      </SectionInner>
     </Layout>
   );
 }
 
-const HeaderContainerStyle = css`
+const HeaderInnerStyle = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -29,7 +29,7 @@ const HeaderContainerStyle = css`
   margin: 0 auto;
 `;
 
-const LogoContainer = styled.div`
+const LogoOuter = styled.div`
   display: flex;
   flex-shrink: 0;
   margin-left: calc(var(--control-padding-inline) * -1);

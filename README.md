@@ -19,7 +19,7 @@ This repository contains the source code for `b.0218.jp`, a Japanese-focused blo
 
 ### Features
 
-- **ML-Powered Recommendations**: Article similarity analysis using Japanese morphological analysis (kuromoji)
+- **ML-Powered Recommendations**: Article similarity analysis using Japanese morphological analysis (kuromojin)
 - **Analytics Integration**: Google Analytics with popular articles tracking
 - **OG Image Generation**: Automated Open Graph image generation using Playwright
 - **Static Generation**: Pre-built article data for optimal performance
@@ -93,21 +93,21 @@ sequenceDiagram
 
 ### 3. ML-powered article similarity
 
-Related article recommendations are computed by combining tag-based similarity (NPMI) with body-text similarity (morphological analysis via kuromoji + TF-IDF). Morphological analysis is distributed across `worker_threads`, falling back to synchronous processing on failure.
+Related article recommendations are computed by combining tag-based similarity (NPMI) with body-text similarity (morphological analysis via kuromojin + TF-IDF). Morphological analysis is distributed across `worker_threads`, falling back to synchronous processing on failure.
 
 ```mermaid
 sequenceDiagram
     participant Main as build:similarity
     participant Dist as dist/
     participant Tag as Tag similarity (NPMI)
-    participant Worker as worker_threads (kuromoji)
+    participant Worker as worker_threads (kuromojin)
     participant Score as Scoring (TF-IDF)
 
     Main->>Dist: Read posts/*.json, tags.json
     Main->>Tag: Compute NPMI from the tag co-occurrence matrix
     Tag-->>Main: tags-similarity.json
     Main->>Worker: Split article bodies and send (fewer than 16 articles run synchronously)
-    Worker->>Worker: Morphological analysis and part-of-speech filtering with kuromoji (IPADIC)
+    Worker->>Worker: Morphological analysis and part-of-speech filtering with kuromojin (IPADIC)
     Worker-->>Main: Token sequences (Main falls back to synchronous processing on failure)
     Main->>Score: Vectorize with BM25 IDF + sublinear TF
     Score->>Score: Narrow down to articles sharing tags (up to 50)

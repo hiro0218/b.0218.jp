@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Container } from '@/components/UI/Layout/Container';
+import { SectionInner } from '@/components/UI/Layout/SectionInner';
 import { styled } from '@/ui/styled';
 
 type Props = {
@@ -8,9 +8,9 @@ type Props = {
 
 export default function ArchivePageLayout({ children }: Props) {
   return (
-    <Container size="default">
+    <SectionInner size="default">
       <Page>{children}</Page>
-    </Container>
+    </SectionInner>
   );
 }
 

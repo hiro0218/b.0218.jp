@@ -25,8 +25,8 @@
 ### 状態と公開 API
 
 - 状態の置き場は、URL、ネイティブの状態（`[open]` など）、ARIA、本体の `useState`、親の順に選ぶ。
-- 要素の差し替えは `as` にする。操作部品は閉じた union（`IconButton` の `'button' | 'link' | 'externalLink'`）、配置部品は任意の要素（`UI/Layout/Stack.tsx`）を受ける。`render` は足さない。
-- アイコンだけの部品のルート要素には、`aria-label` を型で必須にする（`IconButton`）。内側の部位の名前は `<部位>Label` とする（`DropdownMenu` の `triggerLabel`）。
+- 要素の差し替えは `as` にする。操作部品は閉じた union（`IconLink` の `'link' | 'externalLink'`）、配置部品は任意の要素（`UI/Layout/Stack.tsx`）を受ける。`render` は足さない。
+- アイコンだけの部品のルート要素には、`aria-label` を型で必須にする（`IconButton`、`IconLink`）。内側の部位の名前は `<部位>Label` とする（`DropdownMenu` の `triggerLabel`）。
 - 部品が受け取った props は、描画する要素へ渡す。ホバーとフォーカスの props は、焦点を取れる要素そのものへ渡す（`UI/Tooltip.tsx`）。
 - `apiRef` と `useImperativeHandle` は使わない。外からの操作は、次のどちらかで公開する。
   - 親が hook を持って状態を渡す（`Page/Post/Share.tsx` と `UI/Toast.tsx`）

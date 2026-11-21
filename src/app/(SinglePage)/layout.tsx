@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Container } from '@/components/UI/Layout/Container';
+import { SectionInner } from '@/components/UI/Layout/SectionInner';
 
 type Props = {
   children: ReactNode;
@@ -7,8 +7,8 @@ type Props = {
 
 export default function SinglePageLayout({ children }: Props) {
   return (
-    <Container size="default">
+    <SectionInner size="default">
       <section>{children}</section>
-    </Container>
+    </SectionInner>
   );
 }

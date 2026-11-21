@@ -22,7 +22,7 @@ export function IconSwap({ activeIcon, primaryIcon, secondaryIcon }: IconSwapPro
 }
 
 const Root = styled.span`
-  --icon-swap-dur: var(--durations-slow);
+  --icon-swap-duration: var(--durations-slow);
   --icon-swap-start-scale: 0.25;
   --icon-swap-ease: ease-in-out;
   position: relative;
@@ -52,6 +52,6 @@ const IconSlot = styled.span`
   grid-area: 1 / 1;
   place-items: center;
   transition:
-    opacity var(--icon-swap-dur) var(--icon-swap-ease),
-    transform var(--icon-swap-dur) var(--icon-swap-ease);
+    opacity var(--icon-swap-duration) var(--icon-swap-ease),
+    transform var(--icon-swap-duration) var(--icon-swap-ease);
 `;

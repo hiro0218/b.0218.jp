@@ -5,7 +5,7 @@
 UI 命名から、責務・HTML/CSS の実体・再利用範囲・変更影響を読めるようにする。
 この規則は、実装、Storybook、JSDoc、レビュー時の正式名称に適用する。
 
-`CONTEXT.md` の Post / Tag / Source などのドメイン語彙は対象外である。ドメイン語彙は `CONTEXT.md` を優先する。
+[domain-vocabulary.md](../architecture/domain-vocabulary.md) の Post / Tag / Source などのドメイン語彙は対象外である。ドメイン語彙は、その文書を優先する。
 
 ## 🔴 既存語の扱い (CRITICAL)
 
@@ -42,27 +42,27 @@ Web 標準で意味が定まっている語は再定義しない（HTML/CSS/ARIA
 - サイト導線は `Navigation` と呼ぶ。`Menu` はコマンド実行や選択操作に限る。
 - `Columns` は CSS Multi-column Layout のみ。Grid や Flex の列を単に `Columns` と呼ばない。
 - `Row` は配置結果として説明し、独立要素名にしない。
-- `container` を CSS container query の意味で使う場合は、`container query` または `container query target` と明示する。
+- `container` は、`container-type` を持ち、サイズクエリの問い合わせ先になった要素の意味でだけ使う。幅を制限して中央に寄せるだけの要素には使わない（`Inner` を使う）。
 
 ## 🔴 構造・余白・レイアウト用語 (CRITICAL)
 
-| 用途                                            | 推奨語                   | 避ける語                      |
-| ----------------------------------------------- | ------------------------ | ----------------------------- |
-| 意味的または構造的なページ区画                  | `Section`                | 汎用 `Group`                  |
-| 内容幅制御・中央寄せ・gutter 付与の基礎配置境界 | `Container`              | `Wrapper`                     |
-| 特定 section の内側要素                         | `SectionInner`           | `Wrapper`                     |
-| 外側配置や周辺関係の調整                        | `Outer`                  | `Wrapper`                     |
-| ビューポート端から内容を守る inline 方向余白    | `Gutter`                 | `Gap`                         |
-| 子要素間の距離                                  | `Gap`                    | `Gutter`                      |
-| CSS container query の対象                      | `Container Query Target` | 単独の `container` / `target` |
+| 用途                                                      | 推奨語                                                      | 避ける語                                                |
+| --------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------- |
+| 意味的または構造的なページ区画                            | `Section`                                                   | 汎用 `Group`                                            |
+| 内容幅制御・中央寄せ・gutter 付与の基礎配置境界           | `Inner`（対象を表す語を付ける）                             | `Container`、`Wrapper`                                  |
+| 特定 section の内側要素                                   | 対象を表す語を付けた `Inner`（`SectionInner`、`PostInner`） | `Wrapper`                                               |
+| 外側配置や周辺関係の調整                                  | `Outer`                                                     | `Wrapper`                                               |
+| ビューポート端から内容を守る inline 方向余白              | `Gutter`                                                    | `Gap`                                                   |
+| 子要素間の距離                                            | `Gap`                                                       | `Gutter`                                                |
+| CSS container query の対象（`container-type` を持つ要素） | `Container`（対象を表す語を付ける）                         | 幅を制限するだけの要素への `Container`、単独の `target` |
 
-`Container` はこのプロジェクトの基礎 layout 境界名である。新規の内容幅制御、中央寄せ、gutter 付与、layout 境界のコンポーネントは、別 layout 機構（CSS multi-column 専用、masonry など）でない限り `Container` を基本にする。
+`Inner` は、区画の中で内容の幅を制限し、中央に寄せる要素の名前で、このプロジェクトの基礎の layout 境界名である。新規の内容幅制御、中央寄せ、gutter 付与、layout 境界のコンポーネントは、別 layout 機構（CSS multi-column 専用、masonry など）でない限り、対象を表す語を付けた `Inner` を基本にする（`UI/Layout/SectionInner.tsx`、`Page/Post/PostInner.tsx`）。`Container` は `container-type` を持つ要素の名前で、幅の制限には使わない。
 
 `Gap` は子要素間隔、`Gutter` は viewport 端から内容を守る inline 方向余白である。カード間隔や列間隔を `Gutter` と呼ばない（役割が逆だと CSS 設計時に意図が読めないため）。
 
-`Section` はページ区画の概念で、常に `<section>` と 1 対 1 対応するとは限らない（`<div>` で構成するヘッダー直下の区画も Section に含む）。特定の `Section` の内部要素として分割する必要がある場合は `SectionInner` を使える。
+`Section` はページ区画の概念で、常に `<section>` と 1 対 1 対応するとは限らない（`<div>` で構成するヘッダー直下の区画も Section に含む）。特定の `Section` の内部要素として分割する必要がある場合は、対象を表す語を付けた `Inner`（`SectionInner`、`PostInner`）を使える。
 
-`Wrapper` は責務が曖昧で禁止する（「何かを包む」だけでは内部レイアウト・gutter・幅制御のどれが責務か読めないため）。既存の `Wrapper` 名を変更する場合は、利用箇所、Storybook、JSDoc、テストへの影響を確認したうえで `Container` または scope 付き責務名へ置き換える。
+`Wrapper` は責務が曖昧で禁止する（「何かを包む」だけでは内部レイアウト・gutter・幅制御のどれが責務か読めないため）。既存の `Wrapper` 名を変更する場合は、利用箇所、Storybook、JSDoc、テストへの影響を確認したうえで `Inner` または scope 付き責務名へ置き換える。
 
 ## 🟡 用語分類軸 (IMPORTANT)
 
@@ -102,7 +102,7 @@ React コンポーネントであることだけを理由に、すべてを `Com
 1. **Web 標準語と衝突しないか** — 本ファイル「Web 標準語との衝突回避」セクション
 2. **責務 / 実体を表しているか** — 視覚特性 (`Round`, `Big` 等) ではなく責務・HTML/CSS 実体・スコープを反映する（本ファイル「目的」セクション）
 3. **既存名を巻き込み改名していないか** — 本ファイル「既存語の扱い」セクション
-4. **`Container` / scope 付き責務名で代替できるか** — 本ファイル「構造・余白・レイアウト用語」セクション
+4. **`Inner` / scope 付き責務名で代替できるか** — 本ファイル「構造・余白・レイアウト用語」セクション
 5. **再利用範囲に合った粒度か** — 本ファイル「公開範囲とスコープ修飾」セクション
 6. **レイヤー境界と矛盾しないか** — `UI/` / `Page/` / `App/` / `Functional/` の責務と一致するか（[layers.md](../architecture/layers.md#レイヤー定義) の「レイヤー定義」参照）
 

@@ -26,7 +26,7 @@ const JSON_LD: Record<PageSlug, (config: PageConfig) => ComponentProps<typeof St
   privacy: ({ title, description }) => getWebPageStructured({ name: title, description, includeOrganization: true }),
 };
 
-export function Template({ slug }: { slug: PageSlug }) {
+export function SingleTemplate({ slug }: { slug: PageSlug }) {
   const config = PAGE_CONFIGS[slug];
   const page = getPagesJson().find((page) => page.slug === slug);
 

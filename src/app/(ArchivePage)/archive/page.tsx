@@ -4,7 +4,7 @@ import { StructuredData } from '@/components/Functional/StructuredData';
 import { pageSections } from '@/components/Page/_shared/pageSections';
 import { ArchiveIntro } from '@/components/Page/Archive/ArchiveIntro';
 import { ArchiveTimelinesByYear } from '@/components/Page/Archive/ArchiveTimelinesByYear';
-import { Chart, type YearPostCount } from '@/components/Page/Archive/Chart';
+import { ArchiveChart, type YearPostCount } from '@/components/Page/Archive/Chart';
 import { Title } from '@/components/UI/Title';
 import { SITE_URL } from '@/constants';
 import { getCollectionPageStructured } from '@/lib/domain/json-ld';
@@ -56,7 +56,7 @@ export default function Page() {
         <ArchiveIntro>
           <Title paragraph={paragraph}>{title}</Title>
 
-          <Chart totalPosts={totalPosts} years={years} />
+          <ArchiveChart totalPosts={totalPosts} years={years} />
         </ArchiveIntro>
 
         <ArchiveTimelinesByYear archives={archives} years={years} />

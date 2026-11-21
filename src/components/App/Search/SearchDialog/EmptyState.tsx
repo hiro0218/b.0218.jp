@@ -1,27 +1,27 @@
 import { styled } from '@/ui/styled';
-import { SearchGoogleLink } from './SearchGoogleLink';
+import { GoogleLink } from './GoogleLink';
 import { truncateQuery } from './truncateQuery';
 
-interface SearchEmptyStateProps {
+interface EmptyStateProps {
   searchQuery: string;
 }
 
 /**
  * @summary 検索語に一致する記事が 0 件のときの案内。次の手（Google 検索）を、結果の場所に出す。
  */
-export function SearchEmptyState({ searchQuery }: SearchEmptyStateProps) {
+export function EmptyState({ searchQuery }: EmptyStateProps) {
   return (
-    <Container>
+    <Root>
       <Message>
         「<strong>{truncateQuery(searchQuery)}</strong>」に一致する記事はありません
       </Message>
-      <SearchGoogleLink searchQuery={searchQuery} />
-    </Container>
+      <GoogleLink searchQuery={searchQuery} />
+    </Root>
   );
 }
 
 // 上下の余白に --spacing-1000 を使わない。狭い画面でも 96px のままで、ダイアログが縦に長くなる
-const Container = styled.div`
+const Root = styled.div`
   display: flex;
   flex-direction: column;
   gap: var(--spacing-300);

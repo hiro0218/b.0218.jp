@@ -9,7 +9,7 @@ test('アーカイブの記事リンクを押した場合、記事の詳細ペ�
   const main = page.getByRole('main');
   await expect(main).toBeVisible();
 
-  // main 内には Chart（年別ジャンプナビゲーション、#年 アンカー）の list が
+  // main 内には ArchiveChart（年別ジャンプナビゲーション、#年 アンカー）の list が
   // 記事一覧より先に存在するため、list/section の位置ではなく実際の記事詳細 URL
   // パターン（.html）で対象リンクを直接特定する。
   const firstPostLink = main.locator('a[href$=".html"]').first();

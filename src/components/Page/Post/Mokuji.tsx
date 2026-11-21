@@ -15,7 +15,7 @@ type Props = {
   className?: string;
 };
 
-export function Mokuji({ refContent, className }: Props) {
+export function PostMokuji({ refContent, className }: Props) {
   const pathname = usePathname();
   const { mokujiContainerRef, mokujiDetailsRef, mokujiListContainerRef } = useMokuji({ refContent, pathname });
 
@@ -24,10 +24,10 @@ export function Mokuji({ refContent, className }: Props) {
       <Details ref={mokujiDetailsRef}>
         <Summary>
           目次
-          <IconContainer>
+          <DisclosureIcon>
             <CaretDownIcon data-disclosure="closed" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
             <CaretUpIcon data-disclosure="open" height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
-          </IconContainer>
+          </DisclosureIcon>
         </Summary>
         <DetailsContent ref={mokujiListContainerRef} />
       </Details>
@@ -83,7 +83,7 @@ const Root = styled.nav`
     --mokuji-block-offset: calc(var(--sizes-header) + var(--spacing-400));
     --mokuji-summary-block-size: var(--spacing-600);
 
-    /* 目次と PostContainer の間に、位置指定の要素を挟まない。inset: 0 と grid-column の基準は、最も近い位置指定の祖先である PostContainer（position: relative の格子）のため。
+    /* 目次と PostInner の間に、位置指定の要素を挟まない。inset: 0 と grid-column の基準は、最も近い位置指定の祖先である PostInner（position: relative の格子）のため。
        position: absolute も外さない。useMokuji.ts が、この値で 2 列目に置く配置かを判定し、開いた状態にして追従スクロールもするため */
     position: absolute;
     inset: 0;
@@ -129,7 +129,7 @@ const Details = styled.details`
   }
 `;
 
-const IconContainer = styled.div`
+const DisclosureIcon = styled.div`
   display: grid;
   place-items: center;
   width: var(--sizes-icon-sm);

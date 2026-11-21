@@ -31,7 +31,7 @@
   /* 640px 未満は行間 2 にしない。1 行が 21 字ほどと短い。行間 2 だと段落がばらけて見えるため */
   --grid-line-height-article: round(up, calc(var(--line-heights-md) * 1em), var(--spacing-75));
 
-  /* 列の式・列間を、PostContainer と Footer で別々に持たない。2 か所が同じ格子を使うため。
+  /* 列の式・列間を、PostInner と Footer で別々に持たない。2 か所が同じ格子を使うため。
      列間を列の式から離さない。式が列間を引くため */
   --post-layout-gap: var(--spacing-600);
   --post-layout-columns: minmax(0, var(--sizes-container-article))

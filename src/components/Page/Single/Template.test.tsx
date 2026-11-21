@@ -11,7 +11,7 @@ vi.mock('next/navigation', () => ({
   },
 }));
 
-import { Template } from './Template';
+import { SingleTemplate } from './Template';
 
 const pages = [
   { slug: 'about', title: 'About', date: '2024-01-01', content: '<p>運営者の紹介</p>' },
@@ -34,7 +34,7 @@ test.each([
   ['about', 'About', 'サイトと運営者について', '運営者の紹介'],
   ['privacy', 'Privacy', 'プライバシーポリシー', '個人情報の扱い'],
 ] as const)('%s の場合、設定のタイトルと説明、固定ページの本文を描画する', (slug, title, description, body) => {
-  render(<Template slug={slug} />);
+  render(<SingleTemplate slug={slug} />);
 
   expect(screen.getByRole('heading', { level: 1, name: title })).toBeDefined();
   expect(screen.getByText(description)).toBeDefined();
@@ -42,7 +42,7 @@ test.each([
 });
 
 test('about の場合、設定のタイトルと説明を持つ AboutPage と、ProfilePage、活動実績の一覧を JSON-LD に出す', () => {
-  const { container } = render(<Template slug="about" />);
+  const { container } = render(<SingleTemplate slug="about" />);
 
   const jsonLd = readJsonLd(container) as JsonLd[];
 
@@ -51,7 +51,7 @@ test('about の場合、設定のタイトルと説明を持つ AboutPage と、
 });
 
 test('privacy の場合、設定のタイトルと説明を持ち、運営者の組織を含む WebPage を JSON-LD に出す', () => {
-  const { container } = render(<Template slug="privacy" />);
+  const { container } = render(<SingleTemplate slug="privacy" />);
 
   expect(readJsonLd(container)).toMatchObject({
     '@type': 'WebPage',
@@ -64,5 +64,5 @@ test('privacy の場合、設定のタイトルと説明を持ち、運営者の
 test('固定ページのデータが無い場合、notFound を呼ぶ', () => {
   getPagesJson.mockReturnValue([]);
 
-  expect(() => render(<Template slug="about" />)).toThrow('NEXT_NOT_FOUND');
+  expect(() => render(<SingleTemplate slug="about" />)).toThrow('NEXT_NOT_FOUND');
 });

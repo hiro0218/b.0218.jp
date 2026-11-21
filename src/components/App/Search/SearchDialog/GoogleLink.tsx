@@ -6,14 +6,14 @@ import { truncateQuery } from './truncateQuery';
 // SITE_URL を解析し直してホスト名を取り出さない。SITE_URL は DOMAIN から作られた値で、DOMAIN をそのまま使える
 const SITE_SEARCH_SCOPE = `site:${DOMAIN}`;
 
-type SearchGoogleLinkProps = {
+type GoogleLinkProps = {
   searchQuery: string;
 };
 
 /**
  * @summary 検索語で、このサイトを対象にした Google 検索を開くリンク。検索語が空なら、サイト全体を対象にする。
  */
-export function SearchGoogleLink({ searchQuery }: SearchGoogleLinkProps) {
+export function GoogleLink({ searchQuery }: GoogleLinkProps) {
   const query = searchQuery ? `${SITE_SEARCH_SCOPE} ${searchQuery}` : SITE_SEARCH_SCOPE;
   const label = searchQuery ? `Google で「${truncateQuery(searchQuery)}」を検索` : 'Google 検索';
 

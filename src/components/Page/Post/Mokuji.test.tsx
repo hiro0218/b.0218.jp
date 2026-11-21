@@ -3,7 +3,7 @@ import { StrictMode, useRef } from 'react';
 import { afterEach, beforeAll, expect, test, vi } from 'vitest';
 
 import { HEADER_HEIGHT_PX } from '@/ui/styled/constant';
-import { Mokuji } from './Mokuji';
+import { PostMokuji } from './Mokuji';
 
 vi.mock('next/navigation', () => ({ usePathname: () => '/test' }));
 
@@ -28,7 +28,7 @@ function Article({ html, className }: { html: string; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   return (
     <>
-      <Mokuji className={className} refContent={ref} />
+      <PostMokuji className={className} refContent={ref} />
       <div dangerouslySetInnerHTML={{ __html: html }} ref={ref} />
     </>
   );

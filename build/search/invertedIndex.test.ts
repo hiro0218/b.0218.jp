@@ -1,4 +1,4 @@
-import type { IpadicFeatures, Tokenizer } from 'kuromoji';
+import type { Tokenizer } from 'kuromojin';
 import { describe, expect, it, vi } from 'vitest';
 import type { Post } from '@/types/source';
 import { generateSearchIndex } from './invertedIndex';
@@ -11,7 +11,7 @@ vi.mock('../shared/morphology', () => ({
   }),
 }));
 
-const mockTokenizer = {} as Tokenizer<IpadicFeatures>;
+const mockTokenizer = {} as Tokenizer;
 
 function createPost(overrides: Partial<Post>): Post {
   return {

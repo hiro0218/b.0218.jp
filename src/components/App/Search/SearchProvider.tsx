@@ -35,7 +35,7 @@ type SearchProviderProps = {
 };
 
 /**
- * @summary 検索ダイアログの持ち主。読み込み・開閉・「/」のショートカット・画面遷移で閉じる動きを受け持つ。
+ * @summary 検索ダイアログの持ち主。読み込み・開閉・ショートカット（「/」と Cmd・Ctrl+K）・画面遷移で閉じる動きを受け持つ。
  */
 export function SearchProvider({ popularPosts, children }: SearchProviderProps) {
   const [status, setStatus] = useState<Status>('closed');

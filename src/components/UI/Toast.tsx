@@ -16,13 +16,13 @@ interface ToastProps {
  */
 export function Toast({ message, onHideToast, isVisible }: ToastProps) {
   return (
-    <Container aria-atomic="true" aria-live="polite" data-visible={isVisible} onClick={onHideToast} role="status">
+    <Root aria-atomic="true" aria-live="polite" data-visible={isVisible} onClick={onHideToast} role="status">
       {isVisible ? message : null}
-    </Container>
+    </Root>
   );
 }
 
-const Container = styled.div`
+const Root = styled.div`
   position: fixed;
   bottom: var(--spacing-100);
   left: var(--spacing-100);

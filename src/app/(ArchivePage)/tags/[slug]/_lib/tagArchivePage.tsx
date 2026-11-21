@@ -13,7 +13,7 @@ import { StructuredData } from '@/components/Functional/StructuredData';
 import { PostSection } from '@/components/Page/_shared/PostSection';
 import { pageSections } from '@/components/Page/_shared/pageSections';
 import { TagSection } from '@/components/Page/_shared/TagSection';
-import { Pagination } from '@/components/Page/Archive/Pagination';
+import { ArchivePagination } from '@/components/Page/Archive/Pagination';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { Title } from '@/components/UI/Title';
 import { SITE_FEED_PATH, SITE_NAME } from '@/constants';
@@ -122,7 +122,7 @@ export function TagArchivePage({ slug, currentPage = 1 }: TagArchivePageProps) {
       <div className={pageSections}>
         <Stack gap={800}>
           <PostSection layout="timeline" posts={model.posts} />
-          <Pagination
+          <ArchivePagination
             currentPage={currentPage}
             getPageHref={(page) => getTagArchivePageHref(basePath, page)}
             totalPages={model.totalPages}
