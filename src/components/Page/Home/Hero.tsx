@@ -4,7 +4,7 @@ import { SITE_DESCRIPTION } from '@/constants';
 import { css, cx, styled } from '@/ui/styled';
 import { containerType } from '@/ui/styled/utilities/container-type';
 
-export function Hero() {
+export function HomeHero() {
   return (
     <div className={containerType}>
       <div className={cx(timelineGrid, gridStyle)}>

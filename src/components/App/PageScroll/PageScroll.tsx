@@ -9,7 +9,7 @@ import { styled } from '@/ui/styled';
 
 const SHOW_AFTER_SCROLL_PX = 120;
 
-// Container は先頭付近と読み進めている間、visibility: hidden になる。
+// Root は先頭付近と読み進めている間、visibility: hidden になる。
 // クリック元のボタン自身にフォーカスを残そうとすると、その非表示化に巻き込まれてブラウザが
 // フォーカスを document.body へ落としてしまう。skip-link と同じ着地点（メインコンテンツ先頭）へ
 // 明示的に移し、キーボード操作後の位置を見失わせない。
@@ -26,17 +26,17 @@ export const PageScroll = () => {
   const isScrolled = useIsScrolledPast(SHOW_AFTER_SCROLL_PX);
 
   return (
-    <Container data-is-shown={isHeaderShown && isScrolled}>
+    <Root data-is-shown={isHeaderShown && isScrolled}>
       <Tooltip position="top" text="ページトップへ">
         <Button aria-label="ページトップへ" onClick={scrollToTop}>
           <CaretLineUpIcon />
         </Button>
       </Tooltip>
-    </Container>
+    </Root>
   );
 };
 
-const Container = styled.div`
+const Root = styled.div`
   position: fixed;
   right: var(--spacing-400);
   bottom: var(--spacing-400);

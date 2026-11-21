@@ -26,7 +26,7 @@ export const fontWeightClasses = {
  * 見出しフォントサイズの Atomic CSS クラスマップ（UI Heading コンポーネント用）
  *
  * UI Heading は本文 (`.post-content` 内の `h2-h6`) とは別系統の SectionTitle を表す。
- * ArticleCard / Hero / TagSection など、ページ内の小区画見出しに用いる。
+ * ArticleCard / HomeHero / TagSection など、ページ内の小区画見出しに用いる。
  * セマンティックなタグ階層 (h1-h6) を保ちつつ、視覚サイズを意図的にダウンスケールして
  * カード内・セクション内で完結する見出し密度を作る。
  *

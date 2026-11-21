@@ -1,4 +1,4 @@
-import type { IpadicFeatures, Tokenizer } from 'kuromoji';
+import type { Tokenizer } from 'kuromojin';
 import type { Post } from '@/types/source';
 import { tokenizeMeaningfulText } from '../shared/morphology';
 
@@ -15,7 +15,7 @@ export function extractTextFromPost(post: Post): string {
   return titleRepeated + contentSnippet;
 }
 
-export function preprocessText(text: string, tokenizerInstance: Tokenizer<IpadicFeatures>): string[] {
+export function preprocessText(text: string, tokenizerInstance: Tokenizer): string[] {
   if (!text) {
     return [];
   }

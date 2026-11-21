@@ -67,7 +67,7 @@ export async function buildPost(): Promise<Post[]> {
   const markdownToPostHtml = (md: string) => limit(() => postHtmlProcessor(md));
   const markdownToNoteHtml = (md: string) => limit(() => noteHtmlProcessor(md));
   let cacheHits = 0;
-  let cacheMisses = 0;
+  const converted = new Map<RawPost, Post>();
 
   const posts = await Promise.all(
     rawPosts.map(async (raw) => {
@@ -80,16 +80,21 @@ export async function buildPost(): Promise<Post[]> {
         return cached.post;
       }
 
-      cacheMisses++;
       const post = await convertRawPost(raw, { markdownToPostHtml, markdownToNoteHtml });
-      nextCacheEntries[raw.slug] = { key, post };
+      converted.set(raw, post);
       return post;
     }),
   );
-  conversionCache.entries = nextCacheEntries;
-  savePostConversionCache(conversionCache);
-  Log.info(`Post conversion cache: ${cacheHits} hit, ${cacheMisses} miss`);
   saveCache(sharedCache);
+
+  // 保存する版は、変換前でなく変換後のリンクプレビューから決める。変換前の版で保存すると、取得したリンクの分だけ次回の版とずれ、全記事が再変換になる
+  // キャッシュに当たった記事のキーは付け替えない。変わったリンクプレビューを含むかは調べず、次回は再変換する
+  const savedVersion = createPostConversionCacheVersion(sharedCache);
+  for (const [raw, post] of converted) {
+    nextCacheEntries[raw.slug] = { key: createRawPostCacheKey(raw, savedVersion), post };
+  }
+  savePostConversionCache({ version: savedVersion, entries: nextCacheEntries });
+  Log.info(`Post conversion cache: ${cacheHits} hit, ${converted.size} miss`);
 
   // sort: 日付順
   posts.sort((a, b) => b.date.localeCompare(a.date));

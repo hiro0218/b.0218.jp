@@ -3,7 +3,7 @@ import type { ComponentProps } from 'react';
 import { createRef } from 'react';
 import { afterEach, beforeAll, expect, test, vi } from 'vitest';
 import type { SearchOption } from '../types';
-import { SearchResultList } from './SearchResultList';
+import { Listbox } from './Listbox';
 
 const recentOption: SearchOption = { kind: 'recent', id: 'search-recent-0', query: 'Next.js' };
 const popularOption: SearchOption = {
@@ -19,7 +19,7 @@ const resultOption: SearchOption = {
   title: 'CSS in JS とは何か',
 };
 
-// ResizeObserver の置き換えを省かない。SearchResultList が一覧の高さを追うために使うが、jsdom には無い
+// ResizeObserver の置き換えを省かない。Listbox が一覧の高さを追うために使うが、jsdom には無い
 beforeAll(() => {
   vi.stubGlobal(
     'ResizeObserver',
@@ -33,9 +33,9 @@ beforeAll(() => {
 
 afterEach(cleanup);
 
-function renderList(props: Partial<ComponentProps<typeof SearchResultList>> = {}) {
+function renderList(props: Partial<ComponentProps<typeof Listbox>> = {}) {
   return render(
-    <SearchResultList
+    <Listbox
       focusedIndex={-1}
       listId="list"
       listRef={createRef<HTMLDivElement>()}

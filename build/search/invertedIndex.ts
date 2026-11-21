@@ -1,4 +1,4 @@
-import type { IpadicFeatures, Tokenizer } from 'kuromoji';
+import type { Tokenizer } from 'kuromojin';
 import { normalizeSearchToken, type SearchDataItem, type SearchIndex } from '@/lib/search';
 import type { PostSummary } from '@/types/source';
 import * as Log from '~/build/shared/logger';
@@ -30,10 +30,7 @@ interface GenerateSearchIndexResult {
  * @param tokenizer 形態素解析器インスタンス
  * @returns 転置インデックスと検索用データ
  */
-export function generateSearchIndex(
-  posts: PostSummary[],
-  tokenizer: Tokenizer<IpadicFeatures>,
-): GenerateSearchIndexResult {
+export function generateSearchIndex(posts: PostSummary[], tokenizer: Tokenizer): GenerateSearchIndexResult {
   const invertedIndex: InvertedIndex = {};
   const searchData: SearchDataItem[] = [];
 

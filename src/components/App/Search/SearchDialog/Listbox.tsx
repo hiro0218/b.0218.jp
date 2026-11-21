@@ -9,7 +9,7 @@ import { RecentOption } from './RecentOption';
 const REGEXP_SPECIAL_CHARS = /[.*+?^${}()|[\]\\]/g;
 const escapeRegExp = (text: string) => text.replace(REGEXP_SPECIAL_CHARS, '\\$&');
 
-type SearchResultListProps = {
+type ListboxProps = {
   listId: string;
   listRef: RefObject<HTMLDivElement | null>;
   mode: SearchMode;
@@ -26,7 +26,7 @@ type SearchResultListProps = {
 /**
  * @summary 一覧（listbox）。未入力のときは最近の検索とよく読まれている記事を、入力があるときは検索結果を並べる。
  */
-export function SearchResultList({
+export function Listbox({
   listId,
   listRef,
   mode,
@@ -37,13 +37,13 @@ export function SearchResultList({
   setRowRef,
   onRecentSelect,
   onPostSelect,
-}: SearchResultListProps) {
+}: ListboxProps) {
   const sizerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const container = listRef.current;
+    const root = listRef.current;
     const sizer = sizerRef.current;
-    if (!container || !sizer) return;
+    if (!root || !sizer) return;
 
     let frameId: number | undefined;
     const updateHeight = () => {
@@ -52,7 +52,7 @@ export function SearchResultList({
       }
 
       frameId = requestAnimationFrame(() => {
-        container.style.setProperty('--search-list-height', `${sizer.offsetHeight.toFixed(1)}px`);
+        root.style.setProperty('--search-listbox-height', `${sizer.offsetHeight.toFixed(1)}px`);
       });
     };
 
@@ -103,7 +103,7 @@ export function SearchResultList({
   const popularHeadingId = `${listId}-popular`;
 
   return (
-    <Container
+    <Root
       aria-label={isSuggestions ? SEARCH_LABELS.searchSuggestions : SEARCH_LABELS.searchResults}
       id={listId}
       onKeyDown={onKeyDown}
@@ -128,14 +128,14 @@ export function SearchResultList({
         ) : null}
         {postRows.length > 0 && !isSuggestions ? <PostGroup>{postRows}</PostGroup> : null}
       </Sizer>
-    </Container>
+    </Root>
   );
 }
 
-// height に --search-list-height（内容の全高）をそのまま渡さない。max-height を超える分は見えないまま遷移が進むため。
-// max-height を外さない。--search-list-height を書く前は宣言ごと無効になり、height が auto に落ちるため
-const Container = styled.div`
-  height: min(var(--search-list-height), var(--search-content-max-height));
+// height に --search-listbox-height（内容の全高）をそのまま渡さない。max-height を超える分は見えないまま遷移が進むため。
+// max-height を外さない。--search-listbox-height を書く前は宣言ごと無効になり、height が auto に落ちるため
+const Root = styled.div`
+  height: min(var(--search-listbox-height), var(--search-content-max-height));
   max-height: var(--search-content-max-height);
   overflow-x: clip;
   overflow-y: auto;
@@ -148,7 +148,7 @@ const Container = styled.div`
   }
 `;
 
-// 外側の余白を Container の padding にしない。height に入れる Sizer の高さは余白を含まず、
+// 外側の余白を Root の padding にしない。height に入れる Sizer の高さは余白を含まず、
 // border-box では余白の分だけ内容が溢れて、件数が少ないときに最後の行の下が切れる
 const Sizer = styled.div`
   display: flex;

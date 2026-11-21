@@ -2,15 +2,15 @@ import type { ReactNode } from 'react';
 import { MAIN_CONTENT_ID } from '@/constants';
 import { styled } from '@/ui/styled';
 
-export const MainContainer = ({ children }: { children: ReactNode }) => {
+export const AppMain = ({ children }: { children: ReactNode }) => {
   return (
-    <Main id={MAIN_CONTENT_ID} tabIndex={-1}>
+    <Root id={MAIN_CONTENT_ID} tabIndex={-1}>
       {children}
-    </Main>
+    </Root>
   );
 };
 
-const Main = styled.main`
+const Root = styled.main`
   min-inline-size: 0;
   padding-top: var(--spacing-page);
 `;

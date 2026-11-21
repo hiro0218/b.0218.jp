@@ -8,7 +8,7 @@ type Props = {
   posts: PostSummary[];
 };
 
-export function Content({ posts }: Props) {
+export function NotFoundContent({ posts }: Props) {
   return (
     <Stack align="center" className={ContainerStyle} direction="vertical" gap={800} justify="center">
       <Stack gap={400}>

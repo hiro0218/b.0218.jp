@@ -49,7 +49,7 @@ React は `data-x={false}` を `data-x="false"` として描画する。属性�
 - 補間なしの `` css`...` `` はモジュールスコープ定数に hoist し、コンポーネントの render 本体内で呼ばない
 - 動的な切り替えは、hoist 済み定数から選ぶ。条件式か対応表で選ぶ
   - 条件式の例: `UI/Layout/Cluster.tsx` の `isWide && wideStyle`
-  - 対応表の例: `UI/Layout/Container.tsx` の `sizeStyles[size]`
+  - 対応表の例: `UI/Layout/SectionInner.tsx` の `sizeStyles[size]`
 
 `css()` は呼び出しごとにテンプレート文字列をパースする（メモ化されるのはクラス名の算出のみ）。render 本体内で呼ぶと SSG では全ページ分の無駄なパースになる。React Compiler の自動 memoize はコンポーネントインスタンス内の再レンダーにのみ効くため、この問題は防げない（[performance.md](./performance.md) 参照）。
 

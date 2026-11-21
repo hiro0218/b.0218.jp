@@ -3,11 +3,11 @@
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
-type WidgetManagerProps = {
+type TweetLoaderProps = {
   contentRef: React.RefObject<HTMLDivElement>;
 };
 
-export function WidgetManager({ contentRef }: WidgetManagerProps) {
+export function TweetLoader({ contentRef }: TweetLoaderProps) {
   const pathname = usePathname();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: This effect should re-run when the pathname changes to load Twitter widgets for the new page.

@@ -2,32 +2,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Post, PostSummary, TagSimilarityScores } from '@/types/source';
 import { getRelatedPosts } from './post';
 
-// 正規表現パターン
-const REGEX_WHITESPACE = /\s+/;
-
 // モックのセットアップ
 vi.mock('./post');
-vi.mock('kuromoji', () => ({
-  default: {
-    builder: vi.fn().mockReturnValue({
-      build: vi.fn().mockImplementation((callback) => {
-        const mockTokenizer = {
-          tokenize: (text: string) => {
-            // 簡易的な形態素解析の結果を返す
-            return text.split(REGEX_WHITESPACE).map((word) => ({
-              pos: word.length > 3 ? '名詞' : '助詞',
-              // biome-ignore lint/style/useNamingConvention: APIプロパティ名を維持
-              pos_detail_1: '',
-              // biome-ignore lint/style/useNamingConvention: APIプロパティ名を維持
-              basic_form: word,
-            }));
-          },
-        };
-        setTimeout(() => callback(null, mockTokenizer), 0);
-      }),
-    }),
-  },
-}));
 
 describe('getRelatedPosts', () => {
   // モック関数の定義

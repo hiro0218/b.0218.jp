@@ -1,8 +1,8 @@
 import { css, styled } from '@/ui/styled';
 
-// @supports の条件を、Container・triggerAnchorStyle・Content の 3 か所のうち 1 つだけ変えない。3 つが同時に有効になる前提のため、
+// @supports の条件を、Root・triggerAnchorStyle・Content の 3 か所のうち 1 つだけ変えない。3 つが同時に有効になる前提のため、
 // 一部だけ有効なブラウザでは、アンカー名・有効範囲・配置が食い違う
-export const Container = styled.div`
+export const Root = styled.div`
   position: relative;
   display: flex;
 
@@ -87,7 +87,7 @@ export const Content = styled.div`
   /*
    * 対応ブラウザではトリガーに紐づけて viewport 基準で配置し、はみ出す場合は左右・上下を自動で反転する。
    * 未対応ブラウザは上の absolute 配置のまま。
-   * position: fixed にするのは、はみ出し判定の基準（包含ブロック）を Container ではなく viewport にするため。
+   * position: fixed にするのは、はみ出し判定の基準（包含ブロック）を Root ではなく viewport にするため。
    */
   @supports (anchor-scope: --dropdown-trigger) and (position-anchor: --dropdown-trigger) and (position-area: bottom) and
     (position-try-fallbacks: flip-inline) {

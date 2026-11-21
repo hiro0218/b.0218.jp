@@ -10,11 +10,11 @@ import type { PopularPost } from '@/components/App/Search/types';
 import { ICON_SIZE_XS } from '@/ui/iconSizes';
 import { styled } from '@/ui/styled';
 import { stateLayer } from '@/ui/styled/components/stateLayerControl';
-import { SearchEmptyState } from './SearchDialog/SearchEmptyState';
-import { SearchFooter } from './SearchDialog/SearchFooter';
-import { SearchHeader } from './SearchDialog/SearchHeader';
-import { SearchResultList } from './SearchDialog/SearchResultList';
-import { SearchSummary } from './SearchDialog/SearchSummary';
+import { EmptyState } from './SearchDialog/EmptyState';
+import { Footer } from './SearchDialog/Footer';
+import { Header } from './SearchDialog/Header';
+import { Listbox } from './SearchDialog/Listbox';
+import { Summary } from './SearchDialog/Summary';
 import { truncateQuery } from './SearchDialog/truncateQuery';
 import { useSearch } from './SearchDialog/useSearch';
 
@@ -114,7 +114,7 @@ export function SearchDialog({ popularPosts, isClosing, onRequestCloseAction, on
           {SEARCH_LABELS.searchDescription}
         </p>
         <Surface>
-          <SearchHeader
+          <Header
             activeDescendantId={search.activeDescendantId}
             hasList={hasList}
             inputRef={inputRef}
@@ -129,12 +129,10 @@ export function SearchDialog({ popularPosts, isClosing, onRequestCloseAction, on
               {statusMessage}
             </div>
 
-            {search.mode === 'results' ? (
-              <SearchSummary count={search.results?.length ?? null} query={search.query} />
-            ) : null}
+            {search.mode === 'results' ? <Summary count={search.results?.length ?? null} query={search.query} /> : null}
 
             {hasList ? (
-              <SearchResultList
+              <Listbox
                 focusedIndex={search.focusedIndex}
                 listId={search.listId}
                 listRef={search.listRef}
@@ -149,9 +147,9 @@ export function SearchDialog({ popularPosts, isClosing, onRequestCloseAction, on
             ) : null}
 
             {hasNoResults ? (
-              <SearchEmptyState searchQuery={search.query} />
+              <EmptyState searchQuery={search.query} />
             ) : (
-              <SearchFooter hasList={hasList} hasSelection={search.focusedIndex >= 0} searchQuery={search.query} />
+              <Footer hasList={hasList} hasSelection={search.focusedIndex >= 0} searchQuery={search.query} />
             )}
           </SearchMain>
         </Surface>

@@ -42,12 +42,18 @@ export class OGPServerManager {
 
     this.serverProcess.kill('SIGTERM');
 
+    // unref にしない。子プロセスが stop() の前に死んでいると exit が来ず、待つものが無くなって exit 0 で終わり、失敗が隠れる
+    let shutdownTimer: NodeJS.Timeout | undefined;
+
     await Promise.race([
       new Promise<void>((resolve) => {
         this.serverProcess?.on('exit', () => resolve());
       }),
-      new Promise<void>((resolve) => setTimeout(resolve, OGP_CONFIG.server.shutdownTimeout)),
+      new Promise<void>((resolve) => {
+        shutdownTimer = setTimeout(resolve, OGP_CONFIG.server.shutdownTimeout);
+      }),
     ]);
+    clearTimeout(shutdownTimer);
 
     if (!this.serverProcess.killed) {
       this.serverProcess.kill('SIGKILL');
