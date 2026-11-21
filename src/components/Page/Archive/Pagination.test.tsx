@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { expect, test } from 'vitest';
-import { Pagination } from './Pagination';
+import { ArchivePagination } from './Pagination';
 
 const DIGITS = /\d+/;
 
@@ -15,7 +15,7 @@ function visiblePages(container: HTMLElement) {
 }
 
 test('全ページ数が 1 の場合、何も描画しない', () => {
-  const { container } = render(<Pagination currentPage={1} getPageHref={getPageHref} totalPages={1} />);
+  const { container } = render(<ArchivePagination currentPage={1} getPageHref={getPageHref} totalPages={1} />);
 
   expect(container.innerHTML).toBe('');
 });
@@ -34,7 +34,7 @@ test.each([
   '現在 %i ページ・全 %i ページの場合、ページ番号と省略記号を %j の順に並べる',
   (currentPage, totalPages, expected) => {
     const { container } = render(
-      <Pagination currentPage={currentPage} getPageHref={getPageHref} totalPages={totalPages} />,
+      <ArchivePagination currentPage={currentPage} getPageHref={getPageHref} totalPages={totalPages} />,
     );
 
     expect(visiblePages(container)).toEqual(expected);
@@ -42,20 +42,20 @@ test.each([
 );
 
 test('途中のページの場合、前へ・次へを getPageHref が返す href のリンクにする', () => {
-  render(<Pagination currentPage={3} getPageHref={getPageHref} totalPages={5} />);
+  render(<ArchivePagination currentPage={3} getPageHref={getPageHref} totalPages={5} />);
 
   expect(screen.getByRole('link', { name: '前のページへ（現在3ページ）' }).getAttribute('href')).toBe('/list/2');
   expect(screen.getByRole('link', { name: '次のページへ（現在3ページ）' }).getAttribute('href')).toBe('/list/4');
 });
 
 test('2 ページ目の場合、前へのリンク先は getPageHref が返す 1 ページ目の href にする', () => {
-  render(<Pagination currentPage={2} getPageHref={getPageHref} totalPages={3} />);
+  render(<ArchivePagination currentPage={2} getPageHref={getPageHref} totalPages={3} />);
 
   expect(screen.getByRole('link', { name: '前のページへ（現在2ページ）' }).getAttribute('href')).toBe('/list');
 });
 
 test('1 ページ目の場合、前へを無効なボタンにする', () => {
-  render(<Pagination currentPage={1} getPageHref={getPageHref} totalPages={3} />);
+  render(<ArchivePagination currentPage={1} getPageHref={getPageHref} totalPages={3} />);
 
   expect((screen.getByRole('button', { name: '前のページへ（現在1ページ）' }) as HTMLButtonElement).disabled).toBe(
     true,
@@ -63,7 +63,7 @@ test('1 ページ目の場合、前へを無効なボタンにする', () => {
 });
 
 test('最後のページの場合、次へを無効なボタンにする', () => {
-  render(<Pagination currentPage={3} getPageHref={getPageHref} totalPages={3} />);
+  render(<ArchivePagination currentPage={3} getPageHref={getPageHref} totalPages={3} />);
 
   expect((screen.getByRole('button', { name: '次のページへ（現在3ページ）' }) as HTMLButtonElement).disabled).toBe(
     true,
@@ -71,7 +71,7 @@ test('最後のページの場合、次へを無効なボタンにする', () =>
 });
 
 test('現在のページは aria-current を付けたリンクでない要素にして、他のページはリンクにする', () => {
-  const { container } = render(<Pagination currentPage={2} getPageHref={getPageHref} totalPages={3} />);
+  const { container } = render(<ArchivePagination currentPage={2} getPageHref={getPageHref} totalPages={3} />);
 
   const current = container.querySelector('[aria-current="page"]');
   expect(current?.tagName).toBe('SPAN');
@@ -82,7 +82,7 @@ test('現在のページは aria-current を付けたリンクでない要素に
 });
 
 test('現在位置は、スクリーンリーダー向けに全ページ数つきで通知する', () => {
-  render(<Pagination currentPage={2} getPageHref={getPageHref} totalPages={5} />);
+  render(<ArchivePagination currentPage={2} getPageHref={getPageHref} totalPages={5} />);
 
   expect(screen.getByText('5ページ中2ページ目')).toBeDefined();
 });

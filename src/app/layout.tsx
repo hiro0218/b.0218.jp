@@ -5,8 +5,8 @@ import { Suspense } from 'react';
 import { openGraph } from '@/app/_metadata';
 import { Footer } from '@/components/App/Footer';
 import { Header } from '@/components/App/Header';
-import { Layout } from '@/components/App/Layout/AppLayout';
-import { MainContainer } from '@/components/App/Layout/MainContainer';
+import { AppLayout } from '@/components/App/Layout/AppLayout';
+import { AppMain } from '@/components/App/Layout/AppMain';
 import { PageScroll } from '@/components/App/PageScroll/PageScroll';
 import { SearchProvider } from '@/components/App/Search/SearchProvider';
 import { BrowserEffects } from '@/components/Functional/BrowserEffects';
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html data-scroll-behavior="smooth" lang="ja">
       <body>
@@ -89,12 +89,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </a>
         <link href="/opensearch.xml" rel="search" title={DOMAIN} type="application/opensearchdescription+xml" />
         <SearchProvider popularPosts={searchPopularPosts}>
-          <Layout>
+          <AppLayout>
             <Header />
-            <MainContainer>{children}</MainContainer>
+            <AppMain>{children}</AppMain>
             <PageScroll />
             <Footer />
-          </Layout>
+          </AppLayout>
         </SearchProvider>
         <BrowserEffects />
         <Suspense>

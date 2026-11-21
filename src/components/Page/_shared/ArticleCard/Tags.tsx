@@ -7,17 +7,17 @@ type Props = {
 
 export function Tags({ tags }: Props) {
   return (
-    <Container>
+    <Root>
       {tags.map((tag) => (
         <TagItem className={postTagAnchor} key={tag}>
           {tag}
         </TagItem>
       ))}
-    </Container>
+    </Root>
   );
 }
 
-const Container = styled.div`
+const Root = styled.div`
   display: flex;
   gap: var(--spacing-100);
   padding-top: var(--spacing-75);

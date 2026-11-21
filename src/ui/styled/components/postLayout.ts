@@ -17,8 +17,8 @@ export const postLayoutFrame = css`
 `;
 
 /**
- * display: grid の Container に重ねて使う。
- * AppLayout に記事ページかを渡さない。フッターの配置を AppLayout と Footer で二重に持ち、全ページの Layout の分岐が増えるため。
+ * display: grid の SectionInner に重ねて使う。
+ * AppLayout に記事ページかを渡さない。フッターの配置を AppLayout と Footer で二重に持ち、全ページの AppLayout の分岐が増えるため。
  */
 export const postLayoutFooter = css`
   :root:has([data-post-layout]) & {

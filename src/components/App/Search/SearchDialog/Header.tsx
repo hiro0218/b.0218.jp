@@ -7,9 +7,9 @@ import type { KeyboardEvent, RefObject } from 'react';
 import { SEARCH_LABELS } from '@/components/App/Search/constants';
 import { ICON_SIZE_XS } from '@/ui/iconSizes';
 import { css, styled } from '@/ui/styled';
-import { SearchClearButton } from './SearchClearButton';
+import { ClearButton } from './ClearButton';
 
-interface SearchHeaderProps {
+interface HeaderProps {
   value: string;
   inputRef: RefObject<HTMLInputElement | null>;
   activeDescendantId?: string;
@@ -22,7 +22,7 @@ interface SearchHeaderProps {
   onClear: () => void;
 }
 
-export function SearchHeader({
+export function Header({
   value,
   inputRef,
   activeDescendantId,
@@ -31,7 +31,7 @@ export function SearchHeader({
   onValueChange,
   onKeyDown,
   onClear,
-}: SearchHeaderProps) {
+}: HeaderProps) {
   const { inputProps } = useTextField(
     {
       'aria-label': '検索キーワード',
@@ -61,7 +61,7 @@ export function SearchHeader({
           })}
           ref={inputRef}
         />
-        {value ? <SearchClearButton onClear={onClear} /> : null}
+        {value ? <ClearButton onClear={onClear} /> : null}
       </div>
     </div>
   );

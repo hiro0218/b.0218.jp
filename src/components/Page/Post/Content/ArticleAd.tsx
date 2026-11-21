@@ -28,13 +28,13 @@ export function ArticleAd() {
   }, [pathname]);
 
   return (
-    <Outer>
+    <AdOuter>
       <aside aria-label="スポンサーリンク" className={containerStyle} key={pathname}>
         <Ads style={isDevelopment ? { backgroundColor: 'var(--colors-gray-100)' } : undefined}>
           <Ins />
         </Ads>
       </aside>
-    </Outer>
+    </AdOuter>
   );
 }
 
@@ -51,7 +51,7 @@ const Ins = () => {
   );
 };
 
-const Outer = styled.div`
+const AdOuter = styled.div`
   margin: var(--spacing-400) 0;
   text-align: center;
 `;

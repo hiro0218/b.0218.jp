@@ -40,7 +40,7 @@ export const PostTimeline = ({ posts, prefetch = false, titleTagName = 'h3' }: P
               </Time>
               <Body className={timelineMainColumn}>
                 <Title className={titleStyle}>
-                  <Link className={titleAnchorStyle} data-row-link href={link} prefetch={prefetch}>
+                  <Link className={titleAnchorStyle} data-item-link href={link} prefetch={prefetch}>
                     {post.title}
                   </Link>
                 </Title>
@@ -64,18 +64,18 @@ const Root = styled.div`
 `;
 
 const List = styled.ol`
-  --resize-dur: 500ms;
-  --timeline-item-pad-y: var(--spacing-400);
+  --resize-duration: 500ms;
+  --timeline-item-padding-block: var(--spacing-400);
   position: relative;
-  margin-top: calc(var(--timeline-item-pad-y) * -1);
-  margin-bottom: calc(var(--timeline-item-pad-y) * -1);
+  margin-top: calc(var(--timeline-item-padding-block) * -1);
+  margin-bottom: calc(var(--timeline-item-padding-block) * -1);
   container-type: inline-size;
   isolation: isolate;
   transition: opacity var(--transition-slow);
 
   /* 他の行の不透明度を 0.6・0.8 にしない。文字は不透明度の分だけ地（#f8f8f8）に近づき、タグ（面 #e2e2e2 の上の gray-700）が 4.5:1 を割る。
      0.8 は 3.89:1 で、0.87 以上なら 4.5:1 を保てる */
-  &:has(a[data-row-link]:hover) > li:not(:has(a[data-row-link]:hover)) {
+  &:has(a[data-item-link]:hover) > li:not(:has(a[data-item-link]:hover)) {
     opacity: 0.9;
   }
 
@@ -100,20 +100,20 @@ const List = styled.ol`
       transition: none;
     }
 
-    &:has(a[data-row-link]:is(:hover, :focus-visible))::after {
+    &:has(a[data-item-link]:is(:hover, :focus-visible))::after {
       opacity: 1;
       transition:
-        top var(--resize-dur) var(--easings-ease-spring2),
-        left var(--resize-dur) var(--easings-ease-spring2),
-        width var(--resize-dur) var(--easings-ease-spring2),
-        height var(--resize-dur) var(--easings-ease-spring2),
+        top var(--resize-duration) var(--easings-ease-spring2),
+        left var(--resize-duration) var(--easings-ease-spring2),
+        width var(--resize-duration) var(--easings-ease-spring2),
+        height var(--resize-duration) var(--easings-ease-spring2),
         transform var(--transition-fast),
         background-color var(--transition-fast),
         opacity var(--transition-fast);
       will-change: top, left, width, height, transform;
     }
 
-    &:has(a[data-row-link]:active)::after {
+    &:has(a[data-item-link]:active)::after {
       background-color: var(--colors-gray-a-300);
     }
 
@@ -129,7 +129,7 @@ const List = styled.ol`
 const Item = styled.li`
   position: relative;
   row-gap: var(--spacing-75);
-  padding: var(--timeline-item-pad-y) var(--spacing-300);
+  padding: var(--timeline-item-padding-block) var(--spacing-300);
   margin-right: calc(var(--spacing-300) * -1);
   margin-left: calc(var(--spacing-300) * -1);
   border-radius: var(--radii-md);
@@ -142,15 +142,15 @@ const Item = styled.li`
     transition: background-color var(--transition-fast);
   }
 
-  &:has(a[data-row-link]:hover) {
+  &:has(a[data-item-link]:hover) {
     background-color: var(--colors-gray-a-75);
   }
 
-  &:has(a[data-row-link]:active) {
+  &:has(a[data-item-link]:active) {
     background-color: var(--colors-gray-a-300);
   }
 
-  &:has(a[data-row-link]:focus-visible) {
+  &:has(a[data-item-link]:focus-visible) {
     outline: var(--border-widths-medium) solid var(--colors-focus-ring);
     outline-offset: var(--border-widths-medium);
   }
@@ -163,17 +163,17 @@ const Item = styled.li`
       anchor-name: --post-timeline-item;
     }
 
-    &:has(a[data-row-link]:is(:hover, :focus-visible)) {
+    &:has(a[data-item-link]:is(:hover, :focus-visible)) {
       anchor-name: --post-timeline-item;
       background-color: transparent;
     }
 
-    &:has(a[data-row-link]:active) {
+    &:has(a[data-item-link]:active) {
       background-color: transparent;
     }
 
     /* hover 中は、hover した行以外を追随の基準にしない。キーボードの焦点が別の行に残っていると、hover を無視してその行へ追随するため */
-    ol:has(a[data-row-link]:hover) > &:not(:has(a[data-row-link]:hover)) {
+    ol:has(a[data-item-link]:hover) > &:not(:has(a[data-item-link]:hover)) {
       anchor-name: none;
     }
   }

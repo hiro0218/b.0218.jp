@@ -2,15 +2,15 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
 import { DemoBox } from '@/stories/_internal/DemoBox';
 
-import { Container } from './Container';
+import { SectionInner } from './SectionInner';
 
 const meta = {
-  title: 'UI/Layout/Container',
-  component: Container,
+  title: 'UI/Layout/SectionInner',
+  component: SectionInner,
   args: {
     children: <DemoBox>max-inline-size による幅制限ゾーン</DemoBox>,
   },
-} satisfies Meta<typeof Container>;
+} satisfies Meta<typeof SectionInner>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

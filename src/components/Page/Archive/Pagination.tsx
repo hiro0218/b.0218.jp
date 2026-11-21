@@ -100,7 +100,7 @@ function getPaginationRange(currentPage: number, totalPages: number): (number | 
 /**
  * @param currentPage 1 始まりのページ番号
  */
-export function Pagination({ currentPage, totalPages, getPageHref }: PaginationProps) {
+export function ArchivePagination({ currentPage, totalPages, getPageHref }: PaginationProps) {
   if (totalPages < 2) {
     return null;
   }

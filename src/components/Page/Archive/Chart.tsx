@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { css, styled } from '@/ui/styled';
 
-/** Chart は並べ替えない。渡された順で出すので、新しい年を先に渡す */
+/** ArchiveChart は並べ替えない。渡された順で出すので、新しい年を先に渡す */
 export type YearPostCount = { year: string; postCount: number };
 
 type Props = {
@@ -17,7 +17,7 @@ export function yearAnchorId(year: string) {
   return `${year}年`;
 }
 
-export const Chart = ({ years, totalPosts }: Props) => {
+export const ArchiveChart = ({ years, totalPosts }: Props) => {
   if (years.length === 0) {
     return null;
   }
@@ -30,7 +30,7 @@ export const Chart = ({ years, totalPosts }: Props) => {
     // <nav> は tabindex なしでは focus 不能で no-op になる。それを可能にし、キーボード操作でも
     // 年見出し横の戻るリンク（↑）を押した後の次の Tab がこの一覧内から続くようにする。
     <Root aria-label={`年別アーカイブ（全${totalPosts}件）`} id={YEAR_INDEX_ANCHOR_ID} tabIndex={-1}>
-      <Container>
+      <List>
         {years.map(({ year, postCount }) => {
           const percent = `${((postCount / maxPostCount) * 100).toFixed(2)}%`;
 
@@ -47,21 +47,21 @@ export const Chart = ({ years, totalPosts }: Props) => {
             </ChartItem>
           );
         })}
-      </Container>
+      </List>
     </Root>
   );
 };
 
 const Root = styled.nav`
   width: 100%;
-  /* 年のマスの列数と中の並びの切り替えを、timelineGrid（PostTimeline・Hero の格子）と別の幅にしない。
+  /* 年のマスの列数と中の並びの切り替えを、timelineGrid（PostTimeline・HomeHero の格子）と別の幅にしない。
      コンテナ幅 40rem の切り替えがずれると、年別チャートと記事の行で、列の変わる位置が食い違うため */
   container-type: inline-size;
   /* 固定ヘッダーの高さ分だけジャンプ先をずらし、先頭行がヘッダーに隠れないようにする */
   scroll-margin-top: var(--sizes-header);
 `;
 
-const Container = styled.ol`
+const List = styled.ol`
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--spacing-100);

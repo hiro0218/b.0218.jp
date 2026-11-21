@@ -1,7 +1,7 @@
 import { Logo } from '@/components/App/Logo';
 import { NavigationLink } from '@/components/App/NavigationLink';
 import { NAVIGATION_LINKS } from '@/components/App/navigationLinks';
-import { Container } from '@/components/UI/Layout/Container';
+import { SectionInner } from '@/components/UI/Layout/SectionInner';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { AUTHOR_NAME, SITE_FEED_PATH } from '@/constants';
 import { css, cx, styled } from '@/ui/styled';
@@ -11,10 +11,10 @@ import { stateLayerControl } from '@/ui/styled/components/stateLayerControl';
 export function Footer() {
   return (
     <Root>
-      <Container className={cx(ContainerStyle, postLayoutFooter)} size="default">
-        <LogoContainer>
+      <SectionInner className={cx(ContainerStyle, postLayoutFooter)} size="default">
+        <LogoOuter>
           <Logo />
-        </LogoContainer>
+        </LogoOuter>
         <Nav aria-label="フッターナビゲーション">
           {NAVIGATION_LINKS.map(({ title, href }) => (
             <NavigationLink href={href} key={href}>
@@ -35,7 +35,7 @@ export function Footer() {
             RSS
           </a>
         </Stack>
-      </Container>
+      </SectionInner>
     </Root>
   );
 }
@@ -53,7 +53,7 @@ const ContainerStyle = css`
   container-type: inline-size;
 `;
 
-const LogoContainer = styled.div`
+const LogoOuter = styled.div`
   display: flex;
   margin-left: calc(var(--control-padding-inline) * -1);
 `;

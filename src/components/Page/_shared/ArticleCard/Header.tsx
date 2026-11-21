@@ -14,7 +14,7 @@ export function Header({ category, children }: Props) {
   const badge = category ? CATEGORIES[category] : undefined;
 
   return (
-    <Container>
+    <Root>
       {children}
       {!!badge && (
         <CategoryBadge
@@ -30,11 +30,11 @@ export function Header({ category, children }: Props) {
           {badge.icon}
         </CategoryBadge>
       )}
-    </Container>
+    </Root>
   );
 }
 
-const Container = styled.div`
+const Root = styled.div`
   display: flex;
   gap: var(--spacing-300);
   align-items: center;

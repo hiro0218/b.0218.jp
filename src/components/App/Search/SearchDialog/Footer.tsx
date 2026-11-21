@@ -1,7 +1,7 @@
 import { styled } from '@/ui/styled';
-import { SearchGoogleLink } from './SearchGoogleLink';
+import { GoogleLink } from './GoogleLink';
 
-type SearchFooterProps = {
+type FooterProps = {
   searchQuery: string;
   /** 一覧（候補か結果）があるか。無いときは、↓ の案内を出さない */
   hasList: boolean;
@@ -12,9 +12,9 @@ type SearchFooterProps = {
 /**
  * @summary キー操作の案内と、Google 検索へのリンクを出すフッター。案内は、一覧の有無と選択の有無で切り替え、いま使えない操作（行を選んでいないときの ↑ と Enter）は出さない。
  */
-export function SearchFooter({ searchQuery, hasList, hasSelection }: SearchFooterProps) {
+export function Footer({ searchQuery, hasList, hasSelection }: FooterProps) {
   return (
-    <Footer>
+    <Root>
       <KeyHints>
         {hasList ? (
           <span>
@@ -31,15 +31,15 @@ export function SearchFooter({ searchQuery, hasList, hasSelection }: SearchFoote
           <kbd>Esc</kbd>閉じる
         </span>
       </KeyHints>
-      <SearchGoogleLink searchQuery={searchQuery} />
-    </Footer>
+      <GoogleLink searchQuery={searchQuery} />
+    </Root>
   );
 }
 
 // Google 検索に white-space: nowrap を付けない。付けると、日本語 20 字の検索語（表示の上限）がダイアログの右端からはみ出す。
 // footer 要素にしない。ダイアログは body 直下に描画されるので、footer が contentinfo のランドマークになる。
 // すると search の中にランドマークが入れ子になり、axe の landmark-contentinfo-is-top-level に違反する。このフッターはページのフッターではない
-const Footer = styled.div`
+const Root = styled.div`
   display: flex;
   flex-wrap: wrap;
   row-gap: var(--spacing-75);

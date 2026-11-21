@@ -2,10 +2,10 @@
 
 import type { ReactNode } from 'react';
 import { useRef } from 'react';
-import { Mokuji } from '@/components/Page/Post/Mokuji';
+import { PostMokuji } from '@/components/Page/Post/Mokuji';
 import { css, cx } from '@/ui/styled';
 import { ArticleAd } from './ArticleAd';
-import { WidgetManager } from './WidgetManager';
+import { TweetLoader } from './TweetLoader';
 
 type ClientProps = {
   children: ReactNode;
@@ -16,18 +16,18 @@ export function Client({ children }: ClientProps) {
 
   return (
     <div>
-      <Mokuji className={mokujiStyle} refContent={ref} />
+      <PostMokuji className={mokujiStyle} refContent={ref} />
       {/* e-content を .post-content に付けない。広告分割で本文が複数の .post-content に分かれるため、全体を包むこの要素だけに付ける */}
       <section className={cx('e-content', contentStyle)} ref={ref}>
         {children}
       </section>
-      <WidgetManager contentRef={ref} />
+      <TweetLoader contentRef={ref} />
       <ArticleAd />
     </div>
   );
 }
 
-// 1024px 以上は上の余白を付けない。目次が PostContainer の 2 列目に重なる（Mokuji の absolute）ため
+// 1024px 以上は上の余白を付けない。目次が PostInner の 2 列目に重なる（PostMokuji の absolute）ため
 const mokujiStyle = css`
   margin-top: var(--spacing-400);
 

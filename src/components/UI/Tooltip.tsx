@@ -21,27 +21,27 @@ const SHOW_DELAY_MS = 500;
  */
 export const Tooltip = ({ text, position = 'bottom', children }: TooltipProps) => {
   const state = useTooltipTriggerState({ delay: SHOW_DELAY_MS });
-  const containerRef = useRef<HTMLSpanElement>(null);
+  const rootRef = useRef<HTMLSpanElement>(null);
 
-  const { triggerProps, tooltipProps } = useTooltipTrigger({ isDisabled: false }, state, containerRef);
+  const { triggerProps, tooltipProps } = useTooltipTrigger({ isDisabled: false }, state, rootRef);
 
   const { tooltipProps: ariaTooltipProps } = useTooltip(tooltipProps, state);
 
   // トリガーの props を span に付けない。react-aria の useFocus は、自分自身へのフォーカスしか受けず、子のボタンにフォーカスが当たっても開かないため。
   // ref を子へ渡さない。useTooltipTrigger が ref を使うのは、Esc を受けるかの判定の ref.current の有無だけで、span で足りるため
   return (
-    <TooltipContainer ref={containerRef}>
+    <Root ref={rootRef}>
       {cloneElement(children, mergeProps(children.props, triggerProps))}
       {state.isOpen ? (
         <TooltipContent data-position={position} {...ariaTooltipProps}>
           {text}
         </TooltipContent>
       ) : null}
-    </TooltipContainer>
+    </Root>
   );
 };
 
-const TooltipContainer = styled.span`
+const Root = styled.span`
   position: relative;
   display: inline-block;
 `;
