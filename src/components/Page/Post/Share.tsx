@@ -6,6 +6,7 @@ import { LinkIcon, ShareNetworkIcon, XLogoIcon } from '@phosphor-icons/react';
 import { useCallback, useId, useSyncExternalStore } from 'react';
 import { CopyFeedbackIcon } from '@/components/UI/CopyFeedbackIcon';
 import { IconButton } from '@/components/UI/IconButton';
+import { IconLink } from '@/components/UI/IconLink';
 import { Stack } from '@/components/UI/Layout/Stack';
 import { Toast, useToast } from '@/components/UI/Toast';
 import { X_ACCOUNT } from '@/constants';
@@ -73,22 +74,22 @@ export function PostShare({ title, url }: Props) {
       </h2>
       <Controls>
         <Stack className={insetStyle} direction="horizontal" gap={100}>
-          <IconButton
+          <IconLink
             aria-label="Xでポスト"
             as="externalLink"
             href={`https://x.com/intent/tweet?url=${url}&text=${encodeURIComponent(title)}&via=${X_ACCOUNT}`}
             tooltip="Xでポスト"
           >
             <XLogoIcon height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-          </IconButton>
-          <IconButton
+          </IconLink>
+          <IconLink
             aria-label="はてなブックマークでブックマーク"
             as="externalLink"
             href={`https://b.hatena.ne.jp/entry/panel/?url=${url}`}
             tooltip="はてなブックマークでブックマーク"
           >
             <Hatenabookmark height={ICON_SIZE_SM} width={ICON_SIZE_SM} />
-          </IconButton>
+          </IconLink>
           <IconButton
             aria-label={copyLabel}
             disabled={copyState === 'unsupported'}

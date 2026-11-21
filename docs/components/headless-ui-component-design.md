@@ -100,7 +100,7 @@
 | `react-aria-components` を優先する                    | 依存に入れておらず、初期 JS の予算がある                              | `@react-aria/*` の hook を、必要なものだけ使う                   |
 | `apiRef` と変更の詳細（`reason`、`source`、`cancel`） | 取り消しや理由の区別が要る部品がない                                  | 親が hook を持つか、Provider と `use<名前>()` で公開する         |
 | すべてのパーツへの `data-slot`                        | 使っているのは、`CopyButton.tsx` と `CodeBlock.tsx` の 1 組だけである | 境界を越えて選ぶときだけ付ける                                   |
-| `render` プロパティと、要素の種類を変えない決まり     | `as` で足りる。`IconButton` はボタンとリンクを切り替える              | `as` の閉じた union を使い、`aria-label` を型で必須にする        |
+| `render` プロパティと、要素の種類を変えない決まり     | `as` で足りる。`IconLink` は内部リンクと外部リンクを切り替える        | `as` の閉じた union を使い、`aria-label` を型で必須にする        |
 | 名前のための専用の props を作らない決まり             | 内側の部位には、外から `aria-label` を渡せない                        | `<部位>Label`（`DropdownMenu` の `triggerLabel`）                |
 | props の名前を React Aria に揃える決まり              | 手段の優先順位で、ネイティブが先である                                | `disabled` のように、ネイティブの名前を使う                      |
 | 置き場を、作る時点の性質だけで決める                  | 1 か所だけが使う hook を、部品から離さないため                        | `src/hooks/` は、2 か所以上から使う hook に限る                  |

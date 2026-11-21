@@ -2,7 +2,7 @@ import { CaretLineUpIcon } from '@phosphor-icons/react/ssr';
 import { PostTimeline } from '@/components/Page/_shared/PostTimeline';
 import { YEAR_INDEX_ANCHOR_ID, type YearPostCount, yearAnchorId } from '@/components/Page/Archive/Chart';
 import { Heading } from '@/components/UI/Heading';
-import { IconButton } from '@/components/UI/IconButton';
+import { IconLink } from '@/components/UI/IconLink';
 import { Stack } from '@/components/UI/Layout/Stack';
 import type { ArchivesByYear } from '@/types/source';
 import { ICON_SIZE_XS } from '@/ui/iconSizes';
@@ -31,7 +31,7 @@ export function ArchiveTimelinesByYear({ archives, years }: { archives: Archives
               <Stack align="center" direction="horizontal" gap={100}>
                 <span>{postCount} posts</span>
                 {/* グリフは PageScroll（ページトップへ）と同じにする。件数の横に置くため、違うグリフだと増減記号と誤読される */}
-                <IconButton
+                <IconLink
                   aria-label="年別アーカイブへ"
                   as="link"
                   href={`#${YEAR_INDEX_ANCHOR_ID}`}
@@ -39,7 +39,7 @@ export function ArchiveTimelinesByYear({ archives, years }: { archives: Archives
                   tooltip="年別アーカイブへ"
                 >
                   <CaretLineUpIcon height={ICON_SIZE_XS} width={ICON_SIZE_XS} />
-                </IconButton>
+                </IconLink>
               </Stack>
             }
           >
