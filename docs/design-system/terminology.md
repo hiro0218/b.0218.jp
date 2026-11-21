@@ -5,7 +5,7 @@
 UI 命名から、責務・HTML/CSS の実体・再利用範囲・変更影響を読めるようにする。
 この規則は、実装、Storybook、JSDoc、レビュー時の正式名称に適用する。
 
-`CONTEXT.md` の Post / Tag / Source などのドメイン語彙は対象外である。ドメイン語彙は `CONTEXT.md` を優先する。
+[domain-vocabulary.md](../architecture/domain-vocabulary.md) の Post / Tag / Source などのドメイン語彙は対象外である。ドメイン語彙は、その文書を優先する。
 
 ## 🔴 既存語の扱い (CRITICAL)
 

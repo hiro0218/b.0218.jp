@@ -1,0 +1,36 @@
+# ドメイン語彙
+
+このリポジトリのドメインの語（Post、Tag、Source など）が指す意味を定める。
+
+## 記事
+
+- **Post** — 公開された記事。HTML 本体・メタデータ・タグを持つ。`dist/posts/<slug>.json` に永続化される。
+- **RawPost** — Post の素。markdown 本文と検証済み frontmatter から組み立てる中間表現。slug 確定済・日付 ISO 化済・HTML 化はまだ。本文フィールドは意図的に `markdown` と命名しており、`Post.content` との相互代入をコンパイル時に弾くための非対称である。`content` に揃えてはならない。
+- **RawPostFrontmatter** — gray-matter で parse した直後の frontmatter。`title` と `date` が必須。
+- **PostSummary** — Post から `content` を除いた一覧用の軽量型。`dist/posts-list.json` に永続化される。
+- **PostList** — PostSummary の date 降順配列。
+- **Slug** — Post の URL-safe 識別子。フォーマット: `[A-Za-z0-9_-]+`。
+
+## タグ
+
+- **Tag** — Post をグループ化するキーワード。`string` 型で扱う。表示名（display name）が canonical 形。
+- **TagKey** — Tag の同一性比較用派生値。実装は `tag.toLowerCase()`。build と runtime で同じ関数を共有する。
+- **TagUrlPath** — Tag の URL-safe 形。表示名を `encodeURIComponent` した値。route 層と data 層をまたいで使う。
+- **TagCounts.slug** — 歴史的に `slug` と命名されているが、実体は Tag の表示名そのもの。URL-safe slug ではない。命名整理は別議題。
+
+## ページ
+
+- **Page** — 非記事の固定ページ（about、privacy など）。Post とは区別する。
+
+## Source
+
+- **Source** — runtime が dist の永続化データを取得する seam。Post Source / Tag Source / Page Source / Activities Source（登壇・執筆などの活動実績）の 4 つにドメインごとに分かれる。各 Source は dist の読み込み・キャッシュ・型 shape 検証を内部で完結させ（Post Source は slug の書式の検証も含む）、呼び出し側にはドメイン型（Post / PostSummary / Tag / TagCounts / Page / Activities）だけを返す。
+- 派生データ（PostPopularityScores、PostSimilarityIndex、TagSimilarityScores、TagCategoryMap、検索インデックス）は Source の対象外。これらは追加ドメイン規則を持たない単なる dist 成果物として、必要な箇所で個別に load する。ただし、検索インデックスを除く 4 つは、壊れた dist を検出する fail-fast の仕組み（読み込み・キャッシュ・shape 検証・失敗時 throw）に、`src/lib/distLoader/` の共有機構（Source・派生データ双方が対等に使うドメイン非依存の実装）を利用する。共有するのは機構のみで、派生データが Source に昇格するわけではない。
+
+## 埋め込みコンテンツ
+
+- **埋め込みコンテンツ** — build が Post / Page の HTML 本文中に `<script type="application/json" class="...">` として埋め込み、runtime が同じ class 名と JSON 形状を検証して React コンポーネントへ復元するデータ（link-preview、gfm-alert）。契約（class 名定数・payload 型・型 guard）は `src/lib/domain/embeddedContent.ts` に集約し、build の変換と runtime の Handler の双方がこれを import する。
+
+## 参照
+
+- データの生成手順と出力先: [content-pipeline.md](./content-pipeline.md)

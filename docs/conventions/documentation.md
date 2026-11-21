@@ -4,7 +4,7 @@
 
 ## 適用範囲
 
-- 対象は、README.md、CONTEXT.md、`docs/`、`tests/vrt/README.md` など、人間と AI が読む Markdown 文書である
+- 対象は、README.md、`docs/`、`tests/vrt/README.md` など、人間と AI が読む Markdown 文書である
 - 文書の種類ごとの定めがある場合は、その定めを優先する
   - `_article/` の記事は、別リポジトリの submodule にある。このリポジトリからは編集せず、参照先のリポジトリで直す（[content-pipeline.md](../architecture/content-pipeline.md)）
   - `.claude/skills/` と `.claude/agents/` の定義ファイルは、それぞれの形式に従う
@@ -44,7 +44,7 @@
 ## 用語は自分で作らず、具体語で書く
 
 - 説明のための呼び名・略称を即席で作らない（「2 本立て」「例の対応」など）。書き手にしか通じない。すでにある名前で書く。コードの要素はコード上の識別子で、ライブラリや仕様は公式の表記で書く
-- ドメインの語（Post、RawPost、PostSummary、Tag、Slug、Source など）は、[CONTEXT.md](../../CONTEXT.md) の定義のとおりに書く。名前から意味を推測しない。たとえば `TagCounts.slug` は、URL-safe な slug ではなく、Tag の表示名である
+- ドメインの語（Post、RawPost、PostSummary、Tag、Slug、Source など）は、[domain-vocabulary.md](../architecture/domain-vocabulary.md) の定義のとおりに書く。名前から意味を推測しない。たとえば `TagCounts.slug` は、URL-safe な slug ではなく、Tag の表示名である
 - UI の語（Inner、Container、Gap、Gutter、Section など）は、[terminology.md](../design-system/terminology.md) の正式名称で書く。既存の API 名を説明するときは、同ファイルの「既存語の扱い」に従い、責務名を併記する
 - 上の 2 つの文書と公式ドキュメントのどちらにも無い呼び名・略語（このリポジトリの中でだけ通じる通称など）は、初出で何を指すかを 1 文で書く。ほかの文書へのリンクは補足にとどめ、定義の代わりにしない
 - 抽象名詞だけで文を組み立てない（「整合性に課題がある」）。何がどうなるのかを具体語で書く（「一覧の件数と詳細の件数が一致しない」）
@@ -62,7 +62,7 @@
   - [`.github/copilot-instructions.md`](../../.github/copilot-instructions.md) の「クリティカルルール」の表
   - 規則文書に付けた「参照」の節
   - 適用対象を変えたときの、`.claude/rules/` のファイルの `paths`
-- 同じ内容が複数の文書に書かれている場合は、`rg` で探して、正となるコード・設定と照合してそろえる。たとえば prebuild の流れは、`build/prebuild.sh` を正として、README.md、CONTEXT.md、[content-pipeline.md](../architecture/content-pipeline.md) に書かれている
+- 同じ内容が複数の文書に書かれている場合は、`rg` で探して、正となるコード・設定と照合してそろえる。たとえば prebuild の流れは、`build/prebuild.sh` を正として、README.md と [content-pipeline.md](../architecture/content-pipeline.md) に書かれている
 - 文書や見出しを改名・移動・削除したら、そこへのリンクを `rg` で探して直す（見出しへのリンクは `#見出し名` の形）。`#` 以下は見出しの文字列から作られるため、見出し先頭の絵文字や末尾の `(CRITICAL)` を付け外すと、リンクが切れる。たとえば `layout.md#-zero-margin-principle-critical` の先頭の `-` は、見出しが絵文字で始まるために付く
 - 用語や表記を変えると決めたら、変える範囲の全ての出現箇所を直し、旧表記が残っていないことを `rg` で確かめる
 
