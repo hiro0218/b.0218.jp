@@ -22,7 +22,6 @@
   "ignoreDependencies": [
     "@next/env",
     "shokika.css",
-    "@markuplint/jsx-parser",
     "@markuplint/react-spec",
     "@styled/typescript-styled-plugin",
     "@types/gtag.js",
