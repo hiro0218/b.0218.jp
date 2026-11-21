@@ -1,4 +1,4 @@
-import type { IpadicFeatures, Tokenizer } from 'kuromoji';
+import type { KuromojiToken, Tokenizer } from 'kuromojin';
 import { describe, expect, it, vi } from 'vitest';
 import { isMeaningfulToken, tokenizeMeaningfulText } from './morphology';
 
@@ -9,8 +9,8 @@ interface TokenOverrides {
   surfaceForm?: string;
 }
 
-function createToken(overrides: TokenOverrides = {}): IpadicFeatures {
-  const token = {} as IpadicFeatures;
+function createToken(overrides: TokenOverrides = {}): KuromojiToken {
+  const token = {} as KuromojiToken;
   token.word_id = 0;
   token.word_type = 'KNOWN';
   token.word_position = 0;
@@ -27,8 +27,8 @@ function createToken(overrides: TokenOverrides = {}): IpadicFeatures {
   return token;
 }
 
-function createMockTokenizer(tokens: IpadicFeatures[]): Tokenizer<IpadicFeatures> {
-  return { tokenize: vi.fn(() => tokens) } as unknown as Tokenizer<IpadicFeatures>;
+function createMockTokenizer(tokens: KuromojiToken[]): Tokenizer {
+  return { tokenize: vi.fn(() => tokens) } as unknown as Tokenizer;
 }
 
 describe('isMeaningfulToken', () => {
@@ -74,7 +74,7 @@ describe('tokenizeMeaningfulText', () => {
       tokenize: vi.fn(() => {
         throw new Error('tokenize failed');
       }),
-    } as unknown as Tokenizer<IpadicFeatures>;
+    } as unknown as Tokenizer;
 
     expect(() => tokenizeMeaningfulText('test', tokenizer)).toThrow('tokenize failed');
   });
