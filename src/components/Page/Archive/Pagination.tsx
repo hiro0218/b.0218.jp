@@ -47,7 +47,7 @@ const PaginationArrow = ({ direction, currentPage, href }: PaginationArrowProps)
   if (!href) {
     // span + aria-disabled は generic role で警告になるため、操作不能な矢印は native disabled に任せる。
     return (
-      <button aria-label={label} className={paginationControlStyle} data-arrow-button disabled type="button">
+      <button aria-label={label} className={paginationControlStyle} disabled type="button">
         <span className="sr-only">{label}</span>
         {icon}
       </button>
@@ -55,7 +55,7 @@ const PaginationArrow = ({ direction, currentPage, href }: PaginationArrowProps)
   }
 
   return (
-    <Link aria-label={label} className={paginationControlStyle} data-arrow-button href={href} prefetch={false}>
+    <Link aria-label={label} className={paginationControlStyle} href={href} prefetch={false}>
       {icon}
     </Link>
   );
@@ -213,17 +213,17 @@ const paginationControlStyle = css`
   transition: background-color var(--transition-fast);
 
   /* current */
-  &[aria-current='page'],
-  &:disabled {
+  &[aria-current='page'] {
     color: var(--colors-gray-200);
     pointer-events: none;
     cursor: not-allowed;
     background-color: var(--colors-gray-800);
+  }
 
-    &[data-arrow-button] {
-      color: var(--colors-gray-900);
-      background-color: transparent;
-    }
+  /* current と 1 つの規則にまとめない。まとめると、操作できない前へ・次へだけを current の面から戻す印が、要素に要るため */
+  &:disabled {
+    pointer-events: none;
+    cursor: not-allowed;
   }
 
   &:not([aria-current='page']):not(:disabled) {
