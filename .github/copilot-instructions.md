@@ -28,7 +28,7 @@ npm run dev       # https://localhost:8080 (HTTPSのみ)
 | React Compiler   | 最適化前に `next.config.mjs` を確認                     | [performance.md](docs/conventions/performance.md#-重要ルール-critical)                    |
 | Content 編集禁止 | `_article/_posts/*.md` は Git submodule（直接編集禁止） | [content-pipeline.md](docs/architecture/content-pipeline.md)                              |
 
-詳細ルールは [`docs/`](docs/README.md) の、内容に合う文書に置く。Claude Code は、作業するディレクトリの `.claude/rules/docs.md` が取り込む文書を、そのディレクトリのファイルに触れたときに読み込む。ディレクトリに属さない文書は、`.claude/rules/always.md` が常に読み込む。そのほかの文書は、`.claude/rules/` の案内（`paths` と文書へのリンク）に従って、`Read` で読む。
+詳細ルールは [`docs/`](docs/README.md) の、内容に合う文書に置く。`.claude/rules/` の規則は、作業の種類ごとに `paths` で範囲を決め、その作業で読む文書へのリンクを並べる。Claude は、触れたファイルに当たる規則の案内に従って、文書を `Read` で読む。作業するファイルによらず必要な文書は、`.claude/rules/always.md` が常に読み込む。
 
 ---
 

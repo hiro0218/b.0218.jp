@@ -1,9 +1,10 @@
 ---
 paths:
   - '/*.md'
+  - 'docs/**/*.md'
+  - 'tests/**/*.md'
   - '.claude/rules/**/*.md'
   - '.github/*.md'
-  - 'tests/**/*.md'
 ---
 
 # ドキュメント執筆ガイドライン

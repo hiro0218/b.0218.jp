@@ -1,7 +1,9 @@
 ---
 paths:
-  - 'scripts/**/*.test.{ts,tsx}'
+  - '**/*.test.{ts,tsx}'
+  - 'tests/**/*'
   - 'playwright.*.config.ts'
+  - 'vitest.config.mts'
 ---
 
 # テスト規則

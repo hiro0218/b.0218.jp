@@ -9,12 +9,13 @@
   - `_article/` の記事は、別リポジトリの submodule にある。このリポジトリからは編集せず、参照先のリポジトリで直す（[content-pipeline.md](../architecture/content-pipeline.md)）
   - `.claude/skills/` と `.claude/agents/` の定義ファイルは、それぞれの形式に従う
   - `.github/copilot-instructions.md` は、`CLAUDE.md` と `AGENTS.md`（どちらもこのファイルへのシンボリックリンク）の実体である。編集は実体に行う。`<!-- BEGIN:nextjs-agent-rules -->` と `<!-- END:nextjs-agent-rules -->` の間は `next dev` が書き込むため、手で直さない
-  - 規則の本文は、内容の種類に合う `docs/` のディレクトリ（一覧は [docs/README.md](../README.md)）の文書に書く。`.claude/rules/` には、`paths` と、その作業で読む `docs/` の文書へのリンクか、`@` の取り込みだけを書く。リンク先は自動では読み込まれず、Claude が `Read` で読む。`@` の取り込み先は自動で読み込まれる
-    - 適用対象は、`.claude/rules/` のファイルの frontmatter の `paths` に書く。Claude Code が規則から読む項目は `paths` だけである。`paths` を書かない規則は、起動時に毎回読み込まれる
-    - 文書を `@` で取り込むときは、読み込ませたい範囲に合わせて、次のどちらかに書く。どちらにも `paths` は書かない
-      - そのディレクトリのファイルに触れたときに読み込ませる文書は、そのディレクトリの `.claude/rules/docs.md` に書く（置いてあるディレクトリは [docs/README.md](../README.md) にある）。取り込み先の相対パスは、その `docs.md` から見た位置で書く
-      - ディレクトリに属さず、常に読み込ませる文書は、`.claude/rules/always.md` に書く
-    - `@` は、`paths` を付けた規則に書かない。`paths` があっても、取り込み先は起動時に読み込まれ、`paths` で絞れない。サブディレクトリの `.claude/rules/` でも、`paths` は取り込み先を絞らず、そのディレクトリのファイルに触れた時点で読み込まれる（2026-11-16、Claude Code 2.1.325 の `InstructionsLoaded` フックのログで確認した。公式ドキュメントに記述は無い）
+  - 規則の本文は、内容の種類に合う `docs/` のディレクトリ（一覧は [docs/README.md](../README.md)）の文書に書く。1 つの文書には 1 つの主題を書き、規則から文書単位で指せるようにする。`.claude/rules/` には、規則の本文を書かない
+    - `.claude/rules/` の規則は、作業の種類（コンポーネント、スタイル、テストなど）ごとに 1 ファイルにする。frontmatter の `paths` に、その作業で触れるファイルの glob を書き、本文に、その作業で読む `docs/` の文書へのリンクを、読む場面を添えて並べる。1 つの文書を、複数の規則から指してよい
+    - リンク先は自動では読み込まれず、Claude が `Read` で読む。文書を足したら、その文書を読む作業の規則にリンクを足す。どの規則からも指されない文書は、規則の案内では読まれない
+    - 作業するファイルによらず必要な文書だけは、`.claude/rules/always.md` に `@` で取り込む。この規則に `paths` は書かない
+    - Claude Code が規則から読む項目は `paths` だけである。`paths` を書かない規則は、起動時に毎回読み込まれる
+    - `@` は、`paths` を付けた規則に書かない。`paths` があっても、取り込み先は起動時に読み込まれ、`paths` で絞れない（2026-11-16 は Claude Code 2.1.325、2026-11-21 は 2.1.330 で、`InstructionsLoaded` フックのログで確認した。公式ドキュメントの `paths` の節に、`@` の取り込み先についての記述は無い）
+    - `docs/` の文書には `paths` を書かない。`.claude/rules/` の外にある文書の `paths` は、Claude Code に読まれない（2026-11-21、2.1.330 で確認した）
     - 取り込む文書が増えるほど、読み込む文脈が大きくなる。毎回読み込む分（`CLAUDE.md`、`.claude/rules/always.md`、その取り込み先）は、合わせて 200 行以内にする。公式ドキュメントの「1 ファイル 200 行以内」の目安を、毎回入る分の合計に当てた自主上限で、`wc -l` で数える
     - 書き方は [Claude Code の公式ドキュメント](https://code.claude.com/docs/en/memory#path-specific-rules)に従う
 - 言語と文体は、[`.github/copilot-instructions.md`](../../.github/copilot-instructions.md) の「プロジェクト」節にある「言語」に従う。README.md と SECURITY.md は英語で書かれており、この 2 つを直すときは英語のまま直す
