@@ -16,7 +16,7 @@ export function CodeBlock({ preProps, children }: CodeBlockProps) {
     // [data-code-block] の属性や要素を、この部品だけで変えない。本文 CSS（post-content/index.css）と CopyButton が、この属性で選ぶため
     <Root data-code-block="">
       {/* tabindex を Shiki 任せにしない。言語指定のない pre は Shiki を通らず、tabindex が付かないため */}
-      {/* biome-ignore lint/a11y/noNoninteractiveTabindex: 横にスクロールする pre は、キーボードで焦点が入らないと矢印キーでスクロールできない（axe: scrollable-region-focusable） */}
+      {/* oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- 横にスクロールする pre は、キーボードで焦点が入らないと矢印キーでスクロールできない（axe: scrollable-region-focusable） */}
       <pre tabIndex={0} {...preProps}>
         {children}
       </pre>

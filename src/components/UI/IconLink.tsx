@@ -59,6 +59,7 @@ export function IconLink({ tooltip, className, size, ...element }: IconLinkProps
     inner = <Link {...shared} {...rest} />;
   } else {
     const { as, ...rest } = element;
+    // oxlint-disable-next-line jsx-a11y/anchor-has-content -- 空のリンクではない。children と aria-label は rest で渡り、型（CommonProps）が両方を必須にしている
     inner = <a {...shared} {...rest} rel="noreferrer" target="_blank" />;
   }
 

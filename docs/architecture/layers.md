@@ -32,17 +32,17 @@ Feature Module 構造は `Page/` 配下のドメインにも適用できる。�
 
 ## 🔴 レイヤー依存関係 (CRITICAL)
 
-層ごとに、import しない先を次の表に示す。biome は [biome.json](../../biome.json) の `noRestrictedImports` の overrides で lint の error にする（コミット時の nano-staged と、`.github/workflows/pr-validation.yml` の `npm run lint`）。dependency-cruiser は [.dependency-cruiser.js](../../.dependency-cruiser.js) の規則に当たる import を PR の依存関係レポート（`.github/workflows/pr-dependency-graph-report.yml`）に示すが、違反があってもワークフローは失敗しない。
+層ごとに、import しない先を次の表に示す。oxlint は [.oxlintrc.json](../../.oxlintrc.json) の `overrides` に書いた `no-restricted-imports` で lint の error にする（コミット時の nano-staged と、`.github/workflows/pr-validation.yml` の `npm run lint`）。dependency-cruiser は [.dependency-cruiser.js](../../.dependency-cruiser.js) の規則に当たる import を PR の依存関係レポート（`.github/workflows/pr-dependency-graph-report.yml`）に示すが、違反があってもワークフローは失敗しない。
 
-| import する側   | import しない先                                                      | 検出                      |
-| --------------- | -------------------------------------------------------------------- | ------------------------- |
-| `UI/`           | `App/`・`Page/`・`Functional/`                                       | biome・dependency-cruiser |
-| `Functional/`   | `App/`・`Page/`・`UI/`                                               | biome・dependency-cruiser |
-| `Page/`         | `App/`                                                               | biome・dependency-cruiser |
-| `Page/_shared/` | 個別のページ（`Archive/`・`Home/`・`NotFound/`・`Post/`・`Single/`） | biome                     |
-| `App/`          | `Page/`                                                              | dependency-cruiser        |
+| import する側   | import しない先                                                      | 検出                       |
+| --------------- | -------------------------------------------------------------------- | -------------------------- |
+| `UI/`           | `App/`・`Page/`・`Functional/`                                       | oxlint・dependency-cruiser |
+| `Functional/`   | `App/`・`Page/`・`UI/`                                               | oxlint・dependency-cruiser |
+| `Page/`         | `App/`                                                               | oxlint・dependency-cruiser |
+| `Page/_shared/` | 個別のページ（`Archive/`・`Home/`・`NotFound/`・`Post/`・`Single/`） | oxlint                     |
+| `App/`          | `Page/`                                                              | dependency-cruiser         |
 
-barrel 経由の import と `~/styled-system/*` の直接 import の禁止、biome の設定の書き方は、[linting.md](../tooling/linting.md#レイヤー依存--import) にある。
+barrel 経由の import と `~/styled-system/*` の直接 import の禁止、oxlint の設定の書き方は、[linting.md](../tooling/linting.md#レイヤー依存--import) にある。
 
 ## 参照
 

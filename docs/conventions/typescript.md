@@ -11,7 +11,7 @@
 
 ## 🟡 推奨
 
-- import の並びは Biome の `organizeImports` に任せ、手で並べない（コミット時の `biome check --write` が並べ替える。[linting.md](../tooling/linting.md)）
+- import の並びは oxfmt の `sortImports` に任せ、手で並べない（コミット時の `oxfmt` が並べ替える。[linting.md](../tooling/linting.md)）
 - 命名: コンポーネントは PascalCase、ユーティリティは camelCase
 
 ## JSDoc

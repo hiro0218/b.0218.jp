@@ -66,14 +66,14 @@ src/components/Page/_shared/ArticleCard.test.tsx
 - 手動 dev server は HTTPS 必須: `https://localhost:8080`。
 - Playwright E2E は `playwright.e2e.config.ts` の `webServer` と `baseURL` に従う（現在は `http://127.0.0.1:3100`）。
 - タイムアウトベースのアサーションを避け、deterministic な待機を使用する。
-- `waitForTimeout`, `waitUntil: 'networkidle'`, `waitForNavigation`, `{ force: true }`, `page.pause()` は禁止（Biome error）。
-- `waitForSelector`, ElementHandle, `$eval` は locator / web-first assertion へ寄せる（Biome warn）。
+- `waitForTimeout`, `waitUntil: 'networkidle'`, `waitForNavigation`, `{ force: true }`, `page.pause()` は禁止（oxlint error）。
+- `waitForSelector`, ElementHandle, `$eval` は locator / web-first assertion へ寄せる（oxlint warn）。
 - Next の `window.__NEXT_HYDRATED` は、Next のテストモードだけで立つ。アプリには、`src/components/App/Header/Layout.tsx` が effect のあとに立てる `data-is-mounted` がある。
 - 検索の `/` キーは、listener を effect で登録する。`load` の直後に押すと開かない。操作の前に `header[data-is-mounted="true"]` を待つ（`tests/e2e/helpers/searchDialog.ts`）。
 - 操作を `expect(...).toPass()` でやり直さない。hydration の直後の 1 回目が効かない退行を、2 回目で通して隠すため。
 
 待機は時間や通信の静止ではなく、ユーザーから見える完了状態、URL、イベントを待つ。失敗時にアプリの未完了状態を検出でき、flake を隠さないためである。
-Biome warn は既存移行の猶予であり、新規コードでの推奨ではない。
+oxlint の warn は既存移行の猶予であり、新規コードでの推奨ではない。
 
 | 避ける API                       | 置換先                                                                      |
 | -------------------------------- | --------------------------------------------------------------------------- |

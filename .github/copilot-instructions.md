@@ -46,5 +46,5 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## npx の既知問題(この作業環境)
 
-- `npx biome check` / `npx vitest` が「could not determine executable to run」で失敗することがある(argv からバイナリ名が欠落し、サブコマンドをパッケージ名として private registry へ解決しに行く。原因未確定・rtk 介在の疑い)。プロジェクトローカルの CLI は `./node_modules/.bin/<tool>` を直接実行する
+- `npx vitest` が「could not determine executable to run」で失敗することがある(argv からバイナリ名が欠落し、サブコマンドをパッケージ名として private registry へ解決しに行く。原因未確定・rtk 介在の疑い)。プロジェクトローカルの CLI は `./node_modules/.bin/<tool>` を直接実行する
 - 失敗した npx 実行がエラー要約風の出力(例: `Lint: 2 errors`)を混ぜてきた場合、その件数は信用せず direct binary の再実行結果だけで判定する

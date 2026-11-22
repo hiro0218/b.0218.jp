@@ -21,7 +21,6 @@ vi.mock('next/script', async () => {
 vi.mock('@next/third-parties/google', async () => {
   const { createElement } = await import('react');
   return {
-    // biome-ignore lint/style/useNamingConvention: camelCase に直さない。React コンポーネントのモックには PascalCase の名前が必要なため
     GoogleAnalytics: ({ gaId }: { gaId: string }) => createElement('script', { id: `ga:${gaId}` }),
   };
 });

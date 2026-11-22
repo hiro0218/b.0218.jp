@@ -63,7 +63,6 @@ const nextConfig = {
       rules: [
         ...rules,
         {
-          // biome-ignore lint/performance/useTopLevelRegex :no need for top-level regex
           test: /src\/.*\/index\.ts?$/,
           sideEffects: false,
         },

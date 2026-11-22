@@ -45,9 +45,7 @@ export const getPopularArticles = async (): Promise<Record<string, number>> => {
 
   const analyticsDataClient = new BetaAnalyticsDataClient({
     credentials: {
-      // biome-ignore lint/style/useNamingConvention: Google APIの仕様に合わせたスネークケース
       client_email: googleAnalyticsConfig.clientEmail,
-      // biome-ignore lint/style/useNamingConvention: Google APIの仕様に合わせたスネークケース
       private_key: googleAnalyticsConfig.privateKey,
     },
   });

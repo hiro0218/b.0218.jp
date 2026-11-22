@@ -71,10 +71,7 @@ export function PostTag({ tags, size, labelClassName }: PostTagProps) {
 
         return isAnchor ? (
           <Link className={tagClassName} href={tagPath(slug)} key={slug} rel="tag">
-            {/**
-             * noLeakedRender は三項演算子の else 側に変数を置くと指摘する（slug は string でリークしない）。
-             * 回避のため否定条件で分岐を入れ替えており、span を常に付けると DOM が変わるため採らない
-             */}
+            {/* span を常には付けない。labelClassName が無いときに付けると DOM が変わるため */}
             {!labelClassName ? slug : <span className={labelClassName}>{slug}</span>}
             {/**
              * aria-label は使わない。可視テキスト（slug+件数）とラベルの文字列が一致しないと

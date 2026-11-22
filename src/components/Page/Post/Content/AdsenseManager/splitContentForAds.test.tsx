@@ -3,12 +3,10 @@ import { describe, expect, it } from 'vitest';
 import { splitContentForAds } from './splitContentForAds';
 
 function buildHeadingContent(headingCount: number): ReactNode[] {
-  // biome-ignore-start lint/suspicious/noArrayIndexKey: テスト用の固定回数生成データで、生成後に順序が変わることはない
   return Array.from({ length: headingCount }, (_, i) => [
     <h2 key={`h${i + 1}`}>見出し{i + 1}</h2>,
     <p key={`p${i + 1}`}>本文{i + 1}</p>,
   ]).flat();
-  // biome-ignore-end lint/suspicious/noArrayIndexKey: テスト用の固定回数生成データで、生成後に順序が変わることはない
 }
 
 describe('splitContentForAds', () => {

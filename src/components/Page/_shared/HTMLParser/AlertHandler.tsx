@@ -14,7 +14,7 @@ export const handleAlert: Replacer = (domNode) => {
   const alertData = parseAlertData(domToReact(domNode.children as DOMNode[]) as string);
 
   if (!alertData) {
-    // biome-ignore lint/complexity/noUselessFragments: 不正な placeholder を DOM に残さず空に置換する
+    // 不正な placeholder を DOM に残さず空に置換する
     return <></>;
   }
 
