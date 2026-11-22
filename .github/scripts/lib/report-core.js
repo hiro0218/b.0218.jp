@@ -6,11 +6,12 @@
 /**
  * Next.js 16対応バンドルサイズ解析スクリプト（コアロジック）
  *
- * Next.js 16の変更点:
- * - app-build-manifest.jsonが廃止
- * - build-manifest.jsonにrootMainFilesが追加（グローバルバンドル）
- * - App Routerのチャンクは.next/static/chunks/app/に配置
- * - app-paths-manifest.jsonでページパスとファイルをマッピング
+ * ルートごとの代表の静的 HTML から、初回に読み込む JS（noModule を除く <script src>）を数える。
+ * webpack と Turbopack のどちらのビルドでも、同じ方法で数えられる。
+ *
+ * build-manifest.json の rootMainFiles と static/chunks/app のチャンクは使わない。
+ * Turbopack の出力には app/ が無く、チャンクの名前は内容のハッシュだけで、ビルドごとに変わる。
+ * 名前を比較の単位にすると、PR の比較はチャンクが変わるたびに、すべてを新規ページとして報告する。
  */
 
 import fs from 'fs';
@@ -18,25 +19,7 @@ import { gzipSizeSync } from 'gzip-size';
 import path from 'path';
 import { getBuildOutputDirectory, getOptions, safeReadJSON, safeWriteFile } from '../utils.js';
 
-// Hash pattern constants for Next.js build outputs
-// Next.js generates content hashes with hexadecimal characters (0-9a-f)
-// Minimum hash length is typically 8 characters, but can be longer
-const NEXT_JS_HASH_MIN_LENGTH = 8;
-
-// Pattern to match and remove Next.js build hash suffix from App Router paths
-// Example: "page-89866720651bb81e" -> removes "-89866720651bb81e"
-const NEXT_JS_BUILD_HASH_SUFFIX = /-[0-9a-f]+$/;
-
-// Pattern to match chunk files with hash in filename
-// Example: "framework-abc123.js" or "123.abc123.js"
-const NEXT_JS_CHUNK_HASH_PATTERN = new RegExp(`[-\\.][0-9a-f]{${NEXT_JS_HASH_MIN_LENGTH},}\\.js$`);
-
-// Pattern to extract numeric chunk ID from filename
-// Example: "117.abc123.js" -> captures "117"
-const NUMERIC_CHUNK_ID_PATTERN = /^([0-9]+)\..*\.js$/;
-
-// Pattern to match .js file extension
-const JS_FILE_EXTENSION_PATTERN = /\.js$/;
+const SCRIPT_TAG = /<script\b[^>]*\bsrc="\/_next\/([^"]+)"[^>]*>/g;
 
 /**
  * バンドル解析を実行してJSONを出力する
@@ -58,63 +41,43 @@ export function runReport({ cwd = process.cwd(), options = getOptions(cwd), logg
     );
   }
 
+  const prerenderManifestPath = path.join(nextMetaRoot, 'prerender-manifest.json');
+  const prerenderManifest = safeReadJSON(prerenderManifestPath);
+
+  if (!prerenderManifest) {
+    throw new Error(`prerender-manifest.json not found at ${prerenderManifestPath}`);
+  }
+
   const memoryCache = new Map();
 
-  const buildMetaPath = path.join(nextMetaRoot, 'build-manifest.json');
-  const buildMeta = safeReadJSON(buildMetaPath);
+  // ルートの全ページを読まない。同じルートのページは同じ JS を読むため、最初の 1 ページだけを読む
+  const scriptsByRoute = new Map();
+  for (const [routePath, route] of Object.entries(prerenderManifest.routes)) {
+    // route handler（feed.xml など）は HTML を持たない
+    // global-error は root layout を置き換えて JS が少ない。共通の JS の算出に入れると、共通分が runtime だけに縮む
+    if (route.routeType !== 'page' || route.srcRoute === '/_global-error' || scriptsByRoute.has(route.srcRoute)) {
+      continue;
+    }
 
-  if (!buildMeta) {
-    throw new Error(`build-manifest.json not found at ${buildMetaPath}`);
+    const fileName = routePath === '/' ? 'index' : routePath.slice(1);
+    const html = fs.readFileSync(path.join(nextMetaRoot, 'server/app', `${fileName}.html`), 'utf8');
+    scriptsByRoute.set(route.srcRoute, extractScripts(html));
   }
 
-  let globalBundle = buildMeta.rootMainFiles || [];
-  let globalBundleSizes = getScriptSizes(globalBundle, nextMetaRoot, memoryCache, logger);
-
-  if (buildMeta.polyfillFiles && buildMeta.polyfillFiles.length > 0) {
-    const polyfillSizes = getScriptSizes(buildMeta.polyfillFiles, nextMetaRoot, memoryCache, logger);
-    globalBundleSizes.raw += polyfillSizes.raw;
-    globalBundleSizes.gzip += polyfillSizes.gzip;
+  if (scriptsByRoute.size === 0) {
+    throw new Error(`No prerendered page found in ${path.join(nextMetaRoot, 'server/app')}`);
   }
 
-  let allPageSizes = {};
+  // 全ルートの HTML が共通して読む JS が、グローバルのバンドル
+  const globalScripts = [...scriptsByRoute.values()].reduce((common, scripts) =>
+    common.filter((script) => scripts.includes(script)),
+  );
+  const globalBundleSizes = getScriptSizes(globalScripts, nextMetaRoot, memoryCache, logger);
 
-  const appChunksDir = path.join(nextMetaRoot, 'static/chunks/app');
-  const sharedChunksDir = path.join(nextMetaRoot, 'static/chunks');
-
-  logger.log(`\n📂 Checking app chunks directory: ${appChunksDir}`);
-  logger.log(`   Exists: ${fs.existsSync(appChunksDir)}`);
-
-  if (fs.existsSync(appChunksDir)) {
-    const topLevelItems = fs.readdirSync(appChunksDir);
-    logger.log(
-      `   Top-level items (${topLevelItems.length}): ${topLevelItems.slice(0, 5).join(', ')}${topLevelItems.length > 5 ? '...' : ''}`,
-    );
-
-    const appPageSizes = scanJsFilesRecursively({
-      dir: appChunksDir,
-      basePath: '',
-      hashPattern: NEXT_JS_BUILD_HASH_SUFFIX,
-      pathPrefix: '/_app/',
-      nextMetaRoot,
-      memoryCache,
-      logger,
-    });
-    Object.assign(allPageSizes, appPageSizes);
-  }
-
-  if (fs.existsSync(sharedChunksDir)) {
-    const files = fs.readdirSync(sharedChunksDir);
-
-    files.forEach((file) => {
-      if (file.endsWith('.js') && !globalBundle.some((gb) => gb.includes(file))) {
-        const scriptPath = `static/chunks/${file}`;
-        const sizes = getScriptSizes([scriptPath], nextMetaRoot, memoryCache, logger);
-
-        let cleanFileName = file.replace(NEXT_JS_CHUNK_HASH_PATTERN, '.js').replace(NUMERIC_CHUNK_ID_PATTERN, '$1.js');
-
-        allPageSizes[`/_shared/${cleanFileName}`] = sizes;
-      }
-    });
+  const allPageSizes = {};
+  for (const [route, scripts] of scriptsByRoute) {
+    const ownScripts = scripts.filter((script) => !globalScripts.includes(script));
+    allPageSizes[route] = getScriptSizes(ownScripts, nextMetaRoot, memoryCache, logger);
   }
 
   const rawData = JSON.stringify({
@@ -126,11 +89,8 @@ export function runReport({ cwd = process.cwd(), options = getOptions(cwd), logg
   logger.log(
     `Global bundle: ${formatBytes(globalBundleSizes.raw)} (raw), ${formatBytes(globalBundleSizes.gzip)} (gzip)`,
   );
-  logger.log(`  - rootMainFiles count: ${globalBundle.length}`);
-  logger.log(`  - polyfillFiles count: ${buildMeta.polyfillFiles ? buildMeta.polyfillFiles.length : 0}`);
-  logger.log(`Total pages analyzed: ${Object.keys(allPageSizes).length}`);
-  logger.log(`  - App chunks found: ${fs.existsSync(appChunksDir) ? 'Yes' : 'No'}`);
-  logger.log(`  - Shared chunks found: ${fs.existsSync(sharedChunksDir) ? 'Yes' : 'No'}`);
+  logger.log(`  - scripts shared by every page: ${globalScripts.length}`);
+  logger.log(`Routes analyzed: ${scriptsByRoute.size}`);
   logger.log('================================\n');
 
   const outputPath = path.join(nextMetaRoot, 'analyze/__bundle_analysis.json');
@@ -142,48 +102,23 @@ export function runReport({ cwd = process.cwd(), options = getOptions(cwd), logg
 }
 
 /**
- * Recursively scans a directory for JavaScript files and calculates their bundle sizes
- * @param {object} params - 実行パラメータ
- * @param {string} params.dir - Directory to scan
- * @param {string} params.basePath - Relative base path for constructing page paths
- * @param {RegExp} params.hashPattern - Pattern to remove from page paths
- * @param {string} params.pathPrefix - Prefix to prepend to page paths
- * @param {string} params.nextMetaRoot - Next.js build output root
- * @param {Map<string, [number, number]>} params.memoryCache - サイズキャッシュ
- * @param {Console} params.logger - ロガー
- * @returns {Object.<string, {raw: number, gzip: number}>} Map of page paths to size data
+ * HTML が初回に読み込む JS の、ビルド出力からの相対パスを返す
+ * 外部のスクリプト（広告・計測など）は、ビルドの成果物ではないので含めない
+ * @param {string} html - 静的 HTML
+ * @returns {string[]} 例: static/chunks/xxxx.js
  */
-export function scanJsFilesRecursively({ dir, basePath, hashPattern, pathPrefix, nextMetaRoot, memoryCache, logger }) {
-  const results = {};
-  const files = fs.readdirSync(dir, { withFileTypes: true });
+function extractScripts(html) {
+  const scripts = new Set();
 
-  files.forEach((file) => {
-    const fullPath = path.join(dir, file.name);
-    const relativePath = path.join(basePath, file.name);
+  for (const [tag, src] of html.matchAll(SCRIPT_TAG)) {
+    // noModule の script は古いブラウザ向けの polyfill で、現行のブラウザは読まない
+    if (/\bnomodule\b/i.test(tag)) continue;
 
-    if (file.isDirectory()) {
-      const subResults = scanJsFilesRecursively({
-        dir: fullPath,
-        basePath: relativePath,
-        hashPattern,
-        pathPrefix,
-        nextMetaRoot,
-        memoryCache,
-        logger,
-      });
-      Object.assign(results, subResults);
-    } else if (file.isFile() && file.name.endsWith('.js')) {
-      const scriptPath = `static/chunks/app/${relativePath}`;
-      const sizes = getScriptSizes([scriptPath], nextMetaRoot, memoryCache, logger);
+    // [slug] のような名前は、HTML では %5Bslug%5D の形で書かれている
+    scripts.add(decodeURIComponent(src.split('?')[0]));
+  }
 
-      let pagePath = `${pathPrefix}${relativePath.replace(/\\/g, '/').replace(JS_FILE_EXTENSION_PATTERN, '')}`;
-      pagePath = pagePath.replace(hashPattern, '');
-
-      results[pagePath] = sizes;
-    }
-  });
-
-  return results;
+  return [...scripts];
 }
 
 /**
