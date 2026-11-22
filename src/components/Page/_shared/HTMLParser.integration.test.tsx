@@ -10,7 +10,6 @@ import { setCacheEntry } from '~/build/article/rehype0218/transform/linkPreview/
 // UI コンポーネント自体の見た目は他テストの対象のため、ここでは復元されたデータだけを見る。
 // jsdom で動かさない。build の変換が使う Shiki の wasm は、jsdom の Blob に無い Blob.prototype.stream() を呼ぶため
 vi.mock('@/components/UI/Alert', () => ({
-  // biome-ignore lint/style/useNamingConvention: React components must be PascalCase
   Alert: ({ html, type }: { html: string; type: string }) => (
     <div data-alert-type={type} data-testid="alert">
       {html}
@@ -19,7 +18,6 @@ vi.mock('@/components/UI/Alert', () => ({
 }));
 
 vi.mock('@/components/UI/LinkPreview', () => ({
-  // biome-ignore lint/style/useNamingConvention: React components must be PascalCase
   LinkPreview: (props: { link: string; title: string; domain: string }) => (
     <div data-link={props.link} data-testid="link-preview">
       {props.title}

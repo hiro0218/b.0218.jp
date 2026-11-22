@@ -1,6 +1,6 @@
 import { DropdownMenu } from '@/components/UI/DropdownMenu';
-import { ICON_SIZE_SM } from '@/ui/iconSizes';
 import { GitHubLogo } from '@/ui/icons/GitHubLogo';
+import { ICON_SIZE_SM } from '@/ui/iconSizes';
 import { css } from '@/ui/styled';
 
 type Props = {

@@ -10,7 +10,7 @@ type TweetLoaderProps = {
 export function TweetLoader({ contentRef }: TweetLoaderProps) {
   const pathname = usePathname();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: This effect should re-run when the pathname changes to load Twitter widgets for the new page.
+  // This effect should re-run when the pathname changes to load Twitter widgets for the new page.
   useEffect(() => {
     if (!contentRef.current) {
       return;

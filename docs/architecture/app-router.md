@@ -26,7 +26,7 @@ Next.js の App Router について、レンダリング、client 境界、`page
 | 複数のページ     | `Page/_shared/`         | `Page/_shared/pageSections.ts`                           |
 
 - ページの対応: ホームは `Page/Home/`、アーカイブとタグ一覧は `Page/Archive/`、記事は `Page/Post/`、固定ページは `Page/Single/`。
-- 強制: [biome.json](../../biome.json) の `noRestrictedImports` が、これらのファイルによる `@/ui/styled` の `css`・`styled` の import を error にする。`cx` は許す。
+- 強制: [.oxlintrc.json](../../.oxlintrc.json) の `no-restricted-imports` が、これらのファイルによる `@/ui/styled` の `css`・`styled` の import を error にする。`cx` は許す。
 - 対象外: `layout.tsx`・`not-found.tsx`・`route.ts` など、`page.tsx` 以外のファイル。
 
 ## 🟡 ルートグループ名 (IMPORTANT)

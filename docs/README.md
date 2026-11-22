@@ -8,7 +8,7 @@
 | [design-system/](./design-system/) | デザイン原則、デザイントークン、UI の用語                                                    |
 | [components/](./components/)       | コンポーネントの設計。余白とレイアウト、Props と JSDoc、状態や操作を持つ部品、Storybook      |
 | [conventions/](./conventions/)     | 書き方の規約。TypeScript、Panda CSS、パフォーマンス、テスト、ドキュメント                    |
-| [tooling/](./tooling/)             | 開発ツールの設定と使い方。Biome、設定ファイルの確認、MCP サーバー                            |
+| [tooling/](./tooling/)             | 開発ツールの設定と使い方。oxlint・oxfmt、設定ファイルの確認、MCP サーバー                    |
 
 Claude Code が読み込む規則は、`.claude/rules/` にある。規則には本文を書かず、作業の種類ごとに `paths` で範囲を決めて、この `docs/` の文書を組み合わせて指す。
 

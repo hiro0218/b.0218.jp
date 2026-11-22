@@ -52,7 +52,6 @@ describe('similarity index module', () => {
 
   const mockRelatedPosts = { test1: { test2: 0.75 }, test2: { test1: 0.75 } };
 
-  // biome-ignore lint/style/useNamingConvention: テストの定数にはオリジナルの命名規則を維持
   const PATH_DIST = `${process.cwd()}/dist`;
 
   /**

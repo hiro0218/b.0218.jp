@@ -152,7 +152,7 @@ export function useSearch({ popularPosts, inputRef, onRequestClose }: UseSearchO
   }, [query]);
 
   // 結果の先頭を自動で選ばない。自動で選ぶと、入力の途中で入れ替わる結果の先頭を、Enter が開いてしまうため。↓ を押したときに初めて結果へ入る。
-  // biome-ignore lint/correctness/useExhaustiveDependencies: results を依存配列から外さない。何も選んでいないまま結果が入れ替わっても、一覧を先頭へ戻す契機にしているため
+  // results を依存配列から外さない。何も選んでいないまま結果が入れ替わっても、一覧を先頭へ戻す契機にしているため
   useLayoutEffect(() => {
     listRef.current?.scrollTo({ top: 0, behavior: 'auto' });
   }, [results]);

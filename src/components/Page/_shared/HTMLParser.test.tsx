@@ -8,7 +8,6 @@ import {
 } from '@/lib/domain/embeddedContent';
 
 vi.mock('@/components/UI/Alert', () => ({
-  // biome-ignore lint/style/useNamingConvention: React components must be PascalCase
   Alert: ({ html, type }: { html: string; type: string }) => (
     <div data-alert-type={type} data-testid="alert">
       {html}
@@ -17,7 +16,6 @@ vi.mock('@/components/UI/Alert', () => ({
 }));
 
 vi.mock('@/components/UI/LinkPreview', () => ({
-  // biome-ignore lint/style/useNamingConvention: React components must be PascalCase
   LinkPreview: (props: { link: string; title: string; domain: string }) => (
     <div data-link={props.link} data-testid="link-preview">
       {props.title}

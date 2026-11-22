@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { StructuredData } from '@/components/Functional/StructuredData';
-import { PostSection } from '@/components/Page/_shared/PostSection';
 import { pageSections } from '@/components/Page/_shared/pageSections';
+import { PostSection } from '@/components/Page/_shared/PostSection';
 import { TagSection } from '@/components/Page/_shared/TagSection';
 import { HomeHero } from '@/components/Page/Home/Hero';
 import { SectionInner } from '@/components/UI/Layout/SectionInner';

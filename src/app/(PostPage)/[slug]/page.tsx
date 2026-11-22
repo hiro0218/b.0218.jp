@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getMetadata } from '@/app/_metadata';
 import { getPostPageData } from '@/app/(PostPage)/[slug]/_lib/services/getPostPageData';
+import { getMetadata } from '@/app/_metadata';
 import { StructuredData } from '@/components/Functional/StructuredData';
-import { PostSection } from '@/components/Page/_shared/PostSection';
 import { pageSections } from '@/components/Page/_shared/pageSections';
+import { PostSection } from '@/components/Page/_shared/PostSection';
 import { TagSection } from '@/components/Page/_shared/TagSection';
 import { PostActions } from '@/components/Page/Post/Actions';
 import { PostContent } from '@/components/Page/Post/Content';
@@ -99,10 +99,7 @@ export default async function Page({ params }: { params: Params }) {
             <a className="p-author h-card" href={AUTHOR_URL} rel="author">
               {AUTHOR_NAME}
             </a>
-            {/**
-             * biome-ignore lint/a11y/useAnchorContent: 親 div が hidden のため実際には誰にも到達不能
-             * Bridgy Fed 公式ドキュメントの例が空リンクを要求
-             */}
+            {/* oxlint-disable-next-line jsx-a11y/anchor-has-content -- 親 div が hidden のため実際には誰にも到達不能。Bridgy Fed 公式ドキュメントの例が空リンクを要求 */}
             <a className="u-bridgy-fed" href={BRIDGY_FED_URL} />
           </div>
           <PostHeader date={date} tagsWithCount={tagsWithCount} title={title} updated={updated}>

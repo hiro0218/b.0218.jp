@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getMetadata } from '@/app/_metadata';
 import type { StaticTagPageParam } from '@/app/(ArchivePage)/tags/[slug]/_lib/tagArchiveModel';
 import {
   createTagArchiveMetadataModel,
@@ -9,9 +8,10 @@ import {
   getTagArchivePageHref,
   parseTagPageSegment,
 } from '@/app/(ArchivePage)/tags/[slug]/_lib/tagArchiveModel';
+import { getMetadata } from '@/app/_metadata';
 import { StructuredData } from '@/components/Functional/StructuredData';
-import { PostSection } from '@/components/Page/_shared/PostSection';
 import { pageSections } from '@/components/Page/_shared/pageSections';
+import { PostSection } from '@/components/Page/_shared/PostSection';
 import { TagSection } from '@/components/Page/_shared/TagSection';
 import { ArchivePagination } from '@/components/Page/Archive/Pagination';
 import { Stack } from '@/components/UI/Layout/Stack';

@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 120,
+  "singleQuote": true,
+  // CSS-in-JS の中の CSS は整形しない。整形すると position-try-fallbacks のような複数値の宣言が複数行に展開され、現状の書き方から変わるため
+  "embeddedLanguageFormatting": "off",
+  "sortImports": { "partitionByNewline": true, "newlinesBetween": false },
+  "ignorePatterns": ["**/*.css", ".github/scripts", "_article"]
+}

@@ -14,7 +14,7 @@ export function AdsenseManager({ content }: AdsenseManagerProps) {
       {sections.map((section, index) => {
         const isContinued = index > 0;
         return (
-          // biome-ignore lint/suspicious/noArrayIndexKey: sections は記事本文から静的に導出され、レンダリング中に順序や件数が変わらない
+          // oxlint-disable-next-line react/no-array-index-key -- sections は記事本文から静的に導出され、レンダリング中に順序や件数が変わらない
           <Fragment key={index}>
             {isContinued ? <ArticleAd /> : null}
             <div className="post-content">{section}</div>

@@ -8,7 +8,7 @@ vi.mock('~/dist/search.json', () => ({
     searchIndex: { react: [0] },
     searchData: [{ slug: 'react-note', title: 'React のメモ', tags: [] }],
   },
-  // biome-ignore lint/suspicious/noThenProperty: lint に従って then を外さない。外すと import() が拒否されず、読み込みの失敗を再現できないため
+  // oxlint-disable-next-line unicorn/no-thenable -- lint に従って then を外さない。外すと import() が拒否されず、読み込みの失敗を再現できないため
   get then() {
     if (!shouldFailToLoad) return undefined;
 
