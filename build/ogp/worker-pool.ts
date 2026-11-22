@@ -34,7 +34,6 @@ export class WorkerPool {
       const workerPosts = posts.slice(start, end);
 
       const worker = cluster.fork({
-        // biome-ignore lint/style/useNamingConvention: environment variable
         WORKER_SCRIPT: join(__dirname, 'screenshot-worker.ts'),
       });
 

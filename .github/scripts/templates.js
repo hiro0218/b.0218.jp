@@ -14,10 +14,9 @@ export const DETAILS_GLOBAL_BUNDLE = `
 <details>
 <summary>Details</summary>
 <p>The <strong>global bundle</strong> is the javascript bundle that loads alongside every page. It is in its own category because its impact is much higher - an increase to its size means that every page on your website loads slower, and a decrease means every page loads faster.</p>
-<p>For Pages Router, the global bundle is based on _app.js. For App Router, it's based on the root layout file.</p>
-<p>Pages with [App] prefix are from the App Router, others are from the Pages Router.</p>
+<p>The sizes are measured from the scripts in the prerendered HTML of each route (scripts for <code>noModule</code> browsers are not counted).</p>
 <p>Any third party scripts you have added directly to your app using the <code>&lt;script&gt;</code> tag are not accounted for in this analysis</p>
-<p>If you want further insight into what is behind the changes, give <a href='https://www.npmjs.com/package/@next/bundle-analyzer'>@next/bundle-analyzer</a> a try!</p>
+<p>If you want further insight into what is behind the changes, run <code>npm run build:analyzer</code> (<code>next analyze</code>).</p>
 </details>
 
 `

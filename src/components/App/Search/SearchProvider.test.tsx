@@ -35,9 +35,8 @@ function StubSearchDialog({ isClosing, popularPosts, onRequestCloseAction, onClo
 }
 
 vi.mock('./SearchDialog', () => ({
-  // biome-ignore lint/style/useNamingConvention: React component mock requires PascalCase
   SearchDialog: StubSearchDialog,
-  // biome-ignore lint/suspicious/noThenProperty: import() の拒否を再現するため、意図して then を持たせる（失敗させない間は undefined）
+  // oxlint-disable-next-line unicorn/no-thenable -- import() の拒否を再現するため、意図して then を持たせる（失敗させない間は undefined）
   get then() {
     dialogImportCount += 1;
     if (!shouldFailToLoad) return undefined;

@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
 
 import { DropdownMenu } from '@/components/UI/DropdownMenu';
-import { ICON_SIZE_SM } from '@/ui/iconSizes';
 import { GitHubLogo } from '@/ui/icons/GitHubLogo';
+import { ICON_SIZE_SM } from '@/ui/iconSizes';
 
 const meta = {
   title: 'UI/DropdownMenu',

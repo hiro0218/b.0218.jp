@@ -13,6 +13,9 @@ const getStaticGenerationConfig = () => {
   };
 };
 
+// generateBuildId と env で別々に git を呼ばない。ビルドの途中で HEAD が動くと、.next/BUILD_ID と OGP の ts が食い違うため
+const buildId = nextBuildId.sync({ dir: import.meta.dirname });
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -24,7 +27,6 @@ const nextConfig = {
   experimental: {
     scrollRestoration: false,
     ...getStaticGenerationConfig(),
-    webpackBuildWorker: true,
     optimizePackageImports: [
       '@react-aria/dialog',
       '@react-aria/focus',
@@ -36,47 +38,22 @@ const nextConfig = {
       'html-react-parser',
       'react-stately',
     ],
-    webpackMemoryOptimizations: true,
   },
 
   logging: {
     browserToTerminal: true,
   },
 
-  // Turbopack configuration (empty to acknowledge and silence webpack warning)
-  turbopack: {},
+  generateBuildId: () => buildId,
 
-  generateBuildId: () => nextBuildId({ dir: import.meta.dirname }),
+  env: {
+    BUILD_ID: buildId,
+  },
 
   modularizeImports: {
     '@radix-ui': {
       transform: '@radix-ui/{{member}}',
     },
-  },
-
-  webpack(config, { webpack, buildId }) {
-    const module = config.module || {};
-    const rules = module.rules || {};
-
-    config.module = {
-      ...module,
-      rules: [
-        ...rules,
-        {
-          // biome-ignore lint/performance/useTopLevelRegex :no need for top-level regex
-          test: /src\/.*\/index\.ts?$/,
-          sideEffects: false,
-        },
-      ],
-    };
-
-    config.plugins.push(
-      new webpack.DefinePlugin({
-        'process.env.BUILD_ID': JSON.stringify(buildId),
-      }),
-    );
-
-    return config;
   },
 
   async redirects() {

@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "prebuild": "bash build/prebuild.sh",
-    "build": "TZ='Asia/Tokyo' next build --webpack",
-    "build:analyzer": "ANALYZE=true next build --webpack",
+    "build": "TZ='Asia/Tokyo' next build",
+    "build:analyzer": "next analyze",
     "build:article": "TZ='Asia/Tokyo' NODE_OPTIONS='--disable-warning=ExperimentalWarning' node --require esbuild-register ./build/article",
     "build:ogp": "node --require esbuild-register ./build/ogp/index.ts",
     "build:popular": "node --require esbuild-register ./build/popular",
@@ -13,15 +13,15 @@
     "build:category": "node --require esbuild-register ./build/category",
     "build:similarity": "node --require esbuild-register ./build/similarity",
     "coverage": "vitest run --coverage",
-    "dev": "NODE_OPTIONS='--inspect' next dev -p 8080 --experimental-https --webpack",
+    "dev": "NODE_OPTIONS='--inspect' next dev -p 8080 --experimental-https",
     "dev:ogp": "DEBUG=true node --require esbuild-register ./build/ogp/server.tsx",
     "knip": "knip",
     "knip:fix": "knip --fix --allow-remove-files",
     "knip:report": "knip --reporter json > knip-report.json",
-    "lint": "biome check src build scripts tests",
+    "lint": "oxlint src scripts tests && oxfmt --check src build scripts tests",
     "lint:css": "stylelint \"src/**/*.{css,ts,tsx}\"",
     "lint:markup": "markuplint \"src/**/*.{jsx,tsx}\"",
-    "lint:write": "biome check --write --unsafe src build scripts tests",
+    "lint:write": "oxlint --fix --fix-suggestions src scripts tests && oxfmt src build scripts tests",
     "prepare": "husky && playwright install chromium-headless-shell && panda codegen",
     "start": "next start",
     "storybook": "panda codegen && storybook dev -p 6006",
@@ -39,11 +39,11 @@
   },
   "nano-staged": {
     "**/*.{ts,tsx,js,mjs}": [
-      "biome check --write",
+      "oxlint --fix --no-error-on-unmatched-pattern",
+      "oxfmt --no-error-on-unmatched-pattern",
       "bash -c 'tsc --noEmit --skipLibCheck'"
     ],
     "**/*.{ts,tsx}": [
-      "biome check --write",
       "stylelint --fix --cache"
     ],
     "**/*.css": [
@@ -100,7 +100,6 @@
     "shokika.css": "1.8.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.8",
     "@google-analytics/data": "6.1.0",
     "@hono/node-server": "2.1.11",
     "@markuplint/jsx-parser": "5.6.1",
@@ -128,6 +127,8 @@
     "dependency-cruiser": "18.7.2",
     "esbuild": "0.28.2",
     "esbuild-register": "3.6.0",
+    "eslint": "10.15.0",
+    "eslint-plugin-playwright": "2.12.2",
     "fdir": "6.5.0",
     "gray-matter": "4.0.3",
     "hast-util-is-element": "3.0.0",
@@ -142,6 +143,8 @@
     "mdast-util-find-and-replace": "3.0.5",
     "nano-staged": "1.0.2",
     "next-build-id": "3.0.0",
+    "oxfmt": "0.79.0",
+    "oxlint": "1.94.0",
     "p-limit": "7.3.3",
     "playwright-chromium": "1.64.1",
     "postcss": "8.5.33",

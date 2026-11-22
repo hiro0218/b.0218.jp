@@ -10,6 +10,7 @@ let failDialogLoad = false;
 vi.mock('./ZoomImage/Dialog', (importOriginal) =>
   importOriginal<typeof import('./ZoomImage/Dialog')>().then((actual) => {
     const namespace = { ...actual };
+    // oxlint-disable-next-line unicorn/no-thenable -- import() の拒否を再現するため、意図して then を持たせる（失敗させない間は undefined）
     Object.defineProperty(namespace, 'then', {
       configurable: true,
       enumerable: true,

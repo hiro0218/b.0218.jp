@@ -34,7 +34,7 @@ export const useMokuji = ({ refContent, pathname }: Props): ReturnProps => {
   const mokujiDetailsRef = useRef<HTMLDetailsElement>(null);
   const mokujiListContainerRef = useRef<HTMLDivElement>(null);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: pathnameはルーティング毎に目次を再生成するために必要
+  // pathnameはルーティング毎に目次を再生成するために必要
   useEffect(() => {
     if (!mokujiListContainerRef.current || !mokujiContainerRef.current || !refContent.current) {
       return;

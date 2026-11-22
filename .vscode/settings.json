@@ -1,7 +1,6 @@
 {
   "editor.codeActionsOnSave": {
-    "source.organizeImports.biome": "explicit",
-    "source.fixAll.biome": "explicit"
+    "source.fixAll.oxc": "explicit"
   },
   "github.copilot.chat.codeGeneration.useInstructionFiles": true,
   "chat.promptFiles": true,

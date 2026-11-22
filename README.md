@@ -13,7 +13,7 @@ This repository contains the source code for `b.0218.jp`, a Japanese-focused blo
 
 ### Development
 
-- [Biome](https://biomejs.dev/) - Fast linter and formatter
+- [oxlint](https://oxc.rs/docs/guide/usage/linter) and [oxfmt](https://oxc.rs/docs/guide/usage/formatter) - Fast linter and formatter
 - [Vitest](https://vitest.dev/) - Unit testing framework
 - [Playwright](https://playwright.dev/) - Screenshot generation for OG images
 
@@ -194,10 +194,10 @@ npm run coverage
 ### Linting
 
 ```bash
-# Check code with Biome
+# Check code with oxlint and oxfmt
 npm run lint
 
-# Auto-fix with Biome
+# Auto-fix with oxlint and oxfmt
 npm run lint:write
 
 # Lint CSS

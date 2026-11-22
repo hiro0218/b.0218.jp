@@ -1,0 +1,199 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "import", "react", "jsx-a11y", "nextjs"],
+  "categories": { "correctness": "error" },
+  "options": { "reportUnusedDisableDirectives": "warn" },
+  "ignorePatterns": ["_article", ".github/scripts", "build/**", "public/**", "**/*.config.js"],
+  "rules": {
+    "no-unused-vars": ["error", {"ignoreRestSiblings": true}],
+    "oxc/no-barrel-file": ["error", {"threshold": 0}],
+    "typescript/no-explicit-any": "error",
+    "typescript/consistent-type-imports": ["warn", {"disallowTypeAnnotations": false}],
+    "react/exhaustive-deps": "warn",
+    "react/no-array-index-key": "error",
+    "jsx-a11y/no-noninteractive-tabindex": "warn",
+    "nextjs/no-img-element": "off",
+    "nextjs/no-assign-module-variable": "off",
+    "jsx-a11y/prefer-tag-over-role": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/control-has-associated-label": "off",
+    "react/set-state-in-effect": "off",
+    "unicorn/no-useless-spread": "off"
+  },
+  // 各 override の no-restricted-imports から barrel（**/index）の patterns を省かない。
+  // 同じ rule の options は後ろの override が丸ごと置き換えるため、省いた層では barrel import が通る
+  "overrides": [
+    {
+      "files": ["src/app/**/*.{ts,tsx}"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"},
+              {"group": ["@/lib/distLoader/*", "@/lib/distLoader/**"], "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/components/**/*.{ts,tsx}"],
+      "excludeFiles": ["src/components/**/*.stories.{ts,tsx}"],
+      "rules": {
+        "import/no-default-export": "error"
+      }
+    },
+    {
+      "files": ["src/**/*.{ts,tsx}"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"}
+            ]
+          }
+        ]
+      }
+    },
+    // この override を src/**/*.{ts,tsx} の override より前へ動かさない。後ろが options を置き換え、css・styled の禁止が効かなくなる
+    {
+      "files": ["src/app/**/page.tsx", "src/app/**/_lib/*Page.tsx"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [
+              {"name": "@/ui/styled", "importNames": ["css", "styled"], "message": "page.tsx にスタイルを定義しないでください。src/components/Page/ の対応する場所に定義して import してください"}
+            ],
+            "patterns": [
+              {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"},
+              {"group": ["@/lib/distLoader/*", "@/lib/distLoader/**"], "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/components/App/**/*.{ts,tsx}"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"},
+              {"group": ["@/lib/distLoader/*", "@/lib/distLoader/**"], "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"},
+              {"group": ["~/styled-system/*", "~/styled-system/**"], "message": "@/ui/styled 経由で import してください"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/components/UI/**/*.{ts,tsx}"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"},
+              {"group": ["@/components/UI/*/*", "@/components/UI/*/**", "!@/components/UI/Layout/*"], "message": "UI module の内部ファイルを直接 import しないでください。公開入口を経由してください"},
+              {"group": ["@/lib/distLoader/*", "@/lib/distLoader/**"], "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"},
+              {"group": ["@/components/App/*", "@/components/App/**"], "message": "UI層からApp層への依存は禁止されています"},
+              {"group": ["@/components/Page/*", "@/components/Page/**"], "message": "UI層からPage層への依存は禁止されています"},
+              {"group": ["@/components/Functional/*", "@/components/Functional/**"], "message": "UI層からFunctional層への依存は禁止されています"},
+              {"group": ["~/styled-system/*", "~/styled-system/**"], "message": "@/ui/styled 経由で import してください"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/components/Functional/**/*.{ts,tsx}"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"},
+              {"group": ["@/lib/distLoader/*", "@/lib/distLoader/**"], "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"},
+              {"group": ["@/components/App/*", "@/components/App/**"], "message": "Functional層からApp層への依存は禁止されています"},
+              {"group": ["@/components/Page/*", "@/components/Page/**"], "message": "Functional層からPage層への依存は禁止されています"},
+              {"group": ["@/components/UI/*", "@/components/UI/**"], "message": "Functional層からUI層への依存は禁止されています"},
+              {"group": ["~/styled-system/*", "~/styled-system/**"], "message": "@/ui/styled 経由で import してください"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/components/Page/_shared/**/*.{ts,tsx}"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"},
+              {"group": ["@/lib/distLoader/*", "@/lib/distLoader/**"], "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"},
+              {"group": ["@/components/App/*", "@/components/App/**"], "message": "Page/_shared層からApp層への依存は禁止されています"},
+              {"group": ["@/components/Page/Archive/*", "@/components/Page/Archive/**"], "message": "Page/_shared層から個別Page層への依存は禁止されています"},
+              {"group": ["@/components/Page/Home/*", "@/components/Page/Home/**"], "message": "Page/_shared層から個別Page層への依存は禁止されています"},
+              {"group": ["@/components/Page/NotFound/*", "@/components/Page/NotFound/**"], "message": "Page/_shared層から個別Page層への依存は禁止されています"},
+              {"group": ["@/components/Page/Post/*", "@/components/Page/Post/**"], "message": "Page/_shared層から個別Page層への依存は禁止されています"},
+              {"group": ["@/components/Page/Single/*", "@/components/Page/Single/**"], "message": "Page/_shared層から個別Page層への依存は禁止されています"},
+              {"group": ["~/styled-system/*", "~/styled-system/**"], "message": "@/ui/styled 経由で import してください"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/components/Page/Archive/**/*.{ts,tsx}", "src/components/Page/Home/**/*.{ts,tsx}", "src/components/Page/NotFound/**/*.{ts,tsx}", "src/components/Page/Post/**/*.{ts,tsx}", "src/components/Page/Single/**/*.{ts,tsx}"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"},
+              {"group": ["@/lib/distLoader/*", "@/lib/distLoader/**"], "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"},
+              {"group": ["@/components/App/*", "@/components/App/**"], "message": "Page層からApp層への依存は禁止されています"},
+              {"group": ["~/styled-system/*", "~/styled-system/**"], "message": "@/ui/styled 経由で import してください"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/lib/**/*.{ts,tsx}"],
+      "excludeFiles": ["src/lib/source/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"}
+            ]
+          }
+        ]
+      }
+    },
+    // oxlint の組み込みプラグインに Playwright 用のものが無いため、ESLint 用の eslint-plugin-playwright を jsPlugins（alpha）で読む
+    {
+      "files": ["tests/**/*.{ts,tsx}"],
+      "jsPlugins": ["eslint-plugin-playwright"],
+      "rules": {
+        "playwright/missing-playwright-await": "error",
+        "playwright/no-force-option": "error",
+        "playwright/no-networkidle": "error",
+        "playwright/no-page-pause": "error",
+        "playwright/no-wait-for-navigation": "error",
+        "playwright/no-wait-for-timeout": "error",
+        "playwright/no-element-handle": "warn",
+        "playwright/no-eval": "warn",
+        "playwright/no-wait-for-selector": "warn",
+        "playwright/no-useless-await": "warn"
+      }
+    }
+  ]
+}

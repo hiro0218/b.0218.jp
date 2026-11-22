@@ -9,7 +9,6 @@ import { css, styled } from '@/ui/styled';
 
 function pushAd() {
   try {
-    // biome-ignore lint/suspicious/noAssignInExpressions: AdSense SDK の初期化パターン
     (window.adsbygoogle = window.adsbygoogle || []).push({});
   } catch (error) {
     console.error('Failed to load AdSense ad:', error);
@@ -22,7 +21,7 @@ function pushAd() {
 export function ArticleAd() {
   const pathname = usePathname();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname を依存配列から外さない。ルートが変わるたびに広告を読み込み直す契機にしているため
+  // pathname を依存配列から外さない。ルートが変わるたびに広告を読み込み直す契機にしているため
   useEffect(() => {
     pushAd();
   }, [pathname]);

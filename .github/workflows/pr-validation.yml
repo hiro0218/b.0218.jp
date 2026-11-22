@@ -49,7 +49,7 @@ jobs:
       - if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci --ignore-scripts
 
-      - name: Biome
+      - name: Lint
         run: npm run lint
 
   test:
