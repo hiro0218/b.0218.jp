@@ -69,9 +69,9 @@ jobs:
               path: .next/cache
               # ci.yml の build ジョブと同じキーにして、ビルドキャッシュを共有する。
               # hashFiles は {ts,tsx} のような波括弧を展開しないため、波括弧は使わない。
-              key: next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**') }}
+              key: next-turbopack-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**') }}
               restore-keys: |
-                next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
+                next-turbopack-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
 
           # Lighthouse は package.json に入れず、この計測だけで使う。バージョンはここで固定する。
           - name: Install Lighthouse
@@ -84,7 +84,7 @@ jobs:
           SKIP_OGP: 'true'
         run: |
           npm run prebuild
-          ./node_modules/.bin/next build --webpack
+          ./node_modules/.bin/next build
 
       - name: Measure Core Web Vitals
         run: bash scripts/cwv-measure.sh "$RUNNER_TEMP/lighthouse/node_modules/.bin/lighthouse" cwv-reports

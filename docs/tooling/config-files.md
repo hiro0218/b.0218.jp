@@ -7,7 +7,7 @@
 
 ## 必須チェック（最小）
 
-- `next.config.mjs`: `reactCompiler` の有効/無効
+- `next.config.mjs`: `reactCompiler` の有効/無効と、バンドラー。バンドラーは Turbopack（`next dev`・`next build` の既定）である。`webpack()` は Turbopack に認識されないので、書かない。`BUILD_ID` は `env` で埋め込む
 - `.oxlintrc.json`: `plugins`・`categories` の基本設定 + `rules`・`overrides` に書く例外、`no-restricted-imports`（レイヤー依存）、`ignorePatterns`
 - `.oxfmtrc.json`: `printWidth`・`singleQuote`・`sortImports`（import の並べ替え）、`ignorePatterns`
 - `panda.config.mts`: `theme.tokens` の定義

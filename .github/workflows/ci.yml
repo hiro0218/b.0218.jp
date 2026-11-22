@@ -59,9 +59,10 @@ jobs:
               path: .next/cache
               # hashFiles は {ts,tsx} のような波括弧を展開せず、一致なしを空文字にする。
               # 波括弧を使うとキーがソースの変更に追従せず、ビルドキャッシュが更新されなくなる。
-              key: next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**') }}
+              # キーの先頭を next-cache- に戻さない。webpack のキャッシュ(約 400 MB)を復元して保存し直し続け、Turbopack のキャッシュ(約 50 MB)に上乗せされるため。
+              key: next-turbopack-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/**') }}
               restore-keys: |
-                next-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
+                next-turbopack-cache-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
 
       - name: Prebuild and next build
         env:
@@ -69,7 +70,7 @@ jobs:
           SKIP_OGP: 'true'
         run: |
           npm run prebuild
-          ./node_modules/.bin/next build --webpack
+          ./node_modules/.bin/next build
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v7.0.2
