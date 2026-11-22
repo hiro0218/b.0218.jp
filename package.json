@@ -100,7 +100,7 @@
     "shokika.css": "1.8.0"
   },
   "devDependencies": {
-    "@google-analytics/data": "6.1.0",
+    "@google-analytics/data": "7.3.0",
     "@hono/node-server": "2.1.11",
     "@markuplint/jsx-parser": "5.6.1",
     "@markuplint/react-spec": "5.6.1",
