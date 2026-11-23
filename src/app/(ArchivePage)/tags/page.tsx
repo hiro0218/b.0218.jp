@@ -7,7 +7,6 @@ import { SITE_URL, TAG_VIEW_LIMIT } from '@/constants';
 import { getWebPageStructured } from '@/lib/domain/json-ld';
 import { getTagsWithCount } from '@/lib/source/tag';
 import { tagPermalink } from '@/lib/tag/navigation';
-import { tagFromUrlPath } from '@/lib/tag/url';
 import type { TagCounts } from '@/types/source';
 
 type ListItemProps = Parameters<typeof getWebPageStructured>[0]['listItem'];
@@ -28,7 +27,7 @@ const url = `${SITE_URL}/tags`;
 const listItem: ListItemProps = tags.slice(0, 20).map(({ name }, i) => ({
   '@type': 'ListItem',
   position: i + 1,
-  name: tagFromUrlPath(name),
+  name,
   url: tagPermalink(name),
 }));
 
