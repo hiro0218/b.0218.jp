@@ -25,11 +25,11 @@ const description = `${tags.length}件のタグ`;
 const url = `${SITE_URL}/tags`;
 
 // 構造化データのリスト
-const listItem: ListItemProps = tags.slice(0, 20).map(({ slug }, i) => ({
+const listItem: ListItemProps = tags.slice(0, 20).map(({ name }, i) => ({
   '@type': 'ListItem',
   position: i + 1,
-  name: tagFromUrlPath(slug),
-  url: tagPermalink(slug),
+  name: tagFromUrlPath(name),
+  url: tagPermalink(name),
 }));
 
 export const metadata: Metadata = getMetadata({

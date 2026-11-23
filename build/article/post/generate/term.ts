@@ -57,9 +57,9 @@ export async function buildTerm(posts: Post[]): Promise<void> {
   Log.info('Write dist/tags.json');
 
   const tagsWithCount = Object.entries(tagsMap)
-    .map(([slug, val]) => {
+    .map(([name, val]) => {
       return {
-        slug: slug,
+        name: name,
         count: val.length,
       };
     })

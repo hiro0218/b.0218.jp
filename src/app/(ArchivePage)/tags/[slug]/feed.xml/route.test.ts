@@ -48,8 +48,8 @@ const fullPosts = new Map<string, Post>([
 ]);
 
 const tags: TagCounts[] = [
-  { slug: 'test', count: 3 },
-  { slug: 'small', count: 2 },
+  { name: 'test', count: 3 },
+  { name: 'small', count: 2 },
 ];
 
 function mockSources() {

@@ -96,9 +96,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  const tagList: MetadataRoute.Sitemap = tags.flatMap(({ slug, count }) => {
-    const permalink = tagPermalink(slug);
-    const latestTagPostDate = latestTagPostDateMap.get(slug);
+  const tagList: MetadataRoute.Sitemap = tags.flatMap(({ name, count }) => {
+    const permalink = tagPermalink(name);
+    const latestTagPostDate = latestTagPostDateMap.get(name);
     const firstPage: MetadataRoute.Sitemap[number] = {
       url: permalink,
       lastModified: latestTagPostDate,
@@ -107,7 +107,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
 
     // 2 ページ目以降も独立 URL なので、1 ページ目と同じ lastmod で列挙する。
-    const extraPages = createTagArchivePaginationStaticParams(slug, count).map(({ page }) => ({
+    const extraPages = createTagArchivePaginationStaticParams(name, count).map(({ page }) => ({
       url: `${permalink}/${page}`,
       lastModified: latestTagPostDate,
       changeFrequency: 'weekly' as const,

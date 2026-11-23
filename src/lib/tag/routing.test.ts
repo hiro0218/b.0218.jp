@@ -10,7 +10,7 @@ describe('getRoutableTags', () => {
 
   test('count が TAG_VIEW_LIMIT 未満のタグを除外する', async () => {
     vi.doMock('@/lib/source/tag', () => ({
-      getTagsWithCount: (): TagCounts[] => [{ slug: 'below', count: TAG_VIEW_LIMIT - 1 }],
+      getTagsWithCount: (): TagCounts[] => [{ name: 'below', count: TAG_VIEW_LIMIT - 1 }],
     }));
 
     const { getRoutableTags } = await import('./routing');
@@ -19,20 +19,20 @@ describe('getRoutableTags', () => {
 
   test('count が TAG_VIEW_LIMIT と等しいタグを含める', async () => {
     vi.doMock('@/lib/source/tag', () => ({
-      getTagsWithCount: (): TagCounts[] => [{ slug: 'exact', count: TAG_VIEW_LIMIT }],
+      getTagsWithCount: (): TagCounts[] => [{ name: 'exact', count: TAG_VIEW_LIMIT }],
     }));
 
     const { getRoutableTags } = await import('./routing');
-    expect(getRoutableTags()).toEqual([{ slug: 'exact', count: TAG_VIEW_LIMIT }]);
+    expect(getRoutableTags()).toEqual([{ name: 'exact', count: TAG_VIEW_LIMIT }]);
   });
 
   test('count が TAG_VIEW_LIMIT を超えるタグを含める', async () => {
     vi.doMock('@/lib/source/tag', () => ({
-      getTagsWithCount: (): TagCounts[] => [{ slug: 'above', count: TAG_VIEW_LIMIT + 1 }],
+      getTagsWithCount: (): TagCounts[] => [{ name: 'above', count: TAG_VIEW_LIMIT + 1 }],
     }));
 
     const { getRoutableTags } = await import('./routing');
-    expect(getRoutableTags()).toEqual([{ slug: 'above', count: TAG_VIEW_LIMIT + 1 }]);
+    expect(getRoutableTags()).toEqual([{ name: 'above', count: TAG_VIEW_LIMIT + 1 }]);
   });
 });
 
@@ -42,11 +42,11 @@ describe('getRoutableTagStaticParams', () => {
     vi.resetModules();
   });
 
-  test('routable なタグの slug だけを { slug } の配列に変換する', async () => {
+  test('routable なタグの表示名だけを { slug } の配列に変換する', async () => {
     vi.doMock('@/lib/source/tag', () => ({
       getTagsWithCount: (): TagCounts[] => [
-        { slug: 'react', count: TAG_VIEW_LIMIT + 2 },
-        { slug: 'below', count: TAG_VIEW_LIMIT - 1 },
+        { name: 'react', count: TAG_VIEW_LIMIT + 2 },
+        { name: 'below', count: TAG_VIEW_LIMIT - 1 },
       ],
     }));
 
@@ -63,16 +63,16 @@ describe('getRoutableTagByRouteSlug', () => {
 
   test('URL エンコードされたタグ名を解決する', async () => {
     vi.doMock('@/lib/source/tag', () => ({
-      getTagsWithCount: (): TagCounts[] => [{ slug: 'C++', count: TAG_VIEW_LIMIT + 2 }],
+      getTagsWithCount: (): TagCounts[] => [{ name: 'C++', count: TAG_VIEW_LIMIT + 2 }],
     }));
 
     const { getRoutableTagByRouteSlug } = await import('./routing');
-    expect(getRoutableTagByRouteSlug(encodeURIComponent('C++'))).toEqual({ slug: 'C++', count: TAG_VIEW_LIMIT + 2 });
+    expect(getRoutableTagByRouteSlug(encodeURIComponent('C++'))).toEqual({ name: 'C++', count: TAG_VIEW_LIMIT + 2 });
   });
 
   test('該当タグが存在しない場合、null を返す', async () => {
     vi.doMock('@/lib/source/tag', () => ({
-      getTagsWithCount: (): TagCounts[] => [{ slug: 'react', count: TAG_VIEW_LIMIT + 2 }],
+      getTagsWithCount: (): TagCounts[] => [{ name: 'react', count: TAG_VIEW_LIMIT + 2 }],
     }));
 
     const { getRoutableTagByRouteSlug } = await import('./routing');
@@ -81,7 +81,7 @@ describe('getRoutableTagByRouteSlug', () => {
 
   test('count が TAG_VIEW_LIMIT 未満のタグは解決されない', async () => {
     vi.doMock('@/lib/source/tag', () => ({
-      getTagsWithCount: (): TagCounts[] => [{ slug: 'below', count: TAG_VIEW_LIMIT - 1 }],
+      getTagsWithCount: (): TagCounts[] => [{ name: 'below', count: TAG_VIEW_LIMIT - 1 }],
     }));
 
     const { getRoutableTagByRouteSlug } = await import('./routing');

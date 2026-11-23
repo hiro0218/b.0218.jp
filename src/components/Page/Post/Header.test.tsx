@@ -8,7 +8,7 @@ afterEach(cleanup);
 const baseProps = {
   title: '記事の題名',
   date: '2024/01/02',
-  tagsWithCount: [{ slug: 'react', count: 3, isNavigable: true }],
+  tagsWithCount: [{ name: 'react', count: 3, isNavigable: true }],
 };
 
 it('題名を見出しに、日付とタグを並べて描画する', () => {
@@ -47,7 +47,7 @@ it('リンクのタグの場合、タグ名を p-category の span で包み、r
 
 it('リンクでないタグの場合、span 自身に p-category を付ける', () => {
   const { container } = render(
-    <PostHeader {...baseProps} tagsWithCount={[{ slug: 'go', count: 1, isNavigable: false }]} />,
+    <PostHeader {...baseProps} tagsWithCount={[{ name: 'go', count: 1, isNavigable: false }]} />,
   );
 
   expect(container.querySelector('span.p-category')?.textContent).toBe('go');

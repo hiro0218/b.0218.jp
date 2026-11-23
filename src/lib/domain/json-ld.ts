@@ -49,9 +49,9 @@ const getKnowsAbout = (): string[] => {
   const tagCategories = getTagCategoriesJson();
 
   return tagsWithCount
-    .filter((tag) => tagCategories[tag.slug] === 'development')
+    .filter((tag) => tagCategories[tag.name] === 'development')
     .slice(0, KNOWS_ABOUT_LIMIT)
-    .map((tag) => tag.slug);
+    .map((tag) => tag.name);
 };
 
 /** 記事側 JSON-LD の author から参照される Person の識別子 */

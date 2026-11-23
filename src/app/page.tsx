@@ -17,7 +17,7 @@ const recentPosts = getRecentPosts();
 const filteredPosts = getFilteredPosts();
 const popularPosts = getPopularPost(filteredPosts, POPULAR_POST_DISPLAY_LIMIT);
 const tags = tagsWithCount
-  .filter(({ slug, count }) => !isIgnoredPostTag(slug) && count >= 10)
+  .filter(({ name, count }) => !isIgnoredPostTag(name) && count >= 10)
   .slice(0, 25)
   .map((tag) => ({ ...tag, isNavigable: tag.count >= TAG_VIEW_LIMIT }));
 

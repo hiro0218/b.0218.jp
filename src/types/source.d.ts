@@ -133,7 +133,7 @@ export type PostPopularityScores = Record<string, PopularityDetail>;
  * タグカウント型（tags-with-count.json）
  */
 export type TagCounts = {
-  slug: string;
+  name: string;
   count: number;
 };
 

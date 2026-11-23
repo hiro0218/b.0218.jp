@@ -81,10 +81,10 @@ const TAGS_INDEX: TagIndex = {
 };
 
 const TAGS_WITH_COUNT: TagCounts[] = [
-  { slug: 'react', count: 5 },
-  { slug: 'rust', count: 4 },
-  { slug: 'go', count: 1 },
-  { slug: 'onlytag', count: 1 },
+  { name: 'react', count: 5 },
+  { name: 'rust', count: 4 },
+  { name: 'go', count: 1 },
+  { name: 'onlytag', count: 1 },
 ];
 
 const SIMILAR_POSTS_INDEX: PostSimilarityIndex = {
@@ -155,9 +155,9 @@ describe('getPostPageData', () => {
     const data = getPostPageData(POST_MULTI_TAG.slug);
 
     expect(data?.post.tagsWithCount).toEqual([
-      { slug: 'go', count: 1, isNavigable: false },
-      { slug: 'react', count: 5, isNavigable: true },
-      { slug: 'rust', count: 4, isNavigable: true },
+      { name: 'go', count: 1, isNavigable: false },
+      { name: 'react', count: 5, isNavigable: true },
+      { name: 'rust', count: 4, isNavigable: true },
     ]);
   });
 
@@ -178,13 +178,13 @@ describe('getPostPageData', () => {
   it('similarTags は count >= TAG_VIEW_LIMIT のタグだけを count 降順で返す', () => {
     const data = getPostPageData(POST_WITH_SIMILAR.slug);
 
-    expect(data?.similarTags).toEqual([{ slug: 'rust', count: 4, isNavigable: true }]);
+    expect(data?.similarTags).toEqual([{ name: 'rust', count: 4, isNavigable: true }]);
   });
 
   it('mostPopularTag は post の tags の中で count が最大のタグを選ぶ', () => {
     const data = getPostPageData(POST_MULTI_TAG.slug);
 
-    expect(data?.mostPopularTag?.slug).toBe('react');
+    expect(data?.mostPopularTag?.name).toBe('react');
     expect(data?.sameTagPosts.map((post) => post.slug)).not.toContain(POST_MULTI_TAG.slug);
   });
 

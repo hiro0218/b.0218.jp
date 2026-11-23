@@ -39,22 +39,22 @@ const LIMIT_SIMILAR_TAGS = 10;
 // タグページとして存在する（閲覧可能な）タグとその記事数。getRoutableTags() は
 // TAG_VIEW_LIMIT 以上のタグのみを既に絞り込んでキャッシュ済みなので、ここでは
 // 生のタグ→記事索引を読み直さず参照するだけにする。
-const routableTagCounts = new Map(getRoutableTags().map((tag) => [tag.slug, tag.count]));
+const routableTagCounts = new Map(getRoutableTags().map((tag) => [tag.name, tag.count]));
 const similarTagsIndex = getSimilarTag();
 
-function getSimilarTags(tag: string): Array<{ slug: string; count: number; isNavigable: boolean }> {
+function getSimilarTags(tag: string): Array<{ name: string; count: number; isNavigable: boolean }> {
   const similarTags = similarTagsIndex[tag];
   if (!similarTags) {
     return [];
   }
 
-  const validTags: Array<{ slug: string; count: number; isNavigable: boolean }> = [];
+  const validTags: Array<{ name: string; count: number; isNavigable: boolean }> = [];
 
-  for (const slug of Object.keys(similarTags)) {
-    const count = routableTagCounts.get(slug);
+  for (const name of Object.keys(similarTags)) {
+    const count = routableTagCounts.get(name);
 
     if (count !== undefined) {
-      validTags.push({ slug, count, isNavigable: true });
+      validTags.push({ name, count, isNavigable: true });
     }
   }
 
@@ -66,12 +66,12 @@ export function getTagStaticParams() {
 }
 
 export function getTagPaginationStaticParams(): StaticTagPageParam[] {
-  return getRoutableTags().flatMap((tag) => createTagArchivePaginationStaticParams(tag.slug, tag.count));
+  return getRoutableTags().flatMap((tag) => createTagArchivePaginationStaticParams(tag.name, tag.count));
 }
 
 export function getTagArchiveMetadata({ slug, currentPage = 1 }: TagArchiveMetadataOptions): Metadata {
-  const decodedSlug = tagFromUrlPath(slug);
-  const metadata = createTagArchiveMetadataModel({ routeSlug: slug, tag: decodedSlug, currentPage });
+  const name = tagFromUrlPath(slug);
+  const metadata = createTagArchiveMetadataModel({ routeSlug: slug, tag: name, currentPage });
 
   return getMetadata({
     title: metadata.title,
@@ -81,7 +81,7 @@ export function getTagArchiveMetadata({ slug, currentPage = 1 }: TagArchiveMetad
       types: {
         'application/rss+xml': [
           { title: SITE_NAME, url: SITE_FEED_PATH },
-          { title: decodedSlug, url: tagFeedPermalink(decodedSlug) },
+          { title: name, url: tagFeedPermalink(name) },
         ],
       },
     },
@@ -89,20 +89,20 @@ export function getTagArchiveMetadata({ slug, currentPage = 1 }: TagArchiveMetad
 }
 
 export function TagArchivePage({ slug, currentPage = 1 }: TagArchivePageProps) {
-  const decodedSlug = tagFromUrlPath(slug);
-  const posts = getTagPosts(decodedSlug);
+  const name = tagFromUrlPath(slug);
+  const posts = getTagPosts(name);
 
   if (!posts) {
     return notFound();
   }
 
-  const model = createTagArchivePageModel({ routeSlug: slug, tag: decodedSlug, posts, currentPage });
+  const model = createTagArchivePageModel({ routeSlug: slug, tag: name, posts, currentPage });
   if (!model) {
     return notFound();
   }
 
-  const similarTags = getSimilarTags(decodedSlug);
-  const basePath = tagPath(decodedSlug);
+  const similarTags = getSimilarTags(name);
+  const basePath = tagPath(name);
 
   return (
     <>

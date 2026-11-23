@@ -44,7 +44,7 @@
 ## 用語は自分で作らず、具体語で書く
 
 - 説明のための呼び名・略称を即席で作らない（「2 本立て」「例の対応」など）。書き手にしか通じない。すでにある名前で書く。コードの要素はコード上の識別子で、ライブラリや仕様は公式の表記で書く
-- ドメインの語（Post、RawPost、PostSummary、Tag、Slug、Source など）は、[domain-vocabulary.md](../architecture/domain-vocabulary.md) の定義のとおりに書く。名前から意味を推測しない。たとえば `TagCounts.slug` は、URL-safe な slug ではなく、Tag の表示名である
+- ドメインの語（Post、RawPost、PostSummary、Tag、Slug、Source など）は、[domain-vocabulary.md](../architecture/domain-vocabulary.md) の定義のとおりに書く。名前から意味を推測しない。たとえば記事ルートの `params.slug` は、Slug ではなく、`.html` を付けた値（`<Slug>.html`）である
 - UI の語（Inner、Container、Gap、Gutter、Section など）は、[terminology.md](../design-system/terminology.md) の正式名称で書く。既存の API 名を説明するときは、同ファイルの「既存語の扱い」に従い、責務名を併記する
 - 上の 2 つの文書と公式ドキュメントのどちらにも無い呼び名・略語（このリポジトリの中でだけ通じる通称など）は、初出で何を指すかを 1 文で書く。ほかの文書へのリンクは補足にとどめ、定義の代わりにしない
 - 抽象名詞だけで文を組み立てない（「整合性に課題がある」）。何がどうなるのかを具体語で書く（「一覧の件数と詳細の件数が一致しない」）

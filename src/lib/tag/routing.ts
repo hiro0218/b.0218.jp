@@ -14,12 +14,12 @@ export function getRoutableTags(): TagCounts[] {
 
 export function getRoutableTagStaticParams(): { slug: string }[] {
   return getRoutableTags().map((tag) => ({
-    slug: tag.slug,
+    slug: tag.name,
   }));
 }
 
 export function getRoutableTagByRouteSlug(routeSlug: string): TagCounts | null {
-  const decodedSlug = tagFromUrlPath(routeSlug);
+  const name = tagFromUrlPath(routeSlug);
 
-  return getRoutableTags().find((tag) => tag.slug === decodedSlug) ?? null;
+  return getRoutableTags().find((tag) => tag.name === name) ?? null;
 }
