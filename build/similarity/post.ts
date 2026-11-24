@@ -25,9 +25,8 @@ const TAG_SIMILARITY_BASE_THRESHOLD = 0.5; // タグ類似度閾値
 const TAG_SIMILARITY_JACCARD_WEIGHT = 0.4; // ジャッカード係数重み
 const TAG_SIMILARITY_RELATED_WEIGHT = 0.6; // 関連度スコア重み
 
-// キャッシュの初期化
+// similarityCache を消さない。sortedTags に一方向にしか入らないタグの組があり、同じ 2 記事でも向きで類似度が変わる。先に計算した向きの値を両方向に使うので、消すと関連記事の出力が変わる
 const similarityCache = new Map<string, number>();
-const tfIdfCache = new Map<string, { vector: Record<string, number>; norm: number; size: number }>();
 
 const MAX_TOKENIZE_WORKERS = 4;
 const MIN_POSTS_FOR_WORKER_TOKENIZATION = 16;
@@ -106,7 +105,7 @@ async function preprocessPosts(posts: Post[]): Promise<string[][]> {
     const resultChunks = await Promise.all(
       chunkTokenizeJobs(jobs, workerCount).map((chunk) => runTokenizeWorker(chunk)),
     );
-    const processedContents: string[][] = new Array(posts.length);
+    const processedContents: string[][] = Array.from({ length: posts.length }, () => []);
 
     for (const chunk of resultChunks) {
       for (const result of chunk) {
@@ -115,10 +114,6 @@ async function preprocessPosts(posts: Post[]): Promise<string[][]> {
         }
         processedContents[result.index] = result.tokens;
       }
-    }
-
-    for (let i = 0; i < processedContents.length; i++) {
-      processedContents[i] ??= [];
     }
 
     return processedContents;
@@ -137,16 +132,9 @@ function calculateIdf(posts: Post[], processedContents: string[][]): IdfScores {
 }
 
 function calculateTfIdfVectorWithNorm(
-  slug: string,
   tfScores: TfScores,
   idfScores: IdfScores,
 ): { vector: TfIdfVector; norm: number; size: number } {
-  const cacheKey = `tfidf_${slug}`;
-  const cached = tfIdfCache.get(cacheKey);
-  if (cached) {
-    return cached;
-  }
-
   const tfIdfVector: TfIdfVector = {};
   let normSum = 0;
   let size = 0;
@@ -160,9 +148,7 @@ function calculateTfIdfVectorWithNorm(
     }
   }
 
-  const result = { vector: tfIdfVector, norm: Math.sqrt(normSum), size };
-  tfIdfCache.set(cacheKey, result);
-  return result;
+  return { vector: tfIdfVector, norm: Math.sqrt(normSum), size };
 }
 
 function calculateCosineSimilarityWithNorms(
@@ -340,7 +326,7 @@ export async function getRelatedPosts(
 
     try {
       const tfScores = calculateSublinearTf(processedContents[index]);
-      const { vector, norm, size } = calculateTfIdfVectorWithNorm(post.slug, tfScores, idfScores);
+      const { vector, norm, size } = calculateTfIdfVectorWithNorm(tfScores, idfScores);
       tfIdfVectors[post.slug] = vector;
       tfIdfNorms[post.slug] = norm;
       tfIdfSizes[post.slug] = size;
@@ -380,21 +366,10 @@ export async function getRelatedPosts(
   }
 
   // 5. タイムスタンプを事前計算（index ベースの配列）
-  const timestamps: (number | null)[] = new Array(posts.length);
-  for (let i = 0; i < posts.length; i++) {
-    timestamps[i] = getEffectiveTimestamp(posts[i]);
-  }
+  const timestamps = posts.map(getEffectiveTimestamp);
 
   // 6. 各記事の validTags を事前計算（sortedTags に存在するタグのみ）
-  const postValidTags: string[][] = new Array(posts.length);
-  for (let i = 0; i < posts.length; i++) {
-    const tags = posts[i].tags;
-    if (!tags || tags.length === 0) {
-      postValidTags[i] = [];
-    } else {
-      postValidTags[i] = tags.filter((tag) => sortedTags[tag]);
-    }
-  }
+  const postValidTags = posts.map((post) => post.tags?.filter((tag) => sortedTags[tag]) ?? []);
 
   // 7. 各記事に対して関連度計算（同期処理）
   const results: Record<string, Record<string, number>> = Object.create(null);
@@ -516,7 +491,6 @@ export async function getRelatedPosts(
 
   // キャッシュクリア（モジュールグローバルなキャッシュの肥大化を防止）
   similarityCache.clear();
-  tfIdfCache.clear();
 
   return results;
 }
