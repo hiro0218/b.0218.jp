@@ -5,10 +5,12 @@ import { writeDist } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
 import { BUILD_PATHS } from '~/build/shared/paths';
 import { copyDir } from './copyDir';
-import { buildPage, buildPost, buildTerm } from './post/generate';
-import { toPostSummary } from './post/toPostSummary';
+import { buildPage } from './page';
+import { buildPost } from './post';
+import { buildTerm } from './term';
+import { toPostSummary } from './toPostSummary';
 
-loadEnvConfig(process.cwd());
+loadEnvConfig(BUILD_PATHS.root);
 
 async function buildPostList(posts: Post[]): Promise<void> {
   await writeDist('posts-list', toPostSummary(posts));

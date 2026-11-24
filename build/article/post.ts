@@ -5,32 +5,31 @@ import { isContentPreview } from '@/lib/config/environment';
 import type { Post } from '@/types/source';
 import { writeDistPosts } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
-import { createMarkdownToNoteHtmlString, createMarkdownToPostHtmlString } from '../../markdownToHtmlString';
-import { loadCache, saveCache } from '../../rehype0218';
+import { BUILD_PATHS } from '~/build/shared/paths';
 import {
   createPostConversionCacheVersion,
   createRawPostCacheKey,
   loadPostConversionCache,
   savePostConversionCache,
-} from './cache';
+} from './conversionCache';
 import { convertRawPost } from './convert';
+import { loadCache, saveCache } from './linkPreviewCache';
+import { createMarkdownToNoteHtmlString, createMarkdownToPostHtmlString } from './markdownToHtmlString';
 import { buildTagNormalizationMap, normalizeTags } from './normalizeTag';
 import { isValidFrontmatter, parseFrontmatter, type RawPost, tryToIso } from './raw';
-import { getMarkdownFiles, getPath, getSlug } from './utils';
+import { getMarkdownFiles, getSlug } from './utils';
 import { isPubliclyVisible } from './visibility';
-
-const PATH = getPath();
 
 const POST_CONCURRENCY = 4;
 
 export async function buildPost(): Promise<Post[]> {
-  const files = await getMarkdownFiles(`${PATH.from}/_posts`, 1);
+  const files = await getMarkdownFiles(BUILD_PATHS.posts, 1);
 
   const rawPosts: RawPost[] = [];
   const visibilityCtx = { now: new Date(), isContentPreview };
 
   for (const file of files) {
-    const source = readFileSync(`${PATH.from}/_posts/${file}`, 'utf-8');
+    const source = readFileSync(`${BUILD_PATHS.posts}/${file}`, 'utf-8');
     const { frontmatter, markdown } = parseFrontmatter(source);
     if (!isValidFrontmatter(frontmatter)) {
       Log.info(`Skip post with invalid frontmatter: ${file}`);

@@ -2,15 +2,11 @@ import type { Element, Root } from 'hast';
 import { visit } from 'unist-util-visit';
 
 import { SITE_URL } from '@/constants';
-import transformImage from './transform/image';
-import transformLinkPreview from './transform/linkPreview';
-import type { LinkPreviewCache } from './transform/linkPreview/cache';
-import { loadCache, saveCache } from './transform/linkPreview/cache';
-import { handleError } from './transform/linkPreview/handleError';
-import { removeEmptyParagraph } from './transform/paragraph';
-
-export type { LinkPreviewCache };
-export { loadCache, saveCache };
+import type { LinkPreviewCache } from '../linkPreviewCache';
+import { loadCache, saveCache } from '../linkPreviewCache';
+import { readLocalImageDimensions } from './imageDimensions';
+import transformLinkPreview from './linkPreview';
+import { handleError } from './linkPreviewError';
 
 const MAX_CONCURRENCY = 5;
 
@@ -18,6 +14,29 @@ export interface Rehype0218Options {
   /** 外部から渡す共有キャッシュ。指定時は内部で loadCache/saveCache を行わない */
   sharedCache?: LinkPreviewCache;
 }
+
+const transformImage = (node: Element, counter: number) => {
+  node.properties = node.properties || {};
+
+  if (typeof node.properties.src === 'string' && (node.properties.width == null || node.properties.height == null)) {
+    const dimensions = readLocalImageDimensions(node.properties.src);
+    if (dimensions) {
+      node.properties.width ??= dimensions.width;
+      node.properties.height ??= dimensions.height;
+    }
+  }
+
+  if (counter > 0) {
+    node.properties.loading = 'lazy';
+    node.properties.decoding = 'async';
+  }
+};
+
+const removeEmptyParagraph = (node: Element, index: number, parent: Element) => {
+  if (node.children.length === 0) {
+    parent.children.splice(index, 1);
+  }
+};
 
 const rehype0218 = (options?: Rehype0218Options) => {
   return async (tree: Root) => {

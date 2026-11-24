@@ -3,7 +3,7 @@ import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import type { Post } from '@/types/source';
 import { BUILD_PATHS } from '~/build/shared/paths';
-import type { LinkPreviewCache } from '../../rehype0218';
+import type { LinkPreviewCache } from './linkPreviewCache';
 import type { RawPost } from './raw';
 
 type CacheEntry = {

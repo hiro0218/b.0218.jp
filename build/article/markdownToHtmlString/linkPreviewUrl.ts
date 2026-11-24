@@ -1,4 +1,4 @@
-import { handleError } from './handleError';
+import { handleError } from './linkPreviewError';
 
 const IGNORE_DOMAINS = ['jira.atlassian.com', 'www.ups.com', 'web.archive.org'] as const;
 

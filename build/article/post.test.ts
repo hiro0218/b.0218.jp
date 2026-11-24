@@ -7,7 +7,7 @@ import { expect, test, vi } from 'vitest';
 const convert = vi.hoisted(() => vi.fn(async (markdown: string) => `<p>${markdown}</p>`));
 
 vi.mock('~/build/shared/logger');
-vi.mock('../../markdownToHtmlString', () => ({
+vi.mock('./markdownToHtmlString', () => ({
   // 何も足さない fake にしない。実行中にリンクプレビューが増える場合にだけ、保存した版が次回の版と食い違う
   createMarkdownToPostHtmlString: (options: { sharedCache: Record<string, unknown> }) => async (markdown: string) => {
     options.sharedCache['https://example.com/'] = {

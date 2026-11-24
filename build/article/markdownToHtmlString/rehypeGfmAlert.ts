@@ -5,7 +5,7 @@ import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 
 import { ALERT_KINDS, type AlertKind, GFM_ALERT_CLASS_NAME, serializeAlertData } from '@/lib/domain/embeddedContent';
-import { isElementNode, isTextNode } from '../hastUtils';
+import { isElementNode, isTextNode } from './hastUtils';
 
 // ラベルの文字列を、ALERT_KINDS とは別にここへ並べない。並べると、綴りの違う種別が型を通る。runtime の検証で弾かれ、記事の alert が消える
 const ALERT_KIND_BY_LABEL = new Map<string, AlertKind>(ALERT_KINDS.map((kind) => [`[!${kind.toUpperCase()}]`, kind]));

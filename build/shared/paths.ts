@@ -9,6 +9,7 @@ import { FILENAME_POSTS } from '@/constants';
 const ROOT = process.cwd();
 
 export const BUILD_PATHS = {
+  root: ROOT,
   dist: path.join(ROOT, 'dist'),
   distPosts: path.join(ROOT, 'dist', FILENAME_POSTS),
   /** Git submodule（読み取り専用） */

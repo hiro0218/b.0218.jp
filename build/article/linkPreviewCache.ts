@@ -2,7 +2,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { BUILD_PATHS } from '~/build/shared/paths';
-import { normalizeURL } from './url';
+import { normalizeURL } from './markdownToHtmlString/linkPreviewUrl';
 
 type OpgProps = {
   description?: string;

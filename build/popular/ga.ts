@@ -1,6 +1,7 @@
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
 import { loadEnvConfig } from '@next/env';
 import * as Log from '~/build/shared/logger';
+import { BUILD_PATHS } from '~/build/shared/paths';
 
 type GoogleAnalyticsConfig = {
   propertyId: string;
@@ -8,7 +9,7 @@ type GoogleAnalyticsConfig = {
   privateKey: string;
 };
 
-loadEnvConfig(process.cwd());
+loadEnvConfig(BUILD_PATHS.root);
 
 const GA_DATE_RANGE = '183daysAgo';
 const GA_RESULT_LIMIT = 50;

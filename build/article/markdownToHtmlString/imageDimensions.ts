@@ -1,7 +1,7 @@
 import * as fs from 'node:fs';
 import path from 'node:path';
 import { imageSize } from 'image-size';
-import { BUILD_PATHS } from '../../../shared/paths';
+import { BUILD_PATHS } from '../../shared/paths';
 
 export type ImageDimensions = {
   width: number;
