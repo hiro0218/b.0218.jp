@@ -6,6 +6,7 @@ import type { LinkPreviewCache } from '../linkPreviewCache';
 import { readLocalImageDimensions } from './imageDimensions';
 import transformLinkPreview from './linkPreview';
 import { handleError } from './linkPreviewError';
+import { isSiteUrl } from './rehypeExternalLink';
 
 const MAX_CONCURRENCY = 5;
 
@@ -47,9 +48,9 @@ const rehype0218 = (options: Rehype0218Options) => {
 
       if (node.tagName === 'a' && node.children.length > 0) {
         // 同サイトのリンクは絶対パスに変換する
-        if (typeof node.properties.href === 'string' && node.properties.href.includes(SITE_URL)) {
-          const href = node.properties.href.replace(SITE_URL, '');
-          node.properties.href = href;
+        // includes で判定しない。クエリなどに自サイトの URL を含む外部 URL を自サイトと誤り、URL の途中を削るため
+        if (typeof node.properties.href === 'string' && isSiteUrl(node.properties.href)) {
+          node.properties.href = node.properties.href.slice(SITE_URL.length);
         }
 
         if (node.children[0]?.type === 'text') {
