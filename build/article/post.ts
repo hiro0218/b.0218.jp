@@ -1,7 +1,6 @@
 import { readFileSync } from 'node:fs';
 import pLimit from 'p-limit';
 import { FILENAME_POSTS } from '@/constants';
-import { isContentPreview } from '@/lib/config/environment';
 import type { Post } from '@/types/source';
 import { writeDistPosts } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
@@ -28,7 +27,8 @@ export async function buildPost(): Promise<Post[]> {
   const files = await getMarkdownFiles(BUILD_PATHS.posts, 1);
 
   const rawPosts: RawPost[] = [];
-  const visibilityCtx = { now: new Date(), isContentPreview };
+  // モジュールの先頭で評価しない。import 時に決まると、index.ts の loadEnvConfig より先になり、.env の IS_DEVELOPMENT が効かないため
+  const visibilityCtx = { now: new Date(), isContentPreview: process.env.IS_DEVELOPMENT === 'true' };
 
   for (const file of files) {
     const source = readFileSync(`${BUILD_PATHS.posts}/${file}`, 'utf-8');
