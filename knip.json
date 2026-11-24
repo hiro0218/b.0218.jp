@@ -7,7 +7,10 @@
     "src/app/**/not-found.tsx",
     "src/app/**/sitemap.ts",
     "src/app/_metadata.ts",
-    "build/**/*.{ts,tsx}",
+    "build/*/index.ts",
+    "build/similarity/preprocessWorker.ts",
+    "build/ogp/screenshot-worker.ts",
+    "build/ogp/server.tsx",
     "vitest.config.{ts,mts}",
     "panda.config.{ts,mts}",
     "next.config.{js,mjs,ts}"

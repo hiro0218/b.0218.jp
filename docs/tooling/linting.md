@@ -31,19 +31,18 @@ import の並べ替えは、整形（oxfmt の `sortImports`）で行う。昇�
 
 ## ファイル除外
 
-lint と整形は、対象のディレクトリと除外のパターンが異なる。どちらも、`.gitignore` に書かれたパターン（`.next`、`dist`、`styled-system` など）は対象にしない。
+lint と整形は、除外のパターンが異なる。どちらも、`.gitignore` に書かれたパターン（`.next`、`dist`、`styled-system` など）は対象にしない。
 
 ### lint の対象と除外
 
-`npm run lint` の oxlint は `src scripts tests` を対象にする。`.oxlintrc.json` の `ignorePatterns` で、次を除く。
+`npm run lint` の oxlint は `src build scripts tests` を対象にする。`.oxlintrc.json` の `ignorePatterns` で、次を除く。
 
-| パターン          | 理由                                      |
-| ----------------- | ----------------------------------------- |
-| `_article`        | Git submodule（読み取り専用）             |
-| `.github/scripts` | CI スクリプトは対象外                     |
-| `build/**`        | ビルドスクリプト。整形は適用、lint は除外 |
-| `public/**`       | 静的アセット                              |
-| `**/*.config.js`  | 設定ファイルは lint 対象外                |
+| パターン          | 理由                          |
+| ----------------- | ----------------------------- |
+| `_article`        | Git submodule（読み取り専用） |
+| `.github/scripts` | CI スクリプトは対象外         |
+| `public/**`       | 静的アセット                  |
+| `**/*.config.js`  | 設定ファイルは lint 対象外    |
 
 ### 整形の対象と除外
 
@@ -57,8 +56,8 @@ lint と整形は、対象のディレクトリと除外のパターンが異な
 
 ## npm scripts / AI 実行
 
-- `npm run lint`: `oxlint src scripts tests && oxfmt --check src build scripts tests`。CI の `lint` ジョブ（`.github/workflows/pr-validation.yml`）が実行する。`oxfmt --check` は整形の差分を確かめるだけで、ファイルを書き換えない。
-- `npm run lint:write`: `oxlint --fix --fix-suggestions src scripts tests && oxfmt src build scripts tests`。
+- `npm run lint`: `oxlint src build scripts tests && oxfmt --check src build scripts tests`。CI の `lint` ジョブ（`.github/workflows/pr-validation.yml`）が実行する。`oxfmt --check` は整形の差分を確かめるだけで、ファイルを書き換えない。
+- `npm run lint:write`: `oxlint --fix --fix-suggestions src build scripts tests && oxfmt src build scripts tests`。
 - コミット時は、`nano-staged` が staged な `**/*.{ts,tsx,js,mjs}` に `oxlint --fix`、`oxfmt`、`tsc --noEmit --skipLibCheck` を順に実行する。`oxlint` と `oxfmt` に `--no-error-on-unmatched-pattern` を付けるのは、`ignorePatterns` で除外されるファイルだけを渡すと、oxlint は `No files found to lint.` で終了コード 1、oxfmt は `Expected at least one target file.` で終了コード 2 になるためである。
 - 編集ファイルだけを確認する場合は、`./node_modules/.bin/oxlint <files...>` と `./node_modules/.bin/oxfmt --check <files...>` を直接実行する（`npx` はこの作業環境で失敗することがある。詳細は [CLAUDE.md](../../CLAUDE.md) の npx 既知問題を参照）。
 - AI セッション中の自動修正では [oxlint-check Skill](../../.claude/skills/oxlint-check/SKILL.md) を優先し、`--fix` までにとどめる。`--fix-suggestions` は、プログラムの挙動を変えうる修正も適用するため使わない。
@@ -126,11 +125,21 @@ oxlint の組み込みプラグインに Playwright 用のものは無い。`tes
 
 `src/` では `**/index` の import（barrel 経由の import）を禁止し、`oxc/no-barrel-file` で `export * from` 形式の barrel ファイルも作らせない。全レイヤーで `~/styled-system/*` の直接 import も禁止し、`@/ui/styled` 経由に統一する。
 
-禁止は、`overrides` の `no-restricted-imports` に層ごとに書く。同じ規則の options は、後ろの override が前の override の options を置き換え、併合しない。そのため、各 override に barrel（`**/index`）の `patterns` を重ねて書く。`message` は、oxlint の既定の出力では `help:` の行に出る（`--format=unix` には出ない）。
+禁止は、`overrides` の `no-restricted-imports` に層ごとに書く。同じ規則の options は、後ろの override が前の override の options を置き換え、併合しない。そのため、各 override に barrel（`**/index`）の `patterns` を重ねて書く。`src/` の override には、`~/build/**` の `patterns` も重ねる（[build と src の import](#build-と-src-の-import)）。`message` は、oxlint の既定の出力では `help:` の行に出る（`--format=unix` には出ない）。
 
 `src/app/**/page.tsx` と `src/app/**/_lib/*Page.tsx` では、`@/ui/styled` の `css`・`styled` の import も禁止する（[app-router.md](../architecture/app-router.md#-pagetsx-にスタイルを定義しない-critical)）。名前空間 import（`import * as x from '@/ui/styled'`）も検出する。この override は、`src/**/*.{ts,tsx}` の override より後ろに置く。前に置くと、後ろの override が options を置き換えて、`css`・`styled` の禁止が効かなくなる。
 
 `src/app/**/*.{ts,tsx}` の override にある `@/lib/distLoader/*` の禁止は、後ろの `src/**/*.{ts,tsx}` の override が options を置き換えるため、`page.tsx` と `*Page.tsx` 以外の `src/app/` のファイルでは効かない。`src/lib/` の外で `lib/distLoader` を import するファイルは、2026-11-22 時点の `src/` に無い（`rg` で確かめた）。
+
+### build と src の import
+
+`build/**/*.{ts,tsx}` の override は、build が import してよいものを次のように絞る。
+
+- barrel（`**/index`）の import を禁止する。
+- `@/` の import は、build と runtime が共有する契約だけを許す。`@/**` を禁止し、`@/constants`・`@/types/*`・`@/lib/domain/embeddedContent`・`@/lib/tag/key`・`@/lib/search` を、`!` で始まる否定のパターンで除く。Source（`src/lib/source/`）は `~/dist/*.json` を静的に import するため、dist を作る側の build は import しない。
+- `~/dist/**` の import を禁止する。dist は `build/shared/dist.ts` の `readDist`・`writeDist`（記事は `readDistPosts`・`writeDistPosts`）で読み書きする。
+
+逆向きに、`src/` の `no-restricted-imports` を持つ override は、すべて `~/build/**` の import を禁止する。build はビルド時にだけ動くコードのためである。ただし `src/components/Page/_shared/` の override は、`~/build/article/markdownToHtmlString` と `~/build/article/linkPreviewCache` を禁止から除く。往復の統合テスト（`HTMLParser.integration.test.tsx`）が、build の変換器とそのキャッシュを import するためである。`build/article/markdownToHtmlString/` の下のファイルは、ここでも禁止のままである。
 
 ## 抑制コメントの使用基準
 
@@ -161,16 +170,16 @@ oxlint の組み込みプラグインに Playwright 用のものは無い。`tes
 
 次の規則は、lint でも整形でも強制していない。再び強制する場合は、「同等の規則」を手がかりにする。
 
-| 規則の目的                                                                | 強制しない理由                                                                                                                                                                                                                                                                                                                                                                                                                                              | 同等の規則                                                     |
-| ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| 識別子の命名規則（PascalCase・camelCase）の強制                           | oxlint に同等の規則が無い。現在のコードには、camelCase でない名前を意図して使う箇所がある。UPPER_CASE の定数とキー（`src/constants.ts` の `LAYOUT`、`build/similarity/index.test.ts` の `PATH_DIST`）、外部 API のスネークケース（`build/popular/ga.ts` の `client_email`）、環境変数名（`build/ogp/worker-pool.ts` の `WORKER_SCRIPT`）、テストの React コンポーネントのモックのキー（`src/components/Page/_shared/HTMLParser.test.tsx` の `Alert`）である | typescript-eslint の `naming-convention`。oxlint には無い      |
-| 正規表現リテラルを関数の外（モジュールの先頭）に置く                      | oxlint に同等の規則が無い。関数の中の正規表現リテラルは、現在のコードに 13 か所ある                                                                                                                                                                                                                                                                                                                                                                         | oxlint に無い。他の道具の同等の規則は調べていない              |
-| `delete` 演算子の禁止                                                     | oxlint に同等の規則が無い。現在の `delete` は、動的なキーの `delete obj[key]` の 4 か所だけである。oxlint の `typescript/no-dynamic-delete` は動的なキーの `delete` が対象で、この 4 か所をすべて検出するため使っていない                                                                                                                                                                                                                                   | oxlint に無い（`typescript/no-dynamic-delete` は対象が異なる） |
-| JSX の `cond && <X />` で、`cond` が数値のとき `0` が描画される誤りの検出 | oxlint に同等の規則が無い。左辺が数値の `&&` は、現在のコードに無い。左辺が `string` の 2 か所（`src/components/Page/_shared/PostSection.tsx`・`TagSection.tsx` の `href`）は、空文字でも画面に文字が出ない                                                                                                                                                                                                                                                 | eslint-plugin-react の `jsx-no-leaked-render`。oxlint には無い |
-| 配列型の書き方（`T[]`）の統一                                             | `typescript/array-type` は oxlint にあるが、現在のコードの 7 か所（`array`）または 9 か所（`array-simple`）を検出するため有効にしていない                                                                                                                                                                                                                                                                                                                   | oxlint の `typescript/array-type`                              |
-| 型だけを export する宣言に `export type` を求める                         | 型情報を使う規則で、型情報用の追加依存（`oxlint-tsgolint`）が要る。`--type-aware` を付けないと何も検出しない                                                                                                                                                                                                                                                                                                                                                | oxlint の `typescript/consistent-type-exports`                 |
-| JSX 属性の並べ替え                                                        | oxlint・oxfmt のどちらにも無い                                                                                                                                                                                                                                                                                                                                                                                                                              | eslint-plugin-react の `jsx-sort-props`。oxlint には無い       |
-| `export { a } from './a'` 形式の re-export を集めた barrel ファイルの禁止 | `oxc/no-barrel-file` は `export * from` と `export * as ns from` だけを検出し、`export { a } from './a'` は検出しない。現在の `src/` に barrel ファイルは無い（`index.ts(x)` も `export ... from` も 0 件）                                                                                                                                                                                                                                                 | oxlint の `oxc/no-barrel-file`（`export *` 形式だけ）          |
+| 規則の目的                                                                | 強制しない理由                                                                                                                                                                                                                                                                                                                                                                                                                                       | 同等の規則                                                     |
+| ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| 識別子の命名規則（PascalCase・camelCase）の強制                           | oxlint に同等の規則が無い。現在のコードには、camelCase でない名前を意図して使う箇所がある。UPPER_CASE の定数とキー（`src/constants.ts` の `LAYOUT`、`build/shared/paths.ts` の `BUILD_PATHS`）、外部 API のスネークケース（`build/popular/ga.ts` の `client_email`）、環境変数名（`build/ogp/worker-pool.ts` の `WORKER_SCRIPT`）、テストの React コンポーネントのモックのキー（`src/components/Page/_shared/HTMLParser.test.tsx` の `Alert`）である | typescript-eslint の `naming-convention`。oxlint には無い      |
+| 正規表現リテラルを関数の外（モジュールの先頭）に置く                      | oxlint に同等の規則が無い。関数の中の正規表現リテラルは、現在のコードに 13 か所ある                                                                                                                                                                                                                                                                                                                                                                  | oxlint に無い。他の道具の同等の規則は調べていない              |
+| `delete` 演算子の禁止                                                     | oxlint に同等の規則が無い。現在の `delete` は、動的なキーの `delete obj[key]` の 4 か所だけである。oxlint の `typescript/no-dynamic-delete` は動的なキーの `delete` が対象で、この 4 か所をすべて検出するため使っていない                                                                                                                                                                                                                            | oxlint に無い（`typescript/no-dynamic-delete` は対象が異なる） |
+| JSX の `cond && <X />` で、`cond` が数値のとき `0` が描画される誤りの検出 | oxlint に同等の規則が無い。左辺が数値の `&&` は、現在のコードに無い。左辺が `string` の 2 か所（`src/components/Page/_shared/PostSection.tsx`・`TagSection.tsx` の `href`）は、空文字でも画面に文字が出ない                                                                                                                                                                                                                                          | eslint-plugin-react の `jsx-no-leaked-render`。oxlint には無い |
+| 配列型の書き方（`T[]`）の統一                                             | `typescript/array-type` は oxlint にあるが、現在のコードの 7 か所（`array`）または 9 か所（`array-simple`）を検出するため有効にしていない                                                                                                                                                                                                                                                                                                            | oxlint の `typescript/array-type`                              |
+| 型だけを export する宣言に `export type` を求める                         | 型情報を使う規則で、型情報用の追加依存（`oxlint-tsgolint`）が要る。`--type-aware` を付けないと何も検出しない                                                                                                                                                                                                                                                                                                                                         | oxlint の `typescript/consistent-type-exports`                 |
+| JSX 属性の並べ替え                                                        | oxlint・oxfmt のどちらにも無い                                                                                                                                                                                                                                                                                                                                                                                                                       | eslint-plugin-react の `jsx-sort-props`。oxlint には無い       |
+| `export { a } from './a'` 形式の re-export を集めた barrel ファイルの禁止 | `oxc/no-barrel-file` は `export * from` と `export * as ns from` だけを検出し、`export { a } from './a'` は検出しない。現在の `src/` に barrel ファイルは無い（`index.ts(x)` も `export ... from` も 0 件）                                                                                                                                                                                                                                          | oxlint の `oxc/no-barrel-file`（`export *` 形式だけ）          |
 
 件数と有無は、2026-11-22 時点のコードで数えた。
 

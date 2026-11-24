@@ -85,7 +85,7 @@ const checkBreakNode = (node: boolean | ElementContent) => {
 
   try {
     return (node.type === 'element' && node.tagName === 'br') || !!node;
-  } catch (_e) {
+  } catch {
     return false;
   }
 };
