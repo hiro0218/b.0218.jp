@@ -8,8 +8,9 @@
 
 ## 出力先
 
-- 生成物は `dist/` に出力する
+- 生成物は `dist/` に出力する。dist の読み書きは、`build/shared/dist.ts` の `readDist`・`writeDist` を通す。同じファイルの `DistFiles` が、dist のファイル名と型の一覧である
 - OGP 画像は `public/images/ogp/` に出力する
+- 変換のキャッシュは `node_modules/.cache/` に出力する。link-preview の取得結果が `link-preview.json`、記事の変換結果が `post-conversion.json` で、どちらも書くのは `build/article/post.ts` だけである
 
 ## Prebuild
 
@@ -30,7 +31,7 @@
 
 `SKIP_OGP=true npm run prebuild` は OGP 出力や OGP メタデータに関係しないローカル確認でのみ使う。`build/ogp/**`、OGP URL、OGP 画像生成条件を変更した場合、最終確認ではスキップしない。
 
-正確な手順は `build/prebuild.sh` を参照。
+段の順序と並列は `build/prebuild.sh` が決める。上の手順は要点で、正確な手順は `build/prebuild.sh` を参照。
 
 ## 編集可能/不可
 
