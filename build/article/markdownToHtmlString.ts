@@ -66,7 +66,7 @@ export function createMarkdownToNoteHtmlString(): (markdown: string) => Promise<
   };
 }
 
-export function createMarkdownToPostHtmlString(options?: Rehype0218Options): (markdown: string) => Promise<string> {
+export function createMarkdownToPostHtmlString(options: Rehype0218Options): (markdown: string) => Promise<string> {
   const processor = createBaseProcessor()
     .use(rehypeWrapImgWithFigure)
     .use(rehypeGfmAlert)

@@ -1,9 +1,11 @@
 import { createHash } from 'node:crypto';
-import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
 import path from 'node:path';
+import { build, type Plugin } from 'esbuild';
 import type { Post } from '@/types/source';
 import { BUILD_PATHS } from '~/build/shared/paths';
-import type { LinkPreviewCache } from './linkPreviewCache';
+import { type LinkPreviewCache, renderingFields } from './linkPreviewCache';
 import type { RawPost } from './raw';
 
 type CacheEntry = {
@@ -19,13 +21,16 @@ type PostConversionCache = {
 const CACHE_SCHEMA_VERSION = 'post-conversion-v1';
 const CACHE_FILE = path.join(BUILD_PATHS.cache, 'post-conversion.json');
 
-const PIPELINE_SOURCE_PATHS = [
-  path.join(process.cwd(), 'build', 'article'),
-  path.join(process.cwd(), 'src', 'lib', 'post', 'convert.ts'),
-  path.join(process.cwd(), 'src', 'constants.ts'),
-  path.join(process.cwd(), 'package.json'),
-  path.join(process.cwd(), 'package-lock.json'),
-] as const;
+// process.cwd() から求めない。metafile のパスは absWorkingDir からの相対になるので、post.test.ts のように cwd を差し替えると版の入力が変わるため
+const REPO_ROOT = path.resolve(__dirname, '..', '..');
+
+/** npm のパッケージ(node:fs などの組み込みも含む)は辿らず、package-lock.json で代表させる */
+const externalPackages: Plugin = {
+  name: 'external-packages',
+  setup(pluginBuild) {
+    pluginBuild.onResolve({ filter: /^[^./~@]|^@[^/]/ }, () => ({ external: true }));
+  },
+};
 
 function hashString(value: string): string {
   return createHash('sha256').update(value).digest('hex');
@@ -46,46 +51,36 @@ function stableStringify(value: unknown): string {
   return JSON.stringify(value);
 }
 
-function readSourceFiles(target: string): string[] {
-  try {
-    const entries = readdirSync(target, { withFileTypes: true });
-    const files: string[] = [];
+/** 変換の出力を決めるファイルを、convert.ts と markdownToHtmlString.ts から import を辿って集める(リポジトリ直下からの相対パス)。一覧を手で持たない */
+export async function listPipelineSources(): Promise<Array<string>> {
+  const { metafile } = await build({
+    entryPoints: [path.join(__dirname, 'convert.ts'), path.join(__dirname, 'markdownToHtmlString.ts')],
+    absWorkingDir: REPO_ROOT,
+    bundle: true,
+    write: false,
+    metafile: true,
+    platform: 'node',
+    logLevel: 'silent',
+    // outdir を省かない。entry が複数あると esbuild が要求する(write: false なので何も書かれない)
+    outdir: REPO_ROOT,
+    plugins: [externalPackages],
+  });
 
-    for (const entry of entries) {
-      const fullPath = path.join(target, entry.name);
-
-      if (entry.isDirectory()) {
-        files.push(...readSourceFiles(fullPath));
-      } else if ((entry.name.endsWith('.ts') || entry.name.endsWith('.tsx')) && !entry.name.endsWith('.test.ts')) {
-        files.push(fullPath);
-      }
-    }
-
-    return files;
-  } catch {
-    return [];
-  }
+  return [...Object.keys(metafile.inputs), 'package-lock.json'].sort();
 }
 
-function readPipelineSource(target: string): string {
-  try {
-    return readFileSync(target, 'utf-8');
-  } catch {
-    return '';
-  }
+/** 解決できない import があると esbuild が throw する。握りつぶして一覧を空や一部にしない。ソースの変更が版に反映されなくなり、古い変換結果を使い続けるため */
+export async function hashPipelineSources(): Promise<string> {
+  const files = await listPipelineSources();
+  const sources = await Promise.all(
+    files.map(async (file) => `${file}\n${await readFile(path.join(REPO_ROOT, file), 'utf-8')}`),
+  );
+
+  return hashString(sources.join('\n'));
 }
 
-export function createPostConversionCacheVersion(linkPreviewCache: LinkPreviewCache): string {
-  const sourceFiles = PIPELINE_SOURCE_PATHS.flatMap((target) => {
-    if (target.endsWith('.ts') || target.endsWith('.json')) return [target];
-    return readSourceFiles(target);
-  }).sort();
-  const sourceHash = hashString(sourceFiles.map((file) => `${file}\n${readPipelineSource(file)}`).join('\n'));
-
-  const linkPreviewRenderData = Object.entries(linkPreviewCache)
-    .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
-    .map(([key, entry]) => [key, entry.error === true, entry.title, entry.description, entry.image, entry.card]);
-  const linkPreviewHash = hashString(stableStringify(linkPreviewRenderData));
+export function createPostConversionCacheVersion(sourceHash: string, linkPreviewCache: LinkPreviewCache): string {
+  const linkPreviewHash = hashString(stableStringify(renderingFields(linkPreviewCache)));
 
   return hashString(stableStringify([CACHE_SCHEMA_VERSION, sourceHash, linkPreviewHash]));
 }

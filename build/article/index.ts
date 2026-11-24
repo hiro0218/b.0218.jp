@@ -5,7 +5,6 @@ import { writeDist } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
 import { BUILD_PATHS } from '~/build/shared/paths';
 import { copyDir } from './copyDir';
-import { buildPage } from './page';
 import { buildPost } from './post';
 import { buildTerm } from './term';
 import { toPostSummary } from './toPostSummary';
@@ -37,7 +36,6 @@ async function removeLegacyArticleArtifacts(): Promise<void> {
   await Promise.all([
     buildTerm(posts),
     buildPostList(posts),
-    buildPage(),
     copyFiles(),
     writeActivitiesJson(),
     removeLegacyArticleArtifacts(),

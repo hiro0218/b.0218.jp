@@ -3,14 +3,12 @@ import type { Page } from '@/types/source';
 import { writeDist } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
 import { BUILD_PATHS } from '~/build/shared/paths';
-import { createMarkdownToPostHtmlString } from './markdownToHtmlString';
 import { isValidFrontmatter, parseFrontmatter, tryToIso } from './raw';
 import { getMarkdownFiles, getSlug, isAgentFile } from './utils';
 
-export async function buildPage(): Promise<void> {
+export async function buildPage(markdownToPostHtml: (markdown: string) => Promise<string>): Promise<void> {
   const files = await getMarkdownFiles(BUILD_PATHS.article);
   const pages: Page[] = [];
-  const markdownToPostHtml = createMarkdownToPostHtmlString();
 
   for (let i = 0; i < files.length; i++) {
     const file = files[i];

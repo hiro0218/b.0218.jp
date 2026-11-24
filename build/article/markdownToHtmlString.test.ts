@@ -114,14 +114,14 @@ describe('createMarkdownToNoteHtmlString', () => {
 
 describe('createMarkdownToPostHtmlString', () => {
   it('生 HTML に script タグが含まれる場合、それを除去した HTML を返す', async () => {
-    const markdownToHtml = createMarkdownToPostHtmlString();
+    const markdownToHtml = createMarkdownToPostHtmlString({ sharedCache: {} });
     const html = await markdownToHtml('テキスト<script>alert("xss-marker")</script>');
 
     expect(html).not.toContain('xss-marker');
   });
 
   it('img に onerror 属性が含まれる場合、それを除去した HTML を返す', async () => {
-    const markdownToHtml = createMarkdownToPostHtmlString();
+    const markdownToHtml = createMarkdownToPostHtmlString({ sharedCache: {} });
     const html = await markdownToHtml('<img src="/safe.png" onerror="leakMarker()">');
 
     expect(html).toContain('src="/safe.png"');
@@ -130,7 +130,7 @@ describe('createMarkdownToPostHtmlString', () => {
   });
 
   it('a に javascript: URL が含まれる場合、それを除去した HTML を返す', async () => {
-    const markdownToHtml = createMarkdownToPostHtmlString();
+    const markdownToHtml = createMarkdownToPostHtmlString({ sharedCache: {} });
     const html = await markdownToHtml('<a href="javascript:badMarker()">クリック</a>');
 
     expect(html).not.toContain('javascript:');
@@ -139,7 +139,7 @@ describe('createMarkdownToPostHtmlString', () => {
   });
 
   it('コードブロックが含まれる場合、Shiki でハイライトした HTML を返す', async () => {
-    const markdownToHtml = createMarkdownToPostHtmlString();
+    const markdownToHtml = createMarkdownToPostHtmlString({ sharedCache: {} });
     const html = await markdownToHtml('```js\nconst x = 1;\n```');
 
     expect(html).toContain('data-language="js"');
@@ -148,7 +148,7 @@ describe('createMarkdownToPostHtmlString', () => {
   });
 
   it('Shiki 未対応の言語IDが含まれる場合、プレーンテキストのコードブロックを返す', async () => {
-    const markdownToHtml = createMarkdownToPostHtmlString();
+    const markdownToHtml = createMarkdownToPostHtmlString({ sharedCache: {} });
     const html = await markdownToHtml('```jsp\n<% out.println("ok"); %>\n```');
 
     expect(html).toContain('<pre');
@@ -158,7 +158,7 @@ describe('createMarkdownToPostHtmlString', () => {
   });
 
   it('段落内に img が含まれる場合、figure でラップした HTML を返す', async () => {
-    const markdownToHtml = createMarkdownToPostHtmlString();
+    const markdownToHtml = createMarkdownToPostHtmlString({ sharedCache: {} });
     const html = await markdownToHtml('![alt text](/image.png)');
 
     expect(html).toContain('<figure');
@@ -167,7 +167,7 @@ describe('createMarkdownToPostHtmlString', () => {
   });
 
   it('GFM Alert 記法が含まれる場合、class と data 属性と JSON 埋め込み script を返す', async () => {
-    const markdownToHtml = createMarkdownToPostHtmlString();
+    const markdownToHtml = createMarkdownToPostHtmlString({ sharedCache: {} });
     const html = await markdownToHtml('> [!NOTE]\n> 注意事項テキスト');
 
     expect(html).toContain('class="gfm-alert"');

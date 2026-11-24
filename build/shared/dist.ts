@@ -46,6 +46,8 @@ export async function readDist<K extends DistName>(name: K): Promise<DistFiles[K
 
 /** ログを出さない。書いたことを出すか、どんな文言にするかは段ごとに違うため、呼び出し側が決める */
 export async function writeDist<K extends DistName>(name: K, data: DistFiles[K]): Promise<void> {
+  // dist/ を作る役を writeDistPosts だけに任せない。buildPage が記事より先に pages.json を書くので、dist/ が無い状態(CI・Vercel)で始めると書けなくなるため
+  await mkdir(BUILD_PATHS.dist, { recursive: true });
   await writeFile(path.join(BUILD_PATHS.dist, `${name}.json`), JSON.stringify(data));
 }
 

@@ -147,3 +147,9 @@ export const setCacheEntry = (cache: LinkPreviewCache, url: string, ogp: OpgProp
     ...(isError && { error: true }),
   };
 };
+
+/** 変換キャッシュの版の入力。fetchedAt を含めない。取得し直すたびに変わり、描画が同じでも版がずれて全記事を再変換するため */
+export const renderingFields = (cache: LinkPreviewCache): unknown =>
+  Object.entries(cache)
+    .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
+    .map(([key, entry]) => [key, entry.error === true, entry.title, entry.description, entry.image, entry.card]);

@@ -9,6 +9,7 @@ import { BUILD_PATHS } from '~/build/shared/paths';
 import {
   createPostConversionCacheVersion,
   createRawPostCacheKey,
+  hashPipelineSources,
   loadPostConversionCache,
   savePostConversionCache,
 } from './conversionCache';
@@ -16,6 +17,7 @@ import { convertRawPost } from './convert';
 import { loadCache, saveCache } from './linkPreviewCache';
 import { createMarkdownToNoteHtmlString, createMarkdownToPostHtmlString } from './markdownToHtmlString';
 import { buildTagNormalizationMap, normalizeTags } from './normalizeTag';
+import { buildPage } from './page';
 import { isValidFrontmatter, parseFrontmatter, type RawPost, tryToIso } from './raw';
 import { getMarkdownFiles, getSlug } from './utils';
 import { isPubliclyVisible } from './visibility';
@@ -57,7 +59,8 @@ export async function buildPost(): Promise<Post[]> {
 
   // 投稿間で共有し、重複する link-preview 断片がキャッシュヒットするようにする
   const sharedCache = loadCache();
-  const cacheVersion = createPostConversionCacheVersion(sharedCache);
+  const sourceHash = await hashPipelineSources();
+  const cacheVersion = createPostConversionCacheVersion(sourceHash, sharedCache);
   const conversionCache = loadPostConversionCache(cacheVersion);
   const nextCacheEntries: typeof conversionCache.entries = {};
   const limit = pLimit(POST_CONCURRENCY);
@@ -84,11 +87,13 @@ export async function buildPost(): Promise<Post[]> {
       return post;
     }),
   );
+  // Page の変換を saveCache の後ろ(index.ts の並列段)に置かない。保存した版より後に link-preview のエントリが増え、次回の版とずれて全記事を再変換するため
+  await buildPage(markdownToPostHtml);
   saveCache(sharedCache);
 
   // 保存する版は、変換前でなく変換後のリンクプレビューから決める。変換前の版で保存すると、取得したリンクの分だけ次回の版とずれ、全記事が再変換になる
   // キャッシュに当たった記事のキーは付け替えない。変わったリンクプレビューを含むかは調べず、次回は再変換する
-  const savedVersion = createPostConversionCacheVersion(sharedCache);
+  const savedVersion = createPostConversionCacheVersion(sourceHash, sharedCache);
   for (const [raw, post] of converted) {
     nextCacheEntries[raw.slug] = { key: createRawPostCacheKey(raw, savedVersion), post };
   }

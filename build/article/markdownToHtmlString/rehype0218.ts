@@ -3,7 +3,6 @@ import { visit } from 'unist-util-visit';
 
 import { SITE_URL } from '@/constants';
 import type { LinkPreviewCache } from '../linkPreviewCache';
-import { loadCache, saveCache } from '../linkPreviewCache';
 import { readLocalImageDimensions } from './imageDimensions';
 import transformLinkPreview from './linkPreview';
 import { handleError } from './linkPreviewError';
@@ -11,8 +10,8 @@ import { handleError } from './linkPreviewError';
 const MAX_CONCURRENCY = 5;
 
 export interface Rehype0218Options {
-  /** 外部から渡す共有キャッシュ。指定時は内部で loadCache/saveCache を行わない */
-  sharedCache?: LinkPreviewCache;
+  /** プラグインの中で load・save しない。呼び出し側と別のキャッシュができると、増えたエントリが呼び出し側の保存した版に入らず、次回の変換キャッシュの版とずれる。読み書きは呼び出し側(post.ts)だけが行う */
+  sharedCache: LinkPreviewCache;
 }
 
 const transformImage = (node: Element, counter: number) => {
@@ -38,7 +37,7 @@ const removeEmptyParagraph = (node: Element, index: number, parent: Element) => 
   }
 };
 
-const rehype0218 = (options?: Rehype0218Options) => {
+const rehype0218 = (options: Rehype0218Options) => {
   return async (tree: Root) => {
     const nodes = new Set<{ node: Element; index: number; parent: Element }>();
     let imageCounter = 0;
@@ -68,7 +67,6 @@ const rehype0218 = (options?: Rehype0218Options) => {
       }
     });
 
-    const cache = options?.sharedCache ?? loadCache();
     const entries = [...nodes];
 
     // セマフォによる並行数制御（最大5並列）
@@ -85,7 +83,7 @@ const rehype0218 = (options?: Rehype0218Options) => {
         while (running < MAX_CONCURRENCY && idx < entries.length) {
           const { node, index, parent } = entries[idx++];
           running++;
-          transformLinkPreview(node, index, parent, cache)
+          transformLinkPreview(node, index, parent, options.sharedCache)
             .catch((error) => {
               handleError(error, 'Unhandled error in link preview transform');
             })
@@ -102,10 +100,6 @@ const rehype0218 = (options?: Rehype0218Options) => {
 
       next();
     });
-
-    if (!options?.sharedCache) {
-      saveCache(cache);
-    }
   };
 };
 
