@@ -1,6 +1,5 @@
 import type { PostPopularityScores } from '@/types/source';
 import { writeDist } from '~/build/shared/dist';
-import * as Log from '~/build/shared/logger';
 import { getPopularArticles } from './ga';
 import { getBookmarkArticles } from './hatena';
 
@@ -26,5 +25,4 @@ const sortByTotal = (obj: PostPopularityScores): PostPopularityScores =>
   }, {} as PostPopularityScores);
 
   await writeDist('posts-popular', sortByTotal(result));
-  Log.info('Write dist/posts-popular.json');
 })();

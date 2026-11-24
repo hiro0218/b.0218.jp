@@ -26,6 +26,7 @@ const TAG_SIMILARITY_JACCARD_WEIGHT = 0.4; // ジャッカード係数重み
 const TAG_SIMILARITY_RELATED_WEIGHT = 0.6; // 関連度スコア重み
 
 // similarityCache を消さない。sortedTags に一方向にしか入らないタグの組があり、同じ 2 記事でも向きで類似度が変わる。先に計算した向きの値を両方向に使うので、消すと関連記事の出力が変わる
+// 一方向になるのは、build/similarity/tag.ts の calculateTagRelationsNPMI が外側のループで tagRelations.set(tag1, new Map()) を作り直し、先に書いた逆向きの値を消すため。tag.test.ts の test.fails がその記録である
 const similarityCache = new Map<string, number>();
 
 const MAX_TOKENIZE_WORKERS = 4;

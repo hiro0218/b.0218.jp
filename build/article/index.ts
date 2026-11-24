@@ -13,7 +13,6 @@ loadEnvConfig(BUILD_PATHS.root);
 
 async function buildPostList(posts: Post[]): Promise<void> {
   await writeDist('posts-list', toPostSummary(posts));
-  Log.info('Write dist/posts-list.json');
 }
 
 async function copyFiles(): Promise<void> {
@@ -24,7 +23,6 @@ async function copyFiles(): Promise<void> {
 async function writeActivitiesJson(): Promise<void> {
   const activities = JSON.parse(await readFile(BUILD_PATHS.activitiesJson, 'utf8')) as Activities;
   await writeDist('activities', activities);
-  Log.info('Write dist/activities.json');
 }
 
 async function removeLegacyArticleArtifacts(): Promise<void> {

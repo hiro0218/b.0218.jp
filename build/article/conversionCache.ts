@@ -1,8 +1,7 @@
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { readFile } from 'node:fs/promises';
 import path from 'node:path';
-import { build, type Plugin } from 'esbuild';
+import { buildSync } from 'esbuild';
 import type { Post } from '@/types/source';
 import { BUILD_PATHS } from '~/build/shared/paths';
 import { type LinkPreviewCache, renderingFields } from './linkPreviewCache';
@@ -24,14 +23,6 @@ const CACHE_FILE = path.join(BUILD_PATHS.cache, 'post-conversion.json');
 // process.cwd() から求めない。metafile のパスは absWorkingDir からの相対になるので、post.test.ts のように cwd を差し替えると版の入力が変わるため
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 
-/** npm のパッケージ(node:fs などの組み込みも含む)は辿らず、package-lock.json で代表させる */
-const externalPackages: Plugin = {
-  name: 'external-packages',
-  setup(pluginBuild) {
-    pluginBuild.onResolve({ filter: /^[^./~@]|^@[^/]/ }, () => ({ external: true }));
-  },
-};
-
 function hashString(value: string): string {
   return createHash('sha256').update(value).digest('hex');
 }
@@ -52,8 +43,8 @@ function stableStringify(value: unknown): string {
 }
 
 /** 変換の出力を決めるファイルを、convert.ts と markdownToHtmlString.ts から import を辿って集める(リポジトリ直下からの相対パス)。一覧を手で持たない */
-export async function listPipelineSources(): Promise<Array<string>> {
-  const { metafile } = await build({
+export function listPipelineSources(): Array<string> {
+  const { metafile } = buildSync({
     entryPoints: [path.join(__dirname, 'convert.ts'), path.join(__dirname, 'markdownToHtmlString.ts')],
     absWorkingDir: REPO_ROOT,
     bundle: true,
@@ -61,20 +52,18 @@ export async function listPipelineSources(): Promise<Array<string>> {
     metafile: true,
     platform: 'node',
     logLevel: 'silent',
+    // npm のパッケージは辿らず package-lock.json で代表させる。別名(@/・~/)の接頭辞を正規表現で並べて外部扱いを決めない。別名が増えたとき、そのファイルが版の入力から黙って落ちるため
+    packages: 'external',
     // outdir を省かない。entry が複数あると esbuild が要求する(write: false なので何も書かれない)
     outdir: REPO_ROOT,
-    plugins: [externalPackages],
   });
 
   return [...Object.keys(metafile.inputs), 'package-lock.json'].sort();
 }
 
 /** 解決できない import があると esbuild が throw する。握りつぶして一覧を空や一部にしない。ソースの変更が版に反映されなくなり、古い変換結果を使い続けるため */
-export async function hashPipelineSources(): Promise<string> {
-  const files = await listPipelineSources();
-  const sources = await Promise.all(
-    files.map(async (file) => `${file}\n${await readFile(path.join(REPO_ROOT, file), 'utf-8')}`),
-  );
+export function hashPipelineSources(): string {
+  const sources = listPipelineSources().map((file) => `${file}\n${readFileSync(path.join(REPO_ROOT, file), 'utf-8')}`);
 
   return hashString(sources.join('\n'));
 }

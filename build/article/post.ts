@@ -1,6 +1,5 @@
 import { readFileSync } from 'node:fs';
 import pLimit from 'p-limit';
-import { FILENAME_POSTS } from '@/constants';
 import type { Post } from '@/types/source';
 import { writeDistPosts } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
@@ -59,7 +58,7 @@ export async function buildPost(): Promise<Post[]> {
 
   // 投稿間で共有し、重複する link-preview 断片がキャッシュヒットするようにする
   const sharedCache = loadCache();
-  const sourceHash = await hashPipelineSources();
+  const sourceHash = hashPipelineSources();
   const cacheVersion = createPostConversionCacheVersion(sourceHash, sharedCache);
   const conversionCache = loadPostConversionCache(cacheVersion);
   const nextCacheEntries: typeof conversionCache.entries = {};
@@ -114,7 +113,6 @@ export async function buildPost(): Promise<Post[]> {
 
   // 記事単位の個別JSONファイルを生成
   await writeDistPosts(normalizedPosts);
-  Log.info(`Write dist/${FILENAME_POSTS}/ (${normalizedPosts.length} files)`);
 
   return normalizedPosts;
 }

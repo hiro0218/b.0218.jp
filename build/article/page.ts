@@ -45,5 +45,4 @@ export async function buildPage(markdownToPostHtml: (markdown: string) => Promis
   }
 
   await writeDist('pages', pages);
-  Log.info('Write dist/pages.json');
 }

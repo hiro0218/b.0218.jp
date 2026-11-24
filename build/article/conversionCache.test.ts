@@ -3,8 +3,8 @@
 import { expect, test } from 'vitest';
 import { listPipelineSources } from './conversionCache';
 
-test('変換が import するファイルの場合、build と src のソースと package-lock.json を返す', async () => {
-  const sources = await listPipelineSources();
+test('変換が import するファイルの場合、build と src のソースと package-lock.json を返す', () => {
+  const sources = listPipelineSources();
 
   expect(sources).toContain('build/article/convert.ts');
   expect(sources).toContain('build/article/markdownToHtmlString/rehype0218.ts');
@@ -12,8 +12,8 @@ test('変換が import するファイルの場合、build と src のソース�
   expect(sources).toContain('package-lock.json');
 });
 
-test('変換が import しないファイルの場合、node_modules と page.ts を返さない', async () => {
-  const sources = await listPipelineSources();
+test('変換が import しないファイルの場合、node_modules と page.ts を返さない', () => {
+  const sources = listPipelineSources();
 
   expect(sources.filter((file) => file.includes('node_modules'))).toEqual([]);
   expect(sources).not.toContain('build/article/page.ts');

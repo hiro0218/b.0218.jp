@@ -34,7 +34,6 @@ import { labelPropagation } from './labelPropagation';
     Log.info(`分類結果: ${summary}`);
 
     await writeDist('tag-categories', tagCategories);
-    Log.info('Write dist/tag-categories.json');
 
     const elapsed = Math.round((Date.now() - startTime) / 1000);
     Log.info(`タグカテゴリ分類完了 (${elapsed}秒)`);

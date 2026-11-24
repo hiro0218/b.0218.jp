@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { mkdir, readdir, readFile, unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { FILENAME_POSTS } from '@/constants';
 import type { SearchDataPayload } from '@/lib/search';
 import type {
   Activities,
@@ -14,6 +15,7 @@ import type {
   TagIndex,
   TagSimilarityScores,
 } from '@/types/source';
+import * as Log from './logger';
 import { BUILD_PATHS } from './paths';
 
 /** キー(dist/<キー>.json のファイル名)だけを変えない。src が `~/dist/<キー>.json` をリテラルで import し、.github/workflows/pr-validation.yml も同じ名前の fixture を作るため */
@@ -31,7 +33,7 @@ type DistFiles = {
   'tag-categories': TagCategoryMap;
 };
 
-export type DistName = keyof DistFiles;
+type DistName = keyof DistFiles;
 
 /** shape を検証しない。dist の shape は src の Source が SSG で検証するので、ここで二重にしない */
 export async function readDist<K extends DistName>(name: K): Promise<DistFiles[K]> {
@@ -44,11 +46,12 @@ export async function readDist<K extends DistName>(name: K): Promise<DistFiles[K
   }
 }
 
-/** ログを出さない。書いたことを出すか、どんな文言にするかは段ごとに違うため、呼び出し側が決める */
+/** ログはここで出し、呼び出し側に出させない。名前を引数とログの文言に 2 回書かせると、食い違いうるため */
 export async function writeDist<K extends DistName>(name: K, data: DistFiles[K]): Promise<void> {
   // dist/ を作る役を writeDistPosts だけに任せない。buildPage が記事より先に pages.json を書くので、dist/ が無い状態(CI・Vercel)で始めると書けなくなるため
   await mkdir(BUILD_PATHS.dist, { recursive: true });
   await writeFile(path.join(BUILD_PATHS.dist, `${name}.json`), JSON.stringify(data));
+  Log.info(`Write dist/${name}.json`);
 }
 
 /** date の降順で返す */
@@ -72,4 +75,5 @@ export async function writeDistPosts(posts: ReadonlyArray<Post>): Promise<void> 
     (file) => file.endsWith('.json') && !slugs.has(path.basename(file, '.json')),
   );
   await Promise.all(staleFiles.map((file) => unlink(path.join(BUILD_PATHS.distPosts, file))));
+  Log.info(`Write dist/${FILENAME_POSTS}/ (${posts.length} files)`);
 }

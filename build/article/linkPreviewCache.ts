@@ -148,8 +148,8 @@ export const setCacheEntry = (cache: LinkPreviewCache, url: string, ogp: OpgProp
   };
 };
 
-/** 変換キャッシュの版の入力。fetchedAt を含めない。取得し直すたびに変わり、描画が同じでも版がずれて全記事を再変換するため */
+/** 変換キャッシュの版の入力。fetchedAt を含めない。取得し直すたびに変わり、描画が同じでも版がずれて全記事を再変換するため。残りの項目を名前で列挙しない。CacheEntry に項目が増えたとき、版の入力から黙って落ちて古い変換結果を使い続けるため */
 export const renderingFields = (cache: LinkPreviewCache): unknown =>
   Object.entries(cache)
     .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
-    .map(([key, entry]) => [key, entry.error === true, entry.title, entry.description, entry.image, entry.card]);
+    .map(([key, { fetchedAt, ...rest }]) => [key, rest]);
