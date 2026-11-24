@@ -1,5 +1,5 @@
 import { readdirSync, readFileSync } from 'node:fs';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import type { SearchDataPayload } from '@/lib/search';
 import type {
@@ -58,9 +58,16 @@ export function readDistPosts(): Array<Post> {
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
+/** posts に無い JSON を残さない。消した記事や未来日にした記事が dist/posts に残ると、similarity の入力に混ざるため */
 export async function writeDistPosts(posts: ReadonlyArray<Post>): Promise<void> {
   await mkdir(BUILD_PATHS.distPosts, { recursive: true });
   await Promise.all(
     posts.map((post) => writeFile(path.join(BUILD_PATHS.distPosts, `${post.slug}.json`), JSON.stringify(post))),
   );
+
+  const slugs = new Set(posts.map((post) => post.slug));
+  const staleFiles = (await readdir(BUILD_PATHS.distPosts)).filter(
+    (file) => file.endsWith('.json') && !slugs.has(path.basename(file, '.json')),
+  );
+  await Promise.all(staleFiles.map((file) => unlink(path.join(BUILD_PATHS.distPosts, file))));
 }
