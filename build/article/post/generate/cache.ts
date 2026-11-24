@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import type { Post } from '@/types/source';
+import { BUILD_PATHS } from '~/build/shared/paths';
 import type { LinkPreviewCache } from '../../rehype0218';
 import type { RawPost } from './raw';
 
@@ -16,8 +17,7 @@ type PostConversionCache = {
 };
 
 const CACHE_SCHEMA_VERSION = 'post-conversion-v1';
-const CACHE_DIR = path.join(process.cwd(), 'node_modules', '.cache');
-const CACHE_FILE = path.join(CACHE_DIR, 'post-conversion.json');
+const CACHE_FILE = path.join(BUILD_PATHS.cache, 'post-conversion.json');
 
 const PIPELINE_SOURCE_PATHS = [
   path.join(process.cwd(), 'build', 'article'),
@@ -113,6 +113,6 @@ export function loadPostConversionCache(version: string): PostConversionCache {
 }
 
 export function savePostConversionCache(cache: PostConversionCache): void {
-  mkdirSync(CACHE_DIR, { recursive: true });
+  mkdirSync(BUILD_PATHS.cache, { recursive: true });
   writeFileSync(CACHE_FILE, JSON.stringify(cache), 'utf-8');
 }

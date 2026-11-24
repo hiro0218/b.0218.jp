@@ -1,6 +1,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
+import { BUILD_PATHS } from '~/build/shared/paths';
 import { normalizeURL } from './url';
 
 type OpgProps = {
@@ -21,8 +22,7 @@ interface CacheEntry {
 
 export type LinkPreviewCache = Record<string, CacheEntry>;
 
-const CACHE_DIR = join(process.cwd(), 'node_modules', '.cache');
-const CACHE_FILE = join(CACHE_DIR, 'link-preview.json');
+const CACHE_FILE = join(BUILD_PATHS.cache, 'link-preview.json');
 
 /** 30 days in milliseconds */
 const SUCCESS_TTL = 30 * 24 * 60 * 60 * 1000;
@@ -81,7 +81,7 @@ export const loadCache = (): LinkPreviewCache => {
  */
 export const saveCache = (cache: LinkPreviewCache): void => {
   pruneExpiredEntries(cache);
-  mkdirSync(CACHE_DIR, { recursive: true });
+  mkdirSync(BUILD_PATHS.cache, { recursive: true });
   writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2), 'utf-8');
 };
 

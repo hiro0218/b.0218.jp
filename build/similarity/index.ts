@@ -1,9 +1,5 @@
-import { FILENAME_POSTS_SIMILARITY, FILENAME_TAG_SIMILARITY } from '@/constants';
-import type { TagIndex } from '@/types/source';
-import { readJSON, writeJSON } from '~/build/shared/fs';
+import { readDist, readDistPosts, writeDist } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
-import { BUILD_PATHS } from '~/build/shared/paths';
-import { readAllPosts } from '~/build/shared/readAllPosts';
 
 import { getRelatedPosts } from './post';
 import { getRelatedTags } from './tag';
@@ -16,17 +12,17 @@ import { getRelatedTags } from './tag';
     Log.info('類似度計算を開始...');
 
     // データ読み込み
-    const posts = readAllPosts();
-    const tags = await readJSON<TagIndex>(`${BUILD_PATHS.dist}/tags.json`);
+    const posts = readDistPosts();
+    const tags = await readDist('tags');
     Log.info(`記事: ${posts.length}件, タグ: ${Object.keys(tags).length}件`);
 
     // 関連タグを計算する
     const relatedTags = getRelatedTags(posts, tags);
-    await writeJSON(`${BUILD_PATHS.dist}/${FILENAME_TAG_SIMILARITY}.json`, relatedTags);
+    await writeDist('tags-similarity', relatedTags);
 
     // 関連記事を計算する
     const relatedPosts = await getRelatedPosts(posts, relatedTags);
-    await writeJSON(`${BUILD_PATHS.dist}/${FILENAME_POSTS_SIMILARITY}.json`, relatedPosts);
+    await writeDist('posts-similarity', relatedPosts);
 
     const totalElapsedTime = Math.round((Date.now() - startTime) / 1000);
     Log.info(`類似度計算完了 (${totalElapsedTime}秒)`);

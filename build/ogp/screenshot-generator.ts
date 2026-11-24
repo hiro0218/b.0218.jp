@@ -1,12 +1,8 @@
 import cluster from 'node:cluster';
-import { readdir } from 'node:fs/promises';
-import path from 'node:path';
+import { mkdir, readdir } from 'node:fs/promises';
 
-import { FILENAME_POSTS_LIST } from '@/constants';
-import type { PostSummary } from '@/types/source';
-import { mkdir, readJSON } from '~/build/shared/fs';
+import { readDist } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
-import { BUILD_PATHS } from '~/build/shared/paths';
 
 import { OGP_CONFIG } from './config';
 import { WorkerPool } from './worker-pool';
@@ -30,8 +26,8 @@ export class ScreenshotGenerator {
 
     await mkdir(OGP_CONFIG.output.dir, { recursive: true });
 
-    // runtime 用の Source（getPostsListJson）は使わず、search と同じく readJSON で読む。使うと dist の静的 import が build とそのテストに入る
-    const allPosts = await readJSON<PostSummary[]>(path.join(BUILD_PATHS.dist, `${FILENAME_POSTS_LIST}.json`));
+    // runtime 用の Source（getPostsListJson）は使わず、search と同じく readDist で読む。使うと dist の静的 import が build とそのテストに入る
+    const allPosts = await readDist('posts-list');
 
     if (allPosts.length === 0) {
       Log.info('OGP Generation', 'No posts to process');

@@ -1,0 +1,66 @@
+import { readdirSync, readFileSync } from 'node:fs';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import type { SearchDataPayload } from '@/lib/search';
+import type {
+  Activities,
+  Page,
+  Post,
+  PostPopularityScores,
+  PostSimilarityIndex,
+  PostSummary,
+  TagCategoryMap,
+  TagCounts,
+  TagIndex,
+  TagSimilarityScores,
+} from '@/types/source';
+import { BUILD_PATHS } from './paths';
+
+/** キー(dist/<キー>.json のファイル名)だけを変えない。src が `~/dist/<キー>.json` をリテラルで import し、.github/workflows/pr-validation.yml も同じ名前の fixture を作るため */
+type DistFiles = {
+  'posts-list': Array<PostSummary>;
+  pages: Array<Page>;
+  tags: TagIndex;
+  'tags-with-count': Array<TagCounts>;
+  activities: Activities;
+  search: SearchDataPayload;
+  'tags-similarity': TagSimilarityScores;
+  /** 内側のキーを並べ替えない。getPostPageData が Object.keys の順をそのまま関連記事の表示順にするため */
+  'posts-similarity': PostSimilarityIndex;
+  'posts-popular': PostPopularityScores;
+  'tag-categories': TagCategoryMap;
+};
+
+export type DistName = keyof DistFiles;
+
+/** shape を検証しない。dist の shape は src の Source が SSG で検証するので、ここで二重にしない */
+export async function readDist<K extends DistName>(name: K): Promise<DistFiles[K]> {
+  const file = path.join(BUILD_PATHS.dist, `${name}.json`);
+
+  try {
+    return JSON.parse(await readFile(file, 'utf8')) as DistFiles[K];
+  } catch (e) {
+    throw new Error(`Failed to read JSON file: ${file}: ${e.message}`);
+  }
+}
+
+/** ログを出さない。書いたことを出すか、どんな文言にするかは段ごとに違うため、呼び出し側が決める */
+export async function writeDist<K extends DistName>(name: K, data: DistFiles[K]): Promise<void> {
+  await writeFile(path.join(BUILD_PATHS.dist, `${name}.json`), JSON.stringify(data));
+}
+
+/** date の降順で返す */
+export function readDistPosts(): Array<Post> {
+  const files = readdirSync(BUILD_PATHS.distPosts).filter((file) => file.endsWith('.json'));
+
+  return files
+    .map((file) => JSON.parse(readFileSync(path.join(BUILD_PATHS.distPosts, file), 'utf-8')) as Post)
+    .sort((a, b) => b.date.localeCompare(a.date));
+}
+
+export async function writeDistPosts(posts: ReadonlyArray<Post>): Promise<void> {
+  await mkdir(BUILD_PATHS.distPosts, { recursive: true });
+  await Promise.all(
+    posts.map((post) => writeFile(path.join(BUILD_PATHS.distPosts, `${post.slug}.json`), JSON.stringify(post))),
+  );
+}

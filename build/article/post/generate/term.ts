@@ -1,10 +1,7 @@
 import { tagKey } from '@/lib/tag/key';
 import type { Post } from '@/types/source';
-import { writeJSON } from '~/build/shared/fs';
+import { writeDist } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
-import { getPath } from './utils';
-
-const PATH = getPath();
 
 export async function buildTerm(posts: Post[]): Promise<void> {
   // タグの正規化キーごとに、代表表記とslugを管理する。
@@ -53,7 +50,7 @@ export async function buildTerm(posts: Post[]): Promise<void> {
     tagsMap[entry.tag] = Array.from(entry.slugs);
   }
 
-  await writeJSON(`${PATH.to}/tags.json`, tagsMap);
+  await writeDist('tags', tagsMap);
   Log.info('Write dist/tags.json');
 
   const tagsWithCount = Object.entries(tagsMap)
@@ -65,6 +62,6 @@ export async function buildTerm(posts: Post[]): Promise<void> {
     })
     .sort((a, b) => b.count - a.count); // 件数の多い順にソート
 
-  await writeJSON(`${PATH.to}/tags-with-count.json`, tagsWithCount);
+  await writeDist('tags-with-count', tagsWithCount);
   Log.info('Write dist/tags-with-count.json');
 }

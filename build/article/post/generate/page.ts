@@ -1,7 +1,6 @@
 import { readFileSync } from 'node:fs';
-import { FILENAME_PAGES } from '@/constants';
 import type { Page } from '@/types/source';
-import { writeJSON } from '~/build/shared/fs';
+import { writeDist } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
 import { createMarkdownToPostHtmlString } from '../../markdownToHtmlString';
 import { isValidFrontmatter, parseFrontmatter, tryToIso } from './raw';
@@ -48,6 +47,6 @@ export async function buildPage(): Promise<void> {
     }
   }
 
-  await writeJSON(`${PATH.to}/${FILENAME_PAGES}.json`, pages);
-  Log.info(`Write dist/${FILENAME_PAGES}.json`);
+  await writeDist('pages', pages);
+  Log.info('Write dist/pages.json');
 }

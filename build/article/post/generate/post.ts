@@ -3,7 +3,7 @@ import pLimit from 'p-limit';
 import { FILENAME_POSTS } from '@/constants';
 import { isContentPreview } from '@/lib/config/environment';
 import type { Post } from '@/types/source';
-import { mkdir, writeJSON } from '~/build/shared/fs';
+import { writeDistPosts } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
 import { createMarkdownToNoteHtmlString, createMarkdownToPostHtmlString } from '../../markdownToHtmlString';
 import { loadCache, saveCache } from '../../rehype0218';
@@ -109,9 +109,7 @@ export async function buildPost(): Promise<Post[]> {
   });
 
   // 記事単位の個別JSONファイルを生成
-  const postsDir = `${PATH.to}/${FILENAME_POSTS}`;
-  await mkdir(postsDir, { recursive: true });
-  await Promise.all(normalizedPosts.map((post) => writeJSON(`${postsDir}/${post.slug}.json`, post)));
+  await writeDistPosts(normalizedPosts);
   Log.info(`Write dist/${FILENAME_POSTS}/ (${normalizedPosts.length} files)`);
 
   return normalizedPosts;
