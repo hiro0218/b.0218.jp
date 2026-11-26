@@ -91,7 +91,7 @@ if [[ "$file_count" -ge 300 ]]; then
   exit 1
 fi
 
-# スラッグはサイト側の getSlug(build/article/post/generate/utils.ts)と同じく、ディレクトリを除いた
+# スラッグはサイト側の getSlug(build/article/utils.ts)と同じく、ディレクトリを除いた
 # ファイル名(拡張子なし)にする。記事は _posts 直下か 1 階層下のディレクトリに置かれ(getMarkdownFiles の
 # maxDepth=1)、サイトの URL にディレクトリは含まれない。パスのままスラッグにすると、ディレクトリ内の記事は
 # 404 になり送信に失敗する。

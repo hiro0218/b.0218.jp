@@ -1,10 +1,9 @@
 import { SITE_URL } from '@/constants';
-import type { PostSummary } from '@/types/source';
-import { readJSON } from '~/build/shared/fs';
+import { readDist } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
-import type { HatenaResult } from './type';
 
-const PATH_DIST = `${process.cwd()}/dist`;
+type HatenaResult = Record<string, number>;
+
 const HATENA_API_URL = 'https://bookmark.hatenaapis.com/count/entries';
 const MAX_URLS = 50;
 
@@ -30,7 +29,7 @@ function createHatenaApiUrls(chunkedUrls: string[][]): string[] {
 }
 
 export const getBookmarkArticles = async () => {
-  const postList = await readJSON<PostSummary[]>(`${PATH_DIST}/posts-list.json`);
+  const postList = await readDist('posts-list');
   const urls = postList.map((post) => `${SITE_URL}/${post.slug}.html`);
   const chunkedUrls = chunkUrls(urls, MAX_URLS);
   const hatenaApiUrls = createHatenaApiUrls(chunkedUrls);

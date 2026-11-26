@@ -1,9 +1,8 @@
 // @vitest-environment node
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
+import { type LinkPreviewCache, setCacheEntry } from '~/build/article/linkPreviewCache';
 import { createMarkdownToPostHtmlString } from '~/build/article/markdownToHtmlString';
-import type { LinkPreviewCache } from '~/build/article/rehype0218';
-import { setCacheEntry } from '~/build/article/rehype0218/transform/linkPreview/cache';
 
 // build 側の実変換（rehypeGfmAlert / rehype0218 の linkPreview）が生成した HTML を
 // runtime 側の parser に通し、埋め込みコンテンツ契約が両端で一致していることを検証する。
@@ -32,7 +31,6 @@ const renderToHtml = (html: string) => renderToStaticMarkup(<div>{parser(html)}<
 describe('HTMLParser integration', () => {
   it('rehypeGfmAlert が実際に変換した HTML から Alert を復元する', async () => {
     const markdown = ['> [!NOTE]', '> これはラウンドトリップテスト用のノートです。'].join('\n');
-    // sharedCache を省かない。省くと node_modules/.cache/link-preview.json を読み書きし、書き込めない環境でバグが無くても落ちるため
     const html = await createMarkdownToPostHtmlString({ sharedCache: {} })(markdown);
 
     expect(renderToHtml(html)).toContain(

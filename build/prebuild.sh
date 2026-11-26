@@ -30,39 +30,24 @@ echo ""
 # 4つのステップは dist/posts/*.json / posts-list.json / tags.json を読み込むのみで相互依存なし
 echo -e "${GREEN}[3/4] Running similarity, search, popular, and category in parallel...${NC}"
 
-npm run build:similarity &
-PID_SIMILARITY=$!
+AFTER_ARTICLE=(similarity search popular category)
+PIDS=()
+for step in "${AFTER_ARTICLE[@]}"; do
+  npm run "build:${step}" &
+  PIDS+=($!)
+done
 
-npm run build:search &
-PID_SEARCH=$!
+# `wait $PID; EXIT=$?` と書かない。set -e の下では、失敗した wait の行でスクリプトが終わり、残りの段を待たず、失敗の一覧も出せないため
+FAILED=()
+for i in "${!AFTER_ARTICLE[@]}"; do
+  wait "${PIDS[$i]}" || FAILED+=("build:${AFTER_ARTICLE[$i]} (exit code: $?)")
+done
 
-npm run build:popular &
-PID_POPULAR=$!
-
-npm run build:category &
-PID_CATEGORY=$!
-
-PARALLEL_FAILED=0
-EXIT_SIMILARITY=0
-EXIT_SEARCH=0
-EXIT_POPULAR=0
-EXIT_CATEGORY=0
-
-wait $PID_SIMILARITY; EXIT_SIMILARITY=$?
-wait $PID_SEARCH; EXIT_SEARCH=$?
-wait $PID_POPULAR; EXIT_POPULAR=$?
-wait $PID_CATEGORY; EXIT_CATEGORY=$?
-
-if [ $EXIT_SIMILARITY -ne 0 ] || [ $EXIT_SEARCH -ne 0 ] || [ $EXIT_POPULAR -ne 0 ] || [ $EXIT_CATEGORY -ne 0 ]; then
-  PARALLEL_FAILED=1
-fi
-
-if [ $PARALLEL_FAILED -ne 0 ]; then
+if [ ${#FAILED[@]} -ne 0 ]; then
   echo "✗ One or more parallel steps failed:"
-  [ $EXIT_SIMILARITY -ne 0 ] && echo "  - build:similarity (exit code: $EXIT_SIMILARITY)"
-  [ $EXIT_SEARCH -ne 0 ] && echo "  - build:search (exit code: $EXIT_SEARCH)"
-  [ $EXIT_POPULAR -ne 0 ] && echo "  - build:popular (exit code: $EXIT_POPULAR)"
-  [ $EXIT_CATEGORY -ne 0 ] && echo "  - build:category (exit code: $EXIT_CATEGORY)"
+  for failure in "${FAILED[@]}"; do
+    echo "  - ${failure}"
+  done
   exit 1
 fi
 

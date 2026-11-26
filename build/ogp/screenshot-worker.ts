@@ -77,7 +77,7 @@ async function processImages(posts: Post[]): Promise<void> {
 
   await initializePagePool(serverUrl);
 
-  const semaphore = new Array(OGP_CONFIG.worker.pagesPerWorker).fill(false);
+  const semaphore = Array.from({ length: OGP_CONFIG.worker.pagesPerWorker }, () => false);
   let completed = 0;
   let index = 0;
 

@@ -1,4 +1,4 @@
-import { getMeta } from './dom';
+import { getMeta } from './linkPreviewDom';
 
 const metaEntries = (meta: HTMLMetaElement[] | null) => {
   return (meta ?? []).map((element) => [

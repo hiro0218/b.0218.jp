@@ -1,9 +1,9 @@
 import type { Element, ElementContent } from 'hast';
 import { LINK_PREVIEW_CLASS_NAME, serializeLinkPreviewData } from '@/lib/domain/embeddedContent';
-import type { LinkPreviewCache } from './cache';
-import { getCachedOgp, hasCachedError, setCacheEntry } from './cache';
-import { getHTML, getMeta } from './dom';
-import { handleError } from './handleError';
+import type { LinkPreviewCache } from '../linkPreviewCache';
+import { getCachedOgp, hasCachedError, setCacheEntry } from '../linkPreviewCache';
+import { getHTML, getMeta } from './linkPreviewDom';
+import { handleError } from './linkPreviewError';
 
 type OpgProps = {
   description?: string;
@@ -85,7 +85,7 @@ const checkBreakNode = (node: boolean | ElementContent) => {
 
   try {
     return (node.type === 'element' && node.tagName === 'br') || !!node;
-  } catch (_e) {
+  } catch {
     return false;
   }
 };

@@ -3,7 +3,7 @@
   "plugins": ["typescript", "unicorn", "oxc", "import", "react", "jsx-a11y", "nextjs"],
   "categories": { "correctness": "error" },
   "options": { "reportUnusedDisableDirectives": "warn" },
-  "ignorePatterns": ["_article", ".github/scripts", "build/**", "public/**", "**/*.config.js"],
+  "ignorePatterns": ["_article", ".github/scripts", "public/**", "**/*.config.js"],
   "rules": {
     "no-unused-vars": ["error", {"ignoreRestSiblings": true}],
     "oxc/no-barrel-file": ["error", {"threshold": 0}],
@@ -20,8 +20,8 @@
     "react/set-state-in-effect": "off",
     "unicorn/no-useless-spread": "off"
   },
-  // 各 override の no-restricted-imports から barrel（**/index）の patterns を省かない。
-  // 同じ rule の options は後ろの override が丸ごと置き換えるため、省いた層では barrel import が通る
+  // 各 override の no-restricted-imports から barrel（**/index）の patterns を省かない。src の override は ~/build/** の patterns も省かない。
+  // 同じ rule の options は後ろの override が丸ごと置き換えるため、省いた層では barrel import や build の import が通る
   "overrides": [
     {
       "files": ["src/app/**/*.{ts,tsx}"],
@@ -31,7 +31,8 @@
           {
             "patterns": [
               {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"},
-              {"group": ["@/lib/distLoader/*", "@/lib/distLoader/**"], "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"}
+              {"group": ["@/lib/distLoader/*", "@/lib/distLoader/**"], "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"},
+              {"group": ["~/build/**"], "message": "src から build を import しないでください。build はビルド時だけに動くコードです"}
             ]
           }
         ]
@@ -51,7 +52,8 @@
           "error",
           {
             "patterns": [
-              {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"}
+              {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"},
+              {"group": ["~/build/**"], "message": "src から build を import しないでください。build はビルド時だけに動くコードです"}
             ]
           }
         ]
@@ -69,7 +71,8 @@
             ],
             "patterns": [
               {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"},
-              {"group": ["@/lib/distLoader/*", "@/lib/distLoader/**"], "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"}
+              {"group": ["@/lib/distLoader/*", "@/lib/distLoader/**"], "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"},
+              {"group": ["~/build/**"], "message": "src から build を import しないでください。build はビルド時だけに動くコードです"}
             ]
           }
         ]
@@ -84,7 +87,8 @@
             "patterns": [
               {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"},
               {"group": ["@/lib/distLoader/*", "@/lib/distLoader/**"], "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"},
-              {"group": ["~/styled-system/*", "~/styled-system/**"], "message": "@/ui/styled 経由で import してください"}
+              {"group": ["~/styled-system/*", "~/styled-system/**"], "message": "@/ui/styled 経由で import してください"},
+              {"group": ["~/build/**"], "message": "src から build を import しないでください。build はビルド時だけに動くコードです"}
             ]
           }
         ]
@@ -103,7 +107,8 @@
               {"group": ["@/components/App/*", "@/components/App/**"], "message": "UI層からApp層への依存は禁止されています"},
               {"group": ["@/components/Page/*", "@/components/Page/**"], "message": "UI層からPage層への依存は禁止されています"},
               {"group": ["@/components/Functional/*", "@/components/Functional/**"], "message": "UI層からFunctional層への依存は禁止されています"},
-              {"group": ["~/styled-system/*", "~/styled-system/**"], "message": "@/ui/styled 経由で import してください"}
+              {"group": ["~/styled-system/*", "~/styled-system/**"], "message": "@/ui/styled 経由で import してください"},
+              {"group": ["~/build/**"], "message": "src から build を import しないでください。build はビルド時だけに動くコードです"}
             ]
           }
         ]
@@ -121,12 +126,14 @@
               {"group": ["@/components/App/*", "@/components/App/**"], "message": "Functional層からApp層への依存は禁止されています"},
               {"group": ["@/components/Page/*", "@/components/Page/**"], "message": "Functional層からPage層への依存は禁止されています"},
               {"group": ["@/components/UI/*", "@/components/UI/**"], "message": "Functional層からUI層への依存は禁止されています"},
-              {"group": ["~/styled-system/*", "~/styled-system/**"], "message": "@/ui/styled 経由で import してください"}
+              {"group": ["~/styled-system/*", "~/styled-system/**"], "message": "@/ui/styled 経由で import してください"},
+              {"group": ["~/build/**"], "message": "src から build を import しないでください。build はビルド時だけに動くコードです"}
             ]
           }
         ]
       }
     },
+    // ~/build をすべては禁止しない。HTMLParser.integration.test.tsx が、変換器とそのキャッシュ（build の公開ファイル 2 つ）を import するため。内部の markdownToHtmlString/ の下は禁止のままにする
     {
       "files": ["src/components/Page/_shared/**/*.{ts,tsx}"],
       "rules": {
@@ -142,7 +149,8 @@
               {"group": ["@/components/Page/NotFound/*", "@/components/Page/NotFound/**"], "message": "Page/_shared層から個別Page層への依存は禁止されています"},
               {"group": ["@/components/Page/Post/*", "@/components/Page/Post/**"], "message": "Page/_shared層から個別Page層への依存は禁止されています"},
               {"group": ["@/components/Page/Single/*", "@/components/Page/Single/**"], "message": "Page/_shared層から個別Page層への依存は禁止されています"},
-              {"group": ["~/styled-system/*", "~/styled-system/**"], "message": "@/ui/styled 経由で import してください"}
+              {"group": ["~/styled-system/*", "~/styled-system/**"], "message": "@/ui/styled 経由で import してください"},
+              {"group": ["~/build/**", "!~/build/article/markdownToHtmlString", "!~/build/article/linkPreviewCache"], "message": "src から build を import しないでください。build はビルド時だけに動くコードです"}
             ]
           }
         ]
@@ -158,7 +166,8 @@
               {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"},
               {"group": ["@/lib/distLoader/*", "@/lib/distLoader/**"], "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"},
               {"group": ["@/components/App/*", "@/components/App/**"], "message": "Page層からApp層への依存は禁止されています"},
-              {"group": ["~/styled-system/*", "~/styled-system/**"], "message": "@/ui/styled 経由で import してください"}
+              {"group": ["~/styled-system/*", "~/styled-system/**"], "message": "@/ui/styled 経由で import してください"},
+              {"group": ["~/build/**"], "message": "src から build を import しないでください。build はビルド時だけに動くコードです"}
             ]
           }
         ]
@@ -172,7 +181,24 @@
           "error",
           {
             "patterns": [
-              {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"}
+              {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"},
+              {"group": ["~/build/**"], "message": "src から build を import しないでください。build はビルド時だけに動くコードです"}
+            ]
+          }
+        ]
+      }
+    },
+    // build が import してよい src を、個別の禁止の一覧にしない。@/** をすべて禁止し、共有の契約だけを除く。個別の禁止では、src に足したモジュールを build が import しても落ちない
+    {
+      "files": ["build/**/*.{ts,tsx}"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"},
+              {"group": ["@/**", "!@/constants", "!@/types/*", "!@/lib/domain/embeddedContent", "!@/lib/tag/key", "!@/lib/search"], "message": "build が import してよい src は、build と runtime が共有する契約(constants・types・embeddedContent・tag/key・search)だけです。Source は dist を静的に import し、config は import した時点で環境変数を読む(build が loadEnvConfig を呼ぶより先に値が決まる)ため"},
+              {"group": ["~/dist/**"], "message": "dist は ~/build/shared/dist の readDist・writeDist で読み書きしてください"}
             ]
           }
         ]
