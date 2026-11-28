@@ -7,7 +7,7 @@
 - 対象は、README.md、`docs/`、`tests/vrt/README.md` など、人間と AI が読む Markdown 文書である
 - 文書の種類ごとの定めがある場合は、その定めを優先する
   - `_article/` の記事は、別リポジトリの submodule にある。このリポジトリからは編集せず、参照先のリポジトリで直す（[content-pipeline.md](../architecture/content-pipeline.md)）
-  - `.claude/skills/` と `.claude/agents/` の定義ファイルは、それぞれの形式に従う
+  - `.claude/skills/` の定義ファイルは、その形式に従う
   - `.github/copilot-instructions.md` は、`CLAUDE.md` と `AGENTS.md`（どちらもこのファイルへのシンボリックリンク）の実体である。編集は実体に行う。`<!-- BEGIN:nextjs-agent-rules -->` と `<!-- END:nextjs-agent-rules -->` の間は `next dev` が書き込むため、手で直さない
   - 規則の本文は、内容の種類に合う `docs/` のディレクトリ（一覧は [docs/README.md](../README.md)）の文書に書く。1 つの文書には 1 つの主題を書き、規則から文書単位で指せるようにする。`.claude/rules/` には、規則の本文を書かない
     - `.claude/rules/` の規則は、作業の種類（コンポーネント、スタイル、テストなど）ごとに 1 ファイルにする。frontmatter の `paths` に、その作業で触れるファイルの glob を書き、本文に、その作業で読む `docs/` の文書へのリンクを、読む場面を添えて並べる。1 つの文書を、複数の規則から指してよい

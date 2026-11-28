@@ -32,12 +32,13 @@ npm run dev       # https://localhost:8080 (HTTPSのみ)
 
 規則を足すときは、この表に強制手段を書く。「文書のみ」の行は、破っても何も落ちない。同じ誤りが 2 回起きたら、型・lint・テストへ上げて行を直す。
 
-| 規則                                         | 強制手段                                                                                                     |
-| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| 層の依存の向き、`page.tsx` に css を書かない | `.oxlintrc.json` の `no-restricted-imports`(`npm run lint`)                                                  |
-| dist のファイル一覧を 1 か所にする           | `build/shared/dist.ts` の `EMPTY_DIST`(`DistFiles` と型で結ぶ)。CI の fixture は `npm run dist:empty` が作る |
-| `_article/_posts/*.md` を直接編集しない      | 文書のみ                                                                                                     |
-| ゼロマージン、Server First                   | 文書のみ                                                                                                     |
+| 規則                                                   | 強制手段                                                                                                      |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| 層の依存の向き、`page.tsx` に css を書かない           | `.oxlintrc.json` の `no-restricted-imports`(`npm run lint`)                                                   |
+| dist のファイル一覧を 1 か所にする                     | `build/shared/dist.ts` の `EMPTY_DIST`(`DistFiles` と型で結ぶ)。CI の fixture は `npm run dist:empty` が作る  |
+| 文書が指すパスを実在させる(移動・削除したら文書も直す) | `build/shared/docPaths.test.ts`(`npm test`)。文書のリンクと、バッククォートで書いたリポジトリ内のパスを調べる |
+| `_article/_posts/*.md` を直接編集しない                | 文書のみ                                                                                                      |
+| ゼロマージン、Server First                             | 文書のみ                                                                                                      |
 
 詳細ルールは [`docs/`](docs/README.md) の、内容に合う文書に置く。`.claude/rules/` の規則は、作業の種類ごとに `paths` で範囲を決め、その作業で読む文書へのリンクを並べる。Claude は、触れたファイルに当たる規則の案内に従って、文書を `Read` で読む。作業するファイルによらず必要な文書は、`.claude/rules/always.md` が常に読み込む。
 
