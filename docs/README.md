@@ -2,13 +2,13 @@
 
 このリポジトリの設計と規約の文書である。内容の種類ごとにディレクトリを分ける。
 
-| ディレクトリ                       | 扱うこと                                                                                     |
-| ---------------------------------- | -------------------------------------------------------------------------------------------- |
-| [architecture/](./architecture/)   | アプリの構成。App Router、層と依存の向き、ファイル配置、コンテンツパイプライン、ドメイン語彙 |
-| [design-system/](./design-system/) | デザイン原則、デザイントークン、UI の用語                                                    |
-| [components/](./components/)       | コンポーネントの設計。余白とレイアウト、Props と JSDoc、状態や操作を持つ部品、Storybook      |
-| [conventions/](./conventions/)     | 書き方の規約。TypeScript、Panda CSS、パフォーマンス、テスト、ドキュメント                    |
-| [tooling/](./tooling/)             | 開発ツールの設定と使い方。oxlint・oxfmt、設定ファイルの確認、MCP サーバー                    |
+| ディレクトリ                       | 扱うこと                                                                                               |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| [architecture/](./architecture/)   | アプリの構成。機能要件、App Router、層と依存の向き、ファイル配置、コンテンツパイプライン、ドメイン語彙 |
+| [design-system/](./design-system/) | デザイン原則、デザイントークン、UI の用語                                                              |
+| [components/](./components/)       | コンポーネントの設計。余白とレイアウト、Props と JSDoc、状態や操作を持つ部品、Storybook                |
+| [conventions/](./conventions/)     | 書き方の規約。TypeScript、Panda CSS、パフォーマンス、テスト、ドキュメント                              |
+| [tooling/](./tooling/)             | 開発ツールの設定と使い方。oxlint・oxfmt、設定ファイルの確認、MCP サーバー                              |
 
 Claude Code が読み込む規則は、`.claude/rules/` にある。規則には本文を書かず、作業の種類ごとに `paths` で範囲を決めて、この `docs/` の文書を組み合わせて指す。
 
