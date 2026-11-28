@@ -18,7 +18,7 @@ import type {
 import * as Log from './logger';
 import { BUILD_PATHS } from './paths';
 
-/** キー(dist/<キー>.json のファイル名)だけを変えない。src が `~/dist/<キー>.json` をリテラルで import し、.github/workflows/pr-validation.yml も同じ名前の fixture を作るため */
+/** キー(dist/<キー>.json のファイル名)だけを変えない。src が `~/dist/<キー>.json` をリテラルで import するため。キーを足したら EMPTY_DIST にも足す(型検査が落ちる) */
 type DistFiles = {
   'posts-list': Array<PostSummary>;
   pages: Array<Page>;
@@ -34,6 +34,20 @@ type DistFiles = {
 };
 
 type DistName = keyof DistFiles;
+
+/** dist を作らない環境(CI の Unit Tests)で、src の静的 import を通すための空の dist。`npm run dist:empty` が dist/ へ書く。fixture の一覧を workflow に手書きさせないため、ここを唯一の一覧にする */
+export const EMPTY_DIST: { [K in DistName]: DistFiles[K] } = {
+  'posts-list': [],
+  pages: [],
+  tags: {},
+  'tags-with-count': [],
+  activities: { companies: [], works: [] },
+  search: { searchIndex: {}, searchData: [] },
+  'tags-similarity': {},
+  'posts-similarity': {},
+  'posts-popular': {},
+  'tag-categories': { CSS: 'development', AI: 'technology', 雑記: 'other' },
+};
 
 /** shape を検証しない。dist の shape は src の Source が SSG で検証するので、ここで二重にしない */
 export async function readDist<K extends DistName>(name: K): Promise<DistFiles[K]> {
