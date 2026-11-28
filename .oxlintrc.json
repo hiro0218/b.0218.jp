@@ -87,6 +87,7 @@
             "patterns": [
               {"group": ["**/index", "**/index.*"], "message": "index/barrel import は禁止です。公開ファイルを直接 import してください"},
               {"group": ["@/lib/distLoader/*", "@/lib/distLoader/**"], "message": "distLoader は src/lib/ 内からのみ import 可能です。Source または派生データの公開関数を経由してください"},
+              {"group": ["@/components/Page/*", "@/components/Page/**"], "message": "App層からPage層への依存は禁止されています"},
               {"group": ["~/styled-system/*", "~/styled-system/**"], "message": "@/ui/styled 経由で import してください"},
               {"group": ["~/build/**"], "message": "src から build を import しないでください。build はビルド時だけに動くコードです"}
             ]
