@@ -21,7 +21,7 @@ export const Default: Story = {
   name: '基本',
   args: {
     size: 'chip',
-    tags: [{ slug: 'TypeScript' }, { slug: 'Biome' }, { slug: '設計' }],
+    tags: [{ name: 'TypeScript' }, { name: 'Biome' }, { name: '設計' }],
   },
 };
 
@@ -35,10 +35,10 @@ export const WithCounts: Story = {
   args: {
     size: 'pill',
     tags: [
-      { slug: 'TypeScript', count: 27 },
-      { slug: 'CSS', count: 19 },
-      { slug: 'AI', count: 14 },
-      { slug: 'Next.js', count: 11 },
+      { name: 'TypeScript', count: 27 },
+      { name: 'CSS', count: 19 },
+      { name: 'AI', count: 14 },
+      { name: 'Next.js', count: 11 },
     ],
   },
 };
@@ -53,9 +53,9 @@ export const Navigable: Story = {
   args: {
     size: 'pill',
     tags: [
-      { slug: 'TypeScript', count: 27, isNavigable: true },
-      { slug: 'CSS', count: 19, isNavigable: true },
-      { slug: 'AI', count: 14, isNavigable: true },
+      { name: 'TypeScript', count: 27, isNavigable: true },
+      { name: 'CSS', count: 19, isNavigable: true },
+      { name: 'AI', count: 14, isNavigable: true },
     ],
   },
 };
@@ -70,9 +70,9 @@ export const Mixed: Story = {
   args: {
     size: 'chip',
     tags: [
-      { slug: 'TypeScript', count: 27, isNavigable: true },
-      { slug: 'Biome', isNavigable: false },
-      { slug: '設計', count: 8, isNavigable: true },
+      { name: 'TypeScript', count: 27, isNavigable: true },
+      { name: 'Biome', isNavigable: false },
+      { name: '設計', count: 8, isNavigable: true },
     ],
   },
 };

@@ -1,8 +1,5 @@
-import { FILENAME_TAG_CATEGORIES } from '@/constants';
-import type { TagIndex } from '@/types/source';
-import { readJSON, writeJSON } from '~/build/shared/fs';
+import { readDist, writeDist } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
-import { BUILD_PATHS } from '~/build/shared/paths';
 
 import { classifyTags } from './classifyTags';
 import { buildJaccardAdjacency } from './jaccard';
@@ -14,7 +11,7 @@ import { labelPropagation } from './labelPropagation';
   try {
     Log.info('タグカテゴリ分類を開始...');
 
-    const tagIndex = await readJSON<TagIndex>(`${BUILD_PATHS.dist}/tags.json`);
+    const tagIndex = await readDist('tags');
     const tagNames = Object.keys(tagIndex);
     Log.info(`タグ: ${tagNames.length}件`);
 
@@ -36,8 +33,7 @@ import { labelPropagation } from './labelPropagation';
     const summary = [...counts.entries()].map(([k, v]) => `${k}=${v}`).join(', ');
     Log.info(`分類結果: ${summary}`);
 
-    await writeJSON(`${BUILD_PATHS.dist}/${FILENAME_TAG_CATEGORIES}.json`, tagCategories);
-    Log.info(`Write dist/${FILENAME_TAG_CATEGORIES}.json`);
+    await writeDist('tag-categories', tagCategories);
 
     const elapsed = Math.round((Date.now() - startTime) / 1000);
     Log.info(`タグカテゴリ分類完了 (${elapsed}秒)`);

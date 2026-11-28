@@ -4,7 +4,7 @@ import { css, cx, styled } from '@/ui/styled';
 import { postTagAnchor } from '@/ui/styled/components/postTagAnchor';
 
 export type PostTagItem = {
-  slug: string;
+  name: string;
   /** タグに紐づく記事数 */
   count?: number;
   /** タグページへのリンクを有効にする */
@@ -66,15 +66,15 @@ export function PostTag({ tags, size, labelClassName }: PostTagProps) {
 
   return (
     <>
-      {sortedTags.map(({ slug, count, isNavigable }) => {
+      {sortedTags.map(({ name, count, isNavigable }) => {
         const isAnchor = isNavigable ?? false;
 
         return isAnchor ? (
-          <Link className={tagClassName} href={tagPath(slug)} key={slug} rel="tag">
+          <Link className={tagClassName} href={tagPath(name)} key={name} rel="tag">
             {/* span を常には付けない。labelClassName が無いときに付けると DOM が変わるため */}
-            {!labelClassName ? slug : <span className={labelClassName}>{slug}</span>}
+            {!labelClassName ? name : <span className={labelClassName}>{name}</span>}
             {/**
-             * aria-label は使わない。可視テキスト（slug+件数）とラベルの文字列が一致しないと
+             * aria-label は使わない。可視テキスト（タグ名+件数）とラベルの文字列が一致しないと
              * WCAG 2.5.3 (Label in Name) 違反になるため、可視テキストの並びに「件」だけ読み上げ用に足す
              */}
             {count != null && (
@@ -85,8 +85,8 @@ export function PostTag({ tags, size, labelClassName }: PostTagProps) {
             )}
           </Link>
         ) : (
-          <span aria-hidden="true" className={cx(tagClassName, labelClassName)} key={slug}>
-            {slug}
+          <span aria-hidden="true" className={cx(tagClassName, labelClassName)} key={name}>
+            {name}
           </span>
         );
       })}

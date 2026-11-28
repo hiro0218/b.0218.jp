@@ -11,15 +11,15 @@ import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 import { visit } from 'unist-util-visit';
 
-import type { Rehype0218Options } from './rehype0218';
-import rehype0218 from './rehype0218';
-import rehypeExternalLink from './rehypeExternalLink';
-import rehypeGfmAlert from './rehypeGfmAlert';
-import rehypeRemoveComments from './rehypeRemoveComments';
-import rehypeWrapImgWithFigure from './rehypeWrapImgWithFigure';
-import remarkBreaks from './remarkBreaks';
-import { sanitizeSchema } from './sanitizeSchema';
-import { shikiConfig } from './shikiConfig';
+import type { Rehype0218Options } from './markdownToHtmlString/rehype0218';
+import rehype0218 from './markdownToHtmlString/rehype0218';
+import rehypeExternalLink from './markdownToHtmlString/rehypeExternalLink';
+import rehypeGfmAlert from './markdownToHtmlString/rehypeGfmAlert';
+import rehypeRemoveComments from './markdownToHtmlString/rehypeRemoveComments';
+import rehypeWrapImgWithFigure from './markdownToHtmlString/rehypeWrapImgWithFigure';
+import remarkBreaks from './markdownToHtmlString/remarkBreaks';
+import { sanitizeSchema } from './markdownToHtmlString/sanitizeSchema';
+import { shikiConfig } from './markdownToHtmlString/shikiConfig';
 
 // remark-rehype の既定の接頭辞は使わず、clobberPrefix: '' にする。既定だと、注釈の id と href の両方に接頭辞が付く。
 // rehypeSanitize は id・name・aria-describedby・aria-labelledby にだけ無条件で足し、href を変えない。
@@ -66,7 +66,7 @@ export function createMarkdownToNoteHtmlString(): (markdown: string) => Promise<
   };
 }
 
-export function createMarkdownToPostHtmlString(options?: Rehype0218Options): (markdown: string) => Promise<string> {
+export function createMarkdownToPostHtmlString(options: Rehype0218Options): (markdown: string) => Promise<string> {
   const processor = createBaseProcessor()
     .use(rehypeWrapImgWithFigure)
     .use(rehypeGfmAlert)

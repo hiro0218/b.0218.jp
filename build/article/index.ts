@@ -1,21 +1,18 @@
-import { unlink } from 'node:fs/promises';
+import { readFile, unlink } from 'node:fs/promises';
 import { loadEnvConfig } from '@next/env';
-import { FILENAME_ACTIVITIES, FILENAME_POSTS_LIST } from '@/constants';
 import type { Activities, Post } from '@/types/source';
-import { copyDir, readJSON, writeJSON } from '~/build/shared/fs';
+import { writeDist } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
 import { BUILD_PATHS } from '~/build/shared/paths';
-import { buildPage, buildPost, buildTerm } from './post/generate';
-import { getPath } from './post/generate/utils';
-import { toPostSummary } from './post/toPostSummary';
+import { copyDir } from './copyDir';
+import { buildPost } from './post';
+import { buildTerm } from './term';
+import { toPostSummary } from './toPostSummary';
 
-loadEnvConfig(process.cwd());
-
-const PATH = getPath();
+loadEnvConfig(BUILD_PATHS.root);
 
 async function buildPostList(posts: Post[]): Promise<void> {
-  await writeJSON(`${PATH.to}/${FILENAME_POSTS_LIST}.json`, toPostSummary(posts));
-  Log.info(`Write dist/${FILENAME_POSTS_LIST}.json`);
+  await writeDist('posts-list', toPostSummary(posts));
 }
 
 async function copyFiles(): Promise<void> {
@@ -24,13 +21,12 @@ async function copyFiles(): Promise<void> {
 }
 
 async function writeActivitiesJson(): Promise<void> {
-  const activities = await readJSON<Activities>(BUILD_PATHS.activitiesJson);
-  await writeJSON(`${PATH.to}/${FILENAME_ACTIVITIES}.json`, activities);
-  Log.info(`Write dist/${FILENAME_ACTIVITIES}.json`);
+  const activities = JSON.parse(await readFile(BUILD_PATHS.activitiesJson, 'utf8')) as Activities;
+  await writeDist('activities', activities);
 }
 
 async function removeLegacyArticleArtifacts(): Promise<void> {
-  await unlink(`${PATH.to}/uniqueChars.ts`).catch(() => undefined);
+  await unlink(`${BUILD_PATHS.dist}/uniqueChars.ts`).catch(() => undefined);
 }
 
 (async () => {
@@ -38,7 +34,6 @@ async function removeLegacyArticleArtifacts(): Promise<void> {
   await Promise.all([
     buildTerm(posts),
     buildPostList(posts),
-    buildPage(),
     copyFiles(),
     writeActivitiesJson(),
     removeLegacyArticleArtifacts(),

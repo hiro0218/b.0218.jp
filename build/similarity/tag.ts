@@ -5,29 +5,9 @@ type TagDocFrequency = Map<string, number>;
 type TagProbability = Map<string, number>;
 type TagRelationsMap = Map<string, Map<string, number>>;
 
-/**
- * タグ関連度計算結果のキャッシュ
- * 同一または類似の入力に対する再計算を避けることでパフォーマンスを向上
- */
-const tagsRelationCache = new Map<string, TagSimilarityScores>();
-
 const MIN_CO_OCCURRENCE = 2; // 関連性を計算するための最小共起回数 (ノイズ除去)
 const MIN_TAG_FREQUENCY = 3; // 関連性を計算するタグの最小出現記事数 (低頻度タグ除外)
 const NPMI_THRESHOLD = 0; // 計算結果として保持するNPMIスコアの最小値 (0より大きい関連性のみ)
-
-function generateCacheKey(posts: Post[], tagsList: TagIndex): string {
-  const tagsCount = Object.keys(tagsList).length;
-  const postsCount = posts.length;
-
-  let maxTagsInPost = 0;
-  for (const post of posts) {
-    if (post.tags && post.tags.length > maxTagsInPost) {
-      maxTagsInPost = post.tags.length;
-    }
-  }
-
-  return `${postsCount}_${tagsCount}_${maxTagsInPost}`;
-}
 
 function buildFrequencyAndCoOccurrence(
   posts: Post[],
@@ -232,21 +212,9 @@ export function getRelatedTags(posts: Post[], tagsList: TagIndex): TagSimilarity
     return {};
   }
 
-  const cacheKey = generateCacheKey(posts, tagsList);
-  const cachedResult = tagsRelationCache.get(cacheKey);
-  if (cachedResult !== undefined) {
-    return cachedResult;
-  }
-
   const totalPosts = posts.length;
 
   const { tagDocFrequency, coOccurrenceMatrix } = buildFrequencyAndCoOccurrence(posts, tagsList);
   const tagRelationsMap = calculateTagRelationsNPMI(tagsList, coOccurrenceMatrix, tagDocFrequency, totalPosts);
-  const result = sortTagRelations(tagRelationsMap);
-
-  if (Object.keys(result).length > 0) {
-    tagsRelationCache.set(cacheKey, result);
-  }
-
-  return result;
+  return sortTagRelations(tagRelationsMap);
 }

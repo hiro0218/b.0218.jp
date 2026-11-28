@@ -78,20 +78,7 @@ jobs:
         run: npx panda codegen
 
       - name: Create dist fixtures
-        run: |
-          mkdir -p dist
-          echo '{"companies":[],"works":[]}' > dist/activities.json
-          echo '{}' > dist/search-index.json
-          echo '{}' > dist/search.json
-          echo '[]' > dist/search-data.json
-          echo '[]' > dist/pages.json
-          echo '[]' > dist/posts-list.json
-          echo '{}' > dist/posts-popular.json
-          echo '{}' > dist/posts-similarity.json
-          echo '{}' > dist/tags.json
-          echo '[]' > dist/tags-with-count.json
-          echo '{"CSS":"development","AI":"technology","雑記":"other"}' > dist/tag-categories.json
-          echo '{}' > dist/tags-similarity.json
+        run: npm run dist:empty
 
       - name: Vitest
         run: npm test

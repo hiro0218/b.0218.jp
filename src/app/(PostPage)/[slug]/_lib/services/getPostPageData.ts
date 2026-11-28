@@ -14,7 +14,7 @@ const RELATED_POSTS_LIMIT = 4;
 const HTML_SUFFIX_PATTERN = /\.html$/;
 
 type PostPageTag = {
-  slug: string;
+  name: string;
   count: number;
   isNavigable: boolean;
 };
@@ -35,7 +35,7 @@ interface PostPageData {
   similarTags: PostPageTag[];
   recentPosts: ArticleSummary[];
   sameTagPosts: ArticleSummary[];
-  mostPopularTag?: { slug: string; count: number };
+  mostPopularTag?: { name: string; count: number };
   popularity?: PopularityDetail;
 }
 
@@ -45,7 +45,7 @@ const postsList = getPostsListJson();
 const postsBySlug = new Map(postsList.filter((post) => !post.noindex).map((post) => [post.slug, post]));
 const tagsIndex = getTagsJson();
 const tagsWithCount = getTagsWithCount();
-const tagsWithCountBySlug = new Map(tagsWithCount.map((tag) => [tag.slug, tag]));
+const tagsWithCountByName = new Map(tagsWithCount.map((tag) => [tag.name, tag]));
 const similarPostsIndex = getSimilarPostsIndex();
 const similarTagsIndex = getSimilarTag();
 const popularityScores = getPostsPopular();
@@ -54,7 +54,7 @@ function normalizePostSlug(slug: string): string {
   return slug.replace(HTML_SUFFIX_PATTERN, '');
 }
 
-function createPostPageTag(tag: { slug: string; count: number }): PostPageTag {
+function createPostPageTag(tag: { name: string; count: number }): PostPageTag {
   return {
     ...tag,
     isNavigable: tag.count >= TAG_VIEW_LIMIT,
@@ -63,7 +63,7 @@ function createPostPageTag(tag: { slug: string; count: number }): PostPageTag {
 
 function getTagsWithCountFromPost(post: Post): PostPageTag[] {
   return post.tags
-    .map((tag) => tagsWithCountBySlug.get(tag))
+    .map((tag) => tagsWithCountByName.get(tag))
     .filter((tag) => tag !== undefined)
     .map(createPostPageTag);
 }
@@ -99,8 +99,8 @@ function getSimilarPostSummaries(slug: string): ArticleSummary[] {
   return posts;
 }
 
-function getPostSummariesByTag(tagSlug: string, excludeSlug: string, limit: number): ArticleSummary[] {
-  const postSlugs = tagsIndex[tagSlug] ?? [];
+function getPostSummariesByTag(tag: string, excludeSlug: string, limit: number): ArticleSummary[] {
+  const postSlugs = tagsIndex[tag] ?? [];
   const posts: ArticleSummary[] = [];
 
   for (const postSlug of postSlugs) {
@@ -143,11 +143,11 @@ function getSimilarTags(tag: string | undefined): PostPageTag[] {
 
   const validTags: PostPageTag[] = [];
 
-  for (const slug of Object.keys(similarTags)) {
-    const count = tagsIndex[slug]?.length ?? 0;
+  for (const name of Object.keys(similarTags)) {
+    const count = tagsIndex[name]?.length ?? 0;
 
     if (count >= TAG_VIEW_LIMIT) {
-      validTags.push({ slug, count, isNavigable: true });
+      validTags.push({ name, count, isNavigable: true });
     }
   }
 
@@ -172,7 +172,7 @@ function getSameTagPosts(
     return { sameTagPosts: [] };
   }
 
-  const sameTagPosts = getPostSummariesByTag(mostPopularTag.slug, currentSlug, RELATED_POSTS_LIMIT);
+  const sameTagPosts = getPostSummariesByTag(mostPopularTag.name, currentSlug, RELATED_POSTS_LIMIT);
 
   if (sameTagPosts.length === 0) {
     return { sameTagPosts: [] };

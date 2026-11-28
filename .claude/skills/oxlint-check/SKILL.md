@@ -35,9 +35,9 @@ description: Run oxlint and oxfmt checks on modified TypeScript and JavaScript f
 ./node_modules/.bin/oxfmt --check <files...>
 ```
 
-編集対象ファイルを明示して直接呼ぶ。`npm run lint` は oxlint が `src scripts tests`、oxfmt が `src build scripts tests` を対象にするが、対象ファイルを限定できない。
+編集対象ファイルを明示して直接呼ぶ。`npm run lint` は oxlint・oxfmt のどちらも `src build scripts tests` を対象にするが、対象ファイルを限定できない。
 
-`build/` や `**/*.config.js` など、oxlint の `ignorePatterns` で除外されるファイルだけを渡すと、oxlint は `No files found to lint.` で終了コード 1 になる。そのファイルには oxfmt だけを実行する。
+`**/*.config.js` など、oxlint の `ignorePatterns` で除外されるファイルだけを渡すと、oxlint は `No files found to lint.` で終了コード 1 になる。そのファイルには oxfmt だけを実行する。
 
 ### 3. 違反対応
 
@@ -70,10 +70,10 @@ description: Run oxlint and oxfmt checks on modified TypeScript and JavaScript f
 
 ## 周辺ツールとの関係
 
-| 仕組み                                  | 検出タイミング          | スコープ                                                          |
-| --------------------------------------- | ----------------------- | ----------------------------------------------------------------- |
-| 本 Skill                                | コード編集後、commit 前 | 編集対象ファイル全て                                              |
-| `nano-staged` (pre-commit)              | `git commit` 直前       | staged な `**/*.{ts,tsx,js,mjs}`                                  |
-| `npm run lint` (CI / pr-validation.yml) | PR open / sync          | oxlint は `src scripts tests`、oxfmt は `src build scripts tests` |
+| 仕組み                                  | 検出タイミング          | スコープ                                           |
+| --------------------------------------- | ----------------------- | -------------------------------------------------- |
+| 本 Skill                                | コード編集後、commit 前 | 編集対象ファイル全て                               |
+| `nano-staged` (pre-commit)              | `git commit` 直前       | staged な `**/*.{ts,tsx,js,mjs}`                   |
+| `npm run lint` (CI / pr-validation.yml) | PR open / sync          | oxlint・oxfmt のどちらも `src build scripts tests` |
 
 本 Skill は CI / pre-commit のすり抜け (特に `tests/` 配下) を AI セッション中に防ぐのが目的。

@@ -21,14 +21,14 @@ export async function GET(_request: Request, { params }: { params: Params }) {
     return new Response(null, { status: 404 });
   }
 
-  const posts = getPostsListJson().filter((post) => post.tags.includes(tag.slug));
-  const tagUrl = tagPermalink(tag.slug);
+  const posts = getPostsListJson().filter((post) => post.tags.includes(tag.name));
+  const tagUrl = tagPermalink(tag.name);
   const feed = createPostsRssFeed({
-    title: `${tag.slug} | ${SITE_NAME}`,
-    description: `${tag.slug}の記事一覧 - ${SITE_NAME}`,
+    title: `${tag.name} | ${SITE_NAME}`,
+    description: `${tag.name}の記事一覧 - ${SITE_NAME}`,
     id: tagUrl,
     link: tagUrl,
-    feedUrl: tagFeedPermalink(tag.slug),
+    feedUrl: tagFeedPermalink(tag.name),
     posts,
   });
 

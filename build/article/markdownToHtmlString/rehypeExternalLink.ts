@@ -4,9 +4,14 @@ import { SITE_URL } from '@/constants';
 
 const SAFE_BLANK_TARGET_REL = 'noreferrer';
 
+/** SITE_URL の前方一致だけにしない。`https://b.0218.jp.example.com/` のような別のホストを自サイトと誤るため */
+export function isSiteUrl(href: string): boolean {
+  return href === SITE_URL || href.startsWith(`${SITE_URL}/`);
+}
+
 function isInternalHref(href: string): boolean {
   if (href.startsWith('#') || href.startsWith('/')) return true;
-  return href === SITE_URL || href.startsWith(`${SITE_URL}/`);
+  return isSiteUrl(href);
 }
 
 export default function rehypeExternalLink() {

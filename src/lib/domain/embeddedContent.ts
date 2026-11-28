@@ -6,7 +6,7 @@ import { safeJsonParse } from '@/lib/utils/json';
  * Post / Page の HTML 本文に埋め込まれる「埋め込みコンテンツ」の共有契約。
  *
  * 契約の両端:
- * - build 側: build/article/rehype0218/transform/linkPreview, build/article/rehypeGfmAlert が
+ * - build 側: build/article/markdownToHtmlString/linkPreview, build/article/markdownToHtmlString/rehypeGfmAlert が
  *   markdown -> HTML 変換時に `<script type="application/json" class="...">` として JSON を埋め込む。
  * - runtime 側: src/components/Page/_shared/HTMLParser/{LinkPreview,Alert}Handler.tsx が
  *   HTML をパースする際に class 名と JSON 形状を検証し、対応する React コンポーネントへ復元する。

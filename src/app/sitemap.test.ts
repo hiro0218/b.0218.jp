@@ -50,7 +50,7 @@ const fullPosts = new Map<string, Post>([
   ],
 ]);
 
-const tags: TagCounts[] = [{ slug: 'test', count: 12 }];
+const tags: TagCounts[] = [{ name: 'test', count: 12 }];
 
 async function loadSitemap() {
   vi.doMock('@/lib/source/post', () => ({

@@ -1,288 +1,95 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { Post, PostSummary, TagSimilarityScores } from '@/types/source';
+import { expect, test, vi } from 'vitest';
+import type { Post, TagSimilarityScores } from '@/types/source';
 import { getRelatedPosts } from './post';
 
-// モックのセットアップ
-vi.mock('./post');
+// 記事を 16 件以上にしない。post.ts の MIN_POSTS_FOR_WORKER_TOKENIZATION 以上だと worker threads で形態素解析し、実行環境の CPU 数で経路が変わるため
+function createPost(slug: string, tags: Array<string>, content: string): Post {
+  return { title: '', slug, date: '2024-01-01T00:00:00.000Z', content, tags };
+}
 
-describe('getRelatedPosts', () => {
-  // モック関数の定義
-  const mockGetRelatedPosts = vi.fn();
-
-  beforeEach(() => {
-    // モックの設定をリセット
-    vi.clearAllMocks();
-
-    // getRelatedPosts関数をモック化
-    vi.mocked(getRelatedPosts).mockImplementation(mockGetRelatedPosts);
-
-    // デフォルトのモック実装を設定
-    mockGetRelatedPosts.mockImplementation(async (posts: PostSummary[], sortedTags) => {
-      if (!Array.isArray(posts) || posts.length === 0 || typeof sortedTags !== 'object' || sortedTags === null) {
-        console.warn('getRelatedPosts: Invalid input provided (posts or sortedTags). Returning empty object.');
-        return {};
-      }
-
-      // テスト用のシンプルな実装
-      const result = {};
-
-      for (const post of posts) {
-        if (!post.slug) continue;
-
-        const relatedPosts = {};
-        let counter = 0;
-
-        // 他の投稿との類似度を計算
-        posts.forEach((otherPost) => {
-          if (!otherPost.slug || otherPost.slug === post.slug) return;
-
-          // スコアが降順でソートされるように値を設定
-          const score = 0.9 - counter * 0.1;
-          counter += 1;
-
-          if (score > 0.2) {
-            // 一定の閾値を超えるもののみ関連として扱う
-            relatedPosts[otherPost.slug] = Math.round(score * 10000) / 10000; // 小数点以下4桁に丸める
-          }
-        });
-
-        if (Object.keys(relatedPosts).length > 0) {
-          result[post.slug] = relatedPosts;
-        }
-      }
-
-      return result;
-    });
-  });
-
-  // モックデータの作成
-  const createMockPosts = (): Post[] => [
-    {
-      title: 'React入門',
-      slug: 'react-intro',
-      date: '2023-01-01',
-      content: 'Reactの基本的な使い方について解説します React コンポーネント ライフサイクル',
-      tags: ['javascript', 'react', 'frontend'],
-    },
-    {
-      title: 'Next.jsでSSRを実装する',
-      slug: 'nextjs-ssr',
-      date: '2023-01-10',
-      content: 'Next.jsを使ったSSRの実装方法を解説します React サーバーサイド レンダリング',
-      tags: ['javascript', 'react', 'nextjs', 'ssr'],
-    },
-    {
-      title: 'TypeScriptとReactの組み合わせ',
-      slug: 'typescript-react',
-      date: '2023-01-15',
-      content: 'TypeScriptとReactを組み合わせる方法を解説します 型安全 コンポーネント',
-      tags: ['javascript', 'typescript', 'react'],
-    },
-    {
-      title: 'CSS変数の活用法',
-      slug: 'css-variables',
-      date: '2023-01-20',
-      content: 'CSS変数（カスタムプロパティ）の活用方法について解説します スタイル 設計 フロントエンド',
-      tags: ['css', 'frontend'],
-    },
-    {
-      title: 'TypeScriptの型推論',
-      slug: 'typescript-inference',
-      date: '2023-01-25',
-      content: 'TypeScriptの型推論の仕組みについて解説します 静的型付け 型システム',
-      tags: ['javascript', 'typescript'],
-    },
+test('タグを共有する記事の場合、自分自身を除いて関連記事として返す', async () => {
+  const posts = [
+    createPost('baseball', ['sports'], '野球 選手 試合 勝利'),
+    createPost('soccer', ['sports'], 'サッカー 選手 試合 勝利'),
+    createPost('tennis', ['sports'], 'テニス 選手 試合 勝利'),
   ];
 
-  const createMockTagSimilarityMap = (): TagSimilarityScores => ({
-    javascript: {
-      react: 0.8,
-      typescript: 0.7,
-      frontend: 0.5,
-      nextjs: 0.6,
-    },
-    react: {
-      javascript: 0.8,
-      nextjs: 0.7,
-      typescript: 0.6,
-    },
-    nextjs: {
-      react: 0.7,
-      javascript: 0.6,
-      ssr: 0.8,
-    },
-    typescript: {
-      javascript: 0.7,
-      react: 0.6,
-    },
-    frontend: {
-      javascript: 0.5,
-      css: 0.6,
-    },
-    css: {
-      frontend: 0.6,
-    },
-    ssr: {
-      nextjs: 0.8,
-    },
+  const result = await getRelatedPosts(posts, {});
+
+  expect(result).toEqual({
+    baseball: { soccer: expect.any(Number), tennis: expect.any(Number) },
+    soccer: { baseball: expect.any(Number), tennis: expect.any(Number) },
+    tennis: { baseball: expect.any(Number), soccer: expect.any(Number) },
   });
+});
 
-  it('関連記事が正しく計算されること', async () => {
-    const posts = createMockPosts();
-    const sortedTags = createMockTagSimilarityMap();
+test('タグを共有しない記事の場合、本文が同じでも関連記事に含めない', async () => {
+  const posts = [
+    createPost('baseball', ['sports'], '野球 選手 試合 勝利'),
+    createPost('soccer', ['sports'], 'サッカー 選手 試合 勝利'),
+    createPost('tennis', ['sports'], 'テニス 選手 試合 勝利'),
+    createPost('baseball-copy', ['food'], '野球 選手 試合 勝利'),
+  ];
 
-    const results = await getRelatedPosts(posts, sortedTags);
+  const result = await getRelatedPosts(posts, {});
 
-    // 有効な記事には関連記事が存在する
-    const reactIntroRelated = results['react-intro'];
-    expect(reactIntroRelated).toBeDefined();
-    expect(Object.keys(reactIntroRelated).length).toBeGreaterThan(0);
+  expect(Object.keys(result.baseball).sort()).toEqual(['soccer', 'tennis']);
+  expect(result['baseball-copy']).toBeUndefined();
+});
 
-    // 関連度スコアが0から1の範囲内であることを確認
-    Object.values(results).forEach((relatedPosts) => {
-      Object.values(relatedPosts).forEach((score) => {
-        expect(score).toBeGreaterThanOrEqual(0);
-        expect(score).toBeLessThanOrEqual(1);
-      });
-    });
-  });
+test('本文が近い記事と遠い記事がある場合、近い記事を先に並べて返す', async () => {
+  const posts = [
+    createPost('target', ['health'], '病院 予防 接種 食事 健康'),
+    // close を far より先に置かない。並べ替えが無くても入力順で通ってしまうため
+    createPost('far', ['health'], '食事 旅行 電車 温泉 宿泊'),
+    createPost('close', ['health'], '病院 予防 接種 食事 運動'),
+  ];
+  const sortedTags: TagSimilarityScores = { health: { diet: 0.5 }, diet: { health: 0.5 } };
 
-  it('関連記事がスコアの降順でソートされていること', async () => {
-    const posts = createMockPosts();
-    const sortedTags = createMockTagSimilarityMap();
+  const result = await getRelatedPosts(posts, sortedTags);
 
-    const results = await getRelatedPosts(posts, sortedTags);
+  expect(Object.keys(result.target)).toEqual(['close', 'far']);
+  expect(result.target.close).toBeGreaterThan(result.target.far);
+});
 
-    // 各記事の関連記事がスコアの降順でソートされていることを確認
-    Object.values(results).forEach((relatedPosts) => {
-      const scores = Object.values(relatedPosts);
-      for (let i = 0; i < scores.length - 1; i++) {
-        expect(scores[i]).toBeGreaterThanOrEqual(scores[i + 1]);
-      }
-    });
-  });
+test('共通タグの数が異なる記事がある場合、共通タグが多い記事を先に並べて返す', async () => {
+  const content = 'コンポーネント 設計 状態 管理';
+  const posts = [
+    createPost('target', ['react', 'typescript'], content),
+    createPost('one-shared', ['react', 'css'], content),
+    createPost('two-shared', ['react', 'typescript'], content),
+  ];
+  const sortedTags: TagSimilarityScores = {
+    react: { typescript: 0.7, css: 0.4 },
+    typescript: { react: 0.7 },
+    css: { react: 0.4 },
+  };
 
-  it('関連度が高いタグを持つ記事が優先的に関連記事として選ばれること', async () => {
-    const posts = createMockPosts();
-    const sortedTags = createMockTagSimilarityMap();
+  const result = await getRelatedPosts(posts, sortedTags);
 
-    // テスト用のカスタム実装
-    mockGetRelatedPosts.mockResolvedValueOnce({
-      'react-intro': {
-        'typescript-react': 0.8,
-        'nextjs-ssr': 0.7,
-        'css-variables': 0.5,
-      },
-    });
+  expect(Object.keys(result.target)).toEqual(['two-shared', 'one-shared']);
+  expect(result.target['two-shared']).toBeGreaterThan(result.target['one-shared']);
+});
 
-    const results = await getRelatedPosts(posts, sortedTags);
+test('候補が 7 件ある場合、関連記事を上位 6 件に絞って返す', async () => {
+  const posts = Array.from({ length: 8 }, (_, index) => createPost(`post-${index}`, ['sports'], '野球 選手 試合 勝利'));
 
-    // react-introの関連記事を確認
-    const reactIntroRelated = results['react-intro'];
-    if (reactIntroRelated) {
-      // reactとjavascriptタグを持つ記事が上位に来ることを確認
-      const relatedSlugs = Object.keys(reactIntroRelated);
-      expect(relatedSlugs).toContain('typescript-react');
-      expect(relatedSlugs).toContain('nextjs-ssr');
-    }
-  });
+  const result = await getRelatedPosts(posts, {});
 
-  it('無効な入力の場合は空配列を返すこと', async () => {
-    // 警告ログのモック
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+  expect(Object.keys(result)).toHaveLength(8);
+  for (const related of Object.values(result)) {
+    expect(Object.keys(related)).toHaveLength(6);
+  }
+});
 
-    // デフォルトの実装で警告ログを出力するように設定
-    mockGetRelatedPosts.mockImplementation(async (posts, sortedTags) => {
-      if (!Array.isArray(posts) || posts.length === 0 || typeof sortedTags !== 'object' || sortedTags === null) {
-        console.warn('getRelatedPosts: Invalid input provided (posts or sortedTags). Returning empty object.');
-        return {};
-      }
-      return {};
-    });
+test('記事が空・記事が null・タグ類似度が null の場合、警告を出して空オブジェクトを返す', async () => {
+  const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+  const posts = [createPost('baseball', ['sports'], '野球 選手 試合 勝利')];
 
-    // 空の投稿配列
-    expect(await getRelatedPosts([], createMockTagSimilarityMap())).toEqual({});
+  expect(await getRelatedPosts([], {})).toEqual({});
+  expect(await getRelatedPosts(null, {})).toEqual({});
+  expect(await getRelatedPosts(posts, null)).toEqual({});
+  expect(warn).toHaveBeenCalledTimes(3);
 
-    // nullの投稿
-    expect(await getRelatedPosts(null, createMockTagSimilarityMap())).toEqual({});
-
-    // nullのタグ類似度
-    expect(await getRelatedPosts(createMockPosts(), null)).toEqual({});
-
-    // 警告が出力されたことを確認
-    expect(consoleSpy).toHaveBeenCalled();
-
-    // スパイをリストア
-    consoleSpy.mockRestore();
-  });
-
-  it('トークナイザの初期化に失敗した場合は空配列を返すこと', async () => {
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
-    // エラーの場合は空オブジェクトを返すようにモック
-    mockGetRelatedPosts.mockResolvedValueOnce({});
-
-    const result = await getRelatedPosts(createMockPosts(), createMockTagSimilarityMap());
-    expect(result).toEqual({});
-
-    errorSpy.mockRestore();
-  });
-
-  it('記事間の類似度計算にコンテンツとタグ両方を考慮すること', async () => {
-    // 同じタグを持つが内容が異なる記事と、
-    // 異なるタグを持つが内容が似ている記事を用意
-    const specialPosts: Post[] = [
-      {
-        title: 'テスト記事1',
-        slug: 'test1',
-        date: '2023-01-01',
-        content: 'React Next.js フレームワーク 開発',
-        tags: ['react', 'javascript'],
-      },
-      {
-        title: 'テスト記事2',
-        slug: 'test2',
-        date: '2023-01-02',
-        content: 'React Next.js フレームワーク 開発', // 同じ内容
-        tags: ['vue', 'javascript'], // 異なるタグ
-      },
-      {
-        title: 'テスト記事3',
-        slug: 'test3',
-        date: '2023-01-03',
-        content: 'Vue.js Nuxt.js フレームワーク 開発', // 異なる内容
-        tags: ['react', 'javascript'], // 同じタグ
-      },
-    ];
-
-    // カスタムのタグ類似度
-    const specialTagSimilarity: TagSimilarityScores = {
-      react: { javascript: 0.8, vue: 0.3 },
-      javascript: { react: 0.8, vue: 0.4 },
-      vue: { javascript: 0.4, react: 0.3 },
-    };
-
-    // テスト用のカスタム実装
-    mockGetRelatedPosts.mockResolvedValueOnce({
-      test1: {
-        test3: 0.8, // タグが同じなので高スコア
-        test2: 0.7, // コンテンツが同じなので高スコア
-      },
-    });
-
-    const results = await getRelatedPosts(specialPosts, specialTagSimilarity);
-
-    // test1から見たとき、内容が同じtest2とタグが同じtest3の類似度を比較
-    const test1Related = results.test1;
-    if (test1Related) {
-      // 内容が同じでタグが異なるtest2のスコアを確認
-      expect(test1Related.test2).toBeGreaterThan(0);
-
-      // タグが同じで内容が異なるtest3のスコアを確認
-      expect(test1Related.test3).toBeGreaterThan(0);
-
-      // テスト用のモックでは、タグが同じtest3の方がスコアが高くなるように設定
-      expect(test1Related.test3).toBeGreaterThan(test1Related.test2);
-    }
-  });
+  warn.mockRestore();
 });

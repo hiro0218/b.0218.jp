@@ -52,8 +52,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     openGraph: {
       type: 'article',
       images: [{ url: ogpImage }],
-      section: tagsWithCount[0]?.slug,
-      tags: tagsWithCount.map((tag) => tag.slug),
+      section: tagsWithCount[0]?.name,
+      tags: tagsWithCount.map((tag) => tag.name),
       publishedTime,
       modifiedTime: modifiedTime || publishedTime,
     },
@@ -119,9 +119,9 @@ export default async function Page({ params }: { params: Params }) {
           {mostPopularTag && sameTagPosts.length > 0 && (
             <PostSection
               as="aside"
-              heading={`「${mostPopularTag.slug}」タグの記事`}
+              heading={`「${mostPopularTag.name}」タグの記事`}
               headingLevel="h2"
-              href={tagPath(mostPopularTag.slug)}
+              href={tagPath(mostPopularTag.name)}
               posts={sameTagPosts}
               prefetch={false}
             />

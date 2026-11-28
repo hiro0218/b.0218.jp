@@ -1,5 +1,5 @@
 import * as os from 'node:os';
-import { cwd } from 'node:process';
+import { BUILD_PATHS } from '~/build/shared/paths';
 
 function validateConfig(config: typeof OGP_CONFIG): void {
   if (config.worker.count <= 0) {
@@ -40,7 +40,7 @@ export const OGP_CONFIG = {
     ],
   },
   output: {
-    dir: `${cwd()}/public/images/ogp`,
+    dir: BUILD_PATHS.ogpImages,
     format: 'jpeg' as const,
     ext: 'jpg' as const,
     quality: 85,

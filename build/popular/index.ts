@@ -1,13 +1,9 @@
-import { FILENAME_POSTS_POPULAR } from '@/constants';
-import { writeJSON } from '~/build/shared/fs';
-import * as Log from '~/build/shared/logger';
-import { BUILD_PATHS } from '~/build/shared/paths';
+import type { PostPopularityScores } from '@/types/source';
+import { writeDist } from '~/build/shared/dist';
 import { getPopularArticles } from './ga';
 import { getBookmarkArticles } from './hatena';
 
-import type { Result } from './type';
-
-const sortByTotal = (obj: Result): Result =>
+const sortByTotal = (obj: PostPopularityScores): PostPopularityScores =>
   Object.fromEntries(Object.entries(obj).sort(([, a], [, b]) => b.total - a.total));
 
 (async () => {
@@ -15,7 +11,7 @@ const sortByTotal = (obj: Result): Result =>
 
   const allSlugs = new Set([...Object.keys(bookmark), ...Object.keys(ga)]);
 
-  const result: Result = Array.from(allSlugs).reduce((acc, slug) => {
+  const result: PostPopularityScores = Array.from(allSlugs).reduce((acc, slug) => {
     const hatenaCount = bookmark[slug] || 0;
     const gaCount = ga[slug] || 0;
 
@@ -26,8 +22,7 @@ const sortByTotal = (obj: Result): Result =>
     };
 
     return acc;
-  }, {} as Result);
+  }, {} as PostPopularityScores);
 
-  await writeJSON(`${BUILD_PATHS.dist}/${FILENAME_POSTS_POPULAR}.json`, sortByTotal(result));
-  Log.info(`Write dist/${FILENAME_POSTS_POPULAR}.json`);
+  await writeDist('posts-popular', sortByTotal(result));
 })();

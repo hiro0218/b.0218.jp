@@ -1,18 +1,14 @@
 import { readFileSync } from 'node:fs';
-import { FILENAME_PAGES } from '@/constants';
 import type { Page } from '@/types/source';
-import { writeJSON } from '~/build/shared/fs';
+import { writeDist } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
-import { createMarkdownToPostHtmlString } from '../../markdownToHtmlString';
+import { BUILD_PATHS } from '~/build/shared/paths';
 import { isValidFrontmatter, parseFrontmatter, tryToIso } from './raw';
-import { getMarkdownFiles, getPath, getSlug, isAgentFile } from './utils';
+import { getMarkdownFiles, getSlug, isAgentFile } from './utils';
 
-const PATH = getPath();
-
-export async function buildPage(): Promise<void> {
-  const files = await getMarkdownFiles(PATH.from);
+export async function buildPage(markdownToPostHtml: (markdown: string) => Promise<string>): Promise<void> {
+  const files = await getMarkdownFiles(BUILD_PATHS.article);
   const pages: Page[] = [];
-  const markdownToPostHtml = createMarkdownToPostHtmlString();
 
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
@@ -23,7 +19,7 @@ export async function buildPage(): Promise<void> {
     }
 
     try {
-      const source = readFileSync(`${PATH.from}/${file}`, 'utf-8');
+      const source = readFileSync(`${BUILD_PATHS.article}/${file}`, 'utf-8');
       const { frontmatter, markdown } = parseFrontmatter(source);
 
       if (!isValidFrontmatter(frontmatter)) {
@@ -48,6 +44,5 @@ export async function buildPage(): Promise<void> {
     }
   }
 
-  await writeJSON(`${PATH.to}/${FILENAME_PAGES}.json`, pages);
-  Log.info(`Write dist/${FILENAME_PAGES}.json`);
+  await writeDist('pages', pages);
 }

@@ -46,7 +46,7 @@ export const PostTimeline = ({ posts, prefetch = false, titleTagName = 'h3' }: P
                 </Title>
                 {tags.length > 0 && (
                   <Cluster gap={100}>
-                    <PostTag size="chip" tags={tags.map((slug) => ({ slug }))} />
+                    <PostTag size="chip" tags={tags.map((name) => ({ name }))} />
                   </Cluster>
                 )}
               </Body>

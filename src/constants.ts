@@ -49,14 +49,6 @@ export const X_ACCOUNT = 'hiro0218';
 export const BREAKPOINT = breakpoints.desktopPx;
 
 export const FILENAME_POSTS = 'posts';
-export const FILENAME_POSTS_LIST = 'posts-list';
-export const FILENAME_PAGES = 'pages';
-export const FILENAME_SEARCH = 'search';
-export const FILENAME_TAG_SIMILARITY = 'tags-similarity';
-export const FILENAME_POSTS_SIMILARITY = 'posts-similarity';
-export const FILENAME_POSTS_POPULAR = 'posts-popular';
-export const FILENAME_TAG_CATEGORIES = 'tag-categories';
-export const FILENAME_ACTIVITIES = 'activities';
 
 /**
  * タグ一覧を生成するために必要なタグ件数

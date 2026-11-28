@@ -1,7 +1,8 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { normalizeURL } from './url';
+import { BUILD_PATHS } from '~/build/shared/paths';
+import { normalizeURL } from './markdownToHtmlString/linkPreviewUrl';
 
 type OpgProps = {
   description?: string;
@@ -21,8 +22,7 @@ interface CacheEntry {
 
 export type LinkPreviewCache = Record<string, CacheEntry>;
 
-const CACHE_DIR = join(process.cwd(), 'node_modules', '.cache');
-const CACHE_FILE = join(CACHE_DIR, 'link-preview.json');
+const CACHE_FILE = join(BUILD_PATHS.cache, 'link-preview.json');
 
 /** 30 days in milliseconds */
 const SUCCESS_TTL = 30 * 24 * 60 * 60 * 1000;
@@ -81,7 +81,7 @@ export const loadCache = (): LinkPreviewCache => {
  */
 export const saveCache = (cache: LinkPreviewCache): void => {
   pruneExpiredEntries(cache);
-  mkdirSync(CACHE_DIR, { recursive: true });
+  mkdirSync(BUILD_PATHS.cache, { recursive: true });
   writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2), 'utf-8');
 };
 
@@ -147,3 +147,9 @@ export const setCacheEntry = (cache: LinkPreviewCache, url: string, ogp: OpgProp
     ...(isError && { error: true }),
   };
 };
+
+/** 変換キャッシュの版の入力。fetchedAt を含めない。取得し直すたびに変わり、描画が同じでも版がずれて全記事を再変換するため。残りの項目を名前で列挙しない。CacheEntry に項目が増えたとき、版の入力から黙って落ちて古い変換結果を使い続けるため */
+export const renderingFields = (cache: LinkPreviewCache): unknown =>
+  Object.entries(cache)
+    .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
+    .map(([key, { fetchedAt, ...rest }]) => [key, rest]);

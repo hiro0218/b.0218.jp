@@ -1,6 +1,6 @@
 import { JSDOM, VirtualConsole } from 'jsdom';
-import { handleError } from './handleError';
-import { isIgnoreDomain, isValidURL, normalizeURL } from './url';
+import { handleError } from './linkPreviewError';
+import { isIgnoreDomain, isValidURL, normalizeURL } from './linkPreviewUrl';
 
 const FETCH_HEADERS = { 'User-Agent': 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)' };
 

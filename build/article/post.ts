@@ -1,36 +1,36 @@
 import { readFileSync } from 'node:fs';
 import pLimit from 'p-limit';
-import { FILENAME_POSTS } from '@/constants';
-import { isContentPreview } from '@/lib/config/environment';
 import type { Post } from '@/types/source';
-import { mkdir, writeJSON } from '~/build/shared/fs';
+import { writeDistPosts } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
-import { createMarkdownToNoteHtmlString, createMarkdownToPostHtmlString } from '../../markdownToHtmlString';
-import { loadCache, saveCache } from '../../rehype0218';
+import { BUILD_PATHS } from '~/build/shared/paths';
 import {
   createPostConversionCacheVersion,
   createRawPostCacheKey,
+  hashPipelineSources,
   loadPostConversionCache,
   savePostConversionCache,
-} from './cache';
+} from './conversionCache';
 import { convertRawPost } from './convert';
+import { loadCache, saveCache } from './linkPreviewCache';
+import { createMarkdownToNoteHtmlString, createMarkdownToPostHtmlString } from './markdownToHtmlString';
 import { buildTagNormalizationMap, normalizeTags } from './normalizeTag';
+import { buildPage } from './page';
 import { isValidFrontmatter, parseFrontmatter, type RawPost, tryToIso } from './raw';
-import { getMarkdownFiles, getPath, getSlug } from './utils';
+import { getMarkdownFiles, getSlug } from './utils';
 import { isPubliclyVisible } from './visibility';
-
-const PATH = getPath();
 
 const POST_CONCURRENCY = 4;
 
 export async function buildPost(): Promise<Post[]> {
-  const files = await getMarkdownFiles(`${PATH.from}/_posts`, 1);
+  const files = await getMarkdownFiles(BUILD_PATHS.posts, 1);
 
   const rawPosts: RawPost[] = [];
-  const visibilityCtx = { now: new Date(), isContentPreview };
+  // モジュールの先頭で評価しない。import 時に決まると、index.ts の loadEnvConfig より先になり、.env の IS_DEVELOPMENT が効かないため
+  const visibilityCtx = { now: new Date(), isContentPreview: process.env.IS_DEVELOPMENT === 'true' };
 
   for (const file of files) {
-    const source = readFileSync(`${PATH.from}/_posts/${file}`, 'utf-8');
+    const source = readFileSync(`${BUILD_PATHS.posts}/${file}`, 'utf-8');
     const { frontmatter, markdown } = parseFrontmatter(source);
     if (!isValidFrontmatter(frontmatter)) {
       Log.info(`Skip post with invalid frontmatter: ${file}`);
@@ -58,7 +58,8 @@ export async function buildPost(): Promise<Post[]> {
 
   // 投稿間で共有し、重複する link-preview 断片がキャッシュヒットするようにする
   const sharedCache = loadCache();
-  const cacheVersion = createPostConversionCacheVersion(sharedCache);
+  const sourceHash = hashPipelineSources();
+  const cacheVersion = createPostConversionCacheVersion(sourceHash, sharedCache);
   const conversionCache = loadPostConversionCache(cacheVersion);
   const nextCacheEntries: typeof conversionCache.entries = {};
   const limit = pLimit(POST_CONCURRENCY);
@@ -85,11 +86,13 @@ export async function buildPost(): Promise<Post[]> {
       return post;
     }),
   );
+  // Page の変換を saveCache の後ろ(index.ts の並列段)に置かない。保存した版より後に link-preview のエントリが増え、次回の版とずれて全記事を再変換するため
+  await buildPage(markdownToPostHtml);
   saveCache(sharedCache);
 
   // 保存する版は、変換前でなく変換後のリンクプレビューから決める。変換前の版で保存すると、取得したリンクの分だけ次回の版とずれ、全記事が再変換になる
   // キャッシュに当たった記事のキーは付け替えない。変わったリンクプレビューを含むかは調べず、次回は再変換する
-  const savedVersion = createPostConversionCacheVersion(sharedCache);
+  const savedVersion = createPostConversionCacheVersion(sourceHash, sharedCache);
   for (const [raw, post] of converted) {
     nextCacheEntries[raw.slug] = { key: createRawPostCacheKey(raw, savedVersion), post };
   }
@@ -109,10 +112,7 @@ export async function buildPost(): Promise<Post[]> {
   });
 
   // 記事単位の個別JSONファイルを生成
-  const postsDir = `${PATH.to}/${FILENAME_POSTS}`;
-  await mkdir(postsDir, { recursive: true });
-  await Promise.all(normalizedPosts.map((post) => writeJSON(`${postsDir}/${post.slug}.json`, post)));
-  Log.info(`Write dist/${FILENAME_POSTS}/ (${normalizedPosts.length} files)`);
+  await writeDistPosts(normalizedPosts);
 
   return normalizedPosts;
 }

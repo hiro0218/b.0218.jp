@@ -336,7 +336,7 @@ b.0218.jpのデザインシステム。値（色・余白・書体）は、実�
 - **`*-on-neutral`（#ebebeb、#dadada）**：fill と current の層を地（gray-50）に重ねた結果の色。コントラストを計算するツール用の参考値で、実装では半透明の `fill`・`state-current` を使う。地の上での主の文字との比は 15.6:1 と 13.3:1、副の文字とは 6.8:1 と 5.8:1。
 - **Overlay（黒 44% / gray-a-500）**：ダイアログの後ろの幕。
 - **Focus ring（#3b63fb / accent-900）**：フォーカス枠。2px、外側に 2px あける（スクロールする箱の中で、外側の枠が箱に切られる所だけは内側に描く）。地の上で 4.53:1、白の上で 4.81:1。
-- **外部規約の色**：コードの色分けは One Light（Shiki の `one-light`。`build/article/shikiConfig.ts`）。白地で 4.5:1 に届かない色がある（string 3.21:1、comment 2.58:1、function 4.05:1、tag 3.67:1）。Google の G は Google のブランド色で、Share の Google ボタン（外部のスクリプトが描画する）の中にある。外部が描画するため、色と `aria-hidden` は、このリポジトリのコードで確かめていない。ロゴタイプはコントラストの要件の対象外（WCAG 1.4.3）。
+- **外部規約の色**：コードの色分けは One Light（Shiki の `one-light`。`build/article/markdownToHtmlString/shikiConfig.ts`）。白地で 4.5:1 に届かない色がある（string 3.21:1、comment 2.58:1、function 4.05:1、tag 3.67:1）。Google の G は Google のブランド色で、Share の Google ボタン（外部のスクリプトが描画する）の中にある。外部が描画するため、色と `aria-hidden` は、このリポジトリのコードで確かめていない。ロゴタイプはコントラストの要件の対象外（WCAG 1.4.3）。
 
 注意枠（Note・Tip・Important・Warning・Caution）は、種類ごとに色相を使う。面・文字・枠は、note が blue、tip が green、important が purple、warning が yellow、caution が red のパレットから、面に 100、文字に 900（warning は 1000）、枠に 400 の段を使う。種類はアイコンの形と見出しの語でも示し、Warning・Caution は `role="alert"`（ほかは `role="note"`）で支援技術にも伝える。枠は inset の box-shadow（1px）で描いていて、影と枠線を使わない規則に対しては未移行である。
 

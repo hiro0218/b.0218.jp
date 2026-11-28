@@ -11,7 +11,7 @@ function isTagIndex(value: unknown): value is TagIndex {
 }
 
 function isTagCounts(value: unknown): value is TagCounts {
-  return isObject(value) && typeof value.slug === 'string' && typeof value.count === 'number';
+  return isObject(value) && typeof value.name === 'string' && typeof value.count === 'number';
 }
 
 function isTagCountsArray(value: unknown): value is TagCounts[] {

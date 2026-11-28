@@ -1,8 +1,6 @@
 import { unlink } from 'node:fs/promises';
 import path from 'node:path';
-import { FILENAME_POSTS_LIST, FILENAME_SEARCH } from '@/constants';
-import type { PostSummary } from '@/types/source';
-import { readJSON, writeJSON } from '~/build/shared/fs';
+import { readDist, writeDist } from '~/build/shared/dist';
 import * as Log from '~/build/shared/logger';
 import { BUILD_PATHS } from '~/build/shared/paths';
 import { getTokenizer } from '../shared/morphology';
@@ -20,7 +18,7 @@ async function removeLegacySearchArtifacts(): Promise<void> {
     Log.info('転置インデックス生成を開始します...');
 
     // 記事データを読み込む（posts-list.json から一括読み込み）
-    const posts = await readJSON<PostSummary[]>(path.join(BUILD_PATHS.dist, `${FILENAME_POSTS_LIST}.json`));
+    const posts = await readDist('posts-list');
     Log.info(`${posts.length}件の記事を読み込みました`);
 
     // 形態素解析器を初期化
@@ -32,7 +30,7 @@ async function removeLegacySearchArtifacts(): Promise<void> {
     const { invertedIndex, searchData } = generateSearchIndex(posts, tokenizer);
 
     // ファイル出力
-    await writeJSON(`${BUILD_PATHS.dist}/${FILENAME_SEARCH}.json`, {
+    await writeDist('search', {
       searchIndex: invertedIndex,
       searchData,
     });
