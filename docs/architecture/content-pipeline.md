@@ -9,6 +9,7 @@
 ## 出力先
 
 - 生成物は `dist/` に出力する。dist の読み書きは、`build/shared/dist.ts` の `readDist`・`writeDist` を通す。同じファイルの `DistFiles` が、dist のファイル名と型の一覧である
+- `DistFiles` のキー（`dist/<キー>.json` のファイル名）は、`src` の `~/dist/<キー>.json` の静的 import と、`.github/workflows/pr-validation.yml` の「Create dist fixtures」が作る `dist/<キー>.json` でも同じ名前を使う。キーを変えるときは 3 か所を同時に直す
 - OGP 画像は `public/images/ogp/` に出力する
 - 変換のキャッシュは `node_modules/.cache/` に出力する。link-preview の取得結果が `link-preview.json`、記事の変換結果が `post-conversion.json` で、どちらも書くのは `build/article/post.ts` だけである
 

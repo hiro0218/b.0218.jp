@@ -40,7 +40,7 @@ Feature Module 構造は `Page/` 配下のドメインにも適用できる。�
 | `Functional/`   | `App/`・`Page/`・`UI/`                                               | oxlint・dependency-cruiser |
 | `Page/`         | `App/`                                                               | oxlint・dependency-cruiser |
 | `Page/_shared/` | 個別のページ（`Archive/`・`Home/`・`NotFound/`・`Post/`・`Single/`） | oxlint                     |
-| `App/`          | `Page/`                                                              | dependency-cruiser         |
+| `App/`          | `Page/`                                                              | oxlint・dependency-cruiser |
 
 barrel 経由の import と `~/styled-system/*` の直接 import の禁止、oxlint の設定の書き方は、[linting.md](../tooling/linting.md#レイヤー依存--import) にある。
 
