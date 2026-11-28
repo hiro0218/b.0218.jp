@@ -37,6 +37,7 @@ npm run dev       # https://localhost:8080 (HTTPSのみ)
 | 層の依存の向き、`page.tsx` に css を書かない           | `.oxlintrc.json` の `no-restricted-imports`(`npm run lint`)                                                   |
 | dist のファイル一覧を 1 か所にする                     | `build/shared/dist.ts` の `EMPTY_DIST`(`DistFiles` と型で結ぶ)。CI の fixture は `npm run dist:empty` が作る  |
 | 文書が指すパスを実在させる(移動・削除したら文書も直す) | `build/shared/docPaths.test.ts`(`npm test`)。文書のリンクと、バッククォートで書いたリポジトリ内のパスを調べる |
+| 本番の相対 import は配置型 B の入口と内部実装の間だけ  | `build/shared/relativeImports.test.ts`(`npm test`)。違反の行に、使う `@/` のパスが出る                        |
 | `_article/_posts/*.md` を直接編集しない                | 文書のみ                                                                                                      |
 | ゼロマージン、Server First                             | 文書のみ                                                                                                      |
 
